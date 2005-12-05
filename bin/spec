@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+require 'spec'
+
+ARGV.each do |file|
+  require file
+end
+
+runner = Spec::TextRunner.new
+runner.run

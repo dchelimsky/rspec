@@ -1,0 +1,37 @@
+= RSpec - Behaviour Specification Framework for Ruby
+
+RSpec is a behaviour specification framework for Ruby.  RSpec was created in
+response to Dave Astels' article _A New Look at Test Driven Development_ which
+can be read at: http://daveastels.com/index.php?p=5  RSpec is intended to
+provide the features discussed in Dave's article.
+
+RSpec was first explored by Steven Baker <srbaker@pobox.com> and Gabriel
+Bauman <gbauman@gmail.com>, and has since received numerous contributions
+from Dave himself as well as Aslak Hellesoy.
+
+== Download/Installation
+
+=== Using RubyGems
+
+  sudo gem install rspec
+
+=== Getting the latest sources
+
+RSpec is currently being hosted in the Monotone distributed version control system. To checkout RSpec, please download and install Monotone according to the documentation on the monotone website. Then use the following set of commands to grab the latest RSpec sources.
+
+    * monotone --db=database db init
+    * monotone --db=database pull goliath.fundynet.ca org.rubyforge.rspec
+    * monotone --db=database --branch=org.rubyforge.rspec checkout RSpec
+
+The gem can be created and installed from sources as follows:
+
+  rake gem; sudo gem install pkg/rspec_x.y.z.gem
+
+Please visit this page periodically, it will be updated with more information as it is made available including documentation, mailing lists, bug tracking, and more. Special thanks to RubyForge for hosting this project site.
+
+== Usage
+
+This will also install a new executable for you, 'spec'. Now you can
+
+  spec movie_spec.rb
+  spec *_spec.rb

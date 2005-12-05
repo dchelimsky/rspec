@@ -1,0 +1,6 @@
+require 'spec/context'
+require 'spec/expectations'
+require 'spec/exceptions'
+require 'spec/text_runner'
+require 'spec/mock'
+require 'spec/collector'

@@ -1,0 +1,259 @@
+= Getting Started with RSpec
+
+RSpec is a behaviour specification framework for the Ruby Programming
+Language. More information on the Ruby Programming Language can be found at
+http://www.ruby-lang.org/. For more information on Behaviour Driven
+Development, please see _A New Look at Test Driven Development_ which can be
+found at http://www.daveastels.com/index.php?p=5.
+
+This document is intended to help those interested in getting started with
+Behaviour Driven Development using the RSpec behaviour specification
+framework. Please send comments and/or corrections to me via email: srbaker at
+pobox dot com.
+
+== Installation
+
+The first thing you need to do to start specifying your software is to install
+RSpec. Thanks to the work on the Gem packaging of RSpec by Aslak Hellesoy, you
+can install RSpec via RubyGems by issuing the following command:
+
+    $ gem install rspec
+
+If you do not have RubyGems installed, see http://docs.rubygems.org/ for
+information about RubyGems including how to install it.
+
+== Usage
+
+Once you have RSpec installed, ensure that it is correctly installed by
+running the spec command from the command line without arguments. You should
+get something like the following output:
+
+    Finished in 0.002726 seconds
+    
+    0 specifications, 0 expectations, 0 failures
+
+If you get this output, you can be sure that RSpec has been installed and is
+ready for use!
+
+= Specification Anatomy
+
+== Expectations
+
+The simplest part of your set of specifications will be an expectation. An
+expectation tells RSpec what the expected result of a piece code is. Your set
+of specifications is simply a collection of expectations about how your code
+should behave.
+
+In RSpec, the expectations are methods that are available on every object in
+the system. If I want to set an expectation that the value of 1 is 1, I would
+write:
+
+    1.should_equal 1
+
+And to set the expectation that 1 + 1 should be equal to 2, I would write the
+following code:
+
+    (1 + 1).should_equal 2
+
+There are many available expectation methods, and they can be found by looking
+in the API documentation for RSpec. For most, if not all, of the expections
+the negation is also provided. Thus, to ensure that subtracting 1 from 2 does
+not equal 2, write the following:
+
+    (2 - 1).should_not_equal 2
+
+These examples are extremely simple, but they accurately convey the simplicity
+with which expectations can be written. When specifying your software, you are
+simply writing expectations that specify how your software will behave. The
+rest of the constructs in RSpec exist entirely to help you organize your
+expectations, and to provide accurate and helpful reporting when these
+expectations are not met.
+
+Eventually, writing expectations for addition and subtraction of numbers will
+get boring. When that happens, you can start writing expectations for your own
+code. Let's try a slightly more involved example.
+
+We have been asked to write a robot which will start at a given X, Y
+coordinate, and will move in for directions a given number of units. If no
+starting coordinate is given, the robot will start at 0,0. When the robot is
+moved, a two-element array should be returned with the x and y coordinates.
+Some expectations you might write for this robot might be the following:
+
+    rob = Robot.new
+
+    rob.should_not_be_nil
+    rob.should_be_kind_of Robot
+    rob.x_coordinate.should_equal 0
+    rob.y_coordinate.should_equal 0
+    rob.location.should_equal [0,0]
+    
+    rob.move_north(1).should_equal [0, 1]
+    rob.move_south(5).should_equal [0, -4]
+    rob.move_east(10).should_equal [10, -4]
+    rob.move_west(5).should_equal [5, -4]
+
+The code example above isn't intended to demonstrate good design, but has been
+created explicitly to demonstrate the use of the expectation methods.
+
+Also note that these expectations would be written iteratively, but the
+purpose of this document is to serve as an introduction to the RSpec
+framework, not to Behaviour Driven Development itself.
+
+As you can see, writing expectations can be rather verbose, even for a simple
+project like the example above. For clarity, your expectations will be grouped
+into specifications, which are described in the next section.
+
+== Specifications
+
+Your software will be specified by writing expectations, which were explained
+in the previous section. Your expectations will be grouped into specifications
+for clarity. A specification is simply a method that contains expectations.
+The name of your specification will be used by the Spec Runner (see Running
+and Reporting) to inform you of unmet expectations, so choose your names
+wisely.
+
+Consider the robot example from the previous example, but divided into
+specification methods:
+
+    def initialization_without_coordinates
+      rob = Robot.new
+      rob.x_coordinate.should_equal 0
+      rob.y_coordinate.should_equal 0
+      rob.location.should_equal [0,0]
+    end
+
+    def initialization_with_coordinates
+      rob = Robot.new(10, 15)
+      rob.x_coordinate.should_equal 10
+      rob.y_coordinate.should_equal 15
+      rob.location.should_equal [10, 15]
+    end
+
+    def north_movement
+      rob = Robot.new
+      rob.move_north(1).should_equal [0, 1]
+    end
+
+    def west_movement
+      rob = Robot.new(10, 5)
+      rob.move_west(15).should_equal [-5, 5]
+    end
+
+By dividing expectations into specification methods, our specifications for
+the behaviour of our software are far easier to read and clearly express the
+intent. Even those who are unfamiliar with Ruby specifically (and perhaps even
+some who are relatively unfamiliar with software development in general) can
+easily read our specifications.
+
+== Contexts
+
+As you can see, there is some duplicated code in the example from the last
+section in the creation of the Robot objects. You will find that the
+initialization of objects will often be duplicated when writing
+specifications.
+
+RSpec provides you with a way of setting up this data ahead of time, by
+providing two methods: setup and teardown.
+
+The setup method is called before invoking each specification to allow you to
+set up resources which are required for each specification, and the teardown
+method is called after invoking each specification, to allow you to
+appropriately deallocate or close resources which were required for the
+specifications.
+
+The specifications described in the Specifications example are absolutely
+useless if they're not placed in a context. Because you will be writing a
+large number of specifications for your software, you will want a way to
+divide them into logical groups. Specification methods are grouped within
+subclasses of Context. You can define as many contexts as you wish, and you
+are encouraged to divide your software into many well-defined contexts.
+
+The following Context is a complete specification for the movement of the
+robot, and if it were run, would produce useful output.
+
+    require 'spec'
+    class RobotMovement < Spec::Context
+      def setup
+        @rob = Robot.new
+        @rob1 = Robot.new(10, 15)
+      end
+
+      def movement
+        @rob.move_north(1).should_equal [0, 1]
+        @rob1.move_west(15).should_equal [-5, 5]
+      end
+
+      def teardown
+        @rob.die
+        @rob1.die
+      end
+    end
+
+=== Specification Naming
+
+RSpec does not require the use of a specific naming scheme for specifications.
+When a context is run, all of the public methods which you define in the
+context will be executed. The only exceptions are currently methods which are
+used internally by RSpec. The forbidden names are initialize, mock, violated,
+and run. Because of Ruby's dynamic nature, you will not see a warning if you
+override any of these methods, and unexpected behaviour may ensue.
+
+In addition to the four aforementioned forbidden specification method names,
+methods named with a leading underscore will also not be run as
+specifications. This allows you a way to define methods for your own use
+within the Context and not have them run as specifications.
+
+== Running and Reporting
+
+There currently exists a command-line runner for RSpec, called 'spec'. If you
+write specifications and pass them to the runner on the command line, your
+specifications will run and tell you where you have errors. You are encouraged
+to try out the command line runner, first with the provided examples, and then
+by writing your own specifications.
+
+As an example of the output, if you run the movie_spec.rb file from the RSpec
+examples, you will get the following output:
+
+    $ spec movie_spec.rb
+    ....
+    Finished in 0.016 seconds.
+    
+    4 specifications, 4 expectations, 0 failures.
+
+The spec runner counts the specification as it executes them by printing a
+single dot (.) to the screen. It indicates a failure with an X. For every
+failure, the specification runner will provide a backtrace indicating where
+the failure occurred. A failure is basically a raised exception. Either an
+exception raised by the software you're specifying, by Ruby itself (such as
+SyntaxError or RuntimeError), or it will be an unmet expectation
+(ExpectationNotMet).
+
+For instance, if you expect "Space Balls" to be in OneMovieList which actually
+includes "Star Wars", you will get the following error:
+
+    $ spec movie_spec.rb
+    X...
+
+    1)
+    <#<MovieList:0x284c1e0 @movies={"Star Wars"=>#<Movie:0x284c180 @name="Star Wars"
+    >}>> should include <"Space Balls"> (Spec::Exceptions::ExpectationNotMetError)
+    ./movie_spec.rb:34:in `should_include_space_balls'
+    ../bin/spec:10
+
+    Finished in 0.016 seconds
+
+    4 specifications, 4 expectations, 1 failures
+
+This informs you that the MovieList object should include "Space Balls", but
+got an ExpectationNotMet error. The backtrace also informs you that the unmet
+expectation can be found in the file 'movie_spec.rb' on line 34, in the
+`should_include_space_balls' method.
+
+== Conclusion
+
+This document was by no means intended to provide an exhaustive overview of
+Behaviour Driven Development in general, or RSpec specifically. It is intended
+as a tutorial to get you started with specifying the behaviour of your
+software with RSpec. More information can be found in the API documentation of
+RSpec itself. Further documentation on BDD, and RSpec is on the way.
+
