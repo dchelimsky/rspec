@@ -13,21 +13,25 @@ from Dave himself as well as Aslak Hellesoy.
 
 === Using RubyGems
 
-  sudo gem install rspec
+  $ sudo gem install rspec
 
 === Getting the latest sources
 
-RSpec is currently being hosted in the Monotone distributed version control system. To checkout RSpec, please download and install Monotone according to the documentation on the monotone website. Then use the following set of commands to grab the latest RSpec sources.
+RSpec was previously hosted under the Monotone distributed version control system.  Due to the increasing popularity of RSpec, and the fact that a large part of the world hasn't yet discovered how wonderful Monotone is, we have succumbed to peer pressure and moved the repository to Subversion.
 
-    * monotone --db=database db init
-    * monotone --db=database pull goliath.fundynet.ca org.rubyforge.rspec
-    * monotone --db=database --branch=org.rubyforge.rspec checkout RSpec
+RSpec's repository is located at svn://svn.behaviourdriven.org/rspec
 
-The gem can be created and installed from sources as follows:
+== Creating a Gem
 
-  rake gem; sudo gem install pkg/rspec_x.y.z.gem
+If you have checked out the sources from version control, you can create a Gem from the checked out version with the 'gem' rake task, like so:
 
-Please visit this page periodically, it will be updated with more information as it is made available including documentation, mailing lists, bug tracking, and more. Special thanks to RubyForge for hosting this project site.
+  $ rake gem
+
+This will create a gem in the pkg/ subdirectory.  To install the created gem, simply run 'gem install' as root (preferably using sudo(1)):
+
+  $ sudo gem install pkg/rspec_x.y.z.gem
+
+Please visit the RSpec web site periodically, it will be updated with more information as it is made available including documentation, mailing lists, bug tracking, and more. Special thanks to RubyForge for hosting the project site.
 
 == Usage
 
