@@ -1,13 +1,10 @@
 = RSpec - Behaviour Specification Framework for Ruby
 
-RSpec is a behaviour specification framework for Ruby.  RSpec was created in
-response to Dave Astels' article _A New Look at Test Driven Development_ which
-can be read at: http://daveastels.com/index.php?p=5  RSpec is intended to
-provide the features discussed in Dave's article.
+RSpec is a behaviour specification framework for Ruby.  RSpec was created in response to Dave Astels' article _A New Look at Test Driven Development_ which can be read at: http://daveastels.com/index.php?p=5  RSpec is intended to provide the features discussed in Dave's article.
 
-RSpec was first explored by Steven Baker <srbaker@pobox.com> and Gabriel
-Bauman <gbauman@gmail.com>, and has since received numerous contributions
-from Dave himself as well as Aslak Hellesoy.
+RSpec is primarily developed by Steven Baker <srbaker@pobox.com>, and was inspired by and contributed to by Dave Astels.  Special thanks also to Aslak Hellesoy for many significant contributions.
+
+RSpec's included mocking framework is based on SchMock by Ben Griffiths.  SchMock can be found at http://rubyforge.org/projects/schmock/.
 
 == Download/Installation
 
