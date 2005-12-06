@@ -15,4 +15,3 @@ class Object
 end
 
 alias example specification if ENV['USER'] == 'marick'
- 
