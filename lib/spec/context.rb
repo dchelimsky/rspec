@@ -62,7 +62,7 @@ module Spec
     end
 
     def self.add_specification(name, &block)
-      self.send(:define_method, name.to_sym, Proc.new { || block })
+      self.send(:define_method, name.to_sym, Proc.new { || block.call })
     end
 
   private
