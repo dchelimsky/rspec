@@ -61,6 +61,12 @@ module Spec
       return result
     end
 
+    def self.add_specification(name, &block)
+      self.class_eval do
+        define_method(name.to_sym, Proc.new { || block } )
+      end
+    end
+
   private
   
     def self.my_methods
