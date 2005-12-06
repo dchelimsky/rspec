@@ -63,7 +63,7 @@ module Spec
 
     def self.add_specification(name, &block)
       self.class_eval do
-        define_method(name.to_sym, Proc.new { || block } )
+        define_method(name.to_sym, &block)
       end
     end
 
@@ -74,7 +74,7 @@ module Spec
     end
 
     def self.specification_name?(name)
-      return false unless self.new.method(name).arity == 0
+      return false unless self.new.method(name).arity == 0 or self.new.method(name).arity == -1
       return false if name[0..0] == '_'
       true
     end
