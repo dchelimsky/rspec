@@ -13,3 +13,6 @@ end
 class Object
   include DSLExtensions
 end
+
+alias example specification if ENV['USER'] == 'marick'
+ 
