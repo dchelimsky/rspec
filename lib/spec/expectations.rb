@@ -1,6 +1,5 @@
 module Spec
-  module Expectations
-
+  module ExpectationHelperMethods
     def should(message=nil)
       message ||= "Expectation not met."
       if (! yield)
@@ -11,6 +10,10 @@ module Spec
     def default_message(expectation, expected)
       "<#{self.inspect}:#{self.class}>\n#{expectation}:\n<#{expected.inspect}:#{expected.class}>"
     end
+  end
+  
+  module ObjectExpectations
+    include ExpectationHelperMethods
 
     def should_equal(expected, message=nil)
       message ||= default_message("should be equal to", expected)
@@ -86,7 +89,7 @@ module Spec
       message ||= default_message("should raise", exception.class.to_s)
       should(message) do
         begin
-          yield(self)
+          self.call
           false
         rescue exception
           true
@@ -100,7 +103,7 @@ module Spec
       message ||= default_message("should not raise", exception.class.to_s)
       should(message) do
         begin
-          yield(self)
+          self.call
           true
         rescue exception
           false
@@ -115,5 +118,5 @@ end
 
 
 class Object
-  include Spec::Expectations
+  include Spec::ObjectExpectations
 end
