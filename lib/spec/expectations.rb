@@ -81,8 +81,36 @@ module Spec
       message ||= "<#{self}> should be false"
       should(message) { not self }
     end
+    
+    def should_raise(exception=Exception, message=nil)
+      message ||= default_message("should raise", exception.class.to_s)
+      should(message) do
+        begin
+          yield(self)
+          false
+        rescue exception
+          true
+        rescue
+          false
+        end
+      end
+    end
+    
+    def should_not_raise(exception=Exception, message=nil)
+      message ||= default_message("should not raise", exception.class.to_s)
+      should(message) do
+        begin
+          yield(self)
+          true
+        rescue exception
+          false
+        rescue
+          true
+        end
+      end
+    end
+    
   end
-
 end
 
 

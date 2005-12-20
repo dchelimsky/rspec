@@ -423,5 +423,57 @@ class ExpectationsTest < Test::Unit::TestCase
       self.should_be_false
     end
   end
+  
+  # should_raise
+  
+  def test_should_raise_should_pass_when_proper_exception_is_raised
+    assert_nothing_raised do
+      @dummy.should_raise(NoMethodError) do |obj|
+        obj.blah
+      end
+    end
+  end
+  
+  def test_should_raise_should_not_pass_when_wrong_exception_is_raised
+    assert_raise(Spec::Exceptions::ExpectationNotMetError) do
+      @dummy.should_raise(SyntaxError) do |obj|
+        obj.blah
+      end
+    end
+  end
+  
+  def test_should_raise_should_not_pass_with_no_exception
+    assert_raise(Spec::Exceptions::ExpectationNotMetError) do
+      !@dummy.should_raise(NoMethodError) do |obj|
+        obj.to_s
+      end
+    end
+  end
+  
+  # should_not_raise
+  
+  def test_should_not_raise_should_pass_when_proper_exception_is_raised
+    assert_raise(Spec::Exceptions::ExpectationNotMetError) do
+      @dummy.should_not_raise(NoMethodError) do |obj|
+        obj.blah
+      end
+    end
+  end
+  
+  def test_should_not_raise_should_not_pass_when_wrong_exception_is_raised
+    assert_nothing_raised do
+      @dummy.should_not_raise(SyntaxError) do |obj|
+        obj.blah
+      end
+    end
+  end
+  
+  def test_should_not_raise_should_not_pass_with_no_exception
+    assert_nothing_raised do
+      !@dummy.should_not_raise(NoMethodError) do |obj|
+        obj.to_s
+      end
+    end
+  end
 
 end
