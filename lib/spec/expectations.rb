@@ -85,6 +85,12 @@ module Spec
       should(message) { not self }
     end
     
+  end
+  
+  
+  module ProcExpectations
+    include ExpectationHelperMethods
+    
     def should_raise(exception=Exception, message=nil)
       message ||= default_message("should raise", exception.class.to_s)
       should(message) do
@@ -112,11 +118,16 @@ module Spec
         end
       end
     end
-    
+  
   end
+  
 end
 
 
 class Object
   include Spec::ObjectExpectations
+end
+
+class Proc
+  include Spec::ProcExpectations
 end
