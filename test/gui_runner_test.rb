@@ -58,7 +58,7 @@ class SocketListener
 	  @server_socket = TCPServer.new("127.0.0.1", port)
 		@expectations = Array.new
 		@next_expectation_index = 0 
-		@xpectations_met = false
+		@expectations_met = false
 	end
 	
 	def shutdown
@@ -66,26 +66,27 @@ class SocketListener
 		@server_socket.shutdown
 	end
 	
-	def expects(expected_string)
-		@expectations << expected_string
+	def expects(expected_regex)
+		@expectations << expected_regex
 	end
 	
 	def verify
 		sleep 1
-		@expectations_met
+		return if @expectations_met
+		msg = "Nothing matching /#{@expectations[@next_expectation_index].source}/ was seen"
+		raise  Test::Unit::AssertionFailedError.new(msg)
 	end
 	
 	def run
 		@socket = @server_socket.accept
 		@th = Thread.new("socket listener") do
-			loop do
+			until @expectations_met
 				msg, sender = @socket.readline
 				msg.chomp!
 				next unless @expectations[@next_expectation_index] =~ msg
 				@next_expectation_index += 1
 				remaining = @expectations.size - @next_expectation_index
 				@expectations_met = (remaining == 0)
-				break if @expectations_met
 			end
 		end
 	end
@@ -104,6 +105,13 @@ class TestGuiRunner < Test::Unit::TestCase
 		@listener.shutdown
 	end
 
+	def test_size_on_start
+		@listener.expects /start 3/
+		@listener.run
+		@runner.run(PassingCon)
+		@listener.verify
+	end
+	
   def test_passing_example_outputs_period
 		@listener.expects /start/
 		@listener.expects /passed/
@@ -112,7 +120,7 @@ class TestGuiRunner < Test::Unit::TestCase
 		@listener.expects /end/
 		@listener.run
     @runner.run(PassingCon)
-    assert @listener.verify
+    @listener.verify
   end
 
   def test_failing_example_outputs_X
@@ -123,7 +131,7 @@ class TestGuiRunner < Test::Unit::TestCase
 		@listener.expects /end/
 		@listener.run
     @runner.run(FailingCon)
-    assert @listener.verify
+    @listener.verify
   end
 
   def test_erring_example_outputs_X
@@ -134,25 +142,21 @@ class TestGuiRunner < Test::Unit::TestCase
 		@listener.expects /end/
 		@listener.run
     @runner.run(ErringCon)
-    assert @listener.verify
+    @listener.verify
   end
   
   def test_failure_backtrace
 		@listener.expects /.*in `fail1'.*/
-		@listener.expects /.*in `fail2'.*/
-		@listener.expects /.*in `fail3'.*/
 		@listener.run
     @runner.run(FailingCon)
-    assert @listener.verify
+    @listener.verify
   end
 
   def test_error_backtrace
-		@listener.expects /.*in `error1'.*/
-		@listener.expects /.*in `error2'.*/
 		@listener.expects /.*in `error3'.*/
 		@listener.run
     @runner.run(ErringCon)
-    assert @listener.verify
+    @listener.verify
   end
 
 end

@@ -13,8 +13,9 @@ module Spec
     end
 
     def run(context_or_collection = Spec::Collector)
-      start_run
-      context_or_collection.collection.each {|context| context.run(self)}
+			specs = context_or_collection.collection
+      start_run specs.size
+      specs.each {|spec| spec.run(self)}
       end_run
 			@socket.shutdown
     end
@@ -34,8 +35,8 @@ module Spec
       dump_failure(exception)
     end
   
-    def start_run
-      @socket << "start\n"
+    def start_run(number_of_specs)
+      @socket << "start #{number_of_specs.to_i}\n"
     end
   
     def end_run
