@@ -16,7 +16,7 @@ RSpec's included mocking framework is based on SchMock by Ben Griffiths.  SchMoc
 
 RSpec was previously hosted under the Monotone distributed version control system.  Due to the increasing popularity of RSpec, and the fact that a large part of the world hasn't yet discovered how wonderful Monotone is, we have succumbed to peer pressure and moved the repository to Subversion.
 
-RSpec's repository is located at svn://svn.behaviourdriven.org/rspec
+RSpec is hosted on RubyForge.  It can be checked out of Subversion from: svn://rubyforge.org//var/svn/rspec
 
 == Creating a Gem
 

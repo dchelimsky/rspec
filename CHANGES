@@ -13,6 +13,13 @@
 * Make sure the PKG_VERSION constant in Rakefile.rb is
   consistent with the latest version in this document.
 
+== Version 0.3.2
+
+The "srbaker is an idiot" release.
+
+* also forgot to update the path to the actual Subversion repository
+* this should be it
+
 == Version 0.3.1
 
 This is just 0.3.0, but with the TUTORIAL added to the documentation list.
