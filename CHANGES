@@ -13,6 +13,12 @@
 * Make sure the PKG_VERSION constant in Rakefile.rb is
   consistent with the latest version in this document.
 
+== Version 0.3.1
+
+This is just 0.3.0, but with the TUTORIAL added to the documentation list.
+
+* forgot to include TUTORIAL in the documentation
+
 == Version 0.3.0
 
 It's been a while since last release, lots of new stuff is available.  For instance:

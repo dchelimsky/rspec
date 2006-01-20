@@ -19,7 +19,7 @@ PKG_NAME = "rspec"
 # (This is subject to change - AH)
 #
 # REMEMBER TO KEEP PKG_VERSION IN SYNC WITH CHANGELOG
-PKG_VERSION = "0.3.0"
+PKG_VERSION = "0.3.1"
 PKG_FILE_NAME = "#{PKG_NAME}-#{PKG_VERSION}"
 PKG_FILES = FileList[
   '[A-Z]*',
@@ -53,7 +53,7 @@ rd = Rake::RDocTask.new("rdoc") do |rdoc|
   rdoc.rdoc_dir = 'html'
   rdoc.title    = "RSpec"
   rdoc.options << '--line-numbers' << '--inline-source' << '--main' << 'README'
-  rdoc.rdoc_files.include('README', 'CHANGES')
+  rdoc.rdoc_files.include('README', 'CHANGES', 'TUTORIAL')
   rdoc.rdoc_files.include('lib/**/*.rb', 'doc/**/*.rdoc')
   rdoc.rdoc_files.exclude('doc/**/*_attrs.rdoc')
 end
