@@ -13,6 +13,15 @@
 * Make sure the PKG_VERSION constant in Rakefile.rb is
   consistent with the latest version in this document.
 
+== Version 0.3.0
+
+It's been a while since last release, lots of new stuff is available.  For instance:
+
+ * improvements to the runners
+ * addition of should_raise expectation (thanks to Brian Takita)
+ * some documentation improvements
+ * RSpec usable as a DSL
+
 == Version 0.2.0
 
 This release provides a tutorial for new users wishing to get started with
