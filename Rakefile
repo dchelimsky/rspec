@@ -19,7 +19,7 @@ PKG_NAME = "rspec"
 # (This is subject to change - AH)
 #
 # REMEMBER TO KEEP PKG_VERSION IN SYNC WITH CHANGELOG
-PKG_VERSION = "0.3.2"
+PKG_VERSION = "0.4.0"
 PKG_FILE_NAME = "#{PKG_NAME}-#{PKG_VERSION}"
 PKG_FILES = FileList[
   '[A-Z]*',
