@@ -48,7 +48,6 @@ private
 
   def find_matching_expectation(sym, *args)
     expectation = @expectations.find {|expectation| expectation.matches(sym, args)}
-    expectation
   end
 
 end

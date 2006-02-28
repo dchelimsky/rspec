@@ -13,7 +13,7 @@ class MockTest < Test::Unit::TestCase
     begin
       @mock.__verify
     rescue Spec::Exceptions::MockExpectationError => e
-      e.message.should_equal "./test/mock_test.rb:11:in `test_should_report_line_number_of_expectaion_of_unreceived_message': Mock 'test mock' expected wont_happen(<x:String>, <3:Fixnum>) once, but received it 0 times"
+      e.message.should.equal "./test/mock_test.rb:11:in `test_should_report_line_number_of_expectaion_of_unreceived_message': Mock 'test mock' expected wont_happen(<x:String>, <3:Fixnum>) once, but received it 0 times"
     end
     
   end
@@ -74,8 +74,8 @@ class MockTest < Test::Unit::TestCase
 
   def test_should_use_block_for_expectation_if_provided
     @mock.should_receive(:random_call) do | a, b |
-      a.should_equal("a")
-      b.should_equal("b")
+      a.should.equal("a")
+      b.should.equal("b")
       "booh"
     end
     assert_equal("booh", @mock.random_call("a", "b"))
@@ -83,7 +83,7 @@ class MockTest < Test::Unit::TestCase
   end
   
   def test_failing_expectation_block_throws
-    @mock.should_receive(:random_call) {| a | a.should_be_true}
+    @mock.should_receive(:random_call) {| a | a.should.be true}
     assert_raise(Spec::Exceptions::MockExpectationError) do
       @mock.random_call false
     end

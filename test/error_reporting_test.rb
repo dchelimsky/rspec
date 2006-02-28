@@ -1,122 +1,102 @@
 require 'test/unit'
 
+require 'collection_owner'
 require 'spec'
-
 
 class ErrorReportingContext < Spec::Context
 
-  # should
-
-  def use_the_standard_message_for_should
-    Object.should { false == true }
+  def should_satisfy
+    5.should.satisfy { |x| x == 3 }
   end
 
-  def use_the_provided_message_for_should
-    Object.should("provided message") { false == true }
-  end
-  
-  # should_equal
-
-  def use_the_standard_message_for_should_equal
-    Object.should_equal Class
+  def should_not_satisfy
+    3.should.not.satisfy { |x| x == 3 }
   end
 
-  def use_the_provided_message_for_should_equal
-    Object.should_equal(Class, "provided for should_equal")
+  def should_equal
+    Object.should.equal Class
   end
 
-  # should_not_equal
-
-  def use_the_standard_message_for_should_not_equal
-    Object.should_not_equal Object
+  def should_not_equal
+    Object.should.not.equal Object
   end
 
-  def use_the_provided_message_for_should_not_equal
-    Object.should_not_equal(Object, "provided for should_not_equal")
+  def should_be_nil
+    Object.should.be nil
   end
 
-  # should_be_nil
-  
-  def use_the_standard_message_for_should_be_nil
-    Object.should_be_nil
+  def should_not_be_nil
+    nil.should.not.be nil
   end
 
-  def use_the_provided_message_for_should_be_nil
-    Object.should_be_nil("provided for should_be_nil")
-  end
-
-  # should_not_be_nil
-  
-  def use_the_standard_message_for_should_not_be_nil
-    nil.should_not_be_nil
-  end
-
-  def use_the_provided_message_for_should_not_be_nil
-    nil.should_not_be_nil("provided for should_not_be_nil")
-  end
-
-  # should_be_empty
-  
-  def use_the_standard_message_for_should_be_empty
-    ['foo', 'bar'].should_be_empty
+  def should_be_empty
+    ['foo', 'bar'].should.be.empty
   end
   
-  def use_the_provided_message_for_should_be_empty
-    ['foo', 'bar'].should_be_empty("provided for should_be_empty")
+  def should_not_be_empty
+    [].should.not.be.empty
   end
 
-  # should_not_be_empty
-  
-  def use_the_standard_message_for_should_not_be_empty
-    [].should_not_be_empty
+  def should_include
+    ['foo'].should.include('bar')
   end
 
-  def use_the_provided_message_for_should_not_be_empty
-    [].should_not_be_empty("provided for should_not_be_empty")
+  def should_not_include
+    ['foo'].should.not.include('foo')
   end
 
-  # should_include
-  
-  def use_the_standard_message_for_should_include
-    ['foo'].should_include('bar')
+  def should_be_true
+    false.should.be true
   end
 
-  def use_the_provided_message_for_should_include
-    ['foo'].should_include('bar', "provided for should_include")
-  end
-
-  # should_not_include
-  
-  def use_the_standard_message_for_should_not_include
-    ['foo'].should_not_include('foo')
-  end
-
-  def use_the_provided_message_for_should_not_include
-    ['foo'].should_not_include('foo', "provided for should_not_include")
-  end
-
-  # should_be_true
-  
-  def use_the_standard_message_for_should_be_true
-    false.should_be_true
-  end
-
-  def use_the_provided_message_for_should_be_true
-    false.should_be_true("provided for should_be_true")
-  end
-
-  # should_be_false
-  
-  def use_the_standard_message_for_should_be_false
-    true.should_be_false
+  def should_be_false
+    true.should.be false
   end
   
-  def use_the_provided_message_for_should_be_false
-    true.should_be_false("provided for should_be_false")
+  def should_raise_with_no_error
+    proc { ''.to_s }.should.raise NoMethodError
+  end
+  
+  def should_raise_with_wrong_error
+    proc { ''.no_method }.should.raise SyntaxError
+  end
+  
+  def should_not_raise
+    proc { ''.no_method }.should.not.raise NoMethodError
+  end  
+
+  def should_have_with_length
+    owner = CollectionOwner.new
+    owner.should.have(3).items_in_collection_with_length_method
   end
 
+  def should_have_at_least_with_length
+    owner = CollectionOwner.new
+    owner.should.have.at.least(3).items_in_collection_with_length_method
+  end
+
+  def should_have_at_most_with_length
+    owner = CollectionOwner.new
+    (1..4).each { |n| owner.add_to_collection_with_length_method n }
+    owner.should.have.at.most(3).items_in_collection_with_length_method
+  end
+  
+  def should_have_with_size
+    owner = CollectionOwner.new
+    owner.should.have(3).items_in_collection_with_size_method
+  end
+
+  def should_have_at_least_with_size
+    owner = CollectionOwner.new
+    owner.should.have.at.least(3).items_in_collection_with_size_method
+  end
+
+  def should_have_at_most_with_size
+    owner = CollectionOwner.new
+    (1..4).each { |n| owner.add_to_collection_with_size_method n }
+    owner.should.have.at.most(3).items_in_collection_with_size_method
+  end
 end
-
 
 class ErrorReportingRunner
 
@@ -158,114 +138,88 @@ class ErrorReportingTest < Test::Unit::TestCase
     @runner.run(ErrorReportingContext)
   end
 
-  # should
-
-  def test_should_report_standard_message_for_should
-    assert @runner.dump_failures.include?("Expectation not met.")
+  def test_should_report_message_for_should_satisfy
+    assert @runner.dump_failures.include?("Supplied expectation was not satisfied")
   end
 
-  def test_should_report_provided_message_for_should
-    assert @runner.dump_failures.include?("provided message")
-  end  
-
-  # should_equal
-  
-  def test_should_report_standard_message_for_should_equal
-    assert @runner.dump_failures.include?("<Object:Class>\nshould be equal to:\n<Class:Class>"), @runner.dump_failures
+  def test_should_report_message_for_should_equal
+    assert @runner.dump_failures.include?("<Object:Class> should equal <Class:Class>"), @runner.dump_failures
   end
 
-  def test_should_report_provided_message_for_should_equal
-    assert @runner.dump_failures.include?("provided for should_equal"), @runner.dump_failures
+  def test_should_report_message_for_should_not_equal
+    assert @runner.dump_failures.include?("<Object:Class> should not equal <Object:Class>"), @runner.dump_failures
+  end
+  
+  def test_should_report_message_for_should_be_nil
+    assert @runner.dump_failures.include?("<Object:Class> should be nil")
   end
 
-  # should_not_equal
-  
-  def test_should_report_standard_message_for_should_not_equal
-    assert @runner.dump_failures.include?("<Object:Class>\nshould not be equal to:\n<Object:Class>"), @runner.dump_failures
+  def test_should_report_message_for_should_not_be_nil
+    assert @runner.dump_failures.include?("nil should not be nil")
   end
   
-  def test_should_report_provided_message_for_should_not_equal
-    assert @runner.dump_failures.include?("provided for should_not_equal"), @runner.dump_failures
-  end
-  
-  # should_be_nil
-  
-  def test_should_report_standard_message_for_should_be_nil
-    assert @runner.dump_failures.include?("<Object> should be nil")
-  end
-  
-  def test_should_report_provided_message_fro_should_be_nil
-    assert @runner.dump_failures.include?("provided for should_be_nil")
-  end
-  
-  # should_not_be_nil
-
-  def test_should_report_standard_message_for_should_not_be_nil
-    assert @runner.dump_failures.include?("<> should not be nil")
-  end
-  
-  def test_should_report_provided_message_for_should_not_be_nil
-    assert @runner.dump_failures.include?("provided for should_not_be_nil")
-  end
-
-  # should_be_empty
-  
-  def test_should_report_standard_message_for_should_be_empty
+  def test_should_report_message_for_should_be_empty
     assert @runner.dump_failures.include?('<["foo", "bar"]> should be empty')
   end
-  
-  def test_should_report_provided_message_for_should_be_empty
-    assert @runner.dump_failures.include?("provided for should_be_empty")
-  end
-  
-  # should_not_be_empty
 
-  def test_should_report_standard_message_for_should_not_be_empty
+  def test_should_report_message_for_should_not_be_empty
     assert @runner.dump_failures.include?("<[]> should not be empty")
   end
-  
-  def test_should_report_provided_message_for_should_not_be_empty
-    assert @runner.dump_failures.include?("provided for should_not_be_empty")
-  end
-
-  # should_include
-  
-  def test_should_report_standard_message_for_should_include
+    
+  def test_should_report_message_for_should_include
     assert @runner.dump_failures.include?('<["foo"]> should include <"bar">')
   end
   
-  def test_should_report_provided_message_for_should_include
-    assert @runner.dump_failures.include?("provided for should_include")
-  end
-  
-  # should_not_include
-
-  def test_should_report_standard_message_for_should_not_include
+  def test_should_report_message_for_should_not_include
     assert @runner.dump_failures.include?('<["foo"]> should not include <"foo">')
   end
+  
+  def test_should_report_message_for_should_be_true
+    assert @runner.dump_failures.include?("<false> should be <true>")
+  end
 
-  def test_should_report_provided_message_for_should_not_include
-    assert @runner.dump_failures.include?("provided for should_not_include")
+  def test_should_report_message_for_should_be_false
+    assert @runner.dump_failures.include?("<true> should be <false>")
   end
   
-  # should_be_true
-
-  def test_should_report_standard_message_for_should_be_true
-    assert @runner.dump_failures.include?("<false> should be true")
-  end
-
-  def test_should_report_provided_message_for_should_be_true
-    assert @runner.dump_failures.include?("provided for should_be_true")
+  def test_should_report_message_for_should_raise_with_no_error
+    assert @runner.dump_failures.include?("<Proc> should raise <\"NoMethodError\">")
   end
   
-  # should_be_false
-
-  def test_should_report_standard_message_for_should_be_false
-    assert @runner.dump_failures.include?("<true> should be false")
+  def test_should_report_message_for_should_raise_with_wrong_error
+    assert @runner.dump_failures.include?("<Proc> should raise <\"SyntaxError\">")
   end
-
-  def test_should_report_provided_message_for_should_be_false
-    assert @runner.dump_failures.include?("provided for should_be_false")
+  
+  def test_should_report_message_for_should_not_raise
+    assert @runner.dump_failures.include?("<Proc> should not raise <\"NoMethodError\">")
   end
-
+  
+  def test_should_report_message_for_should_not_raise
+    assert @runner.dump_failures.include?("<Proc> should not raise <\"NoMethodError\">")
+  end
+  
+  def test_should_report_message_for_should_have_with_length
+    assert @runner.dump_failures.include?('<CollectionOwner> should have 3 items_in_collection_with_length_method (has 0)')
+  end
+  
+  def test_should_report_message_for_should_have_at_least_with_length
+    assert @runner.dump_failures.include?('<CollectionOwner> should have at least 3 items_in_collection_with_length_method (has 0)')
+  end
+  
+  def test_should_report_message_for_should_have_at_most_with_length
+    assert @runner.dump_failures.include?('<CollectionOwner> should have at most 3 items_in_collection_with_length_method (has 4)')
+  end
+  
+  def test_should_report_message_for_should_have_with_size
+    assert @runner.dump_failures.include?('<CollectionOwner> should have 3 items_in_collection_with_size_method (has 0)')
+  end
+  
+  def test_should_report_message_for_should_have_at_least_with_size
+    assert @runner.dump_failures.include?('<CollectionOwner> should have at least 3 items_in_collection_with_size_method (has 0)')
+  end
+  
+  def test_should_report_message_for_should_have_at_most_with_size
+    assert @runner.dump_failures.include?('<CollectionOwner> should have at most 3 items_in_collection_with_size_method (has 4)')
+  end
+  
 end

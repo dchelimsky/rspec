@@ -5,15 +5,15 @@ require 'spec'
 class PassingCon < Spec::Context
 
   def ex1
-    true.should_be_true
+    true.should.be true
   end
 
   def ex2
-    true.should_be_true
+    true.should.be true
   end
 
   def ex3
-    true.should_be_true
+    true.should.be true
   end
 
 end
@@ -22,15 +22,15 @@ end
 class FailingCon < Spec::Context
 
   def fail1
-    false.should_be_true
+    false.should.be true
   end
 
   def fail2
-    false.should_be_true
+    false.should.be true
   end
 
   def fail3
-    false.should_be_true
+    false.should.be true
   end
 
 end

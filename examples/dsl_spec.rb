@@ -1,8 +1,8 @@
 specification "failing_spec" do
-  true.should_equal false
+  true.should.be false
 end
 
 
 specification "passing_spec" do
-  true.should_equal true
+  true.should.be true
 end

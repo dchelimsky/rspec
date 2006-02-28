@@ -9,32 +9,32 @@ class TestCon < Spec::Context
   end
 
   def passing_once_specification
-    true.should_equal(true)
+    true.should.equal(true)
   end
   
   def failing_once_specification
-    false.should_equal(true)
+    false.should.equal(true)
   end
   
   def erroring_once_specification
-    undefined_method.should_equal(true)
+    undefined_method.should.equal(true)
   end
   
   def passing_multi_specification
-    true.should_equal(true)
-    false.should_equal(false)
-    Object.should_equal(Object)
+    true.should.equal(true)
+    false.should.equal(false)
+    Object.should.equal(Object)
   end
 
   def failing_multi_specification
-    false.should_equal(true)
-    true.should_equal(false)
-    false.should_equal(nil)
+    false.should.equal(true)
+    true.should.equal(false)
+    false.should.equal(nil)
   end
 
   def erroring_multi_specification
-    undefined_method.should_equal(false)
-    undefined_method.should_not_equal(true)
+    undefined_method.should.equal(false)
+    undefined_method.should.not.equal(true)
   end
 
 end

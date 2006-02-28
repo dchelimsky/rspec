@@ -1,0 +1,64 @@
+module Spec
+  
+  class ShouldNegator < ShouldBase
+    
+    def initialize(target)
+      @target = target
+    end
+  
+    def satisfy
+	    fail_with_message "Supplied expectation was satisfied, but should not have been" if (yield @target)
+    end
+        
+    def equal(expected)
+	    fail_with_message(default_message("should not equal", expected)) if (@target == expected)
+    end
+    
+    def be(expected = :no_arg)
+	    return self if (expected == :no_arg)
+	    fail_with_message(default_message("should not be", expected)) if (@target.equal?(expected))
+    end
+
+		def a
+			self
+		end
+		
+		alias an a
+		
+		def instance
+			InstanceNegator.new(@target)
+		end
+		
+		def kind
+			KindNegator.new(@target)
+		end
+
+			def respond
+				RespondNegator.new(@target)
+			end
+    
+    def match(expected)
+        fail_with_message(default_message("should not match", expected)) if (@target =~ expected)
+    end
+    
+    def include(sub)
+        fail_with_message(default_message("should not include", sub)) if (@target.include? sub)
+    end
+   
+    def raise(exception=Exception)
+      begin
+        @target.call
+      rescue exception
+        fail_with_message(default_message("should not raise", exception.inspect))
+      rescue
+      end
+    end
+    
+    def method_missing(sym, *args)
+      return unless @target.send("#{sym}?", *args)
+      fail_with_message(default_message("should not be #{sym}" + (args.empty? ? '' : (' ' + args.join(', ')))))
+    end
+
+  end
+
+end

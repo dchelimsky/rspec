@@ -9,11 +9,11 @@ class EmptyMovieList < Spec::Context
   end
     
   def should_have_size_of_0
-    @list.size.should_equal 0
+    @list.size.should.equal 0
   end
   
   def should_not_include_star_wars
-    @list.should_not_include "Star Wars"
+    @list.should.not.include "Star Wars"
   end
   
 end
@@ -27,17 +27,11 @@ class OneMovieList < Spec::Context
   end
   
   def should_have_size_of_1
-    @list.size.should_equal 1
+    @list.size.should.equal 1
   end
   
   def should_include_star_wars
-    @list.should_include "Star Wars"
+    @list.should.include "Star Wars"
   end
   
-end
-
-if __FILE__ == $0
-  runner = Spec::TextRunner.new($stdout)
-  runner.run(EmptyMovieList)
-  runner.run(OneMovieList)
 end
