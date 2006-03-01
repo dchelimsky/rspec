@@ -25,6 +25,7 @@ module Spec
     def be(expected = :no_arg)
       return self if (expected == :no_arg)
       return if (expected == false and @target.nil?)
+			return if (expected == true and (!@target.nil?) and (@target != false))
     	fail_with_message(default_message("should be", expected)) unless (@target.equal?(expected))
     end
 
