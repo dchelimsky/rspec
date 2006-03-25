@@ -1,0 +1,66 @@
+#!/usr/bin/env ruby
+
+require 'find'
+require 'optparse'
+
+$out = STDOUT
+$verbose = true
+at_exit{$out.close}
+
+opts = OptionParser.new do |opts|
+  opts.banner = "Usage: specdoc [options] DIRECTORY"
+  opts.separator ""
+
+  opts.on("-o", "--of FILE",
+          "Set the output file") do |$outfile|
+    $out = File.open($outfile, 'w')
+  end
+
+  opts.on("-v", "--verbose") do
+    $verbose = true
+  end
+
+  opts.on_tail("-h", "--help", "Show this message") do
+    puts opts
+    exit
+  end
+end
+opts.parse!(ARGV)
+
+if ARGV.empty?
+  STDERR.puts "You must provide a directory or file to process"
+  STDERR.puts opts
+  exit 1
+end
+
+
+module Kernel
+
+  def context(name, &proc)
+    $out.puts "# #{name}"
+    proc.call
+  end
+
+  def setup
+  end
+
+  def teardown
+  end
+
+  def specify(name, &proc)
+    $out.puts "# * #{name}"
+  end
+  
+end
+
+$verbose_out = ($out == STDOUT) ? STDERR : STDOUT
+
+Find.find(ARGV[0]) do |path|
+  if FileTest.file?(path) and File.extname(path) == '.rb'
+    $verbose_out.puts "Processing #{path}" if $verbose
+    require path
+  end
+end
+
+out_name = $outfile.nil? ? "STDOUT" : $outfile
+$verbose_out.puts "Writing to #{out_name}" if $verbose

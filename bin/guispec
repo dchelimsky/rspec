@@ -2,10 +2,12 @@
 
 require 'spec'
 
+files = Array new
+
 ARGV.each_with_index do |arg, index|
 	@port = arg.to_i if index == 0
-	require arg if index > 0
+	files << arg if index > 0
 end
 
 runner = Spec::GuiRunner.new(@port)
-runner.run
+runner.process(files)

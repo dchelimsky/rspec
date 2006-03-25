@@ -1,4 +1,3 @@
-require 'spec'
 
 module DSLExtensions
 
@@ -7,7 +6,7 @@ module DSLExtensions
     $current_context = eval "$#{name}"
   end
 
-  def specification(name, &block)
+  def specify(name, &block)
     $default_context ||= Class.new(Spec::Context)
     $current_context = $default_context if $current_context.nil?
 
