@@ -64,7 +64,7 @@ module Spec
         reject {|line| line.include? "lib/spec"}.
         reject {|line | line.include? "./spec:"}.
         reject {|line | line.include? "__instance_exec_"}
-      @output << trace.join("\n")
+      @output << lines.join("\n")
       @output << "\n\n"
     end
     
