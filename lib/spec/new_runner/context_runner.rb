@@ -12,11 +12,24 @@ require 'spec/new_runner/instance_exec'
 class Context
   def initialize(name, &block)
     @specifications = []
+    @errors = {}
     @name = name
     instance_exec(&block)
     
     @specifications.each do |specification|
-      specification.run(@setup_block)
+      begin
+        specification.run(@setup_block)
+        STDOUT.write '.'
+      rescue => e
+        @errors[specification] = e
+        STDOUT.write 'F'
+      end
+    end
+    STDOUT.puts
+    
+    @errors.each do |specification, exception|
+      puts "Failed: #{specification.name}"
+      puts exception.backtrace.join("\n")
     end
   end
 
@@ -30,12 +43,15 @@ class Context
 end
 
 class Specification
+  attr_reader :name
+  
   def initialize(name, &block)
     @name = name
     @block = block
   end
-  
+
   def run(setup_block)
+    # TODO: undefine run so the block doesn't have access to it
     instance_exec(&setup_block)
     instance_exec(&@block)
   end

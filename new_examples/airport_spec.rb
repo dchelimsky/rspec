@@ -11,19 +11,21 @@ class Airport
 end
 
 context "Airport at home" do
-  puts "I am now in the context of #{self}"
-  
   setup do
     @airport = Airport.new
   end
   
   specify "should always work" do
-    puts "And I am now in the context of #{self}"
     @airport.should.be.working
   end
 
   specify "should not require cables" do
     @airport.should.not.require :cables
+  end
+
+  specify "should not require elictricity" do
+    # This will fail...
+    @airport.should.not.require :electricity
   end
 
 end
