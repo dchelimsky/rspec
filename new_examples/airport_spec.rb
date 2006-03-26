@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../lib/spec/new_runner/context_runner'
+require File.dirname(__FILE__) + '/../lib/spec/new_runner/context'
 
 class Airport
   def working?
@@ -26,6 +26,10 @@ context "Airport at home" do
   specify "should not require elictricity" do
     # This will fail...
     @airport.should.not.require :electricity
+  end
+  
+  teardown do
+    @airport = nil
   end
 
 end

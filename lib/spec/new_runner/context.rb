@@ -8,33 +8,36 @@ end
 
 require 'spec/api'
 require 'spec/new_runner/instance_exec'
+require 'spec/new_runner/text_runner'
 
 class Context
-  def initialize(name, &block)
+  def initialize(name, runner=nil, &block)
     @specifications = []
     @errors = {}
     @name = name
-    instance_exec(&block)
-    
+    @context_block = block
+    instance_exec(&@context_block)
+    Spec::TextRunner.new.run(self) if runner.nil?
+  end
+
+  def run(runner)
+    runner.spec(self)
     @specifications.each do |specification|
       begin
-        specification.run(@setup_block)
-        STDOUT.write '.'
+        specification.run(@setup_block, @teardown_block)
+        runner.pass(specification)
       rescue => e
-        @errors[specification] = e
-        STDOUT.write 'F'
+        runner.failure(specification, e)
       end
-    end
-    STDOUT.puts
-    
-    @errors.each do |specification, exception|
-      puts "Failed: #{specification.name}"
-      puts exception.backtrace.join("\n")
     end
   end
 
   def setup(&block)
     @setup_block = block
+  end
+  
+  def teardown(&block)
+    @teardown_block = block
   end
   
   def specify(name, &block)
@@ -50,9 +53,10 @@ class Specification
     @block = block
   end
 
-  def run(setup_block)
+  def run(setup_block, teardown_block)
     # TODO: undefine run so the block doesn't have access to it
     instance_exec(&setup_block)
     instance_exec(&@block)
+    instance_exec(&teardown_block)
   end
 end
