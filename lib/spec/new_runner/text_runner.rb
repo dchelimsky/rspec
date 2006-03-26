@@ -1,7 +1,8 @@
 module Spec
   class TextRunner
  
-    def initialize(appendable = $stdout)
+    def initialize(args=[], appendable=$stdout)
+      @verbose = true if args.include? "-v"
       @failures = Array.new
       @specification_count = 0
       @failure_count = 0
@@ -9,10 +10,15 @@ module Spec
       @output = appendable
       @context_count = 0
     end
-
-    def run(context)
+    
+    def run(what_to_run)
+      run_context(what_to_run) if what_to_run.is_a? Context
+    end
+    
+    def run_context(context)
       @context_count += 1
       start_run
+      @output.puts context.name if @verbose
       context.run(self)
       end_run
     end
@@ -23,12 +29,14 @@ module Spec
   
     def pass(spec)
       @specification_count += 1
-      @output << "."
+      @output << "." unless @verbose
+      @output.puts "- #{spec.name}" if @verbose
     end
 
     def failure(spec, exception)
       @specification_count += 1
-      @output << "F" unless @failed
+      @output << "F" unless @verbose unless @failed
+      @output << "- #{spec.name} (FAILED)" if @verbose unless @failed
       @failure_count += 1 unless @failed
       @failed = true
       @failures << exception
