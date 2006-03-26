@@ -56,9 +56,9 @@ module Spec
 
     def run(setup_block, teardown_block)
       # TODO: undefine run so the block doesn't have access to it
-      instance_exec(&setup_block)
+      instance_exec(&setup_block) unless setup_block.nil?
       instance_exec(&@block)
-      instance_exec(&teardown_block)
+      instance_exec(&teardown_block) unless teardown_block.nil?
     end
   end
 end
