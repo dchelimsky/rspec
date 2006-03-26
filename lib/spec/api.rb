@@ -1,4 +1,3 @@
-require 'spec/api/should_base'
 require 'spec/api/exceptions'
 require 'spec/api/mock'
 require 'spec/api/expectations'
