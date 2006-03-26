@@ -6,7 +6,7 @@ module DSLExtensions
     $current_context = eval "$#{name}"
   end
 
-  def specify(name, &block)
+  def specification(name, &block)
     $default_context ||= Class.new(Spec::Context)
     $current_context = $default_context if $current_context.nil?
 

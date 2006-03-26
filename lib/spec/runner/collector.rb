@@ -1,6 +1,5 @@
 require 'spec'
 
-
 module Spec
 	class Collector
 
