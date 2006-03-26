@@ -16,8 +16,12 @@ class Context
     instance_exec(&block)
     
     @specifications.each do |specification|
-      specification.run
+      specification.run(@setup_block)
     end
+  end
+
+  def setup(&block)
+    @setup_block = block
   end
   
   def specify(name, &block)
@@ -31,7 +35,8 @@ class Specification
     @block = block
   end
   
-  def run
+  def run(setup_block)
+    instance_exec(&setup_block)
     instance_exec(&@block)
   end
 end
