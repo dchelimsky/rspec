@@ -5,13 +5,13 @@ class SpecFramework
     true
   end
   
-  def adopted_quickly
+  def adopted_quickly?
     true
   end
 end
 
 context "Spec framework" do
-  
+
   setup do
     @spec_framework = SpecFramework.new
   end

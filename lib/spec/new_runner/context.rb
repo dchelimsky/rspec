@@ -14,12 +14,10 @@ module Spec
   class Context
     attr_reader :name
 
-    def initialize(name, runner=nil, &block)
+    def initialize(name, runner=nil, &context_block)
       @specifications = []
-      @errors = {}
       @name = name
-      @context_block = block
-      instance_exec(&@context_block)
+      instance_exec(&context_block)
       Spec::TextRunner.new(ARGV).run(self) if runner.nil?
     end
 
