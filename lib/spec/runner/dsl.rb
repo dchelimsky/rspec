@@ -1,4 +1,3 @@
-
 module DSLExtensions
 
   def context(name)
@@ -16,7 +15,7 @@ module DSLExtensions
 end
 
 class Object
-  include DSLExtensions
+  include DSLExtensions unless Object.respond_to? :context
 end
 
 alias example specification if ENV['USER'] == 'marick'
