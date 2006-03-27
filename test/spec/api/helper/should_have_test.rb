@@ -1,7 +1,5 @@
-require 'test/unit'
-
-require 'collection_owner'
-require 'spec'
+require File.dirname(__FILE__) + '/../../../test_helper'
+require 'spec/runner/collection_owner'
 
 class ShouldHaveTest < Test::Unit::TestCase
 

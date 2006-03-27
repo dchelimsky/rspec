@@ -1,5 +1,4 @@
-require 'test/unit'
-require 'spec'
+require File.dirname(__FILE__) + '/../../test_helper'
 
 class MockTest < Test::Unit::TestCase
 
@@ -13,7 +12,7 @@ class MockTest < Test::Unit::TestCase
     begin
       @mock.__verify
     rescue Spec::Exceptions::MockExpectationError => e
-      e.message.should.equal "./test/mock_test.rb:11:in `test_should_report_line_number_of_expectaion_of_unreceived_message': Mock 'test mock' expected wont_happen(<x:String>, <3:Fixnum>) once, but received it 0 times"
+      e.message.should.match /mock_test\.rb:10:in .test_should_report_line/
     end
     
   end

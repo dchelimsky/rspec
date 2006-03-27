@@ -1,6 +1,4 @@
-require 'test/unit'
-
-require 'spec'
+require File.dirname(__FILE__) + '/../../../test_helper'
 
 class ForcedFailTest < Test::Unit::TestCase
 
