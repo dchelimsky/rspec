@@ -12,19 +12,17 @@ require 'spec/new_runner/text_runner'
 
 module Spec
   class Context
-    attr_reader :name
-
     def initialize(name, runner=nil, &context_block)
       @specifications = []
       @name = name
       instance_exec(&context_block)
-      $spec_runner.run(self) unless $spec_runner.nil?
-      Spec::NewTextRunner.new(ARGV).run(self) if $spec_runner.nil?
+      Spec::NewTextRunner.new(ARGV).add_context(self).run if $spec_runner.nil?
+        $spec_runner.add_context(self) unless $spec_runner.nil?
     end
 
-    def run(runner)
+    def run(listener)
       @specifications.each do |specification|
-        specification.run(@setup_block, @teardown_block)
+        specification.run(listener, @setup_block, @teardown_block)
       end
     end
 
@@ -41,49 +39,33 @@ module Spec
     end
     
     def add_to_builder(builder)
-      builder.add_context(self)
+      builder.add_context_name(@name)
       @specifications.each { |spec| spec.add_to_builder(builder) }
     end
     
-    def specification_count
-      @specifications.length
-    end
-    
-    def failure_count
-      result = 0
-      @specifications.each { |spec| result += 1 if spec.failed? }
-      result
-    end
   end
 
   class Specification
-    attr_reader :name
-  
     def initialize(name, &block)
       @name = name
       @block = block
     end
 
-    def run(setup_block=nil, teardown_block=nil)
+    def run(listener, setup_block=nil, teardown_block=nil)
       # TODO: undefine run so the block doesn't have access to it
       begin
         instance_exec(&setup_block) unless setup_block.nil?
         instance_exec(&@block)
         instance_exec(&teardown_block) unless teardown_block.nil?
+        listener.pass(@name)
       rescue => @exception
+        listener.fail(@name)
       end
     end
     
-    def failed?
-      return true unless @exception.nil?
-    end
-    
-    def exception
-      @exception
-    end
-    
     def add_to_builder(builder)
-      builder.add_spec(self)
+      builder.add_spec_name(@name)
+      builder.add_failure(@name, @exception) unless @exception.nil?
     end
   end
 end

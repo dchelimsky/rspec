@@ -6,7 +6,7 @@ class SpecFramework
   end
   
   def adopted_quickly?
-    true
+    false
   end
 end
 
@@ -21,6 +21,7 @@ context "Spec framework" do
   end
 
   specify "should be adopted quickly" do
+    #this will fail
     @spec_framework.should.be.adopted_quickly
   end
 

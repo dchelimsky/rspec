@@ -1,18 +1,6 @@
 require 'test/unit'
 require File.dirname(__FILE__) + '/context'
-
-class MockBuilder
-  attr_reader :context_name_received, :spec_name_received, :spec_error_received
-  def add_spec_result(name, error=nil)
-    @spec_name_received = name
-    @spec_error_received = error
-  end
-  
-  def add_context_name(name)
-    @context_name_received = name
-  end
-  
-end
+require File.dirname(__FILE__) + '/mock_builder'
 
 class ContextTest < Test::Unit::TestCase
 
