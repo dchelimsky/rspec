@@ -1,2 +1,2 @@
 require 'spec/api'
-require 'spec/runner'
+require 'spec/new_runner'

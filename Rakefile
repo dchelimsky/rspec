@@ -33,19 +33,18 @@ task :default => [:test, :test_text_runner]
 
 Rake::TestTask.new do |t|
   t.libs << "test"
-  t.test_files = FileList['**/*_test.rb'].exclude("test/*_collector_test.rb",
-		"test/rspec_*.rb", "test/text_runner_test.rb")
+  t.test_files = FileList['test/**/*_test.rb'].exclude("test/spec/runner/**", "test/spec/new_runner/all_tests.rb")
   t.verbose = true
 end
 
 # text runner tests need to run individually
 
-Rake::TestTask.new(:test_text_runner) do |t|
-	t.libs << "test"
-	t.libs << "examples"
-	t.test_files = FileList['test/text_runner_test.rb']
-	t.verbose = true
-end
+#Rake::TestTask.new(:test_text_runner) do |t|
+#	t.libs << "test"
+#	t.libs << "examples"
+#	t.test_files = FileList['test/text_runner_test.rb']
+#	t.verbose = true
+#end
 
 
 # Create a task to build the RDOC documentation tree.

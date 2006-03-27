@@ -1,6 +1,4 @@
-require 'test/unit'
-require File.dirname(__FILE__) + '/context'
-require File.dirname(__FILE__) + '/mock_builder'
+require File.dirname(__FILE__) + '/../../test_helper'
 
 class SpecificationTest < Test::Unit::TestCase
   

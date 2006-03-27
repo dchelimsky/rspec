@@ -1,0 +1,5 @@
+require 'spec/new_runner/instance_exec'
+require 'spec/new_runner/context'
+require 'spec/new_runner/mock_builder'
+require 'spec/new_runner/simple_text_formatter'
+require 'spec/new_runner/text_runner'

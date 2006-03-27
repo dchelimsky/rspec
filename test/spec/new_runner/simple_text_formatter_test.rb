@@ -1,6 +1,4 @@
-require 'test/unit'
-require File.dirname(__FILE__) + '/context'
-require File.dirname(__FILE__) + '/simple_text_formatter'
+require File.dirname(__FILE__) + '/../../test_helper'
 
 class SimpleTextFormatterTest < Test::Unit::TestCase
 
