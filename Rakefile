@@ -33,7 +33,7 @@ task :default => [:test, :test_text_runner]
 
 Rake::TestTask.new do |t|
   t.libs << "test"
-  t.test_files = FileList['test/**/*_test.rb'].exclude("test/spec/runner/**", "test/spec/new_runner/all_tests.rb")
+  t.test_files = FileList['test/**/*_test.rb'].exclude("test/spec/runner/**")
   t.verbose = true
 end
 
