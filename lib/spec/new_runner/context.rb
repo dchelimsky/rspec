@@ -18,18 +18,13 @@ module Spec
       @specifications = []
       @name = name
       instance_exec(&context_block)
-      Spec::TextRunner.new(ARGV).run(self) if runner.nil?
+      $spec_runner.run(self) unless $spec_runner.nil?
+      Spec::NewTextRunner.new(ARGV).run(self) if $spec_runner.nil?
     end
 
     def run(runner)
-      runner.spec(self)
       @specifications.each do |specification|
-        begin
-          specification.run(@setup_block, @teardown_block)
-          runner.pass(specification)
-        rescue => e
-          runner.failure(specification, e)
-        end
+        specification.run(@setup_block, @teardown_block)
       end
     end
 
@@ -44,6 +39,21 @@ module Spec
     def specify(name, &block)
       @specifications << Specification.new(name, &block)
     end
+    
+    def add_to_builder(builder)
+      builder.add_context(self)
+      @specifications.each { |spec| spec.add_to_builder(builder) }
+    end
+    
+    def specification_count
+      @specifications.length
+    end
+    
+    def failure_count
+      result = 0
+      @specifications.each { |spec| result += 1 if spec.failed? }
+      result
+    end
   end
 
   class Specification
@@ -54,11 +64,26 @@ module Spec
       @block = block
     end
 
-    def run(setup_block, teardown_block)
+    def run(setup_block=nil, teardown_block=nil)
       # TODO: undefine run so the block doesn't have access to it
-      instance_exec(&setup_block) unless setup_block.nil?
-      instance_exec(&@block)
-      instance_exec(&teardown_block) unless teardown_block.nil?
+      begin
+        instance_exec(&setup_block) unless setup_block.nil?
+        instance_exec(&@block)
+        instance_exec(&teardown_block) unless teardown_block.nil?
+      rescue => @exception
+      end
+    end
+    
+    def failed?
+      return true unless @exception.nil?
+    end
+    
+    def exception
+      @exception
+    end
+    
+    def add_to_builder(builder)
+      builder.add_spec(self)
     end
   end
 end

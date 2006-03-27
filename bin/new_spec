@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+
+require File.dirname(__FILE__) + "/../lib/spec/new_runner/text_runner"
+$spec_runner = Spec::NewTextRunner.new(ARGV)
+
+if ARGV.include? "-v"
+  $verbose = true
+  ARGV.delete "-v"
+end
+
+ARGV.each do |file|
+  require file
+end
