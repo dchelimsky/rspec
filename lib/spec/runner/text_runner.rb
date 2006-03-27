@@ -4,6 +4,7 @@ module Spec
     def initialize(appendable = $stdout)
       @failures = Array.new
       @specification_count = 0
+      @failure_count = 0
       @failed = false
       @output = appendable
     end
@@ -25,6 +26,7 @@ module Spec
 
     def failure(spec, exception)
       @output << "X" unless @failed
+      @failure_count += 1 unless @failed
       @failed = true
       @failures << exception
     end
@@ -66,7 +68,7 @@ module Spec
     
     def dump_counts
       @output << "\n" << @specification_count.to_s << " specifications, "
-      @output.puts "#{@failures.size} failures"
+      @output << @failure_count.to_s << " failures\n"
     end
     
   end
