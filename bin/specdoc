@@ -34,21 +34,6 @@ if ARGV.empty?
   exit 1
 end
 
-#TODO - eliminate duplication between here and new_runner/context#DocumentationContext
-module Kernel
-
-  def setup
-  end
-
-  def teardown
-  end
-
-  def specify(name, &proc)
-    $out.puts "# * #{name}"
-  end
-  
-end
-
 $verbose_out = ($out == STDOUT) ? STDERR : STDOUT
 
 Find.find(ARGV[0]) do |path|

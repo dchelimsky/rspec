@@ -49,13 +49,13 @@ module Spec
   class DocumentationContext
     def initialize(name, &proc)
       $out.puts "# #{name}"
-      proc.call
+      instance_exec(&proc)
     end
 
-    def setup
+    def setup(&proc)
     end
 
-    def teardown
+    def teardown(&proc)
     end
 
     def specify(name, &proc)
