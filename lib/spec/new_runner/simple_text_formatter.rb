@@ -14,10 +14,23 @@ class SimpleTextFormatter
     @spec_names << name
   end
   
-  def add_failure(name, error)
-    @failures[name] = error
+  def start_time=(time)
+    @start_time = time if @start_time.nil?
   end
   
+  def end_time=(time)
+    @end_time = time
+  end
+  
+  def pass(name)
+    @output << '.'
+  end
+  
+  def fail(name, error)
+    @failures[name] = error
+    @output << 'F'
+  end
+
   def dump
     @output << "\n\n"
     dump_failures
@@ -48,22 +61,6 @@ class SimpleTextFormatter
       reject {|line | line.include? "__instance_exec_"}.
       reject {|line | line =~ /bin\/\D+spec/}
     @output << lines.join("\n")
-  end
-  
-  def start_time=(time)
-    @start_time = time if @start_time.nil?
-  end
-  
-  def end_time=(time)
-    @end_time = time
-  end
-  
-  def pass(name)
-    @output << '.'
-  end
-  
-  def fail(name)
-    @output << 'F'
   end
 
   private

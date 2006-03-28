@@ -9,17 +9,13 @@ class MockBuilder
     @spec_name_received = name
   end
   
-  def add_failure(name, error)
-    @failure_name_received = name
-    @error_received = error
-  end
-  
   def pass(name)
     @pass
   end
   
-  def fail(name)
-    @fail
+  def fail(name, error)
+    @failure_name_received = name
+    @error_received = error
   end
   
 end

@@ -33,7 +33,6 @@ class SpecificationTest < Test::Unit::TestCase
     @spec.run(@builder)
     @spec.add_to_builder(@builder)
     assert_equal(@builder.failure_name_received, "builder test")
-    assert_not_nil(@builder.error_received)
   end
   
 end

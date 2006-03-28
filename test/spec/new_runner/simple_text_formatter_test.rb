@@ -34,13 +34,14 @@ class SimpleTextFormatterTest < Test::Unit::TestCase
   end
 
   def test_fail_should_put_dot_to_output
-    @builder.fail("name")
+    error = RuntimeError.new
+    @builder.fail("name", error)
     assert_equal("F", @out)
   end
 
   def add_failing_spec(name)
     @builder.add_spec_name(name)
-    @builder.add_failure(name, RuntimeError.new)
+    @builder.fail(name, RuntimeError.new)
   end
 
   def add_passing_spec(name)

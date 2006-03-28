@@ -17,7 +17,7 @@ module Spec
       @name = name
       instance_exec(&context_block)
       Spec::NewTextRunner.new(ARGV).add_context(self).run if $spec_runner.nil?
-        $spec_runner.add_context(self) unless $spec_runner.nil?
+      $spec_runner.add_context(self) unless $spec_runner.nil?
     end
 
     def run(listener)
@@ -59,13 +59,12 @@ module Spec
         instance_exec(&teardown_block) unless teardown_block.nil?
         listener.pass(@name)
       rescue => @exception
-        listener.fail(@name)
+        listener.fail(@name, @exception)
       end
     end
     
     def add_to_builder(builder)
       builder.add_spec_name(@name)
-      builder.add_failure(@name, @exception) unless @exception.nil?
     end
   end
 end

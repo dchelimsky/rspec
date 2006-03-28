@@ -3,10 +3,10 @@ require File.dirname(__FILE__) + '/simple_text_formatter'
 module Spec
   class NewTextRunner
  
-    def initialize(*args)
+    def initialize(out=$stdout)
       @contexts = []
-      @out = $stdout
-      @builder = SimpleTextFormatter.new(@out)
+      @out = out
+      @formatter = SimpleTextFormatter.new(@out)
     end
     
     def add_context(context)
@@ -15,13 +15,13 @@ module Spec
     end
     
     def run
-      @builder.start_time = Time.new
+      @formatter.start_time = Time.new
       @contexts.each do |context|
-        context.run(@builder)
-        context.add_to_builder(@builder)
+        context.run(@formatter)
+        context.add_to_builder(@formatter)
       end
-      @builder.end_time = Time.new
-      @builder.dump
+      @formatter.end_time = Time.new
+      @formatter.dump
     end
     
   end
