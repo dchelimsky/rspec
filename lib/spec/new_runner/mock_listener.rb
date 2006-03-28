@@ -1,4 +1,4 @@
-class MockBuilder
+class MockListener
   attr_reader :pass_name_received, :failure_name_received, :error_received
 
   def pass(context_name, spec_name)
