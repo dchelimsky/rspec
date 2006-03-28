@@ -2,7 +2,8 @@ $LOAD_PATH.push File.dirname(__FILE__) + '/../..'
 
 module Kernel  
   def context(name, &block)
-    Spec::Context.new(name, &block)
+    Spec::Context.new(name, &block) unless $generating_docs
+    Spec::DocumentationContext.new(name, &block) if $generating_docs
   end
 end
 
@@ -43,6 +44,23 @@ module Spec
       @specifications.each { |spec| spec.add_to_builder(builder) }
     end
     
+  end
+  
+  class DocumentationContext
+    def initialize(name, &proc)
+      $out.puts "# #{name}"
+      proc.call
+    end
+
+    def setup
+    end
+
+    def teardown
+    end
+
+    def specify(name, &proc)
+      $out.puts "# * #{name}"
+    end
   end
 
   class Specification

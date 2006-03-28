@@ -3,6 +3,7 @@
 require 'find'
 require 'optparse'
 
+$generating_docs = true
 $out = STDOUT
 $verbose = true
 at_exit{$out.close}
@@ -11,7 +12,7 @@ opts = OptionParser.new do |opts|
   opts.banner = "Usage: specdoc [options] DIRECTORY"
   opts.separator ""
 
-  opts.on("-o", "--of FILE",
+  opts.on("-o", "--of [OUTPUT FILE]",
           "Set the output file") do |$outfile|
     $out = File.open($outfile, 'w')
   end
@@ -33,13 +34,8 @@ if ARGV.empty?
   exit 1
 end
 
-
+#TODO - eliminate duplication between here and new_runner/context#DocumentationContext
 module Kernel
-
-  def context(name, &proc)
-    $out.puts "# #{name}"
-    proc.call
-  end
 
   def setup
   end
