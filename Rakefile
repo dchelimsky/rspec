@@ -29,7 +29,7 @@ PKG_FILES = FileList[
   'doc/**/*'
 ]
 
-task :default => [:test, :test_text_runner]
+task :default => [:test] #, :test_text_runner]
 
 Rake::TestTask.new do |t|
   t.libs << "test"
@@ -38,7 +38,6 @@ Rake::TestTask.new do |t|
 end
 
 # text runner tests need to run individually
-
 #Rake::TestTask.new(:test_text_runner) do |t|
 #	t.libs << "test"
 #	t.libs << "examples"
