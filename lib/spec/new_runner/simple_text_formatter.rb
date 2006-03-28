@@ -20,11 +20,10 @@ class SimpleTextFormatter
       dump_context_name(context_name)
       @output << "- #{spec_name}\n"
     else
-      @output << "\n" if @context_names.empty?
+      dump_initial_space
       @output << '.'
     end
-    @context_names << context_name
-    @spec_names << spec_name
+    log_names(context_name, spec_name)
   end
   
   def fail(context_name, spec_name, error)
@@ -33,15 +32,23 @@ class SimpleTextFormatter
       dump_context_name(context_name)
       @output << "- #{spec_name} (FAILED - #{@failures.length})\n"
     else
-      @output << "\n" if @context_names.empty?
+      dump_initial_space
       @output << 'F'
     end
+    log_names(context_name, spec_name)
+  end
+  
+  def log_names(context_name, spec_name)
     @context_names << context_name
     @spec_names << spec_name
   end
 
   def dump_context_name(context_name)
     @output << "\n#{context_name}\n" unless @context_names.include? context_name
+  end
+  
+  def dump_initial_space
+    @output << "\n" if @context_names.empty?
   end
   
   def dump
