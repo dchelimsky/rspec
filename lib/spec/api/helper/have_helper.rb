@@ -4,7 +4,7 @@ module Spec
 
     def initialize(target, expected=nil)
       @target = target
-      @expected = expected
+      @expected = expected == :no ? 0 : expected
       @min = false
       @max = false
     end
