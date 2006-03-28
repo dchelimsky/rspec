@@ -35,13 +35,14 @@ if ARGV.empty?
 end
 
 $verbose_out = ($out == STDOUT) ? STDERR : STDOUT
+out_name = $outfile.nil? ? "STDOUT" : $outfile
+$using_stdout = out_name == "STDOUT"
 
 Find.find(ARGV[0]) do |path|
   if FileTest.file?(path) and File.extname(path) == '.rb'
-    $verbose_out.puts "Processing #{path}" if $verbose
+    $verbose_out.puts "Processing #{path}" if $verbose unless $using_stdout
     require path
   end
 end
 
-out_name = $outfile.nil? ? "STDOUT" : $outfile
-$verbose_out.puts "Writing to #{out_name}" if $verbose
+$verbose_out.puts "Writing to #{out_name}" if $verbose unless $using_stdout
