@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
+require 'find'
 require 'ostruct'
 require 'optparse'
 require File.dirname(__FILE__) + "/../lib/spec/new_runner/context_runner"
@@ -39,7 +40,11 @@ options = SpecOptionParser.parse(ARGV)
 $context_runner = Spec::ContextRunner.new(options.out, options.verbose)
 
 ARGV.each do |file|
-  require file
+  Find.find(file) do |path|
+    if FileTest.file?(path) and File.extname(path) == '.rb'
+      require path
+    end
+  end
 end
 
 $context_runner.run
