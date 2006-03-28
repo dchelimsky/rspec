@@ -1,12 +1,12 @@
 require File.dirname(__FILE__) + '/simple_text_formatter'
 
 module Spec
-  class NewTextRunner
+  class ContextRunner
  
-    def initialize(out=$stdout)
+    def initialize(out=$stdout,verbose=false)
       @contexts = []
       @out = out
-      @formatter = SimpleTextFormatter.new(@out)
+      @formatter = SimpleTextFormatter.new(@out, verbose)
     end
     
     def add_context(context)

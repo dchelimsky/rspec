@@ -2,13 +2,14 @@
 
 require 'ostruct'
 require 'optparse'
-require File.dirname(__FILE__) + "/../lib/spec/new_runner/text_runner"
+require File.dirname(__FILE__) + "/../lib/spec/new_runner/context_runner"
 
 class SpecOptionParser
   
   def self.parse(args)
     options = OpenStruct.new
     options.out = $stdout
+    options.verbose = false;
     
     opts = OptionParser.new do |opts|
       opts.banner = "Usage: specdoc [options] DIRECTORY"
@@ -16,6 +17,10 @@ class SpecOptionParser
 
       opts.on("-o", "--of [FILE]", "Set the output file (defaults to STDOUT)") do |outfile|
         options.out = File.open(outfile, 'w')
+      end
+
+      opts.on("-v", "--verbose") do
+        options.verbose = true
       end
 
       opts.on_tail("-h", "--help", "Show this message") do
@@ -31,7 +36,7 @@ class SpecOptionParser
 end
 
 options = SpecOptionParser.parse(ARGV)
-$spec_runner = Spec::NewTextRunner.new(options.out)
+$spec_runner = Spec::ContextRunner.new(options.out, options.verbose)
 
 ARGV.each do |file|
   require file

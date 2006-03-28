@@ -1,17 +1,20 @@
 class SimpleTextFormatter
-  def initialize(output=STDOUT)
+  def initialize(output=STDOUT,verbose=false)
     @output = output
     @context_names = []
     @spec_names = []
     @failures = Hash.new
+    @verbose = verbose
   end
   
   def add_context_name(name)
     @context_names << name
+    @output.puts name if @verbose
   end
   
   def add_spec_name(name)
     @spec_names << name
+    @output.puts "- #{name}" if @verbose
   end
   
   def start_time=(time)
@@ -23,12 +26,12 @@ class SimpleTextFormatter
   end
   
   def pass(name)
-    @output << '.'
+    @output << '.' unless @verbose
   end
   
   def fail(name, error)
     @failures[name] = error
-    @output << 'F'
+    @output << 'F' unless @verbose
   end
 
   def dump

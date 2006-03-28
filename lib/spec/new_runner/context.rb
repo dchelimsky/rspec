@@ -9,7 +9,7 @@ end
 
 require 'spec/api'
 require 'spec/new_runner/instance_exec'
-require 'spec/new_runner/text_runner'
+require 'spec/new_runner/context_runner'
 
 module Spec
   class Context
@@ -17,7 +17,7 @@ module Spec
       @specifications = []
       @name = name
       instance_exec(&context_block)
-      Spec::NewTextRunner.new(ARGV).add_context(self).run if $spec_runner.nil?
+      Spec::ContextRunner.new(STDOUT).add_context(self).run if $spec_runner.nil?
       $spec_runner.add_context(self) unless $spec_runner.nil?
     end
 
