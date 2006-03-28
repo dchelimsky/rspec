@@ -18,7 +18,6 @@ module Spec
       @formatter.start_time = Time.new
       @contexts.each do |context|
         context.run(@formatter)
-        context.add_to_builder(@formatter)
       end
       @formatter.end_time = Time.new
       @formatter.dump

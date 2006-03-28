@@ -13,12 +13,12 @@ require 'spec/new_runner/context_runner'
 
 module Spec
   class Context
-    def initialize(name, runner=nil, &context_block)
+    def initialize(name, out=$stdout, &context_block)
       @specifications = []
       @name = name
       instance_exec(&context_block)
-      Spec::ContextRunner.new(STDOUT).add_context(self).run if $spec_runner.nil?
-      $spec_runner.add_context(self) unless $spec_runner.nil?
+      Spec::ContextRunner.new(out).add_context(self).run if $context_runner.nil?
+      $context_runner.add_context(self) unless $context_runner.nil?
     end
 
     def run(listener)
@@ -35,13 +35,8 @@ module Spec
       @teardown_block = block
     end
   
-    def specify(name, &block)
-      @specifications << Specification.new(name, &block)
-    end
-    
-    def add_to_builder(builder)
-      builder.add_context_name(@name)
-      @specifications.each { |spec| spec.add_to_builder(builder) }
+    def specify(spec_name, &block)
+      @specifications << Specification.new(@name, spec_name, &block)
     end
     
   end
@@ -64,29 +59,22 @@ module Spec
   end
 
   class Specification
-    def initialize(name, &block)
+    def initialize(context_name, name, &block)
+      @context_name = context_name
       @name = name
       @block = block
     end
     
-    def passed?
-      @exception.nil?
-    end
-
     def run(listener, setup_block=nil, teardown_block=nil)
       execution_context = Object.new
       begin
         execution_context.instance_exec(&setup_block) unless setup_block.nil?
         execution_context.instance_exec(&@block)
         execution_context.instance_exec(&teardown_block) unless teardown_block.nil?
-        listener.pass(@name) unless listener.nil?
-      rescue => @exception
-        listener.fail(@name, @exception) unless listener.nil?
+        listener.pass(@context_name, @name) unless listener.nil?
+      rescue => error
+        listener.fail(@context_name, @name, error) unless listener.nil?
       end
-    end
-    
-    def add_to_builder(builder)
-      builder.add_spec_name(@name)
     end
   end
 end

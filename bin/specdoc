@@ -5,7 +5,7 @@ require 'optparse'
 
 $generating_docs = true
 $out = STDOUT
-$verbose = true
+verbose = true
 at_exit{$out.close}
 
 opts = OptionParser.new do |opts|
@@ -18,7 +18,7 @@ opts = OptionParser.new do |opts|
   end
 
   opts.on("-v", "--verbose") do
-    $verbose = true
+    verbose = true
   end
 
   opts.on_tail("-h", "--help", "Show this message") do
@@ -34,15 +34,15 @@ if ARGV.empty?
   exit 1
 end
 
-$verbose_out = ($out == STDOUT) ? STDERR : STDOUT
+verbose_out = ($out == STDOUT) ? STDERR : STDOUT
 out_name = $outfile.nil? ? "STDOUT" : $outfile
 $using_stdout = out_name == "STDOUT"
 
 Find.find(ARGV[0]) do |path|
   if FileTest.file?(path) and File.extname(path) == '.rb'
-    $verbose_out.puts "Processing #{path}" if $verbose unless $using_stdout
+    verbose_out.puts "Processing #{path}" if verbose unless $using_stdout
     require path
   end
 end
 
-$verbose_out.puts "Writing to #{out_name}" if $verbose unless $using_stdout
+verbose_out.puts "Writing to #{out_name}" if verbose unless $using_stdout

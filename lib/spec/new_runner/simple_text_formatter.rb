@@ -7,16 +7,6 @@ class SimpleTextFormatter
     @verbose = verbose
   end
   
-  def add_context_name(name)
-    @context_names << name
-    @output.puts name if @verbose
-  end
-  
-  def add_spec_name(name)
-    @spec_names << name
-    @output.puts "- #{name}" if @verbose
-  end
-  
   def start_time=(time)
     @start_time = time if @start_time.nil?
   end
@@ -25,17 +15,37 @@ class SimpleTextFormatter
     @end_time = time
   end
   
-  def pass(name)
-    @output << '.' unless @verbose
+  def pass(context_name, spec_name)
+    if @verbose
+      dump_context_name(context_name)
+      @output << "- #{spec_name}\n"
+    else
+      @output << "\n" if @context_names.empty?
+      @output << '.'
+    end
+    @context_names << context_name
+    @spec_names << spec_name
   end
   
-  def fail(name, error)
-    @failures[name] = error
-    @output << 'F' unless @verbose
+  def fail(context_name, spec_name, error)
+    @failures[spec_name] = error
+    if @verbose
+      dump_context_name(context_name)
+      @output << "- #{spec_name} (FAILED - #{@failures.length})\n"
+    else
+      @output << "\n" if @context_names.empty?
+      @output << 'F'
+    end
+    @context_names << context_name
+    @spec_names << spec_name
   end
 
+  def dump_context_name(context_name)
+    @output << "\n#{context_name}\n" unless @context_names.include? context_name
+  end
+  
   def dump
-    @output << "\n\n"
+    @output << "\n"
     dump_failures
     @output << "\n\n"
     @output << "Finished in " << (duration).to_s << " seconds\n\n"
@@ -46,10 +56,11 @@ class SimpleTextFormatter
   end
 
   def dump_failures
+    @output << "\n"
     @failures.keys.inject(1) do |index, key|
       exception = @failures[key]
       @output << "\n\n" if index > 1
-      @output << index.to_s << ")\n" 
+      @output << index.to_s << ") " 
       @output << "#{exception.message} (#{exception.class.name})\n"
       dump_backtrace(exception.backtrace)
       index + 1
@@ -60,9 +71,9 @@ class SimpleTextFormatter
     return if trace.nil?
     lines = trace.
       reject {|line| line.include? "lib/spec"}.
-      reject {|line | line.include? "./spec:"}.
-      reject {|line | line.include? "__instance_exec_"}.
-      reject {|line | line =~ /bin\/\D+spec/}
+      reject {|line| line.include? "./spec:"}.
+      reject {|line| line.include? "__instance_exec_"}.
+      reject {|line| line =~ /bin\/\D+spec/}
     @output << lines.join("\n")
   end
 

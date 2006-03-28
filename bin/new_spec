@@ -36,10 +36,10 @@ class SpecOptionParser
 end
 
 options = SpecOptionParser.parse(ARGV)
-$spec_runner = Spec::ContextRunner.new(options.out, options.verbose)
+$context_runner = Spec::ContextRunner.new(options.out, options.verbose)
 
 ARGV.each do |file|
   require file
 end
 
-$spec_runner.run
+$context_runner.run
