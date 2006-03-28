@@ -34,5 +34,17 @@ class SpecificationTest < Test::Unit::TestCase
     @spec.add_to_builder(@builder)
     assert_equal(@builder.failure_name_received, "builder test")
   end
+
+  def test_should_know_whether_it_passed
+    spec = Spec::Specification.new("should pass") {}
+    spec.run(nil)
+    assert spec.passed?
+  end
   
+  def test_should_run_spec_in_different_scope_than_exception
+    spec = Spec::Specification.new("should pass") { @exception = RuntimeError.new}
+    spec.run(nil)
+    assert spec.passed?
+  end
+
 end

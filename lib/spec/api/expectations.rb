@@ -10,3 +10,8 @@ class Object
   include Spec::ObjectExpectations
 end
 
+class Numeric
+  def close?(other, precision)
+    (self - other).abs < precision
+  end
+end

@@ -68,16 +68,20 @@ module Spec
       @name = name
       @block = block
     end
+    
+    def passed?
+      @exception.nil?
+    end
 
     def run(listener, setup_block=nil, teardown_block=nil)
-      # TODO: undefine run so the block doesn't have access to it
+      execution_context = Object.new
       begin
-        instance_exec(&setup_block) unless setup_block.nil?
-        instance_exec(&@block)
-        instance_exec(&teardown_block) unless teardown_block.nil?
-        listener.pass(@name)
+        execution_context.instance_exec(&setup_block) unless setup_block.nil?
+        execution_context.instance_exec(&@block)
+        execution_context.instance_exec(&teardown_block) unless teardown_block.nil?
+        listener.pass(@name) unless listener.nil?
       rescue => @exception
-        listener.fail(@name, @exception)
+        listener.fail(@name, @exception) unless listener.nil?
       end
     end
     
