@@ -81,7 +81,7 @@ class SimpleTextFormatter
       reject {|line| line.include? "./spec:"}.
       reject {|line| line.include? "__instance_exec_"}.
       reject {|line| line =~ /bin\/\D+spec/}
-    @output << lines.join("\n")
+    @output << trace.join("\n")
   end
 
   private

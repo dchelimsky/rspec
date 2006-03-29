@@ -5,7 +5,7 @@ class Airport
     true
   end
   
-  def require?(thing)
+  def need?(thing)
     thing != :cables
   end
 end
@@ -20,12 +20,12 @@ context "Airport at home" do
   end
 
   specify "should not require cables" do
-    @airport.should.not.require :cables
+    @airport.should.not.need :cables
   end
 
   specify "should not require elictricity" do
     # This will fail...
-    @airport.should.not.require :electricity
+    @airport.should.need :electricity
   end
   
   teardown do
