@@ -19,13 +19,13 @@ context "Airport at home" do
     @airport.should.be.working
   end
 
-  specify "should not require cables" do
+  specify "should not need cables" do
     @airport.should.not.need :cables
   end
 
-  specify "should not require elictricity" do
+  specify "should not need elictricity" do
     # This will fail...
-    @airport.should.need :electricity
+    @airport.should.not.need :electricity
   end
   
   teardown do
