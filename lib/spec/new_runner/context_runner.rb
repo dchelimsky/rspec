@@ -15,7 +15,7 @@ module Spec
         options = OptionParser.parse(args)
         @contexts = []
         @out = options.out
-        @formatter = SimpleTextFormatter.new(@out, options.verbose)
+        @formatter = SimpleTextReporter.new(@out, options.verbose)
       end
     
       def add_context(context)

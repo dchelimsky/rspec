@@ -1,51 +1,34 @@
 module Spec
   module Runner
-    class SimpleTextFormatter
+    class SimpleTextReporter
       def initialize(output=STDOUT,verbose=false)
         @output = output
         @context_names = []
-        @contexts = []
-        @specs = []
         @errors = []
         @spec_names = []
-        @failures = Hash.new
         @verbose = verbose
       end
   
-      def context_started(context)
-        context.describe(self)
-        @contexts << context
-      end
-  
-      def context_name(name)
+      def context_started(name)
+        @context_names << name
         @output << "#{name}\n" if @verbose
       end
   
-      def spec_passed(spec)
-        spec.describe_success(self)
-        @specs << spec
+      def spec_passed(name)
+        @spec_names << name
+        @output << "- #{name}\n" if @verbose
+        @output << '.' unless @verbose
       end
 
-      def spec_failed(spec, error)
-        spec.describe_failure(self)
-        @specs << spec
+      def spec_failed(name, error)
+        @spec_names << name
         @errors << error
-      end
-  
-      def spec_name(name, error=nil)
         if @verbose
-          @output << "- #{name}\n" if error.nil?
-          @output << "- #{name} (FAILED)\n#{error.backtrace.join("\n")}\n\n" unless error.nil?
+          @output << "- #{name} (FAILED)\n#{error.backtrace.join("\n")}\n\n"
         else
-          @output << '.' if error.nil?
-          @output << 'F' unless error.nil?
+          @output << 'F'
         end
       end
-  
-      def context_ended(context)
-      end
-  
-      # old
   
       def start_time=(time)
         @start_time = time if @start_time.nil?
@@ -60,8 +43,8 @@ module Spec
         dump_failures unless @verbose
         @output << "\n\n"
         @output << "Finished in " << (duration).to_s << " seconds\n\n"
-        @output << "#{@contexts.length} context#{'s' unless @contexts.length == 1 }, "
-        @output << "#{@specs.length} specification#{'s' unless @specs.length == 1 }, "
+        @output << "#{@context_names.length} context#{'s' unless @context_names.length == 1 }, "
+        @output << "#{@spec_names.length} specification#{'s' unless @spec_names.length == 1 }, "
         @output << "#{@errors.length} failure#{'s' unless @errors.length == 1 }"
         @output << "\n"
       end

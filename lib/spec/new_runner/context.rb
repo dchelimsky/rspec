@@ -16,11 +16,10 @@ module Spec
       end
 
       def run(reporter)
-        reporter.context_started(self)
+        reporter.context_started(@name)
         @specifications.each do |specification|
           specification.run(reporter, @setup_block, @teardown_block)
         end
-        reporter.context_ended(self)
       end
 
       def setup(&block)
@@ -32,11 +31,7 @@ module Spec
       end
   
       def specify(spec_name, &block)
-        @specifications << Specification.new(@name, spec_name, &block)
-      end
-    
-      def describe(reporter)
-        reporter.context_name(@name)
+        @specifications << Specification.new(spec_name, &block)
       end
     
     end

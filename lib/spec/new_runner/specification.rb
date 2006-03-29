@@ -1,7 +1,6 @@
 module Spec
   class Specification
-    def initialize(context_name, name, &block)
-      @context_name = context_name
+    def initialize(name, &block)
       @name = name
       @block = block
     end
@@ -18,12 +17,5 @@ module Spec
       end
     end
 
-    def describe_success(reporter)
-      reporter.spec_name(@name)
-    end
-    
-    def describe_failure(reporter)
-      reporter.spec_name(@name, @error)
-    end
   end
 end
