@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../lib/spec/new_runner/context'
+require File.dirname(__FILE__) + '/../lib/spec'
 
 class SpecFramework
   def intuitive?

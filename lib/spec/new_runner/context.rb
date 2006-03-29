@@ -1,15 +1,18 @@
-require 'spec/api'
-require 'spec/new_runner/instance_exec'
-require 'spec/new_runner/context_runner'
-
 module Spec
   module Runner
     class Context
+      @@context_runner = nil
+      
+      def self.context_runner= runner
+        @@context_runner = runner
+      end
+      
       def initialize(name, &context_block)
         @specifications = []
         @name = name
         instance_exec(&context_block)
-        $context_runner.add_context(self) unless $context_runner.nil?
+        @@context_runner.add_context(self) unless @@context_runner.nil?
+        ContextRunner.standalone(self) if @@context_runner.nil?
       end
 
       def run(reporter)

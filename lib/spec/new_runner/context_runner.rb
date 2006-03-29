@@ -1,9 +1,15 @@
 require File.dirname(__FILE__) + '/simple_text_reporter'
-require File.dirname(__FILE__) + '/option_parser'
+# require File.dirname(__FILE__) + '/option_parser'
 
 module Spec
   module Runner
     class ContextRunner
+      
+      def self.standalone context
+        context_runner = ContextRunner.new(ARGV)
+        context_runner.add_context context
+        context_runner.run
+      end
  
       def initialize(args)
         options = OptionParser.parse(args)
