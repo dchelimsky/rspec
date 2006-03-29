@@ -11,9 +11,9 @@ module Spec
         execution_context.instance_exec(&setup_block) unless setup_block.nil?
         execution_context.instance_exec(&@block)
         execution_context.instance_exec(&teardown_block) unless teardown_block.nil?
-        reporter.spec_passed(self) unless reporter.nil?
+        reporter.spec_passed(@name) unless reporter.nil?
       rescue => @error
-        reporter.spec_failed(self, @error) unless reporter.nil?
+        reporter.spec_failed(@name, @error) unless reporter.nil?
       end
     end
 
