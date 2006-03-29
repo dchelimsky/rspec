@@ -1,41 +1,51 @@
 require File.dirname(__FILE__) + '/../../test_helper'
+module Spec
+  module Runner
+    class SpecificationTest < Test::Unit::TestCase
+      
+      def setup
+        @reporter = Mock.new "reporter"
+      end
 
-class SpecificationTest < Test::Unit::TestCase
-  
-  def setup
-    @formatter = MockListener.new
-  end  
+      def test_should_run_spec_in_different_scope_than_exception
+        spec = Specification.new("context","should pass") do
+          self.should.not.be.instance_of Specification
+          self.should.be.instance_of Object
+        end
+        @reporter.should_receive(:spec_passed).with spec
+        spec.run @reporter
+      end
 
-  def test_should_hold_exception
-    @spec = Spec::Specification.new("context", "spec") { raise }
-    @spec.run(@formatter)
-    assert_equal("spec", @formatter.failure_name_received)
-    assert_not_nil(@formatter.error_received)
-  end
-  
-  def test_should_not_have_an_exception_if_passes
-    @spec = Spec::Specification.new("context", "spec") { true }
-    @spec.run(@formatter)
-    assert_nil(@formatter.failure_name_received)
-    assert_nil(@formatter.error_received)
-  end
-  
-  def test_should_add_its_name_and_exception_to_builder
-    @spec = Spec::Specification.new("context", "builder test") { raise }
-    @spec.run(@formatter)
-    assert_equal("builder test", @formatter.failure_name_received)
-  end
+      def test_should_add_itself_to_reporter_when_passes
+        spec = Specification.new("context","should pass") { true }
+        @reporter.should_receive(:spec_passed).with spec
+        spec.run(@reporter)
+      end
 
-  def test_should_know_whether_it_passed
-    spec = Spec::Specification.new("context","should pass") { true }
-    spec.run(@formatter)
-    assert_equal("should pass", @formatter.pass_name_received)
+      def test_should_add_itself_to_reporter_when_fails
+        error = RuntimeError.new
+        spec = Specification.new("context","should pass") { raise error }
+        @reporter.should_receive(:spec_failed).with spec, error
+        spec.run(@reporter)
+      end
+      
+      def test_should_provide_name_upon_receipt_of_describe_success_message
+        spec = Specification.new("context","spec") {}
+        @reporter.should_receive(:spec_name).with("spec")
+        spec.describe_success(@reporter)
+      end
+      
+      def test_should_provide_name_and_exception_upon_receipt_of_describe_failure_message
+        spec = Specification.new("context","spec") {}
+        error = NotImplementedError.new
+        spec.instance_variable_set "@error", error
+        @reporter.should_receive(:spec_name).with("spec", error)
+        spec.describe_failure(@reporter)
+      end
+      
+      def teardown
+        @reporter.__verify
+      end
+    end
   end
-  
-  def test_should_run_spec_in_different_scope_than_exception
-    spec = Spec::Specification.new("context","should pass") { @exception = RuntimeError.new }
-    spec.run(@formatter)
-    assert_equal("should pass", @formatter.pass_name_received)
-  end
-
 end

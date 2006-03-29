@@ -1,5 +1,3 @@
-require 'spec'
-
 class Mock
 
   DEFAULT_OPTIONS = {

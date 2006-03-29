@@ -1,27 +1,30 @@
-require File.dirname(__FILE__) + '/simple_text_formatter'
+require File.dirname(__FILE__) + '/simple_text_reporter'
+require File.dirname(__FILE__) + '/option_parser'
 
 module Spec
-  class ContextRunner
+  module Runner
+    class ContextRunner
  
-    def initialize(out=$stdout,verbose=false)
-      @contexts = []
-      @out = out
-      @formatter = SimpleTextFormatter.new(@out, verbose)
-    end
-    
-    def add_context(context)
-      @contexts << context
-      self
-    end
-    
-    def run
-      @formatter.start_time = Time.new
-      @contexts.each do |context|
-        context.run(@formatter)
+      def initialize(args)
+        options = OptionParser.parse(args)
+        @contexts = []
+        @out = options.out
+        @formatter = SimpleTextFormatter.new(@out, options.verbose)
       end
-      @formatter.end_time = Time.new
-      @formatter.dump
-    end
     
+      def add_context(context)
+        @contexts << context
+        self
+      end
+    
+      def run
+        @formatter.start_time = Time.new
+        @contexts.each do |context|
+          context.run(@formatter)
+        end
+        @formatter.end_time = Time.new
+        @formatter.dump
+      end
+    end
   end
 end

@@ -1,43 +1,9 @@
 #!/usr/bin/env ruby
 
 require 'find'
-require 'ostruct'
-require 'optparse'
-require File.dirname(__FILE__) + "/../lib/spec/new_runner/context_runner"
+require File.dirname(__FILE__) + "/../lib/spec"
 
-class SpecOptionParser
-  
-  def self.parse(args)
-    options = OpenStruct.new
-    options.out = $stdout
-    options.verbose = false;
-    
-    opts = OptionParser.new do |opts|
-      opts.banner = "Usage: specdoc [options] DIRECTORY"
-      opts.separator ""
-
-      opts.on("-o", "--of [FILE]", "Set the output file (defaults to STDOUT)") do |outfile|
-        options.out = File.open(outfile, 'w')
-      end
-
-      opts.on("-v", "--verbose") do
-        options.verbose = true
-      end
-
-      opts.on_tail("-h", "--help", "Show this message") do
-        puts opts
-        exit
-      end
-      
-    end
-    opts.parse!(args)
-    options
-  end
-  
-end
-
-options = SpecOptionParser.parse(ARGV)
-$context_runner = Spec::ContextRunner.new(options.out, options.verbose)
+$context_runner = Spec::Runner::ContextRunner.new(ARGV)
 
 ARGV.each do |file|
   Find.find(file) do |path|
