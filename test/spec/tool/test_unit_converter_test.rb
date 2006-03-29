@@ -8,7 +8,7 @@ module Spec
       def test_should_translate_test_classes_to_contexts
         c = TestUnitConverter.new
         translated = c.translate(File.dirname(__FILE__) + '/very_complex_test.rb')
-return # TODO: remove this when we can run the spec
+
         expected_path = File.dirname(__FILE__) + '/very_complex_spec.rb'
         expected = File.open(expected_path).read
 
@@ -18,6 +18,9 @@ return # TODO: remove this when we can run the spec
         translated_tmp.close
         diff = `diff -w -u #{expected_path} #{translated_tmp.path}`
         if diff.strip != ""
+#puts
+#puts translated
+#flunk
           fail("Conversion didn't match expectation. Diff:\n#{diff}")
         else
           assert true # Just so we get an assertion count in the output

@@ -54,6 +54,17 @@ module Spec
       end
     end
     
+    def throw(symbol=:___this_is_a_symbol_that_will_never_occur___)
+      begin
+        catch symbol do
+          @target.call
+          return true
+        end
+        fail_with_message(default_message("should not throw", symbol.inspect))
+      rescue NameError
+      end
+    end
+    
     def method_missing(sym, *args)
       return unless @target.send("#{sym}?", *args)
       fail_with_message(default_message("should not be #{sym}" + (args.empty? ? '' : (' ' + args.join(', ')))))

@@ -43,9 +43,7 @@ module Spec
         assert_respond_to an_int, :to_f, "a message"
         assert_same             a_float, a_float, "a message"
         #assert_send send_array, "a message"
-        assert_throws(:foo, "a message"){ 
-          throw :foo 
-        }
+        assert_throws(:foo, "a message"){ throw :foo }
         assert_throws(:foo, "a message") do
           throw :foo
         end

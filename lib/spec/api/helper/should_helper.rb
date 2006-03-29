@@ -69,6 +69,17 @@ module Spec
         fail_with_message(default_message("should raise", exception.inspect))
       end
     end
+    
+    def throw(symbol)
+      begin
+        catch symbol do
+          @target.call
+          fail_with_message(default_message("should throw", symbol.inspect))
+        end
+      rescue NameError
+        fail_with_message(default_message("should throw", symbol.inspect))
+      end
+    end
 
   end
 
