@@ -1,5 +1,4 @@
 require 'spec'
-#require File.dirname(__FILE__) + '/../../test_helper'
 
 module Spec
   module Tool
