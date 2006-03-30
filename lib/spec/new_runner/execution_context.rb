@@ -6,7 +6,9 @@ module Spec
       end
       
       def mock(name)
-        ::Mock.new(name)
+        mock = ::Mock.new(name)
+        @spec.add_mock(mock)
+        mock
       end
     end
   end
