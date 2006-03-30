@@ -11,6 +11,9 @@ module Spec
         context.run(reporter)
         reporter.__verify
       end
+      
+      def test_should_execute_setup_from_inherited_context
+      end
 
     end
   end

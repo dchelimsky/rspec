@@ -7,10 +7,10 @@ module Spec
         @reporter = Mock.new "reporter"
       end
 
-      def test_should_run_spec_in_different_scope_than_exception
+      def test_should_run_spec_in_scope_of_execution_context
         spec = Specification.new("should pass") do
           self.should.not.be.instance_of Specification
-          self.should.be.instance_of Object
+          self.should.be.instance_of ExecutionContext
         end
         @reporter.should_receive(:spec_passed).with "should pass"
         spec.run @reporter
@@ -27,6 +27,17 @@ module Spec
         spec = Specification.new("spec") { raise error }
         @reporter.should_receive(:spec_failed).with "spec", error
         spec.run(@reporter)
+      end
+      
+      def test_should_run_several_setup_blocks
+        spec = Specification.new("spec") do
+          @setup_var_one.should.equal "one"
+          @setup_var_two.should.equal "two"
+        end
+        setup_one = lambda {@setup_var_one = "one"}
+        setup_two = lambda {@setup_var_two = "two"}
+        @reporter.should_receive(:spec_passed).with "spec"
+        spec.run @reporter, [setup_one, setup_two]
       end
       
       def teardown

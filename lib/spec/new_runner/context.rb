@@ -8,6 +8,8 @@ module Spec
       end
       
       def initialize(name, &context_block)
+        @setup_blocks = []
+        @teardown_blocks = []
         @specifications = []
         @name = name
         instance_exec(&context_block)
@@ -18,16 +20,16 @@ module Spec
       def run(reporter)
         reporter.context_started(@name)
         @specifications.each do |specification|
-          specification.run(reporter, @setup_block, @teardown_block)
+          specification.run(reporter, @setup_blocks, @teardown_blocks)
         end
       end
 
       def setup(&block)
-        @setup_block = block
+        @setup_blocks << block
       end
   
       def teardown(&block)
-        @teardown_block = block
+        @teardown_blocks << block
       end
   
       def specify(spec_name, &block)
