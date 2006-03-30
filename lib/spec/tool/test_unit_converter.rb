@@ -29,7 +29,7 @@ module Spec
       def translate(test_unit_file)
         end_replacement = nil
         translated = "require 'spec'\n"
-        translated += File.open(test_unit_file).collect do |line|
+        translated += test_unit_file.collect do |line|
           if line =~ /^(\s+)class\s+(.*)\s+<\s+Test::Unit::TestCase/
             spaces = $1
             class_name = $2

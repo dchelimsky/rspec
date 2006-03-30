@@ -1,0 +1,59 @@
+#!/usr/bin/env ruby
+
+require 'find'
+require 'ostruct'
+require 'optparse'
+require File.dirname(__FILE__) + "/../lib/spec/tool/test_unit_converter.rb"
+
+class SpecOptionParser
+  
+  def self.parse(args)
+    options = OpenStruct.new
+    options.out = $stdout
+    options.verbose = false;
+    
+    opts = OptionParser.new do |opts|
+      opts.banner = "Usage: translate [options] TESTFILE [SPECFILE]"
+      opts.separator ""
+
+      opts.on_tail("-h", "--help", "Show this message") do
+        puts opts
+        exit
+      end
+      
+    end
+    opts.parse!(args)
+  end
+  
+  def self.check_and_return_files(args)
+    input_name = ARGV[0]
+    bail unless input_name
+    bail unless FileTest.file?(input_name)
+    
+    if ARGV[1]
+      output = File.open(ARGV[1], "w")
+    else 
+      output = STDOUT
+    end
+    
+    return File.open(input_name), output
+    
+  end
+  
+  def self.bail
+    STDERR.puts "You must provide a file to translate"
+    exit 1
+  end
+  
+end
+
+options = SpecOptionParser.parse(ARGV)
+
+input_name, output = SpecOptionParser.check_and_return_files(ARGV)
+    
+c = Spec::Tool::TestUnitConverter.new
+translated = c.translate(input_name)
+
+output.write(translated)
+output.flush
+output.close
