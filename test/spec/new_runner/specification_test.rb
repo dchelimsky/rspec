@@ -40,6 +40,18 @@ module Spec
         spec.run @reporter, [setup_one, setup_two]
       end
       
+      def test_should_verify_mocks_after_teardown
+        spec = Specification.new("spec") do
+          mock = mock("a mock")
+          mock.should_receive(:poke)
+        end
+        @reporter.should_receive(:spec_failed) do |spec_name, error|
+          spec_name.should.equal "spec"
+          error.message.should.match /expected poke once, but received it 0 times/
+        end
+        spec.run @reporter
+      end
+      
       def teardown
         @reporter.__verify
       end
