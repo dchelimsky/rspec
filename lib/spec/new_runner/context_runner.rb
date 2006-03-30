@@ -1,5 +1,4 @@
-require File.dirname(__FILE__) + '/simple_text_reporter'
-# require File.dirname(__FILE__) + '/option_parser'
+require File.dirname(__FILE__) + '/../../spec'
 
 module Spec
   module Runner
@@ -15,22 +14,38 @@ module Spec
         options = OptionParser.parse(args)
         @contexts = []
         @out = options.out
-        @formatter = SimpleTextReporter.new(@out, options.verbose)
+        @doc = options.doc
+        @listener = RDocFormatter.new(@out) if @doc
+        @listener = SimpleTextReporter.new(@out, options.verbose) unless @doc
       end
     
       def add_context(context)
         @contexts << context
         self
       end
-    
+      
       def run
-        @formatter.start_time = Time.new
-        @contexts.each do |context|
-          context.run(@formatter)
-        end
-        @formatter.end_time = Time.new
-        @formatter.dump
+        run_specs unless @doc
+        run_docs if @doc
       end
+    
+      private
+      
+      def run_specs
+        @listener.start
+        @contexts.each do |context|
+          context.run(@listener)
+        end
+        @listener.end
+        @listener.dump
+      end
+    
+      def run_docs
+        @contexts.each do |context|
+          context.run_docs(@listener)
+        end
+      end
+
     end
   end
 end

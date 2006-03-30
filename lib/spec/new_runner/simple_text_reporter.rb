@@ -9,33 +9,22 @@ module Spec
         @verbose = verbose
       end
   
-      def context_started(name)
+      def add_context(name)
         @context_names << name
         @output << "#{name}\n" if @verbose
       end
-  
-      def spec_passed(name)
-        @spec_names << name
-        @output << "- #{name}\n" if @verbose
-        @output << '.' unless @verbose
-      end
-
-      def spec_failed(name, error)
-        @spec_names << name
-        @errors << error
-        if @verbose
-          @output << "- #{name} (FAILED)\n#{error.backtrace.join("\n")}\n\n"
-        else
-          @output << 'F'
-        end
+      
+      def add_spec(name, error=nil)
+        spec_passed(name) if error.nil?
+        spec_failed(name, error) unless error.nil?
       end
   
-      def start_time=(time)
-        @start_time = time if @start_time.nil?
+      def start
+        @start_time = Time.new
       end
   
-      def end_time=(time)
-        @end_time = time
+      def end
+        @end_time = Time.new
       end
   
       def dump
@@ -70,6 +59,22 @@ module Spec
         def duration
           return @end_time - @start_time unless (@end_time.nil? or @start_time.nil?)
           return "0.0"
+        end
+
+        def spec_passed(name)
+          @spec_names << name
+          @output << "- #{name}\n" if @verbose
+          @output << '.' unless @verbose
+        end
+
+        def spec_failed(name, error)
+          @spec_names << name
+          @errors << error
+          if @verbose
+            @output << "- #{name} (FAILED)\n#{error.backtrace.join("\n")}\n\n"
+          else
+            @output << 'F'
+          end
         end
 
     end

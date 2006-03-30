@@ -17,10 +17,17 @@ module Spec
         ContextRunner.standalone(self) if @@context_runner.nil?
       end
 
-      def run(reporter)
-        reporter.context_started(@name)
+      def run(listener)
+        listener.add_context(@name)
         @specifications.each do |specification|
-          specification.run(reporter, @setup_blocks, @teardown_blocks)
+          specification.run(listener, @setup_blocks, @teardown_blocks)
+        end
+      end
+      
+      def run_docs(listener)
+        listener.add_context(@name)
+        @specifications.each do |specification|
+          specification.run_docs(listener)
         end
       end
 
@@ -34,24 +41,6 @@ module Spec
   
       def specify(spec_name, &block)
         @specifications << Specification.new(spec_name, &block)
-      end
-    
-    end
-  
-    class DocumentationContext
-      def initialize(name, &proc)
-        $out.puts "# #{name}"
-        instance_exec(&proc)
-      end
-
-      def setup(&proc)
-      end
-
-      def teardown(&proc)
-      end
-
-      def specify(name, &proc)
-        $out.puts "# * #{name}"
       end
     end
   end

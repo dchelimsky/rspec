@@ -1,12 +1,13 @@
 module Spec
   class Specification
+    
     def initialize(name, &block)
       @name = name
       @block = block
       @mocks = []
     end
     
-    def run(reporter=nil, setup_blocks=[], teardown_blocks=[])
+    def run(listener=nil, setup_blocks=[], teardown_blocks=[])
       execution_context = ::Spec::Runner::ExecutionContext.new(self)
       begin
         setup_blocks.each do |setup_block|
@@ -19,10 +20,14 @@ module Spec
         @mocks.each do |mock|
           mock.__verify
         end
-        reporter.spec_passed(@name) unless reporter.nil?
+        listener.add_spec(@name) unless listener.nil?
       rescue => @error
-        reporter.spec_failed(@name, @error) unless reporter.nil?
+        listener.add_spec(@name, @error) unless listener.nil?
       end
+    end
+    
+    def run_docs(listener)
+      listener.add_spec(@name)
     end
     
     def add_mock(mock)

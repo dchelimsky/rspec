@@ -25,6 +25,16 @@ module Spec
         assert(options.verbose)
       end
       
+      def test_doc_should_be_false_by_default
+        options = OptionParser.parse([])
+        assert(!options.doc)
+      end
+      
+      def test_doc_should_be_settable_with_d
+        options = OptionParser.parse(["-d"])
+        assert(options.doc)
+      end
+      
       def test_out_should_be_settable_with_o
         options = OptionParser.parse(["-o","test.txt"])
         assert_equal(File.exists?("text.txt"), options.verbose)
