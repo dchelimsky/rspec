@@ -1,0 +1,115 @@
+== Why RSpec
+
+=== Readability
+RSpec specifications read better than Test::Unit tests. Compare this:
+
+  class TemperatureCoverterTest < Test::Unit::TestCase
+    def test_converts_0C_to_32F
+      c = TemperatureCoverter.new
+      assert_equal(32.0, c.convert_from_c_to_f(0.0)
+    end
+
+    def test_converts_100C_to_100F
+      c = TemperatureCoverter.new
+      assert_equal(212.0, c.convert_from_c_to_f(100.0)
+    end
+  end
+
+to this:
+
+  context "TemperatureCoverter"
+    specify "Converts 0C to 32F"
+      c = TemperatureCoverter.new
+      c.convert_from_c_to_f(0.0).should.equal 32.0
+    end
+
+    specify "Converts 100C to 212F"
+      c = TemperatureCoverter.new
+      c.convert_from_c_to_f(100.0).should.equal 212.0
+    end
+  end
+
+=== Built-in mocks
+....
+
+=== Self-documenting
+RSpec specifications are self documenting. If run with the --rspec-report option,
+it will produce the following report:
+
+== TemperatureCoverter
+* Converts 0C to 32F
+* Converts 100C to 212F
+
+RSpec reports gives a high-level overview of how the classes
+in the system should behave. Of course, the developers have to
+name their specifications appropriately.
+
+By making RSpec reports visible as part of the API documentation,
+developers are likely to put a little effort into making the RSpec
+report make sense. Consider this example (translated from an
+imaginary Test::Unit test):
+
+  context "TemperatureCoverter"
+    specify "Convert"
+      c = TemperatureCoverter.new
+      c.convert_from_c_to_f(0.0).should.equal 32.0
+      c.convert_from_c_to_f(100.0).should.equal 212.0
+    end
+  end
+
+And the generated report:
+
+== TemperatureCoverter
+* Convert
+
+This specification was translated from a Test::Unit file that has one test method,
+<tt>test_onvert</tt>. It doesn't read so well, and it doesn't convey much high-leve
+information about how the TemperatureCoverter class is supposed to behave. RSpec 
+encourages developers to give specifications a name that conveys the intent of the
+specification. This in turn has several subtle benefits:
+
+* Specifications tend to become smaller
+* It tends to higlight too coupled code (specification names become complex)
+
+It is the developers' responsibility to make sure that the name of each specification
+represent at a high level what is being assumed in the specification body.
+
+== What about my existing Test::Unit tests?
+RSpec comes with a migration tool that will translate all of your existing
+Test::Unit tests to RSpec specifications.
+
+== How do I run RSpec specifications?
+
+There are several ways to do this.
+
+=== Just run the ruby file
+Any RSpec specification is stand-alone and can be run with:
+
+  ruby path/to/my/spec.rb
+  
+This will run your spec and output the results to stdout. You can use command line options
+to tell RSpec to output documentation to a specific file too:
+
+  ruby path/to/my/spec.rb --rspec-report doc/rspec_report.rd
+
+=== Use the spec commandline
+You can run several specifications with:
+
+  spec path/to/my/directory
+  
+or 
+  
+  spec path/to/my/directory --rspec-report doc/rspec_report.rd
+  
+=== Use Rake
+RSpec ships with a task similar that lets you run RSpec specifications
+from Rake. Just upt the following in your Rakefile:
+
+  Rake::RSpecTask.new
+
+This will create a task called <tt>spec</tt> task that you can run like this:
+
+  rake spec
+  
+By default this will run all the specifications under the spec directory. See
+the Rake::RSpecTask documentation for details on how to override the defaults.
