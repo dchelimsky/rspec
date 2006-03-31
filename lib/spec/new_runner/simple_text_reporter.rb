@@ -10,8 +10,8 @@ module Spec
       end
   
       def add_context(name)
-        @output << "\n" if @context_names.empty?
-        @output << "#{name}\n" if @verbose
+        @output << "\n" if @context_names.empty? unless @verbose
+        @output << "\n#{name}\n" if @verbose
         @context_names << name
       end
       
@@ -79,7 +79,7 @@ module Spec
           @spec_names << name
           @errors << error
           if @verbose
-            @output << "- #{name} (FAILED)\n#{error.message} (#{error.class.name})\n#{error.backtrace.join("\n")}\n\n"
+            @output << "- #{name} (FAILED)\n#{error.message} (#{error.class.name})\n#{error.backtrace.join("\n")}\n"
           else
             @output << 'F'
           end
