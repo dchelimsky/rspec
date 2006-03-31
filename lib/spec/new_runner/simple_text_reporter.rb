@@ -15,9 +15,13 @@ module Spec
         @context_names << name
       end
       
-      def add_spec(name, error=nil)
-        spec_passed(name) if error.nil?
-        spec_failed(name, error) unless error.nil?
+      def add_spec(name, errors=[])
+        if errors.empty?
+          spec_passed(name)
+        else
+          # only show the first one (there might be more)
+          spec_failed(name, errors[0])
+        end
       end
   
       def start

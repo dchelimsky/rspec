@@ -8,8 +8,8 @@ module Spec
       end
       
       def initialize(name, &context_block)
-        @setup_blocks = []
-        @teardown_blocks = []
+        @setup_block = nil
+        @teardown_block = nil
         @specifications = []
         @name = name
         instance_exec(&context_block)
@@ -17,26 +17,26 @@ module Spec
         ContextRunner.standalone(self) if @@context_runner.nil?
       end
 
-      def run(listener)
-        listener.add_context(@name)
+      def run(reporter)
+        reporter.add_context(@name)
         @specifications.each do |specification|
-          specification.run(listener, @setup_blocks, @teardown_blocks)
+          specification.run(reporter, @setup_block, @teardown_block)
         end
       end
       
-      def run_docs(listener)
-        listener.add_context(@name)
+      def run_docs(reporter)
+        reporter.add_context(@name)
         @specifications.each do |specification|
-          specification.run_docs(listener)
+          specification.run_docs(reporter)
         end
       end
 
       def setup(&block)
-        @setup_blocks << block
+        @setup_block = block
       end
   
       def teardown(&block)
-        @teardown_blocks << block
+        @teardown_block = block
       end
   
       def specify(spec_name, &block)
