@@ -10,8 +10,9 @@ module Spec
       end
   
       def add_context(name)
-        @context_names << name
+        @output << "\n" if @context_names.empty?
         @output << "#{name}\n" if @verbose
+        @context_names << name
       end
       
       def add_spec(name, error=nil)
@@ -28,9 +29,9 @@ module Spec
       end
   
       def dump
-        @output << "\n"
+        @output << "\n" unless @verbose
         dump_failures unless @verbose
-        @output << "\n\n"
+        @output << "\n\n" unless @verbose
         @output << "Finished in " << (duration).to_s << " seconds\n\n"
         @output << "#{@context_names.length} context#{'s' unless @context_names.length == 1 }, "
         @output << "#{@spec_names.length} specification#{'s' unless @spec_names.length == 1 }, "

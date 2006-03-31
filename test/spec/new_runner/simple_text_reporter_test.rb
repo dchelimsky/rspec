@@ -70,7 +70,7 @@ module Spec
       
       def test_should_remain_silent_when_context_name_provided
         @reporter.add_context "context"
-        assert_equal("", @io.string)
+        assert_equal("\n", @io.string)
       end
       
       def test_should_output_dot_when_spec_passed
@@ -95,7 +95,7 @@ module Spec
       
       def test_should_output_when_context_name_provided
         @reporter.add_context "context"
-        assert_equal("context\n", @io.string)
+        assert_equal("\ncontext\n", @io.string)
       end
       
       def test_should_output_spec_name_when_spec_passed
