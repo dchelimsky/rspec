@@ -29,9 +29,12 @@ module Spec
       end
   
       def dump
-        @output << "\n" unless @verbose
-        dump_failures unless @verbose
-        @output << "\n\n" unless @verbose
+        unless @verbose
+          @output << "\n"
+          dump_failures
+          @output << "\n\n" unless @errors.empty?
+        end
+        @output << "\n" if @errors.empty?
         @output << "Finished in " << (duration).to_s << " seconds\n\n"
         @output << "#{@context_names.length} context#{'s' unless @context_names.length == 1 }, "
         @output << "#{@spec_names.length} specification#{'s' unless @spec_names.length == 1 }, "
@@ -40,6 +43,7 @@ module Spec
       end
 
       def dump_failures
+        return if @errors.empty?
         @output << "\n"
         @errors.inject(1) do |index, error|
           @output << "\n\n" if index > 1
@@ -51,8 +55,7 @@ module Spec
       end
 
       def dump_backtrace(trace)
-        return if trace.nil?
-        @output << trace.join("\n")
+        @output << trace.join("\n") unless trace.nil?
       end
 
       private
