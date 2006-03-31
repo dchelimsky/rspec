@@ -111,7 +111,7 @@ class TestTextRunner < Test::Unit::TestCase
 	end
 
   def test_should_only_report_first_failure
-    ex = Spec::Exceptions::ExpectationNotMetError.new("1")
+    ex = Spec::Api::ExpectationNotMetError.new("1")
     ex.set_backtrace(["1", "2"])
     @runner.start_run
     @runner.spec(nil)
@@ -122,7 +122,7 @@ class TestTextRunner < Test::Unit::TestCase
   end
 
   def test_should_only_report_first_failure_over_multiple_specs
-    ex = Spec::Exceptions::ExpectationNotMetError.new("1")
+    ex = Spec::Api::ExpectationNotMetError.new("1")
     ex.set_backtrace(["1", "2"])
     @runner.start_run
     @runner.spec(nil)

@@ -5,7 +5,7 @@ class ForcedFailTest < Test::Unit::TestCase
   # violated
   
   def test_violated_should_raise
-    assert_raise(Spec::Exceptions::ExpectationNotMetError) do
+    assert_raise(Spec::Api::ExpectationNotMetError) do
       c = Spec::Context.new
       c.violated "boo"
     end

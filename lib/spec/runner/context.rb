@@ -27,7 +27,7 @@ module Spec
 
     # Immediately violates the current specification with +message+.
     def violated(message="")
-      raise Spec::Exceptions::ExpectationNotMetError.new(message)
+      raise Spec::Api::ExpectationNotMetError.new(message)
     end
 
     def self.collection

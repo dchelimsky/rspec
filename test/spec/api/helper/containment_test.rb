@@ -21,7 +21,7 @@ module Spec
         end
   
         def test_should_include_should_raise_when_string_inclusion_is_missing
-          assert_raise(Spec::Exceptions::ExpectationNotMetError) do
+          assert_raise(Spec::Api::ExpectationNotMetError) do
             @dummy.should.include "abc" 
           end
         end
@@ -33,7 +33,7 @@ module Spec
         end
 
         def test_should_include_should_raise_when_array_inclusion_is_missing
-          assert_raise(Spec::Exceptions::ExpectationNotMetError) do
+          assert_raise(Spec::Api::ExpectationNotMetError) do
             [1, 2, 3].should.include 5
           end
         end
@@ -45,7 +45,7 @@ module Spec
         end
 
         def test_should_include_should_raise_when_hash_inclusion_is_missing
-          assert_raise(Spec::Exceptions::ExpectationNotMetError) do
+          assert_raise(Spec::Api::ExpectationNotMetError) do
             {"a"=>1}.should.include "b"
           end
         end
@@ -57,7 +57,7 @@ module Spec
         end
 
         def test_should_include_should_raise_when_enumerable_inclusion_is_missing
-          assert_raise(Spec::Exceptions::ExpectationNotMetError) do
+          assert_raise(Spec::Api::ExpectationNotMetError) do
             IO.constants.should.include "BLAH"
           end
         end
@@ -71,7 +71,7 @@ module Spec
         end
 
         def test_should_not_include_should_raise_when_string_inclusion_is_present
-          assert_raise(Spec::Exceptions::ExpectationNotMetError) do
+          assert_raise(Spec::Api::ExpectationNotMetError) do
             @dummy.should.not.include "mm"
           end
         end
@@ -83,7 +83,7 @@ module Spec
         end
 
         def test_should_not_include_should_raise_when_array_inclusion_is_present
-          assert_raise(Spec::Exceptions::ExpectationNotMetError) do
+          assert_raise(Spec::Api::ExpectationNotMetError) do
             [1, 2, 3].should.not.include 2
           end
         end
@@ -95,7 +95,7 @@ module Spec
         end
 
         def test_should_not_include_should_raise_when_hash_inclusion_is_present
-          assert_raise(Spec::Exceptions::ExpectationNotMetError) do
+          assert_raise(Spec::Api::ExpectationNotMetError) do
             {"a"=>1}.should.not.include "a"
           end
         end
@@ -107,7 +107,7 @@ module Spec
         end
 
         def test_should_not_include_should_raise_when_enumerable_inclusion_is_missing
-          assert_raise(Spec::Exceptions::ExpectationNotMetError) do
+          assert_raise(Spec::Api::ExpectationNotMetError) do
             IO.constants.should.not.include "SEEK_SET" 
           end
         end

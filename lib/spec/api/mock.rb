@@ -36,7 +36,7 @@ module Spec
             # act as null object if method is missing and we ignore them. return value too!
             @options[:null_object] ? self : super(sym, *args, &block)
           rescue NoMethodError
-            raise Spec::Exceptions::MockExpectationError, "Mock '#{@name}' received unexpected message '#{sym.to_s}' with " + (args.collect{|arg| "<#{arg}:#{arg.class.name}>"}.join(", "))
+            raise Spec::Api::MockExpectationError, "Mock '#{@name}' received unexpected message '#{sym.to_s}' with " + (args.collect{|arg| "<#{arg}:#{arg.class.name}>"}.join(", "))
           end
         end
       end
@@ -92,7 +92,7 @@ module Spec
         count_message = "twice" if (@expected_received_count == 2)
 
         message = "#{@expected_from}: Mock '#{@mock_name}' expected #{expected_signature} #{count_message}, but received it #{@received_count} times"
-          raise Spec::Exceptions::MockExpectationError, message
+          raise Spec::Api::MockExpectationError, message
       end
 
       # This method is called when a method is invoked on a mock
@@ -100,15 +100,15 @@ module Spec
         unless @method_block.nil?
           begin
             result = @method_block.call(*args)
-          rescue Spec::Exceptions::ExpectationNotMetError => detail
-            raise Spec::Exceptions::MockExpectationError, "Call expectation violated with: " + $!
+          rescue Spec::Api::ExpectationNotMetError => detail
+            raise Spec::Api::MockExpectationError, "Call expectation violated with: " + $!
           end
           @received_count += 1
           return result
         end
     
         unless @expected_params.nil? or @expected_params == args
-          raise Spec::Exceptions::MockExpectationError,
+          raise Spec::Api::MockExpectationError,
             "#{@sym}: Parameter mismatch: Expected <#{@expected_params}>, got <#{args}>" 
         end
         args << block unless block.nil?

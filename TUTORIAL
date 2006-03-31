@@ -236,7 +236,7 @@ includes "Star Wars", you will get the following error:
 
     1)
     <#<MovieList:0x284c1e0 @movies={"Star Wars"=>#<Movie:0x284c180 @name="Star Wars"
-    >}>> should include <"Space Balls"> (Spec::Exceptions::ExpectationNotMetError)
+    >}>> should include <"Space Balls"> (Spec::Api::ExpectationNotMetError)
     ./movie_spec.rb:34:in `should_include_space_balls'
     ../bin/spec:10
 

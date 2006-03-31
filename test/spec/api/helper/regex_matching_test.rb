@@ -14,7 +14,7 @@ module Spec
         end
 
         def test_should_equal_should_raise_when_objects_do_not_match
-          assert_raise(Spec::Exceptions::ExpectationNotMetError) do
+          assert_raise(Spec::Api::ExpectationNotMetError) do
             "hi aslak".should.match /steve/
           end
         end
@@ -28,7 +28,7 @@ module Spec
         end
 
         def test_should_not_match_should_raise_when_objects_match
-          assert_raise(Spec::Exceptions::ExpectationNotMetError) do
+          assert_raise(Spec::Api::ExpectationNotMetError) do
             "hi aslak".should.not.match /aslak/
           end
         end

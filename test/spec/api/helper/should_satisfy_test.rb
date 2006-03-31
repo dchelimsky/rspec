@@ -6,7 +6,7 @@ module Spec
       class ShouldSatisfyTest < Test::Unit::TestCase
 
         def test_should_raise_exception_when_block_yields_false
-          assert_raise(Spec::Exceptions::ExpectationNotMetError) do
+          assert_raise(Spec::Api::ExpectationNotMetError) do
             5.should.satisfy { false }
           end
         end
@@ -20,7 +20,7 @@ module Spec
         # should.not.satisfy
   
         def test_should_raise_exception_when_block_yields_false
-          assert_raise(Spec::Exceptions::ExpectationNotMetError) do
+          assert_raise(Spec::Api::ExpectationNotMetError) do
             5.should.not.satisfy { true }
           end
         end

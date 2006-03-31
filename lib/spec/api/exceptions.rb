@@ -1,5 +1,5 @@
 module Spec
-  module Exceptions
+  module Api
     class ExpectationNotMetError < StandardError
     end
     

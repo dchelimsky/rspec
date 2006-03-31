@@ -14,13 +14,13 @@ module Spec
         end
   
         def test_should_throw_should_fail_when_wrong_exception_is_thrown
-          assert_raise(Spec::Exceptions::ExpectationNotMetError) do
+          assert_raise(Spec::Api::ExpectationNotMetError) do
             proc { throw :bar }.should.throw :foo
           end
         end
    
         def test_should_throw_should_fail_when_no_symbol_is_thrown
-          assert_raise(Spec::Exceptions::ExpectationNotMetError) do
+          assert_raise(Spec::Api::ExpectationNotMetError) do
             proc {''.to_s}.should.throw :foo
           end
         end
@@ -28,7 +28,7 @@ module Spec
         # should.not.throw
 
         def test_should_not_throw_should_fail_when_specific_symbol_is_thrown
-          assert_raise(Spec::Exceptions::ExpectationNotMetError) do
+          assert_raise(Spec::Api::ExpectationNotMetError) do
             proc { throw :foo }.should.not.throw :foo
           end
         end
