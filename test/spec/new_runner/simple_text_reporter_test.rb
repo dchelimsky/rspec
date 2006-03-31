@@ -110,7 +110,7 @@ module Spec
         rescue
         end
         @reporter.add_spec "spec", error
-        assert_equal("- spec (FAILED)\n#{error.backtrace.join("\n")}\n\n", @io.string)
+        assert_equal("- spec (FAILED)\n#{error.message} (#{error.class.name})\n#{error.backtrace.join("\n")}\n\n", @io.string)
       end
 
     end

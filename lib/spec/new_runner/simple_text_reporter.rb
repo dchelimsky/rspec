@@ -40,11 +40,11 @@ module Spec
 
       def dump_failures
         @output << "\n"
-        @errors.inject(1) do |index, exception|
+        @errors.inject(1) do |index, error|
           @output << "\n\n" if index > 1
           @output << index.to_s << ") " 
-          @output << "#{exception.message} (#{exception.class.name})\n"
-          dump_backtrace(exception.backtrace)
+          @output << "#{error.message} (#{error.class.name})\n"
+          dump_backtrace(error.backtrace)
           index + 1
         end
       end
@@ -71,7 +71,7 @@ module Spec
           @spec_names << name
           @errors << error
           if @verbose
-            @output << "- #{name} (FAILED)\n#{error.backtrace.join("\n")}\n\n"
+            @output << "- #{name} (FAILED)\n#{error.message} (#{error.class.name})\n#{error.backtrace.join("\n")}\n\n"
           else
             @output << 'F'
           end
