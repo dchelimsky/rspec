@@ -3,8 +3,8 @@ module Spec
   module Runner
     class ContextRunnerTest < Test::Unit::TestCase
       def test_should_call_run_doc_on_context
-        context1 = Mock.new "context1"
-        context2 = Mock.new "context2"
+        context1 = Api::Mock.new "context1"
+        context2 = Api::Mock.new "context2"
         context1.should_receive(:run_docs)
         context2.should_receive(:run_docs)
         runner = ContextRunner.new ["-d"]

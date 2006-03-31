@@ -5,7 +5,7 @@ module Spec
     class ContextTest < Test::Unit::TestCase
       
       def setup
-        @listener = Mock.new "listener"
+        @listener = Api::Mock.new "listener"
         @context = Context.new("context") {}
       end
       
