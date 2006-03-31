@@ -14,13 +14,13 @@ module Spec
         end
   
         def test_should_raise_should_fail_when_wrong_exception_is_raised
-          assert_raise(Spec::Api::ExpectationNotMetError) do
+          assert_raise(ExpectationNotMetError) do
             proc { ''.nonexistant_method }.should.raise SyntaxError
           end
         end
   
         def test_should_raise_should_fail_when_no_exception_is_raised
-          assert_raise(Spec::Api::ExpectationNotMetError) do
+          assert_raise(ExpectationNotMetError) do
             proc {''.to_s}.should.raise NoMethodError
           end
         end
@@ -28,7 +28,7 @@ module Spec
         # should.not.raise
   
         def test_should_not_raise_should_fail_when_specific_exception_is_raised
-          assert_raise(Spec::Api::ExpectationNotMetError) do
+          assert_raise(ExpectationNotMetError) do
             proc { ''.nonexistant_method }.should.not.raise NoMethodError
           end
         end

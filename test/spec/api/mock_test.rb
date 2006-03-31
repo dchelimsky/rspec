@@ -14,7 +14,7 @@ module Spec
 
         begin
           @mock.__verify
-        rescue Spec::Api::MockExpectationError => e
+        rescue MockExpectationError => e
           e.message.should.match /mock_test\.rb:13:in .test_should_report_line/
         end
     
@@ -48,13 +48,13 @@ module Spec
 
       def test_should_raise_exception_if_parameters_dont_match_when_method_called
         @mock.should_receive(:random_call).with("a","b","c").and_return("booh")
-        assert_raise(Spec::Api::MockExpectationError) {
+        assert_raise(MockExpectationError) {
           @mock.random_call("a","d","c")
         }
       end
      
       def test_should_fail_if_unexpected_method_called
-        assert_raise(Spec::Api::MockExpectationError) {
+        assert_raise(MockExpectationError) {
           @mock.random_call("a","d","c")
         }
       end
@@ -69,7 +69,7 @@ module Spec
       def test_should_raise_exception_on_verify_if_call_counts_not_as_expected
         @mock.should_receive(:random_call).twice.with("a","b","c").and_return("booh")
         @mock.random_call("a","b","c")
-        assert_raise(Spec::Api::MockExpectationError) do
+        assert_raise(MockExpectationError) do
           @mock.__verify
         end
       end
@@ -86,7 +86,7 @@ module Spec
   
       def test_failing_expectation_block_throws
         @mock.should_receive(:random_call) {| a | a.should.be true}
-        assert_raise(Spec::Api::MockExpectationError) do
+        assert_raise(MockExpectationError) do
           @mock.random_call false
         end
       end
@@ -108,7 +108,7 @@ module Spec
   
       def test_should_throw_on_call_of_never_method
         @mock.should_receive(:random_call).never
-        assert_raise(Spec::Api::MockExpectationError) do
+        assert_raise(MockExpectationError) do
           @mock.random_call
           @mock.__verify
         end
@@ -116,7 +116,7 @@ module Spec
   
       def test_should_throw_if_at_least_once_method_not_called
         @mock.should_receive(:random_call).at_least_once
-        assert_raise(Spec::Api::MockExpectationError) do
+        assert_raise(MockExpectationError) do
           @mock.__verify
         end
       end

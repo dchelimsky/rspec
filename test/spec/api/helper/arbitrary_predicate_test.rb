@@ -16,7 +16,7 @@ module Spec
       	def test_should_be_xxx_should_raise_when_sending_xxx_to_target_returns_false
       		mock = Mock.new("xxx? returns false")
       		mock.should_receive(:xxx?).once.with_no_args.and_return(false)
-      	  assert_raise(Spec::Api::ExpectationNotMetError) do
+      	  assert_raise(ExpectationNotMetError) do
             mock.should.be.xxx
           end
       		mock.__verify
@@ -25,7 +25,7 @@ module Spec
       	def test_should_be_xxx_should_raise_when_sending_xxx_to_target_returns_nil
       		mock = Mock.new("xxx? returns nil")
       		mock.should_receive(:xxx?).once.with_no_args.and_return(nil)
-      	  assert_raise(Spec::Api::ExpectationNotMetError) do
+      	  assert_raise(ExpectationNotMetError) do
             mock.should.be.xxx
           end
       		mock.__verify
@@ -71,7 +71,7 @@ module Spec
       	def test_should_not_be_xxx_should_raise_when_sending_xxx_to_target_returns_true
       		mock = Mock.new("xxx? returns true")
       		mock.should_receive(:xxx?).once.with_no_args.and_return(true)
-      	  assert_raise(Spec::Api::ExpectationNotMetError) do
+      	  assert_raise(ExpectationNotMetError) do
             mock.should.not.be.xxx
           end
       		mock.__verify
@@ -98,7 +98,7 @@ module Spec
       	def test_should_not_be_xxx_should_raise_when_sending_xxx_to_target_returns_something_other_than_true_false_or_nil
       		mock = Mock.new("xxx? returns 5")
       		mock.should_receive(:xxx?).once.with_no_args.and_return(5)
-      	  assert_raise(Spec::Api::ExpectationNotMetError) do
+      	  assert_raise(ExpectationNotMetError) do
             mock.should.not.be.xxx
           end
       		mock.__verify

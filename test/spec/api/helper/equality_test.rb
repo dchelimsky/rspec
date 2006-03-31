@@ -21,7 +21,7 @@ module Spec
         end
   
         def test_should_equal_should_raise_when_objects_are_not_equal
-          assert_raise(Spec::Api::ExpectationNotMetError) do
+          assert_raise(ExpectationNotMetError) do
             @dummy.should.equal @another_dummy
           end
         end
@@ -35,7 +35,7 @@ module Spec
         end
 
         def test_should_not_equal_should_raise_when_objects_are_not_equal
-          assert_raise(Spec::Api::ExpectationNotMetError) do
+          assert_raise(ExpectationNotMetError) do
             @dummy.should.not.equal @equal_dummy
           end
         end
