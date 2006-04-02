@@ -33,6 +33,12 @@ module Spec
         content.each do |line|
           if line =~ /^require .*test.*/
             line = "require 'spec'\n"
+          elsif line =~ /^(\s*)def\s+setup/
+            spaces = $1
+            line = "#{spaces}setup do\n"
+          elsif line =~ /^(\s*)def\s+teardown/
+            spaces = $1
+            line = "#{spaces}teardown do\n"
           elsif line =~ /^(\s*)class\s+(.*)\s+<\s+Test::Unit::TestCase/
             spaces = $1
             class_name = $2

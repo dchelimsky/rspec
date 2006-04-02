@@ -94,7 +94,7 @@ spec = Gem::Specification.new do |s|
   s.autorequire = 'spec'
 
   s.bindir = "bin"
-  s.executables = ["spec"]
+  s.executables = ["spec", "test2rspec"]
   s.default_executable = "spec"
 
   #### Author and project details.

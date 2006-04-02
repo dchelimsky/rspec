@@ -1,9 +1,10 @@
 require 'find'
+require 'fileutils'
 
 module Spec
   module Tool
     class CommandLine
-      def initialize(filesystem)
+      def initialize(filesystem=nil)
         @filesystem = filesystem.nil? ? self : filesystem
         @translator = TestUnitTranslator.new
       end
@@ -26,10 +27,9 @@ module Spec
       end
       
       def write_translation(source, dest)
-        return
         dir = File.dirname(dest)
         FileUtils.mkdir_p(dir) unless File.directory?(dir)
-        File.open(dest) do |io|
+        File.open(dest, "w") do |io|
           translation = @translator.translate(source)
           io.write(translation)
         end

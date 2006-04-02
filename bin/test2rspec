@@ -3,10 +3,11 @@
 require 'find'
 require 'ostruct'
 require 'optparse'
-require File.dirname(__FILE__) + "/../lib/spec/tool/test_unit_converter.rb"
+require File.dirname(__FILE__) + "/../lib/spec/tool/command_line.rb"
+require File.dirname(__FILE__) + "/../lib/spec/tool/test_unit_translator.rb"
 
 opts = OptionParser.new do |opts|
-  opts.banner = "Usage: translate [options] SRC [DEST]"
+  opts.banner = "Usage: test2rspec [options] SRC [DEST]"
   opts.separator ""
 
   opts.on_tail("-h", "--help", "Show this message") do
@@ -19,9 +20,16 @@ opts.parse!(ARGV)
 cl = Spec::Tool::CommandLine.new
 source = ARGV[0]
 target = ARGV[1]
+
+if source.nil?
+  STDERR.puts opts
+  exit 1
+end
+
 begin
-  cl.run source, target
+  cl.run source, target, STDOUT
 rescue => e
   STDERR.puts e.message
+  STDERR.puts e.backtrace.join("\n")
   STDERR.puts opts
 end
