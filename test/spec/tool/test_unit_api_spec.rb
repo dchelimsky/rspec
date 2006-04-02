@@ -2,8 +2,8 @@ require 'spec'
 
 module Spec
   module Tool
-    context "VeryComplex" do
-      specify "Is still translatable" do
+    context "TestUnitApi" do
+      specify "Can be translated to rspec" do
         an_int = 789
         a_float = 123.45
         a_nil = nil

@@ -1,7 +1,7 @@
 module Spec
   module Tool
     # Translates Test::Unit tests to RSpec specs.
-    class TestUnitConverter
+    class TestUnitTranslator
       ONE_ARG_TRANSLATIONS = {
         "assert"                => "should.not.be nil",
         "assert_nil"            => "should.be nil",
@@ -27,9 +27,10 @@ module Spec
       }
     
       def translate(test_unit_file)
+        content = File.open(test_unit_file)
         end_replacement = nil
         translated = ""
-        test_unit_file.each do |line|
+        content.each do |line|
           if line =~ /^require .*test.*/
             line = "require 'spec'\n"
           elsif line =~ /^(\s*)class\s+(.*)\s+<\s+Test::Unit::TestCase/

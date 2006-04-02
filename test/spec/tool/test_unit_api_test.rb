@@ -2,8 +2,8 @@ require File.dirname(__FILE__) + '/../../test_helper'
 
 module Spec
   module Tool
-    class VeryComplexTest < Test::Unit::TestCase
-      def test_is_still_translatable
+    class TestUnitApiTest < Test::Unit::TestCase
+      def test_can_be_translated_to_rspec
         an_int = 789
         a_float = 123.45
         a_nil = nil

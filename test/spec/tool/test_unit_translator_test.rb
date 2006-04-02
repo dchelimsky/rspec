@@ -1,21 +1,22 @@
 require File.dirname(__FILE__) + '/../../test_helper'
-require 'spec/tool/test_unit_converter'
+require 'spec/tool/test_unit_translator'
 require 'tempfile'
 
 module Spec
   module Tool
-    class TestUnitConverterTest < Test::Unit::TestCase
+    class TestUnitTranslatorTest < Test::Unit::TestCase
       def test_should_translate_test_classes_to_contexts
-        c = TestUnitConverter.new
-        test_unit_file = File.dirname(__FILE__) + '/very_complex_test.rb'
-        translated = c.translate(File.open(test_unit_file))
-        expected_path = File.dirname(__FILE__) + '/very_complex_spec.rb'
+        c = TestUnitTranslator.new
+        test_unit_file = File.dirname(__FILE__) + '/test_unit_api_test.rb'
+        translated = c.translate(test_unit_file)
+        expected_path = File.dirname(__FILE__) + '/test_unit_api_spec.rb'
         expected = File.open(expected_path).read
 
         translated_tmp = Tempfile.open("translated")
         translated_tmp.write(translated)
         translated_tmp.flush
         translated_tmp.close
+
         diff = `diff -w -u #{expected_path} #{translated_tmp.path}`
         if diff.strip != ""
           fail("Conversion didn't match expectation. Diff:\n#{diff}")
