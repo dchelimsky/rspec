@@ -7,6 +7,7 @@ require 'rake/contrib/xforge'
 require 'rake/clean'
 require 'rake/testtask'
 require 'rake/rdoctask'
+require 'lib/spec/version'
 
 PKG_NAME = "rspec"
 # Versioning scheme: MAJOR.MINOR.PATCH
@@ -19,7 +20,7 @@ PKG_NAME = "rspec"
 # (This is subject to change - AH)
 #
 # REMEMBER TO KEEP PKG_VERSION IN SYNC WITH CHANGELOG
-PKG_VERSION = "0.4.0"
+PKG_VERSION   = Spec::VERSION::STRING
 PKG_FILE_NAME = "#{PKG_NAME}-#{PKG_VERSION}"
 PKG_FILES = FileList[
   '[A-Z]*',
