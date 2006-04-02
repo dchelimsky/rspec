@@ -26,18 +26,6 @@ module Spec
         end
       end
       
-      def tweak_backtrace name, error
-        return if error.backtrace.nil?
-        tweaked_backtrace = []
-        error.backtrace.each do |line|
-          if line.include?('__instance_exec')
-            line = line.split(':in')[0] + ":in '#{name}'"
-          end
-          tweaked_backtrace.push line
-        end
-        error.set_backtrace tweaked_backtrace
-      end
-  
       def start
         @start_time = Time.new
       end
