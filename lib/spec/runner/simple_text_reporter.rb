@@ -7,6 +7,7 @@ module Spec
         @errors = []
         @spec_names = []
         @verbose = verbose
+        @backtrace_tweaker = BacktraceTweaker.new
       end
   
       def add_context(name)
@@ -19,9 +20,22 @@ module Spec
         if errors.empty?
           spec_passed(name)
         else
+          errors.each { |error| @backtrace_tweaker.tweak_backtrace(error, name) }
           # only show the first one (there might be more)
           spec_failed(name, errors[0])
         end
+      end
+      
+      def tweak_backtrace name, error
+        return if error.backtrace.nil?
+        tweaked_backtrace = []
+        error.backtrace.each do |line|
+          if line.include?('__instance_exec')
+            line = line.split(':in')[0] + ":in '#{name}'"
+          end
+          tweaked_backtrace.push line
+        end
+        error.set_backtrace tweaked_backtrace
       end
   
       def start

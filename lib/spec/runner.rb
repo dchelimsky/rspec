@@ -4,6 +4,6 @@ require 'spec/runner/specification'
 require 'spec/runner/execution_context'
 require 'spec/runner/context_runner'
 require 'spec/runner/option_parser'
-
+require 'spec/runner/backtrace_tweaker'
 require 'spec/runner/rdoc_formatter'
 require 'spec/runner/simple_text_reporter'

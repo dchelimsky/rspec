@@ -21,9 +21,11 @@ module Spec
 		  elsif obj.kind_of? Proc
 		    "<Proc>"
 	    elsif (obj.kind_of? Array) || (obj.kind_of? String)
-	      "<#{obj.inspect}>"
-	    else
-        "<#{obj.inspect}:#{obj.class}>"
+	      "#{obj.inspect}"
+	    elsif obj.inspect.include? "<"
+        "#{obj.class} #{obj.inspect}"
+      else
+        "#{obj.class} <#{obj.inspect}>"
       end
  	  end
 

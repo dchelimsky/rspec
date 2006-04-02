@@ -9,13 +9,13 @@ module Spec
         @mock = Mock.new("test mock")
       end
 
-      def test_should_report_line_number_of_expectaion_of_unreceived_message
+      def test_should_report_line_number_of_expectation_of_unreceived_message
         @mock.should_receive(:wont_happen).with("x", 3)
 
         begin
           @mock.__verify
         rescue MockExpectationError => e
-          e.message.should.match /mock_test\.rb:13:in .test_should_report_line/
+          e.backtrace[0].should.match /mock_test\.rb:13:in .test_should_report_line/
         end
     
       end

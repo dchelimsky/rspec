@@ -91,8 +91,13 @@ module Spec
         count_message = "once" if (@expected_received_count == 1)
         count_message = "twice" if (@expected_received_count == 2)
 
-        message = "#{@expected_from}: Mock '#{@mock_name}' expected #{expected_signature} #{count_message}, but received it #{@received_count} times"
+        message = "Mock '#{@mock_name}' expected #{expected_signature} #{count_message}, but received it #{@received_count} times"
+        begin
           raise Spec::Api::MockExpectationError, message
+        rescue => error
+          error.backtrace.insert(0, @expected_from)
+          raise error
+        end
       end
 
       # This method is called when a method is invoked on a mock
