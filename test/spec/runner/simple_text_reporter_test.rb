@@ -7,7 +7,8 @@ module Spec
       
       def setup
         @io = StringIO.new
-        @reporter = SimpleTextReporter.new(@io)
+        @backtrace_tweaker = Spec::Api::Mock.new("backtrace tweaker")
+        @reporter = SimpleTextReporter.new(@io, false, @backtrace_tweaker)
       end
 
       def test_should_include_time
@@ -36,6 +37,7 @@ module Spec
       end
   
       def test_should_account_for_spec_and_error_in_stats_for_pass
+        @backtrace_tweaker.should_receive(:tweak_backtrace)
         @reporter.add_spec Specification.new("spec"), [RuntimeError.new]
         @reporter.dump
         assert_match(/0 contexts, 1 specification, 1 failure/, @io.string)
@@ -50,6 +52,7 @@ module Spec
       end
   
       def test_should_handle_multiple_specs_same_name
+        @backtrace_tweaker.should_receive(:tweak_backtrace)
         @reporter.add_context Context.new("context") {}
         @reporter.add_spec Specification.new("spec") {}
         @reporter.add_spec Specification.new("spec"), [RuntimeError.new]
@@ -58,6 +61,12 @@ module Spec
         @reporter.add_spec Specification.new("spec"), [RuntimeError.new]
         @reporter.dump
         assert_match(/2 contexts, 4 specifications, 2 failures/, @io.string)
+      end
+      
+      def test_should_delegate_to_backtrace_tweaker
+        @backtrace_tweaker.should_receive(:tweak_backtrace)
+        @reporter.add_spec Specification.new("spec"), [RuntimeError.new]
+        @backtrace_tweaker.__verify
       end
   
     end

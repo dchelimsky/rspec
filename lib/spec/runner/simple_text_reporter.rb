@@ -1,13 +1,13 @@
 module Spec
   module Runner
     class SimpleTextReporter
-      def initialize(output=STDOUT,verbose=false)
+      def initialize(output=STDOUT,verbose=false,backtrace_tweaker=BacktraceTweaker.new)
         @output = output
         @context_names = []
         @errors = []
         @spec_names = []
         @verbose = verbose
-        @backtrace_tweaker = BacktraceTweaker.new
+        @backtrace_tweaker = backtrace_tweaker
       end
   
       def add_context(name)
