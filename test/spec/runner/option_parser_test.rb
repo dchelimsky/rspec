@@ -37,14 +37,12 @@ module Spec
       
       def test_out_should_be_settable_with_o
         options = OptionParser.parse(["-o","test.txt"])
-        assert_equal(File.exists?("text.txt"), options.verbose)
-        File.delete("test.txt")
+        assert_equal("test.txt", options.out)
       end
       
       def test_out_should_be_settable_with_of
         options = OptionParser.parse(["--of","test.txt"])
-        assert_equal(File.exists?("text.txt"), options.verbose)
-        File.delete("test.txt")
+        assert_equal("test.txt", options.out)
       end
       
     end

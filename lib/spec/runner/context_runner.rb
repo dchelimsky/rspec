@@ -14,6 +14,7 @@ module Spec
         options = OptionParser.parse(args)
         @contexts = []
         @out = options.out
+        @out = File.open(@out, 'w') if @out.is_a? String
         @doc = options.doc
         @listener = RDocFormatter.new(@out) if @doc
         @listener = SimpleTextReporter.new(@out, options.verbose) unless @doc
