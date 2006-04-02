@@ -1,5 +1,0 @@
-require 'spec/runner/context'
-require 'spec/runner/dsl'
-require 'spec/runner/collector'
-require 'spec/runner/text_runner'
-require 'spec/runner/gui_runner'
