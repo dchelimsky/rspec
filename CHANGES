@@ -1,17 +1,9 @@
 = RSpec Changelog
 
-== Explanation of this file:
- 
-* This document should be updated for every commit.
+== Version 0.5.0
 
-* The first section of each version (until the lines starting with a *)
-  will be used in the release notes' summary as well
-  as in the news posted on rubyforge. Therefore,
-  make sure it is a sentence that makes sense to the reader.
-  It should summarise the release at a high level.
-
-* Make sure the PKG_VERSION constant in Rakefile.rb is
-  consistent with the latest version in this document.
+This release introduces a new API and obsoletes previous versions
+* Lots and lots of changes. See examples.
 
 == Version 0.4.0
 
