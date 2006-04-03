@@ -146,6 +146,7 @@ task :verify_env_vars do
   raise "RUBYFORGE_PASSWORD environment variable not set!" unless ENV['RUBYFORGE_PASSWORD']
 end
 
+desc "Upload RDoc to RubyForge"
 task :publish_doc => [:rdoc] do
   publisher = Rake::RubyForgePublisher.new(PKG_NAME, ENV['RUBYFORGE_USER'])
   publisher.upload
