@@ -1,0 +1,84 @@
+
+  #all { background-color: #CCCCCC; }
+
+  #header {
+    border-bottom: 1px solid black;
+    padding: 1ex;
+    background-color: #888888;
+  }
+  #header h1 {
+    margin: 0ex;
+	font-size: 300%;
+	font-style: italic;
+	font-weight: normal;
+  }
+
+, #headerbar { border-bottom: 1px solid black; }
+  #footer { border-top: 1px solid black; }
+
+  #body {
+    margin-left: 250px;
+    margin-right: 20px;
+    padding: 10px;
+  }
+
+  #menu {
+	float: left;
+	width: 230px;
+    padding: 20px 0px 0px 2px;
+  }
+
+  .bar {
+	clear: both;
+	padding: 3px;
+	text-align: center;
+	font-size: 90%;
+    background-color: #AAAAAA;
+  }
+
+  .left, .right {
+    padding: 0px 1em;
+  }
+
+  .left {
+	float: left;
+	text-align: left;
+  }
+
+  .right {
+	float: right;
+	text-align: right;
+  }
+
+  /* styling the menu */
+
+  #menu a {
+	text-decoration: none;
+	font-weight: bold;
+	font-size: 130%;
+  }
+
+  #menu a:hover {
+	text-decoration: underline;
+  }
+
+  #menu .webgen-menuitem-selected {
+	border-left: 3px solid black;
+  }
+
+  #menu ul {
+	list-style-type: none;
+	padding: 0px;
+	margin-left: 10px;
+  }
+
+  #menu li > ul {
+	font-size: 95%;
+  }
+
+  #menu li {
+    margin: 0.0em 0px;
+    padding: 2px 0px;
+    padding-left: 5px;
+    border-left: 3px solid #CCCCCC;
+  }
