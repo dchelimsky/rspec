@@ -43,7 +43,7 @@ module Spec
             
             arg_message = args.collect{|arg| "<#{arg}:#{arg.class.name}>"}.join(", ")
             
-            raise Spec::Api::MockExpectationError, "Mock '#{@name}' received unexpected message '#{sym.to_s}' with [#{arg_message}]"
+            Kernel::raise Spec::Api::MockExpectationError, "Mock '#{@name}' received unexpected message '#{sym.to_s}' with [#{arg_message}]"
           end
         end
       end
@@ -69,6 +69,8 @@ module Spec
         @expected_received_count = 1
         @expected_params = nil
         @consecutive = false
+        @exception_to_raise = nil
+        @symbol_to_throw = nil
         @any_seen = false
         @at_seen = false
         @and_seen = false
@@ -112,10 +114,10 @@ module Spec
 
         message = "Mock '#{@mock_name}' expected #{expected_signature} #{count_message}, but received it #{@received_count} times"
         begin
-          raise Spec::Api::MockExpectationError, message
+          Kernel::raise Spec::Api::MockExpectationError, message
         rescue => error
           error.backtrace.insert(0, @expected_from)
-          raise error
+          Kernel::raise error
         end
       end
 
@@ -125,18 +127,22 @@ module Spec
           begin
             result = @method_block.call(*args)
           rescue Spec::Api::ExpectationNotMetError => detail
-            raise Spec::Api::MockExpectationError, "Call expectation violated with: " + $!
+            Kernel::raise Spec::Api::MockExpectationError, "Call expectation violated with: " + $!
           end
           @received_count += 1
           return result
         end
     
         unless @expected_params.nil? or @expected_params == args or constraints_match?(args)
-          raise Spec::Api::MockExpectationError,
+          Kernel::raise Spec::Api::MockExpectationError,
             "#{@sym}: Parameter mismatch: Expected <#{@expected_params}>, got <#{args}>" 
         end
         args << block unless block.nil?
         @received_count += 1
+        
+        Kernel::raise @exception_to_raise.new unless @exception_to_raise.nil?
+        Kernel::throw @symbol_to_throw unless @symbol_to_throw.nil?
+        
         value = @block.call(*args)
     
         return value unless @consecutive
@@ -223,11 +229,17 @@ module Spec
         @block = block_given? ? block : proc { value }
       end
       
-#      def raise(exception=Exception)
-#        return self unless @and_seen
-#        @and_seen = false
-#        raise exception.new
-#      end
+      def raise(exception=Exception)
+        return self unless @and_seen
+        @and_seen = false
+        @exception_to_raise = exception
+      end
+      
+      def throw(symbol)
+        return self unless @and_seen
+        @and_seen = false
+        @symbol_to_throw = symbol
+      end
   
     end
   end

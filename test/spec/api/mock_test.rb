@@ -228,13 +228,20 @@ module Spec
         @mock.__verify
       end
 
-#      def test_raising
-#        @mock.should.receive(:random_call).and.raise(RuntimeError)
-#        assert_raise(RuntimeError) do
-#          @mock.random_call
-#        end
-#      end
-      
+      def test_raising
+        @mock.should.receive(:random_call).and.raise(RuntimeError)
+        assert_raise(RuntimeError) do
+          @mock.random_call
+        end
+      end
+ 
+      def test_throwing
+        @mock.should.receive(:random_call).and.throw(:blech)
+        assert_throws(:blech) do
+          @mock.random_call
+        end
+      end
+     
     end
   end
 end
