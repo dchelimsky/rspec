@@ -13,8 +13,12 @@ module Spec
         @options = DEFAULT_OPTIONS.dup.merge(options)
         @expectations = []
       end
+      
+      def should
+        self
+      end
 
-      def should_receive(sym, &block)
+      def receive(sym, &block)
         expected_from = caller(1)[0]
         expectation = MessageExpectation.new(@name, expected_from, sym, block_given? ? block : nil)
         @expectations << expectation
@@ -36,7 +40,10 @@ module Spec
             # act as null object if method is missing and we ignore them. return value too!
             @options[:null_object] ? self : super(sym, *args, &block)
           rescue NoMethodError
-            raise Spec::Api::MockExpectationError, "Mock '#{@name}' received unexpected message '#{sym.to_s}' with " + (args.collect{|arg| "<#{arg}:#{arg.class.name}>"}.join(", "))
+            
+            arg_message = args.collect{|arg| "<#{arg}:#{arg.class.name}>"}.join(", ")
+            
+            raise Spec::Api::MockExpectationError, "Mock '#{@name}' received unexpected message '#{sym.to_s}' with [#{arg_message}]"
           end
         end
       end
@@ -62,6 +69,8 @@ module Spec
         @expected_received_count = 1
         @expected_params = nil
         @consecutive = false
+        @any_seen = false
+        @at_seen = false
       end
   
       def matches(sym, args)
@@ -126,29 +135,52 @@ module Spec
       end
 
       def with(*args)
-        @expected_params = args
-        self
-      end
+        if args == [:anything] then @expected_params = nil
+        elsif args == [:nothing] then @expected_params = []
+        else @expected_params = args
+        end
 
-      def with_no_args
-        @expected_params = []
         self
       end
   
-      def with_any_args
-        @expected_params = nil
+      def at
+        @at_seen = true
         self
       end
-  
-      def at_least_once
-        @expected_received_count = -1
+      
+      def exactly(n)
+        @expected_received_count = n
+        self
+      end
+      
+      def least(arg)
+        @expected_received_count = -1 if ((arg == :once) and (@at_seen))
+        @at_seen = false
         self
       end
 
-       def any_number_of_times
-         @expected_received_count = -2
-         self
-       end
+      def any
+        @any_seen = true
+        self
+      end
+      
+      def number
+        @number_seen = @any_seen
+        @any_seen = false
+        self
+      end
+      
+      def of
+        @of_seen = @number_seen
+        @number_seen = false
+        self
+      end
+      
+      def times
+        @expected_received_count = -2 if @of_seen
+        @of_seen = false
+        self
+      end
   
       def never
         @expected_received_count = 0
@@ -165,19 +197,14 @@ module Spec
         self
       end
   
-      def returns(value=nil,&block)
-        @block = block_given? ? block : proc { value }
+      def and
+        self
       end
 
-      def returns_consecutively(value=[nil],&block)
-        @consecutive = true
+      def return(value=nil,&block)
+        @consecutive = value.instance_of? Array
         @block = block_given? ? block : proc { value }
       end
-  
-      # this reads better in English IMHO: (AH)
-      # uri_specs.should_receive(:[]).with(:overview).and_return("http://some.host/look_here/\#{path}")
-      alias :and_return :returns
-      alias :and_return_consecutively :returns_consecutively
   
     end
   end

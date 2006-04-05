@@ -3,6 +3,31 @@ require File.dirname(__FILE__) + '/../../../test_helper'
 module Spec
   module Api
     module Helper
+    
+      class XxxMock
+        def initialize(return_val)
+          @return_val = return_val
+          @xxx_called = false
+        end
+        
+        def xxx?
+          @xxx_called = true
+          @return_val
+        end
+        
+        def yyy?(a, b, c)
+          a.should.be 1
+          b.should.be 2
+          c.should.be 3
+          @xxx_called = true
+          @return_val
+        end
+        
+        def __verify
+          @xxx_called.should.be true
+        end
+      end
+    
       class ArbitraryPredicateTest < Test::Unit::TestCase
 
         # should.be.xxx
@@ -14,26 +39,23 @@ module Spec
       	end
 
       	def test_should_be_xxx_should_raise_when_sending_xxx_to_target_returns_false
-      		mock = Mock.new("xxx? returns false")
-      		mock.should_receive(:xxx?).once.with_no_args.and_return(false)
-      	  assert_raise(ExpectationNotMetError) do
+      		mock = XxxMock.new(false)
+      		assert_raise(ExpectationNotMetError) do
             mock.should.be.xxx
           end
       		mock.__verify
         end
 
       	def test_should_be_xxx_should_raise_when_sending_xxx_to_target_returns_nil
-      		mock = Mock.new("xxx? returns nil")
-      		mock.should_receive(:xxx?).once.with_no_args.and_return(nil)
-      	  assert_raise(ExpectationNotMetError) do
+      		mock = XxxMock.new(nil)
+      		assert_raise(ExpectationNotMetError) do
             mock.should.be.xxx
           end
       		mock.__verify
         end
 
       	def test_should_be_xxx_should_not_raise_when_sending_xxx_to_target_returns_true
-      		mock = Mock.new("xxx? returns true")
-      		mock.should_receive(:xxx?).once.with_no_args.and_return(true)
+      		mock = XxxMock.new(true)
       	  assert_nothing_raised do
             mock.should.be.xxx
           end
@@ -41,8 +63,7 @@ module Spec
         end
 
       	def test_should_be_xxx_should_not_raise_when_sending_xxx_to_target_returns_something_other_than_true_false_or_nil
-      		mock = Mock.new("xxx? returns 5")
-      		mock.should_receive(:xxx?).once.with_no_args.and_return(5)
+      		mock = XxxMock.new(5)
       	  assert_nothing_raised do
             mock.should.be.xxx
           end
@@ -52,10 +73,9 @@ module Spec
       	# should.be.xxx(args)
 	
         def test_should_be_xxx_with_args_passes_args_properly
-       		mock = Mock.new("xxx?(1 2 3) returns true")
-      		mock.should_receive(:xxx?).once.with(1, 2, 3).and_return(true)
+       		mock = XxxMock.new(true)
       	  assert_nothing_raised do
-            mock.should.be.xxx(1, 2, 3)
+            mock.should.be.yyy(1, 2, 3)
           end
       		mock.__verify
         end
@@ -69,8 +89,7 @@ module Spec
       	end
 
       	def test_should_not_be_xxx_should_raise_when_sending_xxx_to_target_returns_true
-      		mock = Mock.new("xxx? returns true")
-      		mock.should_receive(:xxx?).once.with_no_args.and_return(true)
+      		mock = XxxMock.new(true)
       	  assert_raise(ExpectationNotMetError) do
             mock.should.not.be.xxx
           end
@@ -78,8 +97,7 @@ module Spec
         end
 
       	def test_should_not_be_xxx_shouldnt_raise_when_sending_xxx_to_target_returns_nil
-      		mock = Mock.new("xxx? returns nil")
-      		mock.should_receive(:xxx?).once.with_no_args.and_return(nil)
+      		mock = XxxMock.new(nil)
       	  assert_nothing_raised do
             mock.should.not.be.xxx
           end
@@ -87,8 +105,7 @@ module Spec
         end
 
       	def test_should_not_be_xxx_shouldnt_raise_when_sending_xxx_to_target_returns_false
-      		mock = Mock.new("xxx? returns false")
-      		mock.should_receive(:xxx?).once.with_no_args.and_return(false)
+      		mock = XxxMock.new(false)
       	  assert_nothing_raised do
             mock.should.not.be.xxx
           end
@@ -96,8 +113,7 @@ module Spec
         end
 
       	def test_should_not_be_xxx_should_raise_when_sending_xxx_to_target_returns_something_other_than_true_false_or_nil
-      		mock = Mock.new("xxx? returns 5")
-      		mock.should_receive(:xxx?).once.with_no_args.and_return(5)
+      		mock = XxxMock.new(5)
       	  assert_raise(ExpectationNotMetError) do
             mock.should.not.be.xxx
           end
@@ -107,10 +123,9 @@ module Spec
       	# should.be.xxx(args)
 	
         def test_should_not_be_xxx_with_args_passes_args_properly
-       		mock = Mock.new("xxx?(1 2 3) returns false")
-      		mock.should_receive(:xxx?).once.with(1, 2, 3).and_return(false)
+       		mock = XxxMock.new(false)
       	  assert_nothing_raised do
-            mock.should.not.be.xxx(1, 2, 3)
+            mock.should.not.be.yyy(1, 2, 3)
           end
       		mock.__verify
         end

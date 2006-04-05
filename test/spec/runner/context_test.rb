@@ -10,13 +10,13 @@ module Spec
       end
       
       def test_should_add_itself_to_listener_on_run
-        @listener.should_receive(:add_context).with "context"
+        @listener.should.receive(:add_context).with "context"
         @context.run(@listener)
         @listener.__verify
       end
       
       def test_should_add_itself_to_listener_on_run_docs
-        @listener.should_receive(:add_context).with "context"
+        @listener.should.receive(:add_context).with "context"
         @context.run_docs(@listener)
         @listener.__verify
       end
