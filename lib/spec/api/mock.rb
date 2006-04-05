@@ -71,6 +71,7 @@ module Spec
         @consecutive = false
         @any_seen = false
         @at_seen = false
+        @and_seen = false
       end
   
       def matches(sym, args)
@@ -202,13 +203,22 @@ module Spec
       end
   
       def and
+        @and_seen = true
         self
       end
 
       def return(value=nil,&block)
+        return self unless @and_seen
+        @and_seen = false
         @consecutive = value.instance_of? Array
         @block = block_given? ? block : proc { value }
       end
+      
+#      def raise(exception=Exception)
+#        return self unless @and_seen
+#        @and_seen = false
+#        raise exception.new
+#      end
   
     end
   end
