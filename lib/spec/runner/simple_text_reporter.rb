@@ -6,23 +6,24 @@ module Spec
         @context_names = []
         @errors = []
         @spec_names = []
+        @failures = []
         @verbose = verbose
         @backtrace_tweaker = backtrace_tweaker
       end
   
-      def add_context(name)
+      def add_context(name, calling_line=nil)
         @output << "\n" if @context_names.empty? unless @verbose
         @output << "\n#{name}\n" if @verbose
-        @context_names << name
+        @context_names << [name, calling_line]
       end
       
-      def add_spec(name, errors=[])
+      def add_spec(name, calling_line, errors=[])
         if errors.empty?
           spec_passed(name)
         else
           errors.each { |error| @backtrace_tweaker.tweak_backtrace(error, name) }
           # only show the first one (there might be more)
-          spec_failed(name, errors[0])
+          spec_failed(name, calling_line, errors[0])
         end
       end
       
@@ -51,11 +52,13 @@ module Spec
       def dump_failures
         return if @errors.empty?
         @output << "\n"
-        @errors.inject(1) do |index, error|
+        @failures.inject(1) do |index, failure|
           @output << "\n\n" if index > 1
-          @output << index.to_s << ") " 
-          @output << "#{error.message} (#{error.class.name})\n"
-          dump_backtrace(error.backtrace)
+          @output << index.to_s << ") "
+          @output << "Context: #{failure[0]} - #{failure[1]}\n"
+          @output << "Specification: #{failure[2]} - #{failure[3]}\n"
+          @output << "Expectation: #{failure[4].message} (#{failure[4].class.name})\n"
+          dump_backtrace(failure[4].backtrace)
           index + 1
         end
       end
@@ -77,9 +80,10 @@ module Spec
           @output << '.' unless @verbose
         end
 
-        def spec_failed(name, error)
+        def spec_failed(name, calling_line, error)
           @spec_names << name
           @errors << error
+          @failures << [@context_names.last[0], @context_names.last[1], name, calling_line, error]
           if @verbose
             @output << "- #{name} (FAILED)\n#{error.message} (#{error.class.name})\n#{error.backtrace.join("\n")}\n"
           else

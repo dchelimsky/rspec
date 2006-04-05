@@ -7,6 +7,7 @@ module Spec
         @block = block
         @mocks = []
         @errors = []
+        @calling_line = caller(0)[2].split(":in")[0]
       end
     
       def run(reporter=nil, setup_block=nil, teardown_block=nil)
@@ -27,7 +28,7 @@ module Spec
           @errors << e
         end
 
-        reporter.add_spec(@name, @errors) unless reporter.nil?
+        reporter.add_spec(@name, @calling_line, @errors) unless reporter.nil?
       end
     
       def run_docs(reporter)

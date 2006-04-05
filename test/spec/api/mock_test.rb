@@ -221,6 +221,12 @@ module Spec
         @mock.random_call
         @mock.__verify
       end
+      
+      def test_should_handle_anything_in_multi_args
+        @mock.should.receive(:random_call).with("a", :anything, "c")
+        @mock.random_call("a", "whatever", "c")
+        @mock.__verify
+      end
 
 #      def test_raising
 #        @mock.should.receive(:random_call).and.raise(RuntimeError)

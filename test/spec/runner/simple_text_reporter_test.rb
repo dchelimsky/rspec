@@ -25,22 +25,23 @@ module Spec
       end
   
       def test_should_account_for_context_in_stats_for_pass
-        @reporter.add_context Context.new("context") {}
+        @reporter.add_context "context", "calling line"
         @reporter.dump
         assert_match(/1 context, 0 specifications, 0 failures/, @io.string)
       end
   
       def test_should_account_for_spec_in_stats_for_pass
-        @reporter.add_spec Specification.new("spec") {}
+        @reporter.add_spec Specification.new("spec"), "calling line", {}
         @reporter.dump
         assert_match(/0 contexts, 1 specification, 0 failures/, @io.string)
       end
   
       def test_should_account_for_spec_and_error_in_stats_for_pass
         @backtrace_tweaker.should.receive(:tweak_backtrace)
-        @reporter.add_spec Specification.new("spec"), [RuntimeError.new]
+        @reporter.add_context "context", "calling line"
+        @reporter.add_spec Specification.new("spec"), "calling line", [RuntimeError.new]
         @reporter.dump
-        assert_match(/0 contexts, 1 specification, 1 failure/, @io.string)
+        assert_match(/1 context, 1 specification, 1 failure/, @io.string)
       end
       
       def test_should_handle_multiple_contexts_same_name
@@ -53,19 +54,20 @@ module Spec
   
       def test_should_handle_multiple_specs_same_name
         @backtrace_tweaker.should.receive(:tweak_backtrace)
-        @reporter.add_context Context.new("context") {}
-        @reporter.add_spec Specification.new("spec") {}
-        @reporter.add_spec Specification.new("spec"), [RuntimeError.new]
-        @reporter.add_context Context.new("context") {}
-        @reporter.add_spec Specification.new("spec") {}
-        @reporter.add_spec Specification.new("spec"), [RuntimeError.new]
+        @reporter.add_context "context", "calling line"
+        @reporter.add_spec "spec", "calling line"
+        @reporter.add_spec "spec", "calling line", [RuntimeError.new]
+        @reporter.add_context "context", "calling line"
+        @reporter.add_spec "spec", "calling line"
+        @reporter.add_spec "spec", "calling line", [RuntimeError.new]
         @reporter.dump
         assert_match(/2 contexts, 4 specifications, 2 failures/, @io.string)
       end
       
       def test_should_delegate_to_backtrace_tweaker
         @backtrace_tweaker.should.receive(:tweak_backtrace)
-        @reporter.add_spec Specification.new("spec"), [RuntimeError.new]
+        @reporter.add_context "context", "calling line"
+        @reporter.add_spec "spec", "calling line", [RuntimeError.new]
         @backtrace_tweaker.__verify
       end
   
@@ -76,41 +78,54 @@ module Spec
       def setup
         @io = StringIO.new
         @reporter = SimpleTextReporter.new(@io)
+        @reporter.add_context "context", "calling line for context"
       end
       
       def test_should_remain_silent_when_context_name_provided
-        @reporter.add_context "context"
         assert_equal("\n", @io.string)
       end
       
       def test_should_output_dot_when_spec_passed
-        @reporter.add_spec "spec"
-        assert_equal(".", @io.string)
+        @reporter.add_spec "spec", "calling line"
+        assert_equal("\n.", @io.string)
       end
 
       def test_should_output_F_when_spec_failed
-        @reporter.add_spec "spec", [RuntimeError.new]
-        assert_equal("F", @io.string)
+        @reporter.add_spec "spec", "calling line", [RuntimeError.new]
+        assert_equal("\nF", @io.string)
+      end
+      
+      def test_should_output_context_in_failure_dump
+        @reporter.add_spec "failing spec", "calling line", [RuntimeError.new]
+        @reporter.dump
+        assert_match(/context/, @io.string)
+        assert_match(/calling line for context/, @io.string)
+      end
+
+      def test_should_output_spec_in_failure_dump
+        @reporter.add_spec "failing spec", "calling line for spec", [RuntimeError.new]
+        @reporter.dump
+        assert_match(/failing spec/, @io.string)
+        assert_match(/calling line for spec/, @io.string)
       end
 
     end
-
 
     class SimpleTextReporterVerboseOutputTest < Test::Unit::TestCase
 
       def setup
         @io = StringIO.new
         @reporter = SimpleTextReporter.new(@io, true)
+        @reporter.add_context "context", "calling line for context"
       end
       
       def test_should_output_when_context_name_provided
-        @reporter.add_context "context"
-        assert_equal("\ncontext\n", @io.string)
+        assert_match(/\ncontext\n/, @io.string)
       end
       
       def test_should_output_spec_name_when_spec_passed
-        @reporter.add_spec "spec"
-        assert_equal("- spec\n", @io.string)
+        @reporter.add_spec "spec", "calling line"
+        assert_match(/- spec\n/, @io.string)
       end
 
       def test_should_output_failure_when_spec_failed
@@ -119,8 +134,9 @@ module Spec
           raise error
         rescue
         end
-        @reporter.add_spec "spec", [error]
-        assert_equal("- spec (FAILED)\n#{error.message} (#{error.class.name})\n#{error.backtrace.join("\n")}\n", @io.string)
+        @reporter.add_spec "spec", "calling line", [error]
+        assert_match(/spec \(FAILED\)/, @io.string)
+        assert_match(/#{error.message} \(#{error.class.name}\)\n#{error.backtrace.join("\n")}/, @io.string)
       end
 
     end

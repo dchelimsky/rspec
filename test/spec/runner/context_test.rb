@@ -10,7 +10,7 @@ module Spec
       end
       
       def test_should_add_itself_to_listener_on_run
-        @listener.should.receive(:add_context).with "context"
+        @listener.should.receive(:add_context).with "context", :anything
         @context.run(@listener)
         @listener.__verify
       end
@@ -19,9 +19,6 @@ module Spec
         @listener.should.receive(:add_context).with "context"
         @context.run_docs(@listener)
         @listener.__verify
-      end
-      
-      def test_should_execute_setup_from_inherited_context
       end
 
     end

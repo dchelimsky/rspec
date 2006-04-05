@@ -75,7 +75,16 @@ module Spec
       end
   
       def matches(sym, args)
-        @sym == sym and (@expected_params.nil? or @expected_params == args)
+        @sym == sym and (@expected_params.nil? or @expected_params == args or constraints_match?(args))
+      end
+      
+      def constraints_match?(args)
+        return false if args.length != @expected_params.length
+        for i in 0...@expected_params.length
+          next if @expected_params[i] == :anything
+          return false unless args[i] == @expected_params[i]
+        end
+        return true
       end
 
       # This method is called at the end of a spec, after teardown.
@@ -122,7 +131,7 @@ module Spec
           return result
         end
     
-        unless @expected_params.nil? or @expected_params == args
+        unless @expected_params.nil? or @expected_params == args or constraints_match?(args)
           raise Spec::Api::MockExpectationError,
             "#{@sym}: Parameter mismatch: Expected <#{@expected_params}>, got <#{args}>" 
         end
@@ -143,7 +152,7 @@ module Spec
 
         self
       end
-  
+      
       def at
         @at_seen = true
         self

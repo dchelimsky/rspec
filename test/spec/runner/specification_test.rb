@@ -12,20 +12,20 @@ module Spec
           self.should.not.be.instance_of Specification
           self.should.be.instance_of ExecutionContext
         end
-        @reporter.should.receive(:add_spec).with "should pass", []
+        @reporter.should.receive(:add_spec).with "should pass", :anything, []
         spec.run @reporter
       end
 
       def test_should_add_itself_to_reporter_when_passes
         spec = Specification.new("spec") {}
-        @reporter.should.receive(:add_spec).with "spec", []
+        @reporter.should.receive(:add_spec).with "spec", :anything, []
         spec.run(@reporter)
       end
 
       def test_should_add_itself_to_reporter_when_fails
         error = RuntimeError.new
         spec = Specification.new("spec") { raise error }
-        @reporter.should.receive(:add_spec).with "spec", [error]
+        @reporter.should.receive(:add_spec).with "spec", :anything, [error]
         spec.run(@reporter)
       end
       
@@ -40,7 +40,7 @@ module Spec
           mock = mock("a mock")
           mock.should.receive(:poke)
         end
-        @reporter.should.receive(:add_spec) do |spec_name, errors|
+        @reporter.should.receive(:add_spec) do |spec_name, calling_line, errors|
           spec_name.should.equal "spec"
           errors[0].message.should.match /expected poke once, but received it 0 times/
         end
@@ -54,7 +54,7 @@ module Spec
         teardown = lambda do
           raise "in teardown"
         end
-        @reporter.should.receive(:add_spec) do |spec, errors| 
+        @reporter.should.receive(:add_spec) do |spec, calling_line, errors| 
           errors.length.should.equal 2
           errors[0].message.should.equal "in body"
           errors[1].message.should.equal "in teardown"
