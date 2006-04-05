@@ -155,7 +155,80 @@ module Spec
         @mock.random_call(1)
         @mock.__verify
       end
-  
+
+      def test_should_not_throw_if_at_least_twice_method_is_called_twice
+        @mock.should.receive(:random_call).at.least(:twice)
+        @mock.random_call
+        @mock.random_call
+        @mock.__verify
+      end
+
+      def test_should_not_throw_if_at_least_twice_method_is_called_three_times
+        @mock.should.receive(:random_call).at.least(:twice)
+        @mock.random_call
+        @mock.random_call
+        @mock.random_call
+        @mock.__verify
+      end
+
+      def test_should_throw_if_at_least_twice_method_is_called_once
+        @mock.should.receive(:random_call).at.least(:twice)
+        @mock.random_call
+        assert_raise(MockExpectationError) do
+          @mock.__verify
+        end
+      end
+      
+      def test_should_throw_if_at_least_twice_method_is_never_called
+        @mock.should.receive(:random_call).at.least(:twice)
+        assert_raise(MockExpectationError) do
+          @mock.__verify
+        end
+      end
+      
+      def test_should_throw_if_at_least_5_times_method_is_never_called
+        @mock.should.receive(:random_call).at.least(5).times
+        assert_raise(MockExpectationError) do
+          @mock.__verify
+        end
+      end
+      
+      def test_should_throw_if_at_least_5_times_method_is_called_once
+        @mock.should.receive(:random_call).at.least(5).times
+        @mock.random_call
+        assert_raise(MockExpectationError) do
+          @mock.__verify
+        end
+      end
+      
+      def test_should_not_throw_if_at_least_5_times_method_is_called_5_times
+        @mock.should.receive(:random_call).at.least(5).times
+        @mock.random_call
+        @mock.random_call
+        @mock.random_call
+        @mock.random_call
+        @mock.random_call
+        @mock.__verify
+      end
+      
+      def test_should_not_throw_if_at_least_5_times_method_is_called_6_times
+        @mock.should.receive(:random_call).at.least(5).times
+        @mock.random_call
+        @mock.random_call
+        @mock.random_call
+        @mock.random_call
+        @mock.random_call
+        @mock.random_call
+        @mock.__verify
+      end
+
+      def test_raising
+        @mock.should.receive(:random_call).and.raise(Error)
+        assert_raise(MockExpectationError) do
+          @mock.random_call
+        end
+      end
+      
     end
   end
 end

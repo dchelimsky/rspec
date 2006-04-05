@@ -82,8 +82,8 @@ module Spec
         # TODO: this doesn't provide good enough error messages to fix the error.
         # Error msg should tell exactly what went wrong. (AH).
     
-        return if @expected_received_count == -2
-        return if (@expected_received_count == -1) && (@received_count > 0)
+        return if @expected_received_count == :any
+        return if (@expected_received_count < 0) && (@received_count >= @expected_received_count.abs)
         return if @expected_received_count == @received_count
     
         expected_signature = nil
@@ -154,7 +154,11 @@ module Spec
       end
       
       def least(arg)
-        @expected_received_count = -1 if ((arg == :once) and (@at_seen))
+        if @at_seen
+          @expected_received_count = -1 if arg == :once
+          @expected_received_count = -2 if arg == :twice
+          @expected_received_count = -arg if arg.kind_of? Numeric
+        end
         @at_seen = false
         self
       end
@@ -177,7 +181,7 @@ module Spec
       end
       
       def times
-        @expected_received_count = -2 if @of_seen
+        @expected_received_count = :any if @of_seen
         @of_seen = false
         self
       end
