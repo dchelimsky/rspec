@@ -70,7 +70,35 @@ module Spec
         @reporter.add_spec "spec", "calling line", [RuntimeError.new]
         @backtrace_tweaker.__verify
       end
-  
+
+    end
+    
+    class FailureDumpTest < Test::Unit::TestCase
+
+      def setup
+        @io = StringIO.new
+        @reporter = SimpleTextReporter.new(@io)
+        @reporter.add_context "failing context", "calling line for context"
+        @reporter.add_spec "failing spec", "calling line for spec", [RuntimeError.new]
+        @reporter.dump
+      end
+
+      def test_should_include_context
+        assert_match(/failing context/, @io.string)
+      end
+
+      def test_should_include_context_calling_line
+        assert_match(/\[calling line for context\]/, @io.string)
+      end
+
+      def test_should_include_spec
+        assert_match(/failing spec/, @io.string)
+      end
+      
+      def test_should_include_spec_calling_line
+        assert_match(/[calling line for spec]/, @io.string)
+      end
+      
     end
 
     class SimpleTextReporterQuietOutputTest < Test::Unit::TestCase
@@ -95,20 +123,6 @@ module Spec
         assert_equal("\nF", @io.string)
       end
       
-      def test_should_output_context_in_failure_dump
-        @reporter.add_spec "failing spec", "calling line", [RuntimeError.new]
-        @reporter.dump
-        assert_match(/context/, @io.string)
-        assert_match(/calling line for context/, @io.string)
-      end
-
-      def test_should_output_spec_in_failure_dump
-        @reporter.add_spec "failing spec", "calling line for spec", [RuntimeError.new]
-        @reporter.dump
-        assert_match(/failing spec/, @io.string)
-        assert_match(/calling line for spec/, @io.string)
-      end
-
     end
 
     class SimpleTextReporterVerboseOutputTest < Test::Unit::TestCase
@@ -129,14 +143,8 @@ module Spec
       end
 
       def test_should_output_failure_when_spec_failed
-        error = RuntimeError.new
-        begin
-          raise error
-        rescue
-        end
-        @reporter.add_spec "spec", "calling line", [error]
-        assert_match(/spec \(FAILED\)/, @io.string)
-        assert_match(/#{error.message} \(#{error.class.name}\)\n#{error.backtrace.join("\n")}/, @io.string)
+        @reporter.add_spec "spec", "calling line", [RuntimeError.new]
+        assert_match(/spec \(FAILED - 1\)/, @io.string)
       end
 
     end

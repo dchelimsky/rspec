@@ -36,11 +36,9 @@ module Spec
       end
   
       def dump
-        unless @verbose
-          @output << "\n"
-          dump_failures
-          @output << "\n\n" unless @errors.empty?
-        end
+        @output << "\n"
+        dump_failures
+        @output << "\n\n" unless @errors.empty?
         @output << "\n" if @errors.empty?
         @output << "Finished in " << (duration).to_s << " seconds\n\n"
         @output << "#{@context_names.length} context#{'s' unless @context_names.length == 1 }, "
@@ -54,11 +52,11 @@ module Spec
         @output << "\n"
         @failures.inject(1) do |index, failure|
           @output << "\n\n" if index > 1
-          @output << index.to_s << ") "
-          @output << "Context: #{failure[0]} - #{failure[1]}\n"
-          @output << "Specification: #{failure[2]} - #{failure[3]}\n"
-          @output << "Expectation: #{failure[4].message} (#{failure[4].class.name})\n"
-          dump_backtrace(failure[4].backtrace)
+          @output << index.to_s << ")\n"
+          @output << "Context: #{failure.context_name} [#{failure.context_line}]\n"
+          @output << "Specification: #{failure.spec_name} [#{failure.spec_line}]\n"
+          @output << "Expectation: #{failure.error.message} (#{failure.error.class.name})\n"
+          dump_backtrace(failure.error.backtrace)
           index + 1
         end
       end
@@ -83,14 +81,22 @@ module Spec
         def spec_failed(name, calling_line, error)
           @spec_names << name
           @errors << error
-          @failures << [@context_names.last[0], @context_names.last[1], name, calling_line, error]
-          if @verbose
-            @output << "- #{name} (FAILED)\n#{error.message} (#{error.class.name})\n#{error.backtrace.join("\n")}\n"
-          else
-            @output << 'F'
-          end
+          @failures << Failure.new(@context_names.last[0], @context_names.last[1], name, calling_line, error)
+          @output << "- #{name} (FAILED - #{@failures.length})\n" if @verbose
+          @output << 'F' unless @verbose
         end
 
+    end
+    
+    class Failure
+      attr_reader :context_name, :context_line, :spec_name, :spec_line, :error
+      def initialize(context_name, context_line, spec_name, spec_line, error)
+        @context_name = context_name
+        @context_line = context_line
+        @spec_name = spec_name
+        @spec_line = spec_line
+        @error = error
+      end
     end
   end
 end
