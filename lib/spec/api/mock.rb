@@ -84,6 +84,9 @@ module Spec
         return false if args.length != @expected_params.length
         for i in 0...@expected_params.length
           next if @expected_params[i] == :anything
+          next if @expected_params[i] == :numeric and args[i].is_a?Numeric
+          next if @expected_params[i] == :boolean and args[i].is_a?TrueClass or args[i].is_a?FalseClass
+          next if @expected_params[i] == :string and args[i].is_a?String
           return false unless args[i] == @expected_params[i]
         end
         return true
