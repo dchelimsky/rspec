@@ -91,6 +91,18 @@ module Spec
         end
         return true
       end
+      
+      def make_count_message(count)
+        return "at least #{pretty_print(count.abs)}" if count < 0
+        return pretty_print(count) if count > 0
+        return "never"
+      end
+      
+      def pretty_print(count)
+        return "once" if count == 1
+        return "twice" if count == 2
+        return "#{count} times"
+      end
 
       # This method is called at the end of a spec, after teardown.
       def verify_messages_received
@@ -109,11 +121,7 @@ module Spec
           expected_signature = "#{@sym}(#{params})"
         end
     
-        count_message = "{@expected_received_count} times"
-        count_message = "at least once" if (@expected_received_count == -1)
-        count_message = "never" if (@expected_received_count == 0)
-        count_message = "once" if (@expected_received_count == 1)
-        count_message = "twice" if (@expected_received_count == 2)
+        count_message = make_count_message(@expected_received_count)
 
         message = "Mock '#{@mock_name}' expected #{expected_signature} #{count_message}, but received it #{@received_count} times"
         begin
