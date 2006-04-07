@@ -10,8 +10,8 @@ module Spec
         context_runner.run
       end
  
-      def initialize(args)
-        options = OptionParser.parse(args)
+      def initialize(args, err=$stderr)
+        options = OptionParser.parse(args, err)
         @contexts = []
         @out = options.out
         @out = File.open(@out, 'w') if @out.is_a? String

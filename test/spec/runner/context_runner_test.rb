@@ -7,7 +7,7 @@ module Spec
         context2 = Api::Mock.new "context2"
         context1.should.receive(:run_docs)
         context2.should.receive(:run_docs)
-        runner = ContextRunner.new ["-d"]
+        runner = ContextRunner.new ["-d"], StringIO.new
         runner.add_context context1
         runner.add_context context2        
         runner.run

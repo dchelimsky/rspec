@@ -4,7 +4,7 @@ module Spec
   module Runner
     class OptionParser
 
-      def self.parse(args)
+      def self.parse(args, err=$stderr)
         options = OpenStruct.new
         options.out = $stdout
         options.verbose = false;
@@ -28,12 +28,16 @@ module Spec
           end
 
           opts.on_tail("-h", "--help", "Show this message") do
-            puts opts
-            exit
+            err.puts opts
+            exit if err == $stderr
           end
 
         end
         opts.parse!(args)
+        if args.empty?
+          err.puts opts
+          exit if err == $stderr
+        end
         options
       end
     end
