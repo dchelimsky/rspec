@@ -1,5 +1,11 @@
 = RSpec Changelog
 
+== Version 0.5.1
+Summary goes here when the release is out
+* Modified test task to use rcov
+* Deleted unused code (thanks, rcov!)
+* Changes to the mock API
+
 == Version 0.5.0
 
 This release introduces a new API and obsoletes previous versions

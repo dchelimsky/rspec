@@ -1,5 +1,4 @@
 require 'spec/api/helper/should_base'
-require 'spec/api/helper/have_helper'
 require 'spec/api/helper/instance_helper'
 require 'spec/api/helper/instance_negator'
 require 'spec/api/helper/kind_helper'

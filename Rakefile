@@ -9,6 +9,7 @@ require 'rake/testtask'
 require 'rake/rdoctask'
 require 'lib/spec/version'
 require 'lib/spec/rake/spectask'
+require 'test/rake/rcov_testtask'
 
 PKG_NAME = "rspec"
 # Versioning scheme: MAJOR.MINOR.PATCH
