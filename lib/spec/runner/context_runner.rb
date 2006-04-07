@@ -5,13 +5,13 @@ module Spec
     class ContextRunner
       
       def self.standalone context
-        context_runner = ContextRunner.new(ARGV)
+        context_runner = ContextRunner.new(ARGV, true)
         context_runner.add_context context
         context_runner.run
       end
  
-      def initialize(args, err=$stderr)
-        options = OptionParser.parse(args, err)
+      def initialize(args, standalone=false, err=$stderr)
+        options = OptionParser.parse(args, standalone, err)
         @contexts = []
         @out = options.out
         @out = File.open(@out, 'w') if @out.is_a? String

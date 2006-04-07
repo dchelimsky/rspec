@@ -4,7 +4,7 @@ module Spec
   module Runner
     class OptionParser
 
-      def self.parse(args, err=$stderr)
+      def self.parse(args, standalone=false, err=$stderr)
         options = OpenStruct.new
         options.out = $stdout
         options.verbose = false;
@@ -35,8 +35,8 @@ module Spec
         end
         opts.parse!(args)
         if args.empty?
-          err.puts opts
-          exit if err == $stderr
+          err.puts opts unless standalone
+          exit if err == $stderr unless standalone
         end
         options
       end
