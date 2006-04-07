@@ -53,9 +53,9 @@ module Spec
         @failures.inject(1) do |index, failure|
           @output << "\n\n" if index > 1
           @output << index.to_s << ")\n"
+          @output << "#{failure.error.message} (#{failure.error.class.name})\n"
           @output << "Context: #{failure.context_name} [#{failure.context_line}]\n"
           @output << "Specification: #{failure.spec_name} [#{failure.spec_line}]\n"
-          @output << "Expectation: #{failure.error.message} (#{failure.error.class.name})\n"
           dump_backtrace(failure.error.backtrace)
           index + 1
         end
