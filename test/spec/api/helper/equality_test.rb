@@ -40,6 +40,25 @@ module Spec
           end
         end
 
+        def test_should_be_close_good_cases
+          assert_nothing_raised do
+            3.5.should.be.close 3.5, 0.5
+            3.5.should.be.close 3.1, 0.5
+            3.5.should.be.close 3.01, 0.5
+            3.5.should.be.close 3.9, 0.5
+            3.5.should.be.close 3.99, 0.5
+          end
+        end
+        
+        def test_should_be_close_failing_cases
+          assert_raise(ExpectationNotMetError) do
+            3.5.should.be.close 3.0, 0.5
+            3.5.should.be.close 2.0, 0.5
+            3.5.should.be.close 4.0, 0.5
+            3.5.should.be.close 5.0, 0.5
+          end
+        end
+
       end
     end
   end
