@@ -1,0 +1,9 @@
+---
+title: Core API
+inMenu: true
+ordering: 5
+---
+h2. Core API
+
+When RSpec executes specifications, it defines a method *should* on every object in the system.
+This *should* method is your entry to the magic of RSpec.

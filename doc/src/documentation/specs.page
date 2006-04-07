@@ -1,0 +1,20 @@
+---
+title: Writing Specifications
+inMenu: true
+ordering: 2
+---
+h2. Writing Specifications
+
+An RSpec specification is a Ruby file with a context and one or more specifications. Example:
+
+  context "Stack" do
+    specify "should return top when sent top" do
+      stack = Stack.new
+      stack.push 3
+      stack.top.should.be 3
+    end
+  end
+
+A context represents a collection of specifications and must be defined with a name and a block (do-end).
+A specification is defined with the *specify* keyword and a sentence describing what's being specified.
+It is highly recommended to include

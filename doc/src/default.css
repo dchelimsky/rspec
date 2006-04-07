@@ -1,84 +1,200 @@
+/* CSS Document by JM (ISeeYou-Designs.com) */
 
-  #all { background-color: #CCCCCC; }
+body {
+	background-color:#fff;
+	font-family:"Trebuchet MS",arial,sans-serif;
+	font-size:62.5%;
+	color:#777;
+	margin:0;
+	padding:0;
+}
+a {
+	text-decoration:none;
+	color:#222;
+}
+a:hover {
+	color:#c00;
+}
+acronym {
+	cursor:help;
+	border-bottom:1px dotted #ddd;
+}
 
-  #header {
-    border-bottom: 1px solid black;
-    padding: 1ex;
-    background-color: #888888;
-  }
-  #header h1 {
-    margin: 0ex;
-	font-size: 300%;
-	font-style: italic;
-	font-weight: normal;
-  }
 
-, #headerbar { border-bottom: 1px solid black; }
-  #footer { border-top: 1px solid black; }
 
-  #body {
-    margin-left: 250px;
-    margin-right: 20px;
-    padding: 10px;
-  }
+#container {
+	font-size:1.2em;
+	width:550px;
+	margin:0 auto;
+	border-right:3px double #000;
+}
 
-  #menu {
-	float: left;
-	width: 230px;
-    padding: 20px 0px 0px 2px;
-  }
 
-  .bar {
-	clear: both;
-	padding: 3px;
-	text-align: center;
-	font-size: 90%;
-    background-color: #AAAAAA;
-  }
 
-  .left, .right {
-    padding: 0px 1em;
-  }
+#header {
+	color:#444;
+	margin:0;
+	padding:10px;
+	background:#fff url(business_card.jpg) no-repeat bottom right;
+}
+#header h1 {
+	font-family:"Trebuchet MS",arial,sans-serif;
+	font-size:2em;
+	color:#333;
+	margin:0;
+	font-weight:normal;
+}
+#header h1 strong {
+	color:#c00;
+}
 
-  .left {
-	float: left;
-	text-align: left;
-  }
+#header h2 {
+	margin:140px 0 0 0;
+	font-size:1em;
+	font-weight:normal;
+	color:#999;
+}
+#header h2 strong {
+	color:#c00;
+}
 
-  .right {
-	float: right;
-	text-align: right;
-  }
 
-  /* styling the menu */
 
-  #menu a {
-	text-decoration: none;
-	font-weight: bold;
-	font-size: 130%;
-  }
+#navigation {
+	text-align:right;
+	margin:10px 10px 10px auto;
+}
 
-  #menu a:hover {
-	text-decoration: underline;
-  }
+#navigation {
+	margin:0 10px 0 0;
+	padding:0;
+}
 
-  #menu .webgen-menuitem-selected {
-	border-left: 3px solid black;
-  }
+#navigation li {
+	margin:0;
+	padding:0;
+	list-style:none;
+	display:inline;
+}
 
-  #menu ul {
-	list-style-type: none;
-	padding: 0px;
-	margin-left: 10px;
-  }
+#navigation li a {
+	padding:5px 5px 2px 5px;
+	margin:0 1px 0 1px;
+	color:#666;
+	text-decoration:none;
+	font-weight:bold;
+	border-bottom:1px solid #c00;
+}
 
-  #menu li > ul {
-	font-size: 95%;
-  }
+#navigation li a:hover {
+	color:#C00;
+	border-bottom:1px solid #ddd;
+}
 
-  #menu li {
-    margin: 0.0em 0px;
-    padding: 2px 0px;
-    padding-left: 5px;
-    border-left: 3px solid #CCCCCC;
-  }
+
+
+#content {
+	margin:20px 0 20px 10px;
+	padding:0;
+}
+#content p {
+	padding:2px 20px;
+	text-align:justify;
+	text-indent:0.5cm;
+	line-height:1.8em;
+}
+#content h1 {
+	display:block;
+	margin:50px 0 0 10px;
+	padding:0;
+	font-family:"Trebuchet MS",arial,sans-serif;
+	font-size:1.8em;
+	color:#c00;
+	border-color:#ddd;
+	border-style:solid;
+	border-width:0 0 1px 0;
+}
+#content h2 {
+	display:block;
+	margin:20px 0 0 30px;
+	padding:0;
+	font-family:"Trebuchet MS",arial,sans-serif;
+	font-size:1.1em;
+	letter-spacing:2px;
+	color:#444;
+	border-color:#c00;
+	border-style:solid;
+	border-width:0 0 1px 0;
+}
+#content .post_info {
+	text-align:right;
+	margin:0 25px 5px 25px;
+	padding:2px;
+	font-size:0.8em;
+	font-family:arial,sans-serif;
+	color:#aaa;
+	line-height:0.9em;
+	word-spacing:1px;
+	border-top:1px solid #ddd;
+}
+#content .post_info a {
+	text-transform:uppercase;
+}
+#content blockquote {
+	margin:10px 60px;
+	padding:5px;
+	font-family:"Trebuchet MS",arial,sans-serif;
+	font-size:0.9em;
+	color:#444;
+	border:1px solid #ddd;
+	background-color:#eee;
+}
+#content blockquote p {
+	margin:0;
+	padding:0;
+	text-indent:0;
+}
+#content pre {
+	margin:10px 60px;
+	padding:5px;
+	color:#444;
+	border:1px solid #eee;
+	background-color:#fafafa;
+}
+#content ul {
+	margin-left:70px;
+	list-style:upper-roman outside;
+	font-family:arial,sans-serif;
+	font-size:0.9em;
+}
+#content li {
+	padding:3px;
+}
+
+
+
+#footer {
+	font-size:0.9em;
+	font-family:arial,sans-serif;
+	margin:90px 0 20px 0;
+	padding:5px;
+	border-top:1px solid #c00;
+}
+#footer p {
+	text-align:right;
+	line-height:1.1em;
+	color:#bbb;
+	font-size:0.9em;
+	font-family:arial,sans-serif;
+	margin:0;
+	padding:0;
+}
+#footer span {
+	color:#888;
+}
+#footer a {
+	color:#888;
+}
+#footer a:hover {
+	color:#aaa;
+}

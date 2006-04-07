@@ -1,8 +1,8 @@
 ---
-title: Empty index page
+title: Overview
 inMenu: true
-directoryName: New Website
+ordering: 1
 ---
-h2. Empty index file
+h2. RSpec
 
-Fill this file with your own data!!!
+bla bla bla

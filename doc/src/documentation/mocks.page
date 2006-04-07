@@ -1,0 +1,9 @@
+---
+title: Mock API
+inMenu: true
+ordering: 5
+---
+h2. Mock API
+
+RSpec has a built-in API for mock objects. Mock objects are useful for verifying that
+an object invokes the expected messages on other objects.
