@@ -11,7 +11,7 @@ module Spec
         options.doc = false;
 
         opts = ::OptionParser.new do |opts|
-          opts.banner = "Usage: spec [options] FILE|DIRECTORY"
+          opts.banner = "Usage: spec [options] (FILE|DIRECTORY)+"
           opts.separator ""
 
           opts.on("-o", "--of [FILE]", "Set the output file (defaults to STDOUT)") do |outfile|
