@@ -5,5 +5,203 @@ ordering: 5
 ---
 h2. Mock API
 
-RSpec has a built-in API for mock objects. Mock objects are useful for verifying that
-an object invokes the expected messages on other objects.
+RSpec contains a full featured Mock Objects framework.
+
+h3. Creating a mock
+
+<pre>
+<code>
+mock(<name>)
+</code>
+</pre>
+
+This creates a new mock with the given name (a string) and registers it. When
+the specification finishes, all registered mocks are verified.
+
+<pre>
+<code>
+mock(<name>, <options>)
+</code>
+</pre>
+
+As above, but allows you to specific options to tweak the mock's behaviour.
+The <options> argument is a hash. Currently the only supported option is
+:null_object. Setting this to true (i.e. :null_object => true) instructs the
+mock to ignore (quietly consume) any messages it hasn't been told to expect.
+
+h3. Expecting Messages
+
+<pre>
+<code>
+mock.should.receive(<message>)
+</code>
+</pre>
+
+The <message> argument is a symbol that is the name of a message that you want
+the mock to be expecting.
+
+h3. Arbitrary Message Receive Handling
+
+You can supply a block to a message expectation. When the message is received
+by the mock, the block is evaluated, and passed any arguments. The result is
+the return value of the message. For example:
+
+<pre>
+<code>
+@mock.should.receive(:random_call) {| a | a.should.be true}
+</code>
+</pre>
+
+This allows arbitrary argument validation and result computation.
+
+h3. Expecting Arguments
+
+<pre>
+<code>
+mock.should.receive(:msg).with(<args>)
+mock.should.receive(:msg).with(1, 2, 3)
+</code>
+</pre>
+
+The <args> argument is a series of arguments (e..g. 1, 2, 3) that are expected
+to be passed as arguments to the associated message.
+
+<pre>
+<code>
+mock.should.receive(:msg).with(:nothing)
+</code>
+</pre>
+
+No arguments are to be accepted by the message.
+
+<pre>
+<code>
+mock.should.receive(:msg).with(:anything)
+</code>
+</pre>
+
+Any arguments are to be accepted by the message. Additionally, constraints can
+be placed on individual arguments which are looser than value equivalence.
+
+<pre>
+<code>
+:anything
+</code>
+</pre>
+
+accepts any value for this argument
+
+<pre>
+<code>
+mock.should.receive(:msg).with(1, :anything, "A")
+</code>
+</pre>
+
+h3. Receive Counts
+
+<pre>
+<code>
+mock.should.receive(:msg).with(:nothing).never
+</code>
+</pre>
+
+A problem is reported if the message is ever received.
+
+<pre>
+<code>
+mock.should.receive(:msg).with(:nothing).any.number.of.times
+</code>
+</pre>
+
+The message can be received 0 or more times.
+
+<pre>
+<code>
+mock.should.receive(:msg).with(:nothing).once
+</code>
+</pre>
+
+A problem is reported is the message is never received, or it is received more
+than once.
+
+<pre>
+<code>
+mock.should.receive(:msg).with(:nothing).twice
+</code>
+</pre>
+
+A problem is reported is the message is received anything but two times.
+
+<pre>
+<code>
+mock.should.receive(:msg).with(:nothing).exactly(n).times
+</code>
+</pre>
+
+A problem is reported is the message is received anything but n times.
+
+<pre>
+<code>
+mock.should.receive(:msg).with(:nothing).at.least(:once)
+</code>
+</pre>
+
+A problem is reported if the message is never received.
+
+<pre>
+<code>
+mock.should.receive(:msg).with(:nothing).at.least(:twice)
+</code>
+</pre>
+
+A problem is reported is the message is never received or is received only once.
+
+<pre>
+<code>
+mock.should.receive(:msg).with(:nothing).at.least(n).times
+</code>
+</pre>
+
+A problem is reported is the message is received fewer than n times.
+
+h3. Return Values
+
+<pre>
+<code>
+mock.should.receive(:msg).with(:nothing).once.and.return(<value>)
+</code>
+</pre>
+
+When the expected message is received, <value> will be returned as the result.
+
+<pre>
+<code>
+and.return([<value1>, <value2>, …, <valuen>])
+mock.should.receive(:msg).with(:nothing).once.and.return(1, 2, 3)
+</code>
+</pre>
+
+When the expected message is received, <valuei> will be returned as the result
+for the ith reception of the message. Once i > n, <valuen> is returned for all
+subsequent receives of the message.
+
+<pre>
+<code>
+mock.should.receive(:msg).with(:nothing).once.and.return {…} 
+mock.should.receive(:msg).with(:anything).once.and.return {|a, b| a + b}
+</code>
+</pre>
+
+When the expected message is received, the result of evaluating the supplied
+block will be returned as the result. The block is passed any arguments passed
+as parts of the message. This capability can be used to compute return values
+based on the arguments.
+
+<pre>
+<code>
+mock.should.receive(:msg).with(:anything).once.and.throw(<symbol>) 
+mock.should.receive(:msg).with(:anything).once.and.raise(<exception>)
+</code>
+</pre>
+
+These instruct the mock to raise an exception or throw a symbol instead of returning a value.on other objects.

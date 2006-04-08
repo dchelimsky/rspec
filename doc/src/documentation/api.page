@@ -7,3 +7,245 @@ h2. Core API
 
 When RSpec executes specifications, it defines a method *should* on every object in the system.
 This *should* method is your entry to the magic of RSpec.
+
+Almost all expectation forms have a corresponding negated form. It is listed
+when it is supported and is met when ever the non negated form would be
+violated.
+
+h3. General
+
+h4. Arbitrary Block
+
+<pre>
+<code>
+target.should.satisfy {|arg| ...}
+target.should.not.satisfy {|arg| ...}
+</code>
+</pre>
+
+The supplied block is evaluated, passing target as the sole argument. If the
+block evaluates to false in the case of should.satisfy, or true in the case of
+should.not.satisfy, ExpectationNotMetError is raised.
+
+<pre>
+<code>
+target.should.satisfy {|arg| arg > 0}
+</code>
+</pre>
+
+h4. Equality
+<pre>
+<code>
+target.should.equal <value>
+target.should.not.equal <value>
+</code>
+</pre>
+
+The target object is compared to <value> using ==. If the result is false (or
+true for the negated form) ExpectationNotMetError is raised.
+
+h4. Floating Point Comparison
+
+<pre>
+<code>
+target.should.be.close <value>, <tolerance>
+target.should.not.be.close <value>, <tolerance>
+</code>
+</pre>
+
+The target object is compared to <value>. In the former case, if they differ
+by more that <tolerance> ExpectationNotMetError is raised. In the latter case,
+it is raised if they differ by less than <tolerance>.
+
+<pre>
+<code>
+target.should.be.close 27.35, 0.05
+</code>
+</pre>
+
+h4. Identity
+
+<pre>
+<code>
+target.should.be <value>
+target.should.not.be <value>
+</code>
+</pre>
+
+The target object is compared to <value> using equal?. If the result is false
+(or true for the negated form) ExpectationNotMetError is raised.
+
+h4. Arbitrary Predicate
+
+
+<pre>
+<code>
+target.should.predicate [optional args]
+target.should.be.predicate [optional args]
+target.should.not.predicate [optional args]
+target.should.not.be.predicate [optional args]
+</code>
+</pre>
+
+The message predicate? is sent to target with any supplied arguments. If the
+result is false (or true for the negated form) ExpectationNotMetError is
+raised.
+
+<pre>
+<code>
+container.should.include 'a' uses container.include? 'a'
+container.should.be.empty uses container.empty?
+</code>
+</pre>
+
+h4. Pattern Matching
+
+<pre>
+<code>
+target.should.match <regex>
+target.should.not.match <regex>
+</code>
+</pre>
+
+The target is matched against <regex>. An ExpectationNotMetError is raised if
+the match fails or succeeds, respectively.
+
+h3. Class/Type
+
+h4. Direct Instance
+
+<pre>
+<code>
+target.should.be.an.instance.of <class>
+target.should.not.be.an.instance.of <class>
+</code>
+</pre>
+
+An ExpectationNotMetError is raised if target is not or is, respectively, an
+direct instance of <class>. As expected this correlates to target.instance_of?
+<class>.
+
+h4. Ancestor Class
+
+<pre>
+<code>
+target.should.be.a.kind.of <class>
+target.should.not.be.a.kind.of <class>
+</code>
+</pre>
+
+As above, but uses target.kind_of? <class>: checking whether <class> is the
+direct class of target, or an ancestor of target's class.
+
+h4. Type
+
+<pre>
+<code>
+target.should.respond.to <symbol>
+target.should.not.respond.to <symbol>
+</code>
+</pre>
+
+Uses target.respond_to? <symbol> to check whether <symbol> is the name of a
+message that target understands.
+
+h3. Procs
+
+h4. Raising
+
+<pre>
+<code>
+proc.should.raise <exception>
+proc.should.not.raise <exception>
+</code>
+</pre>
+
+Checks that proc does or doesn't cause the named exception to be raised.
+Typically the proc is created in place using lambda. For example:
+
+<pre>
+<code>
+lambda { 3 / 0 }.should.raise ZeroDivisionError
+</code>
+</pre>
+
+There is a more general form as well.
+
+<pre>
+<code>
+proc.should.raise
+proc.should.not.raise
+</code>
+</pre>
+
+These forms don't worry about what exception is raised (or not). All they are
+concern with is that some except was raised, or that no exception was raised.
+
+h4. Throwing
+
+<pre>
+<code>
+proc.should.throw <symbol>
+proc.should.not.throw <symbol>
+</code>
+</pre>
+
+Similar to the above, but checks that <symbol> is thrown from within proc, or
+that it is not. The latter is actually one of two cases: some other symbol is
+thrown, or no symbol is thrown.
+
+<pre>
+<code>
+proc.should.not.throw
+</code>
+</pre>
+
+This form is more specific.  It checks that no symbol is thrown from within proc.
+
+h3. Collections
+
+h4. Containment
+
+<pre>
+<code>
+target.should.include <object>
+</code>
+</pre>
+
+This is simply a specific case of the arbitrary predicate form. It uses
+target.include? <object> and raises an ExpectationNotMetError if that returns
+false. The remaining collection forms are a little more involved. They rely on
+two things: target responds to the message <things> by returning an object
+that responds to either length or size, which return a number that is a
+measure of size. Currently length is used if is appropriate, otherwise size is
+attempted.
+
+4. Exact Size
+
+<pre>
+<code>
+target.should.have(<number>).<things>
+</code>
+</pre>
+
+The <things> of target has a length/size of exactly <number>. 
+
+h4. Lower Bound
+
+<pre>
+<code>
+target.should.have.at.least(<number>).<things>
+</code>
+</pre>
+
+The <things> of target has a length/size of no less than <number>.
+
+h4. Upper Bound
+
+<pre>
+<code>
+target.should.have.at.most(<number>).<things>
+</code>
+</pre>
+
+The <things> of target has a length/size of no more than <number>.
