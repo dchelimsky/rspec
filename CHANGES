@@ -2,6 +2,10 @@
 
 == Version 0.5.2 (in SVN)
 
+* More changes to the mock API [dastels], [dchelimsky]
+** :no_args, :any_args to state general expectations
+** :anything is a positional argument constraint
+
 == Version 0.5.1
 This release is the first release of RSpec with a new website. It will look better soon.
 

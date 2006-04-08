@@ -2,4 +2,4 @@ The website can be generated with
   webgen
 (Install the following gems: webgen, redcloth, bluecloth)
 
-TODO: write rake task that will generate website, put rdoc underneath it and upload everyhing.
+TODO: write rake task that will generate website, put rdoc underneath it and upload everything.
