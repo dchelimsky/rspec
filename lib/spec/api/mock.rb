@@ -81,6 +81,7 @@ module Spec
       end
       
       def constraints_match?(args)
+        return true if @expected_params.length == 1 and @expected_params[0] == :any_args
         return false if args.length != @expected_params.length
         for i in 0...@expected_params.length
           next if @expected_params[i] == :anything
@@ -162,8 +163,8 @@ module Spec
       end
 
       def with(*args)
-        if args == [:anything] then @expected_params = nil
-        elsif args == [:nothing] then @expected_params = []
+        if args == [:any_args] then @expected_params = nil
+        elsif args == [:no_args] then @expected_params = []
         else @expected_params = args
         end
 

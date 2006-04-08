@@ -92,14 +92,14 @@ module Spec
       end
   
       def test_two_return_values
-        @mock.should.receive(:multi_call).twice.with(:nothing).and.return([1, 2])
+        @mock.should.receive(:multi_call).twice.with(:no_args).and.return([1, 2])
         assert_equal(1, @mock.multi_call)
         assert_equal(2, @mock.multi_call)
         @mock.__verify
       end
   
       def test_repeating_final_return_value
-        @mock.should.receive(:multi_call).at.least(:once).with(:nothing).and.return([1, 2])
+        @mock.should.receive(:multi_call).at.least(:once).with(:no_args).and.return([1, 2])
         assert_equal(1, @mock.multi_call)
         assert_equal(2, @mock.multi_call)
         assert_equal(2, @mock.multi_call)
@@ -235,7 +235,23 @@ module Spec
           @mock.random_call
         end
       end
-     
+
+      def test_should_ignore_args_on_any_args
+        @mock.should.receive(:random_call).at.least(:once).with(:any_args)
+        @mock.random_call()
+        @mock.random_call(1)
+        @mock.random_call("a", 2)
+        @mock.random_call([], {}, "joe", 7)
+        @mock.__verify
+      end
+      
+      def test_should_throw_on_no_args_if_any_args_received
+        @mock.should.receive(:random_call).with(:no_args)
+        assert_raise(MockExpectationError) do
+          @mock.random_call(1)
+        end
+      end
+      
     end
   end
 end

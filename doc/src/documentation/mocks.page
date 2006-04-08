@@ -141,7 +141,7 @@ accepts any string for this argument
 mock.should.receive(:msg).with(a, :string, "b")
 </code>
 </pre>
-
+	
 h3. Receive Counts
 
 <pre>

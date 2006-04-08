@@ -8,16 +8,7 @@ module Spec
         @mock = Mock.new("test mock")
       end
 
-      def test_should_handle_anything
-        @mock.should.receive(:random_call).at.least(:once).with(:anything)
-        @mock.random_call()
-        @mock.random_call(1)
-        @mock.random_call("a", 2)
-        @mock.random_call([], {}, "joe", 7)
-        @mock.__verify
-      end
-      
-      def test_should_handle_anything_in_multi_args
+      def test_should_handle_any_arg
         @mock.should.receive(:random_call).with("a", :anything, "c")
         @mock.random_call("a", "whatever", "c")
         @mock.__verify
