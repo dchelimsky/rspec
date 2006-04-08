@@ -17,11 +17,7 @@ PKG_NAME = "rspec"
 # MINOR bumps when the API is broken backwards in a very slight/subtle (but not fatal) way
 # -OR when a new release is made and propaganda is sent out.
 # PATCH is bumped for every API addition and/or bugfix (ideally for every commit)
-# Later DamageControl can bump PATCH automatically.
-#
-# (This is subject to change - AH)
-#
-# REMEMBER TO KEEP PKG_VERSION IN SYNC WITH CHANGELOG
+
 PKG_VERSION   = Spec::VERSION::STRING
 PKG_FILE_NAME = "#{PKG_NAME}-#{PKG_VERSION}"
 PKG_FILES = FileList[
