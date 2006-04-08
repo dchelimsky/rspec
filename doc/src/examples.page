@@ -5,4 +5,9 @@ ordering: 5
 ---
 h2. Examples
 
-yadda yadda
+<% 
+require 'syntax/convertors/html'
+convertor = Syntax::Convertors::HTML.for_syntax("ruby")
+code = File.open('../examples/spec_framework_spec.rb').read
+%>
+<notextile><%= convertor.convert(code) %></notextile>

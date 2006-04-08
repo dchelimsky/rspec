@@ -19,18 +19,12 @@ acronym {
 	cursor:help;
 	border-bottom:1px dotted #ddd;
 }
-
-
-
 #container {
 	font-size:1.2em;
 	width:550px;
 	margin:0 auto;
 	border-right:3px double #000;
 }
-
-
-
 #header {
 	color:#444;
 	margin:0;
@@ -57,19 +51,14 @@ acronym {
 #header h2 strong {
 	color:#c00;
 }
-
-
-
 #navigation {
 	text-align:right;
 	margin:10px 10px 10px auto;
 }
-
 #navigation {
 	margin:0 10px 0 0;
 	padding:0;
 }
-
 #navigation li {
 	margin:0;
 	padding:0;
@@ -90,9 +79,6 @@ acronym {
 	color:#C00;
 	border-bottom:1px solid #ddd;
 }
-
-
-
 #content {
 	margin:20px 0 20px 10px;
 	padding:0;
@@ -170,9 +156,6 @@ acronym {
 #content li {
 	padding:3px;
 }
-
-
-
 #footer {
 	font-size:0.9em;
 	font-family:arial,sans-serif;
@@ -198,3 +181,15 @@ acronym {
 #footer a:hover {
 	color:#aaa;
 }
+
+/* Ruby code */
+.keyword { font-family: monospace; color: #8B0000; }
+.constant, .attribute, .global, .class, .module { font-family: monospace; color: black;}
+.string { font-family: monospace; color: #00008B; }
+.ident, .method { font-family: monospace; color: #006400; }
+.number, .char { font-family: monospace; color: #888800; }
+.comment { font-family: monospace; color: purple; }
+.symbol { font-family: monospace; color: #884400; }
+.regex { font-family: monospace; color: #808080; }
+.punct { font-family: monospace; color: black; }
+.escape, .interp, .expr { font-family: monospace; color: black; background-color: #dddddd; }
