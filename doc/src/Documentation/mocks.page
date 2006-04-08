@@ -68,7 +68,7 @@ to be passed as arguments to the associated message.
 
 <pre>
 <code>
-mock.should.receive(:msg).with(:nothing)
+mock.should.receive(:msg).with(:no_args)
 </code>
 </pre>
 
@@ -76,21 +76,19 @@ No arguments are to be accepted by the message.
 
 <pre>
 <code>
-mock.should.receive(:msg).with(:anything)
+mock.should.receive(:msg).with(:any_args)
 </code>
 </pre>
 
-Any arguments are to be accepted by the message.
+Any arguments are to be accepted by the message. This includes cases where no
+arguments are provided. *This is the default when no with() clause is
+specified.*  Even so, sometimes you want to be explicit about it.
 
 h3. Argument Constraints
 
 Constraints can be placed on individual arguments which are looser than value equivalence.
 
-<pre>
-<code>
-:anything
-</code>
-</pre>
+h4. :anything
 
 accepts any value for this argument
 
@@ -100,11 +98,7 @@ mock.should.receive(:msg).with(1, :anything, "A")
 </code>
 </pre>
 
-<pre>
-<code>
-:numeric
-</code>
-</pre>
+h4. :numeric
 
 accepts any numeric value for this argument
 
@@ -114,11 +108,7 @@ mock.should.receive(:msg).with(a, :numeric, "b")
 </code>
 </pre>
 
-<pre>
-<code>
-:boolean
-</code>
-</pre>
+h4. :boolean
 
 accepts a boolean value for this argument
 
@@ -128,11 +118,7 @@ mock.should.receive(:msg).with(a, :boolean, "b")
 </code>
 </pre>
 
-<pre>
-<code>
-:string
-</code>
-</pre>
+h4. :string
 
 accepts any string for this argument
 
@@ -146,7 +132,7 @@ h3. Receive Counts
 
 <pre>
 <code>
-mock.should.receive(:msg).with(:nothing).never
+mock.should.receive(:msg).never
 </code>
 </pre>
 
@@ -154,7 +140,7 @@ A problem is reported if the message is ever received.
 
 <pre>
 <code>
-mock.should.receive(:msg).with(:nothing).any.number.of.times
+mock.should.receive(:msg).any.number.of.times
 </code>
 </pre>
 
@@ -162,7 +148,7 @@ The message can be received 0 or more times.
 
 <pre>
 <code>
-mock.should.receive(:msg).with(:nothing).once
+mock.should.receive(:msg).once
 </code>
 </pre>
 
@@ -171,7 +157,7 @@ than once.
 
 <pre>
 <code>
-mock.should.receive(:msg).with(:nothing).twice
+mock.should.receive(:msg).twice
 </code>
 </pre>
 
@@ -179,7 +165,7 @@ A problem is reported is the message is received anything but two times.
 
 <pre>
 <code>
-mock.should.receive(:msg).with(:nothing).exactly(n).times
+mock.should.receive(:msg).exactly(n).times
 </code>
 </pre>
 
@@ -187,7 +173,7 @@ A problem is reported is the message is received anything but n times.
 
 <pre>
 <code>
-mock.should.receive(:msg).with(:nothing).at.least(:once)
+mock.should.receive(:msg).at.least(:once)
 </code>
 </pre>
 
@@ -195,7 +181,7 @@ A problem is reported if the message is never received.
 
 <pre>
 <code>
-mock.should.receive(:msg).with(:nothing).at.least(:twice)
+mock.should.receive(:msg).at.least(:twice)
 </code>
 </pre>
 
@@ -203,7 +189,7 @@ A problem is reported is the message is never received or is received only once.
 
 <pre>
 <code>
-mock.should.receive(:msg).with(:nothing).at.least(n).times
+mock.should.receive(:msg).at.least(n).times
 </code>
 </pre>
 
@@ -213,7 +199,7 @@ h3. Return Values
 
 <pre>
 <code>
-mock.should.receive(:msg).with(:nothing).once.and.return(<value>)
+mock.should.receive(:msg).once.and.return(<value>)
 </code>
 </pre>
 
@@ -221,8 +207,7 @@ When the expected message is received, <value> will be returned as the result.
 
 <pre>
 <code>
-and.return([<value1>, <value2>, …, <valuen>])
-mock.should.receive(:msg).with(:nothing).once.and.return(1, 2, 3)
+and.return([<value1>, <value2>, ..., <valuen>])
 </code>
 </pre>
 
@@ -232,21 +217,28 @@ subsequent receives of the message.
 
 <pre>
 <code>
-mock.should.receive(:msg).with(:nothing).once.and.return {…} 
-mock.should.receive(:msg).with(:anything).once.and.return {|a, b| a + b}
+mock.should.receive(:msg).once.and.return {...} 
 </code>
 </pre>
 
 When the expected message is received, the result of evaluating the supplied
 block will be returned as the result. The block is passed any arguments passed
 as parts of the message. This capability can be used to compute return values
-based on the arguments.
+based on the arguments.  For example:
 
 <pre>
 <code>
-mock.should.receive(:msg).with(:anything).once.and.throw(<symbol>) 
-mock.should.receive(:msg).with(:anything).once.and.raise(<exception>)
+mock.should.receive(:msg).once.and.return {|a, b| a + b}
 </code>
 </pre>
 
-These instruct the mock to raise an exception or throw a symbol instead of returning a value.on other objects.
+h3. Raising and Throwing
+
+<pre>
+<code>
+mock.should.receive(:msg).once.and.raise(<exception>)
+mock.should.receive(:msg).once.and.throw(<symbol>) 
+</code>
+</pre>
+
+These instruct the mock to raise an exception or throw a symbol instead of returning a value.
