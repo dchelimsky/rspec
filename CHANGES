@@ -1,19 +1,17 @@
 = RSpec Changelog
 
 == Version 0.5.1
-Summary goes here when the release is out
-* Modified test task to use rcov
-* Deleted unused code (thanks, rcov!)
-* Changes to the mock API
+This release is the first release of RSpec with a new website. It will look better soon.
+
+* Added initial documentation for API [dastels]
+* Added website based on webgen [aslak_hellesoy]
+* Modified test task to use rcov [aslak_hellesoy]
+* Deleted unused code (thanks, rcov!) [aslak_hellesoy]
+* Various changes to the mock API [dastels]
 
 == Version 0.5.0
 
-This release introduces a new API and obsoletes previous versions
-* Lots and lots of changes. See examples.
-
-== Version 0.4.0
-
-The "two Daves walked into a bar and Aslak ruined the party" release.
+This release introduces a new API and obsoletes previous versions.
 
 * Moved source code to separate subfolders
 * Added new DSL runner based on instance_exec

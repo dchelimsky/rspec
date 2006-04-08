@@ -45,21 +45,18 @@ Rake::TestTask.new do |t|
   t.verbose = true
 end
 
-# text runner tests need to run individually
-#Rake::TestTask.new(:test_text_runner) do |t|
-#	t.libs << "test"
-#	t.libs << "examples"
-#	t.test_files = FileList['test/text_runner_test.rb']
-#	t.verbose = true
-#end
+# Generates the HTML documentation
+desc 'Generate documentation'
+task :doc do
+  sh %{pushd doc; webgen; popd }
+end
 
-
-# Create a task to build the RDOC documentation tree.
+desc 'Generate RDoc'
 rd = Rake::RDocTask.new("rdoc") do |rdoc|
-  rdoc.rdoc_dir = 'html'
+  rdoc.rdoc_dir = 'doc/output/rdoc'
   rdoc.title    = "RSpec"
   rdoc.options << '--line-numbers' << '--inline-source' << '--main' << 'README'
-  rdoc.rdoc_files.include('README', 'CHANGES', 'TUTORIAL')
+  rdoc.rdoc_files.include('CHANGES')
   rdoc.rdoc_files.include('lib/**/*.rb', 'doc/**/*.rdoc')
   rdoc.rdoc_files.exclude('doc/**/*_attrs.rdoc')
 end
@@ -140,16 +137,30 @@ task :todo do
   egrep /#.*(FIXME|TODO|TBD)/
 end
 
-task :release => [:verify_env_vars, :release_files, :publish_doc, :publish_news]
+task :clobber do
+  rm_rf 'coverage'
+  rm_rf 'doc/output'
+end
+
+task :release => [:clobber, :verify_env_vars, :release_files, :publish_website, :publish_news]
+
+task :rcov do
+  mv 'coverage', 'doc/output'
+end
 
 task :verify_env_vars do
   raise "RUBYFORGE_USER environment variable not set!" unless ENV['RUBYFORGE_USER']
   raise "RUBYFORGE_PASSWORD environment variable not set!" unless ENV['RUBYFORGE_PASSWORD']
 end
 
-desc "Upload RDoc to RubyForge"
-task :publish_doc => [:rdoc] do
-  publisher = Rake::RubyForgePublisher.new(PKG_NAME, ENV['RUBYFORGE_USER'])
+desc "Upload Website to RubyForge"
+task :publish_website => [:doc, :rdoc, :rcov] do
+  publisher = Rake::SshDirPublisher.new(
+    "#{ENV['RUBYFORGE_USER']}@rubyforge.org",
+    "/var/www/gforge-projects/#{PKG_NAME}",
+    "doc/output"
+  )
+
   publisher.upload
 end
 

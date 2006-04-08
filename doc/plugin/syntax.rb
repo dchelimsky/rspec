@@ -16,21 +16,21 @@ module Tags
       register_tag( 'ruby_inline')
     end
 
-    def process_tag( tag, node, refNode)
+    def process_tag(tag, node, ref_node)
       content = ''
       begin
-				filename=get_param('filename')
+				filename = get_param('filename')
 				if !File.exists?(filename)
 					if filename[0...1] == "~"
 						filename = File.expand_path(filename)
 					else
-						filename = refNode.parent.recursive_value( 'src' ) + get_param( 'filename' )
+						filename = ref_node.parent.recursive_value( 'src' ) + get_param( 'filename' )
 					end
 				end
         self.logger.debug { "File location: <#{filename}>" }
         content = File.read( filename )
       rescue
-        self.logger.error { "Given file <#{filename}> does not exist (tag specified in <#{refNode.recursive_value( 'src' )}>" }
+        self.logger.error { "Given file <#{filename}> does not exist (tag specified in <#{ref_node.recursive_value( 'src' )}>" }
       end
       CONVERTOR.convert(content)
     end
