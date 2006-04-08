@@ -9,7 +9,8 @@ This release is the first release of RSpec with a new website. It will look bett
 * Added website based on webgen [aslak_hellesoy]
 * Modified test task to use rcov [aslak_hellesoy]
 * Deleted unused code (thanks, rcov!) [aslak_hellesoy]
-* Various changes to the mock API [dastels]
+* Various changes to the mock API [dastels], [dchelimsky]
+* Various improvements to failure reporting [dchelimsky]
 
 == Version 0.5.0
 
