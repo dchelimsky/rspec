@@ -105,12 +105,10 @@ spec = Gem::Specification.new do |s|
   s.rubyforge_project = "rspec"
 end
 
-desc "Build Gem"
 Rake::GemPackageTask.new(spec) do |pkg|
   pkg.need_zip = true
   pkg.need_tar = true
 end
-task :gem => [:test]
 
 # Support Tasks ------------------------------------------------------
 
@@ -138,7 +136,7 @@ task :clobber do
   rm_rf 'doc/output'
 end
 
-task :release => [:clobber, :verify_env_vars, :release_files, :publish_website, :publish_news]
+task :release => [:clobber, :test, :verify_env_vars, :upload_releases, :publish_website, :publish_news]
 
 task :rcov do
   mv 'coverage', 'doc/output'
@@ -160,10 +158,13 @@ task :publish_website => [:doc, :rdoc, :rcov] do
   publisher.upload
 end
 
-desc "Release gem to RubyForge. MAKE SURE PKG_VERSION is aligned with the CHANGELOG file"
-task :release_files => [:gem] do
+desc "Release gem to RubyForge. You must make sure lib/version.rb is aligned with the CHANGELOG file"
+task :upload_releases => :package do
+
   release_files = FileList[
-    "pkg/#{PKG_FILE_NAME}.gem"
+    "pkg/#{PKG_FILE_NAME}.gem",
+    "pkg/#{PKG_FILE_NAME}.tgz",
+    "pkg/#{PKG_FILE_NAME}.zip"
   ]
 
   Rake::XForge::Release.new(MetaProject::Project::XForge::RubyForge.new(PKG_NAME)) do |xf|
@@ -176,11 +177,7 @@ task :release_files => [:gem] do
 end
 
 desc "Publish news on RubyForge"
-task :publish_news => [:gem] do
-  release_files = FileList[
-    "pkg/#{PKG_FILE_NAME}.gem"
-  ]
-
+task :publish_news do
   Rake::XForge::NewsPublisher.new(MetaProject::Project::XForge::RubyForge.new(PKG_NAME)) do |news|
     # Never hardcode user name and password in the Rakefile!
     news.user_name = ENV['RUBYFORGE_USER']
