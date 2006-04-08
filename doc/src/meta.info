@@ -13,16 +13,11 @@ examples.page:
 download.page:
   orderInfo: 5
   
-Documentation:
-  inMenu: false
-  
-Documentation/index.page:
+tools:
+  title: Tools
   orderInfo: 6
   
-Tools:
-  inMenu: false
-  
-Tools/index.page:
-  inMenu: true
+documentation:
+  title: Documentation
   orderInfo: 7
-  
+
