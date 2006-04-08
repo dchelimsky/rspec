@@ -5,9 +5,5 @@ ordering: 5
 ---
 h2. Examples
 
-<% 
-require 'syntax/convertors/html'
-convertor = Syntax::Convertors::HTML.for_syntax("ruby")
-code = File.open('../examples/spec_framework_spec.rb').read
-%>
-<notextile><%= convertor.convert(code) %></notextile>
+Here is an example of an RSpec spec:
+{ruby_inline: {filename: ../examples/spec_framework_spec.rb}}
