@@ -77,6 +77,7 @@ context "An almost full stack (with one item less than capacity)" do
   end
   
 end
+
 context "A full stack" do
   
   setup do

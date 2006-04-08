@@ -80,8 +80,11 @@ mock.should.receive(:msg).with(:anything)
 </code>
 </pre>
 
-Any arguments are to be accepted by the message. Additionally, constraints can
-be placed on individual arguments which are looser than value equivalence.
+Any arguments are to be accepted by the message.
+
+h3. Argument Constraints
+
+Constraints can be placed on individual arguments which are looser than value equivalence.
 
 <pre>
 <code>
@@ -94,6 +97,48 @@ accepts any value for this argument
 <pre>
 <code>
 mock.should.receive(:msg).with(1, :anything, "A")
+</code>
+</pre>
+
+<pre>
+<code>
+:numeric
+</code>
+</pre>
+
+accepts any numeric value for this argument
+
+<pre>
+<code>
+mock.should.receive(:msg).with(a, :numeric, "b")
+</code>
+</pre>
+
+<pre>
+<code>
+:boolean
+</code>
+</pre>
+
+accepts a boolean value for this argument
+
+<pre>
+<code>
+mock.should.receive(:msg).with(a, :boolean, "b")
+</code>
+</pre>
+
+<pre>
+<code>
+:string
+</code>
+</pre>
+
+accepts any string for this argument
+
+<pre>
+<code>
+mock.should.receive(:msg).with(a, :string, "b")
 </code>
 </pre>
 
