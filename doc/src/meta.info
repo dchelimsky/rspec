@@ -1,0 +1,28 @@
+index.page:
+  orderInfo: 1
+  
+why_rspec.page:
+  orderInfo: 2
+
+community.page:
+  orderInfo: 3
+  
+examples.page:
+  orderInfo: 4
+  
+download.page:
+  orderInfo: 5
+  
+Documentation:
+  inMenu: false
+  
+Documentation/index.page:
+  orderInfo: 6
+  
+Tools:
+  inMenu: false
+  
+Tools/index.page:
+  inMenu: true
+  orderInfo: 7
+  

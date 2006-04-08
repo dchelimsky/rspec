@@ -1,0 +1,25 @@
+index.page:
+  orderInfo: 10
+  
+specs.page:
+  orderInfo: 12
+    
+api.page:
+  orderInfo: 13
+  
+mocks.page:
+  orderInfo: 14
+  
+rdoc.html:
+  title: RDoc
+  dest: ../rdoc/index.html
+  inMenu: true
+  orderInfo: 15
+
+rcov.html:
+  title: RCov
+  dest: ../coverage/index.html
+  inMenu: true
+  orderInfo: 16
+
+  

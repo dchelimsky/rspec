@@ -1,0 +1,17 @@
+index.page:
+  inMenu: false
+
+spec_runner.page:
+  orderInfo: 10
+  
+rake.page:
+  orderInfo: 11
+  
+rails.page:
+  orderInfo: 12
+
+specdoc.page:
+  orderInfo: 13
+  
+test2rspec.page:
+  orderInfo: 14

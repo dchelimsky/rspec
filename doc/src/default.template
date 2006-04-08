@@ -16,9 +16,7 @@
 
 	<div id="navigation">
 	    <!-- Not sure how to get this in the menu -->
-	    <a href="rdoc/index.html">RDoc</a>
-	    <a href="coverage/index.html">RCov</a>
-		{menu: }
+	    {menu: {menuStyle: horizontal}}
 	</div>
 
 	<div id="content">
