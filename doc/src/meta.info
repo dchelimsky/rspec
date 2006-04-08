@@ -4,20 +4,20 @@ index.page:
 why_rspec.page:
   orderInfo: 2
 
-community.page:
+examples.page:
   orderInfo: 3
   
-examples.page:
+documentation:
+  title: Documentation
   orderInfo: 4
-  
+
 download.page:
   orderInfo: 5
-  
+
 tools:
   title: Tools
   orderInfo: 6
   
-documentation:
-  title: Documentation
+community.page:
   orderInfo: 7
 

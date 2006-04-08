@@ -1,3 +1,7 @@
-h2. Tools
+---
+title: Spec Runner
+inMenu: true
+---
+h2. Spec Runner
 
-Look at my tools
+spec directory_filled_with_specs
