@@ -183,6 +183,9 @@ acronym {
 }
 
 /* Ruby code */
+pre {
+	font-size: 12px;
+}
 .keyword { font-family: monospace; color: #8B0000; }
 .constant, .attribute, .global, .class, .module { font-family: monospace; color: black;}
 .string { font-family: monospace; color: #00008B; }
