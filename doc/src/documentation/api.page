@@ -1,6 +1,7 @@
 ---
 title: Core API
 inMenu: true
+ordering: 5
 ---
 h2. Core API
 
@@ -8,7 +9,7 @@ When RSpec executes specifications, it defines a method *should* on every object
 This *should* method is your entry to the magic of RSpec.
 
 Almost all expectation forms have a corresponding negated form. It is listed
-when it is supported and is met when ever the non negated form would be
+when it is supported and, in general, is met when ever the non negated form would be
 violated.
 
 h3. General
@@ -22,9 +23,9 @@ target.should.not.satisfy {|arg| ...}
 </code>
 </pre>
 
-The supplied block is evaluated, passing target as the sole argument. If the
-block evaluates to false in the case of should.satisfy, or true in the case of
-should.not.satisfy, ExpectationNotMetError is raised.
+The supplied block is evaluated, passing _target_ as the sole argument. If the
+block evaluates to _false_ in the case of _should.satisfy_, or _true_ in the case of
+_should.not.satisfy_, _ExpectationNotMetError_ is raised.
 
 <pre>
 <code>
@@ -33,6 +34,7 @@ target.should.satisfy {|arg| arg > 0}
 </pre>
 
 h4. Equality
+
 <pre>
 <code>
 target.should.equal <value>
@@ -40,8 +42,8 @@ target.should.not.equal <value>
 </code>
 </pre>
 
-The target object is compared to <value> using ==. If the result is false (or
-true for the negated form) ExpectationNotMetError is raised.
+The target object is compared to _value_ using ==. If the result is _false_ (or
+_true_ for the negated form) _ExpectationNotMetError_ is raised.
 
 h4. Floating Point Comparison
 
@@ -52,9 +54,9 @@ target.should.not.be.close <value>, <tolerance>
 </code>
 </pre>
 
-The target object is compared to <value>. In the former case, if they differ
-by more that <tolerance> ExpectationNotMetError is raised. In the latter case,
-it is raised if they differ by less than <tolerance>.
+The target object is compared to _value_. In the former case, if they differ
+by more that _tolerance_ _ExpectationNotMetError_ is raised. In the latter case,
+it is raised if they differ by less than _tolerance_.
 
 <pre>
 <code>
@@ -71,8 +73,8 @@ target.should.not.be <value>
 </code>
 </pre>
 
-The target object is compared to <value> using equal?. If the result is false
-(or true for the negated form) ExpectationNotMetError is raised.
+The target object is compared to _value_ using _equal?_. If the result is _false_
+(or _true_ for the negated form) _ExpectationNotMetError_ is raised.
 
 h4. Arbitrary Predicate
 
@@ -86,14 +88,14 @@ target.should.not.be.predicate [optional args]
 </code>
 </pre>
 
-The message predicate? is sent to target with any supplied arguments. If the
-result is false (or true for the negated form) ExpectationNotMetError is
+The message _predicate?_ is sent to _target_ with any supplied arguments. If the
+result is _false_ (or _true_ for the negated form) _ExpectationNotMetError_ is
 raised.
 
 <pre>
 <code>
-container.should.include 'a' uses container.include? 'a'
-container.should.be.empty uses container.empty?
+container.should.include 'a' => container.include? 'a'
+container.should.be.empty => container.empty?
 </code>
 </pre>
 
@@ -106,7 +108,7 @@ target.should.not.match <regex>
 </code>
 </pre>
 
-The target is matched against <regex>. An ExpectationNotMetError is raised if
+The _target_ is matched against _regex_. An _ExpectationNotMetError_ is raised if
 the match fails or succeeds, respectively.
 
 h3. Class/Type
@@ -120,9 +122,9 @@ target.should.not.be.an.instance.of <class>
 </code>
 </pre>
 
-An ExpectationNotMetError is raised if target is not or is, respectively, an
-direct instance of <class>. As expected this correlates to target.instance_of?
-<class>.
+An _ExpectationNotMetError_ is raised if _target_ is not or is, respectively, an
+direct instance of _class_. As expected this correlates to _target.instance_of?
+ class_.
 
 h4. Ancestor Class
 
@@ -133,8 +135,8 @@ target.should.not.be.a.kind.of <class>
 </code>
 </pre>
 
-As above, but uses target.kind_of? <class>: checking whether <class> is the
-direct class of target, or an ancestor of target's class.
+As above, but uses _target.kind_of? class_: checking whether _class_ is the
+direct class of _target_, or an ancestor of _target_'s class.
 
 h4. Type
 
@@ -145,8 +147,8 @@ target.should.not.respond.to <symbol>
 </code>
 </pre>
 
-Uses target.respond_to? <symbol> to check whether <symbol> is the name of a
-message that target understands.
+Uses _target.respond_to? symbol?_ to check whether _symbol_ is the name of a
+message that _target_ understands.
 
 h3. Procs
 
@@ -159,8 +161,8 @@ proc.should.not.raise <exception>
 </code>
 </pre>
 
-Checks that proc does or doesn't cause the named exception to be raised.
-Typically the proc is created in place using lambda. For example:
+Checks that _proc_ does or doesn't cause the named exception to be raised.
+Typically the _proc_ is created in place using _lambda_. For example:
 
 <pre>
 <code>
@@ -189,7 +191,7 @@ proc.should.not.throw <symbol>
 </code>
 </pre>
 
-Similar to the above, but checks that <symbol> is thrown from within proc, or
+Similar to the above, but checks that _symbol_ is thrown from within _proc_, or
 that it is not. The latter is actually one of two cases: some other symbol is
 thrown, or no symbol is thrown.
 
@@ -199,7 +201,7 @@ proc.should.not.throw
 </code>
 </pre>
 
-This form is more specific.  It checks that no symbol is thrown from within proc.
+This form is more specific.  It checks that no symbol is thrown from within _proc_.
 
 h3. Collections
 
@@ -212,14 +214,14 @@ target.should.include <object>
 </pre>
 
 This is simply a specific case of the arbitrary predicate form. It uses
-target.include? <object> and raises an ExpectationNotMetError if that returns
+_target.include? object_ and raises an _ExpectationNotMetError_ if that returns
 false. The remaining collection forms are a little more involved. They rely on
-two things: target responds to the message <things> by returning an object
-that responds to either length or size, which return a number that is a
-measure of size. Currently length is used if is appropriate, otherwise size is
+two things: _target_ responds to the message _things_ by returning an object
+that responds to either _length_ or _size_, which return a number that is a
+measure of size. Currently _length_ is used if is appropriate, otherwise _size_ is
 attempted.
 
-4. Exact Size
+h4. Exact Size
 
 <pre>
 <code>
@@ -227,7 +229,7 @@ target.should.have(<number>).<things>
 </code>
 </pre>
 
-The <things> of target has a length/size of exactly <number>. 
+The _things_ of _target_ has a length/size of exactly _number_. 
 
 h4. Lower Bound
 
@@ -237,7 +239,7 @@ target.should.have.at.least(<number>).<things>
 </code>
 </pre>
 
-The <things> of target has a length/size of no less than <number>.
+The _things_ of _target_ has a length/size of no less than _number_.
 
 h4. Upper Bound
 
@@ -247,4 +249,4 @@ target.should.have.at.most(<number>).<things>
 </code>
 </pre>
 
-The <things> of target has a length/size of no more than <number>.
+The _things_ of _target_ has a length/size of no more than _number_.
