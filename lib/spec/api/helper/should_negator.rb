@@ -51,6 +51,7 @@ module Spec
       rescue exception
         fail_with_message(default_message("should not raise", exception.inspect))
       rescue
+        true
       end
     end
     
@@ -62,6 +63,7 @@ module Spec
         end
         fail_with_message(default_message("should not throw", symbol.inspect))
       rescue NameError
+        true
       end
     end
     
