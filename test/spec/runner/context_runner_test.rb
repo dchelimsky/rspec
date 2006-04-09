@@ -14,6 +14,19 @@ module Spec
         context1.__verify
         context2.__verify
       end
+
+      def test_should_call_run_on_context
+        context1 = Api::Mock.new "context1"
+        context2 = Api::Mock.new "context2"
+        context1.should.receive(:run)
+        context2.should.receive(:run)
+        runner = ContextRunner.new [], false, StringIO.new
+        runner.add_context context1
+        runner.add_context context2        
+        runner.run
+        context1.__verify
+        context2.__verify
+      end
     end
   end
 end
