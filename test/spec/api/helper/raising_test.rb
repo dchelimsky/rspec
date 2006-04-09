@@ -44,6 +44,12 @@ module Spec
             proc { ''.to_s }.should.not.raise NoMethodError
           end
         end
+
+        def test_should_not_raise_without_exception_should_pass_when_no_exception_is_raised
+          assert_nothing_raised do
+            proc { ''.to_s }.should.not.raise
+          end
+        end
         
         def TODOtest_should_understand_raised_with_message_matching
           lambda do
