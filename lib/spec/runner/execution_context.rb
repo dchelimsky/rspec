@@ -10,6 +10,10 @@ module Spec
         @spec.add_mock(mock)
         mock
       end
+      
+      def violated(message="")
+        raise Spec::Api::ExpectationNotMetError.new(message)
+      end
     end
   end
 end

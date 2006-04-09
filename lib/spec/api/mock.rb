@@ -145,10 +145,6 @@ module Spec
           return result
         end
     
-        unless @expected_params.nil? or @expected_params == args or constraints_match?(args)
-          Kernel::raise Spec::Api::MockExpectationError,
-            "#{@sym}: Parameter mismatch: Expected <#{@expected_params}>, got <#{args}>" 
-        end
         args << block unless block.nil?
         @received_count += 1
         

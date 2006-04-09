@@ -14,16 +14,18 @@ module Spec
       HaveHelper.new(@target, expected_number)
     end
 	
-		def satisfy
-      fail_with_message "Supplied expectation was not satisfied" if (!yield @target)
+		def satisfy(&block)
+		puts "!!!!!!!!!!!!!!!!!!!!"
+		  return if block.call(@target)
+      fail_with_message "Supplied expectation was not satisfied"
     end
 				
 	  def equal(expected)
     	fail_with_message(default_message("should equal", expected)) unless (@target == expected)
     end
 
-    def be(expected = :no_arg)
-      return self if (expected == :no_arg)
+    def be(expected = :___no_arg)
+      return self if (expected == :___no_arg)
       return if (expected == false and @target.nil?)
 			return if (expected == true and (!@target.nil?) and (@target != false))
     	fail_with_message(default_message("should be", expected)) unless (@target.equal?(expected))
