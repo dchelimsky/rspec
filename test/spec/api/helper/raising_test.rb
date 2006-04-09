@@ -44,6 +44,12 @@ module Spec
             proc { ''.to_s }.should.not.raise NoMethodError
           end
         end
+        
+        def TODOtest_should_understand_raised_with_message_matching
+          lambda do
+            raise 'Hello'
+          end.should.raise(StandardError).with.message.matching /ello/
+        end
       end
     end
   end

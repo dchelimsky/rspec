@@ -7,3 +7,18 @@
  - Do we want to use an issue tracker? The one at RubyForge maybe?
  - Create first class result objects instead of just Strings. This can be used to generate XML/YAML reports
    which in turn can be transformed to e.g. HTML reports.
+
+Aslak/Brian:
+should.raise should be more descriptive when it fails - show the code maybe?
+topic, not context
+
+topic 'lunch' do
+  topic 'bad lunch' do
+    
+  end
+end
+
+A specification describes a correct program
+A test helps provoke a good program
+
+example, intent, desire, goal, must, should, specify, fact
