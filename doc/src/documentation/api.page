@@ -23,9 +23,9 @@ target.should.not.satisfy {|arg| ...}
 </code>
 </pre>
 
-The supplied block is evaluated, passing _target_ as the sole argument. If the
-block evaluates to _false_ in the case of _should.satisfy_, or _true_ in the case of
-_should.not.satisfy_, _ExpectationNotMetError_ is raised.
+The supplied block is evaluated, passing <code>target</code> as the sole argument. If the
+block evaluates to <code>false</code> in the case of <code>should.satisfy</code>, or <code>true</code> in the case of
+<code>should.not.satisfy</code>, <code>ExpectationNotMetError</code> is raised.
 
 <pre>
 <code>
@@ -42,8 +42,8 @@ target.should.not.equal <value>
 </code>
 </pre>
 
-The target object is compared to _value_ using ==. If the result is _false_ (or
-_true_ for the negated form) _ExpectationNotMetError_ is raised.
+The target object is compared to <code>value</code> using ==. If the result is <code>false</code> (or
+<code>true</code> for the negated form) <code>ExpectationNotMetError</code> is raised.
 
 h4. Floating Point Comparison
 
@@ -54,9 +54,9 @@ target.should.not.be.close <value>, <tolerance>
 </code>
 </pre>
 
-The target object is compared to _value_. In the former case, if they differ
-by more that _tolerance_ _ExpectationNotMetError_ is raised. In the latter case,
-it is raised if they differ by less than _tolerance_.
+The target object is compared to <code>value</code>. In the former case, if they differ
+by more that <code>tolerance</code> <code>ExpectationNotMetError</code> is raised. In the latter case,
+it is raised if they differ by less than <code>tolerance</code>.
 
 <pre>
 <code>
@@ -73,8 +73,8 @@ target.should.not.be <value>
 </code>
 </pre>
 
-The target object is compared to _value_ using _equal?_. If the result is _false_
-(or _true_ for the negated form) _ExpectationNotMetError_ is raised.
+The target object is compared to <code>value</code> using <code>equal?</code>. If the result is <code>false</code>
+(or <code>true</code> for the negated form) <code>ExpectationNotMetError</code> is raised.
 
 h4. Arbitrary Predicate
 
@@ -88,8 +88,8 @@ target.should.not.be.predicate [optional args]
 </code>
 </pre>
 
-The message _predicate?_ is sent to _target_ with any supplied arguments. If the
-result is _false_ (or _true_ for the negated form) _ExpectationNotMetError_ is
+The message <code>predicate?</code> is sent to <code>target</code> with any supplied arguments. If the
+result is <code>false</code> (or <code>true</code> for the negated form) <code>ExpectationNotMetError</code> is
 raised.
 
 <pre>
@@ -108,7 +108,7 @@ target.should.not.match <regex>
 </code>
 </pre>
 
-The _target_ is matched against _regex_. An _ExpectationNotMetError_ is raised if
+The <code>target</code> is matched against <code>regex</code>. An <code>ExpectationNotMetError</code> is raised if
 the match fails or succeeds, respectively.
 
 h3. Class/Type
@@ -122,9 +122,9 @@ target.should.not.be.an.instance.of <class>
 </code>
 </pre>
 
-An _ExpectationNotMetError_ is raised if _target_ is not or is, respectively, an
-direct instance of _class_. As expected this correlates to _target.instance_of?
- class_.
+An <code>ExpectationNotMetError</code> is raised if <code>target</code> is not or is, respectively, an
+direct instance of <code>class</code>. As expected this correlates to <code>target.instance_of?
+ class</code>.
 
 h4. Ancestor Class
 
@@ -135,8 +135,8 @@ target.should.not.be.a.kind.of <class>
 </code>
 </pre>
 
-As above, but uses _target.kind_of? class_: checking whether _class_ is the
-direct class of _target_, or an ancestor of _target_'s class.
+As above, but uses <code>target.kind_of? class</code>: checking whether <code>class</code> is the
+direct class of <code>target</code>, or an ancestor of <code>target</code>'s class.
 
 h4. Type
 
@@ -147,8 +147,8 @@ target.should.not.respond.to <symbol>
 </code>
 </pre>
 
-Uses _target.respond_to? symbol?_ to check whether _symbol_ is the name of a
-message that _target_ understands.
+Uses <code>target.respond_to? symbol?</code> to check whether <code>symbol</code> is the name of a
+message that <code>target</code> understands.
 
 h3. Procs
 
@@ -161,8 +161,8 @@ proc.should.not.raise <exception>
 </code>
 </pre>
 
-Checks that _proc_ does or doesn't cause the named exception to be raised.
-Typically the _proc_ is created in place using _lambda_. For example:
+Checks that <code>proc</code> does or doesn't cause the named exception to be raised.
+Typically the <code>proc</code> is created in place using <code>lambda</code>. For example:
 
 <pre>
 <code>
@@ -191,7 +191,7 @@ proc.should.not.throw <symbol>
 </code>
 </pre>
 
-Similar to the above, but checks that _symbol_ is thrown from within _proc_, or
+Similar to the above, but checks that <code>symbol</code> is thrown from within <code>proc</code>, or
 that it is not. The latter is actually one of two cases: some other symbol is
 thrown, or no symbol is thrown.
 
@@ -201,7 +201,7 @@ proc.should.not.throw
 </code>
 </pre>
 
-This form is more specific.  It checks that no symbol is thrown from within _proc_.
+This form is more specific.  It checks that no symbol is thrown from within <code>proc</code>.
 
 h3. Collections
 
@@ -214,11 +214,11 @@ target.should.include <object>
 </pre>
 
 This is simply a specific case of the arbitrary predicate form. It uses
-_target.include? object_ and raises an _ExpectationNotMetError_ if that returns
+<code>target.include? object</code> and raises an <code>ExpectationNotMetError</code> if that returns
 false. The remaining collection forms are a little more involved. They rely on
-two things: _target_ responds to the message _things_ by returning an object
-that responds to either _length_ or _size_, which return a number that is a
-measure of size. Currently _length_ is used if is appropriate, otherwise _size_ is
+two things: <code>target</code> responds to the message <code>things</code> by returning an object
+that responds to either <code>length</code> or <code>size</code>, which return a number that is a
+measure of size. Currently <code>length</code> is used if is appropriate, otherwise <code>size</code> is
 attempted.
 
 h4. Exact Size
@@ -229,7 +229,7 @@ target.should.have(<number>).<things>
 </code>
 </pre>
 
-The _things_ of _target_ has a length/size of exactly _number_. 
+The <code>things</code> of <code>target</code> has a length/size of exactly <code>number</code>. 
 
 h4. Lower Bound
 
@@ -239,7 +239,7 @@ target.should.have.at.least(<number>).<things>
 </code>
 </pre>
 
-The _things_ of _target_ has a length/size of no less than _number_.
+The <code>things</code> of <code>target</code> has a length/size of no less than <code>number</code>.
 
 h4. Upper Bound
 
@@ -249,4 +249,4 @@ target.should.have.at.most(<number>).<things>
 </code>
 </pre>
 
-The _things_ of _target_ has a length/size of no more than _number_.
+The <code>things</code> of <code>target</code> has a length/size of no more than <code>number</code>.
