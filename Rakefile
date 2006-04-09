@@ -138,7 +138,12 @@ end
 
 task :release => [:clobber, :test, :verify_env_vars, :upload_releases, :publish_website, :publish_news]
 
-task :rcov do
+desc "Builds the website with rdoc and rcov, but does not publish it"
+task :website => [:clobber, :test, :doc, :rdoc, :rcov]
+
+task :rcov => [:test] do
+  rm_rf 'doc/output/coverage'
+  mkdir 'doc/output' unless File.exists? 'doc/output'
   mv 'coverage', 'doc/output'
 end
 
@@ -148,7 +153,7 @@ task :verify_env_vars do
 end
 
 desc "Upload Website to RubyForge"
-task :publish_website => [:doc, :rdoc, :rcov] do
+task :publish_website => [:website] do
   publisher = Rake::SshDirPublisher.new(
     "#{ENV['RUBYFORGE_USER']}@rubyforge.org",
     "/var/www/gforge-projects/#{PKG_NAME}",

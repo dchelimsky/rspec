@@ -1,3 +1,5 @@
+require File.dirname(__FILE__) + "/stack"
+
 context "An empty stack" do
   
   setup do
