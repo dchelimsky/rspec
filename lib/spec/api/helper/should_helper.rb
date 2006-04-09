@@ -15,7 +15,6 @@ module Spec
     end
 	
 		def satisfy(&block)
-		puts "!!!!!!!!!!!!!!!!!!!!"
 		  return if block.call(@target)
       fail_with_message "Supplied expectation was not satisfied"
     end
