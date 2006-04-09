@@ -2,6 +2,142 @@
 title: Spec Runner
 inMenu: true
 ---
-h2. Spec Runner
+h2. Processing Specifications
 
-spec directory_filled_with_specs
+The spec command processes specification files.  The general form of the command is
+
+<pre>
+<code>
+spec [options] (FILE|DIRECTORY)+
+</code>
+</pre>
+
+Any number of files and/or directories can be provided, all ruby source files
+that are found are loaded. Running spec on the previous example results in:
+
+<pre>
+<code>
+..................
+
+Finished in 0.007523 seconds
+
+4 contexts, 18 specifications, 0 failures
+</code>
+</pre>
+
+Very simple and to the point. Passing specifications are indicated by a '.',
+failing ones by a 'F'. Note that failure indicates a violated expectation as
+well as an unexpected exception being raised.  Here's an example with a failing specification:
+
+<pre>
+<code>
+F.
+
+1)
+SpecFramework #<SpecFramework:0x3d73dc> should be adopted_quickly (Spec::Api::ExpectationNotMetError)
+Context: Spec framework [./examples/spec_framework_spec.rb:13]
+Specification: should be adopted quickly [./examples/spec_framework_spec.rb:19]
+./examples/spec_framework_spec.rb:21:in `should be adopted quickly'
+
+Finished in 0.001565 seconds
+
+1 context, 2 specifications, 1 failure
+</code>
+</pre>
+
+h3. -v, --verbose
+
+Using this option provides more information:
+
+<pre>
+<code>
+An empty stack 
+- should accept an item when sent push 
+- should complain when sent top 
+- should complain when sent pop  
+
+A stack with one item 
+- should accept an item when sent push 
+- should return top when sent top 
+- should not remove top when sent top 
+- should return top when sent pop 
+- should remove top when sent pop  
+
+An almost full stack (with one item less than capacity) 
+- should accept an item when sent push 
+- should return top when sent top 
+- should not remove top when sent top 
+- should return top when sent pop 
+- should remove top when sent pop  
+
+A full stack 
+- should complain on push 
+- should return top when sent top 
+- should not remove top when sent top 
+- should return top when sent pop 
+- should remove top when sent pop
+
+Finished in 0.013635 seconds
+
+4 contexts, 18 specifications, 0 failures
+</code>
+</pre>
+
+Similar, here is a failing specification when the verbose opton is used:
+
+<pre>
+<code>
+Spec framework
+- should be adopted quickly (FAILED - 1)
+- should be intuitive
+
+
+1)
+SpecFramework #<SpecFramework:0x3d7238> should be adopted_quickly (Spec::Api::ExpectationNotMetError)
+Context: Spec framework [./examples/spec_framework_spec.rb:13]
+Specification: should be adopted quickly [./examples/spec_framework_spec.rb:19]
+./examples/spec_framework_spec.rb:21:in `should be adopted quickly'
+
+Finished in 0.002726 seconds
+
+1 context, 2 specifications, 1 failure
+</code>
+</pre>
+
+The spec command does double duty as documentation generation from a set of
+specifications as well as running them against your code.
+
+h3.-d, --doc
+
+Process the specifications in documentation generation mode. This will produce
+an rdoc input file. For example here is the result of running spec -d on the
+previous example:
+
+<pre>
+<code>
+# An empty stack 
+# * should accept an item when sent push 
+# * should complain when sent top 
+# * should complain when sent pop 
+# A stack with one item 
+# * should accept an item when sent push 
+# * should return top when sent top 
+# * should not remove top when sent top 
+# * should return top when sent pop 
+# * should remove top when sent pop 
+# An almost full stack (with one item less than capacity) 
+# * should accept an item when sent push 
+# * should return top when sent top 
+# * should not remove top when sent top 
+# * should return top when sent pop 
+# * should remove top when sent pop 
+# A full stack 
+# * should complain on push 
+# * should return top when sent top 
+# * should not remove top when sent top 
+# * should return top when sent pop 
+# * should remove top when sent pop
+</code>
+</pre>
+
+Rdoc renders this as "this":rdoc-output/index.html.

@@ -4,4 +4,12 @@ inMenu: true
 ---
 h2. Test::Unit migration
 
-lalalala
+rSpec provides a tool for converting Test::Unit files into specifications.  Anything that cannot be converted is left in it's original form.  The command line is:
+
+<pre>
+<code>
+test2rspec SRC [DEST]
+</code>
+</pre>
+
+If DEST is not supplied, output is sent to STDOUT.
