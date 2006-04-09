@@ -83,7 +83,7 @@ module Spec
       def constraints_match?(args)
         return true if @expected_params.length == 1 and @expected_params[0] == :any_args
         return false if args.length != @expected_params.length
-        for i in 0...@expected_params.length
+        @expected_params.each_index do |i|
           next if @expected_params[i] == :anything
           next if @expected_params[i] == :numeric and args[i].is_a?Numeric
           next if @expected_params[i] == :boolean and args[i].is_a?TrueClass or args[i].is_a?FalseClass
