@@ -221,6 +221,50 @@ module Spec
         @mock.random_call
         @mock.__verify
       end
+      
+      def test_should_raise_if_exactly_3_times_method_is_not_called
+        @mock.should.receive(:random_call).exactly(3).times
+        assert_raise(MockExpectationError) do
+          @mock.__verify
+        end
+      end
+      
+      def test_should_raise_if_exactly_3_times_method_is_called_once
+        @mock.should.receive(:random_call).exactly(3).times
+        @mock.random_call
+        assert_raise(MockExpectationError) do
+          @mock.__verify
+        end
+      end
+      
+      def test_should_raise_if_exactly_3_times_method_is_called_twice
+        @mock.should.receive(:random_call).exactly(3).times
+        @mock.random_call
+        @mock.random_call
+        assert_raise(MockExpectationError) do
+          @mock.__verify
+        end
+      end
+      
+      def test_should_not_raise_if_exactly_3_times_method_is_called_3_times
+        @mock.should.receive(:random_call).exactly(3).times
+        @mock.random_call
+        @mock.random_call
+        @mock.random_call
+        assert_nothing_raised do
+          @mock.__verify
+        end
+      end
+      
+      def test_should_raise_if_exactly_3_times_method_is_called_4_times
+        @mock.should.receive(:random_call).exactly(3).times
+        @mock.random_call
+        @mock.random_call
+        @mock.random_call
+        assert_nothing_raised do
+          @mock.random_call
+        end
+      end
 
       def test_raising
         @mock.should.receive(:random_call).and.raise(RuntimeError)

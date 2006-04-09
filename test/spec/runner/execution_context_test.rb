@@ -1,4 +1,5 @@
 require File.dirname(__FILE__) + '/../../test_helper'
+
 module Spec
   module Runner
     class ExecutionContextTest < Test::Unit::TestCase
@@ -7,6 +8,12 @@ module Spec
         spec.should.receive(:add_mock) {|mock| mock.instance_of? Api::Mock}
         ec = ExecutionContext.new spec
         mock = ec.mock("a mock")
+      end
+      
+      def test_violated
+        assert_raise(Spec::Api::ExpectationNotMetError) do
+          ExecutionContext.new(nil).violated
+        end
       end
     end
   end
