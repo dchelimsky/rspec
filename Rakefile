@@ -138,7 +138,7 @@ end
 
 task :release => [:clobber, :test, :verify_env_vars, :upload_releases, :publish_website, :publish_news]
 
-desc "Builds the website with rdoc and rcov, but does not publish it"
+desc "Build the website with rdoc and rcov, but do not publish it"
 task :website => [:clobber, :test, :doc, :rdoc, :rcov]
 
 task :rcov => [:test] do
