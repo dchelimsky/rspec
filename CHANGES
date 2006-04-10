@@ -1,7 +1,9 @@
 = RSpec Changelog
 
-== Version 0.5.2 (in SVN)
+== Version 0.5.2
 
+* Readded README to avoid RDoc warnings [aslak_hellesoy]
+* Added --version switch to commandline [aslak_hellesoy]
 * More changes to the mock API [dastels], [dchelimsky]
 
 == Version 0.5.1
