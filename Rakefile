@@ -136,7 +136,7 @@ task :clobber do
   rm_rf 'doc/output'
 end
 
-task :release => [:clobber, :test, :verify_env_vars, :upload_releases, :publish_website, :publish_news]
+task :release => [:clobber, :verify_user, :verify_password, :test, :upload_releases, :publish_website, :publish_news]
 
 desc "Build the website with rdoc and rcov, but do not publish it"
 task :website => [:clobber, :test, :doc, :rdoc, :rcov]
@@ -147,13 +147,16 @@ task :rcov => [:test] do
   mv 'coverage', 'doc/output'
 end
 
-task :verify_env_vars do
+task :verify_user do
   raise "RUBYFORGE_USER environment variable not set!" unless ENV['RUBYFORGE_USER']
+end
+
+task :verify_password do
   raise "RUBYFORGE_PASSWORD environment variable not set!" unless ENV['RUBYFORGE_PASSWORD']
 end
 
 desc "Upload Website to RubyForge"
-task :publish_website => [:verify_env_vars, :website] do
+task :publish_website => [:verify_user, :website] do
   publisher = Rake::SshDirPublisher.new(
     "#{ENV['RUBYFORGE_USER']}@rubyforge.org",
     "/var/www/gforge-projects/#{PKG_NAME}",
@@ -164,7 +167,7 @@ task :publish_website => [:verify_env_vars, :website] do
 end
 
 desc "Release gem to RubyForge. You must make sure lib/version.rb is aligned with the CHANGELOG file"
-task :upload_releases => :package do
+task :upload_releases => [:verify_user, :verify_password, :package] do
 
   release_files = FileList[
     "pkg/#{PKG_FILE_NAME}.gem",
@@ -182,7 +185,7 @@ task :upload_releases => :package do
 end
 
 desc "Publish news on RubyForge"
-task :publish_news do
+task :publish_news => [:verify_user, :verify_password] do
   Rake::XForge::NewsPublisher.new(MetaProject::Project::XForge::RubyForge.new(PKG_NAME)) do |news|
     # Never hardcode user name and password in the Rakefile!
     news.user_name = ENV['RUBYFORGE_USER']
