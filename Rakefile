@@ -37,13 +37,16 @@ Spec::Rake::SpecTask.new do |t|
 end
 
 Rake::TestTask.new do |t|
-  t.libs << "test"
   t.test_files = FileList['test/**/*_test.rb']
   t.verbose = true
 end
 
-# Generates the HTML documentation
-desc 'Generate documentation'
+RCov::TestTask.new do |t|
+  t.test_files = FileList['test/**/*_test.rb']
+  t.verbose = true
+end
+
+desc 'Generate HTML documentation'
 task :doc do
   sh %{pushd doc; webgen; popd }
 end
@@ -57,14 +60,7 @@ rd = Rake::RDocTask.new("rdoc") do |rdoc|
   rdoc.rdoc_files.include('lib/**/*.rb', 'doc/**/*.rdoc')
 end
 
-# ====================================================================
-# Create a task that will package the Rake software into distributable
-# tar, zip and gem files.
-
 spec = Gem::Specification.new do |s|
-
-  #### Basic information.
-
   s.name = PKG_NAME
   s.version = PKG_VERSION
   s.summary = "Behaviour Specification Framework for Ruby"
@@ -78,8 +74,6 @@ spec = Gem::Specification.new do |s|
   s.files = PKG_FILES.to_a
   s.require_path = 'lib'
 
-  #### Documentation and testing.
-
   s.has_rdoc = true
   s.extra_rdoc_files = rd.rdoc_files.reject { |fn| fn =~ /\.rb$/ }.to_a
   s.rdoc_options <<
@@ -87,18 +81,12 @@ spec = Gem::Specification.new do |s|
     '--main' << 'README' <<
     '--line-numbers'
   
-  s.test_files = Dir.glob('test/tc_*.rb')
-
-  #### Make executable
+  s.test_files = Dir.glob('test/*_test.rb')
   s.require_path = 'lib'
   s.autorequire = 'spec'
-
   s.bindir = "bin"
   s.executables = ["spec", "test2rspec"]
   s.default_executable = "spec"
-
-  #### Author and project details.
-
   s.author = "Steven Baker" 
   s.email = "srbaker@pobox.com"
   s.homepage = "http://rspec.rubyforge.org"
@@ -109,8 +97,6 @@ Rake::GemPackageTask.new(spec) do |pkg|
   pkg.need_zip = true
   pkg.need_tar = true
 end
-
-# Support Tasks ------------------------------------------------------
 
 def egrep(pattern)
   Dir['**/*.rb'].each do |fn|
@@ -139,15 +125,14 @@ end
 task :release => [:clobber, :verify_user, :verify_password, :test, :upload_releases, :publish_website, :publish_news]
 
 desc "Build the website with rdoc and rcov, but do not publish it"
-task :website => [:clobber, :rcov_verify, :doc, :rdoc]
+task :website => [:clobber, :copy_rcov_report, :doc, :rdoc]
 
 RCov::VerifyTask.new do |t|
-  t.threshold = 99.1
-  t.index_html = 'doc/output/coverage/index.html'
+  t.threshold = 99.1 # Don't make it lower unless you have a damn good reason.
+  t.index_html = 'coverage/index.html'
 end
-task :rcov_verify => [:rcov]
 
-task :rcov => [:test] do
+task :copy_rcov_report => [:test_with_rcov, :rcov_verify] do
   rm_rf 'doc/output/coverage'
   mkdir 'doc/output' unless File.exists? 'doc/output'
   mv 'coverage', 'doc/output'

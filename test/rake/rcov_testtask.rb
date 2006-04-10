@@ -1,9 +1,9 @@
-module Rake
-  class TestTask < TaskLib
+module RCov
+  class TestTask < Rake::TestTask
     def define
       lib_path = @libs.join(File::PATH_SEPARATOR)
-      desc "Run tests" + (@name==:test ? "" : " for #{@name}")
-      task @name do
+      desc "Run tests with rcov"
+      task 'test_with_rcov' do
         run_code = ''
         RakeFileUtils.verbose(@verbose) do
           run_code =

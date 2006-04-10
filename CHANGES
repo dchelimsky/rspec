@@ -3,6 +3,8 @@
 == Version 0.5.3 (In SVN)
 Release summary goes here
 
+* Don't run rcov by default [aslak_hellesoy]
+* Make separate task for running tests with RCov [aslak_hellesoy]
 * Added Rake task to fail build if coverage drops below a certain threshold [aslak_hellesoy]
 
 == Version 0.5.2
