@@ -10,6 +10,7 @@ require 'rake/rdoctask'
 require 'lib/spec/version'
 require 'lib/spec/rake/spectask'
 require 'test/rake/rcov_testtask'
+require 'test/rake/rcov_verify'
 
 PKG_NAME = "rspec"
 # Versioning scheme: MAJOR.MINOR.PATCH
@@ -52,9 +53,8 @@ rd = Rake::RDocTask.new("rdoc") do |rdoc|
   rdoc.rdoc_dir = 'doc/output/rdoc'
   rdoc.title    = "RSpec"
   rdoc.options << '--line-numbers' << '--inline-source' << '--main' << 'README'
-  rdoc.rdoc_files.include('CHANGES')
+  rdoc.rdoc_files.include('README', 'CHANGES')
   rdoc.rdoc_files.include('lib/**/*.rb', 'doc/**/*.rdoc')
-  rdoc.rdoc_files.exclude('doc/**/*_attrs.rdoc')
 end
 
 # ====================================================================
@@ -139,7 +139,13 @@ end
 task :release => [:clobber, :verify_user, :verify_password, :test, :upload_releases, :publish_website, :publish_news]
 
 desc "Build the website with rdoc and rcov, but do not publish it"
-task :website => [:clobber, :test, :doc, :rdoc, :rcov]
+task :website => [:clobber, :rcov_verify, :doc, :rdoc]
+
+RCov::VerifyTask.new do |t|
+  t.threshold = 99.1
+  t.index_html = 'doc/output/coverage/index.html'
+end
+task :rcov_verify => [:rcov]
 
 task :rcov => [:test] do
   rm_rf 'doc/output/coverage'

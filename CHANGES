@@ -3,6 +3,8 @@
 == Version 0.5.3 (In SVN)
 Release summary goes here
 
+* Added Rake task to fail build if coverage drops below a certain threshold [aslak_hellesoy]
+
 == Version 0.5.2
 This release has minor improvements to the commandline and fixes some gem warnings
 
