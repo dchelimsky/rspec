@@ -1,13 +1,16 @@
 module Spec
   module VERSION
-    MAJOR = 0
-    MINOR = 5
-    TINY  = 2
+    unless defined? MAJOR
+      MAJOR = 0
+      MINOR = 5
+      TINY  = 2
 
-    STRING = [MAJOR, MINOR, TINY].join('.')
+      STRING = [MAJOR, MINOR, TINY].join('.')
 
-    NAME = "RSCM"
-    FULLNAME = "RSpec"
-    URL = "http://rspec.rubyforge.org/"  
+      NAME = "RSpec"
+      URL = "http://rspec.rubyforge.org/"  
+    
+      DESCRIPTION = "#{NAME}-#{STRING} - BDD for Ruby\n#{URL}"
+    end
   end
 end

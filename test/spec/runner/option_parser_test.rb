@@ -6,11 +6,18 @@ module Spec
     class OptionParserTest < Test::Unit::TestCase
 
       def setup
+        @out = StringIO.new
         @err = StringIO.new
       end
 
+      def test_should_print_version
+        options = OptionParser.parse(["--version"], false, @err, @out)
+        @out.rewind
+        assert_match(/RSpec-\d+\.\d+\.\d+ - BDD for Ruby\nhttp:\/\/rspec.rubyforge.org\/\n/n, @out.read)
+      end
+      
       def test_verbose_should_be_true_by_default
-        options = OptionParser.parse([], false, @err)
+        options = OptionParser.parse([], false, @err, @out)
         assert(!options.verbose)
       end
 
@@ -20,37 +27,37 @@ module Spec
       end
       
       def test_verbose_should_be_settable_with_v
-        options = OptionParser.parse(["-v"], false, @err)
+        options = OptionParser.parse(["-v"], false, @err, @out)
         assert(options.verbose)
       end
       
       def test_verbose_should_be_settable_with_verbose
-        options = OptionParser.parse(["--verbose"], false, @err)
+        options = OptionParser.parse(["--verbose"], false, @err, @out)
         assert(options.verbose)
       end
       
       def test_doc_should_be_false_by_default
-        options = OptionParser.parse([], false, @err)
+        options = OptionParser.parse([], false, @err, @out)
         assert(!options.doc)
       end
       
       def test_doc_should_be_settable_with_d
-        options = OptionParser.parse(["-d"], false, @err)
+        options = OptionParser.parse(["-d"], false, @err, @out)
         assert(options.doc)
       end
       
       def test_out_should_be_settable_with_o
-        options = OptionParser.parse(["-o","test.txt"], false, @err)
+        options = OptionParser.parse(["-o","test.txt"], false, @err, @out)
         assert_equal("test.txt", options.out)
       end
       
       def test_out_should_be_settable_with_of
-        options = OptionParser.parse(["--of","test.txt"], false, @err)
+        options = OptionParser.parse(["--of","test.txt"], false, @err, @out)
         assert_equal("test.txt", options.out)
       end
-      
-      def test_should_print_usage_if_no_dir_specified
-        options = OptionParser.parse([], false, @err)
+
+      def test_should_print_usage_to_err_if_no_dir_specified
+        options = OptionParser.parse([], false, @err, @out)
         assert_match(/Usage: spec/, @err.string)
       end
     end

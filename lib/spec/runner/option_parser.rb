@@ -4,11 +4,11 @@ module Spec
   module Runner
     class OptionParser
 
-      def self.parse(args, standalone=false, err=$stderr)
+      def self.parse(args, standalone=false, err=$stderr, out=$stdout)
         options = OpenStruct.new
-        options.out = $stdout
-        options.verbose = false;
-        options.doc = false;
+        options.out = out
+        options.verbose = false
+        options.doc = false
 
         opts = ::OptionParser.new do |opts|
           opts.banner = "Usage: spec [options] (FILE|DIRECTORY)+"
@@ -19,17 +19,22 @@ module Spec
             exit if outfile.nil?
           end
 
-          opts.on("-v", "--verbose") do
+          opts.on("-v", "--verbose", "Verbose output") do
             options.verbose = true
           end
 
-          opts.on("-d", "--doc", "Generate documentation") do
+          opts.on("-d", "--doc", "Output specdoc only") do
             options.doc = true
+          end
+
+          opts.on("--version", "Show version") do
+            out.puts ::Spec::VERSION::DESCRIPTION
+            exit if out == $stdout
           end
 
           opts.on_tail("-h", "--help", "Show this message") do
             err.puts opts
-            exit if err == $stderr
+            exit if out == $stdout
           end
 
         end
