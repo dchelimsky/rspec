@@ -1,6 +1,7 @@
 = RSpec Changelog
 
 == Version 0.5.2
+This release has minor improvements to the commandline and fixes some gem warnings
 
 * Readded README to avoid RDoc warnings [aslak_hellesoy]
 * Added --version switch to commandline [aslak_hellesoy]
