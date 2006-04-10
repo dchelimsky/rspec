@@ -153,7 +153,7 @@ task :verify_env_vars do
 end
 
 desc "Upload Website to RubyForge"
-task :publish_website => [:website] do
+task :publish_website => [:verify_env_vars, :website] do
   publisher = Rake::SshDirPublisher.new(
     "#{ENV['RUBYFORGE_USER']}@rubyforge.org",
     "/var/www/gforge-projects/#{PKG_NAME}",
