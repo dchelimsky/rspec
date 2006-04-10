@@ -1,16 +1,14 @@
 $:.unshift('lib')
 require 'rubygems'
-require 'meta_project'
 require 'rake/gempackagetask'
 require 'rake/contrib/rubyforgepublisher'
-require 'rake/contrib/xforge'
 require 'rake/clean'
 require 'rake/testtask'
 require 'rake/rdoctask'
 require 'lib/spec/version'
 require 'lib/spec/rake/spectask'
-require 'test/rake/rcov_testtask'
-require 'test/rake/rcov_verify'
+require 'test/rcov/rcov_testtask'
+require 'test/rcov/rcov_verify'
 
 PKG_NAME = "rspec"
 # Versioning scheme: MAJOR.MINOR.PATCH
@@ -159,6 +157,8 @@ end
 
 desc "Release gem+tgz+zip to RubyForge. You must make sure lib/version.rb is aligned with the CHANGELOG file"
 task :upload_releases => [:verify_user, :verify_password, :package] do
+  require 'meta_project'
+  require 'rake/contrib/xforge'
   release_files = FileList[
     "pkg/#{PKG_FILE_NAME}.gem",
     "pkg/#{PKG_FILE_NAME}.tgz",
@@ -176,6 +176,8 @@ end
 
 desc "Publish news on RubyForge"
 task :publish_news => [:verify_user, :verify_password] do
+  require 'meta_project'
+  require 'rake/contrib/xforge'
   Rake::XForge::NewsPublisher.new(MetaProject::Project::XForge::RubyForge.new(PKG_NAME)) do |news|
     # Never hardcode user name and password in the Rakefile!
     news.user_name = ENV['RUBYFORGE_USER']
