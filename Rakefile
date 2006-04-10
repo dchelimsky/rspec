@@ -166,9 +166,8 @@ task :publish_website => [:verify_user, :website] do
   publisher.upload
 end
 
-desc "Release gem to RubyForge. You must make sure lib/version.rb is aligned with the CHANGELOG file"
+desc "Release gem+tgz+zip to RubyForge. You must make sure lib/version.rb is aligned with the CHANGELOG file"
 task :upload_releases => [:verify_user, :verify_password, :package] do
-
   release_files = FileList[
     "pkg/#{PKG_FILE_NAME}.gem",
     "pkg/#{PKG_FILE_NAME}.tgz",
