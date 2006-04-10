@@ -10,10 +10,16 @@ module Spec
         @err = StringIO.new
       end
 
-      def test_should_print_version
+      def test_should_print_version_to_stdout
         options = OptionParser.parse(["--version"], false, @err, @out)
         @out.rewind
         assert_match(/RSpec-\d+\.\d+\.\d+ - BDD for Ruby\nhttp:\/\/rspec.rubyforge.org\/\n/n, @out.read)
+      end
+
+      def test_should_print_help_to_stdout
+        options = OptionParser.parse(["--help"], false, @err, @out)
+        @out.rewind
+        assert_match(/Usage: spec \[options\] \(FILE\|DIRECTORY\)\+/n, @out.read)
       end
       
       def test_verbose_should_be_true_by_default

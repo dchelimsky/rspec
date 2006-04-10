@@ -33,7 +33,7 @@ module Spec
           end
 
           opts.on_tail("-h", "--help", "Show this message") do
-            err.puts opts
+            out.puts opts
             exit if out == $stdout
           end
 
