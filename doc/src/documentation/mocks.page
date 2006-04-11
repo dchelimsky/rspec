@@ -127,6 +127,17 @@ mock.should.receive(:msg).with(a, :string, "b")
 </code>
 </pre>
 	
+h4. duck_type(message(s))
+
+accepts any object that responds to the prescribed message(s)
+
+<pre>
+<code>
+#accepts a Fixnum for the second arg
+mock.should.receive(:msg).with(a, duck_type(:abs, :div), "b") 
+</code>
+</pre>
+
 h3. Receive Counts
 
 <pre>
