@@ -44,6 +44,18 @@ module Spec
         @mock.__verify
       end
       
+      def test_should_process_duck_type_with_one_method
+        @mock.should.receive(:random_call).with(DuckType.new(:length))
+        @mock.random_call([])
+        @mock.__verify
+      end
+      
+      def test_should_process_duck_type_with_two_methods
+        @mock.should.receive(:random_call).with(DuckType.new(:abs, :div))
+        @mock.random_call(1)
+        @mock.__verify
+      end
+      
     end
     
     class FailingConstraintsTest < Test::Unit::TestCase
@@ -72,6 +84,14 @@ module Spec
         @mock.should.receive(:random_call).with(:string)
         assert_raise(MockExpectationError) do
           @mock.random_call(123)
+          @mock.__verify
+        end
+      end
+      
+      def test_should_reject_goose_when_expecting_a_duck
+        @mock.should.receive(:random_call).with(DuckType.new(:abs, :div))
+        assert_raise(MockExpectationError) do
+          @mock.random_call("I don't respond to :abs or :div")
           @mock.__verify
         end
       end

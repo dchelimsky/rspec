@@ -15,6 +15,13 @@ module Spec
           ExecutionContext.new(nil).violated
         end
       end
+      
+      def test_duck_type
+        ec = ExecutionContext.new(Api::Mock.new("spec", :null_object => true))
+        duck_type = ec.duck_type(:length)
+        assert(duck_type.is_a? Api::DuckType)
+        assert(duck_type.talks_like? [])
+      end
     end
   end
 end

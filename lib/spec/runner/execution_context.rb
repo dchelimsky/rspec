@@ -11,6 +11,10 @@ module Spec
         mock
       end
       
+      def duck_type(*args)
+        return Api::DuckType.new(*args)
+      end
+      
       def violated(message="")
         raise Spec::Api::ExpectationNotMetError.new(message)
       end

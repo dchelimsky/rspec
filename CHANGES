@@ -6,6 +6,8 @@ Release summary goes here
 * Don't run rcov by default [aslak_hellesoy]
 * Make separate task for running tests with RCov [aslak_hellesoy]
 * Added Rake task to fail build if coverage drops below a certain threshold [aslak_hellesoy]
+* Even more failure output cleanup (simplification) [dchelimsky]
+* Added duck_type constraint for mocks [dchelimsky]
 
 == Version 0.5.2
 This release has minor improvements to the commandline and fixes some gem warnings

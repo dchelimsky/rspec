@@ -88,6 +88,7 @@ module Spec
           next if @expected_params[i] == :numeric and args[i].is_a?Numeric
           next if @expected_params[i] == :boolean and args[i].is_a?TrueClass or args[i].is_a?FalseClass
           next if @expected_params[i] == :string and args[i].is_a?String
+          next if @expected_params[i].is_a? DuckType and @expected_params[i].talks_like? args[i]
           return false unless args[i] == @expected_params[i]
         end
         return true
