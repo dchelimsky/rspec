@@ -1,5 +1,4 @@
 require File.dirname(__FILE__) + '/../../test_helper'
-require 'stringio'
 
 module Spec
   module Runner

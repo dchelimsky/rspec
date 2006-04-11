@@ -15,7 +15,8 @@ module Spec
           opts.separator ""
 
           opts.on("-o", "--of [FILE]", "Set the output file (defaults to STDOUT)") do |outfile|
-            options.out = outfile unless outfile.nil?
+            options.out = StringIO.new if outfile == "stringio"
+            options.out = outfile unless outfile.nil? or outfile == "stringio"
             exit if outfile.nil?
           end
 

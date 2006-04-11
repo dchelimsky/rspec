@@ -1,6 +1,5 @@
 require File.dirname(__FILE__) + '/../../test_helper'
 require 'spec/tool/command_line'
-require 'stringio'
 
 module Spec
   module Tool

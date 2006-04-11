@@ -1,5 +1,4 @@
 require File.dirname(__FILE__) + '/../../test_helper'
-require 'stringio'
 
 module Spec
   module Runner
@@ -65,6 +64,11 @@ module Spec
       def test_should_print_usage_to_err_if_no_dir_specified
         options = OptionParser.parse([], false, @err, @out)
         assert_match(/Usage: spec/, @err.string)
+      end
+      
+      def test_out_should_be_stringio_if_set_to_stringio
+        options = OptionParser.parse(["-o","stringio"], false, @err, @out)
+        options.out.should.be.an.instance.of StringIO
       end
     end
   end

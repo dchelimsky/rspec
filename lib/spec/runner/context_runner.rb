@@ -4,8 +4,8 @@ module Spec
   module Runner
     class ContextRunner
       
-      def self.standalone context
-        context_runner = ContextRunner.new(ARGV, true)
+      def self.standalone(context, args=ARGV)
+        context_runner = ContextRunner.new(args, true)
         context_runner.add_context context
         context_runner.run
       end
