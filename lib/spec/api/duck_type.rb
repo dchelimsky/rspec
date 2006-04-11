@@ -6,7 +6,7 @@ module Spec
         @methods_to_respond_do = methods_to_respond_do
       end
   
-      def talks_like?(obj)
+      def walks_like?(obj)
         @methods_to_respond_do.each { |sym| return false unless obj.respond_to? sym }
         return true
       end

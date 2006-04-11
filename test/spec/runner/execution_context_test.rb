@@ -20,7 +20,7 @@ module Spec
         ec = ExecutionContext.new(Api::Mock.new("spec", :null_object => true))
         duck_type = ec.duck_type(:length)
         assert(duck_type.is_a? Api::DuckType)
-        assert(duck_type.talks_like? [])
+        assert(duck_type.walks_like? [])
       end
     end
   end
