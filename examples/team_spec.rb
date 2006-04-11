@@ -3,7 +3,13 @@ require File.dirname(__FILE__) + '/../lib/spec'
 class Team
   attr_reader :players
   def initialize
-    @players = []
+    @players = Players.new
+  end
+end
+
+class Players
+  def size
+    0
   end
 end
 
@@ -17,7 +23,7 @@ context "A new team" do
     @team.should.have(3).players
   end
   
-  specify "should have 1 player (another failing example)" do
+  specify "should have 1 player (failing example)" do
     @team.players.size.should.be 1
   end
   

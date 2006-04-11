@@ -13,13 +13,12 @@ module Spec
         @specifications = []
         @name = name
         instance_exec(&context_block)
-        @@context_runner.add_context(self) unless @@context_runner.nil?
         ContextRunner.standalone(self) if @@context_runner.nil?
-        @calling_line = caller(0)[2].split(":in")[0]
+        @@context_runner.add_context(self) unless @@context_runner.nil?
       end
 
       def run(reporter)
-        reporter.add_context(@name, @calling_line)
+        reporter.add_context(@name)
         @specifications.each do |specification|
           specification.run(reporter, @setup_block, @teardown_block)
         end

@@ -10,7 +10,7 @@ module Spec
       end
       
       def test_should_add_itself_to_listener_on_run
-        @listener.should.receive(:add_context).with "context", :anything
+        @listener.should.receive(:add_context).with "context"
         @context.run(@listener)
         @listener.__verify
       end
@@ -23,7 +23,7 @@ module Spec
       
       def test_spec
         @listener.should.receive(:add_context).with :any_args
-        @listener.should.receive(:add_spec).with "test", :anything, :anything
+        @listener.should.receive(:add_spec).with "test", :anything
         $spec_ran = false
         @context.specify("test") {$spec_ran = true}
         @context.run(@listener)

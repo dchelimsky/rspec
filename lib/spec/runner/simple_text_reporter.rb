@@ -6,24 +6,23 @@ module Spec
         @context_names = []
         @errors = []
         @spec_names = []
-        @failures = []
         @verbose = verbose
         @backtrace_tweaker = backtrace_tweaker
       end
   
-      def add_context(name, calling_line=nil)
+      def add_context(name)
         @output << "\n" if @context_names.empty? unless @verbose
         @output << "\n#{name}\n" if @verbose
-        @context_names << [name, calling_line]
+        @context_names << name
       end
       
-      def add_spec(name, calling_line, errors=[])
+      def add_spec(name, errors=[])
         if errors.empty?
           spec_passed(name)
         else
           errors.each { |error| @backtrace_tweaker.tweak_backtrace(error, name) }
           # only show the first one (there might be more)
-          spec_failed(name, calling_line, errors[0])
+          spec_failed(name, errors[0])
         end
       end
       
@@ -37,7 +36,7 @@ module Spec
   
       def dump
         @output << "\n"
-        dump_failures
+        dump_errors
         @output << "\n\n" unless @errors.empty?
         @output << "\n" if @errors.empty?
         @output << "Finished in " << (duration).to_s << " seconds\n\n"
@@ -47,16 +46,14 @@ module Spec
         @output << "\n"
       end
 
-      def dump_failures
+      def dump_errors
         return if @errors.empty?
         @output << "\n"
-        @failures.inject(1) do |index, failure|
+        @errors.inject(1) do |index, error|
           @output << "\n\n" if index > 1
           @output << index.to_s << ")\n"
-          @output << "#{failure.error.message} (#{failure.error.class.name})\n"
-          @output << "Context: #{failure.context_name} [#{failure.context_line}]\n"
-          @output << "Specification: #{failure.spec_name} [#{failure.spec_line}]\n"
-          dump_backtrace(failure.error.backtrace)
+          @output << "#{error.message} (#{error.class.name})\n"
+          dump_backtrace(error.backtrace)
           index + 1
         end
       end
@@ -78,25 +75,14 @@ module Spec
           @output << '.' unless @verbose
         end
 
-        def spec_failed(name, calling_line, error)
+        def spec_failed(name, error)
           @spec_names << name
           @errors << error
-          @failures << Failure.new(@context_names.last[0], @context_names.last[1], name, calling_line, error)
-          @output << "- #{name} (FAILED - #{@failures.length})\n" if @verbose
+          @output << "- #{name} (FAILED - #{@errors.length})\n" if @verbose
           @output << 'F' unless @verbose
         end
 
     end
     
-    class Failure
-      attr_reader :context_name, :context_line, :spec_name, :spec_line, :error
-      def initialize(context_name, context_line, spec_name, spec_line, error)
-        @context_name = context_name
-        @context_line = context_line
-        @spec_name = spec_name
-        @spec_line = spec_line
-        @error = error
-      end
-    end
   end
 end
