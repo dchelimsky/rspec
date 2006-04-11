@@ -19,7 +19,6 @@ module Kernel
   alias topic context
 end
 
-
 topic "Airport at home" do
   setup do
     @airport = Airport.new

@@ -1,3 +1,4 @@
+require File.dirname(__FILE__) + '/../lib/spec'
 require File.dirname(__FILE__) + "/stack"
 
 context "An empty stack" do

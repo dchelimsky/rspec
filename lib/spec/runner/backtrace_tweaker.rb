@@ -5,8 +5,7 @@ module Spec
         return if error.backtrace.nil?
         error.backtrace.collect! do |line|
           line = line.split(':in')[0] + ":in `#{spec_name}'" if line.include?('__instance_exec')
-          line = nil if line.include? '/lib/spec/api/helper/should_base.rb'
-          line = nil if line.include? '/lib/spec/api/helper/should_negator.rb' unless line.nil?
+          line = nil if line =~ /\/lib\/spec\/api\/helper\/.+[helper|base|negator].rb/
           line
         end
         error.backtrace.compact!
