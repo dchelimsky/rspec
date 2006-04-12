@@ -26,7 +26,7 @@ module Spec
         end
       end
       
-      def start
+      def start(number_of_specs=0)
         @start_time = Time.new
       end
   

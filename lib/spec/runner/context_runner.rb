@@ -11,18 +11,30 @@ module Spec
       end
  
       def initialize(args, standalone=false, err=$stderr)
-        options = OptionParser.parse(args, standalone, err)
+        @options = OptionParser.parse(args, standalone, err)
         @contexts = []
-        @out = options.out
+        @out = @options.out
         @out = File.open(@out, 'w') if @out.is_a? String
-        @doc = options.doc
+        @doc = @options.doc
         @listener = RDocFormatter.new(@out) if @doc
         @listener = SimpleTextReporter.new(@out, options.verbose) unless @doc
+      end
+      
+      def options
+        @options
+      end
+      
+      def register_listener listener
+        @listener = listener
       end
     
       def add_context(context)
         @contexts << context
         self
+      end
+      
+      def number_of_specs
+        @contexts.inject(0) {|sum, context| sum + context.number_of_specs}
       end
       
       def run
@@ -33,7 +45,7 @@ module Spec
       private
       
       def run_specs
-        @listener.start
+        @listener.start number_of_specs
         @contexts.each do |context|
           context.run(@listener)
         end

@@ -42,6 +42,10 @@ module Spec
       def specify(spec_name, &block)
         @specifications << Specification.new(spec_name, &block)
       end
+      
+      def number_of_specs
+        @specifications.length
+      end
     end
   end
 end
