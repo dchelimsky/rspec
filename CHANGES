@@ -1,7 +1,7 @@
 = RSpec Changelog
 
-== Version 0.5.3 (In SVN)
-Release summary  goes here
+== Version 0.5.3
+The "hurry up, CoR is in two days" release.
 
 * Don't run rcov by default [aslak_hellesoy]
 * Make separate task for running tests with RCov [aslak_hellesoy]
@@ -27,8 +27,7 @@ This release is the first release of RSpec with a new website. It will look bett
 * Various improvements to failure reporting [dchelimsky]
 
 == Version 0.5.0
-
-This release introduces a new API and obsoletes previous versions.
+This release introduces a new API and obsolesces previous versions.
 
 * Moved source code to separate subfolders
 * Added new DSL runner based on instance_exec

@@ -11,7 +11,10 @@ documentation:
   title: Documentation
   orderInfo: 4
 
-download.page:
+download.html:
+  title: Download
+  inMenu: true
+  dest: http://rubyforge.org/frs/?group_id=797
   orderInfo: 5
 
 tools:
