@@ -2,9 +2,27 @@
 title: Spec Runner
 inMenu: true
 ---
-h2. Processing Specifications
 
-The spec command processes specification files.  The general form of the command is
+h2. Executing specs directly
+
+Every RSpec context can be run directly from the command line:
+
+<pre>
+<code>
+ruby path/to/my_spec.rb [options]
+</code>
+</pre>
+
+This will print the results to STDOUT. Use the --help option for more details. This is
+practical when you only want to run one context. If you want to run more, use the spec tool
+or the Rake task.
+
+h2. The spec command line
+
+After you install RSpec, you should have the spec command line tool on your PATH.
+This tool can be used to process several RSpec contexts in one go.
+
+The general form of the command is
 
 <pre>
 <code>
@@ -107,7 +125,11 @@ Finished in 0.002726 seconds
 The spec command does double duty as documentation generation from a set of
 specifications as well as running them against your code.
 
-h3.-d, --doc
+h3. A note on exception backtraces.
+In order to make it easier to identify causes of failing specifications, RSpec will filter out
+the parts of the backtrace that come from RSpec itself.
+
+h3. -d, --doc
 
 Process the specifications in documentation generation mode. This will produce
 an rdoc input file. For example here is the result of running spec -d on the
