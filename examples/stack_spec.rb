@@ -21,7 +21,8 @@ context "An empty stack" do
   
 end
 
-  context "A stack with one item" do
+context "A stack with one item" do
+
   setup do
     @stack = Stack.new
     @stack.push 3
@@ -52,6 +53,7 @@ end
 end
 
 context "An almost full stack (with one item less than capacity)" do
+  
   setup do
     @stack = Stack.new
     (1..9).each { |i| @stack.push i }
@@ -111,6 +113,3 @@ context "A full stack" do
   end
   
 end
-
-
-
