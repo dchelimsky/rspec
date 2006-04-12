@@ -41,7 +41,6 @@ acronym {
 #header h1 strong {
 	color:#c00;
 }
-
 #header h2 {
 	margin:140px 0 0 0;
 	font-size:1em;
@@ -65,7 +64,6 @@ acronym {
 	list-style:none;
 	display:inline;
 }
-
 #navigation li a {
 	padding:5px 5px 2px 5px;
 	margin:0 1px 0 1px;
@@ -74,7 +72,6 @@ acronym {
 	font-weight:bold;
 	border-bottom:1px solid #c00;
 }
-
 #navigation li a:hover {
 	color:#C00;
 	border-bottom:1px solid #ddd;
@@ -86,8 +83,7 @@ acronym {
 #content p {
 	padding:2px 20px;
 	text-align:justify;
-	text-indent:0.5cm;
-	line-height:1.8em;
+	line-height:1.4em;
 }
 #content h1 {
 	display:block;
@@ -102,7 +98,7 @@ acronym {
 }
 #content h2 {
 	display:block;
-	margin:20px 0 0 30px;
+	margin:20px 0 0 0px;
 	padding:0;
 	font-family:"Trebuchet MS",arial,sans-serif;
 	font-size:1.1em;
@@ -140,12 +136,17 @@ acronym {
 	padding:0;
 	text-indent:0;
 }
+#content code {
+    font-family:"courier new";
+    color:#444;
+    font-weight:bold;
+}
 #content pre {
-	margin:10px 60px;
-	padding:5px;
+	padding:10px;
+	margin:0 18px 0 18px;
 	color:#444;
-	border:1px solid #eee;
-	background-color:#fafafa;
+	border:1px solid #444;
+	background-color:#ddd;
 }
 #content ul {
 	margin-left:70px;

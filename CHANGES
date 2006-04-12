@@ -1,7 +1,7 @@
 = RSpec Changelog
 
 == Version 0.5.3 (In SVN)
-Release summary goes here
+Release summary  goes here
 
 * Don't run rcov by default [aslak_hellesoy]
 * Make separate task for running tests with RCov [aslak_hellesoy]

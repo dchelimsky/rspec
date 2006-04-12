@@ -9,31 +9,21 @@ RSpec contains a full featured Mock Objects framework.
 h3. Creating a mock
 
 <pre>
-<code>
 mock(<name>)
-</code>
 </pre>
 
-This creates a new mock with the given name (a string) and registers it. When
-the specification finishes, all registered mocks are verified.
+This creates a new mock with the given name (a string) and registers it. When the specification finishes, all registered mocks are verified.
 
 <pre>
-<code>
 mock(<name>, <options>)
-</code>
 </pre>
 
-As above, but allows you to specific options to tweak the mock's behaviour.
-The <code>options</code> argument is a hash. Currently the only supported option is
-<code>:null_object</code>. Setting this to true (i.e. <code>:null_object => true</code>) instructs the
-mock to ignore (quietly consume) any messages it hasn't been told to expect.
+As above, but allows you to specific options to tweak the mock's behaviour. The <code>options</code> argument is a hash. Currently the only supported option is <code>:null_object</code>. Setting this to true (i.e. <code>:null_object => true</code>) instructs the mock to ignore (quietly consume) any messages it hasn't been told to expect.
 
 h3. Expecting Messages
 
 <pre>
-<code>
 mock.should.receive(<message>)
-</code>
 </pre>
 
 The <code>message</code> argument is a symbol that is the name of a message that you want
@@ -46,9 +36,7 @@ by the mock, the block is evaluated, and passed any arguments. The result is
 the return value of the message. For example:
 
 <pre>
-<code>
 @mock.should.receive(:random_call) {| a | a.should.be true}
-</code>
 </pre>
 
 This allows arbitrary argument validation and result computation.
@@ -56,27 +44,21 @@ This allows arbitrary argument validation and result computation.
 h3. Expecting Arguments
 
 <pre>
-<code>
 mock.should.receive(:msg).with(<args>)
 mock.should.receive(:msg).with(1, 2, 3)
-</code>
 </pre>
 
 The <code>args</code> argument is a series of arguments (e..g. 1, 2, 3) that are expected
 to be passed as arguments to the associated message.
 
 <pre>
-<code>
 mock.should.receive(:msg).with(:no_args)
-</code>
 </pre>
 
 No arguments are to be accepted by the message.
 
 <pre>
-<code>
 mock.should.receive(:msg).with(:any_args)
-</code>
 </pre>
 
 Any arguments are to be accepted by the message. This includes cases where no
@@ -92,9 +74,7 @@ h4. :anything
 accepts any value for this argument
 
 <pre>
-<code>
 mock.should.receive(:msg).with(1, :anything, "A")
-</code>
 </pre>
 
 h4. :numeric
@@ -102,9 +82,7 @@ h4. :numeric
 accepts any numeric value for this argument
 
 <pre>
-<code>
 mock.should.receive(:msg).with(a, :numeric, "b")
-</code>
 </pre>
 
 h4. :boolean
@@ -112,9 +90,7 @@ h4. :boolean
 accepts a boolean value for this argument
 
 <pre>
-<code>
 mock.should.receive(:msg).with(a, :boolean, "b")
-</code>
 </pre>
 
 h4. :string
@@ -122,9 +98,7 @@ h4. :string
 accepts any string for this argument
 
 <pre>
-<code>
 mock.should.receive(:msg).with(a, :string, "b")
-</code>
 </pre>
 	
 h4. duck_type(message(s))
@@ -132,75 +106,57 @@ h4. duck_type(message(s))
 accepts any object that responds to the prescribed message(s)
 
 <pre>
-<code>
 #accepts a Fixnum for the second arg
 mock.should.receive(:msg).with(a, duck_type(:abs, :div), "b") 
-</code>
 </pre>
 
 h3. Receive Counts
 
 <pre>
-<code>
 mock.should.receive(:msg).never
-</code>
 </pre>
 
 A problem is reported if the message is ever received.
 
 <pre>
-<code>
 mock.should.receive(:msg).any.number.of.times
-</code>
 </pre>
 
 The message can be received 0 or more times.
 
 <pre>
-<code>
 mock.should.receive(:msg).once
-</code>
 </pre>
 
 A problem is reported is the message is never received, or it is received more
 than once.
 
 <pre>
-<code>
 mock.should.receive(:msg).twice
-</code>
 </pre>
 
 A problem is reported is the message is received anything but two times.
 
 <pre>
-<code>
 mock.should.receive(:msg).exactly(n).times
-</code>
 </pre>
 
 A problem is reported is the message is received anything but n times.
 
 <pre>
-<code>
 mock.should.receive(:msg).at.least(:once)
-</code>
 </pre>
 
 A problem is reported if the message is never received.
 
 <pre>
-<code>
 mock.should.receive(:msg).at.least(:twice)
-</code>
 </pre>
 
 A problem is reported is the message is never received or is received only once.
 
 <pre>
-<code>
 mock.should.receive(:msg).at.least(n).times
-</code>
 </pre>
 
 A problem is reported is the message is received fewer than n times.
@@ -208,27 +164,21 @@ A problem is reported is the message is received fewer than n times.
 h3. Return Values
 
 <pre>
-<code>
 mock.should.receive(:msg).once.and.return(<value>)
-</code>
 </pre>
 
 When the expected message is received, <code>value</code> will be returned as the result.
 
 <pre>
-<code>
 and.return([<value-1>, <value-2>, ..., <value-n>])
-</code>
 </pre>
 
 When the expected message is received, <code>value-i</code> will be returned as the result
-for the ith reception of the message. Once i > n, <code>value-n</code> is returned for all
+for the ith reception of the message. Once <code>i > n</code>, <code>value-n</code> is returned for all
 subsequent receives of the message.
 
 <pre>
-<code>
 mock.should.receive(:msg).once.and.return {...} 
-</code>
 </pre>
 
 When the expected message is received, the result of evaluating the supplied
@@ -237,18 +187,14 @@ as parts of the message. This capability can be used to compute return values
 based on the arguments.  For example:
 
 <pre>
-<code>
 mock.should.receive(:msg).once.and.return {|a, b| a + b}
-</code>
 </pre>
 
 h3. Raising and Throwing
 
 <pre>
-<code>
 mock.should.receive(:msg).once.and.raise(<exception>)
 mock.should.receive(:msg).once.and.throw(<symbol>) 
-</code>
 </pre>
 
 These instruct the mock to raise an exception or throw a symbol instead of returning a value.

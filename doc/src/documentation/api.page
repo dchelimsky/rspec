@@ -5,200 +5,147 @@ ordering: 5
 ---
 h2. Core API
 
-When RSpec executes specifications, it defines a method *should* on every object in the system.
-This *should* method is your entry to the magic of RSpec.
+When RSpec executes specifications, it defines a method <code>should</code> on every object in the system. This <code>should</code> method is your entry to the magic of RSpec.
 
-Almost all expectation forms have a corresponding negated form. It is listed
-when it is supported and, in general, is met when ever the non negated form would be
-violated.
+Almost all expectation forms have a corresponding negated form. It is listed when it is supported and, in general, is met when ever the non-negated form would be violated.
 
 h3. General
 
 h4. Arbitrary Block
 
 <pre>
-<code>
 target.should.satisfy {|arg| ...}
 target.should.not.satisfy {|arg| ...}
-</code>
 </pre>
 
-The supplied block is evaluated, passing <code>target</code> as the sole argument. If the
-block evaluates to <code>false</code> in the case of <code>should.satisfy</code>, or <code>true</code> in the case of
-<code>should.not.satisfy</code>, <code>ExpectationNotMetError</code> is raised.
+The supplied block is evaluated, passing <code>target</code> as the sole argument. If the block evaluates to <code>false</code> in the case of <code>should.satisfy</code>, or <code>true</code> in the case of <code>should.not.satisfy</code>, <code>ExpectationNotMetError</code> is raised.
 
 <pre>
-<code>
 target.should.satisfy {|arg| arg > 0}
-</code>
 </pre>
 
 h4. Equality
 
 <pre>
-<code>
 target.should.equal <value>
 target.should.not.equal <value>
-</code>
 </pre>
 
-The target object is compared to <code>value</code> using ==. If the result is <code>false</code> (or
-<code>true</code> for the negated form) <code>ExpectationNotMetError</code> is raised.
+The target object is compared to <code>value</code> using ==. If the result is <code>false</code> (or <code>true</code> for the negated form) <code>ExpectationNotMetError</code> is raised.
 
 h4. Floating Point Comparison
 
 <pre>
-<code>
 target.should.be.close <value>, <tolerance>
 target.should.not.be.close <value>, <tolerance>
-</code>
 </pre>
 
-The target object is compared to <code>value</code>. In the former case, if they differ
-by more that <code>tolerance</code> <code>ExpectationNotMetError</code> is raised. In the latter case,
-it is raised if they differ by less than <code>tolerance</code>.
+The target object is compared to <code>value</code>. In the former case, if they differ by more that <code>tolerance</code> <code>ExpectationNotMetError</code> is raised. In the latter case, it is raised if they differ by less than <code>tolerance</code>.
 
 <pre>
-<code>
 target.should.be.close 27.35, 0.05
-</code>
 </pre>
 
 h4. Identity
 
 <pre>
-<code>
 target.should.be <value>
 target.should.not.be <value>
-</code>
 </pre>
 
-The target object is compared to <code>value</code> using <code>equal?</code>. If the result is <code>false</code>
-(or <code>true</code> for the negated form) <code>ExpectationNotMetError</code> is raised.
+The target object is compared to <code>value</code> using <code>equal?</code>. If the result is <code>false</code> (or <code>true</code> for the negated form) <code>ExpectationNotMetError</code> is raised.
 
 h4. Arbitrary Predicate
 
 
 <pre>
-<code>
 target.should.predicate [optional args]
 target.should.be.predicate [optional args]
 target.should.not.predicate [optional args]
 target.should.not.be.predicate [optional args]
-</code>
 </pre>
 
-The message <code>predicate?</code> is sent to <code>target</code> with any supplied arguments. If the
-result is <code>false</code> (or <code>true</code> for the negated form) <code>ExpectationNotMetError</code> is
-raised.
+The message <code>predicate?</code> is sent to <code>target</code> with any supplied arguments. If the result is <code>false</code> (or <code>true</code> for the negated form) <code>ExpectationNotMetError</code> is raised.
 
 <pre>
-<code>
 container.should.include 'a' => container.include? 'a'
 container.should.be.empty => container.empty?
-</code>
 </pre>
 
 h4. Pattern Matching
 
 <pre>
-<code>
 target.should.match <regex>
 target.should.not.match <regex>
-</code>
 </pre>
 
-The <code>target</code> is matched against <code>regex</code>. An <code>ExpectationNotMetError</code> is raised if
-the match fails or succeeds, respectively.
+The <code>target</code> is matched against <code>regex</code>. An <code>ExpectationNotMetError</code> is raised if the match fails or succeeds, respectively.
 
 h3. Class/Type
 
 h4. Direct Instance
 
 <pre>
-<code>
 target.should.be.an.instance.of <class>
 target.should.not.be.an.instance.of <class>
-</code>
 </pre>
 
-An <code>ExpectationNotMetError</code> is raised if <code>target</code> is not or is, respectively, an
-direct instance of <code>class</code>. As expected this correlates to <code>target.instance_of?
- class</code>.
+An <code>ExpectationNotMetError</code> is raised if <code>target</code> is not or is, respectively, an direct instance of <code>class</code>. As expected this correlates to <code>target.instance_of?  class</code>.
 
 h4. Ancestor Class
 
 <pre>
-<code>
 target.should.be.a.kind.of <class>
 target.should.not.be.a.kind.of <class>
-</code>
 </pre>
 
-As above, but uses <code>target.kind_of? class</code>: checking whether <code>class</code> is the
-direct class of <code>target</code>, or an ancestor of <code>target</code>'s class.
+As above, but uses <code>target.kind_of? class</code>: checking whether <code>class</code> is the direct class of <code>target</code>, or an ancestor of <code>target</code>'s class.
 
 h4. Type
 
 <pre>
-<code>
 target.should.respond.to <symbol>
 target.should.not.respond.to <symbol>
-</code>
 </pre>
 
-Uses <code>target.respond_to? symbol?</code> to check whether <code>symbol</code> is the name of a
-message that <code>target</code> understands.
+Uses <code>target.respond_to? symbol?</code> to check whether <code>symbol</code> is the name of a message that <code>target</code> understands.
 
 h3. Procs
 
 h4. Raising
 
 <pre>
-<code>
 proc.should.raise <exception>
 proc.should.not.raise <exception>
-</code>
 </pre>
 
-Checks that <code>proc</code> does or doesn't cause the named exception to be raised.
-Typically the <code>proc</code> is created in place using <code>lambda</code>. For example:
+Checks that <code>proc</code> does or doesn't cause the named exception to be raised. Typically the <code>proc</code> is created in place using <code>lambda</code>. For example:
 
 <pre>
-<code>
 lambda { 3 / 0 }.should.raise ZeroDivisionError
-</code>
 </pre>
 
 There is a more general form as well.
 
 <pre>
-<code>
 proc.should.raise
 proc.should.not.raise
-</code>
 </pre>
 
-These forms don't worry about what exception is raised (or not). All they are
-concern with is that some except was raised, or that no exception was raised.
+These forms don't worry about what exception is raised (or not). All they are concern with is that some except was raised, or that no exception was raised.
 
 h4. Throwing
 
 <pre>
-<code>
 proc.should.throw <symbol>
 proc.should.not.throw <symbol>
-</code>
 </pre>
 
-Similar to the above, but checks that <code>symbol</code> is thrown from within <code>proc</code>, or
-that it is not. The latter is actually one of two cases: some other symbol is
+Similar to the above, but checks that <code>symbol</code> is thrown from within <code>proc</code>, or that it is not. The latter is actually one of two cases: some other symbol is
 thrown, or no symbol is thrown.
 
 <pre>
-<code>
 proc.should.not.throw
-</code>
 </pre>
 
 This form is more specific.  It checks that no symbol is thrown from within <code>proc</code>.
@@ -208,25 +155,15 @@ h3. Collections
 h4. Containment
 
 <pre>
-<code>
 target.should.include <object>
-</code>
 </pre>
 
-This is simply a specific case of the arbitrary predicate form. It uses
-<code>target.include? object</code> and raises an <code>ExpectationNotMetError</code> if that returns
-false. The remaining collection forms are a little more involved. They rely on
-two things: <code>target</code> responds to the message <code>things</code> by returning an object
-that responds to either <code>length</code> or <code>size</code>, which return a number that is a
-measure of size. Currently <code>length</code> is used if is appropriate, otherwise <code>size</code> is
-attempted.
+This is simply a specific case of the arbitrary predicate form. It uses <code>target.include? object</code> and raises an <code>ExpectationNotMetError</code> if that returns false. The remaining collection forms are a little more involved. They rely on two things: <code>target</code> responds to the message <code>things</code> by returning an object that responds to either <code>length</code> or <code>size</code>, which return a number that is a measure of size. Currently <code>length</code> is used if is appropriate, otherwise <code>size</code> is attempted.
 
 h4. Exact Size
 
 <pre>
-<code>
 target.should.have(<number>).<things>
-</code>
 </pre>
 
 The <code>things</code> of <code>target</code> has a length/size of exactly <code>number</code>. 
@@ -234,9 +171,7 @@ The <code>things</code> of <code>target</code> has a length/size of exactly <cod
 h4. Lower Bound
 
 <pre>
-<code>
 target.should.have.at.least(<number>).<things>
-</code>
 </pre>
 
 The <code>things</code> of <code>target</code> has a length/size of no less than <code>number</code>.
@@ -244,9 +179,7 @@ The <code>things</code> of <code>target</code> has a length/size of no less than
 h4. Upper Bound
 
 <pre>
-<code>
 target.should.have.at.most(<number>).<things>
-</code>
 </pre>
 
 The <code>things</code> of <code>target</code> has a length/size of no more than <code>number</code>.
