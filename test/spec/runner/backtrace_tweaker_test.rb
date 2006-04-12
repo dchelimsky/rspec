@@ -16,9 +16,14 @@ module Spec
         @tweaker.tweak_backtrace @error, 'spec name'
         @error.backtrace[0].should.equal "./examples/airport_spec.rb:28:in `spec name'"
       end
+
+      def test_should_replace_mock_method_missing_with_mock_name
+        @error.set_backtrace ["/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.2/lib/spec/api/mock.rb:46:in `method_missing'"]
+        @tweaker.tweak_backtrace @error, 'spec name'
+        @error.backtrace.should.be.empty
+      end
       
       def test_should_remove_helpers
-        @error = RuntimeError.new
         @error.set_backtrace ["/lib/spec/api/helper/any_helper.rb"]
         @tweaker.tweak_backtrace @error, 'spec name'
         @error.backtrace.should.be.empty

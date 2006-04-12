@@ -1,6 +1,9 @@
 = RSpec Changelog
 
 == Version 0.5.4 (in SVN)
+Release notes go here
+
+* Remove mock.rb from backtrace
 
 == Version 0.5.3
 The "hurry up, CoR is in two days" release.

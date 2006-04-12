@@ -6,12 +6,12 @@ module Spec
       
       def test_should_talk_like_something_with_one_message_specified
         duck_type = DuckType.new(:length)
-        assert(duck_type.walks_like? [])
+        assert duck_type.walks_like?([])
       end
 
       def test_should_talk_like_something_with_two_messages_specified
         duck_type = DuckType.new(:length, :empty?)
-        assert(duck_type.walks_like? [])
+        assert duck_type.walks_like?([])
       end
 
     end

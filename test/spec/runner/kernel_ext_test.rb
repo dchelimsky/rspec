@@ -7,7 +7,7 @@ module Spec
         assert_nothing_raised do
           @cxt = context("") {}
         end
-        assert @cxt.instance_of? Spec::Runner::Context
+        assert @cxt.instance_of?(Spec::Runner::Context)
       end
     end
   end
