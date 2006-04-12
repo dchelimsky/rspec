@@ -21,7 +21,7 @@ acronym {
 }
 #container {
 	font-size:1.2em;
-	width:550px;
+	width:94%;
 	margin:0 auto;
 	border-right:3px double #000;
 }
@@ -42,7 +42,7 @@ acronym {
 	color:#c00;
 }
 #header h2 {
-	margin:140px 0 0 0;
+	margin:30px 0 0 0;
 	font-size:1em;
 	font-weight:normal;
 	color:#999;
@@ -52,10 +52,7 @@ acronym {
 }
 #navigation {
 	text-align:right;
-	margin:10px 10px 10px auto;
-}
-#navigation {
-	margin:0 10px 0 0;
+	margin:0 18px 10px auto;
 	padding:0;
 }
 #navigation li {
@@ -98,7 +95,7 @@ acronym {
 }
 #content h2 {
 	display:block;
-	margin:20px 0 0 0px;
+	margin:20px 20px 0 0px;
 	padding:0;
 	font-family:"Trebuchet MS",arial,sans-serif;
 	font-size:1.1em;
@@ -160,7 +157,7 @@ acronym {
 #footer {
 	font-size:0.9em;
 	font-family:arial,sans-serif;
-	margin:90px 0 20px 0;
+	margin:60px 18px 20px 0;
 	padding:5px;
 	border-top:1px solid #c00;
 }
