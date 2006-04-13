@@ -134,9 +134,9 @@ acronym {
 	text-indent:0;
 }
 #content code {
-    font-family:"courier new";
-    color:#444;
-    font-weight:bold;
+    font-family:monospace;
+    color:#222;
+    font-size:1.3em;
 }
 #content pre {
 	padding:10px;
