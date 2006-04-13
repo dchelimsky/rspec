@@ -85,9 +85,9 @@ module Spec
         return false if args.length != @expected_params.length
         @expected_params.each_index do |i|
           next if @expected_params[i] == :anything
-          next if @expected_params[i] == :numeric and args[i].is_a?Numeric
-          next if @expected_params[i] == :boolean and args[i].is_a?TrueClass or args[i].is_a?FalseClass
-          next if @expected_params[i] == :string and args[i].is_a?String
+          next if @expected_params[i] == :numeric and args[i].is_a?(Numeric)
+          next if @expected_params[i] == :boolean and args[i].is_a?(TrueClass) or args[i].is_a?(FalseClass)
+          next if @expected_params[i] == :string and args[i].is_a?(String)
           next if @expected_params[i].is_a? DuckType and @expected_params[i].walks_like? args[i]
           return false unless args[i] == @expected_params[i]
         end
@@ -146,12 +146,20 @@ module Spec
           return result
         end
     
-        args << block unless block.nil?
-        @received_count += 1
-        
         Kernel::raise @exception_to_raise.new unless @exception_to_raise.nil?
         Kernel::throw @symbol_to_throw unless @symbol_to_throw.nil?
-        
+        unless @args_to_yield.nil?
+          if block.nil?
+            Kernel::raise Spec::Api::MockExpectationError, "Expected block to be passed"
+          end
+          if @args_to_yield.length != block.arity
+            Kernel::raise Spec::Api::MockExpectationError, "Wrong arity of passed block. Expected #{@args_to_yield.size}"
+          end
+          block.call @args_to_yield
+        end
+
+        args << block unless block.nil?
+        @received_count += 1        
         value = @block.call(*args)
     
         return value unless @consecutive
@@ -248,6 +256,12 @@ module Spec
         return self unless @and_seen
         @and_seen = false
         @symbol_to_throw = symbol
+      end
+      
+      def yield(*args)
+        return self unless @and_seen
+        @and_seen = false
+        @args_to_yield = args
       end
   
     end

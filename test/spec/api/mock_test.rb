@@ -305,6 +305,28 @@ module Spec
         end
       end
       
+      def test_should_yield_values
+        @mock.should.receive(:yield_back).with(:no_args).once.and.yield('wha', 'zup')
+        a, b = nil
+        @mock.yield_back {|a,b|}
+        a.should.equal 'wha'
+        b.should.equal 'zup'
+      end
+
+      def test_should_fail_when_calling_yielding_method_with_wrong_arity
+        @mock.should.receive(:yield_back).with(:no_args).once.and.yield('wha', 'zup')
+        assert_raise(MockExpectationError) do
+          @mock.yield_back {|a|}
+        end
+      end
+
+      def test_should_fail_when_calling_yielding_method_without_block
+        @mock.should.receive(:yield_back).with(:no_args).once.and.yield('wha', 'zup')
+        assert_raise(MockExpectationError) do
+          @mock.yield_back
+        end
+      end
+      
     end
   end
 end

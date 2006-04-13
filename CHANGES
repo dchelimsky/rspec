@@ -4,6 +4,7 @@
 Release notes go here
 
 * Remove mock.rb from backtrace
+* Mocks can now yield
 
 == Version 0.5.3
 The "hurry up, CoR is in two days" release.

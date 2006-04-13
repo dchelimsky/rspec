@@ -198,3 +198,11 @@ mock.should.receive(:msg).once.and.throw(<symbol>)
 </pre>
 
 These instruct the mock to raise an exception or throw a symbol instead of returning a value.
+
+h3. Yielding
+
+<pre>
+mock.should.receive(:msg).once.and.yield([<value-1>, <value-2>, ..., <value-n>])
+</pre>
+
+When the expected message is received, the mock will yield the values to the passed block.
