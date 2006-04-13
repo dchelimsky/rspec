@@ -61,7 +61,6 @@ h3. -v, --verbose
 Using this option provides more information:
 
 <pre>
-<code>
 An empty stack 
 - should accept an item when sent push 
 - should complain when sent top 
