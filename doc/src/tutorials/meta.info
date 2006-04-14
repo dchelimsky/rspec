@@ -1,8 +1,9 @@
 index.page:
   inMenu: true
-  orderInfo: 1
+  orderInfo: 10
   
 stack:
   title: Stack
-  inMenu: false
+  inMenu: true
+  orderInfo: 11
   

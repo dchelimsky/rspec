@@ -15,7 +15,6 @@
 	</div>
 
 	<div id="navigation">
-	    <!-- Not sure how to get this in the menu -->
 	    {menu: {menuStyle: horizontal}}
 	</div>
 

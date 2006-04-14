@@ -1,8 +1,4 @@
----
-title: A Simple Stack
----
-
-h2. A Simple Stack
+h2. A Simple Stack - Overview
 
 h3. A simple (very much in progress) tutorial by David Chelimsky
 
@@ -40,7 +36,7 @@ We could ask if the stack is full...
 stack.push item unless stack.full?
 </pre>
 
-...but even then we have to know what it means to be full: if a stack is full, then I can't add anything to it. The client has to understand the internal nature of a stack in order to know if it can operate on the stack in some way. A better question is "can you accept another object"? 
+...but even then we have to know what it means to be full: if a stack is full, then we can't add anything to it. The client has to understand the internal nature of a stack in order to know if it can operate on the stack in some way. A better question is "can you accept another object"? 
 
 <pre>
 stack.push item if stack.has_more_room?
@@ -58,6 +54,4 @@ TDDers will suggest that tests are clients just like any other, and that "if it'
 
 Another thing to consider is "Tell, Don't Ask". We talk about "Tell, Don't Ask" all the time, yet we see properties being exposed all over the place. I'd like to extend TDA with this: "...but if you MUST ask, then ask for what you really need to know". Do we need to know the stack's size? Probably not. We <em>do</em>, however, need to know whether we can push onto it.
 
-We'll be exploring these questions in this tutorial in addition to getting you started with rSpec.
-
-h3. Getting Started
+We'll be exploring these questions in this tutorial in addition to getting you started with rSpec. So <a href="getting_started.html">let's get started!</a>
