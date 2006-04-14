@@ -15,8 +15,4 @@ context "An empty stack" do
     lambda { @stack.top }.should.raise StackUnderflowError
   end
   
-  specify "should complain when sent pop" do
-    lambda { @stack.pop }.should.raise StackUnderflowError
-  end
-  
 end
