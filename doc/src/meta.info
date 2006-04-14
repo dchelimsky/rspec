@@ -7,23 +7,25 @@ why_rspec.page:
 examples.page:
   orderInfo: 3
   
+tutorials:
+  title: Tutorials
+  orderInfo: 4 
+
 documentation:
   title: Documentation
-  orderInfo: 4
+  orderInfo: 5
 
 download.html:
   title: Download
   inMenu: true
   dest: http://rubyforge.org/frs/?group_id=797
-  orderInfo: 5
+  orderInfo: 6
 
 tools:
   title: Tools
-  orderInfo: 6
-  
-community.page:
   orderInfo: 7
   
-tutorials:
-  inMenu: false
+community.page:
+  orderInfo: 8
+  
 

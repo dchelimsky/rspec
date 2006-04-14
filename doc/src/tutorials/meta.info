@@ -1,6 +1,8 @@
 index.page:
-  inMenu: false
+  inMenu: true
+  orderInfo: 1
   
-simple_stack.page:
+stack:
+  title: Stack
   inMenu: false
   
