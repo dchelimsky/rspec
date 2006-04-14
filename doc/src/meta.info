@@ -23,4 +23,7 @@ tools:
   
 community.page:
   orderInfo: 7
+  
+tutorials:
+  inMenu: false
 
