@@ -53,7 +53,7 @@ context "An almost full stack (with one item less than capacity)" do
   end
   
   specify "should return top when sent pop" do
-    @stack.pop.should.be 9
+    @stack.pop.should.be 8
   end
   
   specify "should remove top when sent pop" do

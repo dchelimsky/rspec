@@ -12,6 +12,7 @@ module Spec
         @name = name
         @options = DEFAULT_OPTIONS.dup.merge(options)
         @expectations = []
+        @history = []
       end
       
       def should
@@ -34,7 +35,7 @@ module Spec
       def method_missing(sym, *args, &block)
         # TODO: use find_expectation(sym, args) which will lookup based on sym, args and strict mode.
         if expectation = find_matching_expectation(sym, *args)
-          expectation.verify_message(args, block)
+          expectation.verify_message(@history, args, block)
         else
           begin
             # act as null object if method is missing and we ignore them. return value too!
@@ -74,6 +75,8 @@ module Spec
         @any_seen = false
         @at_seen = false
         @and_seen = false
+        @identifier = nil
+        @after = nil
       end
   
       def matches(sym, args)
@@ -134,8 +137,24 @@ module Spec
         end
       end
 
+      def order_ok(history)
+        return true if @after.nil?
+        return history.include? @after
+      end
+
+      def handle_order_constraint(history)
+        unless order_ok(history)
+          Kernel::raise Spec::Api::MockExpectationError, "Call made out of order"
+        end
+       
+        history << @identifier unless @identifier.nil?
+      end
+      
       # This method is called when a method is invoked on a mock
-      def verify_message(args, block)
+      def verify_message(history, args, block)
+        
+        handle_order_constraint(history)
+        
         unless @method_block.nil?
           begin
             result = @method_block.call(*args)
@@ -256,6 +275,14 @@ module Spec
         return self unless @and_seen
         @and_seen = false
         @symbol_to_throw = symbol
+      end
+      
+      def id(anId)
+        @identifier = anId
+      end
+      
+      def after(anId)
+        @after = anId
       end
       
       def yield(*args)
