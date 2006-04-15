@@ -127,6 +127,7 @@ task :website => [:clobber, :copy_rcov_report, :doc, :rdoc]
 
 RCov::VerifyTask.new do |t|
   t.threshold = 98.5 # Don't make it lower unless you have a damn good reason.
+  t.verbose = true
   t.index_html = 'coverage/index.html'
 end
 

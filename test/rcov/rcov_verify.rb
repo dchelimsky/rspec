@@ -3,6 +3,7 @@ module RCov
     attr_accessor :name
     attr_accessor :index_html
     attr_accessor :threshold
+    attr_accessor :verbose
     
     def initialize(name=:rcov_verify)
       @name = name
@@ -21,6 +22,7 @@ module RCov
             break
           end
         end
+        puts "Coverage: #{total_coverage}% (threshold: #{threshold}%)" if verbose
         raise "Coverage must be at least #{threshold}% but was #{total_coverage}%" if total_coverage < threshold
       end
     end
