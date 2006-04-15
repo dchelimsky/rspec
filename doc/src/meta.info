@@ -28,4 +28,18 @@ tools:
 community.page:
   orderInfo: 8
   
+tutorials/index.page:
+  inMenu: true
+  orderInfo: 10
+
+tutorials/stack/index.page:
+  inMenu: true
+  orderInfo: 20
+
+tutorials/stack/first_spec.page:
+  title: First Spec
+  inMenu: true
+  orderInfo: 21
+  
+  
 
