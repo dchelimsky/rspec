@@ -31,6 +31,9 @@ community.page:
 tutorials/index.page:
   inMenu: true
   orderInfo: 10
+  
+tutorials/stack:
+  title: Stack
 
 tutorials/stack/index.page:
   inMenu: true
@@ -41,5 +44,9 @@ tutorials/stack/first_spec.page:
   inMenu: true
   orderInfo: 21
   
+tutorials/stack/second_spec.page:
+  title: Second Spec
+  inMenu: true
+  orderInfo: 21
   
 

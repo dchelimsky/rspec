@@ -48,8 +48,8 @@ module Spec
     def raise(exception=Exception)
       begin
         @target.call
-      rescue exception
-        fail_with_message(default_message("should not raise", exception.inspect))
+      rescue exception => e
+        fail_with_message(default_message("should not raise", e.inspect))
       rescue
         true
       end

@@ -57,4 +57,4 @@ TDDers will suggest that tests are clients just like any other, and that "if it'
 
 Another thing to consider is "Tell, Don't Ask". We talk about "Tell, Don't Ask" all the time, yet we see properties being exposed all over the place. I'd like to extend TDA with this: "...but if you MUST ask, then ask for what you really need to know". Do we need to know the stack's size? Probably not. We <em>do</em>, however, need to know whether we can push onto it.
 
-We'll be exploring these questions in this tutorial in addition to getting you started with rSpec. So <a href="getting_started.html">let's get started!</a>
+We'll be exploring these questions in this tutorial in addition to getting you started with rSpec. So <a href="first_spec.html">let's get started!</a>
