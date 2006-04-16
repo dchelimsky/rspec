@@ -4,10 +4,10 @@ inMenu: true
 ---
 h2. Test::Unit migration
 
-rSpec provides a tool for converting Test::Unit files into specifications.  Anything that cannot be converted is left in it's original form.  The command line is:
+rSpec provides a tool for translating existing Test::Unit files into specifications.  Anything that cannot be converted is left in its original form.  The command line is:
 
 <pre>
 test2rspec SRC [DEST]
 </pre>
 
-If DEST is not supplied, output is sent to STDOUT.
+If DEST is not supplied, output is sent to STDOUT. SRC and DEST can be a file or a directory.  If SRC is a directory, every test file under it will be translated.
