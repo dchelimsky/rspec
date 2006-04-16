@@ -5,6 +5,7 @@ Release notes go here
 
 * Remove mock.rb from backtrace
 * Mocks can now yield
+* should.not.raise reports actual error rather than specified error class
 
 == Version 0.5.3
 The "hurry up, CoR is in two days" release.
