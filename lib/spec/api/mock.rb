@@ -143,10 +143,7 @@ module Spec
       end
 
       def handle_order_constraint(history)
-        unless order_ok(history)
-          Kernel::raise Spec::Api::MockExpectationError, "Call made out of order"
-        end
-       
+        Kernel::raise(Spec::Api::MockExpectationError, "Call made out of order") unless order_ok(history)
         history << @identifier unless @identifier.nil?
       end
       
@@ -279,10 +276,12 @@ module Spec
       
       def id(anId)
         @identifier = anId
+        self
       end
       
       def after(anId)
         @after = anId
+        self
       end
       
       def yield(*args)
