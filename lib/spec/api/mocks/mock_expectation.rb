@@ -71,8 +71,7 @@ module Spec
       end
 
       def order_ok(history)
-        return true if @after.nil?
-        return history.include? @after
+        @after.nil? ? true : history.include?(@after)
       end
 
       def handle_order_constraint(history)
