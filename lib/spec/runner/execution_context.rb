@@ -12,7 +12,7 @@ module Spec
       end
       
       def duck_type(*args)
-        return Api::DuckType.new(*args)
+        return Api::DuckTypeArgConstraint.new(*args)
       end
       
       def violated(message="")
