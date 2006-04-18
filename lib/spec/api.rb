@@ -1,5 +1,6 @@
 require 'spec/api/exceptions'
-require 'spec/api/mock'
-require 'spec/api/duck_type'
+require 'spec/api/mocks/argument_expectation'
+require 'spec/api/mocks/mock_expectation'
+require 'spec/api/mocks/mock'
 require 'spec/api/expectations'
 require 'spec/api/helper'
