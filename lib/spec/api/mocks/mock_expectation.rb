@@ -88,7 +88,7 @@ module Spec
           begin
             result = @method_block.call(*args)
           rescue Spec::Api::ExpectationNotMetError => detail
-            Kernel::raise Spec::Api::MockExpectationError, "Call expectation violated with: " + $!
+            Kernel::raise Spec::Api::MockExpectationError, "Call expectation violated with: " + detail
           end
           @received_count += 1
           return result
