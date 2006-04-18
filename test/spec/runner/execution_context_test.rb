@@ -19,8 +19,8 @@ module Spec
       def test_duck_type
         ec = ExecutionContext.new(Api::Mock.new("spec", :null_object => true))
         duck_type = ec.duck_type(:length)
-        assert duck_type.is_a?(Api::DuckType)
-        assert duck_type.walks_like?([])
+        assert duck_type.is_a?(Api::DuckTypeArgConstraint)
+        assert duck_type.matches?([])
       end
     end
   end
