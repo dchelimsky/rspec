@@ -1,5 +1,3 @@
-require File.dirname(__FILE__) + '/mock_expectation'
-
 module Spec
   module Api
     class Mock

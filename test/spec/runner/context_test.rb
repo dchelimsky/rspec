@@ -61,6 +61,19 @@ module Spec
         assert $teardwown_ran
         @listener.__verify
       end
+      
+      def test_spec_count_1
+        @context.specify("test") {}
+        assert_equal(1, @context.number_of_specs)
+      end
+      
+      def test_spec_count_4
+        @context.specify("one") {}
+        @context.specify("two") {}
+        @context.specify("three") {}
+        @context.specify("four") {}
+        assert_equal(4, @context.number_of_specs)
+      end
 
     end
   end
