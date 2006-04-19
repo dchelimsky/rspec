@@ -2,25 +2,27 @@ h2. A Simple Stack - The First Specification
 
 h3. Where do we start?
 
-We want to start off with the simplest thing that we can test, just as we would in TDD. Remember, BDD <em>is</em> TDD at its core. Lets start with an empty stack. An empty stack sounds simple, right?
+We want to start off with the simplest thing that we can specify, just as we would in TDD. Remember, BDD <em>is</em> TDD at its core. Lets start with an empty stack. An empty stack sounds simple, right?
 
 h3. Create a spec file
 
-So we start by creating a file called empty_stack_spec.rb in /projects/ruby/stack/. You can use any filename and directory you wish, but the following will assume these names and locations.
+Start by creating a file called stack_spec.rb in /projects/ruby/stack/. You can use any filename and directory you wish, but the following will assume these names and locations.
 
 h3. Add a context
 
-Add the following to empty_stack_spec.rb
+Add the following to stack_spec.rb
 
 <pre>
 context "An empty stack" do
 end
 </pre>
 
-Now open a command shell, cd to /projects/ruby/stack/, and enter the following:
+A context represents an object (or set of objects) in a known state. This is the same concept as a fixture in xUnit. For each known state from which we wish to specify behaviour, we'll add a new context.
+
+To see what damage we've done so far, open a command shell, cd to /projects/ruby/stack/, and enter the following:
 
 <pre>
-$ spec empty_stack_spec.rb
+$ spec stack_spec.rb
 </pre>
 
 You should see output similar to this
@@ -36,7 +38,7 @@ The <code>spec</code> command is installed when you install rSpec. Essentially w
 You may wonder why bother with the name. Try adding the <code>-v</code> switch to the command
 
 <pre>
-$ spec empty_stack_spec.rb -v
+$ spec stack_spec.rb -v
 
 An empty stack
 
@@ -49,7 +51,7 @@ The <code>-v</code> switch tells rSpec to run in verbose mode, in which case it 
 
 h3. Add a specification
 
-So what can we say about the behaviour of an empty stack? The typical first move is to prove that it's really empty by making assertions about its size, or asking it if it is empty. But those things are all about the object's <em><b>state</b></em>, not its behaviour. We want to thing about what our Stack does - how it responds to various messages that we can send it. So let's start with the <code>push</code> message. What should an empty Stack do when you send it the push method? Absolutely nothing, right? It should just accept the object and keep its mouth shut:
+So what can we say about the behaviour of an empty stack? The typical first move is to prove that it's really empty by making assertions about its size, or asking it if it is empty. But those things are all about the object's <em><b>state</b></em>, not its behaviour. We want to think about what our Stack does - how it responds to various messages that we can send it. So let's start with the <code>push</code> message. What should an empty Stack do when you send it the push method? Absolutely nothing, right? It should just accept the object and keep its mouth shut:
 
 <pre>
 context "An empty stack" do
@@ -63,7 +65,7 @@ end
 Now run that with the <code>spec</code> command (use the -v switch as above) and look at the output. Here's the output:
 
 <pre>
-$ spec empty_stack_spec.rb -v
+$ spec stack_spec.rb -v
 
 An empty stack
 - should keep its mouth shut when you send it the push message
@@ -73,15 +75,18 @@ Finished in 0.000183 seconds
 1 context, 1 specification, 0 failures
 </pre>
 
-As you can see, this reads like a specification. OK, if you're working at some companies, "keep its mouth shut" might be frowned upon. Lucky for me, I don't work at any of those companies!
+As you can see, this reads like a specification. Now we haven't really specified anything in code yet, but we have the framework from which to begin - a named context, with a single named specification. So let's make it specify something. Just as in TDD, we want to add things one bit at a time - a little bit of specification, a little bit of code to meet that specification. Slightly departing from TDD, however, we're going to introduce a setup now. Most of the TDD (and xUnit) literature I've read suggests that we should introduce setups to eliminate duplication. In this case, because we're using contexts rather than TestCases, it makes semantic sense to set up the context.
 
-Now we haven't really specified anything yet, but we have the framework from which to begin - a context, with a single specification. So let's make it specify something. Just as in TDD, we want to add things one bit at a time - a little bit of specification, a little bit of code to meet that specification. First, we declare and initialize a Stack...
+In this case, the context is an empty stack, so let's set one up. 
 
 <pre>
 context "An empty stack" do
   
+  setup do
+    @stack = Stack.new
+  end
+  
   specify "should keep its mouth shut when you send it the push message" do
-    stack = Stack.new
   end
   
 end
@@ -90,16 +95,17 @@ end
 ...and then run the <code>spec</code> command...
 
 <pre>
-$ spec empty_stack_spec.rb -v
+$ spec stack_spec.rb -v
 
 An empty stack
 - should keep its mouth shut when you send it the push message (FAILED - 1)
 
+
 1)
 uninitialized constant Stack (NameError)
-./empty_stack_spec.rb:4:in `should keep its mouth shut when you send it the push message'
+./stack_spec.rb:6:in `should keep its mouth shut when you send it the push message'
 /usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/instance_exec.rb:9:in `instance_exec'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/specification.rb:16:in `run'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/specification.rb:15:in `run'
 /usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context.rb:23:in `run'
 /usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context.rb:22:in `run'
 /usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context_runner.rb:50:in `run_specs'
@@ -108,7 +114,7 @@ uninitialized constant Stack (NameError)
 /usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/bin/spec:17
 /usr/local/bin/spec:18
 
-Finished in 0.000275 seconds
+Finished in 0.000284 seconds
 
 1 context, 1 specification, 1 failure
 </pre>
@@ -121,14 +127,14 @@ There are a few things to note about this output.
 * 1 specification was processed ("should keep its mouth shut when you send it the push message")
 * 1 specification failed ("should keep its mouth shut when you send it the push message")
 
-To get the code to pass this specification, we have to create a Stack class. Add a file to /projects/ruby/stack named stack.rb with the following code:</p>
+The failure <code>uninitialized constant Stack (NameError)</code> tells us that we need to create a Stack class. Add a file to /projects/ruby/stack named stack.rb with the following code:</p>
 
 <pre>
 class Stack
 end
 </pre>
 
-Then add this to the top of empty_stack_spec.rb...
+Then add this to the top of stack_spec.rb...
 
 <pre>
 require File.dirname(__FILE__) + "/stack"
@@ -137,13 +143,13 @@ require File.dirname(__FILE__) + "/stack"
 ...and run the <code>spec</code> command and you should see output like this:
 
 <pre>
-$ spec empty_stack_spec.rb -v
+$ spec stack_spec.rb -v
 
 An empty stack
 - should keep its mouth shut when you send it the push message
 
 
-Finished in 0.000182 seconds
+Finished in 0.00022 seconds
 
 1 context, 1 specification, 0 failures
 </pre>
@@ -152,33 +158,33 @@ We're almost there, but not quite. We still haven't specified what's supposed to
 
 <pre>
 specify "should keep its mouth shut when you send it the push message" do
-  stack = Stack.new
   lambda { stack.push Object.new }.should.not.raise
 end
 </pre>
 
-If you're not familiar with lambda functions, <code>lambda { stack.push Object.new }</code> creates an object from the block, but does not execute the block. It is just stored for later execution. <code>should.not.raise</code> then tells rSpec to execute the block and raise an ExpectationNotMetError if the block raises any errors at all. Running the spec...
+If you're not familiar, <code>lambda</code> accepts a block but does not execute it. It then constructs a Proc object, which can called at any time. So, in this case, the block <code>{ stack.push Object.new }</code> gets saved in a Proc object. <code>should.not.raise</code> then tells rSpec to call the Proc and raise an ExpectationNotMetError if it raises any errors at all. Running the spec...
 
 <pre>
-$ spec empty_stack_spec.rb -v
+$ spec stack_spec.rb -v
 
 An empty stack
 - should keep its mouth shut when you send it the push message (FAILED - 1)
 
 
 1)
-<Proc> should not raise "#<NoMethodError: undefined method `push' for #<Stack:0x32b034>>" (Spec::Api::ExpectationNotMetError)
-./empty_stack_spec.rb:7:in `should keep its mouth shut when you send it the push message'
-../rspec/bin/../lib/../lib/spec/runner/instance_exec.rb:9:in `instance_exec'
-../rspec/bin/../lib/../lib/spec/runner/specification.rb:16:in `run'
-../rspec/bin/../lib/../lib/spec/runner/context.rb:23:in `run'
-../rspec/bin/../lib/../lib/spec/runner/context.rb:22:in `run'
-../rspec/bin/../lib/../lib/spec/runner/context_runner.rb:50:in `run_specs'
-../rspec/bin/../lib/../lib/spec/runner/context_runner.rb:49:in `run_specs'
-../rspec/bin/../lib/../lib/spec/runner/context_runner.rb:41:in `run'
-../rspec/bin/spec:17
+<Proc> should not raise "#<NoMethodError: undefined method `push' for #<Stack:0x368d4c>>" (Spec::Api::ExpectationNotMetError)
+./stack_spec.rb:10:in `should keep its mouth shut when you send it the push message'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/instance_exec.rb:9:in `instance_exec'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/specification.rb:16:in `run'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context.rb:23:in `run'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context.rb:22:in `run'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context_runner.rb:50:in `run_specs'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context_runner.rb:49:in `run_specs'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context_runner.rb:41:in `run'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/bin/spec:17
+/usr/local/bin/spec:18
 
-Finished in 0.000333 seconds
+Finished in 0.000388 seconds
 
 1 context, 1 specification, 1 failure
 </pre> 
@@ -195,7 +201,7 @@ end
 ...and run the spec and voila!...
 
 <pre>
-$ spec empty_stack_spec.rb -v
+$ spec stack_spec.rb -v
 
 An empty stack
 - should keep its mouth shut when you send it the push message
@@ -211,5 +217,3 @@ Finished in 0.000209 seconds
 One important thing to note here is that we did not begin by setting any expectations about the size or emptiness of the stack. That may feel funny to experienced TDDers, as it is standard faire to verify that an empty collection is empty. As explained in the <a href="index.html">Overview</a>, we're going to explore what it means to specify behaviour rather than testing state. Based on our existing spec thus far, there is no need to have a size or empty method. Let's see how far we can go without them...
 
 <a href="second_spec.html">Next</a>
-
-

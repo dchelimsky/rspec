@@ -1,1 +1,163 @@
 h2. A Simple Stack - The Second Specification
+
+h3. What to specify next?
+
+Picking the next thing to specify is always a challenge (just as picking the next thing to test is in TDD). Ideally, you want to specify the simplest thing that we can imagine implementing. Of course, thinking about implementation seems to fly in the face of a core tenet of TDD and BDD: focus on interface - focus on behaviour. So you have a couple of opposing forces and notions guiding this decision. The bottom line is that it's not that important which one you pick next. The important thing is that as soon as you recognize that you've headed down the wrong path (one which requires a lot of implementation to meet the newest specification), roll back immediately and pick a different "next step".
+
+For our problem, there seem to be (at least) two logical potential next steps. We know that pushing on to an empty stack results in the stack accepting the pushed object. So one logical next step might be to specify how an empty stack behaves when sending it a different message. Another might be to send push to a non-empty stack. But what I'd really like to know is what happened to the object we just pushed!
+
+To specify that, we have to move diagonally a bit. We need to specify the stack's response to a new message starting in a new state - a new context. We're going to start with a stack with one item already pushed onto it and specify what happens when you send it the top message. Why top and not pop? In this case, top is simpler than pop - top just returns the top object, while pop also removes it from the stack.
+
+h3. Send top to a stack with one item
+
+Let's start by adding a new context in stack_spec.rb. Remember, the context is an object (or set of objects) in a known state, so we'll go ahead and add the setup right away
+
+<pre>
+context "A stack with one item" do
+  
+  setup do
+    @stack = Stack.new
+    @stack.push "one item"
+  end
+
+end
+</pre>
+
+Now run the spec:
+
+<pre>
+$ spec stack_spec.rb -v
+
+An empty stack
+- should keep its mouth shut when you send it the push message
+
+A stack with one item
+
+
+Finished in 0.000277 seconds
+
+2 contexts, 1 specification, 0 failures
+</pre>
+
+Note that we see the name of the new context printed out, 2 contexts but only 1 specification. We added setup, but no specification. So...
+
+<pre>
+context "A stack with one item" do
+  
+  setup do
+    @stack = Stack.new
+    @stack.push "one item"
+  end
+
+  specify "should return top when sent the message top" do
+    @stack.top.should.equal "one item"
+  end
+  
+end
+</pre>
+
+Run the spec...
+
+<pre>
+$ spec stack_spec.rb -v
+
+An empty stack
+- should keep its mouth shut when you send it the push message
+
+A stack with one item
+- should return top when sent the message top (FAILED - 1)
+
+
+1)
+undefined method `top' for #<Stack:0x368360> (NoMethodError)
+./stack_spec.rb:23:in `should return top when sent the message top'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/instance_exec.rb:9:in `instance_exec'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/specification.rb:16:in `run'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context.rb:23:in `run'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context.rb:22:in `run'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context_runner.rb:50:in `run_specs'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context_runner.rb:49:in `run_specs'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context_runner.rb:41:in `run'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/bin/spec:17
+/usr/local/bin/spec:18
+
+Finished in 0.000483 seconds
+
+2 contexts, 2 specifications, 1 failure
+</pre>
+
+Again, running the spec tells us what we have to implement next. <code>undefined method `top' for #<Stack:0x368360> (NoMethodError)</code> tells us to implement a <code>top</code> method. So, back in stack.rb...
+
+<pre>
+def top
+end
+</pre>
+
+Why not implement the return now? Well, this becomes a matter of taste and level of discipline. While you're learning BDD (especially if you have no prior TDD experience), you want to take very, very small steps. There's usually something to learn after each one. In this case, if we run the spec now...
+
+<pre>
+$ spec stack_spec.rb -v
+
+An empty stack
+- should keep its mouth shut when you send it the push message
+
+A stack with one item
+- should return top when sent the message top (FAILED - 1)
+
+
+1)
+nil should equal "one item" (Spec::Api::ExpectationNotMetError)
+./stack_spec.rb:23:in `should return top when sent the message top'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/instance_exec.rb:9:in `instance_exec'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/specification.rb:16:in `run'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context.rb:23:in `run'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context.rb:22:in `run'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context_runner.rb:50:in `run_specs'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context_runner.rb:49:in `run_specs'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context_runner.rb:41:in `run'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/bin/spec:17
+/usr/local/bin/spec:18
+
+Finished in 0.000543 seconds
+
+2 contexts, 2 specifications, 1 failure
+</pre>
+
+This is a very interesting result. <code>nil should equal "one item"</code> tells us that the expression <code>@stack.top</code> returned nil. In ruby, nil is a real object to which you can send messages. <code>should.equal "one item"</code> tells rspec that the object returned by the expression (in this case nil) should be equal to the string literal "one item".
+
+So let's get the code to meet this specification. When we do this, we want to implement the simplest thing that we can to satisfy the existing specs. Given the current set of specs, we can simply store the object pushed and return it on top.
+
+<pre>
+class Stack
+  
+  def push item
+    @item = item
+  end
+  
+  def top
+    @item
+  end
+  
+end
+</pre>
+
+Run the specs...
+
+<pre>
+$ spec stack_spec.rb -v
+
+An empty stack
+- should keep its mouth shut when you send it the push message
+
+A stack with one item
+- should return top when sent the message top
+
+
+Finished in 0.0004 seconds
+
+2 contexts, 2 specifications, 0 failures
+</pre>
+
+So now we have two specifications, each with their own context. We've implemented two simple methods that satisfy the existing specifications. If you've never done any TDD before this, this may seem really odd. We all know that this isn't enough to meet the specs that we intend. But right now, at this moment, as far as the code is concerned, there are only two simple specifications. To move our implementation along, we first have to specify how we want it to behave.
+
+So what's next? <a href="spec_3.rb">Move on the next page and see...</a>
