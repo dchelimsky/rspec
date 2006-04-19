@@ -102,8 +102,7 @@ An empty stack
 
 
 1)
-uninitialized constant Stack (NameError)
-./stack_spec.rb:6:in `should keep its mouth shut when you send it the push message'
+./stack_spec.rb:6:in `setup'
 /usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/instance_exec.rb:9:in `instance_exec'
 /usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/specification.rb:15:in `run'
 /usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context.rb:23:in `run'
@@ -121,6 +120,7 @@ Finished in 0.000284 seconds
 
 There are a few things to note about this output.
 
+* 
 * "(Failed - 1)" tells you that that particular specification is the one in which a failure occurred.
 * The "1" in "(Failed - 1)" tells you that the stack trace for that failure is the first one.
 * 1 context was processed ("An empty stack")
