@@ -17,6 +17,7 @@ module RCov
             end
           @ruby_opts.unshift( "-I#{lib_path}" )
           @ruby_opts.unshift( "--exclude test.*.rb")
+          @ruby_opts.unshift( "--exclude lib.spec.sorted_find.rb")
           @ruby_opts.unshift( "-w" ) if @warning
           rcov @ruby_opts.join(" ") +
             " \"#{run_code}\" " +
