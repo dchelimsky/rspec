@@ -12,18 +12,27 @@ module Spec
     end
     
     class AnyArgConstraint
+      def initialize(ignore)
+      end
+      
       def matches?(value)
         true
       end
     end
     
     class NumericArgConstraint
+      def initialize(ignore)
+      end
+      
       def matches?(value)
         value.is_a?(Numeric)
       end
     end
     
     class BooleanArgConstraint
+      def initialize(ignore)
+      end
+      
       def matches?(value)
         return true if value.is_a?(TrueClass)
         return true if value.is_a?(FalseClass)
@@ -32,6 +41,9 @@ module Spec
     end
     
     class StringArgConstraint
+      def initialize(ignore)
+      end
+      
       def matches?(value)
         value.is_a?(String)
       end
@@ -52,13 +64,13 @@ module Spec
     
     class ArgumentExpectation
     
-      @@constraint_classes = {
-        :anything => AnyArgConstraint, 
-        :numeric => NumericArgConstraint,
-        :boolean => BooleanArgConstraint,
-        :string => StringArgConstraint
-      }
-    
+      def self.init_class
+        @@constraint_classes = Hash.new { |hash, key| LiteralArgConstraint}
+        @@constraint_classes[:anything] = AnyArgConstraint
+        @@constraint_classes[:numeric] = NumericArgConstraint
+        @@constraint_classes[:boolean] = BooleanArgConstraint
+        @@constraint_classes[:string] = StringArgConstraint
+      end
       
       def initialize(args)
         if args == [:any_args] then @expected_params = nil
@@ -74,7 +86,7 @@ module Spec
       end
       
       def convert_constraint(constraint)
-        return @@constraint_classes[constraint].new if constraint.is_a?(Symbol)
+        return @@constraint_classes[constraint].new(constraint) if constraint.is_a?(Symbol)
         return constraint if constraint.is_a?(DuckTypeArgConstraint)
         return LiteralArgConstraint.new(constraint)
       end
@@ -93,7 +105,7 @@ module Spec
   
     end
     
-    
+    ArgumentExpectation.init_class
     
   end
 end

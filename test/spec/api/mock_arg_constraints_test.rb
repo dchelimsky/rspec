@@ -44,6 +44,12 @@ module Spec
         @mock.__verify
       end
       
+      def test_should_match_non_special_symbol
+        @mock.should.receive(:random_call).with(:some_symbol)
+        @mock.random_call(:some_symbol)
+        @mock.__verify
+      end
+      
       def test_should_process_duck_type_with_one_method
         @mock.should.receive(:random_call).with(DuckTypeArgConstraint.new(:length))
         @mock.random_call([])
