@@ -1,13 +1,12 @@
 #!/usr/bin/env ruby
 
-require 'find'
 require File.dirname(__FILE__) + "/../lib/spec"
 
 context_runner = Spec::Runner::ContextRunner.new(ARGV)
 Spec::Runner::Context.context_runner = context_runner
 
 ARGV.each do |file|
-  Find.find(file) do |path|
+  SortedFind.find(file) do |path|
     if FileTest.file?(path) and File.extname(path) == '.rb'
       require path
     end
