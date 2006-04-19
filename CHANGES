@@ -5,8 +5,9 @@ Release notes go here
 
 * Remove mock.rb from backtrace [aslak_hellesoy]
 * Mocks can now yield [aslak_hellesoy]
-* should.not.raise reports actual error rather than specified error class
-* errors in setup or teardown are reported as happening in setup or teardown (not in the specification)
+* should.not.raise reports actual error rather than specified error class [dchelimsky]
+* errors in setup or teardown are reported as happening in setup or teardown (not in the specification) [dchelimsky]
+* split examples into examples (passing) and failing_examples [dchelimsky]
 
 == Version 0.5.3
 The "hurry up, CoR is in two days" release.

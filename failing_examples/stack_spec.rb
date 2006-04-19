@@ -1,26 +1,6 @@
 require File.dirname(__FILE__) + '/../lib/spec'
 require File.dirname(__FILE__) + "/stack"
 
-context "An empty stack" do
-  
-  setup do
-    @stack = Stack.new
-  end
-  
-  specify "should accept an item when sent push" do
-    lambda { @stack.push Object.new }.should.not.raise
-  end
-  
-  specify "should complain when sent top" do
-    lambda { @stack.top }.should.raise StackUnderflowError
-  end
-  
-  specify "should complain when sent pop" do
-    lambda { @stack.pop }.should.raise StackUnderflowError
-  end
-  
-end
-
 context "A stack with one item" do
 
   setup do
@@ -73,7 +53,7 @@ context "An almost full stack (with one item less than capacity)" do
   end
   
   specify "should return top when sent pop" do
-    @stack.pop.should.be 9
+    @stack.pop.should.be 8
   end
   
   specify "should remove top when sent pop" do

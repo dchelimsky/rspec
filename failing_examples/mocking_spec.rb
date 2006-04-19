@@ -8,4 +8,9 @@ context "Mocker" do
     mock.poke
   end
 
+  specify "should fail when expected message not received" do
+    mock = mock("poke me")
+    mock.should.receive(:poke)
+  end
+
 end

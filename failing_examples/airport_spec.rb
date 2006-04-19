@@ -6,7 +6,7 @@ class Airport
   end
   
   def need?(thing)
-    false unless [:cables, :electricity].include? thing
+    thing != :cables
   end
 end
 
