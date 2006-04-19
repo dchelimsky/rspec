@@ -49,4 +49,9 @@ tutorials/stack/second_spec.page:
   inMenu: true
   orderInfo: 21
   
+tutorials/stack/spec_3.page:
+  title: Top on Empty
+  inMenu: true
+  orderInfo: 22
+
 

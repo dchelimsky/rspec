@@ -2,7 +2,7 @@ h2. A Simple Stack - The First Specification
 
 h3. Where do we start?
 
-We want to start off with the simplest thing that we can specify, just as we would in TDD. Remember, BDD <em>is</em> TDD at its core. Lets start with an empty stack. An empty stack sounds simple, right?
+We want to start off with the simplest thing that we can specify, just as we would in TDD. Remember that in spite of some important (if subtle) distinctions, BDD <em>is</em> TDD at its core. Lets start with an empty stack. An empty stack sounds simple, right?
 
 h3. Create a spec file
 
@@ -33,9 +33,9 @@ Finished in 6.1e-05 seconds
 1 context, 0 specifications, 0 failures
 </pre>
 
-The <code>spec</code> command is installed when you install rSpec. Essentially what it does is to require (using the ruby <code>require</code> method) any file (or all of the files in a directory) that you specify on the command line. The <code>context</code> method accepts a name ("An empty stack") and a block (do ... end) and processes everything inside the block. Since there's nothing in the block to process, we discover that rSpec processed 1 context, but 0 specifications.
+The <code>spec</code> command is installed when you install rSpec. It requires (using the ruby <code>require</code> method) any file(s) (or all of the files in a directory) that you specify on the command line. The <code>context</code> method accepts a name ("An empty stack") and a block (do ... end) and processes everything inside the block. Since there's nothing in this block to process, we discover that rSpec processed 1 context, but 0 specifications.
 
-You may wonder why bother with the name. Try adding the <code>-v</code> switch to the command
+You may wonder why bother with the name? Try adding the <code>-v</code> switch to the command
 
 <pre>
 $ spec stack_spec.rb -v

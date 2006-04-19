@@ -1,0 +1,133 @@
+h2. A Simple Stack
+
+h3. Sending <code>top</code> to an empty stack
+
+What should happen when you call top on an empty stack? We could just return nil, but how does the client know whether the stack was empty or contained nil as an element. Perhaps the client doesn't care. Let's assume the client does care, in which case we'd want to raise an error.
+
+We already have our "empty stack" context, so let's add a specification to it.
+
+<pre>
+context "An empty stack" do
+  
+  setup do
+    @stack = Stack.new
+  end
+  
+  specify "should keep its mouth shut when you send it the push message" do
+     lambda { @stack.push Object.new }.should.not.raise Exception
+  end
+  
+  specify "should raise a StackUnderflowError when you send it the top message" do
+    lambda { @stack.top }.should.raise StackUnderflowError
+  end
+  
+end
+</pre>
+
+Running the spec...
+
+<pre>
+$ spec stack_spec.rb -v
+
+An empty stack
+- should keep its mouth shut when you send it the push message
+- should raise a StackUnderflowError when you send it the top message (FAILED - 1)
+
+A stack with one item
+- should return top when sent the message top
+
+
+1)
+uninitialized constant StackUnderflowError (NameError)
+./stack_spec.rb:14:in `should raise a StackUnderflowError when you send it the top message'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/instance_exec.rb:9:in `instance_exec'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/specification.rb:16:in `run'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context.rb:23:in `run'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context.rb:22:in `run'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context_runner.rb:50:in `run_specs'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context_runner.rb:49:in `run_specs'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context_runner.rb:41:in `run'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/bin/spec:17
+/usr/local/bin/spec:18
+
+Finished in 0.000637 seconds
+
+2 contexts, 3 specifications, 1 failure
+</pre>
+
+...tells us that we need to create a StackUndeflowError. We'll just stick that in the file with the Stack:
+
+<pre>
+class StackUnderflowError < RuntimeError
+end
+</pre>
+
+and run the spec again.
+
+<pre>
+$ spec stack_spec.rb -v
+
+An empty stack
+- should keep its mouth shut when you send it the push message
+- should raise a StackUnderflowError when you send it the top message (FAILED - 1)
+
+A stack with one item
+- should return top when sent the message top
+
+
+1)
+<Proc> should raise "StackUnderflowError" (Spec::Api::ExpectationNotMetError)
+./stack_spec.rb:14:in `should raise a StackUnderflowError when you send it the top message'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/instance_exec.rb:9:in `instance_exec'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/specification.rb:16:in `run'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context.rb:23:in `run'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context.rb:22:in `run'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context_runner.rb:50:in `run_specs'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context_runner.rb:49:in `run_specs'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context_runner.rb:41:in `run'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/bin/spec:17
+/usr/local/bin/spec:18
+
+Finished in 0.000711 seconds
+
+2 contexts, 3 specifications, 1 failure
+</pre>
+
+Now the error report tells us that the expectation was not met - executing the block did not raise the error we specified. Now we can implement code to meet this specification. Sticking with the principle that we want to implement the least amount of code to meet the specification, we enhance our top method:
+
+<pre>
+def top
+  raise StackUnderflowError if @item.nil?
+  @item
+end
+</pre>
+
+run the specs and they all pass.
+
+<pre>
+$ spec stack_spec.rb -v
+
+An empty stack
+- should keep its mouth shut when you send it the push message
+- should raise a StackUnderflowError when you send it the top message
+
+A stack with one item
+- should return top when sent the message top
+
+
+Finished in 0.000557 seconds
+
+2 contexts, 3 specifications, 0 failures
+</pre>
+
+Do you see how the verbose output is looking more and more like a specification? That's pretty nice, but as your projects grow, you may not want all of that output all of the time. You can, if you wish, run the specs without the <code>-v</code> flag, in which case you get a "." for every passing spec and an "F" for every failing spec. Run them now and you'll see nothing but dots.
+
+<pre>
+$ spec stack_spec.rb 
+
+...
+
+Finished in 0.000458 seconds
+
+2 contexts, 3 specifications, 0 failures
+</pre>
