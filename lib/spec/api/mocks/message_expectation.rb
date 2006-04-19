@@ -1,5 +1,3 @@
-require File.dirname(__FILE__) + '/argument_expectation'
-
 module Spec
   module Api
 
