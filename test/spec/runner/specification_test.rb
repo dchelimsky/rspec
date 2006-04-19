@@ -62,6 +62,32 @@ module Spec
         spec.run @reporter, nil, teardown
       end
       
+      def test_should_supply_setup_as_spec_name_if_failure_in_setup
+        spec = Specification.new("spec") do
+        end
+        setup = lambda do
+          raise "in setup"
+        end
+        @reporter.should.receive(:add_spec) do |name, errors|
+          name.should.equal "setup"
+          errors[0].message.should.equal "in setup"
+        end
+        spec.run @reporter, setup
+      end
+      
+      def test_should_supply_teardown_as_spec_name_if_failure_in_teardown
+        spec = Specification.new("spec") do
+        end
+        teardown = lambda do
+          raise "in teardown"
+        end
+        @reporter.should.receive(:add_spec) do |name, errors|
+          name.should.equal "teardown"
+          errors[0].message.should.equal "in teardown"
+        end
+        spec.run @reporter, nil, teardown
+      end
+      
       def teardown
         @reporter.__verify
       end
