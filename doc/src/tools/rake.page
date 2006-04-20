@@ -9,16 +9,16 @@ Spec's Rake task allows you to do many things.
 
 h3. Run specs
 
-{ruby_inline: {filename: ../test/tasks/examples.rake}}
+<ruby file="../test/tasks/examples.rake"/>
 
 h3. Run specs with RCov
 
-{ruby_inline: {filename: ../test/tasks/examples_with_rcov.rake}}
+<ruby file="../test/tasks/examples_with_rcov.rake"/>
 
 This will generate a coverage report like <notextile><a href="../coverage/index.html">this</a></notextile>.
 
 h3. Generate specdocs
 
-{ruby_inline: {filename: ../test/tasks/examples_specdoc.rake}}
+<ruby file="../test/tasks/examples_specdoc.rake"/>
 
 This will output the specdocs to a file, which can be included in your RDoc. Just like <notextile><a href="../rdoc/files/EXAMPLES_rd.html">this</a></notextile>.

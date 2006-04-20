@@ -7,8 +7,9 @@ class ERB
     alias old_compile compile
   
     def compile(s)
-      s.gsub!( /\<ruby>/n, "<notextile><%= ruby <<-EOR" )
-      s.gsub!( /<\/ruby>/n, "EOR\n%></notextile>" )
+      s.gsub! /<ruby>/n, "<notextile><%= ruby <<-EOR"
+      s.gsub! /<\/ruby>/n, "EOR\n%></notextile>"
+      s.gsub! /<ruby\s+file="(.*)"\s*\/>/, "{ruby_inline: {filename: \\1}}"
       old_compile(s)
     end
   end
