@@ -45,8 +45,8 @@ module Rake
     # specs. (default is 'lib')
     attr_accessor :libs
 
-    # True if verbose spec output desired. (default is false)
-    attr_accessor :verbose
+    # Options poassed to spec
+    attr_accessor :spec_opts
 
     # Test options passed to the spec suite.  An explicit
     # SPECOPTS=opts on the command line will override this. (default
@@ -63,6 +63,9 @@ module Rake
     # Whether or not to use rcov (default is false)
     # See http://eigenclass.org/hiki.rb?rcov
     attr_accessor :rcov
+
+    # Where output is written. Default is STDOUT.
+    attr_accessor :out
 
     # Array of commandline options to pass to ruby (or rcov) when running specs.
     attr_accessor :ruby_opts
@@ -82,10 +85,11 @@ module Rake
       @pattern = nil
       @options = nil
       @spec_files = nil
-      @verbose = false
+      @spec_opts = []
       @warning = false
       @rcov = false
       @ruby_opts = []
+      @out = nil
       yield self if block_given?
       @pattern = 'spec/**/*_spec.rb' if @pattern.nil? && @spec_files.nil?
       define
@@ -99,16 +103,17 @@ module Rake
         spec = File.dirname(__FILE__) + '/../../../bin/spec'
         file_prefix = @rcov ? " -- " : ""
         interpreter = @rcov ? "rcov" : "ruby"
+        redirect = @out.nil? ? "" : " > #{@out}"
 
-        RakeFileUtils.verbose(@verbose) do
-          @ruby_opts.unshift( "-I#{lib_path}" )
-          @ruby_opts.unshift( "-w" ) if @warning
-          @ruby_opts.unshift( '--exclude "lib\/spec\/.*"' ) if @rcov
-          run interpreter, @ruby_opts.join(" ") +
-            " \"#{spec}\" " +
-            file_prefix +
-            file_list.collect { |fn| "\"#{fn}\"" }.join(' ')
-        end
+        @ruby_opts.unshift( "-I#{lib_path}" )
+        @ruby_opts.unshift( "-w" ) if @warning
+        @ruby_opts.unshift( '--exclude "lib\/spec\/.*"' ) if @rcov
+        run interpreter, @ruby_opts.join(" ") +
+          " \"#{spec}\" " +
+          " \"#{@spec_opts.join(' ')}\" " +
+          file_prefix +
+          file_list.collect { |fn| "\"#{fn}\"" }.join(' ') +
+          redirect
       end
       self
     end

@@ -2,11 +2,13 @@ h2. A Simple Stack
 
 h3. Sending <code>top</code> to an empty stack
 
-What should happen when you call top on an empty stack? We could just return nil, but how does the client know whether the stack was empty or contained nil as an element. Perhaps the client doesn't care. Let's assume the client does care, in which case we'd want to raise an error.
+What should happen when you call top on an empty stack? We could just return nil, 
+but how does the client know whether the stack was empty or contained nil as an element? 
+Perhaps the client doesn't care. Let's assume the client does care, in which case we'd want to raise an error.
 
 We already have our "empty stack" context, so let's add a specification to it.
 
-<pre>
+<ruby>
 context "An empty stack" do
   
   setup do
@@ -22,7 +24,7 @@ context "An empty stack" do
   end
   
 end
-</pre>
+</ruby>
 
 Running the spec...
 
@@ -40,15 +42,6 @@ A stack with one item
 1)
 uninitialized constant StackUnderflowError (NameError)
 ./stack_spec.rb:14:in `should raise a StackUnderflowError when you send it the top message'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/instance_exec.rb:9:in `instance_exec'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/specification.rb:16:in `run'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context.rb:23:in `run'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context.rb:22:in `run'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context_runner.rb:50:in `run_specs'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context_runner.rb:49:in `run_specs'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context_runner.rb:41:in `run'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/bin/spec:17
-/usr/local/bin/spec:18
 
 Finished in 0.000637 seconds
 
@@ -57,10 +50,10 @@ Finished in 0.000637 seconds
 
 ...tells us that we need to create a StackUndeflowError. We'll just stick that in the file with the Stack:
 
-<pre>
+<ruby>
 class StackUnderflowError < RuntimeError
 end
-</pre>
+</ruby>
 
 and run the spec again.
 
@@ -78,29 +71,23 @@ A stack with one item
 1)
 <Proc> should raise "StackUnderflowError" (Spec::Api::ExpectationNotMetError)
 ./stack_spec.rb:14:in `should raise a StackUnderflowError when you send it the top message'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/instance_exec.rb:9:in `instance_exec'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/specification.rb:16:in `run'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context.rb:23:in `run'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context.rb:22:in `run'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context_runner.rb:50:in `run_specs'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context_runner.rb:49:in `run_specs'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context_runner.rb:41:in `run'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/bin/spec:17
-/usr/local/bin/spec:18
 
 Finished in 0.000711 seconds
 
 2 contexts, 3 specifications, 1 failure
 </pre>
 
-Now the error report tells us that the expectation was not met - executing the block did not raise the error we specified. Now we can implement code to meet this specification. Sticking with the principle that we want to implement the least amount of code to meet the specification, we enhance our top method:
+Now the error report tells us that the expectation was not met - executing the block did not 
+raise the error we specified. Now we can implement code to meet this specification. Sticking 
+with the principle that we want to implement the least amount of code to meet the specification, 
+we enhance our top method:
 
-<pre>
+<ruby>
 def top
   raise StackUnderflowError if @item.nil?
   @item
 end
-</pre>
+</ruby>
 
 run the specs and they all pass.
 

@@ -2,6 +2,18 @@
 require 'syntax/convertors/html'
 RUBY2HTML = Syntax::Convertors::HTML.for_syntax "ruby"
 
+class ERB
+  class Compiler
+    alias old_compile compile
+  
+    def compile(s)
+      s.gsub!( /\<ruby>/n, "<notextile><%= ruby <<-EOR" )
+      s.gsub!( /<\/ruby>/n, "EOR\n%></notextile>" )
+      old_compile(s)
+    end
+  end
+end
+
 module FileHandlers
   class PageFileHandler < DefaultFileHandler
     def ruby(code)

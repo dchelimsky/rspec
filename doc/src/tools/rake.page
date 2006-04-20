@@ -1,7 +1,24 @@
 ---
-title: Rake Integration
+title: Rake Task
 inMenu: true
 ---
-h2. Rake Integration
+h2. Rake Task
 
-Coming soon...
+Spec's Rake task allows you to do many things.
+(See the <notextile><a href="../rdoc/classes/Spec/Rake/SpecTask.html">RDoc</a></notextile> for details)
+
+h3. Run specs
+
+{ruby_inline: {filename: ../test/tasks/examples.rake}}
+
+h3. Run specs with RCov
+
+{ruby_inline: {filename: ../test/tasks/examples_with_rcov.rake}}
+
+This will generate a coverage report like <notextile><a href="../coverage/index.html">this</a></notextile>.
+
+h3. Generate specdocs
+
+{ruby_inline: {filename: ../test/tasks/examples_specdoc.rake}}
+
+This will output the specdocs to a file, which can be included in your RDoc. Just like <notextile><a href="../rdoc/files/EXAMPLES_rd.html">this</a></notextile>.

@@ -26,7 +26,7 @@ module Spec
         expectation
       end
 
-      def __verify
+      def __verify #:nodoc:
         @expectations.each do |expectation|
           expectation.verify_messages_received
         end

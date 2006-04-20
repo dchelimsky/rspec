@@ -1,12 +1,12 @@
 index.page:
   orderInfo: 10
 
-test2rspec.page:
+rake.page:
   orderInfo: 11
 
-rake.page:
+test2rspec.page:
   orderInfo: 12
-  
+
 rails.page:
   orderInfo: 13
 

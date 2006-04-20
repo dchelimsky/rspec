@@ -8,24 +8,23 @@ RSpec contains a full featured Mock Objects framework.
 
 h3. Creating a mock
 
-<notextile><%= ruby <<-EOR
+<ruby>
 mock(<name>)
-EOR
-%></notextile>
+</ruby>
 
 This creates a new mock with the given name (a string) and registers it. When the specification finishes, all registered mocks are verified.
 
-<pre>
+<ruby>
 mock(<name>, <options>)
-</pre>
+</ruby>
 
 As above, but allows you to specific options to tweak the mock's behaviour. The <code>options</code> argument is a hash. Currently the only supported option is <code>:null_object</code>. Setting this to true (i.e. <code>:null_object => true</code>) instructs the mock to ignore (quietly consume) any messages it hasn't been told to expect.
 
 h3. Expecting Messages
 
-<pre>
+<ruby>
 mock.should.receive(<message>)
-</pre>
+</ruby>
 
 The <code>message</code> argument is a symbol that is the name of a message that you want
 the mock to be expecting.
@@ -36,32 +35,31 @@ You can supply a block to a message expectation. When the message is received
 by the mock, the block is evaluated, and passed any arguments. The result is
 the return value of the message. For example:
 
-<notextile><%= ruby <<-EOR
+<ruby>
 @mock.should.receive(:random_call) {| a | a.should.be true}
-EOR
-%></notextile>
+</ruby>
 
 This allows arbitrary argument validation and result computation.
 
 h3. Expecting Arguments
 
-<pre>
+<ruby>
 mock.should.receive(:msg).with(<args>)
 mock.should.receive(:msg).with(1, 2, 3)
-</pre>
+</ruby>
 
 The <code>args</code> argument is a series of arguments (e..g. 1, 2, 3) that are expected
 to be passed as arguments to the associated message.
 
-<pre>
+<ruby>
 mock.should.receive(:msg).with(:no_args)
-</pre>
+</ruby>
 
 No arguments are to be accepted by the message.
 
-<pre>
+<ruby>
 mock.should.receive(:msg).with(:any_args)
-</pre>
+</ruby>
 
 Any arguments are to be accepted by the message. This includes cases where no
 arguments are provided. *This is the default when no <code>with()</code> clause is
@@ -75,137 +73,137 @@ h4. :anything
 
 accepts any value for this argument
 
-<pre>
+<ruby>
 mock.should.receive(:msg).with(1, :anything, "A")
-</pre>
+</ruby>
 
 h4. :numeric
 
 accepts any numeric value for this argument
 
-<pre>
+<ruby>
 mock.should.receive(:msg).with(a, :numeric, "b")
-</pre>
+</ruby>
 
 h4. :boolean
 
 accepts a boolean value for this argument
 
-<pre>
+<ruby>
 mock.should.receive(:msg).with(a, :boolean, "b")
-</pre>
+</ruby>
 
 h4. :string
 
 accepts any string for this argument
 
-<pre>
+<ruby>
 mock.should.receive(:msg).with(a, :string, "b")
-</pre>
+</ruby>
 	
 h4. duck_type(message(s))
 
 accepts any object that responds to the prescribed message(s)
 
-<pre>
+<ruby>
 #accepts a Fixnum for the second arg
 mock.should.receive(:msg).with(a, duck_type(:abs, :div), "b") 
-</pre>
+</ruby>
 
 h3. Receive Counts
 
-<pre>
+<ruby>
 mock.should.receive(:msg).never
-</pre>
+</ruby>
 
 A problem is reported if the message is ever received.
 
-<pre>
+<ruby>
 mock.should.receive(:msg).any.number.of.times
-</pre>
+</ruby>
 
 The message can be received 0 or more times.
 
-<pre>
+<ruby>
 mock.should.receive(:msg).once
-</pre>
+</ruby>
 
 A problem is reported is the message is never received, or it is received more
 than once.
 
-<pre>
+<ruby>
 mock.should.receive(:msg).twice
-</pre>
+</ruby>
 
 A problem is reported is the message is received anything but two times.
 
-<pre>
+<ruby>
 mock.should.receive(:msg).exactly(n).times
-</pre>
+</ruby>
 
 A problem is reported is the message is received anything but n times.
 
-<pre>
+<ruby>
 mock.should.receive(:msg).at.least(:once)
-</pre>
+</ruby>
 
 A problem is reported if the message is never received.
 
-<pre>
+<ruby>
 mock.should.receive(:msg).at.least(:twice)
-</pre>
+</ruby>
 
 A problem is reported is the message is never received or is received only once.
 
-<pre>
+<ruby>
 mock.should.receive(:msg).at.least(n).times
-</pre>
+</ruby>
 
 A problem is reported is the message is received fewer than n times.
 
 h3. Return Values
 
-<pre>
+<ruby>
 mock.should.receive(:msg).once.and.return(<value>)
-</pre>
+</ruby>
 
 When the expected message is received, <code>value</code> will be returned as the result.
 
-<pre>
+<ruby>
 and.return([<value-1>, <value-2>, ..., <value-n>])
-</pre>
+</ruby>
 
 When the expected message is received, <code>value-i</code> will be returned as the result
 for the ith reception of the message. Once <code>i > n</code>, <code>value-n</code> is returned for all
 subsequent receives of the message.
 
-<pre>
+<ruby>
 mock.should.receive(:msg).once.and.return {...} 
-</pre>
+</ruby>
 
 When the expected message is received, the result of evaluating the supplied
 block will be returned as the result. The block is passed any arguments passed
 as parts of the message. This capability can be used to compute return values
 based on the arguments.  For example:
 
-<pre>
+<ruby>
 mock.should.receive(:msg).once.and.return {|a, b| a + b}
-</pre>
+</ruby>
 
 h3. Raising and Throwing
 
-<pre>
+<ruby>
 mock.should.receive(:msg).once.and.raise(<exception>)
 mock.should.receive(:msg).once.and.throw(<symbol>) 
-</pre>
+</ruby>
 
 These instruct the mock to raise an exception or throw a symbol instead of returning a value.
 
 h3. Yielding
 
-<pre>
+<ruby>
 mock.should.receive(:msg).once.and.yield([<value-1>, <value-2>, ..., <value-n>])
-</pre>
+</ruby>
 
 When the expected message is received, the mock will yield the values to the passed block.
 
@@ -218,22 +216,22 @@ expectation, and specifying that an other expectation should follow it.
 
 Labeling expectations is done by assigning it a symbol label with the <code>id</code> call:
 
-<pre>
+<ruby>
 mock.should.receive(:flip).once.id(:first)
-</pre>
+</ruby>
 
 Now other expectations can refer to it with the <code>after</code> call:
 
-<pre>
+<ruby>
 mock.should.receive(:flop).once.after(:first)
-</pre>
+</ruby>
 
 If the send of <code>flop</code> is seen before <code>flop</code> the specification will fail.
 
 Of course, chains of ordered expectations can be set up:
 
-<pre>
+<ruby>
 @mock.should.receive(:one).id(:one)
 @mock.should.receive(:two).id(:two).after(:one)
 @mock.should.receive(:three).after(:two)
-</pre>
+</ruby>

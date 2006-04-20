@@ -10,6 +10,11 @@ require 'spec/rake/spectask'
 require 'test/rcov/rcov_testtask'
 require 'test/rcov/rcov_verify'
 
+# Some of the tasks are in separate files since they are also part of the website documentation
+load File.dirname(__FILE__) + '/test/tasks/examples.rake'
+load File.dirname(__FILE__) + '/test/tasks/examples_specdoc.rake'
+load File.dirname(__FILE__) + '/test/tasks/examples_with_rcov.rake'
+
 PKG_NAME = "rspec"
 # Versioning scheme: MAJOR.MINOR.PATCH
 # MAJOR bumps when API is broken backwards
@@ -27,25 +32,11 @@ PKG_FILES = FileList[
   'doc/**/*'
 ]
 
-task :default => [:test] #, :test_text_runner]
-
-desc "Run all examples"
-Spec::Rake::SpecTask.new('examples') do |t|
-  t.spec_files = FileList['examples/**/*_spec.rb']
-  t.verbose = false
-end
-
-desc "Run all examples with RCov"
-Spec::Rake::SpecTask.new('examples_with_rcov') do |t|
-  t.spec_files = FileList['examples/**/*_spec.rb']
-  t.verbose = true
-  t.rcov = true
-end
+task :default => [:test]
 
 desc "Run all failing examples"
 Spec::Rake::SpecTask.new('failing_examples') do |t|
   t.spec_files = FileList['failing_examples/**/*_spec.rb']
-  t.verbose = true
 end
 
 Rake::TestTask.new do |t|
@@ -60,7 +51,7 @@ end
 
 desc 'Generate HTML documentation'
 task :doc do
-  sh %{pushd doc; webgen; popd }
+  sh %{pushd doc; webgen; popd}
 end
 
 desc 'Generate RDoc'
@@ -68,8 +59,7 @@ rd = Rake::RDocTask.new("rdoc") do |rdoc|
   rdoc.rdoc_dir = 'doc/output/rdoc'
   rdoc.title    = "RSpec"
   rdoc.options << '--line-numbers' << '--inline-source' << '--main' << 'README'
-  rdoc.rdoc_files.include('README', 'CHANGES')
-  rdoc.rdoc_files.include('lib/**/*.rb', 'doc/**/*.rdoc')
+  rdoc.rdoc_files.include('README', 'CHANGES', 'EXAMPLES.rd', 'lib/**/*.rb')
 end
 
 spec = Gem::Specification.new do |s|
@@ -137,7 +127,7 @@ end
 task :release => [:clobber, :verify_user, :verify_password, :test, :publish_packages, :publish_website, :publish_news]
 
 desc "Build the website with rdoc and rcov, but do not publish it"
-task :website => [:clobber, :copy_rcov_report, :doc, :rdoc]
+task :website => [:clobber, :copy_rcov_report, :doc, :examples_specdoc, :rdoc]
 
 RCov::VerifyTask.new do |t|
   t.threshold = 98.5 # Don't make it lower unless you have a damn good reason.

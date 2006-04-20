@@ -3,6 +3,9 @@
 == Version 0.5.4 (in SVN)
 Release notes go here
 
+* Documented Rake task and how to use it with Rcov [aslak_hellesoy]
+* Implemented <ruby></ruby> tags for website (hooking into ERB, RedCloth and syntax) [aslak_hellesoy]
+* RSpec Rake task now takes spec_opts and out params so it can be used for doc generation [aslak_hellesoy]
 * RCov integration for RSpec Rake task (#4058) [aslak_hellesoy]
 * Group all results instead of prinitng them several times (#4057) [aslak_hellesoy]
 * Remove mock.rb from backtrace [aslak_hellesoy]
