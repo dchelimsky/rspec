@@ -42,19 +42,21 @@ failing ones by a 'F'. Note that failure indicates a violated expectation as
 well as an unexpected exception being raised.  Here's an example with a failing specification:
 
 <pre>
+$ bin/spec failing_examples/team_spec.rb   
+
 F.
 
 1)
-SpecFramework #<SpecFramework:0x3d73dc> should be adopted_quickly (Spec::Api::ExpectationNotMetError)
-Context: Spec framework [./examples/spec_framework_spec.rb:13]
-Specification: should be adopted quickly [./examples/spec_framework_spec.rb:19]
-./examples/spec_framework_spec.rb:21:in `should be adopted quickly'
+<Team> should have 3 players (has 0) (Spec::Api::ExpectationNotMetError)
+./failing_examples/team_spec.rb:23:in `A new team should have 3 players'
 
-Finished in 0.001565 seconds
+Finished in 0.000386 seconds
 
 1 context, 2 specifications, 1 failure
-</code>
 </pre>
+
+In this case, the context is named "A new team" and the specification is
+named "should have 3 players". These two are concatenated on the first line of the backtrace.
 
 h3. -v, --verbose
 
@@ -95,18 +97,18 @@ Finished in 0.013635 seconds
 Similar, here is a failing specification when the verbose opton is used:
 
 <pre>
-Spec framework
-- should be adopted quickly (FAILED - 1)
-- should be intuitive
+$ bin/spec failing_examples/team_spec.rb -v
+
+A new team
+- should have 3 players (FAILED - 1)
+- should have no players
 
 
 1)
-SpecFramework #<SpecFramework:0x3d7238> should be adopted_quickly (Spec::Api::ExpectationNotMetError)
-Context: Spec framework [./examples/spec_framework_spec.rb:13]
-Specification: should be adopted quickly [./examples/spec_framework_spec.rb:19]
-./examples/spec_framework_spec.rb:21:in `should be adopted quickly'
+<Team> should have 3 players (has 0) (Spec::Api::ExpectationNotMetError)
+./failing_examples/team_spec.rb:23:in `A new team should have 3 players'
 
-Finished in 0.002726 seconds
+Finished in 0.000452 seconds
 
 1 context, 2 specifications, 1 failure
 </pre>
@@ -115,8 +117,37 @@ The spec command does double duty as documentation generation from a set of
 specifications as well as running them against your code.
 
 h3. A note on exception backtraces.
+
+h3. -b, --backtrace
+
 In order to make it easier to identify causes of failing specifications, RSpec will filter out
-the parts of the backtrace that come from RSpec itself.
+the parts of the backtrace that come from RSpec itself by default. If you wish to see them,
+you can use -b or --backtrace:
+
+<pre>
+$ bin/spec failing_examples/team_spec.rb -b
+
+F.
+
+1)
+<Team> should have 3 players (has 0) (Spec::Api::ExpectationNotMetError)
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/api/helper/should_base.rb:33:in `fail_with_message'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/api/helper/have_helper.rb:13:in `method_missing'
+./failing_examples/team_spec.rb:23:in `A new team should have 3 players (failing example)'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/instance_exec.rb:9:in `instance_exec'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/specification.rb:17:in `run'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context.rb:23:in `run'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context.rb:22:in `run'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context_runner.rb:50:in `run_specs'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context_runner.rb:49:in `run_specs'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context_runner.rb:41:in `run'
+/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/bin/spec:16
+/usr/local/bin/spec:18
+
+Finished in 0.000385 seconds
+
+1 context, 2 specifications, 1 failure
+</pre>
 
 h3. -d, --doc
 

@@ -23,8 +23,8 @@ context "A new team" do
     @team.should.have(3).players
   end
   
-  specify "should have 1 player (failing example)" do
-    @team.players.size.should.be 1
+  specify "should have no players" do
+    @team.players.size.should.be 0
   end
   
 end
