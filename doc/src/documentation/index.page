@@ -6,7 +6,7 @@ h2. Writing Specifications
 
 An RSpec specification is a Ruby file with a context and one or more specifications. Example:
 
-{ruby_inline: {filename: ../examples/empty_stack_spec.rb}}
+{ruby_inline: {filename: ../examples/stack_spec.rb}}
   
 A context represents a collection of specifications and must be defined with a name and a block (do-end).
 A specification is defined with the *specify* keyword and a sentence describing what's being specified.
