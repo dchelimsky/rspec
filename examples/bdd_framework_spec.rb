@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../lib/spec'
 
-class SpecFramework
+class BddFramework
   def intuitive?
     true
   end
@@ -10,18 +10,18 @@ class SpecFramework
   end
 end
 
-context "Spec framework" do
+context "BDD framework" do
 
   setup do
-    @spec_framework = SpecFramework.new
+    @bdd_framework = BddFramework.new
   end
 
   specify "should be adopted quickly" do
-    @spec_framework.should.be.adopted_quickly
+    @bdd_framework.should.be.adopted_quickly
   end
   
   specify "should be intuitive" do
-    @spec_framework.should.be.intuitive
+    @bdd_framework.should.be.intuitive
   end
 
 end
