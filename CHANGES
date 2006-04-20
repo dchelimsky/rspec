@@ -3,6 +3,8 @@
 == Version 0.5.4 (in SVN)
 Release notes go here
 
+* RCov integration for RSpec Rake task (#4058) [aslak_hellesoy]
+* Group all results instead of prinitng them several times (#4057) [aslak_hellesoy]
 * Remove mock.rb from backtrace [aslak_hellesoy]
 * Mocks can now yield [aslak_hellesoy]
 * should.not.raise reports actual error rather than specified error class [dchelimsky]

@@ -60,7 +60,11 @@ module Rake
     # Glob pattern to match spec files. (default is 'spec/spec*.rb')
     attr_accessor :pattern
 
-    # Array of commandline options to pass to ruby when running spec loader.
+    # Whether or not to use rcov (default is false)
+    # See http://eigenclass.org/hiki.rb?rcov
+    attr_accessor :rcov
+
+    # Array of commandline options to pass to ruby (or rcov) when running specs.
     attr_accessor :ruby_opts
 
     # Explicitly define the list of spec files to be included in a
@@ -80,7 +84,7 @@ module Rake
       @spec_files = nil
       @verbose = false
       @warning = false
-      @loader = :rake
+      @rcov = false
       @ruby_opts = []
       yield self if block_given?
       @pattern = 'spec/**/*_spec.rb' if @pattern.nil? && @spec_files.nil?
@@ -92,22 +96,21 @@ module Rake
       lib_path = @libs.join(File::PATH_SEPARATOR)
       desc "Run specs" + (@name==:spec ? "" : " for #{@name}")
       task @name do
-        run_code = File.dirname(__FILE__) + '/../../../bin/spec'
+        spec = File.dirname(__FILE__) + '/../../../bin/spec'
+        file_prefix = @rcov ? " -- " : ""
+        interpreter = @rcov ? "rcov" : "ruby"
 
         RakeFileUtils.verbose(@verbose) do
           @ruby_opts.unshift( "-I#{lib_path}" )
           @ruby_opts.unshift( "-w" ) if @warning
-          ruby @ruby_opts.join(" ") +
-            " \"#{run_code}\" " +
-            file_list.collect { |fn| "\"#{fn}\"" }.join(' ') +
-            " #{option_list}"
+          @ruby_opts.unshift( '--exclude "lib\/spec\/.*"' ) if @rcov
+          run interpreter, @ruby_opts.join(" ") +
+            " \"#{spec}\" " +
+            file_prefix +
+            file_list.collect { |fn| "\"#{fn}\"" }.join(' ')
         end
       end
       self
-    end
-
-    def option_list # :nodoc:
-      ENV['SPECOPTS'] || @options || ""
     end
 
     def file_list # :nodoc:
@@ -128,6 +131,20 @@ module Rake
       end
       nil
     end
+
+    def run(interpreter, *args, &block)
+      if Hash === args.last
+        options = args.pop
+      else
+        options = {}
+      end
+      if args.length > 1 then
+        sh(*([interpreter] + args + [options]), &block)
+      else
+        sh("#{interpreter} #{args}", options, &block)
+      end
+    end
+
   end
 end
 end

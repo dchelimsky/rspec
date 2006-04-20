@@ -29,11 +29,20 @@ PKG_FILES = FileList[
 
 task :default => [:test] #, :test_text_runner]
 
+desc "Run all examples"
 Spec::Rake::SpecTask.new('examples') do |t|
   t.spec_files = FileList['examples/**/*_spec.rb']
   t.verbose = true
 end
 
+desc "Run all examples with RCov"
+Spec::Rake::SpecTask.new('examples_with_rcov') do |t|
+  t.spec_files = FileList['examples/**/*_spec.rb']
+  t.verbose = true
+  t.rcov = true
+end
+
+desc "Run all failing examples"
 Spec::Rake::SpecTask.new('failing_examples') do |t|
   t.spec_files = FileList['failing_examples/**/*_spec.rb']
   t.verbose = true
