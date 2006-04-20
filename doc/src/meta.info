@@ -1,5 +1,8 @@
 index.page:
   orderInfo: 1
+  
+why_rspec.page:
+  orderInfo: 2
 
 examples.page:
   orderInfo: 2
@@ -22,7 +25,10 @@ tools:
   title: Tools
   orderInfo: 6
   
-community.page:
+community.html:
+  title: Community
+  inMenu: true
+  dest: http://rubyforge.org/projects/rspec
   orderInfo: 7
   
 tutorials/index.page:
