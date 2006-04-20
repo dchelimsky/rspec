@@ -5,12 +5,12 @@ require File.dirname(__FILE__) + "/../lib/spec"
 context_runner = Spec::Runner::ContextRunner.new(ARGV)
 Spec::Runner::Context.context_runner = context_runner
 
-ARGV.each do |file|
-  SortedFind.find(file) do |path|
-    if FileTest.file?(path) and File.extname(path) == '.rb'
-      require path
-    end
-  end
+ARGV.each do |file_or_dir|
+	if File.lstat(file_or_dir).directory? then
+		(Dir.open(file_or_dir).select {|f| f =~ /.*\.rb/}).each {|file| require "#{file_or_dir}/#{file}"}
+	else
+		require file_or_dir
+	end
 end
 
 context_runner.run
