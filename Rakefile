@@ -29,8 +29,13 @@ PKG_FILES = FileList[
 
 task :default => [:test] #, :test_text_runner]
 
-Spec::Rake::SpecTask.new do |t|
+Spec::Rake::SpecTask.new('examples') do |t|
   t.spec_files = FileList['examples/**/*_spec.rb']
+  t.verbose = true
+end
+
+Spec::Rake::SpecTask.new('failing_examples') do |t|
+  t.spec_files = FileList['failing_examples/**/*_spec.rb']
   t.verbose = true
 end
 

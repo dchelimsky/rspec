@@ -60,14 +60,6 @@ module Rake
     # Glob pattern to match spec files. (default is 'spec/spec*.rb')
     attr_accessor :pattern
 
-    # Style of spec loader to use.  Options are:
-    #
-    # * :rake -- Rake provided spec loading script (default).
-    # * :specrb -- Ruby provided spec loading script.
-    # * :direct -- Load specs using command line loader.
-    # 
-    attr_accessor :loader
-
     # Array of commandline options to pass to ruby when running spec loader.
     attr_accessor :ruby_opts
 
@@ -100,13 +92,7 @@ module Rake
       lib_path = @libs.join(File::PATH_SEPARATOR)
       desc "Run specs" + (@name==:spec ? "" : " for #{@name}")
       task @name do
-        run_code =
-          case @loader
-          when :direct
-            "-e 'ARGV.each{|f| load f}'"
-          when :rake
-            rake_loader
-          end
+        run_code = File.dirname(__FILE__) + '/../../../bin/spec'
 
         RakeFileUtils.verbose(@verbose) do
           @ruby_opts.unshift( "-I#{lib_path}" )
@@ -133,11 +119,6 @@ module Rake
         result += FileList[ @pattern ].to_a if @pattern
         FileList[result]
       end
-    end
-
-    def rake_loader # :nodoc:
-      find_file('rake/rake_test_loader') or
-      fail "unable to find rake test loader"
     end
 
     def find_file(fn) # :nodoc:
