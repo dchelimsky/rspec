@@ -1,8 +1,5 @@
 index.page:
-  orderInfo: 10
-  
-api.page:
-  orderInfo: 11
+  inMenu: 11
   
 mocks.page:
   orderInfo: 12

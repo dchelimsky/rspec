@@ -1,9 +1,6 @@
 index.page:
   orderInfo: 1
   
-why_rspec.page:
-  orderInfo: 2
-
 examples.page:
   orderInfo: 2
   
