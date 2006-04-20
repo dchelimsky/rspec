@@ -9,6 +9,7 @@ module Spec
         options.out = out
         options.verbose = false
         options.doc = false
+        options.backtrace_tweaker = QuietBacktraceTweaker.new
 
         opts = ::OptionParser.new do |opts|
           opts.banner = "Usage: spec [options] (FILE|DIRECTORY)+"
@@ -24,10 +25,14 @@ module Spec
             options.verbose = true
           end
 
+          opts.on("-b", "--backtrace", "Output full backtrace") do
+            options.backtrace_tweaker = NoisyBacktraceTweaker.new
+          end
+          
           opts.on("-d", "--doc", "Output specdoc only") do
             options.doc = true
           end
-
+          
           opts.on("--version", "Show version") do
             out.puts ::Spec::VERSION::DESCRIPTION
             exit if out == $stdout

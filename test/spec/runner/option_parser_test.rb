@@ -70,6 +70,22 @@ module Spec
         options = OptionParser.parse(["-o","stringio"], false, @err, @out)
         options.out.should.be.an.instance.of StringIO
       end
+      
+      def test_backtrace_tweaker_should_be_quiet_by_default
+        options = OptionParser.parse([], false, @err, @out)
+        assert(options.backtrace_tweaker.instance_of? QuietBacktraceTweaker)
+      end
+      
+      def test_backtrace_tweaker_should_be_noisy_with_b
+        options = OptionParser.parse(["-b"], false, @err, @out)
+        assert(options.backtrace_tweaker.instance_of? NoisyBacktraceTweaker)
+      end
+      
+      def test_backtrace_tweaker_should_be_noisy_with_backtrace
+        options = OptionParser.parse(["--backtrace"], false, @err, @out)
+        assert(options.backtrace_tweaker.instance_of? NoisyBacktraceTweaker)
+      end
+      
     end
   end
 end

@@ -8,6 +8,8 @@ Release notes go here
 * Remove mock.rb from backtrace [aslak_hellesoy]
 * Mocks can now yield [aslak_hellesoy]
 * should.not.raise reports actual error rather than specified error class [dchelimsky]
+* backtrace shows context name and spec name [dchelimsky]
+* backtrace can run in quiet or verbose mode [dchelimsky]
 * errors in setup or teardown are reported as happening in setup or teardown (not in the specification) [dchelimsky]
 * split examples into examples (passing) and failing_examples [dchelimsky]
 

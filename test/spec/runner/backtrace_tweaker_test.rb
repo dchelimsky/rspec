@@ -4,30 +4,73 @@ module Spec
     class BacktraceTweakerTest < Test::Unit::TestCase
       def setup
         @error = RuntimeError.new
-        @tweaker = BacktraceTweaker.new
+        @tweaker = NoisyBacktraceTweaker.new
       end
       
       def test_should_not_barf_on_nil_backtrace
         proc { @tweaker.tweak_backtrace @error, 'spec name' }.should.not.raise
       end
       
-      def test_should_remove___instance_exec
+      def test_should_replace___instance_exec_with_spec_name
         @error.set_backtrace ["./examples/airport_spec.rb:28:in `__instance_exec_1014688_1661744'"]
         @tweaker.tweak_backtrace @error, 'spec name'
         @error.backtrace[0].should.equal "./examples/airport_spec.rb:28:in `spec name'"
       end
 
-      def test_should_replace_mock_method_missing_with_mock_name
-        @error.set_backtrace ["/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.2/lib/spec/api/mock.rb:46:in `method_missing'"]
+      def test_should_leave_anything_in_api_dir_in_full_backtrace_mode
+        @error.set_backtrace ["/lib/spec/api/anything.rb"]
         @tweaker.tweak_backtrace @error, 'spec name'
-        @error.backtrace.should.be.empty
+        @error.backtrace[0].should.equal "/lib/spec/api/anything.rb"
+      end
+
+      def test_should_leave_anything_in_runner_dir_in_full_backtrace_mode
+        @error.set_backtrace ["/lib/spec/runner/anything.rb"]
+        @tweaker.tweak_backtrace @error, 'spec name'
+        @error.backtrace.should.not.be.empty
       end
       
-      def test_should_remove_helpers
-        @error.set_backtrace ["/lib/spec/api/helper/any_helper.rb"]
+      def test_should_leave_bin_spec
+        @error.set_backtrace ["bin/spec:"]
+        @tweaker.tweak_backtrace @error, 'spec name'
+        @error.backtrace.should.not.be.empty
+      end
+      
+    end
+
+    class QuietBacktraceTweakerTest < Test::Unit::TestCase
+      def setup
+        @error = RuntimeError.new
+        @tweaker = QuietBacktraceTweaker.new
+      end
+      
+      def test_should_not_barf_on_nil_backtrace
+        proc { @tweaker.tweak_backtrace @error, 'spec name' }.should.not.raise
+      end
+      
+      def test_should_replace___instance_exec_with_spec_name
+        @error.set_backtrace ["./examples/airport_spec.rb:28:in `__instance_exec_1014688_1661744'"]
+        @tweaker.tweak_backtrace @error, 'spec name'
+        @error.backtrace[0].should.equal "./examples/airport_spec.rb:28:in `spec name'"
+      end
+
+      def test_should_remove_anything_in_api_dir
+        @error.set_backtrace ["/lib/spec/api/anything.rb"]
         @tweaker.tweak_backtrace @error, 'spec name'
         @error.backtrace.should.be.empty
       end
+
+      def test_should_remove_anything_in_runner_dir
+        @error.set_backtrace ["/lib/spec/runner/anything.rb"]
+        @tweaker.tweak_backtrace @error, 'spec name'
+        @error.backtrace.should.be.empty
+      end
+
+      def test_should_remove_bin_spec
+        @error.set_backtrace ["bin/spec:"]
+        @tweaker.tweak_backtrace @error, 'spec name'
+        @error.backtrace.should.be.empty
+      end
+
     end
   end
 end

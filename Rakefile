@@ -32,7 +32,7 @@ task :default => [:test] #, :test_text_runner]
 desc "Run all examples"
 Spec::Rake::SpecTask.new('examples') do |t|
   t.spec_files = FileList['examples/**/*_spec.rb']
-  t.verbose = true
+  t.verbose = false
 end
 
 desc "Run all examples with RCov"

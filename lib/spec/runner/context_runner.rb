@@ -17,7 +17,7 @@ module Spec
         @out = File.open(@out, 'w') if @out.is_a? String
         @doc = @options.doc
         @listener = RDocFormatter.new(@out) if @doc
-        @listener = SimpleTextReporter.new(@out, options.verbose) unless @doc
+        @listener = SimpleTextReporter.new(@out, options.verbose, @options.backtrace_tweaker) unless @doc
       end
       
       def options
