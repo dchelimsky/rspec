@@ -1,32 +1,29 @@
 index.page:
   orderInfo: 1
-  
-why_rspec.page:
-  orderInfo: 2
 
 examples.page:
-  orderInfo: 3
+  orderInfo: 2
   
 tutorials:
   title: Tutorials
-  orderInfo: 4 
+  orderInfo: 3 
 
 documentation:
   title: Documentation
-  orderInfo: 5
+  orderInfo: 4
 
 download.html:
   title: Download
   inMenu: true
   dest: http://rubyforge.org/frs/?group_id=797
-  orderInfo: 6
+  orderInfo: 5
 
 tools:
   title: Tools
-  orderInfo: 7
+  orderInfo: 6
   
 community.page:
-  orderInfo: 8
+  orderInfo: 7
   
 tutorials/index.page:
   inMenu: true

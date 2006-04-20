@@ -4,4 +4,4 @@ inMenu: true
 ---
 h2. RSpec
 
-Coming soon...
+{ruby_inline: {filename: ../failing_examples/spec_framework_spec.rb}}
