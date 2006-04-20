@@ -8,7 +8,7 @@ examples.page:
   orderInfo: 2
   
 tutorials:
-  title: Tutorials
+  title: Tutorial
   orderInfo: 3 
 
 documentation:
@@ -32,29 +32,23 @@ community.html:
   orderInfo: 7
   
 tutorials/index.page:
+  title: Stack
   inMenu: true
   orderInfo: 10
   
-tutorials/stack:
-  title: Stack
-
-tutorials/stack/index.page:
-  inMenu: true
-  orderInfo: 20
-
-tutorials/stack/first_spec.page:
+tutorials/first_spec.page:
   title: First Spec
   inMenu: true
-  orderInfo: 21
+  orderInfo: 11
   
-tutorials/stack/second_spec.page:
+tutorials/second_spec.page:
   title: Second Spec
   inMenu: true
-  orderInfo: 21
+  orderInfo: 12
   
-tutorials/stack/spec_3.page:
+tutorials/spec_3.page:
   title: Top on Empty
   inMenu: true
-  orderInfo: 22
+  orderInfo: 13
 
 
