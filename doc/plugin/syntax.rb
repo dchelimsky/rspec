@@ -1,6 +1,16 @@
+# gem install syntax
+require 'syntax/convertors/html'
+RUBY2HTML = Syntax::Convertors::HTML.for_syntax "ruby"
+
+module FileHandlers
+  class PageFileHandler < DefaultFileHandler
+    def ruby(code)
+      RUBY2HTML.convert(code)
+    end
+  end
+end
+
 module Tags
-  # gem install syntax
-  require 'syntax/convertors/html'
 
   # prints out nicely formatted ruby code in html
   class RubyInliner < DefaultTag
@@ -9,11 +19,10 @@ module Tags
     add_param 'filename', nil, 'The File to insert'
     set_mandatory 'filename', true
     
-    CONVERTOR = Syntax::Convertors::HTML.for_syntax "ruby"
     
     def initialize
       super
-      register_tag( 'ruby_inline')
+      register_tag('ruby_inline')
     end
 
     def process_tag(tag, node, ref_node)
@@ -32,7 +41,7 @@ module Tags
       rescue
         self.logger.error { "Given file <#{filename}> does not exist (tag specified in <#{ref_node.recursive_value( 'src' )}>" }
       end
-      CONVERTOR.convert(content)
+      RUBY2HTML.convert(content)
     end
   end
 end

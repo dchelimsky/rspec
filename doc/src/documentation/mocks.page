@@ -8,9 +8,10 @@ RSpec contains a full featured Mock Objects framework.
 
 h3. Creating a mock
 
-<pre>
+<notextile><%= ruby <<-EOR
 mock(<name>)
-</pre>
+EOR
+%></notextile>
 
 This creates a new mock with the given name (a string) and registers it. When the specification finishes, all registered mocks are verified.
 
@@ -35,9 +36,10 @@ You can supply a block to a message expectation. When the message is received
 by the mock, the block is evaluated, and passed any arguments. The result is
 the return value of the message. For example:
 
-<pre>
+<notextile><%= ruby <<-EOR
 @mock.should.receive(:random_call) {| a | a.should.be true}
-</pre>
+EOR
+%></notextile>
 
 This allows arbitrary argument validation and result computation.
 
