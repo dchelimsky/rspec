@@ -157,7 +157,7 @@ We're almost there, but not quite. We still haven't specified what's supposed to
 
 <ruby>
 specify "should keep its mouth shut when you send it the push message" do
-  lambda { stack.push Object.new }.should.not.raise
+  lambda { @stack.push Object.new }.should.not.raise
 end
 </ruby>
 
