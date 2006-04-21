@@ -1,9 +1,9 @@
 index.page:
   orderInfo: 1
-  
+
 examples.page:
   orderInfo: 2
-  
+
 tutorials:
   title: Tutorial
   orderInfo: 3 
@@ -21,12 +21,15 @@ download.html:
 tools:
   title: Tools
   orderInfo: 6
-  
+
+core_team.page:
+  orderInfo: 7
+
 community.html:
   title: Community
   inMenu: true
   dest: http://rubyforge.org/projects/rspec
-  orderInfo: 7
+  orderInfo: 8
   
 tutorials/index.page:
   title: Overview
