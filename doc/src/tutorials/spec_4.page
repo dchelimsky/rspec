@@ -1,0 +1,93 @@
+h2. A Simple Stack
+
+h3. Spec organization
+
+Let's take a look at the spec thus far...
+
+<ruby>
+require File.dirname(__FILE__) + "/stack"
+
+context "An empty stack" do
+  
+  setup do
+    @stack = Stack.new
+  end
+  
+  specify "should keep its mouth shut when you send it 'push'" do
+     lambda { @stack.push Object.new }.should.not.raise Exception
+  end
+  
+  specify "should raise a StackUnderflowError when you send it 'top'" do
+    lambda { @stack.top }.should.raise StackUnderflowError
+  end
+  
+end
+
+context "A stack with one item" do
+  
+  setup do
+    @stack = Stack.new
+    @stack.push "one item"
+  end
+
+  specify "should return top when sent the 'top' message" do
+    @stack.top.should.equal "one item"
+  end
+  
+end
+</ruby>
+
+..and the result of executing them. First in default mode...
+
+<pre>
+$ spec stack_spec.rb 
+
+...
+
+Finished in 0.000439 seconds
+
+2 contexts, 3 specifications, 0 failures
+</pre>
+
+...and then in verbose mode...
+
+<pre>
+$ spec stack_spec.rb -v
+
+An empty stack
+- should keep its mouth shut when you send it 'push'
+- should raise a StackUnderflowError when you send it 'top'
+
+A stack with one item
+- should return top when you send it 'top'
+
+
+Finished in 0.000533 seconds
+
+2 contexts, 3 specifications, 0 failures
+</pre>
+
+We've got two contexts. In both we exercise the 'top' message, but we only exercise 'push' in one. This is a wonderful aspect of organizing the specs this way. By looking at the contexts themselves, or by looking at the generated output, and by having only one setup for each context (a guideline often suggested for xUnit, but often violated), we can clearly see the imbalance in what messages we're specifying in the different contexts.
+
+So now, in addition to using the principle of the simplest thing to help us decide what to specify next, we've also got this feedback that tells us that we have yet to specify how a stack with one item should respond to the 'push' message. Using both tools to guide us, that is an obvious next choice.
+
+<ruby>
+context "A stack with one item" do
+  
+  setup do
+    @stack = Stack.new
+    @stack.push "one item"
+  end
+
+  specify "should keep its mouth shut when you send it 'push'" do
+     lambda { @stack.push Object.new }.should.not.raise Exception
+  end
+  
+  specify "should return top when you send it 'top'" do
+    @stack.top.should.equal "one item"
+  end
+  
+end
+</ruby>
+
+To add that, I actually copied the spec from the "new stack" context. Cut and paste? Blasphemy! Exact duplication? More blasphemy! BUT, what are our other options in this case? rSpec doesn't support context hierarchies at this point (0.5.4)...TBC

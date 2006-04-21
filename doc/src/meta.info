@@ -29,7 +29,7 @@ community.html:
   orderInfo: 7
   
 tutorials/index.page:
-  title: Stack
+  title: Overview
   inMenu: true
   orderInfo: 10
   

@@ -6,7 +6,7 @@ Picking the next thing to specify is always a challenge (just as picking the nex
 
 For our problem, there seem to be (at least) two logical potential next steps. We know that pushing on to an empty stack results in the stack accepting the pushed object. So one logical next step might be to specify how an empty stack behaves when sending it a different message. Another might be to send push to a non-empty stack. But what I'd really like to know is what happened to the object we just pushed!
 
-To specify that, we have to move diagonally a bit. We need to specify the stack's response to a new message starting in a new state - a new context. We're going to start with a stack with one item already pushed onto it and specify what happens when you send it the top message. Why top and not pop? In this case, top is simpler than pop - top just returns the top object, while pop also removes it from the stack.
+To specify that, we have to move diagonally a bit. We need to specify the stack's response to a new message starting in a new state - a new context. We're going to start with a stack with one item already pushed onto it and specify what happens when you send it 'top'. Why top and not pop? In this case, top is simpler than pop - top just returns the top object, while pop also removes it from the stack.
 
 h3. Send top to a stack with one item
 
@@ -29,7 +29,7 @@ Now run the spec:
 $ spec stack_spec.rb -v
 
 An empty stack
-- should keep its mouth shut when you send it the push message
+- should keep its mouth shut when you send it 'push'
 
 A stack with one item
 
@@ -49,7 +49,7 @@ context "A stack with one item" do
     @stack.push "one item"
   end
 
-  specify "should return top when sent the message top" do
+  specify "should return top when you send it 'top'" do
     @stack.top.should.equal "one item"
   end
   
@@ -62,15 +62,15 @@ Run the spec...
 $ spec stack_spec.rb -v
 
 An empty stack
-- should keep its mouth shut when you send it the push message
+- should keep its mouth shut when you send it 'push'
 
 A stack with one item
-- should return top when sent the message top (FAILED - 1)
+- should return top when you send it 'top' (FAILED - 1)
 
 
 1)
 undefined method `top' for #<Stack:0x368360> (NoMethodError)
-./stack_spec.rb:23:in `should return top when sent the message top'
+./stack_spec.rb:23:in `should return top when you send it 'top''
 /usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/instance_exec.rb:9:in `instance_exec'
 /usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/specification.rb:16:in `run'
 /usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context.rb:23:in `run'
@@ -99,15 +99,15 @@ Why not implement the return now? Well, this becomes a matter of taste and level
 $ spec stack_spec.rb -v
 
 An empty stack
-- should keep its mouth shut when you send it the push message
+- should keep its mouth shut when you send it 'push'
 
 A stack with one item
-- should return top when sent the message top (FAILED - 1)
+- should return top when you send it 'top' (FAILED - 1)
 
 
 1)
 nil should equal "one item" (Spec::Api::ExpectationNotMetError)
-./stack_spec.rb:23:in `should return top when sent the message top'
+./stack_spec.rb:23:in `should return top when you send it 'top''
 /usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/instance_exec.rb:9:in `instance_exec'
 /usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/specification.rb:16:in `run'
 /usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context.rb:23:in `run'
@@ -147,10 +147,10 @@ Run the specs...
 $ spec stack_spec.rb -v
 
 An empty stack
-- should keep its mouth shut when you send it the push message
+- should keep its mouth shut when you send it 'push'
 
 A stack with one item
-- should return top when sent the message top
+- should return top when you send it 'top'
 
 
 Finished in 0.0004 seconds

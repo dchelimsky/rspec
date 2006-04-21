@@ -15,11 +15,11 @@ context "An empty stack" do
     @stack = Stack.new
   end
   
-  specify "should keep its mouth shut when you send it the push message" do
+  specify "should keep its mouth shut when you send it 'push'" do
      lambda { @stack.push Object.new }.should.not.raise Exception
   end
   
-  specify "should raise a StackUnderflowError when you send it the top message" do
+  specify "should raise a StackUnderflowError when you send it 'top'" do
     lambda { @stack.top }.should.raise StackUnderflowError
   end
   
@@ -32,16 +32,16 @@ Running the spec...
 $ spec stack_spec.rb -v
 
 An empty stack
-- should keep its mouth shut when you send it the push message
-- should raise a StackUnderflowError when you send it the top message (FAILED - 1)
+- should keep its mouth shut when you send it 'push'
+- should raise a StackUnderflowError when you send it 'top' (FAILED - 1)
 
 A stack with one item
-- should return top when sent the message top
+- should return top when you send it 'top'
 
 
 1)
 uninitialized constant StackUnderflowError (NameError)
-./stack_spec.rb:14:in `should raise a StackUnderflowError when you send it the top message'
+./stack_spec.rb:14:in `should raise a StackUnderflowError when you send it 'top''
 
 Finished in 0.000637 seconds
 
@@ -61,16 +61,16 @@ and run the spec again.
 $ spec stack_spec.rb -v
 
 An empty stack
-- should keep its mouth shut when you send it the push message
-- should raise a StackUnderflowError when you send it the top message (FAILED - 1)
+- should keep its mouth shut when you send it 'push'
+- should raise a StackUnderflowError when you send it 'top' (FAILED - 1)
 
 A stack with one item
-- should return top when sent the message top
+- should return top when you send it 'top'
 
 
 1)
 <Proc> should raise "StackUnderflowError" (Spec::Api::ExpectationNotMetError)
-./stack_spec.rb:14:in `should raise a StackUnderflowError when you send it the top message'
+./stack_spec.rb:14:in `should raise a StackUnderflowError when you send it 'top''
 
 Finished in 0.000711 seconds
 
@@ -95,11 +95,11 @@ run the specs and they all pass.
 $ spec stack_spec.rb -v
 
 An empty stack
-- should keep its mouth shut when you send it the push message
-- should raise a StackUnderflowError when you send it the top message
+- should keep its mouth shut when you send it 'push'
+- should raise a StackUnderflowError when you send it 'top'
 
 A stack with one item
-- should return top when sent the message top
+- should return top when you send it 'top'
 
 
 Finished in 0.000557 seconds

@@ -6,11 +6,11 @@ context "An empty stack" do
     @stack = Stack.new
   end
   
-  specify "should keep its mouth shut when you send it the push message" do
+  specify "should keep its mouth shut when you send it 'push'" do
      lambda { @stack.push Object.new }.should.not.raise Exception
   end
   
-  specify "should raise a StackUnderflowError when you send it the top message" do
+  specify "should raise a StackUnderflowError when you send it 'top'" do
     lambda { @stack.top }.should.raise StackUnderflowError
   end
   
@@ -23,7 +23,11 @@ context "A stack with one item" do
     @stack.push "one item"
   end
 
-  specify "should return top when sent the message top" do
+  specify "should keep its mouth shut when you send it 'push'" do
+     lambda { @stack.push Object.new }.should.not.raise Exception
+  end
+  
+  specify "should return top when you send it 'top'" do
     @stack.top.should.equal "one item"
   end
   

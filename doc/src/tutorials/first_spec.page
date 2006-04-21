@@ -56,7 +56,7 @@ So what can we say about the behaviour of an empty stack? The typical first move
 <ruby>
 context "An empty stack" do
   
-  specify "should keep its mouth shut when you send it the push message" do
+  specify "should keep its mouth shut when you send it 'push'" do
   end
   
 end
@@ -68,7 +68,7 @@ Now run that with the <code>spec</code> command (use the -v switch as above) and
 $ spec stack_spec.rb -v
 
 An empty stack
-- should keep its mouth shut when you send it the push message
+- should keep its mouth shut when you send it 'push'
 
 Finished in 0.000183 seconds
 
@@ -86,7 +86,7 @@ context "An empty stack" do
     @stack = Stack.new
   end
   
-  specify "should keep its mouth shut when you send it the push message" do
+  specify "should keep its mouth shut when you send it 'push'" do
   end
   
 end
@@ -98,7 +98,7 @@ end
 $ spec stack_spec.rb -v
 
 An empty stack
-- should keep its mouth shut when you send it the push message (FAILED - 1)
+- should keep its mouth shut when you send it 'push' (FAILED - 1)
 
 
 1)
@@ -123,8 +123,8 @@ There are a few things to note about this output.
 * "(Failed - 1)" tells you that that particular specification is the one in which a failure occurred.
 * The "1" in "(Failed - 1)" tells you that the stack trace for that failure is the first one.
 * 1 context was processed ("An empty stack")
-* 1 specification was processed ("should keep its mouth shut when you send it the push message")
-* 1 specification failed ("should keep its mouth shut when you send it the push message")
+* 1 specification was processed ("should keep its mouth shut when you send it 'push'")
+* 1 specification failed ("should keep its mouth shut when you send it 'push'")
 
 The failure <code>uninitialized constant Stack (NameError)</code> tells us that we need to create a Stack class. Add a file to /projects/ruby/stack named stack.rb with the following code:</p>
 
@@ -145,7 +145,7 @@ require File.dirname(__FILE__) + "/stack"
 $ spec stack_spec.rb -v
 
 An empty stack
-- should keep its mouth shut when you send it the push message
+- should keep its mouth shut when you send it 'push'
 
 
 Finished in 0.00022 seconds
@@ -156,7 +156,7 @@ Finished in 0.00022 seconds
 We're almost there, but not quite. We still haven't specified what's supposed to happen when we send the push message to the stack. We haven't set any expectations in our specification. We need to have some sort of expectation that if not met, causes a failure when we execute the spec. So what can we expect here? The name of the spec tells us - "should keep its mouth shut". That implies that it should not react in any way - including raising an error. So let's set the expectation that there will be no error raised:
 
 <ruby>
-specify "should keep its mouth shut when you send it the push message" do
+specify "should keep its mouth shut when you send it 'push'" do
   lambda { @stack.push Object.new }.should.not.raise
 end
 </ruby>
@@ -167,12 +167,12 @@ If you're not familiar, <code>lambda</code> accepts a block but does not execute
 $ spec stack_spec.rb -v
 
 An empty stack
-- should keep its mouth shut when you send it the push message (FAILED - 1)
+- should keep its mouth shut when you send it 'push' (FAILED - 1)
 
 
 1)
 <Proc> should not raise "#<NoMethodError: undefined method `push' for #<Stack:0x368d4c>>" (Spec::Api::ExpectationNotMetError)
-./stack_spec.rb:10:in `should keep its mouth shut when you send it the push message'
+./stack_spec.rb:10:in `should keep its mouth shut when you send it 'push''
 /usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/instance_exec.rb:9:in `instance_exec'
 /usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/specification.rb:16:in `run'
 /usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context.rb:23:in `run'
@@ -203,7 +203,7 @@ end
 $ spec stack_spec.rb -v
 
 An empty stack
-- should keep its mouth shut when you send it the push message
+- should keep its mouth shut when you send it 'push'
 
 
 Finished in 0.000209 seconds
