@@ -4,4 +4,4 @@ inMenu: true
 ---
 h2. RSpec
 
-{ruby_inline: {filename: ../examples/bdd_framework_spec.rb}}
+<ruby file="../examples/bdd_framework_spec.rb" />

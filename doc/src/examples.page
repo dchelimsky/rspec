@@ -5,4 +5,5 @@ inMenu: true
 h2. Examples
 
 Here is an example of an RSpec spec:
-{ruby_inline: {filename: ../examples/stack_spec.rb}}
+
+<ruby file="../examples/stack_spec.rb" />

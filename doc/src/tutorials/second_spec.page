@@ -12,7 +12,7 @@ h3. Send top to a stack with one item
 
 Let's start by adding a new context in stack_spec.rb. Remember, the context is an object (or set of objects) in a known state, so we'll go ahead and add the setup right away
 
-<pre>
+<ruby>
 context "A stack with one item" do
   
   setup do
@@ -21,7 +21,7 @@ context "A stack with one item" do
   end
 
 end
-</pre>
+</ruby>
 
 Now run the spec:
 
@@ -41,7 +41,7 @@ Finished in 0.000277 seconds
 
 Note that we see the name of the new context printed out, 2 contexts but only 1 specification. We added setup, but no specification. So...
 
-<pre>
+<ruby>
 context "A stack with one item" do
   
   setup do
@@ -54,7 +54,7 @@ context "A stack with one item" do
   end
   
 end
-</pre>
+</ruby>
 
 Run the spec...
 
@@ -88,10 +88,10 @@ Finished in 0.000483 seconds
 
 Again, running the spec tells us what we have to implement next. <code>undefined method `top' for #<Stack:0x368360> (NoMethodError)</code> tells us to implement a <code>top</code> method. So, back in stack.rb...
 
-<pre>
+<ruby>
 def top
 end
-</pre>
+</ruby>
 
 Why not implement the return now? Well, this becomes a matter of taste and level of discipline. While you're learning BDD (especially if you have no prior TDD experience), you want to take very, very small steps. There's usually something to learn after each one. In this case, if we run the spec now...
 
@@ -127,7 +127,7 @@ This is a very interesting result. <code>nil should equal "one item"</code> tell
 
 So let's get the code to meet this specification. When we do this, we want to implement the simplest thing that we can to satisfy the existing specs. Given the current set of specs, we can simply store the object pushed and return it on top.
 
-<pre>
+<ruby>
 class Stack
   
   def push item
@@ -139,7 +139,7 @@ class Stack
   end
   
 end
-</pre>
+</ruby>
 
 Run the specs...
 

@@ -7,49 +7,49 @@ h3. A simple (very much in progress) tutorial by David Chelimsky
 
 In this tutorial, we're going to explore Behaviour Driven Development using rSpec. A primary goal of BDD is to think about specifications rather than testing. We'll explore what that means, and how it affects the process of specifying components in a system. For example, one of the examples we use at Object Mentor in our TDD classes is test-driving a Stack. We often start with a test like this:
 
-<pre>
+<ruby>
 #NOT A BDD EXAMPLE
 def test_new_stack_should_be_empty
   stack = Stack.new
   assert_equal(0, stack.size)
 end
-</pre>
+</ruby>
 
 We start with that because it is a VERY simple place to start. To get that test to pass, you need very little code...
 
-<pre>
+<ruby>
 class Stack
   def size
     0
   end
 end
-</pre>
+</ruby>
 
 ...and you're off and running. So here's a question: what is the <em><b>behaviour</b></em> that is exhibited by <code>size</code>? You <em>could</em> argue that the behaviour is that it answers your question correctly, but is that really behaviour?
 
 Think of it this way: does size really matter? Keeping focused on the Stack example, I'd say the answer is often "no". Most clients probably care about whether they can push something on to the stack, or pop something off of it. But knowing whether it has 0 or 1000 items is only helpful if the client knows what those numbers mean. And to know what they mean requires asking more questions:
 
-<pre>
+<ruby>
 stack.push item if stack.size < stack.capacity
-</pre>
+</ruby>
 
 We could ask if the stack is full...
 
-<pre>
+<ruby>
 stack.push item unless stack.full?
-</pre>
+</ruby>
 
 ...but even then we have to know what it means to be full: if a stack is full, then we can't add anything to it. The client has to understand the internal nature of a stack in order to know if it can operate on the stack in some way. A better question is "can you accept another object"? 
 
-<pre>
+<ruby>
 stack.push item if stack.has_more_room?
-</pre>
+</ruby>
 
 So lets say that you decide to write a subclass of Stack that is duck-type-safe: it can only accept items that respond to specific messages. Now <code>has_more_room</code> doesn't tell us whether the stack will accept our item. We have to know if it will accept this particular object, not just any object. If the answer is "no", do we care what the reason is? Maybe, in some cases. But most likely not.
 
-<pre>
+<ruby>
 stack.push item if stack.accept? item
-</pre>
+</ruby>
 
 Note that all of this discussion has been about how our stack appears from the outside. Not one question about its internals, yet the very first test we wrote using a common TDD approach was about its internals. Why is that? I think that it is because TDD tells us to write the simplest thing we can test first. Create a new Stack, verify that it has no elements. Easy! Right? Right. Except that YAGNI except for that test!
 

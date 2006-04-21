@@ -12,10 +12,10 @@ h3. Add a context
 
 Add the following to stack_spec.rb
 
-<pre>
+<ruby>
 context "An empty stack" do
 end
-</pre>
+</ruby>
 
 A context represents an object (or set of objects) in a known state. This is the same concept as a fixture in xUnit. For each known state from which we wish to specify behaviour, we'll add a new context.
 
@@ -53,14 +53,14 @@ h3. Add a specification
 
 So what can we say about the behaviour of an empty stack? The typical first move is to prove that it's really empty by making assertions about its size, or asking it if it is empty. But those things are all about the object's <em><b>state</b></em>, not its behaviour. We want to think about what our Stack does - how it responds to various messages that we can send it. So let's start with the <code>push</code> message. What should an empty Stack do when you send it the push method? Absolutely nothing, right? It should just accept the object and keep its mouth shut:
 
-<pre>
+<ruby>
 context "An empty stack" do
   
   specify "should keep its mouth shut when you send it the push message" do
   end
   
 end
-</pre>
+</ruby>
 
 Now run that with the <code>spec</code> command (use the -v switch as above) and look at the output. Here's the output:
 
@@ -79,7 +79,7 @@ As you can see, this reads like a specification. Now we haven't really specified
 
 In this case, the context is an empty stack, so let's set one up. 
 
-<pre>
+<ruby>
 context "An empty stack" do
   
   setup do
@@ -90,7 +90,7 @@ context "An empty stack" do
   end
   
 end
-</pre>
+</ruby>
 
 ...and then run the <code>spec</code> command...
 
@@ -120,7 +120,6 @@ Finished in 0.000284 seconds
 
 There are a few things to note about this output.
 
-* 
 * "(Failed - 1)" tells you that that particular specification is the one in which a failure occurred.
 * The "1" in "(Failed - 1)" tells you that the stack trace for that failure is the first one.
 * 1 context was processed ("An empty stack")
@@ -129,16 +128,16 @@ There are a few things to note about this output.
 
 The failure <code>uninitialized constant Stack (NameError)</code> tells us that we need to create a Stack class. Add a file to /projects/ruby/stack named stack.rb with the following code:</p>
 
-<pre>
+<ruby>
 class Stack
 end
-</pre>
+</ruby>
 
 Then add this to the top of stack_spec.rb...
 
-<pre>
+<ruby>
 require File.dirname(__FILE__) + "/stack"
-</pre>
+</ruby>
 
 ...and run the <code>spec</code> command and you should see output like this:
 
@@ -156,11 +155,11 @@ Finished in 0.00022 seconds
 
 We're almost there, but not quite. We still haven't specified what's supposed to happen when we send the push message to the stack. We haven't set any expectations in our specification. We need to have some sort of expectation that if not met, causes a failure when we execute the spec. So what can we expect here? The name of the spec tells us - "should keep its mouth shut". That implies that it should not react in any way - including raising an error. So let's set the expectation that there will be no error raised:
 
-<pre>
+<ruby>
 specify "should keep its mouth shut when you send it the push message" do
   lambda { stack.push Object.new }.should.not.raise
 end
-</pre>
+</ruby>
 
 If you're not familiar, <code>lambda</code> accepts a block but does not execute it. It then constructs a Proc object, which can called at any time. So, in this case, the block <code>{ stack.push Object.new }</code> gets saved in a Proc object. <code>should.not.raise</code> then tells rSpec to call the Proc and raise an ExpectationNotMetError if it raises any errors at all. Running the spec...
 
@@ -191,12 +190,12 @@ Finished in 0.000388 seconds
 
 We get a NoMethodError because our stack doesn't know what to do with the "push" message. So we add it...
 
-<pre>
+<ruby>
 class Stack
   def push item
   end
 end
-</pre>
+</ruby>
 
 ...and run the spec and voila!...
 

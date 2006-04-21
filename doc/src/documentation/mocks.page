@@ -226,7 +226,7 @@ Now other expectations can refer to it with the <code>after</code> call:
 mock.should.receive(:flop).once.after(:first)
 </ruby>
 
-If the send of <code>flop</code> is seen before <code>flop</code> the specification will fail.
+If the send of <code>flop</code> is seen before <code>flip</code> the specification will fail.
 
 Of course, chains of ordered expectations can be set up:
 
