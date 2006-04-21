@@ -16,12 +16,12 @@ module Spec
         @context_names << name
       end
       
-      def add_spec(name, errors=[])
+      def add_spec(name, errors=[], failure_location=nil)
         if errors.empty?
           spec_passed(name)
         else
-          name = "[#{name}]" if ["setup", "teardown"].include? name
-          errors.each { |error| @backtrace_tweaker.tweak_backtrace(error, "#{@context_names.last} #{name}") }
+          failure_location = "[#{failure_location}]" if ["setup", "teardown"].include? failure_location
+          errors.each { |error| @backtrace_tweaker.tweak_backtrace(error, "#{@context_names.last} #{failure_location}") }
           # only show the first one (there might be more)
           spec_failed(name, errors[0])
         end

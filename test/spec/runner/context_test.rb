@@ -23,7 +23,7 @@ module Spec
       
       def test_spec
         @listener.should.receive(:add_context).with :any_args
-        @listener.should.receive(:add_spec).with "test", :anything
+        @listener.should.receive(:add_spec).with "test", :anything, :anything
         $spec_ran = false
         @context.specify("test") {$spec_ran = true}
         @context.run(@listener)

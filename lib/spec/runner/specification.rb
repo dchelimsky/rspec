@@ -30,7 +30,12 @@ module Spec
           @errors << e
         end
 
-        reporter.add_spec(passed_setup ? (passed_spec ? (passed_teardown ? @name : "teardown") : @name) : "setup", @errors) unless reporter.nil?
+        failure_location = passed_setup ? (passed_spec ? (passed_teardown ? @name : "teardown") : @name) : "setup" unless @errors.empty?
+        reporter.add_spec(
+          @name,
+          @errors,
+          failure_location
+        ) unless reporter.nil?
       end
     
       def run_docs(reporter)
