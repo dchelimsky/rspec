@@ -20,8 +20,7 @@ module Spec
         if errors.empty?
           spec_passed(name)
         else
-          failure_location = "[#{failure_location}]" if ["setup", "teardown"].include? failure_location
-          errors.each { |error| @backtrace_tweaker.tweak_backtrace(error, "#{@context_names.last} #{failure_location}") }
+          errors.each { |error| @backtrace_tweaker.tweak_backtrace(error, "#{failure_location}") }
           # only show the first one (there might be more)
           spec_failed(name, ErrorWrapper.new(@context_names.last, name, errors[0]))
         end

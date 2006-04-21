@@ -32,7 +32,7 @@ module Spec
       error.set_backtrace ["/a/b/c/d/e.rb:34 in `__instance_exec'"]
       @reporter.add_spec "spec", [error], "setup"
       @reporter.dump_errors
-      assert_match(/context \[setup\]/, @io.string)
+      assert_match(/spec/, @io.string)
     end
 
     def test_should_include_context_and_teardown_in_backtrace_if_error_in_teardown
@@ -40,7 +40,7 @@ module Spec
       error.set_backtrace ["/a/b/c/d/e.rb:34 in `__instance_exec'"]
       @reporter.add_spec "spec", [error], "teardown"
       @reporter.dump_errors
-      assert_match(/context \[teardown\]/, @io.string)
+      assert_match(/teardown/, @io.string)
     end
 
     end
