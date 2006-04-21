@@ -23,7 +23,7 @@ module Spec
           failure_location = "[#{failure_location}]" if ["setup", "teardown"].include? failure_location
           errors.each { |error| @backtrace_tweaker.tweak_backtrace(error, "#{@context_names.last} #{failure_location}") }
           # only show the first one (there might be more)
-          spec_failed(name, errors[0])
+          spec_failed(name, ErrorWrapper.new(@context_names.last, name, errors[0]))
         end
       end
       
@@ -53,7 +53,8 @@ module Spec
         @errors.inject(1) do |index, error|
           @output << "\n\n" if index > 1
           @output << index.to_s << ")\n"
-          @output << "#{error.message} (#{error.class.name})\n"
+          @output << "#{error.class_name} in '#{error.context_and_spec_name}'\n"
+          @output << "#{error.message} (#{error.class_name})\n"
           dump_backtrace(error.backtrace)
           index + 1
         end
@@ -83,6 +84,30 @@ module Spec
           @output << 'F' unless @verbose
         end
 
+    end
+    
+    class ErrorWrapper
+      def initialize(context_name, spec_name, error)
+        @context_name = context_name
+        @spec_name = spec_name
+        @error = error
+      end
+      
+      def class_name
+        @error.class.name.split('::').last
+      end
+      
+      def message
+        @error.message
+      end
+      
+      def backtrace
+        @error.backtrace
+      end
+      
+      def context_and_spec_name
+        "#{@context_name} #{@spec_name}"
+      end
     end
     
   end
