@@ -5,7 +5,7 @@ h2. A Simple Stack - Overview
 
 h3. A simple (very much in progress) tutorial by David Chelimsky
 
-In this tutorial, we're going to explore Behaviour Driven Development using rSpec. A primary goal of BDD is to think about specifications rather than testing. We'll explore what that means, and how it affects the process of specifying components in a system. For example, one of the examples we use at Object Mentor in our TDD classes is test-driving a Stack. We often start with a test like this:
+In this tutorial, we're going to explore Behaviour Driven Development using rSpec. A primary goal of BDD is to think about specifications rather than testing. We'll explore what that means, and how it affects the process of specifying components in a system. For example, one of the examples I've used in TDD classes is test-driving a Stack. It would usually start with a test like this:
 
 <ruby>
 #NOT A BDD EXAMPLE
