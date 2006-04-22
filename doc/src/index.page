@@ -4,4 +4,23 @@ inMenu: true
 ---
 h2. RSpec
 
+RSpec is a framework for practicing __Behaviour Driven Development__ (BDD) in Ruby.
+
+It all startred with a blogpost (<a href="http://blog.daveastels.com/articles/2005/07/05/a-new-look-at-test-driven-development">__A New Look at Test Driven Development__</a>)
+ of Dave's where he talked about his ideas for BDD and a BDD framework.  One thing he mentioned was that his ideas would
+ be easily implemented in Smalltalk, and probably Ruby.
+ 
+Steven took this as a gauntlet being thrown down and immediately scooped it up and in short 
+order had the initial version of rspec running.  At that point Dave & Aslak got involved.
+
+Dave and David had met & talked about BDD at Agile'05 just after Dave's blog post (above).  
+David started thinking about a BDD framework in C#.
+As fate, or the gods, would have it... Dave & David ended up working at the same client in the greater Chicago area.
+ So Dave & David & Aslak spend time together reworking rspec into what you see now:
+ 
 <ruby file="../examples/bdd_framework_spec.rb" />
+
+RSpec provides a framewotk for writing what we call __executable specifications of program behaviour__.  
+Since that's rather wordy, we usually just call them __specs__.  
+<a href="www.testing.com">Some other people</a> call these things __examples__.
+
