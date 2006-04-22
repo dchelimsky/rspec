@@ -1,0 +1,31 @@
+index.page:
+  title: Overview
+  inMenu: true
+  orderInfo: 10
+  
+stack_01.page:
+  title: '1'
+  inMenu: true
+  orderInfo: 11
+  
+stack_02.page:
+  title: '2'
+  inMenu: true
+  orderInfo: 12
+  
+stack_03.page:
+  title: '3'
+  inMenu: true
+  orderInfo: 13
+  
+stack_04.page:
+  title: '4'
+  inMenu: true
+  orderInfo: 13
+
+stack_05.page:
+  title: '5'
+  inMenu: true
+  orderInfo: 13
+
+  

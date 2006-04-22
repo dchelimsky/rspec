@@ -57,4 +57,4 @@ Now here's one place where BDD strays from TDD. TDD suggests that "tests are cli
 
 Another thing to consider is "Tell, Don't Ask". We talk about "Tell, Don't Ask" all the time, yet we see properties being exposed all over the place. Let's extend TDA with this: "...but if you MUST ask, then ask for what you really need to know". Do we need to know the stack's size? Probably not. We <em>do</em>, however, need to know whether we can push onto it.
 
-We'll be exploring these questions in this tutorial in addition to getting you started with rSpec. So <a href="first_spec.html">let's get started!</a>
+We'll be exploring these questions in this tutorial in addition to getting you started with rSpec. So <a href="stack_01.html">let's get started!</a>

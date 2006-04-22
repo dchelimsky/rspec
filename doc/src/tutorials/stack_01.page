@@ -215,4 +215,4 @@ Finished in 0.000209 seconds
 
 One important thing to note here is that we did not begin by setting any expectations about the size or emptiness of the stack. That may feel funny to experienced TDDers, as it is standard faire to verify that an empty collection is empty. As explained in the <a href="index.html">Overview</a>, we're going to explore what it means to specify behaviour rather than testing state. Based on our existing spec thus far, there is no need to have a size or empty method. Let's see how far we can go without them...
 
-<a href="second_spec.html">Next</a>
+<a href="stack_02.html">Next</a>

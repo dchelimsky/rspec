@@ -6,7 +6,7 @@ examples.page:
 
 tutorials:
   title: Tutorial
-  orderInfo: 3 
+  orderInfo: 3
 
 documentation:
   title: Documentation
@@ -31,24 +31,3 @@ community.html:
   dest: http://rubyforge.org/projects/rspec
   orderInfo: 8
   
-tutorials/index.page:
-  title: Overview
-  inMenu: true
-  orderInfo: 10
-  
-tutorials/first_spec.page:
-  title: First Spec
-  inMenu: true
-  orderInfo: 11
-  
-tutorials/second_spec.page:
-  title: Second Spec
-  inMenu: true
-  orderInfo: 12
-  
-tutorials/spec_3.page:
-  title: Top on Empty
-  inMenu: true
-  orderInfo: 13
-
-
