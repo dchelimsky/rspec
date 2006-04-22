@@ -55,8 +55,7 @@ module Spec
       end
   
       def matches?(value)
-        @methods_to_respond_do.each { |sym| return false unless value.respond_to? sym }
-        return true
+        @methods_to_respond_do.all? { |sym| value.respond_to?(sym) }
       end
     end
   

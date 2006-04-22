@@ -16,15 +16,14 @@ module Spec
         @out = @options.out
         @out = File.open(@out, 'w') if @out.is_a? String
         @doc = @options.doc
-        @listener = RDocFormatter.new(@out) if @doc
-        @listener = SimpleTextReporter.new(@out, options.verbose, @options.backtrace_tweaker) unless @doc
+        register_listener(@doc ? RDocFormatter.new(@out) : SimpleTextReporter.new(@out, options.verbose, @options.backtrace_tweaker))
       end
       
       def options
         @options
       end
       
-      def register_listener listener
+      def register_listener(listener)
         @listener = listener
       end
     

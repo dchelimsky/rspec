@@ -4,9 +4,9 @@ module Spec
 
 		def default_message(expectation, expected=:no_expectation_specified)
       message = wrap(@target)
-      message += " #{expectation}"
+      message << " #{expectation}"
       if (expected != :no_expectation_specified)
-        message += " " + wrap(expected)
+        message << " " << wrap(expected)
       end
       message
    	end

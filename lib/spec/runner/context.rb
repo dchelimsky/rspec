@@ -3,7 +3,7 @@ module Spec
     class Context
       @@context_runner = nil
       
-      def self.context_runner= runner
+      def self.context_runner=(runner)
         @@context_runner = runner
       end
       

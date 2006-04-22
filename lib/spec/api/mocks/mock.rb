@@ -44,7 +44,7 @@ module Spec
             
             arg_message = args.collect{|arg| "<#{arg}:#{arg.class.name}>"}.join(", ")
             
-            Kernel::raise Spec::Api::MockExpectationError, "Mock '#{@name}' received unexpected message '#{sym.to_s}' with [#{arg_message}]"
+            Kernel::raise Spec::Api::MockExpectationError, "Mock '#{@name}' received unexpected message '#{sym}' with [#{arg_message}]"
           end
         end
       end
