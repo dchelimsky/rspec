@@ -1,6 +1,6 @@
-context "Random context name" do
+context "This example" do
   
-  specify "should be listed as being in teardown" do
+  specify "should be listed as failing in teardown" do
   end
   
   teardown do
