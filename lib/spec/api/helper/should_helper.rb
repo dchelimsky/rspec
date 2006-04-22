@@ -64,11 +64,12 @@ module Spec
     def raise(exception=Exception)
       begin
         @target.call
-        fail_with_message("#{default_message("should raise", exception)} but raised nothing")
       rescue exception
+        return
       rescue => e
         fail_with_message("#{default_message("should raise", exception)} but raised #{e.inspect}")
       end
+      fail_with_message("#{default_message("should raise", exception)} but raised nothing")
     end
     
     def throw(symbol)
