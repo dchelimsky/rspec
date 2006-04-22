@@ -14,6 +14,10 @@ context "An empty stack" do
     lambda { @stack.top }.should.raise StackUnderflowError
   end
   
+  specify "should raise a StackUnderflowError when you send it 'pop'" do
+    lambda { @stack.pop }.should.raise StackUnderflowError
+  end
+  
 end
 
 context "A stack with one item" do

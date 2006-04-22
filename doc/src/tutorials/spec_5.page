@@ -1,0 +1,54 @@
+h2. A Simple Stack
+
+h3. Pop
+
+So what next? We could specify a new context, or we could specify new messages in the existing contexts. How about 'pop'? We'll start with the empty stack:
+
+<ruby>
+context "An empty stack" do
+  
+  setup do
+    @stack = Stack.new
+  end
+  
+  specify "should keep its mouth shut when you send it 'push'" do
+     lambda { @stack.push Object.new }.should.not.raise Exception
+  end
+  
+  specify "should raise a StackUnderflowError when you send it 'top'" do
+    lambda { @stack.top }.should.raise StackUnderflowError
+  end
+  
+  specify "should raise a StackUnderflowError when you send it 'pop'" do
+    lambda { @stack.pop }.should.raise StackUnderflowError
+  end
+  
+end
+</ruby>
+
+... run the specs ...
+
+<pre>
+$ spec stack_spec.rb -v
+
+An empty stack
+- should keep its mouth shut when you send it 'push'
+- should raise a StackUnderflowError when you send it 'top'
+- should raise a StackUnderflowError when you send it 'pop' (FAILED - 1)
+
+A stack with one item
+- should keep its mouth shut when you send it 'push'
+- should return top when you send it 'top'
+
+
+1)
+ExpectationNotMetError in 'An empty stack should raise a StackUnderflowError when you send it 'pop''
+<Proc> should raise "StackUnderflowError" (ExpectationNotMetError)
+./stack_spec.rb:18:in `should raise a StackUnderflowError when you send it 'pop''
+
+Finished in 0.00095 seconds
+
+2 contexts, 5 specifications, 1 failure
+</pre>
+
+(TODO - this should raise a NoMethodError if we want to give the user the right info)

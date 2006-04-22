@@ -90,4 +90,32 @@ context "A stack with one item" do
 end
 </ruby>
 
-To add that, I actually copied the spec from the "new stack" context. Cut and paste? Blasphemy! Exact duplication? More blasphemy! BUT, what are our other options in this case? rSpec doesn't support context hierarchies at this point (0.5.4)...TBC
+To add that, I actually copied the spec from the "new stack" context. Cut and paste? Blasphemy! Exact duplication? More blasphemy! Well, it is blasphemy if you think of these structures as tests, or even as code. Yes, they are executable. Yes, they are code - sort of. But they also serve other very important purpose - they are documentation.
+
+h3. Specs as documentation
+
+The whole structure of contexts and specifications was deliberately chosen to feel less like the tests that we're all used to seeing in xUnit frameworks so that we wouldn't think of specs in the same way as we do tests. So while we might think of them as executable, we don't want to think of them as code.
+
+We talk about tests as documentation in TDD as well. But I can tell you that when I've tried to read them as such and found myself searching through hierarchies to find the setup for a test that was failing, my eyes have just glazed over and I've ended up looking directly at the code. Serving as documentation requires of these executable specifications that they be simple, clear and easy to understand. All the context you need to understand the test should be in one place.
+
+Also, the perception that "all duplication is evil" is based on ideas like "if you have to make a change, you might not get all the places its duplicated". In the case of specifications, that doesn't really fly, because each specification is autonomous. If the rules change for a message in a given context, then you'd only want to make the change in that context.
+
+So we've now got 4 specifications, 2 each in 2 contexts. Run the specs...
+
+<pre>$ spec stack_spec.rb -v
+
+An empty stack
+- should keep its mouth shut when you send it 'push'
+- should raise a StackUnderflowError when you send it 'top'
+
+A stack with one item
+- should keep its mouth shut when you send it 'push'
+- should return top when you send it 'top'
+
+
+Finished in 0.000657 seconds
+
+2 contexts, 4 specifications, 0 failures
+</pre>
+
+...and there are no failures. So in this case, since 'push' results in the same behavior for an empty stack and a one-element stack, we don't have anything additional to implement.
