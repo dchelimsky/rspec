@@ -102,18 +102,11 @@ An empty stack
 
 
 1)
+NameError in 'An empty stack should keep its mouth shut when you send it 'push''
+uninitialized constant Stack
 ./stack_spec.rb:6:in `setup'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/instance_exec.rb:9:in `instance_exec'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/specification.rb:15:in `run'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context.rb:23:in `run'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context.rb:22:in `run'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context_runner.rb:50:in `run_specs'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context_runner.rb:49:in `run_specs'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context_runner.rb:41:in `run'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/bin/spec:17
-/usr/local/bin/spec:18
 
-Finished in 0.000284 seconds
+Finished in 0.000293 seconds
 
 1 context, 1 specification, 1 failure
 </pre>
@@ -121,6 +114,7 @@ Finished in 0.000284 seconds
 There are a few things to note about this output.
 
 * "(Failed - 1)" tells you that that particular specification is the one in which a failure occurred.
+* "./stack_spec.rb:6:in `setup'" points out that the error was raised in the setup block
 * The "1" in "(Failed - 1)" tells you that the stack trace for that failure is the first one.
 * 1 context was processed ("An empty stack")
 * 1 specification was processed ("should keep its mouth shut when you send it 'push'")
@@ -171,22 +165,20 @@ An empty stack
 
 
 1)
-<Proc> should not raise "#<NoMethodError: undefined method `push' for #<Stack:0x368d4c>>" (Spec::Api::ExpectationNotMetError)
+ExpectationNotMetError in 'An empty stack should keep its mouth shut when you send it 'push''
+<Proc> should not raise <Exception> but raised #<NoMethodError: undefined method `push' for #<Stack:0x370d94>>
 ./stack_spec.rb:10:in `should keep its mouth shut when you send it 'push''
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/instance_exec.rb:9:in `instance_exec'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/specification.rb:16:in `run'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context.rb:23:in `run'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context.rb:22:in `run'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context_runner.rb:50:in `run_specs'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context_runner.rb:49:in `run_specs'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context_runner.rb:41:in `run'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/bin/spec:17
-/usr/local/bin/spec:18
 
-Finished in 0.000388 seconds
+Finished in 0.000418 seconds
 
 1 context, 1 specification, 1 failure
 </pre> 
+
+The first line tells us the rSpec error that was raised: we were expecting that nothing would be raised, but something (anything) was, so we get an "ExpectationNotMetError".
+
+The second line tells us that we specified that there should be no Exception (in this case we didn't specify what type of exception, so by default rSpec assumes Exception), but that there was a NoMethodError raised.
+
+The third line tells us that the error was raised in the block defining the specification "should keep its mouth shut when you send it 'push'".
 
 We get a NoMethodError because our stack doesn't know what to do with the "push" message. So we add it...
 

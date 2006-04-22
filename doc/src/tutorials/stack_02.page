@@ -69,24 +69,16 @@ A stack with one item
 
 
 1)
-undefined method `top' for #<Stack:0x368360> (NoMethodError)
-./stack_spec.rb:23:in `should return top when you send it 'top''
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/instance_exec.rb:9:in `instance_exec'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/specification.rb:16:in `run'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context.rb:23:in `run'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context.rb:22:in `run'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context_runner.rb:50:in `run_specs'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context_runner.rb:49:in `run_specs'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context_runner.rb:41:in `run'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/bin/spec:17
-/usr/local/bin/spec:18
+NoMethodError in 'A stack with one item should return top when you send it 'top''
+undefined method `top' for #<Stack:0x3703bc @item="one item">
+./stack_spec.rb:35:in `should return top when you send it 'top''
 
-Finished in 0.000483 seconds
+Finished in 0.000677 seconds
 
 2 contexts, 2 specifications, 1 failure
 </pre>
 
-Again, running the spec tells us what we have to implement next. <code>undefined method `top' for #<Stack:0x368360> (NoMethodError)</code> tells us to implement a <code>top</code> method. So, back in stack.rb...
+Again, running the spec tells us what we have to implement next. <code>undefined method `top' for #<Stack:0x3703bc @item="one item"></code> tells us to implement a <code>top</code> method. So, back in stack.rb...
 
 <ruby>
 def top
@@ -106,19 +98,11 @@ A stack with one item
 
 
 1)
-nil should equal "one item" (Spec::Api::ExpectationNotMetError)
-./stack_spec.rb:23:in `should return top when you send it 'top''
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/instance_exec.rb:9:in `instance_exec'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/specification.rb:16:in `run'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context.rb:23:in `run'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context.rb:22:in `run'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context_runner.rb:50:in `run_specs'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context_runner.rb:49:in `run_specs'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context_runner.rb:41:in `run'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/bin/spec:17
-/usr/local/bin/spec:18
+ExpectationNotMetError in 'A stack with one item should return top when you send it 'top''
+nil should equal "one item"
+./stack_spec.rb:35:in `should return top when you send it 'top''
 
-Finished in 0.000543 seconds
+Finished in 0.000531 seconds
 
 2 contexts, 2 specifications, 1 failure
 </pre>

@@ -43,12 +43,12 @@ A stack with one item
 
 1)
 ExpectationNotMetError in 'An empty stack should raise a StackUnderflowError when you send it 'pop''
-<Proc> should raise "StackUnderflowError" (ExpectationNotMetError)
+<Proc> should raise <StackUnderflowError> but raised #<NoMethodError: undefined method `pop' for #<Stack:0x36f980>>
 ./stack_spec.rb:18:in `should raise a StackUnderflowError when you send it 'pop''
 
-Finished in 0.00095 seconds
+Finished in 0.000967 seconds
 
 2 contexts, 5 specifications, 1 failure
 </pre>
 
-(TODO - this should raise a NoMethodError if we want to give the user the right info)
+TBC....

@@ -40,15 +40,16 @@ A stack with one item
 
 
 1)
-uninitialized constant StackUnderflowError (NameError)
+NameError in 'An empty stack should raise a StackUnderflowError when you send it 'top''
+uninitialized constant StackUnderflowError
 ./stack_spec.rb:14:in `should raise a StackUnderflowError when you send it 'top''
 
-Finished in 0.000637 seconds
+Finished in 0.000582 seconds
 
 2 contexts, 3 specifications, 1 failure
 </pre>
 
-...tells us that we need to create a StackUndeflowError. We'll just stick that in the file with the Stack:
+"uninitialized constant StackUnderflowError" tells us that we need to create a StackUndeflowError. We'll just stick that in the file with the Stack:
 
 <ruby>
 class StackUnderflowError < RuntimeError
@@ -69,10 +70,11 @@ A stack with one item
 
 
 1)
-<Proc> should raise "StackUnderflowError" (Spec::Api::ExpectationNotMetError)
+ExpectationNotMetError in 'An empty stack should raise a StackUnderflowError when you send it 'top''
+<Proc> should raise <StackUnderflowError> but raised nothing
 ./stack_spec.rb:14:in `should raise a StackUnderflowError when you send it 'top''
 
-Finished in 0.000711 seconds
+Finished in 0.000788 seconds
 
 2 contexts, 3 specifications, 1 failure
 </pre>
