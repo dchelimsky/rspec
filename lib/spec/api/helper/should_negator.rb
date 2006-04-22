@@ -49,7 +49,7 @@ module Spec
       begin
         @target.call
       rescue exception => e
-        fail_with_message(default_message("should not raise", e.inspect))
+        fail_with_message("#{default_message("should not raise", exception)} but raised #{e.inspect}")
       rescue
         true
       end

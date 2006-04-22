@@ -53,7 +53,7 @@ module Spec
           @output << "\n\n" if index > 1
           @output << index.to_s << ")\n"
           @output << "#{error.class_name} in '#{error.context_and_spec_name}'\n"
-          @output << "#{error.message} (#{error.class_name})\n"
+          @output << "#{error.message}\n"
           dump_backtrace(error.backtrace)
           index + 1
         end

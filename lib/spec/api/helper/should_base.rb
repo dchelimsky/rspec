@@ -18,6 +18,8 @@ module Spec
 		   "<false>"
 		  elsif obj.nil?
 		    "nil"
+		  elsif obj.kind_of? Class
+		    "<#{obj.name}>"
 		  elsif obj.kind_of? Proc
 		    "<Proc>"
 	    elsif (obj.kind_of? Array) || (obj.kind_of? String)
