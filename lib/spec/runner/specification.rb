@@ -37,15 +37,18 @@ module Spec
         reporter.add_spec(@name)
       end
       
+      def add_mock(mock)
+        @mocks << mock
+      end
+
+      private
+      
       def failure_location(passed_setup, passed_spec, passed_teardown)
         return 'setup' unless passed_setup
         return @name unless passed_spec
         return 'teardown' unless passed_teardown
       end
     
-      def add_mock(mock)
-        @mocks << mock
-      end
     end
   end
 end
