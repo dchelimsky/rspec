@@ -12,7 +12,7 @@ module Spec
         @name = name
         @options = DEFAULT_OPTIONS.dup.merge(options)
         @expectations = []
-        @history = []
+        @expectation_ordering = OrderGroup.new
       end
       
       def should
@@ -21,7 +21,7 @@ module Spec
 
       def receive(sym, &block)
         expected_from = caller(1)[0]
-        expectation = MessageExpectation.new(@name, expected_from, sym, block_given? ? block : nil)
+        expectation = MessageExpectation.new(@name, @expectation_ordering, expected_from, sym, block_given? ? block : nil)
         @expectations << expectation
         expectation
       end
@@ -35,7 +35,7 @@ module Spec
       def method_missing(sym, *args, &block)
         # TODO: use find_expectation(sym, args) which will lookup based on sym, args and strict mode.
         if expectation = find_matching_expectation(sym, *args)
-          expectation.verify_message(@history, args, block)
+          expectation.verify_message(args, block)
         else
           begin
             # act as null object if method is missing and we ignore them. return value too!

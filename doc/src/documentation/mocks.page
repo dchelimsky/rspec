@@ -210,20 +210,13 @@ When the expected message is received, the mock will yield the values to the pas
 h3. Ordering
 
 There are times when you want to specify the order of messages sent to a mock.
-It shouldn't be the case very often, but it can be handy at time. There are
-two parts to specifying the ordering between two expectations: labeling one
-expectation, and specifying that an other expectation should follow it.
+It shouldn't be the case very often, but it can be handy at time. 
 
-Labeling expectations is done by assigning it a symbol label with the <code>id</code> call:
+Labeling expectations as being ordered is done by the <code>ordered</code> call:
 
 <ruby>
-mock.should.receive(:flip).once.id(:first)
-</ruby>
-
-Now other expectations can refer to it with the <code>after</code> call:
-
-<ruby>
-mock.should.receive(:flop).once.after(:first)
+mock.should.receive(:flip).once.ordered
+mock.should.receive(:flop).once.ordered
 </ruby>
 
 If the send of <code>flop</code> is seen before <code>flip</code> the specification will fail.
@@ -231,7 +224,26 @@ If the send of <code>flop</code> is seen before <code>flip</code> the specificat
 Of course, chains of ordered expectations can be set up:
 
 <ruby>
-@mock.should.receive(:one).id(:one)
-@mock.should.receive(:two).id(:two).after(:one)
-@mock.should.receive(:three).after(:two)
+@mock.should.receive(:one).ordered
+@mock.should.receive(:two).ordered
+@mock.should.receive(:three).ordered
+</ruby>
+
+Order-independant expectations can be set anywhere in the expectation sequence, in any order.  
+Only the order of expectation tagged with the <code>ordered</code> call is significant.  Likewise,
+calls to order-independant methods can be made in any order, even interspersed with calls to 
+order-dependant methods.  For example:
+
+<ruby>
+def test_two_ordered_calls_with_others_between
+  @mock.should.receive(:zero)
+  @mock.should.receive(:one).ordered
+  @mock.should.receive(:two).ordered
+  @mock.should.receive(:one_and_a_half)
+  @mock.one
+  @mock.one_and_a_half
+  @mock.zero
+  @mock.two
+  @mock.__verify
+end
 </ruby>

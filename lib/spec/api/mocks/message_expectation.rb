@@ -3,8 +3,8 @@ module Spec
 
     # Represents the expection of the reception of a message
     class MessageExpectation
-
-      def initialize(mock_name, expected_from, sym, block)
+    
+      def initialize(mock_name, expectation_ordering, expected_from, sym, block)
         @mock_name = mock_name
         @expected_from = expected_from
         @sym = sym
@@ -19,8 +19,8 @@ module Spec
         @any_seen = false
         @at_seen = false
         @and_seen = false
-        @identifier = nil
-        @after = nil
+        @ordering = expectation_ordering
+        @ordered = false
       end
   
       def matches(sym, args)
@@ -68,19 +68,16 @@ module Spec
         end
       end
 
-      def order_ok(history)
-        @after.nil? ? true : history.include?(@after)
-      end
-
-      def handle_order_constraint(history)
-        Kernel::raise(Spec::Api::MockExpectationError, "Call made out of order") unless order_ok(history)
-        history << @identifier unless @identifier.nil?
+      def handle_order_constraint
+        return unless @ordered
+        Kernel::raise(Spec::Api::MockExpectationError, "Call made out of order") unless @ordering.ready_for?(self)
+        @ordering.consume(@self)
       end
       
       # This method is called when a method is invoked on a mock
-      def verify_message(history, args, block)
+      def verify_message(args, block)
         
-        handle_order_constraint(history)
+        handle_order_constraint
         
         unless @method_block.nil?
           begin
@@ -200,13 +197,9 @@ module Spec
         @symbol_to_throw = symbol
       end
       
-      def id(anId)
-        @identifier = anId
-        self
-      end
-      
-      def after(anId)
-        @after = anId
+      def ordered
+        @ordering.register(self)
+        @ordered = true
         self
       end
       
