@@ -1,26 +1,74 @@
 ---
-title: Overview
+title: Overview 
 inMenu: true
----
+--- 
+
+h2. Behaviour Driven Development 
+
+Test Driven Development (TDD) has you define the behaviour of your system by
+writing small tests that precisely define some small piece of your system's
+behaviour. Then you implement that behaviour. Then you clean up & improve your
+design.
+
+At least that's how you're supposed to do it.
+
+This focus on behaviour is the real value in TDD, and marks the genuinely
+experienced TDD practitioner.
+
+However, with the ubiquity of testing related terminology in TDD and it's
+supporting frameworks, it is no surprise that it takes beginners some time to
+get to the understanding that TDD isn't about testing at all... if they ever
+do.
+
+The aim of BDD is to address this shortcoming and, by using terminology
+focused on the behavioural aspects of the system rather than testing, attempt
+to help direct developers towards a focus on the real value to be found in TDD
+at its most successful, or BDD as we call it.
+
+(paraphrased from <a href="http://behaviour-driven.org">behaviour-driven.org</a>)
+
 h2. RSpec
 
 RSpec is a framework for practicing __Behaviour Driven Development__ (BDD) in Ruby.
 
-It all startred with a blogpost (<a href="http://blog.daveastels.com/articles/2005/07/05/a-new-look-at-test-driven-development">__A New Look at Test Driven Development__</a>)
- of Dave's where he talked about his ideas for BDD and a BDD framework.  One thing he mentioned was that his ideas would
- be easily implemented in Smalltalk, and probably Ruby.
- 
-Steven took this as a gauntlet being thrown down and immediately scooped it up and in short 
-order had the initial version of rspec running.  At that point Dave & Aslak got involved.
+It all started with a blogpost (<a
+href="http://blog.daveastels.com/articles/2005/07/05/a-new-look-at-test-driven-development">__A
+New Look at Test Driven Development__</a>) of Dave's where he talked about his
+ideas for BDD and a BDD framework. One thing he mentioned was that his ideas
+would be easily implemented in Smalltalk, and probably Ruby.
 
-Dave and David had met & talked about BDD at Agile'05 just after Dave's blog post (above).  
-David started thinking about a BDD framework in C#.
-As fate, or the gods, would have it... Dave & David ended up working at the same client in the greater Chicago area.
- So Dave & David & Aslak spend time together reworking rspec into what you see now:
- 
-<ruby file="../examples/bdd_framework_spec.rb" />
+Steven took this as a gauntlet being thrown down and immediately scooped it up
+and in short order had the initial version of RSpec running. At that point
+Dave & Aslak got involved.
 
-RSpec provides a framewotk for writing what we call __executable specifications of program behaviour__.  
-Since that's rather wordy, we usually just call them __specs__.  
-<a href="www.testing.com">Some other people</a> call these things __examples__.
+Dave and David had met & talked about BDD at Agile'05 just after Dave's blog
+post (above). David started thinking about a BDD framework in C#. As fate, or
+the gods, would have it Dave & David ended up working at the same client in
+the greater Chicago area. So Dave & David & Aslak spent time together
+reworking RSpec into what you see now:
 
+<ruby>
+context "BDD framework" do
+
+  setup do
+    @bdd_framework = BddFramework.new
+  end
+
+  specify "should be adopted quickly" do
+    @bdd_framework.should.be.adopted_quickly
+  end
+  
+  specify "should be intuitive" do
+    @bdd_framework.should.be.intuitive
+  end
+
+end
+</ruby>
+
+RSpec provides a framework for writing what we call __executable
+specifications of program behaviour__. Since that's rather wordy, we usually
+just call them __specs__. <a href="http://www.testing.com/cgi-bin/blog/2006/04/12#spec-vs-example">Some
+other people</a> call these things __examples__.
+
+On this site you will find examples, documentation, and tutorials as well as
+links to download and community resources.
