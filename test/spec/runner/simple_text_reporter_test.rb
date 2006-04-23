@@ -110,12 +110,14 @@ module Spec
       
       def test_should_output_spec_name_when_spec_passed
         @reporter.add_spec "spec"
+        assert_match(/\ncontext\n/, @io.string)
         assert_match(/- spec\n/, @io.string)
       end
 
       def test_should_output_failure_when_spec_failed
         @reporter.add_spec "spec", [RuntimeError.new]
-        assert_match(/spec \(FAILED - 1\)/, @io.string)
+        assert_match(/\ncontext\n/, @io.string)
+        assert_match(/- spec \(FAILED - 1\)\n/, @io.string)
       end
 
     end

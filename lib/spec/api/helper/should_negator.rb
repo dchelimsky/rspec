@@ -49,7 +49,8 @@ module Spec
       begin
         @target.call
       rescue exception => e
-        fail_with_message("#{default_message("should not raise", exception)} but raised #{e.inspect}")
+        fail_with_message("#{default_message("should not raise", exception)}") if e.instance_of? exception
+        fail_with_message("#{default_message("should not raise", exception)} but raised #{e.inspect}") unless e.instance_of? exception
       rescue
         true
       end
