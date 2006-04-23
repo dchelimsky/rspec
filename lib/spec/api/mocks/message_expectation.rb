@@ -39,6 +39,16 @@ module Spec
         return "twice" if count == 2
         return "#{count} times"
       end
+      
+      def make_expected_signature
+       expected_signature = nil
+        if @expected_params.nil?
+          expected_signature = @sym
+        else
+          params = @expected_params.collect{|param| "<#{param}:#{param.class.name}>"}.join(", ")
+          expected_signature = "#{@sym}(#{params})"
+        end
+      end
 
       # This method is called at the end of a spec, after teardown.
       def verify_messages_received
@@ -49,19 +59,11 @@ module Spec
         return if (@expected_received_count < 0) && (@received_count >= @expected_received_count.abs)
         return if @expected_received_count == @received_count
     
-        expected_signature = nil
-        if @expected_params.nil?
-          expected_signature = @sym
-        else
-          params = @expected_params.collect{|param| "<#{param}:#{param.class.name}>"}.join(", ")
-          expected_signature = "#{@sym}(#{params})"
-        end
-    
         count_message = make_count_message(@expected_received_count)
 
-        message = "Mock '#{@mock_name}' expected #{expected_signature} #{count_message}, but received it #{@received_count} times"
+        message = "Mock '#{@mock_name}' expected '#{make_expected_signature}' #{count_message}, but received it #{@received_count} times"
         begin
-          Kernel::raise Spec::Api::MockExpectationError, message
+          Kernel::raise(Spec::Api::MockExpectationError, message)
         rescue => error
           error.backtrace.insert(0, @expected_from)
           Kernel::raise error
@@ -70,8 +72,9 @@ module Spec
 
       def handle_order_constraint
         return unless @ordered
-        Kernel::raise(Spec::Api::MockExpectationError, "Call made out of order") unless @ordering.ready_for?(self)
-        @ordering.consume(@self)
+        return @ordering.consume(@self) if @ordering.ready_for?(self)
+        message = "Mock '#{@mock_name}' received '#{make_expected_signature}' out of order"
+        Kernel::raise(Spec::Api::MockExpectationError, message) 
       end
       
       # This method is called when a method is invoked on a mock

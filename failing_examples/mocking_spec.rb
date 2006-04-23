@@ -12,5 +12,15 @@ context "Mocker" do
     mock = mock("poke me")
     mock.should.receive(:poke)
   end
+  
+  specify "should fail when messages are received out of order" do
+    mock = mock("one two three")
+    mock.should.receive(:one).ordered
+    mock.should.receive(:two).ordered
+    mock.should.receive(:three).ordered
+    mock.one
+    mock.three
+    mock.two
+  end
 
 end

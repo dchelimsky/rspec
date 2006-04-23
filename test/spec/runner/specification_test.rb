@@ -42,7 +42,7 @@ module Spec
         end
         @reporter.should.receive(:add_spec) do |spec_name, errors|
           spec_name.should.equal "spec"
-          errors[0].message.should.match /expected poke once, but received it 0 times/
+          errors[0].message.should.match /expected 'poke' once, but received it 0 times/
         end
         spec.run @reporter
       end
