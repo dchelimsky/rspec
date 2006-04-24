@@ -6,31 +6,31 @@ module Spec
         @name = name
         @block = block
         @mocks = []
-        @errors = []
       end
     
       def run(reporter=nil, setup_block=nil, teardown_block=nil)
         execution_context = ::Spec::Runner::ExecutionContext.new(self)
+        errors = []
         begin
           execution_context.instance_exec(&setup_block) unless setup_block.nil?
-          passed_setup = true
+          setup_ok = true
           execution_context.instance_exec(&@block)
-          passed_spec = true
+          spec_ok = true
         rescue => e
-          @errors << e
+          errors << e
         end
 
         begin
           execution_context.instance_exec(&teardown_block) unless teardown_block.nil?
-          passed_teardown = true
+          teardown_ok = true
           @mocks.each do |mock|
             mock.__verify
           end
         rescue => e
-          @errors << e
+          errors << e
         end
 
-        reporter.add_spec(@name, @errors, failure_location(passed_setup, passed_spec, passed_teardown)) unless reporter.nil?
+        reporter.add_spec(@name, first_error(errors), failure_location(setup_ok, spec_ok, teardown_ok)) unless reporter.nil?
       end
     
       def run_docs(reporter)
@@ -43,10 +43,14 @@ module Spec
 
       private
       
-      def failure_location(passed_setup, passed_spec, passed_teardown)
-        return 'setup' unless passed_setup
-        return @name unless passed_spec
-        return 'teardown' unless passed_teardown
+      def first_error errors
+        errors[0]
+      end
+      
+      def failure_location(setup_ok, spec_ok, teardown_ok)
+        return 'setup' unless setup_ok
+        return @name unless spec_ok
+        return 'teardown' unless teardown_ok
       end
     
     end

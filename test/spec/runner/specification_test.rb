@@ -12,20 +12,20 @@ module Spec
           self.should.not.be.instance_of Specification
           self.should.be.instance_of ExecutionContext
         end
-        @reporter.should.receive(:add_spec).with "should pass", [], :anything
+        @reporter.should.receive(:add_spec).with "should pass", nil, nil
         spec.run @reporter
       end
 
       def test_should_add_itself_to_reporter_when_passes
         spec = Specification.new("spec") {}
-        @reporter.should.receive(:add_spec).with "spec", [], :anything
+        @reporter.should.receive(:add_spec).with "spec", nil, nil
         spec.run(@reporter)
       end
 
       def test_should_add_itself_to_reporter_when_fails
         error = RuntimeError.new
         spec = Specification.new("spec") { raise error }
-        @reporter.should.receive(:add_spec).with "spec", [error], "spec"
+        @reporter.should.receive(:add_spec).with "spec", error, "spec"
         spec.run(@reporter)
       end
       
@@ -40,9 +40,9 @@ module Spec
           mock = mock("a mock")
           mock.should.receive(:poke)
         end
-        @reporter.should.receive(:add_spec) do |spec_name, errors|
+        @reporter.should.receive(:add_spec) do |spec_name, error|
           spec_name.should.equal "spec"
-          errors[0].message.should.match /expected 'poke' once, but received it 0 times/
+          error.message.should.match /expected 'poke' once, but received it 0 times/
         end
         spec.run @reporter
       end
@@ -54,12 +54,10 @@ module Spec
         teardown = lambda do
           raise "in teardown"
         end
-        @reporter.should.receive(:add_spec) do |spec, errors, location|
+        @reporter.should.receive(:add_spec) do |spec, error, location|
           spec.should.equal "spec"
           location.should.equal "spec" 
-          errors.length.should.equal 2
-          errors[0].message.should.equal "in body"
-          errors[1].message.should.equal "in teardown"
+          error.message.should.equal "in body"
         end
         spec.run @reporter, nil, teardown
       end
@@ -70,9 +68,9 @@ module Spec
         setup = lambda do
           raise "in setup"
         end
-        @reporter.should.receive(:add_spec) do |name, errors, location|
+        @reporter.should.receive(:add_spec) do |name, error, location|
           name.should.equal "spec"
-          errors[0].message.should.equal "in setup"
+          error.message.should.equal "in setup"
           location.should.equal "setup"
         end
         spec.run @reporter, setup
@@ -84,9 +82,9 @@ module Spec
         teardown = lambda do
           raise "in teardown"
         end
-        @reporter.should.receive(:add_spec) do |name, errors, location|
+        @reporter.should.receive(:add_spec) do |name, error, location|
           name.should.equal "spec"
-          errors[0].message.should.equal "in teardown"
+          error.message.should.equal "in teardown"
           location.should.equal "teardown"
         end
         spec.run @reporter, nil, teardown

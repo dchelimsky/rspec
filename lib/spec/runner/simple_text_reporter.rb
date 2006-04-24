@@ -4,7 +4,7 @@ module Spec
       def initialize(output=STDOUT,verbose=false,backtrace_tweaker=QuietBacktraceTweaker.new)
         @output = output
         @context_names = []
-        @errors = []
+        @failures = []
         @spec_names = []
         @verbose = verbose
         @backtrace_tweaker = backtrace_tweaker
@@ -16,13 +16,12 @@ module Spec
         @context_names << name
       end
       
-      def add_spec(name, errors=[], failure_location=nil)
-        if errors.empty?
+      def add_spec(name, error=nil, failure_location=nil)
+        if error.nil?
           spec_passed(name)
         else
-          errors.each { |error| @backtrace_tweaker.tweak_backtrace(error, "#{failure_location}") }
-          # only show the first one (there might be more)
-          spec_failed(name, ErrorWrapper.new(@context_names.last, name, errors[0]))
+          @backtrace_tweaker.tweak_backtrace(error, failure_location)
+          spec_failed(name, Failure.new(@context_names.last, name, error))
         end
       end
       
@@ -36,78 +35,75 @@ module Spec
   
       def dump
         @output << "\n"
-        dump_errors
-        @output << "\n\n" unless @errors.empty?
-        @output << "\n" if @errors.empty?
+        dump_failures
+        @output << "\n\n" unless @failures.empty?
+        @output << "\n" if @failures.empty?
         @output << "Finished in " << (duration).to_s << " seconds\n\n"
         @output << "#{@context_names.length} context#{'s' unless @context_names.length == 1 }, "
         @output << "#{@spec_names.length} specification#{'s' unless @spec_names.length == 1 }, "
-        @output << "#{@errors.length} failure#{'s' unless @errors.length == 1 }"
+        @output << "#{@failures.length} failure#{'s' unless @failures.length == 1 }"
         @output << "\n"
       end
 
-      def dump_errors
-        return if @errors.empty?
+      def dump_failures
+        return if @failures.empty?
         @output << "\n"
-        @errors.inject(1) do |index, error|
-          @output << "\n\n" if index > 1
+        @failures.inject(1) do |index, failure|
+          @output << "\n" if index > 1
           @output << index.to_s << ")\n"
-          @output << "#{error.class_name} in '#{error.context_and_spec_name}'\n"
-          @output << "#{error.message}\n"
-          dump_backtrace(error.backtrace)
+          @output << "#{failure.header}\n"
+          @output << "#{failure.message}\n"
+          @output << "#{failure.backtrace}\n"
           index + 1
         end
       end
 
-      def dump_backtrace(trace)
-        @output << trace.join("\n") unless trace.nil?
-      end
-
       private
   
-        def duration
-          return @end_time - @start_time unless (@end_time.nil? or @start_time.nil?)
-          return "0.0"
+      def duration
+        return @end_time - @start_time unless (@end_time.nil? or @start_time.nil?)
+        return "0.0"
+      end
+
+      def spec_passed(name)
+        @spec_names << name
+        @output << "- #{name}\n" if @verbose
+        @output << '.' unless @verbose
+      end
+
+      def spec_failed(name, failure)
+        @spec_names << name
+        @failures << failure
+        @output << "- #{name} (FAILED - #{@failures.length})\n" if @verbose
+        @output << 'F' unless @verbose
+      end
+
+      class Failure
+        def initialize(context_name, spec_name, error)
+          @context_name = context_name
+          @spec_name = spec_name
+          @error = error
         end
 
-        def spec_passed(name)
-          @spec_names << name
-          @output << "- #{name}\n" if @verbose
-          @output << '.' unless @verbose
+        def header
+          "#{class_name} in '#{@context_name} #{@spec_name}'"
         end
 
-        def spec_failed(name, error)
-          @spec_names << name
-          @errors << error
-          @output << "- #{name} (FAILED - #{@errors.length})\n" if @verbose
-          @output << 'F' unless @verbose
+        def message
+          @error.message
         end
 
+        def backtrace
+          @error.backtrace.join("\n") unless @error.backtrace.nil?
+        end
+
+        private
+
+        def class_name
+          @error.class.name.split('::').last
+        end
+
+      end
     end
-    
-    class ErrorWrapper
-      def initialize(context_name, spec_name, error)
-        @context_name = context_name
-        @spec_name = spec_name
-        @error = error
-      end
-      
-      def class_name
-        @error.class.name.split('::').last
-      end
-      
-      def message
-        @error.message
-      end
-      
-      def backtrace
-        @error.backtrace
-      end
-      
-      def context_and_spec_name
-        "#{@context_name} #{@spec_name}"
-      end
-    end
-    
   end
 end
