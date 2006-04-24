@@ -4,7 +4,7 @@ inMenu: true
 ---
 h2. Rake Task
 
-Spec's Rake task allows you to do many things.
+RSpec's Rake task allows you to do many things.
 (See the <notextile><a href="../rdoc/classes/Spec/Rake/SpecTask.html">RDoc</a></notextile> for details)
 
 h3. Run specs

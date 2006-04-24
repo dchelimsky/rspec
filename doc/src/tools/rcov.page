@@ -1,0 +1,20 @@
+---
+title: RCov
+inMenu: true
+---
+h2. RCov
+
+RSpec has tight integration with <a href="http://eigenclass.org/hiki.rb?rcov=">RCov</a>. If you have RCov installed you can
+use the rake task to generate a coverage report. See the <a href="../rake.html">Rake</a> for details.
+
+h3. Coverage threshold
+
+You can guard your codebase's coveraqge from dropping by adding the RCovVerify
+task to your Rakefile:
+
+<ruby file="../test/tasks/rcov_verify.rake"/>
+
+This will give you a :rcov_verify task that will fail your build if the
+coverage is below the threshold you define (the higher the better).
+
+(See the <notextile><a href="../rdoc/classes/RCov/VerifyTask.html">RDoc</a></notextile> for details)

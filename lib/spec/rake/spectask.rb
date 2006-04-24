@@ -9,7 +9,7 @@ require File.dirname(__FILE__) + '/../../spec'
 module Spec
 module Rake
 
-  # Create a task that runs a set of RSpec contexts.
+  # A task that runs a set of RSpec contexts.
   #
   # Example:
   #  
@@ -18,23 +18,6 @@ module Rake
   #     t.spec_files = FileList['spec/**/*_spec.rb']
   #     t.verbose = true
   #   end
-  #
-  # If rake is invoked with a "SPEC=filename" command line option,
-  # then the list of spec files will be overridden to include only the
-  # filename specified on the command line.  This provides an easy way
-  # to run just one spec.
-  #
-  # If rake is invoked with a "SPECOPTS=options" command line option,
-  # then the given options are passed to the spec process after a
-  # '--'.  This allows Test::Unit options to be passed to the spec
-  # suite.
-  #
-  # Examples:
-  #
-  #   rake spec                           # run specs normally
-  #   rake spec SPEC=just_one_file.rb     # run just one spec file.
-  #   rake spec SPECOPTS="-v"             # run in verbose mode
-  #   rake spec SPECOPTS="--runner=fox"   # use the fox spec runner
   #
   class SpecTask < ::Rake::TaskLib
 

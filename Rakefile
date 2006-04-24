@@ -7,13 +7,14 @@ require 'rake/testtask'
 require 'rake/rdoctask'
 require 'spec/version'
 require 'spec/rake/spectask'
+require 'spec/rake/rcov_verify'
 require 'test/rcov/rcov_testtask'
-require 'test/rcov/rcov_verify'
 
 # Some of the tasks are in separate files since they are also part of the website documentation
 load File.dirname(__FILE__) + '/test/tasks/examples.rake'
 load File.dirname(__FILE__) + '/test/tasks/examples_specdoc.rake'
 load File.dirname(__FILE__) + '/test/tasks/examples_with_rcov.rake'
+load File.dirname(__FILE__) + '/test/tasks/rcov_verify.rake'
 
 PKG_NAME = "rspec"
 # Versioning scheme: MAJOR.MINOR.PATCH
@@ -128,12 +129,6 @@ task :release => [:clobber, :verify_user, :verify_password, :test, :publish_pack
 
 desc "Build the website with rdoc and rcov, but do not publish it"
 task :website => [:clobber, :copy_rcov_report, :doc, :examples_specdoc, :rdoc]
-
-RCov::VerifyTask.new do |t|
-  t.threshold = 98.5 # Don't make it lower unless you have a damn good reason.
-  t.verbose = true
-  t.index_html = 'coverage/index.html'
-end
 
 task :copy_rcov_report => [:test_with_rcov, :rcov_verify] do
   rm_rf 'doc/output/coverage'

@@ -4,9 +4,12 @@ index.page:
 rake.page:
   orderInfo: 11
 
-test2rspec.page:
+rcov.page:
   orderInfo: 12
 
-rails.page:
+test2rspec.page:
   orderInfo: 13
+
+rails.page:
+  orderInfo: 14
 
