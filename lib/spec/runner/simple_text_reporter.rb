@@ -34,10 +34,9 @@ module Spec
       end
   
       def dump
-        @output << "\n"
+        @output << "\n" unless @verbose
         dump_failures
-        @output << "\n\n" unless @failures.empty?
-        @output << "\n" if @failures.empty?
+        @output << "\n"
         @output << "Finished in " << (duration).to_s << " seconds\n\n"
         @output << "#{@context_names.length} context#{'s' unless @context_names.length == 1 }, "
         @output << "#{@spec_names.length} specification#{'s' unless @spec_names.length == 1 }, "
@@ -47,9 +46,8 @@ module Spec
 
       def dump_failures
         return if @failures.empty?
-        @output << "\n"
         @failures.inject(1) do |index, failure|
-          @output << "\n" if index > 1
+          @output << "\n"
           @output << index.to_s << ")\n"
           @output << "#{failure.header}\n"
           @output << "#{failure.message}\n"
