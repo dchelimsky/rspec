@@ -44,6 +44,8 @@ module Spec
         @output << "\n"
       end
 
+      private
+  
       def dump_failures
         return if @failures.empty?
         @failures.inject(1) do |index, failure|
@@ -56,8 +58,6 @@ module Spec
         end
       end
 
-      private
-  
       def duration
         return @end_time - @start_time unless (@end_time.nil? or @start_time.nil?)
         return "0.0"

@@ -26,7 +26,6 @@ module Spec
       def matches(sym, args)
         @sym == sym and @args_expectation.check_args(args)
       end
-      
        
       def make_count_message(count)
         return "at least #{pretty_print(count.abs)}" if count < 0
@@ -40,16 +39,6 @@ module Spec
         return "#{count} times"
       end
       
-      def make_expected_signature
-       expected_signature = nil
-        if @expected_params.nil?
-          expected_signature = @sym
-        else
-          params = @expected_params.collect{|param| "<#{param}:#{param.class.name}>"}.join(", ")
-          expected_signature = "#{@sym}(#{params})"
-        end
-      end
-
       # This method is called at the end of a spec, after teardown.
       def verify_messages_received
         # TODO: this doesn't provide good enough error messages to fix the error.
@@ -61,7 +50,7 @@ module Spec
     
         count_message = make_count_message(@expected_received_count)
 
-        message = "Mock '#{@mock_name}' expected '#{make_expected_signature}' #{count_message}, but received it #{@received_count} times"
+        message = "Mock '#{@mock_name}' expected '#{@sym}' #{count_message}, but received it #{@received_count} times"
         begin
           Kernel::raise(Spec::Api::MockExpectationError, message)
         rescue => error
@@ -73,7 +62,7 @@ module Spec
       def handle_order_constraint
         return unless @ordered
         return @ordering.consume(@self) if @ordering.ready_for?(self)
-        message = "Mock '#{@mock_name}' received '#{make_expected_signature}' out of order"
+        message = "Mock '#{@mock_name}' received '#{@sym}' out of order"
         Kernel::raise(Spec::Api::MockExpectationError, message) 
       end
       
