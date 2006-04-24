@@ -7,7 +7,7 @@ h2. Core API
 
 When RSpec executes specifications, it defines a method <code>should</code> on every object in the system. This <code>should</code> method is your entry to the magic of RSpec.
 
-Almost all expectation forms have a corresponding negated form. It is listed when it is supported and, in general, is met when ever the non-negated form would be violated.
+Almost all expectation forms have a corresponding negated form. It is listed when it is supported and, unless otherwise stated, is met when ever the non-negated form would be violated.
 
 h3. General
 
@@ -18,7 +18,7 @@ target.should.satisfy {|arg| ...}
 target.should.not.satisfy {|arg| ...}
 </ruby>
 
-The supplied block is evaluated, passing <code>target</code> as the sole argument. If the block evaluates to <code>false</code> in the case of <code>should.satisfy</code>, or <code>true</code> in the case of <code>should.not.satisfy</code>, <code>ExpectationNotMetError</code> is raised.
+The supplied block is evaluated, passing <code>target</code> as the sole argument. If the block evaluates to <code>false</code>, <code>ExpectationNotMetError</code> is raised.
 
 <ruby>
 target.should.satisfy {|arg| arg > 0}
@@ -31,7 +31,7 @@ target.should.equal <value>
 target.should.not.equal <value>
 </ruby>
 
-The target object is compared to <code>value</code> using ==. If the result is <code>false</code> (or <code>true</code> for the negated form) <code>ExpectationNotMetError</code> is raised.
+The target object is compared to <code>value</code> using ==. If the result is <code>false</code>, <code>ExpectationNotMetError</code> is raised.
 
 h4. Floating Point Comparison
 
@@ -40,7 +40,7 @@ target.should.be.close <value>, <tolerance>
 target.should.not.be.close <value>, <tolerance>
 </ruby>
 
-The target object is compared to <code>value</code>. In the former case, if they differ by more that <code>tolerance</code> <code>ExpectationNotMetError</code> is raised. In the latter case, it is raised if they differ by less than <code>tolerance</code>.
+The target object is compared to <code>value</code>. If they differ by more that <code>tolerance</code>, <code>ExpectationNotMetError</code> is raised. In the negated case, <code>ExpectationNotMetError</code> is raised if they differ by less than <code>tolerance</code>.
 
 <ruby>
 target.should.be.close 27.35, 0.05
@@ -53,10 +53,9 @@ target.should.be <value>
 target.should.not.be <value>
 </ruby>
 
-The target object is compared to <code>value</code> using <code>equal?</code>. If the result is <code>false</code> (or <code>true</code> for the negated form) <code>ExpectationNotMetError</code> is raised.
+The target object is compared to <code>value</code> using <code>equal?</code>. If the result is <code>false</code>, <code>ExpectationNotMetError</code> is raised.
 
 h4. Arbitrary Predicate
-
 
 <ruby>
 target.should.predicate [optional args]
@@ -65,10 +64,12 @@ target.should.not.predicate [optional args]
 target.should.not.be.predicate [optional args]
 </ruby>
 
-The message <code>predicate?</code> is sent to <code>target</code> with any supplied arguments. If the result is <code>false</code> (or <code>true</code> for the negated form) <code>ExpectationNotMetError</code> is raised.
+The message <code>predicate?</code> is sent to <code>target</code> with any supplied arguments. If the result is <code>false</code>, <code>ExpectationNotMetError</code> is raised.
+
+For example:
 
 <ruby>
-container.should.include 'a' => container.include? 'a'
+container.should.include('a') => container.include?('a')
 container.should.be.empty => container.empty?
 </ruby>
 
@@ -79,7 +80,7 @@ target.should.match <regex>
 target.should.not.match <regex>
 </ruby>
 
-The <code>target</code> is matched against <code>regex</code>. An <code>ExpectationNotMetError</code> is raised if the match fails or succeeds, respectively.
+The <code>target</code> is matched against <code>regex</code>. An <code>ExpectationNotMetError</code> is raised if the match fails.
 
 h3. Class/Type
 
@@ -99,7 +100,7 @@ target.should.be.a.kind.of <class>
 target.should.not.be.a.kind.of <class>
 </ruby>
 
-As above, but uses <code>target.kind_of? class</code>: checking whether <code>class</code> is the direct class of <code>target</code>, or an ancestor of <code>target</code>'s class.
+As above, but uses <code>target.kind_of? class</code>: checking whether <code>class</code> is the direct class of <code>target</code>, or an ancestor of <code>target</code>'s direct class.
 
 h4. Type
 
@@ -108,7 +109,7 @@ target.should.respond.to <symbol>
 target.should.not.respond.to <symbol>
 </ruby>
 
-Uses <code>target.respond_to? symbol?</code> to check whether <code>symbol</code> is the name of a message that <code>target</code> understands.
+Uses <code>target.respond_to?(symbol)</code> to check whether <code>symbol</code> is the name of a message that <code>target</code> understands.
 
 h3. Procs
 
@@ -119,7 +120,7 @@ proc.should.raise <exception>
 proc.should.not.raise <exception>
 </ruby>
 
-Checks that <code>proc</code> does or doesn't cause the named exception to be raised. Typically the <code>proc</code> is created in place using <code>lambda</code>. For example:
+Checks that <code>proc</code> causes the named exception to be raised or not. The latter is actually one of two cases: some other exception is raised, or no exception is raised. Typically the <code>proc</code> is created in place using <code>lambda</code>. For example:
 
 <ruby>
 lambda { 3 / 0 }.should.raise ZeroDivisionError
@@ -132,7 +133,7 @@ proc.should.raise
 proc.should.not.raise
 </ruby>
 
-These forms don't worry about what exception is raised (or not). All they are concern with is that some except was raised, or that no exception was raised.
+These forms don't worry about what exception is raised (or not). All they are concerned with is that some except was raised, or that no exception was.
 
 h4. Throwing
 
@@ -141,8 +142,7 @@ proc.should.throw <symbol>
 proc.should.not.throw <symbol>
 </ruby>
 
-Similar to the above, but checks that <code>symbol</code> is thrown from within <code>proc</code>, or that it is not. The latter is actually one of two cases: some other symbol is
-thrown, or no symbol is thrown.
+Similar to the above, but checks that <code>symbol</code> is thrown from within <code>proc</code>, or not. The latter is actually one of two cases: some other symbol is thrown, or no symbol is thrown.
 
 <ruby>
 proc.should.not.throw
@@ -156,14 +156,17 @@ h4. Containment
 
 <ruby>
 target.should.include <object>
+target.should.not.include <object>
 </ruby>
 
-This is simply a specific case of the arbitrary predicate form. It uses <code>target.include? object</code> and raises an <code>ExpectationNotMetError</code> if that returns false. The remaining collection forms are a little more involved. They rely on two things: <code>target</code> responds to the message <code>things</code> by returning an object that responds to either <code>length</code> or <code>size</code>, which return a number that is a measure of size. Currently <code>length</code> is used if is appropriate, otherwise <code>size</code> is attempted.
+This is simply a specific case of the arbitrary predicate form. It uses <code>target.include?(object)</code> and raises an <code>ExpectationNotMetError</code> if that returns false. 
+
+The remaining collection forms are a little more involved. They rely on two things: 1) <code>target</code> responds to the message <code>things</code> by returning an object that 2) responds to either <code>length</code> or <code>size</code>, which return a number that is a measure of size. Currently <code>length</code> is used if is appropriate, otherwise <code>size</code> is attempted.
 
 h4. Exact Size
 
 <ruby>
-target.should.have(<number>).<things>
+target.should.have(<number>).things
 </ruby>
 
 The <code>things</code> of <code>target</code> has a length/size of exactly <code>number</code>. 
@@ -171,7 +174,7 @@ The <code>things</code> of <code>target</code> has a length/size of exactly <cod
 h4. Lower Bound
 
 <ruby>
-target.should.have.at.least(<number>).<things>
+target.should.have.at.least(<number>).things
 </ruby>
 
 The <code>things</code> of <code>target</code> has a length/size of no less than <code>number</code>.
@@ -179,7 +182,7 @@ The <code>things</code> of <code>target</code> has a length/size of no less than
 h4. Upper Bound
 
 <ruby>
-target.should.have.at.most(<number>).<things>
+target.should.have.at.most(<number>).things
 </ruby>
 
 The <code>things</code> of <code>target</code> has a length/size of no more than <code>number</code>.
