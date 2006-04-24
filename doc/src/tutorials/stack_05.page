@@ -1,6 +1,4 @@
-h2. A Simple Stack
-
-h3. Pop
+h2. A Simple Stack - Pop
 
 So what next? We could specify a new context, or we could specify new messages in the existing contexts. How about 'pop'? We'll start with the empty stack:
 
@@ -51,4 +49,311 @@ Finished in 0.000967 seconds
 2 contexts, 5 specifications, 1 failure
 </pre>
 
-TBC....
+The messages here are slightly different than what we've seen so far. Back when we specified sending 'top' to an empty stack, we had already specified sending 'top' to a stack with one element, so we didn't get the <code>NoMethodError</code> that we get here. And since we were expecting a <code>StackUnderflowError</code>, the message tells us that we were expecting one sort of error but got another. This is excellent feedback, as it not only tells us that our expectation was not met, it also tells us exactly what went wrong and indirectly what to do about it: add the pop method:
+
+<ruby>
+class Stack
+  ...
+  def pop
+  end
+end
+</ruby>
+
+run the specs...
+
+<pre>
+$ spec stack_spec.rb -v
+
+An empty stack
+- should keep its mouth shut when you send it 'push'
+- should raise a StackUnderflowError when you send it 'top'
+- should raise a StackUnderflowError when you send it 'pop' (FAILED - 1)
+
+A stack with one item
+- should keep its mouth shut when you send it 'push'
+- should return top when you send it 'top'
+
+1)
+ExpectationNotMetError in 'An empty stack should raise a StackUnderflowError when you send it 'pop''
+<Proc> should raise <StackUnderflowError> but raised nothing
+./stack_spec.rb:18:in `should raise a StackUnderflowError when you send it 'pop''
+
+Finished in 0.000902 seconds
+
+2 contexts, 5 specifications, 1 failure
+</pre>
+
+...and now the message tells us that nothing was raised. So back to stack.rb...
+
+<ruby>
+def pop
+  raise StackUnderflowError
+end
+</ruby>
+
+...run the specs...
+
+<pre>
+$ spec stack_spec.rb -v
+
+An empty stack
+- should keep its mouth shut when you send it 'push'
+- should raise a StackUnderflowError when you send it 'top'
+- should raise a StackUnderflowError when you send it 'pop'
+
+A stack with one item
+- should keep its mouth shut when you send it 'push'
+- should return top when you send it 'top'
+
+Finished in 0.000812 seconds
+
+2 contexts, 5 specifications, 0 failures
+</pre>
+
+...and they pass. Notice that we did not include any conditional logic in the pop method. As things stand right now, any client that calls pop on any stack (empty or otherwise) will get a StackUnderflowError. Obviously, this is not what we want, but again, rather than going back to the code we're going to specify the behaviour that we're looking for. We do have one other context in place already, so let's specify calling 'pop' on a context with one element.
+
+<ruby>
+context "A stack with one item" do
+  
+  setup do
+    @stack = Stack.new
+    @stack.push "one item"
+  end
+
+  specify "should keep its mouth shut when you send it 'push'" do
+     lambda { @stack.push Object.new }.should.not.raise Exception
+  end
+  
+  specify "should return top when you send it 'top'" do
+    @stack.top.should.equal "one item"
+  end
+  
+  specify "should return top when you send it 'pop'" do
+    @stack.pop.should.equal "one item"
+  end
+  
+end
+</ruby>
+
+Run the specs...
+
+<pre>
+$ spec stack_spec.rb -v
+
+An empty stack
+- should keep its mouth shut when you send it 'push'
+- should raise a StackUnderflowError when you send it 'top'
+- should raise a StackUnderflowError when you send it 'pop'
+
+A stack with one item
+- should keep its mouth shut when you send it 'push'
+- should return top when you send it 'top'
+- should return top when you send it 'pop' (FAILED - 1)
+
+1)
+StackUnderflowError in 'A stack with one item should return top when you send it 'pop''
+StackUnderflowError
+./stack.rb:16:in `pop'
+./stack_spec.rb:39:in `should return top when you send it 'pop''
+
+Finished in 0.00102000000000002 seconds
+
+2 contexts, 6 specifications, 1 failure
+</pre>
+
+...and we can see that we're getting the StackUnderflowError in a case where we don't want it. So NOW we can add the conditional logic to handle it...
+
+<ruby>
+class Stack
+  
+  def push item
+    @item = item
+  end
+  
+  def top
+    raise StackUnderflowError if @item.nil?
+    @item
+  end
+  
+  def pop
+    raise StackUnderflowError if @item.nil?
+    @item
+  end
+  
+end
+</ruby>
+
+...run the specs...
+
+<pre>
+$ spec stack_spec.rb -v
+
+An empty stack
+- should keep its mouth shut when you send it 'push'
+- should raise a StackUnderflowError when you send it 'top'
+- should raise a StackUnderflowError when you send it 'pop'
+
+A stack with one item
+- should keep its mouth shut when you send it 'push'
+- should return top when you send it 'top'
+- should return top when you send it 'pop'
+
+Finished in 0.000936 seconds
+
+2 contexts, 6 specifications, 0 failures
+</pre>
+
+...and everything passes. Everything seems fine, but there's one thing missing. When you send 'pop' to a non-empty stack, it's also supposed to remove that element from the stack. Here's a typical solution to this problem using TDD:
+
+<ruby>
+#typical state-based example
+def test_should_remove_top_item_when_sent_pop
+  assert_equal(stack.size, 1)
+  stack.pop
+  assert_equal(stack.size, 0)
+end
+</ruby>
+
+That is VERY tempting because it seems so simple. It tells the story we want to tell. But it does so at the expense of exposing internal state. "So what?" you may ask. "We're talking about something trivial here." you may say. "Exposing size is perfectly logical because the stack is a collection" you may add. While all those things are reasonable, this thinking almost always takes us down the slippery slope of exposing more and more state just because it makes the test easier to write.
+
+Now don't get me wrong. Tests should be easy to write. Testable code is a primary goal of what we're doing here. Whether you're doing TDD or BDD, that's absolutely key. But all to often we make bad design decisions in the name of testability, when there are perfectly reasonable alternatives right at our fingertips.
+
+So even if you buy these arguments, TDD would probably lead you to this instead:
+
+<ruby>
+#typical state-based example
+def test_should_remove_top_item_when_sent_pop
+  assert(!stack.empty?)
+  stack.pop
+  assert(stack.empty?)
+end
+</ruby>
+
+That's a little better. We're exposing state, but it's not something as specific as size. But it's still state. We can do better.
+
+What we're looking for here is observable behaviour. How does a one-element stack behave after we send it 'pop'. We've stated that the stack should be empty at that point, right? So perhaps the observable behaviour is that it acts like an empty stack:
+
+<ruby>
+specify "should raise a StackUnderflowError the second time you sent it 'pop'" do
+  @stack.pop
+  lambda { @stack.pop }.should.raise StackUnderflowError
+end
+</ruby>
+
+Run the specs (this time without the -v flag)...
+
+<pre>
+$ spec stack_spec.rb
+
+......F
+
+1)
+ExpectationNotMetError in 'A stack with one item should raise a StackUnderflowError the second time you sent it 'pop''
+<Proc> should raise <StackUnderflowError> but raised nothing
+./stack_spec.rb:44:in `should raise a StackUnderflowError the second time you sent it 'pop''
+
+Finished in 0.000948 seconds
+
+2 contexts, 7 specifications, 1 failure
+</pre>
+
+...implement just enough to meet this specification...
+
+<ruby>
+class Stack
+
+  ...
+  
+  def pop
+    raise StackUnderflowError if @item.nil?
+    item = @item
+    @item = nil
+    item
+  end
+  
+end
+</ruby>
+
+<pre>
+$ spec stack_spec.rb
+
+.......
+
+Finished in 0.000859 seconds
+
+2 contexts, 7 specifications, 0 failures
+</pre>
+
+...and all specifications are met. Let's look back at our one-item stack spec so far:
+
+<ruby>
+context "A stack with one item" do
+  
+  setup do
+    @stack = Stack.new
+    @stack.push "one item"
+  end
+
+  specify "should keep its mouth shut when you send it 'push'" do
+     lambda { @stack.push Object.new }.should.not.raise Exception
+  end
+  
+  specify "should return top when you send it 'top'" do
+    @stack.top.should.equal "one item"
+  end
+  
+  specify "should return top when you send it 'pop'" do
+    @stack.pop.should.equal "one item"
+  end
+  
+  specify "should raise a StackUnderflowError the second time you sent it 'pop'" do
+    @stack.pop
+    lambda { @stack.pop }.should.raise StackUnderflowError
+  end
+  
+end
+</ruby>
+
+See some imbalance? We've specified what happens when you send 'pop' repeatedly, but not what happens when you send 'top' repeatedly. 'top' should keep returning the same value, right?
+
+<ruby>
+context "A stack with one item" do
+  
+  ...
+  
+  specify "should return top repeatedly when you send it 'top'" do
+    @stack.top.should.equal "one item"
+    @stack.top.should.equal "one item"
+    @stack.top.should.equal "one item"
+  end
+
+  ...
+
+end
+</ruby>
+
+Run the specs (with the -v flag)...
+
+<pre>
+$ spec stack_spec.rb -v
+
+An empty stack
+- should keep its mouth shut when you send it 'push'
+- should raise a StackUnderflowError when you send it 'top'
+- should raise a StackUnderflowError when you send it 'pop'
+
+A stack with one item
+- should keep its mouth shut when you send it 'push'
+- should return top when you send it 'top'
+- should return top repeatedly when you send it 'top'
+- should return top when you send it 'pop'
+- should raise a StackUnderflowError the second time you sent it 'pop'
+
+Finished in 0.001746 seconds
+
+2 contexts, 8 specifications, 0 failures
+</pre>
+
+So in this case we did not need any additional implementation, but look at how well rounded the specification becomes.
+
+<a href="stack_03.html">Previous</a>

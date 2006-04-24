@@ -144,4 +144,5 @@ Finished in 0.0004 seconds
 
 So now we have two specifications, each with their own context. We've implemented two simple methods that satisfy the existing specifications. If you've never done any TDD before this, this may seem really odd. We all know that this isn't enough to meet the specs that we intend. But right now, at this moment, as far as the code is concerned, there are only two simple specifications. To move our implementation along, we first have to specify how we want it to behave.
 
-So what's next? <a href="stack_03.html">Move on the next page and see...</a>
+<a href="stack_01.html">Previous</a> |
+<a href="stack_03.html">Next</a>

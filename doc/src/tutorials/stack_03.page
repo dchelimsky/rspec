@@ -1,6 +1,4 @@
-h2. A Simple Stack
-
-h3. Sending <code>top</code> to an empty stack
+h2. A Simple Stack - Top
 
 What should happen when you call top on an empty stack? We could just return nil, 
 but how does the client know whether the stack was empty or contained nil as an element? 
@@ -120,3 +118,6 @@ Finished in 0.000458 seconds
 
 2 contexts, 3 specifications, 0 failures
 </pre>
+
+<a href="stack_02.html">Previous</a> |
+<a href="stack_04.html">Next</a>

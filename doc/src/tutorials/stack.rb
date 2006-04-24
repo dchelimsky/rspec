@@ -12,4 +12,11 @@ class Stack
     @item
   end
   
+  def pop
+    raise StackUnderflowError if @item.nil?
+    item = @item
+    @item = nil
+    item
+  end
+  
 end

@@ -1,4 +1,4 @@
-h2. A Simple Stack
+h2. A Simple Stack - Organization and Documentation
 
 h3. Spec organization
 
@@ -67,7 +67,7 @@ Finished in 0.000533 seconds
 2 contexts, 3 specifications, 0 failures
 </pre>
 
-We've got two contexts. In both we exercise the 'top' message, but we only exercise 'push' in one. This is a wonderful aspect of organizing the specs this way. By looking at the contexts themselves, or by looking at the generated output, and by having only one setup for each context (a guideline often suggested for xUnit, but often violated), we can clearly see the imbalance in what messages we're specifying in the different contexts.
+We've got two contexts. In both we exercise the 'top' message, but we only exercise 'push' in one. This is a wonderful aspect of organizing the specs this way. By looking at the contexts themselves, or by looking at the generated output, and by having only one setup for each context (a guideline often suggested for xUnit, but violated just as often), we can clearly see the imbalance in what messages we're specifying in the different contexts.
 
 So now, in addition to using the principle of the simplest thing to help us decide what to specify next, we've also got this feedback that tells us that we have yet to specify how a stack with one item should respond to the 'push' message. Using both tools to guide us, that is an obvious next choice.
 
@@ -119,3 +119,6 @@ Finished in 0.000657 seconds
 </pre>
 
 ...and there are no failures. So in this case, since 'push' results in the same behavior for an empty stack and a one-element stack, we don't have anything additional to implement.
+
+<a href="stack_03.html">Previous</a> |
+<a href="stack_05.html">Next</a>
