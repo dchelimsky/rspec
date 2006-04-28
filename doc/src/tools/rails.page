@@ -4,4 +4,6 @@ inMenu: true
 ---
 h2. Rails Integration
 
-Coming soon...
+Rspec's support for Rails is in a very early and experimental stage.
+If you are adventurous, you can check out the branches/ar_fixtures_facade branch in Subversion.
+See the downloads page for details.

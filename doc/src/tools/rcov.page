@@ -9,12 +9,11 @@ use the rake task to generate a coverage report. See the <a href="../rake.html">
 
 h3. Coverage threshold
 
-You can guard your codebase's coveraqge from dropping by adding the RCovVerify
-task to your Rakefile:
+You can guard your codebase's coverage from dropping by adding the 
+<notextile><a href="../rdoc/classes/RCov/VerifyTask.html">RCov::VerifyTask</a></notextile>
+task to your Rakefile. Example:
 
 <ruby file="../test/tasks/rcov_verify.rake"/>
 
 This will give you a :rcov_verify task that will fail your build if the
-coverage is below the threshold you define (the higher the better).
-
-(See the <notextile><a href="../rdoc/classes/RCov/VerifyTask.html">RDoc</a></notextile> for details)
+coverage drops below the threshold you define (the higher the better).
