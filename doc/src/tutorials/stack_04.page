@@ -98,7 +98,7 @@ The whole structure of contexts and specifications was deliberately chosen to fe
 
 We talk about tests as documentation in TDD as well. But I can tell you that when I've tried to read them as such and found myself searching through hierarchies to find the setup for a test that was failing, my eyes have just glazed over and I've ended up looking directly at the code. Serving as documentation requires of these executable specifications that they be simple, clear and easy to understand. All the context you need to understand the test should be in one place.
 
-Also, the perception that "all duplication is evil" is based on ideas like "if you have to make a change, you might not get all the places its duplicated". In the case of specifications, that doesn't really fly, because each specification is autonomous. If the rules change for a message in a given context, then you'd only want to make the change in that context.
+Also, the perception that "all duplication is evil" is based on industry-wide experience in which changes that needed to happen to duplicated code didn't happen everywhere it should have. In the case of specifications, that doesn't really fly because each specification is autonomous. If the rules change for a message in a given context, then you'd only want to make the change in that context.
 
 So we've now got 4 specifications, 2 each in 2 contexts. Run the specs...
 

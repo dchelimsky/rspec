@@ -75,7 +75,9 @@ Finished in 0.000183 seconds
 1 context, 1 specification, 0 failures
 </pre>
 
-As you can see, this reads like a specification. Now we haven't really specified anything in code yet, but we have the framework from which to begin - a named context, with a single named specification. So let's make it specify something. Just as in TDD, we want to add things one bit at a time - a little bit of specification, a little bit of code to meet that specification. Slightly departing from TDD, however, we're going to introduce a setup now. Most of the TDD (and xUnit) literature I've read suggests that we should introduce setups to eliminate duplication. In this case, because we're using contexts rather than TestCases, it makes semantic sense to set up the context.
+As you can see, this reads like a specification. This is just like the output you get from running jUnit tests through agiledox. Agiledox was an important part of the inception of BDD, so we built it right into rspec.
+
+Now we haven't really specified anything in code yet, but we have the framework from which to begin - a named context, with a single named specification. So let's make it specify something. Just as in TDD, we want to add things one bit at a time - a little bit of specification, a little bit of code to meet that specification. Slightly departing from TDD, however, we're going to introduce a setup now. Most of the TDD (and xUnit) literature I've read suggests that we should introduce setups to eliminate duplication. In this case, because we're using contexts rather than TestCases, it makes semantic sense to set up the context.
 
 In this case, the context is an empty stack, so let's set one up. 
 
@@ -147,7 +149,7 @@ Finished in 0.00022 seconds
 1 context, 1 specification, 0 failures
 </pre>
 
-We're almost there, but not quite. We still haven't specified what's supposed to happen when we send the push message to the stack. We haven't set any expectations in our specification. We need to have some sort of expectation that if not met, causes a failure when we execute the spec. So what can we expect here? The name of the spec tells us - "should keep its mouth shut". That implies that it should not react in any way - including raising an error. So let's set the expectation that there will be no error raised:
+We're almost there, but not quite. We still haven't specified what's supposed to happen when we send the push message to the stack. We haven't set any expectations in our specification. We need to have some sort of expectation that, if not met, causes a failure when we execute the spec. So what can we expect here? The name of the spec tells us - "should keep its mouth shut". That implies that it should not react in any way - including raising an error. So let's set the expectation that there will be no error raised:
 
 <ruby>
 specify "should keep its mouth shut when you send it 'push'" do
