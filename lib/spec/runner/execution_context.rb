@@ -5,8 +5,8 @@ module Spec
         @spec = spec
       end
       
-      def mock(name)
-        mock = Api::Mock.new(name)
+      def mock(name, options={})
+        mock = Api::Mock.new(name, options)
         @spec.add_mock(mock)
         mock
       end
