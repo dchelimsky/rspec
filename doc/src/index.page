@@ -37,15 +37,11 @@ New Look at Test Driven Development__</a>) of Dave's where he talked about his
 ideas for BDD and a BDD framework. One thing he mentioned was that his ideas
 would be easily implemented in Smalltalk, and probably Ruby.
 
-Steven took this as a gauntlet being thrown down and immediately scooped it up
-and in short order had the initial version of RSpec running. At that point
-Dave & Aslak got involved.
-
+Steven Baker wrote the first version of the rspec core.  Dave added mock support (based on Schmock by Ben Griffiths) and various expectations.
 Dave and David had met & talked about BDD at Agile'05 just after Dave's blog
 post (above). David started thinking about a BDD framework in C#. As fate, or
 the gods, would have it Dave & David ended up working at the same client in
-the greater Chicago area. So Dave & David & Aslak spent time together
-reworking RSpec into what you see now:
+the greater Chicago area, allowing them to explore some ideas resulting in the totally rewriting of the expectation mechanism. Aslak joined in and the three rewrote the higher level syntax and the core, reworking RSpec into what you see now:
 
 <ruby>
 context "BDD framework" do
