@@ -3,6 +3,7 @@
 == Version 0.5.4 (in SVN)
 Release notes go here
 
+* Removed most inherited instance method from Mock, making more methods mockable. [aslak_hellesoy]
 * Made the RCovVerify task part of the standard toolset. [aslak_hellesoy]
 * Documented Rake task and how to use it with Rcov [aslak_hellesoy]
 * Implemented <ruby></ruby> tags for website (hooking into ERB, RedCloth and syntax) [aslak_hellesoy]

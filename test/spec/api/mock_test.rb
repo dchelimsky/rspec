@@ -311,6 +311,7 @@ module Spec
         @mock.yield_back {|a,b|}
         a.should.equal 'wha'
         b.should.equal 'zup'
+        @mock.__verify
       end
 
       def test_should_fail_when_calling_yielding_method_with_wrong_arity
@@ -325,6 +326,12 @@ module Spec
         assert_raise(MockExpectationError) do
           @mock.yield_back
         end
+      end
+      
+      def test_should_be_able_to_mock_object_methods_such_as_send
+        @mock.should.receive(:send).with(:any_args)
+        @mock.send 'hi'
+        @mock.__verify
       end
       
     end

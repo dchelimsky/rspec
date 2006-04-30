@@ -1,6 +1,10 @@
 module Spec
   module Api
     class Mock
+      # Remove all methods so they can be mocked too
+      (public_instance_methods - ['__id__', '__send__', 'nil?']).each do |m|
+        undef_method m
+      end
 
       DEFAULT_OPTIONS = {
         :null_object => false
