@@ -58,18 +58,14 @@ module Spec
         @methods_to_respond_do.all? { |sym| value.respond_to?(sym) }
       end
     end
-  
 
-    
     class ArgumentExpectation
     
-      def self.init_class
-        @@constraint_classes = Hash.new { |hash, key| LiteralArgConstraint}
-        @@constraint_classes[:anything] = AnyArgConstraint
-        @@constraint_classes[:numeric] = NumericArgConstraint
-        @@constraint_classes[:boolean] = BooleanArgConstraint
-        @@constraint_classes[:string] = StringArgConstraint
-      end
+      @@constraint_classes = Hash.new { |hash, key| LiteralArgConstraint}
+      @@constraint_classes[:anything] = AnyArgConstraint
+      @@constraint_classes[:numeric] = NumericArgConstraint
+      @@constraint_classes[:boolean] = BooleanArgConstraint
+      @@constraint_classes[:string] = StringArgConstraint
       
       def initialize(args)
         if args == [:any_args] then @expected_params = nil
@@ -103,8 +99,6 @@ module Spec
       end
   
     end
-    
-    ArgumentExpectation.init_class
     
   end
 end

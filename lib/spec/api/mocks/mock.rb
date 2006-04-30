@@ -33,7 +33,6 @@ module Spec
       end
 
       def method_missing(sym, *args, &block)
-        # TODO: use find_expectation(sym, args) which will lookup based on sym, args and strict mode.
         if expectation = find_matching_expectation(sym, *args)
           expectation.verify_message(args, block)
         else
