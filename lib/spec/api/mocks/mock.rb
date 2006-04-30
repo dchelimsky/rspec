@@ -6,9 +6,6 @@ module Spec
         undef_method m
       end
 
-      DEFAULT_OPTIONS = {
-        :null_object => false
-      }
       # Creates a new mock with a +name+ (that will be used in error messages only)
       # Options:
       # * <tt>:null_object</tt> - if true, the mock object acts as a forgiving null object allowing any message to be sent to it.
@@ -54,6 +51,10 @@ module Spec
 
     private
 
+      DEFAULT_OPTIONS = {
+        :null_object => false
+      }
+      
       def find_matching_expectation(sym, *args)
         expectation = @expectations.find {|expectation| expectation.matches(sym, args)}
       end
