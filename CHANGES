@@ -95,23 +95,23 @@ This release improves installation and documentation, mock integration and error
 * Comparison errors now print the class name too.
 * Mocks now take an optional +options+ parameter to specify behaviour.
 * Removed __expects in favour of should_receive
-* Added line number reporting in mock error messages for unreceived message expectations (AH).
-* Added should_match and should_not_match (AH).
-* Added a +mock+ method to Spec::Context which will create mocks that autoverify (no need to call __verify) (AH).
-* Mocks now require names in the constructor to ensure sensible error messages (AH).
-* Made 'spec' executable and updated usage instructions in README accordingly (AH).
-* Made more parts of the Spec::Context API private to avoid accidental usage (AH).
+* Added line number reporting in mock error messages for unreceived message expectations (aslak_hellesoy).
+* Added should_match and should_not_match (aslak_hellesoy).
+* Added a +mock+ method to Spec::Context which will create mocks that autoverify (no need to call __verify) (aslak_hellesoy).
+* Mocks now require names in the constructor to ensure sensible error messages (aslak_hellesoy).
+* Made 'spec' executable and updated usage instructions in README accordingly (aslak_hellesoy).
+* Made more parts of the Spec::Context API private to avoid accidental usage (aslak_hellesoy).
 * Added more RDoc to Spec::Context.
 
 == Version 0.1.6
 
 More should methods.
 
-* Added should_match and should_not_match (AH).
+* Added should_match and should_not_match (aslak_hellesoy).
 
 == Version 0.1.5
 
-Included examples and tests in gem (AH).
+Included examples and tests in gem (aslak_hellesoy).
 
 == Version 0.1.4
 
@@ -127,23 +127,23 @@ Improved mocking:
 
 This release adds some improvements to the mock API and minor syntax improvements
 
-* Added Mock.should_expect for a more consistent DSL (AH).
-* Added MockExpectation.and_returns for a better DSL (AH).
-* Made Mock behave as a null object after a call to Mock.ignore_missing (AH)
-* Internal syntax improvements (AH).
-* Improved exception trace by adding exception class name to error message (AH).
-* Renamed some tests for better consistency (AH).
+* Added Mock.should_expect for a more consistent DSL (aslak_hellesoy).
+* Added MockExpectation.and_returns for a better DSL (aslak_hellesoy).
+* Made Mock behave as a null object after a call to Mock.ignore_missing (aslak_hellesoy)
+* Internal syntax improvements (aslak_hellesoy).
+* Improved exception trace by adding exception class name to error message (aslak_hellesoy).
+* Renamed some tests for better consistency (aslak_hellesoy).
 
 == Version 0.1.1
 
 This release adds some shoulds and improves error reporting
 
-* Added should_be_same_as and should_not_be_same_as (AH).
-* Improved error reporting for comparison expectations (AH).
+* Added should_be_same_as and should_not_be_same_as (aslak_hellesoy).
+* Improved error reporting for comparison expectations (aslak_hellesoy).
 
 == Version 0.1.0
 
 This is the first preview release of RSpec, a Behaviour-Driven Development library for Ruby 
 
-* Added Rake script with tasks for gems, rdoc etc (AH).
-* Added an XForge task to make release go easier (AH).
+* Added Rake script with tasks for gems, rdoc etc (aslak_hellesoy).
+* Added an XForge task to make release go easier (aslak_hellesoy).
