@@ -2,8 +2,8 @@ module Spec
   module Runner
     class Reporter
       
-      def initialize(output, verbose, backtrace_tweaker)
-        @outputter = TextOutputter.new(output)
+      def initialize(outputter, verbose, backtrace_tweaker)
+        @outputter = outputter
         @context_names = []
         @failures = []
         @spec_names = []

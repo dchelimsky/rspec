@@ -7,7 +7,7 @@ module Spec
       def setup
         @io = StringIO.new
         @backtrace_tweaker = Spec::Api::Mock.new("backtrace tweaker")
-        @reporter = Reporter.new(@io, false, @backtrace_tweaker)
+        @reporter = Reporter.new(TextOutputter.new(@io), false, @backtrace_tweaker)
       end
 
       def test_should_include_time
@@ -76,7 +76,7 @@ module Spec
 
       def setup
         @io = StringIO.new
-        @reporter = Reporter.new(@io, false, QuietBacktraceTweaker.new)
+        @reporter = Reporter.new(TextOutputter.new(@io), false, QuietBacktraceTweaker.new)
         @reporter.add_context "context"
       end
       
@@ -100,7 +100,7 @@ module Spec
 
       def setup
         @io = StringIO.new
-        @reporter = Reporter.new(@io, true, QuietBacktraceTweaker.new)
+        @reporter = Reporter.new(TextOutputter.new(@io), true, QuietBacktraceTweaker.new)
         @reporter.add_context "context"
       end
       
