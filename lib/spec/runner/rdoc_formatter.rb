@@ -1,7 +1,7 @@
 module Spec
   module Runner
     class RDocFormatter
-      def initialize(output=STDOUT)
+      def initialize(output)
         @output = output
       end
   

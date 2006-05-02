@@ -16,15 +16,15 @@ module Spec
         @out = @options.out
         @out = File.open(@out, 'w') if @out.is_a? String
         @doc = @options.doc
-        register_listener(@doc ? RDocFormatter.new(@out) : Reporter.new(TextOutputter.new(@out), options.verbose, @options.backtrace_tweaker))
+        register_reporter(@doc ? RDocFormatter.new(@out) : Reporter.new(TextOutputter.new(@out), options.verbose, @options.backtrace_tweaker))
       end
       
       def options
         @options
       end
       
-      def register_listener(listener)
-        @listener = listener
+      def register_reporter(reporter)
+        @reporter = reporter
       end
     
       def add_context(context)
@@ -44,17 +44,17 @@ module Spec
       private
       
       def run_specs
-        @listener.start number_of_specs
+        @reporter.start number_of_specs
         @contexts.each do |context|
-          context.run(@listener)
+          context.run(@reporter)
         end
-        @listener.end
-        @listener.dump
+        @reporter.end
+        @reporter.dump
       end
     
       def run_docs
         @contexts.each do |context|
-          context.run_docs(@listener)
+          context.run_docs(@reporter)
         end
       end
 
