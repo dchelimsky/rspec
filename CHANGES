@@ -3,6 +3,7 @@
 == Version 0.5.4 (in SVN)
 Release notes go here
 
+* Refactored simple_text_reporter's io logic to separate class, to ease html generation [aslak_hellesoy]
 * Use webgen's execute tag when generating website (more accurate) [aslak_hellesoy]
 * Fixed incorrect quoting of spec_opts in SpecTask [aslak_hellesoy]
 * Added new option --sweet/-s to enable underscored shoulds like 1.should_equal(1) - patch from Rich Kilmer [aslak_hellesoy]

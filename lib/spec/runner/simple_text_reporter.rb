@@ -1,9 +1,50 @@
 module Spec
   module Runner
     class SimpleTextReporter
+      class TextOutputter
+        def initialize(output)
+          @output = output
+        end
+        
+        def add_context(name, first, verbose)
+          @output << "\n" if first unless verbose
+          @output << "\n#{name}\n" if verbose
+        end
+        
+        def spec_failed(name, counter, verbose)
+          @output << "- #{name} (FAILED - #{counter})\n" if verbose
+          @output << 'F' unless verbose
+        end
+        
+        def spec_passed(name, verbose)
+          @output << "- #{name}\n" if verbose
+          @output << '.' unless verbose
+        end
+        
+        def start_dump(verbose)
+          @output << "\n" unless verbose
+        end
+        
+        def dump_failure(counter, failure)
+          @output << "\n"
+          @output << counter.to_s << ")\n"
+          @output << "#{failure.header}\n"
+          @output << "#{failure.message}\n"
+          @output << "#{failure.backtrace}\n"
+        end
+        
+        def dump_summary(duration, context_count, spec_count, failure_count)
+          @output << "\n"
+          @output << "Finished in " << (duration).to_s << " seconds\n\n"
+          @output << "#{context_count} context#{'s' unless context_count == 1}, "
+          @output << "#{spec_count} specification#{'s' unless spec_count == 1}, "
+          @output << "#{failure_count} failure#{'s' unless failure_count == 1}"
+          @output << "\n"
+        end
+      end
       
       def initialize(output, verbose, backtrace_tweaker)
-        @output = output
+        @outputter = TextOutputter.new(output)
         @context_names = []
         @failures = []
         @spec_names = []
@@ -12,8 +53,7 @@ module Spec
       end
   
       def add_context(name)
-        @output << "\n" if @context_names.empty? unless @verbose
-        @output << "\n#{name}\n" if @verbose
+        @outputter.add_context(name, @context_names.empty?, @verbose)
         @context_names << name
       end
       
@@ -35,14 +75,9 @@ module Spec
       end
   
       def dump
-        @output << "\n" unless @verbose
+        @outputter.start_dump(@verbose)
         dump_failures
-        @output << "\n"
-        @output << "Finished in " << (duration).to_s << " seconds\n\n"
-        @output << "#{@context_names.length} context#{'s' unless @context_names.length == 1 }, "
-        @output << "#{@spec_names.length} specification#{'s' unless @spec_names.length == 1 }, "
-        @output << "#{@failures.length} failure#{'s' unless @failures.length == 1 }"
-        @output << "\n"
+        @outputter.dump_summary(duration, @context_names.length, @spec_names.length, @failures.length)
       end
 
       private
@@ -50,11 +85,7 @@ module Spec
       def dump_failures
         return if @failures.empty?
         @failures.inject(1) do |index, failure|
-          @output << "\n"
-          @output << index.to_s << ")\n"
-          @output << "#{failure.header}\n"
-          @output << "#{failure.message}\n"
-          @output << "#{failure.backtrace}\n"
+          @outputter.dump_failure(index, failure)
           index + 1
         end
       end
@@ -66,15 +97,13 @@ module Spec
 
       def spec_passed(name)
         @spec_names << name
-        @output << "- #{name}\n" if @verbose
-        @output << '.' unless @verbose
+        @outputter.spec_passed(name, @verbose)
       end
 
       def spec_failed(name, failure)
         @spec_names << name
         @failures << failure
-        @output << "- #{name} (FAILED - #{@failures.length})\n" if @verbose
-        @output << 'F' unless @verbose
+        @outputter.spec_failed(name, @failures.length, @verbose)
       end
 
       class Failure
