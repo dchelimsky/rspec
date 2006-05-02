@@ -3,6 +3,8 @@
 == Version 0.5.4 (in SVN)
 Release notes go here
 
+* Fixed incorrect quoting of spec_opts in SpecTask [aslak_hellesoy]
+* Added new option --sweet/-s to enable underscored shoulds like 1.should_equal(1) - patch from Rich Kilmer [aslak_hellesoy]
 * Removed most inherited instance method from Mock, making more methods mockable. [aslak_hellesoy]
 * Made the RCovVerify task part of the standard toolset. [aslak_hellesoy]
 * Documented Rake task and how to use it with Rcov [aslak_hellesoy]

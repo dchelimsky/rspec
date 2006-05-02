@@ -41,9 +41,7 @@ module Spec
             # act as null object if method is missing and we ignore them. return value too!
             @options[:null_object] ? self : super(sym, *args, &block)
           rescue NoMethodError
-            
             arg_message = args.collect{|arg| "<#{arg}:#{arg.class.name}>"}.join(", ")
-            
             Kernel::raise Spec::Api::MockExpectationError, "Mock '#{@name}' received unexpected message '#{sym}' with [#{arg_message}]"
           end
         end

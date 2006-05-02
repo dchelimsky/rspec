@@ -93,7 +93,7 @@ module Rake
         @ruby_opts.unshift( '--exclude "lib\/spec\/.*"' ) if @rcov
         run interpreter, @ruby_opts.join(" ") +
           " \"#{spec}\" " +
-          " \"#{@spec_opts.join(' ')}\" " +
+          " #{@spec_opts.join(' ')} " +
           file_prefix +
           file_list.collect { |fn| "\"#{fn}\"" }.join(' ') +
           redirect
