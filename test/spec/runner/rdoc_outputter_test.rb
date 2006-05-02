@@ -1,11 +1,11 @@
 require File.dirname(__FILE__) + '/../../test_helper'
 module Spec
   module Runner
-    class RDocFormatterTest < Test::Unit::TestCase
+    class RDocOutputterTest < Test::Unit::TestCase
 
       def setup
         @io = StringIO.new
-        @formatter = RDocFormatter.new(@io)
+        @formatter = RDocOutputter.new(@io)
       end
 
       def test_should_push_out_context

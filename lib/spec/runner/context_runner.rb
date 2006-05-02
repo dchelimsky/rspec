@@ -16,7 +16,7 @@ module Spec
         @out = @options.out
         @out = File.open(@out, 'w') if @out.is_a? String
         @doc = @options.doc
-        register_reporter(@doc ? RDocFormatter.new(@out) : Reporter.new(TextOutputter.new(@out), options.verbose, @options.backtrace_tweaker))
+        register_reporter(@doc ? RDocOutputter.new(@out) : Reporter.new(TextOutputter.new(@out), options.verbose, @options.backtrace_tweaker))
       end
       
       def options
