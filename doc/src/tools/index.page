@@ -30,11 +30,8 @@ Any number of files and/or directories can be provided, all ruby source files
 that are found are loaded. Running spec on the previous example results in:
 
 <pre>
-..................
-
-Finished in 0.007523 seconds
-
-4 contexts, 18 specifications, 0 failures
+bin/spec --sweet examples
+{execute: ../bin/spec --sweet ../examples}
 </pre>
 
 Very simple and to the point. Passing specifications are indicated by a '.',
@@ -42,81 +39,26 @@ failing ones by a 'F'. Note that failure indicates a violated expectation as
 well as an unexpected exception being raised.  Here's an example with a failing specification:
 
 <pre>
-$ bin/spec failing_examples/team_spec.rb   
-
-F.
-
-1)
-<Team> should have 3 players (has 0) (Spec::Api::ExpectationNotMetError)
-./failing_examples/team_spec.rb:23:in `A new team should have 3 players'
-
-Finished in 0.000386 seconds
-
-1 context, 2 specifications, 1 failure
+bin/spec --sweet failing_examples/stack_spec.rb
+{execute: ../bin/spec --sweet ../failing_examples/stack_spec.rb}
 </pre>
 
-In this case, the context is named "A new team" and the specification is
-named "should have 3 players". These two are concatenated on the first line of the backtrace.
+In this case, the context is named "An almost full stack (with one item less than capacity)" 
+and the specification is named "should return top when sent pop". These two are concatenated 
+on the first line of the backtrace.
 
 h3. -v, --verbose
 
 Using this option provides more information:
 
 <pre>
-An empty stack 
-- should accept an item when sent push 
-- should complain when sent top 
-- should complain when sent pop  
-
-A stack with one item 
-- should accept an item when sent push 
-- should return top when sent top 
-- should not remove top when sent top 
-- should return top when sent pop 
-- should remove top when sent pop  
-
-An almost full stack (with one item less than capacity) 
-- should accept an item when sent push 
-- should return top when sent top 
-- should not remove top when sent top 
-- should return top when sent pop 
-- should remove top when sent pop  
-
-A full stack 
-- should complain on push 
-- should return top when sent top 
-- should not remove top when sent top 
-- should return top when sent pop 
-- should remove top when sent pop
-
-Finished in 0.013635 seconds
-
-4 contexts, 18 specifications, 0 failures
-</pre>
-
-Similar, here is a failing specification when the verbose opton is used:
-
-<pre>
 $ bin/spec failing_examples/team_spec.rb -v
 
-A new team
-- should have 3 players (FAILED - 1)
-- should have no players
-
-
-1)
-<Team> should have 3 players (has 0) (Spec::Api::ExpectationNotMetError)
-./failing_examples/team_spec.rb:23:in `A new team should have 3 players'
-
-Finished in 0.000452 seconds
-
-1 context, 2 specifications, 1 failure
+{execute: ../bin/spec ../failing_examples/team_spec.rb -v}
 </pre>
 
 The spec command does double duty as documentation generation from a set of
 specifications as well as running them against your code.
-
-h3. A note on exception backtraces.
 
 h3. -b, --backtrace
 
@@ -127,27 +69,14 @@ you can use -b or --backtrace:
 <pre>
 $ bin/spec failing_examples/team_spec.rb -b
 
-F.
-
-1)
-<Team> should have 3 players (has 0) (Spec::Api::ExpectationNotMetError)
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/api/helper/should_base.rb:33:in `fail_with_message'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/api/helper/have_helper.rb:13:in `method_missing'
-./failing_examples/team_spec.rb:23:in `A new team should have 3 players (failing example)'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/instance_exec.rb:9:in `instance_exec'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/specification.rb:17:in `run'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context.rb:23:in `run'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context.rb:22:in `run'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context_runner.rb:50:in `run_specs'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context_runner.rb:49:in `run_specs'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/lib/spec/runner/context_runner.rb:41:in `run'
-/usr/local/lib/ruby/gems/1.8/gems/rspec-0.5.4/bin/spec:16
-/usr/local/bin/spec:18
-
-Finished in 0.000385 seconds
-
-1 context, 2 specifications, 1 failure
+{execute: ../bin/spec ../failing_examples/team_spec.rb -b}
 </pre>
+
+h3. -s, --sweet
+
+This is enables the syntactic sugar that allows usage of should_* instead of should.*
+
+See <notextile><a href="../documentation/underscores.html">Underscore sugar</a></notextile> for details.
 
 h3. -d, --doc
 
@@ -156,28 +85,7 @@ an rdoc input file. For example here is the result of running spec -d on the
 previous example:
 
 <pre>
-# An empty stack 
-# * should accept an item when sent push 
-# * should complain when sent top 
-# * should complain when sent pop 
-# A stack with one item 
-# * should accept an item when sent push 
-# * should return top when sent top 
-# * should not remove top when sent top 
-# * should return top when sent pop 
-# * should remove top when sent pop 
-# An almost full stack (with one item less than capacity) 
-# * should accept an item when sent push 
-# * should return top when sent top 
-# * should not remove top when sent top 
-# * should return top when sent pop 
-# * should remove top when sent pop 
-# A full stack 
-# * should complain on push 
-# * should return top when sent top 
-# * should not remove top when sent top 
-# * should return top when sent pop 
-# * should remove top when sent pop
+{includeFile: {filename: ../../../EXAMPLES.rd, processOutput: false}}
 </pre>
 
-Rdoc renders this as "this":rdoc-output/index.html.
+Rdoc renders this as "this":../rdoc/files/EXAMPLES_RD.html.
