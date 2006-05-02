@@ -76,7 +76,7 @@ module Spec
 
       def setup
         @io = StringIO.new
-        @reporter = SimpleTextReporter.new(@io)
+        @reporter = SimpleTextReporter.new(@io, false, QuietBacktraceTweaker.new)
         @reporter.add_context "context"
       end
       
@@ -100,7 +100,7 @@ module Spec
 
       def setup
         @io = StringIO.new
-        @reporter = SimpleTextReporter.new(@io, true)
+        @reporter = SimpleTextReporter.new(@io, true, QuietBacktraceTweaker.new)
         @reporter.add_context "context"
       end
       

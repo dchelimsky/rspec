@@ -1,7 +1,8 @@
 module Spec
   module Runner
     class SimpleTextReporter
-      def initialize(output=STDOUT,verbose=false,backtrace_tweaker=QuietBacktraceTweaker.new)
+      
+      def initialize(output, verbose, backtrace_tweaker)
         @output = output
         @context_names = []
         @failures = []
