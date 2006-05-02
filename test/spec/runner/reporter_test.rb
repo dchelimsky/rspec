@@ -2,12 +2,12 @@ require File.dirname(__FILE__) + '/../../test_helper'
 
 module Spec
   module Runner
-    class SimpleTextReporterTest < Test::Unit::TestCase
+    class ReporterTest < Test::Unit::TestCase
       
       def setup
         @io = StringIO.new
         @backtrace_tweaker = Spec::Api::Mock.new("backtrace tweaker")
-        @reporter = SimpleTextReporter.new(@io, false, @backtrace_tweaker)
+        @reporter = Reporter.new(@io, false, @backtrace_tweaker)
       end
 
       def test_should_include_time
@@ -72,11 +72,11 @@ module Spec
 
     end
 
-    class SimpleTextReporterQuietOutputTest < Test::Unit::TestCase
+    class ReporterQuietOutputTest < Test::Unit::TestCase
 
       def setup
         @io = StringIO.new
-        @reporter = SimpleTextReporter.new(@io, false, QuietBacktraceTweaker.new)
+        @reporter = Reporter.new(@io, false, QuietBacktraceTweaker.new)
         @reporter.add_context "context"
       end
       
@@ -96,11 +96,11 @@ module Spec
       
     end
 
-    class SimpleTextReporterVerboseOutputTest < Test::Unit::TestCase
+    class ReporterVerboseOutputTest < Test::Unit::TestCase
 
       def setup
         @io = StringIO.new
-        @reporter = SimpleTextReporter.new(@io, true, QuietBacktraceTweaker.new)
+        @reporter = Reporter.new(@io, true, QuietBacktraceTweaker.new)
         @reporter.add_context "context"
       end
       
