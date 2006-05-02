@@ -1,15 +1,18 @@
 index.page:
   orderInfo: 10
 
-rake.page:
+spec.page:
   orderInfo: 11
 
-rcov.page:
+rake.page:
   orderInfo: 12
 
-test2rspec.page:
+rcov.page:
   orderInfo: 13
 
-rails.page:
+test2rspec.page:
   orderInfo: 14
+
+rails.page:
+  orderInfo: 15
 

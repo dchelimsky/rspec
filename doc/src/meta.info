@@ -6,28 +6,28 @@ examples.page:
 
 tutorials:
   title: Tutorial
-  orderInfo: 3
+  orderInfo: 5
 
 documentation:
   title: Documentation
-  orderInfo: 4
+  orderInfo: 6
 
 download.html:
   title: Download
   inMenu: true
   dest: http://rubyforge.org/frs/?group_id=797
-  orderInfo: 5
+  orderInfo: 7
 
 tools:
   title: Tools
-  orderInfo: 6
+  orderInfo: 8
 
 core_team.page:
-  orderInfo: 7
+  orderInfo: 9
 
 community.html:
   title: Community
   inMenu: true
   dest: http://rubyforge.org/projects/rspec
-  orderInfo: 8
+  orderInfo: 10
   
