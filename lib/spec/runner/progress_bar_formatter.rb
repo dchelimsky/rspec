@@ -1,23 +1,24 @@
 module Spec
   module Runner
-    class SpecdocFormatter < BaseTextFormatter
+    class ProgressBarFormatter < BaseTextFormatter
       def initialize(output)
         @output = output
       end
       
       def add_context(name, first)
-        @output << "\n#{name}\n"
+        @output << "\n" if first
       end
       
       def spec_failed(name, counter)
-        @output << "- #{name} (FAILED - #{counter})\n"
+        @output << 'F'
       end
       
       def spec_passed(name)
-        @output << "- #{name}\n"
+        @output << '.'
       end
       
       def start_dump
+        @output << "\n"
       end
     end
   end

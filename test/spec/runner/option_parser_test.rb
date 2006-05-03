@@ -26,19 +26,14 @@ module Spec
         assert(!options.verbose)
       end
 
-      def test_verbose_should_be_settable
-        options = OptionParser.parse(["--verbose"], false, @err, @out)
-        assert(options.verbose)
-      end
-
       def test_dry_run_should_be_settable
         options = OptionParser.parse(["--dry-run"], false, @err, @out)
         assert(options.dry_run)
       end
 
-      def test_should_use_specdoc_formatter_by_default
+      def test_should_use_progress_bar_formatter_by_default
         options = OptionParser.parse([], false, @err, @out)
-        assert_equal(SpecdocFormatter, options.formatter_type)
+        assert_equal(ProgressBarFormatter, options.formatter_type)
       end
       
       def test_should_use_specdoc_formatter_when_format_is_specdoc

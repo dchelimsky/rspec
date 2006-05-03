@@ -2,11 +2,11 @@ require File.dirname(__FILE__) + '/../../test_helper'
 
 module Spec
   module Runner
-    class QuietFailureDumpTest < Test::Unit::TestCase
+    class ProgressBarFormatterTest < Test::Unit::TestCase
 
       def setup
         @io = StringIO.new
-        @reporter = Reporter.new(SpecdocFormatter.new(@io, false), false, QuietBacktraceTweaker.new)
+        @reporter = Reporter.new(ProgressBarFormatter.new(@io), QuietBacktraceTweaker.new)
         @reporter.add_context "context"
       end
       
@@ -71,7 +71,7 @@ module Spec
 
       def setup
         @io = StringIO.new
-        @reporter = Reporter.new(SpecdocFormatter.new(@io, true), true, QuietBacktraceTweaker.new)
+        @reporter = Reporter.new(SpecdocFormatter.new(@io), QuietBacktraceTweaker.new)
         @reporter.add_context "context"
       end
 

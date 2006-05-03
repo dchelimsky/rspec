@@ -5,7 +5,7 @@ module Spec
 
       def setup
         @io = StringIO.new
-        @formatter = RdocFormatter.new(@io, false)
+        @formatter = RdocFormatter.new(@io)
       end
 
       def test_should_push_out_context
@@ -21,6 +21,16 @@ module Spec
       def test_should_push_out_failed_spec
         @formatter.spec_failed("spec", 98)
         assert_equal("# * spec [98 - FAILED]\n", @io.string)
+      end
+      
+      def test_should_produce_no_summary
+        @formatter.dump_summary(nil,nil,nil,nil)
+        assert(@io.string.empty?)
+      end
+
+      def test_should_produce_nothing_on_start_dump
+        @formatter.start_dump
+        assert(@io.string.empty?)
       end
 
     end

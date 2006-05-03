@@ -4,16 +4,16 @@ module Spec
       # TODO: remove this attr_reader!!
       attr_reader :formatter
       
-      def initialize(formatter, verbose, backtrace_tweaker)
+      def initialize(formatter, backtrace_tweaker)
         @formatter = formatter
         @context_names = []
         @failures = []
         @spec_names = []
-        @verbose = verbose
         @backtrace_tweaker = backtrace_tweaker
       end
   
       def add_context(name)
+        #TODO - @context_names.empty? tells the formatter whether this is the first context or not - that's a little slippery
         @formatter.add_context(name, @context_names.empty?)
         @context_names << name
       end

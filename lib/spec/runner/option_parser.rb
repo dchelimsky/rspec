@@ -8,15 +8,15 @@ module Spec
       def self.create_context_runner(args, standalone, err, out=STDOUT)
         options = parse(args, standalone, err, out)
 
-        formatter = options.formatter_type.new(options.out, options.verbose)
-        reporter = Reporter.new(formatter, options.verbose, options.backtrace_tweaker) 
+        formatter = options.formatter_type.new(options.out)
+        reporter = Reporter.new(formatter, options.backtrace_tweaker) 
         ContextRunner.new(reporter, standalone, options.dry_run)
       end
 
       def self.parse(args, standalone, err, out)
         options = OpenStruct.new
         options.out = out
-        options.formatter_type = SpecdocFormatter
+        options.formatter_type = ProgressBarFormatter
         options.backtrace_tweaker = QuietBacktraceTweaker.new
 
         opts = ::OptionParser.new do |opts|
@@ -34,10 +34,6 @@ module Spec
             end
           end
 
-          opts.on("-v", "--verbose", "Extra verbose output") do
-            options.verbose = true
-          end
-          
           opts.on("-d", "--dry-run", "Don't execute specs") do
             options.dry_run = true
           end

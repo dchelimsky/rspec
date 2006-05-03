@@ -1,8 +1,8 @@
 module Spec
   module Runner
     class RdocFormatter
-      def initialize(output, verbose)
-        @output, @verbose = output, verbose
+      def initialize(output)
+        @output = output
       end
   
       def add_context(name, first)

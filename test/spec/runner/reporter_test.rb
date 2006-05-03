@@ -7,117 +7,95 @@ module Spec
       def setup
         @io = StringIO.new
         @backtrace_tweaker = Spec::Api::Mock.new("backtrace tweaker")
-        @reporter = Reporter.new(SpecdocFormatter.new(@io, true), false, @backtrace_tweaker)
+        @formatter = Spec::Api::Mock.new("formatter")
+        @reporter = Reporter.new(@formatter, @backtrace_tweaker)
       end
 
-      def test_should_include_time
+      def test_should_push_time_to_reporter
+        @formatter.should_receive(:start_dump)
+        @formatter.should_receive(:dump_summary) do |time, a, b, c|
+          assert_match(/[0-9].[0-9|e|-]+/, time.to_s)
+        end
         @reporter.start
         @reporter.end
         @reporter.dump
-        assert_match(/Finished in [0-9].[0-9|e|-]+ seconds/, @io.string)
       end
       
-      def test_should_output_stats_even_with_no_data
+      def test_should_push_stats_to_reporter_even_with_no_data
+        @formatter.should_receive(:start_dump)
+        @formatter.should_receive(:dump_summary).with(:anything, 0, 0, 0)
         @reporter.dump
-        assert_match(/Finished in 0.0 seconds/, @io.string)
-        assert_match(/0 contexts, 0 specifications, 0 failures/, @io.string)
+      end
+      
+      def test_should_push_context_to_formatter
+        @formatter.should_receive(:add_context).never
+        @reporter.add_context "context"
       end
   
-      def test_should_account_for_context_in_stats_for_pass
+      def test_should_account_for_context_in_stats
+        @formatter.should_receive(:add_context).with("context", true)
         @reporter.add_context "context"
-        @reporter.dump
-        assert_match(/1 context, 0 specifications, 0 failures/, @io.string)
       end
   
       def test_should_account_for_spec_in_stats_for_pass
-        @reporter.add_spec Specification.new("spec")
+        spec = Specification.new("spec")
+        @formatter.should_receive(:spec_passed)
+        @formatter.should_receive(:start_dump)
+        @formatter.should_receive(:dump_summary).with(:anything, 0, 1, 0)
+        @reporter.add_spec spec
         @reporter.dump
-        assert_match(/0 contexts, 1 specification, 0 failures/, @io.string)
       end
   
       def test_should_account_for_spec_and_error_in_stats_for_pass
+        spec = Specification.new("spec")
+        @formatter.should_receive(:add_context)
+        @formatter.should_receive(:spec_failed).with(spec, 1)
+        @formatter.should_receive(:start_dump)
+        @formatter.should_receive(:dump_failure).with(1, :anything)
+        @formatter.should_receive(:dump_summary).with(:anything, 1, 1, 1)
         @backtrace_tweaker.should.receive(:tweak_backtrace)
         @reporter.add_context "context"
-        @reporter.add_spec Specification.new("spec"), RuntimeError.new
+        @reporter.add_spec spec, RuntimeError.new
         @reporter.dump
-        assert_match(/1 context, 1 specification, 1 failure/, @io.string)
       end
       
       def test_should_handle_multiple_contexts_same_name
+        @formatter.should_receive(:add_context).with("context", true)
+        @formatter.should_receive(:add_context).with("context", false).exactly(2).times
+        @formatter.should_receive(:start_dump)
+        @formatter.should_receive(:dump_summary).with(:anything, 3, 0, 0)
         @reporter.add_context "context"
         @reporter.add_context "context"
         @reporter.add_context "context"
         @reporter.dump
-        assert_match(/3 contexts, 0 specifications, 0 failures/, @io.string)
       end
   
       def test_should_handle_multiple_specs_same_name
+        error = RuntimeError.new
+        @formatter.should_receive(:add_context).exactly(2).times
+        @formatter.should_receive(:spec_passed).with("spec").exactly(2).times
+        @formatter.should_receive(:spec_failed).with("spec", 1)
+        @formatter.should_receive(:spec_failed).with("spec", 2)
+        @formatter.should_receive(:dump_failure).exactly(2).times
+        @formatter.should_receive(:start_dump)
+        @formatter.should_receive(:dump_summary).with(:anything, 2, 4, 2)
         @backtrace_tweaker.should.receive(:tweak_backtrace)
         @reporter.add_context "context"
         @reporter.add_spec "spec"
-        @reporter.add_spec "spec", RuntimeError.new
+        @reporter.add_spec "spec", error
         @reporter.add_context "context"
         @reporter.add_spec "spec"
-        @reporter.add_spec "spec", RuntimeError.new
+        @reporter.add_spec "spec", error
         @reporter.dump
-        assert_match(/2 contexts, 4 specifications, 2 failures/, @io.string)
       end
       
       def test_should_delegate_to_backtrace_tweaker
+        @formatter.should_receive(:add_context)
+        @formatter.should_receive(:spec_failed)
         @backtrace_tweaker.should.receive(:tweak_backtrace)
         @reporter.add_context "context"
         @reporter.add_spec "spec", RuntimeError.new
         @backtrace_tweaker.__verify
-      end
-
-    end
-
-    class ReporterQuietOutputTest < Test::Unit::TestCase
-
-      def setup
-        @io = StringIO.new
-        @reporter = Reporter.new(SpecdocFormatter.new(@io, false), false, QuietBacktraceTweaker.new)
-        @reporter.add_context "context"
-      end
-      
-      def test_should_remain_silent_when_context_name_provided
-        assert_equal("\n", @io.string)
-      end
-      
-      def test_should_output_dot_when_spec_passed
-        @reporter.add_spec "spec"
-        assert_equal("\n.", @io.string)
-      end
-
-      def test_should_output_F_when_spec_failed
-        @reporter.add_spec "spec", RuntimeError.new
-        assert_equal("\nF", @io.string)
-      end
-      
-    end
-
-    class ReporterVerboseOutputTest < Test::Unit::TestCase
-
-      def setup
-        @io = StringIO.new
-        @reporter = Reporter.new(SpecdocFormatter.new(@io, true), true, QuietBacktraceTweaker.new)
-        @reporter.add_context "context"
-      end
-      
-      def test_should_output_when_context_name_provided
-        assert_match(/\ncontext\n/, @io.string)
-      end
-      
-      def test_should_output_spec_name_when_spec_passed
-        @reporter.add_spec "spec"
-        assert_match(/\ncontext\n/, @io.string)
-        assert_match(/- spec\n/, @io.string)
-      end
-
-      def test_should_output_failure_when_spec_failed
-        @reporter.add_spec "spec", RuntimeError.new
-        assert_match(/\ncontext\n/, @io.string)
-        assert_match(/- spec \(FAILED - 1\)\n/, @io.string)
       end
 
     end
