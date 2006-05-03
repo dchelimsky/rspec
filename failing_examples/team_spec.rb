@@ -20,7 +20,7 @@ context "A new team" do
   end
   
   specify "should have 3 players (failing example)" do
-    @team.should.have(3).players
+    @team.should_have(3).players
   end
   
   specify "should have no players" do

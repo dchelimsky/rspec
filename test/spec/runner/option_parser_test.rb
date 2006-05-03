@@ -85,10 +85,6 @@ module Spec
         options = OptionParser.parse(["--backtrace"], false, @err, @out)
         assert options.backtrace_tweaker.instance_of?(NoisyBacktraceTweaker)
       end
-      
-      def test_sweetener_should_be_required_with_sweet
-        options = OptionParser.parse(["--sweet"], false, @err, @out)
-      end
     end
   end
 end

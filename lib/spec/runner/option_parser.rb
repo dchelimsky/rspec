@@ -29,10 +29,6 @@ module Spec
             options.backtrace_tweaker = NoisyBacktraceTweaker.new
           end
           
-          opts.on("-s", "--sweet", "Enable should_* syntax") do
-            require 'spec/api/sweetener'
-          end
-          
           opts.on("-d", "--doc", "Output specdoc only") do
             options.doc = true
           end

@@ -1,8 +1,7 @@
 module Spec
   module Api
     # This module, which is included in Object and
-    # Spec::Api::Mock when <tt>--sweet</tt> is specified,
-    # will allow usage of should_* instead of should.*
+    # Spec::Api::Mock supports usage of should_* instead of should.*
     module Sweetener
       alias_method :__orig_method_missing, :method_missing
       def method_missing(method, *args, &block)
