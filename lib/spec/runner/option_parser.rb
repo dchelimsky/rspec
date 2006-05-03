@@ -32,6 +32,7 @@ module Spec
               when 'specdoc' then SpecdocFormatter
               when 'rdoc'    then RdocFormatter
             end
+            options.dry_run = true if format == 'rdoc'
           end
 
           opts.on("-d", "--dry-run", "Don't execute specs") do

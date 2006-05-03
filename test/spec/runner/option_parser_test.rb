@@ -46,6 +46,11 @@ module Spec
         assert_equal(RdocFormatter, options.formatter_type)
       end
       
+      def test_should_select_dry_run_for_rdoc_formatter
+        options = OptionParser.parse(["--format","rdoc"], false, @err, @out)
+        assert(options.dry_run)
+      end
+      
       def test_should_print_usage_to_err_if_no_dir_specified
         options = OptionParser.parse([], false, @err, @out)
         assert_match(/Usage: spec/, @err.string)
