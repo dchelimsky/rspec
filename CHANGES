@@ -6,53 +6,53 @@ Release notes go here
 * -v, --version now both mean the same thing
 * For what was verbose output (-v), use --format specdoc or -f s
 * --format rdoc always runs in dry-run mode
-* Removed references to --sugar, which is now gone (underscores are enabled by default) [aslak_hellesoy]
-* Removed --doc and added --formatter and --dry-run [aslak_hellesoy]
-* Refactored towards more pluggable formatters [aslak_hellesoy]
-* Refactored simple_text_reporter's io logic to separate class, to ease html generation [aslak_hellesoy]
-* Use webgen's execute tag when generating website (more accurate) [aslak_hellesoy]
-* Fixed incorrect quoting of spec_opts in SpecTask [aslak_hellesoy]
-* Added new option --sweet/-s to enable underscored shoulds like 1.should_equal(1) - patch from Rich Kilmer [aslak_hellesoy]
-* Removed most inherited instance method from Mock, making more methods mockable. [aslak_hellesoy]
-* Made the RCovVerify task part of the standard toolset. [aslak_hellesoy]
-* Documented Rake task and how to use it with Rcov [aslak_hellesoy]
-* Implemented <ruby></ruby> tags for website (hooking into ERB, RedCloth and syntax) [aslak_hellesoy]
-* RSpec Rake task now takes spec_opts and out params so it can be used for doc generation [aslak_hellesoy]
-* RCov integration for RSpec Rake task (#4058) [aslak_hellesoy]
-* Group all results instead of printing them several times (#4057) [aslak_hellesoy]
-* Remove mock.rb from backtrace [aslak_hellesoy]
-* Mocks can now yield [aslak_hellesoy]
-* should.not.raise reports actual error rather than specified error class [dchelimsky]
-* backtrace shows context name and spec name [dchelimsky]
-* backtrace can run in quiet or verbose mode [dchelimsky]
-* errors in setup or teardown are reported as happening in setup or teardown (not in the specification) [dchelimsky]
-* split examples into examples (passing) and failing_examples [dchelimsky]
+* Removed references to --sugar, which is now gone (underscores are enabled by default)
+* Removed --doc and added --formatter and --dry-run
+* Refactored towards more pluggable formatters
+* Refactored simple_text_reporter's io logic to separate class, to ease html generation
+* Use webgen's execute tag when generating website (more accurate)
+* Fixed incorrect quoting of spec_opts in SpecTask
+* Added new option --sweet/-s to enable underscored shoulds like 1.should_equal(1) - patch from Rich Kilmer
+* Removed most inherited instance method from Mock, making more methods mockable.
+* Made the RCovVerify task part of the standard toolset.
+* Documented Rake task and how to use it with Rcov
+* Implemented <ruby></ruby> tags for website (hooking into ERB, RedCloth and syntax)
+* RSpec Rake task now takes spec_opts and out params so it can be used for doc generation
+* RCov integration for RSpec Rake task (#4058)
+* Group all results instead of printing them several times (#4057)
+* Remove mock.rb from backtrace
+* Mocks can now yield
+* should.not.raise reports actual error rather than specified error class
+* backtrace shows context name and spec name
+* backtrace can run in quiet or verbose mode
+* errors in setup or teardown are reported as happening in setup or teardown (not in the specification)
+* split examples into examples (passing) and failing_examples
 
 == Version 0.5.3
 The "hurry up, CoR is in two days" release.
 
-* Don't run rcov by default [aslak_hellesoy]
-* Make separate task for running tests with RCov [aslak_hellesoy]
-* Added Rake task to fail build if coverage drops below a certain threshold [aslak_hellesoy]
-* Even more failure output cleanup (simplification) [dchelimsky]
-* Added duck_type constraint for mocks [dchelimsky]
+* Don't run rcov by default
+* Make separate task for running tests with RCov
+* Added Rake task to fail build if coverage drops below a certain threshold
+* Even more failure output cleanup (simplification)
+* Added duck_type constraint for mocks
 
 == Version 0.5.2
 This release has minor improvements to the commandline and fixes some gem warnings
 
-* Readded README to avoid RDoc warnings [aslak_hellesoy]
-* Added --version switch to commandline [aslak_hellesoy]
-* More changes to the mock API [dastels], [dchelimsky]
+* Readded README to avoid RDoc warnings
+* Added --version switch to commandline
+* More changes to the mock API
 
 == Version 0.5.1
 This release is the first release of RSpec with a new website. It will look better soon.
 
-* Added initial documentation for API [dastels]
-* Added website based on webgen [aslak_hellesoy]
-* Modified test task to use rcov [aslak_hellesoy]
-* Deleted unused code (thanks, rcov!) [aslak_hellesoy]
-* Various changes to the mock API [dastels], [dchelimsky]
-* Various improvements to failure reporting [dchelimsky]
+* Added initial documentation for API
+* Added website based on webgen
+* Modified test task to use rcov
+* Deleted unused code (thanks, rcov!)
+* Various changes to the mock API,
+* Various improvements to failure reporting
 
 == Version 0.5.0
 This release introduces a new API and obsolesces previous versions.
@@ -102,23 +102,23 @@ This release improves installation and documentation, mock integration and error
 * Comparison errors now print the class name too.
 * Mocks now take an optional +options+ parameter to specify behaviour.
 * Removed __expects in favour of should_receive
-* Added line number reporting in mock error messages for unreceived message expectations [aslak_hellesoy].
-* Added should_match and should_not_match [aslak_hellesoy].
-* Added a +mock+ method to Spec::Context which will create mocks that autoverify (no need to call __verify) [aslak_hellesoy].
-* Mocks now require names in the constructor to ensure sensible error messages [aslak_hellesoy].
-* Made 'spec' executable and updated usage instructions in README accordingly [aslak_hellesoy].
-* Made more parts of the Spec::Context API private to avoid accidental usage [aslak_hellesoy].
+* Added line number reporting in mock error messages for unreceived message expectations.
+* Added should_match and should_not_match.
+* Added a +mock+ method to Spec::Context which will create mocks that autoverify (no need to call __verify).
+* Mocks now require names in the constructor to ensure sensible error messages.
+* Made 'spec' executable and updated usage instructions in README accordingly.
+* Made more parts of the Spec::Context API private to avoid accidental usage.
 * Added more RDoc to Spec::Context.
 
 == Version 0.1.6
 
 More should methods.
 
-* Added should_match and should_not_match [aslak_hellesoy].
+* Added should_match and should_not_match.
 
 == Version 0.1.5
 
-Included examples and tests in gem [aslak_hellesoy].
+Included examples and tests in gem.
 
 == Version 0.1.4
 
@@ -134,23 +134,23 @@ Improved mocking:
 
 This release adds some improvements to the mock API and minor syntax improvements
 
-* Added Mock.should_expect for a more consistent DSL [aslak_hellesoy].
-* Added MockExpectation.and_returns for a better DSL [aslak_hellesoy].
-* Made Mock behave as a null object after a call to Mock.ignore_missing [aslak_hellesoy]
-* Internal syntax improvements [aslak_hellesoy].
-* Improved exception trace by adding exception class name to error message [aslak_hellesoy].
-* Renamed some tests for better consistency [aslak_hellesoy].
+* Added Mock.should_expect for a more consistent DSL.
+* Added MockExpectation.and_returns for a better DSL.
+* Made Mock behave as a null object after a call to Mock.ignore_missing
+* Internal syntax improvements.
+* Improved exception trace by adding exception class name to error message.
+* Renamed some tests for better consistency.
 
 == Version 0.1.1
 
 This release adds some shoulds and improves error reporting
 
-* Added should_be_same_as and should_not_be_same_as [aslak_hellesoy].
-* Improved error reporting for comparison expectations [aslak_hellesoy].
+* Added should_be_same_as and should_not_be_same_as.
+* Improved error reporting for comparison expectations.
 
 == Version 0.1.0
 
 This is the first preview release of RSpec, a Behaviour-Driven Development library for Ruby 
 
-* Added Rake script with tasks for gems, rdoc etc [aslak_hellesoy].
-* Added an XForge task to make release go easier [aslak_hellesoy].
+* Added Rake script with tasks for gems, rdoc etc.
+* Added an XForge task to make release go easier.
