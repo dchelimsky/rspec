@@ -27,8 +27,8 @@ module Spec
             options.backtrace_tweaker = NoisyBacktraceTweaker.new
           end
           
-          opts.on("-f", "--formatter [specdoc|rdoc]", "Output format") do |formatter_name|
-            options.formatter_type = case(formatter_name)
+          opts.on("-f", "--format [specdoc|rdoc]", "Output format") do |format|
+            options.formatter_type = case(format)
               when 'specdoc' then SpecdocFormatter
               when 'rdoc'    then RdocFormatter
             end

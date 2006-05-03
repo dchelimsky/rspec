@@ -42,12 +42,12 @@ module Spec
       end
       
       def test_should_use_specdoc_formatter_when_format_is_specdoc
-        options = OptionParser.parse(["--formatter=specdoc"], false, @err, @out)
+        options = OptionParser.parse(["--format","specdoc"], false, @err, @out)
         assert_equal(SpecdocFormatter, options.formatter_type)
       end
 
       def test_should_use_rdoc_formatter_when_format_is_rdoc
-        options = OptionParser.parse(["--formatter=rdoc"], false, @err, @out)
+        options = OptionParser.parse(["--format","rdoc"], false, @err, @out)
         assert_equal(RdocFormatter, options.formatter_type)
       end
       
