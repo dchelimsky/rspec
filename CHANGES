@@ -6,13 +6,11 @@ Release notes go here
 * -v, --version now both mean the same thing
 * For what was verbose output (-v), use --format specdoc or -f s
 * --format rdoc always runs in dry-run mode
-* Removed references to --sugar, which is now gone (underscores are enabled by default)
-* Removed --doc and added --formatter and --dry-run
+* Removed --doc and added --format and --dry-run
 * Refactored towards more pluggable formatters
-* Refactored simple_text_reporter's io logic to separate class, to ease html generation
 * Use webgen's execute tag when generating website (more accurate)
 * Fixed incorrect quoting of spec_opts in SpecTask
-* Added new option --sweet/-s to enable underscored shoulds like 1.should_equal(1) - patch from Rich Kilmer
+* Added patch to enable underscored shoulds like 1.should_equal(1) - patch from Rich Kilmer
 * Removed most inherited instance method from Mock, making more methods mockable.
 * Made the RCovVerify task part of the standard toolset.
 * Documented Rake task and how to use it with Rcov
@@ -20,12 +18,9 @@ Release notes go here
 * RSpec Rake task now takes spec_opts and out params so it can be used for doc generation
 * RCov integration for RSpec Rake task (#4058)
 * Group all results instead of printing them several times (#4057)
-* Remove mock.rb from backtrace
 * Mocks can now yield
-* should.not.raise reports actual error rather than specified error class
-* backtrace shows context name and spec name
-* backtrace can run in quiet or verbose mode
-* errors in setup or teardown are reported as happening in setup or teardown (not in the specification)
+* Various improvements to error reporting (including #4191)
+* backtrace excludes rspec code - use -b to include it
 * split examples into examples (passing) and failing_examples
 
 == Version 0.5.3
