@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../../test_helper'
 module Spec
   module Runner
-    class ProgressBarFormatterTester < Test::Unit::TestCase
+    class ProgressBarFormatterTest < Test::Unit::TestCase
 
       def setup
         @io = StringIO.new
@@ -32,7 +32,17 @@ module Spec
         @formatter.start_dump
         assert_equal("\n", @io.string)
       end
-
+    end
+    class ProgressBarFormatterDryRunTest < Test::Unit::TestCase
+      def setup
+        @io = StringIO.new
+        @formatter = ProgressBarFormatter.new(@io, true)
+      end
+      
+      def test_should_not_produce_summary_on_dry_run
+        @formatter.dump_summary(4,3,2,1)
+        assert_equal("", @io.string)
+      end
     end
   end
 end

@@ -3,6 +3,9 @@
 == Version 0.5.4 (in SVN)
 Release notes go here
 
+* -v, --version now both mean the same thing
+* For what was verbose output (-v), use --format specdoc or -f s
+* --format rdoc always runs in dry-run mode
 * Removed references to --sugar, which is now gone (underscores are enabled by default) [aslak_hellesoy]
 * Removed --doc and added --formatter and --dry-run [aslak_hellesoy]
 * Refactored towards more pluggable formatters [aslak_hellesoy]

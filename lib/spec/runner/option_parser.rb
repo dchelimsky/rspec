@@ -8,7 +8,7 @@ module Spec
       def self.create_context_runner(args, standalone, err, out=STDOUT)
         options = parse(args, standalone, err, out)
 
-        formatter = options.formatter_type.new(options.out)
+        formatter = options.formatter_type.new(options.out, options.dry_run)
         reporter = Reporter.new(formatter, options.backtrace_tweaker) 
         ContextRunner.new(reporter, standalone, options.dry_run)
       end
@@ -27,11 +27,11 @@ module Spec
             options.backtrace_tweaker = NoisyBacktraceTweaker.new
           end
           
-          opts.on("-f", "--format [specdoc|rdoc]", "Output format") do |format|
-            options.formatter_type = case(format)
-              when 'specdoc' then SpecdocFormatter
-              when 'rdoc'    then RdocFormatter
-            end
+          opts.on("-f", "--format FORMAT", "Output format (specdoc|s|rdoc|r)") do |format|
+            options.formatter_type = SpecdocFormatter if format == 'specdoc'
+            options.formatter_type = SpecdocFormatter if format == 's'
+            options.formatter_type = RdocFormatter if format == 'rdoc'
+            options.formatter_type = RdocFormatter if format == 'r'
             options.dry_run = true if format == 'rdoc'
           end
 
@@ -39,7 +39,7 @@ module Spec
             options.dry_run = true
           end
 
-          opts.on("--version", "Show version") do
+          opts.on("-v", "--version", "Show version") do
             out.puts ::Spec::VERSION::DESCRIPTION
             exit if out == $stdout
           end
@@ -48,7 +48,7 @@ module Spec
             out.puts opts
             exit if out == $stdout
           end
-
+          
         end
         opts.parse!(args)
 

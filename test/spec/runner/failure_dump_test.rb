@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../../test_helper'
 
 module Spec
   module Runner
-    class ProgressBarFormatterTest < Test::Unit::TestCase
+    class ProgressBarFormatterFailureDumpTest < Test::Unit::TestCase
 
       def setup
         @io = StringIO.new
@@ -67,7 +67,7 @@ module Spec
       
     end
     
-    class VerboseFailureDumpTest < Test::Unit::TestCase
+    class SpecdocFormatterFailureDumpTest < Test::Unit::TestCase
 
       def setup
         @io = StringIO.new

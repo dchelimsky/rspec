@@ -1,7 +1,8 @@
 module Spec
   module Runner
-    class RdocFormatter
-      def initialize(output)
+    class RdocFormatter < BaseTextFormatter
+      def initialize(output, dry_run=false)
+        set_dry_run #regardless of submitted value
         @output = output
       end
   
@@ -19,11 +20,8 @@ module Spec
       
       def dump_failure(counter, failure)
       end
-
+      
       def start_dump
-      end
-
-      def dump_summary(duration, context_count, spec_count, failure_count)
       end
     end
   end

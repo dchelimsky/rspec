@@ -1,7 +1,8 @@
 module Spec
   module Runner
     class SpecdocFormatter < BaseTextFormatter
-      def initialize(output)
+      def initialize(output, dry_run=false)
+        set_dry_run if dry_run
         @output = output
       end
       

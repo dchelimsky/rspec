@@ -34,5 +34,17 @@ module Spec
       end
 
     end
+    class RdocFormatterDryRunTest < Test::Unit::TestCase
+      def setup
+        @io = StringIO.new
+        @formatter = RdocFormatter.new(@io, true)
+      end
+      
+      def test_should_not_produce_summary_on_dry_run
+        @formatter.dump_summary(4,3,2,1)
+        assert_equal("", @io.string)
+      end
+    end
+    
   end
 end
