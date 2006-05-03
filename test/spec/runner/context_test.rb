@@ -5,61 +5,56 @@ module Spec
     class ContextTest < Test::Unit::TestCase
       
       def setup
-        @listener = Api::Mock.new "listener"
+        @formatter = Api::Mock.new "formatter"
         @context = Context.new("context") {}
       end
       
-      def test_should_add_itself_to_listener_on_run
-        @listener.should.receive(:add_context).with "context"
-        @context.run(@listener)
-        @listener.__verify
+      def test_should_add_itself_to_formatter_on_run
+        @formatter.should.receive(:add_context).with "context"
+        @context.run(@formatter)
+        @formatter.__verify
       end
       
-      def test_should_add_itself_to_listener_on_run_docs
-        @listener.should.receive(:add_context).with "context"
-        @context.run_docs(@listener)
-        @listener.__verify
-      end
-      
-      def test_spec
-        @listener.should.receive(:add_context).with :any_args
-        @listener.should.receive(:add_spec).with "test", :anything, :anything
+      def test_should_run_spec
+        @formatter.should.receive(:add_context).with :any_args
+        @formatter.should.receive(:add_spec).with "test", :anything, :anything
         $spec_ran = false
         @context.specify("test") {$spec_ran = true}
-        @context.run(@listener)
+        @context.run(@formatter)
         assert $spec_ran
-        @listener.__verify
+        @formatter.__verify
       end     
          
-      def test_spec_doc
-        @listener.should.receive(:add_context).with :any_args
-        @listener.should.receive(:add_spec).with "test"
-        @context.specify("test") {}
-        @context.run_docs(@listener)
-        assert $spec_ran
-        @listener.__verify
+      def test_should_run_spec_dry
+        @formatter.should.receive(:add_context).with :any_args
+        @formatter.should.receive(:add_spec).with "test"
+        $spec_ran = false
+        @context.specify("test") {$spec_ran = true}
+        @context.run(@formatter, true)
+        assert !$spec_ran
+        @formatter.__verify
       end
       
       def test_setup
-        @listener.should.receive(:add_context).with :any_args
-        @listener.should.receive(:add_spec).with :any_args
+        @formatter.should.receive(:add_context).with :any_args
+        @formatter.should.receive(:add_spec).with :any_args
         $setup_ran = false
         @context.setup {$setup_ran = true}
         @context.specify("test") {true}
-        @context.run(@listener)
+        @context.run(@formatter)
         assert $setup_ran
-        @listener.__verify
+        @formatter.__verify
       end
 
       def test_teardwown
-        @listener.should.receive(:add_context).with :any_args
-        @listener.should.receive(:add_spec).with :any_args
+        @formatter.should.receive(:add_context).with :any_args
+        @formatter.should.receive(:add_spec).with :any_args
         $teardwown_ran = false
         @context.teardown {$teardwown_ran = true}
         @context.specify("test") {true}
-        @context.run(@listener)
+        @context.run(@formatter)
         assert $teardwown_ran
-        @listener.__verify
+        @formatter.__verify
       end
       
       def test_spec_count_1

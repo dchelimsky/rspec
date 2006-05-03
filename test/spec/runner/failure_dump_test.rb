@@ -6,7 +6,7 @@ module Spec
 
       def setup
         @io = StringIO.new
-        @reporter = Reporter.new(TextOutputter.new(@io), false, QuietBacktraceTweaker.new)
+        @reporter = Reporter.new(SpecdocFormatter.new(@io, false), false, QuietBacktraceTweaker.new)
         @reporter.add_context "context"
       end
       
@@ -71,7 +71,7 @@ module Spec
 
       def setup
         @io = StringIO.new
-        @reporter = Reporter.new(TextOutputter.new(@io), true, QuietBacktraceTweaker.new)
+        @reporter = Reporter.new(SpecdocFormatter.new(@io, true), true, QuietBacktraceTweaker.new)
         @reporter.add_context "context"
       end
 

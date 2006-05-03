@@ -5,9 +5,8 @@ module Spec
     class KernelExtTest < Test::Unit::TestCase
       def test_create_context
         assert_nothing_raised do
-          @cxt = context("") {}
+          context("") {}
         end
-        assert @cxt.instance_of?(Spec::Runner::Context)
       end
     end
   end

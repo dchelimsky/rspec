@@ -3,6 +3,9 @@
 == Version 0.5.4 (in SVN)
 Release notes go here
 
+* Removed references to --sugar, which is now gone (underscores are enabled by default) [aslak_hellesoy]
+* Removed --doc and added --formatter and --dry-run [aslak_hellesoy]
+* Refactored towards more pluggable formatters [aslak_hellesoy]
 * Refactored simple_text_reporter's io logic to separate class, to ease html generation [aslak_hellesoy]
 * Use webgen's execute tag when generating website (more accurate) [aslak_hellesoy]
 * Fixed incorrect quoting of spec_opts in SpecTask [aslak_hellesoy]

@@ -68,7 +68,7 @@ end
 RSpec provides a framework for writing what we call __executable
 specifications of program behaviour__. Since that's rather wordy, we usually
 just call them __specs__. 
-"Some other people":http://www.testing.com/cgi-bin/blog/2006/04/12#spec-vs-example" call these things __examples__.
+"Some other people":http://www.testing.com/cgi-bin/blog/2006/04/12#spec-vs-example call these things __examples__.
 
 On this site you will find examples, documentation, and tutorials as well as
 links to download and community resources.

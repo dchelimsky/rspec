@@ -1,27 +1,27 @@
 module Spec
   module Runner
-    class TextOutputter
-      def initialize(output)
-        @output = output
+    class SpecdocFormatter
+      def initialize(output, verbose)
+        @output, @verbose = output, verbose
       end
       
-      def add_context(name, first, verbose)
-        @output << "\n" if first unless verbose
-        @output << "\n#{name}\n" if verbose
+      def add_context(name, first)
+        @output << "\n" if first unless @verbose
+        @output << "\n#{name}\n" if @verbose
       end
       
-      def spec_failed(name, counter, verbose)
-        @output << "- #{name} (FAILED - #{counter})\n" if verbose
-        @output << 'F' unless verbose
+      def spec_failed(name, counter)
+        @output << "- #{name} (FAILED - #{counter})\n" if @verbose
+        @output << 'F' unless @verbose
       end
       
-      def spec_passed(name, verbose)
-        @output << "- #{name}\n" if verbose
-        @output << '.' unless verbose
+      def spec_passed(name)
+        @output << "- #{name}\n" if @verbose
+        @output << '.' unless @verbose
       end
       
-      def start_dump(verbose)
-        @output << "\n" unless verbose
+      def start_dump
+        @output << "\n" unless @verbose
       end
       
       def dump_failure(counter, failure)

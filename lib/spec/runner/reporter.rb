@@ -1,9 +1,11 @@
 module Spec
   module Runner
     class Reporter
+      # TODO: remove this attr_reader!!
+      attr_reader :formatter
       
-      def initialize(outputter, verbose, backtrace_tweaker)
-        @outputter = outputter
+      def initialize(formatter, verbose, backtrace_tweaker)
+        @formatter = formatter
         @context_names = []
         @failures = []
         @spec_names = []
@@ -12,7 +14,7 @@ module Spec
       end
   
       def add_context(name)
-        @outputter.add_context(name, @context_names.empty?, @verbose)
+        @formatter.add_context(name, @context_names.empty?)
         @context_names << name
       end
       
@@ -34,9 +36,9 @@ module Spec
       end
   
       def dump
-        @outputter.start_dump(@verbose)
+        @formatter.start_dump
         dump_failures
-        @outputter.dump_summary(duration, @context_names.length, @spec_names.length, @failures.length)
+        @formatter.dump_summary(duration, @context_names.length, @spec_names.length, @failures.length)
       end
 
       private
@@ -44,7 +46,7 @@ module Spec
       def dump_failures
         return if @failures.empty?
         @failures.inject(1) do |index, failure|
-          @outputter.dump_failure(index, failure)
+          @formatter.dump_failure(index, failure)
           index + 1
         end
       end
@@ -56,13 +58,13 @@ module Spec
 
       def spec_passed(name)
         @spec_names << name
-        @outputter.spec_passed(name, @verbose)
+        @formatter.spec_passed(name)
       end
 
       def spec_failed(name, failure)
         @spec_names << name
         @failures << failure
-        @outputter.spec_failed(name, @failures.length, @verbose)
+        @formatter.spec_failed(name, @failures.length)
       end
 
       class Failure

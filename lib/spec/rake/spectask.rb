@@ -16,7 +16,6 @@ module Rake
   #   Rake::SpecTask.new do |t|
   #     t.libs << "spec"
   #     t.spec_files = FileList['spec/**/*_spec.rb']
-  #     t.verbose = true
   #   end
   #
   class SpecTask < ::Rake::TaskLib

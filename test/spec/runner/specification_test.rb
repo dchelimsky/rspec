@@ -29,10 +29,10 @@ module Spec
         spec.run(@reporter)
       end
       
-      def test_should_add_itself_to_reporter_when_calling_run_docs
+      def test_should_add_itself_to_reporter_when_calling_run_dry
         spec = Specification.new("spec") {}
         @reporter.should.receive(:add_spec).with "spec"
-        spec.run_docs(@reporter)
+        spec.run(@reporter, nil, nil, true)
       end
 
       def test_should_verify_mocks_after_teardown

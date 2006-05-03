@@ -3,8 +3,4 @@ require 'stringio'
 $LOAD_PATH.push File.dirname(__FILE__) + '/../lib'
 $LOAD_PATH.push File.dirname(__FILE__) + '/../test'
 require 'spec'
-require 'spec/api/sweetener' # in regular mode this is only required with the --sweet flag
-mock_context_runner = Spec::Api::Mock.new "mock_context_runner"
-mock_context_runner.should.receive(:add_context).any.number.of.times
-mock_context_runner.should.receive(:run).any.number.of.times
-Spec::Runner::Context.context_runner = mock_context_runner
+$context_runner = ::Spec::Runner::OptionParser.create_context_runner(['test'], false, STDERR, STDOUT)

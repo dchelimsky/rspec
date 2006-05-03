@@ -30,8 +30,8 @@ Any number of files and/or directories can be provided, all ruby source files
 that are found are loaded. Running spec on the previous example results in:
 
 <pre>
-bin/spec --sweet examples
-{execute: ../bin/spec --sweet ../examples}
+bin/spec
+{execute: ../bin/spec ../examples}
 </pre>
 
 Very simple and to the point. Passing specifications are indicated by a '.',
@@ -39,17 +39,23 @@ failing ones by a 'F'. Note that failure indicates a violated expectation as
 well as an unexpected exception being raised.  Here's an example with a failing specification:
 
 <pre>
-bin/spec --sweet failing_examples/stack_spec.rb
-{execute: ../bin/spec --sweet ../failing_examples/stack_spec.rb}
+bin/spec failing_examples/stack_spec.rb
+{execute: ../bin/spec ../failing_examples/stack_spec.rb}
 </pre>
 
 In this case, the context is named "An almost full stack (with one item less than capacity)" 
 and the specification is named "should return top when sent pop". These two are concatenated 
 on the first line of the backtrace.
 
+h2. Command line options
+
+Additional command line options can be passed to customize the output and behaviour of RSpec.
+The following options apply whether specs are run in standalone mode (by executing the .rb files directly), 
+or using the spec command.
+
 h3. -v, --verbose
 
-Using this option provides more information:
+Using this option tells the formatter (which by default is specdoc) to produce more verbose output:
 
 <pre>
 $ bin/spec failing_examples/team_spec.rb -v
@@ -59,6 +65,24 @@ $ bin/spec failing_examples/team_spec.rb -v
 
 The spec command does double duty as documentation generation from a set of
 specifications as well as running them against your code.
+
+h3. -f, --format [specdoc|rdoc]
+
+Specify the output format. Most formats will produce some form of "testdox":http://agiledox.sourceforge.net/
+output. The --verbose and --dry-run options may also affect the output format.
+
+For example, by setting the formatter to rdoc, we can output the kind of input that RDoc
+needs to produce something like "this":../rdoc/files/EXAMPLES_RD.html 
+<pre>
+$ bin/spec failing_examples/team_spec.rb -f rdoc
+
+{execute: ../bin/spec ../failing_examples/team_spec.rb -f rdoc}
+</pre>
+
+h3. -d, --dry-run
+
+This option tells RSpec not to execute the specs, but they are still being parsed.
+This can be useful when generating "testdox":http://agiledox.sourceforge.net/ documents
 
 h3. -b, --backtrace
 
@@ -71,21 +95,3 @@ $ bin/spec failing_examples/team_spec.rb -b
 
 {execute: ../bin/spec ../failing_examples/team_spec.rb -b}
 </pre>
-
-h3. -s, --sweet
-
-This is enables the syntactic sugar that allows usage of should_* instead of should.*
-
-See <notextile><a href="../documentation/underscores.html">Underscore sugar</a></notextile> for details.
-
-h3. -d, --doc
-
-Process the specifications in documentation generation mode. This will produce
-an rdoc input file. For example here is the result of running spec -d on the
-previous example:
-
-<pre>
-{includeFile: {filename: ../../../EXAMPLES.rd, processOutput: false}}
-</pre>
-
-Rdoc renders this as "this":../rdoc/files/EXAMPLES_RD.html.

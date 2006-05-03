@@ -17,6 +17,4 @@ you can say
 lambda { 1.should_not_equal 1 }.should_raise
 </ruby>
 
-as long as you run the specs with the <tt>--sweet</tt> option (sugar is sweet).
-
 This applies to regular Ruby objects as well as mocks.
