@@ -2,7 +2,16 @@ h2. A Simple Stack - The First Specification
 
 h3. Where do we start?
 
-We want to start off with the simplest thing that we can specify, just as we would in TDD. Remember that in spite of some important (if subtle) distinctions, BDD <em>is</em> TDD at its core. Lets start with an empty stack. An empty stack sounds simple, right?
+We want to start off with the simplest thing that we can specify, just as we would in TDD. Remember that in spite of some important (if subtle) distinctions, BDD <em>is</em> TDD at its core.
+
+As discussed in the <a href="index.html">Overview</a>, a common first specification is that a new stack should be empty, and we typically verify this by checking that its size is 0. This simplicity is what we're looking for, but we want to avoid the "size" question. Well, let's think about how a client might use a stack:
+
+<ruby>
+#example usage
+stack.pop unless stack.empty?
+</ruby>
+
+So let's start with "A new stack should be empty".
 
 h3. Create a spec file
 
@@ -13,7 +22,7 @@ h3. Add a context
 Add the following to stack_spec.rb
 
 <ruby>
-context "An empty stack" do
+context "A new stack" do
 end
 </ruby>
 
@@ -28,7 +37,7 @@ $ spec stack_spec.rb
 You should see output similar to this
 
 <pre>
-Finished in 6.1e-05 seconds
+Finished in 6.9e-05 seconds
 
 1 context, 0 specifications, 0 failures
 </pre>
@@ -40,9 +49,9 @@ You may wonder why bother with the name? Try adding the <code>-v</code> switch t
 <pre>
 $ spec stack_spec.rb -v
 
-An empty stack
+A new stack
 
-Finished in 6.8e-05 seconds
+Finished in 6.9e-05 seconds
 
 1 context, 0 specifications, 0 failures
 </pre>
@@ -51,162 +60,164 @@ The <code>-v</code> switch tells rSpec to run in verbose mode, in which case it 
 
 h3. Add a specification
 
-So what can we say about the behaviour of an empty stack? The typical first move is to prove that it's really empty by making assertions about its size, or asking it if it is empty. But those things are all about the object's <em><b>state</b></em>, not its behaviour. We want to think about what our Stack does - how it responds to various messages that we can send it. So let's start with the <code>push</code> message. What should an empty Stack do when you send it the push method? Absolutely nothing, right? It should just accept the object and keep its mouth shut:
+The spec that we are starting with is "A new stack should be empty". So far we have the context, "A new stack", but we need the specification, "should be empty" :
 
 <ruby>
-context "An empty stack" do
-  
-  specify "should keep its mouth shut when you send it 'push'" do
+context "A new stack" do
+  specify "should be empty" do
   end
-  
 end
 </ruby>
-
-Now run that with the <code>spec</code> command (use the -v switch as above) and look at the output. Here's the output:
-
+<br>
 <pre>
 $ spec stack_spec.rb -v
 
-An empty stack
-- should keep its mouth shut when you send it 'push'
+A new stack
+- should be empty
 
-Finished in 0.000183 seconds
+Finished in 0.000188 seconds
 
 1 context, 1 specification, 0 failures
 </pre>
 
-As you can see, this reads like a specification. This is just like the output you get from running jUnit tests through agiledox. Agiledox was an important part of the inception of BDD, so we built it right into rspec.
+As you can see, this reads like a specification. This is just like the output you get from running jUnit tests through agiledox. Agiledox was an important part of the inception of BDD, so we built it right into rspec. Of course, we haven't actually written any code in the specification, so we need to add some. Just as we do in TDD, we're going to add one little bit at a time - just enough to produce a failed expectation - followed by just enough code to meet the expectation.
 
-Now we haven't really specified anything in code yet, but we have the framework from which to begin - a named context, with a single named specification. So let's make it specify something. Just as in TDD, we want to add things one bit at a time - a little bit of specification, a little bit of code to meet that specification. Slightly departing from TDD, however, we're going to introduce a setup now. Most of the TDD (and xUnit) literature I've read suggests that we should introduce setups to eliminate duplication. In this case, because we're using contexts rather than TestCases, it makes semantic sense to set up the context.
-
-In this case, the context is an empty stack, so let's set one up. 
+Let's start by creating the new stack.
 
 <ruby>
-context "An empty stack" do
-  
+context "A new stack" do
   setup do
     @stack = Stack.new
   end
-  
-  specify "should keep its mouth shut when you send it 'push'" do
+  specify "should be empty" do
   end
-  
 end
 </ruby>
 
-...and then run the <code>spec</code> command...
+Introducing a setup here may seem a bit premature to some, but we know what the context is here: it's a new stack. We want to express that context in the setup method to clearly define it as the starting state for each of the specifications within this context.
 
 <pre>
 $ spec stack_spec.rb -v
 
-An empty stack
-- should keep its mouth shut when you send it 'push' (FAILED - 1)
-
+A new stack
+- should be empty (FAILED - 1)
 
 1)
-NameError in 'An empty stack should keep its mouth shut when you send it 'push''
+NameError in 'A new stack should be empty'
 uninitialized constant Stack
-./stack_spec.rb:6:in `setup'
+./stack_spec.rb:3:in `setup'
 
-Finished in 0.000293 seconds
+Finished in 0.00031 seconds
 
 1 context, 1 specification, 1 failure
 </pre>
 
-There are a few things to note about this output.
-
-* "(Failed - 1)" tells you that that particular specification is the one in which a failure occurred.
-* "./stack_spec.rb:6:in `setup'" points out that the error was raised in the setup block
-* The "1" in "(Failed - 1)" tells you that the stack trace for that failure is the first one.
-* 1 context was processed ("An empty stack")
-* 1 specification was processed ("should keep its mouth shut when you send it 'push'")
-* 1 specification failed ("should keep its mouth shut when you send it 'push'")
-
-The failure <code>uninitialized constant Stack (NameError)</code> tells us that we need to create a Stack class. Add a file to /projects/ruby/stack named stack.rb with the following code:</p>
+This tells us that there is a NameError, that it can't find the name Stack, and that the problem is in the setup block of this context. To resolve this, create a new file named stack.rb and add the following:
 
 <ruby>
 class Stack
 end
 </ruby>
 
-Then add this to the top of stack_spec.rb...
+Then require that file in stack_spec.rb:
 
 <ruby>
-require File.dirname(__FILE__) + "/stack"
+require 'stack'
+
+context "A new stack" do
+...
 </ruby>
 
-...and run the <code>spec</code> command and you should see output like this:
+and run the specs.
 
 <pre>
 $ spec stack_spec.rb -v
 
-An empty stack
-- should keep its mouth shut when you send it 'push'
+A new stack
+- should be empty
 
-
-Finished in 0.00022 seconds
+Finished in 0.000229 seconds
 
 1 context, 1 specification, 0 failures
 </pre>
 
-We're almost there, but not quite. We still haven't specified what's supposed to happen when we send the push message to the stack. We haven't set any expectations in our specification. We need to have some sort of expectation that, if not met, causes a failure when we execute the spec. So what can we expect here? The name of the spec tells us - "should keep its mouth shut". That implies that it should not react in any way - including raising an error. So let's set the expectation that there will be no error raised:
+We're getting closer, but we still need more to exercise this specification.
 
 <ruby>
-specify "should keep its mouth shut when you send it 'push'" do
-  lambda { @stack.push Object.new }.should.not.raise
-end
-</ruby>
-
-If you're not familiar, <code>lambda</code> accepts a block but does not execute it. It then constructs a Proc object, which can called at any time. So, in this case, the block <code>{ stack.push Object.new }</code> gets saved in a Proc object. <code>should.not.raise</code> then tells rSpec to call the Proc and raise an ExpectationNotMetError if it raises any errors at all. Running the spec...
-
-<pre>
-$ spec stack_spec.rb -v
-
-An empty stack
-- should keep its mouth shut when you send it 'push' (FAILED - 1)
-
-
-1)
-ExpectationNotMetError in 'An empty stack should keep its mouth shut when you send it 'push''
-<Proc> should not raise <Exception> but raised #<NoMethodError: undefined method `push' for #<Stack:0x370d94>>
-./stack_spec.rb:10:in `should keep its mouth shut when you send it 'push''
-
-Finished in 0.000418 seconds
-
-1 context, 1 specification, 1 failure
-</pre> 
-
-The first line tells us the rSpec error that was raised: we were expecting that nothing would be raised, but something (anything) was, so we get an "ExpectationNotMetError".
-
-The second line tells us that we specified that there should be no Exception (in this case we didn't specify what type of exception, so by default rSpec assumes Exception), but that there was a NoMethodError raised.
-
-The third line tells us that the error was raised in the block defining the specification "should keep its mouth shut when you send it 'push'".
-
-We get a NoMethodError because our stack doesn't know what to do with the "push" message. So we add it...
-
-<ruby>
-class Stack
-  def push item
+context "A new stack" do
+  setup do
+    @stack = Stack.new
+  end
+  specify "should be empty" do
+    @stack.should_be_empty
   end
 end
 </ruby>
-
-...and run the spec and voila!...
-
+<br>
 <pre>
-$ spec stack_spec.rb -v
+$ spec stack_spec.rb -v -s
 
-An empty stack
-- should keep its mouth shut when you send it 'push'
+A new stack
+- should be empty (FAILED - 1)
 
+1)
+NoMethodError in 'A new stack should be empty'
+undefined method `empty?' for #<Stack:0x36e6fc>
+./stack_spec.rb:8:in `should be empty'
 
-Finished in 0.000209 seconds
+Finished in 0.000361 seconds
+
+1 context, 1 specification, 1 failure
+</pre>
+
+In this case, rspec interprets the message <code>should_be_empty</code>, and sends <code>empty?</code> to <code>stack</code>. This will work for any predicate (ruby methods that end with a "?" and return boolean).
+
+You can think of <code>NameError</code> as the equivalent of a compilation failure in java or C#. <code>Stack</code> doesn't respond to the <code>empty?</code> message ... yet.
+
+<ruby>
+class Stack
+  def empty?
+  end
+end
+</ruby>
+<br>
+<pre>
+$ spec stack_spec.rb -v -s
+
+A new stack
+- should be empty (FAILED - 1)
+
+1)
+ExpectationNotMetError in 'A new stack should be empty'
+Stack #<Stack:0x36e60c> should be empty
+./stack_spec.rb:8:in `should be empty'
+
+Finished in 0.000389 seconds
+
+1 context, 1 specification, 1 failure
+</pre>
+
+... and NOW we get a failing expectation. "Stack #&lt;Stack:0x36e60c&gt; should be empty" is the detail of this <code>ExpectationNotMetError</code>. The expectation is that <code>empty?</code> should return <code>true</code>, but it does not. Let's make it so ...
+
+<ruby>
+class Stack
+  def empty?
+    true
+  end
+end
+</ruby>
+<br>
+<pre>
+spec stack_spec.rb -v -s
+
+A new stack
+- should be empty
+
+Finished in 0.000256 seconds
 
 1 context, 1 specification, 0 failures
 </pre>
 
-... the code meets the first specification. Now obviously this code doesn't do much, but that's because we have more specifications to write!
+And thus we have completed our first specification: "A new stack should be empty"
 
-One important thing to note here is that we did not begin by setting any expectations about the size or emptiness of the stack. That may feel funny to experienced TDDers, as it is standard faire to verify that an empty collection is empty. As explained in the <a href="index.html">Overview</a>, we're going to explore what it means to specify behaviour rather than testing state. Based on our existing spec thus far, there is no need to have a size or empty method. Let's see how far we can go without them...
 
-<a href="stack_02.html">Next</a>

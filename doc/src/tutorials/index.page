@@ -25,36 +25,28 @@ class Stack
 end
 </ruby>
 
-...and you're off and running. So here's a question: what is the <em><b>behaviour</b></em> that is exhibited by <code>size</code>? You <em>could</em> argue that the behaviour is that it answers your question correctly, but is that really behaviour?
+...and you're off and running. So here's a question: what is the <em><b>behaviour</b></em> that is exhibited by <code>size</code>? You could say that the stack is answering the question correctly. But then the question becomes "what is the question?"
 
-Think of it this way: does size really matter? Keeping focused on the Stack example, I'd say the answer is often "no". Most clients probably care about whether they can push something on to the stack, or pop something off of it. But knowing whether it has 0 or 1000 items is only helpful if the client knows what those numbers mean. And to know what they mean requires asking more questions:
+Think of it this way: does size really matter? Keeping focused on the Stack example, I'd say the answer is often "no". Most clients probably care about whether they can push something on to the stack, or pop something off of it. But knowing whether it has 0 or 1000 items is only helpful if the client knows what those numbers mean. And that often requires asking more questions. For example, let's say we want to push but we want to check if we can first:
 
 <ruby>
 stack.push item if stack.size < stack.capacity
 </ruby>
 
-We could ask if the stack is full...
+Instead, we could ask if the stack is full...
 
 <ruby>
 stack.push item unless stack.full?
 </ruby>
 
-...but even then we have to know what it means to be full: if a stack is full, then we can't add anything to it. The client has to understand the internal nature of a stack in order to know if it can operate on the stack in some way. A better question is "can you accept another object"? 
-
-<ruby>
-stack.push item if stack.has_more_room?
-</ruby>
-
-So lets say that you decide to write a subclass of Stack that is duck-type-safe: it can only accept items that respond to specific messages. Now <code>has_more_room</code> doesn't tell us whether the stack will accept our item. We have to know if it will accept this particular object, not just any object. If the answer is "no", do we care what the reason is? Maybe, in some cases. But most likely not.
+...but even then we have to know what it means to be full and adapt that knowledge to our real question which is "can I push something on to you"?
 
 <ruby>
 stack.push item if stack.accept? item
 </ruby>
 
-Note that all of this discussion has been about how our stack appears from the outside. Not one question about its internals, yet the very first test we wrote using a common TDD approach was about its internals. Why is that? I think that it is because TDD tells us to write the simplest thing we can test first. Create a new Stack, verify that it has no elements. Easy! Right? Right. Except that YAGNI except for that test!
+This is not to argue that "accept" is the best or right choice. The point is that all of this discussion has been about how our stack appears from the outside. We want to think about how other clients can use the object, not how the object will satisfy its clients' needs.
 
-Now here's one place where BDD strays from TDD. TDD suggests that "tests are clients just like any other", and that "if it's not tested, it doesn't exist". The BDD approach agrees that "if it's not <em>specified</em>, it doesn't exist". But when we start thinking about specification rather than testing, the role of our specifications (as opposed to tests) begins to change. "just like any other client" means that the <em>executable specifications</em> should use the objects being specified in the same way other clients would use them. It doesn't mean that the specifications get to impose services onto the object with the same impunity that other clients do. If asking for a stack's size is really the ONLY way to verify that the stack meets its specification, then we would use it. But before we go imposing services onto an object, we should see if there's another way.
-
-Another thing to consider is "Tell, Don't Ask". We talk about "Tell, Don't Ask" all the time, yet we see properties being exposed all over the place. Let's extend TDA with this: "...but if you MUST ask, then ask for what you really need to know". Do we need to know the stack's size? Probably not. We <em>do</em>, however, need to know whether we can push onto it.
+"Tell, Don't Ask" is a powerful guideline, but sometimes you have to ask questions. So let's extend TDA with this: "...but if you MUST ask, then ask for what you really need". Do we need to know the stack's size? Probably not. We <em>do</em>, however, need to know whether we can push onto it.
 
 We'll be exploring these questions in this tutorial in addition to getting you started with rSpec. So <a href="stack_01.html">let's get started!</a>

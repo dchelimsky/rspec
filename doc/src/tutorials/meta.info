@@ -5,27 +5,27 @@ index.page:
   
 stack_01.page:
   title: '1'
-  inMenu: true
+  inMenu: false
   orderInfo: 11
   
 stack_02.page:
   title: '2'
-  inMenu: true
+  inMenu: false
   orderInfo: 12
   
 stack_03.page:
   title: '3'
-  inMenu: true
+  inMenu: false
   orderInfo: 13
   
 stack_04.page:
   title: '4'
-  inMenu: true
+  inMenu: false
   orderInfo: 13
 
 stack_05.page:
   title: '5'
-  inMenu: true
+  inMenu: false
   orderInfo: 13
 
   
