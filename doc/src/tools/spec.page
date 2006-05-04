@@ -13,12 +13,14 @@ ruby path/to/my_spec.rb [options]
 
 This will print the results to STDOUT. Use the --help option for more details. This is
 practical when you only want to run one context. If you want to run more, use the spec tool
-or the Rake task.
+or the Rake task. It should also be noted that the exitcode will always be 0 when run in standalone mode.
 
 h2. The spec command line
 
 After you install RSpec, you should have the spec command line tool on your PATH.
-This tool can be used to process several RSpec contexts in one go.
+This tool can be used to process several RSpec contexts in one go. 
+
+spec will exit with the exitcode 1 if one or more specs fail.
 
 The general form of the command is
 

@@ -1,11 +1,6 @@
 module Spec
   module Runner
-    class ProgressBarFormatter < BaseTextFormatter
-      def initialize(output, dry_run=false)
-        set_dry_run if dry_run
-        @output = output
-      end
-      
+    class ProgressBarFormatter < BaseTextFormatter      
       def add_context(name, first)
         @output << "\n" if first
       end

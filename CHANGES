@@ -3,6 +3,7 @@
 == Version 0.5.4 (in SVN)
 Release notes go here
 
+* Exitcode is now 1 unless all specs pass, in which case it's 0.
 * -v, --version now both mean the same thing
 * For what was verbose output (-v), use --format specdoc or -f s
 * --format rdoc always runs in dry-run mode

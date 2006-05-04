@@ -2,8 +2,7 @@ module Spec
   module Runner
     class RdocFormatter < BaseTextFormatter
       def initialize(output, dry_run=false)
-        set_dry_run #regardless of submitted value
-        @output = output
+        super(output, true) # always dry
       end
   
       def add_context(name, first)

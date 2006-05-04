@@ -1,10 +1,11 @@
 module Spec
   module Runner
     class BaseTextFormatter
-      def set_dry_run
-        @dry_run = true
+      def initialize(output, dry_run=false)
+        @dry_run = dry_run
+        @output = output
       end
-      
+
       def dump_failure(counter, failure)
         @output << "\n"
         @output << counter.to_s << ")\n"

@@ -35,10 +35,12 @@ module Spec
         @end_time = Time.new
       end
   
+      # Dumps the summary and returns the total number of failures
       def dump
         @formatter.start_dump
         dump_failures
         @formatter.dump_summary(duration, @context_names.length, @spec_names.length, @failures.length)
+        @failures.length
       end
 
       private

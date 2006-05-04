@@ -12,5 +12,5 @@ ARGV.each do |file_or_dir|
 	end
 end
 
-$context_runner.run
+$context_runner.run(true)
 
