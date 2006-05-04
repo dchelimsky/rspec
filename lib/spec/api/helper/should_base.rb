@@ -1,35 +1,28 @@
+class TrueClass; def inspect_for_expectation_not_met_error; "<true>" end end
+class FalseClass; def inspect_for_expectation_not_met_error; "<false>" end end
+class NilClass; def inspect_for_expectation_not_met_error; "nil" end end
+class Class; def inspect_for_expectation_not_met_error; "<#{name}>" end end
+class Proc; def inspect_for_expectation_not_met_error; "<Proc>" end end
+class Array; def inspect_for_expectation_not_met_error; "#{inspect}" end end
+class String; def inspect_for_expectation_not_met_error; "#{inspect}" end end
+class Object
+  def inspect_for_expectation_not_met_error
+    return "#{self.class} #{inspect}" if inspect.include? "<"
+    return "#{self.class} <#{inspect}>" unless inspect.include? "<"
+  end
+end
+
 module Spec
   
   class ShouldBase
 
 		def default_message(expectation, expected=:no_expectation_specified)
-      message = wrap(@target)
-      message << " #{expectation}"
+      message = "#{@target.inspect_for_expectation_not_met_error} #{expectation}"
       if (expected != :no_expectation_specified)
-        message << " " << wrap(expected)
+        message << " " << expected.inspect_for_expectation_not_met_error
       end
       message
    	end
-   	
-   	def wrap(obj)
-		  if obj == true
-		   "<true>"
-		  elsif obj == false
-		   "<false>"
-		  elsif obj.nil?
-		    "nil"
-		  elsif obj.kind_of? Class
-		    "<#{obj.name}>"
-		  elsif obj.kind_of? Proc
-		    "<Proc>"
-	    elsif (obj.kind_of? Array) || (obj.kind_of? String)
-	      "#{obj.inspect}"
-	    elsif obj.inspect.include? "<"
-        "#{obj.class} #{obj.inspect}"
-      else
-        "#{obj.class} <#{obj.inspect}>"
-      end
- 	  end
 
 		def fail_with_message(message)
 			Kernel::raise(Spec::Api::ExpectationNotMetError.new(message))
