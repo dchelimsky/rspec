@@ -16,10 +16,6 @@ module Spec
         @contexts << context
       end
       
-      def number_of_specs
-        @contexts.inject(0) {|sum, context| sum + context.number_of_specs}
-      end
-      
       # Runs all the contexts and specs and returns the total number of failures
       def run(exit_when_done=false)
         @reporter.start number_of_specs
@@ -34,6 +30,10 @@ module Spec
         end
       end
     
+      def number_of_specs
+        @contexts.inject(0) {|sum, context| sum + context.number_of_specs}
+      end
+      
     end
   end
 end
