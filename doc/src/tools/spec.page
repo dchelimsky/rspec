@@ -74,7 +74,7 @@ Specify the output format. Most formats will produce some form of "testdox":http
 output. The --verbose and --dry-run options may also affect the output format.
 
 For example, by setting the formatter to rdoc, we can output the kind of input that RDoc
-needs to produce something like "this":../rdoc/files/EXAMPLES_RD.html 
+needs to produce something like "this":../rdoc/files/EXAMPLES_rd.html 
 <pre>
 $ bin/spec failing_examples/team_spec.rb -f rdoc
 
