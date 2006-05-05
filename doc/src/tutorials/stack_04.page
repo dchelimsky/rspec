@@ -1,12 +1,12 @@
-h2. A Simple Stack - Organization and Documentation
+h2. A Simple Stack - Top - IN PROGRESS - DISREGARD THIS PAGE
 
-h3. Spec organization
+What should happen when you call top on an empty stack? We could just return nil, 
+but how does the client know whether the stack was empty or contained nil as an element? 
+Perhaps the client doesn't care. Let's assume the client does care, in which case we'd want to raise an error.
 
-Let's take a look at the spec thus far...
+We already have our "empty stack" context, so let's add a specification to it.
 
 <ruby>
-require File.dirname(__FILE__) + "/stack"
-
 context "An empty stack" do
   
   setup do
@@ -22,34 +22,74 @@ context "An empty stack" do
   end
   
 end
+</ruby>
 
-context "A stack with one item" do
-  
-  setup do
-    @stack = Stack.new
-    @stack.push "one item"
-  end
+Running the spec...
 
-  specify "should return top when sent the 'top' message" do
-    @stack.top.should.equal "one item"
-  end
-  
+<pre>
+$ spec stack_spec.rb -v
+
+An empty stack
+- should keep its mouth shut when you send it 'push'
+- should raise a StackUnderflowError when you send it 'top' (FAILED - 1)
+
+A stack with one item
+- should return top when you send it 'top'
+
+
+1)
+NameError in 'An empty stack should raise a StackUnderflowError when you send it 'top''
+uninitialized constant StackUnderflowError
+./stack_spec.rb:14:in `should raise a StackUnderflowError when you send it 'top''
+
+Finished in 0.000582 seconds
+
+2 contexts, 3 specifications, 1 failure
+</pre>
+
+"uninitialized constant StackUnderflowError" tells us that we need to create a StackUndeflowError. We'll just stick that in the file with the Stack:
+
+<ruby>
+class StackUnderflowError < RuntimeError
 end
 </ruby>
 
-..and the result of executing them. First in default mode...
+and run the spec again.
 
 <pre>
-$ spec stack_spec.rb 
+$ spec stack_spec.rb -v
 
-...
+An empty stack
+- should keep its mouth shut when you send it 'push'
+- should raise a StackUnderflowError when you send it 'top' (FAILED - 1)
 
-Finished in 0.000439 seconds
+A stack with one item
+- should return top when you send it 'top'
 
-2 contexts, 3 specifications, 0 failures
+
+1)
+ExpectationNotMetError in 'An empty stack should raise a StackUnderflowError when you send it 'top''
+<Proc> should raise <StackUnderflowError> but raised nothing
+./stack_spec.rb:14:in `should raise a StackUnderflowError when you send it 'top''
+
+Finished in 0.000788 seconds
+
+2 contexts, 3 specifications, 1 failure
 </pre>
 
-...and then in verbose mode...
+Now the error report tells us that the expectation was not met - executing the block did not 
+raise the error we specified. Now we can implement code to meet this specification. Sticking 
+with the principle that we want to implement the least amount of code to meet the specification, 
+we enhance our top method:
+
+<ruby>
+def top
+  raise StackUnderflowError if @item.nil?
+  @item
+end
+</ruby>
+
+run the specs and they all pass.
 
 <pre>
 $ spec stack_spec.rb -v
@@ -62,63 +102,22 @@ A stack with one item
 - should return top when you send it 'top'
 
 
-Finished in 0.000533 seconds
+Finished in 0.000557 seconds
 
 2 contexts, 3 specifications, 0 failures
 </pre>
 
-We've got two contexts. In both we exercise the 'top' message, but we only exercise 'push' in one. This is a wonderful aspect of organizing the specs this way. By looking at the contexts themselves, or by looking at the generated output, and by having only one setup for each context (a guideline often suggested for xUnit, but violated just as often), we can clearly see the imbalance in what messages we're specifying in the different contexts.
+Do you see how the verbose output is looking more and more like a specification? That's pretty nice, but as your projects grow, you may not want all of that output all of the time. You can, if you wish, run the specs without the <code>-v</code> flag, in which case you get a "." for every passing spec and an "F" for every failing spec. Run them now and you'll see nothing but dots.
 
-So now, in addition to using the principle of the simplest thing to help us decide what to specify next, we've also got this feedback that tells us that we have yet to specify how a stack with one item should respond to the 'push' message. Using both tools to guide us, that is an obvious next choice.
+<pre>
+$ spec stack_spec.rb 
 
-<ruby>
-context "A stack with one item" do
-  
-  setup do
-    @stack = Stack.new
-    @stack.push "one item"
-  end
+...
 
-  specify "should keep its mouth shut when you send it 'push'" do
-     lambda { @stack.push Object.new }.should.not.raise Exception
-  end
-  
-  specify "should return top when you send it 'top'" do
-    @stack.top.should.equal "one item"
-  end
-  
-end
-</ruby>
+Finished in 0.000458 seconds
 
-To add that, I actually copied the spec from the "new stack" context. Cut and paste? Blasphemy! Exact duplication? More blasphemy! Well, it is blasphemy if you think of these structures as tests, or even as code. Yes, they are executable. Yes, they are code - sort of. But they also serve other very important purpose - they are documentation.
-
-h3. Specs as documentation
-
-The whole structure of contexts and specifications was deliberately chosen to feel less like the tests that we're all used to seeing in xUnit frameworks so that we wouldn't think of specs in the same way as we do tests. So while we might think of them as executable, we don't want to think of them as code.
-
-We talk about tests as documentation in TDD as well. But I can tell you that when I've tried to read them as such and found myself searching through hierarchies to find the setup for a test that was failing, my eyes have just glazed over and I've ended up looking directly at the code. Serving as documentation requires of these executable specifications that they be simple, clear and easy to understand. All the context you need to understand the test should be in one place.
-
-Also, the perception that "all duplication is evil" is based on industry-wide experience in which changes that needed to happen to duplicated code didn't happen everywhere it should have. In the case of specifications, that doesn't really fly because each specification is autonomous. If the rules change for a message in a given context, then you'd only want to make the change in that context.
-
-So we've now got 4 specifications, 2 each in 2 contexts. Run the specs...
-
-<pre>$ spec stack_spec.rb -v
-
-An empty stack
-- should keep its mouth shut when you send it 'push'
-- should raise a StackUnderflowError when you send it 'top'
-
-A stack with one item
-- should keep its mouth shut when you send it 'push'
-- should return top when you send it 'top'
-
-
-Finished in 0.000657 seconds
-
-2 contexts, 4 specifications, 0 failures
+2 contexts, 3 specifications, 0 failures
 </pre>
 
-...and there are no failures. So in this case, since 'push' results in the same behavior for an empty stack and a one-element stack, we don't have anything additional to implement.
-
-<a href="stack_03.html">Previous</a> |
-<a href="stack_05.html">Next</a>
+<a href="stack_02.html">Previous</a> |
+<a href="stack_04.html">Next</a>

@@ -1,165 +1,180 @@
-h2. A Simple Stack - The Second Specification
+h2. A Simple Stack
 
-h3. What to specify next?
+h3. An Empty Stack
 
-Picking the next thing to specify is always a challenge (just as picking the next thing to test is in TDD). Ideally, you want to specify the simplest thing that we can imagine implementing. Of course, thinking about implementation seems to fly in the face of a core tenet of TDD and BDD: focus on interface - focus on behaviour. So you have a couple of opposing forces and notions guiding this decision. The bottom line is that it's not that important which one you pick next. The important thing is that as soon as you recognize that you've headed down the wrong path (one which requires a lot of implementation to meet the newest specification), roll back immediately and pick a different "next step".
+So now we know that when you first create a stack it is empty. What's next? We could make some more specifications about a new stack, but the fact that it is an empty stack is more interesting from a behavioural perspective than a new stack. So let's start talking about the behaviour of an <em>empty</em> stack.
 
-For our problem, there seem to be (at least) two logical potential next steps. We know that pushing on to an empty stack results in the stack accepting the pushed object. So one logical next step might be to specify how an empty stack behaves when sending it a different message. Another might be to send push to a non-empty stack. But what I'd really like to know is what happened to the object we just pushed!
-
-To specify that, we have to move diagonally a bit. We need to specify the stack's response to a new message starting in a new state - a new context. We're going to start with a stack with one item already pushed onto it and specify what happens when you send it 'top'. Why top and not pop? In this case, top is simpler than pop - top just returns the top object, while pop also removes it from the stack.
-
-h3. Send top to a stack with one item
-
-Let's start by adding a new context in stack_spec.rb. Remember, the context is an object (or set of objects) in a known state, so we'll go ahead and add the setup right away
+We all know the standard messages we want on a stack: some variation of push, pop and top. What should happen when we send 'push' to an empty stack? The usual first move is to specify that it has a size of 1, but we don't have a <code>size</code> method, nor do we want one if we can avoid it. We can, however, specify that it is no longer empty after a push.
 
 <ruby>
-context "A stack with one item" do
-  
-  setup do
-    @stack = Stack.new
-    @stack.push "one item"
+context "An empty stack" do
+  specify "should not be empty after 'push'" do
   end
-
 end
 </ruby>
-
-Now run the spec:
-
+<br>
 <pre>
-$ spec stack_spec.rb -v
+$ spec stack_spec.rb -f s
+
+A new stack
+- should be empty
 
 An empty stack
-- should keep its mouth shut when you send it 'push'
+- should not be empty after 'push'
 
-A stack with one item
-
-
-Finished in 0.000277 seconds
-
-2 contexts, 1 specification, 0 failures
-</pre>
-
-Note that we see the name of the new context printed out, 2 contexts but only 1 specification. We added setup, but no specification. So...
-
-<ruby>
-context "A stack with one item" do
-  
-  setup do
-    @stack = Stack.new
-    @stack.push "one item"
-  end
-
-  specify "should return top when you send it 'top'" do
-    @stack.top.should.equal "one item"
-  end
-  
-end
-</ruby>
-
-Run the spec...
-
-<pre>
-$ spec stack_spec.rb -v
-
-An empty stack
-- should keep its mouth shut when you send it 'push'
-
-A stack with one item
-- should return top when you send it 'top' (FAILED - 1)
-
-
-1)
-NoMethodError in 'A stack with one item should return top when you send it 'top''
-undefined method `top' for #<Stack:0x3703bc @item="one item">
-./stack_spec.rb:35:in `should return top when you send it 'top''
-
-Finished in 0.000677 seconds
-
-2 contexts, 2 specifications, 1 failure
-</pre>
-
-Again, running the spec tells us what we have to implement next. <code>undefined method `top' for #<Stack:0x3703bc @item="one item"></code> tells us to implement a <code>top</code> method. So, back in stack.rb...
-
-<ruby>
-def top
-end
-</ruby>
-
-Why not implement the return now? Well, this becomes a matter of taste and level of discipline. While you're learning BDD (especially if you have no prior TDD experience), you want to take very, very small steps. There's usually something to learn after each one. In this case, if we run the spec now...
-
-<pre>
-$ spec stack_spec.rb -v
-
-An empty stack
-- should keep its mouth shut when you send it 'push'
-
-A stack with one item
-- should return top when you send it 'top' (FAILED - 1)
-
-
-1)
-ExpectationNotMetError in 'A stack with one item should return top when you send it 'top''
-nil should equal "one item"
-./stack_spec.rb:35:in `should return top when you send it 'top''
-
-Finished in 0.000531 seconds
-
-2 contexts, 2 specifications, 1 failure
-</pre>
-
-This is a very interesting result. <code>nil should equal "one item"</code> tells us that the expression <code>@stack.top</code> returned nil. In ruby, nil is a real object to which you can send messages. <code>should.equal "one item"</code> tells rspec that the object returned by the expression (in this case nil) should be equal to the string literal "one item".
-
-So let's get the code to meet this specification. When we do this, we want to implement the simplest thing that we can to satisfy the existing specs. Given the current set of specs, we can simply return "one item"
-
-<ruby>
-class Stack
-  
-  def push item
-  end
-  
-  def top
-	"one item"
-  end
-  
-end
-</ruby>
-
-Run the specs...
-
-<pre>
-$ spec stack_spec.rb -v
-
-An empty stack
-- should keep its mouth shut when you send it 'push'
-
-A stack with one item
-- should return top when you send it 'top'
-
-
-Finished in 0.0004 seconds
+Finished in 0.000391 seconds
 
 2 contexts, 2 specifications, 0 failures
 </pre>
 
-Seems odd? We know that we don't want to always return "one item", so the implementation seems silly. But that implementation did something great. It made it so all of our expectations are met and we didn't have to change much to get there. We always want to take really small steps, with all the specs passing between each step. Now that we have passing specs, we're free to refactor - and we WANT to refactor because we've introduced duplication between the specs and the implementation.
+See how that's reading as a spec? Let's fill in the specification. First we add the setup for our context.
 
-So let's refactor to eliminate this duplication. We can use the existing push method to setup the item that top will return.
+<ruby>
+context "An empty stack" do
+  setup do
+    @stack = Stack.new
+  end
+  specify "should not be empty after 'push'" do
+  end
+end
+</ruby>
+<br>
+<pre>
+$ spec stack_spec.rb -f s
+
+A new stack
+- should be empty
+
+An empty stack
+- should not be empty after 'push'
+
+Finished in 0.000444 seconds
+
+2 contexts, 2 specifications, 0 failures
+</pre>
+
+No change in the result. Now we'll push something on to the stack.
+
+<ruby>
+context "An empty stack" do
+  setup do
+    @stack = Stack.new
+  end
+  specify "should not be empty after 'push'" do
+    @stack.push 37
+  end
+end
+</ruby>
+<br>
+<pre>
+$ spec stack_spec.rb -f s
+
+A new stack
+- should be empty
+
+An empty stack
+- should not be empty after 'push' (FAILED - 1)
+
+1)
+NoMethodError in 'An empty stack should not be empty after 'push''
+undefined method `push' for #<Stack:0x36d0e0>
+./stack_spec.rb:17:in `should not be empty after 'push''
+
+Finished in 0.000548 seconds
+
+2 contexts, 2 specifications, 1 failure
+</pre>
+
+The <code>NoMethodError</code> tells us we need to add a push method to the stack.
 
 <ruby>
 class Stack
-  
+  def empty?
+    true
+  end
   def push item
-    @item = item
   end
-  
-  def top
-    @item
-  end
-  
 end
 </ruby>
+<br>
+<pre>
+$ spec stack_spec.rb -f s
 
-So now we have two specifications, each with their own context. We've implemented two simple methods that satisfy the existing specifications. If you've never done any TDD before this, this may seem really odd. We all know that this isn't enough to meet the specs that we intend. But right now, at this moment, as far as the code is concerned, there are only two simple specifications. To move our implementation along, we first have to specify more about how we want our stack to behave.
+A new stack
+- should be empty
+
+An empty stack
+- should not be empty after 'push'
+
+Finished in 0.000427 seconds
+
+2 contexts, 2 specifications, 0 failures
+</pre>
+
+Remember, add a little bit at a time, run the specs and resolve name errors (these are like compilation failures in java and C#). Next we set our expectation:
+
+<ruby>
+context "An empty stack" do
+  setup do
+    @stack = Stack.new
+  end
+  specify "should not be empty after 'push'" do
+    @stack.push 37
+    @stack.should_not_be_empty
+  end
+end
+</ruby>
+<br>
+<pre>
+$ spec stack_spec.rb -f s
+
+A new stack
+- should be empty
+
+An empty stack
+- should not be empty after 'push' (FAILED - 1)
+
+1)
+ExpectationNotMetError in 'An empty stack should not be empty after 'push''
+Stack #<Stack:0x36cf50> should not be empty
+./stack_spec.rb:18:in `should not be empty after 'push''
+
+Finished in 0.000604 seconds
+
+2 contexts, 2 specifications, 1 failure
+</pre>
+
+The <code>ExpectationNotMetError</code> tells us we have something to implement. We want to do the simplest thing that we can do to meet our existing expectations. At this point we don't know anything about collections or even specific values, so we can just manage whether or not it is empty.
+
+<ruby>
+class Stack
+  def initialize
+    @empty = true
+  end
+  def empty?
+    @empty
+  end
+  def push item
+    @empty = false
+  end
+end
+</ruby>
+<br>
+<pre>
+$ spec stack_spec.rb -f s
+
+A new stack
+- should be empty
+
+An empty stack
+- should not be empty after 'push'
+
+Finished in 0.000443 seconds
+
+2 contexts, 2 specifications, 0 failures
+</pre>
+
+Again, this may seem a little odd, but we haven't specified anything yet about what happens to things that get pushed on to the stack. That's right around the corner though...
 
 <a href="stack_01.html">Previous</a> |
 <a href="stack_03.html">Next</a>

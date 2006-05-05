@@ -44,10 +44,10 @@ Finished in 6.9e-05 seconds
 
 The <code>spec</code> command is installed when you install rSpec. It requires (using the ruby <code>require</code> method) any file(s) (or all of the files in a directory) that you specify on the command line. The <code>context</code> method accepts a name ("An empty stack") and a block (do ... end) and processes everything inside the block. Since there's nothing in this block to process, we discover that rSpec processed 1 context, but 0 specifications.
 
-You may wonder why bother with the name? Try adding the <code>-v</code> switch to the command
+You may wonder why bother with the name? Try adding the <code>-f s</code> option to the command
 
 <pre>
-$ spec stack_spec.rb -v
+$ spec stack_spec.rb -f s
 
 A new stack
 
@@ -56,7 +56,7 @@ Finished in 6.9e-05 seconds
 1 context, 0 specifications, 0 failures
 </pre>
 
-The <code>-v</code> switch tells rSpec to run in verbose mode, in which case it prints out the names of all the contexts and specifications as they are run. As we progress, you'll see how choosing these names carefully not only documents things well inside the spec files, but also in generated output.
+The option <code>-f s</code> is a shortcut for <code>--format specdoc</code>, which tells rSpec to print out the names of all the contexts and specifications as they are run. As we progress, you'll see how choosing these names carefully not only documents things well inside the spec files, but also in generated output.
 
 h3. Add a specification
 
@@ -70,7 +70,7 @@ end
 </ruby>
 <br>
 <pre>
-$ spec stack_spec.rb -v
+$ spec stack_spec.rb -f s
 
 A new stack
 - should be empty
@@ -97,7 +97,7 @@ end
 Introducing a setup here may seem a bit premature to some, but we know what the context is here: it's a new stack. We want to express that context in the setup method to clearly define it as the starting state for each of the specifications within this context.
 
 <pre>
-$ spec stack_spec.rb -v
+$ spec stack_spec.rb -f s
 
 A new stack
 - should be empty (FAILED - 1)
@@ -131,7 +131,7 @@ context "A new stack" do
 and run the specs.
 
 <pre>
-$ spec stack_spec.rb -v
+$ spec stack_spec.rb -f s
 
 A new stack
 - should be empty
@@ -155,7 +155,7 @@ end
 </ruby>
 <br>
 <pre>
-$ spec stack_spec.rb -v -s
+$ spec stack_spec.rb -f s
 
 A new stack
 - should be empty (FAILED - 1)
@@ -182,7 +182,7 @@ end
 </ruby>
 <br>
 <pre>
-$ spec stack_spec.rb -v -s
+$ spec stack_spec.rb -f s
 
 A new stack
 - should be empty (FAILED - 1)
@@ -208,7 +208,7 @@ end
 </ruby>
 <br>
 <pre>
-spec stack_spec.rb -v -s
+spec stack_spec.rb -f s
 
 A new stack
 - should be empty
@@ -220,4 +220,5 @@ Finished in 0.000256 seconds
 
 And thus we have completed our first specification: "A new stack should be empty"
 
+<a href="stack_02.html">Next</a>
 

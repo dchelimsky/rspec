@@ -1,123 +1,290 @@
-h2. A Simple Stack - Top
+h2. A Simple Stack
 
-What should happen when you call top on an empty stack? We could just return nil, 
-but how does the client know whether the stack was empty or contained nil as an element? 
-Perhaps the client doesn't care. Let's assume the client does care, in which case we'd want to raise an error.
+h3. What to specify next?
 
-We already have our "empty stack" context, so let's add a specification to it.
+Picking the next thing to specify is always a challenge (just as picking the next thing to test is in TDD). Ideally, you want to specify the simplest thing that you can imagine implementing. Of course, thinking about implementation seems to fly in the face of a core tenet of TDD and BDD: focus on interface - focus on behaviour. So you have a couple of opposing forces and notions guiding this decision. The bottom line is that it's not that important which one you pick next. The important thing is that as soon as you recognize that you've headed down the wrong path (one which requires a lot of implementation to meet the newest specification), roll back immediately and pick a different "next step".
+
+For our problem, there seem to be (at least) two logical potential next steps. We know that pushing on to an empty stack results in the stack no longer being empty. So one logical next step might be to specify how an empty stack behaves when sending it a different message. Another might be to send push to a non-empty stack. But what I'd really like to know is what happened to the object we just pushed!
+
+To specify that, we have to move diagonally a bit. We need to specify the stack's response to a new message starting in a new state - a new context. We're going to start with a stack with one item already pushed onto it and specify what happens when you send it 'top'. Why top and not pop? In this case, top is simpler than pop - top just returns the top object, while pop also removes it from the stack.
+
+h3. Send top to a stack with one item
+
+Start by adding a new context in stack_spec.rb. Remember, the context is an object (or set of objects) in a known state, so we'll go ahead and add the setup right away
 
 <ruby>
-context "An empty stack" do
-  
+context "A stack with one item" do
+  specify "should return top when you send it 'top'" do
+  end
+end
+</ruby>
+<br>
+<pre>
+$ spec stack_spec.rb -f s
+
+A new stack
+- should be empty
+
+An empty stack
+- should keep its mouth shut when you send it 'push'
+- should not be empty after 'push'
+
+A stack with one item
+- should return top when you send it 'top'
+
+Finished in 0.000693 seconds
+
+3 contexts, 4 specifications, 0 failures
+</pre>
+
+Add the setup...
+
+<ruby>
+context "A stack with one item" do
   setup do
     @stack = Stack.new
+    @stack.push "one item"
   end
-  
-  specify "should keep its mouth shut when you send it 'push'" do
-     lambda { @stack.push Object.new }.should.not.raise Exception
+
+  specify "should return top when you send it 'top'" do
   end
-  
-  specify "should raise a StackUnderflowError when you send it 'top'" do
-    lambda { @stack.top }.should.raise StackUnderflowError
-  end
-  
 end
 </ruby>
-
-Running the spec...
-
+<br>
 <pre>
-$ spec stack_spec.rb -v
+$ spec stack_spec.rb -f s
+
+A new stack
+- should be empty
 
 An empty stack
 - should keep its mouth shut when you send it 'push'
-- should raise a StackUnderflowError when you send it 'top' (FAILED - 1)
+- should not be empty after 'push'
 
 A stack with one item
 - should return top when you send it 'top'
 
+Finished in 0.000733 seconds
 
-1)
-NameError in 'An empty stack should raise a StackUnderflowError when you send it 'top''
-uninitialized constant StackUnderflowError
-./stack_spec.rb:14:in `should raise a StackUnderflowError when you send it 'top''
-
-Finished in 0.000582 seconds
-
-2 contexts, 3 specifications, 1 failure
+3 contexts, 4 specifications, 0 failures
 </pre>
 
-"uninitialized constant StackUnderflowError" tells us that we need to create a StackUndeflowError. We'll just stick that in the file with the Stack:
+No change in the output. Add the expectation...
 
 <ruby>
-class StackUnderflowError < RuntimeError
+context "A stack with one item" do
+  setup do
+    @stack = Stack.new
+    @stack.push "one item"
+  end
+
+  specify "should return top when you send it 'top'" do
+    @stack.top.should_equal "one item"
+  end
 end
 </ruby>
-
-and run the spec again.
-
+<br>
 <pre>
-$ spec stack_spec.rb -v
+$ spec stack_spec.rb -f s
+
+A new stack
+- should be empty
 
 An empty stack
 - should keep its mouth shut when you send it 'push'
-- should raise a StackUnderflowError when you send it 'top' (FAILED - 1)
+- should not be empty after 'push'
 
 A stack with one item
-- should return top when you send it 'top'
-
+- should return top when you send it 'top' (FAILED - 1)
 
 1)
-ExpectationNotMetError in 'An empty stack should raise a StackUnderflowError when you send it 'top''
-<Proc> should raise <StackUnderflowError> but raised nothing
-./stack_spec.rb:14:in `should raise a StackUnderflowError when you send it 'top''
+NoMethodError in 'A stack with one item should return top when you send it 'top''
+undefined method `top' for #<Stack:0x36bd44 @empty=false>
+./stack_spec.rb:35:in `should return top when you send it 'top''
 
-Finished in 0.000788 seconds
+Finished in 0.000863 seconds
 
-2 contexts, 3 specifications, 1 failure
+3 contexts, 4 specifications, 1 failure
 </pre>
 
-Now the error report tells us that the expectation was not met - executing the block did not 
-raise the error we specified. Now we can implement code to meet this specification. Sticking 
-with the principle that we want to implement the least amount of code to meet the specification, 
-we enhance our top method:
+The <code>NoMethodError</code> tells us to add the 'top' method.
 
 <ruby>
-def top
-  raise StackUnderflowError if @item.nil?
-  @item
+class Stack
+  ...
+  def top
+  end
 end
 </ruby>
-
-run the specs and they all pass.
-
+<br>
 <pre>
-$ spec stack_spec.rb -v
+$ spec stack_spec.rb -f s
+
+A new stack
+- should be empty
 
 An empty stack
 - should keep its mouth shut when you send it 'push'
-- should raise a StackUnderflowError when you send it 'top'
+- should not be empty after 'push'
+
+A stack with one item
+- should return top when you send it 'top' (FAILED - 1)
+
+1)
+ExpectationNotMetError in 'A stack with one item should return top when you send it 'top''
+nil should equal "one item"
+./stack_spec.rb:35:in `should return top when you send it 'top''
+
+Finished in 0.000867 seconds
+
+3 contexts, 4 specifications, 1 failure
+</pre>
+
+The <code>ExpectationNotMetError</code> tells us to implement something. What's the simplest thing we can add to meet all of the current expectations?
+
+<ruby>
+class Stack
+  ...
+  def top
+    "one item"
+  end
+end
+</ruby>
+<br>
+<pre>
+$ spec stack_spec.rb -f s
+
+A new stack
+- should be empty
+
+An empty stack
+- should keep its mouth shut when you send it 'push'
+- should not be empty after 'push'
 
 A stack with one item
 - should return top when you send it 'top'
 
+Finished in 0.000744 seconds
 
-Finished in 0.000557 seconds
-
-2 contexts, 3 specifications, 0 failures
+3 contexts, 4 specifications, 0 failures
 </pre>
 
-Do you see how the verbose output is looking more and more like a specification? That's pretty nice, but as your projects grow, you may not want all of that output all of the time. You can, if you wish, run the specs without the <code>-v</code> flag, in which case you get a "." for every passing spec and an "F" for every failing spec. Run them now and you'll see nothing but dots.
+So now we've hard coded something even more obviously wrong than before. True/false/empty, etc - that was all a bit more subtle. This case is much more obvious. There are a couple of ways to view the problem. One is that we've got this hard coded value. The bigger problem is that we now have duplication between the specs and the code. We want to get rid of it. How do you eliminate duplication? Refactor! And since we have a suite (albeit small) of passing specifications, we can now refactor safely.
 
+If you're not familiar with refactoring, check out <a href="http://www.refactoring.com/">http://www.refactoring.com/</a>. We'll do some now, but we won't be examining the steps too deeply. The basic idea is that we want to change structure/implementation without affecting behaviour. Running the specs and watching them pass between each step proves that the behaviour is in tact.
+
+First, we keep track of the item we add...
+
+<ruby>
+class Stack
+  def initialize
+    @empty = true
+  end
+  def empty?
+    @empty
+  end
+  def push item
+    @empty = false
+    @item = item
+  end
+  def top
+     @item
+  end
+end
+</ruby>
+<br>
 <pre>
-$ spec stack_spec.rb 
+$ spec stack_spec.rb -f s
 
-...
+A new stack
+- should be empty
 
-Finished in 0.000458 seconds
+An empty stack
+- should keep its mouth shut when you send it 'push'
+- should not be empty after 'push'
 
-2 contexts, 3 specifications, 0 failures
+A stack with one item
+- should return top when you send it 'top'
+
+Finished in 0.000846 seconds
+
+3 contexts, 4 specifications, 0 failures
 </pre>
 
-<a href="stack_02.html">Previous</a> |
-<a href="stack_04.html">Next</a>
+Now let's use that to determine "emptiness"...
+
+<ruby>
+class Stack
+  def initialize
+    @empty = true
+  end
+  def empty?
+    @item.nil?
+  end
+  def push item
+    @empty = false
+    @item = item
+  end
+  def top
+     @item
+  end
+end
+</ruby>
+<br>
+<pre>
+$ spec stack_spec.rb -f s
+
+A new stack
+- should be empty
+
+An empty stack
+- should keep its mouth shut when you send it 'push'
+- should not be empty after 'push'
+
+A stack with one item
+- should return top when you send it 'top'
+
+Finished in 0.000764 seconds
+
+3 contexts, 4 specifications, 0 failures
+</pre>
+
+Now we can eliminate <code>@empty</code> (which means we can eliminate <code>initialize</code> as well).
+
+<ruby>
+class Stack
+  def empty?
+    @item.nil?
+  end
+  def push item
+    @item = item
+  end
+  def top
+     @item
+  end
+end
+</ruby>
+<br>
+<pre>
+$ spec stack_spec.rb -f s
+
+A new stack
+- should be empty
+
+An empty stack
+- should keep its mouth shut when you send it 'push'
+- should not be empty after 'push'
+
+A stack with one item
+- should return top when you send it 'top'
+
+Finished in 0.000737 seconds
+
+3 contexts, 4 specifications, 0 failures
+</pre>
+
+You may wonder why we chose to refactor at this point, but we didn't the first time we had duplication between the tests and code. Remember the first step we took? It was to return <code>true</code> for <code>empty?</code>. Though more subtle than "one item", that was duplication between the specs and the code. The problem was that we didn't have any other methods on the stack that we could use. We would have had to contrive implementation that we had no specification for. At this point, however, we were able to make use of data we were passing into the the stack from the specification, so we were in a position to change things without adding things we hadn't specified yet.
+
+To be continued...
+
+<a href="stack_02.html">Previous</a>

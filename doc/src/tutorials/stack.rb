@@ -1,5 +1,11 @@
 class Stack
   def empty?
-    true
+    @item.nil?
+  end
+  def push item
+    @item = item
+  end
+  def top
+     @item
   end
 end
