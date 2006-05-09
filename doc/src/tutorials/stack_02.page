@@ -27,7 +27,7 @@ Finished in 0.000391 seconds
 2 contexts, 2 specifications, 0 failures
 </pre>
 
-See how that's reading as a spec? Let's fill in the specification. First we add the setup for our context.
+See how that's reading like a specification document? OK, now let's fill in the specification. First we add the setup for our context.
 
 <ruby>
 context "An empty stack" do

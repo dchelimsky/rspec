@@ -1,4 +1,4 @@
-h2. A Simple Stack
+h2. A Simple Stack - eliminating duplication
 
 h3. What to specify next?
 
@@ -287,4 +287,5 @@ You may wonder why we chose to refactor at this point, but we didn't the first t
 
 To be continued...
 
-<a href="stack_02.html">Previous</a>
+<a href="stack_02.html">Previous</a> |
+<a href="stack_04.html">Next</a>

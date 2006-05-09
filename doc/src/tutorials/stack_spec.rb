@@ -34,4 +34,9 @@ context "A stack with one item" do
   specify "should return top when you send it 'top'" do
     @stack.top.should_equal "one item"
   end
+  
+  specify "should not be empty after 'top'" do
+    @stack.top
+    @stack.should_not_be_empty
+  end
 end

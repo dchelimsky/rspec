@@ -20,7 +20,7 @@ stack_03.page:
   
 stack_04.page:
   title: '4'
-  inMenu: false
+  inMenu: true
   orderInfo: 13
 
 stack_05.page:
