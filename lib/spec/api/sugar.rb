@@ -1,24 +1,20 @@
 module Spec
   module Api
-    # This module, which is included in Object and Spec::Api::Mock 
-    # adds syntactic sugar that allows usage of should_* instead of should.*
+    # This module adds syntactic sugar that allows usage of should_* instead of should.*
     module Sugar
       alias_method :__orig_method_missing, :method_missing
-      def method_missing(method, *args, &block)
-        if __is_sweetened? method
+      def method_missing(sym, *args, &block)
+        if __is_sweetened? sym
           object = self
-          calls = method.to_s.split("_")
-          while calls.length > 1 and calls[0] != "be"
-            object = object.__send__(calls.shift)
+          calls = sym.to_s.split("_")
+          while calls.length > 1
+            call = calls.shift
+            object = object.__send__(call)
+            break if call == "be"
           end
-          #this handles multi_word_predicates
-          if calls.length > 1 and calls[0] == "be"
-            object = object.__send__(calls.shift)
-            return object.__send__(calls.join("_"))
-          end
-          return object.__send__(calls.shift, *args, &block)
+          return object.__send__(calls.join("_"), *args, &block)
         end
-        __orig_method_missing(method, *args, &block)
+        __orig_method_missing(sym, *args, &block)
       end
       
       def __is_sweetened? sym
