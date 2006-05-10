@@ -5,7 +5,7 @@ module Spec
     module Sugar
       alias_method :__orig_method_missing, :method_missing
       def method_missing(method, *args, &block)
-        if should_sweeten? method
+        if __is_sweetened? method
           object = self
           calls = method.to_s.split("_")
           while calls.length > 1
@@ -16,13 +16,13 @@ module Spec
         __orig_method_missing(method, *args, &block)
       end
       
-      def should_sweeten? name
+      def __is_sweetened? name
         return true if name.to_s[0,7] == "should_"
       end
     end
     
     module MessageExpectationSugar
-      def should_sweeten? name
+      def __is_sweetened? name
         return true if name.to_s[0,4] == "and_"
         return true if name.to_s[0,3] == "at_"
         return true if name.to_s[0,4] == "any_"
@@ -37,10 +37,12 @@ class Object #:nodoc:
 end
 
 class Spec::Api::Mock #:nodoc:
-  include Spec::Api::Sugar
+  #NOTE: this resolves a bug introduced by Sugar in which setting to null_object causes mock to ignore everything, including specified messages
+  def should_receive(sym, &block)
+    return receive(sym, &block)
+  end
 end
 
-class Spec::Api::MessageExpectation
-  include Spec::Api::Sugar
+class Spec::Api::MessageExpectation #:nodoc:
   include Spec::Api::MessageExpectationSugar
 end
