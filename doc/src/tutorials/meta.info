@@ -21,11 +21,11 @@ stack_03.page:
 stack_04.page:
   title: '4'
   inMenu: true
-  orderInfo: 13
+  orderInfo: 14
 
 stack_05.page:
   title: '5'
-  inMenu: false
-  orderInfo: 13
+  inMenu: true
+  orderInfo: 15
 
   
