@@ -18,7 +18,6 @@ module Spec
       
       def should_sweeten? name
         return true if name.to_s[0,7] == "should_"
-        return false
       end
     end
     
@@ -28,7 +27,6 @@ module Spec
         return true if name.to_s[0,3] == "at_"
         return true if name.to_s[0,4] == "any_"
         return true if name.to_s[0,5] == "once_"
-        return false
       end
     end
   end

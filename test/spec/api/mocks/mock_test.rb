@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../../test_helper'
+require File.dirname(__FILE__) + '/../../../test_helper'
 
 module Spec
   module Api
@@ -58,12 +58,6 @@ module Spec
           @mock.random_call("a","d","c")
         }
       end
-  
-      def test_should_allow_unexpected_methods_if_ignore_missing_set
-        m = Mock.new("null_object", :null_object=>true)
-        m.random_call("a","d","c")
-        m.__verify
-      end 
   
       # TODO: rename to should_raise_exception_telling_what_message_was_not_received
       def test_should_raise_exception_on_verify_if_call_counts_not_as_expected

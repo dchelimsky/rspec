@@ -43,7 +43,7 @@ module Spec
       def verify_messages_received
         # TODO: this doesn't provide good enough error messages to fix the error.
         # Error msg should tell exactly what went wrong. (AH).
-    
+        
         return if @expected_received_count == :any
         return if (@expected_received_count < 0) && (@received_count >= @expected_received_count.abs)
         return if @expected_received_count == @received_count

@@ -20,6 +20,12 @@ module Spec
         self
       end
 
+      #NOTE: this resolves a bug introduced by Sugar in which setting to null_object causes mock to ignore everything, including specified messages
+      # - it would be very nice to find another way
+      def should_receive(sym, &block)
+        return receive(sym, &block)
+      end
+      
       def receive(sym, &block)
         expected_from = caller(1)[0]
         expectation = MessageExpectation.new(@name, @expectation_ordering, expected_from, sym, block_given? ? block : nil)
