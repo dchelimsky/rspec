@@ -45,7 +45,27 @@ module Spec
         natural.should_be false
         sweetener.__verify
       end
+      
+      def test_should_allow_multi_word_predicates_in_passing_specs
+        subject = ClassWithMultiWordPredicate.new
+        assert_nothing_raised do
+          subject.should_be_multi_word_predicate
+        end
+      end
+      
+      def test_should_allow_multi_word_predicates_in_failing_specs
+        subject = ClassWithMultiWordPredicate.new
+        assert_raises(ExpectationNotMetError) do
+          subject.should_not_be_multi_word_predicate
+        end
+      end
 
+    end
+    
+    class ClassWithMultiWordPredicate
+      def multi_word_predicate?
+        true 
+      end
     end
   end
 end

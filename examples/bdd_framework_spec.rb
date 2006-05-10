@@ -17,11 +17,11 @@ context "BDD framework" do
   end
 
   specify "should be adopted quickly" do
-    @bdd_framework.should.be.adopted_quickly
+    @bdd_framework.should_be_adopted_quickly
   end
   
   specify "should be intuitive" do
-    @bdd_framework.should.be.intuitive
+    @bdd_framework.should_be_intuitive
   end
 
 end
