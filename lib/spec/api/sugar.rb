@@ -5,13 +5,16 @@ module Spec
     module Sugar
       alias_method :__orig_method_missing, :method_missing
       def method_missing(method, *args, &block)
-        return self.should.be.__send__("#{method.to_s.split('_be_')[1]}") if method.to_s =~ /^should_be_/
-        return self.should.not.be.__send__("#{method.to_s.split('_be_')[1]}") if method.to_s =~ /^should_not_be_/
         if __is_sweetened? method
           object = self
           calls = method.to_s.split("_")
-          while calls.length > 1
+          while calls.length > 1 and calls[0] != "be"
             object = object.__send__(calls.shift)
+          end
+          #this handles multi_word_predicates
+          if calls.length > 1 and calls[0] == "be"
+            object = object.__send__(calls.shift)
+            return object.__send__(calls.join("_"))
           end
           return object.__send__(calls.shift, *args, &block)
         end
