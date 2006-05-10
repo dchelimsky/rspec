@@ -35,7 +35,8 @@ class Object #:nodoc:
 end
 
 class Spec::Api::Mock #:nodoc:
-  #NOTE: this resolves a bug introduced by Sugar in which setting to null_object causes mock to ignore everything, including specified messages
+  #NOTE: this resolves a bug caused by a conflict between Sugar#method_missing and Mock#method_missing, specifically
+  # when the mock is set null_object=>true. It would be nice to get rid of this.
   def should_receive(sym, &block)
     return receive(sym, &block)
   end
