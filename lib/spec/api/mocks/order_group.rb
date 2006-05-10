@@ -1,8 +1,6 @@
 module Spec
   module Api
-
     class OrderGroup
-    
       def initialize
         @ordering = Array.new
       end
@@ -18,9 +16,6 @@ module Spec
       def consume(expectation)
         @ordering.shift
       end
-      
-      
     end
-
   end
 end

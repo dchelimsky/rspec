@@ -27,7 +27,7 @@ module Spec
 		def fail_with_message(message)
 			Kernel::raise(Spec::Api::ExpectationNotMetError.new(message))
 		end
-
+		
   end
   
 end

@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../lib/spec'
 
-context "Undersocre sugar" do
+context "Underscore sugar" do
   specify "should be available for regular objects" do
     1.should_equal 1
     lambda { 1.should_not_equal 1 }.should_raise
