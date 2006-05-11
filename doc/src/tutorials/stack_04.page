@@ -135,37 +135,24 @@ end
 </ruby>
 <br>
 <pre>
-$ spec stack_spec.rb -f s
-
-A new stack
-- should be empty
-
-An empty stack
-- should keep its mouth shut when you send it 'push'
-- should not be empty after 'push' (FAILED - 1)
+$ spec stack_spec.rb -f s -s "A stack with one item should not be empty after 'top'"
 
 A stack with one item
-- should return top when you send it 'top'
-- should not be empty after 'top' (FAILED - 2)
+- should not be empty after 'top' (FAILED - 1)
 
 1)
-ExpectationNotMetError in 'An empty stack should not be empty after 'push''
-Stack #<Stack:0x36be98 @item=37> should not be empty
-./stack_spec.rb:24:in `should not be empty after 'push''
-
-2)
 ExpectationNotMetError in 'A stack with one item should not be empty after 'top''
-Stack #<Stack:0x36b060 @item="one item"> should not be empty
-./stack_spec.rb:40:in `should not be empty after 'top''
+Stack #<Stack:0x36ad18 @item="one item"> should not be empty
+./stack_spec.rb:39:in `should not be empty after 'top''
 
-Finished in 0.001091 seconds
+Finished in 0.000398 seconds
 
-3 contexts, 5 specifications, 2 failures
+1 context, 1 specification, 1 failure
 </pre>
 
-At of this writing, rspec does not allow you to select a single context or specification to run so we have to view the whole thing.
+Here we used the <code>-s</code> option, which allows you to specify a single specification by supplying its full name (context name + space + spec name).
 
-Failure number 2 is the one we're interested in here. It tells us that there was an ExpectationNotMetError, as we expected. Revert the code ...
+The failure tells us that there was an ExpectationNotMetError, as we expected. Revert the code ...
 
 <ruby>
 class Stack
@@ -176,7 +163,20 @@ class Stack
 end
 </ruby>
 
-... run the specs ...
+... run the single spec ...
+
+<pre>
+$ spec stack_spec.rb -f s -s "A stack with one item should not be empty after 'top'"
+
+A stack with one item
+- should not be empty after 'top'
+
+Finished in 0.00028 seconds
+
+1 context, 1 specification, 0 failures
+</pre>
+
+... and then run all the specs ...
 
 <pre>
 $ spec stack_spec.rb -f s
