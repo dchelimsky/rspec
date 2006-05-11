@@ -31,6 +31,20 @@ module Spec
       def number_of_specs
         @specifications.length
       end
+      
+      def matches? name
+        return false unless name =~ /^#{@name} /
+        @specifications.each do |spec|
+          return true if spec.matches? name[(@name.length + 1)..-1]
+        end
+        return false
+      end
+      
+      def isolate name
+        @specifications.reject! do |spec|
+          !spec.matches? name[(@name.length + 1)..-1]
+        end
+      end
     end
   end
 end

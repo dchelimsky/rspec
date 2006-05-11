@@ -17,7 +17,7 @@ module Spec
         reporter.should_receive(:end)
         reporter.should_receive(:dump)
 
-        runner = ContextRunner.new(reporter, false, STDERR)
+        runner = ContextRunner.new(reporter, false, false)
         runner.add_context context1
         runner.add_context context2        
 
@@ -25,6 +25,35 @@ module Spec
 
         context1.__verify
         context2.__verify
+        reporter.__verify
+      end
+      
+      def test_should_support_single_spec
+        legal_context = Api::Mock.new "legal context"
+        legal_context.should_receive(:matches?).at_least(:once).and_return(true)
+        legal_context.should_receive(:run)
+        legal_context.should_receive(:isolate)
+        legal_context.should_receive(:number_of_specs).and_return(1)
+        
+        illegal_context = Api::Mock.new "illegal context"
+        illegal_context.should_receive(:matches?).and_return(false)
+        illegal_context.should_receive(:run).never
+        illegal_context.should_receive(:number_of_specs).never
+        
+        reporter = Api::Mock.new 'reporter'
+
+        runner = ContextRunner.new(reporter, false, false, "legal context legal spec")
+        runner.add_context legal_context
+        runner.add_context illegal_context
+        
+        reporter.should_receive(:start)
+        reporter.should_receive(:end)
+        reporter.should_receive(:dump)
+        
+        runner.run
+
+        legal_context.__verify
+        illegal_context.__verify
         reporter.__verify
       end
       

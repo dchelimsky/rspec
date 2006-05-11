@@ -80,6 +80,16 @@ module Spec
         options = OptionParser.parse(["--backtrace"], false, @err, @out)
         assert options.backtrace_tweaker.instance_of?(NoisyBacktraceTweaker)
       end
+      
+      def test_should_support_single_spec_with_spec
+        options = OptionParser.parse(["--spec","something or other"], false, @err, @out)
+        assert_equal "something or other", options.spec_name
+      end
+      
+      def test_should_support_single_spec_with_s
+        options = OptionParser.parse(["-s","something or other"], false, @err, @out)
+        assert_equal "something or other", options.spec_name
+      end
     end
   end
 end

@@ -10,7 +10,7 @@ module Spec
 
         formatter = options.formatter_type.new(options.out, options.dry_run)
         reporter = Reporter.new(formatter, options.backtrace_tweaker) 
-        ContextRunner.new(reporter, standalone, options.dry_run)
+        ContextRunner.new(reporter, standalone, options.dry_run, options.spec_name)
       end
 
       def self.parse(args, standalone, err, out)
@@ -18,6 +18,7 @@ module Spec
         options.out = out
         options.formatter_type = ProgressBarFormatter
         options.backtrace_tweaker = QuietBacktraceTweaker.new
+        options.spec_name = nil
 
         opts = ::OptionParser.new do |opts|
           opts.banner = "Usage: spec [options] (FILE|DIRECTORY)+"
@@ -37,6 +38,10 @@ module Spec
 
           opts.on("-d", "--dry-run", "Don't execute specs") do
             options.dry_run = true
+          end
+          
+          opts.on("-s", "--spec SPECIFICATION_NAME", "Execute a single specification") do |spec_name|
+            options.spec_name = spec_name
           end
 
           opts.on("-v", "--version", "Show version") do

@@ -90,6 +90,16 @@ module Spec
         spec.run @reporter, nil, teardown
       end
       
+      def test_should_match_if_name_matches
+        spec = Specification.new("spec")
+        assert spec.matches?"spec"
+      end
+      
+      def test_should_not_match_if_name_does_not_match
+        spec = Specification.new("specification")
+        assert (!spec.matches?"spec")
+      end
+      
       def teardown
         @reporter.__verify
       end

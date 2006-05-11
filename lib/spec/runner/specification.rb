@@ -40,6 +40,10 @@ module Spec
       def add_mock(mock)
         @mocks << mock
       end
+      
+      def matches? name
+        name == @name
+      end
 
       private
       

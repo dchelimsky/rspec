@@ -5,18 +5,20 @@ module Spec
     class ContextRunner
       attr_reader :standalone
       
-      def initialize(reporter, standalone, dry_run)
+      def initialize(reporter, standalone, dry_run, single_spec=nil)
         @contexts = []
         @reporter = reporter
         @standalone = standalone
         @dry_run = dry_run
+        @single_spec = single_spec
       end
     
       def add_context(context)
+        return if !@single_spec.nil? unless context.matches?@single_spec
+        context.isolate @single_spec if context.matches?@single_spec
         @contexts << context
       end
       
-      # Runs all the contexts and specs and returns the total number of failures
       def run(exit_when_done=false)
         @reporter.start number_of_specs
         @contexts.each do |context|
