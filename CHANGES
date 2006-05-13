@@ -1,7 +1,7 @@
 = RSpec Changelog
 
-== Version 0.5.4 (in SVN)
-Release notes go here
+== Version 0.5.4
+The "the tutorial is ahead of the gem" release
 
 * Support for running a single spec with --spec
 * Exitcode is now 1 unless all specs pass, in which case it's 0.
