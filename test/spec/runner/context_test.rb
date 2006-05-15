@@ -72,7 +72,7 @@ module Spec
       
       def test_matches_should_pass_if_matches_context_and_spec
         @context.specify("spec") {}
-        assert @context.matches? "context spec"
+        assert @context.matches?("context spec")
       end
       
       def test_matches_should_fail_if_input_does_not_start_with_name
