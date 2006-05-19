@@ -21,7 +21,7 @@ module Spec
         runner.add_context context1
         runner.add_context context2        
 
-        runner.run
+        runner.run(false)
 
         context1.__verify
         context2.__verify
@@ -50,7 +50,7 @@ module Spec
         reporter.should_receive(:end)
         reporter.should_receive(:dump)
         
-        runner.run
+        runner.run(false)
 
         legal_context.__verify
         illegal_context.__verify

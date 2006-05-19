@@ -3,7 +3,7 @@ module Kernel
     context = Spec::Runner::Context.new(name, &block)
     runner = context_runner
     runner.add_context(context)
-    runner.run if runner.standalone
+    runner.run(false) if runner.standalone
   end
   
 private

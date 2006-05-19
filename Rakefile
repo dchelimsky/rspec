@@ -146,7 +146,7 @@ end
 
 desc "Upload Website to RubyForge"
 task :publish_website => [:verify_user, :website] do
-  publisher = Rake::SshDirPublisher.new(
+  publisher = Rake::SshFreshDirPublisher.new(
     "#{ENV['RUBYFORGE_USER']}@rubyforge.org",
     "/var/www/gforge-projects/#{PKG_NAME}",
     "doc/output"

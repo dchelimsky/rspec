@@ -19,7 +19,7 @@ module Spec
         @contexts << context
       end
       
-      def run(exit_when_done=false)
+      def run(exit_when_done)
         @reporter.start number_of_specs
         @contexts.each do |context|
           context.run(@reporter, @dry_run)
@@ -28,7 +28,7 @@ module Spec
         failure_count = @reporter.dump
         if(exit_when_done)
           exit_code = (failure_count == 0) ? 0 : 1
-          exit!(exit_code)
+          exit(exit_code)
         end
       end
     
