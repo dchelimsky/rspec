@@ -138,7 +138,6 @@ end
 
 task :verify_user do
   raise "RUBYFORGE_USER environment variable not set!" unless ENV['RUBYFORGE_USER']
-  raise "BEHAVIOURDRIVEN_USER environment variable not set!" unless ENV['BEHAVIOURDRIVEN_USER']
 end
 
 task :verify_password do
@@ -148,8 +147,8 @@ end
 desc "Upload Website to RubyForge"
 task :publish_website => [:verify_user, :website] do
   publisher = Rake::SshDirPublisher.new(
-    "#{ENV['BEHAVIOURDRIVEN_USER']}@www.behaviourdriven.org",
-    "/var/www/behaviourdriven.org/htdocs/#{PKG_NAME}",
+    "#{ENV['RUBYFORGE_USER']}@rubyforge.org",
+    "/var/www/gforge-projects/#{PKG_NAME}",
     "doc/output"
   )
 
