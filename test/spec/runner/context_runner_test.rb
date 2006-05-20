@@ -29,22 +29,22 @@ module Spec
       end
       
       def test_should_support_single_spec
-        legal_context = Api::Mock.new "legal context"
-        legal_context.should_receive(:matches?).at_least(:once).and_return(true)
-        legal_context.should_receive(:run)
-        legal_context.should_receive(:isolate)
-        legal_context.should_receive(:number_of_specs).and_return(1)
+        desired_context = Api::Mock.new "desired context"
+        desired_context.should_receive(:matches?).at_least(:once).and_return(true)
+        desired_context.should_receive(:run)
+        desired_context.should_receive(:run_single_spec)
+        desired_context.should_receive(:number_of_specs).and_return(1)
         
-        illegal_context = Api::Mock.new "illegal context"
-        illegal_context.should_receive(:matches?).and_return(false)
-        illegal_context.should_receive(:run).never
-        illegal_context.should_receive(:number_of_specs).never
+        other_context = Api::Mock.new "other context"
+        other_context.should_receive(:matches?).and_return(false)
+        other_context.should_receive(:run).never
+        other_context.should_receive(:number_of_specs).never
         
         reporter = Api::Mock.new 'reporter'
 
-        runner = ContextRunner.new(reporter, false, false, "legal context legal spec")
-        runner.add_context legal_context
-        runner.add_context illegal_context
+        runner = ContextRunner.new(reporter, false, false, "desired context legal spec")
+        runner.add_context desired_context
+        runner.add_context other_context
         
         reporter.should_receive(:start)
         reporter.should_receive(:end)
@@ -52,8 +52,8 @@ module Spec
         
         runner.run(false)
 
-        legal_context.__verify
-        illegal_context.__verify
+        desired_context.__verify
+        other_context.__verify
         reporter.__verify
       end
       

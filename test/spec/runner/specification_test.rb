@@ -90,14 +90,19 @@ module Spec
         spec.run @reporter, nil, teardown
       end
       
-      def test_should_match_if_name_matches
+      def test_should_match_if_name_matches_end_of_input
         spec = Specification.new("spec")
-        assert spec.matches?("spec")
+        assert spec.matches_matcher?(SpecMatcher.new("context spec", "context"))
+      end
+      
+      def test_should_match_if_name_matches_entire_input
+        spec = Specification.new("spec")
+        assert spec.matches_matcher?(SpecMatcher.new("spec", "context"))
       end
       
       def test_should_not_match_if_name_does_not_match
-        spec = Specification.new("specification")
-        assert !spec.matches?("spec")
+        spec = Specification.new("otherspec")
+        assert !spec.matches_matcher?(SpecMatcher.new("context spec", "context"))
       end
       
       def teardown

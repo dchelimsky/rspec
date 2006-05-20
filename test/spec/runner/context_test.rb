@@ -69,27 +69,6 @@ module Spec
         @context.specify("four") {}
         assert_equal(4, @context.number_of_specs)
       end
-      
-      def test_matches_should_pass_if_matches_context_and_spec
-        @context.specify("spec") {}
-        assert @context.matches?("context spec")
-      end
-      
-      def test_matches_should_fail_if_input_does_not_start_with_name
-        assert !@context.matches?("contextual spec")
-      end
-      
-      def test_matches_should_fail_if_input_does_not_include_valid_spec
-        assert !@context.matches?("context spec")
-      end
-      
-      def test_isolate_should_trim_specs
-        @context.specify("spec1") {}
-        @context.specify("spec2") {}
-        @context.isolate "context spec1"
-        assert_equal 1, @context.number_of_specs
-      end
-      
     end
   end
 end

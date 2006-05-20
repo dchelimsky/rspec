@@ -15,7 +15,7 @@ module Spec
     
       def add_context(context)
         return if !@single_spec.nil? unless context.matches?(@single_spec)
-        context.isolate @single_spec if context.matches?(@single_spec)
+        context.run_single_spec @single_spec if context.matches?(@single_spec)
         @contexts << context
       end
       

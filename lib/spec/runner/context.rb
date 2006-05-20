@@ -32,17 +32,19 @@ module Spec
         @specifications.length
       end
       
-      def matches? name
-        return false unless name =~ /^#{@name} /
+      def matches? name, matcher=nil
+        matcher ||= SpecMatcher.new name, @name
         @specifications.each do |spec|
-          return true if spec.matches? name[(@name.length + 1)..-1]
+          return true if spec.matches_matcher? matcher 
         end
         return false
       end
       
-      def isolate name
+      def run_single_spec name
+        return if @name == name
+        matcher = SpecMatcher.new name, @name
         @specifications.reject! do |spec|
-          !spec.matches? name[(@name.length + 1)..-1]
+          !spec.matches_matcher? matcher
         end
       end
     end
