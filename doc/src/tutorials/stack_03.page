@@ -4,13 +4,13 @@ h3. What to specify next?
 
 Picking the next thing to specify is always a challenge (just as picking the next thing to test is in TDD). Ideally, you want to specify the simplest thing that you can imagine implementing. Of course, thinking about implementation seems to fly in the face of a core tenet of TDD and BDD: focus on interface - focus on behaviour. So you have a couple of opposing forces and notions guiding this decision. The bottom line is that it's not that important which one you pick next. The important thing is that as soon as you recognize that you've headed down the wrong path (one which requires a lot of implementation to meet the newest specification), roll back immediately and pick a different "next step".
 
-For our problem, there seem to be (at least) two logical potential next steps. We know that pushing on to an empty stack results in the stack no longer being empty. So one logical next step might be to specify how an empty stack behaves when sending it a different message. Another might be to send push to a non-empty stack. But what I'd really like to know is what happened to the object we just pushed!
+For our problem, there seem to be (at least) two logical potential next steps. We know that pushing on to an empty stack results in the stack no longer being empty. So one logical next step might be to specify how an empty stack behaves when sending it a different message. Another might be to send push to a non-empty stack. But what I'd really like to know is what happened to the item we just pushed onto the stack!
 
-To specify that, we have to move diagonally a bit. We need to specify the stack's response to a new message starting in a new state - a new context. We're going to start with a stack with one item already pushed onto it and specify what happens when you send it 'top'. Why top and not pop? In this case, top is simpler than pop - top just returns the top object, while pop also removes it from the stack.
+To specify that, we have to move diagonally a bit. We need to specify the stack's response to a new message starting in a new state - a new context. We're going to start with a stack with one item already pushed onto it and specify what happens when you send it 'top'. Why top and not pop? In this case, top is simpler than pop - top just returns the top item, while pop also removes it from the stack.
 
 h3. Send top to a stack with one item
 
-Start by adding a new context in stack_spec.rb. Remember, the context is an object (or set of objects) in a known state, so we'll go ahead and add the setup right away
+Start by adding a new context and spec in stack_spec.rb.
 
 <ruby>
 context "A stack with one item" do
@@ -26,7 +26,6 @@ A new stack
 - should be empty
 
 An empty stack
-- should keep its mouth shut when you send it 'push'
 - should not be empty after 'push'
 
 A stack with one item
@@ -58,7 +57,6 @@ A new stack
 - should be empty
 
 An empty stack
-- should keep its mouth shut when you send it 'push'
 - should not be empty after 'push'
 
 A stack with one item
@@ -91,7 +89,6 @@ A new stack
 - should be empty
 
 An empty stack
-- should keep its mouth shut when you send it 'push'
 - should not be empty after 'push'
 
 A stack with one item
@@ -124,7 +121,6 @@ A new stack
 - should be empty
 
 An empty stack
-- should keep its mouth shut when you send it 'push'
 - should not be empty after 'push'
 
 A stack with one item
@@ -158,7 +154,6 @@ A new stack
 - should be empty
 
 An empty stack
-- should keep its mouth shut when you send it 'push'
 - should not be empty after 'push'
 
 A stack with one item
@@ -169,11 +164,11 @@ Finished in 0.000744 seconds
 3 contexts, 4 specifications, 0 failures
 </pre>
 
-So now we've hard coded something even more obviously wrong than before. True/false/empty, etc - that was all a bit more subtle. This case is much more obvious. There are a couple of ways to view the problem. One is that we've got this hard coded value. The bigger problem is that we now have duplication between the specs and the code. We want to get rid of it. How do you eliminate duplication? Refactor! And since we have a suite (albeit small) of passing specifications, we can now refactor safely.
+Again we have duplication between the specs and the code ("one item") and we want to get rid of it. This time, however, we have enough specs and entry points that there is actually something to refactor to.
 
 If you're not familiar with refactoring, check out <a href="http://www.refactoring.com/">http://www.refactoring.com/</a>. We'll do some now, but we won't be examining the steps too deeply. The basic idea is that we want to change structure/implementation without affecting behaviour. Running the specs and watching them pass between each step proves that the behaviour is in tact.
 
-First, we keep track of the item we add...
+First, we save the item we add and return that from <code>top</code> ...
 
 <ruby>
 class Stack
@@ -200,7 +195,6 @@ A new stack
 - should be empty
 
 An empty stack
-- should keep its mouth shut when you send it 'push'
 - should not be empty after 'push'
 
 A stack with one item
@@ -211,7 +205,7 @@ Finished in 0.000846 seconds
 3 contexts, 4 specifications, 0 failures
 </pre>
 
-Now let's use that to determine "emptiness"...
+Now let's use the item to determine "emptiness"...
 
 <ruby>
 class Stack
@@ -238,7 +232,6 @@ A new stack
 - should be empty
 
 An empty stack
-- should keep its mouth shut when you send it 'push'
 - should not be empty after 'push'
 
 A stack with one item
@@ -272,7 +265,6 @@ A new stack
 - should be empty
 
 An empty stack
-- should keep its mouth shut when you send it 'push'
 - should not be empty after 'push'
 
 A stack with one item
@@ -283,9 +275,8 @@ Finished in 0.000737 seconds
 3 contexts, 4 specifications, 0 failures
 </pre>
 
-You may wonder why we chose to refactor at this point, but we didn't the first time we had duplication between the tests and code. Remember the first step we took? It was to return <code>true</code> for <code>empty?</code>. Though more subtle than "one item", that was duplication between the specs and the code. The problem was that we didn't have any other methods on the stack that we could use. We would have had to contrive implementation that we had no specification for. At this point, however, we were able to make use of data we were passing into the the stack from the specification, so we were in a position to change things without adding things we hadn't specified yet.
+So this time we were able to refactor, and in doing so not only reduce the duplication but also reduce the size of the stack class. Sweet.
 
 To be continued...
 
-<a href="stack_02.html">Previous</a> |
-<a href="stack_04.html">Next</a>
+<a href="stack_02.html">Previous</a>

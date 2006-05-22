@@ -1,4 +1,4 @@
-h2. A Simple Stack - when a new expectation passes
+h2. A Simple Stack - when a new expectation passes - IN PROGRESS - DISREGARD THIS PAGE
 
 At this point stack_spec.rb should look like this...
 
@@ -18,10 +18,6 @@ end
 context "An empty stack" do
   setup do
     @stack = Stack.new
-  end
-
-  specify "should keep its mouth shut when you send it 'push'" do
-    lambda { @stack.push Object.new }.should.not.raise
   end
 
   specify "should not be empty after 'push'" do
@@ -67,7 +63,6 @@ A new stack
 - should be empty
 
 An empty stack
-- should keep its mouth shut when you send it 'push'
 - should not be empty after 'push'
 
 A stack with one item
@@ -78,7 +73,12 @@ Finished in 0.000741 seconds
 3 contexts, 4 specifications, 0 failures
 </pre>
 
-Again, a really nice feature of using the <code>--format specdoc</code> option (<code>-f s</code> for short) is that you can easily see all of the contexts you've specified and the balance of specifications between contexts. As your specification is evolving, this helps to inform you regarding the next step. Comparing "An empty stack" to "A stack with one item", there are a couple of ways to go here, which is nice (better than having no obvious next step). On "An empty stack", we know two things about the 'push' message. Let's balance "A stack with one item" with that, and specify the 'emptiness' of the stack after 'top'.
+Again, a really nice feature of using the <code>--format specdoc</code> option (<code>-f s</code> for short) is that you can see the big picture very clearly.
+
+Look closely at the "An empty stack" context. We say that it "should not be empty after 'push'". Does that strike you as confusing? It may not, but if you think about it, we're taking an object in one state ("An empty stack"), changing its state by pushing an item onto it and THEN setting an expectation about it.
+
+
+inform you regarding the next step. Comparing "An empty stack" to "A stack with one item", there are a couple of ways to go here, which is nice (better than having no obvious next step). On "An empty stack", we know two things about the 'push' message. Let's balance "A stack with one item" with that, and specify the 'emptiness' of the stack after 'top'.
 
 <ruby>
 context "A stack with one item" do

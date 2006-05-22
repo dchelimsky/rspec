@@ -1,10 +1,10 @@
 h2. A Simple Stack
 
-h3. An Empty Stack
+h3. Choosing the next Specification
 
-So now we know that when you first create a stack it is empty. What's next? We could make some more specifications about a new stack, but the fact that it is an empty stack is more interesting from a behavioural perspective than a new stack. So let's start talking about the behaviour of an <em>empty</em> stack.
+We left our code in a state in which it could not be refactored because adding conditional logic would be adding new behaviour at this point (which is not refactoring). We wanted to refactor because we had a hard-coded return value from a method that is begging for some conditional logic. So let's choose a specification to focus on next that will help us to address that. We want a specification that will result in a non-empty stack.
 
-We all know the standard messages we want on a stack: some variation of push, pop and top. What should happen when we send 'push' to an empty stack? The usual first move is to specify that it has a size of 1, but we don't have a <code>size</code> method, nor do we want one if we can avoid it. We can, however, specify that it is no longer empty after a push.
+Since an "empty stack" seems more interesting from a behavioural perspective than a "new stack", let's start talking about the behaviour of an <em>empty</em> stack. And let's start by saying that an empty stack should no longer empty after a push.
 
 <ruby>
 context "An empty stack" do
