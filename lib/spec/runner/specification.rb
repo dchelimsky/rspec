@@ -41,15 +41,6 @@ module Spec
         @mocks << mock
       end
       
-      def matches? name
-        return true if name =~ /\b#{@name}$/
-        return false
-      end
-      
-      def matches_exact? name
-        name == @name
-      end
-
       def matches_matcher? matcher
         matcher.matches? @name 
       end
