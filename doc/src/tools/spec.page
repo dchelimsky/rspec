@@ -84,3 +84,31 @@ $ bin/spec failing_examples/team_spec.rb -b
 
 {execute: ../bin/spec ../failing_examples/team_spec.rb -b}
 </pre>
+
+h3. -s, --spec &lt;name of context and/or specification&gt;
+
+Enter the name of a context, spec, or both to run:
+
+all the specs in a context ...
+
+<pre>
+$ bin/spec examples --spec "A stack with one item" -f s
+
+{execute: ../bin/spec ../examples --spec "A stack with one item" -f s}
+</pre>
+
+... any spec in any context with a given name ...
+
+<pre>
+$ bin/spec examples --spec "should return top when sent top" -f s
+
+{execute: ../bin/spec ../examples --spec "should return top when sent top" -f s}
+</pre>
+
+... or a specific spec in a specific context:
+
+<pre>
+$ bin/spec examples --spec "A stack with one item should return top when sent top" -f s
+
+{execute: ../bin/spec ../examples --spec "A stack with one item should return top when sent top" -f s}
+</pre>
