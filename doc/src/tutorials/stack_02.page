@@ -4,7 +4,7 @@ h3. Choosing the next Specification
 
 We left our code in a state in which it could not be refactored because adding conditional logic would be adding new behaviour at this point (which is not refactoring). We wanted to refactor because we had a hard-coded return value from a method that is begging for some conditional logic. So let's choose a specification to focus on next that will help us to address that. We want a specification that will result in a non-empty stack.
 
-Since an "empty stack" seems more interesting from a behavioural perspective than a "new stack", let's start talking about the behaviour of an <em>empty</em> stack. And let's start by saying that an empty stack should no longer empty after a push.
+Since an "empty stack" seems more interesting from a behavioural perspective than a "new stack", let's start talking about the behaviour of an <em>empty</em> stack.
 
 <ruby>
 context "An empty stack" do
@@ -111,7 +111,9 @@ Finished in 0.000427 seconds
 2 contexts, 2 specifications, 0 failures
 </pre>
 
-Remember, add a little bit at a time, run the specs and resolve name errors (these are like compilation failures in java and C#). Next we set our expectation:
+The idea is to add a little bit of spec, just enough to get some kind of failure, then just enough code to get the code to meet the expectations expressed in the spec. In this case, the NameError was like a compilation failure in java or C#.
+
+Next we set our expectation:
 
 <ruby>
 context "An empty stack" do

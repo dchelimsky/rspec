@@ -75,10 +75,9 @@ Finished in 0.000741 seconds
 
 Again, a really nice feature of using the <code>--format specdoc</code> option (<code>-f s</code> for short) is that you can see the big picture very clearly.
 
-Look closely at the "An empty stack" context. We say that it "should not be empty after 'push'". Does that strike you as confusing? It may not, but if you think about it, we're taking an object in one state ("An empty stack"), changing its state by pushing an item onto it and THEN setting an expectation about it.
+Look closely at the "An empty stack" context. We say that it "should not be empty after 'push'". Does that strike you as confusing? It may not, but if you think about it, we're taking an object in one state ("An empty stack"), changing its state by pushing an item onto it and THEN setting an expectation about it. You could argue that we're not really specifying behaviour of an empty stack at all here, but rather behaviour of a stack with one element when you call push.
 
-
-inform you regarding the next step. Comparing "An empty stack" to "A stack with one item", there are a couple of ways to go here, which is nice (better than having no obvious next step). On "An empty stack", we know two things about the 'push' message. Let's balance "A stack with one item" with that, and specify the 'emptiness' of the stack after 'top'.
+So let's add that spec to "A stack with one item".
 
 <ruby>
 context "A stack with one item" do
@@ -86,11 +85,12 @@ context "A stack with one item" do
     @stack = Stack.new
     @stack.push "one item"
   end
+
+  specify "should return top when you send it 'top'" do
+    @stack.top.should_equal "one item"
+  end
   
-  ...  
-  
-  specify "should not be empty after 'top'" do
-    @stack.top
+  specify "should not be empty" do
     @stack.should_not_be_empty
   end
 end
@@ -103,101 +103,62 @@ A new stack
 - should be empty
 
 An empty stack
-- should keep its mouth shut when you send it 'push'
 - should not be empty after 'push'
 
 A stack with one item
 - should return top when you send it 'top'
-- should not be empty after 'top'
+- should not be empty
 
-Finished in 0.000853 seconds
+Finished in 0.000849 seconds
 
-3 contexts, 5 specifications, 0 failures
+3 contexts, 4 specifications, 0 failures
 </pre>
 
-This one passes right away. This situation comes up a lot as you progress through a specification. You add a specification and the expectations are already met. You never saw the failure, so how do you know that you wrote the specification correctly, or that it exercises the code that you want to exercise? We should see the expectation fail before moving on. So now the question is what is the best approach to making it fail? Well, we want to see the failure so that when we make a change to the code to make it pass, we know that we've exercised the right place in the code from the spec. To ensure that, we really want to make the change in the code.
-
-In this case, the simplest way to approach this is to return <code>true</code> from <code>empty?</code>.
+And now we can just remove "An empty spec" from stack_spec.rb.
 
 <ruby>
-class Stack
-  def empty?
-    true
-    #@item.nil?
+require 'stack'
+
+context "A new stack" do
+  setup do
+    @stack = Stack.new
   end
-  def push item
-    @item = item
+  specify "should be empty" do
+    @stack.should_be_empty
   end
-  def top
-     @item
+end
+
+context "A stack with one item" do
+  setup do
+    @stack = Stack.new
+    @stack.push "one item"
+  end
+
+  specify "should return top when you send it 'top'" do
+    @stack.top.should_equal "one item"
+  end
+  
+  specify "should not be empty" do
+    @stack.should_not_be_empty
   end
 end
 </ruby>
 <br>
-<pre>
-$ spec stack_spec.rb -f s -s "A stack with one item should not be empty after 'top'"
-
-A stack with one item
-- should not be empty after 'top' (FAILED - 1)
-
-1)
-ExpectationNotMetError in 'A stack with one item should not be empty after 'top''
-Stack #<Stack:0x36ad18 @item="one item"> should not be empty
-./stack_spec.rb:39:in `should not be empty after 'top''
-
-Finished in 0.000398 seconds
-
-1 context, 1 specification, 1 failure
-</pre>
-
-Here we used the <code>-s</code> option, which allows you to specify a single specification by supplying its full name (context name + space + spec name).
-
-The failure tells us that there was an ExpectationNotMetError, as we expected. Revert the code ...
-
-<ruby>
-class Stack
-  def empty?
-    @item.nil?
-  end
-  ...
-end
-</ruby>
-
-... run the single spec ...
-
-<pre>
-$ spec stack_spec.rb -f s -s "A stack with one item should not be empty after 'top'"
-
-A stack with one item
-- should not be empty after 'top'
-
-Finished in 0.00028 seconds
-
-1 context, 1 specification, 0 failures
-</pre>
-
-... and then run all the specs ...
-
 <pre>
 $ spec stack_spec.rb -f s
 
 A new stack
 - should be empty
 
-An empty stack
-- should keep its mouth shut when you send it 'push'
-- should not be empty after 'push'
-
 A stack with one item
 - should return top when you send it 'top'
-- should not be empty after 'top'
+- should not be empty
 
-Finished in 0.000859 seconds
+Finished in 0.000565 seconds
 
-3 contexts, 5 specifications, 0 failures
+2 contexts, 3 specifications, 0 failures
 </pre>
 
-... and we can press on with confidence that the last spec we added is really exercising and setting expectations on the code we want it to.
+So keep your eye on the contexts and specifications as they evolve. Don't be afraid to move specs around. There are many different benefits that we get from these executable specifications. One is that it helps us to drive code, resulting in very simple and well tested code. Another very important benefit is that future developers can look at them and understand how to use a component (module, class, method, etc). Keep them in mind. "They" may even be you!
 
-<a href="stack_03.html">Previous</a> |
-<a href="stack_05.html">Next</a>
+<a href="stack_03.html">Previous</a>

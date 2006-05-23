@@ -55,23 +55,10 @@ Additional command line options can be passed to customize the output and behavi
 The following options apply whether specs are run in standalone mode (by executing the .rb files directly), 
 or using the spec command.
 
-h3. -v, --verbose
+h3. -f, --format [specdoc|s|rdoc|r|]
 
-Using this option tells the formatter (which by default is specdoc) to produce more verbose output:
-
-<pre>
-$ bin/spec failing_examples/team_spec.rb -v
-
-{execute: ../bin/spec ../failing_examples/team_spec.rb -v}
-</pre>
-
-The spec command does double duty as documentation generation from a set of
-specifications as well as running them against your code.
-
-h3. -f, --format [specdoc|rdoc]
-
-Specify the output format. Most formats will produce some form of "testdox":http://agiledox.sourceforge.net/
-output. The --verbose and --dry-run options may also affect the output format.
+Specify the output format. Default format is "progress bar" ("." for pass, "F" for fail). Most formats will produce some form of "testdox":http://agiledox.sourceforge.net/
+output. The --dry-run options may also affect the output format.
 
 For example, by setting the formatter to rdoc, we can output the kind of input that RDoc
 needs to produce something like "this":../rdoc/files/EXAMPLES_rd.html 
