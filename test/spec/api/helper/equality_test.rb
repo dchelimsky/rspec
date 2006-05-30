@@ -34,7 +34,7 @@ module Spec
           end
         end
 
-        def test_should_not_equal_should_raise_when_objects_are_not_equal
+        def test_should_not_equal_should_raise_when_objects_are_equal
           assert_raise(ExpectationNotMetError) do
             @dummy.should.not.equal @equal_dummy
           end
