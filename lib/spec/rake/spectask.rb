@@ -82,6 +82,9 @@ module Rake
       lib_path = @libs.join(File::PATH_SEPARATOR)
       desc "Run specs" + (@name==:spec ? "" : " for #{@name}")
       task @name do
+        specs = file_list
+        raise "No spec files found." if specs.empty?
+        
         spec = File.dirname(__FILE__) + '/../../../bin/spec'
         file_prefix = @rcov ? " -- " : ""
         interpreter = @rcov ? "rcov" : "ruby"
@@ -94,7 +97,7 @@ module Rake
           " \"#{spec}\" " +
           " #{@spec_opts.join(' ')} " +
           file_prefix +
-          file_list.collect { |fn| "\"#{fn}\"" }.join(' ') +
+          specs.collect { |fn| "\"#{fn}\"" }.join(' ') +
           redirect
       end
       self
@@ -109,14 +112,6 @@ module Rake
         result += FileList[ @pattern ].to_a if @pattern
         FileList[result]
       end
-    end
-
-    def find_file(fn) # :nodoc:
-      $LOAD_PATH.each do |path|
-      file_path = File.join(path, "#{fn}.rb")
-        return file_path if File.exist? file_path
-      end
-      nil
     end
 
     def run(interpreter, *args, &block)

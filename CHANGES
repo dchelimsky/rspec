@@ -1,6 +1,7 @@
 = RSpec Changelog
 
 == Version 0.5.5 (SVN)
+* Better error message from spectask when no spec files are found
 
 == Version 0.5.4
 The "the tutorial is ahead of the gem" release
