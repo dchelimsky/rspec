@@ -30,4 +30,4 @@ h3. Examples
 After you have installed the plugin, you can write RSpec style specs for both models and controllers:
 
 Model:
-<ruby file="../vendor/rails/spec/models/person_spec.rb"/>
+<ruby file="../vendor/rspec_on_rails/spec/models/person_spec.rb"/>

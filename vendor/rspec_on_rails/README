@@ -1,5 +1,8 @@
 == Demo app for RSpec on Rails
 
+This directory contains a demo app for RSpec on Rails.
+The actual plugin lives under vendor/plugins/rspec_on_rails
+
 In order to run RSpec against this app, you need:
 * Ruby on Rails 1.1.2 or later
 * SQlite3
