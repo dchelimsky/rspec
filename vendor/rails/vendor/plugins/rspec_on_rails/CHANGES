@@ -1,0 +1,11 @@
+= RSpec on Rails Changelog
+
+== Version 0.3 (SVN)
+
+* Renamed the Austar module to Spec
+* Renamed Rake tasks and directorires: units->models, functional->controllers.
+* Moved default fixture_path to spec_helper.rb and made it point to spec/fixtures.
+* Imported code from http://lachie.info/svn/projects/rails_plugins/rspec_on_rails (Written by Lachie Cox)
+* install.rb now creates RAILS_ROOT/spec/(unit+functional+fixtures) and copies PLUGIN_ROOT/files/spec_helper.rb (Chad Nantais <cnantais@gmail.com>)
+* added rake task for running specs (spec, spec:functionals, spec:units) (Chad Nantais <cnantais@gmail.com>)
+

@@ -1,9 +1,33 @@
 ---
-title: Rails Integration
+title: RSpec on Rails
 inMenu: true
 ---
-h2. Rails Integration
+h2. RSpec on Rails
 
-Rspec's support for Rails is in a very early and experimental stage.
-If you are adventurous, you can check out the branches/ar_fixtures_facade branch in Subversion.
-See the downloads page for details.
+RSpec comes with a Rails plugin that lets you use RSpec to verify your Rails applications.
+
+h3. Features
+
+* Integrated fixture loading
+* Uses many of the controller-test integration features
+
+h3. Installation
+
+The RSpec on Rails plugin is installed via the regular "Rails plugin":http://wiki.rubyonrails.org/rails/pages/Plugins mechanism.
+
+First, you have to tell Rails' plugin mechanism to discover new plugins. Cd to the root of your rails app and run:
+<pre>
+ruby script/plugin discover
+</pre>
+
+Second, install the plugin:
+<pre>
+ruby script/plugin install rspec_on_rails
+</pre>
+
+h3. Examples
+
+After you have installed the plugin, you can write RSpec style specs for both models and controllers:
+
+Model:
+<ruby file="../vendor/rails/spec/models/person_spec.rb"/>

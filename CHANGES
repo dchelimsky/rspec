@@ -1,6 +1,7 @@
 = RSpec Changelog
 
 == Version 0.5.5 (SVN)
+* Added RSpec on Rails plugin contributed by Lachie Cox. See separate changelog under vendor/rails.
 * Better error message from spectask when no spec files are found
 
 == Version 0.5.4

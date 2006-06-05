@@ -17,12 +17,6 @@ load File.dirname(__FILE__) + '/test/tasks/examples_with_rcov.rake'
 load File.dirname(__FILE__) + '/test/tasks/rcov_verify.rake'
 
 PKG_NAME = "rspec"
-# Versioning scheme: MAJOR.MINOR.PATCH
-# MAJOR bumps when API is broken backwards
-# MINOR bumps when the API is broken backwards in a very slight/subtle (but not fatal) way
-# -OR when a new release is made and propaganda is sent out.
-# PATCH is bumped for every API addition and/or bugfix (ideally for every commit)
-
 PKG_VERSION   = Spec::VERSION::STRING
 PKG_FILE_NAME = "#{PKG_NAME}-#{PKG_VERSION}"
 PKG_FILES = FileList[
