@@ -1,7 +1,7 @@
 RspecOnRails
 ============
 
-Available at http://lachie.info/svn/projects/rails_plugins/rspec_on_rails/
+Originally contributed by Lachie Cox.
 
 Mashes Rails' Test::Unit::TestCase fixture loading with RSpec.
 
