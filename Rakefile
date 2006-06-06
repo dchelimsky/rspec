@@ -132,7 +132,9 @@ end
 
 desc "Creates a tag in svn"
 task :tag do
+  puts "Creating tag in SVN"
   `svn cp svn+ssh://#{ENV['RUBYFORGE_USER']}@rubyforge.org/var/svn/rspec/trunk svn+ssh://#{ENV['RUBYFORGE_USER']}@rubyforge.org/var/svn/rspec/tags/#{Spec::VERSION::TAG} -m "Tag release #{Spec::VERSION::STRING}"`
+  puts "Done!"
 end
 
 desc "Build the website with rdoc and rcov, but do not publish it"
@@ -148,7 +150,7 @@ end
 
 desc "Upload Website to RubyForge"
 task :publish_website => [:verify_user, :website] do
-  unless ENV('SKIP_PUBLISH_WEBSITE') # Because of permission problems on Rubyforge.
+  unless ENV['SKIP_PUBLISH_WEBSITE'] # Because of permission problems on Rubyforge.
     publisher = Rake::SshDirPublisher.new(
       "rspec-website@rubyforge.org",
       "/var/www/gforge-projects/#{PKG_NAME}",

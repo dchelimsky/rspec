@@ -15,11 +15,13 @@ h3. Features
 h3. Installation
 
 RSpec support for rails lives in a separate gem. Install that gem:
+
 <pre>
 gem install rspec_generator
 </pre>
 
 Once the gem is installed, you must configure you Rails app. Stand in the root of your Rails app and run:
+
 <pre>
 ruby script/generate rspec
 </pre>
@@ -40,17 +42,26 @@ For more information on each generator, just run them without any arguments.
 
 h3. Running specs
 
+All specs can be run with
+
+<pre>
+rake spec
+</pre>
+
 Model specs can be run with
+
 <pre>
 rake spec:models
 </pre>
 
 Controller specs can be run with
+
 <pre>
 rake spec:controllers
 </pre>
 
 To see all the RSpec related tasks, run
+
 <pre>
 rake --tasks spec
 </pre>

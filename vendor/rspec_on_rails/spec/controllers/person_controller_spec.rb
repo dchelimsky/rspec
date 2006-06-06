@@ -5,7 +5,7 @@ context "The PersonController" do
   controller_name :person
 
   specify "should be a PersonController" do
-    controller.should.be.an.instance.of PersonController
+    controller.should_be_instance_of PersonController
   end
 
   specify "should find all people on GET to index" do
@@ -16,14 +16,15 @@ context "The PersonController" do
 
   specify "should instantiate unsaved person record on GET to create" do
     get 'create'
-    response.should.be.success
+    response.should_be_success
+    response.should_not_be_redirect
     assigns('person').should_be_new_record
   end
 
   specify "should persist new person and redirect to index on POST to create" do
     post 'create', {:person => {:name => 'Aslak'}}
     Person.find_by_name('Aslak').should_not_be_nil
-    response.should.be.redirect
+    response.should_be_redirect
     response.redirect_url.should_equal 'http://test.host/person'
   end
 end
