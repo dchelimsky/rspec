@@ -119,7 +119,21 @@ task :clobber do
   rm_rf 'doc/output'
 end
 
-task :release => [:clobber, :verify_user, :verify_password, :test, :publish_packages, :publish_website, :publish_news]
+task :release => [:clobber, :verify_committed, :verify_user, :verify_password, :test, :publish_packages, :tag, :publish_website, :publish_news]
+
+desc "Verifies that there is no uncommitted code"
+task :verify_committed do
+  IO.popen('svn stat') do |io|
+    io.each_line do |line|
+      raise "\n!!! Do a svn commit first !!!\n\n" if line =~ /^\s*M\s*/
+    end
+  end
+end
+
+desc "Creates a tag in svn"
+task :tag do
+  `svn cp svn+ssh://#{ENV['RUBYFORGE_USER']}@rubyforge.org/var/svn/rspec/trunk svn+ssh://#{ENV['RUBYFORGE_USER']}@rubyforge.org/var/svn/rspec/trunk/tags/#{Spec::VERSION::TAG}`
+end
 
 desc "Build the website with rdoc and rcov, but do not publish it"
 task :website => [:clobber, :rcov_verify, :doc, :examples_specdoc, :rdoc]
