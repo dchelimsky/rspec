@@ -132,7 +132,7 @@ end
 
 desc "Creates a tag in svn"
 task :tag do
-  `svn cp svn+ssh://#{ENV['RUBYFORGE_USER']}@rubyforge.org/var/svn/rspec/trunk svn+ssh://#{ENV['RUBYFORGE_USER']}@rubyforge.org/var/svn/rspec/trunk/tags/#{Spec::VERSION::TAG}`
+  `svn cp svn+ssh://#{ENV['RUBYFORGE_USER']}@rubyforge.org/var/svn/rspec/trunk svn+ssh://#{ENV['RUBYFORGE_USER']}@rubyforge.org/var/svn/rspec/trunk/tags/#{Spec::VERSION::TAG} -m "Tag release #{Spec::VERSION::STRING}"`
 end
 
 desc "Build the website with rdoc and rcov, but do not publish it"
