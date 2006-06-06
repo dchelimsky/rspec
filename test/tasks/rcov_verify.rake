@@ -1,4 +1,4 @@
-RCov::VerifyTask.new do |t|
-  t.threshold = 99.0
-  t.verbose = true
+RCov::VerifyTask.new(:rcov_verify => :rcov) do |t|
+  t.threshold = 99.1
+  t.index_html = 'doc/output/coverage/index.html'
 end

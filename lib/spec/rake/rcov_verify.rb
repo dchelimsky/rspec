@@ -10,7 +10,7 @@ module RCov
     # Defaults to 'coverage/index.html'
     attr_accessor :index_html
     
-    # Whether or not to output details
+    # Whether or not to output details. Defaults to true.
     attr_accessor :verbose
     
     # The threshold value (in percent) for coverage. If the 
@@ -21,7 +21,7 @@ module RCov
     def initialize(name=:rcov_verify)
       @name = name
       @index_html = 'coverage/index.html'
-      @verbose = false
+      @verbose = true
       yield self if block_given?
       raise "Threshold must be set" if @threshold.nil?
       define

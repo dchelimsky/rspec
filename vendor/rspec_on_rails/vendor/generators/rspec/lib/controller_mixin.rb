@@ -29,9 +29,8 @@ module Spec
 
       def setup_with_controller(controller_name=nil)
         return unless controller_name
-        @controller_class_name = controller_name
 
-        @controller_class = @controller_class_name.camelize.constantize
+        @controller_class = "#{controller_name}_controller".camelize.constantize
 
         #@controller_class = Object.path2class @controller_class_name
         raise "Can't determine controller class for #{self.class}" if @controller_class.nil?

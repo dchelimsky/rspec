@@ -1,6 +1,6 @@
 require 'spec/rake/spectask'
 
-desc 'Run all unit and functional specs'
+desc 'Run all model and controller specs'
 task :spec do
   Rake::Task["spec:models"].invoke       rescue got_error = true
   Rake::Task["spec:controllers"].invoke rescue got_error = true

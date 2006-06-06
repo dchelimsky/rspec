@@ -8,7 +8,7 @@ require 'rake/rdoctask'
 require 'spec/version'
 require 'spec/rake/spectask'
 require 'spec/rake/rcov_verify'
-require 'test/rcov/rcov_testtask'
+require 'rcov/rcovtask'
 
 # Some of the tasks are in separate files since they are also part of the website documentation
 load File.dirname(__FILE__) + '/test/tasks/examples.rake'
@@ -39,9 +39,10 @@ Rake::TestTask.new do |t|
   t.verbose = true
 end
 
-RCov::TestTask.new do |t|
+Rcov::RcovTask.new do |t|
   t.test_files = FileList['test/**/*_test.rb']
-  t.verbose = true
+  t.output_dir = 'doc/output/coverage'
+  t.rcov_opts = []
 end
 
 desc 'Generate HTML documentation'
@@ -60,11 +61,11 @@ end
 spec = Gem::Specification.new do |s|
   s.name = PKG_NAME
   s.version = PKG_VERSION
-  s.summary = "Behaviour Specification Framework for Ruby"
+  s.summary = Spec::VERSION::DESCRIPTION
   s.description = <<-EOF
-    RSpec is a behaviour specification framework for Ruby.  RSpec was created in
-    response to Dave Astels' article _A New Look at Test Driven Development_ which
-    can be read at: http://daveastels.com/index.php?p=5  RSpec is intended to
+    RSpec is a behaviour driven development (BDD) framework for Ruby.  RSpec was 
+    created in response to Dave Astels' article _A New Look at Test Driven Development_ 
+    which can be read at: http://daveastels.com/index.php?p=5  RSpec is intended to
     provide the features discussed in Dave's article.
   EOF
 
@@ -84,8 +85,8 @@ spec = Gem::Specification.new do |s|
   s.bindir = "bin"
   s.executables = ["spec", "test2rspec"]
   s.default_executable = "spec"
-  s.author = "Steven Baker" 
-  s.email = "srbaker@pobox.com"
+  s.author = "Steven Baker, Aslak Hellesoy, Dave Astels, David Chelimsky" 
+  s.email = "rspec-dev@rubyforge.org"
   s.homepage = "http://rspec.rubyforge.org"
   s.rubyforge_project = "rspec"
 end
@@ -115,20 +116,13 @@ task :todo do
 end
 
 task :clobber do
-  rm_rf 'coverage'
   rm_rf 'doc/output'
 end
 
 task :release => [:clobber, :verify_user, :verify_password, :test, :publish_packages, :publish_website, :publish_news]
 
 desc "Build the website with rdoc and rcov, but do not publish it"
-task :website => [:clobber, :copy_rcov_report, :doc, :examples_specdoc, :rdoc]
-
-task :copy_rcov_report => [:test_with_rcov, :rcov_verify] do
-  rm_rf 'doc/output/coverage'
-  mkdir 'doc/output' unless File.exists? 'doc/output'
-  mv 'coverage', 'doc/output'
-end
+task :website => [:clobber, :rcov_verify, :doc, :examples_specdoc, :rdoc]
 
 task :verify_user do
   raise "RUBYFORGE_USER environment variable not set!" unless ENV['RUBYFORGE_USER']
