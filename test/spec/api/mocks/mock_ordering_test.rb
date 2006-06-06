@@ -25,6 +25,34 @@ module Spec
         end
       end
       
+      def FIXME_test_two_in_order_calls_with_block
+        @mock.should.receive(:doit).ordered do |a, b|
+          a.should_equal "a1"
+          a.should_equal "b1"
+        end
+        @mock.should.receive(:doit).ordered do |a, b|
+          a.should_equal "a2"
+          a.should_equal "b2"
+        end
+        @mock.doit "a1", "b1"
+        @mock.doit "b1", "b2"
+        @mock.__verify
+      end
+
+      def FIXME_test_two_out_of_order_calls_with_block
+        @mock.should.receive(:doit).ordered do |a, b|
+          a.should_equal "a1"
+          a.should_equal "b1"
+        end
+        @mock.should.receive(:doit).ordered do |a, b|
+          a.should_equal "a2"
+          a.should_equal "b2"
+        end
+        @mock.doit "b1", "b2"
+        @mock.doit "a1", "b1"
+        @mock.__verify
+      end
+
       def test_three_linear_calls
         @mock.should.receive(:one).ordered
         @mock.should.receive(:two).ordered
