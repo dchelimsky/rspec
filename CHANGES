@@ -1,8 +1,12 @@
 = RSpec Changelog
 
-== Version 0.5.5 (SVN)
-* Added RSpec on Rails plugin contributed by Lachie Cox. See separate changelog under vendor/rails.
-* Better error message from spectask when no spec files are found
+== Version 0.5.5
+This release adds initial support for Ruby on Rails
+
+* [Rails] Reorganised Lachie's original code to be a generator packaged as a gem rather than a plugin.
+* [Rails] Imported code from http://lachie.info/svn/projects/rails_plugins/rspec_on_rails (Written by Lachie Cox)
+* Remove stack trace lines from TextMate's Ruby bundle
+* Better error message from spectask when no spec files are found.
 
 == Version 0.5.4
 The "the tutorial is ahead of the gem" release

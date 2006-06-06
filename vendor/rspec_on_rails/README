@@ -1,44 +1,41 @@
 == Demo app for RSpec on Rails
-TODO: move this to generator README
-
 
 This directory contains a demo app for RSpec on Rails.
-The actual plugin lives under vendor/plugins/rspec_on_rails
+The purpose of this app is to serve as a testbed for
+RSpec on Rails. The rest of this document describes
+how to verify that Rspec on Rails works as intended.
 
-In order to run RSpec against this app, you need:
-* Ruby on Rails 1.1.2 or later
-* SQlite3
-* The sqlite3-ruby gem
+For more information, see the user docs:
+http://rspec.rubyforge.org/tools/rails.html
 
-Once all of this is installed, install the helper and rake tasks:
+=== Install prerequisites
+
+  * Ruby on Rails 1.1.2 or later
+  * SQlite3
+  * The sqlite3-ruby gem
+
+=== Initialize the development database
+
+  rake migrate
+
+=== Install the helper and rake tasks:
 
   ruby script/generate rspec
 
 Now you should have the following files:
 
- * spec/spec_helper.rb
- * lib/tasks/rspec.rake
- * vendor/generator/rspec_model
- * vendor/generator/rspec_controller
- * vendor/generator/rspec_integration
+  * spec/spec_helper.rb
+  * lib/tasks/rspec.rake
+  * vendor/generator/rspec_model
+  * vendor/generator/rspec_controller
+  * vendor/generator/rspec_integration
 
-(Note that in the demo project, these generated files are ignored - since
+(Note that in this demo project, these generated files are ignored by svn - since
 they are intended to be generated over again when changes are made.
 For other rails apps, these files should be checked into the SCM).
 
-From this point, when you want to generate models and controllers, you
-should use generate rspec_model instead of generate model. You will get the same
-production files as if you were running without rspec, but instead of
-getting test/unit/*_test.rb and test/functional/*_test.rb files you'll
-be getting spec/model/*_spec.rb and test/controller/*_spec.rb files.
-And fixtures will be generated under spec/fixtures/*.yml
-
-To run the specs, just run
+=== Run the specs
 
   rake spec
 
-or to run model or controller specs only:
-
-  rake spec:model
-  rake spec:controller
-  
+If everything passes at this point, everything is good.

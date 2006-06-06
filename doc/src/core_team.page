@@ -18,9 +18,14 @@ h2. The Core Team
     <td><img src="http://static.flickr.com/1/127260733_84714abc76_o_d.png" /></td>
   </tr>
   <tr>
-    <td align="center">David and Aslak getting ready for 1.0</td>
+    <td align="center">David and Aslak tweaking backtraces</td>
     <td align="center">What's that, Dude?</td>
     <td align="center">Dave Astels</td>
   </tr>
 </table>
 </notextile>
+
+h2. Contributors
+
+* Lachie Cox (Rails support)
+* Rich Kilmer (Underscore syntactic sugar)

@@ -34,11 +34,11 @@ spec = Gem::Specification.new do |s|
   s.summary = "RSpec plugin and generator for Ruby on Rails"
   s.has_rdoc = false
   s.files = PKG_FILES
-  s.require_path = '.'
-  s.autorequire  = 'rspec_generator'
+  s.require_path = 'lib'
   s.author = "Lachie Cox, Aslak Hellesoy"
   s.email = "rspec-devel@rubyforge.org"
-  s.homepage = "http://rspec.rubyforge.org/"  
+  s.homepage = "http://rspec.rubyforge.org/"
+  s.add_dependency("rspec", "= #{PKG_VERSION}")
 end
 
 # Create Rubygem package

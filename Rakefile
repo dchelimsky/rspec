@@ -86,7 +86,7 @@ spec = Gem::Specification.new do |s|
   s.executables = ["spec", "test2rspec"]
   s.default_executable = "spec"
   s.author = "Steven Baker, Aslak Hellesoy, Dave Astels, David Chelimsky" 
-  s.email = "rspec-dev@rubyforge.org"
+  s.email = "rspec-devel@rubyforge.org"
   s.homepage = "http://rspec.rubyforge.org"
   s.rubyforge_project = "rspec"
 end
@@ -143,14 +143,22 @@ task :publish_website => [:verify_user, :website] do
   publisher.upload
 end
 
+task :package_rails do
+  Dir.chdir 'vendor/rspec_on_rails/vendor/generators/rspec' do    
+    `rake clobber gem`
+    raise "Failed to package RSpec on Rails" if $? != 0
+  end
+end
+
 desc "Publish gem+tgz+zip on RubyForge. You must make sure lib/version.rb is aligned with the CHANGELOG file"
-task :publish_packages => [:verify_user, :verify_password, :package] do
+task :publish_packages => [:verify_user, :verify_password, :package, :package_rails] do
   require 'meta_project'
   require 'rake/contrib/xforge'
   release_files = FileList[
     "pkg/#{PKG_FILE_NAME}.gem",
     "pkg/#{PKG_FILE_NAME}.tgz",
-    "pkg/#{PKG_FILE_NAME}.zip"
+    "pkg/#{PKG_FILE_NAME}.zip",
+    "vendor/rspec_on_rails/vendor/generators/rspec/pkg/rspec_generator-#{Spec::VERSION::STRING}.gem"
   ]
 
   Rake::XForge::Release.new(MetaProject::Project::XForge::RubyForge.new(PKG_NAME)) do |xf|

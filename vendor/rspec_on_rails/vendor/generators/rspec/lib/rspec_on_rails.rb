@@ -1,9 +1,3 @@
-# Make double-sure the RAILS_ENV is set to test, 
-# so fixtures are loaded to the right database
-ENV["RAILS_ENV"] = "test"
-
-require File.expand_path(File.dirname(__FILE__) + "/../../../../config/environment")
-
 require 'application'
 
 silence_warnings { RAILS_ENV = "test" }
