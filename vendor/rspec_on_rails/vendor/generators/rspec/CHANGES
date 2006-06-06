@@ -2,7 +2,8 @@
 
 == Version 0.3 (SVN)
 
-* Renamed the Austar module to Spec
+* Reorganised the code to be a generator packaged as a gem rather than a plugin.
+* Renamed the Austar module to Spec.
 * Renamed Rake tasks and directorires: units->models, functional->controllers.
 * Moved default fixture_path to spec_helper.rb and made it point to spec/fixtures.
 * Imported code from http://lachie.info/svn/projects/rails_plugins/rspec_on_rails (Written by Lachie Cox)

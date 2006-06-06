@@ -1,0 +1,49 @@
+require 'rake'
+require 'rake/testtask'
+require 'rake/rdoctask'
+require 'rake/gempackagetask'
+require File.dirname(__FILE__) + '/../../../../../lib/spec/version'
+
+desc 'Default: run unit tests.'
+task :default => :test
+
+PKG_BUILD       = ENV['PKG_BUILD'] ? '.' + ENV['PKG_BUILD'] : ''
+PKG_NAME        = 'rspec_generator'
+PKG_VERSION     = Spec::VERSION::STRING
+PKG_FILE_NAME   = "#{PKG_NAME}-#{PKG_VERSION}"
+RELEASE_NAME  = "REL #{PKG_VERSION}"
+PKG_FILES = FileList[
+  "*.rb",
+  "lib/**/*",
+  "templates/**/*",
+  "[A-Z]*" 
+]
+
+desc 'Generate documentation for the rspec_on_rails plugin.'
+Rake::RDocTask.new(:rdoc) do |rdoc|
+  rdoc.rdoc_dir = 'rdoc'
+  rdoc.title    = 'RSpecOnRails'
+  rdoc.options << '--line-numbers' << '--inline-source'
+  rdoc.rdoc_files.include('README')
+  rdoc.rdoc_files.include('lib/**/*.rb')
+end
+
+spec = Gem::Specification.new do |s|
+  s.name = PKG_NAME
+  s.version = PKG_VERSION
+  s.summary = "RSpec plugin and generator for Ruby on Rails"
+  s.has_rdoc = false
+  s.files = PKG_FILES
+  s.require_path = '.'
+  s.autorequire  = 'rspec_generator'
+  s.author = "Lachie Cox, Aslak Hellesoy"
+  s.email = "rspec-devel@rubyforge.org"
+  s.homepage = "http://rspec.rubyforge.org/"  
+end
+
+# Create Rubygem package
+Rake::GemPackageTask.new(spec) do |p|
+  p.gem_spec = spec
+  p.need_tar = false
+  p.need_zip = false
+end

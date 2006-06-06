@@ -1,4 +1,5 @@
-require File.dirname(__FILE__) + '/../vendor/plugins/rspec_on_rails/lib/rspec_on_rails'
+<% if `svn info` =~ /var\/svn\/rspec/n %>$LOAD_PATH.unshift(File.dirname(__FILE__) + '/../vendor/generators/rspec/lib')<% end %>
+require 'rspec_on_rails'
 
 module Spec
   module Runner
