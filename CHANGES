@@ -1,7 +1,12 @@
 = RSpec Changelog
 
+== Version 0.5.6
+This release fixes a bug in the Rails controller generator
+
+* The controller generator did not write correct source code (missing 'do'). Fixed.
+
 == Version 0.5.5
-This release adds initial support for Ruby on Rails
+This release adds initial support for Ruby on Rails in the rspec_generator gem.
 
 * [Rails] Reorganised Lachie's original code to be a generator packaged as a gem rather than a plugin.
 * [Rails] Imported code from http://lachie.info/svn/projects/rails_plugins/rspec_on_rails (Written by Lachie Cox)
