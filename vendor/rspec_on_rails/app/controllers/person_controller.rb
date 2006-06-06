@@ -5,6 +5,11 @@ class PersonController < ApplicationController
   end
 
   def create
-    @person = Person.new
+    if request.post?
+      Person.create(params[:person])
+      redirect_to :action => 'index'
+    else
+      @person = Person.new
+    end
   end
 end
