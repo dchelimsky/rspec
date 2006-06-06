@@ -21,7 +21,7 @@ namespace :spec do
  end
 
  desc "Run the specs under spec/controllers"
- Spec::Rake::SpecTask.new(:functionals => "db:test:prepare") do |t|
+ Spec::Rake::SpecTask.new(:controllers => "db:test:prepare") do |t|
    t.spec_files = FileList['spec/controllers/**/*_spec.rb']
  end
 end
