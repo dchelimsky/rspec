@@ -150,15 +150,13 @@ end
 
 desc "Upload Website to RubyForge"
 task :publish_website => [:verify_user, :website] do
-  unless ENV['SKIP_PUBLISH_WEBSITE'] # Because of permission problems on Rubyforge.
-    publisher = Rake::SshDirPublisher.new(
-      "rspec-website@rubyforge.org",
-      "/var/www/gforge-projects/#{PKG_NAME}",
-      "doc/output"
-    )
+  publisher = Rake::SshDirPublisher.new(
+    "rspec-website@rubyforge.org",
+    "/var/www/gforge-projects/#{PKG_NAME}",
+    "doc/output"
+  )
 
-    publisher.upload
-  end
+  publisher.upload
 end
 
 task :package_rails do
