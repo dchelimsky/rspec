@@ -12,7 +12,6 @@ module Spec
         @controller_name = name if name
         @controller_name
       end
-
     end
   end
 

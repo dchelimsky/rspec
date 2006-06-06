@@ -55,7 +55,7 @@ Controller spec Usage:
 
 context "The Families controller" do
   fixtures :families, :brothers
-  set_controller_name :families
+  controller_name :families
 
   helper :make_brother do |name|
     Brother.new :name => name, :age => 21, :family => family(:smith)

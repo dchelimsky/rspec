@@ -1,4 +1,3 @@
-
 # Make double-sure the RAILS_ENV is set to test, 
 # so fixtures are loaded to the right database
 ENV["RAILS_ENV"] = "test"
@@ -13,6 +12,7 @@ require 'active_record/base'
 require 'active_record/fixtures'
 require 'action_controller/test_process'
 require 'action_controller/integration'
+require 'spec'
 
 require File.dirname(__FILE__) + '/fixture_loading.rb'
 require File.dirname(__FILE__) + '/controller_mixin.rb'
@@ -58,12 +58,11 @@ module Spec
         end
       end
 
-
-      def helper(name,&block)
-        self.class.helper(name,&block)
+      def helper(name, &block)
+        self.class.helper(name, &block)
       end
 
-      def self.helper(name,&block)
+      def self.helper(name, &block)
         Spec::Runner::ExecutionContext.send :define_method, name.to_sym, &block
       end
 
