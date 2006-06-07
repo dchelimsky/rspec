@@ -20,7 +20,7 @@ module Spec
       end
       
       def run(exit_when_done)
-        @reporter.start number_of_specs
+        @reporter.start(number_of_specs)
         @contexts.each do |context|
           context.run(@reporter, @dry_run)
         end

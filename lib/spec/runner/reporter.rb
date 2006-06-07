@@ -25,8 +25,9 @@ module Spec
         end
       end
       
-      def start(number_of_specs=0)
+      def start(number_of_specs)
         @start_time = Time.new
+        @formatter.start(number_of_specs)
       end
   
       def end

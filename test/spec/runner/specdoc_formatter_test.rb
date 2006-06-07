@@ -28,6 +28,11 @@ module Spec
         assert_equal("\nFinished in 4 seconds\n\n3 contexts, 2 specifications, 1 failure\n", @io.string)
       end
 
+      def test_should_push_nothing_on_start
+        @formatter.start(5)
+        assert_equal("", @io.string)
+      end
+
       def test_should_push_nothing_on_start_dump
         @formatter.start_dump
         assert_equal("", @io.string)

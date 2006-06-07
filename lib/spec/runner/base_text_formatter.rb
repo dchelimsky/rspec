@@ -6,6 +6,9 @@ module Spec
         @output = output
       end
 
+      def start(spec_count)
+      end
+
       def dump_failure(counter, failure)
         @output << "\n"
         @output << counter.to_s << ")\n"

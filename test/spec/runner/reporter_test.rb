@@ -12,11 +12,12 @@ module Spec
       end
 
       def test_should_push_time_to_reporter
+        @formatter.should_receive(:start).with(5)
         @formatter.should_receive(:start_dump)
         @formatter.should_receive(:dump_summary) do |time, a, b, c|
           assert_match(/[0-9].[0-9|e|-]+/, time.to_s)
         end
-        @reporter.start
+        @reporter.start(5)
         @reporter.end
         @reporter.dump
       end
