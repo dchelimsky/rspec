@@ -68,7 +68,7 @@ module Spec
 
       def spec_failed(name, failure)
         @failures << failure
-        @formatter.spec_failed(name, @failures.length)
+        @formatter.spec_failed(name, @failures.length, failure)
       end
 
       class Failure

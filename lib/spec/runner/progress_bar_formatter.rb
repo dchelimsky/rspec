@@ -5,7 +5,7 @@ module Spec
         @output << "\n" if first
       end
       
-      def spec_failed(name, counter)
+      def spec_failed(name, counter, failure)
         @output << 'F'
       end
       

@@ -9,7 +9,7 @@ module Spec
         @output << "# * #{name}\n"
       end
 
-      def spec_failed(name, counter)
+      def spec_failed(name, counter, failure)
         @output << "# * #{name} [#{counter} - FAILED]\n"
       end
     end

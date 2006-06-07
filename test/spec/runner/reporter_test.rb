@@ -51,7 +51,7 @@ module Spec
       def test_should_account_for_spec_and_error_in_stats_for_pass
         @formatter.should_receive(:add_context)
         @formatter.should_receive(:spec_started).with("spec")
-        @formatter.should_receive(:spec_failed).with("spec", 1)
+        @formatter.should_receive(:spec_failed).with("spec", 1, failure)
         @formatter.should_receive(:start_dump)
         @formatter.should_receive(:dump_failure).with(1, :anything)
         @formatter.should_receive(:dump_summary).with(:anything, 1, 1, 1)
@@ -78,8 +78,8 @@ module Spec
         @formatter.should_receive(:add_context).exactly(2).times
         @formatter.should.receive(:spec_started).with("spec").exactly(4).times
         @formatter.should_receive(:spec_passed).with("spec").exactly(2).times
-        @formatter.should_receive(:spec_failed).with("spec", 1)
-        @formatter.should_receive(:spec_failed).with("spec", 2)
+        @formatter.should_receive(:spec_failed).with("spec", 1, failure) 
+        @formatter.should_receive(:spec_failed).with("spec", 2, failure)
         @formatter.should_receive(:dump_failure).exactly(2).times
         @formatter.should_receive(:start_dump)
         @formatter.should_receive(:dump_summary).with(:anything, 2, 4, 2)
@@ -110,6 +110,10 @@ module Spec
         @reporter.add_context "context"
         @reporter.spec_finished "spec", RuntimeError.new
         @backtrace_tweaker.__verify
+      end
+
+      def failure
+        Api::DuckTypeArgConstraint.new(:header, :message, :backtrace)
       end
 
     end

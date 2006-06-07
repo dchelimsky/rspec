@@ -24,7 +24,7 @@ module Spec
       end
 
       def test_should_push_F_for_failing_spec
-        @formatter.spec_failed("spec", 98)
+        @formatter.spec_failed("spec", 98, nil)
         assert_equal("F", @io.string)
       end
       

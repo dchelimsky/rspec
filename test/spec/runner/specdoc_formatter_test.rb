@@ -19,7 +19,7 @@ module Spec
       end
 
       def test_should_push_failing_spec_name_and_failure_number
-        @formatter.spec_failed("spec", 98)
+        @formatter.spec_failed("spec", 98, nil)
         assert_equal("- spec (FAILED - 98)\n", @io.string)
       end
 

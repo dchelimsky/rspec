@@ -34,8 +34,9 @@ module Spec
 
       # This method is invoked when a spec fails, i.e. an exception occurred
       # inside it (such as a failed should or other exception). +name+ is the name
-      # of the specification.
-      def spec_failed(name)
+      # of the specification. +counter+ is the sequence number of the failure
+      # (starting at 1) and +failure+ is the associated Failure object.
+      def spec_failed(name, counter, failure)
       end
 
       # This method is invoked when a spec passes. +name+ is the name of the
