@@ -39,24 +39,26 @@ module Spec
       end
   
       def test_should_account_for_spec_in_stats_for_pass
-        spec = Specification.new("spec")
+        @formatter.should_receive(:spec_started)
         @formatter.should_receive(:spec_passed)
         @formatter.should_receive(:start_dump)
         @formatter.should_receive(:dump_summary).with(:anything, 0, 1, 0)
-        @reporter.spec_finished spec
+        @reporter.spec_started "spec"
+        @reporter.spec_finished "spec"
         @reporter.dump
       end
   
       def test_should_account_for_spec_and_error_in_stats_for_pass
-        spec = Specification.new("spec")
         @formatter.should_receive(:add_context)
-        @formatter.should_receive(:spec_failed).with(spec, 1)
+        @formatter.should_receive(:spec_started).with("spec")
+        @formatter.should_receive(:spec_failed).with("spec", 1)
         @formatter.should_receive(:start_dump)
         @formatter.should_receive(:dump_failure).with(1, :anything)
         @formatter.should_receive(:dump_summary).with(:anything, 1, 1, 1)
         @backtrace_tweaker.should.receive(:tweak_backtrace)
         @reporter.add_context "context"
-        @reporter.spec_finished spec, RuntimeError.new
+        @reporter.spec_started "spec"
+        @reporter.spec_finished "spec", RuntimeError.new
         @reporter.dump
       end
       
@@ -74,6 +76,7 @@ module Spec
       def test_should_handle_multiple_specs_same_name
         error = RuntimeError.new
         @formatter.should_receive(:add_context).exactly(2).times
+        @formatter.should.receive(:spec_started).with("spec").exactly(4).times
         @formatter.should_receive(:spec_passed).with("spec").exactly(2).times
         @formatter.should_receive(:spec_failed).with("spec", 1)
         @formatter.should_receive(:spec_failed).with("spec", 2)
@@ -82,11 +85,21 @@ module Spec
         @formatter.should_receive(:dump_summary).with(:anything, 2, 4, 2)
         @backtrace_tweaker.should.receive(:tweak_backtrace)
         @reporter.add_context "context"
+
+        @reporter.spec_started "spec"
         @reporter.spec_finished "spec"
+
+        @reporter.spec_started "spec"
         @reporter.spec_finished "spec", error
+
         @reporter.add_context "context"
+
+        @reporter.spec_started "spec"
         @reporter.spec_finished "spec"
+
+        @reporter.spec_started "spec"
         @reporter.spec_finished "spec", error
+
         @reporter.dump
       end
       

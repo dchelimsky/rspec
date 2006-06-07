@@ -9,6 +9,7 @@ module Spec
       end
     
       def run(reporter=nil, setup_block=nil, teardown_block=nil, dry_run=false)
+        reporter.spec_started(@name)
         if dry_run
           reporter.spec_finished(@name)
         else

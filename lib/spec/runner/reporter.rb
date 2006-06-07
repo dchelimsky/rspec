@@ -16,6 +16,11 @@ module Spec
         @context_names << name
       end
       
+      def spec_started(name)
+        @spec_names << name
+        @formatter.spec_started(name)
+      end
+      
       def spec_finished(name, error=nil, failure_location=nil)
         if error.nil?
           spec_passed(name)
@@ -58,12 +63,10 @@ module Spec
       end
 
       def spec_passed(name)
-        @spec_names << name
         @formatter.spec_passed(name)
       end
 
       def spec_failed(name, failure)
-        @spec_names << name
         @failures << failure
         @formatter.spec_failed(name, @failures.length)
       end

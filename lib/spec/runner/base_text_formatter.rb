@@ -22,18 +22,23 @@ module Spec
       # +name+ is the name of the context and +first+ is true if it is the
       # first context - otherwise it's false.
       #
-      # The next method to be invoked after this one is one of #spec_failed
-      # or #spec_passed.
+      # The next method to be invoked after this is #spec_started
       def add_context(name, first)
       end
 
-      # This method is invoked whenever a spec fails, i.e. an exception occurred
+      # This method is invoked right before a spec is executed.
+      # The next method to be invoked after this one is one of #spec_failed
+      # or #spec_passed.
+      def spec_started(name)
+      end
+
+      # This method is invoked when a spec fails, i.e. an exception occurred
       # inside it (such as a failed should or other exception). +name+ is the name
       # of the specification.
       def spec_failed(name)
       end
 
-      # This method is invoked whwnever a spec passes. +name+ is the name of the
+      # This method is invoked when a spec passes. +name+ is the name of the
       # specification.
       def spec_passed(name)
       end
