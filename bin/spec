@@ -3,9 +3,12 @@ require File.expand_path(File.dirname(__FILE__) + "/../lib/spec") # better stack
 
 $context_runner = ::Spec::Runner::OptionParser.create_context_runner(ARGV, false, STDERR, STDOUT)
 
+# If ARGV is a glob, it will actually each over each one of the matching files.
 ARGV.each do |file_or_dir|
 	if File.lstat(file_or_dir).directory? then
-		(Dir.open(file_or_dir).select {|f| f =~ /.*\.rb/}).each {|file| require "#{file_or_dir}/#{file}"}
+		Dir["#{file_or_dir}/**/*.rb"].each do |file| 
+		  require "#{file}"
+		end
 	else
 		require file_or_dir
 	end

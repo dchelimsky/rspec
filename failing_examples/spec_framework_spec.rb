@@ -18,11 +18,11 @@ context "Spec framework" do
 
   specify "should be adopted quickly" do
     #this will fail
-    @spec_framework.should.be.adopted_quickly
+    @spec_framework.should_be_adopted_quickly
   end
   
   specify "should be intuitive" do
-    @spec_framework.should.be.intuitive
+    @spec_framework.should_be_intuitive
   end
 
 end

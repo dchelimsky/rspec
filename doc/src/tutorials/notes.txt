@@ -7,7 +7,7 @@ context "A stack with one item" do
   end
 
   specify "should return top when you send it 'top'" do
-    @stack.top.should.equal "one item"
+    @stack.top.should_equal "one item"
   end
   
 end
@@ -64,7 +64,10 @@ Finished in 0.000531 seconds
 2 contexts, 2 specifications, 1 failure
 </pre>
 
-This is a very interesting result. <code>nil should equal "one item"</code> tells us that the expression <code>@stack.top</code> returned nil. In ruby, nil is a real object to which you can send messages. <code>should.equal "one item"</code> tells rspec that the object returned by the expression (in this case nil) should be equal to the string literal "one item".
+This is a very interesting result. <code>nil should equal "one item"</code> tells us that the expression 
+<code>@stack.top</code> returned nil. In ruby, nil is a real object to which you can send messages. 
+<code>should_equal "one item"</code> tells rspec that the object returned by the expression (in this case nil) 
+should be equal to the string literal "one item".
 
 So let's get the code to meet this specification. When we do this, we want to implement the simplest thing that we can to satisfy the existing specs. Given the current set of specs, we can simply return "one item"
 
@@ -189,17 +192,25 @@ Finished in 0.000557 seconds
 2 contexts, 3 specifications, 0 failures
 </pre>
 
-RSpec reads the contexts and specs within a given file in the order in which they appear, giving you some control over this output.
+RSpec reads the contexts and specs within a given file in the order in which 
+they appear, giving you some control over this output.
 
-So what can we expect here? The name of the spec tells us - "should keep its mouth shut". That implies that it should not react in any way - including raising an error. So let's set the expectation that there will be no error raised:
+So what can we expect here? The name of the spec tells us - "should keep its 
+mouth shut". That implies that it should not react in any way - including 
+raising an error. So let's set the expectation that there will be no error raised:
 
 <ruby>
 specify "should keep its mouth shut when you send it 'push'" do
-  lambda { @stack.push Object.new }.should.not.raise
+  lambda { @stack.push Object.new }.should_not_raise
 end
 </ruby>
 
-If you're not familiar, <code>lambda</code> accepts a block but does not execute it. It then constructs a Proc object, which can called at any time. So, in this case, the block <code>{ stack.push Object.new }</code> gets saved in a Proc object. <code>should.not.raise</code> then tells rSpec to call the Proc and raise an ExpectationNotMetError if it raises any errors at all. Running the spec...
+If you're not familiar, <code>lambda</code> accepts a block but does not 
+execute it. It then constructs a Proc object, which can called at any time. 
+So, in this case, the block <code>{ stack.push Object.new }</code> gets saved 
+in a Proc object. <code>should_not_raise</code> then tells rSpec to call the 
+Proc and raise an ExpectationNotMetError if it raises any errors at all. 
+Running the spec...
 
 <pre>
 $ spec stack_spec.rb -v

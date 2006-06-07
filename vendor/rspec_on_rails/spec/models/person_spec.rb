@@ -10,8 +10,8 @@ context "The Person model" do
   specify "should find an existing person" do
     person = Person.find(1)
 
-    person.should.equal people(:lachie)
-    person.name.should.equal 'Lachie'
+    person.should_equal people(:lachie)
+    person.name.should_equal 'Lachie'
   end
 
   teardown do

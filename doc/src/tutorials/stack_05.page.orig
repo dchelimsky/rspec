@@ -14,11 +14,11 @@ context "An empty stack" do
   end
   
   specify "should keep its mouth shut when you send it 'push'" do
-     lambda { @stack.push Object.new }.should.not.raise Exception
+     lambda { @stack.push Object.new }.should_not_raise Exception
   end
   
   specify "should raise a StackUnderflowError when you send it 'top'" do
-    lambda { @stack.top }.should.raise StackUnderflowError
+    lambda { @stack.top }.should_raise StackUnderflowError
   end
   
 end
@@ -31,7 +31,7 @@ context "A stack with one item" do
   end
 
   specify "should return top when sent the 'top' message" do
-    @stack.top.should.equal "one item"
+    @stack.top.should_equal "one item"
   end
   
 end
@@ -80,11 +80,11 @@ context "A stack with one item" do
   end
 
   specify "should keep its mouth shut when you send it 'push'" do
-     lambda { @stack.push Object.new }.should.not.raise Exception
+     lambda { @stack.push Object.new }.should_not_raise Exception
   end
   
   specify "should return top when you send it 'top'" do
-    @stack.top.should.equal "one item"
+    @stack.top.should_equal "one item"
   end
   
 end

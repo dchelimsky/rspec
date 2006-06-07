@@ -14,21 +14,21 @@ h3. General
 h4. Arbitrary Block
 
 <ruby>
-target.should.satisfy {|arg| ...}
-target.should.not.satisfy {|arg| ...}
+target.should_satisfysatisfy {|arg| ...}
+target.should_satisfynot.satisfy {|arg| ...}
 </ruby>
 
 The supplied block is evaluated, passing <code>target</code> as the sole argument. If the block evaluates to <code>false</code>, <code>ExpectationNotMetError</code> is raised.
 
 <ruby>
-target.should.satisfy {|arg| arg > 0}
+target.should_satisfysatisfy {|arg| arg > 0}
 </ruby>
 
 h4. Equality
 
 <ruby>
-target.should.equal <value>
-target.should.not.equal <value>
+target.should_satisfyequal <value>
+target.should_satisfynot.equal <value>
 </ruby>
 
 The target object is compared to <code>value</code> using ==. If the result is <code>false</code>, <code>ExpectationNotMetError</code> is raised.
@@ -36,21 +36,21 @@ The target object is compared to <code>value</code> using ==. If the result is <
 h4. Floating Point Comparison
 
 <ruby>
-target.should.be.close <value>, <tolerance>
-target.should.not.be.close <value>, <tolerance>
+target.should_satisfybe.close <value>, <tolerance>
+target.should_satisfynot.be.close <value>, <tolerance>
 </ruby>
 
 The target object is compared to <code>value</code>. If they differ by more that <code>tolerance</code>, <code>ExpectationNotMetError</code> is raised. In the negated case, <code>ExpectationNotMetError</code> is raised if they differ by less than <code>tolerance</code>.
 
 <ruby>
-target.should.be.close 27.35, 0.05
+target.should_satisfybe.close 27.35, 0.05
 </ruby>
 
 h4. Identity
 
 <ruby>
-target.should.be <value>
-target.should.not.be <value>
+target.should_satisfybe <value>
+target.should_satisfynot.be <value>
 </ruby>
 
 The target object is compared to <code>value</code> using <code>equal?</code>. If the result is <code>false</code>, <code>ExpectationNotMetError</code> is raised.
@@ -58,10 +58,10 @@ The target object is compared to <code>value</code> using <code>equal?</code>. I
 h4. Arbitrary Predicate
 
 <ruby>
-target.should.predicate [optional args]
-target.should.be.predicate [optional args]
-target.should.not.predicate [optional args]
-target.should.not.be.predicate [optional args]
+target.should_satisfypredicate [optional args]
+target.should_satisfybe.predicate [optional args]
+target.should_satisfynot.predicate [optional args]
+target.should_satisfynot.be.predicate [optional args]
 </ruby>
 
 The message <code>predicate?</code> is sent to <code>target</code> with any supplied arguments. If the result is <code>false</code>, <code>ExpectationNotMetError</code> is raised.
@@ -69,15 +69,15 @@ The message <code>predicate?</code> is sent to <code>target</code> with any supp
 For example:
 
 <ruby>
-container.should.include('a') => container.include?('a')
-container.should.be.empty => container.empty?
+container.should_satisfyinclude('a') => container.include?('a')
+container.should_satisfybe.empty => container.empty?
 </ruby>
 
 h4. Pattern Matching
 
 <ruby>
-target.should.match <regex>
-target.should.not.match <regex>
+target.should_satisfymatch <regex>
+target.should_satisfynot.match <regex>
 </ruby>
 
 The <code>target</code> is matched against <code>regex</code>. An <code>ExpectationNotMetError</code> is raised if the match fails.
@@ -87,8 +87,8 @@ h3. Class/Type
 h4. Direct Instance
 
 <ruby>
-target.should.be.an.instance.of <class>
-target.should.not.be.an.instance.of <class>
+target.should_satisfybe.an.instance.of <class>
+target.should_satisfynot.be.an.instance.of <class>
 </ruby>
 
 An <code>ExpectationNotMetError</code> is raised if <code>target</code> is not or is, respectively, an direct instance of <code>class</code>. As expected this correlates to <code>target.instance_of?  class</code>.
@@ -96,8 +96,8 @@ An <code>ExpectationNotMetError</code> is raised if <code>target</code> is not o
 h4. Ancestor Class
 
 <ruby>
-target.should.be.a.kind.of <class>
-target.should.not.be.a.kind.of <class>
+target.should_satisfybe.a.kind.of <class>
+target.should_satisfynot.be.a.kind.of <class>
 </ruby>
 
 As above, but uses <code>target.kind_of? class</code>: checking whether <code>class</code> is the direct class of <code>target</code>, or an ancestor of <code>target</code>'s direct class.
@@ -105,8 +105,8 @@ As above, but uses <code>target.kind_of? class</code>: checking whether <code>cl
 h4. Type
 
 <ruby>
-target.should.respond.to <symbol>
-target.should.not.respond.to <symbol>
+target.should_satisfyrespond.to <symbol>
+target.should_satisfynot.respond.to <symbol>
 </ruby>
 
 Uses <code>target.respond_to?(symbol)</code> to check whether <code>symbol</code> is the name of a message that <code>target</code> understands.
@@ -116,21 +116,21 @@ h3. Procs
 h4. Raising
 
 <ruby>
-proc.should.raise <exception>
-proc.should.not.raise <exception>
+proc.should_satisfyraise <exception>
+proc.should_satisfynot.raise <exception>
 </ruby>
 
 Checks that <code>proc</code> causes the named exception to be raised or not. The latter is actually one of two cases: some other exception is raised, or no exception is raised. Typically the <code>proc</code> is created in place using <code>lambda</code>. For example:
 
 <ruby>
-lambda { 3 / 0 }.should.raise ZeroDivisionError
+lambda { 3 / 0 }.should_satisfyraise ZeroDivisionError
 </ruby>
 
 There is a more general form as well.
 
 <ruby>
-proc.should.raise
-proc.should.not.raise
+proc.should_satisfyraise
+proc.should_satisfynot.raise
 </ruby>
 
 These forms don't worry about what exception is raised (or not). All they are concerned with is that some except was raised, or that no exception was.
@@ -138,14 +138,14 @@ These forms don't worry about what exception is raised (or not). All they are co
 h4. Throwing
 
 <ruby>
-proc.should.throw <symbol>
-proc.should.not.throw <symbol>
+proc.should_satisfythrow <symbol>
+proc.should_satisfynot.throw <symbol>
 </ruby>
 
 Similar to the above, but checks that <code>symbol</code> is thrown from within <code>proc</code>, or not. The latter is actually one of two cases: some other symbol is thrown, or no symbol is thrown.
 
 <ruby>
-proc.should.not.throw
+proc.should_satisfynot.throw
 </ruby>
 
 This form is more specific.  It checks that no symbol is thrown from within <code>proc</code>.
@@ -155,8 +155,8 @@ h3. Collections
 h4. Containment
 
 <ruby>
-target.should.include <object>
-target.should.not.include <object>
+target.should_satisfyinclude <object>
+target.should_satisfynot.include <object>
 </ruby>
 
 This is simply a specific case of the arbitrary predicate form. It uses <code>target.include?(object)</code> and raises an <code>ExpectationNotMetError</code> if that returns false. 
@@ -166,7 +166,7 @@ The remaining collection forms are a little more involved. They rely on two thin
 h4. Exact Size
 
 <ruby>
-target.should.have(<number>).things
+target.should_satisfyhave(<number>).things
 </ruby>
 
 The <code>things</code> of <code>target</code> has a length/size of exactly <code>number</code>. 
@@ -174,7 +174,7 @@ The <code>things</code> of <code>target</code> has a length/size of exactly <cod
 h4. Lower Bound
 
 <ruby>
-target.should.have.at.least(<number>).things
+target.should_satisfyhave.at.least(<number>).things
 </ruby>
 
 The <code>things</code> of <code>target</code> has a length/size of no less than <code>number</code>.
@@ -182,7 +182,7 @@ The <code>things</code> of <code>target</code> has a length/size of no less than
 h4. Upper Bound
 
 <ruby>
-target.should.have.at.most(<number>).things
+target.should_satisfyhave.at.most(<number>).things
 </ruby>
 
 The <code>things</code> of <code>target</code> has a length/size of no more than <code>number</code>.

@@ -10,7 +10,7 @@ context "The PersonController" do
 
   specify "should find all people on GET to index" do
     get 'index'
-    response.should.be.success
+    response.should_be_success
     assigns('people').should_equal [people(:lachie)]
   end
 

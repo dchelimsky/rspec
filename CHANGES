@@ -3,6 +3,8 @@
 == Version 0.5.7
 Release summary goes here
 
+* spec DIR now works correctly, recursing down and slurping all *.rb files
+* All documentation and examples are now using '_' instead of '.'
 * Custom external formatters can now be specified via --require and --format.
 
 == Version 0.5.6

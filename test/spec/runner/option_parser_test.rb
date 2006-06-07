@@ -23,7 +23,7 @@ module Spec
       def test_should_print_help_to_stdout
         options = OptionParser.parse(["--help"], false, @err, @out)
         @out.rewind
-        assert_match(/Usage: spec \[options\] \(FILE\|DIRECTORY\)\+/n, @out.read)
+        assert_match(/Usage: spec \[options\] \(FILE\|DIRECTORY\|GLOB\)\+/n, @out.read)
       end
       
       def test_verbose_should_be_false_by_default

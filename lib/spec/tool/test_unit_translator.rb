@@ -3,27 +3,27 @@ module Spec
     # Translates Test::Unit tests to RSpec specs.
     class TestUnitTranslator
       ONE_ARG_TRANSLATIONS = {
-        "assert"                => "should.not.be nil",
-        "assert_nil"            => "should.be nil",
-        "assert_not_nil"        => "should.not.be nil"
+        "assert"                => "should_not_be nil",
+        "assert_nil"            => "should_be nil",
+        "assert_not_nil"        => "should_not_be nil"
         
       }
       TWO_ARG_TRANSLATIONS = {
-        "assert_equal"          => "should.equal",
-        "assert_instance_of"    => "should.be.instance.of",
-        "assert_kind_of"        => "should.be.kind.of",
-        "assert_match"          => "should.match",
-        "assert_no_match"       => "should.not.match",
-        "assert_not_equal"      => "should.not.equal",
-        "assert_not_same"       => "should.not.be",
-        "assert_same"           => "should.be"
+        "assert_equal"          => "should_equal",
+        "assert_instance_of"    => "should_be_instance_of",
+        "assert_kind_of"        => "should_be_kind_of",
+        "assert_match"          => "should_match",
+        "assert_no_match"       => "should_not_match",
+        "assert_not_equal"      => "should_not_equal",
+        "assert_not_same"       => "should_not_be",
+        "assert_same"           => "should_be"
       }
       RAISE_TRANSLATIONS = {
-        "assert_nothing_raised" => "should.not.raise",
-        "assert_nothing_thrown" => "should.not.throw",
-        "assert_raise"          => "should.raise",
-        "assert_raises"         => "should.raise",
-        "assert_throws"         => "should.throw",
+        "assert_nothing_raised" => "should_not_raise",
+        "assert_nothing_thrown" => "should_not_throw",
+        "assert_raise"          => "should_raise",
+        "assert_raises"         => "should_raise",
+        "assert_throws"         => "should_throw",
       }
     
       def translate(test_unit_file)
@@ -71,7 +71,7 @@ module Spec
               
             elsif assertion == "assert_respond_to"
               actual, method, message = args.split(",").collect{|arg| arg.strip}
-              line = "#{spaces}#{actual}.should.respond.to #{method}\n"
+              line = "#{spaces}#{actual}.should_respond_to #{method}\n"
               
             elsif translation = ONE_ARG_TRANSLATIONS[assertion]
               actual, message = args.split(",").collect{|arg| arg.strip}
@@ -87,15 +87,15 @@ module Spec
               end_replacement = "#{translation} #{expected}\n"
               
             elsif assertion == "assert_block" and suffix =~ /\{.*\}/
-              line = "#{spaces}lambda #{suffix}.should.be true\n"
+              line = "#{spaces}lambda #{suffix}.should_be true\n"
               
             elsif assertion == "assert_block"
               line = "#{spaces}lambda do\n"
-              end_replacement = "should.be true\n"
+              end_replacement = "should_be true\n"
               
             elsif assertion == "assert_in_delta"
               expected, actual, delta, message = args.split(",").collect{|arg| arg.strip}
-              line = "#{spaces}#{actual}.should.be.close #{expected}, #{delta}\n"
+              line = "#{spaces}#{actual}.should_be_close #{expected}, #{delta}\n"
             end
           elsif end_replacement && line =~ /(\s+)end/
             spaces = $1

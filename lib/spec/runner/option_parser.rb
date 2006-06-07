@@ -21,7 +21,7 @@ module Spec
         options.spec_name = nil
 
         opts = ::OptionParser.new do |opts|
-          opts.banner = "Usage: spec [options] (FILE|DIRECTORY)+"
+          opts.banner = "Usage: spec [options] (FILE|DIRECTORY|GLOB)+"
           opts.separator ""
 
           opts.on("-b", "--backtrace", "Output full backtrace") do

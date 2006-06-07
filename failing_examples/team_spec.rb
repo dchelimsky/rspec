@@ -24,7 +24,7 @@ context "A new team" do
   end
   
   specify "should have no players" do
-    @team.players.size.should.be 0
+    @team.players.size.should_be 0
   end
   
 end

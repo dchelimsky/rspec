@@ -10,15 +10,15 @@ context "An empty stack" do
   end
   
   specify "should keep its mouth shut when you send it 'push'" do
-     lambda { @stack.push Object.new }.should.not.raise Exception
+     lambda { @stack.push Object.new }.should_not.raise Exception
   end
   
   specify "should raise a StackUnderflowError when you send it 'top'" do
-    lambda { @stack.top }.should.raise StackUnderflowError
+    lambda { @stack.top }.should_raise StackUnderflowError
   end
   
   specify "should raise a StackUnderflowError when you send it 'pop'" do
-    lambda { @stack.pop }.should.raise StackUnderflowError
+    lambda { @stack.pop }.should_raise StackUnderflowError
   end
   
 end
@@ -121,15 +121,15 @@ context "A stack with one item" do
   end
 
   specify "should keep its mouth shut when you send it 'push'" do
-     lambda { @stack.push Object.new }.should.not.raise Exception
+     lambda { @stack.push Object.new }.should_not.raise Exception
   end
   
   specify "should return top when you send it 'top'" do
-    @stack.top.should.equal "one item"
+    @stack.top.should_equal "one item"
   end
   
   specify "should return top when you send it 'pop'" do
-    @stack.pop.should.equal "one item"
+    @stack.pop.should_equal "one item"
   end
   
 end
@@ -236,7 +236,7 @@ What we're looking for here is observable behaviour. How does a one-element stac
 <ruby>
 specify "should raise a StackUnderflowError the second time you sent it 'pop'" do
   @stack.pop
-  lambda { @stack.pop }.should.raise StackUnderflowError
+  lambda { @stack.pop }.should_raise StackUnderflowError
 end
 </ruby>
 

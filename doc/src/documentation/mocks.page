@@ -27,7 +27,7 @@ my_mock = mock("blah", :null_object => true)
 h3. Expecting Messages
 
 <ruby>
-my_mock.should.receive(<message>)
+my_mock.should_receivereceive(<message>)
 </ruby>
 
 The <code>message</code> argument is a symbol that is the name of a message that you want the mock to expect.
@@ -39,7 +39,7 @@ by the mock, the block is evaluated, and passed any arguments. The result is
 the return value of the message. For example:
 
 <ruby>
-my_mock.should.receive(:random_call) {| a | a.should.be true}
+my_mock.should_receivereceive(:random_call) {| a | a.should_receivebe true}
 </ruby>
 
 This allows arbitrary argument validation and result computation.  It's handy and kind of cool to be able to do this, but I advise against it.  Mocks should not be functional.  they should be completely declarative.  That said, it's sometimes useful to give them some minimal behaviour.
@@ -47,25 +47,25 @@ This allows arbitrary argument validation and result computation.  It's handy an
 h3. Expecting Arguments
 
 <ruby>
-my_mock.should.receive(:msg).with(<args>)
+my_mock.should_receivereceive(:msg).with(<args>)
 </ruby>
 
 for example: 
 
 <ruby>
-my_mock.should.receive(:msg).with(1, 2, 3)
+my_mock.should_receivereceive(:msg).with(1, 2, 3)
 </ruby>
 
 The <code>args</code> argument is a series of arguments (e.g. 1, 2, 3) that are expected to be passed as arguments to the associated message.
 
 <ruby>
-my_mock.should.receive(:msg).with(:no_args)
+my_mock.should_receivereceive(:msg).with(:no_args)
 </ruby>
 
 The message (<code>msg</code>) is expected to be passed no arguments.
 
 <ruby>
-my_mock.should.receive(:msg).with(:any_args)
+my_mock.should_receivereceive(:msg).with(:any_args)
 </ruby>
 
 Any arguments (and any number of arguments) are to be accepted. This includes cases where no arguments are provided. *This is the default when no <code>with()</code> clause is specified.*  Even so, sometimes you want to be explicit about it.
@@ -79,7 +79,7 @@ h4. :anything
 accepts any value for this argument, e.g.:
 
 <ruby>
-my_mock.should.receive(:msg).with(1, :anything, "A")
+my_mock.should_receivereceive(:msg).with(1, :anything, "A")
 </ruby>
 
 h4. :numeric
@@ -87,7 +87,7 @@ h4. :numeric
 accepts any numeric value for this argument, e.g.:
 
 <ruby>
-my_mock.should.receive(:msg).with(a, :numeric, "b")
+my_mock.should_receivereceive(:msg).with(a, :numeric, "b")
 </ruby>
 
 h4. :boolean
@@ -95,7 +95,7 @@ h4. :boolean
 accepts a boolean value for this argument, e.g.:
 
 <ruby>
-my_mock.should.receive(:msg).with(a, :boolean, "b")
+my_mock.should_receivereceive(:msg).with(a, :boolean, "b")
 </ruby>
 
 h4. :string
@@ -103,7 +103,7 @@ h4. :string
 accepts any string for this argument, e.g.:
 
 <ruby>
-my_mock.should.receive(:msg).with(a, :string, "b")
+my_mock.should_receivereceive(:msg).with(a, :string, "b")
 </ruby>
 	
 h4. duck_type(message(s))
@@ -112,55 +112,55 @@ accepts any object that responds to the prescribed message(s), e.g.:
 
 <ruby>
 #accepts a Fixnum for the second arg
-my_mock.should.receive(:msg).with(a, duck_type(:abs, :div), "b") 
+my_mock.should_receivereceive(:msg).with(a, duck_type(:abs, :div), "b") 
 </ruby>
 
 h3. Receive Counts
 
 <ruby>
-my_mock.should.receive(:msg).never
+my_mock.should_receivereceive(:msg).never
 </ruby>
 
 An exception is raised if the message is ever received.
 
 <ruby>
-my_mock.should.receive(:msg).any.number.of.times
+my_mock.should_receivereceive(:msg).any.number.of.times
 </ruby>
 
 The message can be received 0 or more times.
 
 <ruby>
-my_mock.should.receive(:msg).once
+my_mock.should_receivereceive(:msg).once
 </ruby>
 
 An exception is raised if the message is never received, or it is received more than once.
 
 <ruby>
-my_mock.should.receive(:msg).twice
+my_mock.should_receivereceive(:msg).twice
 </ruby>
 
 An exception is raised if the message is received anything but two times.
 
 <ruby>
-my_mock.should.receive(:msg).exactly(n).times
+my_mock.should_receivereceive(:msg).exactly(n).times
 </ruby>
 
 An exception is raised if the message is received anything but <code>n</code> times.
 
 <ruby>
-my_mock.should.receive(:msg).at.least(:once)
+my_mock.should_receivereceive(:msg).at.least(:once)
 </ruby>
 
 An exception is raised if the message is never received.
 
 <ruby>
-my_mock.should.receive(:msg).at.least(:twice)
+my_mock.should_receivereceive(:msg).at.least(:twice)
 </ruby>
 
 An exception is raised if the message is never received or is received only once.
 
 <ruby>
-my_mock.should.receive(:msg).at.least(n).times
+my_mock.should_receivereceive(:msg).at.least(n).times
 </ruby>
 
 An exception is raised if the message is received fewer than <code>n</code> times.
@@ -170,7 +170,7 @@ h3. Return Values
 h4. Single return value
 
 <ruby>
-my_mock.should.receive(:msg).once.and.return(<value>)
+my_mock.should_receivereceive(:msg).once.and.return(<value>)
 </ruby>
 
 Each time the expected message is received, <code>value</code> will be returned as the result.
@@ -193,7 +193,7 @@ and.return([[1, 2, 3]])
 h4. Computed return value
 
 <ruby>
-my_mock.should.receive(:msg).once.and.return {...} 
+my_mock.should_receivereceive(:msg).once.and.return {...} 
 </ruby>
 
 When the expected message is received, the result of evaluating the supplied
@@ -201,14 +201,14 @@ block will be returned as the result. The block is passed any arguments passed
 as arguments of the message. This capability can be used to compute return values based on the arguments.  For example:
 
 <ruby>
-my_mock.should.receive(:msg).with(:numeric, :numeric) once.and.return {|a, b| a + b}
+my_mock.should_receivereceive(:msg).with(:numeric, :numeric) once.and.return {|a, b| a + b}
 </ruby>
 
 h3. Raising and Throwing
 
 <ruby>
-my_mock.should.receive(:msg).once.and.raise(<exception>)
-my_mock.should.receive(:msg).once.and.throw(<symbol>) 
+my_mock.should_receivereceive(:msg).once.and.raise(<exception>)
+my_mock.should_receivereceive(:msg).once.and.throw(<symbol>) 
 </ruby>
 
 These instruct the mock to raise an exception or throw a symbol, respectively, instead of returning a value.
@@ -216,7 +216,7 @@ These instruct the mock to raise an exception or throw a symbol, respectively, i
 h3. Yielding
 
 <ruby>
-my_mock.should.receive(:msg).once.and.yield([<value-1>, <value-2>, ..., <value-n>])
+my_mock.should_receivereceive(:msg).once.and.yield([<value-1>, <value-2>, ..., <value-n>])
 </ruby>
 
 When the expected message is received, the mock will yield the values to the passed block.
@@ -229,8 +229,8 @@ It shouldn't be the case very often, but it can be handy at times.
 Labeling expectations as being ordered is done by the <code>ordered</code> call:
 
 <ruby>
-my_mock.should.receive(:flip).once.ordered
-my_mock.should.receive(:flop).once.ordered
+my_mock.should_receivereceive(:flip).once.ordered
+my_mock.should_receivereceive(:flop).once.ordered
 </ruby>
 
 If the send of <code>flop</code> is seen before <code>flip</code> the specification will fail.
@@ -238,9 +238,9 @@ If the send of <code>flop</code> is seen before <code>flip</code> the specificat
 Of course, chains of ordered expectations can be set up:
 
 <ruby>
-my_mock.should.receive(:one).ordered
-my_mock.should.receive(:two).ordered
-my_mock.should.receive(:three).ordered
+my_mock.should_receivereceive(:one).ordered
+my_mock.should_receivereceive(:two).ordered
+my_mock.should_receivereceive(:three).ordered
 </ruby>
 
 The expected order is the order in which the expectations are declared.
@@ -248,10 +248,10 @@ The expected order is the order in which the expectations are declared.
 Order-independant expectations can be set anywhere in the expectation sequence, in any order.  Only the order of expectations tagged with the <code>ordered</code> call is significant.  Likewise, calls to order-independant methods can be made in any order, even interspersed with calls to order-dependant methods.  For example:
 
 <ruby>
-  my_mock.should.receive(:zero)
-  my_mock.should.receive(:one).ordered
-  my_mock.should.receive(:two).ordered
-  my_mock.should.receive(:one_and_a_half)
+  my_mock.should_receivereceive(:zero)
+  my_mock.should_receivereceive(:one).ordered
+  my_mock.should_receivereceive(:two).ordered
+  my_mock.should_receivereceive(:one_and_a_half)
   my_mock.one
   my_mock.one_and_a_half
   my_mock.zero

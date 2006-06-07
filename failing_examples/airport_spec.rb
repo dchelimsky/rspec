@@ -25,16 +25,16 @@ topic "Airport at home" do
   end
   
   fact "should always work" do
-    @airport.should.be.working
+    @airport.should_be.working
   end
 
   must "not need cables" do
-    @airport.should.not.need :cables
+    @airport.should_not_need :cables
   end
 
   must "not need electricity" do
     # This will fail...
-    @airport.should.not.need :electricity
+    @airport.should_not_need :electricity
   end
   
   teardown do

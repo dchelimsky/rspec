@@ -5,14 +5,14 @@ context "The <%= class_name %>Controller" do
   controller_name :<%= class_name.underscore %>
 
   specify "should be a <%= class_name %>Controller" do
-    controller.should.be.an.instance.of <%= class_name %>Controller
+    controller.should_be_an_instance_of <%= class_name %>Controller
   end
 
 <% for action in actions -%>
 
   specify "should accept GET to <%= action %>"
     get '<%= action %>'
-    response.should.be.success
+    response.should_be_success
   end
 <% end -%>
 

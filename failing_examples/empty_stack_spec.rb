@@ -8,11 +8,11 @@ context "An empty stack" do
   end
   
   specify "should accept an item when sent push" do
-    lambda { @stack.push Object.new }.should.not.raise
+    lambda { @stack.push Object.new }.should_not.raise
   end
   
   specify "should complain when sent top" do
-    lambda { @stack.top }.should.raise StackUnderflowError
+    lambda { @stack.top }.should_raise StackUnderflowError
   end
   
 end

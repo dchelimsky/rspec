@@ -4,17 +4,18 @@ inMenu: true
 ---
 h2. Underscore sugar
 
-If you feel that the various dots hurt your eyes and is not very 'rubyish',
-you can replace your dots with underscores, so that instead of saying
+The internal implementation of RSpec actually uses chained method calls, so it's possible
+to write:
 
 <ruby>
 lambda { 1.should.not.equal 1 }.should.raise
 </ruby>
 
-you can say
+However, in order to make RSpec look and feel closer to other ruby code,
+RSpec allows you to use underscores instead if you wish:
 
 <ruby>
 lambda { 1.should_not_equal 1 }.should_raise
 </ruby>
 
-This applies to regular Ruby objects as well as mocks.
+Therefore, you will see the underscored syntax throughout the documentation and examples.

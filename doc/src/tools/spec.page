@@ -25,10 +25,10 @@ spec will exit with the exitcode 1 if one or more specs fail.
 The general form of the command is
 
 <pre>
-spec [options] (FILE|DIRECTORY)+
+spec [options] (FILE|DIRECTORY|GLOB)+
 </pre>
 
-Any number of files and/or directories can be provided, all ruby source files
+Any number of files, directories and shell globs can be provided, all ruby source files
 that are found are loaded. Running spec on the previous example results in:
 
 <pre>
