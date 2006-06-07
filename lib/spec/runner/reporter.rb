@@ -1,8 +1,6 @@
 module Spec
   module Runner
     class Reporter
-      # TODO: remove this attr_reader!!
-      attr_reader :formatter
       
       def initialize(formatter, backtrace_tweaker)
         @formatter = formatter
@@ -18,7 +16,7 @@ module Spec
         @context_names << name
       end
       
-      def add_spec(name, error=nil, failure_location=nil)
+      def spec_finished(name, error=nil, failure_location=nil)
         if error.nil?
           spec_passed(name)
         else

@@ -42,7 +42,7 @@ module Spec
         @formatter.should_receive(:spec_passed)
         @formatter.should_receive(:start_dump)
         @formatter.should_receive(:dump_summary).with(:anything, 0, 1, 0)
-        @reporter.add_spec spec
+        @reporter.spec_finished spec
         @reporter.dump
       end
   
@@ -55,7 +55,7 @@ module Spec
         @formatter.should_receive(:dump_summary).with(:anything, 1, 1, 1)
         @backtrace_tweaker.should.receive(:tweak_backtrace)
         @reporter.add_context "context"
-        @reporter.add_spec spec, RuntimeError.new
+        @reporter.spec_finished spec, RuntimeError.new
         @reporter.dump
       end
       
@@ -81,11 +81,11 @@ module Spec
         @formatter.should_receive(:dump_summary).with(:anything, 2, 4, 2)
         @backtrace_tweaker.should.receive(:tweak_backtrace)
         @reporter.add_context "context"
-        @reporter.add_spec "spec"
-        @reporter.add_spec "spec", error
+        @reporter.spec_finished "spec"
+        @reporter.spec_finished "spec", error
         @reporter.add_context "context"
-        @reporter.add_spec "spec"
-        @reporter.add_spec "spec", error
+        @reporter.spec_finished "spec"
+        @reporter.spec_finished "spec", error
         @reporter.dump
       end
       
@@ -94,7 +94,7 @@ module Spec
         @formatter.should_receive(:spec_failed)
         @backtrace_tweaker.should.receive(:tweak_backtrace)
         @reporter.add_context "context"
-        @reporter.add_spec "spec", RuntimeError.new
+        @reporter.spec_finished "spec", RuntimeError.new
         @backtrace_tweaker.__verify
       end
 

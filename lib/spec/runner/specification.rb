@@ -10,7 +10,7 @@ module Spec
     
       def run(reporter=nil, setup_block=nil, teardown_block=nil, dry_run=false)
         if dry_run
-          reporter.add_spec(@name)
+          reporter.spec_finished(@name)
         else
           execution_context = ::Spec::Runner::ExecutionContext.new(self)
           errors = []
@@ -33,7 +33,7 @@ module Spec
             errors << e
           end
 
-          reporter.add_spec(@name, first_error(errors), failure_location(setup_ok, spec_ok, teardown_ok)) unless reporter.nil?
+          reporter.spec_finished(@name, errors.first, failure_location(setup_ok, spec_ok, teardown_ok)) unless reporter.nil?
         end
       end
       
@@ -41,15 +41,11 @@ module Spec
         @mocks << mock
       end
       
-      def matches_matcher? matcher
+      def matches_matcher?(matcher)
         matcher.matches? @name 
       end
             
       private
-      
-      def first_error errors
-        errors[0]
-      end
       
       def failure_location(setup_ok, spec_ok, teardown_ok)
         return 'setup' unless setup_ok
