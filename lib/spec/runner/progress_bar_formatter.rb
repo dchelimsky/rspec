@@ -1,6 +1,10 @@
 module Spec
   module Runner
-    class ProgressBarFormatter < BaseTextFormatter      
+    class ProgressBarFormatter < BaseTextFormatter
+      def start(number_of_specs)
+        @output << "#{'-'*number_of_specs}"
+      end
+      
       def add_context(name, first)
         @output << "\n" if first
       end
