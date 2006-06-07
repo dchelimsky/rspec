@@ -26,12 +26,6 @@ module Spec
         end
       end
       
-      def XXtest_should_translate_tests_with_ruby_to_ruby
-        require 'spec/tool/ruby2ruby'
-        File.open("trans_test.rb", "w") do |io| 
-          io.write RubyToRuby.translate(TestUnitApiTest)
-        end
-      end
     end
   end
 end

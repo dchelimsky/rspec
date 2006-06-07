@@ -1,3 +1,5 @@
+# Taken from http://dark.fhtr.org/ruby2ruby.rb
+
 require 'rubygems'
 require 'parse_tree'
 require 'support'

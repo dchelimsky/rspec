@@ -25,7 +25,7 @@ PKG_FILES = FileList[
   'test/**/*.rb', 
   'examples/**/*.rb', 
   'doc/**/*'
-].exclude('EXAMPLES.rd')
+]
 
 task :default => [:test]
 
@@ -51,10 +51,9 @@ task :doc do
 end
 
 desc 'Generate RDoc'
-rd = Rake::RDocTask.new("rdoc") do |rdoc|
+rd = Rake::RDocTask.new("rdoc" => :examples_specdoc) do |rdoc|
   rdoc.rdoc_dir = 'doc/output/rdoc'
-  rdoc.title    = "RSpec"
-  rdoc.options << '--line-numbers' << '--inline-source' << '--main' << 'README'
+  rdoc.options << '--title RSpec' << '--line-numbers' << '--inline-source' << '--main' << 'README'
   rdoc.rdoc_files.include('README', 'CHANGES', 'EXAMPLES.rd', 'lib/**/*.rb')
 end
 
@@ -73,11 +72,7 @@ spec = Gem::Specification.new do |s|
   s.require_path = 'lib'
 
   s.has_rdoc = true
-  s.extra_rdoc_files = rd.rdoc_files.reject { |fn| fn =~ /\.rb$/ }.to_a
-  s.rdoc_options <<
-    '--title' <<  'RSpec' <<
-    '--main' << 'README' <<
-    '--line-numbers'
+  s.rdoc_options = rd.options
   
   s.test_files = Dir.glob('test/*_test.rb')
   s.require_path = 'lib'
