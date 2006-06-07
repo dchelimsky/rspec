@@ -8,9 +8,9 @@ module Spec
         @formatter = ProgressBarFormatter.new(@io)
       end
       
-      def test_should_push_one_dash_per_spec_on_start
+      def test_should_push_nothing_on_start
         @formatter.start(4)
-        assert_equal("----", @io.string)
+        assert_equal("", @io.string)
       end
 
       def test_should_push_line_break_for_context
