@@ -1,7 +1,8 @@
 = RSpec Changelog
 
 == Version 0.5.7
-Release summary goes here
+This release changes examples and documentation to recommend underscores rather than dots,
+and addresses some bugfixes and changes to the spec commandline.
 
 * spec DIR now works correctly, recursing down and slurping all *.rb files
 * All documentation and examples are now using '_' instead of '.'
