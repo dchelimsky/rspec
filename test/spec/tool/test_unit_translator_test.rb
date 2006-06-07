@@ -1,5 +1,7 @@
 require File.dirname(__FILE__) + '/../../test_helper'
 require 'spec/tool/test_unit_translator'
+require 'spec/tool/test_unit_api_test'
+require 'spec/tool/ruby2ruby'
 require 'tempfile'
 
 module Spec
@@ -22,6 +24,12 @@ module Spec
           fail("Conversion didn't match expectation. Diff:\n#{diff}")
         else
           assert true # Just so we get an assertion count in the output
+        end
+      end
+      
+      def test_should_translate_tests_with_ruby_to_ruby
+        File.open("trans_test.rb", "w") do |io| 
+          io.write RubyToRuby.translate(TestUnitApiTest)
         end
       end
     end
