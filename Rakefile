@@ -25,7 +25,7 @@ PKG_FILES = FileList[
   'test/**/*.rb', 
   'examples/**/*.rb', 
   'doc/**/*'
-]
+].exclude('EXAMPLES.rd')
 
 task :default => [:test]
 
