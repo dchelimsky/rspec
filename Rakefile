@@ -51,11 +51,12 @@ task :doc do
 end
 
 desc 'Generate RDoc'
-rd = Rake::RDocTask.new("rdoc" => :examples_specdoc) do |rdoc|
+rd = Rake::RDocTask.new do |rdoc|
   rdoc.rdoc_dir = 'doc/output/rdoc'
   rdoc.options << '--title RSpec' << '--line-numbers' << '--inline-source' << '--main' << 'README'
   rdoc.rdoc_files.include('README', 'CHANGES', 'EXAMPLES.rd', 'lib/**/*.rb')
 end
+task :rdoc => :examples_specdoc # We generate EXAMPLES.rd
 
 spec = Gem::Specification.new do |s|
   s.name = PKG_NAME
@@ -73,6 +74,7 @@ spec = Gem::Specification.new do |s|
 
   s.has_rdoc = true
   s.rdoc_options = rd.options
+  s.extra_rdoc_files = rd.rdoc_files.reject { |fn| fn =~ /\.rb$|^EXAMPLES.rd$/ }.to_a
   
   s.test_files = Dir.glob('test/*_test.rb')
   s.require_path = 'lib'
