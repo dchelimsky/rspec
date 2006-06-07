@@ -76,7 +76,7 @@ If you're using this feature, make sure to use the --require option as well - *b
 --format option.
 
 See the RDoc for "Spec::Runner::BaseTextFormatter":../rdoc/classes/Spec/Runner/BaseTextFormatter.html 
-for details on how to implement your own.
+for details on how to implement your own. A custom formatter can be found under examples/custom_formatter.rb.
 
 h3. -r, --require FILE
 
