@@ -9,6 +9,6 @@ module Kernel
 private
   
   def context_runner
-    $context_runner || ::Spec::Runner::OptionParser.create_context_runner(ARGV.dup, true, STDERR, STDOUT)
+    $context_runner ||= ::Spec::Runner::OptionParser.create_context_runner(ARGV.dup, true, STDERR, STDOUT)
   end
 end
