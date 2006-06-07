@@ -3,6 +3,8 @@
 == Version 0.5.7
 Release summary goes here
 
+* Custom external formatters can now be specified via --require and --format.
+
 == Version 0.5.6
 This release fixes a bug in the Rails controller generator
 

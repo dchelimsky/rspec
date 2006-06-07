@@ -12,9 +12,6 @@ module Spec
       def spec_passed(name)
         @output << "- #{name}\n"
       end
-      
-      def start_dump
-      end
     end
   end
 end

@@ -68,10 +68,25 @@ $ bin/spec failing_examples/team_spec.rb -f rdoc
 {execute: ../bin/spec ../failing_examples/team_spec.rb -f rdoc}
 </pre>
 
+h4. Custom formatters
+
+As of RSpec 0.5.7 custom formatters are supported. If the argument to the --format option is none
+of the builtin formatters, RSpec will assume it's a class name, and try to instantiate that class.
+If you're using this feature, make sure to use the --require option as well - *before* the
+--format option.
+
+See the RDoc for "Spec::Runner::BaseTextFormatter":../rdoc/classes/Spec/Runner/BaseTextFormatter.html 
+for details on how to implement your own.
+
+h3. -r, --require FILE
+
+Causes FILE to be loaded (via require) before any specs are executed. If you're using a custom
+formatter, you have to specify this option *before* the --format option.
+
 h3. -d, --dry-run
 
 This option tells RSpec not to execute the specs, but they are still being parsed.
-This can be useful when generating "testdox":http://agiledox.sourceforge.net/ documents
+This can be useful when generating "testdox-like":http://agiledox.sourceforge.net/ documents
 
 h3. -b, --backtrace
 

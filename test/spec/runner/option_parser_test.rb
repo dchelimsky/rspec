@@ -1,5 +1,10 @@
 require File.dirname(__FILE__) + '/../../test_helper'
 
+module Custom
+  class Formatter
+  end
+end
+
 module Spec
   module Runner
     class OptionParserTest < Test::Unit::TestCase
@@ -59,6 +64,22 @@ module Spec
       def test_should_select_dry_run_for_rdoc_formatter
         options = OptionParser.parse(["--format","rdoc"], false, @err, @out)
         assert(options.dry_run)
+      end
+
+      def test_should_eval_and_use_custom_formatter_when_none_of_the_builtins
+        options = OptionParser.parse(["--format","Custom::Formatter"], false, @err, @out)
+        assert_equal(Custom::Formatter, options.formatter_type)
+      end
+
+      def test_should_print_instructions_about_how_to_fix_bad_formatter
+        options = OptionParser.parse(["--format","Custom::BadFormatter"], false, @err, @out)
+        assert_match(/Couldn't find formatter class Custom::BadFormatter/n, @err.string)
+      end
+      
+      def test_should_require_file_when_require_specified
+        assert_raise(LoadError) do
+          OptionParser.parse(["--require","whatever"], false, @err, @out)
+        end
       end
       
       def test_should_print_usage_to_err_if_no_dir_specified

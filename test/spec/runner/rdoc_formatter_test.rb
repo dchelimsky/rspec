@@ -5,7 +5,7 @@ module Spec
 
       def setup
         @io = StringIO.new
-        @formatter = RdocFormatter.new(@io)
+        @formatter = RdocFormatter.new(@io, true)
       end
 
       def test_should_push_out_context

@@ -38,6 +38,7 @@ module Spec
         assert_equal("\n", @io.string)
       end
     end
+
     class ProgressBarFormatterDryRunTest < Test::Unit::TestCase
       def setup
         @io = StringIO.new

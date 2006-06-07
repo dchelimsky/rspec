@@ -28,12 +28,28 @@ module Spec
             options.backtrace_tweaker = NoisyBacktraceTweaker.new
           end
           
-          opts.on("-f", "--format FORMAT", "Output format (specdoc|s|rdoc|r)") do |format|
-            options.formatter_type = SpecdocFormatter if format == 'specdoc'
-            options.formatter_type = SpecdocFormatter if format == 's'
-            options.formatter_type = RdocFormatter if format == 'rdoc'
-            options.formatter_type = RdocFormatter if format == 'r'
-            options.dry_run = true if format == 'rdoc'
+          opts.on("-r", "--require FILE", "Require FILE before running specs",
+                                          "Useful for loading custom formatters or other extensions") do |req|
+            require req
+          end
+          
+          opts.on("-f", "--format FORMAT", "Builtin formats: specdoc|s|rdoc|r", 
+                                           "You can also specify a custom formatter class") do |format|
+            case format
+              when 'specdoc', 's'
+                options.formatter_type = SpecdocFormatter
+              when 'rdoc', 'r'
+                options.formatter_type = RdocFormatter
+                options.dry_run = true
+            else
+              begin
+                options.formatter_type = eval(format)
+              rescue NameError
+                err.puts "Couldn't find formatter class #{format}"
+                err.puts "Make sure the --require option is specified *before* --format"
+                exit if out == $stdout
+              end
+            end
           end
 
           opts.on("-d", "--dry-run", "Don't execute specs") do

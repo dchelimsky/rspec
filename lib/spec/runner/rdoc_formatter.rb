@@ -1,10 +1,6 @@
 module Spec
   module Runner
     class RdocFormatter < BaseTextFormatter
-      def initialize(output, dry_run=false)
-        super(output, true) # always dry
-      end
-  
       def add_context(name, first)
         @output << "# #{name}\n"
       end
@@ -15,12 +11,6 @@ module Spec
 
       def spec_failed(name, counter)
         @output << "# * #{name} [#{counter} - FAILED]\n"
-      end
-      
-      def dump_failure(counter, failure)
-      end
-      
-      def start_dump
       end
     end
   end
