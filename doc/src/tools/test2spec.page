@@ -7,7 +7,7 @@ h2. Test::Unit migration
 RSpec's test2spec command line tool translates existing Test::Unit classes to RSpec.  
 
 Before you can use test2spec you must gem install ParseTree and RubyInline.
-RubyInline only work on systems that have a C compiler - i.e. most anything except Windows.
+RubyInline only works on systems that have a C compiler - i.e. most anything except Windows.
 
 If you're stuck on Windows, ask a friend who has a POSIX system to translate your specs.
 Once translated they can run on any Ruby platform (including Windows). After all, it's

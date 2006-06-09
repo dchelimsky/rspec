@@ -1,5 +1,9 @@
 = RSpec Changelog
 
+== Version 0.5.9 (In SVN)
+
+* Added --quiet option to test2spec
+
 == Version 0.5.8
 This release features a new Test::Unit to RSpec translation tool.
 Also note that the RubyGem of the previous release (0.5.7) was corrupt.

@@ -12,7 +12,7 @@ module Spec
       end
       
       def initialize(suite)
-        puts "Writing translated specs to #{$test2spec_options[:specdir]}"
+        log "Writing translated specs to #{$test2spec_options[:specdir]}"
         translator = TestUnitTranslator.new
         ObjectSpace.each_object(Class) do |klass|
           if klass < ::Test::Unit::TestCase
@@ -25,10 +25,10 @@ module Spec
                 relative_path += ".rb"
                 write(translation, relative_path)
               else
-                puts "Successfully translated #{klass}"
+                log "Successfully translated #{klass}"
               end
             rescue SexpProcessorError => e
-              puts "Failed to translate     #{klass}"
+              log "Failed to translate     #{klass}"
             end
           end
         end
@@ -41,6 +41,14 @@ module Spec
 
     private
 
+      def log(msg)
+        puts msg unless quiet?
+      end
+
+      def quiet?
+        $test2spec_options[:quiet] == true
+      end
+
       def destination_path(relative_destination)
         File.join($test2spec_options[:specdir], relative_destination)
       end
@@ -49,7 +57,7 @@ module Spec
         destination         = destination_path(relative_destination)
         destination_exists  = File.exists?(destination)
         if destination_exists and identical?(source, destination)
-          return puts("Identical : #{relative_destination}")
+          return log("Identical : #{relative_destination}")
         end
 
         if destination_exists
@@ -57,21 +65,19 @@ module Spec
             when :ask   then force_file_collision?(relative_destination)
             when :force then :force
             when :skip  then :skip
-            else raise "Invalid collision option: #{$test2spec_options[:collision].inspect}"
           end
 
           case choice
-            when :force then puts("Forcing   : #{relative_destination}")
-            when :skip  then return(puts("Skipping  : #{relative_destination}"))
-            else raise "Invalid collision choice: #{choice}.inspect"
+            when :force then log("Forcing   : #{relative_destination}")
+            when :skip  then return(log("Skipping  : #{relative_destination}"))
           end
         else
           dir = File.dirname(destination)
           unless File.directory?(dir)
-            puts "Creating  : #{dir}"
+            log "Creating  : #{dir}"
             mkdir_p dir
           end
-          puts "Creating  : #{destination}"
+          log "Creating  : #{destination}"
         end
 
         File.open(destination, 'w') do |df|
@@ -96,10 +102,10 @@ module Spec
         case $stdin.gets
           when /a/i
             $test2spec_options[:collision] = :force
-            $stdout.puts "Forcing ALL"
+            log "Forcing ALL"
             :force
           when /q/i
-            $stdout.puts "Quitting"
+            puts "Quitting"
             raise SystemExit
           when /n/i then :skip
           else :force
