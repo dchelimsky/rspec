@@ -1,5 +1,14 @@
 = RSpec Changelog
 
+== Version 0.5.8
+This release features a new Test::Unit to RSpec translation tool.
+Also note that the RubyGem of the previous release (0.5.7) was corrupt.
+We're close to being able to translate all of RSpec's own Test::Unit
+tests and have them run successfully!
+
+* Updated test2spec documentation.
+* Replaced old test2rspec with a new test2spec, which is based on ParseTree and RubyInline.
+
 == Version 0.5.7
 This release changes examples and documentation to recommend underscores rather than dots,
 and addresses some bugfixes and changes to the spec commandline.
