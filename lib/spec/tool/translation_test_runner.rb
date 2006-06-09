@@ -14,22 +14,29 @@ module Spec
       end
       
       def initialize(suite, output_level=NORMAL, io=STDOUT)
-        io.puts "Translating Tests to RSpec"
+        puts "Translating Tests to RSpec"
         translator = TestUnitTranslator.new
         ObjectSpace.each_object(Class) do |klass|
           if klass < ::Test::Unit::TestCase
+            relative_path = underscore(klass.name)
+            relative_path.gsub! /_test$/, "_spec"
+            relative_path.gsub! /\/test_/, ""
+            relative_path += ".rb"
+            path = File.join(@@dir, relative_path)
             begin
               translation = translator.translate(klass)
-              path = File.join(@@dir, underscore(klass.name))
               dir = File.dirname(path)
               mkdir_p(dir) unless File.directory?(dir)
-              File.open(path, "w"){|io| io.write translation}
+              File.open(path, "w") {|io| io.write translation}
+              puts "Wrote               #{path}"
+            rescue IOError => e
+              puts "Failed to write to  #{path}"
             rescue SexpProcessorError => e
-              io.puts "Failed to translate #{klass}"
+              puts "Failed to translate #{klass}"
             end
           end
         end
-        io.puts "\nDone"
+        puts "\nDone"
       end
       
       def passed?

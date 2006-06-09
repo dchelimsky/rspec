@@ -213,8 +213,12 @@ class RubyToRuby < SexpProcessor
     s = exp.shift.to_s 
     unless exp.empty?
       s += "=" + process(exp.shift) 
-    else
-      ""
+    else 
+      if(@block_params)
+        s
+      else
+        ""
+      end
     end
   end
   
@@ -321,9 +325,19 @@ class RubyToRuby < SexpProcessor
   end
   
   def process_iter(exp)
-    "#{process exp.shift} {|#{process exp.shift}|\n" +
+    owner = exp.shift
+    args = exp.shift
+    if !args.nil?
+      @block_params = true 
+    end
+    processed_args = process args
+    block_args = processed_args.nil? ? "" : "|#{processed_args}|"
+    
+    result = "#{process owner} {#{block_args}\n" +
     indent("#{process exp.shift}\n") +
     "}"
+    @block_params = false
+    result
   end
   
   def process_ivar(exp)

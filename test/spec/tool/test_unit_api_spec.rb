@@ -14,10 +14,10 @@ module Spec
         a_nil = nil
         true.should_be true
         @an_int.should_not_be nil
-        lambda { ||
+        lambda {
           true 
         }.should_be true
-        lambda { ||
+        lambda {
           true
         }.should_be true
         @an_int.should_equal 789
@@ -30,36 +30,42 @@ module Spec
         @an_int.should_not_equal 780
         @an_int.should_not_be nil
         a_float.should_not_be @an_int
-        lambda { ||
+        lambda {
           foo = 1 
         }.should_not_raise
-        lambda { ||
-          foo = 2
+        lambda {
+          bar = 2
         }.should_not_raise
-        lambda { ||
-          foo = 3 
+        [2].each {|a|
+          a.should_equal 2
+        }
+        [0,1,2].each_with_index {|b, c|
+          b.should_equal c
+        }
+        lambda {
+          zip = 3 
         }.should_not_throw
-        lambda { ||
-          foo = 4
+        lambda {
+          zap = 4
         }.should_not_throw
-        lambda { ||
+        lambda {
           raise(NotImplementedError)
         }.should_raise(NotImplementedError)
-        lambda { ||
+        lambda {
           raise(NotImplementedError)
         }.should_raise(NotImplementedError)
-        lambda { ||
+        lambda {
           raise(NotImplementedError)
         }.should_raise(NotImplementedError)
-        lambda { ||
+        lambda {
           raise(NotImplementedError)
         }.should_raise(NotImplementedError)
         @an_int.should_respond_to :to_f
         a_float.should_be a_float
-        lambda { ||
+        lambda {
           throw(:foo) 
         }.should_throw(:foo)
-        lambda { ||
+        lambda {
           throw(:foo)
         }.should_throw(:foo)
       end

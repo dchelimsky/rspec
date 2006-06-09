@@ -33,11 +33,17 @@ module Spec
         assert_not_same       @an_int, a_float, "a message"
         assert_nothing_raised { foo = 1 }
         assert_nothing_raised do
-          foo = 2
+          bar = 2
         end
-        assert_nothing_thrown { foo = 3 }
+        [2].each do |a|
+          assert_equal 2, a
+        end
+        [0,1,2].each_with_index do |b, c|
+          assert_equal c, b
+        end
+        assert_nothing_thrown { zip = 3 }
         assert_nothing_thrown do
-          foo = 4
+          zap = 4
         end
         #assert_operator       object1, operator, object2, "a message"
         assert_raise(NotImplementedError){ raise NotImplementedError }
