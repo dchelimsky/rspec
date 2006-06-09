@@ -15,7 +15,8 @@ module Spec
         a_float = 123.45
         a_nil = nil
 
-        assert @an_int
+        assert true
+        assert_not_nil @an_int
         assert_block { true }
         assert_block do
           true

@@ -3,8 +3,9 @@
 require 'find'
 require 'ostruct'
 require 'optparse'
-require File.dirname(__FILE__) + "/../lib/spec/tool/command_line.rb"
-require File.dirname(__FILE__) + "/../lib/spec/tool/test_unit_translator.rb"
+$LOAD_PATH.push File.dirname(__FILE__) + '/../lib'
+require 'spec/tool/command_line.rb'
+require 'spec/tool/test_unit_translator.rb'
 
 opts = OptionParser.new do |opts|
   opts.banner = "Usage: test2rspec [options] SRC [DEST]"

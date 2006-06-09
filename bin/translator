@@ -1,0 +1,35 @@
+#!/usr/bin/env ruby
+
+require 'test/unit'
+require 'test/unit/ui/console/testrunner'
+require 'test/unit/ui/testrunnerutilities'
+require 'test/unit/ui/testrunnermediator'
+require 'test/unit/autorunner'
+
+$LOAD_PATH.push File.dirname(__FILE__) + '/../lib'
+
+require 'spec/tool/translation_test_runner'
+
+module Test
+  module Unit
+    class AutoRunner
+      def initialize(standalone)
+        Unit.run = true
+        @standalone = standalone
+        @runner = proc { |r| Spec::Tool::TranslationTestRunner }
+        @collector = COLLECTORS[(standalone ? :dir : :objectspace)]
+        @filters = []
+        @to_run = []
+        @output_level = UI::NORMAL
+        yield(self) if(block_given?)
+      end
+    end
+  end
+end
+
+
+if File.stat(ARGV.first).directory?
+  Dir["#{ARGV.first}/**/*_test.rb"].each { |f| load f }
+else
+  ARGV.each { |f| load f unless f =~ /^-/  }
+end

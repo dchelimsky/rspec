@@ -8,9 +8,9 @@ module Spec
       ONE_ARG_ASSERTIONS = ["assert", "assert_nil", "assert_not_nil"]
       
       PLAIN_TRANSLATIONS = {
-        "assert"                => "should_not_be",
-        "assert_nil"            => "should_be",
-        "assert_not_nil"        => "should_not_be",
+        "assert"                => "should_be true",
+        "assert_nil"            => "should_be nil",
+        "assert_not_nil"        => "should_not_be nil",
         "assert_equal"          => "should_equal",
         "assert_in_delta"       => "should_be_close",
         "assert_instance_of"    => "should_be_instance_of",
@@ -34,10 +34,7 @@ module Spec
       }
       BLOCK_PATTERN = /^#{BLOCK_TRANSLATIONS.keys.join("$|^")}$/
 
-      def translate(test_unit_file)
-        require test_unit_file
-
-        klass = Spec::Tool::TestUnitApiTest
+      def translate(klass)
         process(ParseTree.new.parse_tree(klass).first)
       end
 
@@ -95,7 +92,7 @@ module Spec
           end
           
           if ONE_ARG_ASSERTIONS.index(name)
-            expected = " nil"
+            expected = ""
             actual = code[0]
           elsif(name == "assert_in_delta")
             expected = " #{code[0]}, #{code[2]}"

@@ -12,6 +12,7 @@ module Spec
       specify "can be translated to rspec" do
         a_float = 123.45
         a_nil = nil
+        true.should_be true
         @an_int.should_not_be nil
         lambda { ||
           true 
