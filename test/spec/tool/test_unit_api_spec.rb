@@ -30,19 +30,15 @@ module Spec
         @an_int.should_not_be nil
         a_float.should_not_be @an_int
         lambda { ||
-          foo
           foo = 1 
         }.should_not_raise
         lambda { ||
-          foo
           foo = 2
         }.should_not_raise
         lambda { ||
-          foo
           foo = 3 
         }.should_not_throw
         lambda { ||
-          foo
           foo = 4
         }.should_not_throw
         lambda { ||

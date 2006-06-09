@@ -211,8 +211,11 @@ class RubyToRuby < SexpProcessor
   
   def process_dasgn_curr(exp)
     s = exp.shift.to_s 
-    s += "=" + process(exp.shift) unless exp.empty?
-    s
+    unless exp.empty?
+      s += "=" + process(exp.shift) 
+    else
+      ""
+    end
   end
   
   def process_defn(exp)
