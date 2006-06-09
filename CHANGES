@@ -1,9 +1,11 @@
 = RSpec Changelog
 
-== Version 0.5.9 (In SVN)
+== Version 0.5.9
+This release improves test2spec by allowing more control over the output
 
 * Added --template option to test2spec, which allows for custom output driven by ERB
 * Added --quiet option to test2spec
+* Removed unnecessary dependency on RubyToC
 
 == Version 0.5.8
 This release features a new Test::Unit to RSpec translation tool.

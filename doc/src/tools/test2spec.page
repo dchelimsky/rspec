@@ -33,14 +33,14 @@ Where spec/test2spec.erb contains the following:
 </pre>
 
 
-h2. Sample output
+h2. Sample translation
 
 <notextile>
 <table>
   <thead>
     <tr>
-      <td>Test::Unit</td>
-      <td>RSpec (translated by test2spec)</td>
+      <td>Test::Unit (input)</td>
+      <td>RSpec (output)</td>
     </tr>
   </thead>
   <tbody>
@@ -49,7 +49,7 @@ h2. Sample output
         <ruby file="../test/spec/tool/test_unit_api_test.rb"/>
       </td>
       <td>
-        <ruby file="../test/spec/tool/test_unit_api_spec.rb"/>
+        <ruby file="../spec/spec/tool/test_unit_api_spec.rb"/>
       </td>
     </tr>
   </tbody>

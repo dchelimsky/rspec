@@ -45,8 +45,13 @@ Rcov::RcovTask.new do |t|
   t.rcov_opts = []
 end
 
+desc 'Translate our own tests to specs'
+task :test2spec do
+  `bin/test2spec --template spec/test2spec.erb --specdir spec test`
+end
+
 desc 'Generate HTML documentation'
-task :doc do
+task :doc => :test2spec do
   sh %{pushd doc; webgen; popd}
 end
 
@@ -114,6 +119,7 @@ end
 
 task :clobber do
   rm_rf 'doc/output'
+  rm_rf 'spec/spec'
 end
 
 task :release => [:clobber, :verify_committed, :verify_user, :verify_password, :test, :publish_packages, :tag, :publish_website, :publish_news]
