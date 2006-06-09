@@ -11,6 +11,7 @@ module Spec
         filesystem.should_receive(:write_translation).with "./test/spec/tool/test_unit_api_test.rb",        "spec/test_unit_api_test.rb"
         filesystem.should_receive(:write_translation).with "./test/spec/tool/test_unit_api_spec.rb",        "spec/test_unit_api_spec.rb"
         filesystem.should_receive(:write_translation).with "./test/spec/tool/command_line_test.rb",         "spec/command_line_test.rb"
+        filesystem.should_receive(:write_translation).with "./test/spec/tool/ruby_to_ruby_test.rb",         "spec/ruby_to_ruby_test.rb"
 
         cl = CommandLine.new(filesystem)
         out = StringIO.new

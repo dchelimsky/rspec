@@ -1,4 +1,5 @@
 require File.dirname(__FILE__) + '/../../test_helper'
+require 'rubygems'
 require 'spec/tool/test_unit_translator'
 require 'spec/tool/test_unit_api_test'
 require 'tempfile'

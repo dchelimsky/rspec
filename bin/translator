@@ -8,6 +8,7 @@ require 'test/unit/autorunner'
 
 $LOAD_PATH.push File.dirname(__FILE__) + '/../lib'
 
+require 'rubygems'
 require 'spec/tool/translation_test_runner'
 
 module Test
