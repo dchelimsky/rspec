@@ -4,7 +4,6 @@ Then you must install the following gems:
 * rake
 * rcov
 * RubyInline
-* RubyToC
 * ParseTree   (Ignore the message: test/test_parse_tree.rb:190:38: ':' not followed by identified or operator)
 * webgen
 * RedCloth

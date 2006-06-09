@@ -1,10 +1,12 @@
 # Taken from http://dark.fhtr.org/ruby2ruby.rb
 
 require 'rubygems'
-require 'parse_tree'
-require 'support'
-require 'sexp_processor'
-
+begin
+  require 'parse_tree'
+  require 'sexp_processor'
+rescue LoadError
+  $stderr.puts "You must gem install ParseTree (and RubyInline)"
+end
 
 class RubySource < String
 
@@ -72,7 +74,6 @@ class RubyToRuby < SexpProcessor
 
   def initialize
     super
-    @env = Environment.new
     @indent = "  "
     self.auto_shift_type = true
     self.strict = true
