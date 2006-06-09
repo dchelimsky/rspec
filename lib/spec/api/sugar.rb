@@ -17,13 +17,13 @@ module Spec
         __orig_method_missing(sym, *args, &block)
       end
       
-      def __is_sweetened? sym
+      def __is_sweetened?(sym) #:nodoc:
         return true if sym.to_s =~ /^should_/
       end
     end
     
     module MessageExpectationSugar
-      def __is_sweetened? sym
+      def __is_sweetened?(sym) #:nodoc:
         return true if sym.to_s =~ /^and_|^at_|^any_|^once_/
       end
     end
@@ -35,7 +35,7 @@ class Object #:nodoc:
 end
 
 class Spec::Api::Mock #:nodoc:
-  #NOTE: this resolves a bug caused by a conflict between Sugar#method_missing and Mock#method_missing, specifically
+  # NOTE: this resolves a bug caused by a conflict between Sugar#method_missing and Mock#method_missing, specifically
   # when the mock is set null_object=>true. It would be nice to get rid of this.
   def should_receive(sym, &block)
     return receive(sym, &block)

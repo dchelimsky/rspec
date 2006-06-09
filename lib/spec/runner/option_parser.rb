@@ -65,7 +65,7 @@ module Spec
             exit if out == $stdout
           end
 
-          opts.on_tail("-h", "--help", "Show this message") do
+          opts.on_tail("-h", "--help", "You're looking at it") do
             out.puts opts
             exit if out == $stdout
           end

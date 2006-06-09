@@ -45,5 +45,5 @@ it right away.
 
 h3. 7) Test::Unit translation
 
-Did you invest a lot of time in writing Test::Unit tests and want to switch to RSpec? Try out the test2rspec
-tool, which will do most of the translation for you. (test2rspec tool is experimental)
+Did you invest a lot of time in writing Test::Unit tests and want to switch to RSpec? Try out the test2spec
+tool, which will do most of the translation for you. (test2spec tool is experimental)

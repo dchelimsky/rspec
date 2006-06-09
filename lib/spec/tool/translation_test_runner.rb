@@ -4,35 +4,32 @@ require 'fileutils'
 module Spec
   module Tool
     # A Test::Unit runner that doesn't run tests, but translates them instead!
-    # TODO: give it the dir
     class TranslationTestRunner
       include FileUtils
-      @@dir = "spec"
 
-      def self.run(suite, output_level=NORMAL)
-        self.new(suite, output_level)
+      def self.run(suite, output_level)
+        self.new(suite)
       end
       
-      def initialize(suite, output_level=NORMAL, io=STDOUT)
-        puts "Translating Tests to RSpec"
+      def initialize(suite)
+        puts "Writing translated specs to #{$test2spec_options[:specdir]}"
         translator = TestUnitTranslator.new
         ObjectSpace.each_object(Class) do |klass|
           if klass < ::Test::Unit::TestCase
-            relative_path = underscore(klass.name)
-            relative_path.gsub! /_test$/, "_spec"
-            relative_path.gsub! /\/test_/, ""
-            relative_path += ".rb"
-            path = File.join(@@dir, relative_path)
             begin
               translation = translator.translate(klass)
-              dir = File.dirname(path)
-              mkdir_p(dir) unless File.directory?(dir)
-              File.open(path, "w") {|io| io.write translation}
-              puts "Wrote               #{path}"
-            rescue IOError => e
-              puts "Failed to write to  #{path}"
+              
+              unless $test2spec_options[:dry_run]
+                relative_path = underscore(klass.name)
+                relative_path.gsub! /_test$/, "_spec"
+                relative_path.gsub! /\/test_/, ""
+                relative_path += ".rb"
+                write(translation, relative_path)
+              else
+                puts "Successfully translated #{klass}"
+              end
             rescue SexpProcessorError => e
-              puts "Failed to translate #{klass}"
+              puts "Failed to translate     #{klass}"
             end
           end
         end
@@ -42,8 +39,75 @@ module Spec
       def passed?
         true
       end
+
+    private
+
+      def destination_path(relative_destination)
+        File.join($test2spec_options[:specdir], relative_destination)
+      end
+
+      def write(source, relative_destination)
+        destination         = destination_path(relative_destination)
+        destination_exists  = File.exists?(destination)
+        if destination_exists and identical?(source, destination)
+          return puts("Identical : #{relative_destination}")
+        end
+
+        if destination_exists
+          choice = case ($test2spec_options[:collision]).to_sym #|| :ask
+            when :ask   then force_file_collision?(relative_destination)
+            when :force then :force
+            when :skip  then :skip
+            else raise "Invalid collision option: #{$test2spec_options[:collision].inspect}"
+          end
+
+          case choice
+            when :force then puts("Forcing   : #{relative_destination}")
+            when :skip  then return(puts("Skipping  : #{relative_destination}"))
+            else raise "Invalid collision choice: #{choice}.inspect"
+          end
+        else
+          dir = File.dirname(destination)
+          unless File.directory?(dir)
+            puts "Creating  : #{dir}"
+            mkdir_p dir
+          end
+          puts "Creating  : #{destination}"
+        end
+
+        File.open(destination, 'w') do |df|
+          df.write(source)
+        end
+
+        if $test2spec_options[:chmod]
+puts $test2spec_options[:chmod]
+          chmod($test2spec_options[:chmod], destination)
+        end
       
-      # Stolen from Rails' ActiveSupport
+        system("svn add #{destination}") if $test2spec_options[:svn]
+      end
+
+      def identical?(source, destination, &block)
+        return false if File.directory? destination
+        destination = IO.read(destination)
+        source == destination
+      end
+      
+      def force_file_collision?(destination)
+        $stdout.print "overwrite #{destination}? [Ynaq] "
+        case $stdin.gets
+          when /a/i
+            $test2spec_options[:collision] = :force
+            $stdout.puts "Forcing ALL"
+            :force
+          when /q/i
+            $stdout.puts "Quitting"
+            raise SystemExit
+          when /n/i then :skip
+          else :force
+        end
+      end
+
       def underscore(camel_cased_word)
         camel_cased_word.to_s.gsub(/::/, '/').
           gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').

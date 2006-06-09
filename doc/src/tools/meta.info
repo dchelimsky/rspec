@@ -10,7 +10,7 @@ rake.page:
 rcov.page:
   orderInfo: 13
 
-test2rspec.page:
+test2spec.page:
   orderInfo: 14
 
 rails.page:
