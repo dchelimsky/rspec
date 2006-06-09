@@ -53,7 +53,7 @@ end
 desc 'Generate RDoc'
 rd = Rake::RDocTask.new do |rdoc|
   rdoc.rdoc_dir = 'doc/output/rdoc'
-  rdoc.options << '--title RSpec' << '--line-numbers' << '--inline-source' << '--main' << 'README'
+  rdoc.options << '--title' << 'RSpec' << '--line-numbers' << '--inline-source' << '--main' << 'README'
   rdoc.rdoc_files.include('README', 'CHANGES', 'EXAMPLES.rd', 'lib/**/*.rb')
 end
 task :rdoc => :examples_specdoc # We generate EXAMPLES.rd
