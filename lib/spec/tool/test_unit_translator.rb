@@ -47,7 +47,7 @@ module Spec
           context_name = class_name.match(/(.*)Test/)[1]
 
           s = ""
-          s << modules.collect{|m| indent("module #{m}\n")}.join("") unless modules.empty?
+          s << modules.collect{|m| "module #{m}\n"}.join("") unless modules.empty?
           s << "context \"#{context_name}\" do\n"
           body = ""
           body << "#{process exp.shift}\n\n" until exp.empty?

@@ -25,6 +25,18 @@ opts = OptionParser.new do |opts|
     $test2spec_options[:specdir] = dir
   end
 
+  opts.on("-t", "--template FILE", 
+    "ERB template that will be used to create each file. The template",
+    "has access toi the following variables:",
+    "  translation   : the translated source code",
+    "  depth         : the directory depth of the file to be written",
+    "  relative_path : the relative name of the file to be written",
+    "Example:",
+    "<%= @translation %>"
+  ) do |file|
+    $test2spec_options[:template] = file
+  end
+
   opts.on("-c", "--chmod MODIFIERS", Integer, "Change file modifiers on written files (POSIX only)") do |mods|
     $test2spec_options[:chmod] = mods
   end

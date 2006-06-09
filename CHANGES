@@ -2,6 +2,7 @@
 
 == Version 0.5.9 (In SVN)
 
+* Added --template option to test2spec, which allows for custom output driven by ERB
 * Added --quiet option to test2spec
 
 == Version 0.5.8

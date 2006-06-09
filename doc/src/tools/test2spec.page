@@ -23,8 +23,15 @@ test2spec --help
 A typical invocation might look like this:
 
 <pre>
-test2spec --specdir spec test
+test2spec --template spec/test2spec.erb --specdir spec test
 </pre>
+
+Where spec/test2spec.erb contains the following:
+
+<pre>
+{includeFile: {filename: ../../../spec/test2spec.erb, processOutput: false}}
+</pre>
+
 
 h2. Sample output
 
@@ -48,6 +55,15 @@ h2. Sample output
   </tbody>
 </table>
 </notextile>
+
+h2. What's translated?
+
+test2spec only translates classes that extend from Test::Unit - and their methods. It will not bring over any 
+code that isn't inside a Test::Unit class. This means that require statements at the top of your file, any other
+classes in the same file as the test class etc *will not be translated*.
+
+So, there is a fair chance that you will have to do some manual editing after test2spec has run. We're only
+aiming to get most of the translation job done for you - not all of it.
 
 h2. Troubleshooting
 

@@ -1,5 +1,6 @@
 require 'spec/tool/test_unit_translator'
 require 'fileutils'
+require 'erb'
 
 module Spec
   module Tool
@@ -21,9 +22,12 @@ module Spec
               
               unless $test2spec_options[:dry_run]
                 relative_path = underscore(klass.name)
+                template = $test2spec_options[:template] ? IO.read($test2spec_options[:template]) : nil
+                source = render(translation, relative_path, template)
+
                 relative_path.gsub! /_test$/, "_spec"
                 relative_path += ".rb"
-                write(translation, relative_path)
+                write(source, relative_path)
               else
                 log "Successfully translated #{klass}"
               end
@@ -40,6 +44,16 @@ module Spec
       end
 
     private
+    
+      def render(translation, relative_path, template)
+        unless template.nil?
+          depth = relative_path.split('/').length-1
+          erb = ERB.new(template)
+          erb.result(binding)
+        else
+          translation
+        end
+      end
 
       def log(msg)
         puts msg unless quiet?
