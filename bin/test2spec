@@ -31,8 +31,6 @@ opts = OptionParser.new do |opts|
     "  translation   : the translated source code",
     "  depth         : the directory depth of the file to be written",
     "  relative_path : the relative name of the file to be written",
-    "Example:",
-    "<%= @translation %>"
   ) do |file|
     $test2spec_options[:template] = file
   end
