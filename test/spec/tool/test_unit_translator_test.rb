@@ -10,6 +10,8 @@ module Spec
         c = TestUnitTranslator.new
         test_unit_file = File.dirname(__FILE__) + '/test_unit_api_test.rb'
         translated = c.translate(test_unit_file)
+#puts translated
+#exit!1
         expected_path = File.dirname(__FILE__) + '/test_unit_api_spec.rb'
         expected = File.open(expected_path).read
 

@@ -1,25 +1,24 @@
-require 'spec'
-
 module Spec
   module Tool
     context "TestUnitApi" do
-
       setup do
         @an_int = 789
       end
 
       teardown do
+        nil
       end
 
-      specify "Can be translated to rspec" do
+      specify "can be translated to rspec" do
         a_float = 123.45
         a_nil = nil
-
         @an_int.should_not_be nil
-        lambda { true }.should_be true
-        lambda do
+        lambda { ||
+          true 
+        }.should_be true
+        lambda { ||
           true
-        end.should_be true
+        }.should_be true
         @an_int.should_equal 789
         a_float.should_be_close 123.5, 0.1
         @an_int.should_be_instance_of Fixnum
@@ -30,32 +29,44 @@ module Spec
         @an_int.should_not_equal 780
         @an_int.should_not_be nil
         a_float.should_not_be @an_int
-        lambda { foo = 1 }.should_not_raise
-        lambda do
+        lambda { ||
+          foo
+          foo = 1 
+        }.should_not_raise
+        lambda { ||
+          foo
           foo = 2
-        end.should_not_raise
-        lambda { foo = 3 }.should_not_throw
-        lambda do
+        }.should_not_raise
+        lambda { ||
+          foo
+          foo = 3 
+        }.should_not_throw
+        lambda { ||
+          foo
           foo = 4
-        end.should_not_throw
-        #assert_operator       object1, operator, object2, "a message"
-        lambda { raise NotImplementedError }.should_raise NotImplementedError
-        lambda do
-          raise NotImplementedError
-        end.should_raise NotImplementedError
-        lambda { raise NotImplementedError }.should_raise NotImplementedError
-        lambda do
-          raise NotImplementedError
-        end.should_raise NotImplementedError
+        }.should_not_throw
+        lambda { ||
+          raise(NotImplementedError)
+        }.should_raise(NotImplementedError)
+        lambda { ||
+          raise(NotImplementedError)
+        }.should_raise(NotImplementedError)
+        lambda { ||
+          raise(NotImplementedError)
+        }.should_raise(NotImplementedError)
+        lambda { ||
+          raise(NotImplementedError)
+        }.should_raise(NotImplementedError)
         @an_int.should_respond_to :to_f
         a_float.should_be a_float
-        #assert_send send_array, "a message"
-        lambda { throw :foo }.should_throw :foo
-        lambda do
-          throw :foo
-        end.should_throw :foo
-
+        lambda { ||
+          throw(:foo) 
+        }.should_throw(:foo)
+        lambda { ||
+          throw(:foo)
+        }.should_throw(:foo)
       end
+
     end
   end
 end

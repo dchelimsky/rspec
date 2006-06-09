@@ -54,8 +54,8 @@ module Spec
         assert_throws(:foo, "a message") do
           throw :foo
         end
-
       end
+
     end
   end
 end

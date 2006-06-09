@@ -99,7 +99,7 @@ class RubyToRuby < SexpProcessor
       end
     end
 
-    return "(#{args.join ', '})"
+    return args.empty? ? "" : "(#{args.join ', '})"
   end
   
   def process_array(exp)
