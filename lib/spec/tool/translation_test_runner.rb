@@ -22,7 +22,6 @@ module Spec
               unless $test2spec_options[:dry_run]
                 relative_path = underscore(klass.name)
                 relative_path.gsub! /_test$/, "_spec"
-                relative_path.gsub! /\/test_/, ""
                 relative_path += ".rb"
                 write(translation, relative_path)
               else
@@ -80,7 +79,6 @@ module Spec
         end
 
         if $test2spec_options[:chmod]
-puts $test2spec_options[:chmod]
           chmod($test2spec_options[:chmod], destination)
         end
       

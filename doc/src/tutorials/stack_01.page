@@ -68,7 +68,7 @@ context "A new stack" do
   end
 end
 </ruby>
-<br>
+
 <pre>
 $ spec stack_spec.rb -f s
 
@@ -153,7 +153,7 @@ context "A new stack" do
   end
 end
 </ruby>
-<br>
+
 <pre>
 $ spec stack_spec.rb -f s
 
@@ -180,7 +180,7 @@ class Stack
   end
 end
 </ruby>
-<br>
+
 <pre>
 $ spec stack_spec.rb -f s
 
@@ -206,7 +206,7 @@ class Stack
   end
 end
 </ruby>
-<br>
+
 <pre>
 spec stack_spec.rb -f s
 

@@ -95,7 +95,7 @@ context "A stack with one item" do
   end
 end
 </ruby>
-<br>
+
 <pre>
 $ spec stack_spec.rb -f s
 
@@ -143,7 +143,7 @@ context "A stack with one item" do
   end
 end
 </ruby>
-<br>
+
 <pre>
 $ spec stack_spec.rb -f s
 
