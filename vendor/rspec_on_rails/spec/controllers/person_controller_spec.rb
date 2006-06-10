@@ -36,8 +36,10 @@ context "Rendering /person" do
     response.should_render 'list'
   end
   
-  specify "should not render 'index' (this should fail)" do
-    response.should_render 'index'
+  specify "should not render 'index'" do
+    lambda {
+      response.should_render 'index'
+    }.should_raise
   end
   
   specify "should find all people on GET to index" do
@@ -50,8 +52,10 @@ context "Rendering /person" do
     response.body.should_have_tag :tag => 'p'
   end
   
-  specify "should not have any <div> tags (this spec should fail)" do
-    response.body.should_have_tag :tag => 'div'
+  specify "should not have any <div> tags" do
+    lambda {
+      response.body.should_have_tag :tag => 'div'
+    }.should_raise
   end
   
 end  
