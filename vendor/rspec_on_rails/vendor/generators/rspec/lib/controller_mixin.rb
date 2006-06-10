@@ -66,7 +66,6 @@ module Spec
         end 
       end 
 
-
       ##
       # Excutes the request +action+ with +params+.
       #

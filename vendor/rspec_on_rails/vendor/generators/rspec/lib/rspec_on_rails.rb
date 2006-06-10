@@ -65,3 +65,22 @@ module Spec
   end
 end
 
+module ActionController
+  class TestResponse
+    def should_render(expected=nil)
+      rendered = expected ? rendered_file(!expected.include?('/')) : rendered_file
+      expected.should_equal rendered
+    end
+  end
+end
+
+class String
+  def should_have_tag(*opts)
+    opts = opts.size > 1 ? opts.last.merge({ :tag => opts.first.to_s }) : opts.first
+    begin
+      HTML::Document.new(self).find(opts).should_not_be_nil
+    rescue
+      self.should_include opts.inspect
+    end
+  end
+end

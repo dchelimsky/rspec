@@ -8,12 +8,6 @@ context "The PersonController" do
     controller.should_be_instance_of PersonController
   end
 
-  specify "should find all people on GET to index" do
-    get 'index'
-    response.should_be_success
-    assigns('people').should_equal [people(:lachie)]
-  end
-
   specify "should create an unsaved person record on GET to create" do
     get 'create'
     response.should_be_success
@@ -27,4 +21,37 @@ context "The PersonController" do
     response.should_be_redirect
     response.redirect_url.should_equal 'http://test.host/person'
   end
+  
 end
+
+context "Rendering /person" do
+  fixtures :people
+  controller_name :person
+  
+  setup do
+    get 'index'
+  end
+
+  specify "should render 'list'" do
+    response.should_render 'list'
+  end
+  
+  specify "should not render 'index' (this should fail)" do
+    response.should_render 'index'
+  end
+  
+  specify "should find all people on GET to index" do
+    get 'index'
+    response.should_be_success
+    assigns('people').should_equal [people(:lachie)]
+  end
+  
+  specify "should display the list of people" do
+    response.body.should_have_tag :tag => 'p'
+  end
+  
+  specify "should not have any <div> tags (this spec should fail)" do
+    response.body.should_have_tag :tag => 'div'
+  end
+  
+end  
