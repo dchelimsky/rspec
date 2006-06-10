@@ -24,6 +24,15 @@ namespace :spec do
     t.spec_files = FileList['spec/controllers/**/*_spec.rb']
   end
   
+  desc "Print Specdoc for all specs"
+  Spec::Rake::SpecTask.new('doc') do |t|
+    t.spec_files = FileList[
+      'spec/models/**/*_spec.rb',
+      'spec/controllers/**/*_spec.rb'
+    ]
+    t.spec_opts = ["--format", "specdoc"]
+  end
+  
   namespace :translate do
     desc "Translate test/unit to spec/models"
     task :unit do
