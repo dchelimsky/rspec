@@ -39,3 +39,20 @@ For other rails apps, these files should be checked into the SCM).
   rake spec
 
 If everything passes at this point, everything is good.
+
+=== Modifying the RSpec extensions
+
+The RSpec extensions live under vendor/generators/rspec/lib
+You can modify this source code here and run the specs for the demo
+app again with rake spec
+
+=== Modifying the Generators
+
+Whenever you make modifications to the generators, you should modify the original
+code under vendor/generators/rspec/templates and run script/generate rspec
+to have copies written out to vendor/generators/rspec_[controller|model]. Do
+*not* modify these files directly. They are not in svn, and will be overwritten
+the next time you run script/generate rspecs
+
+There is currently no automated way to test the generators. You'll just have to play
+with them and verify manually.
