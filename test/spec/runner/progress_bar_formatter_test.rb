@@ -29,8 +29,8 @@ module Spec
       end
       
       def test_should_produce_standard_summary
-        @formatter.dump_summary(4,3,2,1)
-        assert_equal("\nFinished in 4 seconds\n\n3 contexts, 2 specifications, 1 failure\n", @io.string)
+        @formatter.dump_summary(3,2,1)
+        assert_equal("\nFinished in 3 seconds\n\n2 specifications, 1 failure\n", @io.string)
       end
 
       def test_should_produce_line_break_on_start_dump
@@ -46,7 +46,7 @@ module Spec
       end
       
       def test_should_not_produce_summary_on_dry_run
-        @formatter.dump_summary(4,3,2,1)
+        @formatter.dump_summary(3,2,1)
         assert_equal("", @io.string)
       end
     end

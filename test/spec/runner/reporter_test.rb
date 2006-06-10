@@ -14,7 +14,7 @@ module Spec
       def test_should_push_time_to_reporter
         @formatter.should_receive(:start).with(5)
         @formatter.should_receive(:start_dump)
-        @formatter.should_receive(:dump_summary) do |time, a, b, c|
+        @formatter.should_receive(:dump_summary) do |time, a, b|
           assert_match(/[0-9].[0-9|e|-]+/, time.to_s)
         end
         @reporter.start(5)
@@ -24,7 +24,7 @@ module Spec
       
       def test_should_push_stats_to_reporter_even_with_no_data
         @formatter.should_receive(:start_dump)
-        @formatter.should_receive(:dump_summary).with(:anything, 0, 0, 0)
+        @formatter.should_receive(:dump_summary).with(:anything, 0, 0)
         @reporter.dump
       end
       
@@ -42,7 +42,7 @@ module Spec
         @formatter.should_receive(:spec_started)
         @formatter.should_receive(:spec_passed)
         @formatter.should_receive(:start_dump)
-        @formatter.should_receive(:dump_summary).with(:anything, 0, 1, 0)
+        @formatter.should_receive(:dump_summary).with(:anything, 1, 0)
         @reporter.spec_started "spec"
         @reporter.spec_finished "spec"
         @reporter.dump
@@ -54,7 +54,7 @@ module Spec
         @formatter.should_receive(:spec_failed).with("spec", 1, failure)
         @formatter.should_receive(:start_dump)
         @formatter.should_receive(:dump_failure).with(1, :anything)
-        @formatter.should_receive(:dump_summary).with(:anything, 1, 1, 1)
+        @formatter.should_receive(:dump_summary).with(:anything, 1, 1)
         @backtrace_tweaker.should.receive(:tweak_backtrace)
         @reporter.add_context "context"
         @reporter.spec_started "spec"
@@ -63,13 +63,20 @@ module Spec
       end
       
       def test_should_handle_multiple_contexts_same_name
-        @formatter.should_receive(:add_context).with("context", true)
-        @formatter.should_receive(:add_context).with("context", false).exactly(2).times
+        @formatter.should_receive(:add_context).exactly(3).times
+        @formatter.should.receive(:spec_started).exactly(3).times
+        @formatter.should.receive(:spec_passed).exactly(3).times
         @formatter.should_receive(:start_dump)
-        @formatter.should_receive(:dump_summary).with(:anything, 3, 0, 0)
+        @formatter.should_receive(:dump_summary).with(:anything, 3, 0)
         @reporter.add_context "context"
+        @reporter.spec_started "spec 1"
+        @reporter.spec_finished "spec 1"
         @reporter.add_context "context"
+        @reporter.spec_started "spec 2"
+        @reporter.spec_finished "spec 2"
         @reporter.add_context "context"
+        @reporter.spec_started "spec 3"
+        @reporter.spec_finished "spec 3"
         @reporter.dump
       end
   
@@ -82,7 +89,7 @@ module Spec
         @formatter.should_receive(:spec_failed).with("spec", 2, failure)
         @formatter.should_receive(:dump_failure).exactly(2).times
         @formatter.should_receive(:start_dump)
-        @formatter.should_receive(:dump_summary).with(:anything, 2, 4, 2)
+        @formatter.should_receive(:dump_summary).with(:anything, 4, 2)
         @backtrace_tweaker.should.receive(:tweak_backtrace)
         @reporter.add_context "context"
 

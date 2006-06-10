@@ -62,11 +62,10 @@ module Spec
       end
       
       # This method is invoked at the very end.
-      def dump_summary(duration, context_count, spec_count, failure_count)
+      def dump_summary(duration, spec_count, failure_count)
         return if @dry_run
         @output << "\n"
         @output << "Finished in " << (duration).to_s << " seconds\n\n"
-        @output << "#{context_count} context#{'s' unless context_count == 1}, "
         @output << "#{spec_count} specification#{'s' unless spec_count == 1}, "
         @output << "#{failure_count} failure#{'s' unless failure_count == 1}"
         @output << "\n"

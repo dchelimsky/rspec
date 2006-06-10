@@ -24,7 +24,7 @@ module Spec
       end
       
       def test_should_produce_no_summary
-        @formatter.dump_summary(nil,nil,nil,nil)
+        @formatter.dump_summary(nil,nil,nil)
         assert(@io.string.empty?)
       end
 
@@ -41,7 +41,7 @@ module Spec
       end
       
       def test_should_not_produce_summary_on_dry_run
-        @formatter.dump_summary(4,3,2,1)
+        @formatter.dump_summary(3,2,1)
         assert_equal("", @io.string)
       end
     end
