@@ -482,5 +482,9 @@ class RubyToRuby < SexpProcessor
     end
     code.join("\n")
   end
-  
+
+  def process_bmethod(exp)
+    raise "FIXME"
+  end
+
 end

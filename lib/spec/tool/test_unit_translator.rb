@@ -137,7 +137,6 @@ module Spec
           result
         end
       end
-      
     end
   end
 end
