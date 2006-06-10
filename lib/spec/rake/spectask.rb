@@ -85,7 +85,7 @@ module Rake
         specs = file_list
         raise "No spec files found." if specs.empty?
         
-        spec = File.dirname(__FILE__) + '/../../../bin/spec'
+        spec = File.expand_path(File.dirname(__FILE__) + '/../../../bin/spec')
         file_prefix = @rcov ? " -- " : ""
         interpreter = @rcov ? "rcov" : "ruby"
         redirect = @out.nil? ? "" : " > #{@out}"
