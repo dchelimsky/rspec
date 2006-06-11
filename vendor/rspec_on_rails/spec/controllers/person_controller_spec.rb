@@ -21,7 +21,6 @@ context "The PersonController" do
     response.should_be_redirect
     response.redirect_url.should_equal 'http://test.host/person'
   end
-  
 end
 
 context "Rendering /person" do

@@ -13,8 +13,20 @@ context "The Person model" do
     person.should_equal people(:lachie)
     person.name.should_equal 'Lachie'
   end
-
+  
   teardown do
     # fixtures are torn down after this
+  end
+end
+
+context "A new Person" do
+  fixtures :people
+  
+  specify "should have no name (this fails because of a conflict with sugar's use of method_missing)" do
+    Person.new.name.should_be nil
+  end
+
+  specify "should have no name (this passes using dots)" do
+    Person.new.name.should.be nil
   end
 end
