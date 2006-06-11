@@ -35,7 +35,8 @@ module Spec
       BLOCK_PATTERN = /^#{BLOCK_TRANSLATIONS.keys.join("$|^")}$/
 
       def translate(klass)
-        process(ParseTree.new.parse_tree(klass).first)
+        tree = ParseTree.new.parse_tree(klass).first
+        process(tree)
       end
 
       def process_class(exp)
