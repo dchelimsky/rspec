@@ -1,5 +1,5 @@
 require 'test/unit'
-require 'spec/test2spec/ruby2ruby'
+require 'spec/test_to_spec/ruby2ruby'
 
 R2r2r = RubyToRuby.translate(RubyToRuby).sub("RubyToRuby","RubyToRubyToRuby")
 eval R2r2r

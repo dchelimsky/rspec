@@ -1,11 +1,11 @@
 require File.dirname(__FILE__) + '/../../test_helper'
 require 'rubygems'
-require 'spec/test2spec/test_unit_translator'
-require 'spec/test2spec/test_unit_api_test'
+require 'spec/test_to_spec/test_unit_translator'
+require 'spec/test_to_spec/test_unit_api_test'
 require 'tempfile'
 
 module Spec
-  module Test2Spec
+  module TestToSpec
     class TestUnitTranslatorTest < Test::Unit::TestCase
       def test_should_translate_test_classes_to_contexts
         c = TestUnitTranslator.new

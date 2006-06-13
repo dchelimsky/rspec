@@ -1,5 +1,5 @@
 module Spec
-  module Test2Spec
+  module TestToSpec
     context "TestUnitApi" do
       setup do
         @an_int = 789

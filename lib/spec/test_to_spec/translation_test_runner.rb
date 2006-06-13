@@ -1,9 +1,9 @@
-require 'spec/test2spec/test_unit_translator'
+require 'spec/test_to_spec/test_unit_translator'
 require 'fileutils'
 require 'erb'
 
 module Spec
-  module Test2Spec
+  module TestToSpec
     # A Test::Unit runner that doesn't run tests, but translates them instead!
     class TranslationTestRunner
       include FileUtils
