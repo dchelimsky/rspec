@@ -7,10 +7,10 @@ require 'test/unit/ui/testrunnermediator'
 require 'test/unit/autorunner'
 require 'optparse'
 
-$LOAD_PATH.push File.dirname(__FILE__) + '/../lib'
+$LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
 
 require 'rubygems'
-require 'spec/tool/translation_test_runner'
+require 'spec/test2spec/translation_test_runner'
 require 'spec/version'
 
 $test2spec_options = {
@@ -85,7 +85,7 @@ module Test
     class AutoRunner
       def initialize(standalone)
         @standalone = standalone
-        @runner = proc { |r| Spec::Tool::TranslationTestRunner }
+        @runner = proc { |r| Spec::Test2Spec::TranslationTestRunner }
         @collector = COLLECTORS[(standalone ? :dir : :objectspace)]
         @filters = []
         @to_run = []

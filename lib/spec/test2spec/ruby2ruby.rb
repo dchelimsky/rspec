@@ -5,7 +5,7 @@ begin
   require 'parse_tree'
   require 'sexp_processor'
 rescue LoadError
-  $stderr.puts "You must gem install ParseTree (and RubyInline)"
+  raise "You must gem install ParseTree (and RubyInline)"
 end
 
 class RubySource < String

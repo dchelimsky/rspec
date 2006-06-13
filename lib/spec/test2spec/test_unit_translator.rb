@@ -1,7 +1,7 @@
-require 'spec/tool/ruby2ruby'
+require 'spec/test2spec/ruby2ruby'
 
 module Spec
-  module Tool
+  module Test2Spec
     # Translates Test::Unit tests to RSpec specs,
     # Using RubyToRuby and Sexp
     class TestUnitTranslator < RubyToRuby

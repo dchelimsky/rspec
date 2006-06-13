@@ -46,10 +46,10 @@ h2. Sample translation
   <tbody>
     <tr>
       <td>
-        <ruby file="../test/spec/tool/test_unit_api_test.rb"/>
+        <ruby file="../test/spec/test2spec/test_unit_api_test.rb"/>
       </td>
       <td>
-        <ruby file="../spec/spec/tool/test_unit_api_spec.rb"/>
+        <ruby file="../spec/translated/spec/test2spec/test_unit_api_spec.rb"/>
       </td>
     </tr>
   </tbody>

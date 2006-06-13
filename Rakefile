@@ -47,12 +47,18 @@ end
 
 desc 'Translate our own tests to specs'
 task :test2spec do
-  `bin/test2spec --template spec/test2spec.erb --specdir spec test`
+  `bin/test2spec --template spec/test2spec.erb --specdir spec/translated test`
 end
 
 desc 'Generate HTML documentation'
-task :doc => :test2spec do
-  sh %{pushd doc; webgen; popd}
+task :webgen => :test2spec do
+  Dir.chdir 'doc' do
+    output = nil
+    IO.popen('webgen 2>&1') do |io|
+      output = io.read
+    end
+    raise "ERROR while running webgen: #{output}" if output =~ /ERROR/n || $? != 0
+  end
 end
 
 desc 'Generate RDoc'
@@ -119,7 +125,7 @@ end
 
 task :clobber do
   rm_rf 'doc/output'
-  rm_rf 'spec/spec'
+  rm_rf 'spec/translated'
 end
 
 task :release => [:clobber, :verify_committed, :verify_user, :verify_password, :test, :publish_packages, :tag, :publish_website, :publish_news]
@@ -141,7 +147,7 @@ task :tag do
 end
 
 desc "Build the website with rdoc and rcov, but do not publish it"
-task :website => [:clobber, :rcov_verify, :doc, :examples_specdoc, :rdoc]
+task :website => [:clobber, :rcov_verify, :webgen, :examples_specdoc, :rdoc]
 
 task :verify_user do
   raise "RUBYFORGE_USER environment variable not set!" unless ENV['RUBYFORGE_USER']

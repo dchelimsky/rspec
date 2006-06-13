@@ -1,7 +1,7 @@
 require 'test/unit'
 
 module Spec
-  module Tool
+  module Test2Spec
     class TestUnitApiTest < Test::Unit::TestCase
 
       def setup
