@@ -26,8 +26,8 @@ opts = OptionParser.new do |opts|
   end
 
   opts.on("-t", "--template FILE", 
-    "ERB template that will be used to create each file. The template",
-    "has access toi the following variables:",
+    "ERB template that will be used to decorate each translated file.",
+    "The template has access to the following variables:",
     "  translation   : the translated source code",
     "  depth         : the directory depth of the file to be written",
     "  relative_path : the relative name of the file to be written"

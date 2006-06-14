@@ -47,7 +47,7 @@ end
 
 desc 'Translate our own tests to specs'
 task :test2spec do
-  `bin/test2spec --template spec/test2spec.erb --specdir spec/translated test`
+  `bin/test2spec --force --template spec/test2spec.erb --specdir spec/translated test`
 end
 
 desc 'Generate HTML documentation'

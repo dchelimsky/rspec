@@ -1,5 +1,9 @@
 = RSpec Changelog
 
+== Version 0.5.10
+
+* Improved test2spec's internals
+
 == Version 0.5.9
 This release improves test2spec by allowing more control over the output
 

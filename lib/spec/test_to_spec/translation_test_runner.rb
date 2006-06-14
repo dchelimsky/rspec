@@ -1,4 +1,4 @@
-require 'spec/test_to_spec/test_unit_translator'
+require 'spec/test_to_spec/test_case_ext'
 require 'fileutils'
 require 'erb'
 
@@ -14,11 +14,10 @@ module Spec
       
       def initialize(suite)
         log "Writing translated specs to #{$test2spec_options[:specdir]}"
-        translator = TestUnitTranslator.new
         ObjectSpace.each_object(Class) do |klass|
           if klass < ::Test::Unit::TestCase
             begin
-              translation = translator.translate(klass)
+              translation = klass.to_rspec
               
               unless $test2spec_options[:dry_run]
                 relative_path = underscore(klass.name)

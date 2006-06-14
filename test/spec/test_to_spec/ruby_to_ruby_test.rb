@@ -1,4 +1,4 @@
-require 'test/unit'
+require File.dirname(__FILE__) + '/../../test_helper'
 require 'spec/test_to_spec/ruby2ruby'
 
 R2r2r = RubyToRuby.translate(RubyToRuby).sub("RubyToRuby","RubyToRubyToRuby")

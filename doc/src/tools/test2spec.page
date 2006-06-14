@@ -2,11 +2,11 @@
 title: Test::Unit Migration
 inMenu: true
 ---
-h2. Test::Unit migration
+h2. Overview of test2spec
 
 RSpec's test2spec command line tool translates existing Test::Unit classes to RSpec.  
 
-Before you can use test2spec you must gem install ParseTree and RubyInline.
+Before you can use test2spec you must gem install ParseTree (and RubyInline).
 RubyInline only works on systems that have a C compiler - i.e. most anything except Windows.
 
 If you're stuck on Windows, ask a friend who has a POSIX system to translate your specs.
@@ -46,10 +46,10 @@ h2. Sample translation
   <tbody>
     <tr>
       <td>
-        <ruby file="../test/spec/test_to_spec/test_unit_api_test.rb"/>
+        <ruby file="../test/spec/test_to_spec/testfiles/test_unit_api_test.rb"/>
       </td>
       <td>
-        <ruby file="../spec/translated/spec/test_to_spec/test_unit_api_spec.rb"/>
+        <ruby file="../spec/translated/test_unit_api_spec.rb"/>
       </td>
     </tr>
   </tbody>
@@ -73,17 +73,20 @@ at RSpec's bug report system  along with some code so we can reproduce (and hope
 
 h2. Internals
 
-The test2spec tool is based on three other tools:
+The test2spec commandline 'runs' the tests with a special test runner - one that translates and writes out
+the translations to disk instead of actually executing the tests.
+
+The translation is done by the <tt>Test::Unit::TestCase#to_rspec</tt> method (which test2spec adds to all 
+test classes). This method will load the parse tree for the class, transform that tree to an RSpec context 
+and return the source code (using RubyToRuby).
+
+test2spec is based directly on two other tools:
 
 * "RubyToRuby":http://blog.zenspider.com/archives/2005/02/rubytoruby.html
 * "ParseTree":http://rubyforge.org/projects/parsetree/
-* "RubyInline":http://rubyforge.org/projects/rubyinline/
 
 In fact, it's based on a modified version of "George Moschovitis' RubyToRuby enhancement":http://dark.fhtr.org/ruby2ruby.rb
 of "Ryan Davis' original RubyToRuby":http://blog.zenspider.com/archives/2005/02/rubytoruby.html.
 
 It has been modified to fix some subtle bugs that were not found by Gerorge's tests. The modified RubyToRuby
 currently lives in RSpec's subversion repository.
-
-The translation is done by TestUnitTranslator - subclass of RubyToRuby that writes out the syntax tree a little differently than
-its superclass. TestUnitTranslator looks for certain Test::Unit patterns and writes out an RSpec translation instead.
