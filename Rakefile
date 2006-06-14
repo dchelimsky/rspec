@@ -6,8 +6,6 @@ require 'rake/clean'
 require 'rake/testtask'
 require 'rake/rdoctask'
 require 'spec/version'
-require 'spec/rake/spectask'
-require 'spec/rake/rcov_verify'
 require 'rcov/rcovtask'
 
 # Some of the tasks are in separate files since they are also part of the website documentation
