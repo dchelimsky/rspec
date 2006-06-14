@@ -3,15 +3,16 @@ Then you must install the following gems:
 
 * rake
 * rcov
-* RubyInline
 * ParseTree   (Ignore the message: test/test_parse_tree.rb:190:38: ':' not followed by identified or operator)
+* RubyInline
 * webgen
 * RedCloth
 * syntax
 
 Note that RSpec itself - once built - doesn't have any dependencies outside the Ruby core 
 and stdlib - with a few exceptions:
-* test2spec uses RubyInline, RubyToC and ParseTree
-* The spectask needs rcov if rcov is enabled.
+
+* The test2spec command line uses ParseTree and RubyInline
+* The Spec::Rake::SpecTask needs RCov if RCov is enabled in the task.
 
 See http://rspec.rubyforge.org for further documentation.
