@@ -1,8 +1,9 @@
 = RSpec Changelog
 
-== Version 0.5.10 (SVN)
+== Version 0.5.10
+This version features a second rewrite of test2spec - hopefully better than the previous one.
 
-* Improved test2spec's internals
+* Improved test2spec's internals. It now transforms the syntax tree before writing out the code.
 
 == Version 0.5.9
 This release improves test2spec by allowing more control over the output
