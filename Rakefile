@@ -25,7 +25,7 @@ PKG_FILES = FileList[
   'doc/**/*'
 ]
 
-task :default => [:test]
+task :default => :test
 
 desc "Run all failing examples"
 Spec::Rake::SpecTask.new('failing_examples') do |t|

@@ -4,7 +4,7 @@ inMenu: true
 ---
 h2. Rake Task
 
-RSpec coomes with a Rake task for executing specs.
+RSpec comes with a Rake task for executing specs.
 See "Spec::Rake::SpecTask":../rdoc/classes/Spec/Rake/SpecTask.html for details.
 
 h3. Run specs
