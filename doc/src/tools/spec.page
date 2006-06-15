@@ -8,7 +8,7 @@ h2. Executing specs directly
 Every RSpec context can be run directly from the command line:
 
 <pre>
-ruby path/to/my_spec.rb [options]
+$ ruby path/to/my_spec.rb [options]
 </pre>
 
 This will print the results to STDOUT. Use the --help option for more details. This is
@@ -24,7 +24,7 @@ Any number of files, directories and shell globs can be provided, all ruby sourc
 that are found are loaded. Running spec on the previous example results in:
 
 <pre>
-spec examples
+$ spec examples
 
 {execute: ruby ../bin/spec ../examples}
 </pre>
@@ -64,7 +64,7 @@ output. The --dry-run options may also affect the output format.
 For example, by setting the formatter to rdoc, we can output the kind of input that RDoc
 needs to produce something like "this":../rdoc/files/EXAMPLES_rd.html 
 <pre>
-$ bin/spec failing_examples/team_spec.rb -f rdoc
+$ spec failing_examples/team_spec.rb -f rdoc
 
 {execute: ../bin/spec ../failing_examples/team_spec.rb -f rdoc}
 </pre>
