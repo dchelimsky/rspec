@@ -59,11 +59,22 @@ h2. Sample translation
 h2. What's translated?
 
 test2spec only translates classes that extend from Test::Unit - and their methods. It will not bring over any 
-code that isn't inside a Test::Unit class. This means that require statements at the top of your file, any other
-classes in the same file as the test class etc *will not be translated*.
+code that isn't inside a Test::Unit class. This means that require statements at the top of your file, any 
+non-Test::Unit classes (even if they are in in the same file as the test class) *will not be translated*.
+
+We recommend that you manually write a spec_helper.rb file and put it at the top of your spec directory.
+Also, write a test2spec.erb file that will put a <tt>require</tt> of that file at the top of each translated
+spec. Use the --template option to specify this erb file when you run test2spec.
+
+Sometimes, test classes have helper methods that don't start with test_ (and that are not setup or teardown).
+These methods will be moved inside the setup block, and will also have any core Test::Unit assert_* methods
+translated. (Non-Test::Unit core assert_ methods will not be translated.)
 
 So, there is a fair chance that you will have to do some manual editing after test2spec has run. We're only
 aiming to get most of the translation job done for you - not all of it.
+
+If you're translating Rails tests, please refer to the RSpec on Rails page for more detail of what needs to 
+be done.
 
 h2. Troubleshooting
 
