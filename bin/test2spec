@@ -14,7 +14,8 @@ require 'spec/test_to_spec/translation_test_runner'
 require 'spec/version'
 
 $test2spec_options = {
-  :collision => :ask
+  :collision => :ask,
+  :verbose => false
 }
 
 opts = OptionParser.new do |opts|
@@ -49,6 +50,10 @@ opts = OptionParser.new do |opts|
 
   opts.on("-q", "--quiet", "Don't print anything to stdout") do
     $test2spec_options[:quiet] = true
+  end
+
+  opts.on("--verbose", "Be extra verbose (printing backtraces when classes can't be translated)") do
+    $test2spec_options[:verbose] = true
   end
 
   opts.on("-v", "--version", "Show version") do

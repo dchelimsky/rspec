@@ -32,8 +32,8 @@ module Spec
               end
             rescue => e
               log "Failed to translate     #{klass}"
-              log "Message: #{e.message}"
-              log e.backtrace.join("\n")
+              verbose "Message: #{e.message}"
+              verbose e.backtrace.join("\n")
             end
           end
         end
@@ -62,6 +62,14 @@ module Spec
 
       def quiet?
         $test2spec_options[:quiet] == true
+      end
+
+      def verbose(msg)
+        puts msg if verbose?
+      end
+
+      def verbose?
+        !quiet? && $test2spec_options[:verbose] == true
       end
 
       def destination_path(relative_destination)

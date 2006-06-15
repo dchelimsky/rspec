@@ -4,6 +4,7 @@
 relnotes
 
 * All of RSpec's own tests run successfully after translation with test2spec.
+* Added --verbose mode for test2spec - useful for debugging when classes fail to translate.
 
 == Version 0.5.11
 This release makes test2spec usable with Rails (with some manual steps). 
