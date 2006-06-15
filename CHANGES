@@ -3,7 +3,8 @@
 == Version 0.5.12 (SVN)
 relnotes
 
-* Remove RSpec on Rails files from backtrace.
+* Added support for diffing, using the lcs-diff Rubygem (#2648).
+* Remove RSpec on Rails files from backtrace (#4694).
 * All of RSpec's own tests run successfully after translation with test2spec.
 * Added --verbose mode for test2spec - useful for debugging when classes fail to translate.
 * Output of various formatters is now flushed - to get more continuous output.

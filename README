@@ -1,4 +1,4 @@
-In order to run RSpec's tests and generate the website, you must have RubyGems.
+In order to run RSpec's tests and generate the gem and the website, you must have RubyGems.
 Then you must install the following gems:
 
 * rake
@@ -8,11 +8,13 @@ Then you must install the following gems:
 * webgen
 * RedCloth
 * syntax
+* lcs-diff
 
 Note that RSpec itself - once built - doesn't have any dependencies outside the Ruby core 
 and stdlib - with a few exceptions:
 
-* The test2spec command line uses ParseTree and RubyInline
+* The spec command line uses lcs-diff when --diff is specified.
+* The test2spec command line uses ParseTree and RubyInline.
 * The Spec::Rake::SpecTask needs RCov if RCov is enabled in the task.
 
 See http://rspec.rubyforge.org for further documentation.

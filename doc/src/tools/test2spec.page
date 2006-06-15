@@ -16,14 +16,15 @@ just Ruby.
 h2. The test2spec command line
 
 <pre>
-test2spec --help
+$ test2spec --help
+
 {execute: ruby ../bin/test2spec --help}
 </pre>
 
 A typical invocation might look like this:
 
 <pre>
-test2spec --template spec/test2spec.erb --specdir spec test
+$ test2spec --template spec/test2spec.erb --specdir spec test
 </pre>
 
 Where spec/test2spec.erb contains the following:

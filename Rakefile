@@ -55,6 +55,7 @@ end
 desc 'Runs all RSpec specs - translated with test2spec from our own tests'
 Spec::Rake::SpecTask.new('test2spec_test' => :test2spec) do |t|
   t.spec_files = FileList['spec/**/*_spec.rb']
+  t.options = ['--diff']
 end
 
 desc 'Generate HTML documentation'

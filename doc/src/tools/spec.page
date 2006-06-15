@@ -17,22 +17,15 @@ or the Rake task. It should also be noted that the exitcode will always be 0 whe
 
 h2. The spec command line
 
-After you install RSpec, you should have the spec command line tool on your PATH.
+After you install RSpec, you should have the <tt>spec</tt> command line tool on your PATH.
 This tool can be used to process several RSpec contexts in one go. 
-
-spec will exit with the exitcode 1 if one or more specs fail.
-
-The general form of the command is
-
-<pre>
-spec [options] (FILE|DIRECTORY|GLOB)+
-</pre>
 
 Any number of files, directories and shell globs can be provided, all ruby source files
 that are found are loaded. Running spec on the previous example results in:
 
 <pre>
-bin/spec examples
+spec examples
+
 {execute: ruby ../bin/spec ../examples}
 </pre>
 
@@ -41,7 +34,8 @@ failing ones by a 'F'. Note that failure indicates a violated expectation as
 well as an unexpected exception being raised.  Here's an example with a failing specification:
 
 <pre>
-bin/spec failing_examples/stack_spec.rb
+$ spec failing_examples/stack_spec.rb
+
 {execute: ../bin/spec ../failing_examples/stack_spec.rb}
 </pre>
 
@@ -51,8 +45,15 @@ on the first line of the backtrace.
 
 h2. Command line options
 
-Additional command line options can be passed to customize the output and behaviour of RSpec.
-The following options apply whether specs are run in standalone mode (by executing the .rb files directly), 
+When you run <tt>spec</tt> with the <tt>--help</tt> option it prints a help message:
+<pre>
+$ spec --help
+
+{execute: ruby ../bin/spec --help}
+</pre>
+
+The command line options can be passed to customize the output and behaviour of RSpec.
+The options apply whether specs are run in standalone mode (by executing the .rb files directly), 
 or using the spec command.
 
 h3. -f, --format [specdoc|s|rdoc|r|]
@@ -88,6 +89,24 @@ h3. -d, --dry-run
 This option tells RSpec not to execute the specs, but they are still being parsed.
 This can be useful when generating "testdox-like":http://agiledox.sourceforge.net/ documents
 
+h3. --diff
+
+This option tells RSpec to print a unified diff of any Strings that are expected to be equal,
+but are not. This is especially handy when comparing large Strings. Example:
+
+<ruby file="../failing_examples/big_string_spec.rb" />
+
+And the output using <tt>--diff</tt>
+
+<pre>
+$ spec failing_examples/team_spec.rb --diff
+
+{execute: ../bin/spec ../failing_examples/big_string_spec.rb --diff}
+</pre>
+
+If you want to use the <tt>--diff</tt> option, you must also gem install lcs-diff. You
+do *not* need a native diff command line tool, so this is Windows-friendly.
+
 h3. -b, --backtrace
 
 In order to make it easier to identify causes of failing specifications, RSpec will filter out
@@ -95,7 +114,7 @@ the parts of the backtrace that come from RSpec itself by default. If you wish t
 you can use -b or --backtrace:
 
 <pre>
-$ bin/spec failing_examples/team_spec.rb -b
+$ spec failing_examples/team_spec.rb -b
 
 {execute: ../bin/spec ../failing_examples/team_spec.rb -b}
 </pre>
@@ -107,7 +126,7 @@ Enter the name of a context, spec, or both to run:
 all the specs in a context ...
 
 <pre>
-$ bin/spec examples --spec "A stack with one item" -f s
+$ spec examples --spec "A stack with one item" -f s
 
 {execute: ../bin/spec ../examples --spec "A stack with one item" -f s}
 </pre>
@@ -115,7 +134,7 @@ $ bin/spec examples --spec "A stack with one item" -f s
 ... any spec in any context with a given name ...
 
 <pre>
-$ bin/spec examples --spec "should return top when sent top" -f s
+$ spec examples --spec "should return top when sent top" -f s
 
 {execute: ../bin/spec ../examples --spec "should return top when sent top" -f s}
 </pre>
@@ -123,7 +142,7 @@ $ bin/spec examples --spec "should return top when sent top" -f s
 ... or a specific spec in a specific context:
 
 <pre>
-$ bin/spec examples --spec "A stack with one item should return top when sent top" -f s
+$ spec examples --spec "A stack with one item should return top when sent top" -f s
 
 {execute: ../bin/spec ../examples --spec "A stack with one item should return top when sent top" -f s}
 </pre>

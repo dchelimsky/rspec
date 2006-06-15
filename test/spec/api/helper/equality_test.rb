@@ -25,6 +25,14 @@ module Spec
             @dummy.should.equal @another_dummy
           end
         end
+        
+        def test_should_raise_nice_message
+          begin
+            "foo\nbar\nzap".should_equal "foo\nzap\nbar"
+          rescue ExpectationNotMetError => e
+            assert_equal "\"foo\\nbar\\nzap\" should equal \"foo\\nzap\\nbar\"", e.message
+          end
+        end
 
         # should.not.equal
 
@@ -53,8 +61,14 @@ module Spec
         def test_should_be_close_failing_cases
           assert_raise(ExpectationNotMetError) do
             3.5.should.be.close 3.0, 0.5
+          end
+          assert_raise(ExpectationNotMetError) do
             3.5.should.be.close 2.0, 0.5
+          end
+          assert_raise(ExpectationNotMetError) do
             3.5.should.be.close 4.0, 0.5
+          end
+          assert_raise(ExpectationNotMetError) do
             3.5.should.be.close 5.0, 0.5
           end
         end
