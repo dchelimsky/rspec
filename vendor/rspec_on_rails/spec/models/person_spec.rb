@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 context "The Person model" do
-  fixtures :people
+  fixtures :people, :animals
 
   setup do
     # fixtures are setup before this
@@ -12,6 +12,10 @@ context "The Person model" do
 
     person.should_equal people(:lachie)
     person.name.should_equal 'Lachie'
+  end
+  
+  specify "should have animals" do
+    people(:lachie).should_have(2).animals
   end
   
   teardown do
