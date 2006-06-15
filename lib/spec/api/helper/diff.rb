@@ -8,18 +8,18 @@ end
 module Spec
   class ShouldBase
     unless defined?(RSPEC_TESTING)
-  		alias old_default_message default_message
-  		def default_message(expectation, expected=:no_expectation_specified)
-  	    result = old_default_message(expectation, expected)
-  		  if expected.is_a?(String)
-  		    result << "\nDiff:" << diff_as_string(@target.to_s, expected)
-  		  end
-  	    result
-  		end
-  	end
+      alias old_default_message default_message
+      def default_message(expectation, expected=:no_expectation_specified)
+        result = old_default_message(expectation, expected)
+        if expected.is_a?(String)
+          result << "\nDiff:" << diff_as_string(@target.to_s, expected)
+        end
+        result
+      end
+    end
 
     # This is snagged from diff/lcs/ldiff.rb (which is a commandline tool)
-  	def diff_as_string(data_old, data_new, format=:unified, context_lines=3)
+    def diff_as_string(data_old, data_new, format=:unified, context_lines=3)
       data_old = data_old.split(/\n/).map! { |e| e.chomp }
       data_new = data_new.split(/\n/).map! { |e| e.chomp }
       output = ""
@@ -49,5 +49,5 @@ module Spec
       #Handle the last remaining hunk
       output << oldhunk.diff(format) << "\n"
     end  
-	end
+  end
 end

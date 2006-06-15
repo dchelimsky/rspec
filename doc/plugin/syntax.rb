@@ -41,14 +41,14 @@ module Tags
     def process_tag(tag, node, ref_node)
       content = ''
       begin
-				filename = get_param('filename')
-				if !File.exists?(filename)
-					if filename[0...1] == "~"
-						filename = File.expand_path(filename)
-					else
-						filename = ref_node.parent.recursive_value( 'src' ) + get_param( 'filename' )
-					end
-				end
+        filename = get_param('filename')
+        if !File.exists?(filename)
+          if filename[0...1] == "~"
+            filename = File.expand_path(filename)
+          else
+            filename = ref_node.parent.recursive_value( 'src' ) + get_param( 'filename' )
+          end
+        end
         self.logger.debug { "File location: <#{filename}>" }
         content = File.read( filename )
       rescue

@@ -78,7 +78,7 @@ class Stack
   end
   
   def top
-	"one item"
+  "one item"
   end
   
 end

@@ -16,18 +16,18 @@ module Spec
   
   class ShouldBase
 
-		def default_message(expectation, expected=:no_expectation_specified)
+    def default_message(expectation, expected=:no_expectation_specified)
       message = "#{@target.inspect_for_expectation_not_met_error} #{expectation}"
       if (expected != :no_expectation_specified)
         message << " " << expected.inspect_for_expectation_not_met_error
       end
       message
-   	end
+     end
 
-		def fail_with_message(message)
-			Kernel::raise(Spec::Api::ExpectationNotMetError.new(message))
-		end
-		
+    def fail_with_message(message)
+      Kernel::raise(Spec::Api::ExpectationNotMetError.new(message))
+    end
+    
   end
   
 end

@@ -7,35 +7,35 @@ module Spec
     end
   
     def satisfy
-	    fail_with_message "Supplied expectation was satisfied, but should not have been" if (yield @target)
+      fail_with_message "Supplied expectation was satisfied, but should not have been" if (yield @target)
     end
         
     def equal(expected)
-	    fail_with_message(default_message("should not equal", expected)) if (@target == expected)
+      fail_with_message(default_message("should not equal", expected)) if (@target == expected)
     end
     
     def be(expected = :no_arg)
-	    return self if (expected == :no_arg)
-	    fail_with_message(default_message("should not be", expected)) if (@target.equal?(expected))
+      return self if (expected == :no_arg)
+      fail_with_message(default_message("should not be", expected)) if (@target.equal?(expected))
     end
 
-		def a
-			self
-		end
-		
-		alias an a
-		
-		def instance
-			InstanceNegator.new(@target)
-		end
-		
-		def kind
-			KindNegator.new(@target)
-		end
+    def a
+      self
+    end
+    
+    alias an a
+    
+    def instance
+      InstanceNegator.new(@target)
+    end
+    
+    def kind
+      KindNegator.new(@target)
+    end
 
-			def respond
-				RespondNegator.new(@target)
-			end
+      def respond
+        RespondNegator.new(@target)
+      end
     
     def match(expected)
         fail_with_message(default_message("should not match", expected)) if (@target =~ expected)

@@ -102,7 +102,7 @@ accepts any string for this argument, e.g.:
 <ruby>
 my_mock.should_receive(:msg).with(a, :string, "b")
 </ruby>
-	
+  
 h4. duck_type(message(s))
 
 accepts any object that responds to the prescribed message(s), e.g.:

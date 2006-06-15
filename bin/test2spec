@@ -102,11 +102,11 @@ end
 
 # If ARGV is a glob, it will actually each over each one of the matching files.
 ARGV.each do |arg|
-	if File.directory?(arg)
-		Dir["#{arg}/**/*.rb"].each do |file| 
-		  require "#{file}"
-		end
-	else
-		require arg
-	end
+  if File.directory?(arg)
+    Dir["#{arg}/**/*.rb"].each do |file| 
+      require "#{file}"
+    end
+  else
+    require arg
+  end
 end

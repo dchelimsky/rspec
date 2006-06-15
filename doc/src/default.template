@@ -9,22 +9,22 @@
 <body>
 
 <div id="container">
-	<div id="header">
+  <div id="header">
         <h2>Behaviour Driven Development for <strong>Ruby</strong></h2>
-		<h1>RSpec {version: }</h1>
-	</div>
+    <h1>RSpec {version: }</h1>
+  </div>
 
-	<div id="navigation">
-	    {menu: {menuStyle: horizontal}}
-	</div>
+  <div id="navigation">
+      {menu: {menuStyle: horizontal}}
+  </div>
 
-	<div id="content">
-		{content: }
-		
-		<div id="footer">
-			Webdesign by <a href="http://www.oswd.org/user/profile/id/9462">JM</a>
-		</div>
-	</div>
+  <div id="content">
+    {content: }
+    
+    <div id="footer">
+      Webdesign by <a href="http://www.oswd.org/user/profile/id/9462">JM</a>
+    </div>
+  </div>
 </div>
 
 </body>
