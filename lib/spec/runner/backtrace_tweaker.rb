@@ -29,6 +29,8 @@ module Spec
           line = nil if line =~ /bin\/spec:/
           # TextMate's Ruby plugin
           line = nil if line =~ /Ruby\.tmbundle\/Support\/tmruby.rb:/
+          # RSpec on Rails
+          line = nil if line =~ /gems\/rspec_generator/
           line
         end
         error.backtrace.compact!

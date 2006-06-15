@@ -65,14 +65,20 @@ module Spec
         @error.backtrace.should_be_empty
       end
 
+      def test_should_remove_bin_spec
+        @error.set_backtrace ["bin/spec:"]
+        @tweaker.tweak_backtrace @error, 'spec name'
+        @error.backtrace.should_be_empty
+      end
+
       def test_should_remove_anything_from_textmate_ruby_bundle
         @error.set_backtrace ["/Applications/TextMate.app/Contents/SharedSupport/Bundles/Ruby.tmbundle/Support/tmruby.rb:147"]
         @tweaker.tweak_backtrace @error, 'spec name'
         @error.backtrace.should_be_empty
       end
 
-      def test_should_remove_bin_spec
-        @error.set_backtrace ["bin/spec:"]
+      def test_should_remove_anything_from_rspec_on_rails
+        @error.set_backtrace ["/usr/local/lib/ruby/gems/1.8/gems/rspec_generator-0.5.12/lib/rspec_on_rails.rb:33:in `run'"]
         @tweaker.tweak_backtrace @error, 'spec name'
         @error.backtrace.should_be_empty
       end

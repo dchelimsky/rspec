@@ -59,6 +59,7 @@ module Spec
         @output << "#{failure.header}\n"
         @output << "#{failure.message}\n"
         @output << "#{failure.backtrace}\n"
+        @output.flush
       end
       
       # This method is invoked at the very end.
@@ -69,6 +70,7 @@ module Spec
         @output << "#{spec_count} specification#{'s' unless spec_count == 1}, "
         @output << "#{failure_count} failure#{'s' unless failure_count == 1}"
         @output << "\n"
+        @output.flush
       end
     end
   end
