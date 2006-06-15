@@ -1,7 +1,8 @@
 = RSpec Changelog
 
-== Version 0.5.12 (SVN)
-relnotes
+== Version 0.5.12
+This release adds diff support for failure messages, plus some other
+minor enhancements.
 
 * Added support for diffing, using the lcs-diff Rubygem (#2648).
 * Remove RSpec on Rails files from backtrace (#4694).
