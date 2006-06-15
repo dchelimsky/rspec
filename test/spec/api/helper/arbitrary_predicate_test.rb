@@ -3,31 +3,7 @@ require File.dirname(__FILE__) + '/../../../test_helper'
 module Spec
   module Api
     module Helper
-    
-      class XxxMock
-        def initialize(return_val)
-          @return_val = return_val
-          @xxx_called = false
-        end
-        
-        def xxx?
-          @xxx_called = true
-          @return_val
-        end
-        
-        def yyy?(a, b, c)
-          a.should.be 1
-          b.should.be 2
-          c.should.be 3
-          @xxx_called = true
-          @return_val
-        end
-        
-        def __verify
-          @xxx_called.should.be true
-        end
-      end
-    
+
       class ArbitraryPredicateTest < Test::Unit::TestCase
 
         # should.be.xxx

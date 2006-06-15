@@ -3,7 +3,7 @@ module Spec
     unless defined? MAJOR
       MAJOR  = 0
       MINOR  = 5
-      TINY   = 11
+      TINY   = 12
 
       STRING = [MAJOR, MINOR, TINY].join('.')
       TAG    = "REL_" + [MAJOR, MINOR, TINY].join('_')

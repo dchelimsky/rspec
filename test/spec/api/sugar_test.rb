@@ -61,11 +61,5 @@ module Spec
       end
 
     end
-    
-    class ClassWithMultiWordPredicate
-      def multi_word_predicate?
-        true 
-      end
-    end
   end
 end

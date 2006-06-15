@@ -3,6 +3,7 @@ require 'stringio'
 $LOAD_PATH.push File.dirname(__FILE__) + '/../lib'
 $LOAD_PATH.push File.dirname(__FILE__) + '/../test'
 require 'spec'
+require 'test_classes'
 $context_runner = ::Spec::Runner::OptionParser.create_context_runner(['test'], false, STDERR, STDOUT)
 
 # helpers for test_to_spec tests

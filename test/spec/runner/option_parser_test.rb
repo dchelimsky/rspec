@@ -1,10 +1,5 @@
 require File.dirname(__FILE__) + '/../../test_helper'
 
-module Custom
-  class Formatter
-  end
-end
-
 module Spec
   module Runner
     class OptionParserTest < Test::Unit::TestCase
