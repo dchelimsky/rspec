@@ -99,7 +99,7 @@ but are not. This is especially handy when comparing large Strings. Example:
 And the output using <tt>--diff</tt>
 
 <pre>
-$ spec failing_examples/team_spec.rb --diff
+$ spec failing_examples/big_string_spec.rb --diff
 
 {execute: ../bin/spec ../failing_examples/big_string_spec.rb --diff}
 </pre>
