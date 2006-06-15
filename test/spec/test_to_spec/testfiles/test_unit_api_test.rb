@@ -9,9 +9,15 @@ class TestUnitApiTest < Test::Unit::TestCase
   def teardown
   end
 
+  def assert_pair(n)
+    assert_equal 0, n%2
+  end
+
   def test_can_be_translated_to_rspec
     a_float = 123.45
     a_nil = nil
+
+    assert_pair(2)
 
     assert true
     assert_not_nil @an_int

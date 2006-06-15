@@ -62,9 +62,9 @@ test2spec only translates classes that extend from Test::Unit - and their method
 code that isn't inside a Test::Unit class. This means that require statements at the top of your file, any 
 non-Test::Unit classes (even if they are in in the same file as the test class) *will not be translated*.
 
-We recommend that you manually write a spec_helper.rb file and put it at the top of your spec directory.
-Also, write a test2spec.erb file that will put a <tt>require</tt> of that file at the top of each translated
-spec. Use the --template option to specify this erb file when you run test2spec.
+We recommend that you manually write a spec_helper.rb file with require statements and put it at the top 
+of your spec directory. Also, write a test2spec.erb file that will put a <tt>require</tt> of that file at 
+the top of each translated spec. Use the <tt>--template</tt> option to specify this erb file when you run test2spec.
 
 Sometimes, test classes have helper methods that don't start with test_ (and that are not setup or teardown).
 These methods will be moved inside the setup block, and will also have any core Test::Unit assert_* methods

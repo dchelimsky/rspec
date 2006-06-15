@@ -10,6 +10,7 @@ class RspecGenerator < Rails::Generator::Base
       # The spec helper and Rake tasks
       m.directory 'spec'
       m.template 'spec_helper.rb', 'spec/spec_helper.rb'
+      m.file     'test2spec.erb', 'spec/test2spec.erb'
       m.template 'rspec.rake', 'lib/tasks/rspec.rake'
 
       # Copy out the rspec_model generator

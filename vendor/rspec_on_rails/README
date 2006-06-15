@@ -40,6 +40,14 @@ For other rails apps, these files should be checked into the SCM).
 
 If everything passes at this point, everything is good.
 
+=== Translate unit tests.
+
+  ../../bin/test2spec --template spec/test2spec.erb --specdir spec/models test/unit
+
+Then add the required fixtures statement in the translated specs, as described
+in rails.page (http://rspec.rubyforge.org/tools/rails.html).
+Try to run the specs again. The translated spec should pass too.
+
 === Modifying the RSpec extensions
 
 The RSpec extensions live under vendor/generators/rspec/lib

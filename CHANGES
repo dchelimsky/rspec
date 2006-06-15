@@ -1,9 +1,11 @@
 = RSpec Changelog
 
-== Version 0.5.11 (SVN)
-relnotes
+== Version 0.5.11
+This release makes test2spec usable with Rails (with some manual steps). 
+See http://rspec.rubyforge.org/tools/rails.html for more details
 
-* test2spec now correctly translates bodies of helper methods (non- test_*, setup and teardown ones)
+* test2spec now correctly translates bodies of helper methods (non- test_*, setup and teardown ones).
+* Added more documentation about how to get test2spec to work with Rails.
 
 == Version 0.5.10
 This version features a second rewrite of test2spec - hopefully better than the previous one.
