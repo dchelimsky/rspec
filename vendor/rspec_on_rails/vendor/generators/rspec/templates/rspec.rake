@@ -32,16 +32,4 @@ namespace :spec do
     ]
     t.spec_opts = ["--format", "specdoc"]
   end
-  
-  namespace :translate do
-    desc "Translate test/unit to spec/models"
-    task :unit do
-      `test2spec --specdir spec/models test/unit`
-    end
-
-    desc "Translate test/functional to spec/controllers"
-    task :functional do
-      `test2spec --specdir spec/controllers test/functional`
-    end
-  end
 end

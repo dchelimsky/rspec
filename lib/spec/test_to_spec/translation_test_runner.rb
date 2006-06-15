@@ -30,8 +30,10 @@ module Spec
               else
                 log "Successfully translated #{klass}"
               end
-            rescue SexpProcessorError => e
+            rescue => e
               log "Failed to translate     #{klass}"
+              log "Message: #{e.message}"
+              log e.backtrace.join("\n")
             end
           end
         end

@@ -202,8 +202,12 @@ module Spec
         should_translate_class_to_context('Eighth')
       end
 
-      def should_translate_class_to_context(name)
+      def should_translate_class_to_context(name, debug=false)
         t = test_class_exp(eval("#{name}Test"))
+        if(debug)
+          puts "ORIGINAL"
+          pp t
+        end
         c = context_exp(eval("#{name}Context"))
 
         trans = @t.process(t)

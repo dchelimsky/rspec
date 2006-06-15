@@ -1,5 +1,6 @@
 # Taken from http://dark.fhtr.org/ruby2ruby.rb
 
+require 'pp'
 require 'rubygems'
 begin
   require 'parse_tree'
@@ -484,7 +485,8 @@ class RubyToRuby < SexpProcessor
   end
 
   def process_bmethod(exp)
-    raise "FIXME"
+    exp.clear
+    ""
   end
 
 end

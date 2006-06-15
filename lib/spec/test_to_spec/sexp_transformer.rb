@@ -32,11 +32,6 @@ module Spec
         self.expected = Array
       end
       
-      def process(exp)
-#puts "PROCESS:#{exp[0]}"
-super
-      end
-      
       def process_class(exp)
         # Get the class header
         exp.shift

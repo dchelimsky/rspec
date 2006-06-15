@@ -75,6 +75,27 @@ In order to make things more consistent, RSpec chooses a slightly different nami
 Rake tasks. So you will find model specs under specs/models, and controller specs under specs/controllers. The
 Rake tasks are named accordingly.
 
+h3. Translating existing Test::Unit tests
+
+The test2spec tool that ships with RSpec translates existing tests into RSpec specs. Before you can use
+test2spec to translate Rails tests, you have to make some small preparations. First, make sure you have
+installed the rspec_generator in your rails app (see above). Second, modify your
+test/test_helper.rb file:
+<pre>
+# This line must be commented out in order for test2spec to work.
+# require 'test_help'
+require 'test2spec_help'
+</pre>
+
+Now you can translate your unit tests (model tests) with:
+<pre>
+test2spec --template vendor/generators/rspec/templates/test2spec.erb --specdir spec/models test/unit
+</pre>
+and your functional tests (controller tests) with:
+<pre>
+test2spec --template vendor/generators/rspec/templates/test2spec.erb --specdir spec/controllers test/functional
+</pre>
+
 h3. Examples
 
 RSpec on Rails adds several methods to your specs with a look and feel similar to Test::Unit. Example:
