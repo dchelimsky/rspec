@@ -1,5 +1,8 @@
 = RSpec Changelog
 
+== Version 0.5.12 (SVN)
+relnotes
+
 == Version 0.5.11
 This release makes test2spec usable with Rails (with some manual steps). 
 See http://rspec.rubyforge.org/tools/rails.html for more details
