@@ -30,6 +30,7 @@ module Spec
       def initialize
         super
         self.expected = Array
+        @regular_method = false
       end
       
       def process_class(exp)
@@ -56,10 +57,15 @@ module Spec
         unless setup.empty?
           setup_block = process(setup.shift)
           unless methods.empty?
+            translated_methods = []
+            # At this stage we don't want to translate :lvar to :dvar
+            @regular_method = true
+            translated_methods << process(methods.shift) until methods.empty?
+            @regular_method = false
             if setup_block.length == 3
-              setup_block += methods
+              setup_block += translated_methods
             else
-              setup_block[3] += methods
+              setup_block[3] += translated_methods
             end
           end
           context_body << setup_block
@@ -104,20 +110,26 @@ module Spec
           result[-1] += @dasgn_decl unless @dasgn_decl.empty?
           result[-1] += block_body unless block_body == [[:nil]]
           result
+        else
+          # Return the same method, but process the innards
+          result = [exp.shift, exp.shift] + process(exp)
+          result
         end
       end
       
       def process_lasgn(exp)
         result = exp.dup
-        result[0] = :dasgn_curr
-        decl = result[0..1].dup
-        if @dasgn_decl.empty?
-          @dasgn_decl += [decl]
-        else
-          @dasgn_decl_tail << decl
-        end
-        @dasgn_decl_tail = decl
         exp.clear
+        unless @regular_method
+          result[0] = :dasgn_curr
+          decl = result[0..1].dup
+          if @dasgn_decl.empty?
+            @dasgn_decl += [decl]
+          else
+            @dasgn_decl_tail << decl
+          end
+          @dasgn_decl_tail = decl
+        end
         result
       end
 
@@ -175,8 +187,10 @@ module Spec
       
       def process_lvar(exp)
         result = exp.dup
-        result[0] = :dvar
         exp.clear
+        unless @regular_method
+          result[0] = :dvar
+        end
         result
       end
     end

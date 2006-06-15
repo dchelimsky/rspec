@@ -168,6 +168,32 @@ module Spec
         end
       end
     end
+    
+    class NinthTest < Test::Unit::TestCase
+      def test_2_should_be_pair
+        foo = 1
+        assert_pair(2)
+      end
+      
+      def assert_pair(n)
+        assert_equal 0, n%2
+      end
+    end
+    class NinthContext
+      def wrapper
+        context "Ninth" do
+          setup do
+            def assert_pair(n)
+              (n%2).should_equal 0
+            end
+          end
+          specify "2 should be pair" do
+            foo = 1
+            assert_pair(2)
+          end
+        end
+      end
+    end
 
     class SexpTransformerTest < Test::Unit::TestCase
       def test_first
@@ -202,17 +228,59 @@ module Spec
         should_translate_class_to_context('Eighth')
       end
 
+      def test_ninth
+        should_translate_class_to_context('Ninth')
+      end
+
+      class Something
+        def method_with_asserts
+          assert_equal 2, 3
+        end
+      end
+      class SomethingTranslated
+        def method_with_asserts
+          3.should_equal 2
+        end
+      end
+      def test_translates_regular_method_bodies
+        something = ParseTree.new.parse_tree_for_method(Something, :method_with_asserts)
+        expected_something_translated = ParseTree.new.parse_tree_for_method(SomethingTranslated, :method_with_asserts)
+        actual_something_translated = @t.process(something)
+        verify_sexp_equal expected_something_translated, actual_something_translated
+      end
+
       def should_translate_class_to_context(name, debug=false)
-        t = test_class_exp(eval("#{name}Test"))
+        test_class_name = "#{name}Test"
+        context_class_name = "#{name}Context"
+        t = test_class_exp(eval(test_class_name))
         if(debug)
           puts "ORIGINAL"
           pp t
         end
-        c = context_exp(eval("#{name}Context"))
+        c = wrapper_exp(eval(context_class_name))
 
         trans = @t.process(t)
+
         verify_sexp_equal c, trans
-        
+
+=begin
+        if c != trans
+          # Try to print out the Ruby2Ruby of the trans
+          begin
+            trans2ruby = @r2r.process(trans.dup[0])
+            # Parse the translation again
+            retranslated_class_name = "#{context_class_name}Retranslated"
+            eval "class #{retranslated_class_name}\ndef wrapper\n#{trans2ruby}\nend\nend"
+            retranslated_class = eval(retranslated_class_name)
+            retranslated_tree = wrapper_exp(retranslated_class)
+            retranslated_tree
+            verify_sexp_equal c, retranslated_tree
+          rescue SexpProcessorError => e
+            # That didn't work, just print the tree
+            verify_sexp_equal c, trans
+          end
+        end
+=end        
         # Verify that we can evaluate it after translated by R2R
         eval(@r2r.process(trans[0]))
       end
@@ -221,9 +289,7 @@ module Spec
         ParseTree.new.parse_tree(klass)[0]
       end
 
-      def context_exp(klass)
-#pp ParseTree.new.parse_tree_for_method(klass, :wrapper)
-#exit
+      def wrapper_exp(klass)
         ParseTree.new.parse_tree_for_method(klass, :wrapper)[2][1][2..-1]
       end
 

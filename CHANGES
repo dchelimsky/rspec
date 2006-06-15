@@ -1,5 +1,10 @@
 = RSpec Changelog
 
+== Version 0.5.11 (SVN)
+relnotes
+
+* test2spec now correctly translates bodies of helper methods (non- test_*, setup and teardown ones)
+
 == Version 0.5.10
 This version features a second rewrite of test2spec - hopefully better than the previous one.
 
