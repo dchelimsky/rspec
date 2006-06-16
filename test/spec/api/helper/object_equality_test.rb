@@ -15,15 +15,7 @@ module Spec
           assert_raise(ExpectationNotMetError) do
             'apple'.should.equal 'orange'
           end
-        end
-        
-        def test_should_raise_nice_message_when_objects_are_not_equal
-          begin
-            "apple".should_equal "grape"
-          rescue ExpectationNotMetError => e
-            assert_equal "\"apple\" should equal \"grape\"", e.message
-          end
-        end
+        end        
       end
 
       class ShouldNotEqualTest < Test::Unit::TestCase

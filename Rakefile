@@ -55,10 +55,11 @@ end
 desc 'Runs all RSpec specs - translated with test2spec from our own tests'
 Spec::Rake::SpecTask.new('test2spec_test' => :test2spec) do |t|
   t.spec_files = FileList['spec/**/*_spec.rb']
-  t.options = ['--diff']
+  t.spec_opts = ["--format", "html", "--diff"]
+  t.out = 'doc/output/tools/rspec_specs.html'
 end
 
-desc 'Generate HTML documentation'
+desc 'Generate HTML documentation for website'
 task :webgen => :test2spec do
   Dir.chdir 'doc' do
     output = nil
@@ -155,7 +156,7 @@ task :tag do
 end
 
 desc "Build the website with rdoc and rcov, but do not publish it"
-task :website => [:clobber, :rcov_verify, :webgen, :failing_examples_with_html, :examples_specdoc, :rdoc]
+task :website => [:clobber, :rcov_verify, :webgen, :failing_examples_with_html, :test2spec_test, :examples_specdoc, :rdoc]
 
 task :verify_user do
   raise "RUBYFORGE_USER environment variable not set!" unless ENV['RUBYFORGE_USER']

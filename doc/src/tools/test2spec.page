@@ -57,6 +57,13 @@ h2. Sample translation
 </table>
 </notextile>
 
+h2. How good is the translator?
+
+It's pretty good, but not 100%. It successfully translates most of RSpec's own Test::Unit tests.
+All of the translated specs pass. Check it out:
+
+"Results of RSpec's Test::Unit classes, after they have been translated with test2spec and run":rspec_specs.html
+
 h2. What's translated?
 
 test2spec only translates classes that extend from Test::Unit - and their methods. It will not bring over any 
