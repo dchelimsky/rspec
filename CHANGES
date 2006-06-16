@@ -1,5 +1,8 @@
 = RSpec Changelog
 
+== Version 0.5.13 (SVN)
+relnotes
+
 == Version 0.5.12
 This release adds diff support for failure messages, a HTML formatter plus some other
 minor enhancements.
