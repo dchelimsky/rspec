@@ -33,27 +33,37 @@ module Spec
 
       def test_should_use_progress_bar_formatter_by_default
         options = OptionParser.parse([], false, @err, @out)
-        assert_equal(ProgressBarFormatter, options.formatter_type)
+        assert_equal(Formatter::ProgressBarFormatter, options.formatter_type)
       end
       
       def test_should_use_specdoc_formatter_when_format_is_specdoc
         options = OptionParser.parse(["--format","specdoc"], false, @err, @out)
-        assert_equal(SpecdocFormatter, options.formatter_type)
+        assert_equal(Formatter::SpecdocFormatter, options.formatter_type)
       end
 
       def test_should_use_specdoc_formatter_when_format_is_s
         options = OptionParser.parse(["--format","s"], false, @err, @out)
-        assert_equal(SpecdocFormatter, options.formatter_type)
+        assert_equal(Formatter::SpecdocFormatter, options.formatter_type)
       end
 
       def test_should_use_rdoc_formatter_when_format_is_rdoc
         options = OptionParser.parse(["--format","rdoc"], false, @err, @out)
-        assert_equal(RdocFormatter, options.formatter_type)
+        assert_equal(Formatter::RdocFormatter, options.formatter_type)
       end
       
       def test_should_use_rdoc_formatter_when_format_is_r
         options = OptionParser.parse(["--format","r"], false, @err, @out)
-        assert_equal(RdocFormatter, options.formatter_type)
+        assert_equal(Formatter::RdocFormatter, options.formatter_type)
+      end
+      
+      def test_should_use_html_formatter_when_format_is_html
+        options = OptionParser.parse(["--format","html"], false, @err, @out)
+        assert_equal(Formatter::HtmlFormatter, options.formatter_type)
+      end
+      
+      def test_should_use_html_formatter_when_format_is_h
+        options = OptionParser.parse(["--format","h"], false, @err, @out)
+        assert_equal(Formatter::HtmlFormatter, options.formatter_type)
       end
       
       def test_should_select_dry_run_for_rdoc_formatter

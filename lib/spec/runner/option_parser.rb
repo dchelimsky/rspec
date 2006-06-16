@@ -16,7 +16,7 @@ module Spec
       def self.parse(args, standalone, err, out)
         options = OpenStruct.new
         options.out = out
-        options.formatter_type = ProgressBarFormatter
+        options.formatter_type = Formatter::ProgressBarFormatter
         options.backtrace_tweaker = QuietBacktraceTweaker.new
         options.spec_name = nil
 
@@ -37,11 +37,11 @@ module Spec
                                            "(in which case you should also specify --require)") do |format|
             case format
               when 'specdoc', 's'
-                options.formatter_type = SpecdocFormatter
+                options.formatter_type = Formatter::SpecdocFormatter
               when 'html', 'h'
-                options.formatter_type = HtmlFormatter
+                options.formatter_type = Formatter::HtmlFormatter
               when 'rdoc', 'r'
-                options.formatter_type = RdocFormatter
+                options.formatter_type = Formatter::RdocFormatter
                 options.dry_run = true
             else
               begin
