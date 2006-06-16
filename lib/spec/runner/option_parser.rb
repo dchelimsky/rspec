@@ -24,15 +24,14 @@ module Spec
           opts.banner = "Usage: spec [options] (FILE|DIRECTORY|GLOB)+"
           opts.separator ""
 
-          opts.on("-b", "--backtrace", "Output full backtrace") do
-            options.backtrace_tweaker = NoisyBacktraceTweaker.new
+          opts.on("--diff", "Show unified diff of Strings that are expected to be equal when they are not") do
+            require 'spec/api/helper/diff'
           end
           
-          opts.on("-r", "--require FILE", "Require FILE before running specs",
-                                          "Useful for loading custom formatters or other extensions") do |req|
-            require req
+          opts.on("-s", "--spec SPECIFICATION_NAME", "Execute a single specification") do |spec_name|
+            options.spec_name = spec_name
           end
-          
+
           opts.on("-f", "--format FORMAT", "Builtin formats: specdoc|s|rdoc|r|html|h", 
                                            "You can also specify a custom formatter class",
                                            "(in which case you should also specify --require)") do |format|
@@ -55,18 +54,19 @@ module Spec
             end
           end
 
+          opts.on("-r", "--require FILE", "Require FILE before running specs",
+                                          "Useful for loading custom formatters or other extensions") do |req|
+            require req
+          end
+          
+          opts.on("-b", "--backtrace", "Output full backtrace") do
+            options.backtrace_tweaker = NoisyBacktraceTweaker.new
+          end
+          
           opts.on("-d", "--dry-run", "Don't execute specs") do
             options.dry_run = true
           end
           
-          opts.on("--diff", "Show unified diff of Strings that are expected to be equal when they are not") do
-            require 'spec/api/helper/diff'
-          end
-          
-          opts.on("-s", "--spec SPECIFICATION_NAME", "Execute a single specification") do |spec_name|
-            options.spec_name = spec_name
-          end
-
           opts.on("-v", "--version", "Show version") do
             out.puts ::Spec::VERSION::DESCRIPTION
             exit if out == $stdout
