@@ -33,11 +33,14 @@ module Spec
             require req
           end
           
-          opts.on("-f", "--format FORMAT", "Builtin formats: specdoc|s|rdoc|r", 
-                                           "You can also specify a custom formatter class") do |format|
+          opts.on("-f", "--format FORMAT", "Builtin formats: specdoc|s|rdoc|r|html|h", 
+                                           "You can also specify a custom formatter class",
+                                           "(in which case you should also specify --require)") do |format|
             case format
               when 'specdoc', 's'
                 options.formatter_type = SpecdocFormatter
+              when 'html', 'h'
+                options.formatter_type = HtmlFormatter
               when 'rdoc', 'r'
                 options.formatter_type = RdocFormatter
                 options.dry_run = true

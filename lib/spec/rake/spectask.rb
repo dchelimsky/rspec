@@ -52,6 +52,10 @@ module Rake
     # Array of commandline options to pass to ruby (or rcov) when running specs.
     attr_accessor :ruby_opts
 
+    # Whether or not to fail Rake when an error occurs (typically when specs fail).
+    # Default is true
+    attr_accessor :fail_on_error
+
     # Explicitly define the list of spec files to be included in a
     # spec.  +list+ is expected to be an array of file names (a
     # FileList is acceptable).  If both +pattern+ and +spec_files+ are
@@ -72,6 +76,7 @@ module Rake
       @rcov = false
       @ruby_opts = []
       @out = nil
+      @fail_on_error = true
       yield self if block_given?
       @pattern = 'spec/**/*_spec.rb' if @pattern.nil? && @spec_files.nil?
       define
@@ -93,12 +98,16 @@ module Rake
         @ruby_opts.unshift( "-I#{lib_path}" )
         @ruby_opts.unshift( "-w" ) if @warning
         @ruby_opts.unshift( '--exclude "lib\/spec\/.*"' ) if @rcov
-        run interpreter, @ruby_opts.join(" ") +
-          " \"#{spec}\" " +
-          " #{@spec_opts.join(' ')} " +
-          file_prefix +
-          specs.collect { |fn| "\"#{fn}\"" }.join(' ') +
-          redirect
+        begin
+          run interpreter, @ruby_opts.join(" ") +
+            " \"#{spec}\" " +
+            " #{@spec_opts.join(' ')} " +
+            file_prefix +
+            specs.collect { |fn| "\"#{fn}\"" }.join(' ') +
+            redirect
+        rescue => e
+          raise e if @fail_on_error
+        end
       end
       self
     end

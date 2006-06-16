@@ -28,11 +28,11 @@ topic "Airport at home" do
     @airport.should_be.working
   end
 
-  must "not need cables" do
+  must "should not need cables" do
     @airport.should_not_need :cables
   end
 
-  must "not need electricity" do
+  must "should not need electricity" do
     # This will fail...
     @airport.should_not_need :electricity
   end

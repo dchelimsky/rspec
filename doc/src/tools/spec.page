@@ -56,17 +56,24 @@ The command line options can be passed to customize the output and behaviour of 
 The options apply whether specs are run in standalone mode (by executing the .rb files directly), 
 or using the spec command.
 
-h3. -f, --format [specdoc|s|rdoc|r|]
+h3. -f, --format [specdoc|s|rdoc|r|html|h]
 
 Specify the output format. Default format is "progress bar" ("." for pass, "F" for fail). Most formats will produce some form of "testdox":http://agiledox.sourceforge.net/
 output. The --dry-run options may also affect the output format.
 
 For example, by setting the formatter to rdoc, we can output the kind of input that RDoc
 needs to produce something like "this":../rdoc/files/EXAMPLES_rd.html 
+
 <pre>
 $ spec failing_examples/team_spec.rb -f rdoc
 
 {execute: ../bin/spec ../failing_examples/team_spec.rb -f rdoc}
+</pre>
+
+You can also output an "HTML report":failing_examples.html
+
+<pre>
+$ spec failing_examples -f html > my_report.html
 </pre>
 
 h4. Custom formatters

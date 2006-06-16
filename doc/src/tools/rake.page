@@ -13,9 +13,15 @@ h3. Run specs
 
 Also see the "RCov":rcov.html page for info about how to generate a coverage report.
 
-h3. Generate specdocs
+h3. Generate specdocs in RDoc format
 
 <ruby file="../test/tasks/examples_specdoc.rake"/>
 
-This will output the specdocs to a file, which can be included in your RDoc. 
+This will write the specdocs to a file, which can be included in your RDoc. 
 Just like "this":../rdoc/files/EXAMPLES_rd.html.
+
+h3. Generate HTML report
+
+<ruby file="../test/tasks/failing_examples_with_html.rake"/>
+
+This will write a HTML file that looks like "this":failing_examples.html.

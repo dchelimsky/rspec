@@ -12,6 +12,7 @@ require 'rcov/rcovtask'
 load File.dirname(__FILE__) + '/test/tasks/examples.rake'
 load File.dirname(__FILE__) + '/test/tasks/examples_specdoc.rake'
 load File.dirname(__FILE__) + '/test/tasks/examples_with_rcov.rake'
+load File.dirname(__FILE__) + '/test/tasks/failing_examples_with_html.rake'
 load File.dirname(__FILE__) + '/test/tasks/rcov_verify.rake'
 
 PKG_NAME = "rspec"
@@ -21,7 +22,7 @@ PKG_FILES = FileList[
   '[A-Z]*',
   'lib/**/*.rb', 
   'test/**/*.rb', 
-  'examples/**/*.rb'
+  'examples/**/*'
 ]
 
 task :default => :test
@@ -39,7 +40,7 @@ end
 Rcov::RcovTask.new do |t|
   t.test_files = FileList['test/**/*_test.rb']
   t.output_dir = 'doc/output/coverage'
-  t.rcov_opts = ['--callsites']
+  t.rcov_opts = []
 end
 
 desc 'Translate our own tests to specs'
@@ -154,7 +155,7 @@ task :tag do
 end
 
 desc "Build the website with rdoc and rcov, but do not publish it"
-task :website => [:clobber, :rcov_verify, :webgen, :examples_specdoc, :rdoc]
+task :website => [:clobber, :rcov_verify, :webgen, :failing_examples_with_html, :examples_specdoc, :rdoc]
 
 task :verify_user do
   raise "RUBYFORGE_USER environment variable not set!" unless ENV['RUBYFORGE_USER']

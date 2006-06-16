@@ -50,7 +50,7 @@ module Spec
       end
 
       # Dumps detailed information about a spec failure.
-      # This method is invoked for each failed spec. +counter+ is the sequence number
+      # This method is invoked for each failed spec after all specs have run. +counter+ is the sequence number
       # of the associated spec. +failure+ is a Failure object, which contains detailed
       # information about the failure.
       def dump_failure(counter, failure)

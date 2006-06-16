@@ -1,9 +1,11 @@
 = RSpec Changelog
 
 == Version 0.5.12
-This release adds diff support for failure messages, plus some other
+This release adds diff support for failure messages, a HTML formatter plus some other
 minor enhancements.
 
+* Added HTML formatter.
+* Added fail_on_error option to spectask.
 * Added support for diffing, using the lcs-diff Rubygem (#2648).
 * Remove RSpec on Rails files from backtrace (#4694).
 * All of RSpec's own tests run successfully after translation with test2spec.

@@ -72,10 +72,10 @@ module Spec
       end
 
       class Failure
-        def initialize(context_name, spec_name, error)
+        def initialize(context_name, spec_name, exception)
           @context_name = context_name
           @spec_name = spec_name
-          @error = error
+          @exception = exception
         end
 
         def header
@@ -83,17 +83,17 @@ module Spec
         end
 
         def message
-          @error.message
+          @exception.message
         end
 
         def backtrace
-          @error.backtrace.join("\n") unless @error.backtrace.nil?
+          @exception.backtrace.nil? ? "" : @exception.backtrace.join("\n")
         end
 
         private
 
         def class_name
-          @error.class.name.split('::').last
+          @exception.class.name.split('::').last
         end
 
       end
