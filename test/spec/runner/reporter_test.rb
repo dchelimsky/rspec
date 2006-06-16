@@ -62,7 +62,7 @@ module Spec
         @reporter.dump
       end
       
-      def test_should_handle_multiple_contexts_same_name
+      def test_should_handle_multiple_contexts_with_same_name
         @formatter.should_receive(:add_context).exactly(3).times
         @formatter.should.receive(:spec_started).exactly(3).times
         @formatter.should.receive(:spec_passed).exactly(3).times

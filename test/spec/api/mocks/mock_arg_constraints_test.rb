@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../../../test_helper'
 
 module Spec
   module Api
-    class PassingConstraintsTest < Test::Unit::TestCase
+    class PassingConstraintsToMockTest < Test::Unit::TestCase
       
       def setup
         @mock = Mock.new("test mock")

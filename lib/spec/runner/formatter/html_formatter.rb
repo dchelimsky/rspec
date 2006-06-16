@@ -40,8 +40,8 @@ module Spec
         end
 
         def spec_failed(name, counter, failure)
-          @output.puts "<li class=\"spec failed\">"
-          @output.puts "  <a href=\"#\" onclick=\"toggle('failure_#{counter}');return false;\">#{escape(@current_spec)}</a>"
+          @output.puts "<li class=\"spec failed\" onclick=\"toggle('failure_#{counter}');return false;\">"
+          @output.puts "  <div>#{escape(@current_spec)}</div>"
           @output.puts "  <div class=\"failure\" id=\"failure_#{counter}\" style=\"display:none\">"
           @output.puts "    <div><pre>#{escape(failure.header)}</pre></div>" unless failure.header == ""
           @output.puts "    <div><pre>#{escape(failure.message)}</pre></div>" unless failure.message == ""
@@ -88,35 +88,38 @@ module Spec
       width: 85%;
     }
 
-    .passed {
+    ul {
+      padding-left: 8px;
+    }
+
+    li.passed {
       background-color: #DDFFDD;
     }
 
-    .failed {
-      background-color: #FFDDDD;
+    li { 
+      list-style-type: none; 
+      margin: 0;
+    }
+
+    li.failed {
+      background-color: #FFBBBB;
       font-weight: bold;
     }
 
-    .failed .failure {
-      background-color: #FFDDDD;
+    li.failed:hover {
+      color: #FFFFFF;
+      background-color: #FF0000;
+    }
+
+    li.failed .failure {
       font-weight: normal;
       font-size: 9pt;
     }
 
-    .context {
+    div.context {
       padding:4px;
       border:1px solid #000000;
       margin-top:4px;
-    }
-
-    :link, :visited {
-      color: #000000;
-      text-decoration: none;
-      padding-bottom: 0px;
-    }
-
-    :link:hover, :visited:hover {
-      color: #c00;
     }
 
     </style>

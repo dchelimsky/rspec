@@ -93,7 +93,7 @@ module Spec
         private
 
         def class_name
-          @exception.class.name.split('::').last
+          @exception.class.name #.split('::').last
         end
 
       end

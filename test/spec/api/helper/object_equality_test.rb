@@ -3,52 +3,46 @@ require File.dirname(__FILE__) + '/../../../test_helper'
 module Spec
   module Api
     module Helper
-      class EqualityTest < Test::Unit::TestCase
+      class ShouldEqualTest < Test::Unit::TestCase
 
-        def setup
-          @dummy = 'dummy'
-          @equal_dummy = 'dummy'
-          @another_dummy  = 'another_dummy'
-          @nil_var = nil
-        end
-
-        # should.equal
-  
-        def test_should_equal_should_not_raise_when_objects_are_equal
+        def test_should_not_raise_when_objects_are_equal
           assert_nothing_raised do
-            @dummy.should.equal @equal_dummy
+            'apple'.should.equal 'apple'
           end
         end
   
-        def test_should_equal_should_raise_when_objects_are_not_equal
+        def test_should_raise_when_objects_are_not_equal
           assert_raise(ExpectationNotMetError) do
-            @dummy.should.equal @another_dummy
+            'apple'.should.equal 'orange'
           end
         end
         
-        def test_should_raise_nice_message
+        def test_should_raise_nice_message_when_objects_are_not_equal
           begin
-            "foo\nbar\nzap".should_equal "foo\nzap\nbar"
+            "apple".should_equal "grape"
           rescue ExpectationNotMetError => e
-            assert_equal "\"foo\\nbar\\nzap\" should equal \"foo\\nzap\\nbar\"", e.message
+            assert_equal "\"apple\" should equal \"grape\"", e.message
           end
         end
+      end
 
-        # should.not.equal
+      class ShouldNotEqualTest < Test::Unit::TestCase
 
-        def test_should_not_equal_should_not_raise_when_objects_are_not_equal
+        def test_should_not_raise_when_objects_are_not_equal
           assert_nothing_raised do
-            @dummy.should.not.equal @another_dummy
+            'apple'.should.not.equal 'orange'
           end
         end
 
         def test_should_not_equal_should_raise_when_objects_are_equal
           assert_raise(ExpectationNotMetError) do
-            @dummy.should.not.equal @equal_dummy
+            'apple'.should.not.equal 'apple'
           end
         end
+      end
 
-        def test_should_be_close_good_cases
+      class ShouldBeCloseTest < Test::Unit::TestCase
+        def test_should_not_raise_when_values_are_within_bounds
           assert_nothing_raised do
             3.5.should.be.close 3.5, 0.5
             3.5.should.be.close 3.1, 0.5
@@ -58,7 +52,7 @@ module Spec
           end
         end
         
-        def test_should_be_close_failing_cases
+        def test_should_raise_when_values_are_outside_bounds
           assert_raise(ExpectationNotMetError) do
             3.5.should.be.close 3.0, 0.5
           end

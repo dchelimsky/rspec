@@ -21,12 +21,12 @@ module Spec
         assert_match(/Usage: spec \[options\] \(FILE\|DIRECTORY\|GLOB\)\+/n, @out.read)
       end
       
-      def test_verbose_should_be_false_by_default
+      def test_should_not_be_verbose_by_default
         options = OptionParser.parse([], false, @err, @out)
         assert(!options.verbose)
       end
 
-      def test_dry_run_should_be_settable
+      def test_should_accept_dry_run_option
         options = OptionParser.parse(["--dry-run"], false, @err, @out)
         assert(options.dry_run)
       end
@@ -92,27 +92,27 @@ module Spec
         assert_match(/Usage: spec/, @err.string)
       end
       
-      def test_backtrace_tweaker_should_be_quiet_by_default
+      def test_should_use_quiet_backtrace_tweaker_by_default
         options = OptionParser.parse([], false, @err, @out)
         assert options.backtrace_tweaker.instance_of?(QuietBacktraceTweaker)
       end
       
-      def test_backtrace_tweaker_should_be_noisy_with_b
+      def test_should_use_noisy_backtrace_tweaker_with_b_option
         options = OptionParser.parse(["-b"], false, @err, @out)
         assert options.backtrace_tweaker.instance_of?(NoisyBacktraceTweaker)
       end
       
-      def test_backtrace_tweaker_should_be_noisy_with_backtrace
+      def test_should_use_noisy_backtrace_tweaker_with_backtrace_option
         options = OptionParser.parse(["--backtrace"], false, @err, @out)
         assert options.backtrace_tweaker.instance_of?(NoisyBacktraceTweaker)
       end
       
-      def test_should_support_single_spec_with_spec
+      def test_should_support_single_spec_with_spec_option
         options = OptionParser.parse(["--spec","something or other"], false, @err, @out)
         assert_equal "something or other", options.spec_name
       end
       
-      def test_should_support_single_spec_with_s
+      def test_should_support_single_spec_with_s_option
         options = OptionParser.parse(["-s","something or other"], false, @err, @out)
         assert_equal "something or other", options.spec_name
       end

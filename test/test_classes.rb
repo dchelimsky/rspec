@@ -39,27 +39,27 @@ module Spec
         end
       end
 
-      class XxxMock
+      class HandCodedMock
         def initialize(return_val)
           @return_val = return_val
-          @xxx_called = false
+          @funny_called = false
         end
 
-        def xxx?
-          @xxx_called = true
+        def funny?
+          @funny_called = true
           @return_val
         end
 
-        def yyy?(a, b, c)
+        def hungry?(a, b, c)
           a.should.be 1
           b.should.be 2
           c.should.be 3
-          @xxx_called = true
+          @funny_called = true
           @return_val
         end
 
         def __verify
-          @xxx_called.should.be true
+          @funny_called.should.be true
         end
       end
     end

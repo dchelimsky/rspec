@@ -3,6 +3,8 @@
 == Version 0.5.13 (SVN)
 relnotes
 
+* Use fully-qualified class name of Exceptions in failure message. Easier to debug that way.
+
 == Version 0.5.12
 This release adds diff support for failure messages, a HTML formatter plus some other
 minor enhancements.

@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../../../test_helper'
 
 module Spec
   class DiffTest < Test::Unit::TestCase
-    def test_should_output_unified_diff
+    def test_should_output_unified_diff_of_two_strings
       expected = <<-EOF
 foo
 bar

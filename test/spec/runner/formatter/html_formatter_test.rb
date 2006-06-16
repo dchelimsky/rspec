@@ -30,7 +30,7 @@ module Spec
           failure = Reporter::Failure.new("context_name", "spec_name", exception)
           @formatter.spec_started("spec_name")
           @formatter.spec_failed("spec_name", 98, failure)
-          assert_match(/<li class="spec failed">/, @io.string)
+          assert_match(/<li class="spec failed"/, @io.string)
         end
 
         def test_should_close_html_on_dump_summary
