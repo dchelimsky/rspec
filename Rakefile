@@ -21,8 +21,7 @@ PKG_FILES = FileList[
   '[A-Z]*',
   'lib/**/*.rb', 
   'test/**/*.rb', 
-  'examples/**/*.rb', 
-  'doc/**/*'
+  'examples/**/*.rb'
 ]
 
 task :default => :test
