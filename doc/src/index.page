@@ -15,7 +15,7 @@ At least that's how you're supposed to do it.
 This focus on behaviour is the real value in TDD, and marks the genuinely
 experienced TDD practitioner.
 
-However, with the ubiquity of testing related terminology in TDD and it's
+However, with the ubiquity of testing related terminology in TDD and its
 supporting frameworks, it is no surprise that it takes beginners some time to
 get to the understanding that TDD isn't about testing at all... if they ever
 do.
