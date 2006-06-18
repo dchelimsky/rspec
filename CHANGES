@@ -11,7 +11,7 @@ minor enhancements.
 
 * Added HTML formatter.
 * Added fail_on_error option to spectask.
-* Added support for diffing, using the lcs-diff Rubygem (#2648).
+* Added support for diffing, using the diff-lcs Rubygem (#2648).
 * Remove RSpec on Rails files from backtrace (#4694).
 * All of RSpec's own tests run successfully after translation with test2spec.
 * Added --verbose mode for test2spec - useful for debugging when classes fail to translate.

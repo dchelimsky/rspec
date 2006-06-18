@@ -72,7 +72,7 @@ $ spec failing_examples/big_string_spec.rb --diff
 {execute: ../bin/spec ../failing_examples/big_string_spec.rb --diff}
 </pre>
 
-If you want to use the <tt>--diff</tt> option, you must also gem install lcs-diff. You
+If you want to use the <tt>--diff</tt> option, you must also gem install diff-lcs. You
 do *not* need a native diff command line tool, so this is Windows-friendly.
 
 h3. -s, --spec &lt;name of context and/or specification&gt;
