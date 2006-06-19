@@ -4,11 +4,11 @@ module Spec
     # Represents the expection of the reception of a message
     class MessageExpectation
     
-      def initialize(mock_name, expectation_ordering, expected_from, sym, block)
+      def initialize(mock_name, expectation_ordering, expected_from, sym, method_block)
         @mock_name = mock_name
         @expected_from = expected_from
         @sym = sym
-        @method_block = block
+        @method_block = method_block
         @block = proc {}
         @received_count = 0
         @expected_received_count = 1
@@ -90,7 +90,7 @@ module Spec
           if @args_to_yield.length != block.arity
             Kernel::raise Spec::Api::MockExpectationError, "Wrong arity of passed block. Expected #{@args_to_yield.size}"
           end
-          block.call @args_to_yield
+          block.call *@args_to_yield
         end
 
         args << block unless block.nil?

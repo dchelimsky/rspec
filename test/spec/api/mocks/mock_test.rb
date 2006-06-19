@@ -308,6 +308,14 @@ module Spec
         @mock.__verify
       end
 
+      def test_should_yield_single_values
+        @mock.should.receive(:yield_back).with(:no_args).once.and.yield(99)
+        a = nil
+        @mock.yield_back {|a|}
+        a.should.equal 99
+        @mock.__verify
+      end
+
       def test_should_fail_when_calling_yielding_method_with_wrong_arity
         @mock.should.receive(:yield_back).with(:no_args).once.and.yield('wha', 'zup')
         assert_raise(MockExpectationError) do
@@ -328,6 +336,18 @@ module Spec
         @mock.__verify
       end
       
+      def FIXMEtest_should_be_able_to_raise_from_method_calling_yielding_mock
+        @mock.should.receive("yield_me").and_yield 44
+        
+        lambda do
+          @mock.yield_me do |x|
+            raise "Bang"
+          end
+        end.should_raise(StandardError)
+
+        @mock.__verify
+      end
+
     end
   end
 end
