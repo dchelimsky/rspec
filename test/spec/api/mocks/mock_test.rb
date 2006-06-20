@@ -348,6 +348,17 @@ module Spec
         @mock.__verify
       end
 
+      def FIXMEtest_should_return_value_from_block_when_yielding
+        @mock.should.receive("yield_me").with(1,2).and_yield 44
+        
+        lambda do
+          @mock.yield_me(1,2) do |x|
+            55
+          end
+        end.should_equal(55)
+
+        @mock.__verify
+      end
     end
   end
 end
