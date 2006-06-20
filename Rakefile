@@ -32,8 +32,12 @@ Spec::Rake::SpecTask.new('failing_examples') do |t|
   t.spec_files = FileList['failing_examples/**/*_spec.rb']
 end
 
+require 'rbconfig'
+windows =  Config::CONFIG['target_os'] == 'mswin32'
 Rake::TestTask.new do |t|
-  t.test_files = FileList['test/**/*_test.rb']
+  tests = FileList['test/**/*_test.rb']
+  tests.exclude 'test/spec/test_to_spec/*.rb' if windows
+  t.test_files = tests
   t.verbose = true
 end
 
