@@ -9,7 +9,7 @@ module Spec
         @expected_from = expected_from
         @sym = sym
         @method_block = method_block
-        @block = proc {}
+        @return_block = lambda {}
         @received_count = 0
         @expected_received_count = 1
         @args_expectation = ArgumentExpectation.new([:any_args])
@@ -67,7 +67,7 @@ module Spec
       end
       
       # This method is called when a method is invoked on a mock
-      def verify_message(args, block)
+      def invoke(args, block)
         
         handle_order_constraint
         
@@ -95,7 +95,7 @@ module Spec
 
         args << block unless block.nil?
         @received_count += 1        
-        value = @block.call(*args)
+        value = @return_block.call(*args)
     
         return value unless @consecutive
     
@@ -170,11 +170,11 @@ module Spec
         self
       end
 
-      def return(value=nil,&block)
+      def return(value=nil, &return_block)
         return self unless @and_seen
         @and_seen = false
         @consecutive = value.instance_of? Array
-        @block = block_given? ? block : proc { value }
+        @return_block = block_given? ? return_block : lambda { value }
       end
       
       def raise(exception=Exception)

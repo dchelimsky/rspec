@@ -35,7 +35,7 @@ module Spec
 
       def method_missing(sym, *args, &block)
         if expectation = find_matching_expectation(sym, *args)
-          expectation.verify_message(args, block)
+          expectation.invoke(args, block)
         else
           begin
             # act as null object if method is missing and we ignore them. return value too!
