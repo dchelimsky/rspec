@@ -5,5 +5,8 @@ module Spec
     
     class MockExpectationError < StandardError
     end
+
+    class AmbiguousReturnError < StandardError
+    end
   end
 end

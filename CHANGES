@@ -1,10 +1,12 @@
 = RSpec Changelog
 
 == Version 0.5.13 (SVN)
-This release fixes a subtle bug with yielding mocks.
+This release fixes some subtle bugs in the mock API.
 
 * Use fully-qualified class name of Exceptions in failure message. Easier to debug that way.
 * Fixed a bug that caused mocks to yield a one-element array (rather than the element) when one yield arg specified.
+* Mocks not raise AmbiguousReturnError if an explicit return is used at the same time as an expectation block.
+* Blocks passed to yielding mocks can now raise without causing mock verification to fail.
 
 == Version 0.5.12
 This release adds diff support for failure messages, a HTML formatter plus some other

@@ -70,36 +70,51 @@ module Spec
       def invoke(args, block)
         
         handle_order_constraint
-        
-        unless @method_block.nil?
-          begin
-            result = @method_block.call(*args)
-          rescue Spec::Api::ExpectationNotMetError => detail
-            Kernel::raise Spec::Api::MockExpectationError, "Call expectation violated with: " + detail
-          end
-          @received_count += 1
-          return result
-        end
-    
-        Kernel::raise @exception_to_raise.new unless @exception_to_raise.nil?
-        Kernel::throw @symbol_to_throw unless @symbol_to_throw.nil?
-        unless @args_to_yield.nil?
-          if block.nil?
-            Kernel::raise Spec::Api::MockExpectationError, "Expected block to be passed"
-          end
-          if @args_to_yield.length != block.arity
-            Kernel::raise Spec::Api::MockExpectationError, "Wrong arity of passed block. Expected #{@args_to_yield.size}"
-          end
-          block.call *@args_to_yield
-        end
 
+        begin
+          Kernel::raise @exception_to_raise.new unless @exception_to_raise.nil?
+          Kernel::throw @symbol_to_throw unless @symbol_to_throw.nil?
+
+          if !@method_block.nil?
+            return invoke_method_block(args)
+          elsif !@args_to_yield.nil?
+            return invoke_with_yield(block)
+          else
+            return invoke_return_block(args, block)
+          end
+        ensure
+          @received_count += 1
+        end
+      end
+
+      def invoke_method_block(args)
+        begin
+          @method_block.call(*args)
+        rescue Spec::Api::ExpectationNotMetError => detail
+          Kernel::raise Spec::Api::MockExpectationError, "Call expectation violated with: " + detail
+        end
+      end
+      
+      def invoke_with_yield(block)
+        if block.nil?
+          Kernel::raise Spec::Api::MockExpectationError, "Expected block to be passed"
+        end
+        if @args_to_yield.length != block.arity
+          Kernel::raise Spec::Api::MockExpectationError, "Wrong arity of passed block. Expected #{@args_to_yield.size}"
+        end
+        block.call *@args_to_yield
+      end
+
+      def invoke_return_block(args, block)
         args << block unless block.nil?
-        @received_count += 1        
         value = @return_block.call(*args)
     
-        return value unless @consecutive
-    
-        value[[@received_count, value.size].min - 1]
+        if @consecutive
+          index = [@received_count, value.size-1].min
+          value[index]
+        else
+          value
+        end
       end
 
       def with(*args)
@@ -171,6 +186,7 @@ module Spec
       end
 
       def return(value=nil, &return_block)
+        Kernel::raise AmbiguousReturnError unless @method_block.nil?
         return self unless @and_seen
         @and_seen = false
         @consecutive = value.instance_of? Array

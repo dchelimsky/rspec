@@ -23,7 +23,6 @@ module Spec
       def test_should_allow_block_to_calculate_return_values
         @mock.should.receive(:random_call).with("a","b","c").and.return { |a,b,c| c+b+a }
         assert_equal "cba", @mock.random_call("a","b","c")
-        # TODO: remove __verify when migrating to self-hosting. Verify happens transparently in teardown. (AH)
         @mock.__verify
       end
 
@@ -86,17 +85,17 @@ module Spec
       end
   
       def test_two_return_values
-        @mock.should.receive(:multi_call).twice.with(:no_args).and.return([1, 2])
-        assert_equal(1, @mock.multi_call)
-        assert_equal(2, @mock.multi_call)
+        @mock.should.receive(:multi_call).twice.with(:no_args).and.return([8, 12])
+        assert_equal(8, @mock.multi_call)
+        assert_equal(12, @mock.multi_call)
         @mock.__verify
       end
   
       def test_repeating_final_return_value
-        @mock.should.receive(:multi_call).at.least(:once).with(:no_args).and.return([1, 2])
-        assert_equal(1, @mock.multi_call)
-        assert_equal(2, @mock.multi_call)
-        assert_equal(2, @mock.multi_call)
+        @mock.should.receive(:multi_call).at.least(:once).with(:no_args).and.return([11, 22])
+        assert_equal(11, @mock.multi_call)
+        assert_equal(22, @mock.multi_call)
+        assert_equal(22, @mock.multi_call)
         @mock.__verify
       end
   
@@ -249,7 +248,7 @@ module Spec
           @mock.__verify
         end
       end
-      
+
       def test_should_raise_if_exactly_3_times_method_is_called_4_times
         @mock.should.receive(:random_call).exactly(3).times
         @mock.random_call
@@ -260,18 +259,33 @@ module Spec
         end
       end
 
-      def test_raising
+      def test_should_raise_when_told_to
         @mock.should.receive(:random_call).and.raise(RuntimeError)
         assert_raise(RuntimeError) do
           @mock.random_call
         end
       end
  
-      def test_throwing
+      def test_should_not_raise_when_told_to_if_args_dont_match
+        @mock.should.receive(:random_call).with(2).and.raise(RuntimeError)
+        assert_raise(MockExpectationError) do
+          @mock.random_call(1)
+        end
+      end
+ 
+      def test_should_throw_when_told_to
         @mock.should.receive(:random_call).and.throw(:blech)
         assert_throws(:blech) do
           @mock.random_call
         end
+      end
+
+      def test_should_raise_when_explicit_return_and_block_constrained
+        assert_raise(AmbiguousReturnError) {
+          @mock.should.receive(:fruit){|colour|
+            :strawberry
+          }.and.return :apple
+        }
       end
       
       def TODO_test_should_use_past_tense
@@ -336,8 +350,8 @@ module Spec
         @mock.__verify
       end
       
-      def FIXMEtest_should_be_able_to_raise_from_method_calling_yielding_mock
-        @mock.should.receive("yield_me").and_yield 44
+      def test_should_be_able_to_raise_from_method_calling_yielding_mock
+        @mock.should.receive(:yield_me).and_yield 44
         
         lambda do
           @mock.yield_me do |x|
@@ -348,17 +362,6 @@ module Spec
         @mock.__verify
       end
 
-      def FIXMEtest_should_return_value_from_block_when_yielding
-        @mock.should.receive("yield_me").with(1,2).and_yield 44
-        
-        lambda do
-          @mock.yield_me(1,2) do |x|
-            55
-          end
-        end.should_equal(55)
-
-        @mock.__verify
-      end
     end
   end
 end

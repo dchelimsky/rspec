@@ -6,7 +6,7 @@ module Spec
       end
       
       def register(expectation)
-          @ordering << expectation
+        @ordering << expectation
       end
       
       def ready_for?(expectation)
