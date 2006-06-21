@@ -1,8 +1,8 @@
-require 'spec/runner/base_text_formatter'
+require 'spec/runner/formatter/base_text_formatter'
 
 # Example of a custom formatter. Run me with:
 # bin/spec examples -r examples/custom_formatter.rb -f CustomFormatter
-class CustomFormatter < Spec::Runner::BaseTextFormatter
+class CustomFormatter < Spec::Runner::Formatter::BaseTextFormatter
   def add_context(name, first)
     @output << "\n" if first
   end
