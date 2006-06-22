@@ -48,17 +48,19 @@ Rcov::RcovTask.new do |t|
 end
 
 desc 'Translate our own tests to specs'
-task :test2spec do
+task :test2spec => :create_test2spec_dir do
   rm_rf 'spec/translated'
   `bin/test2spec --force --template spec/test2spec.erb --specdir spec/translated test`
   # Remove the spec translations that we don't care about.
   rm 'spec/translated/spec/test_to_spec/sexp_transformer_assertion_spec.rb'
   rm 'spec/translated/spec/test_to_spec/sexp_transformer_spec.rb'
 end
+task :create_test2spec_dir do
+  mkdir_p 'doc/output/tools' unless File.exist? 'doc/output/tools'
+end
 
 desc 'Runs all RSpec specs - translated with test2spec from our own tests'
 Spec::Rake::SpecTask.new('test2spec_test' => :test2spec) do |t|
-  mkdir_p 'doc/output/tools' unless File.exist? 'doc/output/tools'
   t.spec_files = FileList['spec/**/*_spec.rb']
   t.spec_opts = ["--format", "html", "--diff"]
   t.out = 'doc/output/tools/rspec_specs.html'
