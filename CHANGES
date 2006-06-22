@@ -1,6 +1,6 @@
 = RSpec Changelog
 
-== Version 0.5.13 (SVN)
+== Version 0.5.13
 This release fixes some subtle bugs in the mock API.
 
 * Use fully-qualified class name of Exceptions in failure message. Easier to debug that way.
