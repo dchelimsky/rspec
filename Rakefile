@@ -58,6 +58,7 @@ end
 
 desc 'Runs all RSpec specs - translated with test2spec from our own tests'
 Spec::Rake::SpecTask.new('test2spec_test' => :test2spec) do |t|
+  mkdir_p 'doc/output/tools' unless File.exist? 'doc/output/tools'
   t.spec_files = FileList['spec/**/*_spec.rb']
   t.spec_opts = ["--format", "html", "--diff"]
   t.out = 'doc/output/tools/rspec_specs.html'
