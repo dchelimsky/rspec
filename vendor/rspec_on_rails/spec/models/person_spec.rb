@@ -25,7 +25,7 @@ end
 
 context "A new Person" do
   fixtures :people
-  
+
   specify "should have no name (this fails because of a conflict with sugar's use of method_missing)" do
     Person.new.name.should_be nil
   end
