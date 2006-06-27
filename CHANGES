@@ -1,5 +1,10 @@
 = RSpec Changelog
 
+== Version 0.5.14 (SVN)
+
+* Fixed bug that caused should_render to break if given a :symbol
+* Added support for message in should_raise and should_not_raise
+
 == Version 0.5.13
 This release fixes some subtle bugs in the mock API.
 

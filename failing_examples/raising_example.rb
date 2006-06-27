@@ -32,4 +32,16 @@ context "This example" do
     proc { ''.nonexistent_method }.should_not_raise Exception
   end
   
+  specify "should show that the wrong message was received" do
+    proc { raise StandardError.new("what is an enterprise?") }.should.raise StandardError, "not this"
+  end
+  
+  specify "should show that the unexpected error/message was thrown" do
+    proc { raise StandardError.new("abc") }.should.not.raise StandardError, "abc"
+  end
+  
+  specify "should pass" do
+    proc { raise StandardError.new("abc") }.should.not.raise StandardError, "xyz"
+  end
+  
 end

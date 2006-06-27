@@ -61,10 +61,11 @@ module Spec
       fail_with_message(default_message("should include", sub)) unless (@target.include? sub)
     end
     
-    def raise(exception=Exception)
+    def raise(exception=Exception, message=nil)
       begin
         @target.call
-      rescue exception
+      rescue exception => e
+        e.message.should.equal message unless message.nil?
         return
       rescue => e
         fail_with_message("#{default_message("should raise", exception)} but raised #{e.inspect}")

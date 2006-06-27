@@ -32,12 +32,12 @@ context "Rendering /person" do
   end
 
   specify "should render 'list'" do
-    response.should_render 'list'
+    response.should_render :list
   end
   
   specify "should not render 'index'" do
     lambda {
-      response.should_render 'index'
+      response.should_render :index
     }.should_raise
   end
   
