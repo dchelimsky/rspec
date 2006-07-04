@@ -6,4 +6,4 @@ test:
   dbfile: db/test.db
 production:
   adapter: sqlite3
-  dbfile: db/test.db
+  dbfile: db/production.db

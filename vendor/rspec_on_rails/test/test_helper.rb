@@ -1,10 +1,8 @@
 ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
-require 'test2spec_help'
+require 'test_help'
 
 class Test::Unit::TestCase
-  self.fixture_path = RAILS_ROOT + '/spec/fixtures'
-
   # Transactional fixtures accelerate your tests by wrapping each test method
   # in a transaction that's rolled back on completion.  This ensures that the
   # test database remains unchanged so your fixtures don't have to be reloaded
@@ -27,4 +25,5 @@ class Test::Unit::TestCase
   self.use_instantiated_fixtures  = false
 
   # Add more helper methods to be used by all tests here...
+  self.fixture_path = RAILS_ROOT + '/spec/fixtures'
 end
