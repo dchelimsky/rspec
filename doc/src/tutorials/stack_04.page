@@ -1,4 +1,4 @@
-h2. A Simple Stack - when a new expectation passes - IN PROGRESS - DISREGARD THIS PAGE
+h2. A Simple Stack - moving specs around
 
 At this point stack_spec.rb should look like this...
 
@@ -75,7 +75,7 @@ Finished in 0.000741 seconds
 
 Again, a really nice feature of using the <code>--format specdoc</code> option (<code>-f s</code> for short) is that you can see the big picture very clearly.
 
-Look closely at the "An empty stack" context. We say that it "should not be empty after 'push'". Does that strike you as confusing? It may not, but if you think about it, we're taking an object in one state ("An empty stack"), changing its state by pushing an item onto it and THEN setting an expectation about it. You could argue that we're not really specifying behaviour of an empty stack at all here, but rather behaviour of a stack with one element when you call push.
+Look closely at the "An empty stack" context. We say that it "should not be empty after 'push'". Does that strike you as confusing? If you think about it, we're taking an object in one state ("An empty stack"), changing its state by pushing an item onto it and THEN setting an expectation about it. You could argue that we're not really specifying behaviour of an empty stack at all here, but rather behaviour of a stack with one element when you call push.
 
 So let's add that spec to "A stack with one item".
 

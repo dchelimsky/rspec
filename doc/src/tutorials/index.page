@@ -39,13 +39,7 @@ Instead, we could ask if the stack is full...
 stack.push item unless stack.full?
 </ruby>
 
-...but even then we have to know what it means to be full and adapt that knowledge to our real question which is "can I push something on to you"?
-
-<ruby>
-stack.push item if stack.accept? item
-</ruby>
-
-This is not to argue that "accept" is the best or right choice. The point is that all of this discussion has been about how our stack appears from the outside. We want to think about how other clients can use the object, not how the object will satisfy its clients' needs.
+Now that is something useful to clients, and that's the point. We want to think about how clients can use the object, not how the object will satisfy its clients' needs.
 
 "Tell, Don't Ask" is a powerful guideline, but sometimes you have to ask questions. So let's extend TDA with this: "...but if you MUST ask, then ask for what you really need". Do we need to know the stack's size? Probably not. We <em>do</em>, however, need to know whether we can push onto it.
 
