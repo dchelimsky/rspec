@@ -2,6 +2,8 @@
 
 == Version 0.5.14 (SVN)
 
+* Added support for include and inherit in contexts. (Patch from Brian Takita)
+* Added rails_spec and rails_spec_runner for faster specs on rails
 * Fixed bug that caused should_render to break if given a :symbol
 * Added support for message in should_raise and should_not_raise
 

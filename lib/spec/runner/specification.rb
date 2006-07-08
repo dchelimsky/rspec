@@ -7,13 +7,13 @@ module Spec
         @block = block
         @mocks = []
       end
-    
-      def run(reporter=nil, setup_block=nil, teardown_block=nil, dry_run=false)
+
+      def run(reporter=nil, setup_block=nil, teardown_block=nil, dry_run=false, execution_context=nil)
         reporter.spec_started(@name)
         if dry_run
           reporter.spec_finished(@name)
         else
-          execution_context = ::Spec::Runner::ExecutionContext.new(self)
+          execution_context = ::Spec::Runner::ExecutionContext.new(self) unless execution_context
           errors = []
           begin
             execution_context.instance_exec(&setup_block) unless setup_block.nil?
@@ -37,7 +37,7 @@ module Spec
           reporter.spec_finished(@name, errors.first, failure_location(setup_ok, spec_ok, teardown_ok)) unless reporter.nil?
         end
       end
-      
+
       def add_mock(mock)
         @mocks << mock
       end

@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
-
 $LOAD_PATH.unshift File.dirname(__FILE__) + '/../../../lib'
-
+require 'rubygems'
 require 'drb/drb'
 require 'rbconfig'
 require 'spec'
@@ -10,9 +9,11 @@ module Spec
   module Runner
     class RailsSpecServer
       def run(args, stderr, stdout)
+puts "HALLO"
+puts self
         Dispatcher.reset_application!
     
-        $context_runner = ::Spec::Runner::OptionParser.create_context_runner(args, false, stderr, stdout)
+        $context_runner = OptionParser.create_context_runner(args, false, stderr, stdout)
         args.each do |file_or_dir|
           if File.directory?(file_or_dir)
             Dir["#{file_or_dir}/**/*.rb"].each do |file| 

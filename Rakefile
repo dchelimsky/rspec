@@ -184,6 +184,7 @@ task :publish_website => [:verify_user, :website] do
   publisher.upload
 end
 
+desc "Build the Rails extension gem"
 task :package_rails do
   Dir.chdir 'vendor/rspec_on_rails/vendor/generators/rspec' do    
     `rake clobber gem`

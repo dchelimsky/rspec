@@ -51,6 +51,10 @@ context "Rendering /person" do
     response.body.should_have_tag :tag => 'p'
   end
   
+  specify "should display the list of people using better api" do
+    should_have_tag('p', :content => 'Finds me in app/views/person/list.rhtml')
+  end
+  
   specify "should not have any <div> tags" do
     lambda {
       response.body.should_have_tag :tag => 'div'

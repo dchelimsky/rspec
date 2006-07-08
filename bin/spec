@@ -7,7 +7,7 @@ $context_runner = ::Spec::Runner::OptionParser.create_context_runner(ARGV, false
 ARGV.each do |file_or_dir|
   if File.directory?(file_or_dir)
     Dir["#{file_or_dir}/**/*.rb"].each do |file| 
-      require "#{file}"
+      require file
     end
   else
     require file_or_dir

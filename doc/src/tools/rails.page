@@ -8,6 +8,7 @@ RSpec's rspec_generator Rubygem brings RSpec to Rails.
 
 h3. Features
 
+* Fast-running specs using rails_spec
 * Integrated fixture loading
 * Uses many of the controller-test integration features
 * Special generators for models and controllers that generate specs instead of tests.
@@ -66,6 +67,25 @@ To see all the RSpec related tasks, run
 rake --tasks spec
 </pre>
 
+h3. Running specs faster with rails_spec
+
+Loading the entire Rails environment every time a spec is executed is quite slow.
+We have therefore made a little tool that allows you to load the rails environment
+once for all:
+
+<pre>
+script/rails_spec_server
+</pre>
+
+-And then run specs as usual:
+
+<pre>
+script/rails_spec REGULAR_SPEC_OPTIONS
+</pre>
+
+The script/rails_spec script has the same command line interface as the familiar spec
+command. But it's MUCH faster.
+
 h3. Naming conventions
 
 When you use Rails without RSpec (with Test::Unit), tests for models end up in tests/unit and tests for controllers
@@ -101,7 +121,7 @@ In order to be able to translate any Rails tests, you must modify your test/test
 <pre>
 # This line must be commented out in order for test2spec to work.
 # require 'test_help'
-require 'test2spec_help'
+require File.dirname(__FILE__) + '/../vendor/generators/rspec/lib/test2spec_help'
 </pre>
 
 The reason for this is that the <tt>test_help</tt> mixin confuses test2spec to the point
