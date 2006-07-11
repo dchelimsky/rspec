@@ -7,16 +7,16 @@ module Spec
           @teardown_block = nil
           @specifications = []
           @name = name
+          @context_modules = []
           instance_exec(&context_block)
         end
 
-        def inherit(klass)
-          @context_superclass = klass
-          create_execution_context_class
+        def inherit(superclass)
+          derive_execution_context_class_from superclass
         end
 
         def include(mod)
-          context_modules << mod
+          @context_modules << mod
         end
 
         def run(reporter, dry_run=false)
@@ -62,30 +62,38 @@ module Spec
         end
 
         protected
+        
         def method_missing(method_name, *args)
-          if context_superclass
-            return context_superclass.send(method_name, *args)
+          if @context_superclass
+            return @context_superclass.send(method_name, *args)
           end
           super
         end
 
-        def create_execution_context_class
-          @execution_context_class = Class.new(context_superclass)
+        def execution_context_class
+          @execution_context_class ||= begin
+            derive_execution_context_class_from Object
+          end
+        end
+
+        def derive_execution_context_class_from superclass
+          @context_superclass = superclass
+          @execution_context_class = Class.new(superclass)
           @execution_context_class.class_eval do
             include ::Spec::Runner::ExecutionContext::InstanceMethods
           end
         end
 
         def prepare_execution_context_class
-          mods = context_modules
+          mods = @context_modules
           execution_context_class.class_eval do
             mods.each do |mod|
               include mod
             end
           end
 
-          if context_superclass.method_defined?(:setup)
-            super_setup = context_superclass.instance_method(:setup)
+          if @context_superclass.method_defined?(:setup)
+            super_setup = @context_superclass.instance_method(:setup)
             context_setup = @setup_block if @setup_block
 
             @setup_block = proc do
@@ -94,8 +102,8 @@ module Spec
             end
           end
 
-          if context_superclass.method_defined?(:teardown)
-            super_teardown = context_superclass.instance_method(:teardown)
+          if @context_superclass.method_defined?(:teardown)
+            super_teardown = @context_superclass.instance_method(:teardown)
             context_teardown = @teardown_block if @teardown_block
 
             @teardown_block = proc do
@@ -103,20 +111,6 @@ module Spec
               instance_exec(&context_teardown) if context_teardown
             end
           end
-          execution_context_class
-        end
-
-        def execution_context_class
-          @execution_context_class ||= begin
-            create_execution_context_class
-          end
-        end
-        def context_superclass
-          @context_superclass ||= Object
-        end
-
-        def context_modules
-          @context_modules ||= []
         end
       end
       include InstanceMethods
