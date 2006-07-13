@@ -59,6 +59,34 @@ module Spec
           subject.should_not_be_multi_word_predicate
         end
       end
+      
+      def test_is_an_instance_of_should_work_when_passing
+        n = 10
+        assert_nothing_raised do
+          n.should_be_an_instance_of Fixnum
+        end
+      end
+      
+      def test_is_an_instance_of_should_work_when_failing
+        n = 10
+        assert_raises(Spec::Api::ExpectationNotMetError) do
+          n.should_be_an_instance_of String
+        end
+      end
+      
+      def test_is_a_kind_of_should_work_when_passing
+        n = 10
+        assert_nothing_raised do
+          n.should_be_a_kind_of Numeric
+        end
+      end
+      
+      def test_is_a_kind_of_should_work_when_failing
+        n = 10
+        assert_raises(Spec::Api::ExpectationNotMetError) do
+          n.should_be_a_kind_of Float
+        end
+      end
 
     end
   end

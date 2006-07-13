@@ -2,6 +2,7 @@
 
 == Version 0.5.14 (SVN)
 
+* Sugar (underscores) now works correctly with should_be_a_kind_of and should_be_an_instance_of
 * Added support for include and inherit in contexts. (Patch from Brian Takita)
 * Added rails_spec and rails_spec_runner for faster specs on rails
 * Fixed bug that caused should_render to break if given a :symbol

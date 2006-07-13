@@ -10,7 +10,7 @@ module Spec
           while calls.length > 1
             call = calls.shift
             object = object.__send__(call)
-            break if call == "be"
+            break if call == "be" unless ["an","a"].include? calls[0]
           end
           return object.__send__(calls.join("_"), *args, &block)
         end
