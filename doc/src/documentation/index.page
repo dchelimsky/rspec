@@ -150,25 +150,6 @@ proc.should_not_throw
 
 This form is more specific.  It checks that no symbol is thrown from within <code>proc</code>.
 
-h4. Increments and decrements
-
-<ruby>
-proc.should_increment <object>, <method>, [<fixnum>]
-proc.should_decrement <object>, <method>, [<fixnum>]
-proc.should_not_increment <object>, <method>, [<fixnum>]
-proc.should_not_decrement <object>, <method>, [<fixnum>]
-</ruby>
-
-This verifies that the the object's method is incremented or decremented after the execution of the proc.
-Example:
-<ruby>
-arr = []
-lambda { arr << "something" }.should.increment arr, :length
-</ruby>
-
-Keep in mind that this is verifying state - not behaviour. -So in a sense it can be argued that
-this strays away from behaviour specification. Use with moderation!
-
 h3. Collections
 
 h4. Containment

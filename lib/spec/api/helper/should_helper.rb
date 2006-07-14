@@ -84,16 +84,5 @@ module Spec
       end
     end
 
-    def increment(object, method, difference=1)
-      initial_value = object.__send__(method)
-      @target.call
-      object.__send__(method).should.equal(initial_value + difference)
-    end
-
-    def decrement(object, method, difference=1)
-      increment(object, method, -difference)
-    end
-
   end
-
 end

@@ -68,16 +68,6 @@ module Spec
         true
       end
     end
-    
-    def increment(object, method, difference=1)
-      initial_value = object.__send__(method)
-      @target.call
-      object.__send__(method).should.not.equal(initial_value + difference)
-    end
-
-    def decrement(object, method, difference=1)
-      increment(object, method, -difference)
-    end
 
     def method_missing(sym, *args)
       return unless @target.send("#{sym}?", *args)

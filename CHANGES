@@ -1,6 +1,7 @@
 = RSpec Changelog
 
 == Version 0.5.15 (SVN)
+* Removed support for differences that was added in 0.5.14. The functionality is not aligned with RSpec's vision.
 
 == Version 0.5.14
 This release introduces better ways to extend specs, improves some of the core API and
