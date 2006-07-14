@@ -1,3 +1,5 @@
 The website can be generated with
   webgen
 (Install the following gems: webgen, redcloth, syntax, diff-lcs)
+
+If you are a developer and want to release to rubyforge, you must also gem install meta_project.
