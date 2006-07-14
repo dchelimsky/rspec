@@ -1,6 +1,7 @@
 require 'spec/runner/formatter'
 require 'spec/runner/instance_exec'
 require 'spec/runner/context'
+require 'spec/runner/context_eval'
 require 'spec/runner/specification'
 require 'spec/runner/execution_context'
 require 'spec/runner/context_runner'

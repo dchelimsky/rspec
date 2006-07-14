@@ -3,51 +3,50 @@ module Spec
     class Context
       module InstanceMethods
         def initialize(name, &context_block)
-          @setup_block = nil
-          @teardown_block = nil
-          @specifications = []
           @name = name
-          @context_modules = []
-          instance_exec(&context_block)
+
+          @context_eval_module = Module.new
+          @context_eval_module.extend ContextEval::ModuleMethods
+          @context_eval_module.class_eval &context_block
         end
 
-        def inherit(superclass)
-          derive_execution_context_class_from superclass
+        def inherit(klass)
+          @context_eval_module.inherit klass
         end
 
         def include(mod)
-          @context_modules << mod
+          @context_eval_module.include mod
+        end
+
+        def setup(&block)
+          @context_eval_module.setup &block
+        end
+
+        def teardown(&block)
+          @context_eval_module.teardown &block
+        end
+
+        def specify(spec_name, &block)
+          @context_eval_module.specify spec_name, &block
         end
 
         def run(reporter, dry_run=false)
           reporter.add_context(@name)
 
           prepare_execution_context_class
-          @specifications.each do |specification|
+          specifications.each do |specification|
             execution_context = execution_context_class.new(specification)
-            specification.run(reporter, @setup_block, @teardown_block, dry_run, execution_context)
+            specification.run(reporter, setup_block, teardown_block, dry_run, execution_context)
           end
         end
 
-        def setup(&block)
-          @setup_block = block
-        end
-
-        def teardown(&block)
-          @teardown_block = block
-        end
-
-        def specify(spec_name, &block)
-          @specifications << Specification.new(spec_name, &block)
-        end
-
         def number_of_specs
-          @specifications.length
+          specifications.length
         end
 
         def matches? name, matcher=nil
           matcher ||= SpecMatcher.new name, @name
-          @specifications.each do |spec|
+          specifications.each do |spec|
             return true if spec.matches_matcher? matcher
           end
           return false
@@ -56,61 +55,93 @@ module Spec
         def run_single_spec name
           return if @name == name
           matcher = SpecMatcher.new name, @name
-          @specifications.reject! do |spec|
+          specifications.reject! do |spec|
             !spec.matches_matcher? matcher
           end
         end
 
+        def methods
+          my_methods = super
+          my_methods |= @context_eval_module.methods
+          my_methods
+        end
+
         protected
-        
+
         def method_missing(method_name, *args)
-          if @context_superclass
-            return @context_superclass.send(method_name, *args)
-          end
-          super
+          @context_eval_module.send(method_name, *args)
         end
 
-        def execution_context_class
-          @execution_context_class ||= begin
-            derive_execution_context_class_from Object
-          end
+        def specifications
+          @context_eval_module.send :specifications
         end
 
-        def derive_execution_context_class_from superclass
-          @context_superclass = superclass
-          @execution_context_class = Class.new(superclass)
-          @execution_context_class.class_eval do
-            include ::Spec::Runner::ExecutionContext::InstanceMethods
-          end
+        def setup_block
+          @context_eval_module.send :setup_block
+        end
+        def setup_block=(value)
+          @context_eval_module.send :setup_block=, value
+        end
+
+        def teardown_block
+          @context_eval_module.send :teardown_block
+        end
+        def teardown_block=(value)
+          @context_eval_module.send :teardown_block=, value
         end
 
         def prepare_execution_context_class
-          mods = @context_modules
+          weave_in_context_modules
+          weave_in_setup_method
+          weave_in_teardown_method
+          execution_context_class
+        end
+
+        def weave_in_context_modules
+          mods = context_modules
+          context_eval_module = @context_eval_module
           execution_context_class.class_eval do
+            include context_eval_module
             mods.each do |mod|
               include mod
             end
           end
+        end
 
-          if @context_superclass.method_defined?(:setup)
-            super_setup = @context_superclass.instance_method(:setup)
-            context_setup = @setup_block if @setup_block
+        def weave_in_setup_method
+          if context_superclass.method_defined?(:setup)
+            super_setup = context_superclass.instance_method(:setup)
+            context_setup = setup_block if setup_block
 
-            @setup_block = proc do
+            self.setup_block = proc do
               super_setup.bind(self).call
               instance_exec(&context_setup) if context_setup
             end
           end
+        end
 
-          if @context_superclass.method_defined?(:teardown)
-            super_teardown = @context_superclass.instance_method(:teardown)
-            context_teardown = @teardown_block if @teardown_block
+        def weave_in_teardown_method
+          if context_superclass.method_defined?(:teardown)
+            super_teardown = context_superclass.instance_method(:teardown)
+            context_teardown = teardown_block if teardown_block
 
-            @teardown_block = proc do
+            self.teardown_block = proc do
               super_teardown.bind(self).call
               instance_exec(&context_teardown) if context_teardown
             end
           end
+        end
+
+        def context_modules
+          @context_eval_module.send :context_modules
+        end
+
+        def execution_context_class
+          @context_eval_module.send :execution_context_class
+        end
+
+        def context_superclass
+          @context_eval_module.send :context_superclass
         end
       end
       include InstanceMethods

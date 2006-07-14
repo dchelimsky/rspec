@@ -8,11 +8,14 @@ module Spec
         @formatter = Api::Mock.new "formatter"
         @context = Context.new("context") {}
       end
+
+      def teardown
+        @formatter.__verify
+      end
       
       def test_should_add_itself_to_formatter_on_run
         @formatter.should.receive(:add_context).with "context"
         @context.run(@formatter)
-        @formatter.__verify
       end
       
       def test_should_run_spec
@@ -23,8 +26,7 @@ module Spec
         @context.specify("test") {$spec_ran = true}
         @context.run(@formatter)
         assert $spec_ran
-        @formatter.__verify
-      end     
+      end
          
       def test_should_run_spec_dry
         @formatter.should.receive(:add_context).with :any_args
@@ -34,7 +36,6 @@ module Spec
         @context.specify("test") {$spec_ran = true}
         @context.run(@formatter, true)
         assert !$spec_ran
-        @formatter.__verify
       end
       
       def test_setup
@@ -56,7 +57,24 @@ module Spec
         @context.run(@formatter)
         assert super_class_setup_ran
         assert setup_ran
-        @formatter.__verify
+      end
+
+      def test_setup__should_allow_method_definitions
+        @formatter.should.receive(:add_context).with :any_args
+        @formatter.should.receive(:spec_started).with "test"
+        @formatter.should.receive(:spec_finished).with :any_args
+
+        $method_in_setup_called = false
+        @context.setup do
+          def method_in_setup
+            $method_in_setup_called = true
+          end
+        end
+
+        @context.specify("test") {method_in_setup}
+        @context.run(@formatter)
+
+        assert $method_in_setup_called
       end
 
       def test_teardown
@@ -100,10 +118,6 @@ module Spec
       end
 
       def test_inherit__class_methods_should_work
-        @formatter.should.receive(:add_context).with :any_args
-        @formatter.should.receive(:spec_started).with "test"
-        @formatter.should.receive(:spec_finished).with :any_args
-
         class_method_ran = false
         super_class = Class.new
         (class << super_class; self; end).class_eval do
@@ -116,6 +130,17 @@ module Spec
         assert class_method_ran
 
         assert_raise(NoMethodError) {@context.foobar}
+      end
+
+      def test_methods__should_include_inherited_class_methods
+        class_method_ran = false
+        super_class = Class.new
+        class << super_class
+          def super_class_class_method; end
+        end
+        @context.inherit super_class
+
+        assert @context.methods.include?("super_class_class_method")
       end
 
       def test_include
