@@ -1,6 +1,8 @@
 = RSpec Changelog
 
 == Version 0.5.14
+This release introduces better ways to extend specs, improves some of the core API and
+a experimental support for faster rails specs.
 
 * Added proc methods for specifying differences (increments and decrements). See difference_test.rb
 * Methods can now be defined alongside specs. This obsoletes the need for defining methods in setup. (Patch #5002 from Brian Takita)
