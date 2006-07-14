@@ -121,7 +121,7 @@ In order to be able to translate any Rails tests, you must modify your test/test
 <pre>
 # This line must be commented out in order for test2spec to work.
 # require 'test_help'
-require File.dirname(__FILE__) + '/../vendor/generators/rspec/lib/test2spec_help'
+require 'test2spec_help'
 </pre>
 
 The reason for this is that the <tt>test_help</tt> mixin confuses test2spec to the point
