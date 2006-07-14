@@ -1,14 +1,14 @@
 = RSpec Changelog
 
-== Version 0.5.14 (SVN)
+== Version 0.5.14
 
 * Added proc methods for specifying differences (increments and decrements). See difference_test.rb
 * Methods can now be defined alongside specs. This obsoletes the need for defining methods in setup. (Patch #5002 from Brian Takita)
 * Sugar (underscores) now works correctly with should_be_a_kind_of and should_be_an_instance_of
 * Added support for include and inherit in contexts. (Patch #4971 from Brian Takita)
-* Added rails_spec and rails_spec_runner for faster specs on rails
-* Fixed bug that caused should_render to break if given a :symbol
-* Added support for message in should_raise and should_not_raise
+* Added rails_spec and rails_spec_runner for faster specs on rails (still buggy - help needed)
+* Fixed bug that caused should_render to break if given a :symbol (in Rails)
+* Added support for comparing exception message in should_raise and should_not_raise
 
 == Version 0.5.13
 This release fixes some subtle bugs in the mock API.
