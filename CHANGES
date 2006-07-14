@@ -1,5 +1,7 @@
 = RSpec Changelog
 
+== Version 0.5.15 (SVN)
+
 == Version 0.5.14
 This release introduces better ways to extend specs, improves some of the core API and
 a experimental support for faster rails specs.
