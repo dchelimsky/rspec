@@ -150,6 +150,25 @@ proc.should_not_throw
 
 This form is more specific.  It checks that no symbol is thrown from within <code>proc</code>.
 
+h4. Increments and decrements
+
+<ruby>
+proc.should_increment <object>, <method>, [<fixnum>]
+proc.should_decrement <object>, <method>, [<fixnum>]
+proc.should_not_increment <object>, <method>, [<fixnum>]
+proc.should_not_decrement <object>, <method>, [<fixnum>]
+</ruby>
+
+This verifies that the the object's method is incremented or decremented after the execution of the proc.
+Example:
+<ruby>
+arr = []
+lambda { arr << "something" }.should.increment arr, :length
+</ruby>
+
+Keep in mind that this is verifying state - not behaviour. -So in a sense it can be argued that
+this strays away from behaviour specification. Use with moderation!
+
 h3. Collections
 
 h4. Containment
@@ -161,6 +180,8 @@ target.should_not_include <object>
 
 This is simply a specific case of the arbitrary predicate form. It uses <code>target.include?(object)</code> and raises an <code>ExpectationNotMetError</code> if that returns false. 
 
+h4. Size
+
 The remaining collection forms are a little more involved. They rely on two things: 1) <code>target</code> responds to the message <code>things</code> by returning an object that 2) responds to either <code>length</code> or <code>size</code>, which return a number that is a measure of size. Currently <code>length</code> is used if is appropriate, otherwise <code>size</code> is attempted.
 
 h4. Exact Size
@@ -169,7 +190,7 @@ h4. Exact Size
 target.should_have(<number>).things
 </ruby>
 
-The <code>things</code> of <code>target</code> has a length/size of exactly <code>number</code>. 
+The <code>things</code> of <code>target</code> has a length/size of exactly <code>number</code>.
 
 h4. Lower Bound
 

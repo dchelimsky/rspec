@@ -2,6 +2,7 @@
 
 == Version 0.5.14 (SVN)
 
+* Added proc methods for specifying differences (increments and decrements). See difference_test.rb
 * Methods can now be defined alongside specs. This obsoletes the need for defining methods in setup. (Patch #5002 from Brian Takita)
 * Sugar (underscores) now works correctly with should_be_a_kind_of and should_be_an_instance_of
 * Added support for include and inherit in contexts. (Patch #4971 from Brian Takita)
