@@ -57,22 +57,19 @@ module Spec
         context_body = []
         unless setup.empty?
           setup_block = process(setup.shift)
-          unless methods.empty?
-            translated_methods = []
-            # At this stage we don't want to translate :lvar to :dvar
-            @regular_method = true
-            translated_methods << process(methods.shift) until methods.empty?
-            @regular_method = false
-            if setup_block.length == 3
-              setup_block += translated_methods
-            else
-              setup_block[3] += translated_methods
-            end
-          end
           context_body << setup_block
         end
         context_body << process(teardown.shift) until teardown.empty?
         context_body << process(tests.shift)    until tests.empty?
+
+        # At this stage we don't want to translate :lvar to :dvar
+        begin
+          @regular_method = true
+          context_body << process(methods.shift)  until methods.empty?
+        ensure
+          @regular_method = false
+        end
+
         context_body << process(rest.shift)     until rest.empty?
         exp.clear
 

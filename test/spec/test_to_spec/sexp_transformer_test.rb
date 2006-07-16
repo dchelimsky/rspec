@@ -92,9 +92,9 @@ module Spec
         context "Fifth" do
           setup do
             one = 1
-            def foo
-              two = 2
-            end
+          end
+          def foo
+            two = 2
           end
         end
       end
@@ -111,9 +111,10 @@ module Spec
       def wrapper
         context "Sixth" do
           setup do
-            def foo
-              two = 2
-            end
+          end
+
+          def foo
+            two = 2
           end
         end
       end
@@ -128,9 +129,9 @@ module Spec
       def wrapper
         context "Seventh" do
           setup do
-            def foo
-              two = 2
-            end
+          end
+          def foo
+            two = 2
           end
         end
       end
@@ -154,9 +155,6 @@ module Spec
       def wrapper
         context "Eighth" do
           setup do
-            def foo
-              two = 2
-            end
           end
           teardown do
             torn = true
@@ -164,6 +162,9 @@ module Spec
           specify "foo" do
             bar = foo
             bar.should_equal 2
+          end
+          def foo
+            two = 2
           end
         end
       end
@@ -183,13 +184,13 @@ module Spec
       def wrapper
         context "Ninth" do
           setup do
-            def assert_pair(n)
-              (n%2).should_equal 0
-            end
           end
           specify "2 should be pair" do
             foo = 1
             assert_pair(2)
+          end
+          def assert_pair(n)
+            (n%2).should_equal 0
           end
         end
       end

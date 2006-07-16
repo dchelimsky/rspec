@@ -54,6 +54,7 @@ task :test2spec => :create_test2spec_dir do
   # Remove the spec translations that we don't care about.
   rm 'spec/translated/spec/test_to_spec/sexp_transformer_assertion_spec.rb'
   rm 'spec/translated/spec/test_to_spec/sexp_transformer_spec.rb'
+  rm 'spec/translated/r2_r_spec.rb'
 end
 task :create_test2spec_dir do
   mkdir_p 'doc/output/tools' unless File.exist? 'doc/output/tools'
