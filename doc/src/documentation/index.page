@@ -11,6 +11,27 @@ Almost all expectation forms have a corresponding negated form. It is listed whe
 
 h3. General
 
+h4. Domain Specific Language
+
+<ruby>
+context "A new stack" do
+  inherit SomeClass
+  include SomeModule
+
+  setup do
+    @stack = Stack.new
+  end
+
+  specify "should be empty" do
+    helper_method
+    @stack.should_be_empty
+  end
+
+  def helper_method
+  end
+end
+</ruby>
+
 h4. Arbitrary Block
 
 <ruby>

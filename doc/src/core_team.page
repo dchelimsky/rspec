@@ -9,6 +9,7 @@ h2. The Core Team
 * Steve Baker
 * David Chelimsky
 * Aslak Hellesoy
+* Brian Takita
 
 <notextile>
 <table>
@@ -29,4 +30,3 @@ h2. Contributors
 
 * Lachie Cox (Rails support)
 * Rich Kilmer (Underscore syntactic sugar)
-* Brian Takita (Support for inherit and include, allowing integration with Test::Unit)
