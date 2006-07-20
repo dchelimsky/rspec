@@ -1,5 +1,8 @@
 = RSpec Changelog
 
+== Version 0.5.16 (SVN)
+Release summary goes here...
+
 * Test::UnitMigrator now defines converted helper methods outside of the setup block.
 
 == Version 0.5.15
