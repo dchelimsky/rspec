@@ -1,4 +1,6 @@
-
+# FIXME: This stuff is now broken after the RSpec core got inherit and include
+# TODO: Try to get rid of this completely and use RSpec's built-in inherit mechanism
+# to inherit from the Rails-enhanced Test::Unit::TestCase
 module Spec
   module Runner
 
