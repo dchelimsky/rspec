@@ -3,6 +3,7 @@
 == Version 0.5.16 (SVN)
 Release summary goes here...
 
+* Added pre_commit rake task to reduce risk of regressions. Useful for rspec developers and patchers.
 * Added failure_message to RSpec Rake task
 * test2spec now defines converted helper methods outside of the setup block.
 

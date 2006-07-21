@@ -165,7 +165,10 @@ task :tag do
 end
 
 desc "Run this task before you commit. You should see 'OK TO COMMIT'"
-task :pre_commit => [:website, :rails_pre_commit, :commit_ok]
+task :pre_commit => [:website, :examples, :failing_examples_with_html, :rails_pre_commit, :commit_ok]
+
+desc "Temporary precommit without rails until we get rails working. Should be deleted when rails is ok"
+task :pre_commit_without_rails => [:website, :examples, :failing_examples_with_html, :commit_ok]
 
 task :rails_pre_commit do
   Dir.chdir 'vendor/rspec_on_rails' do    
