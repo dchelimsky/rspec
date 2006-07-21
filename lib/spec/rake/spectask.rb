@@ -56,6 +56,9 @@ module Rake
     # Default is true
     attr_accessor :fail_on_error
 
+    # A message to print to stdout when there are failures. Useful if +out+ is used.
+    attr_accessor :failure_message
+
     # Explicitly define the list of spec files to be included in a
     # spec.  +list+ is expected to be an array of file names (a
     # FileList is acceptable).  If both +pattern+ and +spec_files+ are
@@ -105,7 +108,10 @@ module Rake
             file_prefix +
             specs.collect { |fn| "\"#{fn}\"" }.join(' ') +
             redirect
+          
+          puts @failure_message if @failure_message && ($? != 0)
         rescue => e
+          puts @failure_message if @failure_message
           raise e if @fail_on_error
         end
       end

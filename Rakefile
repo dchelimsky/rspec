@@ -65,6 +65,7 @@ Spec::Rake::SpecTask.new('test2spec_test' => :test2spec) do |t|
   t.spec_files = FileList['spec/**/*_spec.rb']
   t.spec_opts = ["--format", "html", "--diff"]
   t.out = 'doc/output/tools/rspec_specs.html'
+  t.failure_message = "**** Translated specs failed. See doc/output/tools/rspec_specs.html ****"
 end
 
 desc 'Generate HTML documentation for website'
@@ -161,6 +162,20 @@ task :tag do
   puts "Creating tag in SVN"
   `svn cp svn+ssh://#{ENV['RUBYFORGE_USER']}@rubyforge.org/var/svn/rspec/trunk svn+ssh://#{ENV['RUBYFORGE_USER']}@rubyforge.org/var/svn/rspec/tags/#{Spec::VERSION::TAG} -m "Tag release #{Spec::VERSION::STRING}"`
   puts "Done!"
+end
+
+desc "Run this task before you commit. You should see 'OK TO COMMIT'"
+task :pre_commit => [:website, :rails_pre_commit, :commit_ok]
+
+task :rails_pre_commit do
+  Dir.chdir 'vendor/rspec_on_rails' do    
+    `rake pre_commit`
+    raise "RSpec on Rails pre_commit failed\ncd to vendor/rspec_on_rails and run rake pre_commit for more details" if $? != 0
+  end
+end
+
+task :commit_ok do |t|
+  puts "OK TO COMMIT"
 end
 
 desc "Build the website with rdoc and rcov, but do not publish it"
