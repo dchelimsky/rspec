@@ -1,7 +1,3 @@
-# Is this file really needed?
-# If I make this an empty file all tests are still passing.
-# But it seems to be used from other files.
-# Can we delete this file?
 module Spec
   module Runner
     module ContextEval

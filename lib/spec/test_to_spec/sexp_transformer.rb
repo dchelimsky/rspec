@@ -4,7 +4,7 @@ require 'sexp_processor'
 module Spec
   module TestToSpec
     # Transforms a Sexp tree (produced by ParseTree) for a Test::Unit class
-    # to an Sexp tree representing an RSpec context
+    # to a Sexp tree representing an RSpec context
     class SexpTransformer < SexpProcessor
       TRANSLATIONS = {
         :assert_equal          => :should_equal,
