@@ -1,6 +1,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 context "The PersonController" do
+  inherit Test::Unit::TestCase
   fixtures :people
   controller_name :person
 
@@ -24,9 +25,10 @@ context "The PersonController" do
 end
 
 context "Rendering /person" do
+  inherit Test::Unit::TestCase
   fixtures :people
   controller_name :person
-  
+
   setup do
     get 'index'
   end
@@ -34,31 +36,31 @@ context "Rendering /person" do
   specify "should render 'list'" do
     response.should_render :list
   end
-  
+
   specify "should not render 'index'" do
     lambda {
       response.should_render :index
     }.should_raise
   end
-  
+
   specify "should find all people on GET to index" do
     get 'index'
     response.should_be_success
     assigns('people').should_equal [people(:lachie)]
   end
-  
+
   specify "should display the list of people" do
     response.body.should_have_tag :tag => 'p'
   end
-  
+
   specify "should display the list of people using better api" do
     should_have_tag('p', :content => 'Finds me in app/views/person/list.rhtml')
   end
-  
+
   specify "should not have any <div> tags" do
     lambda {
       response.body.should_have_tag :tag => 'div'
     }.should_raise
   end
-  
-end  
+
+end

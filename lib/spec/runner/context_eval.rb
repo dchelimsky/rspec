@@ -4,7 +4,7 @@ module Spec
       module ModuleMethods
         def inherit(klass)
           @context_superclass = klass
-          derive_execution_context_class_from context_superclass
+          derive_execution_context_class_from_context_superclass
         end
 
         def include(mod)
@@ -12,11 +12,11 @@ module Spec
         end
 
         def setup(&block)
-          @setup_block = block
+          setup_parts << block
         end
 
         def teardown(&block)
-          @teardown_block = block
+          teardown_parts << block
         end
 
         def specify(spec_name, &block)
@@ -31,8 +31,8 @@ module Spec
         protected
 
         def method_missing(method_name, *args)
-          if context_superclass
-            return context_superclass.send(method_name, *args)
+          if context_superclass.respond_to?(method_name)
+            return execution_context_class.send(method_name, *args)
           end
           super
         end
@@ -41,21 +41,63 @@ module Spec
           @specifications ||= []
         end
 
-        attr_accessor :setup_block
-        attr_accessor :teardown_block
+        def setup_parts
+          @setup_parts ||= []
+        end
 
-        def derive_execution_context_class_from(context_superclass)
+        def teardown_parts
+          @teardown_parts ||= []
+        end
+
+        def setup_block
+          parts = setup_parts.dup
+
+          setup_method = begin
+            context_superclass.instance_method(:setup)
+          rescue
+            nil
+          end
+          parts.unshift setup_method if setup_method
+          create_block_from_parts(parts)
+        end
+
+        def teardown_block
+          parts = teardown_parts.dup
+
+          teardown_method = begin
+            context_superclass.instance_method(:teardown)
+          rescue
+            nil
+          end
+          parts.unshift teardown_method if teardown_method
+          create_block_from_parts(parts)
+        end
+
+        def create_block_from_parts(parts)
+          proc do
+            parts.each do |part|
+              if part.is_a?(UnboundMethod)
+                part.bind(self).call
+              else
+                instance_exec(&part)
+              end
+            end
+          end
+        end
+
+        def execution_context_class
+          return @execution_context_class if @execution_context_class
+          derive_execution_context_class_from_context_superclass
+          @execution_context_class
+        end
+
+        def derive_execution_context_class_from_context_superclass
           @execution_context_class = Class.new(context_superclass)
           @execution_context_class.class_eval do
             include ::Spec::Runner::ExecutionContext::InstanceMethods
           end
         end
 
-        def execution_context_class
-          @execution_context_class ||= begin
-            derive_execution_context_class_from context_superclass
-          end
-        end
         def context_superclass
           @context_superclass ||= Object
         end
@@ -63,6 +105,8 @@ module Spec
         def context_modules
           @context_modules ||= []
         end
+      end
+      module InstanceMethods
       end
     end
   end

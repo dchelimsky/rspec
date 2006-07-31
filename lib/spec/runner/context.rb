@@ -7,7 +7,12 @@ module Spec
 
           @context_eval_module = Module.new
           @context_eval_module.extend ContextEval::ModuleMethods
+          @context_eval_module.include ContextEval::InstanceMethods
+          before_context_eval
           @context_eval_module.class_eval &context_block
+        end
+
+        def before_context_eval
         end
 
         def inherit(klass)
@@ -68,8 +73,8 @@ module Spec
 
         protected
 
-        def method_missing(method_name, *args)
-          @context_eval_module.send(method_name, *args)
+        def method_missing(*args)
+          @context_eval_module.method_missing(*args)
         end
 
         def specifications
@@ -79,21 +84,21 @@ module Spec
         def setup_block
           @context_eval_module.send :setup_block
         end
-        def setup_block=(value)
-          @context_eval_module.send :setup_block=, value
-        end
 
         def teardown_block
           @context_eval_module.send :teardown_block
         end
-        def teardown_block=(value)
-          @context_eval_module.send :teardown_block=, value
+
+        def setup_parts
+          @context_eval_module.send :setup_parts
+        end
+
+        def teardown_parts
+          @context_eval_module.send :teardown_parts
         end
 
         def prepare_execution_context_class
           weave_in_context_modules
-          weave_in_setup_method
-          weave_in_teardown_method
           execution_context_class
         end
 
@@ -104,30 +109,6 @@ module Spec
             include context_eval_module
             mods.each do |mod|
               include mod
-            end
-          end
-        end
-
-        def weave_in_setup_method
-          if context_superclass.method_defined?(:setup)
-            super_setup = context_superclass.instance_method(:setup)
-            context_setup = setup_block if setup_block
-
-            self.setup_block = proc do
-              super_setup.bind(self).call
-              instance_exec(&context_setup) if context_setup
-            end
-          end
-        end
-
-        def weave_in_teardown_method
-          if context_superclass.method_defined?(:teardown)
-            super_teardown = context_superclass.instance_method(:teardown)
-            context_teardown = teardown_block if teardown_block
-
-            self.teardown_block = proc do
-              super_teardown.bind(self).call
-              instance_exec(&context_teardown) if context_teardown
             end
           end
         end
