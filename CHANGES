@@ -5,7 +5,7 @@ Release summary goes here...
 
 * Added pre_commit rake task to reduce risk of regressions. Useful for rspec developers and patchers.
 * Added failure_message to RSpec Rake task
-* test2spec now defines converted helper methods outside of the setup block.
+* test2spec now defines converted helper methods outside of the setup block (bug #5057).
 
 == Version 0.5.15
 This release removes a prematurely added feature that shouldn't have been added.
