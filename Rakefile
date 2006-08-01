@@ -200,23 +200,14 @@ task :publish_website => [:verify_user, :website] do
   publisher.upload
 end
 
-desc "Build the Rails extension gem"
-task :package_rails do
-  Dir.chdir 'vendor/rspec_on_rails/vendor/generators/rspec' do    
-    `rake clobber gem`
-    raise "Failed to package RSpec on Rails" if $? != 0
-  end
-end
-
 desc "Publish gem+tgz+zip on RubyForge. You must make sure lib/version.rb is aligned with the CHANGELOG file"
-task :publish_packages => [:verify_user, :verify_password, :package, :package_rails] do
+task :publish_packages => [:verify_user, :verify_password, :package] do
   require 'meta_project'
   require 'rake/contrib/xforge'
   release_files = FileList[
     "pkg/#{PKG_FILE_NAME}.gem",
     "pkg/#{PKG_FILE_NAME}.tgz",
-    "pkg/#{PKG_FILE_NAME}.zip",
-    "vendor/rspec_on_rails/vendor/generators/rspec/pkg/rspec_generator-#{Spec::VERSION::STRING}.gem"
+    "pkg/#{PKG_FILE_NAME}.zip"
   ]
 
   Rake::XForge::Release.new(MetaProject::Project::XForge::RubyForge.new(PKG_NAME)) do |xf|

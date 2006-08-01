@@ -4,7 +4,6 @@
 
 require 'rake'
 require 'rake/tasklib'
-require File.dirname(__FILE__) + '/../../spec'
 
 module Spec
 module Rake

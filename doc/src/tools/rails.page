@@ -4,30 +4,54 @@ inMenu: true
 ---
 h2. RSpec on Rails
 
-RSpec's rspec_generator Rubygem brings RSpec to Rails.
+A Rails plugin that brings RSpec to Rails.
 
 h3. Features
 
-* Fast-running specs using rails_spec
+* Use RSpec to verify models and controllers
 * Integrated fixture loading
-* Uses many of the controller-test integration features
 * Special generators for models and controllers that generate specs instead of tests.
+
+h3. Pre-Installation
+You'll have to install the RSpec core gem first:
+
+<pre>
+gem install rspec
+</pre>
+
+Take note of what rspec version you're installing - it's very important that you
+install a compatible RSpec on Rails plugin.
 
 h3. Installation
 
-RSpec support for rails lives in a separate gem. Install that gem:
+RSpec on Rails is a regular Rails plugin. It can be installed via your Rails app's script/plugin tool.
+In the examples below - make sure you replace TAG with the version of the plugin you want to install.
+It's important that the REL_X_Y_Z corresponds to the version of RSpec core you have installed - for example
+REL_0_5_16.
 
 <pre>
-gem install rspec_generator
+ruby script/plugin install svn://rubyforge.org/var/svn/rspec/tags/REL_X_Y_Z/vendor/rspec_on_rails/vendor/plugins/rspec
 </pre>
 
-Once the gem is installed, you must configure you Rails app. Stand in the root of your Rails app and run:
+Or if you like to live dangerously you can get the HEAD of the trunk:
+
+<pre>
+script/plugin install svn://rubyforge.org/var/svn/rspec/trunk/vendor/rspec_on_rails/vendor/plugins/rspec
+</pre>
+
+Once the plugin is installed, you must bootstrap your Rails app with RSpec. Stand in the root of your Rails app and run:
 
 <pre>
 ruby script/generate rspec
 </pre>
 
-Now, you can generate models and controllers in a similar fashion to Rails' builtin generators. Example:
+This will create spec/spec_helper.rb and lib/tasks/rspec.rake.
+
+h3. Using the generators
+
+RSpec on Rails contains generators that you can use to generate models and controllers 
+in a similar fashion to Rails' builtin generators, but will generate specs instead of tests
+and will put fixtures under the spec folder. Example:
 
 <pre>
 ruby script/generate rspec_model person
@@ -67,7 +91,7 @@ To see all the RSpec related tasks, run
 rake --tasks spec
 </pre>
 
-h3. Running specs faster with rails_spec
+h3. Running specs faster with rails_spec (experimental)
 
 Loading the entire Rails environment every time a spec is executed is quite slow.
 We have therefore made a little tool that allows you to load the rails environment
