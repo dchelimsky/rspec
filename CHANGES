@@ -1,9 +1,10 @@
 = RSpec Changelog
 
-== Version 0.5.16 (SVN)
-Release summary goes here...
+== Version 0.5.16
+This release improves Rails support and test2spec translation.
 
-* Simplified the Rails support.
+* Fixed underscore problems that occurred when RSpec was used in Rails
+* Simplified the Rails support by packaging it as a plugin instead of a generator gem.
 * Added pre_commit rake task to reduce risk of regressions. Useful for rspec developers and patchers.
 * Added failure_message to RSpec Rake task
 * test2spec now defines converted helper methods outside of the setup block (bug #5057).
