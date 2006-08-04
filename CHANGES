@@ -1,7 +1,9 @@
 = RSpec Changelog
 
-== in SVN
+== Version 0.5.16 (currently in SVN)
 * Fixed bug (5292) that caused mock argument matching to fail on classes that overrided ==
+* Fixed bug that caused sugarized twice.with (on mocks) to fail
+* Converted ALL tests to use underscore syntax
 
 == Version 0.5.16
 This release improves Rails support and test2spec translation.

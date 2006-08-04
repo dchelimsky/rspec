@@ -7,37 +7,37 @@ module Spec
 
         def test_should_raise_when_object_is_nil
           assert_raise(ExpectationNotMetError) do
-            nil.should.be true
+            nil.should_be true
           end
         end
   
         def test_should_raise_when_object_is_false
           assert_raise(ExpectationNotMetError) do
-            false.should.be true
+            false.should_be true
           end
         end
 
         def test_shouldnt_raise_when_object_is_true
           assert_nothing_raised do
-            true.should.be true
+            true.should_be true
           end
         end
 
         def test_shouldnt_raise_when_object_is_a_number
           assert_nothing_raised do
-            5.should.be true
+            5.should_be true
           end
         end
   
         def test_shouldnt_raise_when_object_is_a_string
           assert_nothing_raised do
-            "hello".should.be true
+            "hello".should_be true
           end
         end
 
         def test_shouldnt_raise_when_object_is_a_some_random_object
           assert_nothing_raised do
-            self.should.be true
+            self.should_be true
           end
         end
       end
@@ -45,37 +45,37 @@ module Spec
       class ShouldBeFalseTest < Test::Unit::TestCase
         def test_shouldnt_raise_when_object_is_nil
           assert_nothing_raised do
-            nil.should.be false
+            nil.should_be false
           end
         end
 
         def test_shouldnt_raise_when_object_is_false
           assert_nothing_raised do
-            false.should.be false
+            false.should_be false
           end
         end
 
         def test_should_raise_when_object_is_true
           assert_raise(ExpectationNotMetError) do
-            true.should.be false
+            true.should_be false
           end
         end
 
         def test_shouldnt_raise_when_object_is_a_number
           assert_raise(ExpectationNotMetError) do
-            5.should.be false
+            5.should_be false
           end
         end
 
         def test_shouldnt_raise_when_object_is_a_string
           assert_raise(ExpectationNotMetError) do
-            "hello".should.be false
+            "hello".should_be false
           end
         end
 
         def test_shouldnt_raise_when_object_is_a_some_random_object
           assert_raise(ExpectationNotMetError) do
-            self.should.be false
+            self.should_be false
           end
         end
 

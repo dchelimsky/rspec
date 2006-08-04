@@ -16,49 +16,49 @@ module Spec
   
         def test_should_include_shouldnt_raise_when_string_inclusion_is_present
           assert_nothing_raised do
-            @dummy.should.include "mm"
+            @dummy.should_include "mm"
           end
         end
   
         def test_should_include_should_raise_when_string_inclusion_is_missing
           assert_raise(ExpectationNotMetError) do
-            @dummy.should.include "abc" 
+            @dummy.should_include "abc" 
           end
         end
 
         def test_should_include_shouldnt_raise_when_array_inclusion_is_present
           assert_nothing_raised do
-            [1, 2, 3].should.include 2
+            [1, 2, 3].should_include 2
           end
         end
 
         def test_should_include_should_raise_when_array_inclusion_is_missing
           assert_raise(ExpectationNotMetError) do
-            [1, 2, 3].should.include 5
+            [1, 2, 3].should_include 5
           end
         end
 
         def test_should_include_shouldnt_raise_when_hash_inclusion_is_present
           assert_nothing_raised do
-            {"a"=>1}.should.include "a"
+            {"a"=>1}.should_include "a"
           end
         end
 
         def test_should_include_should_raise_when_hash_inclusion_is_missing
           assert_raise(ExpectationNotMetError) do
-            {"a"=>1}.should.include "b"
+            {"a"=>1}.should_include "b"
           end
         end
 
         def test_should_include_shouldnt_raise_when_enumerable_inclusion_is_present
           assert_nothing_raised do
-            IO.constants.should.include "SEEK_SET"
+            IO.constants.should_include "SEEK_SET"
           end
         end
 
         def test_should_include_should_raise_when_enumerable_inclusion_is_missing
           assert_raise(ExpectationNotMetError) do
-            IO.constants.should.include "BLAH"
+            IO.constants.should_include "BLAH"
           end
         end
   
@@ -66,49 +66,49 @@ module Spec
   
         def test_should_not_include_shouldnt_raise_when_string_inclusion_is_missing
           assert_nothing_raised do
-            @dummy.should.not.include "abc"
+            @dummy.should_not_include "abc"
           end
         end
 
         def test_should_not_include_should_raise_when_string_inclusion_is_present
           assert_raise(ExpectationNotMetError) do
-            @dummy.should.not.include "mm"
+            @dummy.should_not_include "mm"
           end
         end
 
         def test_should_not_include_shouldnt_raise_when_array_inclusion_is_missing
           assert_nothing_raised do
-            [1, 2, 3].should.not.include 5
+            [1, 2, 3].should_not_include 5
           end
         end
 
         def test_should_not_include_should_raise_when_array_inclusion_is_present
           assert_raise(ExpectationNotMetError) do
-            [1, 2, 3].should.not.include 2
+            [1, 2, 3].should_not_include 2
           end
         end
 
         def test_should_not_include_shouldnt_raise_when_hash_inclusion_is_missing
           assert_nothing_raised do
-            {"a"=>1}.should.not.include "b"
+            {"a"=>1}.should_not_include "b"
           end
         end
 
         def test_should_not_include_should_raise_when_hash_inclusion_is_present
           assert_raise(ExpectationNotMetError) do
-            {"a"=>1}.should.not.include "a"
+            {"a"=>1}.should_not_include "a"
           end
         end
 
         def test_should_not_include_shouldnt_raise_when_enumerable_inclusion_is_present
           assert_nothing_raised do
-            IO.constants.should.not.include "BLAH"
+            IO.constants.should_not_include "BLAH"
           end
         end
 
         def test_should_not_include_should_raise_when_enumerable_inclusion_is_missing
           assert_raise(ExpectationNotMetError) do
-            IO.constants.should.not.include "SEEK_SET" 
+            IO.constants.should_not_include "SEEK_SET" 
           end
         end
       end

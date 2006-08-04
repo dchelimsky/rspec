@@ -34,7 +34,7 @@ module Spec
     
     module MessageExpectationSugar
       def __is_sweetened?(sym) #:nodoc:
-        return true if sym.to_s =~ /^and_|^at_|^any_|^once_/
+        return true if sym.to_s =~ /^and_|^at_|^any_|^once_|^twice/
       end
     end
   end
@@ -45,14 +45,6 @@ class Module
 end
 
 Object.sugarize_for_rspec!
-
-class Spec::Api::Mock #:nodoc:
-  # NOTE: this resolves a bug caused by a conflict between Sugar#method_missing and Mock#method_missing, specifically
-  # when the mock is set null_object=>true. It would be nice to get rid of this.
-  def should_receive(sym, &block)
-    return receive(sym, &block)
-  end
-end
 
 class Spec::Api::MessageExpectation #:nodoc:
   include Spec::Api::MessageExpectationSugar

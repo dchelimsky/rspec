@@ -4,6 +4,8 @@ inMenu: true
 ---
 h2. Underscore sugar
 
+h3. NOTE - effective as of release 0.6, dots will no longer be supported.
+
 The internal implementation of RSpec actually uses chained method calls, so it's possible
 to write:
 

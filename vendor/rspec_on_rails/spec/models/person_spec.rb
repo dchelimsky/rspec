@@ -31,6 +31,6 @@ context "A new Person" do
   end
 
   specify "should have no name (this passes using dots)" do
-    Person.new.name.should.be nil
+    Person.new.name.should_be nil
   end
 end

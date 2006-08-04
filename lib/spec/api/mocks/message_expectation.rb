@@ -122,13 +122,13 @@ module Spec
         self
       end
       
-      def at
-        @at_seen = true
+      def exactly(n)
+        @expected_received_count = n
         self
       end
       
-      def exactly(n)
-        @expected_received_count = n
+      def at
+        @at_seen = true
         self
       end
       

@@ -55,7 +55,7 @@ module Spec
         @formatter.should_receive(:start_dump)
         @formatter.should_receive(:dump_failure).with(1, :anything)
         @formatter.should_receive(:dump_summary).with(:anything, 1, 1)
-        @backtrace_tweaker.should.receive(:tweak_backtrace)
+        @backtrace_tweaker.should_receive(:tweak_backtrace)
         @reporter.add_context "context"
         @reporter.spec_started "spec"
         @reporter.spec_finished "spec", RuntimeError.new
@@ -64,8 +64,8 @@ module Spec
       
       def test_should_handle_multiple_contexts_with_same_name
         @formatter.should_receive(:add_context).exactly(3).times
-        @formatter.should.receive(:spec_started).exactly(3).times
-        @formatter.should.receive(:spec_passed).exactly(3).times
+        @formatter.should_receive(:spec_started).exactly(3).times
+        @formatter.should_receive(:spec_passed).exactly(3).times
         @formatter.should_receive(:start_dump)
         @formatter.should_receive(:dump_summary).with(:anything, 3, 0)
         @reporter.add_context "context"
@@ -83,14 +83,14 @@ module Spec
       def test_should_handle_multiple_specs_same_name
         error = RuntimeError.new
         @formatter.should_receive(:add_context).exactly(2).times
-        @formatter.should.receive(:spec_started).with("spec").exactly(4).times
+        @formatter.should_receive(:spec_started).with("spec").exactly(4).times
         @formatter.should_receive(:spec_passed).with("spec").exactly(2).times
         @formatter.should_receive(:spec_failed).with("spec", 1, failure) 
         @formatter.should_receive(:spec_failed).with("spec", 2, failure)
         @formatter.should_receive(:dump_failure).exactly(2).times
         @formatter.should_receive(:start_dump)
         @formatter.should_receive(:dump_summary).with(:anything, 4, 2)
-        @backtrace_tweaker.should.receive(:tweak_backtrace)
+        @backtrace_tweaker.should_receive(:tweak_backtrace)
         @reporter.add_context "context"
 
         @reporter.spec_started "spec"
@@ -113,7 +113,7 @@ module Spec
       def test_should_delegate_to_backtrace_tweaker
         @formatter.should_receive(:add_context)
         @formatter.should_receive(:spec_failed)
-        @backtrace_tweaker.should.receive(:tweak_backtrace)
+        @backtrace_tweaker.should_receive(:tweak_backtrace)
         @reporter.add_context "context"
         @reporter.spec_finished "spec", RuntimeError.new
         @backtrace_tweaker.__verify

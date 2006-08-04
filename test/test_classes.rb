@@ -60,15 +60,15 @@ module Spec
         end
 
         def hungry?(a, b, c)
-          a.should.be 1
-          b.should.be 2
-          c.should.be 3
+          a.should_be 1
+          b.should_be 2
+          c.should_be 3
           @funny_called = true
           @return_val
         end
 
         def __verify
-          @funny_called.should.be true
+          @funny_called.should_be true
         end
       end
     end

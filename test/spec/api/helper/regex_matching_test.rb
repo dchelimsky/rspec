@@ -7,13 +7,13 @@ module Spec
 
         def test_should_not_raise_when_objects_match
           assert_nothing_raised do
-            "hi aslak".should.match /aslak/
+            "hi aslak".should_match /aslak/
           end
         end
 
         def test_should_raise_when_objects_do_not_match
           assert_raise(ExpectationNotMetError) do
-            "hi aslak".should.match /steve/
+            "hi aslak".should_match /steve/
           end
         end
       end
@@ -21,13 +21,13 @@ module Spec
       class ShouldNotMatchTest < Test::Unit::TestCase
         def test_should_not_raise_when_objects_do_not_match
           assert_nothing_raised do
-            "hi aslak".should.not.match /steve/
+            "hi aslak".should_not_match /steve/
           end
         end
 
         def test_should_raise_when_objects_match
           assert_raise(ExpectationNotMetError) do
-            "hi aslak".should.not.match /aslak/
+            "hi aslak".should_not_match /aslak/
           end
         end
       end

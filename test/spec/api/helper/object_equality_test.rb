@@ -7,13 +7,13 @@ module Spec
 
         def test_should_not_raise_when_objects_are_equal
           assert_nothing_raised do
-            'apple'.should.equal 'apple'
+            'apple'.should_equal 'apple'
           end
         end
   
         def test_should_raise_when_objects_are_not_equal
           assert_raise(ExpectationNotMetError) do
-            'apple'.should.equal 'orange'
+            'apple'.should_equal 'orange'
           end
         end        
       end
@@ -22,13 +22,13 @@ module Spec
 
         def test_should_not_raise_when_objects_are_not_equal
           assert_nothing_raised do
-            'apple'.should.not.equal 'orange'
+            'apple'.should_not_equal 'orange'
           end
         end
 
         def test_should_not_equal_should_raise_when_objects_are_equal
           assert_raise(ExpectationNotMetError) do
-            'apple'.should.not.equal 'apple'
+            'apple'.should_not_equal 'apple'
           end
         end
       end
@@ -36,26 +36,26 @@ module Spec
       class ShouldBeCloseTest < Test::Unit::TestCase
         def test_should_not_raise_when_values_are_within_bounds
           assert_nothing_raised do
-            3.5.should.be.close 3.5, 0.5
-            3.5.should.be.close 3.1, 0.5
-            3.5.should.be.close 3.01, 0.5
-            3.5.should.be.close 3.9, 0.5
-            3.5.should.be.close 3.99, 0.5
+            3.5.should_be_close 3.5, 0.5
+            3.5.should_be_close 3.1, 0.5
+            3.5.should_be_close 3.01, 0.5
+            3.5.should_be_close 3.9, 0.5
+            3.5.should_be_close 3.99, 0.5
           end
         end
         
         def test_should_raise_when_values_are_outside_bounds
           assert_raise(ExpectationNotMetError) do
-            3.5.should.be.close 3.0, 0.5
+            3.5.should_be_close 3.0, 0.5
           end
           assert_raise(ExpectationNotMetError) do
-            3.5.should.be.close 2.0, 0.5
+            3.5.should_be_close 2.0, 0.5
           end
           assert_raise(ExpectationNotMetError) do
-            3.5.should.be.close 4.0, 0.5
+            3.5.should_be_close 4.0, 0.5
           end
           assert_raise(ExpectationNotMetError) do
-            3.5.should.be.close 5.0, 0.5
+            3.5.should_be_close 5.0, 0.5
           end
         end
 

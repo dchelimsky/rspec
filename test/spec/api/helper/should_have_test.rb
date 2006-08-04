@@ -15,38 +15,38 @@ module Spec
         
         def test_should_raise_when_expecting_less_than_actual_length
           assert_raise(ExpectationNotMetError) do
-            @owner.should.have(2).items_in_collection_with_length_method
+            @owner.should_have(2).items_in_collection_with_length_method
           end
         end
 
         def test_should_raise_when_expecting_more_than_actual_length
           assert_raise(ExpectationNotMetError) do
-            @owner.should.have(4).items_in_collection_with_length_method
+            @owner.should_have(4).items_in_collection_with_length_method
           end
         end
 
         def test_should_not_raise_when_expecting_actual_length
           assert_nothing_raised do
-            @owner.should.have(3).items_in_collection_with_length_method
+            @owner.should_have(3).items_in_collection_with_length_method
           end
         end
 
         
         def test_should_raise_when_expecting_less_than_actual_size
           assert_raise(ExpectationNotMetError) do
-            @owner.should.have(2).items_in_collection_with_size_method
+            @owner.should_have(2).items_in_collection_with_size_method
           end
         end
 
         def test_should_raise_when_expecting_more_than_actual_size
           assert_raise(ExpectationNotMetError) do
-            @owner.should.have(4).items_in_collection_with_size_method
+            @owner.should_have(4).items_in_collection_with_size_method
           end
         end
 
         def test_should_not_raise_when_expecting_actual_size
           assert_nothing_raised do
-            @owner.should.have(3).items_in_collection_with_size_method
+            @owner.should_have(3).items_in_collection_with_size_method
           end
         end
       end
@@ -63,38 +63,38 @@ module Spec
         
         def test_should_not_raise_when_expecting_less_than_actual_length
           assert_nothing_raised do
-            @owner.should.have.at.least(2).items_in_collection_with_length_method
+            @owner.should_have_at_least(2).items_in_collection_with_length_method
           end
         end
 
         def test_should_raise_when_expecting_more_than_actual_length
           assert_raise(ExpectationNotMetError) do
-            @owner.should.have.at.least(4).items_in_collection_with_length_method
+            @owner.should_have_at_least(4).items_in_collection_with_length_method
           end
         end
 
         def test_should_not_raise_when_expecting_actual_length
           assert_nothing_raised do
-            @owner.should.have.at.least(3).items_in_collection_with_length_method
+            @owner.should_have_at_least(3).items_in_collection_with_length_method
           end
         end
 
         
         def test_should_not_raise_when_expecting_less_than_actual_size
           assert_nothing_raised do
-            @owner.should.have.at.least(2).items_in_collection_with_size_method
+            @owner.should_have_at_least(2).items_in_collection_with_size_method
           end
         end
 
         def test_should_raise_when_expecting_more_than_actual_size
           assert_raise(ExpectationNotMetError) do
-            @owner.should.have.at.least(4).items_in_collection_with_size_method
+            @owner.should_have_at_least(4).items_in_collection_with_size_method
           end
         end
 
         def test_should_not_raise_when_expecting_actual_size
           assert_nothing_raised do
-            @owner.should.have.at.least(3).items_in_collection_with_size_method
+            @owner.should_have_at_least(3).items_in_collection_with_size_method
           end
         end
         
@@ -112,43 +112,42 @@ module Spec
         
         def test_should_raise_when_expecting_less_than_actual_length
           assert_raise(ExpectationNotMetError) do
-            @owner.should.have.at.most(2).items_in_collection_with_length_method
+            @owner.should_have_at_most(2).items_in_collection_with_length_method
           end
         end
 
         def test_should_not_raise_when_expecting_more_than_actual_length
           assert_nothing_raised do
-            @owner.should.have.at.most(4).items_in_collection_with_length_method
+            @owner.should_have_at_most(4).items_in_collection_with_length_method
           end
         end
 
         def test_should_not_raise_when_expecting_actual_length
           assert_nothing_raised do
-            @owner.should.have.at.most(3).items_in_collection_with_length_method
+            @owner.should_have_at_most(3).items_in_collection_with_length_method
           end
         end
 
         
         def test_should_raise_when_expecting_less_than_actual_size
           assert_raise(ExpectationNotMetError) do
-            @owner.should.have.at.most(2).items_in_collection_with_size_method
+            @owner.should_have_at_most(2).items_in_collection_with_size_method
           end
         end
 
         def test_should_not_raise_when_expecting_more_than_actual_size
           assert_nothing_raised do
-            @owner.should.have.at.most(4).items_in_collection_with_size_method
+            @owner.should_have_at_most(4).items_in_collection_with_size_method
           end
         end
 
         def test_should_not_raise_when_expecting_actual_size
           assert_nothing_raised do
-            @owner.should.have.at.most(3).items_in_collection_with_size_method
+            @owner.should_have_at_most(3).items_in_collection_with_size_method
           end
         end
         
       end
-      
     end
   end
 end

@@ -33,15 +33,15 @@ context "This example" do
   end
   
   specify "should show that the wrong message was received" do
-    proc { raise StandardError.new("what is an enterprise?") }.should.raise StandardError, "not this"
+    proc { raise StandardError.new("what is an enterprise?") }.should_raise StandardError, "not this"
   end
   
   specify "should show that the unexpected error/message was thrown" do
-    proc { raise StandardError.new("abc") }.should.not.raise StandardError, "abc"
+    proc { raise StandardError.new("abc") }.should_not_raise StandardError, "abc"
   end
   
   specify "should pass" do
-    proc { raise StandardError.new("abc") }.should.not.raise StandardError, "xyz"
+    proc { raise StandardError.new("abc") }.should_not_raise StandardError, "xyz"
   end
   
 end

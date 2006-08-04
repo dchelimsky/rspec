@@ -14,14 +14,14 @@ module Spec
       end
       
       def test_should_add_itself_to_formatter_on_run
-        @formatter.should.receive(:add_context).with "context"
+        @formatter.should_receive(:add_context).with "context"
         @context.run(@formatter)
       end
       
       def test_should_run_spec
-        @formatter.should.receive(:add_context).with :any_args
-        @formatter.should.receive(:spec_started).with "test"
-        @formatter.should.receive(:spec_finished).with "test", :anything, :anything
+        @formatter.should_receive(:add_context).with :any_args
+        @formatter.should_receive(:spec_started).with "test"
+        @formatter.should_receive(:spec_finished).with "test", :anything, :anything
         $spec_ran = false
         @context.specify("test") {$spec_ran = true}
         @context.run(@formatter)
@@ -29,9 +29,9 @@ module Spec
       end
          
       def test_should_run_spec_dry
-        @formatter.should.receive(:add_context).with :any_args
-        @formatter.should.receive(:spec_started).with "test"
-        @formatter.should.receive(:spec_finished).with "test"
+        @formatter.should_receive(:add_context).with :any_args
+        @formatter.should_receive(:spec_started).with "test"
+        @formatter.should_receive(:spec_finished).with "test"
         $spec_ran = false
         @context.specify("test") {$spec_ran = true}
         @context.run(@formatter, true)
@@ -39,9 +39,9 @@ module Spec
       end
       
       def test_setup
-        @formatter.should.receive(:add_context).with :any_args
-        @formatter.should.receive(:spec_started).with "test"
-        @formatter.should.receive(:spec_finished).with :any_args
+        @formatter.should_receive(:add_context).with :any_args
+        @formatter.should_receive(:spec_started).with "test"
+        @formatter.should_receive(:spec_finished).with :any_args
 
         super_class_setup_ran = false
         super_class = Class.new do
@@ -60,9 +60,9 @@ module Spec
       end
 
       def test_setup__should_allow_method_definitions
-        @formatter.should.receive(:add_context).with :any_args
-        @formatter.should.receive(:spec_started).with "test"
-        @formatter.should.receive(:spec_finished).with :any_args
+        @formatter.should_receive(:add_context).with :any_args
+        @formatter.should_receive(:spec_started).with "test"
+        @formatter.should_receive(:spec_finished).with :any_args
 
         $method_in_setup_called = false
         @context.setup do
@@ -78,9 +78,9 @@ module Spec
       end
 
       def test_teardown
-        @formatter.should.receive(:add_context).with :any_args
-        @formatter.should.receive(:spec_started).with "test"
-        @formatter.should.receive(:spec_finished).with :any_args
+        @formatter.should_receive(:add_context).with :any_args
+        @formatter.should_receive(:spec_started).with "test"
+        @formatter.should_receive(:spec_finished).with :any_args
 
         super_class_teardown_ran = false
         super_class = Class.new do
@@ -100,9 +100,9 @@ module Spec
       end
 
       def test_inherit__superclass_methods_should_be_accessible
-        @formatter.should.receive(:add_context).with :any_args
-        @formatter.should.receive(:spec_started).with "test"
-        @formatter.should.receive(:spec_finished).with :any_args
+        @formatter.should_receive(:add_context).with :any_args
+        @formatter.should_receive(:spec_started).with "test"
+        @formatter.should_receive(:spec_finished).with :any_args
 
         helper_method_ran = false
         super_class = Class.new do
@@ -144,9 +144,9 @@ module Spec
       end
 
       def test_include
-        @formatter.should.receive(:add_context).with :any_args
-        @formatter.should.receive(:spec_started).with "test"
-        @formatter.should.receive(:spec_finished).with :any_args
+        @formatter.should_receive(:add_context).with :any_args
+        @formatter.should_receive(:spec_started).with "test"
+        @formatter.should_receive(:spec_finished).with :any_args
 
         mod1_method_called = false
         mod1 = Module.new do

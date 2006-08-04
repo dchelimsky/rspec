@@ -8,7 +8,7 @@ module Spec
       end
       
       def test_should_not_barf_on_nil_backtrace
-        proc { @tweaker.tweak_backtrace @error, 'spec name' }.should.not.raise
+        proc { @tweaker.tweak_backtrace @error, 'spec name' }.should_not_raise
       end
       
       def test_should_replace___instance_exec_with_spec_name
@@ -44,7 +44,7 @@ module Spec
       end
       
       def test_should_not_barf_on_nil_backtrace
-        proc { @tweaker.tweak_backtrace @error, 'spec name' }.should.not.raise
+        proc { @tweaker.tweak_backtrace @error, 'spec name' }.should_not_raise
       end
       
       def test_should_replace___instance_exec_with_spec_name

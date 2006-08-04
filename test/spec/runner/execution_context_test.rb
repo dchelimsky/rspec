@@ -6,7 +6,7 @@ module Spec
 
       def test_should_add_new_mock_to_spec_when_mock_message_received
         spec = Api::Mock.new "spec"
-        spec.should.receive(:add_mock) {|mock| mock.instance_of? Api::Mock}
+        spec.should_receive(:add_mock) {|mock| mock.instance_of? Api::Mock}
         ec = ExecutionContext.new spec
         mock = ec.mock("a mock", :null_object=>true)
       end

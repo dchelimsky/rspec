@@ -7,10 +7,10 @@ module Spec
       def test_should_call_run_on_context
         context1 = Api::Mock.new "context1", :null_object=>true
         context2 = Api::Mock.new "context2", :null_object=>true
-        context1.should.receive(:run)
-        context1.should.receive(:number_of_specs).and.return(0)
-        context2.should.receive(:run)
-        context2.should.receive(:number_of_specs).and.return(0)
+        context1.should_receive(:run)
+        context1.should_receive(:number_of_specs).and.return(0)
+        context2.should_receive(:run)
+        context2.should_receive(:number_of_specs).and.return(0)
         
         reporter = Api::Mock.new 'reporter'
         reporter.should_receive(:start).with(0)

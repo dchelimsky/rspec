@@ -65,7 +65,7 @@ module Spec
       begin
         @target.call
       rescue exception => e
-        e.message.should.equal message unless message.nil?
+        e.message.should_equal message unless message.nil?
         return
       rescue => e
         fail_with_message("#{default_message("should raise", exception)} but raised #{e.inspect}")
