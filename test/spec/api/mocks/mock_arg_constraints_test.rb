@@ -62,6 +62,12 @@ module Spec
         @mock.__verify
       end
       
+      def test_should_match_based_on_equality_of_user_defined_type
+        @mock.should_receive(:random_call).with(Person.new("David"))
+        @mock.random_call(Person.new("David"))
+        @mock.__verify
+      end
+      
     end
     
     class FailingConstraintsTest < Test::Unit::TestCase

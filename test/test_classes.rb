@@ -3,6 +3,15 @@
 # be accessed by the test2spec-translated specs
 module Spec
   module Api
+    class Person
+      attr_reader :name
+      def initialize name
+        @name = name
+      end
+      def == other
+        return @name == other.name
+      end
+    end
     class ClassWithMultiWordPredicate
       def multi_word_predicate?
         true 

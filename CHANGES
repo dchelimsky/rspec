@@ -1,5 +1,8 @@
 = RSpec Changelog
 
+== in SVN
+* Fixed bug (5292) that caused mock argument matching to fail on classes that overrided ==
+
 == Version 0.5.16
 This release improves Rails support and test2spec translation.
 
