@@ -90,22 +90,20 @@ module Spec
         end
       end
 
-      #TODO - this fails because the mock raises on the call with the wrong args, rather than waiting for verification
-      def FIXMEtest_twice_should_fail_when_called_twice_with_wrong_args_on_the_second_call
+      def test_twice_should_fail_when_called_twice_with_wrong_args_on_the_second_call
         @mock.should_receive(:random_call).twice_with("1", 1)
         @mock.random_call "1", 1
-        @mock.random_call 1, "1"
         assert_raise(MockExpectationError) do
-          @mock.__verify
+          @mock.random_call 1, "1"
+          #NOTE that we don't need to verify here because the failure happens when message is received
         end
       end
 
-      def FIXMEtest_twice_should_fail_when_called_twice_with_wrong_args_on_the_first_call
+      def test_twice_should_fail_when_called_twice_with_wrong_args_on_the_first_call
         @mock.should_receive(:random_call).twice_with("1", 1)
-        @mock.random_call 1, "1"
-        @mock.random_call "1", 1
         assert_raise(MockExpectationError) do
-          @mock.__verify
+          @mock.random_call 1, "1"
+          #NOTE that we don't need to verify here because the failure happens when message is received
         end
       end
 
@@ -128,7 +126,7 @@ module Spec
       end
     end
 
-    class PreciseCountsTest < Test::Unit::TestCase
+    class AnyNumberOfTimesTest < Test::Unit::TestCase
       
       def setup
         @mock = Mock.new("test mock")
@@ -156,7 +154,14 @@ module Spec
           @mock.__verify
         end
       end
-  
+    end
+
+    class PreciseCountsTest < Test::Unit::TestCase
+      
+      def setup
+        @mock = Mock.new("test mock")
+      end
+
       def test_should_pass_mutiple_calls_with_different_args
         @mock.should_receive(:random_call).once_with(1)
         @mock.should_receive(:random_call).once_with(2)
@@ -206,7 +211,7 @@ module Spec
       
     end
     
-    class MockRelativeCountsTest < Test::Unit::TestCase
+    class AtLeastTest < Test::Unit::TestCase
       
       def setup
         @mock = Mock.new("test mock")
@@ -309,7 +314,7 @@ module Spec
           @mock.__verify
         end
       end
-
+  
       def test_should_use_last_return_value_for_subsequent_calls
         @mock.should_receive(:multi_call).at_least(:once).with(:no_args).and_return([11, 22])
         assert_equal(11, @mock.multi_call)
@@ -319,7 +324,6 @@ module Spec
           @mock.__verify
         end
       end
-  
     end
   end
 end

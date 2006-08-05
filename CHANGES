@@ -1,9 +1,12 @@
 = RSpec Changelog
 
-== Version 0.5.16 (currently in SVN)
+== Version 0.6 (currently in SVN)
+This release makes an official commitment to underscore_syntax (with no more support for dot.syntax)
+
 * Fixed bug (5292) that caused mock argument matching to fail on classes that overrided ==
-* Fixed bug that caused sugarized twice.with (on mocks) to fail
 * Converted ALL tests to use underscore syntax
+* Fixed all remaining problems with underscores revealed by converting all the tests to underscores
+* Enhanced sugar to support combinations of methods (i.e. once_and_return invokes once.and_return) 
 
 == Version 0.5.16
 This release improves Rails support and test2spec translation.

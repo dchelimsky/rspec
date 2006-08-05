@@ -16,11 +16,10 @@ module Spec
         @consecutive = false
         @exception_to_raise = nil
         @symbol_to_throw = nil
-        @any_seen = false
-        @at_seen = false
-        @and_seen = false
         @ordering = expectation_ordering
         @ordered = false
+        @at_least = false
+        @at_most = false
       end
   
       def matches(sym, args)
@@ -127,44 +126,28 @@ module Spec
         self
       end
       
-      def at
-        @at_seen = true
+      def at_least(arg)
+        @expected_received_count = -1 if arg == :once
+        @expected_received_count = -2 if arg == :twice
+        @expected_received_count = -arg if arg.kind_of? Numeric
         self
       end
       
-      def least(arg)
-        if @at_seen
-          @expected_received_count = -1 if arg == :once
-          @expected_received_count = -2 if arg == :twice
-          @expected_received_count = -arg if arg.kind_of? Numeric
-        end
-        @at_seen = false
+      def at_most(arg)
         self
       end
 
-      def any
-        @any_seen = true
-        self
-      end
-      
-      def number
-        @number_seen = @any_seen
-        @any_seen = false
-        self
-      end
-      
-      def of
-        @of_seen = @number_seen
-        @number_seen = false
-        self
-      end
-      
       def times
-        @expected_received_count = :any if @of_seen
-        @of_seen = false
+        #pure sugar
         self
       end
   
+      def any_number_of_times
+        @expected_received_count = :any
+        self
+      end
+  
+      #TODO - replace this w/ not syntax in mock
       def never
         @expected_received_count = 0
         self
@@ -180,43 +163,29 @@ module Spec
         self
       end
   
-      def and
-        @and_seen = true
-        self
-      end
-
-      def return(value=nil, &return_block)
+      def and_return(value=nil, &return_block)
         Kernel::raise AmbiguousReturnError unless @method_block.nil?
-        return self unless @and_seen
-        @and_seen = false
         @consecutive = value.instance_of? Array
         @return_block = block_given? ? return_block : lambda { value }
       end
       
-      def raise(exception=Exception)
-        return self unless @and_seen
-        @and_seen = false
+      def and_raise(exception=Exception)
         @exception_to_raise = exception
       end
       
-      def throw(symbol)
-        return self unless @and_seen
-        @and_seen = false
+      def and_throw(symbol)
         @symbol_to_throw = symbol
       end
       
+      def and_yield(*args)
+        @args_to_yield = args
+      end
+  
       def ordered
         @ordering.register(self)
         @ordered = true
         self
       end
-      
-      def yield(*args)
-        return self unless @and_seen
-        @and_seen = false
-        @args_to_yield = args
-      end
-  
     end
   end
 end

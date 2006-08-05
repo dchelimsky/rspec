@@ -18,9 +18,14 @@ module Spec
             object = self
             calls = sym.to_s.split("_")
             while calls.length > 1
-              call = calls.shift
-              object = object.__send__(call)
-              break if call == "be" unless ["an","a"].include? calls[0]
+              if (object.respond_to?calls.join("_"))
+                object.__send__(calls.join("_"), *args, &block)
+                return
+              else
+                call = calls.shift
+                object = object.__send__(call)
+                break if call == "be" unless ["an","a"].include? calls[0]
+              end
             end
             return object.__send__(calls.join("_"), *args, &block)
           end
