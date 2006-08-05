@@ -40,7 +40,7 @@ module Spec
 
       def test_should_allow_underscored_anys_on_mocks
         sweetener = Mock.new "sweetener"
-        sweetener.should_receive(:natural?).once_and_return(false)
+        sweetener.should_receive(:natural?).once.and_return(false)
         natural = sweetener.natural?
         natural.should_be false
         sweetener.__verify

@@ -133,7 +133,7 @@ module Spec
       end
       
       def test_should_yield_single_value
-        @mock.should_receive(:yield_back).with(:no_args).once_and_yield(99)
+        @mock.should_receive(:yield_back).with(:no_args).once.and_yield(99)
         a = nil
         @mock.yield_back {|a|}
         a.should_equal 99
@@ -141,7 +141,7 @@ module Spec
       end
 
       def test_should_yield_two_values
-        @mock.should_receive(:yield_back).with(:no_args).once_and_yield('wha', 'zup')
+        @mock.should_receive(:yield_back).with(:no_args).once.and_yield('wha', 'zup')
         a, b = nil
         @mock.yield_back {|a,b|}
         a.should_equal 'wha'
@@ -150,14 +150,14 @@ module Spec
       end
 
       def test_should_fail_when_calling_yielding_method_with_wrong_arity
-        @mock.should_receive(:yield_back).with(:no_args).once_and_yield('wha', 'zup')
+        @mock.should_receive(:yield_back).with(:no_args).once.and_yield('wha', 'zup')
         assert_raise(MockExpectationError) do
           @mock.yield_back {|a|}
         end
       end
 
       def test_should_fail_when_calling_yielding_method_without_block
-        @mock.should_receive(:yield_back).with(:no_args).once_and_yield('wha', 'zup')
+        @mock.should_receive(:yield_back).with(:no_args).once.and_yield('wha', 'zup')
         assert_raise(MockExpectationError) do
           @mock.yield_back
         end
@@ -182,7 +182,7 @@ module Spec
       end
 
       def test_should_use_a_list_of_return_values_for_successive_calls
-        @mock.should_receive(:multi_call).twice_with(:no_args).and_return([8, 12])
+        @mock.should_receive(:multi_call).twice.with(:no_args).and_return([8, 12])
         assert_equal(8, @mock.multi_call)
         assert_equal(12, @mock.multi_call)
         @mock.__verify

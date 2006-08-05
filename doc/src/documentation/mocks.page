@@ -41,12 +41,14 @@ h3. Expecting Arguments
 
 <ruby>
 my_mock.should_receive(:msg).with(<args>)
+my_mock.should_receive(:msg).once.with(<args>)
 </ruby>
 
 for example: 
 
 <ruby>
 my_mock.should_receive(:msg).with(1, 2, 3)
+my_mock.should_receive(:msg).once.with(1, 2, 3)
 </ruby>
 
 The <code>args</code> argument is a series of arguments (e.g. 1, 2, 3) that are 
@@ -195,7 +197,7 @@ h3. Return Values
 h4. Single return value
 
 <ruby>
-my_mock.should_receive(:msg).once_and_return(<value>)
+my_mock.should_receive(:msg).once.and_return(<value>)
 </ruby>
 
 Each time the expected message is received, <code>value</code> will be returned as the result.
@@ -222,7 +224,7 @@ and_return([[1, 2, 3]])
 h4. Computed return value
 
 <ruby>
-my_mock.should_receive(:msg).once_and_return {...} 
+my_mock.should_receive(:msg).once.and_return {...} 
 </ruby>
 
 When the expected message is received, the result of evaluating the supplied
@@ -231,14 +233,14 @@ as arguments of the message. This capability can be used to compute return
 values based on the arguments.  For example:
 
 <ruby>
-my_mock.should_receive(:msg).with(:numeric, :numeric) once_and_return {|a, b| a + b}
+my_mock.should_receive(:msg).with(:numeric, :numeric) once.and_return {|a, b| a + b}
 </ruby>
 
 h3. Raising and Throwing
 
 <ruby>
-my_mock.should_receive(:msg).once_and_raise(<exception>)
-my_mock.should_receive(:msg).once_and_throw(<symbol>) 
+my_mock.should_receive(:msg).once.and_raise(<exception>)
+my_mock.should_receive(:msg).once.and_throw(<symbol>) 
 </ruby>
 
 These instruct the mock to raise an exception or throw a symbol, respectively, 
@@ -247,7 +249,7 @@ instead of returning a value.
 h3. Yielding
 
 <ruby>
-my_mock.should_receive(:msg).once_and_yield([<value-1>, <value-2>, ..., <value-n>])
+my_mock.should_receive(:msg).once.and_yield([<value-1>, <value-2>, ..., <value-n>])
 </ruby>
 
 When the expected message is received, the mock will yield the values to the passed block.

@@ -7,7 +7,7 @@ module Spec
       def sugarize_for_rspec!
         original_method_missing = instance_method(:method_missing)
         class_eval do
-          include SugarizeForRspec # This is meant to add a signiture to the object that sugarization occurred.
+          include SugarizeForRspec # This is meant to add a signature to the object that sugarization occurred.
           def method_missing(sym, *args, &block)
             _method_missing(sym, args, block)
           end
@@ -24,7 +24,7 @@ module Spec
               else
                 call = calls.shift
                 object = object.__send__(call)
-                break if call == "be" unless ["an_instance_of","a_kind_of"].include? calls[0]
+                break if call == "be"
               end
             end
             return object.__send__(calls.join("_"), *args, &block)
@@ -36,12 +36,6 @@ module Spec
         end
       end
     end
-    
-    module MessageExpectationSugar
-      def __is_sweetened?(sym) #:nodoc:
-        return true if sym.to_s =~ /^once_|^twice_/
-      end
-    end
   end
 end
 
@@ -50,7 +44,3 @@ class Module
 end
 
 Object.sugarize_for_rspec!
-
-class Spec::Api::MessageExpectation #:nodoc:
-  include Spec::Api::MessageExpectationSugar
-end

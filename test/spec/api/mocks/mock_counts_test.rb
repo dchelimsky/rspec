@@ -25,7 +25,7 @@ module Spec
       end
 
       def test_once_should_pass_when_called_once_with_specified_args
-        @mock.should_receive(:random_call).once_with("a","b","c")
+        @mock.should_receive(:random_call).once.with("a","b","c")
         @mock.random_call("a","b","c")
         assert_nothing_raised do
           @mock.__verify
@@ -48,11 +48,10 @@ module Spec
         end
       end
 
-      def FIXME_test_once_should_fail_when_called_once_with_wrong_args
-        @mock.should_receive(:random_call).once_with("a","b","c")
-        @mock.random_call "d","e","f"
+      def test_once_should_fail_when_called_once_with_wrong_args
+        @mock.should_receive(:random_call).once.with("a","b","c")
         assert_raise(MockExpectationError) do
-          @mock.__verify
+          @mock.random_call "d","e","f"
         end
       end
     end
@@ -82,7 +81,7 @@ module Spec
       end
 
       def test_twice_should_pass_when_called_twice_with_specified_args
-        @mock.should_receive(:random_call).twice_with("1", 1)
+        @mock.should_receive(:random_call).twice.with("1", 1)
         @mock.random_call "1", 1
         @mock.random_call "1", 1
         assert_nothing_raised do
@@ -91,19 +90,17 @@ module Spec
       end
 
       def test_twice_should_fail_when_called_twice_with_wrong_args_on_the_second_call
-        @mock.should_receive(:random_call).twice_with("1", 1)
+        @mock.should_receive(:random_call).twice.with("1", 1)
         @mock.random_call "1", 1
         assert_raise(MockExpectationError) do
           @mock.random_call 1, "1"
-          #NOTE that we don't need to verify here because the failure happens when message is received
         end
       end
 
       def test_twice_should_fail_when_called_twice_with_wrong_args_on_the_first_call
-        @mock.should_receive(:random_call).twice_with("1", 1)
+        @mock.should_receive(:random_call).twice.with("1", 1)
         assert_raise(MockExpectationError) do
           @mock.random_call 1, "1"
-          #NOTE that we don't need to verify here because the failure happens when message is received
         end
       end
 
@@ -163,8 +160,8 @@ module Spec
       end
 
       def test_should_pass_mutiple_calls_with_different_args
-        @mock.should_receive(:random_call).once_with(1)
-        @mock.should_receive(:random_call).once_with(2)
+        @mock.should_receive(:random_call).once.with(1)
+        @mock.should_receive(:random_call).once.with(2)
         @mock.random_call(1)
         @mock.random_call(2)
         assert_nothing_raised do
@@ -173,8 +170,8 @@ module Spec
       end
   
       def test_should_pass_multiple_calls_with_different_args_and_counts
-        @mock.should_receive(:random_call).twice_with(1)
-        @mock.should_receive(:random_call).once_with(2)
+        @mock.should_receive(:random_call).twice.with(1)
+        @mock.should_receive(:random_call).once.with(2)
         @mock.random_call(1)
         @mock.random_call(2)
         @mock.random_call(1)
