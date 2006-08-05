@@ -11,7 +11,19 @@ module Spec
     end
     
     def have(expected_number=nil)
-      HaveHelper.new(@target, expected_number)
+      HaveHelper.new(@target, :exactly, expected_number)
+    end
+  
+    def have_exactly(expected_number=nil)
+      HaveHelper.new(@target, :exactly, expected_number)
+    end
+  
+    def have_at_least(expected_number=nil)
+      HaveHelper.new(@target, :at_least, expected_number)
+    end
+  
+    def have_at_most(expected_number=nil)
+      HaveHelper.new(@target, :at_most, expected_number)
     end
   
     def satisfy(&block)

@@ -19,6 +19,12 @@ module Spec
           end
         end
 
+        def test_should_raise_when_expecting_less_than_actual_length_with_exactly
+          assert_raise(ExpectationNotMetError) do
+            @owner.should_have_exactly(2).items_in_collection_with_length_method
+          end
+        end
+
         def test_should_raise_when_expecting_more_than_actual_length
           assert_raise(ExpectationNotMetError) do
             @owner.should_have(4).items_in_collection_with_length_method
@@ -28,9 +34,9 @@ module Spec
         def test_should_not_raise_when_expecting_actual_length
           assert_nothing_raised do
             @owner.should_have(3).items_in_collection_with_length_method
+            @owner.should_have_exactly(3).items_in_collection_with_length_method
           end
         end
-
         
         def test_should_raise_when_expecting_less_than_actual_size
           assert_raise(ExpectationNotMetError) do
@@ -47,6 +53,7 @@ module Spec
         def test_should_not_raise_when_expecting_actual_size
           assert_nothing_raised do
             @owner.should_have(3).items_in_collection_with_size_method
+            @owner.should_have_exactly(3).items_in_collection_with_size_method
           end
         end
       end
