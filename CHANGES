@@ -9,6 +9,7 @@ This release makes an official commitment to underscore_syntax (with no more sup
 * Enhanced sugar to support combinations of methods (i.e. once.and_return) 
 * Simplified helper structure taking advantage of dot/underscore combos (i.e. should.be.an_instance_of, which can be expressed as should_be_an_instance_of)
 * Added support for at_most in mocks
+* Added support for should_not_receive(:msg) (will be removing should_receive(:msg).never some time soon)
 
 == Version 0.5.16
 This release improves Rails support and test2spec translation.

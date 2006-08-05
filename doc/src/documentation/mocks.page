@@ -37,6 +37,14 @@ my_mock.should_receive(<message>)
 The <code>message</code> argument is a symbol that is the name of a message 
 that you want the mock to expect.
 
+<ruby>
+my_mock.should_not_receive(:msg)
+</ruby>
+
+An exception is raised if the message is ever received.
+This is equivalent to not specifying the reception of :msg,
+but it's more declarative and useful for humans.
+
 h3. Expecting Arguments
 
 <ruby>
@@ -116,21 +124,8 @@ my_mock.should_receive(:msg).with(a, duck_type(:abs, :div), "b")
 
 h3. Receive Counts
 
-h4. General
-
-<ruby>
-my_mock.should_receive(:msg).never
-</ruby>
-
-An exception is raised if the message is ever received.
-This is equivalent to not specifying the reception of :msg,
-but it's more declarative and useful for humans.
-
-<ruby>
-my_mock.should_receive(:msg).any_number_of_times
-</ruby>
-
-The message can be received 0 or more times.
+The implicit expectation is that the message passed to <code>should_receive</code> will
+be called once. You can make the expected counts explicit using the following:
 
 h4. Precise Counts
 
@@ -192,6 +187,15 @@ my_mock.should_receive(:msg).at_most(n).times
 
 An exception is raised if the message is received more than <code>n</code> times (does not raise if message is never receieved).
 
+h4. Explicitly Imprecise Counts
+
+<ruby>
+my_mock.should_receive(:msg).any_number_of_times
+</ruby>
+
+The message can be received 0 or more times.
+
+
 h3. Return Values
 
 h4. Single return value
@@ -208,9 +212,9 @@ h4. Consequtive return values
 and_return([<value-1>, <value-2>, ..., <value-n>])
 </ruby>
 
-When the expected message is received, <code>value-i</code> will be returned as the result 
-for the ith reception of the message. After the message has been received <code>i</code> times, 
-<code>value-n</code> is returned for all
+When the expected message is received, <code>value-i</code> will be returned as
+the result for the ith reception of the message. After the message has been
+received <code>i</code> times, <code>value-n</code> is returned for all
 subsequent receives.  
 
 *Note:* if you wish to have a single return value that is an array, you must use this form, with 

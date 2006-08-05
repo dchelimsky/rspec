@@ -20,6 +20,18 @@ module Spec
         end
     
       end
+      
+      def test_should_pass_when_not_receiving_message_specified_as_not_to_be_received
+        @mock.should_not_receive(:not_expected)
+        @mock.__verify
+      end
+
+      def test_should_fail_when_receiving_message_specified_as_not_to_be_received
+        @mock.should_not_receive(:not_expected)
+        assert_raise(MockExpectationError) do
+          @mock.not_expected
+        end
+      end
 
       def test_should_allow_block_to_calculate_return_values
         @mock.should_receive(:random_call).with("a","b","c").and_return { |a,b,c| c+b+a }

@@ -17,18 +17,13 @@ module Spec
       end
       
       def should_receive(sym, &block)
-        receive(sym, &block)
-      end
-
-      def should
-        self
-      end
-      
-      def receive(sym, &block)
-        expected_from = caller(1)[1]
+        expected_from = caller(1)[0]
         expectation = MessageExpectation.new(@name, @expectation_ordering, expected_from, sym, block_given? ? block : nil)
         @expectations << expectation
         expectation
+      end
+      
+      def should_not_receive(sym, &block)
       end
 
       def __verify #:nodoc:
