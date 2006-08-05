@@ -18,8 +18,6 @@ module Spec
         @symbol_to_throw = nil
         @ordering = expectation_ordering
         @ordered = false
-        @at_least = false
-        @at_most = false
       end
   
       def matches(sym, args)
@@ -44,7 +42,8 @@ module Spec
         # Error msg should tell exactly what went wrong. (AH).
         
         return if @expected_received_count == :any
-        return if (@expected_received_count < 0) && (@received_count >= @expected_received_count.abs)
+        return if (@at_least) && (@received_count >= @expected_received_count)
+        return if (@at_most) && (@received_count <= @expected_received_count)
         return if @expected_received_count == @received_count
     
         count_message = make_count_message(@expected_received_count)
@@ -122,19 +121,26 @@ module Spec
       end
       
       def exactly(n)
-        @expected_received_count = n
+        set_expected_received_count :exactly, n
         self
       end
       
-      def at_least(arg)
-        @expected_received_count = -1 if arg == :once
-        @expected_received_count = -2 if arg == :twice
-        @expected_received_count = -arg if arg.kind_of? Numeric
+      def at_least(n)
+        set_expected_received_count :at_least, n
         self
       end
       
-      def at_most(arg)
+      def at_most(n)
+        set_expected_received_count :at_most, n
         self
+      end
+      
+      def set_expected_received_count relativity, n
+        @at_least = (relativity == :at_least)
+        @at_most = (relativity == :at_most)
+        @expected_received_count = 1 if n == :once
+        @expected_received_count = 2 if n == :twice
+        @expected_received_count = n if n.kind_of? Numeric
       end
 
       def times

@@ -183,14 +183,14 @@ module Spec
         end
       end
 
-      def test_should_fail_if_exactly_n_times_method_is_never_called
+      def test_should_fail_when_exactly_n_times_method_is_never_called
         @mock.should_receive(:random_call).exactly(3).times
         assert_raise(MockExpectationError) do
           @mock.__verify
         end
       end
       
-      def test_should_fail_if_exactly_n_times_method_is_called_less_than_n_times
+      def test_should_fail_when_exactly_n_times_method_is_called_less_than_n_times
         @mock.should_receive(:random_call).exactly(3).times
         @mock.random_call
         @mock.random_call
@@ -217,14 +217,14 @@ module Spec
         @mock = Mock.new("test mock")
       end
 
-      def test_should_fail_if_at_least_once_method_is_never_called
+      def test_should_fail_when_at_least_once_method_is_never_called
         @mock.should_receive(:random_call).at_least(:once)
         assert_raise(MockExpectationError) do
           @mock.__verify
         end
       end
   
-      def test_should_pass_if_at_least_once_method_is_called_once
+      def test_should_pass_when_at_least_once_method_is_called_once
         @mock.should_receive(:random_call).at_least(:once)
         @mock.random_call
         assert_nothing_raised do
@@ -232,7 +232,7 @@ module Spec
         end
       end
   
-      def test_should_pass_if_at_least_once_method_is_called_twice
+      def test_should_pass_when_at_least_once_method_is_called_twice
         @mock.should_receive(:random_call).at_least(:once)
         @mock.random_call
         @mock.random_call
@@ -241,14 +241,14 @@ module Spec
         end
       end
 
-      def test_should_fail_if_at_least_twice_method_is_never_called
+      def test_should_fail_when_at_least_twice_method_is_never_called
         @mock.should_receive(:random_call).at_least(:twice)
         assert_raise(MockExpectationError) do
           @mock.__verify
         end
       end
 
-      def test_should_fail_if_at_least_twice_method_is_called_once
+      def test_should_fail_when_at_least_twice_method_is_called_once
         @mock.should_receive(:random_call).at_least(:twice)
         @mock.random_call
         assert_raise(MockExpectationError) do
@@ -256,7 +256,7 @@ module Spec
         end
       end
       
-      def test_should_pass_if_at_least_twice_method_is_called_twice
+      def test_should_pass_when_at_least_twice_method_is_called_twice
         @mock.should_receive(:random_call).at_least(:twice)
         @mock.random_call
         @mock.random_call
@@ -265,7 +265,7 @@ module Spec
         end
       end
 
-      def test_should_pass_if_at_least_twice_method_is_called_three_times
+      def test_should_pass_when_at_least_twice_method_is_called_three_times
         @mock.should_receive(:random_call).at_least(:twice)
         @mock.random_call
         @mock.random_call
@@ -282,7 +282,7 @@ module Spec
         end
       end
       
-      def test_should_fail_if_at_least_n_times_method_is_called_less_than_n_times
+      def test_should_fail_when_at_least_n_times_method_is_called_less_than_n_times
         @mock.should_receive(:random_call).at_least(4).times
         @mock.random_call
         @mock.random_call
@@ -292,7 +292,7 @@ module Spec
         end
       end
       
-      def test_should_pass_if_at_least_n_times_method_is_called_exactly_n_times
+      def test_should_pass_when_at_least_n_times_method_is_called_exactly_n_times
         @mock.should_receive(:random_call).at_least(4).times
         @mock.random_call
         @mock.random_call
@@ -303,7 +303,7 @@ module Spec
         end
       end
       
-      def test_should_pass_if_at_least_n_times_method_is_called_n_plus_1_times
+      def test_should_pass_when_at_least_n_times_method_is_called_n_plus_1_times
         @mock.should_receive(:random_call).at_least(4).times
         @mock.random_call
         @mock.random_call
@@ -321,6 +321,111 @@ module Spec
         assert_equal(22, @mock.multi_call)
         assert_equal(22, @mock.multi_call)
         assert_nothing_raised do
+          @mock.__verify
+        end
+      end
+    end
+
+    class AtMostTest < Test::Unit::TestCase
+
+      def setup
+        @mock = Mock.new("test mock")
+      end
+
+      def test_should_pass_when_at_most_once_method_is_never_called
+        @mock.should_receive(:random_call).at_most(:once)
+        assert_nothing_raised do
+          @mock.__verify
+        end
+      end
+
+      def test_should_pass_when_at_most_once_method_is_called_once
+        @mock.should_receive(:random_call).at_most(:once)
+        @mock.random_call
+        assert_nothing_raised do
+          @mock.__verify
+        end
+      end
+
+      def test_should_fail_when_at_most_once_method_is_called_twice
+        @mock.should_receive(:random_call).at_most(:once)
+        @mock.random_call
+        @mock.random_call
+        assert_raise(MockExpectationError) do
+          @mock.__verify
+        end
+      end
+
+      def test_should_pass_when_at_most_twice_method_is_never_called
+        @mock.should_receive(:random_call).at_most(:twice)
+        assert_nothing_raised do
+          @mock.__verify
+        end
+      end
+
+      def test_should_pass_when_at_most_twice_method_is_called_once
+        @mock.should_receive(:random_call).at_most(:twice)
+        @mock.random_call
+        assert_nothing_raised do
+          @mock.__verify
+        end
+      end
+
+      def test_should_pass_when_at_most_twice_method_is_called_twice
+        @mock.should_receive(:random_call).at_most(:twice)
+        @mock.random_call
+        @mock.random_call
+        assert_nothing_raised do
+          @mock.__verify
+        end
+      end
+
+      def test_should_fail_when_at_most_twice_method_is_called_three_times
+        @mock.should_receive(:random_call).at_most(:twice)
+        @mock.random_call
+        @mock.random_call
+        @mock.random_call
+        assert_raise(MockExpectationError) do
+          @mock.__verify
+        end
+      end
+
+      def test_should_pass_when_at_most_n_times_method_is_never_called
+        @mock.should_receive(:random_call).at_most(4).times
+        assert_nothing_raised do
+          @mock.__verify
+        end
+      end
+
+      def test_should_pass_when_at_most_n_times_method_is_called_less_than_n_times
+        @mock.should_receive(:random_call).at_most(4).times
+        @mock.random_call
+        @mock.random_call
+        @mock.random_call
+        assert_nothing_raised do
+          @mock.__verify
+        end
+      end
+
+      def test_should_pass_when_at_most_n_times_method_is_called_exactly_n_times
+        @mock.should_receive(:random_call).at_most(4).times
+        @mock.random_call
+        @mock.random_call
+        @mock.random_call
+        @mock.random_call
+        assert_nothing_raised do
+          @mock.__verify
+        end
+      end
+
+      def test_should_fail_when_at_most_n_times_method_is_called_n_plus_1_times
+        @mock.should_receive(:random_call).at_most(4).times
+        @mock.random_call
+        @mock.random_call
+        @mock.random_call
+        @mock.random_call
+        @mock.random_call
+        assert_raise(MockExpectationError) do
           @mock.__verify
         end
       end

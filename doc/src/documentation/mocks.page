@@ -19,10 +19,10 @@ When the specification finishes, all registered mocks are verified.
 my_mock = mock(<name>, <options>)
 </ruby>
 
-As above, but allows you to specific options to tweak the mock's behaviour. The 
-<code>options</code> argument is a hash. Currently the only supported option is 
-<code>:null_object</code>. Setting this to true instructs the mock to ignore 
-(quietly consume) any messages it hasn't been told to expect - and return itself.  I.e.:
+As above, but allows you to specific options to tweak the mock's behaviour.
+The <code>options</code> argument is a hash. Currently the only supported option
+is <code>:null_object</code>. Setting this to true instructs the mock to ignore 
+(quietly consume) any messages it hasn't been told to expect - and return itself.  i.e.
 
 <ruby>
 my_mock = mock("blah", :null_object => true)
@@ -114,6 +114,8 @@ my_mock.should_receive(:msg).with(a, duck_type(:abs, :div), "b")
 
 h3. Receive Counts
 
+h4. General
+
 <ruby>
 my_mock.should_receive(:msg).never
 </ruby>
@@ -127,6 +129,8 @@ my_mock.should_receive(:msg).any_number_of_times
 </ruby>
 
 The message can be received 0 or more times.
+
+h4. Precise Counts
 
 <ruby>
 my_mock.should_receive(:msg).once
@@ -146,6 +150,8 @@ my_mock.should_receive(:msg).exactly(n).times
 
 An exception is raised if the message is received anything but <code>n</code> times.
 
+h4. Relative Counts - at_least
+
 <ruby>
 my_mock.should_receive(:msg).at_least(:once)
 </ruby>
@@ -163,6 +169,26 @@ my_mock.should_receive(:msg).at_least(n).times
 </ruby>
 
 An exception is raised if the message is received fewer than <code>n</code> times.
+
+h4. Relative Counts - at_most
+
+<ruby>
+my_mock.should_receive(:msg).at_most(:once)
+</ruby>
+
+An exception is raised if the message is received more than once (does not raise if message is never receieved).
+
+<ruby>
+my_mock.should_receive(:msg).at_most(:twice)
+</ruby>
+
+An exception is raised if the message is received more than twice (does not raise if message is never receieved).
+
+<ruby>
+my_mock.should_receive(:msg).at_most(n).times
+</ruby>
+
+An exception is raised if the message is received more than <code>n</code> times (does not raise if message is never receieved).
 
 h3. Return Values
 

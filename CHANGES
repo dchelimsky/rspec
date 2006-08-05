@@ -7,6 +7,7 @@ This release makes an official commitment to underscore_syntax (with no more sup
 * Converted ALL tests to use underscore syntax
 * Fixed all remaining problems with underscores revealed by converting all the tests to underscores
 * Enhanced sugar to support combinations of methods (i.e. once_and_return invokes once.and_return) 
+* Added support for at_most in mocks
 
 == Version 0.5.16
 This release improves Rails support and test2spec translation.
