@@ -30,22 +30,16 @@ module Spec
       fail_with_message(default_message("should be", expected)) unless (@target.equal?(expected))
     end
 
-    def a
-      self
+    def an_instance_of expected_class
+      fail_with_message(default_message("should be an instance of", expected_class)) unless @target.instance_of? expected_class
     end
     
-    alias an a
-    
-    def instance
-      InstanceHelper.new(@target)
+    def a_kind_of expected_class
+      fail_with_message(default_message("should be a kind of", expected_class)) unless @target.kind_of? expected_class
     end
     
-    def kind
-      KindHelper.new(@target)
-    end
-    
-    def respond
-      RespondHelper.new(@target)
+    def respond_to message
+      fail_with_message(default_message("should respond to", message)) unless @target.respond_to? message
     end
     
     def method_missing(sym, *args)

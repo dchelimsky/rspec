@@ -19,23 +19,17 @@ module Spec
       fail_with_message(default_message("should not be", expected)) if (@target.equal?(expected))
     end
 
-    def a
-      self
+    def an_instance_of expected_class
+      fail_with_message(default_message("should not be an instance of", expected_class)) if @target.instance_of? expected_class
     end
     
-    alias an a
-    
-    def instance
-      InstanceNegator.new(@target)
-    end
-    
-    def kind
-      KindNegator.new(@target)
+    def a_kind_of expected_class
+      fail_with_message(default_message("should not be a kind of", expected_class)) if @target.kind_of? expected_class
     end
 
-      def respond
-        RespondNegator.new(@target)
-      end
+    def respond_to message
+      fail_with_message(default_message("should not respond to", message)) if @target.respond_to? message
+    end
     
     def match(expected)
         fail_with_message(default_message("should not match", expected)) if (@target =~ expected)

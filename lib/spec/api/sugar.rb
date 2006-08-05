@@ -24,7 +24,7 @@ module Spec
               else
                 call = calls.shift
                 object = object.__send__(call)
-                break if call == "be" unless ["an","a"].include? calls[0]
+                break if call == "be" unless ["an_instance_of","a_kind_of"].include? calls[0]
               end
             end
             return object.__send__(calls.join("_"), *args, &block)
@@ -39,7 +39,7 @@ module Spec
     
     module MessageExpectationSugar
       def __is_sweetened?(sym) #:nodoc:
-        return true if sym.to_s =~ /^and_|^at_|^any_|^once_|^twice/
+        return true if sym.to_s =~ /^once_|^twice_/
       end
     end
   end
