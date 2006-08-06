@@ -11,6 +11,9 @@ class Players
   def size
     0
   end
+  def include? player
+    false
+  end
 end
 
 context "A new team" do
@@ -21,6 +24,10 @@ context "A new team" do
   
   specify "should have 3 players (failing example)" do
     @team.should_have(3).players
+  end
+  
+  specify "should include some player (failing example)" do
+    @team.players.should_include("Some Player")
   end
   
   specify "should have no players" do

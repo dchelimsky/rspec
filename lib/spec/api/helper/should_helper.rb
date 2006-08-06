@@ -36,6 +36,7 @@ module Spec
     end
 
     def be(expected = :___no_arg)
+      @be_seen = true
       return self if (expected == :___no_arg)
       return if (expected == false and @target.nil?)
       return if (expected == true and (!@target.nil?) and (@target != false))
@@ -56,17 +57,14 @@ module Spec
     
     def method_missing(sym, *args)
       return if @target.send("#{sym}?", *args)
-      fail_with_message(default_message("should be #{sym}" + (args.empty? ? '' : (' ' + args.join(', ')))))
+      fail_with_message(default_message("should be #{sym}" + (args.empty? ? '' : (' ' + args.join(', '))))) if @be_seen
+      fail_with_message(default_message("should #{sym}" + (args.empty? ? '' : (' ' + args.join(', '))))) unless @be_seen
     end
 
     def match(expected)
        fail_with_message(default_message("should match", expected)) unless (@target =~ expected)
     end
 
-    def include(sub)
-      fail_with_message(default_message("should include", sub)) unless (@target.include? sub)
-    end
-    
     def raise(exception=Exception, message=nil)
       begin
         @target.call

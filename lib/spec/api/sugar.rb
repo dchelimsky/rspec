@@ -1,7 +1,7 @@
 module Spec
   module Api
     # This module adds syntactic sugar that allows usage of should_* instead of should.*
-    module Sugar
+    module UnderscoreSugar
       module SugarizeForRspec; end
 
       def sugarize_for_rspec!
@@ -36,7 +36,7 @@ module Spec
 end
 
 class Module
-  include Spec::Api::Sugar
+  include Spec::Api::UnderscoreSugar
 end
 
 Object.sugarize_for_rspec!
