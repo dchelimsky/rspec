@@ -1,6 +1,6 @@
 = RSpec Changelog
 
-== Version 0.6
+== Version 0.6.0
 This release makes an official commitment to underscore_syntax (with no more support for dot.syntax)
 
 * Fixed bug (5292) that caused mock argument matching to fail on classes that overrided ==
