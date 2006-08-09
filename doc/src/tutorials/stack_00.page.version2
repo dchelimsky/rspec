@@ -1,0 +1,48 @@
+h2. From User Stories to Acceptance Criteria
+
+A primary goal of Behaviour Driven Development is to ensure that developers are building the code
+that the project owners want. To that end, we'll take a brief look at how we can use a simple
+requirements format that both developers and project owners can understand.
+
+h3. Introducing the Stack
+
+A Stack is a simple, well known, last-in-first-out data structure. If you were to
+describe its behaviour to someone, you might say something like this:
+
+A Stack is a metaphor for a stack of plates. You can add items to the top, you can see whatever is
+on top (and only what is on top), and you can remove items from the top.
+
+h3. User Stories
+
+Turning that into user stories (using the format described by Mike Cohn in User Stories Applied)
+you might see something like this:
+
+As a process
+I want to be able to push items onto a Stack
+So that they are available to me and any other process with access to the Stack
+
+As a process
+I want to be able to peek at the top of the Stack
+So that I can use the item without removing it
+
+As a process
+I want to be able to pop the top item off the Stack
+So that I can remove it from view of other consumers of the Stack
+
+There might be more, but this is a good start.
+
+h3. Acceptance Criteria
+
+In BDD, we want to translate stories into concrete examples of usage that make
+sense to both the customer and the developer. Taking the first story, here is
+some acceptance criteria that might arise from conversation:
+
+Given a Stack
+When you push an item onto the Stack
+Then that item should be added to the top of the Stack
+
+Given a full Stack
+When you push an item onto the Stack
+Then the Stack should raise a StackOverflowError
+
+The interesting thing here is that 
