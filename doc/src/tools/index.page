@@ -1,5 +1,5 @@
 ---
-title: Seven tools in one
+title: Eight tools in one
 inMenu: true
 ---
 
@@ -28,11 +28,11 @@ analysts and testers. It also helps programmers keep a more critical mind about 
 RSpec's built in support for generating "testdox-like":http://agiledox.sourceforge.net/ reports makes the code's behavior more transparent 
 to everybody (assuming you publish it to a webpage where everybody who needs to can see it).
 
-h3. 5) Coverage tool
+h3. 5) RCov Coverage tool integration
 
 While coverage tools cannot prove that you have verified everything there is to verify about your code,
 they can prove when you have not verified everything there is to verify about your code. RCov is such a
-coverage tool, and RSpec supportws it out-of the box via its Rake task.
+coverage tool, and RSpec supports it out-of the box via its Rake task.
 
 h3. 6) Coverage threshold verification
 
