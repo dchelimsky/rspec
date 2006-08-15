@@ -1,5 +1,10 @@
 = RSpec Changelog
 
+== Version 0.6.1 (In SVN)
+Summary
+
+* Changed RCov::VerifyTask to fail if the coverage is above the threshold. This is to ensure it gets bumped when coverage improves.
+
 == Version 0.6.0
 This release makes an official commitment to underscore_syntax (with no more support for dot.syntax)
 

@@ -14,8 +14,8 @@ module RCov
     attr_accessor :verbose
     
     # The threshold value (in percent) for coverage. If the 
-    # actual coverage is below this value, the task will raise an 
-    # exception
+    # actual coverage is not equal to this value, the task will raise an 
+    # exception. 
     attr_accessor :threshold
     
     def initialize(name=:rcov_verify)
@@ -39,6 +39,7 @@ module RCov
         end
         puts "Coverage: #{total_coverage}% (threshold: #{threshold}%)" if verbose
         raise "Coverage must be at least #{threshold}% but was #{total_coverage}%" if total_coverage < threshold
+        raise "Coverage has increased above the threshold of #{threshold}% to #{total_coverage}%. You should update your threshold value." if total_coverage > threshold
       end
     end
   end
