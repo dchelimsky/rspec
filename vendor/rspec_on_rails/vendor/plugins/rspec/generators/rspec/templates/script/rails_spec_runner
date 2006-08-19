@@ -9,7 +9,6 @@ module Spec
   module Runner
     class RailsSpecServer
       def run(args, stderr, stdout)
-        Dependencies.mechanism = :load
         Dispatcher.reset_application!
         Dependencies.mechanism = :load
     

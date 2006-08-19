@@ -1,4 +1,1 @@
-#if RAILS_ENV == 'test'
-#  require File.dirname(__FILE__) + '/lib/controller_mixin.rb'
-#  require File.dirname(__FILE__) + '/lib/rspec_on_rails.rb'
-#end
+# Do nothing here. We don't want rspec to be loaded into the development/production environments
