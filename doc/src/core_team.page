@@ -28,5 +28,10 @@ h2. The Core Team
 
 h2. Contributors
 
+<img src="images/ali_westside.jpg" />
+
+h3. RSpec!
+
 * Lachie Cox (Rails support)
 * Rich Kilmer (Underscore syntactic sugar)
+* Daniel Siemssen (RSpec on Rails patches)

@@ -3,6 +3,7 @@
 == Version 0.6.1 (In SVN)
 Summary
 
+* Applied fixes to rails_spec_runner to improve its ability to run several times. (Patch from Daniel Siemssen)
 * Changed RCov::VerifyTask to fail if the coverage is above the threshold. This is to ensure it gets bumped when coverage improves.
 
 == Version 0.6.0
