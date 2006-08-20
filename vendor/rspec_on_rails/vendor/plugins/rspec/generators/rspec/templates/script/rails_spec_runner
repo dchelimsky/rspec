@@ -11,6 +11,7 @@ module Spec
       def run(args, stderr, stdout)
         Dispatcher.reset_application!
         Dependencies.mechanism = :load
+        require_dependency('application.rb') unless Object.const_defined?(:ApplicationController)
     
         $context_runner = OptionParser.create_context_runner(args, false, stderr, stdout)
         args.each do |file_or_dir|
