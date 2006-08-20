@@ -13,6 +13,8 @@ task :spec do
   raise "RSpec failures" if got_error
 end
 
+task :stats => "spec:statsetup"
+
 namespace :spec do
   desc "Run the specs under spec/models"
   Spec::Rake::SpecTask.new(:models => "db:test:prepare") do |t|
@@ -31,6 +33,16 @@ namespace :spec do
       'spec/controllers/**/*_spec.rb'
     ]
     t.spec_opts = ["--format", "specdoc"]
+  end
+
+  desc "Setup specs for stats"
+  task :statsetup do
+    require 'code_statistics'
+    ::STATS_DIRECTORIES << %w(Model\ specs spec/models)
+    ::STATS_DIRECTORIES << %w(Controller\ specs spec/controllers)
+    ::CodeStatistics::TEST_TYPES << "Model specs"
+    ::CodeStatistics::TEST_TYPES << "Controller specs"
+    ::STATS_DIRECTORIES.delete_if {|a| a[0] =~ /test/}
   end
 
   namespace :db do
