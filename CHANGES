@@ -3,6 +3,8 @@
 == Version 0.6.1 (In SVN)
 Summary
 
+* [#5449] Rake stats for specs (Patch from Nick Sieger)
+* [#5468] Fix spec runner to correctly run controller specs (Patch from Daniel Siemssen)
 * Applied fixes to rails_spec_runner to improve its ability to run several times. (Patch from Daniel Siemssen)
 * Changed RCov::VerifyTask to fail if the coverage is above the threshold. This is to ensure it gets bumped when coverage improves.
 
