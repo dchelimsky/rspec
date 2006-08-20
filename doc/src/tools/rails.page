@@ -45,7 +45,7 @@ Once the plugin is installed, you must bootstrap your Rails app with RSpec. Stan
 ruby script/generate rspec
 </pre>
 
-This will create spec/spec_helper.rb and lib/tasks/rspec.rake.
+This will generate the various files needed to use RSpec with Rails.
 
 h3. Using the generators
 
@@ -97,17 +97,19 @@ You can also run specs 'directly' with
 spec path/to/my/spec.rb
 </pre>
 
-h3. Running specs faster with rails_spec (experimental)
+But we recommend you use the faster rails_spec tool when working with Rails.
+
+h3. Running specs faster with rails_spec
 
 Loading the entire Rails environment every time a spec is executed is quite slow.
 We have therefore made a little tool that allows you to load the rails environment
-once for all:
+once for all. In a separate shell, run:
 
 <pre>
 script/rails_spec_server
 </pre>
 
--And then run specs as usual:
+-And then in a separate shell:
 
 <pre>
 script/rails_spec REGULAR_SPEC_OPTIONS
