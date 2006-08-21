@@ -7,6 +7,11 @@ module Spec
         matcher = SpecMatcher.new("a context with a spec", "a context")
         assert matcher.matches?("with a spec")
       end
+
+      def test_should_match_with_regexp_reserved_characters
+        matcher = SpecMatcher.new("a context with #[] a spec", "a context")
+        assert matcher.matches?("with #[] a spec")
+      end
       
       def test_should_not_match_wrong_context
         matcher = SpecMatcher.new("another context with a spec", "a context")

@@ -3,8 +3,10 @@
 == Version 0.6.1 (In SVN)
 Summary
 
-* [#5449] Rake stats for specs (Patch from Nick Sieger)
-* [#5468] Fix spec runner to correctly run controller specs (Patch from Daniel Siemssen)
+* Fixed [#5141] SpecMatcher doesn't escape strings before matching (Nikolai Weibull).
+* Fixed [#5224] Move 'require diff-lcs' from test_helper.rb to diff_test.rb
+* Fixed [#5449] Rake stats for specs (Patch from Nick Sieger)
+* Fixed [#5468, #5058] Fix spec runner to correctly run controller specs (Patch from Daniel Siemssen)
 * Applied fixes to rails_spec_runner to improve its ability to run several times. (Patch from Daniel Siemssen)
 * Changed RCov::VerifyTask to fail if the coverage is above the threshold. This is to ensure it gets bumped when coverage improves.
 
@@ -25,6 +27,7 @@ This release improves Rails support and test2spec translation.
 
 * Fixed underscore problems that occurred when RSpec was used in Rails
 * Simplified the Rails support by packaging it as a plugin instead of a generator gem.
+* Fixed [#5063] 'rspec_on_rails' require line in spec_helper.rb
 * Added pre_commit rake task to reduce risk of regressions. Useful for rspec developers and patchers.
 * Added failure_message to RSpec Rake task
 * test2spec now defines converted helper methods outside of the setup block (bug #5057).

@@ -5,17 +5,10 @@ class SpecMatcher
     @name_to_match = context_and_or_spec_name
   end
   
-  def matches? spec
-    if matches_context?
-      if matches_spec?(spec) or context_only?
-        return true
-      end
-    end
-    if matches_spec? spec
-      if spec_only? spec
-        return true
-      end
-    end
+  def matches?(spec_name)
+    return true if matches_context? && (matches_spec?(spec_name) || context_only?)
+    return true if matches_spec?(spec_name) && spec_only?(spec_name)
+    return false
   end
   
   private
@@ -29,11 +22,11 @@ class SpecMatcher
   end
   
   def matches_context?
-    @name_to_match =~ /^#{@context_name}\b/
+    @name_to_match =~ /^#{Regexp.escape(@context_name)}\b/
   end
   
-  def matches_spec? spec
-    @name_to_match =~ /\b#{spec}$/
+  def matches_spec?(spec_name)
+    @name_to_match =~ /\b#{Regexp.escape(spec_name)}$/
   end
   
 end
