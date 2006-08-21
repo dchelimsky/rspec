@@ -9,7 +9,7 @@ module Spec
           @context_eval_module.extend ContextEval::ModuleMethods
           @context_eval_module.include ContextEval::InstanceMethods
           before_context_eval
-          @context_eval_module.class_eval &context_block
+          @context_eval_module.class_eval(&context_block)
         end
 
         def before_context_eval
@@ -24,15 +24,15 @@ module Spec
         end
 
         def setup(&block)
-          @context_eval_module.setup &block
+          @context_eval_module.setup(&block)
         end
 
         def teardown(&block)
-          @context_eval_module.teardown &block
+          @context_eval_module.teardown(&block)
         end
 
         def specify(spec_name, &block)
-          @context_eval_module.specify spec_name, &block
+          @context_eval_module.specify(spec_name, &block)
         end
 
         def run(reporter, dry_run=false)

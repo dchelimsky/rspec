@@ -68,6 +68,14 @@ Spec::Rake::SpecTask.new('test2spec_test' => :test2spec) do |t|
   t.failure_message = "**** Translated specs failed. See doc/output/tools/rspec_specs.html ****"
 end
 
+desc 'Verify that no warnings occur'
+task :verify_warnings do
+  `ruby -w #{File.dirname(__FILE__) + '/bin/spec'} --help 2> warnings.txt`
+  warnings = File.open('warnings.txt').read
+  File.rm 'warnings.txt'
+  raise "There were warnings:\n#{warnings}" if warnings =~ /warning/n
+end
+
 desc 'Generate HTML documentation for website'
 task :webgen => :test2spec do
   Dir.chdir 'doc' do
@@ -165,7 +173,7 @@ task :tag do
 end
 
 desc "Run this task before you commit. You should see 'OK TO COMMIT'"
-task :pre_commit => [:website, :examples, :failing_examples_with_html, :rails_pre_commit, :commit_ok]
+task :pre_commit => [:verify_warnings, :website, :examples, :failing_examples_with_html, :rails_pre_commit, :commit_ok]
 
 task :rails_pre_commit do
   Dir.chdir 'vendor/rspec_on_rails' do    

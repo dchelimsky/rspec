@@ -3,6 +3,7 @@
 == Version 0.6.1 (In SVN)
 Summary
 
+* Fixed [#5369] ruby -w: warnings in RSpec 0.5.16
 * Fixed [#5141] SpecMatcher doesn't escape strings before matching (Nikolai Weibull).
 * Fixed [#5224] Move 'require diff-lcs' from test_helper.rb to diff_test.rb
 * Fixed [#5449] Rake stats for specs (Patch from Nick Sieger)

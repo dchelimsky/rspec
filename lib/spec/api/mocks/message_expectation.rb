@@ -100,7 +100,7 @@ module Spec
         if @args_to_yield.length != block.arity
           Kernel::raise Spec::Api::MockExpectationError, "Wrong arity of passed block. Expected #{@args_to_yield.size}"
         end
-        block.call *@args_to_yield
+        block.call(*@args_to_yield)
       end
 
       def invoke_return_block(args, block)
