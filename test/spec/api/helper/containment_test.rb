@@ -44,6 +44,18 @@ module Spec
           end
         end
 
+        def FIXME_test_should_has_key_shouldnt_raise_when_hash_inclusion_is_present
+          assert_nothing_raised do
+            {"a"=>1}.should_has_key "a"
+          end
+        end
+
+        def FIXME_test_should_have_key_shouldnt_raise_when_hash_inclusion_is_present
+          assert_nothing_raised do
+            {"a"=>1}.should_have_key "a"
+          end
+        end
+
         def test_should_include_should_raise_when_hash_inclusion_is_missing
           assert_raise(ExpectationNotMetError) do
             {"a"=>1}.should_include "b"

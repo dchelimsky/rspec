@@ -30,5 +30,4 @@ context "Airport at home" do
   teardown do
     @airport = nil
   end
-
 end

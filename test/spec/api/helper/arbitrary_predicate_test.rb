@@ -49,7 +49,7 @@ module Spec
         # should_be_funny(args)
   
         def test_should_be_funny_with_args_passes_args_properly
-           mock = HandCodedMock.new(true)
+          mock = HandCodedMock.new(true)
           assert_nothing_raised do
             mock.should_be_hungry(1, 2, 3)
           end
@@ -99,7 +99,7 @@ module Spec
         # should_be_funny(args)
   
         def test_should_not_be_funny_with_args_passes_args_properly
-           mock = HandCodedMock.new(false)
+          mock = HandCodedMock.new(false)
           assert_nothing_raised do
             mock.should_not_be_hungry(1, 2, 3)
           end

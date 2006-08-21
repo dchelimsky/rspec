@@ -14,7 +14,7 @@ Summary
 == Version 0.6.0
 This release makes an official commitment to underscore_syntax (with no more support for dot.syntax)
 
-* Fixed bug (5292) that caused mock argument matching to fail on classes that overrided ==
+* Fixed bug (5292) that caused mock argument matching to fail
 * Converted ALL tests to use underscore syntax
 * Fixed all remaining problems with underscores revealed by converting all the tests to underscores
 * Enhanced sugar to support combinations of methods (i.e. once.and_return) 
