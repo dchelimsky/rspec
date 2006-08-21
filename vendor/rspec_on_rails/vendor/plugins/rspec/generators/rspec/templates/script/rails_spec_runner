@@ -9,8 +9,8 @@ module Spec
   module Runner
     class RailsSpecServer
       def run(args, stderr, stdout)
-        Dispatcher.reset_application!
-        Dependencies.mechanism = :load
+        ::Dispatcher.reset_application!
+        ::Dependencies.mechanism = :load
         require_dependency('application.rb') unless Object.const_defined?(:ApplicationController)
     
         $context_runner = OptionParser.create_context_runner(args, false, stderr, stdout)
@@ -32,6 +32,7 @@ puts "Loading Rails environment"
 
 ENV["RAILS_ENV"] = "test"
 require File.dirname(__FILE__) + '/../config/environment'
+require 'dispatcher'
 
 def restart_test_server
   puts "restarting"
