@@ -105,8 +105,8 @@ $ spec examples --spec "A stack with one item should return top when sent top" -
 
 h3. -f, --format [specdoc|s|rdoc|r|html|h]
 
-Specify the output format. Default format is "progress bar" ("." for pass, "F" for fail). Most formats will produce some form of "testdox":http://agiledox.sourceforge.net/
-output. The --dry-run options may also affect the output format.
+Specify the output format. Default format is "progress bar" ("." for pass, "F" for fail). Most other formats will produce some form of "testdox":http://agiledox.sourceforge.net/
+output (we call it specdoc). The --dry-run option may also affect the output format.
 
 For example, by setting the formatter to rdoc, we can output the kind of input that RDoc
 needs to produce something like "this":../rdoc/files/EXAMPLES_rd.html 

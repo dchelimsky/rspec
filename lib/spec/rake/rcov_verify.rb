@@ -1,6 +1,7 @@
 module RCov
   # A task that can verify that the RCov coverage doesn't
-  # drop below a certain threshold.
+  # drop below a certain threshold. It should be run after
+  # running Spec::Rake::SpecTask.
   class VerifyTask < Rake::TaskLib
     # Name of the task. Defaults to :rcov_verify
     attr_accessor :name

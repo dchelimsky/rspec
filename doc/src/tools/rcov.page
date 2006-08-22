@@ -9,7 +9,7 @@ RSpec has tight integration with "RCov":http://eigenclass.org/hiki.rb?rcov, the 
 h3. Running specs with RCov
 
 The easiest way to use RCov with RSpec is from a rake script (Rakefile), using RSpec's
-"SpecTask":rake.html. The snippet below is from RSpec's own Rakefile.
+"Rake task":rake.html. The snippet below is from RSpec's own Rakefile.
 
 <ruby file="../test/tasks/examples_with_rcov.rake"/>
 
@@ -24,17 +24,18 @@ rake examples_with_rcov
 h3. Coverage threshold
 
 You can guard your codebase's coverage from dropping below a certain threshold
-by using RSpec's built-in task for verification of the total RCov coverage.
+by using RSpec's built-in task for verification of the total RCov coverage. 
+(This is not the same as RCov's --threshold option, which is a filtering mechanism).
 
 <ruby file="../test/tasks/rcov_verify.rake"/>
 
 This will give you a :rcov_verify task that will fail your build if the
-coverage drops below the threshold you define (the higher the better).
+coverage drops below the threshold you define.
 If it's too low you're encouraged to write more specs rather than "fix"
 the threshold value (which should usually only be adjusted upwards).
 
 In fact, the task will also fail the build if the coverage raises above the threshold as well.
 This might seem a bit counterintuitive, but this is when you should go and raise the
-threshold in your Rakefile. This way you won't miss temporary coverage increases.
+threshold in your Rakefile. This way you won't miss temporary coverage increases. Crank it up!
 
 See "RCov::VerifyTask":../rdoc/classes/RCov/VerifyTask.html for details.

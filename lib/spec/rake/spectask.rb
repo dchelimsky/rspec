@@ -42,11 +42,11 @@ module Spec
       # Where RSpec's output is written. Defaults to STDOUT.
       attr_accessor :out
 
-      # Whether or not to use rcov (default is false)
+      # Whether or not to use RCov (default is false)
       # See http://eigenclass.org/hiki.rb?rcov
       attr_accessor :rcov
       
-      # Array of commandline options to pass to ruby. Defaults to ['--exclude', 'lib\/spec,bin\/spec'].
+      # Array of commandline options to pass to RCov. Defaults to ['--exclude', 'lib\/spec,bin\/spec'].
       # Ignored if rcov=false
       attr_accessor :rcov_opts
 
@@ -61,7 +61,7 @@ module Spec
       # Defaults to true.
       attr_accessor :fail_on_error
 
-      # A message to print to stdout when there are failures. Useful if +out+ is used.
+      # A message to print to stdout when there are failures.
       attr_accessor :failure_message
 
       # Explicitly define the list of spec files to be included in a
@@ -110,6 +110,8 @@ module Spec
 
             redirect = @out.nil? ? "" : " > #{@out}"
             # ruby [ruby_opts] -Ilib -S rcov [rcov_opts] bin/spec -- [spec_opts] examples
+            # or
+            # ruby [ruby_opts] -Ilib bin/spec [spec_opts] examples
             begin
               ruby(
                 ruby_opts.join(" ") + " " + 
@@ -117,7 +119,7 @@ module Spec
                 (@rcov ? %[ -o "#{@rcov_dir}" ] : "") + 
                 spec_script + " " +
                 (@rcov ? "-- " : "") + 
-                rspec_option_list + " " +
+                spec_option_list + " " +
                 file_list.collect { |fn| %["#{fn}"] }.join(' ') + " " + 
                 redirect
               )
@@ -147,7 +149,7 @@ module Spec
         ENV['RCOVOPTS'] || @rcov_opts.join(" ") || ""
       end
 
-      def rspec_option_list # :nodoc:
+      def spec_option_list # :nodoc:
         ENV['RSPECOPTS'] || @spec_opts.join(" ") || ""
       end
 
