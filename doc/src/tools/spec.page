@@ -26,7 +26,7 @@ that are found are loaded. Running spec on the previous example results in:
 <pre>
 $ spec examples
 
-{execute: ruby ../bin/spec ../examples}
+{execute: ruby -I../lib ../bin/spec ../examples}
 </pre>
 
 Very simple and to the point. Passing specifications are indicated by a '.',
@@ -36,7 +36,7 @@ well as an unexpected exception being raised.  Here's an example with a failing 
 <pre>
 $ spec failing_examples/stack_spec.rb
 
-{execute: ../bin/spec ../failing_examples/stack_spec.rb}
+{execute: ruby -I../lib ../bin/spec ../failing_examples/stack_spec.rb}
 </pre>
 
 In this case, the context is named "An almost full stack (with one item less than capacity)" 
@@ -50,7 +50,7 @@ When you run <tt>spec</tt> with the <tt>--help</tt> option it prints a help mess
 <pre>
 $ spec --help
 
-{execute: ruby ../bin/spec --help}
+{execute: ruby -I../lib ../bin/spec --help}
 </pre>
 
 The command line options can be passed to customize the output and behaviour of RSpec.
@@ -69,7 +69,7 @@ And the output using <tt>--diff</tt>
 <pre>
 $ spec failing_examples/big_string_spec.rb --diff
 
-{execute: ../bin/spec ../failing_examples/big_string_spec.rb --diff}
+{execute: ruby -I../lib ../bin/spec ../failing_examples/big_string_spec.rb --diff}
 </pre>
 
 If you want to use the <tt>--diff</tt> option, you must also gem install diff-lcs. You
@@ -84,7 +84,7 @@ all the specs in a context ...
 <pre>
 $ spec examples --spec "A stack with one item" -f s
 
-{execute: ../bin/spec ../examples --spec "A stack with one item" -f s}
+{execute: ruby -I../lib ../bin/spec ../examples --spec "A stack with one item" -f s}
 </pre>
 
 ... any spec in any context with a given name ...
@@ -92,7 +92,7 @@ $ spec examples --spec "A stack with one item" -f s
 <pre>
 $ spec examples --spec "should return top when sent top" -f s
 
-{execute: ../bin/spec ../examples --spec "should return top when sent top" -f s}
+{execute: ruby -I../lib ../bin/spec ../examples --spec "should return top when sent top" -f s}
 </pre>
 
 ... or a specific spec in a specific context:
@@ -100,7 +100,7 @@ $ spec examples --spec "should return top when sent top" -f s
 <pre>
 $ spec examples --spec "A stack with one item should return top when sent top" -f s
 
-{execute: ../bin/spec ../examples --spec "A stack with one item should return top when sent top" -f s}
+{execute: ruby -I../lib ../bin/spec ../examples --spec "A stack with one item should return top when sent top" -f s}
 </pre>
 
 h3. -f, --format [specdoc|s|rdoc|r|html|h]
@@ -114,7 +114,7 @@ needs to produce something like "this":../rdoc/files/EXAMPLES_rd.html
 <pre>
 $ spec failing_examples/team_spec.rb -f rdoc
 
-{execute: ../bin/spec ../failing_examples/team_spec.rb -f rdoc}
+{execute: ruby -I../lib ../bin/spec ../failing_examples/team_spec.rb -f rdoc}
 </pre>
 
 You can also output an "HTML report":failing_examples.html
@@ -147,7 +147,7 @@ you can use -b or --backtrace:
 <pre>
 $ spec failing_examples/team_spec.rb -b
 
-{execute: ../bin/spec ../failing_examples/team_spec.rb -b}
+{execute: ruby -I../lib ../bin/spec ../failing_examples/team_spec.rb -b}
 </pre>
 
 h3. -d, --dry-run

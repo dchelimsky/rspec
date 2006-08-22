@@ -18,7 +18,7 @@ h2. The test2spec command line
 <pre>
 $ test2spec --help
 
-{execute: ruby ../bin/test2spec --help}
+{execute: ruby -I../lib ../bin/test2spec --help}
 </pre>
 
 A typical invocation might look like this:

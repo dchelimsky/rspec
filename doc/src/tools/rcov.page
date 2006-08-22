@@ -4,16 +4,22 @@ inMenu: true
 ---
 h2. RCov
 
-RSpec has tight integration with "RCov":http://eigenclass.org/hiki.rb?rcov=.
+RSpec has tight integration with "RCov":http://eigenclass.org/hiki.rb?rcov, the excellent code coverage tool for Ruby.
 
-h3. Run specs with RCov
+h3. Running specs with RCov
+
+The easiest way to use RCov with RSpec is from a rake script (Rakefile), using RSpec's
+"SpecTask":rake.html. The snippet below is from RSpec's own Rakefile.
 
 <ruby file="../test/tasks/examples_with_rcov.rake"/>
 
-By adding rcov=true to the rake task, specs will be run with rcov
-instead of ruby, and a coverage report like "this":../coverage/index.html will be generated.
+By adding rcov=true to the rake task, specs will be run with RCov
+instead of the standard ruby interpreter, and a coverage report like 
+"this":../coverage/index.html will be generated with the following command line:
 
-See "Spec::Rake::SpecTask":../rdoc/classes/Spec/Rake/SpecTask.html for details.
+<pre>
+rake examples_with_rcov
+</pre>
 
 h3. Coverage threshold
 

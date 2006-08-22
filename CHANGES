@@ -1,12 +1,15 @@
 = RSpec Changelog
 
 == Version 0.6.1 (In SVN)
-Summary
+This is the "fix the most annoying bugs release" of RSpec. There are 9 bugfixes this time.
+Things that may break backwards compatibility:
+1) Spec::Rake::SpecTask no longer has the options attribute. Use ruby_opts, spec_opts and rcov_opts instead.
 
-* Fixed [#4896] Shouldn't modify user's $LOAD_PATH
-* Fixed [#5369] ruby -w: warnings in RSpec 0.5.16
-* Applied [#5141] SpecMatcher doesn't escape strings before matching (Nikolai Weibull).
-* Fixed [#5224] Move 'require diff-lcs' from test_helper.rb to diff_test.rb
+* Fixed [#4891] RCOV task failing on windows
+* Fixed [#4896] Shouldn't modify user's $LOAD_PATH (Tip from Gavin Sinclair)
+* Fixed [#5369] ruby -w: warnings in RSpec 0.5.16 (Tip from Suraj Kurapati)
+* Applied [#5141] SpecMatcher doesn't escape strings before matching (Patch from Nikolai Weibull).
+* Fixed [#5224] Move 'require diff-lcs' from test_helper.rb to diff_test.rb (Tip from Chris Roos)
 * Applied [#5449] Rake stats for specs (Patch from Nick Sieger)
 * Applied [#5468, #5058] Fix spec runner to correctly run controller specs (Patch from Daniel Siemssen)
 * Applied fixes to rails_spec_runner to improve its ability to run several times. (Patch from Daniel Siemssen)

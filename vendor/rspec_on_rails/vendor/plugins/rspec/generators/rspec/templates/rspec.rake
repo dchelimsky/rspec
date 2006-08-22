@@ -1,10 +1,14 @@
 require 'spec/rake/spectask'
 
+plugin_specs = FileList['vendor/plugins/**/spec/**/*_spec.rb']
+
 desc 'Run all model and controller specs'
 task :spec do
   Rake::Task["spec:models"].invoke      rescue got_error = true
   Rake::Task["spec:controllers"].invoke rescue got_error = true
-  Rake::Task["spec:plugins"].invoke     rescue got_error = true
+  unless plugin_specs.empty? 
+    Rake::Task["spec:plugins"].invoke   rescue got_error = true
+  end
   
   # not yet supported
   #if File.exist?("spec/integration")
@@ -27,9 +31,11 @@ namespace :spec do
     t.spec_files = FileList['spec/controllers/**/*_spec.rb']
   end
   
-  desc "Run the specs under vendor/plugins"
-  Spec::Rake::SpecTask.new(:plugins => "db:test:prepare") do |t|
-    t.spec_files = FileList['vendor/plugins/**/spec/**/*_spec.rb']
+  unless plugin_specs.empty?
+    desc "Run the specs under vendor/plugins"
+    Spec::Rake::SpecTask.new(:plugins => "db:test:prepare") do |t|
+      t.spec_files = plugin_specs
+    end
   end
 
   desc "Print Specdoc for all specs"
