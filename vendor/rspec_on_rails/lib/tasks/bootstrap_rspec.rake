@@ -22,8 +22,9 @@ module Spec
     class SpecTask < ::Rake::TaskLib
       alias_method :initialize_old, :initialize
 
-      def initialize(name=)
+      def initialize(name)
         initialize_old(name) do |t|
+          yield self
           t.libs << RAILS_ROOT + '/../../lib'
         end
       end
