@@ -1,6 +1,6 @@
 = RSpec Changelog
 
-== Version 0.6.1 (In SVN)
+== Version 0.6.1
 This is the "fix the most annoying bugs release" of RSpec. There are 9 bugfixes this time.
 Things that may break backwards compatibility:
 1) Spec::Rake::SpecTask no longer has the options attribute. Use ruby_opts, spec_opts and rcov_opts instead.
