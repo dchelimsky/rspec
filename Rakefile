@@ -177,7 +177,7 @@ task :pre_commit => [:verify_warnings, :website, :examples, :failing_examples_wi
 
 task :rails_pre_commit do
   Dir.chdir 'vendor/rspec_on_rails' do    
-    `rake pre_commit`
+    `rake pre_commit --verbose`
     raise "RSpec on Rails pre_commit failed\ncd to vendor/rspec_on_rails and run rake pre_commit for more details" if $? != 0
   end
 end

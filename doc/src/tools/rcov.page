@@ -24,5 +24,11 @@ by using RSpec's built-in task for verification of the total RCov coverage.
 
 This will give you a :rcov_verify task that will fail your build if the
 coverage drops below the threshold you define (the higher the better).
+If it's too low you're encouraged to write more specs rather than "fix"
+the threshold value (which should usually only be adjusted upwards).
+
+In fact, the task will also fail the build if the coverage raises above the threshold as well.
+This might seem a bit counterintuitive, but this is when you should go and raise the
+threshold in your Rakefile. This way you won't miss temporary coverage increases.
 
 See "RCov::VerifyTask":../rdoc/classes/RCov/VerifyTask.html for details.
