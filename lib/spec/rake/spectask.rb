@@ -47,9 +47,11 @@ module Spec
       attr_accessor :rcov
       
       # Array of commandline options to pass to ruby. Defaults to ['--exclude', 'lib\/spec,bin\/spec'].
+      # Ignored if rcov=false
       attr_accessor :rcov_opts
 
-      # Directory where 
+      # Directory where the RCov report is written. Defaults to "coverage"
+      # Ignored if rcov=false
       attr_accessor :rcov_dir
 
       # Array of commandline options to pass to ruby. Defaults to [].
@@ -75,7 +77,6 @@ module Spec
         @name = name
         @libs = ["lib"]
         @pattern = nil
-        @options = ""
         @spec_files = nil
         @spec_opts = []
         @warning = false
@@ -101,25 +102,25 @@ module Spec
           desc "Run RSpec for #{actual_name}" + (@rcov ? " using RCov" : "")
         end
         task @name do
-          run_code = ''
           RakeFileUtils.verbose(@verbose) do
-            run_code =
-              case rcov_path
-              when nil, ''
-                "-S rcov"
-              else %!"#{rcov_path}"!
-              end
             ruby_opts = @ruby_opts.clone
             ruby_opts.push( "-I#{lib_path}" )
-            ruby_opts.push( run_code )
+            ruby_opts.push( "-S rcov" ) if @rcov
             ruby_opts.push( "-w" ) if @warning
 
             redirect = @out.nil? ? "" : " > #{@out}"
             # ruby [ruby_opts] -Ilib -S rcov [rcov_opts] bin/spec -- [spec_opts] examples
             begin
-              ruby ruby_opts.join(" ") + " " + rcov_option_list +
-                %[ -o "#{@rcov_dir}" ] + spec_script + " -- " + @options +
-                file_list.collect { |fn| %["#{fn}"] }.join(' ') + " " + rspec_option_list + redirect
+              ruby(
+                ruby_opts.join(" ") + " " + 
+                rcov_option_list +
+                (@rcov ? %[ -o "#{@rcov_dir}" ] : "") + 
+                spec_script + " " +
+                (@rcov ? "-- " : "") + 
+                rspec_option_list + " " +
+                file_list.collect { |fn| %["#{fn}"] }.join(' ') + " " + 
+                redirect
+              )
             rescue => e
                puts @failure_message if @failure_message
                raise e if @fail_on_error
@@ -141,11 +142,8 @@ module Spec
         self
       end
 
-      def rcov_path # :nodoc:
-        ENV['RCOVPATH']
-      end
-
       def rcov_option_list # :nodoc:
+        return "" unless @rcov
         ENV['RCOVOPTS'] || @rcov_opts.join(" ") || ""
       end
 
