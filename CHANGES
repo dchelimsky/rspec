@@ -1,5 +1,10 @@
 = RSpec Changelog
 
+== Version 0.6.2 (In SVN)
+Summary....
+
+* Fixed a teensey regression with the rake task - introduced in 0.6.1. The spec command is now quoted so it works on windows.
+
 == Version 0.6.1
 This is the "fix the most annoying bugs release" of RSpec. There are 9 bugfixes this time.
 Things that may break backwards compatibility:
