@@ -117,7 +117,7 @@ module Spec
                 ruby_opts.join(" ") + " " + 
                 rcov_option_list +
                 (@rcov ? %[ -o "#{@rcov_dir}" ] : "") + 
-                spec_script + " " +
+                '"' + spec_script + '"' + " " +
                 (@rcov ? "-- " : "") + 
                 spec_option_list + " " +
                 file_list.collect { |fn| %["#{fn}"] }.join(' ') + " " + 

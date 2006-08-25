@@ -44,7 +44,7 @@ end
 Rcov::RcovTask.new do |t|
   t.test_files = FileList['test/**/*_test.rb']
   t.output_dir = 'doc/output/coverage'
-  t.rcov_opts = []
+  t.rcov_opts = ['--text-report']
 end
 
 desc 'Translate our own tests to specs'
