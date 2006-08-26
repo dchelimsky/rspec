@@ -104,7 +104,7 @@ module Spec
         task @name do
           RakeFileUtils.verbose(@verbose) do
             ruby_opts = @ruby_opts.clone
-            ruby_opts.push( "-I#{lib_path}" )
+            ruby_opts.push( "-I\"#{lib_path}\"" )
             ruby_opts.push( "-S rcov" ) if @rcov
             ruby_opts.push( "-w" ) if @warning
 
