@@ -1,7 +1,7 @@
 = RSpec Changelog
 
-== Version 0.6.2 (In SVN)
-This is a bugfix release
+== Version 0.6.2
+This release fixes a couple of regressions with the rake task that were introduced in the previous version (0.6.1)
 
 * Applied [#5525] fix rake task path to spec tool for gem-installed rspec (patch from Riley Lynch)
 * Fixed a teensey regression with the rake task - introduced in 0.6.1. The spec command is now quoted so it works on windows.
