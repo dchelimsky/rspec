@@ -86,9 +86,7 @@ module Spec
         end
 
         def execution_context_class
-          return @execution_context_class if @execution_context_class
-          derive_execution_context_class_from_context_superclass
-          @execution_context_class
+          @execution_context_class ||= derive_execution_context_class_from_context_superclass
         end
 
         def derive_execution_context_class_from_context_superclass

@@ -18,6 +18,9 @@ module Spec
         @symbol_to_throw = nil
         @ordering = expectation_ordering
         @ordered = false
+        @at_least = nil
+        @at_most = nil
+        @args_to_yield = nil
       end
   
       def matches(sym, args)

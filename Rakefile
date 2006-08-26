@@ -39,6 +39,7 @@ Rake::TestTask.new do |t|
   tests.exclude 'test/spec/test_to_spec/*.rb' if windows
   t.test_files = tests
   t.verbose = true
+  t.warning = true
 end
 
 Rcov::RcovTask.new do |t|
