@@ -34,6 +34,7 @@ h3. RSpec!
 
 * Lachie Cox (Initial Rails support)
 * Rich Kilmer (Underscore syntactic sugar)
+* Riley Lynch (Patches for the rake task)
 * Nick Sieger (RSpec on Rails patches for stats)
 * Daniel Siemssen (RSpec on Rails patches for rails_spec_runner)
 * Nikolai Weibull (Core patches for spec names)

@@ -26,7 +26,7 @@ module Spec
       attr_accessor :name
 
       # Array of directories to be added to $LOAD_PATH before running the
-      # specs. Defaults to ['lib']
+      # specs. Defaults to ['<the absolute path to RSpec's lib directory>']
       attr_accessor :libs
 
       # If true, requests that the specs be run with the warning flag set.
@@ -75,7 +75,7 @@ module Spec
       # Create a specing task.
       def initialize(name=:spec)
         @name = name
-        @libs = ["lib"]
+        @libs = [File.expand_path(File.dirname(__FILE__) + '/../../../lib')]
         @pattern = nil
         @spec_files = nil
         @spec_opts = []
