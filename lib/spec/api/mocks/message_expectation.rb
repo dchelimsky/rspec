@@ -62,7 +62,7 @@ module Spec
 
       def handle_order_constraint
         return unless @ordered
-        return @ordering.consume(@self) if @ordering.ready_for?(self)
+        return @ordering.consume(self) if @ordering.ready_for?(self)
         message = "Mock '#{@mock_name}' received '#{@sym}' out of order"
         Kernel::raise(Spec::Api::MockExpectationError, message) 
       end
