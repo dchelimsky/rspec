@@ -4,6 +4,7 @@ module Spec
     
     def initialize(target)
       @target = target
+      @be_seen = false
     end
   
     def satisfy

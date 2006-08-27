@@ -8,6 +8,8 @@ module Spec
         @failures = []
         @spec_names = []
         @backtrace_tweaker = backtrace_tweaker
+        @start_time = nil
+        @end_time = nil
       end
   
       def add_context(name)
