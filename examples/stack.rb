@@ -20,7 +20,7 @@ class Stack
     @items.delete @items.last
   end
   
-  def top
+  def peek
     raise StackUnderflowError if @items.empty?
     @items.last
   end
@@ -28,9 +28,9 @@ class Stack
   def empty?
     @items.empty?
   end
-  
-  def size
-    @items.length
+
+  def full?
+    @items.length == 10
   end
   
 end
