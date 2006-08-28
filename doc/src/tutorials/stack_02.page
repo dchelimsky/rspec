@@ -22,9 +22,9 @@ A new stack
 An empty stack
 - should not be empty after 'push'
 
-Finished in 0.000391 seconds
+Finished in 0.00105 seconds
 
-2 contexts, 2 specifications, 0 failures
+2 specifications, 0 failures
 </pre>
 
 See how that's reading like a specification? OK, now let's fill in the details. First we add the setup for our context.
@@ -48,9 +48,9 @@ A new stack
 An empty stack
 - should not be empty after 'push'
 
-Finished in 0.000444 seconds
+Finished in 0.001 seconds
 
-2 contexts, 2 specifications, 0 failures
+2 specifications, 0 failures
 </pre>
 
 No change in the result. Now we'll push something on to the stack.
@@ -77,12 +77,12 @@ An empty stack
 
 1)
 NoMethodError in 'An empty stack should not be empty after 'push''
-undefined method `push' for #<Stack:0x36d0e0>
+undefined method `push' for #<Stack:0x5b4c68>
 ./stack_spec.rb:17:in `should not be empty after 'push''
 
-Finished in 0.000548 seconds
+Finished in 0.001254 seconds
 
-2 contexts, 2 specifications, 1 failure
+2 specifications, 1 failure
 </pre>
 
 The <code>NoMethodError</code> tells us we need to add a push method to the stack.
@@ -106,9 +106,9 @@ A new stack
 An empty stack
 - should not be empty after 'push'
 
-Finished in 0.000427 seconds
+Finished in 0.001082 seconds
 
-2 contexts, 2 specifications, 0 failures
+2 specifications, 0 failures
 </pre>
 
 The idea is to add a little bit of spec, just enough to get some kind of failure, then just enough code to get the code to meet the expectations expressed in the spec. In this case, the NameError was like a compilation failure in java or C#.
@@ -137,13 +137,13 @@ An empty stack
 - should not be empty after 'push' (FAILED - 1)
 
 1)
-ExpectationNotMetError in 'An empty stack should not be empty after 'push''
-Stack #<Stack:0x36cf50> should not be empty
+Spec::Api::ExpectationNotMetError in 'An empty stack should not be empty after 'push''
+Stack #<Stack:0x5b4b00> should not be empty
 ./stack_spec.rb:18:in `should not be empty after 'push''
 
-Finished in 0.000604 seconds
+Finished in 0.001454 seconds
 
-2 contexts, 2 specifications, 1 failure
+2 specifications, 1 failure
 </pre>
 
 The <code>ExpectationNotMetError</code> tells us we have something to implement. We want to do the simplest thing that we can do to meet our existing expectations. At this point we don't know anything about collections or even specific values, so we can just manage whether or not it is empty.
@@ -171,12 +171,12 @@ A new stack
 An empty stack
 - should not be empty after 'push'
 
-Finished in 0.000443 seconds
+Finished in 0.001077 seconds
 
-2 contexts, 2 specifications, 0 failures
+2 specifications, 0 failures
 </pre>
 
-Again, this may seem a little odd, but we haven't specified anything yet about what happens to things that get pushed on to the stack. That's right around the corner though...
+Again, this may seem a little odd, but we haven't specified anything yet about what happens to things that get pushed on to the stack. We want to write the simplest code that will meet the existing expectations. Again, the fact that we haven't needed to implement any sort of collection is a deficiency in our examples, not in the code being specified.
 
 <a href="stack_01.html">Previous</a> |
 <a href="stack_03.html">Next</a>

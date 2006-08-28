@@ -22,15 +22,3 @@ stack_04.page:
   title: '4'
   inMenu: true
   orderInfo: 14
-
-stack_05.page:
-  title: '5'
-  inMenu: false
-  orderInfo: 15
-
-stack_05.page:
-  title: '6'
-  inMenu: false
-  orderInfo: 16
-
-  

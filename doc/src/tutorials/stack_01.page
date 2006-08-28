@@ -2,20 +2,15 @@ h2. A Simple Stack - The First Specification
 
 h3. Where do we start?
 
-We want to start off with the simplest thing that we can specify, just as we would in TDD. Remember that in spite of some important (if subtle) distinctions, BDD <em>is</em> TDD at its core.
+We want to start off with the simplest example that we can come think of, just as we would in TDD. Remember that in spite of some important (if subtle) distinctions, BDD <em>is</em> TDD at its core.
 
-As discussed in the <a href="index.html">Overview</a>, a common first specification is that a new stack should be empty, and we typically verify this by checking that its size is 0. This simplicity is what we're looking for, but we want to avoid the "size" question. Well, let's think about how a client might use a stack:
+As discussed in the <a href="index.html">Overview</a>, a common first specification is that a new stack should be empty, and we typically verify this by checking that its size is 0. This simplicity is what we're looking for, but we want to avoid the "size" question. We'll just consider emptiness rather than size.
 
-<ruby>
-#example usage
-stack.pop unless stack.empty?
-</ruby>
-
-So let's start with "A new stack should be empty".
+Thinking of how we might specify something about emptiness, we know that a newly created Stack should be empty. So we'll start with exactly that specification: "A new Stack should be empty".
 
 h3. Create a spec file
 
-Start by creating a file called stack_spec.rb in /projects/ruby/stack/. You can use any filename and directory you wish, but the following will assume these names and locations.
+Start by creating a file called stack_spec.rb in /projects/ruby/stack/. You can use any filename and directory you wish, but the following will assume these names and paths.
 
 h3. Add a context
 
@@ -26,7 +21,7 @@ context "A new stack" do
 end
 </ruby>
 
-A context represents an object (or set of objects) in a known state. This is the same concept as a fixture in xUnit. For each known state from which we wish to specify behaviour, we'll add a new context.
+A context represents an object (or set of objects) in a known state. This is the same concept as a fixture in xUnit. For each known state from which we wish to create examples of expected behaviour, we'll add a new context.
 
 To see what damage we've done so far, open a command shell, cd to /projects/ruby/stack/, and enter the following:
 
@@ -37,12 +32,12 @@ $ spec stack_spec.rb
 You should see output similar to this
 
 <pre>
-Finished in 6.9e-05 seconds
+Finished in 0.000154 seconds
 
-1 context, 0 specifications, 0 failures
+0 specifications, 0 failures
 </pre>
 
-The <code>spec</code> command is installed when you install rSpec. It requires (using the ruby <code>require</code> method) any file(s) (or all of the files in a directory) that you specify on the command line. The <code>context</code> method accepts a name ("An empty stack") and a block (do ... end) and processes everything inside the block. Since there's nothing in this block to process, we discover that rSpec processed 1 context, but 0 specifications.
+The <code>spec</code> command is installed when you install rSpec. It requires (using the ruby <code>require</code> method) any file(s) (or all of the files in a directory) that you specify on the command line. The <code>context</code> method accepts a name ("An empty stack") and a block (do ... end) and processes everything inside the block. Since there's nothing in this block to process, we discover that rSpec processed 0 specifications.
 
 You may wonder why bother with the name? Try adding the <code>-f s</code> option to the command
 
@@ -51,9 +46,9 @@ $ spec stack_spec.rb -f s
 
 A new stack
 
-Finished in 6.9e-05 seconds
+Finished in 0.000151 seconds
 
-1 context, 0 specifications, 0 failures
+0 specifications, 0 failures
 </pre>
 
 The option <code>-f s</code> is a shortcut for <code>--format specdoc</code>, which tells rSpec to print out the names of all the contexts and specifications as they are run. As we progress, you'll see how choosing these names carefully not only documents things well inside the spec files, but also in generated output.
@@ -75,9 +70,9 @@ $ spec stack_spec.rb -f s
 A new stack
 - should be empty
 
-Finished in 0.000188 seconds
+Finished in 0.000386 seconds
 
-1 context, 1 specification, 0 failures
+1 specification, 0 failures
 </pre>
 
 As you can see, this reads like a specification. This is just like the output you get from running jUnit tests through agiledox. Agiledox was an important part of the inception of BDD, so we built it right into rspec. Of course, we haven't actually written any code in the specification, so we need to add some. Just as we do in TDD, we're going to add one little bit at a time - just enough to produce a failed expectation - followed by just enough code to meet the expectation.
@@ -107,9 +102,9 @@ NameError in 'A new stack should be empty'
 uninitialized constant Stack
 ./stack_spec.rb:3:in `setup'
 
-Finished in 0.00031 seconds
+Finished in 0.000641 seconds
 
-1 context, 1 specification, 1 failure
+1 specification, 1 failure
 </pre>
 
 This tells us that there is a NameError, that it can't find the name Stack, and that the problem is in the setup block of this context. To resolve this, create a new file named stack.rb and add the following:
@@ -136,9 +131,9 @@ $ spec stack_spec.rb -f s
 A new stack
 - should be empty
 
-Finished in 0.000229 seconds
+Finished in 0.000531 seconds
 
-1 context, 1 specification, 0 failures
+1 specification, 0 failures
 </pre>
 
 We're getting closer, but we still need more to exercise this specification.
@@ -162,12 +157,12 @@ A new stack
 
 1)
 NoMethodError in 'A new stack should be empty'
-undefined method `empty?' for #<Stack:0x36e6fc>
+undefined method `empty?' for #<Stack:0x5b5ec4>
 ./stack_spec.rb:8:in `should be empty'
 
-Finished in 0.000361 seconds
+Finished in 0.000784 seconds
 
-1 context, 1 specification, 1 failure
+1 specification, 1 failure
 </pre>
 
 In this case, rspec interprets the message <code>should_be_empty</code>, and sends <code>empty?</code> to <code>stack</code>. This will work for any predicate (ruby methods that end with a "?" and return boolean).
@@ -188,16 +183,16 @@ A new stack
 - should be empty (FAILED - 1)
 
 1)
-ExpectationNotMetError in 'A new stack should be empty'
-Stack #<Stack:0x36e60c> should be empty
+Spec::Api::ExpectationNotMetError in 'A new stack should be empty'
+Stack #<Stack:0x5b5dfc> should be empty
 ./stack_spec.rb:8:in `should be empty'
 
-Finished in 0.000389 seconds
+Finished in 0.000774 seconds
 
-1 context, 1 specification, 1 failure
+1 specification, 1 failure
 </pre>
 
-... and NOW we get a failing expectation. "Stack #&lt;Stack:0x36e60c&gt; should be empty" is the detail of this <code>ExpectationNotMetError</code>. The expectation is that <code>empty?</code> should return <code>true</code>, but it does not. Let's make it so ...
+... and NOW we get a failing expectation. "Stack #&lt;Stack:0x5b5dfc&gt; should be empty" is the detail of this <code>ExpectationNotMetError</code>. The expectation is that <code>empty?</code> should return <code>true</code>, but it does not. Let's make it so ...
 
 <ruby>
 class Stack
@@ -208,14 +203,14 @@ end
 </ruby>
 
 <pre>
-spec stack_spec.rb -f s
+$ spec stack_spec.rb -f s
 
 A new stack
 - should be empty
 
-Finished in 0.000256 seconds
+Finished in 0.000617 seconds
 
-1 context, 1 specification, 0 failures
+1 specification, 0 failures
 </pre>
 
 And thus we have completed our first specification: "A new stack should be empty"
@@ -223,4 +218,3 @@ And thus we have completed our first specification: "A new stack should be empty
 If you've never had any experience with BDD (or TDD for that matter), returning <code>true</code> from <code>empty?</code> may seem a bit strange. Even if you have, you may not feel that the cycle is complete yet. "Test-Code-Refactor", right? Or rather "Spec-Code-Refactor". At this point, we should refactor to eliminate duplication, and you might argue that there is duplication between the spec expecting true and the method returning true. The problem is that we have no specs with expectations of the stack being anything other than empty. Any conditional logic we might implement here would be adding new behaviour. Refactoring is defined as changing structure without changing behaviour. And so, as much as we'd like to change <code>true</code> to something more useful, we need to take that urge and recognize that, in this case, we have a deficiency in our specifications - not in the code.
 
 <a href="stack_02.html">Next</a>
-

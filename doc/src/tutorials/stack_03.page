@@ -31,9 +31,9 @@ An empty stack
 A stack with one item
 - should return top when you send it 'top'
 
-Finished in 0.000693 seconds
+Finished in 0.001582 seconds
 
-3 contexts, 4 specifications, 0 failures
+3 specifications, 0 failures
 </pre>
 
 Add the setup...
@@ -62,9 +62,9 @@ An empty stack
 A stack with one item
 - should return top when you send it 'top'
 
-Finished in 0.000733 seconds
+Finished in 0.001621 seconds
 
-3 contexts, 4 specifications, 0 failures
+3 specifications, 0 failures
 </pre>
 
 No change in the output. Add the expectation...
@@ -96,12 +96,12 @@ A stack with one item
 
 1)
 NoMethodError in 'A stack with one item should return top when you send it 'top''
-undefined method `top' for #<Stack:0x36bd44 @empty=false>
-./stack_spec.rb:35:in `should return top when you send it 'top''
+undefined method `top' for #<Stack:0x5b3750 @empty=false>
+./stack_spec.rb:28:in `should return top when you send it 'top''
 
-Finished in 0.000863 seconds
+Finished in 0.001801 seconds
 
-3 contexts, 4 specifications, 1 failure
+3 specifications, 1 failure
 </pre>
 
 The <code>NoMethodError</code> tells us to add the 'top' method.
@@ -115,7 +115,7 @@ end
 </ruby>
 
 <pre>
-$ spec stack_spec.rb -f s
+ spec stack_spec.rb -f s
 
 A new stack
 - should be empty
@@ -127,13 +127,13 @@ A stack with one item
 - should return top when you send it 'top' (FAILED - 1)
 
 1)
-ExpectationNotMetError in 'A stack with one item should return top when you send it 'top''
+Spec::Api::ExpectationNotMetError in 'A stack with one item should return top when you send it 'top''
 nil should equal "one item"
-./stack_spec.rb:35:in `should return top when you send it 'top''
+./stack_spec.rb:28:in `should return top when you send it 'top''
 
-Finished in 0.000867 seconds
+Finished in 0.001829 seconds
 
-3 contexts, 4 specifications, 1 failure
+3 specifications, 1 failure
 </pre>
 
 The <code>ExpectationNotMetError</code> tells us to implement something. What's the simplest thing we can add to meet all of the current expectations?
@@ -159,9 +159,9 @@ An empty stack
 A stack with one item
 - should return top when you send it 'top'
 
-Finished in 0.000744 seconds
+Finished in 0.001675 seconds
 
-3 contexts, 4 specifications, 0 failures
+3 specifications, 0 failures
 </pre>
 
 Again we have duplication between the specs and the code ("one item") and we want to get rid of it. This time, however, we have enough specs and entry points that there is actually something to refactor to.
@@ -189,7 +189,7 @@ end
 </ruby>
 
 <pre>
-$ spec stack_spec.rb -f s
+ spec stack_spec.rb -f s
 
 A new stack
 - should be empty
@@ -200,9 +200,9 @@ An empty stack
 A stack with one item
 - should return top when you send it 'top'
 
-Finished in 0.000846 seconds
+Finished in 0.001663 seconds
 
-3 contexts, 4 specifications, 0 failures
+3 specifications, 0 failures
 </pre>
 
 Now let's use the item to determine "emptiness"...
@@ -237,9 +237,9 @@ An empty stack
 A stack with one item
 - should return top when you send it 'top'
 
-Finished in 0.000764 seconds
+Finished in 0.00167 seconds
 
-3 contexts, 4 specifications, 0 failures
+3 specifications, 0 failures
 </pre>
 
 Now we can eliminate <code>@empty</code> (which means we can eliminate <code>initialize</code> as well).
@@ -270,9 +270,9 @@ An empty stack
 A stack with one item
 - should return top when you send it 'top'
 
-Finished in 0.000737 seconds
+Finished in 0.001339 seconds
 
-3 contexts, 4 specifications, 0 failures
+3 specifications, 0 failures
 </pre>
 
 So this time we were able to refactor, and in doing so not only reduce the duplication but also reduce the size of the stack class. Sweet.

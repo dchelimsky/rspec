@@ -3,9 +3,11 @@ title: Overview
 ---
 h2. A Simple Stack - Overview
 
-h3. A simple (very much in progress) tutorial by David Chelimsky
+h3. A simple, introductory tutorial by David Chelimsky
 
-In this tutorial, we're going to explore Behaviour Driven Development using rSpec. A primary goal of BDD is to think about specifications rather than testing. We'll explore what that means, and how it affects the process of specifying components in a system. For example, one of the examples I've used in TDD classes is test-driving a Stack. It would usually start with a test like this:
+In this tutorial, we're going to explore the developer practices of Behaviour Driven Development using rSpec. As a developer, the goal of BDD is to think about specifying examples of behaviour rather than testing. We'll explore what that means, and how it affects the process of specifying components in a system. 
+
+One example I've used when teaching TDD isa Stack. It would typically start with a test like this:
 
 <ruby>
 #NOT A BDD EXAMPLE
@@ -27,7 +29,7 @@ end
 
 ...and you're off and running. So here's a question: what is the <em><b>behaviour</b></em> that is exhibited by <code>size</code>? You could say that the stack is answering the question correctly. But then the question becomes "what is the question?"
 
-Think of it this way: does size really matter? Keeping focused on the Stack example, I'd say the answer is often "no". Most clients probably care about whether they can push something on to the stack, or pop something off of it. But knowing whether it has 0 or 1000 items is only helpful if the client knows what those numbers mean. And that often requires asking more questions. For example, let's say we want to push but we want to check if we can first:
+Think of it this way: does size really matter? For a client of a Stack, probably not. Most clients probably care about whether they can push something on to the stack, or pop something off of it. But knowing whether it has 0 or 1000 items is only helpful if the client knows what those numbers mean. And that often requires asking more questions. For example, let's say we want to push but we want to check if we can first:
 
 <ruby>
 stack.push item if stack.size < stack.capacity
@@ -39,7 +41,7 @@ Instead, we could ask if the stack is full...
 stack.push item unless stack.full?
 </ruby>
 
-Now that is something useful to clients, and that's the point. We want to think about how clients can use the object, not how the object will satisfy its clients' needs.
+Now that is something useful to clients, and that's the point. We want to think about how clients can use the object, not how the object will go about satisfying its clients' needs.
 
 "Tell, Don't Ask" is a powerful guideline, but sometimes you have to ask questions. So let's extend TDA with this: "...but if you MUST ask, then ask for what you really need". Do we need to know the stack's size? Probably not. We <em>do</em>, however, need to know whether we can push onto it.
 
