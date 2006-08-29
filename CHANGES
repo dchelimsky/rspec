@@ -5,6 +5,7 @@
 Note that if you upgrade a rails app with this version of the rspec_on_rails plugin
 you should remove your lib/tasks/rspec.rake if it exists.
 
+* Backtraces from drb (and other standard ruby libraries) are now stripped from backtraces.
 * Applied [#5557] Put rspec.rake into the task directory of the RSpec on Rails plugin (Patch from Daniel Siemssen)
 * Applied [#5556] rails_spec_runner loads environment.rb twice (Patch from Daniel Siemssen)
 

@@ -24,13 +24,14 @@ module Spec
         return if error.backtrace.nil?
         error.backtrace.collect! do |line|
           line = tweak_instance_exec_line line, spec_name
+          line = nil if line =~ /\/lib\/ruby\//
           line = nil if line =~ /\/lib\/spec\/api\//
           line = nil if line =~ /\/lib\/spec\/runner\//
           line = nil if line =~ /bin\/spec:/
+          line = nil if line =~ /lib\/rspec_on_rails/
+          line = nil if line =~ /script\/rails_spec/
           # TextMate's Ruby plugin
           line = nil if line =~ /Ruby\.tmbundle\/Support\/tmruby.rb:/
-          # RSpec on Rails
-          line = nil if line =~ /gems\/rspec_generator/
           line
         end
         error.backtrace.compact!
