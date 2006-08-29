@@ -1,5 +1,9 @@
 = RSpec Changelog
 
+== Version 0.6.3 (In SVN)
+
+* Applied [#5556] rails_spec_runner loads environment.rb twice (Patch from Daniel Siemssen)
+
 == Version 0.6.2
 This release fixes a couple of regressions with the rake task that were introduced in the previous version (0.6.1)
 

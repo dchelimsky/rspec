@@ -31,7 +31,7 @@ end
 puts "Loading Rails environment"
 
 ENV["RAILS_ENV"] = "test"
-require File.dirname(__FILE__) + '/../config/environment'
+require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'dispatcher'
 
 def restart_test_server
