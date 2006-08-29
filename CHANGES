@@ -1,7 +1,8 @@
 = RSpec Changelog
 
-== Version 0.6.3 (In SVN)
+== Version 0.6.3
 
+This release fixes some minor bugs related to RSpec on Rails
 Note that if you upgrade a rails app with this version of the rspec_on_rails plugin
 you should remove your lib/tasks/rspec.rake if it exists.
 
