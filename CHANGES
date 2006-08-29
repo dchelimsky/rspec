@@ -2,6 +2,10 @@
 
 == Version 0.6.3 (In SVN)
 
+Note that if you upgrade a rails app with this version of the rspec_on_rails plugin
+you should remove your lib/tasks/rspec.rake if it exists.
+
+* Applied [#5557] Put rspec.rake into the task directory of the RSpec on Rails plugin (Patch from Daniel Siemssen)
 * Applied [#5556] rails_spec_runner loads environment.rb twice (Patch from Daniel Siemssen)
 
 == Version 0.6.2

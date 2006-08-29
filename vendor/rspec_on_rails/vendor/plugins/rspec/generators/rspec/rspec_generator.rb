@@ -15,15 +15,13 @@ class RspecGenerator < Rails::Generator::Base
     record do |m|
       script_options     = { :chmod => 0755, :shebang => options[:shebang] == DEFAULT_SHEBANG ? nil : options[:shebang] }
 
-      # The spec helper and Rake tasks
+      # The spec helpers
       m.directory 'spec'
       m.template  'spec_helper.rb', 'spec/spec_helper.rb'
       m.file      'test2spec.erb', 'spec/test2spec.erb'
       m.file      'test2spec_help.rb', 'test/test2spec_help.rb'
-      m.directory 'lib/tasks'
-      m.template  'rspec.rake', 'lib/tasks/rspec.rake'
 
-      # The rails_spec runner and client scripts (experimental - not working yet)
+      # The rails_spec runner and client scripts
       m.file 'script/rails_spec', 'script/rails_spec', script_options
       m.file 'script/rails_spec_runner', 'script/rails_spec_runner', script_options
 
