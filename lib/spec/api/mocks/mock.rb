@@ -17,15 +17,15 @@ module Spec
       end
       
       def should_receive(sym, &block)
-        expected_from = caller(1)[0]
-        expectation = MessageExpectation.new(@name, @expectation_ordering, expected_from, sym, block_given? ? block : nil)
-        @expectations << expectation
-        expectation
+        add MessageExpectation, caller(1)[0], sym, &block
       end
       
       def should_not_receive(sym, &block)
-        expected_from = caller(1)[0]
-        expectation = NegativeMessageExpectation.new(@name, @expectation_ordering, expected_from, sym, block_given? ? block : nil)
+        add NegativeMessageExpectation, caller(1)[0], sym, &block
+      end
+      
+      def add(klass, expected_from, sym, &block)
+        expectation = klass.send(:new, @name, @expectation_ordering, expected_from, sym, block_given? ? block : nil)
         @expectations << expectation
         expectation
       end
