@@ -24,8 +24,8 @@ module Spec
         add NegativeMessageExpectation, caller(1)[0], sym, &block
       end
       
-      def add(klass, expected_from, sym, &block)
-        expectation = klass.send(:new, @name, @expectation_ordering, expected_from, sym, block_given? ? block : nil)
+      def add(expectation_class, expected_from, sym, &block)
+        expectation = expectation_class.send(:new, @name, @expectation_ordering, expected_from, sym, block_given? ? block : nil)
         @expectations << expectation
         expectation
       end
