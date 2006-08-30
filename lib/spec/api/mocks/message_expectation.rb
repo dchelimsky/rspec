@@ -4,14 +4,14 @@ module Spec
     # Represents the expection of the reception of a message
     class MessageExpectation
     
-      def initialize(mock_name, expectation_ordering, expected_from, sym, method_block)
+      def initialize(mock_name, expectation_ordering, expected_from, sym, method_block, expected_received_count=1)
         @mock_name = mock_name
         @expected_from = expected_from
         @sym = sym
         @method_block = method_block
         @return_block = lambda {}
         @received_count = 0
-        @expected_received_count = 1
+        @expected_received_count = expected_received_count
         @args_expectation = ArgumentExpectation.new([:any_args])
         @consecutive = false
         @exception_to_raise = nil
@@ -194,6 +194,12 @@ module Spec
         @ordering.register(self)
         @ordered = true
         self
+      end
+    end
+    
+    class NegativeMessageExpectation < MessageExpectation
+      def initialize(mock_name, expectation_ordering, expected_from, sym, method_block)
+        super mock_name, expectation_ordering, expected_from, sym, method_block, 0
       end
     end
   end

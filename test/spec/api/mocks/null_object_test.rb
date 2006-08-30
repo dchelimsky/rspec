@@ -26,6 +26,12 @@ module Spec
           @mock.__verify
         end
       end
+
+      def test_should_pass_when_receiving_message_specified_as_not_to_be_received_with_different_args
+        @mock.should_not_receive(:message).with("unwanted text")
+        @mock.message "other text"
+        @mock.__verify
+      end
     end
   end
 end

@@ -26,10 +26,26 @@ module Spec
         @mock.__verify
       end
 
+      def test_should_pass_when_receiving_message_specified_as_not_to_be_received_with_different_args
+        @mock.should_not_receive(:message).with("unwanted text")
+        @mock.should_receive(:message).with("other text")
+        @mock.message "other text"
+        @mock.__verify
+      end
+
       def test_should_fail_when_receiving_message_specified_as_not_to_be_received
         @mock.should_not_receive(:not_expected)
+        @mock.not_expected
         assert_raise(MockExpectationError) do
-          @mock.not_expected
+          @mock.__verify
+        end
+      end
+
+      def test_should_fail_when_receiving_message_specified_as_not_to_be_received_with_args
+        @mock.should_not_receive(:not_expected).with("unexpected text")
+        @mock.not_expected "unexpected text"
+        assert_raise(MockExpectationError) do
+          @mock.__verify
         end
       end
 
@@ -83,7 +99,6 @@ module Spec
   
       def test_should_fail_when_method_defined_as_never_is_received
         @mock.should_receive(:random_call).never
-        #TODO - @mock.should_not_receive(:random_call)
         assert_raise(MockExpectationError) do
           @mock.random_call
           @mock.__verify

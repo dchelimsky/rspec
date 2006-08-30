@@ -24,6 +24,10 @@ module Spec
       end
       
       def should_not_receive(sym, &block)
+        expected_from = caller(1)[0]
+        expectation = NegativeMessageExpectation.new(@name, @expectation_ordering, expected_from, sym, block_given? ? block : nil)
+        @expectations << expectation
+        expectation
       end
 
       def __verify #:nodoc:
