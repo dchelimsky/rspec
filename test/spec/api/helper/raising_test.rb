@@ -97,7 +97,7 @@ module Spec
         def TODOtest_should_understand_raised_with_message_matching
           lambda do
             raise 'Hello'
-          end.should_raise(StandardError).with.message.matching /ello/
+          end.should_raise(StandardError).with.message.matching(/ello/)
         end
 
       end

@@ -60,7 +60,6 @@ class Method
 
 end
 
-
 class RubyToRuby < SexpProcessor
 
   def self.translate(klass, method=nil)
@@ -75,6 +74,7 @@ class RubyToRuby < SexpProcessor
 
   def initialize
     super
+    @block_params = false
     @indent = "  "
     self.auto_shift_type = true
     self.strict = true

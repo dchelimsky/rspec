@@ -16,7 +16,7 @@ module Spec
         begin
           @mock.__verify
         rescue MockExpectationError => e
-          e.backtrace[0].should_match /mock_test\.rb:12:in .test_should_report_line/
+          e.backtrace[0].should_match(/mock_test\.rb:12:in .test_should_report_line/)
         end
     
       end

@@ -111,13 +111,13 @@ module Spec
       end
 
       def test_assert_match
-        assert_match /foo/, 'foo'
-        'foo'.should_match /foo/
+        assert_match(/foo/, 'foo')
+        'foo'.should_match(/foo/)
       end
 
       def test_assert_no_match
-        assert_no_match /foo/, 'bar'
-        'bar'.should_not_match /foo/
+        assert_no_match(/foo/, 'bar')
+        'bar'.should_not_match(/foo/)
       end
 
       def test_assert_respond_to

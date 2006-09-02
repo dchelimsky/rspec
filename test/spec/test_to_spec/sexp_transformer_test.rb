@@ -23,7 +23,7 @@ module Spec
     class SecondTest < Test::Unit::TestCase
       def test_foo
         assert_same 3, 1+2
-        assert_match /sla/, 'aslak'
+        assert_match(/sla/, 'aslak')
       end
     end
     class SecondContext

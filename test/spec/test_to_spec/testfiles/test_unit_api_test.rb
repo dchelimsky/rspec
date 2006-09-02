@@ -29,9 +29,9 @@ class TestUnitApiTest < Test::Unit::TestCase
     assert_in_delta       123.5, a_float, 0.1, "a message"
     assert_instance_of    Fixnum, @an_int, "a message"
     assert_kind_of        Numeric, @an_int, "a message"
-    assert_match     /789/  , @an_int.to_s
+    assert_match(/789/  , @an_int.to_s)
     assert_nil a_nil
-    assert_no_match       /7890/, @an_int.to_s, "a message"
+    assert_no_match(/7890/, @an_int.to_s, "a message")
     assert_not_equal 780,      @an_int
     assert_not_nil        @an_int, "a message"
     assert_not_same       @an_int, a_float, "a message"
