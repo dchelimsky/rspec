@@ -91,7 +91,7 @@ module Spec
       end
   
       def test_should_fail_if_expectation_block_fails
-        @mock.should_receive(:random_call) {| a | a.should_be true}
+        @mock.should_receive(:random_call).with(true)# {| a | a.should_be true}
         assert_raise(MockExpectationError) do
           @mock.random_call false
         end
@@ -128,7 +128,7 @@ module Spec
 
       def test_should_raise_when_explicit_return_and_block_constrained
         assert_raise(AmbiguousReturnError) {
-          @mock.should_receive(:fruit){|colour|
+          @mock.should_receive(:fruit) {|colour|
             :strawberry
           }.and_return :apple
         }

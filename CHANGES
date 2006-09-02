@@ -3,6 +3,7 @@
 == Version 0.6.4 (In SVN)
 
 * Added [#5570] should_not_receive(:msg).with(:specific, "args")
+* Applied [#5065] to support using define_method rather than method_missing to capture expected messages on mocks. Thanks to Eero Saynatkari for the tip that made it work.
  
 == Version 0.6.3
 
