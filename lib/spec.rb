@@ -1,4 +1,5 @@
 require 'spec/version'
-require 'spec/api'
+require 'spec/expectations'
+require 'spec/mocks'
 require 'spec/runner'
 require 'spec/runner/kernel_ext'

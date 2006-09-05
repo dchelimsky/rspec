@@ -5,7 +5,7 @@ module Spec
     class ContextTest < Test::Unit::TestCase
       
       def setup
-        @formatter = Api::Mock.new "formatter"
+        @formatter = Spec::Mocks::Mock.new "formatter"
         @context = Context.new("context") {}
       end
 

@@ -2,7 +2,7 @@
 # They are kept in a separate file so that they can also
 # be accessed by the test2spec-translated specs
 module Spec
-  module Api
+  module Expectations
     class Person
       attr_reader :name
       def initialize name

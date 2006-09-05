@@ -183,7 +183,7 @@ A new stack
 - should be empty (FAILED - 1)
 
 1)
-Spec::Api::ExpectationNotMetError in 'A new stack should be empty'
+Spec::Expectations::ExpectationNotMetError in 'A new stack should be empty'
 Stack #<Stack:0x5b5dfc> should be empty
 ./stack_spec.rb:8:in `should be empty'
 

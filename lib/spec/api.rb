@@ -1,8 +1,0 @@
-require 'spec/api/exceptions'
-require 'spec/api/mocks/argument_expectation'
-require 'spec/api/mocks/order_group'
-require 'spec/api/mocks/message_expectation'
-require 'spec/api/mocks/mock'
-require 'spec/api/expectations'
-require 'spec/api/helper'
-require 'spec/api/sugar'

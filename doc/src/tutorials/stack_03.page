@@ -127,7 +127,7 @@ A stack with one item
 - should return top when you send it 'top' (FAILED - 1)
 
 1)
-Spec::Api::ExpectationNotMetError in 'A stack with one item should return top when you send it 'top''
+Spec::Expectations::ExpectationNotMetError in 'A stack with one item should return top when you send it 'top''
 nil should equal "one item"
 ./stack_spec.rb:28:in `should return top when you send it 'top''
 

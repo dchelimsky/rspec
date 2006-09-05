@@ -25,7 +25,7 @@ module Spec
           opts.separator ""
 
           opts.on("--diff", "Show unified diff of Strings that are expected to be equal when they are not") do
-            require 'spec/api/helper/diff'
+            require 'spec/expectations/helper/diff'
           end
           
           opts.on("-s", "--spec SPECIFICATION_NAME", "Execute a single specification") do |spec_name|

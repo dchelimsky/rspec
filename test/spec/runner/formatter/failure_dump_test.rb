@@ -16,15 +16,15 @@ module Spec
         end
   
         def test_should_add_spacing_between_sections
-          error = Spec::Api::ExpectationNotMetError.new "message"
+          error = Spec::Expectations::ExpectationNotMetError.new "message"
           set_backtrace error
           @reporter.spec_finished "spec", error, "spec"
           @reporter.dump
-          assert_match(/\nF\n\n1\)\nSpec::Api::ExpectationNotMetError in 'context spec'\nmessage\n\/a\/b\/c\/d\/e.rb:34:in `spec'\n\nFinished in /, @io.string)
+          assert_match(/\nF\n\n1\)\nSpec::Expectations::ExpectationNotMetError in 'context spec'\nmessage\n\/a\/b\/c\/d\/e.rb:34:in `spec'\n\nFinished in /, @io.string)
         end
       
         def test_should_end_with_line_break
-          error = Spec::Api::ExpectationNotMetError.new "message"
+          error = Spec::Expectations::ExpectationNotMetError.new "message"
           set_backtrace error
           @reporter.spec_finished "spec", error, "spec"
           @reporter.dump
@@ -32,11 +32,11 @@ module Spec
         end
     
         def test_should_include_informational_header
-          error = Spec::Api::ExpectationNotMetError.new "message"
+          error = Spec::Expectations::ExpectationNotMetError.new "message"
           set_backtrace error
           @reporter.spec_finished "spec", error, "spec"
           @reporter.dump
-          assert_match(/^Spec::Api::ExpectationNotMetError in 'context spec'/, @io.string)
+          assert_match(/^Spec::Expectations::ExpectationNotMetError in 'context spec'/, @io.string)
         end
     
         def test_should_include_context_and_spec_name_in_backtrace_if_error_in_spec
@@ -81,11 +81,11 @@ module Spec
         end
 
         def test_spacing_between_sections
-          error = Spec::Api::ExpectationNotMetError.new "message"
+          error = Spec::Expectations::ExpectationNotMetError.new "message"
           set_backtrace error
           @reporter.spec_finished "spec", error, "spec"
           @reporter.dump
-          assert_match(/\ncontext\n- spec \(FAILED - 1\)\n\n1\)\nSpec::Api::ExpectationNotMetError in 'context spec'\nmessage\n\/a\/b\/c\/d\/e.rb:34:in `spec'\n\nFinished in /, @io.string)
+          assert_match(/\ncontext\n- spec \(FAILED - 1\)\n\n1\)\nSpec::Expectations::ExpectationNotMetError in 'context spec'\nmessage\n\/a\/b\/c\/d\/e.rb:34:in `spec'\n\nFinished in /, @io.string)
         end
       
       end

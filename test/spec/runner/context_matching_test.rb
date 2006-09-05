@@ -5,9 +5,9 @@ module Spec
     class ContextMatchingTest < Test::Unit::TestCase
       
       def setup
-        @formatter = Api::Mock.new "formatter"
+        @formatter = Spec::Mocks::Mock.new "formatter"
         @context = Context.new("context") {}
-        @matcher = Spec::Api::Mock.new("matcher")
+        @matcher = Spec::Mocks::Mock.new("matcher")
       end
       
       def test_should_use_spec_matcher

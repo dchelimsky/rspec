@@ -6,8 +6,8 @@ module Spec
       
       def setup
         @io = StringIO.new
-        @backtrace_tweaker = Spec::Api::Mock.new("backtrace tweaker")
-        @formatter = Spec::Api::Mock.new("formatter")
+        @backtrace_tweaker = Spec::Mocks::Mock.new("backtrace tweaker")
+        @formatter = Spec::Mocks::Mock.new("formatter")
         @reporter = Reporter.new(@formatter, @backtrace_tweaker)
       end
 
@@ -120,7 +120,7 @@ module Spec
       end
 
       def failure
-        Api::DuckTypeArgConstraint.new(:header, :message, :backtrace)
+        Mocks::DuckTypeArgConstraint.new(:header, :message, :backtrace)
       end
 
     end

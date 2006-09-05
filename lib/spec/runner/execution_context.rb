@@ -7,17 +7,17 @@ module Spec
         end
         
         def mock(name, options={})
-          mock = Api::Mock.new(name, options)
+          mock = Spec::Mocks::Mock.new(name, options)
           @spec.add_mock(mock)
           mock
         end
 
         def duck_type(*args)
-          return Api::DuckTypeArgConstraint.new(*args)
+          return Spec::Mocks::DuckTypeArgConstraint.new(*args)
         end
 
         def violated(message="")
-          raise Spec::Api::ExpectationNotMetError.new(message)
+          raise Spec::Expectations::ExpectationNotMetError.new(message)
         end
       end
       include InstanceMethods

@@ -4,7 +4,7 @@ module Spec
     class SpecificationTest < Test::Unit::TestCase
       
       def setup
-        @reporter = Api::Mock.new "reporter"
+        @reporter = Spec::Mocks::Mock.new "reporter"
       end
 
       def test_should_run_spec_in_scope_of_execution_context
