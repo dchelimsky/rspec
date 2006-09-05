@@ -56,6 +56,15 @@ module Spec
             @owner.should_have_exactly(3).items_in_collection_with_size_method
           end
         end
+        
+        def test_should_not_raise_when_expecting_actual_size_with_args
+          assert_nothing_raised do
+            @owner.should_have(3).items_for('a')
+            @owner.should_have_exactly(3).items_for('a')
+            @owner.should_have(1).items_for('b')
+            @owner.should_have_exactly(1).items_for('b')
+          end
+        end
       end
       
       class ShouldHaveAtLeastTest < Test::Unit::TestCase

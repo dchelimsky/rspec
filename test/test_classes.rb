@@ -46,6 +46,12 @@ module Spec
         def add_to_collection_with_length_method(item)
           @items_in_collection_with_length_method.push(item)
         end
+        
+        def items_for(arg)
+          return [1, 2, 3] if arg == 'a'
+          [1]
+        end
+        
       end
 
       class HandCodedMock
@@ -66,6 +72,11 @@ module Spec
           @funny_called = true
           @return_val
         end
+        
+        def exists?
+          @return_val
+        end
+        
 
         def __verify
           @funny_called.should_be true

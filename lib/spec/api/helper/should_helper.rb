@@ -57,7 +57,10 @@ module Spec
     end
     
     def method_missing(sym, *args)
-      return if @target.send("#{sym}?", *args)
+      ["#{sym}?", "#{sym}s?"].each do
+        |method|
+        return if @target.respond_to?(method) && @target.send(method, *args)
+      end
       fail_with_message(default_message("should be #{sym}" + (args.empty? ? '' : (' ' + args.join(', '))))) if @be_seen
       fail_with_message(default_message("should #{sym}" + (args.empty? ? '' : (' ' + args.join(', '))))) unless @be_seen
     end

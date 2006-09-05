@@ -9,7 +9,7 @@ module Spec
         # should_be_funny
 
         def test_should_be_funny_should_raise_when_target_doesnt_understand_funny
-          assert_raise(NoMethodError) do
+          assert_raise(ExpectationNotMetError) do
             5.should_be_funny
           end
         end
@@ -106,6 +106,14 @@ module Spec
           mock.__verify
         end
 
+        # should_exist => exists?
+        
+        def test_should_try_plural_form
+          mock = HandCodedMock.new(true)
+          assert_nothing_raised do
+            mock.should_exist
+          end
+        end
       end
     end
   end

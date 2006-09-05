@@ -2,6 +2,8 @@
 
 == Version 0.6.4 (In SVN)
 
+* Added support for trying a plural for arbitrary predicates.  E.g. Album.should_exist(:name => "Hey Jude") will call Album.exists?(:name => "Hey Jude")
+* Added support for should_have to work with methods taking args returning a collection.  E.g. @dave.should_have(3).albums_i_have_that_this_guy_doesnt(@aslak)
 * Added [#5570] should_not_receive(:msg).with(:specific, "args")
 * Applied [#5065] to support using define_method rather than method_missing to capture expected messages on mocks. Thanks to Eero Saynatkari for the tip that made it work.
  

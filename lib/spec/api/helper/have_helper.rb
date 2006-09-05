@@ -10,11 +10,11 @@ module Spec
     end
     
     def method_missing(sym, *args)
-      fail_with_message(build_message(sym)) unless as_specified?(sym)
+      fail_with_message(build_message(sym, args)) unless as_specified?(sym, args)
     end
     
-    def collection(sym)
-      @target.send(sym)
+    def collection(sym, args)
+      @target.send(sym, *args)
     end
     
     def actual_size(collection)
@@ -22,17 +22,17 @@ module Spec
       return collection.size if collection.respond_to? :size
     end
     
-    def build_message(sym)
+    def build_message(sym, args)
       message = "<#{@target.class.to_s}> should have"
       message += " at least" if @at_least
       message += " at most" if @at_most
-      message += " #{@expected} #{sym} (has #{actual_size(collection(sym))})"
+      message += " #{@expected} #{sym} (has #{actual_size(collection(sym, args))})"
     end
     
-    def as_specified?(sym)
-      return actual_size(collection(sym)) >= @expected if @at_least
-      return actual_size(collection(sym)) <= @expected if @at_most
-      return actual_size(collection(sym)) == @expected
+    def as_specified?(sym, args)
+      return actual_size(collection(sym, args)) >= @expected if @at_least
+      return actual_size(collection(sym, args)) <= @expected if @at_most
+      return actual_size(collection(sym, args)) == @expected
     end
 
   end
