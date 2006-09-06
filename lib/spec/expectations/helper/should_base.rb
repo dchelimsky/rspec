@@ -5,12 +5,12 @@ class Symbol
 end
 class Object
   def inspect_for_expectation_not_met_error
-    return "#{self.class} #{inspect}" if inspect.include? "<"
-    return "#{self.class} <#{inspect}>" unless inspect.include? "<"
+    return "#{inspect}" if inspect.include? "<"
+    return "<#{inspect}>" unless inspect.include? "<"
   end
 end
-class TrueClass; def inspect_for_expectation_not_met_error; "<true>" end end
-class FalseClass; def inspect_for_expectation_not_met_error; "<false>" end end
+class TrueClass; def inspect_for_expectation_not_met_error; "true" end end
+class FalseClass; def inspect_for_expectation_not_met_error; "false" end end
 class NilClass; def inspect_for_expectation_not_met_error; "nil" end end
 class Class; def inspect_for_expectation_not_met_error; "<#{name}>" end end
 class Proc; def inspect_for_expectation_not_met_error; "<Proc>" end end

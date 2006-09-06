@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+$LOAD_PATH.push File.dirname(__FILE__) + "/../lib"
 require File.expand_path(File.dirname(__FILE__) + "/../lib/spec") # better stack traces this way
 
 $context_runner = ::Spec::Runner::OptionParser.create_context_runner(ARGV, false, STDERR, STDOUT)

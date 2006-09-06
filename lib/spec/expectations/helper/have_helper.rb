@@ -23,7 +23,7 @@ module Spec
     end
     
     def build_message(sym, args)
-      message = "<#{@target.class.to_s}> should have"
+      message = "#{@target.inspect_for_expectation_not_met_error} should have"
       message += " at least" if @at_least
       message += " at most" if @at_most
       message += " #{@expected} #{sym} (has #{actual_size(collection(sym, args))})"
