@@ -128,4 +128,4 @@ class String
   end
 end
 
-NilClass.sugarize_for_rspec!
+NilClass.handle_underscores_for_rspec!
