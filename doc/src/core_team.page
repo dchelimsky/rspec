@@ -36,7 +36,8 @@ h3. RSpec!
 * Rich Kilmer (Underscore syntactic sugar)
 * Riley Lynch (Patches for the rake task)
 * Nick Sieger (RSpec on Rails patches for stats)
-* Daniel Siemssen (RSpec on Rails patches for rails_spec_runner)
+* Daniel Siemssen (RSpec on Rails patches for rails_spec_server)
 * Nikolai Weibull (Core patches for spec names)
+* Mike Williams (Core patches for arbitrary comparisons like 5.should_be < 6)
 
 If you think your name ought to be here, please contact the RSpec team.

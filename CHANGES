@@ -2,6 +2,7 @@
 
 == Version 0.6.4 (In SVN)
 
+* Renamed rails_spec_runner to rails_spec_server (as referred to in the docs)
 * Added support for trying a plural for arbitrary predicates.  E.g. Album.should_exist(:name => "Hey Jude") will call Album.exists?(:name => "Hey Jude")
 * Added support for should_have to work with methods taking args returning a collection.  E.g. @dave.should_have(3).albums_i_have_that_this_guy_doesnt(@aslak)
 * Added [#5570] should_not_receive(:msg).with(:specific, "args")
@@ -17,7 +18,7 @@ you should remove your lib/tasks/rspec.rake if it exists.
 
 * Backtraces from drb (and other standard ruby libraries) are now stripped from backtraces.
 * Applied [#5557] Put rspec.rake into the task directory of the RSpec on Rails plugin (Patch from Daniel Siemssen)
-* Applied [#5556] rails_spec_runner loads environment.rb twice (Patch from Daniel Siemssen)
+* Applied [#5556] rails_spec_server loads environment.rb twice (Patch from Daniel Siemssen)
 
 == Version 0.6.2
 This release fixes a couple of regressions with the rake task that were introduced in the previous version (0.6.1)
@@ -38,7 +39,7 @@ Things that may break backwards compatibility:
 * Fixed [#5224] Move 'require diff-lcs' from test_helper.rb to diff_test.rb (Tip from Chris Roos)
 * Applied [#5449] Rake stats for specs (Patch from Nick Sieger)
 * Applied [#5468, #5058] Fix spec runner to correctly run controller specs (Patch from Daniel Siemssen)
-* Applied fixes to rails_spec_runner to improve its ability to run several times. (Patch from Daniel Siemssen)
+* Applied fixes to rails_spec_server to improve its ability to run several times. (Patch from Daniel Siemssen)
 * Changed RCov::VerifyTask to fail if the coverage is above the threshold. This is to ensure it gets bumped when coverage improves.
 
 == Version 0.6.0
@@ -76,7 +77,7 @@ a experimental support for faster rails specs.
 * Methods can now be defined alongside specs. This obsoletes the need for defining methods in setup. (Patch #5002 from Brian Takita)
 * Sugar (underscores) now works correctly with should_be_a_kind_of and should_be_an_instance_of
 * Added support for include and inherit in contexts. (Patch #4971 from Brian Takita)
-* Added rails_spec and rails_spec_runner for faster specs on rails (still buggy - help needed)
+* Added rails_spec and rails_spec_server for faster specs on rails (still buggy - help needed)
 * Fixed bug that caused should_render to break if given a :symbol (in Rails)
 * Added support for comparing exception message in should_raise and should_not_raise
 

@@ -23,7 +23,7 @@ class RspecGenerator < Rails::Generator::Base
 
       # The rails_spec runner and client scripts
       m.file 'script/rails_spec', 'script/rails_spec', script_options
-      m.file 'script/rails_spec_runner', 'script/rails_spec_runner', script_options
+      m.file 'script/rails_spec_server', 'script/rails_spec_server', script_options
 
     end
   end
