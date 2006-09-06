@@ -74,37 +74,6 @@ module Spec
 
       end
       
-      class AnyMethodThatReturnsBooleanTest < Test::Unit::TestCase
-
-        #from patch submitted by Mike Williams - supports any method that returns boolean,
-        # regardless of whether it is formed as a ruby predicate
-
-        def test_should_pass_when_expecting_true_and_method_returns_true
-          assert_nothing_raised do
-            ClassWithUnqueriedPredicate.new(true).should_be_foo
-          end
-        end
-
-        def test_should_pass_when_expecting_false_and_method_returns_false
-          assert_nothing_raised do
-            ClassWithUnqueriedPredicate.new(false).should_not_be_foo
-          end
-        end
-
-        def test_should_fail_when_expecting_true_and_method_returns_false
-          assert_raise(ExpectationNotMetError) do
-            ClassWithUnqueriedPredicate.new(false).should_be_foo
-          end
-        end
-
-        def test_should_fail_when_expecting_false_and_method_returns_true
-          assert_raise(ExpectationNotMetError) do
-            ClassWithUnqueriedPredicate.new(true).should_not_be_foo
-          end
-        end
-
-      end
-      
       class ShouldNotBeArbitraryPredicateTest < Test::Unit::TestCase
 
         # should_not_be_funny

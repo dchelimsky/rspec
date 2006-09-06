@@ -11,6 +11,11 @@ class Object
     return "#{self.class} <#{inspect}>" unless inspect.include? "<"
   end
 end
+class Symbol
+  def supported_by_rspec?
+    return ["<","<=",">=",">","==","=~"].include? to_s
+  end
+end
 
 module Spec
   class ShouldBase
@@ -29,13 +34,11 @@ module Spec
       Kernel::raise(Spec::Expectations::ExpectationNotMetError.new(message))
     end
     
-    def find_correct_sym(original_sym)
+    def find_supported_sym(original_sym)
       ["#{original_sym}?", "#{original_sym}s?"].each do |alternate_sym|
-        if @target.respond_to?(alternate_sym.to_s)
-          return alternate_sym.to_s
-        end
+        return alternate_sym.to_s if @target.respond_to?(alternate_sym.to_s)
       end
-      return original_sym
+      return original_sym.supported_by_rspec? ? original_sym : "#{original_sym}?"
     end
     
   end
