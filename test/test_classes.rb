@@ -82,6 +82,12 @@ module Spec
           @funny_called.should_be true
         end
       end
+      class ClassWithUnqueriedPredicate
+        attr_accessor :foo
+        def initialize(foo)
+          @foo = foo
+        end
+      end
     end
   end
 end

@@ -56,15 +56,12 @@ module Spec
       fail_with_message(default_message("should respond to", message)) unless @target.respond_to? message
     end
     
-    def method_missing(sym, *args)
-      ["#{sym}?", "#{sym}s?"].each do
-        |method|
-        return if @target.respond_to?(method) && @target.send(method, *args)
-      end
-      fail_with_message(default_message("should be #{sym}" + (args.empty? ? '' : (' ' + args.join(', '))))) if @be_seen
-      fail_with_message(default_message("should #{sym}" + (args.empty? ? '' : (' ' + args.join(', '))))) unless @be_seen
+    def method_missing(original_sym, *args)
+      actual_sym = find_correct_sym(original_sym)      
+      return if @target.send(actual_sym, *args)
+      fail_with_message(default_message("should#{@be_seen ? ' be' : ''} #{original_sym}" + (args.empty? ? '' : (' ' + args.join(', ')))))
     end
-
+    
     def match(expected)
        fail_with_message(default_message("should match", expected)) unless (@target =~ expected)
     end

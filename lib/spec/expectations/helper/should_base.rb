@@ -15,6 +15,8 @@ end
 module Spec
   class ShouldBase
 
+    instance_methods.each { |m| undef_method m unless m =~ /^(__|\w)/ }
+
     def default_message(expectation, expected=:no_expectation_specified)
       message = "#{@target.inspect_for_expectation_not_met_error} #{expectation}"
       if (expected != :no_expectation_specified)
@@ -25,6 +27,15 @@ module Spec
 
     def fail_with_message(message)
       Kernel::raise(Spec::Expectations::ExpectationNotMetError.new(message))
+    end
+    
+    def find_correct_sym(original_sym)
+      ["#{original_sym}?", "#{original_sym}s?"].each do |alternate_sym|
+        if @target.respond_to?(alternate_sym.to_s)
+          return alternate_sym.to_s
+        end
+      end
+      return original_sym
     end
     
   end

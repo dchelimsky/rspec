@@ -7,6 +7,7 @@
 * Added [#5570] should_not_receive(:msg).with(:specific, "args")
 * Applied [#5065] to support using define_method rather than method_missing to capture expected messages on mocks. Thanks to Eero Saynatkari for the tip that made it work.
 * Restructured directories and Modules in order to separate rspec into three distinct Modules: Spec::Expectations, Spec::Runner and Spec::Mocks. This will allow us to more easily integrate other mock frameworks and/or allow test/unit users to take advantage of the expectation API.
+* Applied [#5620] support any boolean method and arbitrary comparisons (5.should_be < 6) (Patch from Mike Williams)
  
 == Version 0.6.3
 

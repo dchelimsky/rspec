@@ -49,7 +49,7 @@ module Spec
       end
     end
     
-    def throw(symbol=:___this_is_a_symbol_that_will_never_occur___)
+    def throw(symbol=:___this_is_a_symbol_that_will_likely_never_occur___)
       begin
         catch symbol do
           @target.call
@@ -61,12 +61,11 @@ module Spec
       end
     end
 
-    def method_missing(sym, *args)
-      return unless @target.send("#{sym}?", *args)
-      fail_with_message(default_message("should not #{sym}" + (args.empty? ? '' : (' ' + args.join(', '))))) unless @be_seen
-      fail_with_message(default_message("should not be #{sym}" + (args.empty? ? '' : (' ' + args.join(', '))))) if @be_seen
+    def method_missing(original_sym, *args)
+      actual_sym = find_correct_sym(original_sym)      
+      return unless @target.__send__(actual_sym, *args)
+      fail_with_message(default_message("should not#{@be_seen ? ' be' : ''} #{original_sym}" + (args.empty? ? '' : (' ' + args.join(', ')))))
     end
 
   end
-
 end
