@@ -8,11 +8,14 @@ class Team
 end
 
 class Players
+  def initialize
+    @players = []
+  end
   def size
-    0
+    @players.size
   end
   def include? player
-    false
+    @players.include? player
   end
 end
 
@@ -31,7 +34,7 @@ context "A new team" do
   end
   
   specify "should have no players" do
-    @team.players.size.should_be 0
+    @team.should_have(:no).players
   end
   
 end
