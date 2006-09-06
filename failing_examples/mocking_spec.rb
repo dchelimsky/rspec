@@ -28,6 +28,5 @@ context "Mocker" do
     mock.should_not_receive(:any_message_at_all)
     mock.any_message_at_all
   end
-  
 
 end

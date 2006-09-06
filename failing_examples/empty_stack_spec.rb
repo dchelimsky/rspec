@@ -1,5 +1,4 @@
-require File.dirname(__FILE__) + '/../lib/spec'
-require File.dirname(__FILE__) + "/stack"
+require File.dirname(__FILE__) + "/../examples/stack"
 
 context "An empty stack" do
   
