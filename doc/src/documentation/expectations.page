@@ -71,6 +71,20 @@ container.should_include('a') => container.include?('a')
 container.should_be_empty => container.empty?
 </ruby>
 
+h4. Arbitrary Operators
+
+<ruby>
+target.should_be < 6
+target.should_be <= 5
+target.should == 5
+target.should_be >= 5
+target.should_be > 4
+target.should == 'Johnny'
+target.should_not == 'Samantha'
+</ruby>
+
+The operators are sent to <code>target</code> with supplied arguments. Note that while you can use <code>should_not ==</code>, the expression <code>should !=</code> does not work.
+
 h4. Pattern Matching
 
 <ruby>
