@@ -1,3 +1,5 @@
+= Using Watir with RSpec =
+
 Watir provides a Ruby API to talk to a browser (Internet Explorer).
 Many people use Watir to *test* web applications, but it is also excellent
 for *specifying* the *intended behaviour* of a web application. Even
@@ -18,11 +20,11 @@ This directory contains a simple example to illustrate this. After you
 have installed Ruby, Watir and RSpec, open a shell, go to this directory
 and type:
 
-  spec find_rspecs_home_page.rb --format specdoc
+  ruby find_rspecs_home_page.rb --format specdoc
 
 Or better:
 
-  spec find_rspecs_home_page.rb --format html > find_rspecs_home_page.html
+  ruby find_rspecs_home_page.rb --format html > find_rspecs_home_page.html
 
 And upload find_rspecs_home_page.html to your project's web page or intranet.
 This will give immediate visibility to the intended behaviour of your web app,

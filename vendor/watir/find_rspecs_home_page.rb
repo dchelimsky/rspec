@@ -15,7 +15,6 @@ context "Google's search page" do
   specify "should not find Ali G when I search for rspec" do
     @browser.text_field(:name, "q").set("rspec")
     @browser.button(:name, "btnG").click
-    # You should change this if you're not in Norway!
     @browser.contains_text("Ali G").should_be(false)
   end
 
