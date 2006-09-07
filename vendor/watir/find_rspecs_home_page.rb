@@ -6,7 +6,7 @@ context "Google's search page" do
     @browser.goto('http://www.google.com')
   end
 
-  specify "should find rspec's home page" do
+  specify "should find rspec's home page when I search for rspec" do
     @browser.text_field(:name, "q").set("rspec")
     @browser.button(:name, "btnG").click
     @browser.contains_text("rspec.rubyforge.org").should_be(true)

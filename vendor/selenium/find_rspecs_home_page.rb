@@ -8,7 +8,7 @@ context "Google's search page" do
     @browser.open('http://www.google.no')
   end
 
-  specify "should find rspec's home page" do
+  specify "should find rspec's home page when I search for rspec" do
     @browser.type "name=q", "rspec"
     @browser.click_and_wait "name=btnG"
     @browser.is_text_present("rspec.rubyforge.org").should_be(true)
