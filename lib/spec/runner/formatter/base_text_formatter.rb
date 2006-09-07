@@ -5,9 +5,10 @@ module Spec
       # non-text based ones too - just ignore the +output+ constructor
       # argument.
       class BaseTextFormatter
-        def initialize(output, dry_run=false)
-          @dry_run = dry_run
+        def initialize(output, dry_run=false, colour=false)
           @output = output
+          @dry_run = dry_run
+          @colour = colour
         end
 
         # This method is invoked before any specs are run, right after
@@ -68,8 +69,10 @@ module Spec
           return if @dry_run
           @output << "\n"
           @output << "Finished in " << (duration).to_s << " seconds\n\n"
+          @output << (failure_count == 0 ? "\e[32m" : "\e[31m") if @colour
           @output << "#{spec_count} specification#{'s' unless spec_count == 1}, "
           @output << "#{failure_count} failure#{'s' unless failure_count == 1}"
+          @output << "\e[0m" if @colour
           @output << "\n"
           @output.flush
         end

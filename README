@@ -9,6 +9,7 @@ Then you must install the following gems:
 * RedCloth
 * syntax
 * diff-lcs
+* meta_project
 
 Note that RSpec itself - once built - doesn't have any dependencies outside the Ruby core 
 and stdlib - with a few exceptions:

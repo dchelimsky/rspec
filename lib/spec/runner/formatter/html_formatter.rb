@@ -2,7 +2,7 @@ module Spec
   module Runner
     module Formatter
       class HtmlFormatter < BaseTextFormatter
-        def initialize(output, dry_run=false)
+        def initialize(output, dry_run=false, colour=false)
           super
           @current_count = 0
         end

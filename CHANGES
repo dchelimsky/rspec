@@ -2,6 +2,8 @@
 
 == Version 0.6.4 (In SVN)
 
+* Added new -c, --colour, --color option for colourful (red/green) output. Inspired from Pat Eyler's Redgreen gem.
+* Added examples for Watir and Selenium under the gem's vendor directory.
 * Renamed rails_spec_runner to rails_spec_server (as referred to in the docs)
 * Added support for trying a plural for arbitrary predicates.  E.g. Album.should_exist(:name => "Hey Jude") will call Album.exists?(:name => "Hey Jude")
 * Added support for should_have to work with methods taking args returning a collection.  E.g. @dave.should_have(3).albums_i_have_that_this_guy_doesnt(@aslak)

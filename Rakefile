@@ -22,7 +22,11 @@ PKG_FILES = FileList[
   '[A-Z]*',
   'lib/**/*.rb', 
   'test/**/*.rb', 
-  'examples/**/*'
+  'examples/**/*',
+  'vendor/watir/*.rb',
+  'vendor/watir/*.txt',
+  'vendor/selenium/*.rb',
+  'vendor/selenium/*.txt'
 ]
 
 task :default => :test

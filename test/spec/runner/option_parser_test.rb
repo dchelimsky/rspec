@@ -116,6 +116,26 @@ module Spec
         options = OptionParser.parse(["-s","something or other"], false, @err, @out)
         assert_equal "something or other", options.spec_name
       end
+
+      def test_should_not_use_colour_by_default
+        options = OptionParser.parse([], false, @err, @out)
+        assert !options.colour
+      end
+
+      def test_should_support_queens_colour_option
+        options = OptionParser.parse(["--colour"], false, @err, @out)
+        assert options.colour
+      end
+
+      def test_should_support_us_color_option
+        options = OptionParser.parse(["--color"], false, @err, @out)
+        assert options.colour
+      end
+
+      def test_should_support_c_option
+        options = OptionParser.parse(["-c"], false, @err, @out)
+        assert options.colour
+      end
     end
   end
 end

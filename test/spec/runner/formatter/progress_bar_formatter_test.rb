@@ -34,6 +34,18 @@ module Spec
           assert_equal("\nFinished in 3 seconds\n\n2 specifications, 1 failure\n", @io.string)
         end
 
+        def test_should_produce_standard_red_summary
+          @formatter = ProgressBarFormatter.new(@io, false, true)
+          @formatter.dump_summary(3,2,1)
+          assert_equal("\nFinished in 3 seconds\n\n\e[31m2 specifications, 1 failure\e[0m\n", @io.string)
+        end
+
+        def test_should_produce_standard_green_summary
+          @formatter = ProgressBarFormatter.new(@io, false, true)
+          @formatter.dump_summary(3,2,0)
+          assert_equal("\nFinished in 3 seconds\n\n\e[32m2 specifications, 0 failures\e[0m\n", @io.string)
+        end
+
         def test_should_produce_line_break_on_start_dump
           @formatter.start_dump
           assert_equal("\n", @io.string)

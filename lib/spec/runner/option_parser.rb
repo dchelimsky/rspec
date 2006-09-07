@@ -8,7 +8,7 @@ module Spec
       def self.create_context_runner(args, standalone, err, out=STDOUT)
         options = parse(args, standalone, err, out)
 
-        formatter = options.formatter_type.new(options.out, options.dry_run)
+        formatter = options.formatter_type.new(options.out, options.dry_run, options.colour)
         reporter = Reporter.new(formatter, options.backtrace_tweaker) 
         ContextRunner.new(reporter, standalone, options.dry_run, options.spec_name)
       end
@@ -26,6 +26,10 @@ module Spec
 
           opts.on("--diff", "Show unified diff of Strings that are expected to be equal when they are not") do
             require 'spec/expectations/helper/diff'
+          end
+          
+          opts.on("-c", "--colour", "--color", "Show coloured (red/green) output") do
+            options.colour = true
           end
           
           opts.on("-s", "--spec SPECIFICATION_NAME", "Execute a single specification") do |spec_name|
