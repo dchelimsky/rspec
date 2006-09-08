@@ -142,7 +142,7 @@ h3. Translating existing Test::Unit tests
 The test2spec tool that ships with RSpec translates existing tests into RSpec specs. 
 Translating tests to specs in a Rails environment requires some manual steps...
 
-h4. Install the rspec_generator
+h4. Install RSpec on Rails
 
 How to do this is described above.
 
