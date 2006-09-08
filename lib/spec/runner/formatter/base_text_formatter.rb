@@ -9,7 +9,12 @@ module Spec
           @output = output
           @dry_run = dry_run
           @colour = colour
-        end
+          begin
+            require 'Win32/Console/ANSI' if @colour && PLATFORM =~ /win32/
+          rescue LoadError
+            raise "You must gem install win32console to use --color on Windows"
+          end
+	end
 
         # This method is invoked before any specs are run, right after
         # they have all been collected. This can be useful for special
@@ -56,24 +61,29 @@ module Spec
         # of the associated spec. +failure+ is a Failure object, which contains detailed
         # information about the failure.
         def dump_failure(counter, failure)
-          @output << "\n"
-          @output << counter.to_s << ")\n"
-          @output << "#{failure.header}\n"
-          @output << "#{failure.message}\n"
-          @output << "#{failure.backtrace}\n"
+          @output.puts
+          @output.puts "#{counter.to_s})"
+          @output.puts failure.header
+          @output.puts failure.message
+          @output.puts failure.backtrace
           @output.flush
         end
       
         # This method is invoked at the very end.
         def dump_summary(duration, spec_count, failure_count)
           return if @dry_run
-          @output << "\n"
-          @output << "Finished in " << (duration).to_s << " seconds\n\n"
-          @output << (failure_count == 0 ? "\e[32m" : "\e[31m") if @colour
-          @output << "#{spec_count} specification#{'s' unless spec_count == 1}, "
-          @output << "#{failure_count} failure#{'s' unless failure_count == 1}"
-          @output << "\e[0m" if @colour
-          @output << "\n"
+          if @colour && @output == STDOUT
+            colour_prefix = (failure_count == 0 ? "\e[32m" : "\e[31m")
+            colour_postfix = "\e[0m"
+            summary_output = Kernel
+          else
+            colour_prefix = colour_postfix = ""
+            summary_output = @output
+          end
+          @output.puts
+          @output.puts "Finished in #{duration} seconds"
+          @output.puts
+          summary_output.puts "#{colour_prefix}#{spec_count} specification#{'s' unless spec_count == 1}, #{failure_count} failure#{'s' unless failure_count == 1}#{colour_postfix}"
           @output.flush
         end
       end
