@@ -22,6 +22,10 @@ class SpecTestCase < Test::Unit::TestCase
   def teardown
     super
   end
+
+  def should_have_tag tag, *opts
+    response.body.should_have_tag tag, *opts
+  end
 end
 
 module Spec
