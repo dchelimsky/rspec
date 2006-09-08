@@ -1,5 +1,4 @@
-In order to run RSpec's tests and generate the gem and the website, you must have RubyGems.
-Then you must install the following gems:
+In order to run RSpec's full test suite (rake pre_commit) you must install the following gems:
 
 * rake
 * rcov
@@ -10,6 +9,9 @@ Then you must install the following gems:
 * syntax
 * diff-lcs
 * meta_project
+* sqlite3-ruby
+
+You must also install SQLite - which is needed to test the Rails plugin.
 
 Note that RSpec itself - once built - doesn't have any dependencies outside the Ruby core 
 and stdlib - with a few exceptions:

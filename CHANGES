@@ -2,6 +2,7 @@
 
 == Version 0.6.4 (In SVN)
 
+* Cleaned up RSpec on Rails so it doesn't pollute as much during bootstrapping.
 * Added support for should_have_tag (works just like assert_tag in rails)
 * Added new -c, --colour, --color option for colourful (red/green) output. Inspired from Pat Eyler's Redgreen gem.
 * Added examples for Watir and Selenium under the gem's vendor directory.

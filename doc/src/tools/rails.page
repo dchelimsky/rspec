@@ -165,13 +165,13 @@ h4. Perform the translations
 Now you can translate your unit tests (model tests) with "test2spec":test2spec.html:
 
 <pre>
-test2spec --template spec/test2spec.erb --specdir spec/models test/unit
+test2spec --template vendor/plugins/rspec/test2spec.erb --specdir spec/models test/unit
 </pre>
 
 and your functional tests (controller tests) with:
 
 <pre>
-test2spec --template spec/test2spec.erb --specdir spec/controllers test/functional
+test2spec --template vendor/plugins/rspec/test2spec.erb --specdir spec/controllers test/functional
 </pre>
 
 h4. Edit your translated specs

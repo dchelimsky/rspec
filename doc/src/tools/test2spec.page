@@ -33,6 +33,7 @@ Where spec/test2spec.erb contains the following:
 {includeFile: {filename: ../../../spec/test2spec.erb, processOutput: false}}
 </pre>
 
+If the test2spec.erb file doesn't exist you have to write it.
 
 h2. Sample translation
 
