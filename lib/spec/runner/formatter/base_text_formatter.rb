@@ -14,7 +14,7 @@ module Spec
           rescue LoadError
             raise "You must gem install win32console to use --color on Windows"
           end
-	end
+	      end
 
         # This method is invoked before any specs are run, right after
         # they have all been collected. This can be useful for special

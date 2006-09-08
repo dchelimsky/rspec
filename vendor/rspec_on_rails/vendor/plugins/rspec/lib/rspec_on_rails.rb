@@ -84,6 +84,13 @@ module Spec
         attr_writer :fixture_path
       end
       extend RailsPluginClassMethods
+      
+      module RailsPluginInstanceMethods
+        def should_have_tag *opts
+          raise
+        end
+      end
+      include RailsPluginInstanceMethods
 
       # entry point into rspec
       # Keep it sync'ed!
