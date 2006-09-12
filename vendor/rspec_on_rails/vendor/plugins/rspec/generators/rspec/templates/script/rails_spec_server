@@ -42,7 +42,7 @@ def restart_test_server
   exec(command_line)
 end  
 
-trap("USR2") { restart_test_server } unless PLATFORM =~ /win32/
+trap("USR2") { restart_test_server } if Signal.list.has_key?("USR2")
 puts "Ready"
 DRb.start_service("druby://localhost:8989", Spec::Runner::RailsSpecServer.new)
 DRb.thread.join
