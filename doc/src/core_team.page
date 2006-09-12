@@ -33,6 +33,7 @@ h2. Contributors
 h3. RSpec!
 
 * Lachie Cox (Initial Rails support)
+* Lindsay Evans (Patch for RSpec on Rails on Windows)
 * Rich Kilmer (Underscore syntactic sugar)
 * Riley Lynch (Patches for the rake task)
 * Nick Sieger (RSpec on Rails patches for stats)
