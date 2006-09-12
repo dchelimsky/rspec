@@ -18,3 +18,6 @@ In the first one, run:
 In the second one, run:
 
   ruby find_rspecs_home_page.rb --format specdoc
+  
+NOTE
+If you want to optimize speed (by sacrificing spec independence) you may apply the patch start_browser_once.patch

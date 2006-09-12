@@ -1,0 +1,65 @@
+Index: find_rspecs_home_page.rb
+===================================================================
+--- find_rspecs_home_page.rb	(revision 767)
++++ find_rspecs_home_page.rb	(working copy)
+@@ -2,22 +2,18 @@
+ 
+ context "Google's search page" do
+ 
+-  setup do
+-    @browser = Selenium::SeleneseInterpreter.new("localhost", 4444, "*firefox", "http://www.google.no", 10000)
+-    @browser.start
+-    @browser.open('http://www.google.no')
+-  end
+-
+   specify "should find rspec's home page when I search for rspec" do
+-    @browser.type "name=q", "rspec"
+-    @browser.click_and_wait "name=btnG"
+-    @browser.is_text_present("rspec.rubyforge.org").should_be(true)
++    browser.open('http://www.google.no')
++    browser.type "name=q", "rspec"
++    browser.click_and_wait "name=btnG"
++    browser.is_text_present("rspec.rubyforge.org").should_be(true)
+   end
+ 
+   specify "should not find Ali G when I search for rspec" do
+-    @browser.type "name=q", "rspec"
+-    @browser.click_and_wait "name=btnG"
+-    @browser.is_text_present("Ali G").should_be(false)
++    browser.open('http://www.google.no')
++    browser.type "name=q", "rspec"
++    browser.click_and_wait "name=btnG"
++    browser.is_text_present("Ali G").should_be(false)
+   end
+ 
+ end
+\ No newline at end of file
+Index: rspec_selenium.rb
+===================================================================
+--- rspec_selenium.rb	(revision 767)
++++ rspec_selenium.rb	(working copy)
+@@ -3,10 +3,22 @@
+ require File.dirname(__FILE__) + '/selenium'
+ 
+ class RSpecSelenium
+-  def teardown
+-    @browser.stop
++  def setup
++    unless defined?@@browser
++      @@browser = Selenium::SeleneseInterpreter.new("localhost", 4444, "*firefox", "http://www.google.no", 10000)
++      @@browser.start
++    end
+   end
++
++  def browser
++    @@browser
++  end
++
++  def self.shutdown
++    @@browser.stop
++  end
+ end
++at_exit{RSpecSelenium.shutdown}
+ 
+ module Spec
+   module Runner
