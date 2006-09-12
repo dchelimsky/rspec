@@ -10,7 +10,7 @@ context "The <%= class_name %>Controller" do
 
 <% for action in actions -%>
 
-  specify "should accept GET to <%= action %>"
+  specify "should accept GET to <%= action %>" do
     get '<%= action %>'
     response.should_be_success
   end
