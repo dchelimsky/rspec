@@ -36,7 +36,13 @@ ruby script/plugin install svn://rubyforge.org/var/svn/rspec/tags/REL_X_Y_Z/vend
 Or if you like to live dangerously you can get the HEAD of the trunk:
 
 <pre>
-script/plugin install svn://rubyforge.org/var/svn/rspec/trunk/vendor/rspec_on_rails/vendor/plugins/rspec
+ruby script/plugin install svn://rubyforge.org/var/svn/rspec/trunk/vendor/rspec_on_rails/vendor/plugins/rspec
+</pre>
+
+If your own project is in Subversion and you'd like RSpec on Rails to always follow HEAD, install with -x:
+
+<pre>
+ruby script/plugin install -x svn://rubyforge.org/var/svn/rspec/trunk/vendor/rspec_on_rails/vendor/plugins/rspec
 </pre>
 
 Once the plugin is installed, you must bootstrap your Rails app with RSpec. Stand in the root of your Rails app and run:
