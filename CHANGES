@@ -3,7 +3,7 @@
 == Version 0.6.4 (In SVN)
 
 * Applied [#5728] rails_spec_runner fails on Windows (Patch from Lindsay Evans).
-* Apllied [#5708] RSpec Rails plugin rspec_controller generator makes specs that do not parse.
+* Applied [#5708] RSpec Rails plugin rspec_controller generator makes specs that do not parse.
 * Cleaned up RSpec on Rails so it doesn't pollute as much during bootstrapping.
 * Added support for should_have_tag (works just like assert_tag in rails)
 * Added new -c, --colour, --color option for colourful (red/green) output. Inspired from Pat Eyler's Redgreen gem.

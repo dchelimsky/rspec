@@ -7,7 +7,7 @@ h3. A simple, introductory tutorial by David Chelimsky
 
 In this tutorial, we're going to explore the developer practices of Behaviour Driven Development using rSpec. As a developer, the goal of BDD is to think about specifying examples of behaviour rather than testing. We'll explore what that means, and how it affects the process of specifying components in a system. 
 
-One example I've used when teaching TDD isa Stack. It would typically start with a test like this:
+One example I've used when teaching TDD is a Stack. It would typically start with a test like this:
 
 <ruby>
 #NOT A BDD EXAMPLE
