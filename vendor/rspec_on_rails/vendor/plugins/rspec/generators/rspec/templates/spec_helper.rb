@@ -26,6 +26,10 @@ class SpecTestCase < Test::Unit::TestCase
   def should_have_tag tag, *opts
     response.body.should_have_tag tag, *opts
   end
+
+  def should_not_have_tag tag, *opts
+    response.body.should_not_have_tag tag, *opts
+  end
 end
 
 module Spec

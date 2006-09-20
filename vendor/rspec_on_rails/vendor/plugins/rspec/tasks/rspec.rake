@@ -6,6 +6,7 @@ desc 'Run all model and controller specs'
 task :spec do
   Rake::Task["spec:models"].invoke      rescue got_error = true
   Rake::Task["spec:controllers"].invoke rescue got_error = true
+  Rake::Task["spec:views"].invoke       rescue got_error = true
   unless plugin_specs.empty? 
     Rake::Task["spec:plugins"].invoke   rescue got_error = true
   end
@@ -31,6 +32,11 @@ namespace :spec do
     t.spec_files = FileList['spec/controllers/**/*_spec.rb']
   end
   
+  desc "Run the specs under spec/views"
+  Spec::Rake::SpecTask.new(:views => "db:test:prepare") do |t|
+    t.spec_files = FileList['spec/views/**/*_spec.rb']
+  end
+  
   unless plugin_specs.empty?
     desc "Run the specs under vendor/plugins"
     Spec::Rake::SpecTask.new(:plugins => "db:test:prepare") do |t|
@@ -43,6 +49,7 @@ namespace :spec do
     t.spec_files = FileList[
       'spec/models/**/*_spec.rb',
       'spec/controllers/**/*_spec.rb',
+      'spec/views/**/*_spec.rb',
       'vendor/plugins/**/spec/**/*_spec.rb'
     ]
     t.spec_opts = ["--format", "specdoc"]
@@ -57,6 +64,7 @@ namespace :spec do
     ::CodeStatistics::TEST_TYPES << "Model specs"
     ::CodeStatistics::TEST_TYPES << "Controller specs"
     ::CodeStatistics::TEST_TYPES << "View specs"
+    ::STATS_DIRECTORIES.delete_if {|a| a[0] =~ /test/}
   end
 
   namespace :db do

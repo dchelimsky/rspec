@@ -117,19 +117,33 @@ module ActionController
   end
 end
 
-class String
-  def should_have_tag(*opts)
-    opts = opts.size > 1 ? opts.last.merge({ :tag => opts.first.to_s }) : opts.first
-    begin
-      HTML::Document.new(self).find(opts).should_not_be_nil
-    rescue
-      self.should_include opts.inspect
+module Spec
+  module Expectations
+    module StringExpectations
+      def should_have_tag(*opts)
+        raise_rspec_error(" should include ", opts) if find_tag(*opts).nil?
+      end
+
+      def should_not_have_tag(*opts)
+        raise_rspec_error(" should not include ", opts) unless find_tag(*opts).nil?
+      end
+
+      private 
+
+      def raise_rspec_error(message, *opts)
+        Kernel::raise(Spec::Expectations::ExpectationNotMetError.new(self + " should not include " + opts.inspect))
+      end
+
+      def find_tag(*opts)
+        opts = opts.size > 1 ? opts.last.merge({ :tag => opts.first.to_s }) : opts.first
+        HTML::Document.new(self).find(opts)
+      end
     end
   end
+end
 
-  def should_not_have_tag(*opts)
-    proc { should_have_tag *opts }.should_raise Spec::Expectations::ExpectationNotMetError
-  end
+class String
+  include Spec::Expectations::StringExpectations
 end
 
 module ActiveRecord

@@ -2,6 +2,7 @@
 
 == Version 0.6.4 (In SVN)
 
+* Added generation of view specs for rspec_on_rails
 * Applied [#5815] active_record_subclass.should_have(3).records
 * Added support in "rake stats" for view specs (in spec/views)
 * Applied [#5801] QuickRef.pdf should say RSpec, not rSpec
