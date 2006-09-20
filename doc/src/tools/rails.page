@@ -129,8 +129,8 @@ h3. Naming conventions
 When you use Rails without RSpec (with Test::Unit), tests for models end up in tests/unit and tests for controllers
 end up in tests/functional.
 
-In order to make things more consistent, RSpec chooses a slightly different naming convention for direcotries and
-Rake tasks. So you will find model specs under specs/models, and controller specs under specs/controllers. The
+In order to make things more consistent, RSpec chooses a slightly different naming convention for directories and
+Rake tasks. So you will find model specs under specs/models, controller specs under specs/controllers, and view specs under specs/views. The
 Rake tasks are named accordingly.
 
 h3. Examples
@@ -142,6 +142,20 @@ Model:
 
 Controller:
 <ruby file="../vendor/rspec_on_rails/spec/controllers/person_controller_spec.rb"/>
+
+h3. Other Notes
+
+Some rails-isms don't read too well in the context of some expectation forms.  For example, to set an expectation on the number of records for a particular model, you would write:
+
+<ruby>
+ModelClass.should_have(4).find(:all)
+</ruby>
+
+To help with that we've added a method to ActiveRecord::Base, so now you can write:
+
+<ruby>
+ModelClass.should_have(4).records
+</ruby>
 
 h3. Translating existing Test::Unit tests
 
