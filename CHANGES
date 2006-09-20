@@ -2,6 +2,7 @@
 
 == Version 0.6.4 (In SVN)
 
+* Added support in "rake stats" for view specs (in spec/views)
 * Applied [#5801] QuickRef.pdf should say RSpec, not rSpec
 * Applied [#5728] rails_spec_runner fails on Windows (Patch from Lindsay Evans).
 * Applied [#5708] RSpec Rails plugin rspec_controller generator makes specs that do not parse.
