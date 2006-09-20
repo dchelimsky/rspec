@@ -131,7 +131,7 @@ module Spec
       private 
 
       def raise_rspec_error(message, *opts)
-        Kernel::raise(Spec::Expectations::ExpectationNotMetError.new(self + " should not include " + opts.inspect))
+        Kernel::raise(Spec::Expectations::ExpectationNotMetError.new(self + message + opts.inspect))
       end
 
       def find_tag(*opts)
