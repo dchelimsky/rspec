@@ -53,9 +53,10 @@ namespace :spec do
     require 'code_statistics'
     ::STATS_DIRECTORIES << %w(Model\ specs spec/models)
     ::STATS_DIRECTORIES << %w(Controller\ specs spec/controllers)
+    ::STATS_DIRECTORIES << %w(View\ specs spec/views)
     ::CodeStatistics::TEST_TYPES << "Model specs"
     ::CodeStatistics::TEST_TYPES << "Controller specs"
-    ::STATS_DIRECTORIES.delete_if {|a| a[0] =~ /test/}
+    ::CodeStatistics::TEST_TYPES << "View specs"
   end
 
   namespace :db do
