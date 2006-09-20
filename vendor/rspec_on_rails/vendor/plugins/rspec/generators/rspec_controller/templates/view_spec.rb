@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '<%= '/..' * class_nesting_depth %>/../spec_helper'
 
-context "Rendering /<%= model %>/<%= action %>" do
+context "/<%= model %>/<%= action %>" do
   # fixtures :<%= table_name %>
   controller_name :<%= model.underscore %>
 
