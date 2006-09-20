@@ -126,6 +126,20 @@ class String
       self.should_include opts.inspect
     end
   end
+
+  def should_not_have_tag(*opts)
+    proc { should_have_tag *opts }.should_raise Spec::Expectations::ExpectationNotMetError
+  end
+end
+
+module ActiveRecord
+  class Base
+    
+    def self.records
+      find(:all)
+    end
+    
+  end
 end
 
 NilClass.handle_underscores_for_rspec!
