@@ -30,7 +30,7 @@ class RspecControllerGenerator < ControllerGenerator
           path,
           :assigns => { :action => action, :path => path }
         m.template 'view_spec.rb',
-          File.join('spec/views', class_path, "#{file_name}_#{action}_controller_spec.rb"),
+          File.join('spec/views', class_path, "#{file_name}_#{action}_view_spec.rb"),
           :assigns => { :action => action, :model => file_name }
       end
     end
