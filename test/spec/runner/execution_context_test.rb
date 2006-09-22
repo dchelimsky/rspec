@@ -10,6 +10,23 @@ module Spec
         ec = ExecutionContext.new spec
         mock = ec.mock("a mock", :null_object=>true)
       end
+
+      def test_stub__should_stub_object_with_a_method
+        spec = Spec::Mocks::Mock.new "spec"
+        stub_space = Spec::Mocks::Mock.new "stub_space"
+        spec.should_receive(:stub_space) {stub_space}
+        target = Object.new
+        name = "foobar"
+        expected_stub = Object.new
+        stub_space.
+          should_receive(:create_stub).
+          once.
+          with(target, name).
+          and_return {expected_stub}
+        ec = ExecutionContext.new spec
+        stub = ec.stub(target, name)
+        assert_equal expected_stub, stub
+      end
       
       def test_violated
         assert_raise(Spec::Expectations::ExpectationNotMetError) do

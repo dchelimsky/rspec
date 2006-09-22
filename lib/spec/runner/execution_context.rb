@@ -5,11 +5,15 @@ module Spec
         def initialize(spec)
           @spec = spec
         end
-        
+
         def mock(name, options={})
           mock = Spec::Mocks::Mock.new(name, options)
           @spec.add_mock(mock)
           mock
+        end
+
+        def stub(object, name="")
+          stub_space.create_stub(object, name)
         end
 
         def duck_type(*args)
@@ -18,6 +22,11 @@ module Spec
 
         def violated(message="")
           raise Spec::Expectations::ExpectationNotMetError.new(message)
+        end
+
+        private
+        def stub_space
+          @spec.stub_space
         end
       end
       include InstanceMethods

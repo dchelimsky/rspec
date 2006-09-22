@@ -1,11 +1,12 @@
 module Spec
   module Runner
     class Specification
-    
+
       def initialize(name, &block)
         @name = name
         @block = block
         @mocks = []
+        @stub_space = Stubs::StubSpace.new
       end
 
       def run(reporter=nil, setup_block=nil, teardown_block=nil, dry_run=false, execution_context=nil)
@@ -28,6 +29,7 @@ module Spec
           @mocks.each do |mock|
             mock.__verify
           end
+          @stub_space.registry.clear!
         rescue => e
           errors << e
         end
@@ -37,6 +39,10 @@ module Spec
 
       def add_mock(mock)
         @mocks << mock
+      end
+
+      def stub_space
+        @stub_space
       end
       
       def matches_matcher?(matcher)

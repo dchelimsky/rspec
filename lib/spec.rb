@@ -1,5 +1,6 @@
 require 'spec/version'
 require 'spec/expectations'
 require 'spec/mocks'
+require 'spec/stubs'
 require 'spec/runner'
 require 'spec/runner/kernel_ext'
