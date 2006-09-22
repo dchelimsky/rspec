@@ -9,17 +9,6 @@ context "A consumer of a stub" do
   end
 
 end
-require File.dirname(__FILE__) + '/../lib/spec'
-
-context "A consumer of a stub" do
-
-  specify "should be able to stub objects" do
-    obj = Object.new
-    stub(obj).method(:foobar).with {:return_value}
-    obj.foobar.should_equal :return_value
-  end
-
-end
 
 class StubbableClass
   def self.find id
