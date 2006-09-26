@@ -2,9 +2,8 @@
 
 == Version 0.6.4 (In SVN)
 
-* Added initial support for [#5873] - response.should_have_rjs
-* Applied [#] to support stubbing class level methods (very useful for ActiveRecord subclasses in controller and view specs)
-* Fixed message generation in should_have_tag & should_not_have_tag
+* Added initial support for [#5873] - response.should_have_rjs (initial patch from Jake Howerton)
+* Applied [#5844] to support stubbing class level methods (very useful for ActiveRecord subclasses in controller and view specs)
 * Added generation of view specs for rspec_on_rails
 * Applied [#5815] active_record_subclass.should_have(3).records
 * Added support in "rake stats" for view specs (in spec/views)
@@ -12,7 +11,7 @@
 * Applied [#5728] rails_spec_runner fails on Windows (Patch from Lindsay Evans).
 * Applied [#5708] RSpec Rails plugin rspec_controller generator makes specs that do not parse.
 * Cleaned up RSpec on Rails so it doesn't pollute as much during bootstrapping.
-* Added support for should_have_tag (works just like assert_tag in rails)
+* Added support for response.should_have_tag and response.should_not_have_tag (works just like assert_tag in rails)
 * Added new -c, --colour, --color option for colourful (red/green) output. Inspired from Pat Eyler's Redgreen gem.
 * Added examples for Watir and Selenium under the gem's vendor directory.
 * Renamed rails_spec_runner to rails_spec_server (as referred to in the docs)
