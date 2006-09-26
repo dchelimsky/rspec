@@ -2,6 +2,7 @@
 
 == Version 0.6.4 (In SVN)
 
+* Added initial support for [#5873] - response.should_have_rjs
 * Applied [#] to support stubbing class level methods (very useful for ActiveRecord subclasses in controller and view specs)
 * Fixed message generation in should_have_tag & should_not_have_tag
 * Added generation of view specs for rspec_on_rails

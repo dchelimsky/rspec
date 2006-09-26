@@ -13,4 +13,22 @@ class PersonController < ApplicationController
       @person = Person.new
     end
   end
+  
+  def a_replace_html_call
+    render :update do |page|
+      page.replace_html 'mydiv', 'replacement text'
+    end
+  end
+  
+  def an_insert_html_call
+    render :update do |page|
+      page.insert_html 'mydiv', 'replacement text'
+    end
+  end
+  
+  def a_replace_call
+    render :update do |page|
+      page.replace 'mydiv', 'replacement text'
+    end
+  end
 end

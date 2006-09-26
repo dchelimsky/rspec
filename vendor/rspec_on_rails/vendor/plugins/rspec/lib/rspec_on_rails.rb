@@ -7,6 +7,7 @@ require 'active_record/fixtures'
 require 'action_controller/test_process'
 require 'action_controller/integration'
 require 'spec'
+require 'response_ext'
 
 module Spec
   module Runner
@@ -105,45 +106,6 @@ module Spec
     end # Context
 
   end
-end
-
-module ActionController
-  class TestResponse
-    def should_render(expected=nil)
-      expected = expected.to_s unless expected.nil?
-      rendered = expected ? rendered_file(!expected.include?('/')) : rendered_file
-      expected.should_equal rendered
-    end
-  end
-end
-
-module Spec
-  module Expectations
-    module StringExpectations
-      def should_have_tag(*opts)
-        raise_rspec_error(" should include ", opts) if find_tag(*opts).nil?
-      end
-
-      def should_not_have_tag(*opts)
-        raise_rspec_error(" should not include ", opts) unless find_tag(*opts).nil?
-      end
-
-      private 
-
-      def raise_rspec_error(message, *opts)
-        Kernel::raise(Spec::Expectations::ExpectationNotMetError.new(self + message + opts.inspect))
-      end
-
-      def find_tag(*opts)
-        opts = opts.size > 1 ? opts.last.merge({ :tag => opts.first.to_s }) : opts.first
-        HTML::Document.new(self).find(opts)
-      end
-    end
-  end
-end
-
-class String
-  include Spec::Expectations::StringExpectations
 end
 
 module ActiveRecord

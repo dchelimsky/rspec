@@ -25,11 +25,11 @@ context "Rendering /person" do
   end
 
   specify "should display the list of people" do
-    should_have_tag 'p', :content => 'Find me in app/views/person/list.rhtml'
+    response.should_have_tag 'p', :content => 'Find me in app/views/person/list.rhtml'
   end
 
   specify "should not have any <div> tags" do
-      should_not_have_tag '<div>'
+    response.should_not_have_tag '<div>'
   end
-
+  
 end
