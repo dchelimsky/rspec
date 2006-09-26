@@ -1,4 +1,4 @@
-task :pre_commit => [:clobber_sqlite, :migrate, :generate_rspec, :spec]
+task :pre_commit => [:clobber_sqlite, :migrate, :generate_rspec, :specs, :spec]
 
 task :clobber_sqlite do
   rm_rf 'db/*.db'
@@ -9,3 +9,8 @@ task :generate_rspec do
   raise "Failed to generate rspec environment" if $? != 0
 end
 
+task :specs do
+  `spec specs`
+  raise "rspec_on_rails specs failed (stand in ~/vendor/rspec_on_rails and run 'spec specs' to see details)" if $? != 0
+end
+  
