@@ -2,7 +2,7 @@
 
 == Version 0.6.4 (In SVN)
 
-* Added initial support for [#5873] - response.should_have_rjs (initial patch from Jake Howerton)
+* Added for [#5873] - response.should_have_rjs (initial patch from Jake Howerton, based on ARTS by Kevin Clark)
 * Applied [#5844] to support stubbing class level methods (very useful for ActiveRecord subclasses in controller and view specs)
 * Added generation of view specs for rspec_on_rails
 * Applied [#5815] active_record_subclass.should_have(3).records
