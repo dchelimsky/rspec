@@ -35,6 +35,11 @@ module Spec
       Kernel::raise(Spec::Expectations::ExpectationNotMetError.new(message))
     end
     
+    def respond_to? sym
+      return true if super
+      return true if @target.respond_to? "#{sym.to_s}?"
+    end
+    
     def find_supported_sym(original_sym)
       ["#{original_sym}?", "#{original_sym}s?"].each do |alternate_sym|
         return alternate_sym.to_s if @target.respond_to?(alternate_sym.to_s)

@@ -77,6 +77,9 @@ module Spec
           @return_val
         end
         
+        def multi_word_predicate?
+          @return_val
+        end
 
         def __verify
           @funny_called.should_be true

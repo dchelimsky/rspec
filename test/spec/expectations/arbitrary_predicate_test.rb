@@ -71,6 +71,18 @@ module Spec
             mock.should_exist
           end
         end
+        
+        def test_should_support_multi_word_predicates_with_should
+          assert_nothing_raised do
+            HandCodedMock.new(true).should_multi_word_predicate
+          end
+        end
+
+        def test_should_support_multi_word_predicates_with_should_be
+          assert_nothing_raised do
+            HandCodedMock.new(true).should_be_multi_word_predicate
+          end
+        end
 
       end
       
@@ -134,6 +146,17 @@ module Spec
           mock.__verify
         end
 
+        def test_should_support_multi_word_predicates_with_should
+          assert_nothing_raised do
+            HandCodedMock.new(false).should_not_multi_word_predicate
+          end
+        end
+
+        def test_should_support_multi_word_predicates_with_should_be
+          assert_nothing_raised do
+            HandCodedMock.new(false).should_not_be_multi_word_predicate
+          end
+        end
       end
     end
   end
