@@ -137,3 +137,21 @@ context "Given an rjs call to insert html in a div, a 'should_not_have_rjs' spec
     response.should_not_have_rjs :replace, 'wrongname'
   end
 end
+
+context "Given an rjs call to hide a div, a 'should_not_have_rjs' spec with" do
+  controller_name :person
+  
+  setup do
+    post 'hide_div'
+  end
+  
+  specify "the correct element name should fail" do
+    lambda {
+      response.should_not_have_rjs :hide, 'mydiv'
+    }.should_fail
+  end
+  
+  specify "the wrong element name should pass" do
+    response.should_not_have_rjs :hide, 'wrongname'
+  end
+end

@@ -140,3 +140,20 @@ context "Given an rjs call to replace all text a div, a 'should_have_rjs' spec w
   end
 end
 
+context "Given an rjs call to hide a div, a 'should_have_rjs' spec with" do
+  controller_name :person
+  
+  setup do
+    post 'hide_div'
+  end
+  
+  specify "the correct element name should pass" do
+    response.should_have_rjs :hide, 'mydiv'
+  end
+  
+  specify "the wrong element name should fail" do
+    lambda {
+      response.should_have_rjs :hide, 'wrongname'
+    }.should_fail
+  end
+end

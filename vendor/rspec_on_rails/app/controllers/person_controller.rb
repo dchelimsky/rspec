@@ -31,4 +31,10 @@ class PersonController < ApplicationController
       page.replace 'mydiv', 'replacement text'
     end
   end
+  
+  def hide_div
+    render :update do |page|
+      page.hide 'mydiv'
+    end
+  end
 end

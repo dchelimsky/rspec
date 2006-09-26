@@ -1,1 +1,3 @@
 This directory is for examples of how you might actually use rspec_on_rails.
+
+Note that the spec_helper.rb file in this directory gets replaced when running rake pre_commit from the rspec project root.
