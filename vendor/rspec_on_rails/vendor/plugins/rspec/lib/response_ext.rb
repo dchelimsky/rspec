@@ -69,6 +69,32 @@ module Spec
       end
 
       def should_insert_html(*args)
+        should_insert_html_helper('', *args)
+      end
+
+      def should_not_insert_html(*args)
+        should_insert_html_helper('not_', *args)
+      end
+
+      def should_replace_html(*args)
+        should_replace_html_helper('', *args)
+      end
+      
+      def should_not_replace_html(*args)
+        should_replace_html_helper('not_', *args)
+      end
+      
+      def should_replace(*args)
+        should_replace_helper('', *args)
+      end
+
+      def should_not_replace(*args)
+        should_replace_helper('not_', *args)
+      end
+
+      private
+      
+      def should_insert_html_helper(predicate, *args)
         position = args.shift
         item_id = args.shift
         content = extract_matchable_content(args)
@@ -76,109 +102,52 @@ module Spec
         unless content.blank?
           case content
             when Regexp
-              self.to_s.should_match Regexp.new("new Insertion\.#{position.to_s.camelize}(.*#{item_id}.*,.*#{content.source}.*);")
+              self.to_s.__send__ "should_#{predicate}match", Regexp.new("new Insertion\.#{position.to_s.camelize}(.*#{item_id}.*,.*#{content.source}.*);")
             when String
-              lined_response.should_include("new Insertion.#{position.to_s.camelize}(\"#{item_id}\", #{content});")
+              lined_response.__send__ "should_#{predicate}include", ("new Insertion.#{position.to_s.camelize}(\"#{item_id}\", #{content});")
             else
               raise "Invalid content type"
           end
         else
-          self.to_s.should_match Regexp.new("new Insertion\.#{position.to_s.camelize}(.*#{item_id}.*,.*?);")
+          self.to_s.__send__ "should_#{predicate}match", Regexp.new("new Insertion\.#{position.to_s.camelize}(.*#{item_id}.*,.*?);")
         end
       end
 
-      def should_not_insert_html(*args)
-        position = args.shift
-        item_id = args.shift
-        content = extract_matchable_content(args)
-
-        unless content.blank?
-          case content
-            when Regexp
-              self.to_s.should_not_match Regexp.new("new Insertion\.#{position.to_s.camelize}(.*#{item_id}.*,.*#{content.source}.*);")
-            when String
-              lined_response.should_not_include("new Insertion.#{position.to_s.camelize}(\"#{item_id}\", #{content});")
-            else
-              raise "Invalid content type"
-          end
-        else
-          self.to_s.should_not_match Regexp.new("new Insertion\.#{position.to_s.camelize}(.*#{item_id}.*,.*?);")
-        end
-      end
-
-      def should_replace_html(*args)
+      def should_replace_html_helper(predicate, *args)
         div = args.shift
         content = extract_matchable_content(args)
 
         unless content.blank?
           case content
             when Regexp
-              self.to_s.should_match Regexp.new("Element.update(.*#{div}.*,.*#{content.source}.*);")
+              self.to_s.__send__ "should_#{predicate}match", Regexp.new("Element.update(.*#{div}.*,.*#{content.source}.*);")
             when String
-              lined_response.should_include("Element.update(\"#{div}\", #{content});")
+              lined_response.__send__ "should_#{predicate}include", ("Element.update(\"#{div}\", #{content});")
             else
               raise "Invalid content type"
           end
         else
-          self.to_s.should_match Regexp.new("Element.update(.*#{div}.*,.*?);")
+          self.to_s.__send__ "should_#{predicate}match", Regexp.new("Element.update(.*#{div}.*,.*?);")
         end
       end
       
-      def should_not_replace_html(*args)
+      def should_replace_helper(predicate, *args)
         div = args.shift
         content = extract_matchable_content(args)
 
         unless content.blank?
           case content
             when Regexp
-              self.to_s.should_not_match Regexp.new("Element.update(.*#{div}.*,.*#{content.source}.*);")
+              self.to_s.__send__ "should_#{predicate}match", Regexp.new("Element.replace(.*#{div}.*,.*#{content.source}.*);")
             when String
-              lined_response.should_not_include("Element.update(\"#{div}\", #{content});")
+              lined_response.__send__ "should_#{predicate}include", ("Element.replace(\"#{div}\", #{content});")
             else
               raise "Invalid content type"
           end
         else
-          self.to_s.should_not_match Regexp.new("Element.update(.*#{div}.*,.*?);")
+          self.to_s.__send__ "should_#{predicate}match", Regexp.new("Element.replace(.*#{div}.*,.*?);")
         end
       end
-      
-      def should_replace(*args)
-        div = args.shift
-        content = extract_matchable_content(args)
-
-        unless content.blank?
-          case content
-            when Regexp
-              self.to_s.should_match Regexp.new("Element.replace(.*#{div}.*,.*#{content.source}.*);")
-            when String
-              lined_response.should_include("Element.replace(\"#{div}\", #{content});")
-            else
-              raise "Invalid content type"
-          end
-        else
-          self.to_s.should_match Regexp.new("Element.replace(.*#{div}.*,.*?);")
-        end
-      end
-
-      def should_not_replace(*args)
-        div = args.shift
-        content = extract_matchable_content(args)
-
-        unless content.blank?
-          case content
-            when Regexp
-              self.to_s.should_not_match Regexp.new("Element.replace(.*#{div}.*,.*#{content.source}.*);")
-            when String
-              lined_response.should_not_include("Element.replace(\"#{div}\", #{content});")
-            else
-              raise "Invalid content type"
-          end
-        else
-          self.to_s.should_not_match Regexp.new("Element.replace(.*#{div}.*,.*?);")
-        end
-      end
-
-      private
 
       def lined_response
         self.to_s.split("\n")

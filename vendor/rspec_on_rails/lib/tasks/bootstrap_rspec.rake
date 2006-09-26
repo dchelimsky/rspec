@@ -10,7 +10,8 @@ task :generate_rspec do
 end
 
 task :specs do
-  `spec specs`
-  raise "rspec_on_rails specs failed (stand in ~/vendor/rspec_on_rails and run 'spec specs' to see details)" if $? != 0
+  command = "spec specs spec"
+  `#{command}`
+  raise "rspec_on_rails specs failed (stand in ~/vendor/rspec_on_rails and run '#{command}' to see details)" if $? != 0
 end
   
