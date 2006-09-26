@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../../test_helper'
 module Spec
-  module Runner
-    class BacktraceTweakerTest < Test::Unit::TestCase
+  module Runner    
+    class NoisyBacktraceTweakerTest < Test::Unit::TestCase
       def setup
         @error = RuntimeError.new
         @tweaker = NoisyBacktraceTweaker.new
@@ -17,16 +17,18 @@ module Spec
         @error.backtrace[0].should_equal "./examples/airport_spec.rb:28:in `spec name'"
       end
 
-      def test_should_leave_anything_in_api_dir_in_full_backtrace_mode
-        @error.set_backtrace ["/lib/spec/api/anything.rb"]
-        @tweaker.tweak_backtrace @error, 'spec name'
-        @error.backtrace[0].should_equal "/lib/spec/api/anything.rb"
-      end
-      
-      def test_should_leave_anything_in_runner_dir_in_full_backtrace_mode
-        @error.set_backtrace ["/lib/spec/runner/anything.rb"]
+      def test_should_leave_anything_in_spec_dir
+        @error.set_backtrace ["/lib/spec/expectations/anything.rb"]
         @tweaker.tweak_backtrace @error, 'spec name'
         @error.backtrace.should_not_be_empty
+      end
+      
+      def test_should_leave_anything_in_lib_spec_dir
+        ['expectations', 'mocks', 'runner', 'stubs'].each do |child|
+          @error.set_backtrace ["/lib/spec/#{child}/anything.rb"]
+          @tweaker.tweak_backtrace @error, 'spec name'
+          @error.backtrace.should_not_be_empty
+        end
       end
       
       def test_should_leave_bin_spec
@@ -53,16 +55,16 @@ module Spec
         @error.backtrace[0].should_equal "./examples/airport_spec.rb:28:in `spec name'"
       end
 
-      def test_should_remove_anything_in_api_dir
-        @error.set_backtrace ["/lib/spec/api/anything.rb"]
-        @tweaker.tweak_backtrace @error, 'spec name'
-        @error.backtrace.should_be_empty
-      end
-
-      def test_should_remove_anything_in_runner_dir
-        @error.set_backtrace ["/lib/spec/runner/anything.rb"]
-        @tweaker.tweak_backtrace @error, 'spec name'
-        @error.backtrace.should_be_empty
+      def test_should_remove_anything_in_lib_spec_dir
+        element = nil # Workaround to make test2spec work for our own tests
+        ['expectations', 'mocks', 'runner', 'stubs'].each do |child|
+          element = "/lib/spec/#{child}/anything.rb"
+          @error.set_backtrace [element]
+          @tweaker.tweak_backtrace @error, 'spec name'
+          if !@error.backtrace.empty?
+            raise "Should have tweaked away '#{element}'"
+          end
+        end
       end
 
       def test_should_remove_bin_spec
