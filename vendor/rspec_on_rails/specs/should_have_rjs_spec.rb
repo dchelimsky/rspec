@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../spec/spec_helper'
+require File.dirname(__FILE__) + '/spec_helper'
 
 context "Given an rjs call to replace inner html in a div, a 'should_have_rjs' spec with" do
   controller_name :person
@@ -139,3 +139,4 @@ context "Given an rjs call to replace all text a div, a 'should_have_rjs' spec w
     }.should_fail
   end
 end
+

@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../spec/spec_helper'
+require File.dirname(__FILE__) + '/spec_helper'
 
 context "Given an rjs call to replace inner html in a div, a 'should_not_have_rjs' spec with" do
   controller_name :person
