@@ -157,3 +157,21 @@ context "Given an rjs call to hide a div, a 'should_have_rjs' spec with" do
     }.should_fail
   end
 end
+
+context "Given an rjs call to hide a div using page['id'], a 'should_have_rjs' spec with" do
+  controller_name :person
+  
+  setup do
+    post 'hide_page_element'
+  end
+  
+  specify "the correct element name should pass" do
+    response.should_have_rjs :page, 'mydiv', :hide
+  end
+  
+  specify "the wrong element name should fail" do
+    lambda {
+      response.should_have_rjs :page, 'wrongname', :hide
+    }.should_fail
+  end
+end

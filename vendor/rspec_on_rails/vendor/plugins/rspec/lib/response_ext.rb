@@ -42,6 +42,32 @@ module Spec
 
       protected
 
+      def should_page(*args)
+        content = build_method_chain!(args)
+        self.to_s.should_match Regexp.new(Regexp.escape(content))
+      end
+
+      def should_not_page(*args)
+        content = build_method_chain!(args)
+        self.to_s.should_not_match Regexp.new(Regexp.escape(content))
+      end
+
+      def build_method_chain!(args)
+        content = create_generator.send(:[], args.shift) # start $('some_id')....
+
+        while !args.empty?
+          if (method = args.shift.to_s) =~ /(.*)=$/
+            content = content.__send__(method, args.shift)
+            break
+          else
+            content = content.__send__(method)
+            content = content.__send__(:function_chain).first if args.empty?
+          end
+        end
+
+        content
+      end
+
       def should_insert_html(*args)
         position = args.shift
         item_id = args.shift

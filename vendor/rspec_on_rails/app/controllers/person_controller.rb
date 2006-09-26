@@ -37,4 +37,10 @@ class PersonController < ApplicationController
       page.hide 'mydiv'
     end
   end
+  
+  def hide_page_element
+    render :update do |page|
+      page['mydiv'].hide
+    end
+  end
 end
