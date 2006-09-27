@@ -9,13 +9,13 @@ context "Google's search page" do
   specify "should find rspec's home page when I search for rspec" do
     @browser.text_field(:name, "q").set("rspec")
     @browser.button(:name, "btnG").click
-    @browser.contains_text("rspec.rubyforge.org").should_be(true)
+    @browser.should_contain("rspec.rubyforge.org") # should_contain_text is RSpec sugar
   end
 
   specify "should not find Ali G when I search for rspec" do
     @browser.text_field(:name, "q").set("rspec")
     @browser.button(:name, "btnG").click
-    @browser.contains_text("Ali G").should_be(false)
+    @browser.should_not_contain("Ali G")
   end
 
 end
