@@ -7,7 +7,7 @@ module Spec
         @reporter = Spec::Mocks::Mock.new "reporter"
       end
 
-      def xtest_should_run_spec_in_scope_of_execution_context
+      def test_should_run_spec_in_scope_of_execution_context
         spec = Specification.new("should pass") do
           self.should_not_be_an_instance_of Specification
           self.should_be_an_instance_of ExecutionContext
@@ -17,14 +17,14 @@ module Spec
         spec.run @reporter
       end
 
-      def xtest_should_add_itself_to_reporter_when_passes
+      def test_should_add_itself_to_reporter_when_passes
         spec = Specification.new("spec") {}
         @reporter.should_receive(:spec_started).with "spec"
         @reporter.should_receive(:spec_finished).with "spec", nil, nil
         spec.run(@reporter)
       end
 
-      def xtest_should_add_itself_to_reporter_when_fails
+      def test_should_add_itself_to_reporter_when_fails
         error = RuntimeError.new
         spec = Specification.new("spec") { raise error }
         @reporter.should_receive(:spec_started).with "spec"
@@ -32,14 +32,14 @@ module Spec
         spec.run(@reporter)
       end
       
-      def xtest_should_add_itself_to_reporter_when_calling_run_dry
+      def test_should_add_itself_to_reporter_when_calling_run_dry
         spec = Specification.new("spec") {}
         @reporter.should_receive(:spec_started).with "spec"
         @reporter.should_receive(:spec_finished).with "spec"
         spec.run(@reporter, nil, nil, true)
       end
 
-      def xtest_should_verify_mocks_after_teardown
+      def test_should_verify_mocks_after_teardown
         spec = Specification.new("spec") do
           mock = mock("a mock")
           mock.should_receive(:poke)
@@ -52,22 +52,7 @@ module Spec
         spec.run @reporter
       end
 
-      def test_should_clear_stubs_after_teardown
-        obj = Object.new
-        spec_called = false
-        spec = Specification.new("spec") do
-          spec_called = true
-          stub(obj).method(:foobar).with(:return_value)
-          obj.foobar.should_equal :return_value
-        end
-        @reporter.should_receive(:spec_started).with "spec"
-        @reporter.should_receive(:spec_finished).with "spec", nil, nil
-        spec.run(@reporter)
-        spec_called.should_equal true
-        obj.respond_to?(:foobar).should_be false
-      end
-      
-      def xtest_should_run_teardown_even_when_main_block_fails
+      def test_should_run_teardown_even_when_main_block_fails
         spec = Specification.new("spec") do
           raise "in body"
         end
@@ -83,7 +68,7 @@ module Spec
         spec.run @reporter, nil, teardown
       end
       
-      def xtest_should_supply_setup_as_spec_name_if_failure_in_setup
+      def test_should_supply_setup_as_spec_name_if_failure_in_setup
         spec = Specification.new("spec") do
         end
         setup = lambda do
@@ -98,7 +83,7 @@ module Spec
         spec.run @reporter, setup
       end
       
-      def xtest_should_supply_teardown_as_failure_location_if_failure_in_teardown
+      def test_should_supply_teardown_as_failure_location_if_failure_in_teardown
         spec = Specification.new("spec") do
         end
         teardown = lambda do
@@ -113,17 +98,17 @@ module Spec
         spec.run @reporter, nil, teardown
       end
       
-      def xtest_should_match_if_name_matches_end_of_input
+      def test_should_match_if_name_matches_end_of_input
         spec = Specification.new("spec")
         assert spec.matches_matcher?(SpecMatcher.new("context spec", "context"))
       end
       
-      def xtest_should_match_if_name_matches_entire_input
+      def test_should_match_if_name_matches_entire_input
         spec = Specification.new("spec")
         assert spec.matches_matcher?(SpecMatcher.new("spec", "context"))
       end
       
-      def xtest_should_not_match_if_name_does_not_match
+      def test_should_not_match_if_name_does_not_match
         spec = Specification.new("otherspec")
         assert !spec.matches_matcher?(SpecMatcher.new("context spec", "context"))
       end
