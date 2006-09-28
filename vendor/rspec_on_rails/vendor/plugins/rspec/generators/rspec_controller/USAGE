@@ -1,30 +1,33 @@
 Description:
-    The rspec_controller generator creates stubs for a new controller and its views.
+    The rspec_controller generator creates stub specs and files for a new
+    controller and its views.
 
     The generator takes a controller name and a list of views as arguments.
     The controller name may be given in CamelCase or under_score and should
     not be suffixed with 'Controller'.  To create a controller within a
     module, specify the controller name as 'module/controller'.
 
-    The generator creates a controller class in app/controllers with view
-    templates in app/views/controller_name, a helper class in app/helpers,
-    and a functional spec suite in spec/functional.
+    The generator creates stubs for a controller (and spec), a view (and spec)
+    for each view in the argument list, plus a helper. 
 
 Example:
-    ./script/generate rspec_controller CreditCard open debit credit close
-
-    Credit card controller with URLs like /credit_card/debit.
-        Controller: app/controllers/credit_card_controller.rb
-        Views:      app/views/credit_card/open.rhtml [...]
-        Helper:     app/helpers/credit_card_helper.rb
-        Spec:       spec/controllers/credit_card_controller_spec.rb
-                    spec/views/credit_card_open_view_spec.rb [...]
+    ./script/generate rspec_controller dog bark fetch
+        ...
+        create  spec/controllers/dog_controller_spec.rb
+        create  app/controllers/dog_controller.rb
+        create  app/helpers/dog_helper.rb
+        create  spec/views/dog/bark_view_spec.rb
+        create  app/views/dog/bark.rhtml
+        create  spec/views/dog/fetch_view_spec.rb
+        create  app/views/dog/fetch.rhtml
 
 Modules Example:
-    ./script/generate rspec_controller 'admin/credit_card' suspend late_fee
-
-    Credit card admin controller with URLs /admin/credit_card/suspend.
-        Controller: app/controllers/admin/credit_card_controller.rb
-        Views:      app/views/admin/credit_card/debit.rhtml [...]
-        Helper:     app/helpers/admin/credit_card_helper.rb
-        Spec:       spec/controllers/admin/credit_card_controller_spec.rb
+    ./script/generate rspec_controller 'pets/dog' bark fetch
+        ...
+        create  spec/controllers/pets/dog_controller_spec.rb
+        create  app/controllers/pets/dog_controller.rb
+        create  app/helpers/pets/dog_helper.rb
+        create  spec/views/pets/dog/bark_view_spec.rb
+        create  app/views/pets/dog/bark.rhtml
+        create  spec/views/pets/dog/fetch_view_spec.rb
+        create  app/views/pets/dog/fetch.rhtml

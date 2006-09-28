@@ -19,9 +19,9 @@ context "The Person model" do
   end
 
   # http://rubyforge.org/tracker/index.php?func=detail&aid=5539&group_id=797&atid=3149
-  #specify "should include animals" do
+  # specify "should include animals" do
   #  people(:lachie).animals.should_include animals(:horse)
-  #end
+  # end
 
   teardown do
     # fixtures are torn down after this
@@ -31,11 +31,7 @@ end
 context "A new Person" do
   fixtures :people
 
-  specify "should have no name (this finally passes with underscores)" do
-    Person.new.name.should_be nil
-  end
-
-  specify "should have no name (this passes using dots)" do
+  specify "should have no name" do
     Person.new.name.should_be nil
   end
 end
