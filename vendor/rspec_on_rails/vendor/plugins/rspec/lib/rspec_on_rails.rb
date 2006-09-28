@@ -7,7 +7,13 @@ require 'active_record/fixtures'
 require 'action_controller/test_process'
 require 'action_controller/integration'
 require 'spec'
-require 'response_ext'
+require 'tag_expectations'
+require 'rjs_expectations'
+
+class ResponseBody < String
+  include Spec::Expectations::TagExpectations
+  include Spec::Expectations::RjsExpectations
+end
 
 module Spec
   module Runner

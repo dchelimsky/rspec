@@ -22,7 +22,7 @@ tools:
   title: Tools
   orderInfo: 8
 
-core_team.page:
+team.page:
   orderInfo: 9
 
 community.html:

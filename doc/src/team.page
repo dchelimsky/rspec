@@ -1,5 +1,5 @@
 ---
-title: The Core Team
+title: The Team
 inMenu: true
 ---
 
@@ -14,13 +14,11 @@ h2. The Core Team
 <notextile>
 <table>
   <tr>
-    <td><img src="images/David_and_Aslak.jpg" /></td>
     <td><img src="images/Whats_That_Dude.jpg" /></td>
     <td><img src="http://static.flickr.com/1/127260733_84714abc76_o_d.png" /></td>
   </tr>
   <tr>
-    <td align="center">David and Aslak tweaking backtraces</td>
-    <td align="center">What's that, Dude?</td>
+    <td align="center">David and Aslak</td>
     <td align="center">Dave Astels</td>
   </tr>
 </table>

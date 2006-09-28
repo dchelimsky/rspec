@@ -11,7 +11,7 @@ end
 
 task :specs do
   command = "spec specs"
-  `#{command}`
+  puts `#{command}`
   raise "rspec_on_rails specs failed (stand in ~/vendor/rspec_on_rails and run '#{command}' to see details)" if $? != 0
 end
   
