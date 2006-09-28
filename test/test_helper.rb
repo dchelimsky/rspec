@@ -5,7 +5,7 @@ $LOAD_PATH.push File.dirname(__FILE__) + '/../test'
 require 'spec'
 require 'test_classes'
 RSPEC_TESTING = true unless defined? RSPEC_TESTING # This causes the diff extension to not be loaded
-require 'spec/expectations/helper/diff'
+require 'spec/expectations/diff'
 $context_runner = ::Spec::Runner::OptionParser.create_context_runner(['test'], false, STDERR, STDOUT)
 
 # helpers for test_to_spec tests

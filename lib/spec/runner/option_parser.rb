@@ -25,7 +25,7 @@ module Spec
           opts.separator ""
 
           opts.on("--diff", "Show unified diff of Strings that are expected to be equal when they are not") do
-            require 'spec/expectations/helper/diff'
+            require 'spec/expectations/diff'
           end
           
           opts.on("-c", "--colour", "--color", "Show coloured (red/green) output") do

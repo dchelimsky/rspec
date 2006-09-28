@@ -1,13 +1,15 @@
 module Spec
-  module ObjectExpectations
-    def should
-      ShouldHelper.new self
+  module Expectations
+    module ObjectExpectations
+      def should
+        ShouldHelper.new self
+      end
     end
   end
 end
 
 class Object
-  include Spec::ObjectExpectations
+  include Spec::Expectations::ObjectExpectations
 end
 
 class Numeric

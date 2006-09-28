@@ -1,4 +1,7 @@
 require 'spec/expectations/exceptions'
 require 'spec/expectations/expectations'
-require 'spec/expectations/helper'
+require 'spec/expectations/should_base'
+require 'spec/expectations/have_helper'
+require 'spec/expectations/should_helper'
+require 'spec/expectations/should_negator'
 require 'spec/expectations/sugar'
