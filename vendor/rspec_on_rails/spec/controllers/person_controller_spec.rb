@@ -22,3 +22,29 @@ context "The PersonController" do
     response.redirect_url.should_equal 'http://test.host/person'
   end
 end
+
+context "When requesting /person" do
+  fixtures :people
+  controller_name :person
+  
+  setup do
+    get 'index'
+  end
+
+  specify "the response should render 'list'" do
+    response.should_render :list
+  end
+
+  specify "the response should not render 'index'" do
+    lambda {
+      response.should_render :index
+    }.should_raise
+  end
+
+  specify "should find all people on GET to index" do
+    get 'index'
+    response.should_be_success
+    assigns('people').should_equal [people(:lachie)]
+  end
+  
+end

@@ -10,16 +10,20 @@ mocks.page:
   orderInfo: 14
   inMenu: true
 
+rails.page:
+  orderInfo: 15
+  inMenu: true
+
 rdoc.html:
   title: RDoc
   dest: ../rdoc/index.html
   inMenu: true
-  orderInfo: 15
+  orderInfo: 16
 
 rcov.html:
   title: RCov
   dest: ../coverage/index.html
   inMenu: true
-  orderInfo: 16
+  orderInfo: 17
 
   
