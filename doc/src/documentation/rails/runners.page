@@ -1,0 +1,63 @@
+---
+title: Runners 
+inMenu: true
+---
+h2. RSpec on Rails - Runners
+
+h3. Standard spec command
+
+<pre>
+spec path/to/my/spec.rb
+</pre>
+
+h3. Run specs fast with rails_spec (recommended)
+
+Loading the entire Rails environment every time a spec is executed is quite slow.
+We have therefore made a little tool that allows you to load the rails environment
+once for all. Open up two shells and run the following in the first:
+
+<pre>
+script/rails_spec_server
+</pre>
+
+- And then run this in the second:
+
+<pre>
+script/rails_spec REGULAR_SPEC_OPTIONS
+</pre>
+
+The script/rails_spec script has the same command line interface as the familiar spec
+command. But it's MUCH faster.
+
+h3. Running specs with Rake
+
+All specs can be run with
+
+<pre>
+rake spec
+</pre>
+
+Model specs can be run with
+
+<pre>
+rake spec:models
+</pre>
+
+Controller specs can be run with
+
+<pre>
+rake spec:controllers
+</pre>
+
+View specs can be run with
+
+<pre>
+rake spec:views
+</pre>
+
+To see all the RSpec related tasks, run
+
+<pre>
+rake --tasks spec
+</pre>
+

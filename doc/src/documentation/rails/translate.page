@@ -1,0 +1,59 @@
+---
+title: Test::Unit tests > RSpec specs
+inMenu: true
+---
+h2. Translating existing Test::Unit tests
+
+The test2spec tool that ships with RSpec translates existing tests into RSpec specs. 
+Translating tests to specs in a Rails environment requires some manual steps...
+
+h4. Install RSpec on Rails
+
+See <a href="install.html">Installation</a>.
+
+h4. Modify your test/test_helper.rb
+
+In order to be able to translate any Rails tests, you must modify your test/test_helper.rb file:
+
+<pre>
+# This line must be commented out in order for test2spec to work.
+# require 'test_help'
+require 'test2spec_help'
+</pre>
+
+The reason for this is that the <tt>test_help</tt> mixin confuses test2spec to the point
+where it's unable to perform the translation. The <tt>test2spec_help</tt> addresses this
+shortcoming.
+
+h4. Perform the translations
+
+Now you can translate your unit tests (model tests) with "test2spec":test2spec.html:
+
+<pre>
+test2spec --template vendor/plugins/rspec/test2spec.erb --specdir spec/models test/unit
+</pre>
+
+and your functional tests (controller tests) with:
+
+<pre>
+test2spec --template vendor/plugins/rspec/test2spec.erb --specdir spec/controllers test/functional
+</pre>
+
+h4. Edit your translated specs
+
+test2spec currently doesn't translate class-level statements such as <tt>fixtures</tt>, so you have 
+to add those statements manually. Copy all the <tt>fixtures</tt> statements in your tests to the 
+corresponding contexts. Example:
+
+<ruby>
+context "The Foo Model" do
+  fixtures :foo
+end
+</ruby>
+
+h4. Make sure fixtures are found.
+
+By default, RSpec on Rails expects to find fixtures under <tt>spec/fixtures</tt>. You should either move your
+existing <tt>test/fixtures/*.yml</tt> files to <tt>spec/fixtures</tt> or edit your <tt>spec/spec_helper.rb</tt>
+to point to the old <tt>test/fixtures</tt> location. Beware that every time you do a <tt>script/generate rspec_model</tt>,
+new fixtures will always be written to <tt>spec/fixtures</tt>.

@@ -1,0 +1,21 @@
+---
+title: Generators
+inMenu: true
+---
+h2. RSpec on Rails - Generators
+
+RSpec on Rails contains generators that you can use to generate models and controllers 
+in a similar fashion to Rails' builtin generators, but will generate specs instead of tests
+and will put fixtures under the spec folder. Example:
+
+<pre>
+ruby script/generate rspec_model person
+</pre>
+
+or
+
+<pre>
+ruby script/generate rspec_controller person
+</pre>
+
+For more information on each generator, just run them without any arguments.

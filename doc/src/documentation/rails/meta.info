@@ -1,0 +1,27 @@
+index.page:
+  inMenu: true
+  orderInfo: 100
+
+install.page:
+  inMenu: true
+  orderInfo: 101
+    
+examples.page:
+  inMenu: true
+  orderInfo: 102
+
+generators.page:
+  inMenu: true
+  orderInfo: 103  
+  
+runners.page:
+  inMenu: true
+  orderInfo: 104  
+  
+rails.page:
+  inMenu: true
+  orderInfo: 105
+  
+translate.page:
+  inMenu: true
+  orderInfo: 106

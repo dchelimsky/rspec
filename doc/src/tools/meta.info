@@ -12,7 +12,3 @@ rcov.page:
 
 test2spec.page:
   orderInfo: 14
-
-rails.page:
-  orderInfo: 15
-

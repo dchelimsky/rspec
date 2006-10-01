@@ -1,0 +1,17 @@
+---
+title: Examples 
+inMenu: true
+---
+h2. RSpec on Rails - Examples
+
+RSpec on Rails adds several methods to your specs with a look and feel similar to Test::Unit. See for a full description of the <a href="rails.html">RSpec on Rails Expectation API</a>, but here are a few examples:
+
+Model:
+<ruby file="../vendor/rspec_on_rails/spec/models/person_spec.rb"/>
+
+Controller:
+<ruby file="../vendor/rspec_on_rails/spec/controllers/person_controller_spec.rb"/>
+
+View:
+<ruby file="../vendor/rspec_on_rails/spec/views/person/list_view_spec.rb"/>
+

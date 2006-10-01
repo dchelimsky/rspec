@@ -1,10 +1,9 @@
 ---
-title: RSpec on Rails API
+title: Expectations
 ---
-h2. RSpec on Rails API
+h2. RSpec on Rails - Expectations
 
-RSpec supports an ever-growing API for driving Ruby on Rails applications. Before can use it, you need to install the <a href="../tools/rails.page">RSpec on Rails plugin</a>. Once you have that installed you can use the following expectations
-in your specs (in addition to the standard <a href="expectations.html">Expectation API</a>)
+In addition to the standard <a href="../expectations.html">Expectation API</a>, RSpec on Rails supports an ever-growing API for driving Ruby on Rails applications.
 
 h3. Records
 

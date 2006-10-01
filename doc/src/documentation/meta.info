@@ -10,7 +10,8 @@ mocks.page:
   orderInfo: 14
   inMenu: true
 
-rails.page:
+rails:
+  title: Rails Plugin
   orderInfo: 15
   inMenu: true
 
