@@ -1,4 +1,9 @@
+= RSpec Changelog
+
 == Version 0.6.4
+
+In addition to a number of bug fixes and patches, this release begins to formalize the support for
+RSpec on Rails.
 
 * Fixed [#5909], once again supporting multi_word_predicates
 * Applied [#5873] - response.should_have_rjs (initial patch from Jake Howerton, based on ARTS by Kevin Clark)
