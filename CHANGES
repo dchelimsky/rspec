@@ -1,5 +1,3 @@
-= RSpec Changelog
-
 == Version 0.6.4
 
 * Fixed [#5909], once again supporting multi_word_predicates
