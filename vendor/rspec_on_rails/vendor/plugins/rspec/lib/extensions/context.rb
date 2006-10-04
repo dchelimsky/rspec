@@ -1,7 +1,9 @@
 module Spec
   module Runner
-
     class Context
+      def before_context_eval
+        inherit Test::Unit::TestCase
+      end
       module RailsPluginClassMethods
         def fixture_path
           @fixture_path ||= RAILS_ROOT + '/spec/fixtures'
@@ -28,6 +30,6 @@ module Spec
         super_run.bind(self).call(reporter, dry_run)
       end
     end # Context
-
   end
 end
+

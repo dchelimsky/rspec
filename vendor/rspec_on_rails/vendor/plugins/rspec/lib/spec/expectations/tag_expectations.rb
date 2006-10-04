@@ -1,5 +1,5 @@
 module Spec
-  module Expectations
+  module RailsPlugin
     module TagExpectations
       def should_have_tag(*opts)
         raise_rspec_error(" should include ", opts) if find_tag(*opts).nil?

@@ -1,71 +1,67 @@
 module Spec
   module Runner
     module ContextEval
-      module RailsPluginModuleMethods
+      module ModuleMethods
+        module RailsPluginModuleMethods
 
-        def controller_name(name=nil)
-          @controller_name = name if name
-          @controller_name
-        end
+          def controller_name(name=nil)
+            @controller_name = name if name
+            @controller_name
+          end
 
-        def helper(name, &block)
-          self.class.helper(name, &block)
-        end
+          def helper(name, &block)
+            self.class.helper(name, &block)
+          end
 
-        def self.helper(name, &block)
-          Spec::Runner::ExecutionContext.send :define_method, name.to_sym, &block
-        end
+          def self.helper(name, &block)
+            Spec::Runner::ExecutionContext.send :define_method, name.to_sym, &block
+          end
         
-      end
-
-      ModuleMethods.class_eval do
+        end
         include RailsPluginModuleMethods
       end
-      
-      module RailsPluginInstanceMethods
-        attr_reader :response, :request, :controller
 
-        def setup_with_controller(controller_name=nil)
-          return unless controller_name
+      module InstanceMethods
+        module RailsPluginInstanceMethods
+          attr_reader :response, :request, :controller
 
-          @controller_class = "#{controller_name}_controller".camelize.constantize
-          raise "Can't determine controller class for #{self.class}" if @controller_class.nil?
-          @controller_class.send(:define_method, :rescue_action) { |e| raise e }
+          def setup_with_controller(controller_name=nil)
+            return unless controller_name
 
-          @controller = @controller_class.new
+            @controller_class = "#{controller_name}_controller".camelize.constantize
+            raise "Can't determine controller class for #{self.class}" if @controller_class.nil?
+            @controller_class.send(:define_method, :rescue_action) { |e| raise e }
 
-          @flash = ActionController::Flash::FlashHash.new
+            @controller = @controller_class.new
 
-          @session = ActionController::TestSession.new
-          @session['flash'] = @flash
+            @flash = ActionController::Flash::FlashHash.new
 
-          @request = ActionController::TestRequest.new
-          @request.session = @session
+            @session = ActionController::TestSession.new
+            @session['flash'] = @flash
 
-          @response = ActionController::TestResponse.new
+            @request = ActionController::TestRequest.new
+            @request.session = @session
 
-          @deliveries = []
-          ActionMailer::Base.deliveries = @deliveries
+            @response = ActionController::TestResponse.new
 
-          # used by util_audit_assert_assigns
-          @assigns_asserted = []
-          @assigns_ignored ||= [] # untested assigns to ignore
+            @deliveries = []
+            ActionMailer::Base.deliveries = @deliveries
+
+            # used by util_audit_assert_assigns
+            @assigns_asserted = []
+            @assigns_ignored ||= [] # untested assigns to ignore
+          end
+
+          def teardown_with_controller
+          end
+
+          def tag(*opts)
+            opts = opts.size > 1 ? opts.last.merge({ :tag => opts.first.to_s }) : opts.first
+            tag = find_tag(opts)
+          end
         end
-
-        def teardown_with_controller
-        end
-
-        def tag(*opts)
-          opts = opts.size > 1 ? opts.last.merge({ :tag => opts.first.to_s }) : opts.first
-          tag = find_tag(opts)
-        end
-        
-      end
-
-      InstanceMethods.class_eval do
         include RailsPluginInstanceMethods
       end
-      
     end
   end
 end

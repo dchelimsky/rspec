@@ -25,7 +25,7 @@
 # SOFTWARE.
 
 module Spec
-  module Expectations
+  module RailsPlugin
     module RjsExpectations
       include ActionView::Helpers::PrototypeHelper
 
@@ -167,32 +167,6 @@ module Spec
         end
       end
 
-    end
-  end
-end
-
-module ActionController
-  class TestResponse
-    def should_render(expected=nil)
-      expected = expected.to_s unless expected.nil?
-      rendered = expected ? rendered_file(!expected.include?('/')) : rendered_file
-      expected.should_equal rendered
-    end
-    
-    def should_have_rjs element, *args
-      ResponseBody.new(self.body).should_have_rjs element, *args
-    end
-
-    def should_not_have_rjs element, *args
-      ResponseBody.new(self.body).should_not_have_rjs element, *args
-    end
-
-    def should_have_tag tag, *opts
-      ResponseBody.new(self.body).should_have_tag tag, *opts
-    end
-
-    def should_not_have_tag tag, *opts
-      ResponseBody.new(self.body).should_not_have_tag tag, *opts
     end
   end
 end
