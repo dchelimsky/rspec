@@ -7,7 +7,7 @@ project for RSpec and generate spec skeletons.
 
 Please refer to the Documentation on the website:
 
-http://rspec.rubyforge.org/tools/rails.html
+http://rspec.rubyforge.org/tools/rails/
 
 Or if you've checked this out from Subversion, also
 read the README under the rails app for instructions

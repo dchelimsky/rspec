@@ -7,7 +7,7 @@ module Test
     class TestCase
       self.use_transactional_fixtures = true
       self.use_instantiated_fixtures  = false
-      self.fixture_path = RAILS_ROOT + '/test/fixtures'
+      self.fixture_path = RAILS_ROOT + '/spec/fixtures'
 
       # You can set up your global fixtures here, or you
       # can do it in individual contexts
