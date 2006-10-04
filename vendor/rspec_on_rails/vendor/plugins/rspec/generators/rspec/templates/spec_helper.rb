@@ -2,6 +2,10 @@ ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'rspec_on_rails'
 
+# Even if you're using RSpec, RSpec on Rails is reusing some of the
+# Rails-specific extensions for fixtures and stubbed requests, response
+# and other things (via RSpec's inherit mechanism). These extensions are 
+# tightly coupled to Test::Unit in Rails, which is why you're seeing it here.
 module Test
   module Unit
     class TestCase
