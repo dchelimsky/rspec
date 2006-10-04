@@ -109,23 +109,26 @@ module Spec
             ruby_opts.push( "-w" ) if @warning
 
             redirect = @out.nil? ? "" : " > #{@out}"
-            # ruby [ruby_opts] -Ilib -S rcov [rcov_opts] bin/spec -- [spec_opts] examples
-            # or
-            # ruby [ruby_opts] -Ilib bin/spec [spec_opts] examples
-            begin
-              ruby(
-                ruby_opts.join(" ") + " " + 
-                rcov_option_list +
-                (@rcov ? %[ -o "#{@rcov_dir}" ] : "") + 
-                '"' + spec_script + '"' + " " +
-                (@rcov ? "-- " : "") + 
-                spec_option_list + " " +
-                file_list.collect { |fn| %["#{fn}"] }.join(' ') + " " + 
-                redirect
-              )
-            rescue => e
-               puts @failure_message if @failure_message
-               raise e if @fail_on_error
+
+            unless file_list.empty?
+              # ruby [ruby_opts] -Ilib -S rcov [rcov_opts] bin/spec -- [spec_opts] examples
+              # or
+              # ruby [ruby_opts] -Ilib bin/spec [spec_opts] examples
+              begin
+                ruby(
+                  ruby_opts.join(" ") + " " + 
+                  rcov_option_list +
+                  (@rcov ? %[ -o "#{@rcov_dir}" ] : "") + 
+                  '"' + spec_script + '"' + " " +
+                  (@rcov ? "-- " : "") + 
+                  spec_option_list + " " +
+                  file_list.collect { |fn| %["#{fn}"] }.join(' ') + " " + 
+                  redirect
+                )
+              rescue => e
+                 puts @failure_message if @failure_message
+                 raise e if @fail_on_error
+              end
             end
           end
         end

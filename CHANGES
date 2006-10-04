@@ -3,6 +3,7 @@
 == Version 0.6.5 (in SVN)
 
 * Added support for stubbing and partial mocking (docs coming soon...)
+* RSpec's rake task doesn't fail (print spec usage) when there are no specs. It silently does nothing instead.
 
 == Version 0.6.4
 
