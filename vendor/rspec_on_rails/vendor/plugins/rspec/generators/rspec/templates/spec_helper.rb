@@ -1,6 +1,5 @@
 ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
-require 'controller_mixin'
 require 'rspec_on_rails'
 
 class SpecTestCase < Test::Unit::TestCase

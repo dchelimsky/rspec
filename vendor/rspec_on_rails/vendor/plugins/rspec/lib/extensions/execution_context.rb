@@ -2,7 +2,6 @@ module Spec
   module Runner
 
     class ExecutionContext
-      include Spec::ControllerExecution
       include ActionController::TestProcess
 
       def tag(*opts)
