@@ -68,6 +68,7 @@ module Spec
         spec.run @reporter, nil, teardown
       end
       
+    
       def test_should_supply_setup_as_spec_name_if_failure_in_setup
         spec = Specification.new("spec") do
         end
@@ -115,6 +116,28 @@ module Spec
       
       def teardown
         @reporter.__verify
+      end
+    end
+    
+    class SpecificationWithMethodProxySpaceTest < Test::Unit::TestCase 
+      def setup
+        MethodProxy::MethodProxySpace.class_eval {@instance = Mocks::Mock.new("proxy space", :null_object => true)}
+        @mock_proxy_space = Spec::MethodProxy::MethodProxySpace.instance
+      end
+      
+      def test_should_clear_method_proxy_space
+        @mock_proxy_space.should_receive(:clear!)
+        Specification.new("spec").run
+      end
+      
+      def test_should_clear_method_proxy_space_even_when_teardown_fails
+        @mock_proxy_space.should_receive(:clear!)
+        Specification.new("spec").run(nil, nil, lambda { raise "in teardown"} )
+      end
+      
+      def teardown
+        MethodProxy::MethodProxySpace.class_eval {@instance = nil}
+        @mock_proxy_space.__verify
       end
     end
   end

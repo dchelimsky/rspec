@@ -1,5 +1,9 @@
 = RSpec Changelog
 
+== Version 0.6.5 (in SVN)
+
+* Added support for stubbing and partial mocking (docs coming soon...)
+
 == Version 0.6.4
 
 In addition to a number of bug fixes and patches, this release begins to formalize the support for

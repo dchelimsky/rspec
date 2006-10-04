@@ -12,8 +12,4 @@ class Object
   include Spec::Expectations::ObjectExpectations
 end
 
-class Numeric
-  def close?(other, precision)
-    (self - other).abs < precision
-  end
-end
+Object.handle_underscores_for_rspec!

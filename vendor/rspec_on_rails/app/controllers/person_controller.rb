@@ -14,6 +14,10 @@ class PersonController < ApplicationController
     end
   end
   
+  def show
+    @person = Person.find(params[:id])
+  end
+  
   def a_replace_html_call
     render :update do |page|
       page.replace_html 'mydiv', 'replacement text'

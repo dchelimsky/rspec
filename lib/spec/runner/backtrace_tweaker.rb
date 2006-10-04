@@ -7,7 +7,6 @@ module Spec
       end
     end
 
-    # Tweaks raised Exceptions to mask noisy (unneeded) parts of the backtrace
     class NoisyBacktraceTweaker < BacktraceTweaker
       def tweak_backtrace(error, spec_name)
         return if error.backtrace.nil?
@@ -26,6 +25,7 @@ module Spec
           line = tweak_instance_exec_line line, spec_name
           line = nil if line =~ /\/lib\/ruby\//
           line = nil if line =~ /\/lib\/spec\/expectations\//
+          line = nil if line =~ /\/lib\/spec\/method_proxy\//
           line = nil if line =~ /\/lib\/spec\/mocks\//
           line = nil if line =~ /\/lib\/spec\/rake\//
           line = nil if line =~ /\/lib\/spec\/runner\//

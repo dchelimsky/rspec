@@ -2,12 +2,9 @@ module Spec
   module Expectations
     # This module adds syntactic sugar that allows usage of should_* instead of should.*
     module UnderscoreSugar
-      module SweetTooth; end
-
       def handle_underscores_for_rspec!
         original_method_missing = instance_method(:method_missing)
         class_eval do
-          include SweetTooth # This is meant to add a signature to the object that sugarization occurred.
           def method_missing(sym, *args, &block)
             _method_missing(sym, args, block)
           end
@@ -39,5 +36,3 @@ end
 class Module
   include Spec::Expectations::UnderscoreSugar
 end
-
-Object.handle_underscores_for_rspec!

@@ -1,0 +1,1 @@
+NilClass.handle_underscores_for_rspec!

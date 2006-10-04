@@ -9,7 +9,7 @@ module Spec
       end
 
       def run(reporter=nil, setup_block=nil, teardown_block=nil, dry_run=false, execution_context=nil)
-        reporter.spec_started(@name)
+        reporter.spec_started(@name) unless reporter.nil?
         return reporter.spec_finished(@name) if dry_run
         execution_context = execution_context || ::Spec::Runner::ExecutionContext.new(self)
         errors = []
@@ -30,6 +30,8 @@ module Spec
           end
         rescue => e
           errors << e
+        ensure
+          method_proxy_space.clear!
         end
 
         reporter.spec_finished(@name, errors.first, failure_location(setup_ok, spec_ok, teardown_ok)) unless reporter.nil?
@@ -39,6 +41,10 @@ module Spec
         @mocks << mock
       end
 
+      def method_proxy_space
+        MethodProxy::MethodProxySpace.instance
+      end
+      
       def matches_matcher?(matcher)
         matcher.matches? @name 
       end

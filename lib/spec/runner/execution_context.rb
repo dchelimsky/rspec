@@ -12,10 +12,6 @@ module Spec
           mock
         end
 
-        def stub(object, name="")
-          stub_space.create_stub(object, name)
-        end
-
         def duck_type(*args)
           return Spec::Mocks::DuckTypeArgConstraint.new(*args)
         end

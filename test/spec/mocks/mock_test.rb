@@ -214,6 +214,12 @@ module Spec
         assert_equal(12, @mock.multi_call)
         @mock.__verify
       end
+
+      def test_should_clear_expectations
+        @mock.should_receive(:foobar)
+        @mock.__clear_expectations
+        @mock.__verify
+      end
   
     end
   end

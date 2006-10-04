@@ -14,15 +14,19 @@ module Spec
       def should_receive(sym, &block)
         add MessageExpectation, caller(1)[0], sym, &block
       end
-      
+
       def should_not_receive(sym, &block)
         add NegativeMessageExpectation, caller(1)[0], sym, &block
       end
-      
+
       def __verify #:nodoc:
         @expectations.each do |expectation|
           expectation.verify_messages_received
         end
+      end
+
+      def __clear_expectations #:nodoc:
+        @expectations.clear
       end
 
       def method_missing(sym, *args, &block)
@@ -34,7 +38,7 @@ module Spec
           Kernel::raise Spec::Mocks::MockExpectationError, "Mock '#{@name}' received unexpected message '#{sym}' with [#{arg_message}]"
         end
       end
-      
+
     private
 
       DEFAULT_OPTIONS = {
@@ -51,7 +55,7 @@ module Spec
       def metaclass
         class << self; self; end
       end
-    
+
       def define_expected_method(sym)
         metaclass.__send__ :class_eval, %{
           def #{sym}(*args, &block)
@@ -59,7 +63,7 @@ module Spec
           end
         }
       end
-    
+
       def message_received(sym, *args, &block)
         if expectation = find_matching_expectation(sym, *args)
           expectation.invoke(args, block)
@@ -67,12 +71,12 @@ module Spec
           method_missing(sym, *args, &block)
         end
       end
-      
+
       def find_matching_expectation(sym, *args)
         expectation = @expectations.find {|expectation| expectation.matches(sym, args)}
       end
     end
-    
+
     class Mock
       include MockInstanceMethods
     end

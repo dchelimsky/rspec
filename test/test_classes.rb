@@ -12,6 +12,7 @@ module Spec
         return @name == other.name
       end
     end
+    
     class ClassWithMultiWordPredicate
       def multi_word_predicate?
         true 
