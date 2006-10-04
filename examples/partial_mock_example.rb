@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../lib/spec'
+  require File.dirname(__FILE__) + '/../lib/spec'
 
 class MockableClass
   def self.find id
@@ -7,12 +7,6 @@ class MockableClass
 end
 
 context "A partial mock" do
-
-  specify "should be able to stub objects" do
-    obj = Object.new
-    obj.should_receive(:foobar).and_return {:return_value}
-    obj.foobar.should_equal :return_value
-  end
 
   specify "should work at the class level" do
     MockableClass.should_receive(:find).with(1).and_return {:stub_return}
