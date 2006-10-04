@@ -32,7 +32,3 @@ module Spec
     end
   end
 end
-
-class Module
-  include Spec::Expectations::UnderscoreSugar
-end
