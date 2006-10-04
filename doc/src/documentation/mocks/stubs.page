@@ -1,0 +1,31 @@
+---
+title: Method Stubs
+---
+h2. Method Stubs
+
+In addition to the more standard <a href="mocks.html">Mock Object framework</a>, RSpec also supports
+stubbing return values to messages on any object (including Classes). Stubs do not support any
+arguments. You simply set up a return value forget about it. If you need more control, take a
+look at the partial mocking facility in the <a href="mocks.html">Mock API</a>.
+
+The main difference between a stub and a mock is that mocks verify interactions that you
+expect, while stubs just sit there and return values.
+
+h3. Setting an explicit return value
+
+This is the simplest (and recommended) approach to stubbing.
+
+<ruby>
+my_instance.stub!(:msg).and_return(value)
+MyClass.stub!(:msg).and_return(value)
+</ruby>
+
+h3. Calculating a return value
+
+<ruby>
+my_instance.stub!(:msg).and_return { #calculate value }
+MyClass.stub!(:msg).and_return { #calculate value }
+</ruby>
+
+While this is possible, it is generally to be avoided. Calculating a value to return defeats
+the declarative nature of stubs.

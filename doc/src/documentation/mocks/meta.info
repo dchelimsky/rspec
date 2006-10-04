@@ -1,0 +1,15 @@
+index.page:
+  orderInfo: 101
+  inMenu: true
+  
+mocks.page:
+  orderInfo: 102
+  inMenu: true
+
+partial_mocks.page:
+  orderInfo: 103
+  inMenu: true
+
+stubs.page:
+  orderInfo: 104
+  inMenu: true

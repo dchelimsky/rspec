@@ -6,7 +6,8 @@ expectations.page:
   orderInfo: 13
   inMenu: true
 
-mocks.page:
+mocks:
+  title: Mocks and Stubs
   orderInfo: 14
   inMenu: true
 

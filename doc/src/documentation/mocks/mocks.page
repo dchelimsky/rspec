@@ -1,9 +1,9 @@
 ---
-title: Mock API
+title: Mock Objects
 ---
-h2. Mock API
+h2. Mock Objects
 
-RSpec contains a tightly integrated, powerful Mock Object framework.
+RSpec contains a tightly integrated Mock Object framework.
 
 h3. Creating a mock
 
@@ -193,7 +193,6 @@ my_mock.should_receive(:msg).any_number_of_times
 </ruby>
 
 The message can be received 0 or more times.
-
 
 h3. Return Values
 
