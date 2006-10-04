@@ -3,7 +3,7 @@
 == Version 0.6.5 (in SVN)
 
 * Added support for stubbing and partial mocking (docs coming soon...)
-* RSpec's rake task doesn't fail (print spec usage) when there are no specs. It silently does nothing instead.
+* Fixed [#6017] Rake task should ignore empty or non-existent spec-dirs
 
 == Version 0.6.4
 
