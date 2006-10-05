@@ -18,3 +18,19 @@ context "A partial mock" do
   end
 
 end
+
+context "A pre-existing class" do
+  specify "can be mocked" do
+    Object.should_receive(:msg).with(:arg).and_return(:value)
+    Object.msg(:arg).should_equal(:value)
+  end
+  
+  specify "can be mocked w/ ordering" do
+    Object.should_receive(:msg_1).ordered
+    Object.should_receive(:msg_2).ordered
+    Object.should_receive(:msg_3).ordered
+    Object.msg_1
+    Object.msg_2
+    Object.msg_3
+  end
+end

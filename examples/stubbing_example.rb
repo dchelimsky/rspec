@@ -16,13 +16,30 @@ class StubbableClass
   end
 end
 
-context "A stub" do
-  specify "should work at the class level" do
+context "A stubbed method on a class" do
+  specify "should return the stubbed value" do
     StubbableClass.stub!(:find).and_return {:stub_return}
     StubbableClass.find(1).should_equal :stub_return
   end
   
-  specify "should revert to the original after each spec" do
+  specify "should revert to the original method after each spec" do
     StubbableClass.find(1).should_equal :original_return
   end
 end
+
+context "A mock" do
+  specify "can stub!" do
+    mock = mock("stubbing mock")
+    mock.stub!(:msg).and_return(:value)
+    (1..10).each {mock.msg.should_equal :value}
+  end
+  specify "can mock and stub!" do
+    mock = mock("stubbing mock")
+    mock.should_receive(:mock_message).once.and_return(:mock_value)
+    mock.stub!(:stub_message).and_return(:stub_value)
+    (1..10).each {mock.stub_message.should_equal :stub_value}
+    mock.mock_message.should_equal :mock_value
+    (1..10).each {mock.stub_message.should_equal :stub_value}
+  end
+end
+    
