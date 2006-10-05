@@ -6,7 +6,7 @@ module Spec
       def setup
         @reporter = Spec::Mocks::Mock.new "reporter"
       end
-
+      
       def test_should_run_spec_in_scope_of_execution_context
         spec = Specification.new("should pass") do
           self.should_not_be_an_instance_of Specification
@@ -15,15 +15,16 @@ module Spec
         @reporter.should_receive(:spec_started).with "should pass"
         @reporter.should_receive(:spec_finished).with "should pass", nil, nil
         spec.run @reporter
+        @reporter.__verify
       end
-
+    
       def test_should_add_itself_to_reporter_when_passes
         spec = Specification.new("spec") {}
         @reporter.should_receive(:spec_started).with "spec"
         @reporter.should_receive(:spec_finished).with "spec", nil, nil
-        spec.run(@reporter)
+        spec.run @reporter
       end
-
+    
       def test_should_add_itself_to_reporter_when_fails
         error = RuntimeError.new
         spec = Specification.new("spec") { raise error }
@@ -38,7 +39,7 @@ module Spec
         @reporter.should_receive(:spec_finished).with "spec"
         spec.run(@reporter, nil, nil, true)
       end
-
+    
       def test_should_verify_mocks_after_teardown
         spec = Specification.new("spec") do
           mock = mock("a mock")
@@ -51,7 +52,7 @@ module Spec
         end
         spec.run @reporter
       end
-
+    
       def test_should_run_teardown_even_when_main_block_fails
         spec = Specification.new("spec") do
           raise "in body"
@@ -67,7 +68,6 @@ module Spec
         end
         spec.run @reporter, nil, teardown
       end
-      
     
       def test_should_supply_setup_as_spec_name_if_failure_in_setup
         spec = Specification.new("spec") do
@@ -116,28 +116,6 @@ module Spec
       
       def teardown
         @reporter.__verify
-      end
-    end
-    
-    class SpecificationWithMethodProxySpaceTest < Test::Unit::TestCase 
-      def setup
-        MethodProxy::MethodProxySpace.class_eval {@instance = Mocks::Mock.new("proxy space", :null_object => true)}
-        @mock_proxy_space = Spec::MethodProxy::MethodProxySpace.instance
-      end
-      
-      def test_should_clear_method_proxy_space
-        @mock_proxy_space.should_receive(:clear!)
-        Specification.new("spec").run
-      end
-      
-      def test_should_clear_method_proxy_space_even_when_teardown_fails
-        @mock_proxy_space.should_receive(:clear!)
-        Specification.new("spec").run(nil, nil, lambda { raise "in teardown"} )
-      end
-      
-      def teardown
-        MethodProxy::MethodProxySpace.class_eval {@instance = nil}
-        @mock_proxy_space.__verify
       end
     end
   end

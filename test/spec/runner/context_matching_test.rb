@@ -7,7 +7,7 @@ module Spec
       def setup
         @formatter = Spec::Mocks::Mock.new "formatter"
         @context = Context.new("context") {}
-        @matcher = Spec::Mocks::Mock.new("matcher")
+        @matcher = Spec::Mocks::Mock.new "matcher"
       end
       
       def test_should_use_spec_matcher
@@ -29,7 +29,6 @@ module Spec
         @context.run_single_spec "context"
         assert_equal 2, @context.number_of_specs
       end
-      
     end
   end
 end

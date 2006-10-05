@@ -10,7 +10,7 @@ module Spec
         @formatter = Spec::Mocks::Mock.new("formatter")
         @reporter = Reporter.new(@formatter, @backtrace_tweaker)
       end
-
+      
       def test_should_push_time_to_reporter
         @formatter.should_receive(:start).with(5)
         @formatter.should_receive(:start_dump)

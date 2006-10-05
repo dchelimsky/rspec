@@ -215,12 +215,14 @@ module Spec
         @mock.__verify
       end
 
-      def test_should_clear_expectations
+      def test_verify_should_clear_expectations
         @mock.should_receive(:foobar)
-        @mock.__clear_expectations
+        @mock.foobar
         @mock.__verify
+        assert_raises Spec::Mocks::MockExpectationError do
+          @mock.foobar
+        end
       end
-  
     end
   end
 end

@@ -58,13 +58,6 @@ context "/person/show/3" do
     @person = mock("person")
   end
   
-  specify "should get person with id => 3 from model (using stub)" do
-    Person.stub!(:find).and_return(@person)
-    get 'show', :id => 3
-  
-    assigns(:person).should_be @person
-  end
-  
   specify "should get person with id => 3 from model (using partial mock)" do
     Person.should_receive(:find).and_return(@person)
     get 'show', :id => 3

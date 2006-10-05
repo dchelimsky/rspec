@@ -56,7 +56,6 @@ module Spec
         other_context.__verify
         reporter.__verify
       end
-      
     end
   end
 end

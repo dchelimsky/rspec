@@ -54,6 +54,7 @@ module Spec
           @mock.random_call "d","e","f"
         end
       end
+
     end
     
     class TwiceCountsTest < Test::Unit::TestCase
@@ -121,6 +122,7 @@ module Spec
           @mock.__verify
         end
       end
+
     end
 
     class AnyNumberOfTimesTest < Test::Unit::TestCase
@@ -151,6 +153,7 @@ module Spec
           @mock.__verify
         end
       end
+
     end
 
     class PreciseCountsTest < Test::Unit::TestCase

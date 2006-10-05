@@ -1,6 +1,4 @@
 require 'spec/version'
 require 'spec/expectations'
-require 'spec/method_proxy'
 require 'spec/mocks'
 require 'spec/runner'
-require 'spec/stubs'

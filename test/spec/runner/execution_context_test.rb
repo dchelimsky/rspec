@@ -4,13 +4,6 @@ module Spec
   module Runner
     class ExecutionContextTest < Test::Unit::TestCase
 
-      def test_should_add_new_mock_to_spec_when_mock_message_received
-        spec = Spec::Mocks::Mock.new "spec"
-        spec.should_receive(:add_mock) {|mock| mock.instance_of? Spec::Mocks::Mock}
-        ec = ExecutionContext.new spec
-        mock = ec.mock("a mock", :null_object=>true)
-      end
-
       def test_violated
         assert_raise(Spec::Expectations::ExpectationNotMetError) do
           ExecutionContext.new(nil).violated

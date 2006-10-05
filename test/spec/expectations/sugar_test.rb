@@ -87,7 +87,6 @@ module Spec
           n.should_be_a_kind_of Float
         end
       end
-
     end
   end
 end

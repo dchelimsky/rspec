@@ -5,7 +5,7 @@ module Spec
     class ContextTest < Test::Unit::TestCase
       
       def setup
-        @formatter = Spec::Mocks::Mock.new "formatter"
+        @formatter = Spec::Mocks::Mock.new "formatter", :register_as_spec_listener => false
         @context = Context.new("context") {}
       end
 

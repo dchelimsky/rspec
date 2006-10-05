@@ -3,9 +3,9 @@ module Spec
 
     # Represents the expection of the reception of a message
     class MessageExpectation
-    
-      def initialize(mock_name, expectation_ordering, expected_from, sym, method_block, expected_received_count=1)
-        @mock_name = mock_name
+      
+      def initialize(message_intro, expectation_ordering, expected_from, sym, method_block, expected_received_count=1)
+        @message_intro = message_intro
         @expected_from = expected_from
         @sym = sym
         @method_block = method_block
@@ -25,6 +25,10 @@ module Spec
   
       def matches(sym, args)
         @sym == sym and @args_expectation.check_args(args)
+      end
+      
+      def matches_name_but_not_args(sym, args)
+        @sym == sym and not @args_expectation.check_args(args)
       end
        
       def make_count_message(count)
@@ -51,7 +55,7 @@ module Spec
     
         count_message = make_count_message(@expected_received_count)
 
-        message = "Mock '#{@mock_name}' expected '#{@sym}' #{count_message}, but received it #{@received_count} times"
+        message = "#{@message_intro} expected '#{@sym}' #{count_message}, but received it #{@received_count} times"
         begin
           Kernel::raise(Spec::Mocks::MockExpectationError, message)
         rescue => error
@@ -63,13 +67,12 @@ module Spec
       def handle_order_constraint
         return unless @ordered
         return @ordering.consume(self) if @ordering.ready_for?(self)
-        message = "Mock '#{@mock_name}' received '#{@sym}' out of order"
+        message = "#{@message_intro} received '#{@sym}' out of order"
         Kernel::raise(Spec::Mocks::MockExpectationError, message) 
       end
       
       # This method is called when a method is invoked on a mock
       def invoke(args, block)
-        
         handle_order_constraint
 
         begin
@@ -195,11 +198,19 @@ module Spec
         @ordered = true
         self
       end
+      
+      def negative_expectation_for? sym
+        return false
+      end
     end
     
     class NegativeMessageExpectation < MessageExpectation
-      def initialize(mock_name, expectation_ordering, expected_from, sym, method_block)
-        super mock_name, expectation_ordering, expected_from, sym, method_block, 0
+      def initialize(message_intro, expectation_ordering, expected_from, sym, method_block)
+        super message_intro, expectation_ordering, expected_from, sym, method_block, 0
+      end
+      
+      def negative_expectation_for? sym
+        return @sym == sym
       end
     end
   end
