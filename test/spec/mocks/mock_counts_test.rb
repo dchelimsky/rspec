@@ -5,7 +5,7 @@ module Spec
     class OnceCountsTest < Test::Unit::TestCase
       
       def setup
-        @mock = Mock.new("test mock")
+        @mock = Mock.new("test mock", :auto_verify => false)
       end
       
       def test_once_should_pass_when_called_once
@@ -60,7 +60,7 @@ module Spec
     class TwiceCountsTest < Test::Unit::TestCase
 
       def setup
-        @mock = Mock.new("test mock")
+        @mock = Mock.new("test mock", :auto_verify => false)
       end
       
       def test_twice_should_pass_when_called_twice
@@ -128,7 +128,7 @@ module Spec
     class AnyNumberOfTimesTest < Test::Unit::TestCase
       
       def setup
-        @mock = Mock.new("test mock")
+        @mock = Mock.new("test mock", :auto_verify => false)
       end
 
       def test_should_pass_if_any_number_of_times_method_is_not_called
@@ -159,7 +159,7 @@ module Spec
     class PreciseCountsTest < Test::Unit::TestCase
       
       def setup
-        @mock = Mock.new("test mock")
+        @mock = Mock.new("test mock", :auto_verify => false)
       end
 
       def test_should_pass_mutiple_calls_with_different_args
@@ -214,7 +214,7 @@ module Spec
     class AtLeastTest < Test::Unit::TestCase
       
       def setup
-        @mock = Mock.new("test mock")
+        @mock = Mock.new("test mock", :auto_verify => false)
       end
 
       def test_should_fail_when_at_least_once_method_is_never_called
@@ -329,7 +329,7 @@ module Spec
     class AtMostTest < Test::Unit::TestCase
 
       def setup
-        @mock = Mock.new("test mock")
+        @mock = Mock.new("test mock", :auto_verify => false)
       end
 
       def test_should_pass_when_at_most_once_method_is_never_called

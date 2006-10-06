@@ -1,3 +1,3 @@
-class Module
-  include Spec::Expectations::UnderscoreSugar
-end
+# class Module
+#   include Spec::Expectations::UnderscoreSugar
+# end

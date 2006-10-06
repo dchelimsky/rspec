@@ -10,6 +10,7 @@ end
 
 class Object
   include Spec::Expectations::ObjectExpectations
+  include Spec::Expectations::UnderscoreSugar
 end
 
 Object.handle_underscores_for_rspec!

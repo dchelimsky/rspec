@@ -6,8 +6,8 @@ module Spec
       
       def setup
         @io = StringIO.new
-        @backtrace_tweaker = Spec::Mocks::Mock.new("backtrace tweaker")
-        @formatter = Spec::Mocks::Mock.new("formatter")
+        @backtrace_tweaker = Spec::Mocks::Mock.new("backtrace tweaker", :auto_verify => false)
+        @formatter = Spec::Mocks::Mock.new("formatter", :auto_verify => false)
         @reporter = Reporter.new(@formatter, @backtrace_tweaker)
       end
       

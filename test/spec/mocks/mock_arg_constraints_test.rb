@@ -66,57 +66,37 @@ module Spec
     
     class FailingMockArgumentConstraintsTest < Test::Unit::TestCase
       
-      #NOTE - there is a MUCH simpler way to express these tests, but
-      #the translation fails because the translated specs are  run
-      #in Specifications which auto-verify the mocks
-      
       def setup
-        @mock = Mock.new("test mock")
-        @reporter = Mock.new("reporter", :null_object => true)
+        @mock = Mock.new("test mock", :auto_verify => false)
+        @reporter = Mock.new("reporter", :null_object => true, :auto_verify => false)
       end
-
+      
       def test_should_reject_non_numeric
-        @reporter.should_receive(:spec_finished) do |name, error|
-          error.should_be_a_kind_of MockExpectationError
-        end
-        Runner::Specification.new("spec") do
-          @mock.should_receive(:random_call).with(:numeric)
+        @mock.should_receive(:random_call).with(:numeric)
+        assert_raises MockExpectationError do
           @mock.random_call("1")
-        end.run @reporter
-        @reporter.__verify
+        end
       end
       
       def test_should_reject_non_boolean
-        @reporter.should_receive(:spec_finished) do |name, error|
-          error.should_be_a_kind_of MockExpectationError
-        end
-        Runner::Specification.new("spec") do
-          @mock.should_receive(:random_call).with(:boolean)
+        @mock.should_receive(:random_call).with(:boolean)
+        assert_raises MockExpectationError do
           @mock.random_call("false")
-        end.run @reporter
-        @reporter.__verify
+        end
       end
       
       def test_should_reject_non_string
-        @reporter.should_receive(:spec_finished) do |name, error|
-          error.should_be_a_kind_of MockExpectationError
-        end
-        Runner::Specification.new("spec") do
-          @mock.should_receive(:random_call).with(:string)
+        @mock.should_receive(:random_call).with(:string)
+        assert_raises MockExpectationError do
           @mock.random_call(123)
-        end.run @reporter
-        @reporter.__verify
+        end
       end
       
       def test_should_reject_goose_when_expecting_a_duck
-        @reporter.should_receive(:spec_finished) do |name, error|
-          error.should_be_a_kind_of MockExpectationError
-        end
-        Runner::Specification.new("spec") do
-          @mock.should_receive(:random_call).with(DuckTypeArgConstraint.new(:abs, :div))
+        @mock.should_receive(:random_call).with(DuckTypeArgConstraint.new(:abs, :div))
+        assert_raises MockExpectationError do
           @mock.random_call("I don't respond to :abs or :div")
-        end.run @reporter
-        @reporter.__verify
+        end
       end
     end
   end

@@ -1,3 +1,3 @@
 class Object
-  include Spec::Mocks::MockInstanceMethods
+  include Spec::Mocks::MockMethods
 end

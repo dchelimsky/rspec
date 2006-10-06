@@ -9,6 +9,19 @@ module Spec
         @proxied_methods = []
         @options = options ? DEFAULT_OPTIONS.dup.merge(options) : DEFAULT_OPTIONS
       end
+
+      DEFAULT_OPTIONS = {
+        :null_object => false,
+        :auto_verify => true
+      }
+      
+      def null_object?
+        @options[:null_object]
+      end
+      
+      def auto_verify?
+        @options[:auto_verify]
+      end
       
       def message_intro
         @name ? "Mock '#{@name}'" : @target.to_s
@@ -20,7 +33,7 @@ module Spec
       end
 
       def add(expectation_class, expected_from, sym, &block)
-        Runner::Specification.add_listener(self)
+        Runner::Specification.add_listener(self) if auto_verify?
         define_expected_method(sym)
         expectation = expectation_class.send(:new, message_intro, @expectation_ordering, expected_from, sym, block_given? ? block : nil)
         @expectations << expectation
@@ -113,14 +126,6 @@ module Spec
         else
           @target.send :method_missing, sym, *args, &block
         end
-      end
-
-      DEFAULT_OPTIONS = {
-        :null_object => false
-      }
-      
-      def null_object?
-        @options[:null_object]
       end
 
     end

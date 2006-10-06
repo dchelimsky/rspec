@@ -97,7 +97,7 @@ module Spec
           result[-1] += @dasgn_decl unless @dasgn_decl.empty?
           result[-1] += block_body unless block_body == [[:nil]]
           result
-        elsif method_name == "setup" || method_name == "teardown"
+        elsif ["setup","teardown"].include? method_name
           test_body = exp[2][1][2..-1]
           exp.clear
           block_body = []

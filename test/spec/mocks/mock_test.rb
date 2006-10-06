@@ -223,6 +223,42 @@ module Spec
           @mock.foobar
         end
       end
+      
+      def test_should_verify_if_auto_verify_set_to_true
+        reporter = Spec::Mocks::Mock.new("reporter", :null_object => true)
+        reporter.should_receive(:spec_finished) do |name, error, location|
+          error.to_s.should_match /expected 'abcde' once, but received it 0 times/
+        end
+        Runner::Specification.new("spec") do
+          mock = Spec::Mocks::Mock.new("mock", :auto_verify => true)
+          mock.should_receive(:abcde)
+        end.run reporter
+        reporter.__verify
+      end
+
+      def test_should_verify_if_auto_verify_not_set_explicitly
+        reporter = Spec::Mocks::Mock.new("reporter", :null_object => true)
+        reporter.should_receive(:spec_finished) do |name, error, location|
+          error.to_s.should_match /expected 'abcde' once, but received it 0 times/
+        end
+        Runner::Specification.new("spec") do
+          mock = Spec::Mocks::Mock.new("mock")
+          mock.should_receive(:abcde)
+        end.run reporter
+        reporter.__verify
+      end
+
+      def test_should_not_verify_if_auto_verify_set_false
+        reporter = Spec::Mocks::Mock.new("reporter", :null_object => true)
+        reporter.should_receive(:spec_finished) do |name, error, location|
+          error.should_be_nil
+        end
+        Runner::Specification.new("spec") do
+          mock = Spec::Mocks::Mock.new("mock", :auto_verify => false)
+          mock.should_receive(:abcde)
+        end.run reporter
+        reporter.__verify
+      end
     end
   end
 end

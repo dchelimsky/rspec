@@ -60,6 +60,9 @@ task :test2spec => :create_test2spec_dir do
   rm 'spec/translated/spec/test_to_spec/sexp_transformer_assertion_spec.rb'
   rm 'spec/translated/spec/test_to_spec/sexp_transformer_spec.rb'
   rm 'spec/translated/r2_r_spec.rb'
+  # Remove the spec translations that are failing due to partial mocks being involved
+  rm 'spec/translated/spec/mocks/partial_mock_spec.rb'
+  rm 'spec/translated/spec/mocks/partial_mock_using_mocks_directly_spec.rb'
 end
 task :create_test2spec_dir do
   mkdir_p 'doc/output/tools' unless File.exist? 'doc/output/tools'

@@ -93,7 +93,6 @@ module Spec
       end
 
       def define
-        #raise "No spec files found." if file_list.empty?
         spec_script = File.expand_path(File.dirname(__FILE__) + '/../../../bin/spec')
 
         lib_path = @libs.join(File::PATH_SEPARATOR)

@@ -195,6 +195,26 @@ module Spec
         end
       end
     end
+    
+    # class TenthTest < Test::Unit::TestCase
+    #   def helper_with_block &block
+    #   end
+    #   
+    #   def test_calling_helper_with_block
+    #     helper_with_block {}
+    #   end
+    # end
+    # class TenthContext
+    #   def wrapper
+    #     context "Tenth" do
+    #       def helper_with_block &block
+    #       end
+    #       specify "calling helper with block" do
+    #         helper_with_block {}
+    #       end
+    #     end
+    #   end
+    # end
 
     class SexpTransformerTest < Test::Unit::TestCase
       def test_first
@@ -233,6 +253,10 @@ module Spec
         should_translate_class_to_context('Ninth')
       end
 
+      # def test_tenth
+      #   should_translate_class_to_context('Tenth')
+      # end
+
       class Something
         def method_with_asserts
           assert_equal 2, 3
@@ -246,7 +270,7 @@ module Spec
       def test_translates_regular_method_bodies
         something = ParseTree.new.parse_tree_for_method(Something, :method_with_asserts)
         expected_something_translated = ParseTree.new.parse_tree_for_method(SomethingTranslated, :method_with_asserts)
-        actual_something_translated = @t.process(something)
+        actual_something_translated = @transformer.process(something)
         verify_sexp_equal expected_something_translated, actual_something_translated
       end
 
@@ -260,7 +284,7 @@ module Spec
         end
         c = wrapper_exp(eval(context_class_name))
 
-        trans = @t.process(t)
+        trans = @transformer.process(t)
 
         verify_sexp_equal c, trans
 
@@ -295,7 +319,7 @@ module Spec
       end
 
       def setup
-        @t = SexpTransformer.new
+        @transformer = SexpTransformer.new
         @r2r = RubyToRuby.new
       end
     end
