@@ -22,7 +22,7 @@ module Spec
           return self if __mock_handler.null_object?
           super(sym, *args, &block)
         rescue NoMethodError
-          __mock_handler.handle_no_method_error sym, *args
+          __mock_handler.raise_unexpected_message_error sym, *args
         end
       end
       

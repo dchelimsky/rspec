@@ -8,6 +8,7 @@ module Spec
         @expectations = []
         @proxied_methods = []
         @options = options ? DEFAULT_OPTIONS.dup.merge(options) : DEFAULT_OPTIONS
+        @error_generator = ErrorGenerator.new target, name
       end
 
       DEFAULT_OPTIONS = {
@@ -19,23 +20,10 @@ module Spec
         @options[:null_object]
       end
       
-      def auto_verify?
-        @options[:auto_verify]
-      end
-      
-      def message_intro
-        @name ? "Mock '#{@name}'" : @target.to_s
-      end
-
-      def handle_no_method_error sym, *args
-        arg_message = args.collect{|arg| "<#{arg}:#{arg.class.name}>"}.join(", ")
-        Kernel::raise Spec::Mocks::MockExpectationError, "#{message_intro} received unexpected message '#{sym}' with [#{arg_message}]"
-      end
-
       def add(expectation_class, expected_from, sym, &block)
-        Runner::Specification.add_listener(self) if auto_verify?
+        Runner::Specification.add_listener(self) if @options[:auto_verify]
         define_expected_method(sym)
-        expectation = expectation_class.send(:new, message_intro, @expectation_ordering, expected_from, sym, block_given? ? block : nil)
+        expectation = expectation_class.send(:new, @error_generator, @expectation_ordering, expected_from, sym, block_given? ? block : nil)
         @expectations << expectation
         expectation
       end
@@ -122,12 +110,16 @@ module Spec
         if expectation = find_matching_expectation(sym, *args)
           expectation.invoke(args, block)
         elsif expectation = find_almost_matching_expectation(sym, *args)
-          handle_no_method_error sym, *args unless has_negative_expectation?(sym)
+          raise_unexpected_message_error(sym, *args) unless has_negative_expectation?(sym)
         else
           @target.send :method_missing, sym, *args, &block
         end
       end
-
+      
+      def raise_unexpected_message_error sym, *args
+        @error_generator.raise_unexpected_message_error sym, *args
+      end
+      
     end
   end
 end

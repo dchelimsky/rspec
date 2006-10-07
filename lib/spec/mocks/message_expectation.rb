@@ -4,8 +4,8 @@ module Spec
     # Represents the expection of the reception of a message
     class MessageExpectation
       
-      def initialize(message_intro, expectation_ordering, expected_from, sym, method_block, expected_received_count=1)
-        @message_intro = message_intro
+      def initialize(message, expectation_ordering, expected_from, sym, method_block, expected_received_count=1)
+        @error_generator = message
         @expected_from = expected_from
         @sym = sym
         @method_block = method_block
@@ -55,9 +55,8 @@ module Spec
     
         count_message = make_count_message(@expected_received_count)
 
-        message = "#{@message_intro} expected '#{@sym}' #{count_message}, but received it #{@received_count} times"
         begin
-          Kernel::raise(Spec::Mocks::MockExpectationError, message)
+          @error_generator.raise_expectation_error @sym, count_message, @received_count
         rescue => error
           error.backtrace.insert(0, @expected_from)
           Kernel::raise error
@@ -67,8 +66,7 @@ module Spec
       def handle_order_constraint
         return unless @ordered
         return @ordering.consume(self) if @ordering.ready_for?(self)
-        message = "#{@message_intro} received '#{@sym}' out of order"
-        Kernel::raise(Spec::Mocks::MockExpectationError, message) 
+        @error_generator.raise_out_of_order_error @sym
       end
       
       # This method is called when a method is invoked on a mock
@@ -95,16 +93,16 @@ module Spec
         begin
           @method_block.call(*args)
         rescue Spec::Expectations::ExpectationNotMetError => detail
-          Kernel::raise Spec::Mocks::MockExpectationError, "Call expectation violated with: " + detail
+          @error_generator.raise_violated_error detail
         end
       end
       
       def invoke_with_yield(block)
         if block.nil?
-          Kernel::raise Spec::Mocks::MockExpectationError, "Expected block to be passed"
+          @error_generator.raise_missing_block_error
         end
         if @args_to_yield.length != block.arity
-          Kernel::raise Spec::Mocks::MockExpectationError, "Wrong arity of passed block. Expected #{@args_to_yield.size}"
+          @error_generator.raise_wrong_arity_error @args_to_yield.size
         end
         block.call(*@args_to_yield)
       end
@@ -205,8 +203,8 @@ module Spec
     end
     
     class NegativeMessageExpectation < MessageExpectation
-      def initialize(message_intro, expectation_ordering, expected_from, sym, method_block)
-        super message_intro, expectation_ordering, expected_from, sym, method_block, 0
+      def initialize(message, expectation_ordering, expected_from, sym, method_block)
+        super message, expectation_ordering, expected_from, sym, method_block, 0
       end
       
       def negative_expectation_for? sym
