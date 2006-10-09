@@ -4,8 +4,10 @@ module Spec
     # Represents the expection of the reception of a message
     class MessageExpectation
       
-      def initialize(message, expectation_ordering, expected_from, sym, method_block, expected_received_count=1)
-        @error_generator = message
+      attr_reader :sym
+      
+      def initialize(error_generator, expectation_ordering, expected_from, sym, method_block, expected_received_count=1)
+        @error_generator = error_generator
         @expected_from = expected_from
         @sym = sym
         @method_block = method_block
@@ -16,8 +18,8 @@ module Spec
         @consecutive = false
         @exception_to_raise = nil
         @symbol_to_throw = nil
-        @ordering = expectation_ordering
-        @ordered = false
+        @order_group = expectation_ordering
+        @order_group.error_generator = error_generator
         @at_least = nil
         @at_most = nil
         @args_to_yield = nil
@@ -49,15 +51,9 @@ module Spec
         end
       end
 
-      def handle_order_constraint
-        return unless @ordered
-        return @ordering.consume(self) if @ordering.ready_for?(self)
-        @error_generator.raise_out_of_order_error @sym
-      end
-      
       # This method is called when a method is invoked on a mock
       def invoke(args, block)
-        handle_order_constraint
+        @order_group.handle_order_constraint self
 
         begin
           Kernel::raise @exception_to_raise.new unless @exception_to_raise.nil?
@@ -178,7 +174,7 @@ module Spec
       end
   
       def ordered
-        @ordering.register(self)
+        @order_group.register(self)
         @ordered = true
         self
       end
