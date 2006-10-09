@@ -19,7 +19,6 @@ module Spec
         @exception_to_raise = nil
         @symbol_to_throw = nil
         @order_group = expectation_ordering
-        @order_group.error_generator = error_generator
         @at_least = nil
         @at_most = nil
         @args_to_yield = nil

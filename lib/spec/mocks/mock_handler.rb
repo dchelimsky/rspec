@@ -4,11 +4,11 @@ module Spec
       def initialize(target, name, options={})
         @target = target
         @name = name
-        @expectation_ordering = OrderGroup.new
+        @error_generator = ErrorGenerator.new target, name
+        @expectation_ordering = OrderGroup.new @error_generator
         @expectations = []
         @proxied_methods = []
         @options = options ? DEFAULT_OPTIONS.dup.merge(options) : DEFAULT_OPTIONS
-        @error_generator = ErrorGenerator.new target, name
       end
 
       DEFAULT_OPTIONS = {
@@ -103,7 +103,7 @@ module Spec
       end
       
       def has_negative_expectation?(sym)
-        @expectations.find {|expectation| expectation.negative_expectation_for?(sym)}
+        @expectations.detect {|expectation| expectation.negative_expectation_for?(sym)}
       end
       
       def message_received(sym, *args, &block)

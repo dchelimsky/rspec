@@ -1,9 +1,8 @@
 module Spec
   module Mocks
     class OrderGroup
-      attr_writer :error_generator
-      
-      def initialize
+      def initialize error_generator
+        @error_generator = error_generator
         @ordering = Array.new
       end
       
