@@ -1,7 +1,6 @@
 module Spec
   module Mocks
     class ErrorGenerator
-      attr_reader :target, :name
       def initialize target, name
         @target = target
         @name = name
@@ -11,8 +10,8 @@ module Spec
         __raise "#{intro} received unexpected message '#{sym}' with [#{arg_message(*args)}]"
       end
       
-      def raise_expectation_error sym, count_message, received_count
-        __raise "#{intro} expected '#{sym}' #{count_message}, but received it #{received_count} times"
+      def raise_expectation_error sym, expected_received_count, actual_received_count
+        __raise "#{intro} expected '#{sym}' #{make_count_message(expected_received_count)}, but received it #{actual_received_count} times"
       end
       
       def raise_out_of_order_error sym
@@ -31,11 +30,11 @@ module Spec
         __raise "Wrong arity of passed block. Expected #{arity}"
       end
       
+      private
       def intro
         @name ? "Mock '#{@name}'" : @target.to_s
       end
       
-      private
       def __raise message
         Kernel::raise Spec::Mocks::MockExpectationError, message
       end
@@ -44,6 +43,17 @@ module Spec
         args.collect{|arg| "<#{arg}:#{arg.class.name}>"}.join(", ")
       end
       
+      def make_count_message(count)
+        return "at least #{pretty_print(count.abs)}" if count < 0
+        return pretty_print(count) if count > 0
+        return "never"
+      end
+
+      def pretty_print(count)
+        return "once" if count == 1
+        return "twice" if count == 2
+        return "#{count} times"
+      end
 
     end
   end

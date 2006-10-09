@@ -31,18 +31,6 @@ module Spec
         @sym == sym and not @args_expectation.check_args(args)
       end
        
-      def make_count_message(count)
-        return "at least #{pretty_print(count.abs)}" if count < 0
-        return pretty_print(count) if count > 0
-        return "never"
-      end
-      
-      def pretty_print(count)
-        return "once" if count == 1
-        return "twice" if count == 2
-        return "#{count} times"
-      end
-      
       # This method is called at the end of a spec, after teardown.
       def verify_messages_received
         # TODO: this doesn't provide good enough error messages to fix the error.
@@ -53,10 +41,8 @@ module Spec
         return if (@at_most) && (@received_count <= @expected_received_count)
         return if @expected_received_count == @received_count
     
-        count_message = make_count_message(@expected_received_count)
-
         begin
-          @error_generator.raise_expectation_error @sym, count_message, @received_count
+          @error_generator.raise_expectation_error @sym, @expected_received_count, @received_count
         rescue => error
           error.backtrace.insert(0, @expected_from)
           Kernel::raise error
