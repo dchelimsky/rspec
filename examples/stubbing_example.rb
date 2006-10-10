@@ -1,13 +1,11 @@
 require File.dirname(__FILE__) + '/../lib/spec'
 
 context "A consumer of a stub" do
-
   specify "should be able to stub objects" do
     obj = Object.new
     obj.stub!(:foobar).and_return {:return_value}
     obj.foobar.should_equal :return_value
   end
-
 end
 
 class StubbableClass
@@ -33,13 +31,24 @@ context "A mock" do
     mock.stub!(:msg).and_return(:value)
     (1..10).each {mock.msg.should_equal :value}
   end
-  specify "can mock and stub!" do
+  
+  specify "can stub! and mock" do
     mock = mock("stubbing mock")
-    mock.should_receive(:mock_message).once.and_return(:mock_value)
     mock.stub!(:stub_message).and_return(:stub_value)
+    mock.should_receive(:mock_message).once.and_return(:mock_value)
     (1..10).each {mock.stub_message.should_equal :stub_value}
     mock.mock_message.should_equal :mock_value
     (1..10).each {mock.stub_message.should_equal :stub_value}
   end
+  
+  # specify "can stub! and mock the same message" do
+  #   mock = mock("stubbing mock")
+  #   mock.stub!(:msg).and_return(:stub_value)
+  #   mock.should_receive(:msg).once.and_return(:mock_value)
+  #   mock.msg.should_equal :mock_value
+  #   mock.msg.should_equal :stub_value
+  #   mock.msg.should_equal :stub_value
+  # end
 end
+
     

@@ -60,7 +60,7 @@ module Spec
     end
 
     class ArgumentExpectation
-    
+      attr_reader :args
       @@constraint_classes = Hash.new { |hash, key| LiteralArgConstraint}
       @@constraint_classes[:anything] = AnyArgConstraint
       @@constraint_classes[:numeric] = NumericArgConstraint
@@ -68,6 +68,7 @@ module Spec
       @@constraint_classes[:string] = StringArgConstraint
       
       def initialize(args)
+        @args = *args
         if [:any_args] == args then @expected_params = nil
         elsif [:no_args] == args then @expected_params = []
         else @expected_params = process_arg_constraints(args)

@@ -7,7 +7,7 @@ module Spec
       def setup
         @mock = Mock.new("test mock")
       end
-
+      
       def test_should_report_line_number_of_expectation_of_unreceived_message
         @mock.should_receive(:wont_happen).with("x", 3)
         #NOTE - this test is quite ticklish because it specifies that
@@ -15,6 +15,7 @@ module Spec
 
         begin
           @mock.__verify
+          fail
         rescue MockExpectationError => e
           e.backtrace[0].should_match(/mock_test\.rb:12:in .test_should_report_line/)
         end
@@ -36,16 +37,22 @@ module Spec
       def test_should_fail_when_receiving_message_specified_as_not_to_be_received
         @mock.should_not_receive(:not_expected)
         @mock.not_expected
-        assert_raise(MockExpectationError) do
+        begin
           @mock.__verify
+          fail
+        rescue MockExpectationError => e
+          e.message.should_equal "Mock 'test mock' expected 'not_expected' 0 times, but received it 1 times"
         end
       end
 
       def test_should_fail_when_receiving_message_specified_as_not_to_be_received_with_args
         @mock.should_not_receive(:not_expected).with("unexpected text")
         @mock.not_expected "unexpected text"
-        assert_raise(MockExpectationError) do
+        begin
           @mock.__verify
+          fail
+        rescue MockExpectationError => e
+          e.message.should_equal "Mock 'test mock' expected 'not_expected' with ['unexpected text'] 0 times, but received it 1 times"
         end
       end
 
@@ -69,15 +76,21 @@ module Spec
 
       def test_should_raise_exception_if_parameters_dont_match_when_method_called
         @mock.should_receive(:random_call).with("a","b","c").and_return("booh")
-        assert_raise(MockExpectationError) {
+        begin
           @mock.random_call("a","d","c")
-        }
+          fail
+        rescue MockExpectationError => e
+          e.message.should_equal "Mock 'test mock' received unexpected message 'random_call' with ['a', 'd', 'c']"
+        end
       end
      
       def test_should_fail_if_unexpected_method_called
-        assert_raise(MockExpectationError) {
-          @mock.random_call("a","d","c")
-        }
+        begin
+          @mock.random_call("a","b","c")
+          fail
+        rescue MockExpectationError => e
+          e.message.should_equal "Mock 'test mock' received unexpected message 'random_call' with ['a', 'b', 'c']"
+        end
       end
   
       def test_should_use_block_for_expectation_if_provided
@@ -91,17 +104,21 @@ module Spec
       end
   
       def test_should_fail_if_expectation_block_fails
-        @mock.should_receive(:random_call).with(true)# {| a | a.should_be true}
-        assert_raise(MockExpectationError) do
+        @mock.should_receive(:random_call) {| bool | bool.should_be true}
+        begin
           @mock.random_call false
+          fail
+        rescue MockExpectationError => e
+          e.message.should_equal "Call expectation violated with: false should be true"
         end
       end
   
       def test_should_fail_when_method_defined_as_never_is_received
         @mock.should_receive(:random_call).never
-        assert_raise(MockExpectationError) do
+        begin
           @mock.random_call
-          @mock.__verify
+        rescue MockExpectationError => e
+          e.message.should_equal "Call expectation violated with: false should be true"
         end
       end
       
@@ -154,8 +171,10 @@ module Spec
       
       def test_should_fail_on_no_args_if_any_args_received
         @mock.should_receive(:random_call).with(:no_args)
-        assert_raise(MockExpectationError) do
+        begin
           @mock.random_call 1
+        rescue MockExpectationError => e
+          e.message.should_equal "Mock 'test mock' received unexpected message 'random_call' with [1]"
         end
       end
       

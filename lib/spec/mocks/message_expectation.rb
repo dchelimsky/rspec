@@ -1,7 +1,6 @@
 module Spec
   module Mocks
 
-    # Represents the expection of the reception of a message
     class MessageExpectation
       
       attr_reader :sym
@@ -32,25 +31,20 @@ module Spec
         @sym == sym and not @args_expectation.check_args(args)
       end
        
-      # This method is called at the end of a spec, after teardown.
-      def verify_messages_received
-        # TODO: this doesn't provide good enough error messages to fix the error.
-        # Error msg should tell exactly what went wrong. (AH).
-        
+      def verify_messages_received        
         return if @expected_received_count == :any
         return if (@at_least) && (@received_count >= @expected_received_count)
         return if (@at_most) && (@received_count <= @expected_received_count)
         return if @expected_received_count == @received_count
     
         begin
-          @error_generator.raise_expectation_error @sym, @expected_received_count, @received_count
+          @error_generator.raise_expectation_error @sym, @expected_received_count, @received_count, @args_expectation.args
         rescue => error
           error.backtrace.insert(0, @expected_from)
           Kernel::raise error
         end
       end
 
-      # This method is called when a method is invoked on a mock
       def invoke(args, block)
         @order_group.handle_order_constraint self
 
@@ -74,7 +68,7 @@ module Spec
         begin
           @method_block.call(*args)
         rescue Spec::Expectations::ExpectationNotMetError => detail
-          @error_generator.raise_violated_error detail
+          @error_generator.raise_violated_error detail.message
         end
       end
       
@@ -138,7 +132,6 @@ module Spec
         self
       end
   
-      #TODO - replace this w/ not syntax in mock
       def never
         @expected_received_count = 0
         self

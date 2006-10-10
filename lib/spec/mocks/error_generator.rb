@@ -7,11 +7,11 @@ module Spec
       end
 
       def raise_unexpected_message_error sym, *args
-        __raise "#{intro} received unexpected message '#{sym}' with [#{arg_message(*args)}]"
+        __raise "#{intro} received unexpected message '#{sym}'#{arg_message(*args)}"
       end
       
-      def raise_expectation_error sym, expected_received_count, actual_received_count
-        __raise "#{intro} expected '#{sym}' #{make_count_message(expected_received_count)}, but received it #{actual_received_count} times"
+      def raise_expectation_error sym, expected_received_count, actual_received_count, *args
+        __raise "#{intro} expected '#{sym}'#{arg_message(*args)} #{make_count_message(expected_received_count)}, but received it #{actual_received_count} times"
       end
       
       def raise_out_of_order_error sym
@@ -40,13 +40,21 @@ module Spec
       end
       
       def arg_message *args
-        args.collect{|arg| "<#{arg}:#{arg.class.name}>"}.join(", ")
+        return "" if [:any_args] == args
+        " with [" + args.collect do |arg|
+          if arg.is_a? String
+            "'#{arg}'"
+          elsif arg.is_a? Fixnum
+            "#{arg}"
+          else
+            "<#{arg}:#{arg.class.name}>"
+          end
+        end.join(", ") + "]"
       end
       
       def make_count_message(count)
         return "at least #{pretty_print(count.abs)}" if count < 0
-        return pretty_print(count) if count > 0
-        return "never"
+        return pretty_print(count)
       end
 
       def pretty_print(count)
