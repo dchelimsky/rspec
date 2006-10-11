@@ -7,11 +7,11 @@ module Spec
       end
 
       def raise_unexpected_message_error sym, *args
-        __raise "#{intro} received unexpected message '#{sym}'#{arg_message(*args)}"
+        __raise "#{intro} received unexpected message :#{sym}#{arg_message(*args)}"
       end
       
       def raise_expectation_error sym, expected_received_count, actual_received_count, *args
-        __raise "#{intro} expected '#{sym}'#{arg_message(*args)} #{make_count_message(expected_received_count)}, but received it #{actual_received_count} times"
+        __raise "#{intro} expected :#{sym}#{arg_message(*args)} #{make_count_message(expected_received_count)}, but received it #{actual_received_count} times"
       end
       
       def raise_out_of_order_error sym
@@ -44,6 +44,8 @@ module Spec
         " with [" + args.collect do |arg|
           if arg.is_a? String
             "'#{arg}'"
+          elsif arg.is_a? Symbol
+            ":#{arg}"
           elsif arg.is_a? Fixnum
             "#{arg}"
           else

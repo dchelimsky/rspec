@@ -44,7 +44,7 @@ context "A mock" do
   # specify "can stub! and mock the same message" do
   #   mock = mock("stubbing mock")
   #   mock.stub!(:msg).and_return(:stub_value)
-  #   mock.should_receive(:msg).once.and_return(:mock_value)
+  #   mock.should_receive(:msg).and_return(:mock_value)
   #   mock.msg.should_equal :mock_value
   #   mock.msg.should_equal :stub_value
   #   mock.msg.should_equal :stub_value

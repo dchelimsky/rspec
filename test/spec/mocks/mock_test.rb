@@ -41,7 +41,7 @@ module Spec
           @mock.__verify
           fail
         rescue MockExpectationError => e
-          e.message.should_equal "Mock 'test mock' expected 'not_expected' 0 times, but received it 1 times"
+          e.message.should_equal "Mock 'test mock' expected :not_expected 0 times, but received it 1 times"
         end
       end
 
@@ -52,7 +52,7 @@ module Spec
           @mock.__verify
           fail
         rescue MockExpectationError => e
-          e.message.should_equal "Mock 'test mock' expected 'not_expected' with ['unexpected text'] 0 times, but received it 1 times"
+          e.message.should_equal "Mock 'test mock' expected :not_expected with ['unexpected text'] 0 times, but received it 1 times"
         end
       end
 
@@ -80,7 +80,7 @@ module Spec
           @mock.random_call("a","d","c")
           fail
         rescue MockExpectationError => e
-          e.message.should_equal "Mock 'test mock' received unexpected message 'random_call' with ['a', 'd', 'c']"
+          e.message.should_equal "Mock 'test mock' received unexpected message :random_call with ['a', 'd', 'c']"
         end
       end
      
@@ -89,7 +89,7 @@ module Spec
           @mock.random_call("a","b","c")
           fail
         rescue MockExpectationError => e
-          e.message.should_equal "Mock 'test mock' received unexpected message 'random_call' with ['a', 'b', 'c']"
+          e.message.should_equal "Mock 'test mock' received unexpected message :random_call with ['a', 'b', 'c']"
         end
       end
   
@@ -174,7 +174,7 @@ module Spec
         begin
           @mock.random_call 1
         rescue MockExpectationError => e
-          e.message.should_equal "Mock 'test mock' received unexpected message 'random_call' with [1]"
+          e.message.should_equal "Mock 'test mock' received unexpected message :random_call with [1]"
         end
       end
       
@@ -246,7 +246,7 @@ module Spec
       def test_should_verify_if_auto_verify_set_to_true
         reporter = Spec::Mocks::Mock.new("reporter", :null_object => true)
         reporter.should_receive(:spec_finished) do |name, error, location|
-          error.to_s.should_match /expected 'abcde' once, but received it 0 times/
+          error.to_s.should_match /expected :abcde once, but received it 0 times/
         end
         Runner::Specification.new("spec") do
           mock = Spec::Mocks::Mock.new("mock", :auto_verify => true)
@@ -258,7 +258,7 @@ module Spec
       def test_should_verify_if_auto_verify_not_set_explicitly
         reporter = Spec::Mocks::Mock.new("reporter", :null_object => true)
         reporter.should_receive(:spec_finished) do |name, error, location|
-          error.to_s.should_match /expected 'abcde' once, but received it 0 times/
+          error.to_s.should_match /expected :abcde once, but received it 0 times/
         end
         Runner::Specification.new("spec") do
           mock = Spec::Mocks::Mock.new("mock")
