@@ -21,7 +21,7 @@ module Spec
       
       def test_should_fail_when_expected_message_is_not_received
         @obj.should_receive(:msg)
-        assert_raises Spec::Mocks::MockExpectationError do
+        assert_raises MockExpectationError do
           @obj.__verify
         end
       end
@@ -34,7 +34,7 @@ module Spec
 
       def test_should_fail_when_message_is_received_with_incorrect_args
         @obj.should_receive(:msg).with(:correct_arg)
-        assert_raises Spec::Mocks::MockExpectationError do
+        assert_raises MockExpectationError do
           @obj.msg :incorrect_arg
         end
       end

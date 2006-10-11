@@ -44,16 +44,16 @@ module Spec
           end
         end
 
-        def FIXME_test_should_has_key_shouldnt_raise_when_hash_inclusion_is_present
-          assert_nothing_raised do
-            {"a"=>1}.should_has_key "a"
-          end
-        end
-
-        def FIXME_test_should_have_key_shouldnt_raise_when_hash_inclusion_is_present
+        def test_should_have_key_shouldnt_raise_when_hash_inclusion_is_present
           assert_nothing_raised do
             {"a"=>1}.should_have_key "a"
           end
+        end
+
+        def test_should_have_key_should_raise_when_hash_inclusion_is_not_present
+          lambda {
+            {"a"=>1}.should_have_key "b"
+          }.should_raise ExpectationNotMetError, "<{\"a\"=>1}> should have key: [\"b\"]"
         end
 
         def test_should_include_should_raise_when_hash_inclusion_is_missing
@@ -123,6 +123,19 @@ module Spec
             IO.constants.should_not_include "SEEK_SET" 
           end
         end
+        
+        def test_should_not_have_key_shouldnt_raise_when_hash_inclusion_is_present
+          assert_nothing_raised do
+            {"a"=>1}.should_not_have_key "b"
+          end
+        end
+
+        def test_should_have_key_should_raise_when_hash_inclusion_is_not_present
+          lambda {
+            {"a"=>1}.should_not_have_key "a"
+          }.should_raise ExpectationNotMetError, "<{\"a\"=>1}> should not have key: [\"a\"]"
+        end
+
       end
     end
   end

@@ -6,6 +6,10 @@ module Spec
         @target = target
         @be_seen = false
       end
+
+      def have(expected_number=nil)
+        HaveHelper.new(@target, :exactly, expected_number, true)
+      end
   
       def satisfy
         fail_with_message "Supplied expectation was satisfied, but should not have been" if (yield @target)

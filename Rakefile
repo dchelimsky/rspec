@@ -154,7 +154,7 @@ end
 
 desc "Look for TODO and FIXME tags in the code"
 task :todo do
-  egrep /#.*(FIXME|TODO|TBD)/
+  egrep /(FIXME|TODO|TBD)/
 end
 
 task :clobber do
