@@ -150,15 +150,6 @@ module Spec
         }
       end
       
-      def TODO_test_should_use_past_tense
-        @mock.should_have_received(:hello)
-      end
-
-      def TODO_test_should_sent
-        cut.should_have_sent(:hello)
-        cut.should_have_sent(:hello).to(@mock)
-      end
-     
       def test_should_ignore_args_on_any_args
         @mock.should_receive(:random_call).at_least(:once).with(:any_args)
         @mock.random_call

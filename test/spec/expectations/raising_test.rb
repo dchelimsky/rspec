@@ -93,12 +93,6 @@ module Spec
           end
           assert_equal("<Proc> should not raise <Exception> but raised #<NoMethodError: undefined method `nonexistent_method' for \"\":String>", e.message)
         end
-  
-        def TODOtest_should_understand_raised_with_message_matching
-          lambda do
-            raise 'Hello'
-          end.should_raise(StandardError).with.message.matching(/ello/)
-        end
 
       end
     end
