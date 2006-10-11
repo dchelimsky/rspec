@@ -7,27 +7,27 @@ module Spec
       end
 
       def raise_unexpected_message_error sym, *args
-        __raise " #{intro} received unexpected message :#{sym}#{arg_message(*args)}"
+        __raise "#{intro} received unexpected message :#{sym}#{arg_message(*args)}"
       end
       
       def raise_expectation_error sym, expected_received_count, actual_received_count, *args
-        __raise " #{intro} expected :#{sym}#{arg_message(*args)} #{make_count_message(expected_received_count)}, but received it #{actual_received_count} times"
+        __raise "#{intro} expected :#{sym}#{arg_message(*args)} #{count_message(expected_received_count)}, but received it #{actual_received_count} times"
       end
       
       def raise_out_of_order_error sym
-        __raise "#{intro} received '#{sym}' out of order"
+        __raise "#{intro} received :#{sym} out of order"
       end
       
-      def raise_violated_error detail
-        __raise "Call expectation violated with: " + detail
+      def raise_block_failed_error sym, detail
+        __raise "#{intro} received :#{sym} but passed block failed with: #{detail}"
       end
       
-      def raise_missing_block_error
-        __raise "Expected block to be passed"
+      def raise_missing_block_error args_to_yield
+        __raise "#{intro} asked to yield |#{arg_list(*args_to_yield)}| but no block was passed"
       end
       
-      def raise_wrong_arity_error arity
-        __raise "Wrong arity of passed block. Expected #{arity}"
+      def raise_wrong_arity_error args_to_yield, arity
+        __raise "#{intro} yielded |#{arg_list(*args_to_yield)}| to block with arity of #{arity}"
       end
       
       private
@@ -41,7 +41,12 @@ module Spec
       
       def arg_message *args
         return "" if [:any_args] == args
-        " with [" + args.collect do |arg|
+        return if args.empty?
+        " with [" + arg_list(*args) + "]"
+      end
+      
+      def arg_list *args
+        args.collect do |arg|
           if arg.is_a? String
             "'#{arg}'"
           elsif arg.is_a? Symbol
@@ -51,10 +56,10 @@ module Spec
           else
             "<#{arg}:#{arg.class.name}>"
           end
-        end.join(", ") + "]"
+        end.join(", ")
       end
       
-      def make_count_message(count)
+      def count_message(count)
         return "at least #{pretty_print(count.abs)}" if count < 0
         return pretty_print(count)
       end

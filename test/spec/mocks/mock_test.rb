@@ -107,18 +107,17 @@ module Spec
         @mock.should_receive(:random_call) {| bool | bool.should_be true}
         begin
           @mock.random_call false
-          fail
         rescue MockExpectationError => e
-          e.message.should_equal "Call expectation violated with: false should be true"
+          e.message.should_equal "Mock 'test mock' received :random_call but passed block failed with: false should be true"
         end
       end
   
       def test_should_fail_when_method_defined_as_never_is_received
-        @mock.should_receive(:random_call).never
+        @mock.should_receive(:not_expected).never
         begin
-          @mock.random_call
+          @mock.not_expected
         rescue MockExpectationError => e
-          e.message.should_equal "Call expectation violated with: false should be true"
+          e.message.should_equal "Mock 'test mock' expected :not_expected 0 times, but received it 1 times"
         end
       end
       
@@ -197,15 +196,19 @@ module Spec
 
       def test_should_fail_when_calling_yielding_method_with_wrong_arity
         @mock.should_receive(:yield_back).with(:no_args).once.and_yield('wha', 'zup')
-        assert_raise(MockExpectationError) do
+          begin
           @mock.yield_back {|a|}
+        rescue MockExpectationError => e
+          e.message.should_equal "Mock 'test mock' yielded |'wha', 'zup'| to block with arity of 1"
         end
       end
 
       def test_should_fail_when_calling_yielding_method_without_block
         @mock.should_receive(:yield_back).with(:no_args).once.and_yield('wha', 'zup')
-        assert_raise(MockExpectationError) do
+        begin
           @mock.yield_back
+        rescue MockExpectationError => e
+          e.message.should_equal "Mock 'test mock' asked to yield |'wha', 'zup'| but no block was passed"
         end
       end
       
@@ -238,8 +241,10 @@ module Spec
         @mock.should_receive(:foobar)
         @mock.foobar
         @mock.__verify
-        assert_raises Spec::Mocks::MockExpectationError do
+        begin
           @mock.foobar
+        rescue MockExpectationError => e
+          e.message.should_equal "Mock 'test mock' received unexpected message :foobar"
         end
       end
       

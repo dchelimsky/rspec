@@ -68,16 +68,16 @@ module Spec
         begin
           @method_block.call(*args)
         rescue Spec::Expectations::ExpectationNotMetError => detail
-          @error_generator.raise_violated_error detail.message
+          @error_generator.raise_block_failed_error @sym, detail.message
         end
       end
       
       def invoke_with_yield(block)
         if block.nil?
-          @error_generator.raise_missing_block_error
+          @error_generator.raise_missing_block_error @args_to_yield
         end
         if @args_to_yield.length != block.arity
-          @error_generator.raise_wrong_arity_error @args_to_yield.size
+          @error_generator.raise_wrong_arity_error @args_to_yield, block.arity
         end
         block.call(*@args_to_yield)
       end
