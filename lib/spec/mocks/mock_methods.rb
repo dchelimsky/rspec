@@ -2,19 +2,19 @@ module Spec
   module Mocks
     module MockMethods
       def should_receive(sym, &block)
-        __mock_handler.add MessageExpectation, caller(1)[0], sym, &block
+        __mock_handler.add_message_expectation caller(1)[0], sym, &block
       end
 
       def should_not_receive(sym, &block)
-        __mock_handler.add NegativeMessageExpectation, caller(1)[0], sym, &block
+        __mock_handler.add_negative_message_expectation caller(1)[0], sym, &block
+      end
+      
+      def stub!(sym)
+        __mock_handler.add_stub caller(1)[0], sym
       end
       
       def __verify
         __mock_handler.verify
-      end
-      
-      def stub!(sym)
-        should_receive(sym).any_number_of_times
       end
 
       def method_missing(sym, *args, &block)

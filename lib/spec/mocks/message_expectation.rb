@@ -1,8 +1,7 @@
 module Spec
   module Mocks
 
-    class MessageExpectation
-      
+    class BaseExpectation
       attr_reader :sym
       
       def initialize(error_generator, expectation_ordering, expected_from, sym, method_block, expected_received_count=1)
@@ -22,29 +21,21 @@ module Spec
         @at_most = nil
         @args_to_yield = nil
       end
-  
+
+      def and_return(value=nil, &return_block)
+        Kernel::raise AmbiguousReturnError unless @method_block.nil?
+        @consecutive = value.instance_of? Array
+        @return_block = block_given? ? return_block : lambda { value }
+      end
+      
+      def and_raise(exception=Exception)
+        @exception_to_raise = exception
+      end
+      
       def matches(sym, args)
         @sym == sym and @args_expectation.check_args(args)
       end
       
-      def matches_name_but_not_args(sym, args)
-        @sym == sym and not @args_expectation.check_args(args)
-      end
-       
-      def verify_messages_received        
-        return if @expected_received_count == :any
-        return if (@at_least) && (@received_count >= @expected_received_count)
-        return if (@at_most) && (@received_count <= @expected_received_count)
-        return if @expected_received_count == @received_count
-    
-        begin
-          @error_generator.raise_expectation_error @sym, @expected_received_count, @received_count, @args_expectation.args
-        rescue => error
-          error.backtrace.insert(0, @expected_from)
-          Kernel::raise error
-        end
-      end
-
       def invoke(args, block)
         @order_group.handle_order_constraint self
 
@@ -93,6 +84,28 @@ module Spec
           value
         end
       end
+    end
+    
+    class MessageExpectation < BaseExpectation
+  
+      def matches_name_but_not_args(sym, args)
+        @sym == sym and not @args_expectation.check_args(args)
+      end
+       
+      def verify_messages_received        
+        return if @expected_received_count == :any
+        return if (@at_least) && (@received_count >= @expected_received_count)
+        return if (@at_most) && (@received_count <= @expected_received_count)
+        return if @expected_received_count == @received_count
+    
+        begin
+          @error_generator.raise_expectation_error @sym, @expected_received_count, @received_count, @args_expectation.args
+        rescue => error
+          error.backtrace.insert(0, @expected_from)
+          Kernel::raise error
+        end
+      end
+
 
       def with(*args)
         @args_expectation = ArgumentExpectation.new(args)
@@ -147,16 +160,6 @@ module Spec
         self
       end
   
-      def and_return(value=nil, &return_block)
-        Kernel::raise AmbiguousReturnError unless @method_block.nil?
-        @consecutive = value.instance_of? Array
-        @return_block = block_given? ? return_block : lambda { value }
-      end
-      
-      def and_raise(exception=Exception)
-        @exception_to_raise = exception
-      end
-      
       def and_throw(symbol)
         @symbol_to_throw = symbol
       end
@@ -183,6 +186,13 @@ module Spec
       
       def negative_expectation_for? sym
         return @sym == sym
+      end
+    end
+    
+    class MethodStub < BaseExpectation
+      def initialize(message, expectation_ordering, expected_from, sym, method_block)
+        super message, expectation_ordering, expected_from, sym, method_block, 0
+        @expected_received_count = :any
       end
     end
   end

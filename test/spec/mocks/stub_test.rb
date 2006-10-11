@@ -45,6 +45,31 @@ module Spec
         @obj.__verify
         @obj.existing_method.should_equal :original_value
       end
+
+      def test_should_allow_for_a_mock_message_to_temporarily_replace_the_stub
+        mock = Spec::Mocks::Mock.new("a mock")
+        mock.stub!(:msg).and_return(:stub_value)
+        mock.should_receive(:msg).with(:arg).and_return(:mock_value)
+        mock.msg(:arg).should_equal :mock_value
+        mock.msg.should_equal :stub_value
+        mock.msg.should_equal :stub_value
+        mock.__verify
+      end
+      
+      def test_should_allow_for_a_mock_to_temporarily_replace_the_stub
+        @obj.stub!(:msg).and_return(:stub_value)
+        @obj.should_receive(:msg).with(:arg).and_return(:mock_value)
+        @obj.msg(:arg).should_equal :mock_value
+        @obj.msg.should_equal :stub_value
+        @obj.msg.should_equal :stub_value
+        @obj.__verify
+      end
+      
+      def test_should_not_support_with
+        assert_raises NoMethodError do
+          Spec::Mocks::Mock.new("a mock").stub!(:msg).with(:arg)
+        end
+      end
     end
   end
 end

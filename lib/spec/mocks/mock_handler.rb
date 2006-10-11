@@ -7,6 +7,7 @@ module Spec
         @error_generator = ErrorGenerator.new target, name
         @expectation_ordering = OrderGroup.new @error_generator
         @expectations = []
+        @stubs = []
         @proxied_methods = []
         @options = options ? DEFAULT_OPTIONS.dup.merge(options) : DEFAULT_OPTIONS
       end
@@ -20,12 +21,27 @@ module Spec
         @options[:null_object]
       end
       
-      def add(expectation_class, expected_from, sym, &block)
+      def add_message_expectation(expected_from, sym, &block)
+        __add expected_from, sym, block
+        @expectations << MessageExpectation.new(@error_generator, @expectation_ordering, expected_from, sym, block_given? ? block : nil)
+        @expectations.last
+      end
+      
+      def add_negative_message_expectation(expected_from, sym, &block)
+        __add expected_from, sym, block
+        @expectations << NegativeMessageExpectation.new(@error_generator, @expectation_ordering, expected_from, sym, block_given? ? block : nil)
+        @expectations.last
+      end
+      
+      def add_stub(expected_from, sym)
+        __add expected_from, sym, nil
+        @stubs << MethodStub.new(@error_generator, @expectation_ordering, expected_from, sym, nil)
+        @stubs.last
+      end
+      
+      def __add expected_from, sym, block
         Runner::Specification.add_listener(self) if @options[:auto_verify]
         define_expected_method(sym)
-        expectation = expectation_class.send(:new, @error_generator, @expectation_ordering, expected_from, sym, block_given? ? block : nil)
-        @expectations << expectation
-        expectation
       end
       
       def spec_finished spec
@@ -102,6 +118,10 @@ module Spec
         @expectations.find {|expectation| expectation.matches_name_but_not_args(sym, args)}
       end
       
+      def find_matching_method_stub(sym)
+        @stubs.find {|stub| stub.matches(sym, [])}
+      end
+      
       def has_negative_expectation?(sym)
         @expectations.detect {|expectation| expectation.negative_expectation_for?(sym)}
       end
@@ -109,6 +129,8 @@ module Spec
       def message_received(sym, *args, &block)
         if expectation = find_matching_expectation(sym, *args)
           expectation.invoke(args, block)
+        elsif stub = find_matching_method_stub(sym)
+          stub.invoke([], nil)
         elsif expectation = find_almost_matching_expectation(sym, *args)
           raise_unexpected_message_error(sym, *args) unless has_negative_expectation?(sym)
         else
