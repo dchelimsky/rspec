@@ -2,7 +2,7 @@ module Spec
   module Runner
     class Context
       def before_context_eval
-        inherit Test::Unit::TestCase
+        inherit Spec::RailsPlugin::SpecTestCase
       end
       module RailsPluginClassMethods
         def fixture_path
