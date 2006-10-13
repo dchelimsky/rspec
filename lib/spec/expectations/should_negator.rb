@@ -65,8 +65,7 @@ module Spec
         end
       end
 
-      def method_missing(original_sym, *args)
-        actual_sym = find_supported_sym(original_sym)      
+      def __delegate_method_missing_to_target original_sym, actual_sym, *args
         return unless @target.__send__(actual_sym, *args)
         fail_with_message(default_message("should not#{@be_seen ? ' be' : ''} #{original_sym}" + (args.empty? ? '' : (' ' + args.join(', ')))))
       end

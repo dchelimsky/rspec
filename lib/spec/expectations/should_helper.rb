@@ -7,10 +7,6 @@ module Spec
         @be_seen = false
       end
   
-      def not
-        ShouldNegator.new(@target)
-      end
-        
       def have(expected_number=nil)
         HaveHelper.new(@target, :exactly, expected_number)
       end
@@ -44,12 +40,11 @@ module Spec
         fail_with_message(default_message("should respond to", message)) unless @target.respond_to? message
       end
   
-      def method_missing(original_sym, *args)
-        actual_sym = find_supported_sym(original_sym) 
+      def __delegate_method_missing_to_target original_sym, actual_sym, *args
         return if @target.send(actual_sym, *args)
         fail_with_message(default_message("should#{@be_seen ? ' be' : ''} #{original_sym}" + (args.empty? ? '' : (' ' + args.join(', ')))))
       end
-  
+
       def match(expected)
          fail_with_message(default_message("should match", expected)) unless (@target =~ expected)
       end
