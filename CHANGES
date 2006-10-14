@@ -1,7 +1,11 @@
 = RSpec Changelog
 
 == Version 0.6.5 (in SVN)
+This is the "Grow up and eat your own dog food release". RSpec is now used on itself and
+we're no longer using Test::Unit. As usual, there are also new features and bug fixes:
 
+* Progress (....F..F.) is now coloured. Tweaked patch from KAKUTANI Shintaro.
+* Backtrace now excludes the rcov runner (/usr/local/bin/rcov)
 * subject.should_have_xyz will try to call subject.has_xyz? - use this for hash.should_have_key key
 * Added support for stubbing and partial mocking (docs coming soon...)
 * Fixed [#6017] Rake task should ignore empty or non-existent spec-dirs

@@ -1,9 +1,7 @@
-In order to run RSpec's full test suite (rake pre_commit) you must install the following gems:
+In order to run RSpec's full suite of specs (rake pre_commit) you must install the following gems:
 
 * rake
 * rcov
-* ParseTree   (Ignore the message: test/test_parse_tree.rb:190:38: ':' not followed by identified or operator)
-* RubyInline
 * webgen
 * RedCloth
 * syntax
@@ -17,7 +15,6 @@ Note that RSpec itself - once built - doesn't have any dependencies outside the 
 and stdlib - with a few exceptions:
 
 * The spec command line uses diff-lcs when --diff is specified.
-* The test2spec command line uses ParseTree and RubyInline.
 * The Spec::Rake::SpecTask needs RCov if RCov is enabled in the task.
 
 See http://rspec.rubyforge.org for further documentation.

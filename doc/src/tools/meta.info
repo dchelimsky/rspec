@@ -9,6 +9,3 @@ rake.page:
 
 rcov.page:
   orderInfo: 13
-
-test2spec.page:
-  orderInfo: 14

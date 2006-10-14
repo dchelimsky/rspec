@@ -21,7 +21,3 @@ runners.page:
 expectations.page:
   inMenu: true
   orderInfo: 105
-  
-translate.page:
-  inMenu: true
-  orderInfo: 106

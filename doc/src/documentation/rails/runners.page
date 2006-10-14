@@ -31,6 +31,8 @@ command. But it's MUCH faster.
 
 h3. Running specs with Rake
 
+Note that the rake tasks don't use the fast rails_spec command - it uses the standard spec.
+
 All specs can be run with
 
 <pre>

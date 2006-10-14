@@ -31,6 +31,7 @@ module Spec
           line = nil if line =~ /\/lib\/spec\/runner\//
           line = nil if line =~ /\/lib\/spec\/stubs\//
           line = nil if line =~ /bin\/spec:/
+          line = nil if line =~ /bin\/rcov:/
           line = nil if line =~ /lib\/rspec_on_rails/
           line = nil if line =~ /script\/rails_spec/
           # TextMate's Ruby plugin

@@ -11,7 +11,7 @@ h3. Running specs with RCov
 The easiest way to use RCov with RSpec is from a rake script (Rakefile), using RSpec's
 "Rake task":rake.html. The snippet below is from RSpec's own Rakefile.
 
-<ruby file="../test/tasks/examples_with_rcov.rake"/>
+<ruby file="../tasks/examples_with_rcov.rake"/>
 
 By adding rcov=true to the rake task, specs will be run with RCov
 instead of the standard ruby interpreter, and a coverage report like 
@@ -27,7 +27,7 @@ You can guard your codebase's coverage from dropping below a certain threshold
 by using RSpec's built-in task for verification of the total RCov coverage. 
 (This is not the same as RCov's --threshold option, which is a filtering mechanism).
 
-<ruby file="../test/tasks/rcov_verify.rake"/>
+<ruby file="../tasks/rcov_verify.rake"/>
 
 This will give you a :rcov_verify task that will fail your build if the
 coverage drops below the threshold you define.

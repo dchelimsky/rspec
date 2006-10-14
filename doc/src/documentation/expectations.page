@@ -175,7 +175,12 @@ This is simply a specific case of the arbitrary predicate form. It uses <code>ta
 
 h4. Size
 
-The remaining collection forms are a little more involved. They rely on two things: 1) <code>target</code> responds to the message <code>things</code> by returning an object that 2) responds to either <code>length</code> or <code>size</code>, which return a number that is a measure of size. Currently <code>length</code> is used if is appropriate, otherwise <code>size</code> is attempted.
+The remaining collection forms are a little more involved. They rely on two things:
+
+# <code>target</code> responds to the message <code>things</code> by returning an object.
+# The returned object responds to either <code>length</code> or <code>size</code>, which return a number that is a measure of size. 
+
+Currently <code>length</code> is used if is appropriate, otherwise <code>size</code> is attempted.
 
 h4. Exact Size
 

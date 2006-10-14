@@ -12,7 +12,7 @@ module Spec
           begin
             require 'Win32/Console/ANSI' if @colour && PLATFORM =~ /win32/
           rescue LoadError
-            raise "You must gem install win32console to use --color on Windows"
+            raise "You must gem install win32console to use colour on Windows"
           end
 	      end
 
@@ -73,19 +73,29 @@ module Spec
         def dump_summary(duration, spec_count, failure_count)
           return if @dry_run
           if @colour && @output == STDOUT
-            colour_prefix = (failure_count == 0 ? "\e[32m" : "\e[31m")
-            colour_postfix = "\e[0m"
             summary_output = Kernel
           else
-            colour_prefix = colour_postfix = ""
             summary_output = @output
           end
           @output.puts
           @output.puts "Finished in #{duration} seconds"
           @output.puts
-          summary_output.puts "#{colour_prefix}#{spec_count} specification#{'s' unless spec_count == 1}, #{failure_count} failure#{'s' unless failure_count == 1}#{colour_postfix}"
+          summary = "#{spec_count} specification#{'s' unless spec_count == 1}, #{failure_count} failure#{'s' unless failure_count == 1}"
+          colour_method = failure_count == 0 ? :green : :red
+          summary_output.puts self.__send__(colour_method, summary)
           @output.flush
         end
+
+      protected
+      
+        def colour(text, colour_code)
+          return text unless @colour && @output == STDOUT
+          "#{colour_code}#{text}\e[0m"
+        end
+    
+        def red(text); colour(text, "\e[31m"); end
+        def green(text); colour(text, "\e[32m"); end
+
       end
     end
   end

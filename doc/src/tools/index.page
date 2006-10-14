@@ -1,11 +1,11 @@
 ---
-title: Eight tools in one
+title: Tools
 inMenu: true
 ---
 
-h2. Eight tools in one
+h2. Tools
 
-RSpec combines several tools in one...
+RSpec combines several tools in one package
 
 h3. 1) A language for expressing behavior
 
@@ -43,12 +43,7 @@ RSpec ships with a special Rake task that can verify that the coverage remains o
 development team. Should the coverage drop, the build will fail, and developers are encouraged to address 
 it right away.
 
-h3. 7) Test::Unit translation
-
-Did you invest a lot of time in writing Test::Unit tests and want to switch to RSpec? Try out the test2spec
-tool, which will do most of the translation for you.
-
-h3. 8) Integrated diffing
+h3. 7) Integrated diffing
 
 When you run specs with the <tt>--diff</tt> option, you'll see unified diffs when Strings don't match.
 Very useful when your specs are comparing big strings!

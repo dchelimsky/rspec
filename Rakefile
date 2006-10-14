@@ -3,17 +3,15 @@ require 'rubygems'
 require 'rake/gempackagetask'
 require 'rake/contrib/rubyforgepublisher'
 require 'rake/clean'
-require 'rake/testtask'
 require 'rake/rdoctask'
 require 'spec/version'
-require 'rcov/rcovtask'
 
 # Some of the tasks are in separate files since they are also part of the website documentation
-load File.dirname(__FILE__) + '/test/tasks/examples.rake'
-load File.dirname(__FILE__) + '/test/tasks/examples_specdoc.rake'
-load File.dirname(__FILE__) + '/test/tasks/examples_with_rcov.rake'
-load File.dirname(__FILE__) + '/test/tasks/failing_examples_with_html.rake'
-load File.dirname(__FILE__) + '/test/tasks/rcov_verify.rake'
+load File.dirname(__FILE__) + '/tasks/examples.rake'
+load File.dirname(__FILE__) + '/tasks/examples_specdoc.rake'
+load File.dirname(__FILE__) + '/tasks/examples_with_rcov.rake'
+load File.dirname(__FILE__) + '/tasks/failing_examples_with_html.rake'
+load File.dirname(__FILE__) + '/tasks/rcov_verify.rake'
 
 PKG_NAME = "rspec"
 PKG_VERSION   = Spec::VERSION::STRING
@@ -29,51 +27,19 @@ PKG_FILES = FileList[
   'vendor/selenium/*.txt'
 ]
 
-task :default => :test
+task :default => :spec
+
+desc "Run all specs"
+Spec::Rake::SpecTask.new do |t|
+  t.spec_files = FileList['spec/**/*_spec.rb']
+  t.rcov = true
+  t.rcov_dir = 'doc/output/coverage'
+  t.rcov_opts = ['--exclude', 'spec\/spec,bin\/spec']
+end
 
 desc "Run all failing examples"
 Spec::Rake::SpecTask.new('failing_examples') do |t|
   t.spec_files = FileList['failing_examples/**/*_spec.rb']
-end
-
-require 'rbconfig'
-windows =  Config::CONFIG['target_os'] == 'mswin32'
-Rake::TestTask.new do |t|
-  tests = FileList['test/**/*_test.rb']
-  tests.exclude 'test/spec/test_to_spec/*.rb' if windows
-  t.test_files = tests
-  t.verbose = true
-#  t.warning = true
-end
-
-Rcov::RcovTask.new do |t|
-  t.test_files = FileList['test/**/*_test.rb']
-  t.output_dir = 'doc/output/coverage'
-  t.rcov_opts = ['--text-report']
-end
-
-desc 'Translate our own tests to specs'
-task :test2spec => :create_test2spec_dir do
-  rm_rf 'spec/translated'
-  `bin/test2spec --force --template spec/test2spec.erb --specdir spec/translated test`
-  # Remove the spec translations that we don't care about.
-  rm 'spec/translated/spec/test_to_spec/sexp_transformer_assertion_spec.rb'
-  rm 'spec/translated/spec/test_to_spec/sexp_transformer_spec.rb'
-  rm 'spec/translated/r2_r_spec.rb'
-  # Remove the spec translations that are failing due to partial mocks being involved
-  rm 'spec/translated/spec/mocks/partial_mock_spec.rb'
-  rm 'spec/translated/spec/mocks/partial_mock_using_mocks_directly_spec.rb'
-end
-task :create_test2spec_dir do
-  mkdir_p 'doc/output/tools' unless File.exist? 'doc/output/tools'
-end
-
-desc 'Runs all RSpec specs - translated with test2spec from our own tests'
-Spec::Rake::SpecTask.new('test2spec_test' => :test2spec) do |t|
-  t.spec_files = FileList['spec/**/*_spec.rb']
-  t.spec_opts = ["--format", "html", "--diff"]
-  t.out = 'doc/output/tools/rspec_specs.html'
-  t.failure_message = "**** Translated specs failed. See doc/output/tools/rspec_specs.html ****"
 end
 
 desc 'Verify that no warnings occur'
@@ -85,7 +51,7 @@ task :verify_warnings do
 end
 
 desc 'Generate HTML documentation for website'
-task :webgen => :test2spec do
+task :webgen do
   Dir.chdir 'doc' do
     output = nil
     IO.popen('webgen 2>&1') do |io|
@@ -125,9 +91,9 @@ spec = Gem::Specification.new do |s|
   s.require_path = 'lib'
   s.autorequire = 'spec'
   s.bindir = "bin"
-  s.executables = ["spec", "test2spec"]
+  s.executables = ["spec"]
   s.default_executable = "spec"
-  s.author = "Steven Baker, Aslak Hellesoy, Dave Astels, David Chelimsky" 
+  s.author = "Steven Baker, Aslak Hellesoy, Dave Astels, David Chelimsky, Brian Takita" 
   s.email = "rspec-devel@rubyforge.org"
   s.homepage = "http://rspec.rubyforge.org"
   s.rubyforge_project = "rspec"
@@ -159,10 +125,9 @@ end
 
 task :clobber do
   rm_rf 'doc/output'
-  rm_rf 'spec/translated'
 end
 
-task :release => [:clobber, :test2spec_test, :verify_committed, :verify_user, :verify_password, :test, :publish_packages, :tag, :publish_website, :publish_news]
+task :release => [:clobber, :verify_committed, :verify_user, :verify_password, :spec, :publish_packages, :tag, :publish_website, :publish_news]
 
 desc "Verifies that there is no uncommitted code"
 task :verify_committed do
@@ -194,8 +159,8 @@ task :commit_ok do |t|
   puts "OK TO COMMIT"
 end
 
-desc "Build the website with rdoc and rcov, but do not publish it"
-task :website => [:clobber, :rcov_verify, :webgen, :failing_examples_with_html, :test2spec_test, :examples_specdoc, :rdoc]
+desc "Build the website, but do not publish it"
+task :website => [:clobber, :rcov_verify, :webgen, :failing_examples_with_html, :spec, :examples_specdoc, :rdoc]
 
 task :verify_user do
   raise "RUBYFORGE_USER environment variable not set!" unless ENV['RUBYFORGE_USER']

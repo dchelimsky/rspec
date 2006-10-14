@@ -24,7 +24,7 @@ context "A new account" do
 end
 </ruby>
 
-We use the setup method to set up the context (given), and then the specify method to
+We use the setup block to set up the context (given), and then the specify method to
 hold the example code that expresses the event (when) and the expected outcome (then).
 
 h3. Helper Methods

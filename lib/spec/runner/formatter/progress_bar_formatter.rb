@@ -8,12 +8,12 @@ module Spec
         end
       
         def spec_failed(name, counter, failure)
-          @output << 'F'
+          @output << red('F')
           @output.flush
         end
-      
+
         def spec_passed(name)
-          @output << '.'
+          @output << green('.')
           @output.flush
         end
       
