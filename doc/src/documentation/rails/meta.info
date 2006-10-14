@@ -18,7 +18,7 @@ runners.page:
   inMenu: true
   orderInfo: 104  
   
-rails.page:
+expectations.page:
   inMenu: true
   orderInfo: 105
   

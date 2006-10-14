@@ -5,6 +5,7 @@ inMenu: true
 h2. RSpec on Rails - Installation
 
 h3. Pre-Installation
+
 You'll have to install the RSpec core gem first:
 
 <pre>
