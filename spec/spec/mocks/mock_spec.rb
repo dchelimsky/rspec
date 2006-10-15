@@ -17,7 +17,7 @@ module Spec
           @mock.__verify
           violated
         rescue MockExpectationError => e
-          e.backtrace[0].should_match(/mock_spec\.rb:12:in `__instance_exec2'/)
+          e.backtrace[0].should_match(/mock_spec\.rb:12:in `__instance_exec/)
         end
     
       end

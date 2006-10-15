@@ -29,8 +29,6 @@ context "The Person model" do
 end
 
 context "A new Person" do
-  fixtures :people
-
   specify "should have no name" do
     Person.new.name.should_be nil
   end
