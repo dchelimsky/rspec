@@ -1,0 +1,54 @@
+---
+title: Test::Unit Cheat Sheet
+---
+h2. Coming from Test::Unit to RSpec
+
+RSpec's expectation API is a superset of Test::Unit's assertion API. Use this table to
+find the RSpec equivalent of Test::Unit's asserts.
+
+| Test::Unit                                           | RSpec                           | Comment                             |
+| assert(object)                                       | object.should_be true           | Will pass for any object except nil |
+| assert_block {...}                                   | lambda {...}.should_be_true     | |
+| assert_equal(expected, actual)                       | actual.should == expected       | Uses <code>==</code> |
+| assert_in_delta(expected_float, actual_float, delta) | actual_float.should_be_close(expected_float, delta) | |
+| assert_instance_of(klass, object)                    | object.should_be_instance_of(klass) | |
+| assert_match(pattern, string)                        | string.should_match(regexp)     | |
+| assert_match(pattern, string)                        | string.should =~ regexp         | |
+| assert_nil(object)                                   | actual.should_equal(expected)   | |
+| assert_no_match(regexp, string)                      | string.should_not_match(regexp) | |
+| assert_not_equal(expected, actual)                   | actual.should != expected       | Uses <code>!=</code> |
+| assert_not_nil(object)                               | object.should_not_be(nil)       | |
+| assert_not_same(expected, actual)                    | object.should_not_equal(nil)    | Uses <code>Object.equal?</code> |
+| assert_nothing_raised(*args) {...}                   | lambda {...}.should_not_raise(Exception=nil, message=nil) |
+| assert_nothing_thrown {...}                          | lambda {...}.should_not_throw(symbol=nil) |
+| assert_operator(object1, operator, object2)          | N/A | |
+| assert_raise(*args) {...}                            | lambda {...}.should_raise(Exception=nil, message=nil) |
+| assert_raises(*args) {...}                           | lambda {...}.should_raise(Exception=nil, message=nil) |
+| assert_respond_to(object, method)                    | object.should_respond_to(method) | |
+| assert_same(expected, actual)                        | object.should_equal(nil)         | Uses <code>!Object.equal?</code> |
+| assert_send(send_array)                              | N/A | |
+| assert_throws(expected_symbol, &proc)                | lambda {...}.should_throw(symbol=nil) | |
+| flunk(message="Flunked")                             | violated(message=nil) | |
+| N/A                                                  | object.should_something | Passes if object.something? is true |
+| N/A                                                  | | |
+| N/A                                                  | | |
+
+There is a significant difference in how Test::Unit and RSpec handle equality, and this may cause some confusion.
+Test::Unit's assert_equal method uses the == operator. Consider the following code:
+
+<ruby>
+"hi".equal?("hi") #=> false
+"hi".should_equal("hi") #=> fails
+assert_equal("hi", "hi") #=> passes - it uses == internally
+</ruby>
+
+Or this:
+
+<ruby>
+"hi" == "hi" #=> true
+"hi".should == "hi" #=> true
+assert_same("hi", "hi") #=> fails - it uses Object.equal? internally
+</ruby>
+
+As you see, Test::Unit's semantics of "equal" is not the same as Ruby's. (Test::Unit's semantics of "equal" is equivalent 
+to other xUnit libraries' semantics). RSpec follows Ruby's semantics of equality.
