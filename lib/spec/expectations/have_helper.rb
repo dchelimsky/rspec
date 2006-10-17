@@ -38,6 +38,7 @@ module Spec
             fail_with_message "#{@target.inspect_for_expectation_not_met_error} should not have #{sym}: #{args.inspect_for_expectation_not_met_error}"
           else
             return if @target.send("has_#{sym}?", *args)
+            raise "KOKO"
             fail_with_message "#{@target.inspect_for_expectation_not_met_error} should have #{sym}: #{args.inspect_for_expectation_not_met_error}"
           end
         end

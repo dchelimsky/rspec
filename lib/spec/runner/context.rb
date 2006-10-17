@@ -89,14 +89,6 @@ module Spec
           @context_eval_module.send :teardown_block
         end
 
-        def setup_parts
-          @context_eval_module.send :setup_parts
-        end
-
-        def teardown_parts
-          @context_eval_module.send :teardown_parts
-        end
-
         def prepare_execution_context_class
           weave_in_context_modules
           execution_context_class
@@ -121,9 +113,6 @@ module Spec
           @context_eval_module.send :execution_context_class
         end
 
-        def context_superclass
-          @context_eval_module.send :context_superclass
-        end
       end
       include InstanceMethods
     end

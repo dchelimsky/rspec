@@ -14,11 +14,12 @@ context "HtmlFormatter" do
         @io.string.should_equal("</body></html>")
       
     end
+
     specify "should push context name" do
-        @formatter.add_context("fruit", true)
-        @io.string.should_equal("<div class=\"context\">\n  <div>fruit</div>\n  <ul>\n")
-      
+        @formatter.add_context("fruit", false)
+        @io.string.should_equal("  </ul>\n</div>\n<div class=\"context\">\n  <div>fruit</div>\n  <ul>\n")
     end
+
     specify "should push div on start dump" do
         @formatter.start_dump
         @io.string.split.last.should_equal("</div>")

@@ -29,7 +29,16 @@ module Spec
         teardown_parts.unshift teardown_method
         super_run.bind(self).call(reporter, dry_run)
       end
-    end # Context
+
+      def setup_parts
+        @context_eval_module.send :setup_parts
+      end
+
+      def teardown_parts
+        @context_eval_module.send :teardown_parts
+      end
+
+    end
   end
 end
 
