@@ -77,6 +77,7 @@ module Spec
       
       def reset
         clear_expectations
+        clear_stubs
         reset_proxied_methods
         clear_proxied_methods
       end
@@ -100,6 +101,10 @@ module Spec
 
       def clear_expectations #:nodoc:
         @expectations.clear
+      end
+      
+      def clear_stubs #:nodoc:
+        @stubs.clear
       end
       
       def clear_proxied_methods #:nodoc:
