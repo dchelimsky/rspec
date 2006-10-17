@@ -37,5 +37,6 @@ the threshold value (which should usually only be adjusted upwards).
 In fact, the task will also fail the build if the coverage raises above the threshold as well.
 This might seem a bit counterintuitive, but this is when you should go and raise the
 threshold in your Rakefile. This way you won't miss temporary coverage increases. Crank it up!
+This is how we got to 100% coverage for RSpec.
 
 See "RCov::VerifyTask":../rdoc/classes/RCov/VerifyTask.html for details.

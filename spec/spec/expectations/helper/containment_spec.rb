@@ -20,7 +20,7 @@ module Spec
         specify "should have key should raise when hash inclusion is not present" do
           lambda do
             {"a" => 1}.should_have_key("b")
-          end.should_raise
+          end.should_raise(ExpectationNotMetError, '<{"a"=>1}> should have key: "b"')
         end
 
         specify "should not have key should not raise when hash inclusion is not present" do
