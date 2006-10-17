@@ -4,6 +4,7 @@
 This is the "Grow up and eat your own dog food release". RSpec is now used on itself and
 we're no longer using Test::Unit. As usual, there are also new features and bug fixes:
 
+* RSpec now has 100% spec coverage(!)
 * Fixed [#6203] Failure messages are misleading - consinder using inspect.
 * Progress (....F..F.) is now coloured. Tweaked patch from KAKUTANI Shintaro.
 * Backtrace now excludes the rcov runner (/usr/local/bin/rcov)
