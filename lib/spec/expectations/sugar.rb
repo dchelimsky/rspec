@@ -11,6 +11,7 @@ module Spec
 
           define_method :_method_missing do |sym, args, block|
             return original_method_missing.bind(self).call(sym, *args, &block) unless sym.to_s =~ /^should_/
+            # 7 is all the stuff after "should_"
             return Spec::Expectations::ShouldHelper.new(self).__send__(sym.to_s[7..-1], *args, &block)
           end
         end
