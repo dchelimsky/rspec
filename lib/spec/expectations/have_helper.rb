@@ -35,10 +35,10 @@ module Spec
         if @target.respond_to?"has_#{sym}?"
           if @negate
             return unless @target.send("has_#{sym}?", *args)
-            fail_with_message "#{@target.inspect_for_expectation_not_met_error} should not have #{sym}: #{args.inspect_for_expectation_not_met_error}"
+            fail_with_message "#{@target.inspect_for_expectation_not_met_error} should not have #{sym}: #{args.collect{|arg| arg.inspect_for_expectation_not_met_error}.join(', ')}"
           else
             return if @target.send("has_#{sym}?", *args)
-            fail_with_message "#{@target.inspect_for_expectation_not_met_error} should have #{sym}: #{args.inspect_for_expectation_not_met_error}"
+            fail_with_message "#{@target.inspect_for_expectation_not_met_error} should have #{sym}: #{args.collect{|arg| arg.inspect_for_expectation_not_met_error}.join(', ')}"
           end
         end
         fail_with_message(build_message(sym, args)) unless as_specified?(sym, args)

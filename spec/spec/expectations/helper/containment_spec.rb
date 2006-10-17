@@ -32,8 +32,7 @@ module Spec
         specify "should not have key should raise when hash inclusion is present" do
           lambda do
             {"a" => 1}.should_not_have_key("a")
-            # FIXME: This should be <{"a"=>1}> should not have key: "a"
-          end.should_raise(ExpectationNotMetError, '<{"a"=>1}> should not have key: ["a"]')
+          end.should_raise(ExpectationNotMetError, '<{"a"=>1}> should not have key: "a"')
         end
     
         specify "should include should raise when array inclusion is missing" do
