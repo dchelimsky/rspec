@@ -11,22 +11,34 @@ module Spec
           @nil_var = nil
         end
     
+        specify "should have key should not raise when hash inclusion is present" do
+          lambda do
+            {"a" => 1}.should_have_key("a")
+          end.should_not_raise
+        end
+
         specify "should have key should raise when hash inclusion is not present" do
+          lambda do
+            {"a" => 1}.should_have_key("b")
+          end.should_raise
+        end
+
+        specify "should not have key should not raise when hash inclusion is not present" do
+          lambda do
+            {"a" => 1}.should_not_have_key("b")
+          end.should_not_raise
+        end
+    
+        specify "should not have key should raise when hash inclusion is present" do
           lambda do
             {"a" => 1}.should_not_have_key("a")
             # FIXME: This should be <{"a"=>1}> should not have key: "a"
           end.should_raise(ExpectationNotMetError, '<{"a"=>1}> should not have key: ["a"]')
         end
     
-        specify "should have key shouldnt raise when hash inclusion is present" do
-          lambda do
-            {"a" => 1}.should_have_key("a")
-          end.should_not_raise
-        end
-    
         specify "should include should raise when array inclusion is missing" do
           lambda do
-          [1, 2, 3].should_include(5)
+            [1, 2, 3].should_include(5)
           end.should_raise(ExpectationNotMetError)
         end
     
@@ -69,12 +81,6 @@ module Spec
         specify "should include shouldnt raise when string inclusion is present" do
           lambda do
             @dummy.should_include("mm")
-          end.should_not_raise
-        end
-    
-        specify "should not have key shouldnt raise when hash inclusion is present" do
-          lambda do
-            {"a" => 1}.should_not_have_key("b")
           end.should_not_raise
         end
     

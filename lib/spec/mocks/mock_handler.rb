@@ -56,11 +56,11 @@ module Spec
           @proxied_methods << sym
         end
 
-        metaclass_eval %{
+        metaclass_eval %-
           def #{sym}(*args, &block)
-            __mock_handler.message_received :#{sym}, *args, &block # ?
+            __mock_handler.message_received :#{sym}, *args, &block
           end
-        }
+        -
       end
 
       def __pre_proxied_method_name method_name
