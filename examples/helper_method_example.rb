@@ -1,3 +1,5 @@
+require File.dirname(__FILE__) + '/../lib/spec'
+
 context "a context with helper a method" do
   def helper_method
     "received call"

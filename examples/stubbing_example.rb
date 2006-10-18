@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../lib/spec'
 
 context "A consumer of a stub" do
-  specify "should be able to stub objects" do
+  specify "should be able to stub methods on any Object" do
     obj = Object.new
     obj.stub!(:foobar).and_return {:return_value}
     obj.foobar.should_equal :return_value
@@ -16,7 +16,7 @@ end
 
 context "A stubbed method on a class" do
   specify "should return the stubbed value" do
-    StubbableClass.stub!(:find).and_return {:stub_return}
+    StubbableClass.stub!(:find).and_return(:stub_return)
     StubbableClass.find(1).should_equal :stub_return
   end
   

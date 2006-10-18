@@ -1,4 +1,4 @@
-  require File.dirname(__FILE__) + '/../lib/spec'
+require File.dirname(__FILE__) + '/../lib/spec'
 
 class MockableClass
   def self.find id
@@ -17,20 +17,12 @@ context "A partial mock" do
     MockableClass.find(1).should_equal :original_return
   end
 
-end
-
-context "A pre-existing class" do
-  specify "can be mocked" do
-    Object.should_receive(:msg).with(:arg).and_return(:value)
-    Object.msg(:arg).should_equal(:value)
-  end
-  
   specify "can be mocked w/ ordering" do
-    Object.should_receive(:msg_1).ordered
-    Object.should_receive(:msg_2).ordered
-    Object.should_receive(:msg_3).ordered
-    Object.msg_1
-    Object.msg_2
-    Object.msg_3
+    MockableClass.should_receive(:msg_1).ordered
+    MockableClass.should_receive(:msg_2).ordered
+    MockableClass.should_receive(:msg_3).ordered
+    MockableClass.msg_1
+    MockableClass.msg_2
+    MockableClass.msg_3
   end
 end
