@@ -7,8 +7,8 @@ module Spec
         setup do
           @owner = CollectionOwner.new
           (1..3).each do |n|
-          @owner.add_to_collection_with_length_method(n)
-          @owner.add_to_collection_with_size_method(n)
+            @owner.add_to_collection_with_length_method(n)
+            @owner.add_to_collection_with_size_method(n)
           end
         end
 

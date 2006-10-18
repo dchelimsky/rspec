@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../../../spec_helper.rb'
 module Spec
   module Expectations
     module Helper
-      context "ShouldHaveAtLeast" do
+      context "should_have_at_least" do
         setup do
           @owner = CollectionOwner.new
           (1..3).each do |n|
