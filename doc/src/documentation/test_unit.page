@@ -33,8 +33,7 @@ find the RSpec equivalent of Test::Unit's asserts.
 | N/A                                                  | actual.should_something | Passes if object.something? is true |
 | N/A                                                  | actual.should_be_something | Passes if object.be_something? is true |
 
-There is a significant difference in how Test::Unit and RSpec handle equality, and this may cause some confusion.
-Test::Unit's assert_equal method uses the == operator. Consider the following code:
+There is a significant difference in how Test::Unit and RSpec handle equality, and this may cause some confusion. Consider the following code:
 
 <ruby>
 "hi".equal?("hi") #=> false
@@ -50,5 +49,5 @@ Or this:
 assert_same("hi", "hi") #=> fails - it uses Object.equal? internally
 </ruby>
 
-As you see, Test::Unit's semantics of "equal" is not the same as Ruby's. (Test::Unit's semantics of "equal" is equivalent 
-to other xUnit libraries' semantics). RSpec follows Ruby's semantics of equality.
+As you see, Test::Unit's semantics of "equal" is not the same as Ruby's. Test::Unit's assert_equal method uses the == operator. Test::Unit's semantics of "equal" is equivalent 
+to other xUnit libraries' semantics. RSpec follows Ruby's semantics of equality.

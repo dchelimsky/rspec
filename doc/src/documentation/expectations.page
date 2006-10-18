@@ -21,7 +21,7 @@ actual.should_eql <value> #passes if actual.eql? <value>
 actual.should_not_eql <value> #passes if !actual.eql? <value>
 
 actual.should == <value> #passes if actual == <value>
-#there is currently no support for !=
+#there is currently no support for !=, use actual.should_not == instead
 </ruby>
 
 h4. Floating Point Comparison
@@ -73,6 +73,7 @@ h4. Pattern Matching
 
 <ruby>
 actual.should_match <regex>
+actual.should =~ <regex>
 actual.should_not_match <regex>
 </ruby>
 
@@ -98,7 +99,7 @@ actual.should_not_be_a_kind_of <class>
 
 As above, but uses <code>actual.kind_of? class</code>: checking whether <code>class</code> is the direct class of <code>actual</code>, or an ancestor of <code>actual</code>'s direct class.
 
-h4. Type
+h4. Duck Type
 
 <ruby>
 actual.should_respond_to <symbol>
@@ -112,11 +113,11 @@ h3. Procs
 h4. Raising
 
 <ruby>
-proc.should_raise <exception>
-proc.should_not_raise <exception>
+proc.should_raise [<exception>], [<message>]
+proc.should_not_raise [<exception>], [<message>]
 </ruby>
 
-Checks that <code>proc</code> causes the named exception to be raised or not. The latter is actually one of two cases: some other exception is raised, or no exception is raised. Typically the <code>proc</code> is created in place using <code>lambda</code>. For example:
+Checks that <code>proc</code> causes the named exception to be raised or not (possibly with a specific message). The latter is actually one of two cases: some other exception is raised, or no exception is raised. Typically the <code>proc</code> is created in place using <code>lambda</code>. For example:
 
 <ruby>
 lambda { 3 / 0 }.should_raise ZeroDivisionError
