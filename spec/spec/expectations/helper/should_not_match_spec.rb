@@ -13,7 +13,7 @@ context "ShouldNotMatch" do
     specify "should raise when objects match" do
         lambda do
           "hi aslak".should_not_match(/aslak/)
-        end.should_raise(ExpectationNotMetError)
+        end.should_fail
       
     end
   

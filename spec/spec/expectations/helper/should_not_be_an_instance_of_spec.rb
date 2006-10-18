@@ -7,7 +7,7 @@ context "ShouldNotBeAnInstanceOf" do
     specify "should fail when target is of specified class" do
         lambda do
           "hello".should_not_be_an_instance_of(String)
-        end.should_raise(ExpectationNotMetError)
+        end.should_fail
       
     end
     specify "should pass when target is not of specified class" do

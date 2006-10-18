@@ -26,13 +26,13 @@ context "ShouldNotBe" do
     specify "should raise when both objects are nil" do
         lambda do
           @nil_var.should_not_be(nil)
-        end.should_raise(ExpectationNotMetError)
+        end.should_fail
       
     end
     specify "should raise when objects are same" do
         lambda do
           @dummy.should_not_be(@dummy)
-        end.should_raise(ExpectationNotMetError)
+        end.should_fail
       
     end
   

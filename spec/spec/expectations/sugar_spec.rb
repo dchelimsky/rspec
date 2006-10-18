@@ -35,7 +35,7 @@ module Spec
         subject=ClassWithMultiWordPredicate.new
         lambda do
           subject.should_not_be_multi_word_predicate
-        end.should_raise(ExpectationNotMetError)
+        end.should_fail
       end
     
       specify "should allow multi word predicates in passing specs" do

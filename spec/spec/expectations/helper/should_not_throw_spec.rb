@@ -9,7 +9,7 @@ context "ShouldNotThrow" do
           lambda do
             throw(:foo)
           end.should_not_throw(:foo)
-        end.should_raise(ExpectationNotMetError)
+        end.should_fail
       
     end
     specify "should pass when expected symbol is thrown" do

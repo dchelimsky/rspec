@@ -9,7 +9,7 @@ context "ShouldThrow" do
           lambda do
             "".to_s
           end.should_throw(:foo)
-        end.should_raise(ExpectationNotMetError)
+        end.should_fail
       
     end
     specify "should fail when wrong symbol is thrown" do
@@ -17,7 +17,7 @@ context "ShouldThrow" do
           lambda do
             throw(:bar)
           end.should_throw(:foo)
-        end.should_raise(ExpectationNotMetError)
+        end.should_fail
       
     end
     specify "should pass when proper symbol is thrown" do

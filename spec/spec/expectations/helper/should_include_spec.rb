@@ -20,7 +20,7 @@ module Spec
         specify "should have key should raise when hash inclusion is not present" do
           lambda do
             {"a" => 1}.should_have_key("b")
-          end.should_raise(ExpectationNotMetError, '<{"a"=>1}> should have key: "b"')
+          end.should_fail_with '<{"a"=>1}> should have key: "b"'
         end
 
         specify "should not have key should not raise when hash inclusion is not present" do
@@ -32,31 +32,31 @@ module Spec
         specify "should not have key should raise when hash inclusion is present" do
           lambda do
             {"a" => 1}.should_not_have_key("a")
-          end.should_raise(ExpectationNotMetError, '<{"a"=>1}> should not have key: "a"')
+          end.should_fail_with '<{"a"=>1}> should not have key: "a"'
         end
     
         specify "should include should raise when array inclusion is missing" do
           lambda do
             [1, 2, 3].should_include(5)
-          end.should_raise(ExpectationNotMetError)
+          end.should_fail
         end
     
         specify "should include should raise when enumerable inclusion is missing" do
           lambda do
             IO.constants.should_include("BLAH")
-          end.should_raise(ExpectationNotMetError)
+          end.should_fail
         end
     
         specify "should include should raise when hash inclusion is missing" do
           lambda do
             {"a" => 1}.should_include("b")
-          end.should_raise(ExpectationNotMetError)
+          end.should_fail
         end
     
         specify "should include should raise when string inclusion is missing" do
           lambda do
             @dummy.should_include("abc")
-          end.should_raise(ExpectationNotMetError)
+          end.should_fail
         end
     
         specify "should include shouldnt raise when array inclusion is present" do
@@ -86,25 +86,25 @@ module Spec
         specify "should not include should raise when array inclusion is present" do
           lambda do
             [1, 2, 3].should_not_include(2)
-          end.should_raise(ExpectationNotMetError)
+          end.should_fail
         end
     
         specify "should not include should raise when enumerable inclusion is missing" do
           lambda do
             IO.constants.should_not_include("SEEK_SET")
-          end.should_raise(ExpectationNotMetError)
+          end.should_fail
         end
     
         specify "should not include should raise when hash inclusion is present" do
           lambda do
             {"a" => 1}.should_not_include("a")
-          end.should_raise(ExpectationNotMetError)
+          end.should_fail
         end
     
         specify "should not include should raise when string inclusion is present" do
           lambda do
             @dummy.should_not_include("mm")
-          end.should_raise(ExpectationNotMetError)
+          end.should_fail
         end
     
         specify "should not include shouldnt raise when array inclusion is missing" do

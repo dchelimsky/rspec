@@ -7,7 +7,7 @@ context "ShouldNotEqual" do
     specify "should not equal should raise when objects are equal" do
         lambda do
           "apple".should_not_eql("apple")
-        end.should_raise(ExpectationNotMetError)
+        end.should_fail
       
     end
     specify "should not raise when objects are not equal" do

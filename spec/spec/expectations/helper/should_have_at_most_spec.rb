@@ -40,13 +40,13 @@ context "ShouldHaveAtMost" do
     specify "should raise when expecting less than actual length" do
         lambda do
           @owner.should_have_at_most(2).items_in_collection_with_length_method
-        end.should_raise(ExpectationNotMetError)
+        end.should_fail
       
     end
     specify "should raise when expecting less than actual size" do
         lambda do
           @owner.should_have_at_most(2).items_in_collection_with_size_method
-        end.should_raise(ExpectationNotMetError)
+        end.should_fail
       
     end
   

@@ -9,7 +9,7 @@ context "ShouldNotBeArbitraryPredicate" do
         mock=HandCodedMock.new(5)
         lambda do
           mock.should_not_be_funny
-        end.should_raise(ExpectationNotMetError)
+        end.should_fail
         mock.__verify
       
     end
@@ -18,7 +18,7 @@ context "ShouldNotBeArbitraryPredicate" do
         mock=HandCodedMock.new(true)
         lambda do
           mock.should_not_be_hungry(1, 2, 3)
-        end.should_raise(ExpectationNotMetError)
+        end.should_fail
         mock.__verify
       
     end
@@ -27,7 +27,7 @@ context "ShouldNotBeArbitraryPredicate" do
         mock=HandCodedMock.new(true)
         lambda do
           mock.should_not_be_funny
-        end.should_raise(ExpectationNotMetError)
+        end.should_fail
         mock.__verify
       
     end

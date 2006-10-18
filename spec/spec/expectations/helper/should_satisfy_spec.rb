@@ -25,7 +25,7 @@ context "ShouldSatisfy" do
           5.should_satisfy do |target|
             false
           end
-        end.should_raise(ExpectationNotMetError)
+        end.should_fail
       
     end
     specify "should raise exception when block yields false again" do
@@ -33,7 +33,7 @@ context "ShouldSatisfy" do
           5.should_not_satisfy do |target|
             true
           end
-        end.should_raise(ExpectationNotMetError)
+        end.should_fail
       
     end
   

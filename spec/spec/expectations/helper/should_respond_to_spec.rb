@@ -7,7 +7,7 @@ context "ShouldRespondTo" do
     specify "should fail when target doesnt respond to" do
         lambda do
           "".should_respond_to(:connect)
-        end.should_raise(ExpectationNotMetError)
+        end.should_fail
       
     end
     specify "should pass when target responds to" do

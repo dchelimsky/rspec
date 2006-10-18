@@ -7,7 +7,7 @@ context "ShouldNotRespondTo" do
     specify "should fail when target responds to" do
         lambda do
           "".should_not_respond_to(:length)
-        end.should_raise(ExpectationNotMetError)
+        end.should_fail
       
     end
     specify "should pass when target doesnt respond to" do
