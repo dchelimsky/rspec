@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../../../spec_helper.rb'
 module Spec
   module Expectations
     module Helper
-      context "Containment" do
+      context "should_include" do
         setup do
           @dummy = "dummy"
           @equal_dummy = "dummy"

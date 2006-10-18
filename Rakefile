@@ -11,7 +11,7 @@ load File.dirname(__FILE__) + '/tasks/examples.rake'
 load File.dirname(__FILE__) + '/tasks/examples_specdoc.rake'
 load File.dirname(__FILE__) + '/tasks/examples_with_rcov.rake'
 load File.dirname(__FILE__) + '/tasks/failing_examples_with_html.rake'
-load File.dirname(__FILE__) + '/tasks/rcov_verify.rake'
+load File.dirname(__FILE__) + '/tasks/verify_rcov.rake'
 
 PKG_NAME = "rspec"
 PKG_VERSION   = Spec::VERSION::STRING
@@ -161,7 +161,7 @@ task :commit_ok do |t|
 end
 
 desc "Build the website, but do not publish it"
-task :website => [:clobber, :rcov_verify, :webgen, :failing_examples_with_html, :spec, :examples_specdoc, :rdoc]
+task :website => [:clobber, :verify_rcov, :webgen, :failing_examples_with_html, :spec, :examples_specdoc, :rdoc]
 
 task :verify_user do
   raise "RUBYFORGE_USER environment variable not set!" unless ENV['RUBYFORGE_USER']

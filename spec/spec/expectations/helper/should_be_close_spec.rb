@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../../../spec_helper.rb'
 
-context "ShouldBeClose" do
+context "should_be_close" do
   specify "should not raise when values are within bounds" do
     3.5.should_be_close(3.5, 0.5)
     3.5.should_be_close(3.1, 0.5)

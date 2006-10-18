@@ -27,9 +27,9 @@ You can guard your codebase's coverage from dropping below a certain threshold
 by using RSpec's built-in task for verification of the total RCov coverage. 
 (This is not the same as RCov's --threshold option, which is a filtering mechanism).
 
-<ruby file="../tasks/rcov_verify.rake"/>
+<ruby file="../tasks/verify_rcov.rake"/>
 
-This will give you a :rcov_verify task that will fail your build if the
+This will give you a :verify_rcov task that will fail your build if the
 coverage drops below the threshold you define.
 If it's too low you're encouraged to write more specs rather than "fix"
 the threshold value (which should usually only be adjusted upwards).

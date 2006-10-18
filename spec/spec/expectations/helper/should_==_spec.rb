@@ -13,17 +13,3 @@ context "should ==" do
     end.should_fail_with '"apple" should == "cadillac"'
   end
 end
-
-context "should_not ==" do
-  specify "should fail when objects are ==" do
-    lambda do
-      "apple".should_not == "apple"
-    end.should_fail
-  end
-
-  specify "should pass objects are not ==" do
-    lambda do
-      "apple".should_not == "cadillac"
-    end.should_pass
-  end
-end

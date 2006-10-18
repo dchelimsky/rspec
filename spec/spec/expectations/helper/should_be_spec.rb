@@ -9,13 +9,3 @@ context "should_be" do
     lambda { "apple".should_be("apple") }.should_fail
   end
 end
-
-context "should_not_be" do
-  specify "should pass when objects are not the same instance" do
-    "apple".should_not_be("apple")
-  end
-
-  specify "should fail when objects are the same instance" do
-    lambda { :apple.should_not_be(:apple) }.should_fail
-  end
-end
