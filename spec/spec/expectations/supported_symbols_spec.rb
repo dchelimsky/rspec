@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../../../spec_helper.rb'
+require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 context "SupportedSymbols" do
   specify "should not support not equals operator" do

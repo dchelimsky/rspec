@@ -2,7 +2,7 @@ module Spec
   module Expectations
     module ObjectExpectations
       def should
-        ShouldHelper.new self
+        Should::Should.new self
       end
     end
   end
