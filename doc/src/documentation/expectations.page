@@ -9,60 +9,44 @@ Almost all expectation forms have a corresponding negated form. It is listed whe
 
 h3. General
 
-h4. Arbitrary Block
+h4. Equality and Identity
+
+RSpec delegates equality evaluation directly to ruby's methods and operators
 
 <ruby>
-target.should_satisfy {|arg| ...}
-target.should_not_satisfy {|arg| ...}
+actual.should_equal <value> #passes if actual.equal? <value>
+actual.should_not_equal <value> #passes if !actual.equal? <value>
+
+actual.should_eql <value> #passes if actual.eql? <value>
+actual.should_not_eql <value> #passes if !actual.eql? <value>
+
+actual.should == <value> #passes if actual == <value>
+#there is currently no support for !=
 </ruby>
-
-The supplied block is evaluated, passing <code>target</code> as the sole argument. If the block evaluates to <code>false</code>, <code>ExpectationNotMetError</code> is raised.
-
-<ruby>
-target.should_satisfy {|arg| arg > 0}
-</ruby>
-
-h4. Equality
-
-<ruby>
-target.should_equal <value>
-target.should_not_equal <value>
-</ruby>
-
-The target object is compared to <code>value</code> using ==. If the result is <code>false</code>, <code>ExpectationNotMetError</code> is raised.
 
 h4. Floating Point Comparison
 
 <ruby>
-target.should_be_close <value>, <tolerance>
-target.should_not_be_close <value>, <tolerance>
+actual.should_be_close <value>, <tolerance>
+actual.should_not_be_close <value>, <tolerance>
 </ruby>
 
-The target object is compared to <code>value</code>. If they differ by more that <code>tolerance</code>, <code>ExpectationNotMetError</code> is raised. In the negated case, <code>ExpectationNotMetError</code> is raised if they differ by less than <code>tolerance</code>.
+The actual object is compared to <code>value</code>. If they differ by more that <code>tolerance</code>, <code>ExpectationNotMetError</code> is raised. In the negated case, <code>ExpectationNotMetError</code> is raised if they differ by less than <code>tolerance</code>.
 
 <ruby>
-target.should_be_close 27.35, 0.05
+actual.should_be_close 27.35, 0.05
 </ruby>
-
-h4. Identity
-
-<ruby>
-target.should_be <value>
-target.should_not_be <value>
-</ruby>
-
-The target object is compared to <code>value</code> using <code>equal?</code>. If the result is <code>false</code>, <code>ExpectationNotMetError</code> is raised.
 
 h4. Arbitrary Predicate
 
 <ruby>
-target.should_predicate [optional args]
-target.should_be_predicate [optional args]
-target.should_not_predicate [optional args]
-target.should_not_be_predicate [optional args]
+actual.should_predicate [optional args]
+actual.should_be_predicate [optional args]
+actual.should_not_predicate [optional args]
+actual.should_not_be_predicate [optional args]
 </ruby>
 
-The message <code>predicate?</code> is sent to <code>target</code> with any supplied arguments. If the result is <code>false</code>, <code>ExpectationNotMetError</code> is raised.
+The message <code>predicate?</code> is sent to <code>actual</code> with any supplied arguments. If the result is <code>false</code>, <code>ExpectationNotMetError</code> is raised.
 
 For example:
 
@@ -74,54 +58,54 @@ container.should_be_empty => container.empty?
 h4. Arbitrary Operators
 
 <ruby>
-target.should_be < 6
-target.should_be <= 5
-target.should == 5
-target.should_be >= 5
-target.should_be > 4
-target.should == 'Johnny'
-target.should_not == 'Samantha'
+actual.should_be < value
+actual.should_be <= value
+actual.should == value
+actual.should_be >= value
+actual.should_be > vale
+
+actual.should_not == value
 </ruby>
 
-The operators are sent to <code>target</code> with supplied arguments. Note that while you can use <code>should_not ==</code>, the expression <code>should !=</code> does not work.
+The operators are sent to <code>actual</code> with supplied arguments. Note that <code>should !=</code> is not supported, but the same effect can be achieved with <code>should_not ==</code>.
 
 h4. Pattern Matching
 
 <ruby>
-target.should_match <regex>
-target.should_not_match <regex>
+actual.should_match <regex>
+actual.should_not_match <regex>
 </ruby>
 
-The <code>target</code> is matched against <code>regex</code>. An <code>ExpectationNotMetError</code> is raised if the match fails.
+The <code>actual</code> is matched against <code>regex</code>. An <code>ExpectationNotMetError</code> is raised if the match fails.
 
 h3. Class/Type
 
 h4. Direct Instance
 
 <ruby>
-target.should_be_an_instance_of <class>
-target.should_not_be_an_instance_of <class>
+actual.should_be_an_instance_of <class>
+actual.should_not_be_an_instance_of <class>
 </ruby>
 
-An <code>ExpectationNotMetError</code> is raised if <code>target</code> is not or is, respectively, an direct instance of <code>class</code>. As expected this correlates to <code>target.instance_of?  class</code>.
+An <code>ExpectationNotMetError</code> is raised if <code>actual</code> is not or is, respectively, an direct instance of <code>class</code>. As expected this correlates to <code>actual.instance_of?  class</code>.
 
 h4. Ancestor Class
 
 <ruby>
-target.should_be_a_kind_of <class>
-target.should_not_be_a_kind_of <class>
+actual.should_be_a_kind_of <class>
+actual.should_not_be_a_kind_of <class>
 </ruby>
 
-As above, but uses <code>target.kind_of? class</code>: checking whether <code>class</code> is the direct class of <code>target</code>, or an ancestor of <code>target</code>'s direct class.
+As above, but uses <code>actual.kind_of? class</code>: checking whether <code>class</code> is the direct class of <code>actual</code>, or an ancestor of <code>actual</code>'s direct class.
 
 h4. Type
 
 <ruby>
-target.should_respond_to <symbol>
-target.should_not_respond_to <symbol>
+actual.should_respond_to <symbol>
+actual.should_not_respond_to <symbol>
 </ruby>
 
-Uses <code>target.respond_to?(symbol)</code> to check whether <code>symbol</code> is the name of a message that <code>target</code> understands.
+Uses <code>actual.respond_to?(symbol)</code> to check whether <code>symbol</code> is the name of a message that <code>actual</code> understands.
 
 h3. Procs
 
@@ -167,17 +151,17 @@ h3. Collections
 h4. Containment
 
 <ruby>
-target.should_include <object>
-target.should_not_include <object>
+actual.should_include <object>
+actual.should_not_include <object>
 </ruby>
 
-This is simply a specific case of the arbitrary predicate form. It uses <code>target.include?(object)</code> and raises an <code>ExpectationNotMetError</code> if that returns false. 
+This is simply a specific case of the arbitrary predicate form. It uses <code>actual.include?(object)</code> and raises an <code>ExpectationNotMetError</code> if that returns false. 
 
 h4. Size
 
 The remaining collection forms are a little more involved. They rely on two things:
 
-# <code>target</code> responds to the message <code>things</code> by returning an object.
+# <code>actual</code> responds to the message <code>things</code> by returning an object.
 # The returned object responds to either <code>length</code> or <code>size</code>, which return a number that is a measure of size. 
 
 Currently <code>length</code> is used if is appropriate, otherwise <code>size</code> is attempted.
@@ -185,23 +169,37 @@ Currently <code>length</code> is used if is appropriate, otherwise <code>size</c
 h4. Exact Size
 
 <ruby>
-target.should_have(<number>).things
+actual.should_have(<number>).things
 </ruby>
 
-The <code>things</code> of <code>target</code> has a length/size of exactly <code>number</code>.
+The <code>things</code> of <code>actual</code> has a length/size of exactly <code>number</code>.
 
 h4. Lower Bound
 
 <ruby>
-target.should_have_at_least(<number>).things
+actual.should_have_at_least(<number>).things
 </ruby>
 
-The <code>things</code> of <code>target</code> has a length/size of no less than <code>number</code>.
+The <code>things</code> of <code>actual</code> has a length/size of no less than <code>number</code>.
 
 h4. Upper Bound
 
 <ruby>
-target.should_have_at_most(<number>).things
+actual.should_have_at_most(<number>).things
 </ruby>
 
-The <code>things</code> of <code>target</code> has a length/size of no more than <code>number</code>.
+The <code>things</code> of <code>actual</code> has a length/size of no more than <code>number</code>.
+
+h4. Arbitrary Block
+
+<ruby>
+actual.should_satisfy {|arg| ...}
+actual.should_not_satisfy {|arg| ...}
+</ruby>
+
+The supplied block is evaluated, passing <code>actual</code> as the sole argument. If the block evaluates to <code>false</code>, <code>ExpectationNotMetError</code> is raised.
+
+<ruby>
+actual.should_satisfy {|arg| arg > 0}
+</ruby>
+

@@ -9,25 +9,25 @@ context "A stack (in general)" do
   
   specify "should add to the top when sent 'push'" do
     @stack.push "d"
-    @stack.peek.should_equal "d"
+    @stack.peek.should == "d"
   end
   
   specify "should return the top item when sent 'peek'" do
-    @stack.peek.should_equal "c"
+    @stack.peek.should == "c"
   end
   
   specify "should NOT remove the top item when sent 'peek'" do
-    @stack.peek.should_equal "c"
-    @stack.peek.should_equal "c"
+    @stack.peek.should == "c"
+    @stack.peek.should == "c"
   end
   
   specify "should return the top item when sent 'pop'" do
-    @stack.pop.should_equal "c"
+    @stack.pop.should == "c"
   end
   
   specify "should remove the top item when sent 'pop'" do
-    @stack.pop.should_equal "c"
-    @stack.pop.should_equal "b"
+    @stack.pop.should == "c"
+    @stack.pop.should == "b"
   end
 end
 

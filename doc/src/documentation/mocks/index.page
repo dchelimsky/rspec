@@ -47,8 +47,8 @@ h3. Notes
 There are many different viewpoints about the meaning of mocks and stubs. If you are interested
 in learning more, here is some recommended reading:
 
-* "Mock objects home page":http://www.mockobjects.com/
-* "Endo-Testing":http://www.mockobjects.com/files/endotesting.pdf
-* "Mock Roles, Not Objects":http://www.mockobjects.com/files/mockrolesnotobjects.pdf
-* "Test Double Patterns":http://xunitpatterns.com/Test%20Double%20Patterns.html
-* "Mocks aren't stubs":http://www.martinfowler.com/articles/mocksArentStubs.html
+* Mock Objects: "http://www.mockobjects.com/":http://www.mockobjects.com/
+* Endo-Testing:"http://www.mockobjects.com/files/endotesting.pdf":http://www.mockobjects.com/files/endotesting.pdf
+* Mock Roles, Not Objects: "http://www.mockobjects.com/files/mockrolesnotobjects.pdf":http://www.mockobjects.com/files/mockrolesnotobjects.pdf
+* Test Double Patterns: "http://xunitpatterns.com/Test%20Double%20Patterns.html":http://xunitpatterns.com/Test%20Double%20Patterns.html
+* Mocks aren't stubs: "http://www.martinfowler.com/articles/mocksArentStubs.html":http://www.martinfowler.com/articles/mocksArentStubs.html

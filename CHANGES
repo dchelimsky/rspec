@@ -1,11 +1,49 @@
 = RSpec Changelog
 
-== Version 0.6.5 (in SVN)
+== Version 0.7.0 (in SVN)
+
 This is the "Grow up and eat your own dog food release". RSpec is now used on itself and
-we're no longer using Test::Unit. As usual, there are also new features and bug fixes:
+we're no longer using Test::Unit to test it. Although, we are still extending Test::Unit
+for the rails plugin.
+
+IMPORTANT NOTE: THIS RELEASE IS NOT 100% BACKWARDS COMPATIBLE TO 0.6.x
+
+This release changes the way RSpec handles equality. Previous releases tried to handle equality
+based on the way the words read, rather than the way ruby actually handles equality. So,
+with this release and going forward:
+
+* actual.should_equal(expected) will pass if actual.equal?(expected) returns true
+* actual.should_eql(expected) will pass if actual.eql?(expected) returns true
+* actual.should == expected will pass if actual == expected) returns true
+
+At the high level, eql? implies equivalence, while equal? implies object identity. For more
+information on how ruby deals w/ equality, you should do this:
+
+ri equal?
+
+or look at this:
+
+http://www.ruby-doc.org/core/classes/Object.html#M001057
+
+Also, we left in should_be as a synonym for should_equal, so the only specs that should break are the
+ones using should_equal (which used to use <code>==</code> instead of <code>.equal?</code>).
+
+Lastly, should_be used to handle true and false differently from any other values. We've removed
+this special handling, so now actual.should_be true will fail for any value other than true (it
+used to pass for any non-nil, non-false value), and actual.should_be false will fail for any
+value other than false (it used to pass for nil or false).
+
+Here's what you'll need to do to update your specs:
+1. search for "should_equal" and replace with "should_eql"
+2. run specs
+
+If any specs still fail, they are probably related to should_be(true) or should_be(false) using
+non-boolean values. Those you'll just have to inspect manually and adjust appropriately (sorry!).
+
+As usual, there are also other new features and bug fixes:
 
 * RSpec now has 100% spec coverage(!)
-* Fixed [#6203] Failure messages are misleading - consinder using inspect.
+* Fixed [#6203] Failure messages are misleading - consider using inspect.
 * Progress (....F..F.) is now coloured. Tweaked patch from KAKUTANI Shintaro.
 * Backtrace now excludes the rcov runner (/usr/local/bin/rcov)
 * subject.should_have_xyz will try to call subject.has_xyz? - use this for hash.should_have_key key

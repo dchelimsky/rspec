@@ -4,6 +4,6 @@ context "a context with helper a method" do
   end
   
   specify "should make that method available to specs" do
-    helper_method.should_equal "received call"
+    helper_method.should == "received call"
   end
 end

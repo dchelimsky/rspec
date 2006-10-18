@@ -6,25 +6,23 @@ module Spec
         @target = target
         @be_seen = false
       end
-  
+      
       def have(expected_number=nil)
         HaveHelper.new(@target, :exactly, expected_number)
       end
 
+      def not
+        ShouldNegator.new(@target)
+      end
+      
       def satisfy(&block)
         return if block.call(@target)
         fail_with_message "Supplied expectation was not satisfied"
       end
       
-      def equal(expected)
-        fail_with_message(default_message("should equal", expected)) unless (@target == expected)
-      end
-
       def be(expected = :___no_arg)
         @be_seen = true
         return self if (expected == :___no_arg)
-        return if (expected == false and @target.nil?)
-        return if (expected == true and (!@target.nil?) and (@target != false))
         fail_with_message(default_message("should be", expected)) unless (@target.equal?(expected))
       end
 
@@ -53,7 +51,7 @@ module Spec
         begin
           @target.call
         rescue exception => e
-          e.message.should_equal message unless message.nil?
+          e.message.should_eql message unless message.nil?
           return
         rescue => e
           fail_with_message("#{default_message("should raise", exception)} but raised #{e.inspect}")

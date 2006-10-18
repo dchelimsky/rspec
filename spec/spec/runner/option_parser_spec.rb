@@ -17,7 +17,7 @@ context "OptionParser" do
     specify "should eval and use custom formatter when none of the builtins" do
       
         options=OptionParser.parse(["--format", "Custom::Formatter"], false, @err, @out)
-        options.formatter_type.should_equal(Custom::Formatter)
+        options.formatter_type.should_eql(Custom::Formatter)
       
     end
     specify "should not be verbose by default" do
@@ -85,13 +85,13 @@ context "OptionParser" do
     specify "should support single spec with s option" do
       
         options=OptionParser.parse(["-s", "something or other"], false, @err, @out)
-        options.spec_name.should_equal("something or other")
+        options.spec_name.should_eql("something or other")
       
     end
     specify "should support single spec with spec option" do
       
         options=OptionParser.parse(["--spec", "something or other"], false, @err, @out)
-        options.spec_name.should_equal("something or other")
+        options.spec_name.should_eql("something or other")
       
     end
     specify "should support us color option" do
@@ -103,13 +103,13 @@ context "OptionParser" do
     specify "should use html formatter when format is h" do
       
         options=OptionParser.parse(["--format", "h"], false, @err, @out)
-        options.formatter_type.should_equal(Formatter::HtmlFormatter)
+        options.formatter_type.should_eql(Formatter::HtmlFormatter)
       
     end
     specify "should use html formatter when format is html" do
       
         options=OptionParser.parse(["--format", "html"], false, @err, @out)
-        options.formatter_type.should_equal(Formatter::HtmlFormatter)
+        options.formatter_type.should_eql(Formatter::HtmlFormatter)
       
     end
     specify "should use noisy backtrace tweaker with b option" do
@@ -127,7 +127,7 @@ context "OptionParser" do
     specify "should use progress bar formatter by default" do
       
         options=OptionParser.parse([], false, @err, @out)
-        options.formatter_type.should_equal(Formatter::ProgressBarFormatter)
+        options.formatter_type.should_eql(Formatter::ProgressBarFormatter)
       
     end
     specify "should use quiet backtrace tweaker by default" do
@@ -139,25 +139,25 @@ context "OptionParser" do
     specify "should use rdoc formatter when format is r" do
       
         options=OptionParser.parse(["--format", "r"], false, @err, @out)
-        options.formatter_type.should_equal(Formatter::RdocFormatter)
+        options.formatter_type.should_eql(Formatter::RdocFormatter)
       
     end
     specify "should use rdoc formatter when format is rdoc" do
       
         options=OptionParser.parse(["--format", "rdoc"], false, @err, @out)
-        options.formatter_type.should_equal(Formatter::RdocFormatter)
+        options.formatter_type.should_eql(Formatter::RdocFormatter)
       
     end
     specify "should use specdoc formatter when format is s" do
       
         options=OptionParser.parse(["--format", "s"], false, @err, @out)
-        options.formatter_type.should_equal(Formatter::SpecdocFormatter)
+        options.formatter_type.should_eql(Formatter::SpecdocFormatter)
       
     end
     specify "should use specdoc formatter when format is specdoc" do
       
         options=OptionParser.parse(["--format", "specdoc"], false, @err, @out)
-        options.formatter_type.should_equal(Formatter::SpecdocFormatter)
+        options.formatter_type.should_eql(Formatter::SpecdocFormatter)
       
     end
   

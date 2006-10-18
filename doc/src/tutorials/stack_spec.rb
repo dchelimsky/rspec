@@ -17,7 +17,7 @@ context "A stack with one item" do
   end
 
   specify "should return top when you send it 'top'" do
-    @stack.top.should_equal "one item"
+    @stack.top.should_eql "one item"
   end
 
   specify "should not be empty" do

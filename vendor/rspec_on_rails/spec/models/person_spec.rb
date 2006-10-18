@@ -12,8 +12,8 @@ context "The Person model" do
   specify "should find an existing person" do
     person = Person.find(1)
 
-    person.should_equal people(:lachie)
-    person.name.should_equal 'Lachie'
+    person.should_eql people(:lachie)
+    person.name.should == 'Lachie'
   end
 
   specify "should have animals" do

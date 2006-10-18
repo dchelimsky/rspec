@@ -24,7 +24,7 @@ context "ShouldRaise" do
         
         
         end
-        e.message.should_equal("<Proc> should raise <SyntaxError> but raised nothing")
+        e.message.should_eql("<Proc> should raise <SyntaxError> but raised nothing")
       
     end
     specify "should fail when wrong exception is raised" do
@@ -39,7 +39,7 @@ context "ShouldRaise" do
         
         
         end
-        e.message.should_equal("<Proc> should raise <SyntaxError> but raised #<NoMethodError: undefined method `nonexistent_method' for \"\":String>")
+        e.message.should_eql("<Proc> should raise <SyntaxError> but raised #<NoMethodError: undefined method `nonexistent_method' for \"\":String>")
       
     end
     specify "should pass when exact exception is raised" do

@@ -20,7 +20,7 @@ context "The PersonController" do
     Person.should_receive(:create).with({"name" => 'Aslak'})
     post 'create', {:person => {:name => 'Aslak'}}
     response.should_be_redirect
-    response.redirect_url.should_equal 'http://test.host/person'
+    response.redirect_url.should_eql 'http://test.host/person'
   end
 end
 
@@ -45,7 +45,7 @@ context "When requesting /person" do
   specify "should find all people on GET to index" do
     get 'index'
     response.should_be_success
-    assigns('people').should_equal [people(:lachie)]
+    assigns('people').should_eql [people(:lachie)]
   end
 
 end
@@ -62,6 +62,6 @@ context "/person/show/3" do
     Person.should_receive(:find).and_return(@person)
     get 'show', :id => 3
   
-    assigns(:person).should_be @person
+    assigns(:person).should_equal @person
   end
 end

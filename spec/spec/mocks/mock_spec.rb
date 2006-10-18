@@ -41,7 +41,7 @@ module Spec
           @mock.__verify
           violated
         rescue MockExpectationError => e
-          e.message.should_equal "Mock 'test mock' expected :not_expected 0 times, but received it 1 times"
+          e.message.should_eql "Mock 'test mock' expected :not_expected 0 times, but received it 1 times"
         end
       end
 
@@ -52,19 +52,19 @@ module Spec
           @mock.__verify
           violated
         rescue MockExpectationError => e
-          e.message.should_equal "Mock 'test mock' expected :not_expected with ['unexpected text'] 0 times, but received it 1 times"
+          e.message.should_eql "Mock 'test mock' expected :not_expected with ['unexpected text'] 0 times, but received it 1 times"
         end
       end
 
       specify "should allow block to calculate return values" do
         @mock.should_receive(:random_call).with("a","b","c").and_return { |a,b,c| c+b+a }
-        @mock.random_call("a","b","c").should_equal "cba"
+        @mock.random_call("a","b","c").should_eql "cba"
         @mock.__verify
       end
 
       specify "should allow parameter as return value" do
         @mock.should_receive(:random_call).with("a","b","c").and_return("booh")
-        @mock.random_call("a","b","c").should_equal "booh"
+        @mock.random_call("a","b","c").should_eql "booh"
         @mock.__verify
       end
 
@@ -80,7 +80,7 @@ module Spec
           @mock.random_call("a","d","c")
           violated
         rescue MockExpectationError => e
-          e.message.should_equal "Mock 'test mock' received unexpected message :random_call with ['a', 'd', 'c']"
+          e.message.should_eql "Mock 'test mock' received unexpected message :random_call with ['a', 'd', 'c']"
         end
       end
      
@@ -89,17 +89,17 @@ module Spec
           @mock.random_call("a","b","c")
           violated
         rescue MockExpectationError => e
-          e.message.should_equal "Mock 'test mock' received unexpected message :random_call with ['a', 'b', 'c']"
+          e.message.should_eql "Mock 'test mock' received unexpected message :random_call with ['a', 'b', 'c']"
         end
       end
   
       specify "should use block for expectation if provided" do
         @mock.should_receive(:random_call) do | a, b |
-          a.should_equal "a"
-          b.should_equal "b"
+          a.should_eql "a"
+          b.should_eql "b"
           "booh"
         end
-        @mock.random_call("a", "b").should_equal "booh"
+        @mock.random_call("a", "b").should_eql "booh"
         @mock.__verify
       end
   
@@ -108,7 +108,7 @@ module Spec
         begin
           @mock.random_call false
         rescue MockExpectationError => e
-          e.message.should_equal "Mock 'test mock' received :random_call but passed block failed with: false should be true"
+          e.message.should_eql "Mock 'test mock' received :random_call but passed block failed with: false should be true"
         end
       end
   
@@ -117,7 +117,7 @@ module Spec
         begin
           @mock.not_expected
         rescue MockExpectationError => e
-          e.message.should_equal "Mock 'test mock' expected :not_expected 0 times, but received it 1 times"
+          e.message.should_eql "Mock 'test mock' expected :not_expected 0 times, but received it 1 times"
         end
       end
       
@@ -164,7 +164,7 @@ module Spec
         begin
           @mock.random_call 1
         rescue MockExpectationError => e
-          e.message.should_equal "Mock 'test mock' received unexpected message :random_call with [1]"
+          e.message.should_eql "Mock 'test mock' received unexpected message :random_call with [1]"
         end
       end
       
@@ -172,7 +172,7 @@ module Spec
         @mock.should_receive(:yield_back).with(:no_args).once.and_yield(99)
         a = nil
         @mock.yield_back {|a|}
-        a.should_equal 99
+        a.should_eql 99
         @mock.__verify
       end
 
@@ -180,8 +180,8 @@ module Spec
         @mock.should_receive(:yield_back).with(:no_args).once.and_yield('wha', 'zup')
         a, b = nil
         @mock.yield_back {|a,b|}
-        a.should_equal 'wha'
-        b.should_equal 'zup'
+        a.should_eql 'wha'
+        b.should_eql 'zup'
         @mock.__verify
       end
 
@@ -190,7 +190,7 @@ module Spec
           begin
           @mock.yield_back {|a|}
         rescue MockExpectationError => e
-          e.message.should_equal "Mock 'test mock' yielded |'wha', 'zup'| to block with arity of 1"
+          e.message.should_eql "Mock 'test mock' yielded |'wha', 'zup'| to block with arity of 1"
         end
       end
 
@@ -199,7 +199,7 @@ module Spec
         begin
           @mock.yield_back
         rescue MockExpectationError => e
-          e.message.should_equal "Mock 'test mock' asked to yield |'wha', 'zup'| but no block was passed"
+          e.message.should_eql "Mock 'test mock' asked to yield |'wha', 'zup'| but no block was passed"
         end
       end
       
@@ -223,8 +223,8 @@ module Spec
 
       specify "should use a list of return values for successive calls" do
         @mock.should_receive(:multi_call).twice.with(:no_args).and_return([8, 12])
-        @mock.multi_call.should_equal 8
-        @mock.multi_call.should_equal 12
+        @mock.multi_call.should_eql 8
+        @mock.multi_call.should_eql 12
         @mock.__verify
       end
 
@@ -235,7 +235,7 @@ module Spec
         begin
           @mock.foobar
         rescue MockExpectationError => e
-          e.message.should_equal "Mock 'test mock' received unexpected message :foobar"
+          e.message.should_eql "Mock 'test mock' received unexpected message :foobar"
         end
       end
       

@@ -2,29 +2,29 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 module Spec
   module Expectations
-    context "Sugar" do
-      specify "is a kind of should work when failing" do
+    context "underscore_sugar:" do
+      specify "is_a_kind_of should work when failing" do
         n=10
         lambda do
           n.should_be_a_kind_of(Float)
         end.should_raise(Spec::Expectations::ExpectationNotMetError)
       end
     
-      specify "is a kind of should work when passing" do
+      specify "is_a_kind_of should work when passing" do
         n=10
         lambda do
           n.should_be_a_kind_of(Numeric)
         end.should_not_raise
       end
 
-      specify "is an instance of should work when failing" do
+      specify "is_an_instance_of should work when failing" do
         n=10
         lambda do
           n.should_be_an_instance_of(String)
         end.should_raise(Spec::Expectations::ExpectationNotMetError)
       end
     
-      specify "is an instance of should work when passing" do
+      specify "is_an_instance_of should work when passing" do
         n=10
         lambda do
           n.should_be_an_instance_of(Fixnum)

@@ -2,8 +2,8 @@ module Spec
   module VERSION
     unless defined? MAJOR
       MAJOR  = 0
-      MINOR  = 6
-      TINY   = 5
+      MINOR  = 7
+      TINY   = 0
 
       STRING = [MAJOR, MINOR, TINY].join('.')
       TAG    = "REL_" + [MAJOR, MINOR, TINY].join('_')

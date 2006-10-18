@@ -38,7 +38,7 @@ context "NoisyBacktraceTweaker" do
     specify "should replace   instance exec with spec name" do
         @error.set_backtrace(["./examples/airport_spec.rb:28:in `__instance_exec_1014688_1661744'"])
         @tweaker.tweak_backtrace(@error, "spec name")
-        @error.backtrace[0].should_equal("./examples/airport_spec.rb:28:in `spec name'")
+        @error.backtrace[0].should_eql("./examples/airport_spec.rb:28:in `spec name'")
       
     end
   

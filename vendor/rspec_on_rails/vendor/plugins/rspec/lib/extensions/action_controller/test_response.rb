@@ -3,7 +3,7 @@ module ActionController
     def should_render(expected=nil)
       expected = expected.to_s unless expected.nil?
       rendered = expected ? rendered_file(!expected.include?('/')) : rendered_file
-      expected.should_equal rendered
+      expected.should == rendered
     end
     
     def should_have_rjs element, *args

@@ -81,9 +81,9 @@ context "Specification" do
         end
         @reporter.should_receive(:spec_started).with("spec")
         @reporter.should_receive(:spec_finished) do |spec, error, location|
-            spec.should_equal("spec")
-            location.should_equal("spec")
-            error.message.should_equal("in body")
+            spec.should_eql("spec")
+            location.should_eql("spec")
+            error.message.should_eql("in body")
           
         end
         spec.run(@reporter, nil, teardown)
@@ -98,9 +98,9 @@ context "Specification" do
         end
         @reporter.should_receive(:spec_started).with("spec")
         @reporter.should_receive(:spec_finished) do |name, error, location|
-            name.should_equal("spec")
-            error.message.should_equal("in setup")
-            location.should_equal("setup")
+            name.should_eql("spec")
+            error.message.should_eql("in setup")
+            location.should_eql("setup")
           
         end
         spec.run(@reporter, setup)
@@ -115,9 +115,9 @@ context "Specification" do
         end
         @reporter.should_receive(:spec_started).with("spec")
         @reporter.should_receive(:spec_finished) do |name, error, location|
-            name.should_equal("spec")
-            error.message.should_equal("in teardown")
-            location.should_equal("teardown")
+            name.should_eql("spec")
+            error.message.should_eql("in teardown")
+            location.should_eql("teardown")
           
         end
         spec.run(@reporter, nil, teardown)
@@ -133,7 +133,7 @@ context "Specification" do
         end
         @reporter.should_receive(:spec_started).with("spec")
         @reporter.should_receive(:spec_finished) do |spec_name, error|
-            spec_name.should_equal("spec")
+            spec_name.should_eql("spec")
             error.message.should_match(/expected :poke once, but received it 0 times/)
           
         end

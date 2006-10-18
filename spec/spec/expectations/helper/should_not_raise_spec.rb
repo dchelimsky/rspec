@@ -16,7 +16,7 @@ context "ShouldNotRaise" do
         
         
         end
-        e.message.should_equal("<Proc> should not raise <NoMethodError>")
+        e.message.should_eql("<Proc> should not raise <NoMethodError>")
       
     end
     specify "should faile when exact exception is raised with message" do
@@ -39,7 +39,7 @@ context "ShouldNotRaise" do
         
         
         end
-        e.message.should_equal("<Proc> should not raise <Exception> but raised #<NoMethodError: undefined method `nonexistent_method' for \"\":String>")
+        e.message.should_eql("<Proc> should not raise <Exception> but raised #<NoMethodError: undefined method `nonexistent_method' for \"\":String>")
       
     end
     specify "should pass when exact exception is raised with wrong message" do

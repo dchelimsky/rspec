@@ -15,10 +15,6 @@ module Spec
         fail_with_message "Supplied expectation was satisfied, but should not have been" if (yield @target)
       end
         
-      def equal(expected)
-        fail_with_message(default_message("should not equal", expected)) if (@target == expected)
-      end
-    
       def be(expected = :no_arg)
         @be_seen = true
         return self if (expected == :no_arg)

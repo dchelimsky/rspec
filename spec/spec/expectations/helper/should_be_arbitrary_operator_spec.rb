@@ -4,10 +4,14 @@ module Spec
   module Expectations
     module Helper
 
-      context "ShouldBeArbitraryPredicate" do
+      context "should <arbitrary operator>:" do
   
         specify "should pass when == operator returns true" do
           (2+2).should == 4
+        end
+        
+        specify "should pass when should_not == passes" do
+          (2+2).should_not == 3
         end
         
         specify "should fail when == operator returns false" do

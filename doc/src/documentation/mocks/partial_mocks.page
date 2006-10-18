@@ -3,22 +3,23 @@ title: Partial Mocks
 ---
 h2. Partial Mocks
 
-RSpec allows you set verifiable expectations for methods on existing Class objects. The
-main reason for including this is to support mocking Ruby on Rails model class methods
-in controller and/or view specs.
+RSpec allows you <a href="stubs.html">stub methods</a> and set <a href="mocks.html">mock
+expectations</a> for methods on existing Class objects. The main reason for including
+this is to support mocking/stubbing Ruby on Rails model class methods in controller and/or view specs.
 
 <ruby>
 MyModel.should_receive(:find).with(id).and_return(@mock_model_instance)
 </ruby>
 
-Mocking (and/or <a href="stubs.html">stubbing</a>) the class level methods and having them return a mock instead of a real instance
+<a href="mocks.html">Mocking</a> (and/or <a href="stubs.html">stubbing</a>) the class
+level methods and having them return a mock instead of a real instance
 of the model class allows you to spec your controllers and views in isolation from the
-instance level logic of your model classes. It also helps to keep the context of your
-spec completely in view (no having to look at fixtures/xyz.yml to understand what's going on).
+instance level logic of your model classes. This means that you can change the validation
+rules for a model, for example, and drive that in the model specs without affecting the
+controller and view specs.
 
-Although we haven't completely isolated specs from the
+This also helps to keep the context of your spec completely in view (no having to look at fixtures/xyz.yml to understand what's going on).
+
+Additionally, although we haven't completely isolated specs from the
 database yet (you still need one for the models to actually work), this sort of mocking
 will save you trips to the database, speeding things up quite a bit in a larger app.
-
-Note that as of 0.6.5, this is only supported for Modules (and therefore Classes). It is
-not supported for all Objects.

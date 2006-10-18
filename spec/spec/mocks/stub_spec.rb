@@ -79,6 +79,16 @@ module Spec
         @obj.__verify
         @obj.existing_method.should_equal(:original_value)
       end
+      
+      specify "should clear itself on __verify" do
+        @obj.stub!(:this_should_go).and_return(:blah)
+        @obj.this_should_go.should_equal :blah
+        @obj.__verify
+        lambda do
+          @obj.this_should_go
+        end.should_raise
+      end
+      
     end
   end
 end
