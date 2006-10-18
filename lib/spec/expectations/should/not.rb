@@ -1,7 +1,7 @@
 module Spec
   module Expectations
     module Should
-      class Negator < Base
+      class Not < Base
     
         def initialize(target)
           @target = target

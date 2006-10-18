@@ -13,7 +13,7 @@ module Spec
         end
 
         def not
-          Negator.new(@target)
+          Not.new(@target)
         end
       
         def satisfy(&block)
