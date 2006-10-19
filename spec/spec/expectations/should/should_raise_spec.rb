@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../../../spec_helper.rb'
 
-context "ShouldRaise" do
+context "should_raise" do
   specify "should fail when exact exception is raised with wrong message" do
     lambda do
       lambda do

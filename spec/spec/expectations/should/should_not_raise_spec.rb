@@ -1,7 +1,6 @@
 require File.dirname(__FILE__) + '/../../../spec_helper.rb'
 
-context "ShouldNotRaise" do
-
+context "should_not_raise" do
   specify "should fail when specific exception is raised" do
     begin
       lambda do

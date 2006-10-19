@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../../../spec_helper.rb'
 
-context "ShouldSatisfy" do
+context "should_satisfy" do
   specify "should not raise exception when block yields true" do
     lambda do
       5.should_satisfy do |target|

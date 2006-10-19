@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../../../spec_helper.rb'
 
-context "ShouldThrow" do
+context "should_throw" do
 
   specify "should fail when no symbol is thrown" do
     lambda do

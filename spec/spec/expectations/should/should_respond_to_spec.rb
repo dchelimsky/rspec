@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../../../spec_helper.rb'
 
-context "ShouldRespondTo" do
+context "should_respond_to" do
   specify "should fail when target doesnt respond to" do
     lambda do
       "".should_respond_to(:connect)

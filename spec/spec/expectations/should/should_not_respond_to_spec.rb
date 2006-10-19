@@ -1,7 +1,6 @@
 require File.dirname(__FILE__) + '/../../../spec_helper.rb'
 
-context "ShouldNotRespondTo" do
-
+context "should_not_respond_to" do
   specify "should fail when target responds to" do
     lambda do
       "".should_not_respond_to(:length)
