@@ -75,7 +75,7 @@ $ spec failing_examples/big_string_spec.rb --diff
 If you want to use the <tt>--diff</tt> option, you must also gem install diff-lcs. You
 do *not* need a native diff command line tool, so this is Windows-friendly.
 
-h3. -s, --color, --colour
+h3. -c, --color, --colour
 
 Show coloured (red/green) output.
 
