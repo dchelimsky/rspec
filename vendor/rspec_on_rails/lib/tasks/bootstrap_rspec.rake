@@ -16,6 +16,6 @@ end
 desc "Run the specs for RSpec on Rails itself"
 Spec::Rake::SpecTask.new(:specs) do |t|
   t.spec_files = FileList['specs/*_spec.rb']
-  t.spec_opts = ['-b']
+#  t.spec_opts = ['-b']
 end
   

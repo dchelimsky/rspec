@@ -7,7 +7,7 @@ for web applications that don't yet exist!
 
 Customers, QA people, testers and programmers can translate user story
 acceptance criteria to executable specs based on RSpec and Watir. Take
-a look at find_rspecs_home_page.txt (the story) with find_rspecs_home_page.rb
+a look at find_rspecs_home_page.txt (the story) and find_rspecs_home_page.rb
 (the associated spec).
 
 One of the great benefits of using Watir with RSpec as opposed to using

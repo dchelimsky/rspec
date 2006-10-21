@@ -3,12 +3,12 @@ module Kernel
     context = Spec::Runner::Context.new(name, &block)
     runner = context_runner
     runner.add_context(context)
-    runner.run(false) if runner.standalone
   end
   
 private
   
   def context_runner
-    $context_runner ||= ::Spec::Runner::OptionParser.create_context_runner(ARGV.dup, true, STDERR, STDOUT)
+    if $context_runner.nil?; $context_runner = ::Spec::Runner::OptionParser.create_context_runner(ARGV.dup, true, STDERR, STDOUT); at_exit { $context_runner.run(false) }; end
+    $context_runner
   end
 end
