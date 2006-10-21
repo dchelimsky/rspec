@@ -4,6 +4,8 @@ begin
   require 'diff/lcs/hunk'
 rescue LoadError ; raise "You must gem install diff-lcs to use diffing" ; end
 
+require 'pp'
+
 module Spec
   module Expectations
     module Should
@@ -12,8 +14,12 @@ module Spec
           alias old_default_message default_message
           def default_message(expectation, expected=:no_expectation_specified)
             result = old_default_message(expectation, expected)
-            if expected.is_a?(String)
-              result << "\nDiff:" << diff_as_string(@target.to_s, expected)
+            if expected != :no_expectation_specified
+              if expected.is_a?(String)
+                result << "\nDiff:" << diff_as_string(@target.to_s, expected)
+              elsif ! @target.is_a? Proc
+                result << "\nDiff:" << diff_as_object(@target,expected)
+              end
             end
             result
           end
@@ -50,6 +56,11 @@ module Spec
           #Handle the last remaining hunk
           output << oldhunk.diff(format) << "\n"
         end  
+
+        def diff_as_object(target,expected,format=:unified,context_lines=3)
+          diff_as_string(PP.pp(target,""), PP.pp(expected,""), format, context_lines)
+        end
+
       end
     end
   end

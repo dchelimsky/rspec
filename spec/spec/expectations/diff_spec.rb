@@ -1,5 +1,24 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
+module Spec
+  module Fixtures
+    class Animal
+      def initialize(name,species)
+        @name,@species = name,species
+      end
+
+      def inspect
+        <<-EOA
+<Animal
+  name=#{@name},
+  species=#{@species}
+>
+        EOA
+      end
+    end
+  end
+end
+
 context "Diff" do
   specify "should output unified diff of two strings" do
     expected="foo\nbar\nzap\nthis\nis\nsoo\nvery\nvery\nequal\ninsert\na\nline\n"
@@ -8,4 +27,46 @@ context "Diff" do
     diff=Spec::Expectations::Should::Base.new.diff_as_string(expected, actual)
     diff.should_eql(expected_diff)
   end
+
+  specify "should output unified diff message of two arrays" do
+    expected = [ :foo, 'bar', :baz, 'quux', :metasyntactic, 'variable', :delta, 'charlie', :width, 'quite wide' ]
+    actual   = [ :foo, 'bar', :baz, 'quux', :metasyntactic, 'variable', :delta, 'tango'  , :width, 'very wide'  ]
+
+    expected_diff = <<'EOD'
+
+
+@@ -5,7 +5,7 @@
+  :metasyntactic,
+  "variable",
+  :delta,
+- "charlie",
++ "tango",
+  :width,
+- "quite wide"]
++ "very wide"]
+EOD
+
+
+    diff = Spec::Expectations::Should::Base.new.diff_as_object(expected,actual)
+    diff.should_eql expected_diff
+  end
+
+  specify "should output unified diff message of two objects" do
+    expected = Spec::Fixtures::Animal.new "bob", "giraffe"
+    actual   = Spec::Fixtures::Animal.new "bob", "tortoise"
+
+    expected_diff = <<'EOD'
+
+@@ -1,5 +1,5 @@
+ <Animal
+   name=bob,
+-  species=giraffe
++  species=tortoise
+ >
+EOD
+
+    diff = Spec::Expectations::Should::Base.new.diff_as_object(expected,actual)
+    diff.should_eql expected_diff
+  end
+
 end
