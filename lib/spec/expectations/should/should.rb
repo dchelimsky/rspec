@@ -27,19 +27,19 @@ module Spec
           fail_with_message(default_message("should be", expected)) unless (@target.equal?(expected))
         end
 
-        def an_instance_of expected_class
+        def an_instance_of(expected_class)
           fail_with_message(default_message("should be an instance of", expected_class)) unless @target.instance_of? expected_class
         end
   
-        def a_kind_of expected_class
+        def a_kind_of(expected_class)
           fail_with_message(default_message("should be a kind of", expected_class)) unless @target.kind_of? expected_class
         end
   
-        def respond_to message
+        def respond_to(message)
           fail_with_message(default_message("should respond to", message)) unless @target.respond_to? message
         end
   
-        def __delegate_method_missing_to_target original_sym, actual_sym, *args
+        def __delegate_method_missing_to_target(original_sym, actual_sym, *args)
           return if @target.send(actual_sym, *args)
           message = default_message("should#{@be_seen ? ' be' : ''} #{original_sym}", args[0])
           fail_with_message(message)
