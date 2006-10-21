@@ -43,6 +43,7 @@ non-boolean values. Those you'll just have to inspect manually and adjust approp
 As usual, there are also other new features and bug fixes:
 
 * Fixed [#5564] "ruby spec_file.rb" doesn't work the same way as "spec spec_file.rb"
+* Fixed [#6056] Multiple output of failing-spec notice
 * Fixed [#6233] Colours in specdoc
 * Applied [#6207] Allows --diff option to diff target and expected's #inspect output (Path by Lachie Cox)
 * RSpec now has 100% spec coverage(!)
