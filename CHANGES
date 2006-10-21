@@ -42,6 +42,7 @@ non-boolean values. Those you'll just have to inspect manually and adjust approp
 
 As usual, there are also other new features and bug fixes:
 
+* Fixed [#6233] Colours in specdoc
 * Applied [#6207] Allows --diff option to diff target and expected's #inspect output (Path by Lachie Cox)
 * RSpec now has 100% spec coverage(!)
 * Fixed [#6203] Failure messages are misleading - consider using inspect.
