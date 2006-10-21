@@ -44,19 +44,9 @@ module Spec
         return if args.empty?
         " with [" + arg_list(*args) + "]"
       end
-      
-      def arg_list *args
-        args.collect do |arg|
-          if arg.is_a? String
-            "'#{arg}'"
-          elsif arg.is_a? Symbol
-            ":#{arg}"
-          elsif arg.is_a? Fixnum
-            "#{arg}"
-          else
-            "<#{arg}:#{arg.class.name}>"
-          end
-        end.join(", ")
+
+      def arg_list(*args)
+        args.collect{|arg| arg.inspect}.join(", ")
       end
       
       def count_message(count)

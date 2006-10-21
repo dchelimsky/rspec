@@ -16,8 +16,8 @@ module Spec
           Not.new(@target)
         end
       
-        def satisfy(&block)
-          return if block.call(@target)
+        def satisfy
+          return if yield(@target)
           fail_with_message "Supplied expectation was not satisfied"
         end
       

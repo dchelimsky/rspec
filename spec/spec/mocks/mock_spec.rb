@@ -52,7 +52,7 @@ module Spec
           @mock.__verify
           violated
         rescue MockExpectationError => e
-          e.message.should_eql "Mock 'test mock' expected :not_expected with ['unexpected text'] 0 times, but received it 1 times"
+          e.message.should_eql "Mock 'test mock' expected :not_expected with [\"unexpected text\"] 0 times, but received it 1 times"
         end
       end
 
@@ -80,7 +80,7 @@ module Spec
           @mock.random_call("a","d","c")
           violated
         rescue MockExpectationError => e
-          e.message.should_eql "Mock 'test mock' received unexpected message :random_call with ['a', 'd', 'c']"
+          e.message.should_eql "Mock 'test mock' received unexpected message :random_call with [\"a\", \"d\", \"c\"]"
         end
       end
      
@@ -89,7 +89,7 @@ module Spec
           @mock.random_call("a","b","c")
           violated
         rescue MockExpectationError => e
-          e.message.should_eql "Mock 'test mock' received unexpected message :random_call with ['a', 'b', 'c']"
+          e.message.should_eql "Mock 'test mock' received unexpected message :random_call with [\"a\", \"b\", \"c\"]"
         end
       end
   
@@ -190,7 +190,7 @@ module Spec
           begin
           @mock.yield_back {|a|}
         rescue MockExpectationError => e
-          e.message.should_eql "Mock 'test mock' yielded |'wha', 'zup'| to block with arity of 1"
+          e.message.should_eql "Mock 'test mock' yielded |\"wha\", \"zup\"| to block with arity of 1"
         end
       end
 
@@ -199,7 +199,7 @@ module Spec
         begin
           @mock.yield_back
         rescue MockExpectationError => e
-          e.message.should_eql "Mock 'test mock' asked to yield |'wha', 'zup'| but no block was passed"
+          e.message.should_eql "Mock 'test mock' asked to yield |\"wha\", \"zup\"| but no block was passed"
         end
       end
       
