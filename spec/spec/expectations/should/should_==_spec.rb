@@ -10,6 +10,12 @@ context "should ==" do
   specify "should raise when objects are not ==" do
     lambda do
       "apple".should == "cadillac"
-    end.should_fail_with '"apple" should == "cadillac"'
+    end.should_fail_with <<-EOD
+"apple" should == "cadillac"
+Diff:
+@@ -1,2 +1,2 @@
+-apple
++cadillac
+EOD
   end
 end
