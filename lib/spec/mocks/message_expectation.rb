@@ -47,6 +47,8 @@ module Spec
             return invoke_method_block(args)
           elsif !@args_to_yield.nil?
             return invoke_with_yield(block)
+          elsif @consecutive
+            return invoke_consecutive_return_block(args, block)
           else
             return invoke_return_block(args, block)
           end
@@ -72,17 +74,20 @@ module Spec
         end
         block.call(*@args_to_yield)
       end
-
+      
+      def invoke_consecutive_return_block(args, block)
+        args << block unless block.nil?
+        value = @return_block.call(*args)
+        
+        index = [@received_count, value.size-1].min
+        value[index]
+      end
+      
       def invoke_return_block(args, block)
         args << block unless block.nil?
         value = @return_block.call(*args)
     
-        if @consecutive
-          index = [@received_count, value.size-1].min
-          value[index]
-        else
-          value
-        end
+        value
       end
     end
     
