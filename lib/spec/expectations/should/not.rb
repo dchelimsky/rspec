@@ -35,7 +35,7 @@ module Spec
         end
     
         def match(expected)
-            fail_with_message(default_message("should not match", expected)) if (@target =~ expected)
+          fail_with_message(default_message("should not match", expected)) if (@target =~ expected)
         end
     
         def raise(exception=Exception, message=nil)
