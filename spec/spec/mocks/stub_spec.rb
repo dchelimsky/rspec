@@ -4,13 +4,17 @@ module Spec
   module Mocks
     context "Stub" do
       setup do
-        klass=Class.new
-        klass.class_eval do
-          def existing_method
+        @class=Class.new
+        @class.class_eval do
+          def self.existing_class_method
+            :original_value
+          end
+
+          def existing_instance_method
             :original_value
           end
         end
-        @obj = klass.new
+        @obj = @class.new
       end
 
       specify "should allow for a mock message to temporarily replace the stub" do
@@ -72,14 +76,22 @@ module Spec
         @obj.__verify
       end
 
-      specify "should revert to original method if existed" do
-        @obj.existing_method.should_equal(:original_value)
-        @obj.stub!(:existing_method).and_return(:mock_value)
-        @obj.existing_method.should_equal(:mock_value)
+      specify "should revert to original instance method if existed" do
+        @obj.existing_instance_method.should_equal(:original_value)
+        @obj.stub!(:existing_instance_method).and_return(:mock_value)
+        @obj.existing_instance_method.should_equal(:mock_value)
         @obj.__verify
-        @obj.existing_method.should_equal(:original_value)
+        @obj.existing_instance_method.should_equal(:original_value)
       end
       
+      specify "should revert to original class method if existed" do
+        @class.existing_class_method.should_equal(:original_value)
+        @class.stub!(:existing_class_method).and_return(:mock_value)
+        @class.existing_class_method.should_equal(:mock_value)
+        @class.__verify
+        @class.existing_class_method.should_equal(:original_value)
+      end
+
       specify "should clear itself on __verify" do
         @obj.stub!(:this_should_go).and_return(:blah)
         @obj.this_should_go.should_equal :blah
