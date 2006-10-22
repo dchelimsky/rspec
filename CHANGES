@@ -59,6 +59,7 @@ As usual, there are also other new features and bug fixes:
 In addition to a number of bug fixes and patches, this release begins to formalize the support for
 RSpec on Rails.
 
+* Added Christopher Petrilli's TextMate bundle to vendor/textmate/RSpec.tmbundle
 * Fixed [#5909], once again supporting multi_word_predicates
 * Applied [#5873] - response.should_have_rjs (initial patch from Jake Howerton, based on ARTS by Kevin Clark)
 * Added generation of view specs for rspec_on_rails
