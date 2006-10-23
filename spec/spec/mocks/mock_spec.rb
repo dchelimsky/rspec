@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 
 module Spec
   module Mocks
-    context "Mock" do
+    context "a Mock" do
 
       setup do
         @mock = Mock.new("test mock", :auto_verify => false)
@@ -41,7 +41,7 @@ module Spec
           @mock.__verify
           violated
         rescue MockExpectationError => e
-          e.message.should_eql "Mock 'test mock' expected :not_expected 0 times, but received it 1 times"
+          e.message.should_eql "Mock 'test mock' expected :not_expected 0 times, but received it once"
         end
       end
 
@@ -52,7 +52,7 @@ module Spec
           @mock.__verify
           violated
         rescue MockExpectationError => e
-          e.message.should_eql "Mock 'test mock' expected :not_expected with [\"unexpected text\"] 0 times, but received it 1 times"
+          e.message.should_eql "Mock 'test mock' expected :not_expected with [\"unexpected text\"] 0 times, but received it once"
         end
       end
 
@@ -218,13 +218,6 @@ module Spec
           end
         end.should_raise(StandardError)
 
-        @mock.__verify
-      end
-
-      specify "should use a list of return values for successive calls" do
-        @mock.should_receive(:multi_call).twice.with(:no_args).and_return([8, 12])
-        @mock.multi_call.should_eql 8
-        @mock.multi_call.should_eql 12
         @mock.__verify
       end
 

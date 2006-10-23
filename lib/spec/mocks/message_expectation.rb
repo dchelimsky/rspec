@@ -22,9 +22,17 @@ module Spec
         @args_to_yield = nil
       end
 
-      def and_return(value=nil, &return_block)
+      def and_return(*values, &return_block)
         Kernel::raise AmbiguousReturnError unless @method_block.nil?
-        @consecutive = value.instance_of? Array
+        if values.size == 0
+          value = nil
+        elsif values.size == 1
+          value = values[0]
+        else
+          value = values
+          @consecutive = true
+          @expected_received_count = values.size if @expected_received_count < values.size
+        end
         @return_block = block_given? ? return_block : lambda { value }
       end
       

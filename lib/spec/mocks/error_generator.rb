@@ -11,7 +11,7 @@ module Spec
       end
       
       def raise_expectation_error sym, expected_received_count, actual_received_count, *args
-        __raise "#{intro} expected :#{sym}#{arg_message(*args)} #{count_message(expected_received_count)}, but received it #{actual_received_count} times"
+        __raise "#{intro} expected :#{sym}#{arg_message(*args)} #{count_message(expected_received_count)}, but received it #{count_message(actual_received_count)}"
       end
       
       def raise_out_of_order_error sym
