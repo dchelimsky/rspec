@@ -8,9 +8,9 @@ for the rails plugin.
 
 IMPORTANT NOTE: THIS RELEASE IS NOT 100% BACKWARDS COMPATIBLE TO 0.6.x
 
-This release changes the way RSpec handles equality. Previous releases tried to handle equality
-based on the way the words read, rather than the way ruby actually handles equality. So,
-with this release and going forward:
+There are a few changes that will require that you change your existing specs.
+
+1. RSpec now handles equality exactly like ruby does:
 
 # actual.should_equal(expected) will pass if actual.equal?(expected) returns true
 # actual.should_eql(expected) will pass if actual.eql?(expected) returns true
@@ -34,11 +34,25 @@ used to pass for any non-nil, non-false value), and actual.should_be false will 
 value other than false (it used to pass for nil or false).
 
 Here's what you'll need to do to update your specs:
-1. search for "should_equal" and replace with "should_eql"
-2. run specs
+# search for "should_equal" and replace with "should_eql"
+# run specs
 
 If any specs still fail, they are probably related to should_be(true) or should_be(false) using
 non-boolean values. Those you'll just have to inspect manually and adjust appropriately (sorry!).
+
+2. Specifying multiple return values in mocks now works like this:
+
+mock.should_receive(:message).and_return(1,2,3)
+
+It used to work like this:
+
+mock.should_receive(:message).and_return([1,2,3])
+
+but we decided that was counter intuitive and otherwise lame.
+
+Here's what you'll need to do to update your specs:
+# search for "and_return(["
+# get rid of the "[" and "]"
 
 As usual, there are also other new features and bug fixes:
 
