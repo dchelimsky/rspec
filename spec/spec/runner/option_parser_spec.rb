@@ -160,6 +160,35 @@ context "OptionParser" do
         options.formatter_type.should_eql(Formatter::SpecdocFormatter)
       
     end
+
+    specify "should support diff option when format is not specified" do
+      options = OptionParser.parse(["--diff"],false,@err,@out)
+      options.diff_format.should_be :unified
+    end
+
+    specify "should use unified diff format option when format is unified" do
+      options = OptionParser.parse(["--diff", "unified"],false,@err,@out)
+      options.diff_format.should_be :unified
+      options.differ_class.should_be Spec::Expectations::Differs::Default
+    end
+
+    specify "should use context diff format option when format is context" do
+      options = OptionParser.parse(["--diff", "context"],false,@err,@out)
+      options.diff_format.should_be :context
+      options.differ_class.should_eql Spec::Expectations::Differs::Default
+    end
+
+    specify "should use custom diff format option when format is a custom format" do
+      options = OptionParser.parse(["--diff", "Custom::Formatter"],false,@err,@out)
+      options.diff_format.should_be :custom
+      options.differ_class.should_eql Custom::Formatter
+    end
+
+
+    specify "should print instructions about how to fix bad differ" do
+      options=OptionParser.parse(["--diff", "Custom::BadFormatter"], false, @err, @out)
+      @err.string.should_match(/Couldn't find differ class Custom::BadFormatter/n)
+    end
   
 end
 end

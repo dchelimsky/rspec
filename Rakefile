@@ -32,7 +32,7 @@ task :default => :spec
 desc "Run all specs"
 Spec::Rake::SpecTask.new do |t|
   t.spec_files = FileList['spec/**/*_spec.rb']
-  t.spec_opts = ['--color', '--diff']
+  t.spec_opts = ['--diff','--color']
   t.rcov = true
   t.rcov_dir = 'doc/output/coverage'
   t.rcov_opts = ['--exclude', 'spec\/spec,bin\/spec']

@@ -32,7 +32,7 @@ h3. RSpec!
 
 In alphabetical order (by last name)
 
-* Lachie Cox (Initial Rails support and Object diffing)
+* Lachie Cox (Initial Rails support and diffing enhancements for Objects and custom formats)
 * Lindsay Evans (Patch for RSpec on Rails on Windows)
 * Jake Howerton (Port of Kevin Clark's ARTS to RSpec)
 * KAKUTANI Shintaro (Patch for coloured progress)

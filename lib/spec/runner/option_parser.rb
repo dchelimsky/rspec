@@ -10,6 +10,13 @@ module Spec
 
         formatter = options.formatter_type.new(options.out, options.dry_run, options.colour)
         reporter = Reporter.new(formatter, options.backtrace_tweaker) 
+
+        # this doesn't really belong here.
+        # it should, but the way things are coupled, it doesn't
+        if options.differ_class
+          Spec::Expectations::Should::Base.differ = options.differ_class.new(options.diff_format, options.context_lines, options.colour)
+        end
+
         ContextRunner.new(reporter, standalone, options.dry_run, options.spec_name)
       end
 
@@ -24,8 +31,36 @@ module Spec
           opts.banner = "Usage: spec [options] (FILE|DIRECTORY|GLOB)+"
           opts.separator ""
 
-          opts.on("--diff", "Show unified diff of Strings that are expected to be equal when they are not") do
-            require 'spec/expectations/diff'
+          opts.on("-D", "--diff [FORMAT]", "Show diff of objects that are expected to be equal when they are not",
+                                           "Builtin formats: unified|u|context|c",
+                                           "You can also specify a custom differ class",
+                                           "(in which case you should also specify --require)") do |format|
+            require 'spec/expectations/diff'  # patches in diff extension
+
+            # TODO make context_lines settable
+            options.context_lines = 3
+
+            case format
+              when 'context', 'c'
+                options.diff_format  = :context
+              when 'unified', 'u', '', nil
+                options.diff_format  = :unified
+            end
+
+            if [:context,:unified].include? options.diff_format
+              require 'spec/expectations/differs/default'
+              options.differ_class = Spec::Expectations::Differs::Default
+            else
+              begin
+                options.diff_format  = :custom
+                options.differ_class = eval(format)
+              rescue NameError
+                err.puts "Couldn't find differ class #{format}"
+                err.puts "Make sure the --require option is specified *before* --diff"
+                exit if out == $stdout
+              end
+            end
+
           end
           
           opts.on("-c", "--colour", "--color", "Show coloured (red/green) output") do
@@ -59,7 +94,8 @@ module Spec
           end
 
           opts.on("-r", "--require FILE", "Require FILE before running specs",
-                                          "Useful for loading custom formatters or other extensions") do |req|
+                                          "Useful for loading custom formatters or other extensions",
+                                          "If this option is used it must come before the others") do |req|
             require req
           end
           

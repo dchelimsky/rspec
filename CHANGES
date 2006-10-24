@@ -56,6 +56,7 @@ Here's what you'll need to do to update your specs:
 
 As usual, there are also other new features and bug fixes:
 
+* Applied [#6283] refactoring of diff support to allow selectable formats and custom differs
 * Fixed [#5564] "ruby spec_file.rb" doesn't work the same way as "spec spec_file.rb"
 * Fixed [#6056] Multiple output of failing-spec notice
 * Fixed [#6233] Colours in specdoc
