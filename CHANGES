@@ -71,6 +71,7 @@ As usual, there are also other new features and bug fixes:
 * Added support for stubbing and partial mocking
 * Progress (....F..F.) is now coloured. Tweaked patch from KAKUTANI Shintaro.
 * Backtrace now excludes the rcov runner (/usr/local/bin/rcov)
+* Fixed [#5539] predicates do not work w/ rails
 * Added [#6091] support for Regexp matching messages sent to should_raise
 * Added [#6333] support for Regexp matching in mock arguments
 * Applied [#6283] refactoring of diff support to allow selectable formats and custom differs

@@ -56,17 +56,17 @@ module Spec
         end
     
         def dump_failure(counter, failure)
-    #      @output << "\n"
-    #      @output << counter.to_s << ")\n"
-    #      @output << "#{failure.header}\n"
-    #      @output << "#{failure.message}\n"
-    #      @output << "#{failure.backtrace}\n"
+    #      @output.print "\n"
+    #      @output.print counter.to_s << ")\n"
+    #      @output.print "#{failure.header}\n"
+    #      @output.print "#{failure.message}\n"
+    #      @output.print "#{failure.backtrace}\n"
     #      STDOUT.flush
         end
 
         def dump_summary(duration, spec_count, failure_count)
-          @output << "</body>"
-          @output << "</html>"
+          @output.print "</body>"
+          @output.print "</html>"
           STDOUT.flush
         end
       

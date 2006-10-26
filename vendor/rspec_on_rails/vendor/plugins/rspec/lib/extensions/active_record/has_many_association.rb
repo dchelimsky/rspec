@@ -1,0 +1,1 @@
+ActiveRecord::Associations::HasManyAssociation.handle_underscores_for_rspec!

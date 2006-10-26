@@ -19,9 +19,11 @@ context "The Person model" do
   end
 
   # http://rubyforge.org/tracker/index.php?func=detail&aid=5539&group_id=797&atid=3149
-  # specify "should include animals" do
-  #   people(:lachie).animals.should_include animals(:horse)
-  # end
+  specify "should include animals" do
+    people(:lachie).should_have(2).animals
+    animals = people(:lachie).animals
+    animals.should_include animals(:horse)
+  end
 
   teardown do
     # fixtures are torn down after this
