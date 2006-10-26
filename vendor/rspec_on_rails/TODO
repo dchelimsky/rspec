@@ -1,9 +1,13 @@
-finish specs for should_have_tag
 should_render should work before and after call to get, post, etc
-documentation
-support regexps in should_have_tag
+integration spec'ing (derived from Test::Unit::IntegrationTest)
 resolve inconsistencies in running script/rails_spec
 - right now if you fire up script/rails_spec_server and
   run 'script/rails_spec spec/helpers' twice, the first
-  time they pass, the second they fail with this:
+  time they pass, the second they fail with t his:
   uninitialized constant HelperTestCaseController
+  
+documentation
+- should_have_key (for hashes)
+- should_have_tag supports regexp
+- should_have_(rjs|tag) vs should_render[_rjs]
+- isolated vs integrated controller specs

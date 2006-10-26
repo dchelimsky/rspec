@@ -1,8 +1,11 @@
 index.page:
   orderInfo: 1
 
-examples.page:
+upgrade.page:
   orderInfo: 2
+
+examples.page:
+  orderInfo: 3
 
 tutorials:
   title: Tutorial

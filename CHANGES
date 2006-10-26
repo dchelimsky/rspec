@@ -10,7 +10,8 @@ IMPORTANT NOTE: THIS RELEASE IS NOT 100% BACKWARDS COMPATIBLE TO 0.6.x
 
 There are a few changes that will require that you change your existing specs.
 
-1. RSpec now handles equality exactly like ruby does:
+=========================================================================================
+RSpec now handles equality exactly like ruby does:
 
 # actual.should_equal(expected) will pass if actual.equal?(expected) returns true
 # actual.should_eql(expected) will pass if actual.eql?(expected) returns true
@@ -34,13 +35,14 @@ used to pass for any non-nil, non-false value), and actual.should_be false will 
 value other than false (it used to pass for nil or false).
 
 Here's what you'll need to do to update your specs:
-# search for "should_equal" and replace with "should_eql"
-# run specs
+* search for "should_equal" and replace with "should_eql"
+* run specs
 
 If any specs still fail, they are probably related to should_be(true) or should_be(false) using
 non-boolean values. Those you'll just have to inspect manually and adjust appropriately (sorry!).
 
-2. Specifying multiple return values in mocks now works like this:
+=========================================================================================
+Specifying multiple return values in mocks now works like this:
 
 mock.should_receive(:message).and_return(1,2,3)
 
@@ -51,17 +53,21 @@ mock.should_receive(:message).and_return([1,2,3])
 but we decided that was counter intuitive and otherwise lame.
 
 Here's what you'll need to do to update your specs:
-# search for "and_return(["
-# get rid of the "[" and "]"
+* search for "and_return(["
+* get rid of the "[" and "]"
 
-3. RSpec on Rails now supports the following (thanks to ZenTest upon which it is built):
-Separate specs for models, views, controllers and helpers
-Controller specs are completely decoupled from the views by default (though you can tell them to couple themselves if you prefer)
-View specs are completely decoupled from app-specific controllers
+=========================================================================================
+RSpec on Rails now supports the following (thanks to ZenTest upon which it is built):
 
+* Separate specs for models, views, controllers and helpers
+* Controller specs are completely decoupled from the views by default (though you can tell them to couple themselves if you prefer)
+* View specs are completely decoupled from app-specific controllers
+
+See http://rspec.rubyforge.org/documentation/rails/index.html for more information
+=========================================================================================
 As usual, there are also other new features and bug fixes:
 
-* Added support for Regexp matching in mock arguments
+* Added [#6333] support for Regexp matching in mock arguments
 * Applied [#6283] refactoring of diff support to allow selectable formats and custom differs
 * Fixed [#5564] "ruby spec_file.rb" doesn't work the same way as "spec spec_file.rb"
 * Fixed [#6056] Multiple output of failing-spec notice

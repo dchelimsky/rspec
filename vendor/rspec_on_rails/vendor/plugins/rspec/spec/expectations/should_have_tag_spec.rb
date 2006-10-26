@@ -16,10 +16,10 @@ SyntaxError in should_have_tag(tag, *opts)
   end
 end
 
-context "Given a template with no tags, a 'should_have_tag' expectation with",
+context "Given a template with no tags, a 'should_have_tag' expectation",
   :context_type => :view do
   
-  specify "['div'] should fail" do
+  specify "should fail" do
     render "/tag_spec/no_tags"
     lambda { response.should_have_tag 'div'}.should_fail
   end
@@ -54,6 +54,16 @@ context "Given a template with one tag with one attribute, a 'should_have_tag' e
   
   specify "the right tag, attribute and value should pass" do
     response.should_have_tag 'div', :attributes => { :key => "value" }
+  end
+  
+  specify "the right tag, attribute and matching regexp should pass" do
+    response.should_have_tag 'div', :attributes => { :key => /alu/ }
+  end
+  
+  specify "the right tag, attribute and non-matching regexp should fail" do
+    lambda do 
+      response.should_have_tag 'div', :attributes => { :key => /valued/ }
+    end.should_fail
   end
   
   specify "the right tag and attribute but the wrong value should fail" do

@@ -3,6 +3,13 @@ title: Overview
 inMenu: true
 --- 
 
+h2. Upgrading from RSpec 0.6.x to 0.7
+
+<br>
+<font color="red" size="+1"><b>READ BEFORE INSTALLING 0.7</b></font><br>
+<font color="red">We've made some changes in 0.7 that require making changes to your 0.6.x specs. Please
+see <a href="upgrade.html">Upgrade</a> for more information before installing the 0.7 gem.</font>
+
 h2. Behaviour Driven Development 
 
 Test Driven Development (TDD) has you define the behaviour of your system by

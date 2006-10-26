@@ -149,9 +149,8 @@ acronym {
   background-color:#ddd;
 }
 #content ul {
-  margin-left:70px;
+  margin-left:-8px;
   font-family:arial,sans-serif;
-  font-size:0.9em;
 }
 #content li {
   padding:3px;
