@@ -6,11 +6,6 @@ expectations.page:
   orderInfo: 20
   inMenu: true
 
-test_unit.page:
-  title: Test::Unit Cheat Sheet
-  orderInfo: 30
-  inMenu: true
-
 mocks:
   title: Mocks and Stubs
   orderInfo: 40
@@ -32,5 +27,11 @@ rcov.html:
   dest: ../coverage/index.html
   inMenu: true
   orderInfo: 70
+
+test_unit.page:
+  title: Test::Unit Cheat Sheet
+  orderInfo: 80
+  inMenu: true
+
 
   

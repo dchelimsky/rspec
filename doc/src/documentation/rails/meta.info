@@ -6,7 +6,8 @@ install.page:
   inMenu: true
   orderInfo: 101
     
-examples.page:
+examples:
+  title: Examples
   inMenu: true
   orderInfo: 102
 

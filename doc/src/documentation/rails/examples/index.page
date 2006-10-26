@@ -1,0 +1,6 @@
+---
+title: Models 
+---
+h2. RSpec on Rails - Model Specs
+
+<ruby file="../vendor/rspec_on_rails/spec/models/person_spec.rb"/>

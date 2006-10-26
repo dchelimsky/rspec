@@ -1,0 +1,7 @@
+---
+title: Views 
+---
+h2. RSpec on Rails - View Specs
+
+<ruby file="../vendor/rspec_on_rails/spec/views/person/list_view_spec.rb"/>
+

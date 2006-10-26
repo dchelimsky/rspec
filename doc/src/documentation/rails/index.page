@@ -17,10 +17,24 @@ h3. Naming conventions
 For clarity and consistency, RSpec uses a slightly different naming convention
 for directories and Rake tasks than what you get from the Test::Unit testing built into rails.
 
-* model specs under spec/models
-* controller specs under spec/controllers
-* view specs under spec/views
-* helper specs under spec/helpers
+<ruby>
+project
+  |
+  +--app
+  |
+  +--components
+  |
+  +--...
+  |
+  +--spec
+      |
+      +-- controllers
+      |
+      +-- helpers
+      |
+      +-- models
+      |
+      +-- views
+</ruby>
 
 The Rake tasks are named accordingly.
-

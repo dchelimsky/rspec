@@ -1,0 +1,6 @@
+---
+title: Helpers 
+---
+h2. RSpec on Rails - Helper Specs
+
+<ruby file="../vendor/rspec_on_rails/spec/helpers/person_helper_spec.rb"/>

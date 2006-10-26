@@ -1,0 +1,15 @@
+index.page:
+  orderInfo: 20
+  inMenu: true
+
+views.page:
+  orderInfo: 30
+  inMenu: true
+
+controllers.page:
+  orderInfo: 50
+  inMenu: true
+
+helpers.page:
+  inMenu: true
+  orderInfo: 60

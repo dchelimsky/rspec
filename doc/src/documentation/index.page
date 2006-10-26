@@ -1,7 +1,7 @@
 ---
-title: Context API
+title: Contexts
 ---
-h2. Context API
+h2. Contexts and Specifications
 
 Rather than expressing examples in classes, rspec uses a custom
 Domain Specific Language to express
