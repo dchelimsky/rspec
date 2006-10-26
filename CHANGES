@@ -67,18 +67,19 @@ See http://rspec.rubyforge.org/documentation/rails/index.html for more informati
 =========================================================================================
 As usual, there are also other new features and bug fixes:
 
+* RSpec now has 100% spec coverage(!)
+* Added support for stubbing and partial mocking
+* Progress (....F..F.) is now coloured. Tweaked patch from KAKUTANI Shintaro.
+* Backtrace now excludes the rcov runner (/usr/local/bin/rcov)
+* Added [#6091] support for Regexp matching messages sent to should_raise
 * Added [#6333] support for Regexp matching in mock arguments
 * Applied [#6283] refactoring of diff support to allow selectable formats and custom differs
 * Fixed [#5564] "ruby spec_file.rb" doesn't work the same way as "spec spec_file.rb"
 * Fixed [#6056] Multiple output of failing-spec notice
 * Fixed [#6233] Colours in specdoc
-* Applied [#6207] Allows --diff option to diff target and expected's #inspect output (Path by Lachie Cox)
-* RSpec now has 100% spec coverage(!)
+* Applied [#6207] Allows --diff option to diff target and expected's #inspect output (Patch by Lachie Cox)
 * Fixed [#6203] Failure messages are misleading - consider using inspect.
-* Progress (....F..F.) is now coloured. Tweaked patch from KAKUTANI Shintaro.
-* Backtrace now excludes the rcov runner (/usr/local/bin/rcov)
-* subject.should_have_xyz will try to call subject.has_xyz? - use this for hash.should_have_key(key)
-* Added support for stubbing and partial mocking
+* Added [#6334] subject.should_have_xyz will try to call subject.has_xyz? - use this for hash.should_have_key(key)
 * Fixed [#6017] Rake task should ignore empty or non-existent spec-dirs
 
 == Version 0.6.4
