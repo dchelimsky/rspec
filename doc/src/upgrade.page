@@ -23,6 +23,8 @@ target.should == expected #value equivalence - delegates to target == expected
 All you need to do to your existing pre-0.7 specs is replace all of your "should_equal" expectations
 with "should_eql".
 
+You don't need to change "should_be" to "should_equal", as they now mean the same thing: Object identity
+
 We recognize that this no longer aligns with assert_equal in Test::Unit, and this may
 feel awkward for those of you experienced with either Test::Unit or previous releases
 of RSpec. We chose to make this change because there was some confusion
@@ -68,7 +70,7 @@ that end, we've included a mechanism that will let you test your controllers and
 Just add the integrate_views command to the context after the controller_name:
 
 <ruby>
-context "Given a non-logged in user" do
+context "Given a user who is not logged in" do
   controller_name :admin
   integrate_views
   

@@ -114,7 +114,7 @@ module Spec
         begin
           @mock.random_call false
         rescue MockExpectationError => e
-          e.message.should_eql "Mock 'test mock' received :random_call but passed block failed with: false should be true\nDiff:\n@@ -1,2 +1,2 @@\n-false\n+true\n"
+          e.message.should_match /Mock 'test mock' received :random_call but passed block failed with: false should be true/
         end
       end
   

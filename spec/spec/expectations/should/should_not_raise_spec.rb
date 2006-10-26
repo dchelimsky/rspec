@@ -17,7 +17,15 @@ context "should_not_raise" do
       lambda do
         raise(StandardError.new("abc"))
       end.should_not_raise(StandardError, "abc")
-    end.should_raise(Spec::Expectations::ExpectationNotMetError)
+    end.should_fail
+  end
+
+  specify "should fail when exact exception is raised with message matching regexp" do
+    lambda do
+      lambda do
+        raise(StandardError.new("abc"))
+      end.should_not_raise(StandardError, /^a.c$/)
+    end.should_fail
   end
 
   specify "should include actual error in failure message" do
@@ -36,6 +44,14 @@ context "should_not_raise" do
       lambda do
         raise(StandardError.new("abc"))
       end.should_not_raise(StandardError, "xyz")
+    end.should_not_raise
+  end
+
+  specify "should pass when exact exception is raised with message not matching regexp" do
+    lambda do
+      lambda do
+        raise(StandardError.new("abc"))
+      end.should_not_raise(StandardError, /xyz/)
     end.should_not_raise
   end
 

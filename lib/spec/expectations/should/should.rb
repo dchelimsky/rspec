@@ -53,7 +53,13 @@ module Spec
           begin
             @target.call
           rescue exception => e
-            e.message.should_eql message unless message.nil?
+            unless message.nil?
+              if message.is_a?(Regexp)
+                e.message.should_match message
+              else
+                e.message.should_eql message
+              end
+            end
             return
           rescue => e
             fail_with_message("#{default_message("should raise", exception)} but raised #{e.inspect}")

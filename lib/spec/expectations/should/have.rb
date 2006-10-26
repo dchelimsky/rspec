@@ -33,7 +33,9 @@ module Spec
         end
 
         def method_missing(sym, *args)
-          if @target.respond_to?("has_#{sym}?")
+          if @target.respond_to?(sym)
+            fail_with_message(build_message(sym, args)) unless as_specified?(sym, args)
+          elsif @target.respond_to?("has_#{sym}?")
             if @negate
               return unless @target.send("has_#{sym}?", *args)
               fail_with_message msg(sym, args, "should not have")
@@ -41,16 +43,13 @@ module Spec
               return if @target.send("has_#{sym}?", *args)
               fail_with_message msg(sym, args, "should have")
             end
+          else
+            raise NoMethodError.new("#{@target.inspect} does not respond to `#{sym}' or `has_#{sym}?'")
           end
-          fail_with_message(build_message(sym, args)) unless as_specified?(sym, args)
         end
       
         def msg(sym, args, text)
           "#{@target.inspect_for_expectation_not_met_error} #{text} #{sym}: #{args.collect{|arg| arg.inspect_for_expectation_not_met_error}.join(', ')}"
-        end
-    
-        def collection(sym, args)
-          @target.send(sym, *args)
         end
     
         def actual_size(collection)
@@ -69,6 +68,10 @@ module Spec
           return actual_size(collection(sym, args)) >= @expected if @at_least
           return actual_size(collection(sym, args)) <= @expected if @at_most
           return actual_size(collection(sym, args)) == @expected
+        end
+
+        def collection(sym, args)
+          @target.send(sym, *args)
         end
       end
     end

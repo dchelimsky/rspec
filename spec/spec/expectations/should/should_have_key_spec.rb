@@ -12,4 +12,10 @@ context "should_have_key" do
       {"a" => 1}.should_have_key("b")
     end.should_fail_with '<{"a"=>1}> should have key: "b"'
   end
+
+  specify "should fail when target does not respond to has_key?" do
+    lambda do
+      Object.new.should_have_key("b")
+    end.should_raise NoMethodError, /#<Object:.*> does not respond to `key' or `has_key\?'/
+  end
 end

@@ -42,7 +42,7 @@ module Spec
           begin
             @target.call
           rescue exception => e
-            return unless message.nil? || e.message == message
+            return unless message.nil? || e.message == message || (message.is_a?(Regexp) && e.message =~ message)
             fail_with_message("#{default_message("should not raise", exception)}") if e.instance_of? exception
             fail_with_message("#{default_message("should not raise", exception)} but raised #{e.inspect}") unless e.instance_of? exception
           rescue

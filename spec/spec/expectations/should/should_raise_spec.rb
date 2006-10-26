@@ -9,6 +9,14 @@ context "should_raise" do
     end.should_raise(Spec::Expectations::ExpectationNotMetError)
   end
 
+  specify "should fail when exact exception is raised with message not matching regexp" do
+    lambda do
+      lambda do
+        raise(StandardError.new("chunky bacon"))
+      end.should_raise(StandardError, /lean/)
+    end.should_raise(Spec::Expectations::ExpectationNotMetError)
+  end
+
   specify "should fail when no exception is raised" do
     lambda do
       lambda {}.should_raise(SyntaxError)
@@ -36,6 +44,14 @@ context "should_raise" do
       lambda do
         raise(StandardError.new("this is standard"))
       end.should_raise(StandardError, "this is standard")
+    end.should_not_raise
+  end
+
+  specify "should pass when exact exception is raised with message matching regexp" do
+    lambda do
+      lambda do
+        raise(StandardError.new("this is standard"))
+      end.should_raise(StandardError, /standard$/)
     end.should_not_raise
   end
 

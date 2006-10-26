@@ -55,6 +55,20 @@ container.should_include('a') => container.include?('a')
 container.should_be_empty => container.empty?
 </ruby>
 
+h4. Arbitrary ownership <font color="red">NEW IN 0.7</font>
+
+<ruby>
+actual.should_have_<anything> [optional args] 
+</ruby>
+
+The message <code>has_<anything>?</code> is sent to <code>actual</code> with any supplied arguments. If the result is <code>false</code>, <code>ExpectationNotMetError</code> is raised.
+
+For example:
+
+<ruby>
+hash.should_have_key(:key) => hash.has_key?(:key)
+</ruby>
+
 h4. Arbitrary Operators
 
 <ruby>
