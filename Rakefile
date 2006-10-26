@@ -27,7 +27,7 @@ PKG_FILES = FileList[
   'vendor/selenium/*.txt'
 ]
 
-task :default => :spec
+task :default => [:spec, :verify_rcov]
 
 desc "Run all specs"
 Spec::Rake::SpecTask.new do |t|

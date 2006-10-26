@@ -62,30 +62,27 @@ module Spec
           @output.puts failure.header
           @output.puts failure.message
           @output.puts failure.backtrace
-          @output.flush
+          STDOUT.flush
         end
       
         # This method is invoked at the very end.
         def dump_summary(duration, spec_count, failure_count)
           return if @dry_run
-          if @colour && @output == STDOUT
-            summary_output = Kernel
-          else
-            summary_output = @output
-          end
           @output.puts
           @output.puts "Finished in #{duration} seconds"
           @output.puts
           summary = "#{spec_count} specification#{'s' unless spec_count == 1}, #{failure_count} failure#{'s' unless failure_count == 1}"
-          colour_method = failure_count == 0 ? :green : :red
-          summary_output.puts self.__send__(colour_method, summary)
-          @output.flush
+          if failure_count == 0
+            @output.puts green(summary)
+          else
+            @output.puts red(summary)
+          end
         end
 
       protected
       
         def colour(text, colour_code)
-          return text unless @colour && @output == STDOUT
+          return text unless @colour && @output == Kernel
           "#{colour_code}#{text}\e[0m"
         end
     

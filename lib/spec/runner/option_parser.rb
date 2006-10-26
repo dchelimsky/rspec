@@ -22,7 +22,7 @@ module Spec
 
       def self.parse(args, standalone, err, out)
         options = OpenStruct.new
-        options.out = out
+        options.out = out == STDOUT ? Kernel : out
         options.formatter_type = Formatter::ProgressBarFormatter
         options.backtrace_tweaker = QuietBacktraceTweaker.new
         options.spec_name = nil

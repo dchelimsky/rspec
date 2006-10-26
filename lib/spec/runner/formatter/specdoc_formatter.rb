@@ -3,18 +3,19 @@ module Spec
     module Formatter
       class SpecdocFormatter < BaseTextFormatter      
         def add_context(name, first)
-          @output << "\n#{name}\n"
-          @output.flush
+          @output.puts
+          @output.puts name
+          STDOUT.flush
         end
       
         def spec_failed(name, counter, failure)
-          @output << red("- #{name} (FAILED - #{counter})\n")
-          @output.flush
+          @output.print red("- #{name} (FAILED - #{counter})\n")
+          STDOUT.flush
         end
       
         def spec_passed(name)
-          @output << green("- #{name}\n")
-          @output.flush
+          @output.print green("- #{name}\n")
+          STDOUT.flush
         end
       end
     end

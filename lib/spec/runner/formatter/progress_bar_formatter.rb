@@ -3,23 +3,23 @@ module Spec
     module Formatter
       class ProgressBarFormatter < BaseTextFormatter
         def add_context(name, first)
-          @output << "\n" if first
-          @output.flush
+          @output.puts if first
+          STDOUT.flush
         end
       
         def spec_failed(name, counter, failure)
-          @output << red('F')
-          @output.flush
+          @output.print red('F')
+          STDOUT.flush
         end
 
         def spec_passed(name)
-          @output << green('.')
-          @output.flush
+          @output.print green('.')
+          STDOUT.flush
         end
       
         def start_dump
-          @output << "\n"
-          @output.flush
+          @output.puts
+          STDOUT.flush
         end
       end
     end

@@ -11,7 +11,7 @@ module Spec
           @spec_count = spec_count
       
           @output.puts HEADER
-          @output.flush
+          STDOUT.flush
         end
 
         def add_context(name, first)
@@ -27,7 +27,7 @@ module Spec
         def start_dump
           @output.puts "  </ul>"
           @output.puts "</div>"
-          @output.flush
+          STDOUT.flush
         end
 
         def spec_started(name)
@@ -48,7 +48,7 @@ module Spec
           @output.puts "    <div><pre>#{escape(failure.backtrace)}</pre></div>" unless failure.backtrace == ""
           @output.puts "  </div>"
           @output.puts "</li>"
-          @output.flush
+          STDOUT.flush
         end
     
         def escape(string)
@@ -61,13 +61,13 @@ module Spec
     #      @output << "#{failure.header}\n"
     #      @output << "#{failure.message}\n"
     #      @output << "#{failure.backtrace}\n"
-    #      @output.flush
+    #      STDOUT.flush
         end
 
         def dump_summary(duration, spec_count, failure_count)
           @output << "</body>"
           @output << "</html>"
-          @output.flush
+          STDOUT.flush
         end
       
         HEADER = <<-HEADER
