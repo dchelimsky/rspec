@@ -120,8 +120,8 @@ module Spec
                   (@rcov ? %[ -o "#{@rcov_dir}" ] : "") + 
                   '"' + spec_script + '"' + " " +
                   (@rcov ? "-- " : "") + 
-                  spec_option_list + " " +
                   file_list.collect { |fn| %["#{fn}"] }.join(' ') + " " + 
+                  spec_option_list + " " +
                   redirect
                 )
               rescue => e
