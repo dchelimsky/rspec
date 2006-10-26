@@ -37,52 +37,17 @@ module Spec
           super
         end
 
-        def specifications
-          @specifications ||= []
-        end
-
-        def setup_parts
-          @setup_parts ||= []
-        end
-
-        def teardown_parts
-          @teardown_parts ||= []
-        end
-
+        private
         def setup_block
           parts = setup_parts.dup
-
-          setup_method = begin
-            context_superclass.instance_method(:setup)
-          rescue
-            nil
-          end
-          parts.unshift setup_method if setup_method
+          add_context_superclass_method(:setup, parts)
           create_block_from_parts(parts)
         end
-
+        
         def teardown_block
           parts = teardown_parts.dup
-
-          teardown_method = begin
-            context_superclass.instance_method(:teardown)
-          rescue
-            nil
-          end
-          parts.unshift teardown_method if teardown_method
+          add_context_superclass_method(:teardown, parts)
           create_block_from_parts(parts)
-        end
-
-        def create_block_from_parts(parts)
-          proc do
-            parts.each do |part|
-              if part.is_a?(UnboundMethod)
-                part.bind(self).call
-              else
-                instance_exec(&part)
-              end
-            end
-          end
         end
 
         def execution_context_class
@@ -103,9 +68,44 @@ module Spec
         def context_modules
           @context_modules ||= []
         end
+        
+        def specifications
+          @specifications ||= []
+        end
+
+        def setup_parts
+          @setup_parts ||= []
+        end
+
+        def teardown_parts
+          @teardown_parts ||= []
+        end
+
+        def add_context_superclass_method sym, parts
+          superclass_method = begin
+            context_superclass.instance_method(sym)
+          rescue
+            nil
+          end
+          parts.unshift superclass_method if superclass_method
+        end
+
+        def create_block_from_parts(parts)
+          proc do
+            parts.each do |part|
+              if part.is_a?(UnboundMethod)
+                part.bind(self).call
+              else
+                instance_exec(&part)
+              end
+            end
+          end
+        end
       end
+
       module InstanceMethods
       end
+      
     end
   end
 end

@@ -1,62 +1,64 @@
-require File.dirname(__FILE__) + '/spec_helper'
+require File.dirname(__FILE__) + '/../spec_helper'
 
-context "Given an rjs call to replace inner html in a div, a 'should_have_rjs' spec with" do
-  controller_name :person
+context "Given an rjs call to :replace_html in a div, a 'should_have_rjs' spec with",
+  :context_type => :view do
   
   setup do
-    post 'a_replace_html_call'
+    render 'rjs_spec/replace_html'
   end
   
   specify "the correct element name and exact text should pass" do
     response.should_have_rjs :replace_html, 'mydiv', 'replacement text'
   end
-
-  specify "the correct element name and a matching regex should pass" do
-    response.should_have_rjs :replace_html, 'mydiv', /acement\ste/
-  end
   
-  specify "the correct element name and no text should pass" do
-    response.should_have_rjs :replace_html, 'mydiv'
+  specify "the correct element name and a matching regexp should pass" do
+      response.should_have_rjs :replace_html, 'mydiv', /acement\ste/
   end
   
   specify "the correct element name but wrong text should fail" do
-    response.should_not_have_rjs :replace_html, 'mydiv', 'wrong replacement text'
+    lambda {
+      response.should_have_rjs :replace_html, 'mydiv', 'wrong replacement text'
+    }.should_fail
   end
   
-  specify "the correct element name but non-matching regex text should fail" do
-    response.should_not_have_rjs :replace_html, 'mydiv', /wrong expression/
+  specify "the correct element name but non-matching regexp text should fail" do
+    lambda {
+      response.should_have_rjs :replace_html, 'mydiv', /wrong expression/
+    }.should_fail
   end
   
   specify "the correct text but wrong element name should fail" do
-    response.should_not_have_rjs :replace_html, 'wrongname', 'replacement text'
+    lambda {
+      response.should_have_rjs :replace_html, 'wrongname', 'replacement text'
+    }.should_fail
   end
   
-  specify "a matching regex but wrong element name should fail" do
-    response.should_not_have_rjs :replace_html, 'wrongname', /acement/
+  specify "a matching regexp but wrong element name should fail" do
+    lambda {
+      response.should_have_rjs :replace_html, 'wrongname', /acement/
+    }.should_fail
   end
   
   specify "no text but wrong element name should fail" do
-    response.should_not_have_rjs :replace_html, 'wrongname'
+    lambda {
+      response.should_have_rjs :replace_html, 'wrongname'
+    }.should_fail
   end
 end
 
-context "Given an rjs call to insert html in a div, a 'should_have_rjs' spec with" do
-  controller_name :person
+context "Given an rjs call to :insert_html in a div, a 'should_have_rjs' spec with",
+  :context_type => :view do
   
   setup do
-    post 'an_insert_html_call'
+    render 'rjs_spec/insert_html'
   end
   
   specify "the correct element name and exact text should pass" do
     response.should_have_rjs :insert_html, 'mydiv', 'replacement text'
   end
   
-  specify "the correct element name and a matching regex should pass" do
-    response.should_have_rjs :insert_html, 'mydiv', /acement\ste/
-  end
-  
-  specify "the correct element name and no text should pass" do
-    response.should_have_rjs :insert_html, 'mydiv'
+  specify "the correct element name and a matching regexp should pass" do
+      response.should_have_rjs :insert_html, 'mydiv', /acement\ste/
   end
   
   specify "the correct element name but wrong text should fail" do
@@ -65,7 +67,7 @@ context "Given an rjs call to insert html in a div, a 'should_have_rjs' spec wit
     }.should_fail
   end
   
-  specify "the correct element name but non-matching regex text should fail" do
+  specify "the correct element name but non-matching regexp text should fail" do
     lambda {
       response.should_have_rjs :insert_html, 'mydiv', /wrong expression/
     }.should_fail
@@ -77,7 +79,7 @@ context "Given an rjs call to insert html in a div, a 'should_have_rjs' spec wit
     }.should_fail
   end
   
-  specify "a matching regex but wrong element name should fail" do
+  specify "a matching regexp but wrong element name should fail" do
     lambda {
       response.should_have_rjs :insert_html, 'wrongname', /acement/
     }.should_fail
@@ -90,23 +92,19 @@ context "Given an rjs call to insert html in a div, a 'should_have_rjs' spec wit
   end
 end
 
-context "Given an rjs call to replace all text a div, a 'should_have_rjs' spec with" do
-  controller_name :person
+context "Given an rjs call to :replace in a div, a 'should_have_rjs' spec with",
+  :context_type => :view do
   
   setup do
-    post 'a_replace_call'
+    render 'rjs_spec/replace'
   end
   
   specify "the correct element name and exact text should pass" do
     response.should_have_rjs :replace, 'mydiv', 'replacement text'
   end
   
-  specify "the correct element name and a matching regex should pass" do
+  specify "the correct element name and a matching regexp should pass" do
     response.should_have_rjs :replace, 'mydiv', /acement\ste/
-  end
-  
-  specify "the correct element name and no text should pass" do
-    response.should_have_rjs :replace, 'mydiv'
   end
   
   specify "the correct element name but wrong text should fail" do
@@ -115,7 +113,7 @@ context "Given an rjs call to replace all text a div, a 'should_have_rjs' spec w
     }.should_fail
   end
   
-  specify "the correct element name but non-matching regex text should fail" do
+  specify "the correct element name but non-matching regexp text should fail" do
     lambda {
       response.should_have_rjs :replace, 'mydiv', /wrong expression/
     }.should_fail
@@ -127,7 +125,7 @@ context "Given an rjs call to replace all text a div, a 'should_have_rjs' spec w
     }.should_fail
   end
   
-  specify "a matching regex but wrong element name should fail" do
+  specify "a matching regexp but wrong element name should fail" do
     lambda {
       response.should_have_rjs :replace, 'wrongname', /acement/
     }.should_fail
@@ -140,11 +138,11 @@ context "Given an rjs call to replace all text a div, a 'should_have_rjs' spec w
   end
 end
 
-context "Given an rjs call to hide a div, a 'should_have_rjs' spec with" do
-  controller_name :person
+context "Given an rjs call to :hide a div, a 'should_have_rjs' spec with",
+  :context_type => :view do
   
   setup do
-    post 'hide_div'
+    render 'rjs_spec/hide_div'
   end
   
   specify "the correct element name should pass" do
@@ -158,11 +156,11 @@ context "Given an rjs call to hide a div, a 'should_have_rjs' spec with" do
   end
 end
 
-context "Given an rjs call to hide a div using page['id'], a 'should_have_rjs' spec with" do
-  controller_name :person
+context "Given an rjs call to :hide a div using page['id'], a 'should_have_rjs' spec with",
+  :context_type => :view do
   
   setup do
-    post 'hide_page_element'
+    render 'rjs_spec/hide_page_element'
   end
   
   specify "the correct element name should pass" do
@@ -172,6 +170,12 @@ context "Given an rjs call to hide a div using page['id'], a 'should_have_rjs' s
   specify "the wrong element name should fail" do
     lambda {
       response.should_have_rjs :page, 'wrongname', :hide
+    }.should_fail
+  end
+  
+  specify "the correct element but the wrong command should fail" do
+    lambda {
+      response.should_have_rjs :page, 'mydiv', :replace
     }.should_fail
   end
 end

@@ -2,7 +2,7 @@
 $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + '/../../../../lib'))
 require 'spec/rake/spectask'
 
-task :pre_commit => [:clobber_sqlite, :migrate, :generate_rspec, :spec, :specs]
+task :pre_commit => [:clobber_sqlite, :migrate, :generate_rspec, "spec:all"]
 
 task :clobber_sqlite do
   rm_rf 'db/*.db'
@@ -16,6 +16,4 @@ end
 desc "Run the specs for RSpec on Rails itself"
 Spec::Rake::SpecTask.new(:specs) do |t|
   t.spec_files = FileList['specs/*_spec.rb']
-#  t.spec_opts = ['-b']
 end
-  

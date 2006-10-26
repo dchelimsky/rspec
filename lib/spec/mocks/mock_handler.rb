@@ -7,6 +7,7 @@ module Spec
         @error_generator = ErrorGenerator.new target, name
         @expectation_ordering = OrderGroup.new @error_generator
         @expectations = []
+        @messages_received = []
         @stubs = []
         @proxied_methods = []
         @options = options ? DEFAULT_OPTIONS.dup.merge(options) : DEFAULT_OPTIONS
@@ -64,7 +65,7 @@ module Spec
       end
 
       def __pre_proxied_method_name method_name
-        "original_#{method_name.to_s.delete('!')}_before_proxy"
+        "original_#{method_name.to_s.delete('!').delete('[').delete('\]')}_before_proxy"
       end
 
       def verify #:nodoc:
@@ -114,6 +115,11 @@ module Spec
       def metaclass_eval str
         (class << @target; self; end).class_eval str
       end
+      
+      def received_message?(sym, *args, &block)
+        return true if @messages_received.find {|array| array == [sym, args, block]}
+        return false
+      end
 
       def find_matching_expectation(sym, *args)
         @expectations.find {|expectation| expectation.matches(sym, args)}
@@ -137,7 +143,7 @@ module Spec
         elsif stub = find_matching_method_stub(sym)
           stub.invoke([], nil)
         elsif expectation = find_almost_matching_expectation(sym, *args)
-          raise_unexpected_message_error(sym, *args) unless has_negative_expectation?(sym)
+          raise_unexpected_message_error(sym, *args) unless has_negative_expectation?(sym) unless null_object?
         else
           @target.send :method_missing, sym, *args, &block
         end

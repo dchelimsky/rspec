@@ -1,5 +1,5 @@
 module Spec
-  module RailsPlugin
+  module Rails
     class ResponseBody < String
       include TagExpectations
       include RjsExpectations

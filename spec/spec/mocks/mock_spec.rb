@@ -56,6 +56,12 @@ module Spec
         end
       end
 
+      specify "should pass when receiving message specified as not to be received with wrong args" do
+        @mock.should_not_receive(:not_expected).with("unexpected text")
+        @mock.not_expected "really unexpected text"
+        @mock.__verify
+      end
+
       specify "should allow block to calculate return values" do
         @mock.should_receive(:random_call).with("a","b","c").and_return { |a,b,c| c+b+a }
         @mock.random_call("a","b","c").should_eql "cba"

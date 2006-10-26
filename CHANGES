@@ -4,7 +4,7 @@
 
 This is the "Grow up and eat your own dog food release". RSpec is now used on itself and
 we're no longer using Test::Unit to test it. Although, we are still extending Test::Unit
-for the rails plugin.
+for the rails plugin (indirectly - through ZenTest)
 
 IMPORTANT NOTE: THIS RELEASE IS NOT 100% BACKWARDS COMPATIBLE TO 0.6.x
 
@@ -54,8 +54,14 @@ Here's what you'll need to do to update your specs:
 # search for "and_return(["
 # get rid of the "[" and "]"
 
+3. RSpec on Rails now supports the following (thanks to ZenTest upon which it is built):
+Separate specs for models, views, controllers and helpers
+Controller specs are completely decoupled from the views by default (though you can tell them to couple themselves if you prefer)
+View specs are completely decoupled from app-specific controllers
+
 As usual, there are also other new features and bug fixes:
 
+* Added support for Regexp matching in mock arguments
 * Applied [#6283] refactoring of diff support to allow selectable formats and custom differs
 * Fixed [#5564] "ruby spec_file.rb" doesn't work the same way as "spec spec_file.rb"
 * Fixed [#6056] Multiple output of failing-spec notice

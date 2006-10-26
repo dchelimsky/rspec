@@ -1,25 +1,41 @@
 require 'spec/rake/spectask'
 
-desc 'Run all model and controller specs'
-task :spec do
-  Rake::Task["spec:models"].invoke      rescue got_error = true
-  Rake::Task["spec:controllers"].invoke rescue got_error = true
-  Rake::Task["spec:views"].invoke       rescue got_error = true
-  Rake::Task["spec:plugins"].invoke     rescue got_error = true
-  
-  # not yet supported
-  #if File.exist?("spec/integration")
-  #  Rake::Task["spec:integration"].invoke rescue got_error = true
-  #end
+task :default => :spec
 
+desc 'Run all application-specific specs'
+task :spec do
+  Rake::Task["spec:app"].invoke      rescue got_error = true
+    
   raise "RSpec failures" if got_error
 end
 
 task :stats => "spec:statsetup"
 
 namespace :spec do
+  desc 'Run all application-specific specs'
+  task :app do
+    Rake::Task["spec:models"].invoke      rescue got_error = true
+    Rake::Task["spec:controllers"].invoke rescue got_error = true
+    Rake::Task["spec:helpers"].invoke     rescue got_error = true
+    Rake::Task["spec:views"].invoke       rescue got_error = true
+
+    raise "RSpec failures" if got_error
+  end
+  
+  desc "Run all specs including plugins"
+  task :all do
+    Rake::Task["spec:models"].invoke      rescue got_error = true
+    Rake::Task["spec:controllers"].invoke rescue got_error = true
+    Rake::Task["spec:helpers"].invoke     rescue got_error = true
+    Rake::Task["spec:views"].invoke       rescue got_error = true
+    Rake::Task["spec:plugins"].invoke       rescue got_error = true
+
+    raise "RSpec failures" if got_error
+  end
+  
   desc "Run the specs under spec/models"
   Spec::Rake::SpecTask.new(:models => "db:test:prepare") do |t|
+    `echo "Executing specs under spec/models"`
     t.spec_files = FileList['spec/models/**/*_spec.rb']
   end
 
@@ -33,6 +49,11 @@ namespace :spec do
     t.spec_files = FileList['spec/views/**/*_spec.rb']
   end
   
+  desc "Run the specs under spec/helpers"
+  Spec::Rake::SpecTask.new(:helpers => "db:test:prepare") do |t|
+    t.spec_files = FileList['spec/helpers/**/*_spec.rb']
+  end
+  
   desc "Run the specs under vendor/plugins"
   Spec::Rake::SpecTask.new(:plugins => "db:test:prepare") do |t|
     t.spec_files = FileList['vendor/plugins/**/spec/**/*_spec.rb']
@@ -43,6 +64,7 @@ namespace :spec do
     t.spec_files = FileList[
       'spec/models/**/*_spec.rb',
       'spec/controllers/**/*_spec.rb',
+      'spec/helpers/**/*_spec.rb',
       'spec/views/**/*_spec.rb',
       'vendor/plugins/**/spec/**/*_spec.rb'
     ]
@@ -53,11 +75,13 @@ namespace :spec do
   task :statsetup do
     require 'code_statistics'
     ::STATS_DIRECTORIES << %w(Model\ specs spec/models)
-    ::STATS_DIRECTORIES << %w(Controller\ specs spec/controllers)
     ::STATS_DIRECTORIES << %w(View\ specs spec/views)
+    ::STATS_DIRECTORIES << %w(Controller\ specs spec/controllers)
+    ::STATS_DIRECTORIES << %w(Helper\ specs spec/views)
     ::CodeStatistics::TEST_TYPES << "Model specs"
-    ::CodeStatistics::TEST_TYPES << "Controller specs"
     ::CodeStatistics::TEST_TYPES << "View specs"
+    ::CodeStatistics::TEST_TYPES << "Controller specs"
+    ::CodeStatistics::TEST_TYPES << "Helper specs"
     ::STATS_DIRECTORIES.delete_if {|a| a[0] =~ /test/}
   end
 

@@ -72,12 +72,12 @@ The operators are sent to <code>actual</code> with supplied arguments. Note that
 h4. Pattern Matching
 
 <ruby>
-actual.should_match <regex>
-actual.should =~ <regex>
-actual.should_not_match <regex>
+actual.should_match <regexp>
+actual.should =~ <regexp>
+actual.should_not_match <regexp>
 </ruby>
 
-The <code>actual</code> is matched against <code>regex</code>. An <code>ExpectationNotMetError</code> is raised if the match fails.
+The <code>actual</code> is matched against <code>regexp</code>. An <code>ExpectationNotMetError</code> is raised if the match fails.
 
 h3. Class/Type
 

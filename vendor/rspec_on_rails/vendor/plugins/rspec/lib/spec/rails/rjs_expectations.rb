@@ -25,7 +25,7 @@
 # SOFTWARE.
 
 module Spec
-  module RailsPlugin
+  module Rails
     module RjsExpectations
       include ActionView::Helpers::PrototypeHelper
 

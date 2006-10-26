@@ -25,7 +25,7 @@ context "SupportedSymbols" do
     "<=".to_sym.should_be_supported_by_rspec
   end
 
-  specify "should support regex match operator" do
+  specify "should support regexp match operator" do
     "=~".to_sym.should_be_supported_by_rspec
   end
 end

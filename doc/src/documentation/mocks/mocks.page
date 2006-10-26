@@ -121,6 +121,20 @@ accepts any object that responds to the prescribed message(s), e.g.:
 my_mock.should_receive(:msg).with(a, duck_type(:abs, :div), "b") 
 </ruby>
 
+h4. /regular expressions/
+
+matches a String against a regular expression
+if a regular expression is submitted, compares the two expressions for equality
+
+<ruby>
+my_mock.should_receive(:msg).with(/bcd/)
+
+my_mock.msg "abcde" #passes 
+my_mock.msg /bcd/ #passes 
+my_mock.msg "def" #fails
+my_mock.msg /bcde/ #fails
+</ruby>
+
 h3. Receive Counts
 
 The implicit expectation is that the message passed to <code>should_receive</code> will

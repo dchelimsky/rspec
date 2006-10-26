@@ -1,0 +1,2 @@
+class TagSpecController < ApplicationController
+end

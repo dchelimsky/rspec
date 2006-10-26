@@ -1,11 +1,12 @@
 module Spec
   module Runner
     class Context
+      class ContextEvalModule < Module; end
       module InstanceMethods
         def initialize(name, &context_block)
           @name = name
 
-          @context_eval_module = Module.new
+          @context_eval_module = ContextEvalModule.new
           @context_eval_module.extend ContextEval::ModuleMethods
           @context_eval_module.include ContextEval::InstanceMethods
           before_context_eval
@@ -40,9 +41,12 @@ module Spec
 
           prepare_execution_context_class
           specifications.each do |specification|
-            execution_context = execution_context_class.new(specification)
-            specification.run(reporter, setup_block, teardown_block, dry_run, execution_context)
+            specification.run(reporter, setup_block, teardown_block, dry_run, execution_context(specification))
           end
+        end
+        
+        def execution_context specification
+          execution_context_class.new(specification)
         end
 
         def number_of_specs

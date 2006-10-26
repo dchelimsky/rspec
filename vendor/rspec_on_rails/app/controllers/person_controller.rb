@@ -18,33 +18,4 @@ class PersonController < ApplicationController
     @person = Person.find(params[:id])
   end
   
-  def a_replace_html_call
-    render :update do |page|
-      page.replace_html 'mydiv', 'replacement text'
-    end
-  end
-  
-  def an_insert_html_call
-    render :update do |page|
-      page.insert_html 'mydiv', 'replacement text'
-    end
-  end
-  
-  def a_replace_call
-    render :update do |page|
-      page.replace 'mydiv', 'replacement text'
-    end
-  end
-  
-  def hide_div
-    render :update do |page|
-      page.hide 'mydiv'
-    end
-  end
-  
-  def hide_page_element
-    render :update do |page|
-      page['mydiv'].hide
-    end
-  end
 end

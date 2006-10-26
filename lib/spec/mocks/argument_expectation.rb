@@ -11,6 +11,17 @@ module Spec
       end
     end
     
+    class RegexpArgConstraint
+      def initialize(regexp)
+        @regexp = regexp
+      end
+      
+      def matches?(value)
+        return value =~ @regexp unless value.is_a?(Regexp)
+        value == @regexp
+      end
+    end
+    
     class AnyArgConstraint
       def initialize(ignore)
       end
@@ -84,7 +95,9 @@ module Spec
       def convert_constraint(constraint)
         return @@constraint_classes[constraint].new(constraint) if constraint.is_a?(Symbol)
         return constraint if constraint.is_a?(DuckTypeArgConstraint)
+        return RegexpArgConstraint.new(constraint) if constraint.is_a?(Regexp)
         return LiteralArgConstraint.new(constraint)
+        
       end
       
       def check_args(args)

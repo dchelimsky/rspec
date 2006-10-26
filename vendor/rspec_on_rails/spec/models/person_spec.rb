@@ -3,8 +3,6 @@ require File.dirname(__FILE__) + '/../spec_helper'
 context "The Person model" do
   fixtures :people, :animals
 
-  puts use_transactional_fixtures
-
   setup do
     # fixtures are setup before this
   end

@@ -15,7 +15,7 @@ context "The PersonController" do
     response.should_not_be_redirect
     assigns('person').should_be person
   end
-
+  
   specify "should persist a new person and redirect to index on POST to create" do
     Person.should_receive(:create).with({"name" => 'Aslak'})
     post 'create', {:person => {:name => 'Aslak'}}
@@ -29,23 +29,24 @@ context "When requesting /person" do
   controller_name :person
 
   setup do
+    Person.stub!(:find_all).and_return([])
     get 'index'
   end
 
   specify "the response should render 'list'" do
-    response.should_render :list
+    controller.should_render :template => "person/list"
   end
 
   specify "the response should not render 'index'" do
     lambda {
-      response.should_render :index
+      response.should_render :template => "person/index"
     }.should_raise
   end
 
   specify "should find all people on GET to index" do
     get 'index'
     response.should_be_success
-    assigns('people').should_eql [people(:lachie)]
+    assigns('people').should == [people(:lachie)]
   end
 
 end
@@ -62,6 +63,6 @@ context "/person/show/3" do
     Person.should_receive(:find).and_return(@person)
     get 'show', :id => 3
   
-    assigns(:person).should_equal @person
+    assigns(:person).should_be @person
   end
 end
