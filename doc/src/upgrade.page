@@ -61,7 +61,7 @@ h2. Add "integrate_views" to all of your controller specs using the Rails Plugin
 
 We've enhanced rspec_on_rails to support specification of controllers and views in complete
 isolation from each other. This allows you to spec your controllers before their corresponding
-views exist and vice versa. It also allows stops errors in views from causing controller specs
+views exist and vice versa. It also stops errors in views from causing controller specs
 to fail and vice versa.
 
 While this is the preferred approach among hard-core BDD'ers (and TDD'ers), we recognize that

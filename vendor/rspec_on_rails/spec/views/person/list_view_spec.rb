@@ -8,14 +8,10 @@ context "/person/list" do
     assigns[:people] = [@person]
   end
   
-  specify "should ask person for it's name" do
+  specify "should display the list of people" do
     @person.should_receive(:name).and_return("Smith")
     render "/person/list"
-  end
-
-  specify "should display the list of people" do
-    render "/person/list"
-    response.should_have_tag 'p', :content => 'Find me in app/views/person/list.rhtml'
+    response.should_have_tag 'li', :content => 'Smith'
   end
 
   specify "should have a <div> tag with :id => 'a" do
