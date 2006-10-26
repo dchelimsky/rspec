@@ -8,17 +8,19 @@ A Rails plugin that brings RSpec to Rails.
 
 h3. Features
 
-* Use RSpec to verify models, controllers and views
+* Use RSpec to independently specify models, views, controllers and helpers
 * Integrated fixture loading
 * Special generators for models and controllers that generate specs instead of tests.
 
 h3. Naming conventions
 
-When you use Rails without RSpec (with Test::Unit), tests for models end up in tests/unit and tests for controllers
-end up in tests/functional.
+For clarity and consistency, RSpec uses a slightly different naming convention
+for directories and Rake tasks than what you get from the Test::Unit testing built into rails.
 
-In order to make things more consistent, RSpec chooses a slightly different naming
-convention for directories and Rake tasks. So you will find model specs under
-specs/models, controller specs under specs/controllers, and view specs under
-specs/views. The Rake tasks are named accordingly.
+* model specs under spec/models
+* controller specs under spec/controllers
+* view specs under spec/views
+* helper specs under spec/helpers
+
+The Rake tasks are named accordingly.
 

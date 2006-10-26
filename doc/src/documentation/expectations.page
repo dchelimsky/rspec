@@ -126,12 +126,14 @@ h3. Procs
 
 h4. Raising
 
+<font color="red">NEW IN 0.7</font>: should_raise will match the message against a regexp
+
 <ruby>
-proc.should_raise [<exception>], [<message>]
-proc.should_not_raise [<exception>], [<message>]
+proc.should_raise [<exception>], [<message>|<regexp>]
+proc.should_not_raise [<exception>], [<message>|<regexp>]
 </ruby>
 
-Checks that <code>proc</code> causes the named exception to be raised or not (possibly with a specific message). The latter is actually one of two cases: some other exception is raised, or no exception is raised. Typically the <code>proc</code> is created in place using <code>lambda</code>. For example:
+Checks that <code>proc</code> causes the named exception to be raised or not (possibly with a specific message or regexp to match against the message). The latter is actually one of two cases: some other exception is raised, or no exception is raised. Typically the <code>proc</code> is created in place using <code>lambda</code>. For example:
 
 <ruby>
 lambda { 3 / 0 }.should_raise ZeroDivisionError

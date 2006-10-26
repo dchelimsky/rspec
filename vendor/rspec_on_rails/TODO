@@ -10,4 +10,3 @@ documentation
 - should_have_tag supports regexp
 - should_have_(rjs|tag) vs should_render[_rjs]
 - isolated vs integrated controller specs
-- should_raise(Exception, /regexp/)
