@@ -7,8 +7,8 @@ require 'rspec_on_rails'
 # and other things (via RSpec's inherit mechanism). These extensions are 
 # tightly coupled to Test::Unit in Rails, which is why you're seeing it here.
 module Test
-  module Rails
-    class TestCase < Test::Unit::TestCase
+  module Unit
+    class TestCase
       self.use_transactional_fixtures = true
       self.use_instantiated_fixtures  = false
       self.fixture_path = RAILS_ROOT + '/spec/fixtures'
@@ -19,3 +19,15 @@ module Test
     end
   end
 end
+
+# module ActionController
+#     class IntegrationTest
+#       self.use_transactional_fixtures = true
+#       self.use_instantiated_fixtures  = false
+#       self.fixture_path = RAILS_ROOT + '/spec/fixtures'
+# 
+#       # You can set up your global fixtures here, or you
+#       # can do it in individual contexts
+#       #fixtures :table_a, :table_b
+#   end
+# end

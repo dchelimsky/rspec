@@ -1,7 +1,8 @@
 module Spec
   module Runner
+    class ContextEvalModule < Module
+    end
     class Context
-      class ContextEvalModule < Module; end
       module InstanceMethods
         def initialize(name, &context_block)
           @name = name
