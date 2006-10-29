@@ -12,6 +12,34 @@ h3. Features
 * Integrated fixture loading
 * Special generators for models and controllers that generate specs instead of tests.
 
+h3. Vision
+
+For people for whom TDD is a brand new concepts, the testing support built into rails is a huge
+leap forward. The fact that it's built right in is fantastic, and rails
+apps are generally much easier to maintain that they would have been without such support.
+
+For those of us coming from a history with TDD, and now BDD, the existing support
+presents some problems related to dependencies across specs. To that end, rspec
+supports 5 types of specs. This is largely inspired by (and actually extends)
+Test::Rails, which is the rails testing framework built into ZenTest
+(http://zentest.rubyforge.org). We've also built in first class mocking
+and stubbing support in order to break dependencies across these different concerns.
+
+Here are the 5 types of specs (follow the links to read more about each):
+
+* Model Specs. These are the equivalent of unit tests in rails' built in testing. Ironically
+(for the traditional TDD'er) these are the only specs that we feel should actually interact
+with the database.
+* Controller Specs. These align somewhat with functional tests in rails, except
+that they do not actually render views (though you can force rendering of views
+if you prefer). Instead of setting expectations about what goes on a page, you
+set expectations about what templates get rendered.
+* View Specs. This is the other half of rails functional testing. View Specs allow
+you to set up assigns (thanks to ZenTest), set up a 
+* Helpers
+* Integration
+
+
 h3. Naming conventions
 
 For clarity and consistency, RSpec uses a slightly different naming convention

@@ -1,6 +1,7 @@
 ---
-title: Models 
+title: Models
+inMenu: true
 ---
-h2. RSpec on Rails - Model Specs
+h2. RSpec on Rails - Specifying Models
 
 <ruby file="../vendor/rspec_on_rails/spec/models/person_spec.rb"/>

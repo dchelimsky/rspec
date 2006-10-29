@@ -1,6 +1,7 @@
 ---
-title: Helpers 
+title: Helpers
+inMenu: true
 ---
-h2. RSpec on Rails - Helper Specs
+h2. RSpec on Rails - Specifying Helpers
 
 <ruby file="../vendor/rspec_on_rails/spec/helpers/person_helper_spec.rb"/>

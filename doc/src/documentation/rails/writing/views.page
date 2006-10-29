@@ -1,0 +1,18 @@
+---
+title: Views
+inMenu: true
+---
+h2. RSpec on Rails - Specifying Views
+
+RSpec on Rails supports the specification of views in complete isolation from their controllers.
+This allows you to spec and write your views even before their controllers exist,
+or before the related actions have been developed. It also means that bugs introduced
+into controllers will not cause view specs to fail.
+
+As noted in the <a href="index.html">introduction</a>, these are great benefits
+but they could hide bugs that exist in the interaction between a controller and its
+view. We strongly recommend combining these isolated view specs with some sort of
+high level integration testing. See <a href="integration.html">integration</a> for
+more detail.
+
+<ruby file="../vendor/rspec_on_rails/spec/views/person/list_view_spec.rb"/>

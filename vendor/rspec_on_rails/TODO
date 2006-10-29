@@ -1,5 +1,5 @@
 should_render should work before and after call to get, post, etc
-integration spec'ing (derived from Test::Unit::IntegrationTest)
+integration spec'ing (derived from ActionController::IntegrationTest)
 resolve inconsistencies in running script/rails_spec
 - right now if you fire up script/rails_spec_server and
   run 'script/rails_spec spec/helpers' twice, the first

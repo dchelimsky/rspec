@@ -4,21 +4,22 @@ index.page:
 
 install.page:
   inMenu: true
-  orderInfo: 101
+  orderInfo: 105
     
-examples:
-  title: Examples
+writing:
+  title: Writing Specs
   inMenu: true
-  orderInfo: 102
+  orderInfo: 110
 
 generators.page:
   inMenu: true
-  orderInfo: 103  
+  orderInfo: 120  
   
 runners.page:
   inMenu: true
-  orderInfo: 104  
+  orderInfo: 125  
   
-expectations.page:
+expectations:
+  title: Expectations
   inMenu: true
-  orderInfo: 105
+  orderInfo: 130

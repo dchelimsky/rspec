@@ -1,0 +1,6 @@
+---
+title: Expectations
+---
+h2. RSpec on Rails - Expectations
+
+In addition to the standard <a href="../../expectations.html">Expectation API</a>, RSpec on Rails supports an ever-growing API for driving Ruby on Rails applications.

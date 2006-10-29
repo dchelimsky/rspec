@@ -1,0 +1,9 @@
+---
+title: Controllers
+---
+h2. Expectations for Controllers
+
+h3. Rendering
+
+RSpec on Rails lets you specify what your controllers should render, be
+it :text, a :template or another :action.

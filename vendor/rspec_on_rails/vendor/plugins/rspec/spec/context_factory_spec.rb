@@ -44,14 +44,4 @@ context "the ContextFactory" do
     Spec::Rails::ContextFactory.create("name", :spec_path => '/blah/spec/controllers/blah.rb') {
     }.should_be_an_instance_of Spec::Rails::ControllerContext
   end
-  
-  specify "should return a ControllerContext when given :context_type => :integration" do
-    Spec::Rails::ContextFactory.create("name", :context_type => :integration) {
-    }.should_be_an_instance_of Spec::Rails::IntegrationContext
-  end
-  
-  specify "should return a ControllerContext when given :spec_path => '/blah/spec/integration/'" do
-    Spec::Rails::ContextFactory.create("name", :spec_path => '/blah/spec/integration/blah.rb') {
-    }.should_be_an_instance_of Spec::Rails::IntegrationContext
-  end
 end

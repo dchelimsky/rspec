@@ -9,12 +9,12 @@ module Spec
             return Spec::Rails::ViewContext.new(args[0], &block)
           elsif (spec_path =~ /\/spec\/+helpers/) || (context_type == :helper)
             return Spec::Rails::HelperContext.new(args[0], &block)
-          elsif (spec_path =~ /\/spec\/+controllers/) || (context_type == :controller)
+          elsif (spec_path =~ /\/spec\/+controllers\//) || (context_type == :controller)
             return Spec::Rails::ControllerContext.new(args[0], &block)
-          elsif (spec_path =~ /\/spec\/+integration/) || (context_type == :integration)
-            return Spec::Rails::IntegrationContext.new(args[0], &block)
-          else
+          elsif (spec_path =~ /\/spec\/+models/) || (context_type == :model)
             return Spec::Rails::ModelContext.new(args[0], &block)
+          else
+            return Spec::Runner::Context.new(name, &block)
           end
         end
       end

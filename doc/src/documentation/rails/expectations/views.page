@@ -1,0 +1,37 @@
+---
+title: Views
+---
+h2. Expectations for Views
+
+h3. Tags
+
+RSpec lets you specify view content by expecting specific tags to appear.
+
+<ruby>
+context "/teams/show/1" do
+  controller :teams
+  setup do
+    Team.create {:name => "Brasil"}
+    get '/teams/show/1'
+  end
+  specify "should display the team name" do
+    response.should_have_tag '<div>', :content => 'Brasil'
+  end
+end
+</ruby>
+  
+h3. RJS
+
+RSpec lets you specify RJS calls in your views (using rjs templates).
+
+<ruby>
+context "/teams/show/add_player" do
+  controller :teams
+  setup do
+    get '/teams/show/add_player'
+  end
+  specify "should display the team name" do
+    response.should_have_rjs :show, 'add_player'
+  end
+end
+</ruby>

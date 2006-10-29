@@ -1,6 +1,7 @@
 ---
-title: Controllers 
+title: Controllers
+inMenu: true
 ---
-h2. RSpec on Rails - Controller Specs
+h2. RSpec on Rails - Specifying Controllers
 
 <ruby file="../vendor/rspec_on_rails/spec/controllers/person_controller_spec.rb"/>
