@@ -9,7 +9,9 @@ We've made some significant improvements in 0.7, some of which required API chan
 will cause some existing specs to fail. Please read the following instructions before you upgrade
 from 0.7.
 
-h2. Replace "should_equal" with "should_eql"
+h2. Expectations (in core)
+
+h3. Replace "should_equal" with "should_eql"
 
 RSpec now checks for equality in the same way that ruby does:
 
@@ -31,7 +33,9 @@ of RSpec. We chose to make this change because there was some confusion
 over the meaning of should_equal and should_be and we decided that it would be less
 confusing in the long run if RSpec aligns with the Ruby language.
 
-h2. Adjust mock expectations with multiple return values
+h2. Mocks
+
+h3. Adjust mock expectations with multiple return values
 
 RSpec's mock framework supports setting multiple return values for a consecutive calls to single message expectation:
 
@@ -57,7 +61,9 @@ this one, you'll have to do a regex search for "and_return\(*\s*\[" and remove t
 brackets either by hand. You could do this with a script, but given the low usage of this
 feature, we believe it will be much more efficient and less error prone to do it by hand.
 
-h2. Add "integrate_views" to all of your controller specs using the Rails Plugin
+h2. RSpec on Rails
+
+h3. Add "integrate_views" to all of your controller specs using the Rails Plugin
 
 We've enhanced rspec_on_rails to support specification of controllers and views in complete
 isolation from each other. This allows you to spec your controllers before their corresponding
@@ -65,8 +71,9 @@ views exist and vice versa. It also stops errors in views from causing controlle
 to fail and vice versa.
 
 While this is the preferred approach among hard-core BDD'ers (and TDD'ers), we recognize that
-this is not aligned w/ the more high level approach supported by rails functional tests. To
-that end, we've included a mechanism that will let you test your controllers and views together.
+this does not align with the more high level approach supported by rails functional tests. Between
+that and the desire to make upgrading to RSpec 0.7 as smooth as possible, we've included a
+mechanism that will let you spec your controllers and views together.
 Just add the integrate_views command to the context after the controller_name:
 
 <ruby>
@@ -86,4 +93,18 @@ end
 
 See <a href="documentation/rails/index.html">Rails Plugin</a> for more information.
 
+h2. Change "response.should_render" to "controller.should_render"
 
+In keeping with the separation of controllers and views, we moved should_render from the response
+to the controller. This should be a simple search and replace.
+
+<ruby>
+context "..." do
+  controller_name :...
+  
+  specify "..." do
+    post 'index'
+    controller.should_render :template => "index" #used to be response.should_render
+  end
+end
+</ruby>
