@@ -38,6 +38,7 @@ module Spec
         #   in its benefits.
         #
         def render(options = nil, deprecated_status = nil, &block)
+          @render_called_first = true unless @should_render_called
           if integrate_views?
             super
           else
@@ -56,6 +57,7 @@ module Spec
         end
         
         def should_render(expected)
+          @should_render_called = true unless @render_called_first
           if integrate_views?
             if expected_template = expected[:template]
               expected_template.should == @response.rendered_file
@@ -64,7 +66,7 @@ module Spec
             @view_isolator.match(expected)
           end
         end
-
+        
         def should_render_rjs(element, *opts)
           @view_isolator.should_have_rjs(element, *opts)
         end

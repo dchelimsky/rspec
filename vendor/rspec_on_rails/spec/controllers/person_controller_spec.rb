@@ -24,12 +24,38 @@ context "The PersonController" do
   end
 end
 
-context "When requesting /person" do
-  fixtures :people
+context "When requesting /person with controller isolated from views" do
   controller_name :person
 
   setup do
-    Person.stub!(:find_all).and_return([])
+    @mock_person = mock("person")
+    @mock_person.stub!(:name).and_return("Joe")
+    @people = [@mock_person]
+    Person.stub!(:find).and_return(@people)
+    get 'index'
+  end
+
+  specify "the response should render 'list'" do
+    controller.should_render :template => "person/list"
+  end
+
+  specify "should find all people on GET to index" do
+    get 'index'
+    response.should_be_success
+    assigns('people').should_be @people
+  end
+
+end
+
+context "When requesting /person with views integrated" do
+  controller_name :person
+  integrate_views
+
+  setup do
+    @mock_person = mock("person")
+    @mock_person.stub!(:name).and_return("Joe")
+    @people = [@mock_person]
+    Person.stub!(:find).and_return(@people)
     get 'index'
   end
 
@@ -46,13 +72,12 @@ context "When requesting /person" do
   specify "should find all people on GET to index" do
     get 'index'
     response.should_be_success
-    assigns('people').should == [people(:lachie)]
+    assigns('people').should_be @people
   end
 
 end
 
 context "/person/show/3" do
-  fixtures :people
   controller_name :person
   
   setup do
@@ -60,7 +85,7 @@ context "/person/show/3" do
   end
   
   specify "should get person with id => 3 from model (using partial mock)" do
-    Person.should_receive(:find).and_return(@person)
+    Person.should_receive(:find).with("3").and_return(@person)
     get 'show', :id => 3
   
     assigns(:person).should_be @person

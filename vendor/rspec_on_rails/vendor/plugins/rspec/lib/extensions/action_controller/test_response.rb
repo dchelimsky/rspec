@@ -2,8 +2,8 @@ module ActionController
   class TestResponse
     module InstanceMethodsForRspec
       def should_be_success
-        #TODO - need to figure out what to do w/ this
-        return true if @isolate_from_views
+        return if @isolate_from_views
+        raise Spec::Expectations::ExpectationNotMetError.new("expected response to be success but was not") unless success?
       end
       
       def should_have_rjs element, *args

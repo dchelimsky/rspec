@@ -1,7 +1,7 @@
 class PersonController < ApplicationController
 
   def index
-    @people = Person.find :all
+    @people = Person.find(:all)
     render :template => 'person/list'
   end
 
