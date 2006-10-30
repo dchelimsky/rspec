@@ -3,3 +3,9 @@ title: Integration
 inMenu: true
 ---
 h2. RSpec on Rails - Specifying Applications at the Integration Level
+
+Although it is part of our plan for a 1.0 release, as of release 0.7.0,
+RSpec does not directly support integration spec'ing/testing.
+
+For the time being we recommend that you use either rails integration
+testing or another framework like watir or selenium.
