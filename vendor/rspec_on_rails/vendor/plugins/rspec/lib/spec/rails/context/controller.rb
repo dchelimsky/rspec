@@ -37,42 +37,60 @@ module Spec
         #   we encourage you to explore using the isolation mode and revel
         #   in its benefits.
         #
-        def render(options = nil, deprecated_status = nil, &block)
-          @render_called_first = true unless @should_render_called
-          if integrate_views?
-            super
-          else
-            # if options.nil? ActionController::Base is calling this
-            # assuming that we're going to render the default template
-            # associated with an action. Adding this to options allows
-            # the specs to look consistent
-            #
-            # This may be a bit ticklish w/ future changes to rails, but
-            # if problems are introduced, then there are specs that
-            # invoke this that should fail. So at least we'll know what's what.
+        def render(options=nil, deprecated_status=nil, &block)
+          #TODO - this "if @render_called" is a hack because render gets called twice.
+          # Don't know why. That should be looked at.
+          unless @render_called
+            @render_called_first = true unless @should_render_called_first
+            if integrate_views?
+              super
+              if @should_render_called_first
+                render_matcher.match(ensure_default_options(options))
+              end
+            else
+              # if options.nil? ActionController::Base is calling this
+              # assuming that we're going to render the default template
+              # associated with an action. Adding this to options allows
+              # the specs to look consistent
+              #
+              # This may be a bit ticklish w/ future changes to rails, but
+              # if problems are introduced, then there are specs that
+              # invoke this that should fail. So at least we'll know what's what.
             
-            options = {:template => default_template_name} if options.nil?
-            set_view_isolation_options options, &block
+              options = ensure_default_options(options)
+              if @should_render_called_first
+                render_matcher.match(options)
+              else
+                set_initial_render_options(options, &block)
+              end
+            end
           end
+          @render_called = true
         end
         
         def should_render(expected)
-          @should_render_called = true unless @render_called_first
+          @should_render_called_first = true unless @render_called_first
           if integrate_views?
-            if expected_template = expected[:template]
+            if @should_render_called_first
+              set_initial_render_options(expected)
+            elsif expected_template = expected[:template]
               expected_template.should == response.rendered_file
             end
           else
-            @view_isolator.match(expected)
+            if @render_called_first
+              render_matcher.match(expected)
+            else
+              set_initial_render_options(expected)
+            end
           end
         end
         
         def should_render_rjs(element, *opts)
-          @view_isolator.should_have_rjs(element, *opts)
+          render_matcher.should_render_rjs(element, *opts)
         end
 
         def should_not_render_rjs(element, *opts)
-          @view_isolator.should_not_have_rjs(element, *opts)
+          render_matcher.should_not_render_rjs(element, *opts)
         end
         
         def integrate_views!
@@ -84,13 +102,18 @@ module Spec
           @integrate_views
         end
 
-        def set_view_isolation_options(options, &block)
-          #TODO - this "if @view_isolator.nil?" is a hack because this method gets called twice
-          # and the 2nd time it gets called w/ nil. Don't know why. That should be looked at.
-          if @view_isolator.nil?
-            @view_isolator = Spec::Rails::ViewIsolator.new(options, block)
-            response.isolate_from_views!
-          end
+        def set_initial_render_options(options, &block)
+          render_matcher.set_initial(options, &block)
+          response.isolate_from_views! unless response.nil?
+        end
+      
+        def render_matcher
+          @render_matcher ||= Spec::Rails::RenderMatcher.new
+        end
+
+        def ensure_default_options(options)
+          return {:template => default_template_name} if options.nil?
+          return options
         end
       end
       

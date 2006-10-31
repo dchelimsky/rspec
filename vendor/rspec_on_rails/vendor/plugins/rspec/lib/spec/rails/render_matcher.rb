@@ -1,17 +1,17 @@
 module Spec
   module Rails
-    class ViewIsolator
+    class RenderMatcher
       
-      def initialize options, block
+      def set_initial(options, &block)
         @options = options
         @block = block
       end
-      
-      def match expected
+
+      def match(expected)
         @options.should == expected
       end
       
-      def should_have_rjs element, *args
+      def should_render_rjs(element, *args)
         page = Spec::Mocks::Mock.new("page", :null_object => true, :auto_verify => false)
         if element == :page
           page_element = Spec::Mocks::Mock.new("element", :null_object => true, :auto_verify => false)
@@ -23,7 +23,7 @@ module Spec
         __verify_block @block, page, page_element
       end
 
-      def should_not_have_rjs element, *args
+      def should_not_render_rjs(element, *args)
         page = Spec::Mocks::Mock.new("page", :null_object => true, :auto_verify => false)
         if element == :page
           element_name = args.shift
@@ -40,7 +40,8 @@ module Spec
         end
       end
       
-      def __verify_block block, page, page_element=nil
+      private
+      def __verify_block(block, page, page_element=nil)
         begin
           block.call(page)
         rescue

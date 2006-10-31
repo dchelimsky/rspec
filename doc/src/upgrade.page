@@ -63,6 +63,15 @@ feature, we believe it will be much more efficient and less error prone to do it
 
 h2. RSpec on Rails
 
+h3. gem install ZenTest
+
+The RSpec on Rails plugin now extends, and therefore depends on, ZenTest. If you don't
+already have ZenTest, simply....
+
+<ruby>
+gem install ZenTest
+</ruby>
+
 h3. Add "integrate_views" to all of your controller specs using the Rails Plugin
 
 We've enhanced rspec_on_rails to support specification of controllers and views in complete
