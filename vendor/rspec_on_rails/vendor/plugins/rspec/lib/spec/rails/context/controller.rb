@@ -59,6 +59,9 @@ module Spec
           end
         end
 
+
+
+
         def should_render(expected)
           should_render_called
           if integrate_views?
@@ -86,9 +89,9 @@ module Spec
         
         private
         def handle_render(where_from, options, &block)
+          response.isolate_from_views! unless response.nil?
           if __send__("#{where_from.to_s}_called_first?")
-          # if called_first
-            set_initial_render_options(options, &block)
+            render_matcher.set_initial(options, &block)
           else
             render_matcher.match(options)
           end
@@ -127,11 +130,6 @@ module Spec
           @should_render_called_first
         end
 
-        def set_initial_render_options(options, &block)
-          render_matcher.set_initial(options, &block)
-          response.isolate_from_views! unless response.nil?
-        end
-      
         def render_matcher
           @render_matcher ||= Spec::Rails::RenderMatcher.new
         end
