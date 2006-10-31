@@ -1,4 +1,8 @@
-require 'test/rails'
+begin
+  require 'test/rails'
+rescue LoadError
+  raise "You must gem install ZenTest"
+end
 
 #This is necessary to override ZenTests automagic mapping of test names to tested classes
 class Test::Rails::HelperTestCase
