@@ -44,7 +44,7 @@ module Spec
             render_called
             if integrate_views?
               super
-              render_matcher.match(ensure_default_options(options)) if should_render_called_first?
+              handle_render(:render, ensure_default_options(options)) unless render_called_first?
             else
               # if options.nil? ActionController::Base is calling this
               # assuming that we're going to render the default template
@@ -54,7 +54,7 @@ module Spec
               # This may be a bit ticklish w/ future changes to rails, but
               # if problems are introduced, then there are specs that
               # invoke this that should fail. So at least we'll know what's what.
-              handle_render(render_called_first?, ensure_default_options(options), &block)
+              handle_render(:render, ensure_default_options(options), &block)
             end
           end
         end
@@ -63,20 +63,12 @@ module Spec
           should_render_called
           if integrate_views?
             if should_render_called_first?
-              set_initial_render_options(expected)
+              handle_render(:should_render, expected)
             elsif expected_template = expected[:template]
               expected_template.should == response.rendered_file
             end
           else
-            handle_render(should_render_called_first?, expected)
-          end
-        end
-        
-        def handle_render(called_first, options, &block)
-          if called_first
-            set_initial_render_options(options, &block)
-          else
-            render_matcher.match(options)
+            handle_render(:should_render, expected)
           end
         end
         
@@ -93,6 +85,15 @@ module Spec
         end
         
         private
+        def handle_render(where_from, options, &block)
+          if __send__("#{where_from.to_s}_called_first?")
+          # if called_first
+            set_initial_render_options(options, &block)
+          else
+            render_matcher.match(options)
+          end
+        end
+        
         def integrate_views?
           @integrate_views
         end
