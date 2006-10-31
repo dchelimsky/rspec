@@ -60,7 +60,7 @@ module Spec
           @should_render_called = true unless @render_called_first
           if integrate_views?
             if expected_template = expected[:template]
-              expected_template.should == @response.rendered_file
+              expected_template.should == response.rendered_file
             end
           else
             @view_isolator.match(expected)
@@ -89,7 +89,7 @@ module Spec
           # and the 2nd time it gets called w/ nil. Don't know why. That should be looked at.
           if @view_isolator.nil?
             @view_isolator = Spec::Rails::ViewIsolator.new(options, block)
-            @response.isolate_from_views!
+            response.isolate_from_views!
           end
         end
       end
