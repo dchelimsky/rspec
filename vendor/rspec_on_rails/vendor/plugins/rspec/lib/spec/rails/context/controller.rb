@@ -74,7 +74,7 @@ module Spec
             handle_render(:should_render, expected)
           end
         end
-        
+
         def should_render_rjs(element, *opts)
           render_matcher.should_render_rjs(element, *opts)
         end
@@ -82,11 +82,11 @@ module Spec
         def should_not_render_rjs(element, *opts)
           render_matcher.should_not_render_rjs(element, *opts)
         end
-        
+
         def integrate_views!
           @integrate_views = true
         end
-        
+
         private
         def handle_render(where_from, options, &block)
           response.isolate_from_views! unless response.nil?
@@ -96,20 +96,20 @@ module Spec
             render_matcher.match(options)
           end
         end
-        
+
         def integrate_views?
           @integrate_views
         end
-        
+
         def render_called
           @render_called = true
           render_called_first unless should_render_called_first?
         end
-        
+
         def should_render_called
           should_render_called_first unless render_called_first?
         end
-        
+
         def render_called?
           @render_called
         end
@@ -117,7 +117,7 @@ module Spec
         def render_called_first
           @render_called_first = true
         end
-        
+
         def render_called_first?
           @render_called_first
         end
@@ -139,7 +139,7 @@ module Spec
           return options
         end
       end
-      
+
       module ContextEvalInstanceMethods
         attr_reader :response, :request, :controller
         #This is a hook provided by Test::Rails::TestCase
@@ -150,7 +150,7 @@ module Spec
           @controller.integrate_views! if @integrate_views
         end
       end
-      
+
       module ContextEvalClassMethods
         attr_accessor :controller_class_name
         def controller_name(name=nil)
@@ -163,18 +163,18 @@ module Spec
           @integrate_views
         end
       end
-      
+
       def execution_context specification=nil
         instance = execution_context_class.new(specification)
         controller_class_name = @context_eval_module.controller_class_name
         integrate_views = @context_eval_module.integrate_views? ? true : false
         instance.instance_eval {
-          @controller_class_name = "#{controller_class_name}"
+          @controller_class_name = controller_class_name.to_s
           @integrate_views = integrate_views
         }
         instance
       end
-      
+
       def before_context_eval
         inherit Test::Rails::ControllerTestCase
         @context_eval_module.extend ControllerContext::ContextEvalClassMethods
