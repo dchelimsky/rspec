@@ -40,13 +40,11 @@ module Spec
         def render(options=nil, deprecated_status=nil, &block)
           #TODO - this "if @render_called" is a hack because render gets called twice.
           # Don't know why. That should be looked at.
-          unless @render_called
-            @render_called_first = true unless @should_render_called_first
+          unless render_called?
+            render_called
             if integrate_views?
               super
-              if @should_render_called_first
-                render_matcher.match(ensure_default_options(options))
-              end
+              render_matcher.match(ensure_default_options(options)) if should_render_called_first?
             else
               # if options.nil? ActionController::Base is calling this
               # assuming that we're going to render the default template
@@ -56,32 +54,29 @@ module Spec
               # This may be a bit ticklish w/ future changes to rails, but
               # if problems are introduced, then there are specs that
               # invoke this that should fail. So at least we'll know what's what.
-            
-              options = ensure_default_options(options)
-              if @should_render_called_first
-                render_matcher.match(options)
-              else
-                set_initial_render_options(options, &block)
-              end
+              handle_render(render_called_first?, ensure_default_options(options), &block)
             end
           end
-          @render_called = true
         end
-        
+
         def should_render(expected)
-          @should_render_called_first = true unless @render_called_first
+          should_render_called
           if integrate_views?
-            if @should_render_called_first
+            if should_render_called_first?
               set_initial_render_options(expected)
             elsif expected_template = expected[:template]
               expected_template.should == response.rendered_file
             end
           else
-            if @render_called_first
-              render_matcher.match(expected)
-            else
-              set_initial_render_options(expected)
-            end
+            handle_render(should_render_called_first?, expected)
+          end
+        end
+        
+        def handle_render(called_first, options, &block)
+          if called_first
+            set_initial_render_options(options, &block)
+          else
+            render_matcher.match(options)
           end
         end
         
@@ -100,6 +95,35 @@ module Spec
         private
         def integrate_views?
           @integrate_views
+        end
+        
+        def render_called
+          @render_called = true
+          render_called_first unless should_render_called_first?
+        end
+        
+        def should_render_called
+          should_render_called_first unless render_called_first?
+        end
+        
+        def render_called?
+          @render_called
+        end
+
+        def render_called_first
+          @render_called_first = true
+        end
+        
+        def render_called_first?
+          @render_called_first
+        end
+
+        def should_render_called_first
+          @should_render_called_first = true
+        end
+
+        def should_render_called_first?
+          @should_render_called_first
         end
 
         def set_initial_render_options(options, &block)
@@ -160,4 +184,3 @@ module Spec
     end
   end
 end
-
