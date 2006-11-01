@@ -2,7 +2,7 @@ module Spec
   module Rails
     module VERSION
       unless defined?(REV)
-        # RANDOM_TOKEN: 0.668853598750337
+        # RANDOM_TOKEN: 0.323266584869203
         REV = "$LastChangedRevision$".match(/LastChangedRevision: (\d+)/)[1]
       end
     end
@@ -16,7 +16,7 @@ if Spec::VERSION::REV != Spec::Rails::VERSION::REV
 ############################################################################
 Your RSpec on Rails plugin is incompatible with your installed RSpec.
 
-RSpec          : r#{Spec::VERSION::STRING}
+RSpec          : #{Spec::VERSION::FULL_VERSION}
 RSpec on Rails : r#{Spec::Rails::VERSION::REV}
 
 Make sure your RSpec on Rails plugin is compatible with your RSpec gem.
