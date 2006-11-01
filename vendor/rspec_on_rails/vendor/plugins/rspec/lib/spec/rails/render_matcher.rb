@@ -4,7 +4,7 @@ module Spec
       
       def set_expectation(options, &block)
         @mock = Spec::Mocks::Mock.new("controller")
-        @mock.should_receive(:match_render_call).with(options)
+        @mock.should_receive(:match_render_call, :expected_from => caller(0)[2]).with(options)
         @options = options
         @block = block
       end

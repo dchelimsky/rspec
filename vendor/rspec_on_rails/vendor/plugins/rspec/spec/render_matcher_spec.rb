@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/spec_helper'
 
 context "a RenderMatcher" do
   
-  specify "should raise if an expectation is set but verify_rendered is never called" do
+  specify "should raise if an expectation is set but set_rendered is never called" do
     spec = Spec::Runner::Specification.new("name") do
       Spec::Rails::RenderMatcher.new.set_expectation(:template => 'non_existent_template')
     end
@@ -11,12 +11,13 @@ context "a RenderMatcher" do
     reporter.should_receive(:spec_started).with("name")
     reporter.should_receive(:spec_finished) do |name, error|
       error.should_not_be nil
+      error.backtrace.detect {|line| line =~ /render_matcher_spec.rb:17/}.should_not_be nil
       error.message.should_eql "Mock 'controller' expected :match_render_call with [{:template=>\"non_existent_template\"}] once, but received it 0 times"
     end
     spec.run(reporter)
   end
   
-  specify "should raise if an expectation is set but and not met by call to verify_rendered" do
+  specify "should raise if an expectation is set but and not met by call to set_rendered" do
     matcher = Spec::Rails::RenderMatcher.new
     matcher.set_expectation(:template => 'expected')
     lambda do
@@ -39,3 +40,5 @@ context "a RenderMatcher" do
     spec.run(reporter)
   end
 end
+
+

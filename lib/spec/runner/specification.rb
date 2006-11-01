@@ -8,8 +8,9 @@ module Spec
         @@current_spec.add_listener listener unless @@current_spec.nil?
       end
       
-      def initialize(name, &block)
+      def initialize(name, opts={}, &block)
         @name = name
+        @options = opts
         @block = block
         @listeners = []
       end
@@ -39,6 +40,29 @@ module Spec
           @@current_spec = nil
         end
         
+        #TODO - refactor me - PLEASE! (I work, but I'm ugly)
+        if what_to_raise = @options[:should_raise]
+          if what_to_raise.is_a?(Class)
+            error_class = what_to_raise
+          elsif what_to_raise.is_a?(Array)
+            error_class = what_to_raise[0]
+          else
+            error_class = Spec::Expectations::ExpectationNotMetError
+          end
+          if errors.empty?
+            errors << Spec::Expectations::ExpectationNotMetError.new
+          else
+            error_to_remove = errors.detect do |error|
+              error.kind_of?(error_class)
+            end
+            if error_to_remove.nil?
+              errors.insert(0,Spec::Expectations::ExpectationNotMetError.new)
+            else
+              errors.delete(error_to_remove) unless error_to_remove.nil?
+            end
+          end
+        end
+        
         reporter.spec_finished(@name, errors.first, failure_location(setup_ok, spec_ok, teardown_ok)) unless reporter.nil?
       end
 
@@ -66,7 +90,6 @@ module Spec
         return @name unless spec_ok
         return 'teardown' unless teardown_ok
       end
-    
     end
   end
 end
