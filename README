@@ -1,13 +1,21 @@
+== Building the RSpec gem ==
+rake gem
+gem install pkg/rspec-0.x.x.gem (you may have to sudo)
+
+== Running the specs ==
 In order to run RSpec's full suite of specs (rake pre_commit) you must install the following gems:
 
-* rake
-* rcov
-* webgen
-* RedCloth
-* syntax
-* diff-lcs
-* meta_project
-* sqlite3-ruby
+* rake          # Runs the build script
+* rcov          # Verifies that the code is 100% covered by specs
+* webgen        # Generates the static HTML website
+* RedCloth      # Required by webgen
+* syntax        # Required by our own custom webgen extension to highlight ruby code
+* diff-lcs      # Required if you use the --diff switch
+* win32console  # Required by the --colour switch if you're on Windows
+* meta_project  # Required in order to make releases at RubyForge
+* sqlite3-ruby  # Required by RSpec on Rails specs
+* ZenTest       # Required by RSpec on Rails specs
+* Rails         # Required by RSpec on Rails specs
 
 You must also install SQLite - which is needed to test the Rails plugin.
 
@@ -16,5 +24,6 @@ and stdlib - with a few exceptions:
 
 * The spec command line uses diff-lcs when --diff is specified.
 * The Spec::Rake::SpecTask needs RCov if RCov is enabled in the task.
+* RSpec on Rails needs the ZenTest gem to be installed (and Rails and its dependencies of course)
 
 See http://rspec.rubyforge.org for further documentation.
