@@ -273,6 +273,12 @@ module Spec
         end.run reporter
         reporter.__verify
       end
+      
+      specify "should reset on __reset_mock_methods" do
+        mock = mock("this is a mock")
+        mock.should_receive(:blah)
+        mock.__reset_mock
+      end
     end
   end
 end

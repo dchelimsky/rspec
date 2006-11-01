@@ -21,6 +21,10 @@ module Spec
         __mock_handler.verify
       end
 
+      def __reset_mock
+        __mock_handler.reset
+      end
+
       def method_missing(sym, *args, &block)
         __mock_handler.instance_eval {@messages_received << [sym, args, block]}
         begin

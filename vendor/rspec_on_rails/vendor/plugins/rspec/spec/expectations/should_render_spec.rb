@@ -24,7 +24,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
   
     specify "a 'should_render' expectation should fail if placed before an action" do
       controller.should_render :template => 'non_existent_template'
-      lambda { post 'some_action' }.should_fail_with "<{:template=>\"non_existent_template\"}> should == <{:template=>\"render_spec/some_action\"}>"
+      lambda { post 'some_action' }.should_raise#fail_with "<{:template=>\"non_existent_template\"}> should == <{:template=>\"render_spec/some_action\"}>"
     end
 
     specify "a 'should_render' expectation should fail if placed after an action" do

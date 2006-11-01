@@ -69,7 +69,7 @@ module Spec
               expected_template.should == response.rendered_file
             end
           else
-            render_matcher.match(expected)
+            render_matcher.verify_rendered(expected)
           end
         end
 

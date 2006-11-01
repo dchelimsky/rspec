@@ -3,12 +3,15 @@ module Spec
     class RenderMatcher
       
       def set_expectation(options, &block)
+        @mock = Spec::Mocks::Mock.new("controller")
+        @mock.should_receive(:match_render_call).with(options)
         @options = options
         @block = block
       end
 
       def set_rendered(options, &block)
-        if @options
+        if @options #implies set_expectation called first
+          @mock.__reset_mock
           match(options)
         else
           @options = options
@@ -16,6 +19,11 @@ module Spec
         end
       end
 
+      def verify_rendered(expected)
+        @options.should == expected
+      end
+      
+      #TODO - rename to verify_rendered
       def match(expected)
         @options.should == expected
       end
