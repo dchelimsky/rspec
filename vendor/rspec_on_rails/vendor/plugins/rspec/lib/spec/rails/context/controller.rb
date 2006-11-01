@@ -44,34 +44,32 @@ module Spec
             render_called
             if integrate_views?
               super
-              handle_render(:render, ensure_default_options(options)) unless render_called_first?
             else
-              # if options.nil? ActionController::Base is calling this
-              # assuming that we're going to render the default template
-              # associated with an action. Adding this to options allows
-              # the specs to look consistent
-              #
-              # This may be a bit ticklish w/ future changes to rails, but
-              # if problems are introduced, then there are specs that
-              # invoke this that should fail. So at least we'll know what's what.
-              handle_render(:render, ensure_default_options(options), &block)
+              response.isolate_from_views!
             end
+            # if options.nil? ActionController::Base is calling this
+            # assuming that we're going to render the default template
+            # associated with an action. Adding this to options allows
+            # the specs to look consistent
+            #
+            # This may be a bit ticklish w/ future changes to rails, but
+            # if problems are introduced, then there are specs that
+            # invoke this that should fail. So at least we'll know what's what.
+            render_matcher.set_rendered(ensure_default_options(options), &block)
           end
         end
 
-
-
-
         def should_render(expected)
-          should_render_called
+          render_matcher.set_expectation(expected)
+        end
+
+        def should_have_rendered(expected)
           if integrate_views?
-            if should_render_called_first?
-              handle_render(:should_render, expected)
-            elsif expected_template = expected[:template]
+            if expected_template = expected[:template]
               expected_template.should == response.rendered_file
             end
           else
-            handle_render(:should_render, expected)
+            render_matcher.match(expected)
           end
         end
 
@@ -88,46 +86,16 @@ module Spec
         end
 
         private
-        def handle_render(where_from, options, &block)
-          response.isolate_from_views! unless response.nil?
-          if __send__("#{where_from.to_s}_called_first?")
-            render_matcher.set_initial(options, &block)
-          else
-            render_matcher.match(options)
-          end
-        end
-
         def integrate_views?
           @integrate_views
         end
 
         def render_called
           @render_called = true
-          render_called_first unless should_render_called_first?
-        end
-
-        def should_render_called
-          should_render_called_first unless render_called_first?
         end
 
         def render_called?
           @render_called
-        end
-
-        def render_called_first
-          @render_called_first = true
-        end
-
-        def render_called_first?
-          @render_called_first
-        end
-
-        def should_render_called_first
-          @should_render_called_first = true
-        end
-
-        def should_render_called_first?
-          @should_render_called_first
         end
 
         def render_matcher

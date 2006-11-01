@@ -2,9 +2,18 @@ module Spec
   module Rails
     class RenderMatcher
       
-      def set_initial(options, &block)
+      def set_expectation(options, &block)
         @options = options
         @block = block
+      end
+
+      def set_rendered(options, &block)
+        if @options
+          match(options)
+        else
+          @options = options
+          @block = block
+        end
       end
 
       def match(expected)
