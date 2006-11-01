@@ -19,8 +19,8 @@ module Spec
           teardown_parts << block
         end
 
-        def specify(spec_name, &block)
-          specifications << Specification.new(spec_name, &block)
+        def specify(spec_name, opts={}, &block)
+          specifications << Specification.new(spec_name, opts, &block)
         end
 
         def methods

@@ -33,8 +33,8 @@ module Spec
           @context_eval_module.teardown(&block)
         end
 
-        def specify(spec_name, &block)
-          @context_eval_module.specify(spec_name, &block)
+        def specify(spec_name, opts={}, &block)
+          @context_eval_module.specify(spec_name, opts, &block)
         end
 
         def run(reporter, dry_run=false)
