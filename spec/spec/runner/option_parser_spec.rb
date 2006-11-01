@@ -55,7 +55,7 @@ context "OptionParser" do
       
         options=OptionParser.parse(["--version"], false, @err, @out)
         @out.rewind
-        @out.read.should_match(/RSpec-\d+\.\d+\.\d+ - BDD for Ruby\nhttp:\/\/rspec.rubyforge.org\/\n/n)
+        @out.read.should_match(/RSpec-\d+\.\d+\.\d+ \(r\d+\) - BDD for Ruby\nhttp:\/\/rspec.rubyforge.org\/\n/n)
       
     end
     specify "should require file when require specified" do

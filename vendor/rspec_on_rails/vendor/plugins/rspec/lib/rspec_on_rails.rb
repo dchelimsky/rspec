@@ -8,6 +8,7 @@ require 'active_record/fixtures'
 require 'spec'
 
 dir = File.dirname(__FILE__)
+require File.expand_path("#{dir}/spec/rails/version")
 require File.expand_path("#{dir}/spec/rails/opts_merger")
 require File.expand_path("#{dir}/spec/rails/response_body")
 require File.expand_path("#{dir}/spec/rails/rjs_expectations")

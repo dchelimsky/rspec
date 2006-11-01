@@ -67,6 +67,7 @@ See http://rspec.rubyforge.org/documentation/rails/index.html for more informati
 --------------------------------------------------
 As usual, there are also other new features and bug fixes:
 
+* RSpec on Rails automatically checks whether it's compatible with the installed RSpec
 * Applied [#6393] rspec_on_rails uses deprecated '@response' instead of the accessor
 * RSpec now has 100% spec coverage(!)
 * Added support for stubbing and partial mocking

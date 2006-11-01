@@ -128,6 +128,22 @@ task :clobber do
   rm_rf 'doc/output'
 end
 
+desc "Touches files storing revisions so that svn will update $LastChangedRevision"
+task :touch_revision_storing_files do
+  # See http://svnbook.red-bean.com/en/1.0/ch07s02.html - the section on svn:keywords
+  new_token = rand
+  [
+    'lib/spec/version.rb', 
+    'vendor/rspec_on_rails/vendor/plugins/rspec/lib/spec/rails/version.rb'
+  ].each do |path|
+    abs_path = File.join(File.dirname(__FILE__), path)
+    content = File.open(abs_path).read
+    touched_content = content.gsub(/# RANDOM_TOKEN: (.*)\n/n, "# RANDOM_TOKEN: #{new_token}\n")
+    File.open(abs_path, 'w') do |io|
+      io.write touched_content
+    end
+  end
+end
 
 task :release => [:clobber, :verify_committed, :verify_user, :verify_password, :spec, :publish_packages, :tag, :publish_website, :publish_news]
 
@@ -148,7 +164,14 @@ task :tag do
 end
 
 desc "Run this task before you commit. You should see 'OK TO COMMIT'"
-task :pre_commit => [:verify_warnings, :website, :examples, :failing_examples_with_html, :rails_pre_commit, :commit_ok]
+task :pre_commit => [
+  :touch_revision_storing_files, 
+  :verify_warnings, 
+  :website, 
+  :examples, 
+  :failing_examples_with_html, 
+  :rails_pre_commit, 
+  :commit_ok]
 
 task :rails_pre_commit do
   Dir.chdir 'vendor/rspec_on_rails' do    
