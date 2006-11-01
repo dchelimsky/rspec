@@ -128,6 +128,7 @@ task :clobber do
   rm_rf 'doc/output'
 end
 
+
 task :release => [:clobber, :verify_committed, :verify_user, :verify_password, :spec, :publish_packages, :tag, :publish_website, :publish_news]
 
 desc "Verifies that there is no uncommitted code"
