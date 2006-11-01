@@ -1,7 +1,6 @@
 module Spec
   module Runner
     class Specification
-      include Callback
       
       @@current_spec = nil
     
@@ -36,7 +35,7 @@ module Spec
         rescue => e
           errors << e
         ensure
-          callbacks.notify(:after_teardown, self) { |error| errors << error }
+          notify_after_teardown errors
           @@current_spec = nil
         end
         
@@ -48,8 +47,16 @@ module Spec
       end
 
       def add_listener listener
-        if listener.respond_to?(:spec_finished)
-          callbacks.define(:after_teardown, &listener.method(:spec_finished))
+        @listeners << listener
+      end
+
+      def notify_after_teardown errors
+        @listeners.each do |listener|
+          begin
+            listener.spec_finished(self) if listener.respond_to?(:spec_finished)
+          rescue => e
+            errors << e
+          end
         end
       end
 
@@ -59,6 +66,7 @@ module Spec
         return @name unless spec_ok
         return 'teardown' unless teardown_ok
       end
+    
     end
   end
 end
