@@ -132,15 +132,28 @@ desc "Touches files storing revisions so that svn will update $LastChangedRevisi
 task :touch_revision_storing_files do
   # See http://svnbook.red-bean.com/en/1.0/ch07s02.html - the section on svn:keywords
   new_token = rand
-  [
+  files = [
     'lib/spec/version.rb', 
     'vendor/rspec_on_rails/vendor/plugins/rspec/lib/spec/rails/version.rb'
-  ].each do |path|
-    abs_path = File.join(File.dirname(__FILE__), path)
-    content = File.open(abs_path).read
-    touched_content = content.gsub(/# RANDOM_TOKEN: (.*)\n/n, "# RANDOM_TOKEN: #{new_token}\n")
-    File.open(abs_path, 'w') do |io|
-      io.write touched_content
+  ]
+  touch_needed = false
+  IO.popen('svn stat') do |io|
+    io.each_line do |line|
+      if line =~ /^M\s*(.*)/
+        touch_needed = !files.index($1)
+        break if touch_needed
+      end
+    end
+  end
+  
+  if touch_needed
+    files.each do |path|
+      abs_path = File.join(File.dirname(__FILE__), path)
+      content = File.open(abs_path).read
+      touched_content = content.gsub(/# RANDOM_TOKEN: (.*)\n/n, "# RANDOM_TOKEN: #{new_token}\n")
+      File.open(abs_path, 'w') do |io|
+        io.write touched_content
+      end
     end
   end
 end
