@@ -5,6 +5,17 @@ context "a Specification declared with {:should_raise => " do
     @reporter = mock("reporter")
     @reporter.stub!(:spec_started)
   end
+  
+  def verify_error(error, message=nil)
+    error.should_be_an_instance_of Spec::Expectations::ExpectationNotMetError
+    unless message.nil?
+      if message.is_a?(Regexp)
+        error.message.should =~ message
+      else
+        error.message.should == message
+      end
+    end
+  end
 
   specify "true} should pass when there is an ExpectationNotMetError" do
     spec = Spec::Runner::Specification.new("spec", :should_raise => true) do
@@ -19,8 +30,7 @@ context "a Specification declared with {:should_raise => " do
   specify "true} should fail if nothing is raised" do
     spec = Spec::Runner::Specification.new("spec", :should_raise => true) {}
     @reporter.should_receive(:spec_finished) do |spec_name, error|
-      error.should_be_an_instance_of Spec::Expectations::ExpectationNotMetError
-      error.message.should_eql "Spec::Expectations::ExpectationNotMetError"
+      verify_error(error, /specify block expected Exception but nothing was raised/)
     end
     spec.run(@reporter)
   end
@@ -40,7 +50,7 @@ context "a Specification declared with {:should_raise => " do
       #do nothing
     end
     @reporter.should_receive(:spec_finished) do |spec_name, error|
-      error.should_be_an_instance_of Spec::Expectations::ExpectationNotMetError
+      verify_error(error,/specify block expected NameError but nothing was raised/)
     end
     spec.run(@reporter)
   end
@@ -50,7 +60,7 @@ context "a Specification declared with {:should_raise => " do
       raise RuntimeError
     end
     @reporter.should_receive(:spec_finished) do |spec_name, error|
-      error.should_be_an_instance_of Spec::Expectations::ExpectationNotMetError
+      verify_error(error, /specify block expected NameError but raised.+RuntimeError/)
     end
     spec.run(@reporter)
   end
@@ -69,7 +79,7 @@ context "a Specification declared with {:should_raise => " do
     spec = Spec::Runner::Specification.new("spec", :should_raise => [NameError]) do
     end
     @reporter.should_receive(:spec_finished) do |spec_name, error|
-      error.should_be_an_instance_of Spec::Expectations::ExpectationNotMetError
+      verify_error(error, /specify block expected NameError but nothing was raised/)
     end
     spec.run(@reporter)
   end
@@ -79,17 +89,47 @@ context "a Specification declared with {:should_raise => " do
       raise RuntimeError
     end
     @reporter.should_receive(:spec_finished) do |spec_name, error|
-      error.should_be_an_instance_of Spec::Expectations::ExpectationNotMetError
+      verify_error(error, /specify block expected NameError but raised.+RuntimeError/)
     end
     spec.run(@reporter)
   end
 
-  specify "[NameError, 'got an error'} should pass when there is a NameError with the right message" do
+  specify "[NameError, 'message'} should pass when there is a NameError with the right message" do
     spec = Spec::Runner::Specification.new("spec", :should_raise => [NameError, 'expected']) do
       raise NameError, 'expected'
     end
     @reporter.should_receive(:spec_finished) do |spec_name, error|
       error.should_be nil
+    end
+    spec.run(@reporter)
+  end
+
+  specify "[NameError, 'message'} should pass when there is a NameError with a message matching a regex" do
+    spec = Spec::Runner::Specification.new("spec", :should_raise => [NameError, /xpec/]) do
+      raise NameError, 'expected'
+    end
+    @reporter.should_receive(:spec_finished) do |spec_name, error|
+      error.should_be nil
+    end
+    spec.run(@reporter)
+  end
+
+  specify "[NameError, 'message'} should fail when there is a NameError with the wrong message" do
+    spec = Spec::Runner::Specification.new("spec", :should_raise => [NameError, 'expected']) do
+      raise NameError, 'wrong message'
+    end
+    @reporter.should_receive(:spec_finished) do |spec_name, error|
+      verify_error(error, /specify block expected #<NameError: expected> but raised #<NameError: wrong message>/)
+    end
+    spec.run(@reporter)
+  end
+
+  specify "[NameError, 'message'} should fail when there is a NameError with a message not matching regexp" do
+    spec = Spec::Runner::Specification.new("spec", :should_raise => [NameError, /exp/]) do
+      raise NameError, 'wrong message'
+    end
+    @reporter.should_receive(:spec_finished) do |spec_name, error|
+      verify_error(error, /specify block expected #<NameError: \(\?-mix:exp\)> but raised #<NameError: wrong message>/)
     end
     spec.run(@reporter)
   end

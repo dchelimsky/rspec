@@ -9,6 +9,7 @@ module Spec
       end
       
       def initialize(name, opts={}, &block)
+        @from = caller(0)[3]
         @name = name
         @options = opts
         @block = block
@@ -40,7 +41,7 @@ module Spec
           @@current_spec = nil
         end
         
-        ShouldRaiseMatcher.new(@options).handle(errors)
+        SpecShouldRaiseHandler.new(@from, @options).handle(errors)
 
         reporter.spec_finished(@name, errors.first, failure_location(setup_ok, spec_ok, teardown_ok)) unless reporter.nil?
       end
@@ -68,46 +69,6 @@ module Spec
         return 'setup' unless setup_ok
         return @name unless spec_ok
         return 'teardown' unless teardown_ok
-      end
-    end
-    
-    class ShouldRaiseMatcher
-      def initialize(opts)
-        @options = opts
-        @error_class = determine_error_class(opts)
-      end
-      
-      def determine_error_class(opts)
-        if candidate = opts[:should_raise]
-          if candidate.is_a?(Class)
-            return candidate
-          elsif candidate.is_a?(Array)
-            return candidate[0]
-          else
-            return Spec::Expectations::ExpectationNotMetError
-          end
-        end
-      end
-
-      #TODO - refactor me - PLEASE! (I work, but I'm ugly)
-      # - I also don't work that well yet (not enough specs!)
-      # - I need to handle expected messages (a la should_raise)
-      #   and I need to provide messages in the style of Should
-      def handle(errors)
-        if @error_class
-          if errors.empty?
-            errors << Spec::Expectations::ExpectationNotMetError.new
-          else
-            error_to_remove = errors.detect do |error|
-              error.kind_of?(@error_class)
-            end
-            if error_to_remove.nil?
-              errors.insert(0,Spec::Expectations::ExpectationNotMetError.new)
-            else
-              errors.delete(error_to_remove)
-            end
-          end
-        end
       end
     end
   end

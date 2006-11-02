@@ -17,6 +17,11 @@ context "a RenderMatcher" do
     spec.run(reporter)
   end
   
+  specify "should raise if an expectation is set but set_rendered is never called",
+    :should_raise => Spec::Mocks::MockExpectationError do
+    Spec::Rails::RenderMatcher.new.set_expectation(:template => 'non_existent_template')
+  end
+  
   specify "should raise if an expectation is set but and not met by call to set_rendered" do
     matcher = Spec::Rails::RenderMatcher.new
     matcher.set_expectation(:template => 'expected')
