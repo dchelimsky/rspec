@@ -1,4 +1,3 @@
-should_render should work before and after call to get, post, etc
 integration spec'ing (derived from ActionController::IntegrationTest)
 resolve inconsistencies in running script/rails_spec
 - right now if you fire up script/rails_spec_server and
@@ -12,3 +11,4 @@ documentation
 - isolated vs integrated controller specs
 - will have to change response.should_render to controller.should_render
 - need for integration testing combined w/ isolated specs
+- controller.should_render vs response.should_have_rendered
