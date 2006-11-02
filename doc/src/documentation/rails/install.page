@@ -18,15 +18,15 @@ install a compatible RSpec on Rails plugin.
 h3. Installation
 
 RSpec on Rails is a regular Rails plugin. It can be installed via your Rails app's script/plugin tool.
-In the examples below - make sure you replace TAG with the version of the plugin you want to install.
+In the examples below - make sure you replace X_Y_Z with the version of the plugin you want to install.
 It's important that the REL_X_Y_Z corresponds to the version of RSpec core you have installed - for example
-REL_0_5_16.
+REL_0_7_0.
 
 <pre>
 ruby script/plugin install svn://rubyforge.org/var/svn/rspec/tags/REL_X_Y_Z/vendor/rspec_on_rails/vendor/plugins/rspec
 </pre>
 
-Or if you like to live dangerously you can get the HEAD of the trunk:
+Or if you like to live dangerously you can get the HEAD of the trunk (in which case you *must* build and install your own RSpec gem):
 
 <pre>
 ruby script/plugin install svn://rubyforge.org/var/svn/rspec/trunk/vendor/rspec_on_rails/vendor/plugins/rspec
