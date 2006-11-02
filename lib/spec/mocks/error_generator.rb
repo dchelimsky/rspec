@@ -1,9 +1,15 @@
 module Spec
   module Mocks
     class ErrorGenerator
+      attr_writer :opts
+      
       def initialize target, name
         @target = target
         @name = name
+      end
+      
+      def opts
+        @opts ||= {}
       end
 
       def raise_unexpected_message_error sym, *args
@@ -36,7 +42,8 @@ module Spec
       end
       
       def __raise message
-        Kernel::raise Spec::Mocks::MockExpectationError, message
+        message = opts[:message] unless opts[:message].nil?
+        Kernel::raise(Spec::Mocks::MockExpectationError, message)
       end
       
       def arg_message *args

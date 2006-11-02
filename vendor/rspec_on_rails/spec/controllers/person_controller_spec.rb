@@ -10,6 +10,7 @@ context "The PersonController" do
   specify "should create an unsaved person record on GET to create" do
     person = mock("person")
     Person.should_receive(:new).and_return(person)
+    controller.should_render :template => "person/create"
     get 'create'
     response.should_be_success
     response.should_not_be_redirect

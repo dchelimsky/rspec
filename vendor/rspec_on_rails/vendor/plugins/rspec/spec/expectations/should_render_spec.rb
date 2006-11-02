@@ -14,12 +14,14 @@ context "Given a controller spec in isolation (default) mode",
     controller.should_have_rendered :template => 'render_spec/some_action'
   end
 
-  specify "a 'should_render' expectation should fail if placed before an action" do
+  specify "a 'should_render' expectation should fail if placed before an action that renders something different" do
     controller.should_render :template => 'non_existent_template'
-    lambda { post 'some_action' }.should_fail_with "<{:template=>\"non_existent_template\"}> should == <{:template=>\"render_spec/some_action\"}>"
+    lambda do
+      post 'some_action'
+    end.should_fail_with "<{:template=>\"non_existent_template\"}> should == <{:template=>\"render_spec/some_action\"}>"
   end
 
-  specify "a 'should_render' expectation should fail if placed after an action" do
+  specify "a 'should_render' expectation should fail if placed after an action that renders something different" do
     post 'some_action'
     lambda { controller.should_have_rendered :template => 'non_existent_template' }.should_fail
   end

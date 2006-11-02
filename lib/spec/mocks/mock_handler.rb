@@ -22,9 +22,9 @@ module Spec
         @options[:null_object]
       end
       
-      def add_message_expectation(expected_from, sym, &block)
+      def add_message_expectation(expected_from, sym, opts={}, &block)
         __add expected_from, sym, block
-        @expectations << MessageExpectation.new(@error_generator, @expectation_ordering, expected_from, sym, block_given? ? block : nil)
+        @expectations << MessageExpectation.new(@error_generator, @expectation_ordering, expected_from, sym, block_given? ? block : nil, 1, opts)
         @expectations.last
       end
       

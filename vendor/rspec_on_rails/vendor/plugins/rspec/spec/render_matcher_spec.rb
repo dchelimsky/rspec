@@ -17,10 +17,7 @@ context "a RenderMatcher" do
   end
   
   specify "should raise if an expectation is set but set_rendered is never called",
-    :should_raise => [
-      Spec::Mocks::MockExpectationError,
-      "Mock 'controller' expected :match_render_call with [{:template=>\"non_existent_template\"}] once, but received it 0 times"
-    ] do
+    :should_raise => [Spec::Mocks::MockExpectationError, "controller expected call to render {:template=>\"non_existent_template\"} but it was never received"] do
     Spec::Rails::RenderMatcher.new.set_expectation(:template => 'non_existent_template')
   end
   

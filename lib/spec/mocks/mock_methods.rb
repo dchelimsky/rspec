@@ -2,7 +2,7 @@ module Spec
   module Mocks
     module MockMethods
       def should_receive(sym, opts={}, &block)
-        __mock_handler.add_message_expectation(opts[:expected_from] || caller(1)[0], sym, &block)
+        __mock_handler.add_message_expectation(opts[:expected_from] || caller(1)[0], sym, opts, &block)
       end
 
       def should_not_receive(sym, &block)

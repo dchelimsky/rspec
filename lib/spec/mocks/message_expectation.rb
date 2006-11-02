@@ -4,8 +4,9 @@ module Spec
     class BaseExpectation
       attr_reader :sym
       
-      def initialize(error_generator, expectation_ordering, expected_from, sym, method_block, expected_received_count=1)
+      def initialize(error_generator, expectation_ordering, expected_from, sym, method_block, expected_received_count=1, opts={})
         @error_generator = error_generator
+        @error_generator.opts = opts
         @expected_from = expected_from
         @sym = sym
         @method_block = method_block
