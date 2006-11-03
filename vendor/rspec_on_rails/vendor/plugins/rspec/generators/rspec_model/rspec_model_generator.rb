@@ -1,6 +1,6 @@
 require 'rails_generator/generators/components/model/model_generator'
 
-class RSpecModelGenerator < ModelGenerator
+class RspecModelGenerator < ModelGenerator
 
   def manifest
 
@@ -13,7 +13,7 @@ class RSpecModelGenerator < ModelGenerator
       m.directory File.join('spec/models', class_path)
       m.directory File.join('spec/fixtures', class_path)
 
-      # Model class, unit test, and fixtures.
+      # Model class, spec and fixtures.
       m.template 'model:model.rb',      File.join('app/models', class_path, "#{file_name}.rb")
       m.template 'model:fixtures.yml',  File.join('spec/fixtures', class_path, "#{table_name}.yml")
       m.template 'model_spec.rb',       File.join('spec/models', class_path, "#{file_name}_spec.rb")

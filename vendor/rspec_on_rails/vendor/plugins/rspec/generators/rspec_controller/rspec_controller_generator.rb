@@ -1,6 +1,6 @@
 require 'rails_generator/generators/components/controller/controller_generator'
 
-class RSpecControllerGenerator < ControllerGenerator
+class RspecControllerGenerator < ControllerGenerator
   def manifest
     record do |m|
       # Check for class naming collisions.

@@ -9,6 +9,6 @@ task :clobber_sqlite do
 end
 
 task :generate_rspec do
-  `ruby script/generate rspec --force`
-  raise "Failed to generate rspec environment" if $? != 0
+  result = `ruby script/generate rspec --force`
+  raise "Failed to generate rspec environment:\n#{result}" if $? != 0 || result =~ /^Missing/
 end
