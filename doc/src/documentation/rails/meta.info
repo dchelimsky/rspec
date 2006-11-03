@@ -18,8 +18,3 @@ generators.page:
 runners.page:
   inMenu: true
   orderInfo: 125  
-  
-expectations:
-  title: Expectations
-  inMenu: true
-  orderInfo: 130

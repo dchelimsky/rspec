@@ -25,6 +25,10 @@ Test::Rails, which is the rails testing framework built into "ZenTest":http://ze
 We've also built in first class mocking
 and stubbing support in order to break dependencies across these different concerns.
 
+h2. Different Contexts for different Contexts
+
+RSpec on Rails 0.7.0 supports different Context subclasses for the following types of specs:
+
 h3. Model Specs
 
 These are the equivalent of unit tests in Rails'' built in testing. Ironically

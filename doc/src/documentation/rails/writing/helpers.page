@@ -15,4 +15,8 @@ context "the registration helper" do
 
 ... and then you can reference the methods directly because they are actually included
 in the context!
+
+
+h2. Example Helpers Specs
+
 <ruby file="../vendor/rspec_on_rails/spec/helpers/person_helper_spec.rb"/>

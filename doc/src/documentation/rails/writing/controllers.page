@@ -4,6 +4,8 @@ inMenu: true
 ---
 h2. RSpec on Rails - Specifying Controllers
 
+Controller Specs live in ~/spec/controllers/.
+
 RSpec on Rails 0.7.0 introduces the ability to specify your controllers in complete
 isolation from their related views and nearly complete isolation from the database
 as well.
@@ -17,11 +19,6 @@ but you can use mocks and stubs at the class level to intercept calls
 like <code>:find</code>, <code>:create</code> and even <code>:new</code>
 to introduce mock instances instead of real active_record instances.
 
-
-
- you
-can avoid all database calls beyond the setup calls that happen under the hood.
-
-
+h2. Example Controller Specs
 
 <ruby file="../vendor/rspec_on_rails/spec/controllers/person_controller_spec.rb"/>

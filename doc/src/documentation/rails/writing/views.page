@@ -4,6 +4,8 @@ inMenu: true
 ---
 h2. RSpec on Rails - Specifying Views
 
+View Specs live in ~/spec/views/.
+
 RSpec on Rails supports the specification of views in complete isolation from their controllers.
 This allows you to spec and write your views even before their controllers exist,
 or before the related actions have been developed. It also means that bugs introduced
@@ -13,6 +15,24 @@ As noted in the "introduction":index.html, these are great benefits
 but they could hide bugs that exist in the interaction between a controller and its
 view. We strongly recommend combining these isolated view specs with some sort of
 high level "integration":integration.html testing.
+
+h2. Conveniences
+
+h3. assigns
+
+Use assigns[:key] to set values to be used in the spec. We highly recommend that
+you exploit the mock framework here rather than providing real model objects
+in order to keep the view specs isolated from changes to your models.
+
+<ruby>
+article = mock("article")
+article.should_receive(:author).and_return("Joe")
+article.should_receive(:text).and_return("this is the text of the article")
+assigns[:article] = article
+assigns[:articles] = [article]
+</ruby>
+
+
 
 h2. Expectations
 
