@@ -1,7 +1,10 @@
 module ActiveRecord
   class Base
-    def self.records
-      find(:all)
+    (class << self; self; end).class_eval do
+      def records
+        find(:all)
+      end
+      alias :record :records
     end
   end
 end

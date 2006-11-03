@@ -20,27 +20,42 @@ apps are generally much easier to maintain than they would have been without suc
 
 For those of us coming from a history with TDD, and now BDD, the existing support
 presents some problems related to dependencies across specs. To that end, RSpec
-supports 5 types of specs. This is largely inspired by (and actually extends)
+supports 4 types of specs. This is largely inspired by (and actually extends)
 Test::Rails, which is the rails testing framework built into "ZenTest":http://zentest.rubyforge.org. 
 We've also built in first class mocking
 and stubbing support in order to break dependencies across these different concerns.
 
-Here are the 5 types of specs:
+h3. Model Specs
 
-* "Model Specs":writing/models.html. These are the equivalent of unit tests in Rails'' built in testing. Ironically
+These are the equivalent of unit tests in Rails'' built in testing. Ironically
 (for the traditional TDD'er) these are the only specs that we feel should actually interact
-with the database.
-* "Controller Specs":writing/controllers.html. These align somewhat with functional tests in rails, except
+with the database. "Learn more...":writing/models.html.
+
+h3. Controller Specs
+
+These align somewhat with functional tests in rails, except
 that they do not actually render views (though you can force rendering of views
 if you prefer). Instead of setting expectations about what goes on a page, you
-set expectations about what templates get rendered.
-* "View Specs":writing/views.html. This is the other half of Rails'' functional testing. View specs allow
-you to set up assigns (thanks to ZenTest).
-* "Helper Specs":writing/helpers.html let you specify directly methods that live in your helpers.
-* "Integration Specs":writing/integration.html (not yet in 0.7.0)
+set expectations about what templates get rendered. "Learn more...":writing/controllers.html.
 
+h3. View Specs
 
-h3. Naming conventions
+This is the other half of Rails'' functional testing. View specs allow
+you to set up assigns (thanks to ZenTest). "Learn more...":writing/views.html.
+
+h3. Helper Specs
+
+... let you specify directly methods that live in your helpers. "Learn more...":writing/helpers.html.
+
+h3. Integration Specs
+
+We also plan to support "Integration Specs":writing/integration.html in the future.
+
+For the time being we recommend that you use either
+"rails integration testing":http://weblog.jamisbuck.org/2006/3/9/integration-testing-in-rails-1-1
+ or another framework like "watir":http://wtr.rubyforge.org/ or "selenium":http://www.openqa.org/selenium/.
+
+h2. Naming conventions
 
 For clarity and consistency, RSpec uses a slightly different naming convention
 for directories and Rake tasks than what you get from the Test::Unit testing built into rails.

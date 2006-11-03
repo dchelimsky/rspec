@@ -4,3 +4,21 @@ inMenu: true
 ---
 h2. Introduction to Writing Specs using RSpec on Rails
 
+RSpec on Rails 0.7.0 supports 4 different types of specs:
+
+
+* "Model Specs":models.html
+* "View Specs":views.html
+* "Controller Specs":controllers.html
+* "Helper Specs":helpers.html
+
+Each of these use slightly different Context classes to give you access
+to the appropriate services and methods. The type of Context is determined
+implicitly by placing the spec within a named directory tree:
+
+<pre>
+../spec/controllers/**/*_spec.rb
+../spec/helpers/**/*_spec.rb
+../spec/models/**/*_spec.rb
+../spec/views/**/*_spec.rb
+</pre>

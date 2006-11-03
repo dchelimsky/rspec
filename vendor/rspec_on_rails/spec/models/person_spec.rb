@@ -11,6 +11,10 @@ context "The Person model" do
     Person.find(:all).should_not_be_empty
   end
 
+  specify "should have one record" do
+    Person.should_have(1).records
+  end
+
   specify "should find an existing person" do
     person = Person.find(1)
     person.should_eql people(:lachie)
@@ -47,7 +51,7 @@ context "A new Person" do
   end
   
   specify "should be valid for save if includes a name" do
-    @person.name = "CheliDaveSlak and the fabulous Baker boy"
+    @person.name = "CheliDaveSlak and the Fabulous Baker Boy"
     @person.save.should_be true
     @person.errors.should_be_empty
   end
