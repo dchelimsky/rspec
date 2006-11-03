@@ -5,7 +5,7 @@ h2. A Simple Stack - Overview
 
 h3. A simple, introductory tutorial by David Chelimsky
 
-In this tutorial, we're going to explore the developer practices of Behaviour Driven Development using rSpec. As a developer, the goal of BDD is to think about specifying examples of behaviour rather than testing. We'll explore what that means, and how it affects the process of specifying components in a system. 
+In this tutorial, we're going to explore the developer practices of Behaviour Driven Development using RSpec. As a developer, the goal of BDD is to think about specifying examples of behaviour rather than testing. We'll explore what that means, and how it affects the process of specifying components in a system. 
 
 One example I've used when teaching TDD is a Stack. It would typically start with a test like this:
 
@@ -45,4 +45,4 @@ Now that is something useful to clients, and that's the point. We want to think 
 
 "Tell, Don't Ask" is a powerful guideline, but sometimes you have to ask questions. So let's extend TDA with this: "...but if you MUST ask, then ask for what you really need". Do we need to know the stack's size? Probably not. We <em>do</em>, however, need to know whether we can push onto it.
 
-We'll be exploring these questions in this tutorial in addition to getting you started with rSpec. So <a href="stack_01.html">let's get started!</a>
+We'll be exploring these questions in this tutorial in addition to getting you started with RSpec. So <a href="stack_01.html">let's get started!</a>

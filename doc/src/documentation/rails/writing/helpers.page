@@ -4,4 +4,15 @@ inMenu: true
 ---
 h2. RSpec on Rails - Specifying Helpers
 
+Writing specs for your helpers is a snap. Just tell the context the name of the
+helper ...
+
+<ruby>
+context "the registration helper" do
+  helper_name :registration #tells rspec to include the RegistrationHelper
+  ...
+</ruby>
+
+... and then you can reference the methods directly because they are actually included
+in the context!
 <ruby file="../vendor/rspec_on_rails/spec/helpers/person_helper_spec.rb"/>

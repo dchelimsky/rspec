@@ -1,12 +1,12 @@
 context "Running specs with --diff" do
   specify "should printed diff of different strings" do
     uk = <<-EOF
-Rspec is a
+RSpec is a
 behaviour driven development
 framework for Ruby
 EOF
     usa = <<-EOF
-Rspec is a
+RSpec is a
 behavior driven development
 framework for Ruby
 EOF

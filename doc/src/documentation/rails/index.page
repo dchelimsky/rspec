@@ -1,5 +1,5 @@
 ---
-title: Overview
+title: RSpec on Rails - Overview
 inMenu: true
 ---
 h2. RSpec on Rails - Overview
@@ -36,8 +36,8 @@ if you prefer). Instead of setting expectations about what goes on a page, you
 set expectations about what templates get rendered.
 * "View Specs":writing/views.html. This is the other half of Rails'' functional testing. View specs allow
 you to set up assigns (thanks to ZenTest).
-* "Helpers":writing/helpers.html
-* "Integration":writing/integration.html
+* "Helper Specs":writing/helpers.html let you specify directly methods that live in your helpers.
+* "Integration Specs":writing/integration.html (not yet in 0.7.0)
 
 
 h3. Naming conventions

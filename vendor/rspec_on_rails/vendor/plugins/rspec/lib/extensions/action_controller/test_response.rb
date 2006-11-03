@@ -1,6 +1,6 @@
 module ActionController
   class TestResponse
-    module InstanceMethodsForRspec
+    module InstanceMethodsForRSpec
       def should_be_success
         return if @isolate_from_views
         raise Spec::Expectations::ExpectationNotMetError.new("expected response to be success but was not") unless success?
@@ -31,6 +31,6 @@ module ActionController
         Spec::Rails::ResponseBody.new(self.body)
       end
     end
-    include InstanceMethodsForRspec
+    include InstanceMethodsForRSpec
   end
 end

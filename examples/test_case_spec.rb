@@ -1,7 +1,7 @@
 require File.dirname(__FILE__)  + '/../lib/spec'
 require 'test/unit'
 
-class RspecIntegrationTest < Test::Unit::TestCase
+class RSpecIntegrationTest < Test::Unit::TestCase
   def self.fixtures(*args)
     @@fixtures = true
   end
@@ -32,8 +32,8 @@ module RandomHelperModule
   end
 end
 
-context "Rspec should integrate with Test::Unit::TestCase" do
-  inherit RspecIntegrationTest
+context "RSpec should integrate with Test::Unit::TestCase" do
+  inherit RSpecIntegrationTest
   include RandomHelperModule
 
   fixtures :some_table
@@ -47,17 +47,17 @@ context "Rspec should integrate with Test::Unit::TestCase" do
     @rspec_setup_called.should_be true
   end
 
-  specify "Rspec should be able to access TestCase methods" do
+  specify "RSpec should be able to access TestCase methods" do
     helper_method
     @helper_method_called.should_be true
   end
 
-  specify "Rspec should be able to accept included modules" do
+  specify "RSpec should be able to accept included modules" do
     random_task
     @random_task_called.should_be true
   end
   
   teardown do
-    RspecIntegrationTest.verify_class_method
+    RSpecIntegrationTest.verify_class_method
   end
 end

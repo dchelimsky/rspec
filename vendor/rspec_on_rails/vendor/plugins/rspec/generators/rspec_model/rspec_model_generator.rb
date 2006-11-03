@@ -1,6 +1,6 @@
 require 'rails_generator/generators/components/model/model_generator'
 
-class RspecModelGenerator < ModelGenerator
+class RSpecModelGenerator < ModelGenerator
 
   def manifest
 
