@@ -3,7 +3,7 @@ title: Contexts
 ---
 h2. Contexts and Specifications
 
-Rather than expressing examples in classes, rspec uses a custom
+Rather than expressing examples in classes, RSpec uses a custom
 Domain Specific Language to express
 examples using contexts and specifications.
 
@@ -29,12 +29,12 @@ hold the example code that expresses the event (when) and the expected outcome (
 
 h3. Helper Methods
 
-A primary goal of rspec is to keep the examples clear. We therefore prefer
+A primary goal of RSpec is to keep the examples clear. We therefore prefer
 less indirection than you might see in xunit examples and in well factored, DRY production code. We feel
 that duplication is OK if removing it makes it harder to understand an example without
 having to look elsewhere to understand its context.
 
-That said, rspec does support some level of encapsulating common code in helper
+That said, RSpec does support some level of encapsulating common code in helper
 methods that can exist within a context or within an included module.
 
 IT IS IMPORTANT TO NOTE, however, that these approaches are somewhat experimental, and

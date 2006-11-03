@@ -161,7 +161,7 @@ This release improves Rails support and test2spec translation.
 * Fixed underscore problems that occurred when RSpec was used in Rails
 * Simplified the Rails support by packaging it as a plugin instead of a generator gem.
 * Fixed [#5063] 'rspec_on_rails' require line in spec_helper.rb
-* Added pre_commit rake task to reduce risk of regressions. Useful for rspec developers and patchers.
+* Added pre_commit rake task to reduce risk of regressions. Useful for RSpec developers and patchers.
 * Added failure_message to RSpec Rake task
 * test2spec now defines converted helper methods outside of the setup block (bug #5057).
 

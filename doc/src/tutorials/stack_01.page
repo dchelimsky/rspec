@@ -75,7 +75,7 @@ Finished in 0.000386 seconds
 1 specification, 0 failures
 </pre>
 
-As you can see, this reads like a specification. This is just like the output you get from running jUnit tests through agiledox. Agiledox was an important part of the inception of BDD, so we built it right into rspec. Of course, we haven't actually written any code in the specification, so we need to add some. Just as we do in TDD, we're going to add one little bit at a time - just enough to produce a failed expectation - followed by just enough code to meet the expectation.
+As you can see, this reads like a specification. This is just like the output you get from running jUnit tests through agiledox. Agiledox was an important part of the inception of BDD, so we built it right into RSpec. Of course, we haven't actually written any code in the specification, so we need to add some. Just as we do in TDD, we're going to add one little bit at a time - just enough to produce a failed expectation - followed by just enough code to meet the expectation.
 
 Let's start by creating the new stack.
 
@@ -165,7 +165,7 @@ Finished in 0.000784 seconds
 1 specification, 1 failure
 </pre>
 
-In this case, rspec interprets the message <code>should_be_empty</code>, and sends <code>empty?</code> to <code>stack</code>. This will work for any predicate (ruby methods that end with a "?" and return boolean).
+In this case, RSpec interprets the message <code>should_be_empty</code>, and sends <code>empty?</code> to <code>stack</code>. This will work for any predicate (ruby methods that end with a "?" and return boolean).
 
 You can think of <code>NameError</code> as the equivalent of a compilation failure in java or C#. <code>Stack</code> doesn't respond to the <code>empty?</code> message ... yet.
 

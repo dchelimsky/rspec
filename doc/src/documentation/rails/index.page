@@ -19,7 +19,7 @@ leap forward. The fact that it's built right in is fantastic, and rails
 apps are generally much easier to maintain than they would have been without such support.
 
 For those of us coming from a history with TDD, and now BDD, the existing support
-presents some problems related to dependencies across specs. To that end, rspec
+presents some problems related to dependencies across specs. To that end, RSpec
 supports 5 types of specs. This is largely inspired by (and actually extends)
 Test::Rails, which is the rails testing framework built into "ZenTest":http://zentest.rubyforge.org. 
 We've also built in first class mocking
