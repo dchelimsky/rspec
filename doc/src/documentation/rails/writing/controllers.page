@@ -6,18 +6,71 @@ h2. RSpec on Rails - Specifying Controllers
 
 Controller Specs live in ~/spec/controllers/.
 
-RSpec on Rails 0.7.0 introduces the ability to specify your controllers in complete
-isolation from their related views and nearly complete isolation from the database
-as well.
+h2. Isolation from views
 
-Isolation from views is supported implicitly by controller specs themselves. If
-you prefer to integrate views (a la rails functional testing) you can by including
+RSpec on Rails 0.7.0 introduces the ability to specify your controllers in complete
+isolation from their related views. This allows you to spec your controllers
+before the views even exist, and will keep the specs from failing when there
+are errors in your views.
+
+h2. Optional integration with views
+
+If you prefer to integrate views (a la rails functional testing) you can by including
 the keyword/commmand "integrate_views".
 
-Isolation from the database is not complete if you are using active_record models,
-but you can use mocks and stubs at the class level to intercept calls
-like <code>:find</code>, <code>:create</code> and even <code>:new</code>
-to introduce mock instances instead of real active_record instances.
+<ruby>
+context "a context" do
+  integrate_views
+  specify "something" do
+    ...
+  end
+end
+</ruby>
+
+When you integrate views in the controller specs, you can use any of the
+expectations that are specific to views as well. Read about "View Specs":views.html
+to learn more.
+
+h2. Isolation from the database
+
+We strongly recommend that you use RSpec's "mocking/stubbing framework":../../mocks/index.html
+to intercept class level calls like <code>:find</code>, <code>:create</code> and
+even <code>:new</code> to introduce mock instances instead of real active_record instances.
+
+This allows you focus your specs on the things that the controller does and not
+worry about complex validations and relationships that should be spec'd in
+detail in the "Model Specs":models.html
+
+<ruby>
+account = mock("account")
+Account.should_receive(:find).with("37").and_return(account)
+</ruby>
+
+or
+
+<ruby>
+account = mock("account")
+Account.stub!(:find).and_return(account)
+</ruby>
+
+See "Mocks and Stubs":../../mocks/index.html for more information about the
+built in mocking/stubbing framework.
+
+h2. Expectations
+
+h3. controller.should_render
+
+h3. controller.should_have_rendered
+
+h3. controller.should_render_rjs
+
+h3. response.should_be_success
+
+h3. response.should_be_redirect
+
+h3. response.redirect_url
+
+h3. assigns
 
 h2. Example Controller Specs
 

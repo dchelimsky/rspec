@@ -6,9 +6,5 @@ resolve inconsistencies in running script/rails_spec
   uninitialized constant HelperTestCaseController
   
 documentation
-- should_have_tag supports regexp
 - should_have_(rjs|tag) vs should_render[_rjs]
-- isolated vs integrated controller specs
-- will have to change response.should_render to controller.should_render
-- need for integration testing combined w/ isolated specs
 - controller.should_render vs response.should_have_rendered
