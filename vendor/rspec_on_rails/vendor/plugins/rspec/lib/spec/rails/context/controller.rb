@@ -82,40 +82,14 @@ module Spec
         end
         
         def should_redirect_to(opts)
-          @redirect_opts = opts
-          @should_redirect_mock = Spec::Mocks::Mock.new("should redirect")
-          @should_redirect_mock.should_receive(
-            :redirect_to,
-            :expected_from => caller(0)[1],
-            :message => "controller expected call to redirect_to #{opts.inspect} but it was never received"
-          ).with(opts)
+          redirect_matcher.set_expected(opts)
         end
         
         def redirect_to(opts)
-          @should_redirect_mock.__reset_mock if @redirect_opts
-          unless opts.is_a?(String) && %r{^\w+://.*} =~ opts
+          unless redirect_matcher.interested_in?(opts)
             super
           else
-            case @redirect_opts
-              when Hash
-                expected_url = ActionController::UrlRewriter.new(request, {}).rewrite(@redirect_opts)
-                unless expected_url == opts
-                  raise_should_redirect_error(@redirect_opts, opts)
-                end
-              when :back
-                unless request.env['HTTP_REFERER'] == opts
-                  raise_should_redirect_error(@redirect_opts, opts)
-                end
-              when %r{^\w+://.*}
-                unless @redirect_opts == opts
-                  raise_should_redirect_error(@redirect_opts, opts)
-                end
-              else
-                expected_url = 'http://test.host' + (@redirect_opts.split('')[0] == '/' ? '' : '/') + @redirect_opts
-                unless expected_url == opts
-                  raise_should_redirect_error(@redirect_opts, opts)
-                end
-            end
+            redirect_matcher.match(request, opts)
           end
         end
         
@@ -125,12 +99,6 @@ module Spec
           else
             @redirect == true
           end
-        end
-        
-        def raise_should_redirect_error expected, actual
-          message = "expected redirect to #{expected.inspect}"
-          message << " but redirected to #{actual.inspect} instead"
-          raise Spec::Expectations::ExpectationNotMetError.new(message)
         end
 
         def integrate_views!
@@ -154,6 +122,10 @@ module Spec
           @render_matcher ||= Spec::Rails::RenderMatcher.new
         end
 
+        def redirect_matcher
+          @redirect_matcher ||= Spec::Rails::RedirectMatcher.new
+        end
+        
         def ensure_default_options(options)
           return {:template => default_template_name} if options.nil?
           return options
