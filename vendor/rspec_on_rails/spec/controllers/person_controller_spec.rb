@@ -12,16 +12,13 @@ context "The PersonController" do
     Person.should_receive(:new).and_return(person)
     controller.should_render :template => "person/create"
     get 'create'
-    response.should_be_success
-    response.should_not_be_redirect
     assigns('person').should_be person
   end
   
   specify "should persist a new person and redirect to index on POST to create" do
     Person.should_receive(:create).with({"name" => 'Aslak'})
+    controller.should_redirect_to :action => 'index'
     post 'create', {:person => {:name => 'Aslak'}}
-    response.should_be_redirect
-    response.redirect_url.should_eql 'http://test.host/person'
   end
 end
 
@@ -42,7 +39,6 @@ context "When requesting /person with controller isolated from views" do
 
   specify "should find all people on GET to index" do
     get 'index'
-    response.should_be_success
     assigns('people').should_be @people
   end
 

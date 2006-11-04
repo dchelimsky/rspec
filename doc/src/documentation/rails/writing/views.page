@@ -32,8 +32,6 @@ assigns[:article] = article
 assigns[:articles] = [article]
 </ruby>
 
-
-
 h2. Expectations
 
 RSpec on Rails' View Specs support the following custom expectations, all of which

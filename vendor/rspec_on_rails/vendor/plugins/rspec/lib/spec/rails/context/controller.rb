@@ -80,6 +80,55 @@ module Spec
         def should_not_render_rjs(element, *opts)
           render_matcher.should_not_render_rjs(element, *opts)
         end
+        
+        def should_redirect_to(opts)
+          @redirect_opts = opts
+          @should_redirect_mock = Spec::Mocks::Mock.new("should redirect")
+          @should_redirect_mock.should_receive(
+            :redirect_to,
+            :expected_from => caller(0)[1],
+            :message => "controller expected call to redirect_to #{opts.inspect} but it was never received"
+          ).with(opts)
+        end
+        
+        def redirect_to(opts)
+          if @redirect_opts
+            @should_redirect_mock.__reset_mock if @redirect_opts
+          end
+          if integrate_views?
+            super
+          end
+          if @redirect_opts
+            if opts.is_a?(Hash) && (!@redirect_opts.is_a?(Hash))
+              unless @redirect_opts.split('/').last == opts[:action]
+                raise_should_redirect_error({ :action => @redirect_opts.split('/').last }, opts)
+              end
+            elsif @redirect_opts.is_a?(Hash) && (!opts.is_a?(Hash))
+              unless @redirect_opts[:action] == opts.split('/').last
+                raise_should_redirect_error(@redirect_opts, { :action => opts.split('/').last })
+              end
+            else
+              unless @redirect_opts == opts
+                raise_should_redirect_error(@redirect_opts, opts)
+              end
+            end
+          end
+        end
+        
+        def redirect?
+          raise
+          if integrate_views?
+            super
+          else
+            @redirect == true
+          end
+        end
+        
+        def raise_should_redirect_error expected, actual
+          message = "expected redirect to #{expected.inspect}"
+          message << " but redirected to #{actual.inspect} instead"
+          raise Spec::Expectations::ExpectationNotMetError.new(message)
+        end
 
         def integrate_views!
           @integrate_views = true

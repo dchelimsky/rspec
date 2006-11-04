@@ -16,7 +16,7 @@ module Spec
       def set_rendered(options, &block)
         if @options #implies set_expectation called first
           @mock.__reset_mock
-          match(options)
+          verify_rendered(options)
         else
           @options = options
           @block = block
@@ -24,11 +24,6 @@ module Spec
       end
 
       def verify_rendered(expected)
-        @options.should == expected
-      end
-      
-      #TODO - rename to verify_rendered
-      def match(expected)
         @options.should == expected
       end
       

@@ -60,11 +60,68 @@ h2. Expectations
 
 h3. controller.should_render
 
+Use this to set an expectation in advance of the action:
+
+<ruby>
+controller.should_render :template = "path/to/template/for/action"
+get 'action'
+</ruby>
+
+You can specify :template, :text, or :action.
+
+<ruby>
+controller.should_render :template = "path/to/template/for/action"
+controller.should_render :text = "expected text"
+controller.should_render :action = "expected_action"
+</ruby>
+
 h3. controller.should_have_rendered
+
+Use this to verify an expectation after an action:
+
+<ruby>
+get 'action'
+controller.should_have_rendered :template = "path/to/template/for/action"
+</ruby>
+
+Like should_render above, you can specify :template, :text, or :action.
 
 h3. controller.should_render_rjs
 
+Thanks to Jake Howerton's port (for RSpec) of "Kevin Clark's ARTS library":http://glu.ttono.us/articles/2006/05/29/guide-test-driven-rjs-with-arts (for test/unit), you can specify
+calls made in your rjs templates.
+
+<ruby>
+controller.should_render_rjs :replace_html, 'mydiv', 'replacement text'
+controller.should_render_rjs :replace_html, 'mydiv', /replace/
+controller.should_render_rjs :insert_html, 'mydiv', 'replacement text'
+controller.should_render_rjs :insert_html, 'mydiv', /place ex/
+controller.should_render_rjs :replace, 'mydiv', '<div>replacement text</div>'
+controller.should_render_rjs :replace, 'mydiv', /placement/
+controller.should_render_rjs :hide, 'mydiv'
+</ruby>
+
+It also supports the page['element'] format as follows:
+
+<ruby>
+controller.should_render_rjs :page, 'mydiv', :replace_html, 'replacement text'
+controller.should_render_rjs :page, 'mydiv', :replace_html, /replace/
+controller.should_render_rjs :page, 'mydiv', :insert_html, 'replacement text'
+controller.should_render_rjs :page, 'mydiv', :insert_html, /place ex/
+controller.should_render_rjs :page, 'mydiv', :replace, '<div>replacement text</div>'
+controller.should_render_rjs :page, 'mydiv', :replace, /placement/
+controller.should_render_rjs :page, 'mydiv', :hide
+</ruby>
+
 h3. response.should_be_success
+
+This is really only intended to be used in integration mode (integrate_views)
+It returns true a status of 200 was returned. Note that in isolation mode,
+this will always return true (which is a bit deceiving).
+
+<ruby>
+response.should_be_success
+</ruby>
 
 h3. response.should_be_redirect
 

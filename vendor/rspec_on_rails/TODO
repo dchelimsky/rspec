@@ -1,5 +1,6 @@
 integration spec'ing (derived from ActionController::IntegrationTest)
 resolve inconsistencies in running script/rails_spec
+match regexps on should_render :text => 
 - right now if you fire up script/rails_spec_server and
   run 'script/rails_spec spec/helpers' twice, the first
   time they pass, the second they fail with t his:
