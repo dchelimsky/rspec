@@ -1,7 +1,7 @@
-dir = File.dirname(__FILE__)
+dir = File.expand_path(File.dirname(__FILE__))
 
-require File.expand_path("#{dir}/context/base")
-require File.expand_path("#{dir}/context/model")
-require File.expand_path("#{dir}/context/controller")
-require File.expand_path("#{dir}/context/helper")
-require File.expand_path("#{dir}/context/view")
+require "#{dir}/context/base"
+require "#{dir}/context/model"
+require "#{dir}/context/controller"
+require "#{dir}/context/helper"
+require "#{dir}/context/view"

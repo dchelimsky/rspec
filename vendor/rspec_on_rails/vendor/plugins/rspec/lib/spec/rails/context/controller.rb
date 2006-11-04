@@ -92,31 +92,34 @@ module Spec
         end
         
         def redirect_to(opts)
-          if @redirect_opts
-            @should_redirect_mock.__reset_mock if @redirect_opts
-          end
-          if integrate_views?
+          @should_redirect_mock.__reset_mock if @redirect_opts
+          unless opts.is_a?(String) && %r{^\w+://.*} =~ opts
             super
-          end
-          if @redirect_opts
-            if opts.is_a?(Hash) && (!@redirect_opts.is_a?(Hash))
-              unless @redirect_opts.split('/').last == opts[:action]
-                raise_should_redirect_error({ :action => @redirect_opts.split('/').last }, opts)
-              end
-            elsif @redirect_opts.is_a?(Hash) && (!opts.is_a?(Hash))
-              unless @redirect_opts[:action] == opts.split('/').last
-                raise_should_redirect_error(@redirect_opts, { :action => opts.split('/').last })
-              end
-            else
-              unless @redirect_opts == opts
-                raise_should_redirect_error(@redirect_opts, opts)
-              end
+          else
+            case @redirect_opts
+              when Hash
+                expected_url = ActionController::UrlRewriter.new(request, {}).rewrite(@redirect_opts)
+                unless expected_url == opts
+                  raise_should_redirect_error(@redirect_opts, opts)
+                end
+              when :back
+                unless request.env['HTTP_REFERER'] == opts
+                  raise_should_redirect_error(@redirect_opts, opts)
+                end
+              when %r{^\w+://.*}
+                unless @redirect_opts == opts
+                  raise_should_redirect_error(@redirect_opts, opts)
+                end
+              else
+                expected_url = 'http://test.host' + (@redirect_opts.split('')[0] == '/' ? '' : '/') + @redirect_opts
+                unless expected_url == opts
+                  raise_should_redirect_error(@redirect_opts, opts)
+                end
             end
           end
         end
         
         def redirect?
-          raise
           if integrate_views?
             super
           else
