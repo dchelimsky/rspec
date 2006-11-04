@@ -1,5 +1,5 @@
 context "Running specs with --diff" do
-  specify "should printed diff of different strings" do
+  specify "should print diff of different strings" do
     uk = <<-EOF
 RSpec is a
 behaviour driven development

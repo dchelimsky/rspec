@@ -3,8 +3,15 @@ resolve inconsistencies in running script/rails_spec
 match regexps on should_render :text => 
 - right now if you fire up script/rails_spec_server and
   run 'script/rails_spec spec/helpers' twice, the first
-  time they pass, the second they fail with t his:
+  time they pass, the second they fail with this:
   uninitialized constant HelperTestCaseController
+  
+  The HelperTestCaseController class is defined in ZenTest. When
+  rails_spec_server runs the 2nd time and ::Dispatcher.reset_application!
+  is invoked, all previously defined controllers are undefined.
+  We have to make sure HelperTestCaseController is redefined, but
+  I haven't been able to do so successfully with require, require_dependency
+  or load. (Aslak)
   
 documentation
 - should_have_(rjs|tag) vs should_render[_rjs]
