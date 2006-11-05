@@ -6,6 +6,10 @@ module ActionController
         raise Spec::Expectations::ExpectationNotMetError.new("expected response to be success but was not") unless success?
       end
       
+      def should_be_redirect
+        raise Spec::Expectations::ExpectationNotMetError.new("expected response to be redirect but was not") unless redirect?
+      end
+      
       def should_have_rjs element, *args
         __response_body.should_have_rjs element, *args
       end

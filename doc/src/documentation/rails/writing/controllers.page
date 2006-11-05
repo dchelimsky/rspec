@@ -56,7 +56,9 @@ Account.stub!(:find).and_return(account)
 See "Mocks and Stubs":../../mocks/index.html for more information about the
 built in mocking/stubbing framework.
 
-h2. Expectations
+h2. Controller Expectations
+
+These expectations will work whether in isolation or integration mode.
 
 h3. controller.should_render
 
@@ -113,11 +115,32 @@ controller.should_render_rjs :page, 'mydiv', :replace, /placement/
 controller.should_render_rjs :page, 'mydiv', :hide
 </ruby>
 
+h3. controller.should_redirect_to
+
+<ruby>
+controller.should_redirect_to :action => 'other_action'
+controller.should_redirect_to 'path/to/local/redirect'
+controller.should_redirect_to 'http://test.host/some_controller/some_action
+controller.should_redirect_to 'http://some.other.domain.com'
+</ruby>
+
+h3. assigns
+
+<ruby>
+assigns(:person).should_eql Person.new(:name => "Joe Smith")
+</ruby>
+
+h2. Response Expectations
+
+These are intended to be used in integration mode (integrate_views), as they involve
+header status codes that are generated when attempting to render a file.
+
+In isolation mode, these will not break, but since there is no response being rendered,
+they don't really tell you much (i.e. they're sort of a false positive).
+
 h3. response.should_be_success
 
-This is really only intended to be used in integration mode (integrate_views)
-It returns true a status of 200 was returned. Note that in isolation mode,
-this will always return true (which is a bit deceiving).
+Passes if a status of 200 was returned.
 
 <ruby>
 response.should_be_success
@@ -125,9 +148,13 @@ response.should_be_success
 
 h3. response.should_be_redirect
 
-h3. response.redirect_url
+We recommend that you use controller.should_redirect_to 'destination' instead.
 
-h3. assigns
+Passes if a status of 300-399 was returned.
+
+<ruby>
+response.should_be_redirect
+</ruby>
 
 h2. Example Controller Specs
 

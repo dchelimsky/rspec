@@ -19,6 +19,7 @@ context "The PersonController" do
     Person.should_receive(:create).with({"name" => 'Aslak'})
     controller.should_redirect_to :action => 'index'
     post 'create', {:person => {:name => 'Aslak'}}
+    response.should_be_redirect
   end
 end
 

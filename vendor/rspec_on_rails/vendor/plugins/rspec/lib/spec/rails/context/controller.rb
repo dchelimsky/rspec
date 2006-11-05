@@ -86,18 +86,11 @@ module Spec
         end
         
         def redirect_to(opts)
-          unless redirect_matcher.interested_in?(opts)
-            super
-          else
+          response.headers['Status'] = '302'
+          if redirect_matcher.interested_in?(opts)
             redirect_matcher.match(request, opts)
-          end
-        end
-        
-        def redirect?
-          if integrate_views?
-            super
           else
-            @redirect == true
+            super
           end
         end
 
@@ -131,7 +124,7 @@ module Spec
           return options
         end
       end
-
+      
       module ContextEvalInstanceMethods
         attr_reader :response, :request, :controller
         #This is a hook provided by Test::Rails::TestCase
