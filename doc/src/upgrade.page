@@ -63,6 +63,21 @@ feature, we believe it will be much more efficient and less error prone to do it
 
 h2. RSpec on Rails
 
+We've made significant improvements to the RSpec on Rails plugin. We've made an effort
+to indicate below what you need to change to get your existing specs, but we may have
+missed something. If you have trouble upgrading, please take a look at the "RSpec on Rails
+Documentation":documentation/rails/index.html first.
+
+If you do find the solution to your problem, whether you found it in other documentation
+or devised your own solution, please submit a Documentation RFE so we can update this page:
+
+"http://rubyforge.org/tracker/?atid=9738&group_id=797&func=browse":http://rubyforge.org/tracker/?atid=9738&group_id=797&func=browse
+
+If you do not find a solution to your problem, please submit a Bug Report (use
+"Bugs - Rails Plugin" for RSpec on Rails problems, "Bugs" for problems in core):
+
+"http://rubyforge.org/tracker/?group_id=797":http://rubyforge.org/tracker/?group_id=797
+
 h3. gem install ZenTest
 
 The RSpec on Rails plugin now extends, and therefore depends on, ZenTest. If you don't
