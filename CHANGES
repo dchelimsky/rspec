@@ -67,7 +67,8 @@ See http://rspec.rubyforge.org/documentation/rails/index.html for more informati
 --------------------------------------------------
 As usual, there are also other new features and bug fixes:
 
-* controller.should_redirect_to
+* Added support for assigns[key] syntax for controller specs (to align w/ pre-existing syntax for view specs)
+* Added support for controller.should_redirect_to
 * RSpec on Rails automatically checks whether it's compatible with the installed RSpec
 * Applied [#6393] rspec_on_rails uses deprecated '@response' instead of the accessor
 * RSpec now has 100% spec coverage(!)

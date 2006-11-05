@@ -12,7 +12,7 @@ context "The PersonController" do
     Person.should_receive(:new).and_return(person)
     controller.should_render :template => "person/create"
     get 'create'
-    assigns('person').should_be person
+    assigns[:person].should_be person
   end
   
   specify "should persist a new person and redirect to index on POST to create" do
@@ -40,7 +40,7 @@ context "When requesting /person with controller isolated from views" do
 
   specify "should find all people on GET to index" do
     get 'index'
-    assigns('people').should_be @people
+    assigns[:people].should_be @people
   end
 
 end
@@ -70,7 +70,7 @@ context "When requesting /person with views integrated" do
   specify "should find all people on GET to index" do
     get 'index'
     response.should_be_success
-    assigns('people').should_be @people
+    assigns[:people].should_be @people
   end
 
 end
@@ -86,6 +86,6 @@ context "/person/show/3" do
     Person.should_receive(:find).with("3").and_return(@person)
     get 'show', :id => 3
   
-    assigns(:person).should_be @person
+    assigns[:person].should_be @person
   end
 end

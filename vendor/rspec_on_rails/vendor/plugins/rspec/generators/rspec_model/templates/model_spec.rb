@@ -4,7 +4,7 @@ context "<%= class_name %> class with fixtures loaded" do
   fixtures :<%= table_name %>
 
   specify "should count two <%= class_name.pluralize %>" do
-    <%= class_name %>.count.should_be 2
+    <%= class_name %>.should_have(2).records
   end
 
   specify "should have more specifications" do

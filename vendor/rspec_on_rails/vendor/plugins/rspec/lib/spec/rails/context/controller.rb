@@ -134,6 +134,10 @@ module Spec
           end
           @controller.integrate_views! if @integrate_views
         end
+        def assigns(key=nil)
+          return assigns[key] unless key.nil?
+          @ivar_proxy ||= Test::Rails::IvarProxy.new(controller)
+        end
       end
 
       module ContextEvalClassMethods

@@ -127,8 +127,10 @@ controller.should_redirect_to 'http://some.other.domain.com'
 h3. assigns
 
 <ruby>
-assigns(:person).should_eql Person.new(:name => "Joe Smith")
+assigns[:person].should_eql Person.new(:name => "Joe Smith")
 </ruby>
+
+Note that the old syntax (assigns(key)) is still working but it is no longer officially supported.
 
 h2. Response Expectations
 
