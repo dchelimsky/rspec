@@ -6,10 +6,11 @@ h2. RSpec on Rails - Installation
 
 h3. Pre-Installation
 
-You'll have to install the RSpec core gem first:
+You'll have to install the RSpec core and ZenTest gems first:
 
 <pre>
 gem install rspec
+gem install zentest -v 3.4.1
 </pre>
 
 Take note of what rspec version you're installing - it's very important that you
