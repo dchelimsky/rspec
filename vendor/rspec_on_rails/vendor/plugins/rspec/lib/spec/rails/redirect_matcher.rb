@@ -14,6 +14,7 @@ module Spec
       
       def match(request, opts)
         @should_redirect_mock.__reset_mock unless @should_redirect_mock.nil?
+        return if @expected_opts.nil?
         case @expected_opts
           when Hash
             expected_url = ActionController::UrlRewriter.new(request, {}).rewrite(@expected_opts)

@@ -39,9 +39,25 @@ context "Given a controller spec in isolation (default) mode, should_redirect_to
     controller.should_redirect_to "http://test.host/previous/page"
     get 'action_with_redirect_back'
   end
-
 end
 
+context "Given a controller spec in isolation (default) mode", :context_type => :controller do
+  controller_name :redirect_spec
+  
+  specify "an action that redirects should not result in an error if no should_redirect_to expectation is called" do
+    get 'action_with_redirect_to_somewhere'
+  end
+end
+  
+context "Given a controller spec in integration mode", :context_type => :controller do
+  controller_name :redirect_spec
+  integrate_views
+  
+  specify "an action that redirects should not result in an error if no should_redirect_to expectation is called" do
+    get 'action_with_redirect_to_somewhere'
+  end
+end
+  
 context "Given a controller spec in isolation (default) mode, should_redirect_to should fail when", :context_type => :controller do
   controller_name :redirect_spec
   
