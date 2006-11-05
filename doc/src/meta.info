@@ -1,11 +1,14 @@
 index.page:
   orderInfo: 1
+  inMenu: true
 
 upgrade.page:
   orderInfo: 2
+  inMenu: true
 
 examples.page:
   orderInfo: 3
+  inMenu: true
 
 tutorials:
   title: Tutorial
@@ -17,20 +20,30 @@ documentation:
 
 download.html:
   title: Download
-  inMenu: true
   dest: http://rubyforge.org/frs/?group_id=797
   orderInfo: 7
+  inMenu: true
 
 tools:
   title: Tools
   orderInfo: 8
+  inMenu: true
 
 team.page:
   orderInfo: 9
+  inMenu: true
 
-community.html:
-  title: Community
+contribute.page:
+  orderInfo: 10
+  inMenu: true
+
+license.page:
+  orderInfo: 11
+  inMenu: true
+
+rubyforge.html:
+  title: Rubyforge
   inMenu: true
   dest: http://rubyforge.org/projects/rspec
-  orderInfo: 10
+  orderInfo: 12
   

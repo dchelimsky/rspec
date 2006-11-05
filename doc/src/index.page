@@ -1,6 +1,5 @@
 ---
 title: Overview 
-inMenu: true
 --- 
 
 h2. Upgrading from RSpec 0.6.x to 0.7

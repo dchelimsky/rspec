@@ -69,7 +69,7 @@ The RSpec on Rails plugin now extends, and therefore depends on, ZenTest. If you
 already have ZenTest, simply....
 
 <ruby>
-gem install ZenTest
+gem install zentest -v 3.4.1
 </ruby>
 
 h3. Add "integrate_views" to all of your controller specs using the Rails Plugin
@@ -79,9 +79,9 @@ isolation from each other. This allows you to spec your controllers before their
 views exist and vice versa. It also stops errors in views from causing controller specs
 to fail and vice versa.
 
-While this is the preferred approach among hard-core BDD'ers (and TDD'ers), we recognize that
-this does not align with the more high level approach supported by rails functional tests. Between
-that and the desire to make upgrading to RSpec 0.7 as smooth as possible, we've included a
+While this is the preferred approach for BDD (and TDD), we recognize that
+this does not align with the more high level approach supported by rails functional tests.
+Between that and the desire to make upgrading to RSpec 0.7 as smooth as possible, we've included a
 mechanism that will let you spec your controllers and views together.
 Just add the integrate_views command to the context after the controller_name:
 
@@ -100,9 +100,9 @@ context "Given a user who is not logged in" do
 end
 </ruby>
 
-See <a href="documentation/rails/index.html">Rails Plugin</a> for more information.
+See "Rails Plugin":documentation/rails/index.html for more information.
 
-h2. Change "response.should_render" to "controller.should_have_rendered"
+h3. Change "response.should_render" to "controller.should_have_rendered"
 
 In keeping with the separation of controllers and views, we moved should_render from the response
 to the controller. This should be a simple search and replace.
