@@ -20,7 +20,7 @@ module Spec
             @output.puts "</div>"
           end
           @output.puts "<div class=\"context\">"
-          @output.puts "  <div>#{name}</div>"
+          @output.puts "  <h2>#{name}</h2>"
           @output.puts "  <ul>"
         end
 
@@ -36,32 +36,25 @@ module Spec
         end
 
         def spec_passed(name)
-          @output.puts "<li class=\"spec passed\">#{escape(@current_spec)}</li>"
+          @output.puts "<li class=\"spec passed\"><div class=\"name\">#{escape(@current_spec)}</div></li>"
         end
 
         def spec_failed(name, counter, failure)
-          @output.puts "<li class=\"spec failed\" onclick=\"toggle('failure_#{counter}');return false;\">"
-          @output.puts "  <div>#{escape(@current_spec)}</div>"
-          @output.puts "  <div class=\"failure\" id=\"failure_#{counter}\" style=\"display:none\">"
-          @output.puts "    <div><pre>#{escape(failure.header)}</pre></div>" unless failure.header == ""
-          @output.puts "    <div><pre>#{escape(failure.message)}</pre></div>" unless failure.message == ""
-          @output.puts "    <div><pre>#{escape(failure.backtrace)}</pre></div>" unless failure.backtrace == ""
+          @output.puts "<li class=\"spec failed\">"
+          @output.puts "  <div class=\"name\">#{escape(@current_spec)}</div>"
+          @output.puts "  <div class=\"failure\" id=\"failure_#{counter}\">"
+          @output.puts "    <div class=\"message\"><pre>#{escape(failure.exception.message)}</pre></div>" unless failure.exception.nil?
+          @output.puts "    <div class=\"backtrace\"><pre>#{format_backtrace(failure.exception.backtrace)}</pre></div>" unless failure.exception.nil?
           @output.puts "  </div>"
           @output.puts "</li>"
           STDOUT.flush
         end
-    
+        
         def escape(string)
           string.gsub(/&/n, '&amp;').gsub(/\"/n, '&quot;').gsub(/>/n, '&gt;').gsub(/</n, '&lt;')
         end
     
         def dump_failure(counter, failure)
-    #      @output.print "\n"
-    #      @output.print counter.to_s << ")\n"
-    #      @output.print "#{failure.header}\n"
-    #      @output.print "#{failure.message}\n"
-    #      @output.print "#{failure.backtrace}\n"
-    #      STDOUT.flush
         end
 
         def dump_summary(duration, spec_count, failure_count)
@@ -69,87 +62,74 @@ module Spec
           @output.print "</html>"
           STDOUT.flush
         end
-      
+        
         HEADER = <<-HEADER
-  <?xml version="1.0" encoding="iso-8859-1"?>
-  <!DOCTYPE html 
-       PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-  <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-  <head>
-    <title>RSpec results</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-    <meta http-equiv="Content-Script-Type" content="text/javascript" />
-    <style type="text/css">
-    body {
-      font-size: 10pt;
-      font: "lucida grande";
-      width: 85%;
-    }
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>RSpec results</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <style type="text/css">
+  body {
+    font-size: 10pt;
+    font: "lucida grande";
+    width: 85%;
+  }
 
-    ul {
-      padding-left: 8px;
-    }
+  h2 {
+    color: #589CCF;
+  }
 
-    li.passed {
-      background-color: #DDFFDD;
-    }
+  div.context {
+    padding: 0px;
+    background: #fff;
+    margin-top: 0px;
+  }
 
-    li { 
-      list-style-type: none; 
-      margin: 0;
-    }
+  ul {
+    padding-left: 0px;
+  }
 
-    li.failed {
-      background-color: #FFBBBB;
-      font-weight: bold;
-    }
+  li { 
+    list-style-type: none; 
+    margin: 0;
+    border: 2px solid #fff;
+  }
 
-    li.failed:hover {
-      color: #FFFFFF;
-      background-color: #FF0000;
-    }
+  li.passed {
+    display: block; 
+    background: #46A002; 
+    color: #fff; 
+    padding: 2px 4px; 
+    font-weight: bold
+  }
 
-    li.failed .failure {
-      font-weight: normal;
-      font-size: 9pt;
-    }
+  li.failed {
+    display: block; 
+    background: red; 
+    color: #fff; 
+    padding: 2px 4px; 
+    font-weight: bold
+  }
 
-    div.context {
-      padding:4px;
-      border:1px solid #000000;
-      margin-top:4px;
-    }
+  li.failed .failure {
+    font-weight: normal;
+    font-size: 9pt;
+  }
 
-    </style>
-    <script type="text/javascript">
-    // <![CDATA[
+  div.backtrace {
+    color: #000; 
+  }
 
-    function toggle( id ) {
-      if ( document.getElementById )
-        elem = document.getElementById( id );
-      else if ( document.all )
-        elem = eval( "document.all." + id );
-      else
-        return false;
-
-      elemStyle = elem.style;
-
-      if ( elemStyle.display != "block" ) {
-        elemStyle.display = "block"
-      } else {
-        elemStyle.display = "none"
-      }
-
-      return true;
-    }
-    // ]]>
-    </script>
-
-  </head>
-  <body>
-  HEADER
+  </style>
+</head>
+<body>
+HEADER
       end
     end
   end

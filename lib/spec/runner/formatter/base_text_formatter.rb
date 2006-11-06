@@ -60,8 +60,8 @@ module Spec
           @output.puts
           @output.puts "#{counter.to_s})"
           @output.puts failure.header
-          @output.puts failure.message
-          @output.puts failure.backtrace
+          @output.puts failure.exception.message
+          @output.puts failure.exception.backtrace.join("\n")
           STDOUT.flush
         end
       
@@ -88,6 +88,10 @@ module Spec
     
         def red(text); colour(text, "\e[31m"); end
         def green(text); colour(text, "\e[32m"); end
+        
+        def format_backtrace(backtrace)
+          backtrace.nil? ? "" : backtrace.join("\n")
+        end
 
       end
     end

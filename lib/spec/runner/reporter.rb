@@ -74,6 +74,8 @@ module Spec
       end
 
       class Failure
+        attr_reader :exception
+        
         def initialize(context_name, spec_name, exception)
           @context_name = context_name
           @spec_name = spec_name
@@ -81,21 +83,7 @@ module Spec
         end
 
         def header
-          "#{class_name} in '#{@context_name} #{@spec_name}'"
-        end
-
-        def message
-          @exception.message
-        end
-
-        def backtrace
-          @exception.backtrace.nil? ? "" : @exception.backtrace.join("\n")
-        end
-
-        private
-
-        def class_name
-          @exception.class.name #.split('::').last
+          "#{@exception.class.name} in '#{@context_name} #{@spec_name}'"
         end
 
       end

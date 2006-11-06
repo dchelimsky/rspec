@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>RSpec results</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <style type="text/css">
+  body {
+    font-size: 10pt;
+    font: "lucida grande";
+    width: 85%;
+  }
+
+  h2 {
+    color: #589CCF;
+  }
+
+  div.context {
+    padding: 0px;
+    background: #fff;
+    margin-top: 0px;
+  }
+
+  ul {
+    padding-left: 0px;
+  }
+
+  li { 
+    list-style-type: none; 
+    margin: 0;
+    border: 2px solid #fff;
+  }
+
+  li.passed {
+    display: block; 
+    background: #46A002; 
+    color: #fff; 
+    padding: 2px 4px; 
+    font-weight: bold
+  }
+
+  li.failed {
+    display: block; 
+    background: red; 
+    color: #fff; 
+    padding: 2px 4px; 
+    font-weight: bold
+  }
+
+  li.failed .failure {
+    font-weight: normal;
+    font-size: 9pt;
+  }
+
+  div.backtrace {
+    color: #000; 
+  }
+
+  </style>
+</head>
+<body>
+<div class="context">
+  <h2>Mocker</h2>
+  <ul>
+<li class="spec passed"><div class="name">should be able to call mock()</div></li>
+<li class="spec failed">
+  <div class="name">should fail when expected message not received</div>
+  <div class="failure" id="failure_1">
+    <div class="message"><pre>Mock 'poke me' expected :poke once, but received it 0 times</pre></div>
+    <div class="backtrace"><pre>./failing_examples/mocking_example.rb:13:in `'</pre></div>
+  </div>
+</li>
+<li class="spec failed">
+  <div class="name">should fail when messages are received out of order</div>
+  <div class="failure" id="failure_2">
+    <div class="message"><pre>Mock 'one two three' received :three out of order</pre></div>
+    <div class="backtrace"><pre>(eval):3:in `three'
+./failing_examples/mocking_example.rb:22:in `should fail when messages are received out of order'</pre></div>
+  </div>
+</li>
+<li class="spec failed">
+  <div class="name">should get yelled out when sending unexpected messages</div>
+  <div class="failure" id="failure_3">
+    <div class="message"><pre>Mock 'don't talk to me' expected :any_message_at_all 0 times, but received it once</pre></div>
+    <div class="backtrace"><pre>./failing_examples/mocking_example.rb:28:in `'</pre></div>
+  </div>
+</li>
+  </ul>
+</div>
+<div class="context">
+  <h2>Running specs with --diff</h2>
+  <ul>
+<li class="spec failed">
+  <div class="name">should print diff of different strings</div>
+  <div class="failure" id="failure_4">
+    <div class="message"><pre>&quot;RSpec is a\nbehavior driven development\nframework for Ruby\n&quot; should == &quot;RSpec is a\nbehaviour driven development\nframework for Ruby\n&quot;</pre></div>
+    <div class="backtrace"><pre>./failing_examples/diffing_spec.rb:13:in `should print diff of different strings'</pre></div>
+  </div>
+</li>
+<li class="spec failed">
+  <div class="name">should print diff of different objects' pretty representation</div>
+  <div class="failure" id="failure_5">
+    <div class="message"><pre>&lt;Animal
+name=bob,
+species=giraffe
+&gt;
+ should eql &lt;Animal
+name=bob,
+species=tortoise
+&gt;
+</pre></div>
+    <div class="backtrace"><pre>./failing_examples/diffing_spec.rb:34:in `should print diff of different objects' pretty representation'</pre></div>
+  </div>
+</li>
+  </ul>
+</div>
+<div class="context">
+  <h2>A consumer of a stub</h2>
+  <ul>
+<li class="spec passed"><div class="name">should be able to stub methods on any Object</div></li>
+  </ul>
+</div>
+<div class="context">
+  <h2>A stubbed method on a class</h2>
+  <ul>
+<li class="spec passed"><div class="name">should return the stubbed value</div></li>
+<li class="spec passed"><div class="name">should revert to the original method after each spec</div></li>
+<li class="spec passed"><div class="name">can stub! and mock the same message</div></li>
+  </ul>
+</div>
+<div class="context">
+  <h2>A mock</h2>
+  <ul>
+<li class="spec passed"><div class="name">can stub!</div></li>
+<li class="spec passed"><div class="name">can stub! and mock</div></li>
+<li class="spec passed"><div class="name">can stub! and mock the same message</div></li>
+  </ul>
+</div>
+</body></html>

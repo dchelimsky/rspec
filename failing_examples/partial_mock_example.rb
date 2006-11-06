@@ -1,4 +1,4 @@
-  require File.dirname(__FILE__) + '/../lib/spec'
+require File.dirname(__FILE__) + '/../lib/spec'
 
 class MockableClass
   def self.find id

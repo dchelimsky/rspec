@@ -118,7 +118,7 @@ context "Reporter" do
       
     end
     def failure
-      Mocks::DuckTypeArgConstraint.new(:header, :message, :backtrace)
+      Mocks::DuckTypeArgConstraint.new(:header, :exception)
     end
   
 end
