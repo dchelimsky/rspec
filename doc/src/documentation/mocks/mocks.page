@@ -121,7 +121,7 @@ accepts any object that responds to the prescribed message(s), e.g.:
 my_mock.should_receive(:msg).with(a, duck_type(:abs, :div), "b") 
 </ruby>
 
-h4. /regular expressions/ <font color="red">NEW IN 0.7</font>
+h4. <font style="color:red;">NEW IN 0.7:</font> /regular expressions/ 
 
 matches a String against a regular expression. If a regular expression is submitted, compares the two expressions for equality
 
@@ -217,10 +217,10 @@ my_mock.should_receive(:msg).once.and_return(<value>)
 
 Each time the expected message is received, <code>value</code> will be returned as the result.
 
-h4. Consecutive return values
+h4. <font style="color:red;">CHANGED IN 0.7:</font> Consecutive return values
 
-<font color="red"><b>NOTE - NEW SYNTAX IN 0.7</b></font> - See <a href="../../upgrade.html">Upgrade</a> for
-more information.
+See <a href="../../upgrade.html">Upgrade</a> for more information on the change for 0.7.
+
 <ruby>
 and_return(<value-1>, <value-2>, ..., <value-n>)
 </ruby>

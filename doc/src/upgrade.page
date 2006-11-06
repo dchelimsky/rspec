@@ -11,19 +11,20 @@ from 0.7.
 
 h2. Expectations (in core)
 
-h3. Replace "should_equal" with "should_eql"
+h3. <font style="color:red;">Replace "should_equal" with "should =="</font>
 
 RSpec now checks for equality in the same way that ruby does:
 
 <ruby>
 target.should_equal(expected) #object identity - delegates to target.equal?(expected)
-target.should_be(expected) #alias for should_equal - left in place to ease upgrade
 target.should_eql(expected) #value equivalence - delegates to target.eql?(expected)
 target.should == expected #value equivalence - delegates to target == expected
+
+target.should_be(expected) #alias for should_equal - left in place to ease upgrade
 </ruby>
 
 All you need to do to your existing pre-0.7 specs is replace all of your "should_equal" expectations
-with "should_eql".
+with "should ==".
 
 You don't need to change "should_be" to "should_equal", as they now mean the same thing: Object identity
 
@@ -35,7 +36,7 @@ confusing in the long run if RSpec aligns with the Ruby language.
 
 h2. Mocks
 
-h3. Adjust mock expectations with multiple return values
+h3. <font style="color:red;">Adjust mock expectations with multiple return values</font>
 
 RSpec's mock framework supports setting multiple return values for a consecutive calls to single message expectation:
 
@@ -78,7 +79,7 @@ If you do not find a solution to your problem, please submit a Bug Report (use
 
 "http://rubyforge.org/tracker/?group_id=797":http://rubyforge.org/tracker/?group_id=797
 
-h3. gem install ZenTest
+h3. <font style="color:red;">gem install ZenTest</font>
 
 The RSpec on Rails plugin now extends, and therefore depends on, ZenTest. If you don't
 already have ZenTest, simply....
@@ -87,7 +88,9 @@ already have ZenTest, simply....
 gem install zentest -v 3.4.1
 </ruby>
 
-h3. Add "integrate_views" to all of your controller specs using the Rails Plugin
+h3. <font style="color:red;">integrate_views</font>
+
+h4. Add "integrate_views" to all of your controller specs using the Rails Plugin
 
 We've enhanced rspec_on_rails to support specification of controllers and views in complete
 isolation from each other. This allows you to spec your controllers before their corresponding
@@ -117,7 +120,9 @@ end
 
 See "Rails Plugin":documentation/rails/index.html for more information.
 
-h3. Change "response.should_render" to "controller.should_have_rendered"
+h3. <font style="color:red;">controller.should_have_rendered</font>
+
+h4. Change "response.should_render" to "controller.should_have_rendered"
 
 In keeping with the separation of controllers and views, we moved should_render from the response
 to the controller. This should be a simple search and replace.

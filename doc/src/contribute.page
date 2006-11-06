@@ -29,7 +29,10 @@ tracker, which we review regularly.
 
 h2. Requests For Enhancement (RFEs)
 
-Please use the tracker for all RFEs. 
+Please use the tracker for all RFEs.
+
+For Feature Requests, Patches and Bugs, please be sure to select the appropriate
+category (expectations, mocks, runner, or rails plugin)
 
 "http://rubyforge.org/tracker/?group_id=797":http://rubyforge.org/tracker/?group_id=797
 

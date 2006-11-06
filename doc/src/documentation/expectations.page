@@ -7,11 +7,11 @@ When RSpec executes specifications, it defines a method <code>should</code> on e
 
 Almost all expectation forms have a corresponding negated form. It is listed when it is supported and, unless otherwise stated, is met when ever the non-negated form would be violated.
 
-h3. General
+h2. General
 
-h4. Equality and Identity
+h3. <font color="red">CHANGED IN 0.7:</font> Equality and Identity
 
-RSpec delegates equality evaluation directly to ruby's methods and operators
+RSpec now delegates equality evaluation directly to ruby's methods and operators:
 
 <ruby>
 actual.should_equal <value> #passes if actual.equal? <value>
@@ -24,7 +24,11 @@ actual.should == <value> #passes if actual == <value>
 #there is currently no support for !=, use actual.should_not == instead
 </ruby>
 
-h4. Floating Point Comparison
+Previously, should_equal delegated to == and should_be delegated to .equal?, so
+you'll need to change your pre-existing specs from should_equal to "should =="
+or "should_eql".
+
+h3. Floating Point Comparison
 
 <ruby>
 actual.should_be_close <value>, <tolerance>
@@ -37,7 +41,7 @@ The actual object is compared to <code>value</code>. If they differ by more that
 actual.should_be_close 27.35, 0.05
 </ruby>
 
-h4. Arbitrary Predicate
+h3. Arbitrary Predicate
 
 <ruby>
 actual.should_predicate [optional args]
@@ -55,7 +59,7 @@ container.should_include('a') => container.include?('a')
 container.should_be_empty => container.empty?
 </ruby>
 
-h4. Arbitrary ownership <font color="red">NEW IN 0.7</font>
+h3. <font color="red">NEW IN 0.7:</font> Arbitrary ownership 
 
 <ruby>
 actual.should_have_<anything> [optional args] 
@@ -69,7 +73,7 @@ For example:
 hash.should_have_key(:key) => hash.has_key?(:key)
 </ruby>
 
-h4. Arbitrary Operators
+h3. Arbitrary Operators
 
 <ruby>
 actual.should_be < value
@@ -83,7 +87,7 @@ actual.should_not == value
 
 The operators are sent to <code>actual</code> with supplied arguments. Note that <code>should !=</code> is not supported, but the same effect can be achieved with <code>should_not ==</code>.
 
-h4. Pattern Matching
+h3. Pattern Matching
 
 <ruby>
 actual.should_match <regexp>
@@ -93,9 +97,9 @@ actual.should_not_match <regexp>
 
 The <code>actual</code> is matched against <code>regexp</code>. An <code>ExpectationNotMetError</code> is raised if the match fails.
 
-h3. Class/Type
+h2. Class/Type
 
-h4. Direct Instance
+h3. Direct Instance
 
 <ruby>
 actual.should_be_an_instance_of <class>
@@ -104,7 +108,7 @@ actual.should_not_be_an_instance_of <class>
 
 An <code>ExpectationNotMetError</code> is raised if <code>actual</code> is not or is, respectively, an direct instance of <code>class</code>. As expected this correlates to <code>actual.instance_of?  class</code>.
 
-h4. Ancestor Class
+h3. Ancestor Class
 
 <ruby>
 actual.should_be_a_kind_of <class>
@@ -113,7 +117,7 @@ actual.should_not_be_a_kind_of <class>
 
 As above, but uses <code>actual.kind_of? class</code>: checking whether <code>class</code> is the direct class of <code>actual</code>, or an ancestor of <code>actual</code>'s direct class.
 
-h4. Duck Type
+h3. Duck Type
 
 <ruby>
 actual.should_respond_to <symbol>
@@ -122,11 +126,11 @@ actual.should_not_respond_to <symbol>
 
 Uses <code>actual.respond_to?(symbol)</code> to check whether <code>symbol</code> is the name of a message that <code>actual</code> understands.
 
-h3. Procs
+h2. Procs
 
-h4. Raising
+h3. Raising
 
-<font color="red">NEW IN 0.7</font>: should_raise will match the message against a regexp
+<font style="color:red; font-size:1.2em; font-weight:bold">NEW IN 0.7</font>: should_raise will match the message against a regexp
 
 <ruby>
 proc.should_raise [<exception>], [<message>|<regexp>]
@@ -148,7 +152,7 @@ proc.should_not_raise
 
 These forms don't worry about what exception is raised (or not). All they are concerned with is that some except was raised, or that no exception was.
 
-h4. Throwing
+h3. Throwing
 
 <ruby>
 proc.should_throw <symbol>
@@ -163,9 +167,9 @@ proc.should_not_throw
 
 This form is more specific.  It checks that no symbol is thrown from within <code>proc</code>.
 
-h3. Collections
+h2. Collections
 
-h4. Containment
+h3. Containment
 
 <ruby>
 actual.should_include <object>
@@ -174,7 +178,7 @@ actual.should_not_include <object>
 
 This is simply a specific case of the arbitrary predicate form. It uses <code>actual.include?(object)</code> and raises an <code>ExpectationNotMetError</code> if that returns false. 
 
-h4. Size
+h3. Size
 
 The remaining collection forms are a little more involved. They rely on two things:
 
@@ -183,7 +187,7 @@ The remaining collection forms are a little more involved. They rely on two thin
 
 Currently <code>length</code> is used if is appropriate, otherwise <code>size</code> is attempted.
 
-h4. Exact Size
+h3. Exact Size
 
 <ruby>
 actual.should_have(<number>).things
@@ -191,7 +195,7 @@ actual.should_have(<number>).things
 
 The <code>things</code> of <code>actual</code> has a length/size of exactly <code>number</code>.
 
-h4. Lower Bound
+h3. Lower Bound
 
 <ruby>
 actual.should_have_at_least(<number>).things
@@ -199,7 +203,7 @@ actual.should_have_at_least(<number>).things
 
 The <code>things</code> of <code>actual</code> has a length/size of no less than <code>number</code>.
 
-h4. Upper Bound
+h3. Upper Bound
 
 <ruby>
 actual.should_have_at_most(<number>).things
@@ -207,7 +211,7 @@ actual.should_have_at_most(<number>).things
 
 The <code>things</code> of <code>actual</code> has a length/size of no more than <code>number</code>.
 
-h4. Arbitrary Block
+h3. Arbitrary Block
 
 <ruby>
 actual.should_satisfy {|arg| ...}
