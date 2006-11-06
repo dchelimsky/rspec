@@ -19,11 +19,10 @@ If you prefer to integrate views (a la rails functional testing) you can by incl
 the keyword/commmand "integrate_views".
 
 <ruby>
-context "a context" do
+context "Given a list of articles" do
+  controller_name :articles
   integrate_views
-  specify "something" do
-    ...
-  end
+  ...
 end
 </ruby>
 
@@ -66,7 +65,7 @@ Use this to set an expectation in advance of the action:
 
 <ruby>
 controller.should_render :template => "path/to/template/for/action"
-get 'action'
+get 'some_action'
 </ruby>
 
 You can specify :template, :text, or :action.
@@ -82,7 +81,7 @@ h3. controller.should_have_rendered
 Use this to verify an expectation after an action:
 
 <ruby>
-get 'action'
+get 'some_action'
 controller.should_have_rendered :template => "path/to/template/for/action"
 </ruby>
 
@@ -92,6 +91,15 @@ h3. controller.should_render_rjs
 
 Thanks to Jake Howerton's port (for RSpec) of "Kevin Clark's ARTS library":http://glu.ttono.us/articles/2006/05/29/guide-test-driven-rjs-with-arts (for test/unit), you can specify
 calls made in your rjs templates.
+
+Use these to set rjs expectations in advance of the action:
+
+<ruby>
+controller.should_render_rjs :replace_html, 'mydiv', 'replacement text'
+get 'some_action'
+</ruby>
+
+The following forms are supported:
 
 <ruby>
 controller.should_render_rjs :replace_html, 'mydiv', 'replacement text'
@@ -117,17 +125,29 @@ controller.should_render_rjs :page, 'mydiv', :hide
 
 h3. controller.should_redirect_to
 
+Use these to set redirect expectations in advance of the action:
+
+<ruby>
+controller.should_redirect_to :action => 'other_action'
+get 'some_action'
+</ruby>
+
+The following forms are supported:
+
 <ruby>
 controller.should_redirect_to :action => 'other_action'
 controller.should_redirect_to 'path/to/local/redirect'
-controller.should_redirect_to 'http://test.host/some_controller/some_action
+controller.should_redirect_to 'http://test.host/some_controller/some_action'
 controller.should_redirect_to 'http://some.other.domain.com'
 </ruby>
 
 h3. assigns
 
+Use these to check that variables have been assigned AFTER the action.
+
 <ruby>
-assigns[:person].should_eql Person.new(:name => "Joe Smith")
+get 'some_action'
+assigns[:person].should == Person.new(:name => "Joe Smith")
 </ruby>
 
 Note that the old syntax (assigns(key)) is still working but it is no longer officially supported.
