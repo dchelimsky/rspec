@@ -65,16 +65,16 @@ h3. controller.should_render
 Use this to set an expectation in advance of the action:
 
 <ruby>
-controller.should_render :template = "path/to/template/for/action"
+controller.should_render :template => "path/to/template/for/action"
 get 'action'
 </ruby>
 
 You can specify :template, :text, or :action.
 
 <ruby>
-controller.should_render :template = "path/to/template/for/action"
-controller.should_render :text = "expected text"
-controller.should_render :action = "expected_action"
+controller.should_render :template => "path/to/template/for/action"
+controller.should_render :text => "expected text"
+controller.should_render :action => "expected_action"
 </ruby>
 
 h3. controller.should_have_rendered
@@ -83,7 +83,7 @@ Use this to verify an expectation after an action:
 
 <ruby>
 get 'action'
-controller.should_have_rendered :template = "path/to/template/for/action"
+controller.should_have_rendered :template => "path/to/template/for/action"
 </ruby>
 
 Like should_render above, you can specify :template, :text, or :action.

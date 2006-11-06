@@ -2,6 +2,7 @@
 
 == Version 0.7.1 (in SVN)
 
+* Applied [#6514] Document has trivial typos.
 * Simplified method_missing on mock_methods to make it less invasive on partial mocks. 
 
 == Version 0.7.0

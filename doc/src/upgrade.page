@@ -88,6 +88,17 @@ already have ZenTest, simply....
 gem install zentest -v 3.4.1
 </ruby>
 
+h3. <font style="color:red;">update spec/spec_helper.rb</font>
+
+The new spec_helper.rb no longer mixes in the ControllerMixin. Update your spec_helper.rb
+so it looks like the following, plus whatever customizations you have already made (like
+fixtures or other requires, etc)
+
+<pre>{includeFile: {filename: ../../vendor/rspec_on_rails/vendor/plugins/rspec/generators/rspec/templates/spec_helper.rb, processOutput: false}}</pre>
+
+You can do this automatically by re-running "script/generate rspec", but you'll overwrite your
+existing spec_helper.rb and lose your customizations in doing so.
+
 h3. <font style="color:red;">integrate_views</font>
 
 h4. Add "integrate_views" to all of your controller specs using the Rails Plugin
