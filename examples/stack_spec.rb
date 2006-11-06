@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../lib/spec'
 require File.dirname(__FILE__) + "/stack"
 
-context "A stack (in general)" do
+context "A stack which is neither empty nor full" do
   setup do
     @stack = Stack.new
     ["a","b","c"].each { |x| @stack.push x }
