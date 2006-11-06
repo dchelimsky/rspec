@@ -24,6 +24,8 @@ actual.should == <value> #passes if actual == <value>
 #there is currently no support for !=, use actual.should_not == instead
 </ruby>
 
+See "http://www.ruby-doc.org/core/classes/Object.html#M001057":http://www.ruby-doc.org/core/classes/Object.html#M001057 for more information.
+
 Previously, should_equal delegated to == and should_be delegated to .equal?, so
 you'll need to change your pre-existing specs from should_equal to "should =="
 or "should_eql".

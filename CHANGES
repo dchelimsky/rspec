@@ -1,6 +1,10 @@
 = RSpec Changelog
 
-== Version 0.7.0 (in SVN)
+== Version 0.7.1 (in SVN)
+
+* Simplified method_missing on mock_methods to make it less invasive on partial mocks. 
+
+== Version 0.7.0
 
 This is the "Grow up and eat your own dog food release". RSpec is now used on itself and
 we're no longer using Test::Unit to test it. Although, we are still extending Test::Unit

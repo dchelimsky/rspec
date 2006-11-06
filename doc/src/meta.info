@@ -41,6 +41,10 @@ license.page:
   orderInfo: 11
   inMenu: true
 
+changes.page:
+  orderInfo: 12
+  inMenu: true
+
 rubyforge.html:
   title: Rubyforge
   inMenu: true

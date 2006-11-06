@@ -10,6 +10,17 @@ module Spec
         @name = name
         @options = options
       end
+
+      def method_missing(sym, *args, &block)
+        __mock_handler.instance_eval {@messages_received << [sym, args, block]}
+        begin
+          return self if __mock_handler.null_object?
+          super(sym, *args, &block)
+        rescue NoMethodError
+          __mock_handler.raise_unexpected_message_error sym, *args
+        end
+      end
+      
     end
   end
 end
