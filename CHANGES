@@ -2,6 +2,7 @@
 
 == Version 0.7.1 (in SVN)
 
+* Fixed [#6547] response.should_be_redirect broken in 0.7.0
 * Applied [#6514] Document has trivial typos.
 * Simplified method_missing on mock_methods to make it less invasive on partial mocks. 
 

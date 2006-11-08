@@ -11,6 +11,7 @@ context "Given a controller spec in isolation (default) mode, should_redirect_to
   specify "redirected to correct path with leading /" do
     controller.should_redirect_to '/redirect_spec/somewhere'
     get 'action_with_redirect_to_somewhere'
+    response.should_be_redirect
   end
     
   specify "redirected to correct path without leading /" do
@@ -117,6 +118,7 @@ context "Given a controller spec in integration mode, should_redirect_to should 
   specify "redirected to correct action" do
     controller.should_redirect_to :action => 'somewhere'
     get 'action_with_redirect_to_somewhere'
+    response.should_be_redirect
   end
   
   specify "redirected to correct path with leading /" do
@@ -199,4 +201,3 @@ context "Given a controller spec in integration mode, should_redirect_to should 
     get 'action_with_no_redirect'
   end
 end
-

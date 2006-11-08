@@ -23,6 +23,30 @@ context "The PersonController" do
   end
 end
 
+context "The PersonController (with views intergrated)" do
+  controller_name :person
+  integrate_views
+
+  specify "should be a PersonController" do
+    controller.should_be_instance_of PersonController
+  end
+
+  specify "should create an unsaved person record on GET to create" do
+    person = mock("person")
+    Person.should_receive(:new).and_return(person)
+    controller.should_render :template => "person/create"
+    get 'create'
+    assigns[:person].should_be person
+  end
+  
+  specify "should persist a new person and redirect to index on POST to create" do
+    Person.should_receive(:create).with({"name" => 'Aslak'})
+    controller.should_redirect_to :action => 'index'
+    post 'create', {:person => {:name => 'Aslak'}}
+    response.should_be_redirect
+  end
+end
+
 context "When requesting /person with controller isolated from views" do
   controller_name :person
 

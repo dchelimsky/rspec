@@ -86,7 +86,7 @@ module Spec
         end
         
         def redirect_to(opts)
-          response.headers['Status'] = '302'
+          response.instance_eval { @performed_redirect_for_rspec = true }
           if redirect_matcher.interested_in?(opts)
             redirect_matcher.match(request, opts)
           else

@@ -2,12 +2,21 @@ module ActionController
   class TestResponse
     module InstanceMethodsForRSpec
       def should_be_success
-        return if @isolate_from_views
         raise Spec::Expectations::ExpectationNotMetError.new("expected response to be success but was not") unless success?
+      end
+      
+      def success?
+        return true if @isolate_from_views
+        super
       end
       
       def should_be_redirect
         raise Spec::Expectations::ExpectationNotMetError.new("expected response to be redirect but was not") unless redirect?
+      end
+      
+      def redirect?
+        return true if @performed_redirect_for_rspec
+        super
       end
       
       def should_have_rjs element, *args
