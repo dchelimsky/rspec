@@ -12,7 +12,7 @@ SyntaxError in should_have_tag(tag, *opts)
 * opts should be a Hash of key value pairs
 
 -
-    lambda { response.should_have_tag '<div>' }.should_raise SyntaxError, message
+    lambda { response.should_have_tag '<div>' }.should_raise Spec::Expectations::ExpectationNotMetError, message
   end
 end
 

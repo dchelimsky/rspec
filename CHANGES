@@ -2,6 +2,7 @@
 
 == Version 0.7.1 (in SVN)
 
+* Fixed [#6567] SyntaxError should not stop entire run
 * Fixed [#6558] integrated views look for template even when redirected
 * Added [#6560] controller.session should be available before the action
 * Fixed [#6547] response.should_be_redirect broken in 0.7.0

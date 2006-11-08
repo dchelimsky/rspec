@@ -25,7 +25,7 @@ SyntaxError in should_have_tag(tag, *opts)
 * opts should be a Hash of key value pairs
 
 -
-          raise SyntaxError.new(message)
+          raise Spec::Expectations::ExpectationNotMetError.new(message)
         end
           
         HTML::Document.new(self).find(opts)
