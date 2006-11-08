@@ -17,7 +17,7 @@ module Spec
 
       def find_tag(*opts)
         opts = OptsMerger.new(opts).merge(:tag)
-        unless opts[:tag] =~ /^\w+$/
+        unless opts[:tag].to_s =~ /^\w+$/
           message = %-
 
 SyntaxError in should_have_tag(tag, *opts)

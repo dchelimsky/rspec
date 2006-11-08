@@ -32,11 +32,15 @@ context "Given a template with one div tag with no attributes, a 'should_have_ta
     render "/tag_spec/single_div_with_no_attributes"
   end
   
-  specify "['div'] should pass" do
+  specify "'div' should pass" do
     response.should_have_tag 'div'
   end
   
-  specify "['div', :attributes => {:id => 'a'}] should fail" do
+  specify ":div should pass" do
+    response.should_have_tag :div
+  end
+  
+  specify "'div', :attributes => {:id => 'a'} should fail" do
     lambda { response.should_have_tag 'div', :attributes => {:id => 'a'} }.should_fail
   end
 end
