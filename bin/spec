@@ -1,19 +1,5 @@
 #!/usr/bin/env ruby
 $LOAD_PATH.push File.dirname(__FILE__) + "/../lib"
 require File.expand_path(File.dirname(__FILE__) + "/../lib/spec") # better stack traces this way
-
-$context_runner = ::Spec::Runner::OptionParser.create_context_runner(ARGV, false, STDERR, STDOUT)
-
-# If ARGV is a glob, it will actually each over each one of the matching files.
-ARGV.each do |file_or_dir|
-  if File.directory?(file_or_dir)
-    Dir["#{file_or_dir}/**/*.rb"].each do |file| 
-      require file
-    end
-  else
-    require file_or_dir
-  end
-end
-
-$context_runner.run(true)
+::Spec::Runner::CommandLine.run(ARGV, STDERR, STDOUT, true, true)
 

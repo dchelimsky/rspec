@@ -13,7 +13,7 @@ $ ruby path/to/my_spec.rb [options]
 
 This will print the results to STDOUT. Use the --help option for more details. This is
 practical when you only want to run one context. If you want to run more, use the spec tool
-or the Rake task. It should also be noted that the exitcode will always be 0 when run in standalone mode.
+or the Rake task.
 
 h2. The spec command line
 
@@ -54,7 +54,7 @@ $ spec --help
 </pre>
 
 The command line options can be passed to customize the output and behaviour of RSpec.
-The options apply whether specs are run in standalone mode (by executing the .rb files directly), 
+The options apply whether specs are run in standalone mode (by executing the .rb files directly with ruby), 
 or using the spec command.
 
 h3. --diff

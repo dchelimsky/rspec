@@ -36,7 +36,7 @@ Spec::Rake::SpecTask.new do |t|
   t.spec_opts = ['--diff','--color','--backtrace']
   t.rcov = true
   t.rcov_dir = 'doc/output/coverage'
-  t.rcov_opts = ['--exclude', 'spec\/spec,bin\/spec']
+  t.rcov_opts = ['--exclude', 'spec\/spec,bin\/spec,examples']
 end
 
 desc "Run all failing examples"

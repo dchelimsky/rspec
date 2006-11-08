@@ -19,7 +19,7 @@ context "ContextRunner" do
         reporter.should_receive(:start).with(0)
         reporter.should_receive(:end)
         reporter.should_receive(:dump)
-        runner=ContextRunner.new(reporter, false, false)
+        runner=ContextRunner.new(reporter, false)
         runner.add_context(context1)
         runner.add_context(context2)
         runner.run(false)
@@ -40,7 +40,7 @@ context "ContextRunner" do
         other_context.should_receive(:run).never
         other_context.should_receive(:number_of_specs).never
         reporter=Spec::Mocks::Mock.new("reporter")
-        runner=ContextRunner.new(reporter, false, false, "desired context legal spec")
+        runner=ContextRunner.new(reporter, false, "desired context legal spec")
         runner.add_context(desired_context)
         runner.add_context(other_context)
         reporter.should_receive(:start)

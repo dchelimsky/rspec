@@ -5,8 +5,8 @@ module Spec
   module Runner
     class OptionParser
 
-      def self.create_context_runner(args, standalone, err, out=STDOUT)
-        options = parse(args, standalone, err, out)
+      def self.create_context_runner(args, err, out, warn_if_no_files)
+        options = parse(args, err, out, warn_if_no_files)
 
         formatter = options.formatter_type.new(options.out, options.dry_run, options.colour)
         reporter = Reporter.new(formatter, options.backtrace_tweaker) 
@@ -17,10 +17,10 @@ module Spec
           Spec::Expectations::Should::Base.differ = options.differ_class.new(options.diff_format, options.context_lines, options.colour)
         end
 
-        ContextRunner.new(reporter, standalone, options.dry_run, options.spec_name)
+        ContextRunner.new(reporter, options.dry_run, options.spec_name)
       end
 
-      def self.parse(args, standalone, err, out)
+      def self.parse(args, err, out, warn_if_no_files)
         options = OpenStruct.new
         options.out = out == STDOUT ? Kernel : out
         options.formatter_type = Formatter::ProgressBarFormatter
@@ -120,9 +120,9 @@ module Spec
         end
         opts.parse!(args)
 
-        if args.empty?
-          err.puts opts unless standalone
-          exit if err == $stderr unless standalone
+        if args.empty? && warn_if_no_files
+          err.puts opts
+          exit if err == $stderr
         end
 
         options

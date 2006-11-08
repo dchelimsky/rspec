@@ -13,17 +13,7 @@ module Spec
         ::Dependencies.mechanism = :load
         require_dependency('application.rb') unless Object.const_defined?(:ApplicationController)
     
-        $context_runner = OptionParser.create_context_runner(args, false, stderr, stdout)
-        args.each do |file_or_dir|
-          if File.directory?(file_or_dir)
-            Dir["#{file_or_dir}/**/*.rb"].each do |file| 
-              load file
-            end
-          else
-            load file_or_dir
-          end
-        end
-        $context_runner.run(false) unless args.empty?
+        ::Spec::Runner::CommandLine.run(args, stderr, stdout, false, true)
       end
     end
   end

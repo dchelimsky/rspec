@@ -4,7 +4,7 @@ require 'spec'
 require File.dirname(__FILE__) + '/../spec/spec/spec_classes'
 RSPEC_TESTING = true unless defined? RSPEC_TESTING # This causes the diff extension to not be loaded
 require 'spec/expectations/diff'
-$context_runner ||= ::Spec::Runner::OptionParser.create_context_runner(['test'], false, STDERR, STDOUT)
+$context_runner ||= ::Spec::Runner::OptionParser.create_context_runner(['test'], STDERR, STDOUT)
 
 class Proc
   def should_fail

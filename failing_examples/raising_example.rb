@@ -24,7 +24,7 @@ context "This example" do
     proc { ''.nonexistent_method }.should_not_raise NoMethodError
   end
   
-  specify "should pass" do
+  specify "should also pass" do
     proc { ''.nonexistent_method }.should_not_raise SyntaxError
   end
   
@@ -40,7 +40,7 @@ context "This example" do
     proc { raise StandardError.new("abc") }.should_not_raise StandardError, "abc"
   end
   
-  specify "should pass" do
+  specify "should pass too" do
     proc { raise StandardError.new("abc") }.should_not_raise StandardError, "xyz"
   end
   

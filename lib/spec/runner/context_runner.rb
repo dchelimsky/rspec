@@ -3,12 +3,10 @@ require File.dirname(__FILE__) + '/../../spec'
 module Spec
   module Runner
     class ContextRunner
-      attr_reader :standalone
       
-      def initialize(reporter, standalone, dry_run, single_spec=nil)
+      def initialize(reporter, dry_run, single_spec=nil)
         @contexts = []
         @reporter = reporter
-        @standalone = standalone
         @dry_run = dry_run
         @single_spec = single_spec
       end
