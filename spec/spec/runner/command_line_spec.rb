@@ -19,4 +19,14 @@ context "CommandLine" do
     out.rewind
     out.read.should =~ /2 specifications, 0 failures/n
   end
+
+  specify "should raise when file does not exist" do
+    file = File.dirname(__FILE__) + '/doesntexist'
+    err = StringIO.new
+    out = StringIO.new
+
+    lambda {
+      Spec::Runner::CommandLine.run([file], err, out, false, true)
+    }.should_raise
+  end
 end
