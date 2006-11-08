@@ -38,27 +38,19 @@ module Spec
         #   in its benefits.
         #
         def render(options=nil, deprecated_status=nil, &block)
+          unless integrate_views?
+            @template = Spec::Mocks::Mock.new("mock template", :null_object => true) 
+            response.isolate_from_views!
+          end
           #TODO - this "if @render_called" is a hack because render gets called twice.
           # Don't know why. That should be looked at.
           unless render_called?
             render_called
-            if integrate_views?
-              super
-            else
-              response.isolate_from_views!
-            end
-            # if options.nil? ActionController::Base is calling this
-            # assuming that we're going to render the default template
-            # associated with an action. Adding this to options allows
-            # the specs to look consistent
-            #
-            # This may be a bit ticklish w/ future changes to rails, but
-            # if problems are introduced, then there are specs that
-            # invoke this that should fail. So at least we'll know what's what.
             render_matcher.set_rendered(ensure_default_options(options), &block)
           end
+          super
         end
-
+        
         def should_render(expected)
           render_matcher.set_expectation(expected)
         end

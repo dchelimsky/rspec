@@ -5,11 +5,6 @@ module ActionController
         raise Spec::Expectations::ExpectationNotMetError.new("expected response to be success but was not") unless success?
       end
       
-      def success?
-        return true if @isolate_from_views
-        super
-      end
-      
       def should_be_redirect
         raise Spec::Expectations::ExpectationNotMetError.new("expected response to be redirect but was not") unless redirect?
       end
