@@ -24,6 +24,7 @@ PKG_FILES = FileList[
   'vendor/watir/*.rb',
   'vendor/watir/*.txt',
   'vendor/selenium/*.rb',
+  'vendor/selenium/*.patch',
   'vendor/selenium/*.txt'
 ]
 
