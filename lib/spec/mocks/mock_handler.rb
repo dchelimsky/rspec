@@ -65,7 +65,7 @@ module Spec
       end
 
       def __pre_proxied_method_name method_name
-        "original_#{method_name.to_s.delete('!').delete('[').delete('\]')}_before_proxy"
+        "original_#{method_name.to_s.delete('!').delete('?').delete('[').delete('\]')}_before_proxy"
       end
 
       def verify #:nodoc:
