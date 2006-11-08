@@ -125,6 +125,7 @@ module Spec
             include ControllerInstanceMethods
           end
           @controller.integrate_views! if @integrate_views
+          @controller.session = session
         end
         def assigns(key=nil)
           return assigns[key] unless key.nil?
