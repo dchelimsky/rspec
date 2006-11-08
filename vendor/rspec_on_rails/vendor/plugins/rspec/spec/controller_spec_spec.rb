@@ -28,3 +28,16 @@ require File.dirname(__FILE__) + '/spec_helper'
   end
 end
 
+['integration', 'isolation'].each do |mode|
+  context "Given a controller spec running in #{mode} mode", :context_type => :controller do
+    controller_name :redirect_spec
+    integrate_views if mode == 'integration'
+
+    specify "a redirect should ignore the absence of a template" do
+      get 'action_with_redirect_to_somewhere'
+      response.should_be_redirect
+      response.redirect_url.should_eql "http://test.host/redirect_spec/somewhere"
+    end
+  end
+end
+

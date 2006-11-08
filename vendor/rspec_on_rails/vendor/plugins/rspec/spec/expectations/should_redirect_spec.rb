@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
-context "Given a controller spec in isolation (default) mode, should_redirect_to should pass when", :context_type => :controller do
+context "Given a controller spec in isolation mode, should_redirect_to should pass when", :context_type => :controller do
   controller_name :redirect_spec
   
   specify "redirected to correct action" do
@@ -35,14 +35,14 @@ context "Given a controller spec in isolation (default) mode, should_redirect_to
     get 'action_with_redirect_back'
   end
   
-  specify "redirected :back" do
+  specify "redirected :back and should_redirect_to URL matches" do
     request.env['HTTP_REFERER'] = "http://test.host/previous/page"
     controller.should_redirect_to "http://test.host/previous/page"
     get 'action_with_redirect_back'
   end
 end
 
-context "Given a controller spec in isolation (default) mode", :context_type => :controller do
+context "Given a controller spec in isolation mode", :context_type => :controller do
   controller_name :redirect_spec
   
   specify "an action that redirects should not result in an error if no should_redirect_to expectation is called" do
@@ -59,7 +59,7 @@ context "Given a controller spec in integration mode", :context_type => :control
   end
 end
   
-context "Given a controller spec in isolation (default) mode, should_redirect_to should fail when", :context_type => :controller do
+context "Given a controller spec in isolation mode, should_redirect_to should fail when", :context_type => :controller do
   controller_name :redirect_spec
   
   specify "redirected to wrong action",
@@ -201,3 +201,4 @@ context "Given a controller spec in integration mode, should_redirect_to should 
     get 'action_with_no_redirect'
   end
 end
+
