@@ -63,8 +63,8 @@ module Spec
             @output.puts red(failure.header)
             @output.puts red(failure.exception.message)
           else
-            @output.puts blue(failure.header)
-            @output.puts blue(failure.exception.message)
+            @output.puts magenta(failure.header)
+            @output.puts magenta(failure.exception.message)
           end
           @output.puts failure.exception.backtrace.join("\n")
           STDOUT.flush
@@ -93,7 +93,7 @@ module Spec
     
         def red(text); colour(text, "\e[31m"); end
         def green(text); colour(text, "\e[32m"); end
-        def blue(text); colour(text, "\e[34m"); end
+        def magenta(text); colour(text, "\e[35m"); end
         
         def format_backtrace(backtrace)
           backtrace.nil? ? "" : backtrace.join("\n")

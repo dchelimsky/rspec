@@ -2,7 +2,7 @@
 
 == Version 0.7.1 (in SVN)
 
-* Different printing and coulours for unmet expectaions (red) and other exceptions (blue)
+* Different printing and coulours for unmet expectaions (red) and other exceptions (magenta)
 * Fixed [#6575] Parse error in aliasing the partial mock original method
 * Fixed [#6555] should_have_tag does not match documentation
 * Fixed [#6567] SyntaxError should not stop entire run
