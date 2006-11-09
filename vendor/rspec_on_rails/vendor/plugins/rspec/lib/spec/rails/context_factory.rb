@@ -14,7 +14,7 @@ module Spec
           elsif (spec_path =~ /\/spec\/+models/) || (context_type == :model)
             return Spec::Rails::ModelContext.new(args[0], &block)
           else
-            return Spec::Runner::Context.new(name, &block)
+            return Spec::Runner::Context.new(args[0], &block)
           end
         end
       end
