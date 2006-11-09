@@ -77,9 +77,9 @@ module Spec
           redirect_matcher.set_expected(opts)
         end
         
-        def redirect_to(options = {}, *parameters_for_method_reference) #:doc:
-          redirect_matcher.match(request, options) if redirect_matcher.interested_in?(options)
+        def redirect_to(opts)
           super
+          redirect_matcher.match(request, opts) if redirect_matcher.interested_in?(opts)
         end
 
         def integrate_views!
