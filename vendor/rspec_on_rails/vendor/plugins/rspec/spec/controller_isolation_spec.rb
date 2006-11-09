@@ -25,10 +25,10 @@ context "a controller spec running in integration mode", :context_type => :contr
   controller_name :controller_isolation_spec
   integrate_views
 
-  specify "should render a template implied by an action" do
-    get 'action_with_implied_template'
+  specify "should render a template" do
+    get 'action_with_template'
     response.should_be_success
-    response.should_have_tag 'div', :content => "This template, \"action_with_implied_template.rhtml\", is implied by the controller"
+    response.should_have_tag 'div', :content => "This is action_with_template.rhtml"
   end
   
   specify "should render a template explicitly specified in an action" do
