@@ -2,6 +2,8 @@
 
 == Version 0.7.1 (in SVN)
 
+* Fixed [#6575] Parse error in aliasing the partial mock original method (patch by Brian Takita)
+* Fixed [#6277] debris left by stubbing (trunk) [submitted by dastels] (fixed by fix to [#6575])
 * Added support for should_have_rjs :visual_effect
 * Different printing and coulours for unmet expectaions (red) and other exceptions (magenta)
 * Fixed [#6575] Parse error in aliasing the partial mock original method
