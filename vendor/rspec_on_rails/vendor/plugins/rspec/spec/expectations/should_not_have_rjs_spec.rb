@@ -160,3 +160,50 @@ context "Given an rjs call to :hide a div using page['id'], a 'should_not_have_r
     response.should_not_have_rjs :page, 'mydiv', :replace
   end
 end
+
+context "Given an rjs call to :visual_effect, a 'should_not_have_rjs' spec with",
+  :context_type => :view do
+    
+  setup do
+    render 'rjs_spec/visual_effect'
+  end
+  
+  specify "the correct element name should fail" do
+    lambda {
+      response.should_not_have_rjs :effect, :fade, 'mydiv'
+    }.should_fail
+  end
+  
+  specify "the wrong element name should pass" do
+    response.should_not_have_rjs :effect, :fade, 'wrongname'
+  end
+  
+  specify "the correct element but the wrong command should pass" do
+    response.should_not_have_rjs :effect, :puff, 'mydiv'
+  end
+  
+end
+  
+context "Given an rjs call to :visual_effect for a toggle, a 'should_not_have_rjs' spec with",
+  :context_type => :view do
+    
+  setup do
+    render 'rjs_spec/visual_toggle_effect'
+  end
+  
+  specify "the correct element name should fail" do
+    lambda {
+      response.should_not_have_rjs :effect, :toggle_blind, 'mydiv'
+    }.should_fail
+  end
+  
+  specify "the wrong element name should pass" do
+    response.should_not_have_rjs :effect, :toggle_blind, 'wrongname'
+  end
+  
+  specify "the correct element but the wrong command should pass" do
+    response.should_not_have_rjs :effect, :puff, 'mydiv'
+  end
+  
+end
+  

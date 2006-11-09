@@ -16,7 +16,7 @@ module Spec
       end
 
       protected
-
+      
       def should_page(*args)
         content = build_method_chain!(args)
         self.to_s.should_match Regexp.new(Regexp.escape(content))
@@ -43,6 +43,14 @@ module Spec
         content
       end
 
+      def should_effect(*args)
+        should_effect_helper('', *args)
+      end
+      
+      def should_not_effect(*args)
+        should_effect_helper('not_', *args)
+      end
+      
       def should_insert_html(*args)
         should_insert_html_helper('', *args)
       end
@@ -68,6 +76,17 @@ module Spec
       end
 
       private
+
+      def should_effect_helper(predicate, *args)
+        effect = args.shift
+        div = args.shift
+        regex = if ActionView::Helpers::ScriptaculousHelper::TOGGLE_EFFECTS.include? effect
+          Regexp.new("Effect.toggle(.*#{div}.*'#{effect.to_s.gsub(/^toggle_/,'')}'.*);")
+        else
+          Regexp.new("Effect.#{effect.to_s.camelize}(.*#{div}.*);")
+        end
+        self.to_s.__send__ "should_#{predicate}match", regex
+      end
       
       def should_insert_html_helper(predicate, *args)
         position = args.shift
