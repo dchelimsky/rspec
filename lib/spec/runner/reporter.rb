@@ -83,7 +83,11 @@ module Spec
         end
 
         def header
-          "#{@exception.class.name} in '#{@context_name} #{@spec_name}'"
+          if @exception.is_a?(Spec::Expectations::ExpectationNotMetError)
+            "'#{@context_name} #{@spec_name}' FAILED"
+          else
+            "#{@exception.class.name} in '#{@context_name} #{@spec_name}'"
+          end
         end
 
       end

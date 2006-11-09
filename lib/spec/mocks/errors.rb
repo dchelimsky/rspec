@@ -1,9 +1,9 @@
 module Spec
   module Mocks
-    class MockExpectationError < StandardError
+    class MockExpectationError < Expectations::ExpectationNotMetError
     end
     
-    class AmbiguousReturnError < StandardError
+    class AmbiguousReturnError < Expectations::ExpectationNotMetError
     end
   end
 end

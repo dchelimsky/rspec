@@ -10,15 +10,6 @@ context "ProgressBarFormatterFailureDump" do
         @reporter.add_context("context")
       
     end
-    specify "should add spacing between sections" do
-      
-        error=Spec::Expectations::ExpectationNotMetError.new("message")
-        set_backtrace(error)
-        @reporter.spec_finished("spec", error, "spec")
-        @reporter.dump
-        @io.string.should_match(/\nF\n\n1\)\nSpec::Expectations::ExpectationNotMetError in 'context spec'\nmessage\n\/a\/b\/c\/d\/e.rb:34:in `spec'\n\nFinished in /)
-      
-    end
     specify "should end with line break" do
       
         error=Spec::Expectations::ExpectationNotMetError.new("message")
@@ -56,15 +47,6 @@ context "ProgressBarFormatterFailureDump" do
         @reporter.dump
         @io.string.should_match(/RuntimeError in 'context spec'/)
         @io.string.should_match(/in `teardown'/)
-      
-    end
-    specify "should include informational header" do
-      
-        error=Spec::Expectations::ExpectationNotMetError.new("message")
-        set_backtrace(error)
-        @reporter.spec_finished("spec", error, "spec")
-        @reporter.dump
-        @io.string.should_match(/^Spec::Expectations::ExpectationNotMetError in 'context spec'/)
       
     end
     def set_backtrace  (error)
