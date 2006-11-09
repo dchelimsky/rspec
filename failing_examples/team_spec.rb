@@ -15,6 +15,7 @@ class Players
     @players.size
   end
   def include? player
+    raise "player must be a string" unless player.is_a?(String)
     @players.include? player
   end
 end
@@ -31,6 +32,10 @@ context "A new team" do
   
   specify "should include some player (failing example)" do
     @team.players.should_include("Some Player")
+  end
+
+  specify "should include 5 (failing example)" do
+    @team.players.should_include(5)
   end
   
   specify "should have no players" do

@@ -59,8 +59,13 @@ module Spec
         def dump_failure(counter, failure)
           @output.puts
           @output.puts "#{counter.to_s})"
-          @output.puts failure.header
-          @output.puts failure.exception.message
+          if(failure.expectation_not_met?)
+            @output.puts red(failure.header)
+            @output.puts red(failure.exception.message)
+          else
+            @output.puts blue(failure.header)
+            @output.puts blue(failure.exception.message)
+          end
           @output.puts failure.exception.backtrace.join("\n")
           STDOUT.flush
         end
@@ -88,6 +93,7 @@ module Spec
     
         def red(text); colour(text, "\e[31m"); end
         def green(text); colour(text, "\e[32m"); end
+        def blue(text); colour(text, "\e[34m"); end
         
         def format_backtrace(backtrace)
           backtrace.nil? ? "" : backtrace.join("\n")
