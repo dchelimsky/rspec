@@ -1,49 +1,63 @@
+#The comments below are here for educational purposes only.
+#They are not an endorsement of comments in your spec!
+
 require File.dirname(__FILE__) + '/../spec_helper'
 
-context "The PersonController" do
+context "the PersonController" do
   controller_name :person
-
-  specify "should be a PersonController" do
-    controller.should_be_instance_of PersonController
-  end
-
-  specify "should create an unsaved person record on GET to create" do
-    person = mock("person")
-    Person.should_receive(:new).and_return(person)
-    controller.should_render :template => "person/create"
-    get 'create'
-    assigns[:person].should_be person
+  
+  setup do
+    @person = mock("person")
+    
+    #Generally, prefer stub! over should_receive in setup.
+    @person.stub!(:new_record?).and_return(false)
+    Person.stub!(:new).and_return(@person)
   end
   
-  specify "should persist a new person and redirect to index on POST to create" do
-    Person.should_receive(:create).with({"name" => 'Aslak'})
-    controller.should_redirect_to :action => 'index'
-    post 'create', {:person => {:name => 'Aslak'}}
-    response.should_be_redirect
-  end
-end
-
-context "The PersonController (with views intergrated)" do
-  controller_name :person
-  integrate_views
-
-  specify "should be a PersonController" do
-    controller.should_be_instance_of PersonController
-  end
-
-  specify "should create an unsaved person record on GET to create" do
-    person = mock("person")
-    Person.should_receive(:new).and_return(person)
-    controller.should_render :template => "person/create"
+  specify "should create a new, unsaved person on GET to create" do
+    #Using should_receive here overrides the stub in setup. Even
+    #though it is the same as the stub, using should_receive sets
+    #an expectation that  will be verified. It also helps to
+    #better express the intent of this spec block.
+    Person.should_receive(:new).and_return(@person)
     get 'create'
-    assigns[:person].should_be person
   end
   
-  specify "should persist a new person and redirect to index on POST to create" do
-    Person.should_receive(:create).with({"name" => 'Aslak'})
-    controller.should_redirect_to :action => 'index'
+  specify "should assign new person to template on GET to create" do
+    get 'create'
+    assigns[:person].should_be @person
+  end
+  
+  specify "should render 'person/create' on GET to create" do
+    controller.should_render :template => "person/create"
+    get 'create'
+  end
+  
+  specify "should tell the Person model to create a new person on POST to create" do
+    Person.should_receive(:create).with({"name" => 'Aslak'}).and_return(@person)
+    
     post 'create', {:person => {:name => 'Aslak'}}
+  end
+  
+  specify "with a valid person should redirect to index on successful POST to create" do
+    @person.should_receive(:new_record?).and_return(false)
+    Person.should_receive(:create).with({"name" => 'Aslak'}).and_return(@person)
+    controller.should_redirect_to :action => 'index'
+    
+    post 'create', {:person => {:name => 'Aslak'}}
+    
     response.should_be_redirect
+  end
+  
+  specify "with a valid person re-render 'person/create' on failed POST to create" do
+    @person.should_receive(:new_record?).and_return(true)
+    Person.should_receive(:create).with({"name" => 'Aslak'}).and_return(@person)
+    controller.should_render :template => "person/create"
+    
+    post 'create', {:person => {:name => 'Aslak'}}
+    
+    response.should_not_be_redirect
+    assigns[:person].should == Person.new({:name => 'Aslak'})
   end
 end
 
@@ -80,7 +94,7 @@ context "When requesting /person with views integrated" do
     Person.stub!(:find).and_return(@people)
     get 'index'
   end
-
+  
   specify "the response should render 'list'" do
     controller.should_have_rendered :template => "person/list"
   end
@@ -92,7 +106,6 @@ context "When requesting /person with views integrated" do
   end
 
   specify "should find all people on GET to index" do
-    get 'index'
     response.should_be_success
     assigns[:people].should_be @people
   end
@@ -106,8 +119,9 @@ context "/person/show/3" do
     @person = mock("person")
   end
   
-  specify "should get person with id => 3 from model (using partial mock)" do
+  specify "should get person with id => 3 from model" do
     Person.should_receive(:find).with("3").and_return(@person)
+    
     get 'show', :id => 3
   
     assigns[:person].should_be @person

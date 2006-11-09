@@ -7,15 +7,21 @@ class PersonController < ApplicationController
 
   def create
     if request.post?
-      Person.create(params[:person])
-      redirect_to :action => 'index'
+      @person = Person.create(params[:person])
+      unless @person.new_record?
+        redirect_to :action => 'index'
+      else
+        render :template => 'person/create'
+      end
     else
       @person = Person.new
+      render :template => 'person/create'
     end
   end
   
   def show
     @person = Person.find(params[:id])
+    render :template => 'person/show'
   end
   
 end
