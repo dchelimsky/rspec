@@ -19,7 +19,7 @@ module Spec
             raise "File or directory not found: #{file_or_dir}"
           end
         end
-        context_runner.run(exit)
+        $context_runner.run(exit)
         $context_runner = old_context_runner
       end
     end
