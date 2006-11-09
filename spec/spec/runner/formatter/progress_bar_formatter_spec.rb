@@ -20,7 +20,7 @@ context "ProgressBarFormatter" do
       
     end
     specify "should push F for failing spec" do
-        @formatter.spec_failed("spec", 98, nil)
+        @formatter.spec_failed("spec", 98, Reporter::Failure.new("c", "s", RuntimeError.new))
         @io.string.should_eql("F")
       
     end

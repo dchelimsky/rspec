@@ -9,7 +9,7 @@ module Spec
         end
       
         def spec_failed(name, counter, failure)
-          @output.print red("- #{name} (FAILED - #{counter})\n")
+          @output.puts failure.expectation_not_met? ? red("- #{name} (FAILED - #{counter})") : blue("- #{name} (ERROR - #{counter})")
           STDOUT.flush
         end
       
