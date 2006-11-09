@@ -34,7 +34,8 @@ module Spec
           line = nil if line =~ /script\/rails_spec/
           # TextMate's Ruby and RSpec plugins
           line = nil if line =~ /Ruby\.tmbundle\/Support\/tmruby.rb:/
-          line = nil if line =~ /RSpec\.tmbundle\/Support\/lib:/
+          line = nil if line =~ /RSpec\.tmbundle\/Support\/lib/
+          line = nil if line =~ /temp_textmate\./
           line
         end
         error.backtrace.compact!
