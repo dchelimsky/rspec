@@ -29,13 +29,11 @@ context "QuietBacktraceTweaker" do
     specify "should remove anything in lib spec dir" do
         element=
         element=nil
-        ["expectations", "mocks", "runner", "stubs"].each do |child|
+        ["expectations", "mocks", "runner"].each do |child|
             element="/lib/spec/#{child}/anything.rb"
             @error.set_backtrace([element])
             @tweaker.tweak_backtrace(@error, "spec name")
-            if (@error.backtrace.empty?)
-            
-            else
+            unless (@error.backtrace.empty?)
               raise("Should have tweaked away '#{element}'")
             end
           
