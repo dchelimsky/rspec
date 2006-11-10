@@ -86,7 +86,8 @@ module Spec
           @integrate_views = true
         end
 
-        private
+      private
+
         def integrate_views?
           @integrate_views
         end
@@ -115,6 +116,7 @@ module Spec
       
       module ContextEvalInstanceMethods
         attr_reader :response, :request, :controller
+
         #This is a hook provided by Test::Rails::TestCase
         def setup_extra
           (class << @controller; self; end).class_eval do
@@ -123,10 +125,18 @@ module Spec
           @controller.integrate_views! if @integrate_views
           @controller.session = session
         end
+
         def assigns(key=nil)
           return assigns[key] unless key.nil?
           @ivar_proxy ||= Test::Rails::IvarProxy.new(controller)
         end
+
+#        def routing(options)
+#          # Load routes.rb if it hasn't been loaded
+#          ActionController::Routing::Routes.reload if ActionController::Routing::Routes.empty?
+#          ActionController::Routing::Routes.generate(options)
+#        end
+
       end
 
       module ContextEvalClassMethods

@@ -1,6 +1,7 @@
 module Spec
   module Rails
     class ContextFactory
+
       class << self
         def create(*args, &block)
           spec_path = args.last.is_a?(Hash) ? args.last[:spec_path] : nil
