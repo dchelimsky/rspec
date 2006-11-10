@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/spec_helper'
 
 ['integration', 'isolation'].each do |mode|
-  context "Given a controller spec running in #{mode} mode", :context_type => :controller do
+  context "Given a controller spec for ControllerIsolationSpecController running in #{mode} mode", :context_type => :controller do
     controller_name :controller_isolation_spec
     integrate_views if mode == 'integration'
   
@@ -25,11 +25,15 @@ require File.dirname(__FILE__) + '/spec_helper'
       get 'action_with_template'
       controller.session.should_not_be nil
     end
+
+    specify "routes should be speccable" do
+      routing(:controller => "controller_isolation_spec", :action => "some_action").should_eql "/controller_isolation_spec/some_action"
+    end
   end
 end
 
 ['integration', 'isolation'].each do |mode|
-  context "Given a controller spec running in #{mode} mode", :context_type => :controller do
+  context "Given a controller spec for RedirectSpecController running in #{mode} mode", :context_type => :controller do
     controller_name :redirect_spec
     integrate_views if mode == 'integration'
 

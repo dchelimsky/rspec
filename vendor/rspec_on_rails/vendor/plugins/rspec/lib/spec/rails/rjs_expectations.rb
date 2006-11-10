@@ -4,13 +4,13 @@ module Spec
       include ActionView::Helpers::PrototypeHelper
 
       def should_have_rjs(action, *args, &block)
-        respond_to?("should_#{action}")?
+        respond_to?("should_#{action}") ?
           send("should_#{action}", *args) :
           lined_response.should_include(create_generator.send(action, *args, &block))
       end
 
       def should_not_have_rjs(action, *args, &block)
-        respond_to?("should_not_#{action}")?
+        respond_to?("should_not_#{action}") ?
           send("should_not_#{action}", *args) :
           lined_response.should_not_include(create_generator.send(action, *args, &block))
       end

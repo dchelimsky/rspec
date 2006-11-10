@@ -131,11 +131,11 @@ module Spec
           @ivar_proxy ||= Test::Rails::IvarProxy.new(controller)
         end
 
-#        def routing(options)
-#          # Load routes.rb if it hasn't been loaded
-#          ActionController::Routing::Routes.reload if ActionController::Routing::Routes.empty?
-#          ActionController::Routing::Routes.generate(options)
-#        end
+        def routing(options)
+          # Load routes.rb if it hasn't been loaded
+          ActionController::Routing::Routes.reload if ActionController::Routing::Routes.empty?
+          ActionController::Routing::Routes.generate(options)[0]
+        end
 
       end
 
