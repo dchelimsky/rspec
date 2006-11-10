@@ -2,6 +2,7 @@
 
 == Version 0.7.1 (in SVN)
 
+* Applied [#6471] Easy way to spec routes
 * Applied [#6587] Rspec on Rails displays "Spec::Rails::ContextFactory" as context name
 * Fixed [#6575] Parse error in aliasing the partial mock original method (patch by Brian Takita)
 * Fixed [#6277] debris left by stubbing (trunk) [submitted by dastels] (fixed by fix to [#6575])

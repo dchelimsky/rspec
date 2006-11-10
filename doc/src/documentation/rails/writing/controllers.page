@@ -178,6 +178,14 @@ Passes if a status of 300-399 was returned.
 response.should_be_redirect
 </ruby>
 
+h2. Routing Expectations
+
+When you use custom routes, it can be useful to verify the path you expect them to resolve to.
+
+<ruby>
+routing(:controller => "hello", :action => "world").should_eql "/hello/world"
+</ruby>
+
 h2. Example Controller Specs
 
 <ruby file="../vendor/rspec_on_rails/spec/controllers/person_controller_spec.rb"/>
