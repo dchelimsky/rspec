@@ -1,5 +1,9 @@
 = RSpec Changelog
 
+== Version 0.7.2
+
+* [#6589] New -l --line option
+
 == Version 0.7.1
 
 Bug fixes and a couple o' new features.

@@ -86,26 +86,39 @@ Enter the name of a context, spec, or both to run:
 all the specs in a context ...
 
 <pre>
-$ spec examples --spec "A stack with one item" -f s
+$ spec examples --spec "A stack which is neither empty nor full" -f s
 
-{execute: ruby -I../lib ../bin/spec ../examples --spec "A stack with one item" -f s}
+{execute: ruby -I../lib ../bin/spec ../examples --spec "A stack which is neither empty nor full" -f s}
 </pre>
 
 ... any spec in any context with a given name ...
 
 <pre>
-$ spec examples --spec "should return top when sent top" -f s
+$ spec examples --spec "should return the top item when sent 'pop'" -f s
 
-{execute: ruby -I../lib ../bin/spec ../examples --spec "should return top when sent top" -f s}
+{execute: ruby -I../lib ../bin/spec ../examples --spec "should return the top item when sent 'pop'" -f s}
 </pre>
 
 ... or a specific spec in a specific context:
 
 <pre>
-$ spec examples --spec "A stack with one item should return top when sent top" -f s
+$ spec examples --spec "A stack which is neither empty nor full should return the top item when sent 'pop'" -f s
 
-{execute: ruby -I../lib ../bin/spec ../examples --spec "A stack with one item should return top when sent top" -f s}
+{execute: ruby -I../lib ../bin/spec ../examples --spec "A stack which is neither empty nor full should return the top item when sent 'pop'" -f s}
 </pre>
+
+h3. -l, --line
+
+The --line option is similar to --spec, except that you tell RSpec exactly where the spec
+you want to run is. When using --line you must specify exactly one spec file, and you must
+not use it in conjunction with --spec.
+
+<pre>
+$ spec examples/stack_spec.rb --line 16 -f s
+
+{execute: ruby -I../lib ../bin/spec ../examples/stack_spec.rb --line 16 -f s}
+</pre>
+
 
 h3. -f, --format [specdoc|s|rdoc|r|html|h]
 

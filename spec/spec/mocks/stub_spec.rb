@@ -51,7 +51,7 @@ module Spec
           @obj.this_should_go
         end.should_raise
       end
-      
+
       specify "should ignore when expected message is received" do
         @obj.stub!(:msg)
         @obj.msg

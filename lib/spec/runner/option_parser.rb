@@ -4,8 +4,12 @@ require 'optparse'
 module Spec
   module Runner
     class OptionParser
+      def initialize
+        @spec_parser = SpecParser.new
+        @file_factory = File
+      end
 
-      def self.create_context_runner(args, err, out, warn_if_no_files)
+      def create_context_runner(args, err, out, warn_if_no_files)
         options = parse(args, err, out, warn_if_no_files)
 
         formatter = options.formatter_type.new(options.out, options.dry_run, options.colour)
@@ -20,7 +24,7 @@ module Spec
         ContextRunner.new(reporter, options.dry_run, options.spec_name)
       end
 
-      def self.parse(args, err, out, warn_if_no_files)
+      def parse(args, err, out, warn_if_no_files)
         options = OpenStruct.new
         options.out = out == STDOUT ? Kernel : out
         options.formatter_type = Formatter::ProgressBarFormatter
@@ -67,8 +71,12 @@ module Spec
             options.colour = true
           end
           
-          opts.on("-s", "--spec SPECIFICATION_NAME", "Execute a single specification") do |spec_name|
+          opts.on("-s", "--spec SPECIFICATION_NAME", "Execute context or specification with matching name") do |spec_name|
             options.spec_name = spec_name
+          end
+
+          opts.on("-l", "--line LINE_NUMBER", Integer, "Execute context or specification at given line") do |line_number|
+            options.line_number = line_number.to_i
           end
 
           opts.on("-f", "--format FORMAT", "Builtin formats: specdoc|s|rdoc|r|html|h", 
@@ -122,7 +130,22 @@ module Spec
 
         if args.empty? && warn_if_no_files
           err.puts opts
-          exit if err == $stderr
+          exit(1) if err == $stderr
+        end
+
+        if options.line_number
+          unless options.spec_name
+            if args.length == 1
+              source = @file_factory.open(args[0])
+              options.spec_name = @spec_parser.spec_name_for(source, options.line_number)
+            else
+              err.puts "Only one file can be specified when using the --line option"
+              exit(1) if err == $stderr
+            end
+          else
+            err.puts "You cannot use both --line and --spec"
+            exit(1) if err == $stderr
+          end
         end
 
         options

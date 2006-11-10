@@ -9,7 +9,7 @@ module Spec
       # should be printed to +stderr+ in case no files are specified.
       def self.run(argv, stderr, stdout, exit, warn_if_no_files)
         old_context_runner = defined?($context_runner) ? $context_runner : nil
-        $context_runner = OptionParser.create_context_runner(argv, stderr, stdout, warn_if_no_files)
+        $context_runner = OptionParser.new.create_context_runner(argv, stderr, stdout, warn_if_no_files)
 
         # If ARGV is a glob, it will actually each over each one of the matching files.
         argv.each do |file_or_dir|
