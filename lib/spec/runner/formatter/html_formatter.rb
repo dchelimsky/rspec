@@ -20,8 +20,8 @@ module Spec
             @output.puts "</div>"
           end
           @output.puts "<div class=\"context\">"
-          @output.puts "  <h2>#{name}</h2>"
           @output.puts "  <ul>"
+          @output.puts "  <li class=\"context_name\">#{name}</li>"
         end
 
         def start_dump
@@ -36,17 +36,17 @@ module Spec
         end
 
         def spec_passed(name)
-          @output.puts "<li class=\"spec passed\"><div class=\"name\">#{escape(@current_spec)}</div></li>"
+          @output.puts "    <li class=\"spec passed\"><div class=\"passed_spec_name\">#{escape(@current_spec)}</div></li>"
         end
 
         def spec_failed(name, counter, failure)
-          @output.puts "<li class=\"spec failed\">"
-          @output.puts "  <div class=\"name\">#{escape(@current_spec)}</div>"
-          @output.puts "  <div class=\"failure\" id=\"failure_#{counter}\">"
-          @output.puts "    <div class=\"message\"><pre>#{escape(failure.exception.message)}</pre></div>" unless failure.exception.nil?
-          @output.puts "    <div class=\"backtrace\"><pre>#{format_backtrace(failure.exception.backtrace)}</pre></div>" unless failure.exception.nil?
-          @output.puts "  </div>"
-          @output.puts "</li>"
+          @output.puts "    <li class=\"spec failed\">"
+          @output.puts "      <div class=\"failed_spec_name\">#{escape(@current_spec)}</div>"
+          @output.puts "      <div class=\"failure\" id=\"failure_#{counter}\">"
+          @output.puts "        <div class=\"message\"><pre>#{escape(failure.exception.message)}</pre></div>" unless failure.exception.nil?
+          @output.puts "        <div class=\"backtrace\"><pre>#{format_backtrace(failure.exception.backtrace)}</pre></div>" unless failure.exception.nil?
+          @output.puts "      </div>"
+          @output.puts "    </li>"
           STDOUT.flush
         end
         
@@ -58,8 +58,8 @@ module Spec
         end
 
         def dump_summary(duration, spec_count, failure_count)
-          @output.print "</body>"
-          @output.print "</html>"
+          @output.puts "</body>"
+          @output.puts "</html>"
           STDOUT.flush
         end
         
@@ -76,13 +76,9 @@ module Spec
   <meta http-equiv="Content-Script-Type" content="text/javascript" />
   <style type="text/css">
   body {
-    font-size: 10pt;
-    font: "lucida grande";
+    font-size: 9pt;
+    font-family: verdana, arial, helvetica;
     width: 85%;
-  }
-
-  h2 {
-    color: #589CCF;
   }
 
   div.context {
@@ -98,23 +94,36 @@ module Spec
   li { 
     list-style-type: none; 
     margin: 0;
-    border: 2px solid #fff;
+    border: 1px solid #fff;
+  }
+
+  li.context_name {
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #589CCF;
+  }
+
+  div.passed_spec_name {
+    font-weight: bold;
+    color: #324F17;
+  }
+
+  div.failed_spec_name {
+    font-weight: bold;
+    color: #EEB4B4;
   }
 
   li.passed {
     display: block; 
-    background: #46A002; 
-    color: #fff; 
-    padding: 2px 4px; 
-    font-weight: bold
+    background: #659D32; 
+    padding: 1px 4px; 
   }
 
   li.failed {
     display: block; 
-    background: red; 
-    color: #fff; 
+    background: #CD0000; 
+    color: #000; 
     padding: 2px 4px; 
-    font-weight: bold
   }
 
   li.failed .failure {

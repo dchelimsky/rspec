@@ -1,13 +1,10 @@
 module Spec
   module Runner
-    class BacktraceTweaker
+    class NoisyBacktraceTweaker
       def tweak_instance_exec_line line, spec_name
         line = line.split(':in')[0] + ":in `#{spec_name}'" if line.include?('__instance_exec')
         line
       end
-    end
-
-    class NoisyBacktraceTweaker < BacktraceTweaker
       def tweak_backtrace(error, spec_name)
         return if error.backtrace.nil?
         error.backtrace.collect! do |line|
@@ -18,7 +15,11 @@ module Spec
     end
 
     # Tweaks raised Exceptions to mask noisy (unneeded) parts of the backtrace
-    class QuietBacktraceTweaker < BacktraceTweaker
+    class QuietBacktraceTweaker
+      def tweak_instance_exec_line line, spec_name
+        line = line.split(':in')[0] if line.include?('__instance_exec')
+        line
+      end
       def tweak_backtrace(error, spec_name)
         return if error.backtrace.nil?
         error.backtrace.collect! do |line|

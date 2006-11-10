@@ -8,12 +8,12 @@ context "HtmlFormatter" do
 
   specify "should close html on dump summary" do
     @formatter.dump_summary(3, 2, 1)
-    @io.string.should_eql("</body></html>")
+    @io.string.should_eql("</body>\n</html>\n")
   end
 
   specify "should push context name" do
     @formatter.add_context("fruit", false)
-    @io.string.should_eql("  </ul>\n</div>\n<div class=\"context\">\n  <h2>fruit</h2>\n  <ul>\n")
+    @io.string.should_eql("  </ul>\n</div>\n<div class=\"context\">\n  <ul>\n  <li class=\"context_name\">fruit</li>\n")
   end
 
   specify "should push div on start dump" do
@@ -32,7 +32,7 @@ context "HtmlFormatter" do
   specify "should push div with spec passed class" do
     @formatter.spec_started("spec")
     @formatter.spec_passed("spec")
-    @io.string.should_eql("<li class=\"spec passed\"><div class=\"name\">spec</div></li>\n")
+    @io.string.should_eql("    <li class=\"spec passed\"><div class=\"passed_spec_name\">spec</div></li>\n")
   end
 
   specify "should push header on start" do
