@@ -41,6 +41,26 @@ context "Given an rjs call, a 'should_render_rjs' spec with",
   end
 end
 
+['isolation','integration'].each do |mode|
+  context "Given an rjs call, a 'should_render_rjs' spec in a context in #{mode} mode, with",
+    :context_type => :controller do
+    controller_name :rjs_spec
+    if mode == 'integration'
+      integrate_views
+    end
+  
+    specify "the correct partial should pass" do
+      post 'render_replace_html_with_partial'
+      controller.should_render_rjs :replace_html, 'mydiv', :partial => 'rjs_spec/replacement_partial'
+    end
+  
+    specify "the incorrect partial should fail" do
+      post 'render_replace_html_with_partial'
+      lambda { controller.should_render_rjs :replace_html, 'mydiv', :partial => 'rjs_spec/wrong_replacement_partial' }
+    end
+  end
+end
+
 context "Given an rjs call to hide a div using page['id'], a 'should_have_rjs' spec with",
   :context_type => :controller do
   controller_name :rjs_spec

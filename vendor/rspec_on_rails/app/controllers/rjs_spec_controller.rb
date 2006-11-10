@@ -21,6 +21,12 @@ class RjsSpecController < ApplicationController
     end
   end
   
+  def render_replace_html_with_partial
+    render :update do |page|
+      page.replace_html 'mydiv', :partial => 'rjs_spec/replacement_partial'
+    end
+  end
+  
   def render_insert_html
     render :update do |page|
       page.insert_html 'mydiv', 'replacement text'

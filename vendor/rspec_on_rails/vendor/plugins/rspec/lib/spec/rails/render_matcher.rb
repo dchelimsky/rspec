@@ -34,7 +34,11 @@ module Spec
           page.should_receive(:[]).with(args.shift).and_return(page_element)
           page_element.should_receive(args.shift).with(*args)
         else
-          page.should_receive(element).with(*args)
+          # if args.length == 1 and args.last.is_a?(Hash)
+          #   page.should_receive(element).with(args.last)
+          # else
+            page.should_receive(element).with(*args)
+          # end
         end
         __verify_block @block, page, page_element
       end

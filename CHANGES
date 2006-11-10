@@ -1,8 +1,9 @@
 = RSpec Changelog
 
-== Version 0.7.2
+== Version 0.7.2 (in SVN)
 
-* [#6589] New -l --line option
+* Added [#6589] New -l --line option
+* Fixed [#6615] controller.should_render_rjs should support :partial => 'path/to/template'
 
 == Version 0.7.1
 

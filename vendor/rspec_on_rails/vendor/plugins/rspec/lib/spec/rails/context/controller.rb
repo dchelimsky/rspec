@@ -39,7 +39,12 @@ module Spec
         #
         def render(options=nil, deprecated_status=nil, &block)
           unless integrate_views?
-            @template = Spec::Mocks::Mock.new("mock template", :null_object => true) 
+            @template = Spec::Mocks::Mock.new("mock template", :null_object => false) 
+            @template.stub!(:evaluate_assigns)
+            @template.stub!(:render)
+            @template.stub!(:file_exists?).and_return(true)
+            @template.stub!(:full_template_path)
+            @template.stub!(:render_file)
             response.isolate_from_views!
           end
           #TODO - this "if @render_called" is a hack because render gets called twice.
