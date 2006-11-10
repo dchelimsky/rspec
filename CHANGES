@@ -2,7 +2,8 @@
 
 == Version 0.7.2 (in SVN)
 
-* Added [#6589] New -l --line option
+* Fixed [#6411] Can't run Rails specs with ruby
+* Added [#6589] New -l --line option. This is useful for IDE/editor runners/extensions.
 * Fixed [#6615] controller.should_render_rjs should support :partial => 'path/to/template'
 
 == Version 0.7.1

@@ -23,3 +23,4 @@ require File.expand_path("#{dir}/extensions/action_controller/test_response")
 require File.expand_path("#{dir}/extensions/nil_class")
 require File.expand_path("#{dir}/extensions/kernel")
 require File.expand_path("#{dir}/spec/rails/context")
+Test::Unit.run = true
