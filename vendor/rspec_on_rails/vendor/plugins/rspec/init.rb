@@ -1,1 +1,3 @@
-# Do nothing here. We don't want rspec to be loaded into the development/production environments
+if ENV['RAILS_ENV'] == 'test' then
+  require 'rspec_on_rails'
+end

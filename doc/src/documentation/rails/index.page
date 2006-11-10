@@ -4,7 +4,7 @@ inMenu: true
 ---
 h2. RSpec on Rails - Overview
 
-A Rails plugin that brings RSpec to Rails.
+A Rails plugin that brings RSpec to Rails. NOTE: RSpec on Rails has only been tested against Rails 1.1.6.
 
 h3. Features
 

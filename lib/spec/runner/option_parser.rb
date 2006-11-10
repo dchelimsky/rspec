@@ -134,21 +134,33 @@ module Spec
         end
 
         if options.line_number
-          unless options.spec_name
-            if args.length == 1
-              source = @file_factory.open(args[0])
-              options.spec_name = @spec_parser.spec_name_for(source, options.line_number)
-            else
-              err.puts "Only one file can be specified when using the --line option"
-              exit(1) if err == $stderr
-            end
-          else
-            err.puts "You cannot use both --line and --spec"
-            exit(1) if err == $stderr
-          end
+          set_spec_from_line_number(options, args, err)
         end
 
         options
+      end
+      
+      def set_spec_from_line_number(options, args, err)
+        unless options.spec_name
+          if args.length == 1
+            if @file_factory.file?(args[0])
+              source = @file_factory.open(args[0])
+              options.spec_name = @spec_parser.spec_name_for(source, options.line_number)
+            elsif @file_factory.directory?(args[0])
+              err.puts "You must specify one file, not a directory when using the --line option"
+              exit(1) if err == $stderr
+            else
+              err.puts "#{args[0]} does not exist"
+              exit(1) if err == $stderr
+            end
+          else
+            err.puts "Only one file can be specified when using the --line option"
+            exit(1) if err == $stderr
+          end
+        else
+          err.puts "You cannot use both --line and --spec"
+          exit(1) if err == $stderr
+        end
       end
     end
   end

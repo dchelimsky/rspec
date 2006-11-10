@@ -172,6 +172,7 @@ context "OptionParser" do
     @parser.instance_variable_set('@spec_parser', spec_parser)
 
     file_factory = mock("File")
+    file_factory.should_receive(:file?).and_return(true)
     file_factory.should_receive(:open).and_return("fake_io")
     @parser.instance_variable_set('@file_factory', file_factory)
 
@@ -180,6 +181,32 @@ context "OptionParser" do
     options = parse(["some file", "--line", "169"])
     options.spec_name.should_eql("some spec")
     File.__verify
+  end
+
+  specify "should fail with error message if file is dir along with --line" do
+    spec_parser = mock("spec_parser")
+    @parser.instance_variable_set('@spec_parser', spec_parser)
+
+    file_factory = mock("File")
+    file_factory.should_receive(:file?).and_return(false)
+    file_factory.should_receive(:directory?).and_return(true)
+    @parser.instance_variable_set('@file_factory', file_factory)
+
+    options = parse(["some file", "--line", "169"])
+    @err.string.should_match(/You must specify one file, not a directory when using the --line option/n)
+  end
+
+  specify "should fail with error message if file is dir along with --line" do
+    spec_parser = mock("spec_parser")
+    @parser.instance_variable_set('@spec_parser', spec_parser)
+
+    file_factory = mock("File")
+    file_factory.should_receive(:file?).and_return(false)
+    file_factory.should_receive(:directory?).and_return(false)
+    @parser.instance_variable_set('@file_factory', file_factory)
+
+    options = parse(["some file", "--line", "169"])
+    @err.string.should_match(/some file does not exist/n)
   end
 
   specify "should fail with error message if more than one files are specified along with --line" do
