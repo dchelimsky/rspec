@@ -25,7 +25,7 @@ context "SpecMate" do
     @spec_mate.run_file(out)
     out.rewind
     html = out.read
-
+File.open("1.html", "w") {|io| io.write(html)}
     html.should =~ @first_spec
     html.should =~ @second_spec
   end

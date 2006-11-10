@@ -132,7 +132,11 @@ module Spec
   }
 
   div.backtrace {
-    color: #000; 
+    color: #fff; 
+  }
+
+  div.backtrace a {
+    color: #fff; 
   }
 
   </style>

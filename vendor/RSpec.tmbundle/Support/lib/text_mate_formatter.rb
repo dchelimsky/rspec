@@ -6,7 +6,7 @@ module Spec
         def format_backtrace(backtrace)
           return "" if backtrace.nil?
           backtrace.map do |line| 
-            if line =~ /(.*):(\d+)(:in `.*)/
+            if line =~ /(.*):(\d+)(.*)/
               path = $1
               line = $2
               rest = $3
