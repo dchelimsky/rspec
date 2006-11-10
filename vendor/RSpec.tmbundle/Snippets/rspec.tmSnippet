@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>content</key>
+	<string>require 'rubygems'
+require 'spec/runner'
+
+require "${1:yourlib}"
+
+context "${2:description}" do
+  setup do
+    $3
+  end
+
+  $0
+end</string>
+	<key>name</key>
+	<string>RSpec Template</string>
+	<key>scope</key>
+	<string>source.ruby</string>
+	<key>tabTrigger</key>
+	<string>rspec</string>
+	<key>uuid</key>
+	<string>B40994F6-681A-458A-ACEC-3A5DC8F22ECA</string>
+</dict>
+</plist>
