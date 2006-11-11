@@ -18,7 +18,7 @@ context "A new account" do
   end
 
   specify "should have a balance of $0" do
-    @account.balance.should_equal Money.new(0, :dollars)
+    @account.balance.should_eql Money.new(0, :dollars)
   end
 
 end
@@ -54,7 +54,7 @@ context "A new account" do
 
   specify "should have a balance of $0" do
     helper_method
-    @account.balance.should_equal Money.new(0, :dollars)
+    @account.balance.should_eql Money.new(0, :dollars)
   end
   
   def helper_method
@@ -84,7 +84,7 @@ context "A new account" do
 
   specify "should have a balance of $0" do
     helper_method
-    @account.balance.should_equal Money.new(0, :dollars)
+    @account.balance.should_eql Money.new(0, :dollars)
   end
 end
 </ruby>
