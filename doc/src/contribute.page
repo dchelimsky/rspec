@@ -36,6 +36,20 @@ category (expectations, mocks, runner, or rails plugin)
 
 "http://rubyforge.org/tracker/?group_id=797":http://rubyforge.org/tracker/?group_id=797
 
+If appliccable, please please please submit a complete spec we can run - something like:
+
+<ruby>
+context "My Problem" do
+  specify "can be reproduced as follows" do
+    # Why doesn't this work?
+    # (This is just a silly example)
+    true.should_be :true
+  end
+end
+</ruby>
+
+This will make us more willing to look at it quickly.
+
 h3. Feature Requests
 
 Interested in a new feature that you would find useful but don't wish

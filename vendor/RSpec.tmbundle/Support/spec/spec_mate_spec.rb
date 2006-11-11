@@ -13,13 +13,14 @@ context "SpecMate" do
       @spec_cmd = "spec"
     end
     ENV['TM_SPEC'] = @spec_command
-    ENV['TM_FILENAME'] = nil
+    ENV['TM_PROJECT_DIRECTORY'] = File.expand_path(File.dirname(__FILE__))
+    ENV['TM_FILEPATH'] = nil
     ENV['TM_LINE_NUMBER'] = nil
     @spec_mate = SpecMate.new
   end
 
   specify "should run whole file when only file specified" do
-    ENV['TM_FILENAME'] = File.expand_path(File.dirname(__FILE__)) + '/fixtures/example_failing_spec.rb'
+    ENV['TM_FILEPATH'] = File.expand_path(File.dirname(__FILE__)) + '/fixtures/example_failing_spec.rb'
 
     out = StringIO.new
     @spec_mate.run_file(out)
@@ -30,7 +31,7 @@ context "SpecMate" do
   end
 
   specify "should run first spec when file and line 4 specified" do
-    ENV['TM_FILENAME'] = File.expand_path(File.dirname(__FILE__)) + '/fixtures/example_failing_spec.rb'
+    ENV['TM_FILEPATH'] = File.expand_path(File.dirname(__FILE__)) + '/fixtures/example_failing_spec.rb'
     ENV['TM_LINE_NUMBER'] = '4'
 
     out = StringIO.new
@@ -42,7 +43,7 @@ context "SpecMate" do
   end
 
   specify "should run first spec when file and line 8 specified" do
-    ENV['TM_FILENAME'] = File.expand_path(File.dirname(__FILE__)) + '/fixtures/example_failing_spec.rb'
+    ENV['TM_FILEPATH'] = File.expand_path(File.dirname(__FILE__)) + '/fixtures/example_failing_spec.rb'
     ENV['TM_LINE_NUMBER'] = '8'
 
     out = StringIO.new

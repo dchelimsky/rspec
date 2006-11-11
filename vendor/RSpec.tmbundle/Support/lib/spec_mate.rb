@@ -4,13 +4,17 @@ require File.dirname(__FILE__) + '/text_mate_formatter'
 
 class SpecMate
   def run_file(stdout, options={})
-    options.merge!({:file => ENV['TM_FILENAME']})
+    options.merge!({:file => file_name})
     run(stdout, options)
   end
 
   def run_focussed(stdout, options={})
-    options.merge!({:file => ENV['TM_FILENAME'], :line => ENV['TM_LINE_NUMBER']})
+    options.merge!({:file => file_name, :line => ENV['TM_LINE_NUMBER']})
     run(stdout, options)
+  end
+
+  def file_name
+    ENV['TM_FILEPATH'][ENV['TM_PROJECT_DIRECTORY'].length+1..-1]
   end
   
   def run(stdout, options)
@@ -27,6 +31,8 @@ class SpecMate
       argv << '--dry-run'
     end
 
-    ::Spec::Runner::CommandLine.run(argv, STDERR, stdout, false, true)
+    Dir.chdir(ENV['TM_PROJECT_DIRECTORY']) do
+      ::Spec::Runner::CommandLine.run(argv, STDERR, stdout, false, true)
+    end
   end
 end

@@ -22,6 +22,7 @@ module Spec
           @output.puts "<div class=\"context\">"
           @output.puts "  <ul>"
           @output.puts "  <li class=\"context_name\">#{name}</li>"
+          STDOUT.flush
         end
 
         def start_dump
@@ -33,10 +34,12 @@ module Spec
         def spec_started(name)
           @current_spec = name
           @current_count += 1
+          STDOUT.flush
         end
 
         def spec_passed(name)
           @output.puts "    <li class=\"spec passed\"><div class=\"passed_spec_name\">#{escape(@current_spec)}</div></li>"
+          STDOUT.flush
         end
 
         def spec_failed(name, counter, failure)
