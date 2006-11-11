@@ -2,6 +2,7 @@
 
 == Version 0.7.2 (in SVN)
 
+* Applied [#6265] should_raise should accept an Exception object
 * Fixed [#6616] Can't run Rails specs with RSpec.tmbundle
 * Fixed [#6411] Can't run Rails specs with ruby
 * Added [#6589] New -l --line option. This is useful for IDE/editor runners/extensions.

@@ -249,12 +249,18 @@ h3. Raising and Throwing
 
 <ruby>
 my_mock.should_receive(:msg).once.and_raise(<exception>)
+</ruby>
+
+Tells the mock to raise an exception instead of returning a value.
+&lt;exception> may be any Exception class, an instance of
+any Exception class, or a String (in which case a RuntimeError will be raised
+with that String as its message).
+
+<ruby>
 my_mock.should_receive(:msg).once.and_throw(<symbol>) 
 </ruby>
 
-These instruct the mock to raise an exception or throw a symbol, respectively, 
-instead of returning a value. <exception> may be an Exception class, an exception
-or a String (in which case a RuntimeError will be raised.)
+Tells the mock to throw a symbol instead of returning a value.
 
 h3. Yielding
 
