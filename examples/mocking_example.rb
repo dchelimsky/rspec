@@ -25,4 +25,3 @@ context "a mock" do
     mock.msg(:arg1).should_eql(:val1)
   end
 end
-    

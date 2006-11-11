@@ -63,58 +63,58 @@ module Spec
       end
 
       specify "should allow block to calculate return values" do
-        @mock.should_receive(:random_call).with("a","b","c").and_return { |a,b,c| c+b+a }
-        @mock.random_call("a","b","c").should_eql "cba"
+        @mock.should_receive(:something).with("a","b","c").and_return { |a,b,c| c+b+a }
+        @mock.something("a","b","c").should_eql "cba"
         @mock.__verify
       end
 
       specify "should allow parameter as return value" do
-        @mock.should_receive(:random_call).with("a","b","c").and_return("booh")
-        @mock.random_call("a","b","c").should_eql "booh"
+        @mock.should_receive(:something).with("a","b","c").and_return("booh")
+        @mock.something("a","b","c").should_eql "booh"
         @mock.__verify
       end
 
       specify "should return nil if no return value set" do
-        @mock.should_receive(:random_call).with("a","b","c")
-        @mock.random_call("a","b","c").should_be nil
+        @mock.should_receive(:something).with("a","b","c")
+        @mock.something("a","b","c").should_be nil
         @mock.__verify
       end
 
       specify "should raise exception if parameters dont match when method called" do
-        @mock.should_receive(:random_call).with("a","b","c").and_return("booh")
+        @mock.should_receive(:something).with("a","b","c").and_return("booh")
         begin
-          @mock.random_call("a","d","c")
+          @mock.something("a","d","c")
           violated
         rescue MockExpectationError => e
-          e.message.should_eql "Mock 'test mock' received unexpected message :random_call with [\"a\", \"d\", \"c\"]"
+          e.message.should_eql "Mock 'test mock' received unexpected message :something with [\"a\", \"d\", \"c\"]"
         end
       end
      
       specify "should fail if unexpected method called" do
         begin
-          @mock.random_call("a","b","c")
+          @mock.something("a","b","c")
           violated
         rescue MockExpectationError => e
-          e.message.should_eql "Mock 'test mock' received unexpected message :random_call with [\"a\", \"b\", \"c\"]"
+          e.message.should_eql "Mock 'test mock' received unexpected message :something with [\"a\", \"b\", \"c\"]"
         end
       end
   
       specify "should use block for expectation if provided" do
-        @mock.should_receive(:random_call) do | a, b |
+        @mock.should_receive(:something) do | a, b |
           a.should_eql "a"
           b.should_eql "b"
           "booh"
         end
-        @mock.random_call("a", "b").should_eql "booh"
+        @mock.something("a", "b").should_eql "booh"
         @mock.__verify
       end
   
       specify "should fail if expectation block fails" do
-        @mock.should_receive(:random_call) {| bool | bool.should_be true}
+        @mock.should_receive(:something) {| bool | bool.should_be true}
         begin
-          @mock.random_call false
+          @mock.something false
         rescue MockExpectationError => e
-          e.message.should_match /Mock 'test mock' received :random_call but passed block failed with: false should be true/
+          e.message.should_match /Mock 'test mock' received :something but passed block failed with: false should be true/
         end
       end
   
@@ -128,23 +128,42 @@ module Spec
       end
       
       specify "should raise when told to" do
-        @mock.should_receive(:random_call).and_raise(RuntimeError)
+        @mock.should_receive(:something).and_raise(RuntimeError)
         lambda do
-          @mock.random_call
+          @mock.something
         end.should_raise(RuntimeError)
       end
  
+      specify "should raise passed an Exception instance" do
+        error = RuntimeError.new("error message")
+        @mock.should_receive(:something).and_raise(error)
+        begin
+          @mock.something
+        rescue RuntimeError => e
+          e.message.should_eql("error message")
+        end
+      end
+
+      specify "should raise RuntimeError with passed message" do
+        @mock.should_receive(:something).and_raise("error message")
+        begin
+          @mock.something
+        rescue RuntimeError => e
+          e.message.should_eql("error message")
+        end
+      end
+ 
       specify "should not raise when told to if args dont match" do
-        @mock.should_receive(:random_call).with(2).and_raise(RuntimeError)
+        @mock.should_receive(:something).with(2).and_raise(RuntimeError)
         lambda do
-          @mock.random_call 1
+          @mock.something 1
         end.should_raise(MockExpectationError)
       end
  
       specify "should throw when told to" do
-        @mock.should_receive(:random_call).and_throw(:blech)
+        @mock.should_receive(:something).and_throw(:blech)
         lambda do
-          @mock.random_call
+          @mock.something
         end.should_throw(:blech)
       end
 
@@ -157,20 +176,20 @@ module Spec
       end
       
       specify "should ignore args on any args" do
-        @mock.should_receive(:random_call).at_least(:once).with(:any_args)
-        @mock.random_call
-        @mock.random_call 1
-        @mock.random_call "a", 2
-        @mock.random_call [], {}, "joe", 7
+        @mock.should_receive(:something).at_least(:once).with(:any_args)
+        @mock.something
+        @mock.something 1
+        @mock.something "a", 2
+        @mock.something [], {}, "joe", 7
         @mock.__verify
       end
       
       specify "should fail on no args if any args received" do
-        @mock.should_receive(:random_call).with(:no_args)
+        @mock.should_receive(:something).with(:no_args)
         begin
-          @mock.random_call 1
+          @mock.something 1
         rescue MockExpectationError => e
-          e.message.should_eql "Mock 'test mock' received unexpected message :random_call with [1]"
+          e.message.should_eql "Mock 'test mock' received unexpected message :something with [1]"
         end
       end
       

@@ -49,7 +49,12 @@ module Spec
         @order_group.handle_order_constraint self
 
         begin
-          Kernel::raise @exception_to_raise.new unless @exception_to_raise.nil?
+          if @exception_to_raise.class == Class
+            @exception_instance_to_raise = @exception_to_raise.new
+          else 
+            @exception_instance_to_raise = @exception_to_raise
+          end
+          Kernel::raise @exception_to_raise unless @exception_to_raise.nil?
           Kernel::throw @symbol_to_throw unless @symbol_to_throw.nil?
 
           if !@method_block.nil?
