@@ -22,6 +22,7 @@ Get the source via subversion to some location on your drive:
 svn co svn://rubyforge.org/var/svn/rspec/trunk/vendor/RSpec.tmbundle path/to/RSpec.tmbundle
 </code>
 
+(If you have RSpec checked out you don't need this - it's under vendor/RSpec.tmbundle)
 Now, make a symbolic link from TextMate's bundle directory to your working copy of the bundle:
 
 <code>
