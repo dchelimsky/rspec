@@ -4,7 +4,7 @@ context "a RenderMatcher" do
   
   specify "should include correct file and line number" do
     spec = Spec::Runner::Specification.new("name") do
-      Spec::Rails::RenderMatcher.new.set_expectation(:template => 'non_existent_template')
+      Spec::Rails::RenderMatcher.new.set_expected(:template => 'non_existent_template')
     end
       
     reporter = mock("mock", :null_object => true)
@@ -18,22 +18,38 @@ context "a RenderMatcher" do
   
   specify "should raise if an expectation is set but set_rendered is never called",
     :should_raise => [Spec::Mocks::MockExpectationError, "controller expected call to render {:template=>\"non_existent_template\"} but it was never received"] do
-    Spec::Rails::RenderMatcher.new.set_expectation(:template => 'non_existent_template')
+    Spec::Rails::RenderMatcher.new.set_expected(:template => 'non_existent_template')
   end
   
-  specify "should raise if an expectation is set but and not met by call to set_rendered",
+  specify "should raise if an expectation is set first but and not met by call to set_rendered",
     :should_raise => [
       Spec::Expectations::ExpectationNotMetError, 
       "<{:template=>\"expected\"}> should == <{:template=>\"actual\"}>"
     ] do
     matcher = Spec::Rails::RenderMatcher.new
-    matcher.set_expectation(:template => 'expected')
-    matcher.set_rendered(:template => 'actual')
+    matcher.set_expected(:template => 'expected')
+    matcher.set_actual(:template => 'actual')
   end
   
-  specify "should not raise if an expectation is set and it is met" do
+  specify "should raise if an expectation is set after but and not met by call to set_rendered",
+    :should_raise => [
+      Spec::Expectations::ExpectationNotMetError, 
+      "<{:template=>\"expected\"}> should == <{:template=>\"actual\"}>"
+    ] do
     matcher = Spec::Rails::RenderMatcher.new
-    matcher.set_expectation(:template => 'expected')
-    matcher.set_rendered(:template => 'expected')
+    matcher.set_actual(:template => 'actual')
+    matcher.set_expected(:template => 'expected')
+  end
+  
+  specify "should not raise if an expectation is set before and it is met" do
+    matcher = Spec::Rails::RenderMatcher.new
+    matcher.set_expected(:template => 'expected')
+    matcher.set_actual(:template => 'expected')
+  end
+  
+  specify "should not raise if an expectation is set after and it is met" do
+    matcher = Spec::Rails::RenderMatcher.new
+    matcher.set_actual(:template => 'expected')
+    matcher.set_expected(:template => 'expected')
   end
 end

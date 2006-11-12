@@ -2,7 +2,16 @@ module Spec
   module Rails
     class RenderMatcher
       
-      def set_expectation(options, &block)
+      def initialize
+        @should_render_called = false
+      end
+      
+      def set_expected(options, &block)
+        if @performed_render
+          verify_rendered(@options, options)
+          return
+        end
+        should_render_called
         @mock = Spec::Mocks::Mock.new("controller")
         @mock.should_receive(
           :render, 
@@ -13,20 +22,17 @@ module Spec
         @block = block
       end
 
-      def set_rendered(options, &block)
-        if @options #implies set_expectation called first
+      def set_actual(options, &block)
+        @performed_render = true
+        if should_render_called?
           @mock.__reset_mock
-          verify_rendered(options)
+          verify_rendered(options, @options)
         else
           @options = options
           @block = block
         end
       end
 
-      def verify_rendered(expected)
-        @options.should == expected
-      end
-      
       def should_render_rjs(element, *args)
         page = Spec::Mocks::Mock.new("page", :null_object => true, :auto_verify => false)
         if element == :page
@@ -34,11 +40,7 @@ module Spec
           page.should_receive(:[]).with(args.shift).and_return(page_element)
           page_element.should_receive(args.shift).with(*args)
         else
-          # if args.length == 1 and args.last.is_a?(Hash)
-          #   page.should_receive(element).with(args.last)
-          # else
-            page.should_receive(element).with(*args)
-          # end
+          page.should_receive(element).with(*args)
         end
         __verify_block @block, page, page_element
       end
@@ -73,6 +75,19 @@ module Spec
           raise Spec::Expectations::ExpectationNotMetError.new(e.message)
         end
       end
+      
+      def should_render_called?
+        @should_render_called
+      end
+      
+      def should_render_called
+        @should_render_called = true
+      end
+
+      def verify_rendered(expected, actual)
+        actual.should == expected
+      end
     end
   end
 end
+

@@ -1,6 +1,13 @@
 module Spec
   module Rails
     class ControllerContext < Rails::Context
+
+      # class << ActiveRecord::Base
+      #   def connection
+      #     Kernel::raise Spec::Expectations::ExpectationNotMetError.new(RuntimeError.new('You cannot access the database from a controller spec'))
+      #   end
+      # end
+
       module ControllerInstanceMethods
         # === render(options = nil, deprecated_status = nil, &block)
         #
@@ -45,30 +52,16 @@ module Spec
             @template.stub!(:file_exists?).and_return(true)
             @template.stub!(:full_template_path)
             @template.stub!(:render_file)
-            response.isolate_from_views!
           end
-          #TODO - this "if @render_called" is a hack because render gets called twice.
-          # Don't know why. That should be looked at.
-          unless render_called?
-            render_called
-            render_matcher.set_rendered(ensure_default_options(options), &block)
-          end
+          render_matcher.set_actual(ensure_default_options(options), &block)
           super
         end
         
         def should_render(expected)
-          render_matcher.set_expectation(expected)
+          render_matcher.set_expected(expected)
         end
-
-        def should_have_rendered(expected)
-          if integrate_views?
-            if expected_template = expected[:template]
-              expected_template.should == response.rendered_file
-            end
-          else
-            render_matcher.verify_rendered(expected)
-          end
-        end
+        #this is for backwards compatibility to 0.7.0-0.7.2
+        alias_method :should_have_rendered, :should_render
 
         def should_render_rjs(element, *opts)
           render_matcher.should_render_rjs(element, *opts)
