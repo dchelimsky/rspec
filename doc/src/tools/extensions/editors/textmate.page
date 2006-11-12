@@ -3,7 +3,12 @@ title: TextMate
 ---
 h2. TextMate
 
-TextMate is a popular text editor for OS X. RSpec's TextMate bundle 
+TextMate is a popular text editor for OS X. RSpec's TextMate bundle has a big number of snippets for
+all of RSpec's expectations, contexts and specify's. You can even run specs from TextMate using
+CMD-r and CMD-SHIFT-R - and you'll see a nice progress bar while the specs are running.
+
+If you select one or more directories or files you can run those too with CMD-r (but you have to have 
+an arbitrary Ruby file open to make this work).
 
 h2. Installation
 
@@ -31,5 +36,7 @@ ln -s path/to/RSpec.tmbundle ~/Library/Application\ Support/TextMate/Bundles/RSp
 
 Of course, the last step is not necessary if you check the bundle out straight into the TextMate directory.
 
-The last step is to set the TM_RSPEC_HOME environment variable in TextMate's preferences. This should
-point to the root directory of a working copy of RSpec (trunk HEAD too).
+You can tell RSpec.tmbundle to use a particular RSpec at a particular location on your filesystem.
+You probably want to do this if you run the bundle off trunk HEAD.
+Just define the TM_RSPEC_HOME environment variable in TextMate's preferences. This should
+point to the root directory of your working copy of Rspec (where you checked out RSpec core).
