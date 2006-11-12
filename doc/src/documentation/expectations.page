@@ -21,14 +21,13 @@ actual.should_eql <value> #passes if actual.eql? <value>
 actual.should_not_eql <value> #passes if !actual.eql? <value>
 
 actual.should == <value> #passes if actual == <value>
-#there is currently no support for !=, use actual.should_not == instead
+actual.should_not == <value> #passes if actual != <value>
+#Note: there is no support for actual.should != <value>, use actual.should_not == <value> instead
 </ruby>
 
-See "http://www.ruby-doc.org/core/classes/Object.html#M001057":http://www.ruby-doc.org/core/classes/Object.html#M001057 for more information.
+We recognize that this does not align with assert_equal in Test::Unit, and that this may feel awkward for those of you experienced with either Test::Unit or previous releases of RSpec. We chose to make this change because there was some confusion over the meaning of should_equal and should_be and we decided that it would be less confusing in the long run if should_equal aligns with the Ruby language.
 
-Previously, should_equal delegated to == and should_be delegated to .equal?, so
-you'll need to change your pre-existing specs from should_equal to "should =="
-or "should_eql".
+Please see "http://www.ruby-doc.org/core/classes/Object.html#M001057":http://www.ruby-doc.org/core/classes/Object.html#M001057 for more information on the  implications of equal?, eql? and ==.
 
 h3. Floating Point Comparison
 

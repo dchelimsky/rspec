@@ -23,12 +23,10 @@ namespace :spec do
   end
   
   desc "Run all specs including plugins"
+
   task :all do
-    Rake::Task["spec:models"].invoke      rescue got_error = true
-    Rake::Task["spec:controllers"].invoke rescue got_error = true
-    Rake::Task["spec:helpers"].invoke     rescue got_error = true
-    Rake::Task["spec:views"].invoke       rescue got_error = true
-    Rake::Task["spec:plugins"].invoke       rescue got_error = true
+    Rake::Task["spec:app"].invoke       rescue got_error = true
+    Rake::Task["spec:plugins"].invoke   rescue got_error = true
 
     raise "RSpec failures" if got_error
   end
