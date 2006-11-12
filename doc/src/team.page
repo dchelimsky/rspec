@@ -44,6 +44,6 @@ In alphabetical order (by last name)
 * Daniel Siemssen (RSpec on Rails patches for rails_spec_server)
 * Nikolai Weibull (Core patches for spec names)
 * Mike Williams (Core patches for arbitrary comparisons like 5.should_be < 6)
-* Chad Wooley (Patch to mocks to make it possible to specify thrown exception instance)
+* Chad Wooley (Patch to mocks to make it possible to specify raised exception instance)
 
 If you think your name ought to be here, please contact the RSpec team.

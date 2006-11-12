@@ -1,0 +1,34 @@
+---
+title: TextMate
+---
+h2. TextMate
+
+TextMate is a popular text editor for OS X. RSpec's TextMate bundle 
+
+h2. Installation
+
+There are several ways to install the RSpec bundle for TextMate. We'll start by the easiest.
+
+h3. Installing from RubyForge.
+
+Just download the tgz file from RubyForge, unpack it and double-click the RSpec.tmbundle icon.
+It is very important that your installed Ruby gem is a compatible version.
+
+h3. Installing from trunk HEAD in subversion
+
+Get the source via subversion to some location on your drive:
+
+<code>
+svn co svn://rubyforge.org/var/svn/rspec/trunk/vendor/RSpec.tmbundle path/to/RSpec.tmbundle
+</code>
+
+Now, make a symbolic link from TextMate's bundle directory to your working copy of the bundle:
+
+<code>
+ln -s path/to/RSpec.tmbundle ~/Library/Application\ Support/TextMate/Bundles/RSpec.tmbundle
+</code>
+
+Of course, the last step is not necessary if you check the bundle out straight into the TextMate directory.
+
+The last step is to set the TM_RSPEC_HOME environment variable in TextMate's preferences. This should
+point to the root directory of a working copy of RSpec (trunk HEAD too).

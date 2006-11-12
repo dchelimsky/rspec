@@ -4,7 +4,7 @@
 <dict>
 	<key>content</key>
 	<string>setup do
-
+  $0
 end</string>
 	<key>name</key>
 	<string>Setup</string>

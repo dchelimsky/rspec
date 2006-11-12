@@ -23,7 +23,7 @@ context "Mocker" do
     mock.two
   end
 
-  specify "should get yelled out when sending unexpected messages" do
+  specify "should get yelled at when sending unexpected messages" do
     mock = mock("don't talk to me")
     mock.should_not_receive(:any_message_at_all)
     mock.any_message_at_all

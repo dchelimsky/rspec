@@ -3,19 +3,10 @@ module Spec
     module Formatter
       # Formats backtraces so they're clickable by TextMate
       class TextMateFormatter < HtmlFormatter
-        def format_backtrace(backtrace)
-          return "" if backtrace.nil?
-          backtrace.map do |line| 
-            if line =~ /(.*):(\d+)(.*)/
-              path = $1
-              line = $2
-              rest = $3
-              href = "txmt://open?url=file://#{File.expand_path(path)}&line=#{line}"
-              "<a href=\"#{href}\">#{path}:#{line}</a>#{rest}"
-            else
-              line
-            end
-          end.join("\n")
+        def backtrace_line(line)
+          line.gsub(/([^:]*\.rb):(\d*)/) do
+            "<a href=\"txmt://open?url=file://#{File.expand_path($1)}&line=#{$2}\">#{$1}:#{$2}</a> "
+          end
         end
       end
     end

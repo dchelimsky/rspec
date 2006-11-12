@@ -3,8 +3,8 @@ require 'stringio'
 
 context "SpecMate" do
   setup do
-    @first_spec  = /fixtures\/example_failing_spec\.rb&line=3/n
-    @second_spec  = /fixtures\/example_failing_spec\.rb&line=7/n
+    @first_failing_spec  = /fixtures\/example_failing_spec\.rb&line=3/n
+    @second_failing_spec  = /fixtures\/example_failing_spec\.rb&line=7/n
     
     root = File.expand_path(File.dirname(__FILE__) + '/../../../..')
     if File.exist?("#{root}/bin/spec")
@@ -26,8 +26,8 @@ context "SpecMate" do
     @spec_mate.run_file(out)
     out.rewind
     html = out.read
-    html.should =~ @first_spec
-    html.should =~ @second_spec
+    html.should =~ @first_failing_spec
+    html.should =~ @second_failing_spec
   end
 
   specify "should run first spec when file and line 4 specified" do
@@ -38,8 +38,8 @@ context "SpecMate" do
     @spec_mate.run_focussed(out)
     out.rewind
     html = out.read
-    html.should =~ @first_spec
-    html.should_not =~ @second_spec
+    html.should =~ @first_failing_spec
+    html.should_not =~ @second_failing_spec
   end
 
   specify "should run first spec when file and line 8 specified" do
@@ -51,7 +51,23 @@ context "SpecMate" do
     out.rewind
     html = out.read
 
-    html.should_not =~ @first_spec
-    html.should =~ @second_spec
+    html.should_not =~ @first_failing_spec
+    html.should =~ @second_failing_spec
+  end
+
+  specify "should run all selected files" do
+    ENV['TM_SELECTED_FILES'] = ['example_failing_spec.rb', 'example_passing_spec.rb'].map do |f|
+      "'" + File.expand_path(File.dirname(__FILE__)) + "/fixtures/#{f}'"
+    end.join(" ")
+
+    out = StringIO.new
+    @spec_mate.run_files(out)
+    out.rewind
+    html = out.read
+
+    html.should =~ @first_failing_spec
+    html.should =~ @second_failing_spec
+    html.should =~ /should pass/
+    html.should =~ /should pass too/
   end
 end

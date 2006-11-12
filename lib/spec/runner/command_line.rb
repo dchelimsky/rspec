@@ -7,7 +7,7 @@ module Spec
       # not a system exit should be called after the specs are run and
       # +warn_if_no_files+ tells whether or not a warning (the help message)
       # should be printed to +stderr+ in case no files are specified.
-      def self.run(argv, stderr, stdout, exit, warn_if_no_files)
+      def self.run(argv, stderr, stdout, exit=false, warn_if_no_files=true)
         old_context_runner = defined?($context_runner) ? $context_runner : nil
         $context_runner = OptionParser.new.create_context_runner(argv, stderr, stdout, warn_if_no_files)
 

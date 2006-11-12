@@ -4,13 +4,9 @@
 <dict>
 	<key>content</key>
 	<string>context "Requesting ${1:/some/path} using ${2:GET|POST|PUT|DELETE}${3: with some parameters}" do
-	controller_name :${4:controller}
+  controller_name :${4:controller}
 
-	setup do
-		$5
-	end
-
-	$0
+  $0
 end</string>
 	<key>name</key>
 	<string>Controller Context (RESTful style)</string>

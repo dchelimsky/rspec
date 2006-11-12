@@ -8,11 +8,30 @@
   <title>RSpec results</title>
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
   <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <script type="text/javascript">
+  function moveProgressBar(percentDone) {
+    document.getElementById("progress-bar").style.width = percentDone +"%";
+  }
+  function makeProgressbarRed() {
+    document.getElementById('progress-bar').style.background = '#CD0000';
+  }
+  </script>
   <style type="text/css">
   body {
     font-size: 9pt;
     font-family: verdana, arial, helvetica;
     width: 85%;
+  }
+
+  #progress-bar-bg {
+    background-color: #C9C9C9; 
+    border-bottom: 1px solid gray; 
+    border-right: 1px solid gray;
+  }
+
+  #progress-bar {
+    background-color: #659D32;
+    width: 0px;
   }
 
   div.context {
@@ -76,10 +95,18 @@
   </style>
 </head>
 <body>
+
+<div id="progress-bar-bg">
+  <div id="progress-bar">&nbsp;</div>
+</div>
+
 <div class="context">
   <ul>
   <li class="context_name">Mocker</li>
+    <script type="text/javascript">moveProgressBar('7.6');</script>
     <li class="spec passed"><div class="passed_spec_name">should be able to call mock()</div></li>
+    <script type="text/javascript">makeProgressbarRed();</script>
+    <script type="text/javascript">moveProgressBar('15.3');</script>
     <li class="spec failed">
       <div class="failed_spec_name">should fail when expected message not received</div>
       <div class="failure" id="failure_1">
@@ -87,6 +114,8 @@
         <div class="backtrace"><pre>./failing_examples/mocking_example.rb:13</pre></div>
       </div>
     </li>
+    <script type="text/javascript">makeProgressbarRed();</script>
+    <script type="text/javascript">moveProgressBar('23.0');</script>
     <li class="spec failed">
       <div class="failed_spec_name">should fail when messages are received out of order</div>
       <div class="failure" id="failure_2">
@@ -95,8 +124,10 @@
 ./failing_examples/mocking_example.rb:22</pre></div>
       </div>
     </li>
+    <script type="text/javascript">makeProgressbarRed();</script>
+    <script type="text/javascript">moveProgressBar('30.7');</script>
     <li class="spec failed">
-      <div class="failed_spec_name">should get yelled out when sending unexpected messages</div>
+      <div class="failed_spec_name">should get yelled at when sending unexpected messages</div>
       <div class="failure" id="failure_3">
         <div class="message"><pre>Mock 'don't talk to me' expected :any_message_at_all 0 times, but received it once</pre></div>
         <div class="backtrace"><pre>./failing_examples/mocking_example.rb:28</pre></div>
@@ -107,6 +138,8 @@
 <div class="context">
   <ul>
   <li class="context_name">Running specs with --diff</li>
+    <script type="text/javascript">makeProgressbarRed();</script>
+    <script type="text/javascript">moveProgressBar('38.4');</script>
     <li class="spec failed">
       <div class="failed_spec_name">should print diff of different strings</div>
       <div class="failure" id="failure_4">
@@ -114,6 +147,8 @@
         <div class="backtrace"><pre>./failing_examples/diffing_spec.rb:13</pre></div>
       </div>
     </li>
+    <script type="text/javascript">makeProgressbarRed();</script>
+    <script type="text/javascript">moveProgressBar('46.1');</script>
     <li class="spec failed">
       <div class="failed_spec_name">should print diff of different objects' pretty representation</div>
       <div class="failure" id="failure_5">
@@ -134,22 +169,29 @@ species=tortoise
 <div class="context">
   <ul>
   <li class="context_name">A consumer of a stub</li>
+    <script type="text/javascript">moveProgressBar('53.8');</script>
     <li class="spec passed"><div class="passed_spec_name">should be able to stub methods on any Object</div></li>
   </ul>
 </div>
 <div class="context">
   <ul>
   <li class="context_name">A stubbed method on a class</li>
+    <script type="text/javascript">moveProgressBar('61.5');</script>
     <li class="spec passed"><div class="passed_spec_name">should return the stubbed value</div></li>
+    <script type="text/javascript">moveProgressBar('69.2');</script>
     <li class="spec passed"><div class="passed_spec_name">should revert to the original method after each spec</div></li>
+    <script type="text/javascript">moveProgressBar('76.9');</script>
     <li class="spec passed"><div class="passed_spec_name">can stub! and mock the same message</div></li>
   </ul>
 </div>
 <div class="context">
   <ul>
   <li class="context_name">A mock</li>
+    <script type="text/javascript">moveProgressBar('84.6');</script>
     <li class="spec passed"><div class="passed_spec_name">can stub!</div></li>
+    <script type="text/javascript">moveProgressBar('92.3');</script>
     <li class="spec passed"><div class="passed_spec_name">can stub! and mock</div></li>
+    <script type="text/javascript">moveProgressBar('100.0');</script>
     <li class="spec passed"><div class="passed_spec_name">can stub! and mock the same message</div></li>
   </ul>
 </div>

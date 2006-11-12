@@ -1,22 +1,11 @@
-require 'spec/runner/formatter/base_text_formatter'
+require 'spec/runner/formatter/progress_bar_formatter'
 
-# Example of a custom formatter. Run me with:
-# bin/spec examples -r examples/custom_formatter.rb -f CustomFormatter
-# bin/spec failing_examples -r examples/custom_formatter.rb -f CustomFormatter
-class CustomFormatter < Spec::Runner::Formatter::BaseTextFormatter
-  def add_context(name, first)
-    @output.print "\n" if first
-  end
-  
-  def spec_failed(name, counter, failure)
-    @output.print 'X'
-  end
-  
-  def spec_passed(name)
-    @output.print '_'
-  end
-  
-  def start_dump
-    @output.print "\n"
+# Example of a formatter with custom bactrace printing. Run me with:
+# ruby bin/spec failing_examples -r examples/custom_formatter.rb -f CustomFormatter
+class CustomFormatter < Spec::Runner::Formatter::ProgressBarFormatter
+  def backtrace_line(line)
+    line.gsub(/([^:]*\.rb):(\d*)/) do
+      "<a href=\"file://#{File.expand_path($1)}\">#{$1}:#{$2}</a> "
+    end
   end
 end

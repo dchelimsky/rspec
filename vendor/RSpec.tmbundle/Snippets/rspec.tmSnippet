@@ -9,10 +9,6 @@ require 'spec/runner'
 require "${1:yourlib}"
 
 context "${2:description}" do
-  setup do
-    $3
-  end
-
   $0
 end</string>
 	<key>name</key>

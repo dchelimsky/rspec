@@ -9,3 +9,9 @@ rake.page:
 
 rcov.page:
   orderInfo: 13
+
+extensions:
+  title: Extensions
+  orderInfo: 14
+  inMenu: true
+

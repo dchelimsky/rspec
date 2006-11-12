@@ -1,0 +1,9 @@
+index.page:
+  orderInfo: 10
+  inMenu: true
+  
+editors:
+  orderInfo: 20
+  title: Editors
+  inMenu: true
+  

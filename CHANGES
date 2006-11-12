@@ -2,6 +2,10 @@
 
 == Version 0.7.2 (in SVN)
 
+This release introduces a brand new RSpec bundle for TextMate, plus some small bugfixes.
+
+* Packaged RSpec.tmbundle.tgz as part of the distro
+* Fixed [#6593] Add moving progress bar to HtmlFormatter using Javascript
 * Applied [#6265] should_raise should accept an Exception object
 * Fixed [#6616] Can't run Rails specs with RSpec.tmbundle
 * Fixed [#6411] Can't run Rails specs with ruby

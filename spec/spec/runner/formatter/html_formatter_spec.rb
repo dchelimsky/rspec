@@ -1,4 +1,5 @@
 require File.dirname(__FILE__) + '/../../../spec_helper.rb'
+require 'stringio'
 
 context "HtmlFormatter" do
   setup do
@@ -32,12 +33,41 @@ context "HtmlFormatter" do
   specify "should push div with spec passed class" do
     @formatter.spec_started("spec")
     @formatter.spec_passed("spec")
-    @io.string.should_eql("    <li class=\"spec passed\"><div class=\"passed_spec_name\">spec</div></li>\n")
+    @io.string.should_match(/<li class="spec passed"><div class="passed_spec_name">spec<\/div><\/li>/m)
   end
 
   specify "should push header on start" do
     @formatter.start(5)
     @io.string.should_eql(Spec::Runner::Formatter::HtmlFormatter::HEADER)
+  end
+  
+  specify "should render plain backtrace" do
+    @formatter.format_backtrace([
+      "foo/bar:3:in `some_method'",
+      "foo/bar:4:in `some_other_method'",
+      ""
+    ]).should_eql <<-EOS
+foo/bar:3:in `some_method'
+foo/bar:4:in `some_other_method'
+EOS
+  end
+
+  class CustomHtmlFormatter < Spec::Runner::Formatter::HtmlFormatter
+    def backtrace_line(line)
+      line.gsub(/([^:]*):(\d*):in /, "<a href=\"nifty://open?url=file:///PREFIX/\\1&line=\\2\">\\1:\\2</a>:in ")
+    end
+  end
+
+  specify "should render formatted backtrace" do
+    @formatter = CustomHtmlFormatter.new(@io)
+    @formatter.format_backtrace([
+      "foo/bar:3:in `some_method'",
+      "foo/bob:4:in `some_other_method'",
+      ""
+    ]).should_eql <<-EOS
+<a href="nifty://open?url=file:///PREFIX/foo/bar&line=3">foo/bar:3</a>:in `some_method'
+<a href="nifty://open?url=file:///PREFIX/foo/bob&line=4">foo/bob:4</a>:in `some_other_method'
+EOS
   end
   
   specify "should produce HTML identical to the one we designed manually" do

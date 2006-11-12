@@ -66,7 +66,7 @@ module Spec
             @output.puts magenta(failure.header)
             @output.puts magenta(failure.exception.message)
           end
-          @output.puts failure.exception.backtrace.join("\n")
+          @output.puts format_backtrace(failure.exception.backtrace)
           STDOUT.flush
         end
       
@@ -84,8 +84,17 @@ module Spec
           end
         end
 
+        def format_backtrace(backtrace)
+          return "" if backtrace.nil?
+          backtrace.map { |line| backtrace_line(line) }.join("\n")
+        end
+      
       protected
       
+        def backtrace_line(line)
+          line
+        end
+
         def colour(text, colour_code)
           return text unless @colour && @output == Kernel
           "#{colour_code}#{text}\e[0m"
@@ -95,10 +104,6 @@ module Spec
         def green(text); colour(text, "\e[32m"); end
         def magenta(text); colour(text, "\e[35m"); end
         
-        def format_backtrace(backtrace)
-          backtrace.nil? ? "" : backtrace.join("\n")
-        end
-
       end
     end
   end

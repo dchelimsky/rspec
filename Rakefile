@@ -224,6 +224,16 @@ task :publish_website => [:verify_user, :website] do
   publisher.upload
 end
 
+desc "Package the RSpec.tmbundle"
+task :package_tmbundle => :pkg do
+  rm_rf 'pkg/RSpec.tmbundle'
+  `svn export vendor/RSpec.tmbundle pkg/RSpec.tmbundle`
+  Dir.chdir 'pkg' do
+    `tar cvzf RSpec-#{PKG_VERSION}.tmbundle.tgz RSpec.tmbundle`
+  end
+end
+task :package => :package_tmbundle
+
 desc "Publish gem+tgz+zip on RubyForge. You must make sure lib/version.rb is aligned with the CHANGELOG file"
 task :publish_packages => [:verify_user, :verify_password, :package] do
   require 'meta_project'
@@ -231,7 +241,8 @@ task :publish_packages => [:verify_user, :verify_password, :package] do
   release_files = FileList[
     "pkg/#{PKG_FILE_NAME}.gem",
     "pkg/#{PKG_FILE_NAME}.tgz",
-    "pkg/#{PKG_FILE_NAME}.zip"
+    "pkg/#{PKG_FILE_NAME}.zip",
+    "pkg/RSpec-#{PKG_VERSION}.tmbundle.tgz"
   ]
 
   Rake::XForge::Release.new(MetaProject::Project::XForge::RubyForge.new(PKG_NAME)) do |xf|
