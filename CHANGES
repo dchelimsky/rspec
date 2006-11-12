@@ -1,6 +1,8 @@
 = RSpec Changelog
 
-== Version 0.7.2 (in SVN)
+== Version 0.7.3 (In SVN)
+
+== Version 0.7.2
 
 This release introduces a brand new RSpec bundle for TextMate, plus some small bugfixes.
 

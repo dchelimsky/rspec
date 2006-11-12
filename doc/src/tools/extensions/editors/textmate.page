@@ -23,16 +23,16 @@ h3. Installing from trunk HEAD in subversion
 
 Get the source via subversion to some location on your drive:
 
-<code>
+<pre>
 svn co svn://rubyforge.org/var/svn/rspec/trunk/vendor/RSpec.tmbundle path/to/RSpec.tmbundle
-</code>
+</pre>
 
 (If you have RSpec checked out you don't need this - it's under vendor/RSpec.tmbundle)
 Now, make a symbolic link from TextMate's bundle directory to your working copy of the bundle:
 
-<code>
+<pre>
 ln -s path/to/RSpec.tmbundle ~/Library/Application\ Support/TextMate/Bundles/RSpec.tmbundle
-</code>
+</pre>
 
 Of course, the last step is not necessary if you check the bundle out straight into the TextMate directory.
 

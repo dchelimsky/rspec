@@ -18,7 +18,7 @@ h3. Launch RSpec from the IDE
 Most advanced editors provide a mechanism to launch external processes by hitting a keystroke.
 Depending on your editor, you may want to launch RSpec directly via the <code>spec</code> spec command
 (which must be on your $PATH). Alternatively, if your editor makes it possible to run Ruby scripts
-directly, you may execute RSpec via Spec::Runner::CommandLine.run (which has a similar API to
+directly, you may execute RSpec via <code>Spec::Runner::CommandLine.run</code> (which has a similar API to
 the <code>spec</code> command, except you can call it straight from Ruby without forking a new Ruby process).
 
 h3. Tell RSpec what spec(s) to run
@@ -46,6 +46,6 @@ Example:
 
 <ruby file="../examples/custom_formatter.rb"/>
 
-Then, when you launch RSpec, you just use the <code>--formatter</code> option to specify *your* 
-custom formatter. Note that you will probably have to use <code>--require</code> too, so that 
-the code for your custom formatter is loaded.
+Then, when the editor plugin launches RSpec, just make sure it uses the <code>--formatter</code> 
+option to specify *your* custom formatter. Note that you will probably have to use <code>--require</code> 
+too, so that the code for your custom formatter is loaded. See <code>spec --help</code> for details.
