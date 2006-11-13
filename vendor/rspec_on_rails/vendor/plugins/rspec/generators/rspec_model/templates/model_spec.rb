@@ -1,13 +1,14 @@
 require File.dirname(__FILE__) + '<%= '/..' * class_nesting_depth %>/../spec_helper'
 
-context "<%= class_name %> class with fixtures loaded" do
+#Delete this context and add some real ones
+context "Given a generated <%= class_name.underscore %>_spec.rb with fixtures loaded" do
   fixtures :<%= table_name %>
 
-  specify "should count two <%= class_name.pluralize %>" do
+  specify "fixtures should load two <%= class_name.pluralize %>" do
     <%= class_name %>.should_have(2).records
   end
 
-  specify "should have more specifications" do
+  specify "you shoud add more specs" do
     violated "not enough specs"
   end
 end

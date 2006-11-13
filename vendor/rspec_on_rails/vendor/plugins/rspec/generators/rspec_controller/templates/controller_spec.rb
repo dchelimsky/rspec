@@ -1,22 +1,27 @@
 require File.dirname(__FILE__) + '<%= '/..' * class_nesting_depth %>/../spec_helper'
 
-context "The <%= class_name %>Controller" do
-  # fixtures :<%= table_name %>
-  controller_name :<%= class_name.underscore %>
-
-  specify "should be a <%= class_name %>Controller" do
+#Delete this context and add some real ones
+context "Given a generated <%= class_name.underscore %>_controller_spec.rb" do
+  controller_name '<%= class_name.underscore %>'
+  
+  specify "the controller should be a<%= class_name =~ /A|E|I|O|U/ ? 'n' : ''%> <%= class_name %>Controller" do
     controller.should_be_an_instance_of <%= class_name %>Controller
   end
+  
+  specify "you should add more specs" do
+    violated "not enough specs"
+  end
+end
 
+<% unless actions.empty? -%>
+context "Given a<%= class_name =~ /A|E|I|O|U/ ? 'n' : ''%> <%= class_name %>Controller" do
+  controller_name '<%= class_name.underscore %>'
 <% for action in actions -%>
 
-  specify "should accept GET to <%= action %>" do
+  specify "GET '<%= action %>' should be successful" do
     get '<%= action %>'
     response.should_be_success
   end
 <% end -%>
-
-  specify "should have more specifications" do
-    violated "not enough specs"
-  end
 end
+<% end -%>
