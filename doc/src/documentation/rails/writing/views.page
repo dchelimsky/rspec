@@ -4,7 +4,7 @@ inMenu: true
 ---
 h2. RSpec on Rails - Specifying Views
 
-View Specs live in ~/spec/views/.
+View Specs live in $RAILS_ROOT/spec/views/.
 
 RSpec on Rails supports the specification of views in complete isolation from their controllers.
 This allows you to spec and write your views even before their controllers exist,

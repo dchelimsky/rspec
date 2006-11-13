@@ -4,7 +4,7 @@ inMenu: true
 ---
 h2. RSpec on Rails - Specifying Controllers
 
-Controller Specs live in ~/spec/controllers/.
+Controller Specs live in $RAILS_ROOT/spec/controllers/.
 
 h2. Isolation from views
 

@@ -1,24 +1,24 @@
-#The comments below are here for educational purposes only.
-#They are not an endorsement of comments in your spec!
+# The comments below are here for educational purposes only.
+# They are not an endorsement of comments in your spec!
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-context "the PersonController" do
+context "The PersonController" do
   controller_name :person
   
   setup do
     @person = mock("person")
     
-    #Generally, prefer stub! over should_receive in setup.
+    # Generally, prefer stub! over should_receive in setup.
     @person.stub!(:new_record?).and_return(false)
     Person.stub!(:new).and_return(@person)
   end
   
   specify "should create a new, unsaved person on GET to create" do
-    #Using should_receive here overrides the stub in setup. Even
-    #though it is the same as the stub, using should_receive sets
-    #an expectation that  will be verified. It also helps to
-    #better express the intent of this spec block.
+    # Using should_receive here overrides the stub in setup. Even
+    # though it is the same as the stub, using should_receive sets
+    # an expectation that  will be verified. It also helps to
+    # better express the intent of this spec block.
     Person.should_receive(:new).and_return(@person)
     get 'create'
   end

@@ -5,9 +5,10 @@ h2. TextMate
 
 TextMate is a popular text editor for OS X. RSpec's TextMate bundle has a big number of snippets for
 all of RSpec's expectations, contexts and specify's. You can even run specs from TextMate using
-CMD-r and CMD-SHIFT-R - and you'll see a nice progress bar while the specs are running.
+CMD-R and CMD-SHIFT-R - and you'll see a nice progress bar while the specs are running (except
+usually they run so fast you won't be able to see it move).
 
-If you select one or more directories or files you can run those too with CMD-r (but you have to have 
+If you select one or more directories or files you can run those too with CMD-R (but you have to have 
 an arbitrary Ruby file open to make this work).
 
 h2. Installation
@@ -27,7 +28,8 @@ Get the source via subversion to some location on your drive:
 svn co svn://rubyforge.org/var/svn/rspec/trunk/vendor/RSpec.tmbundle path/to/RSpec.tmbundle
 </pre>
 
-(If you have RSpec checked out you don't need this - it's under vendor/RSpec.tmbundle)
+(If you have RSpec checked out you don't need this - it's under vendor/RSpec.tmbundle).
+
 Now, make a symbolic link from TextMate's bundle directory to your working copy of the bundle:
 
 <pre>

@@ -4,7 +4,7 @@ inMenu: true
 ---
 h2. RSpec on Rails - Specifying Models
 
-Model Specs live in ~/spec/models/ and provide access to fixtures.
+Model Specs live in $RAILS_ROOT/spec/models/ and provide access to fixtures.
 
 h2. Expectations
 

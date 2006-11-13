@@ -36,7 +36,7 @@ Spec::Rake::SpecTask.new do |t|
   t.spec_opts = ['--diff','--color','--backtrace']
   t.rcov = true
   t.rcov_dir = 'doc/output/coverage'
-  t.rcov_opts = ['--exclude', 'spec\/spec,bin\/spec,examples']
+  t.rcov_opts = ['--exclude', 'spec\/spec,bin\/spec,bin\/drbspec,examples']
 end
 
 desc "Run all failing examples"
@@ -92,9 +92,9 @@ spec = Gem::Specification.new do |s|
   s.test_files = Dir.glob('test/*_test.rb')
   s.require_path = 'lib'
   s.autorequire = 'spec'
-  s.bindir = "bin"
-  s.executables = ["spec"]
-  s.default_executable = "spec"
+  s.bindir = 'bin'
+  s.executables = ['spec', 'drbspec']
+  s.default_executable = 'spec'
   s.author = ["Steven Baker", "Aslak Hellesoy", "Dave Astels", "David Chelimsky", "Brian Takita"]
   s.email = "rspec-devel@rubyforge.org"
   s.homepage = "http://rspec.rubyforge.org"

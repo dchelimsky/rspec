@@ -2,6 +2,8 @@
 
 == Version 0.7.3 (In SVN)
 
+* The script/rails_spec command has been moved to bin/drbspec in RSpec core (installed by the gem)
+
 == Version 0.7.2
 
 This release introduces a brand new RSpec bundle for TextMate, plus some small bugfixes.

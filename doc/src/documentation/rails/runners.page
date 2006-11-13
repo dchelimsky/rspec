@@ -11,11 +11,13 @@ spec path/to/directory/with/specs
 spec path/to/individual_spec.rb
 </pre>
 
-h3. Run specs fast with rails_spec (recommended)
+h3. Run specs fast with drbspec (recommended)
 
 Loading the entire Rails environment every time a spec is executed is quite slow.
-We have therefore made a little tool that allows you to load the rails environment
-once for all. Open up two shells and run the following in the first:
+To speed things up, RSpec on Rails installs a daemon that loads the local Rails app
+and listens for incoming connections via DRb.
+
+Open up two shells and run the following in the first:
 
 <pre>
 script/rails_spec_server
@@ -24,11 +26,11 @@ script/rails_spec_server
 - And then run this in the second:
 
 <pre>
-script/rails_spec REGULAR_SPEC_OPTIONS
+drbspec REGULAR_SPEC_OPTIONS
 </pre>
 
-The script/rails_spec script has the same command line interface as the familiar spec
-command. But it's MUCH faster.
+The drbspec command (formerly script/rails_spec) script has the same command line interface 
+as the familiar spec command. But it's MUCH faster. drbspec is installed as part of the RSpec gem.
 
 h3. Running specs with Rake
 

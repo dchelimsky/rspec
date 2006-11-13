@@ -17,8 +17,8 @@ to the appropriate services and methods. The type of Context is determined
 implicitly by placing the spec within a named directory tree:
 
 <pre>
-../spec/controllers/**/*_spec.rb
-../spec/helpers/**/*_spec.rb
-../spec/models/**/*_spec.rb
-../spec/views/**/*_spec.rb
+spec/controllers/**/*_spec.rb
+spec/helpers/**/*_spec.rb
+spec/models/**/*_spec.rb
+spec/views/**/*_spec.rb
 </pre>
