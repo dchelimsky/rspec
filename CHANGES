@@ -2,6 +2,8 @@
 
 == Version 0.7.3 (In SVN)
 
+* Fixed [#6650] Reserved characters in the TextMate bundle break svn on Win32
+* Fixed [#6643] script/generate rspec_controller: invalid symbol generation for 'controller_name' for *modularized* controllers
 * The script/rails_spec command has been moved to bin/drbspec in RSpec core (installed by the gem)
 
 == Version 0.7.2
