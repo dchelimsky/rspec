@@ -48,15 +48,29 @@ end
     if mode == 'integration'
       integrate_views
     end
-  
-    specify "the correct partial should pass" do
+    
+    setup do
       post 'render_replace_html_with_partial'
+    end
+    
+    specify "the correct partial should pass" do
       controller.should_render_rjs :replace_html, 'mydiv', :partial => 'rjs_spec/replacement_partial'
     end
-  
-    specify "the incorrect partial should fail" do
-      post 'render_replace_html_with_partial'
-      lambda { controller.should_render_rjs :replace_html, 'mydiv', :partial => 'rjs_spec/wrong_replacement_partial' }
+    
+    specify "the correct text from a given partial should pass" do
+      controller.should_render_rjs :replace_html, 'mydiv', "This is the text in the replacement partial."
+    end
+    
+    specify "the incorrect partial" do
+      lambda do
+        controller.should_render_rjs :replace_html, 'mydiv', :partial => 'rjs_spec/wrong_replacement_partial'
+      end.should_fail
+    end
+    
+    specify "the incorrect text from the correct partial should fail" do
+      lambda do
+        controller.should_render_rjs :replace_html, 'mydiv', "This is NOT the text in the replacement partial."
+      end.should_fail
     end
   end
 end
@@ -64,18 +78,19 @@ end
 context "Given an rjs call to hide a div using page['id'], a 'should_have_rjs' spec with",
   :context_type => :controller do
   controller_name :rjs_spec
-  
+
   setup do
     post 'render_hide_page_element'
   end
-  
+
   specify "the correct element name should pass" do
     controller.should_render_rjs :page, 'mydiv', :hide
   end
-  
+
   specify "the wrong element name should fail" do
     lambda {
       controller.should_render_rjs :page, 'wrongname', :hide
     }.should_fail
   end
 end
+

@@ -4,7 +4,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 context "The PersonController" do
-  controller_name :person
+  controller_name "person"
   
   setup do
     @person = mock("person")

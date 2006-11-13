@@ -18,10 +18,6 @@ module ActionController
         __response_body.should_not_have_tag tag, *opts
       end
       
-      def isolate_from_views!
-        @isolate_from_views = true
-      end
-
       private
       def __response_body
         Spec::Rails::ResponseBody.new(self.body)

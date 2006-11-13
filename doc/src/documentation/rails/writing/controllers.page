@@ -123,6 +123,16 @@ controller.should_render_rjs :page, 'mydiv', :replace, /placement/
 controller.should_render_rjs :page, 'mydiv', :hide
 </ruby>
 
+Partials are also supported as follows:
+
+<ruby>
+controller.should_render_rjs :replace_html, :partial => 'path/to/partial'
+</ruby>
+
+For partials, you could just use the String and Regexp forms above. Doing so
+bypasses the isolation feature so that the spec will fail if the template for
+the partial does not exist.
+
 h3. controller.should_redirect_to
 
 Use these to set redirect expectations in advance of the action:

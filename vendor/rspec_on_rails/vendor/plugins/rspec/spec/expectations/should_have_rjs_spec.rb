@@ -46,6 +46,22 @@ context "Given an rjs call to :replace_html in a div, a 'should_have_rjs' spec w
   end
 end
 
+context "Given an rjs call to :replace_html in a div with a partial, a 'should_have_rjs' spec with",
+  :context_type => :view do
+  
+  setup do
+    render 'rjs_spec/replace_html_with_partial'
+  end
+
+  specify "the correct element name and the text from a partial" do
+    response.should_have_rjs :replace_html, 'mydiv', 'This is the text in the replacement partial.'
+  end
+
+  specify "the correct element name and a regex matching the text from a partial" do
+    response.should_have_rjs :replace_html, 'mydiv', /This is the text in the replacement partial/
+  end
+end
+
 context "Given an rjs call to :insert_html in a div, a 'should_have_rjs' spec with",
   :context_type => :view do
   

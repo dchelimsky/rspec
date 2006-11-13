@@ -14,6 +14,9 @@ class RjsSpecController < ApplicationController
   def hide_page_element
   end
 
+  def replace_html_with_partial
+  end
+
   def render_replace_html
     render :update do |page|
       page.replace_html 'mydiv', 'replacement text'

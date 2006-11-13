@@ -2,12 +2,6 @@ module Spec
   module Rails
     class ControllerContext < Rails::Context
 
-      # class << ActiveRecord::Base
-      #   def connection
-      #     Kernel::raise Spec::Expectations::ExpectationNotMetError.new(RuntimeError.new('You cannot access the database from a controller spec'))
-      #   end
-      # end
-
       module ControllerInstanceMethods
         # === render(options = nil, deprecated_status = nil, &block)
         #
@@ -43,24 +37,26 @@ module Spec
         #   developers may find this an easier approach to begin with, however
         #   we encourage you to explore using the isolation mode and revel
         #   in its benefits.
-        #
         def render(options=nil, deprecated_status=nil, &block)
-          unless integrate_views?
-            @template = Spec::Mocks::Mock.new("mock template", :null_object => false) 
-            @template.stub!(:evaluate_assigns)
-            @template.stub!(:render)
-            @template.stub!(:file_exists?).and_return(true)
-            @template.stub!(:full_template_path)
-            @template.stub!(:render_file)
+          unless block_given?
+            unless integrate_views?
+              @template = Spec::Mocks::Mock.new("mock template") 
+              @template.stub!(:evaluate_assigns)
+              @template.stub!(:render)
+              @template.stub!(:file_exists?).and_return(true)
+              @template.stub!(:full_template_path)
+              @template.stub!(:render_file)
+            end
           end
-          render_matcher.set_actual(ensure_default_options(options), &block)
+          render_matcher.set_actual(ensure_default_options(options), response, &block)
           super
         end
         
         def should_render(expected)
           render_matcher.set_expected(expected)
         end
-        #this is for backwards compatibility to 0.7.0-0.7.2
+        
+        #backwards compatibility to 0.7.0-0.7.2
         alias_method :should_have_rendered, :should_render
 
         def should_render_rjs(element, *opts)
@@ -89,7 +85,7 @@ module Spec
         def integrate_views?
           @integrate_views
         end
-
+        
         def render_called
           @render_called = true
         end
@@ -99,7 +95,7 @@ module Spec
         end
 
         def render_matcher
-          @render_matcher ||= Spec::Rails::RenderMatcher.new
+          @render_matcher ||= Spec::Rails::RenderMatcher.new(integrate_views?)
         end
 
         def redirect_matcher
