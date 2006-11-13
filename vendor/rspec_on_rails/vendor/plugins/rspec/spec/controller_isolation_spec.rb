@@ -47,3 +47,4 @@ context "a controller spec running in integration mode", :context_type => :contr
     response.should_not_be_success
   end
 end
+
