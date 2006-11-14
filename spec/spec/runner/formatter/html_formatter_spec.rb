@@ -73,7 +73,7 @@ EOS
   specify "should produce HTML identical to the one we designed manually" do
     root = File.expand_path(File.dirname(__FILE__) + '/../../../..')
     Dir.chdir(root) do
-      html = `ruby -Ilib bin/spec failing_examples/mocking_example.rb failing_examples/diffing_spec.rb examples/stubbing_example.rb -c -fh`
+      html = `ruby -Ilib bin/spec failing_examples/mocking_example.rb failing_examples/diffing_spec.rb examples/stubbing_example.rb -fh`
       expected_html = File.read(File.dirname(__FILE__) + '/html_formatted.html')
       html.should_eql expected_html
     end

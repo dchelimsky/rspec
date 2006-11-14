@@ -48,7 +48,7 @@ desc 'Verify that no warnings occur'
 task :verify_warnings do
   `ruby -w #{File.dirname(__FILE__) + '/bin/spec'} --help 2> warnings.txt`
   warnings = File.open('warnings.txt').read
-  File.rm 'warnings.txt'
+  File.rm 'warnings.txt' rescue nil
   raise "There were warnings:\n#{warnings}" if warnings =~ /warning/n
 end
 
