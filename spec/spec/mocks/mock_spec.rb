@@ -265,7 +265,7 @@ module Spec
         Runner::Specification.new("spec") do
           mock = Spec::Mocks::Mock.new("mock", :auto_verify => true)
           mock.should_receive(:abcde)
-        end.run reporter
+        end.run(reporter, nil, nil, nil, nil)
         reporter.__verify
       end
 
@@ -277,7 +277,7 @@ module Spec
         Runner::Specification.new("spec") do
           mock = Spec::Mocks::Mock.new("mock")
           mock.should_receive(:abcde)
-        end.run reporter
+        end.run(reporter, nil, nil, nil, nil)
         reporter.__verify
       end
 
@@ -289,7 +289,7 @@ module Spec
         Runner::Specification.new("spec") do
           mock = Spec::Mocks::Mock.new("mock", :auto_verify => false)
           mock.should_receive(:abcde)
-        end.run reporter
+        end.run(reporter, nil, nil, nil, nil)
         reporter.__verify
       end
       

@@ -11,7 +11,7 @@ module Spec
         spec=Specification.new("spec") {}
         @reporter.should_receive(:spec_started).with("spec")
         @reporter.should_receive(:spec_finished).with("spec")
-        spec.run(@reporter, nil, nil, true)
+        spec.run(@reporter, nil, nil, true, nil)
       end
 
       specify "should add itself to reporter when fails" do
@@ -21,14 +21,14 @@ module Spec
         end
         @reporter.should_receive(:spec_started).with("spec")
         @reporter.should_receive(:spec_finished).with("spec", error, "spec")
-        spec.run(@reporter)
+        spec.run(@reporter, nil, nil, nil, nil)
       end
 
       specify "should add itself to reporter when passes" do
         spec=Specification.new("spec") {}
         @reporter.should_receive(:spec_started).with("spec")
         @reporter.should_receive(:spec_finished).with("spec", nil, nil)
-        spec.run(@reporter)
+        spec.run(@reporter, nil, nil, nil, nil)
       end
 
       specify "should match if name matches end of input" do
@@ -53,7 +53,7 @@ module Spec
         end
         @reporter.should_receive(:spec_started).with("should pass")
         @reporter.should_receive(:spec_finished).with("should pass", nil, nil)
-        spec.run(@reporter)
+        spec.run(@reporter, nil, nil, nil, ::Spec::Runner::ExecutionContext.new(nil))
         @reporter.__verify
       end
 
@@ -70,7 +70,7 @@ module Spec
           location.should_eql("spec")
           error.message.should_eql("in body")
         end
-        spec.run(@reporter, nil, teardown)
+        spec.run(@reporter, nil, teardown, nil, nil)
       end
 
       specify "should supply setup as spec name if failure in setup" do
@@ -82,7 +82,7 @@ module Spec
           error.message.should_eql("in setup")
           location.should_eql("setup")
         end
-        spec.run(@reporter, setup)
+        spec.run(@reporter, setup, nil, nil, nil)
       end
 
       specify "should supply teardown as failure location if failure in teardown" do
@@ -94,7 +94,7 @@ module Spec
           error.message.should_eql("in teardown")
           location.should_eql("teardown")
         end
-        spec.run(@reporter, nil, teardown)
+        spec.run(@reporter, nil, teardown, nil, nil)
       end
 
       specify "should verify mocks after teardown" do
@@ -107,7 +107,7 @@ module Spec
           spec_name.should_eql("spec")
           error.message.should_match(/expected :poke once, but received it 0 times/)
         end
-        spec.run(@reporter)
+        spec.run(@reporter, nil, nil, nil, ::Spec::Runner::ExecutionContext.new(nil))
       end
       
       specify "should accept an options hash following the spec name" do

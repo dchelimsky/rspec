@@ -28,7 +28,8 @@ module Spec
           my_methods |= context_superclass.methods
           my_methods
         end
-        protected
+      
+      protected
 
         def method_missing(method_name, *args)
           if context_superclass.respond_to?(method_name)
@@ -37,7 +38,8 @@ module Spec
           super
         end
 
-        private
+      private
+
         def setup_block
           parts = setup_parts.dup
           add_context_superclass_method(:setup, parts)

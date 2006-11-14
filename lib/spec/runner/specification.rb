@@ -16,11 +16,10 @@ module Spec
         @listeners = []
       end
 
-      def run(reporter=nil, setup_block=nil, teardown_block=nil, dry_run=false, execution_context=nil)
+      def run(reporter, setup_block, teardown_block, dry_run, execution_context)
         reporter.spec_started(@name) unless reporter.nil?
         return reporter.spec_finished(@name) if dry_run
         @@current_spec = self
-        execution_context = execution_context || ::Spec::Runner::ExecutionContext.new(self)
         errors = []
         begin
           execution_context.instance_exec(&setup_block) unless setup_block.nil?
@@ -40,9 +39,8 @@ module Spec
           notify_after_teardown errors
           @@current_spec = nil
         end
-        
-        SpecShouldRaiseHandler.new(@from, @options).handle(errors)
 
+        SpecShouldRaiseHandler.new(@from, @options).handle(errors)
         reporter.spec_finished(@name, errors.first, failure_location(setup_ok, spec_ok, teardown_ok)) unless reporter.nil?
       end
 

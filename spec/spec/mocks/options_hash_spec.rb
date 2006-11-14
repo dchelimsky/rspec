@@ -12,7 +12,7 @@ module Spec
         reporter.should_receive(:spec_finished) do |spec, error|
           error.backtrace.detect {|line| line =~ /\/path\/to\/blah.ext:37/}.should_not_be nil
         end
-        spec.run(reporter)
+        spec.run(reporter, nil, nil, nil, ::Spec::Runner::ExecutionContext.new(nil))
       end
 
       specify "should use the message supplied with :message" do
@@ -24,7 +24,7 @@ module Spec
         reporter.should_receive(:spec_finished) do |spec, error|
           error.message.should == "recebi nada"
         end
-        spec.run(reporter)
+        spec.run(reporter, nil, nil, nil, ::Spec::Runner::ExecutionContext.new(nil))
       end
     end
   end

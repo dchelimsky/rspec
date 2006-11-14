@@ -17,6 +17,7 @@ module Spec
         def violated(message="")
           raise Spec::Expectations::ExpectationNotMetError.new(message)
         end
+
       end
       include InstanceMethods
     end

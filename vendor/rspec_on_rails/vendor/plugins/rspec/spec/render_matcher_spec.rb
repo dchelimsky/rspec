@@ -13,7 +13,7 @@ context "a RenderMatcher" do
       #NOTE - this expectation relies on this spec being in this file (render_match_spec.rb)
       #and the line "spec.run(reporter)" below appearing on line 16
     end
-    spec.run(reporter)
+    spec.run(reporter, nil, nil, nil, nil)
   end
   
   specify "should raise if an expectation is set but set_rendered is never called",
