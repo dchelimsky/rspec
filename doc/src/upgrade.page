@@ -88,10 +88,11 @@ If you do not find a solution to your problem, please submit a Bug Report (use
 
 "http://rubyforge.org/tracker/?group_id=797":http://rubyforge.org/tracker/?group_id=797
 
-h3. <font style="color:red;">gem install ZenTest</font>
+h3. <font style="color:red;text-decoration:line-through;">gem install ZenTest</font>
 
-The RSpec on Rails plugin now extends, and therefore depends on, ZenTest. If you don't
-already have ZenTest, simply....
+%{color:red;font-weight:bold}The dependency on ZenTest is removed as of 0.7.3, however 0.7.0, 0.7.1, 0.7.2 all still need it.%
+
+%{text-decoration:line-through}The RSpec on Rails plugin now extends, and therefore depends on, ZenTest. If you don't already have ZenTest, simply....%
 
 <ruby>
 gem install zentest -v 3.4.1
