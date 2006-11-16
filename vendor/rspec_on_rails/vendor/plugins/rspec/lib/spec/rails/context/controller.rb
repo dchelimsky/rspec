@@ -111,7 +111,7 @@ module Spec
       module ContextEvalInstanceMethods
         attr_reader :response, :request, :controller
 
-        #This is a hook provided by Test::Rails::TestCase
+        #This is a hook provided by Spec::Rails::TestCase
         def setup_extra
           (class << @controller; self; end).class_eval do
             include ControllerInstanceMethods
@@ -119,18 +119,6 @@ module Spec
           @controller.integrate_views! if @integrate_views
           @controller.session = session
         end
-
-        def assigns(key=nil)
-          return assigns[key] unless key.nil?
-          @ivar_proxy ||= Test::Rails::IvarProxy.new(controller)
-        end
-
-        def routing(options)
-          # Load routes.rb if it hasn't been loaded
-          ActionController::Routing::Routes.reload if ActionController::Routing::Routes.empty?
-          ActionController::Routing::Routes.generate(options)[0]
-        end
-
       end
 
       module ContextEvalClassMethods
@@ -158,10 +146,11 @@ module Spec
       end
 
       def before_context_eval
-        inherit Test::Rails::ControllerTestCase
+        inherit Spec::Rails::ControllerTestCase
         @context_eval_module.extend ControllerContext::ContextEvalClassMethods
         @context_eval_module.include ControllerContext::ContextEvalInstanceMethods
       end
     end
   end
 end
+

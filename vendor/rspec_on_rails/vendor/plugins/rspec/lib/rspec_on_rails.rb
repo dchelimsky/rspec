@@ -22,5 +22,13 @@ require File.expand_path("#{dir}/extensions/action_controller/base")
 require File.expand_path("#{dir}/extensions/action_controller/test_response")
 require File.expand_path("#{dir}/extensions/nil_class")
 require File.expand_path("#{dir}/extensions/kernel")
+require File.expand_path("#{dir}/extensions/object")
 require File.expand_path("#{dir}/spec/rails/context")
+
+require File.expand_path("#{dir}/spec/rails/ivar_proxy")
+require File.expand_path("#{dir}/spec/rails/test_case")
+require File.expand_path("#{dir}/spec/rails/functional_test_case")
+require File.expand_path("#{dir}/spec/rails/controller_test_case")
+require File.expand_path("#{dir}/spec/rails/helper_test_case")
+require File.expand_path("#{dir}/spec/rails/view_test_case")
 Test::Unit.run = true

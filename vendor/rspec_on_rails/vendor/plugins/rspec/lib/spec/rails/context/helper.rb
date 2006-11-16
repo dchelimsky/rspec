@@ -7,7 +7,7 @@ module Spec
         end
       end
       def before_context_eval
-        inherit Test::Rails::HelperTestCase
+        inherit Spec::Rails::HelperTestCase
         @context_eval_module.extend HelperContext::ContextEvalClassMethods
       end
     end
