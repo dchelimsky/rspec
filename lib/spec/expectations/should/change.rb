@@ -25,21 +25,21 @@ module Spec
 
         def from(value)
           if @before_change != value
-            fail_with_message "#@message should have initially been #{value.inspect}, but was #{@before_change.inspect}"
+            fail_with_message "#{@message} should have initially been #{value.inspect}, but was #{@before_change.inspect}"
           end
           self
         end
 
         def to(value)
           if @after_change != value
-            fail_with_message "#@message should have been changed to #{value.inspect}, but is now #{@after_change.inspect}"
+            fail_with_message "#{@message} should have been changed to #{value.inspect}, but is now #{@after_change.inspect}"
           end
           self
         end
 
         def by(expected_delta)
           if actual_delta != expected_delta
-            fail_with_message "#@message should have been changed by #{expected_delta}, but was changed by #{actual_delta}"
+            fail_with_message "#{@message} should have been changed by #{expected_delta}, but was changed by #{actual_delta}"
           end
           self
         end
