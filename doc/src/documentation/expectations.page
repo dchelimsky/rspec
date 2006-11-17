@@ -9,7 +9,7 @@ Almost all expectation forms have a corresponding negated form. It is listed whe
 
 h2. General
 
-h3. <font color="red">CHANGED IN 0.7:</font> Equality and Identity
+h3. %{color:red}CHANGED IN 0.7:% Equality and Identity
 
 RSpec now delegates equality evaluation directly to ruby's methods and operators:
 
@@ -60,7 +60,7 @@ container.should_include('a') => container.include?('a')
 container.should_be_empty => container.empty?
 </ruby>
 
-h3. <font color="red">NEW IN 0.7:</font> Arbitrary ownership 
+h3. %{color:red}NEW IN 0.7:% Arbitrary ownership 
 
 <ruby>
 actual.should_have_<anything> [optional args] 
@@ -131,7 +131,7 @@ h2. Procs
 
 h3. Raising
 
-<font style="color:red; font-size:1.2em; font-weight:bold">NEW IN 0.7</font>: should_raise will match the message against a regexp
+%{color:red; font-size:1.2em; font-weight:bold}NEW IN 0.7%: should_raise will match the message against a regexp
 
 <ruby>
 proc.should_raise [<exception>], [<message>|<regexp>]
@@ -167,6 +167,19 @@ proc.should_not_throw
 </ruby>
 
 This form is more specific.  It checks that no symbol is thrown from within <code>proc</code>.
+
+h3. %{color:red}NEW IN 0.7.3:% Changing
+
+<ruby>
+proc.should_change(receiver, :message)                => #fails if no change
+proc.should_change(receiver, :message).by(value)      => #fails if changed by other value
+proc.should_change(receiver, :message).to(new_value)  => #fails if changed to a different value
+proc.should_change(receiver, :message).from(old_value).to(new_value)
+                                         =>#fails if before OR after values are not as expected
+</ruby>
+
+Calls <code>receiver.message</code> before and after the proc is executed and checks that
+the value has changed per the various forms.
 
 h2. Collections
 
