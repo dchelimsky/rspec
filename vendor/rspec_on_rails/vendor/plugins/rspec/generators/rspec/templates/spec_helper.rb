@@ -6,7 +6,7 @@ require 'rspec_on_rails'
 # Rails-specific extensions for fixtures and stubbed requests, response
 # and other things (via RSpec's inherit mechanism). These extensions are 
 # tightly coupled to Test::Unit in Rails, which is why you're seeing it here.
-module Test
+module Spec
   module Rails
     class TestCase < Test::Unit::TestCase
       self.use_transactional_fixtures = true
