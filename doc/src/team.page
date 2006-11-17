@@ -32,6 +32,7 @@ h3. RSpec!
 
 In alphabetical order (by last name)
 
+* Wilson Bilkovich (lambda {...}.should_change(obj, :message))
 * Lachie Cox (Initial Rails support and diffing enhancements for Objects and custom formats)
 * Lindsay Evans (Patch for RSpec on Rails on Windows)
 * Jake Howerton (Port of Kevin Clark's ARTS to RSpec)
