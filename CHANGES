@@ -8,6 +8,7 @@ A couple of things you need to change in your rails specs:
 # spec_helper.rb is a little different (see http://rspec.rubyforge.org/upgrade.html)
 # make sure you're using assigns[:with_brackets] and NOT assigns(:with_parens)
 
+* Fixed [#6707] cannot run controller / helper tests via rails_spec or spec only works with rake
 * Applied [#6417] lambda {...}.should_change(receiver, :message) (patch from Wilson Bilkovich)
 * Eliminated dependency on ZenTest
 * Fixed [#6650] Reserved characters in the TextMate bundle break svn on Win32

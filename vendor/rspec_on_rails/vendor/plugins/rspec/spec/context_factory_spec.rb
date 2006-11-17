@@ -15,6 +15,11 @@ context "the ContextFactory" do
     }.should_be_an_instance_of Spec::Rails::ModelContext
   end
   
+  specify "should return a ModelContext when given :spec_path => '\blah\spec\models\' (windows format)" do
+    Spec::Rails::ContextFactory.create("name", :spec_path => '\blah\spec\models\blah.rb') {
+    }.should_be_an_instance_of Spec::Rails::ModelContext
+  end
+  
   specify "should return a ViewContext when given :context_type => :model" do
     Spec::Rails::ContextFactory.create("name", :context_type => :view) {
     }.should_be_an_instance_of Spec::Rails::ViewContext
@@ -22,6 +27,11 @@ context "the ContextFactory" do
   
   specify "should return a ViewContext when given :spec_path => '/blah/spec/views/'" do
     Spec::Rails::ContextFactory.create("name", :spec_path => '/blah/spec/views/blah.rb') {
+    }.should_be_an_instance_of Spec::Rails::ViewContext
+  end
+  
+  specify "should return a ModelContext when given :spec_path => '\blah\spec\views\' (windows format)" do
+    Spec::Rails::ContextFactory.create("name", :spec_path => '\blah\spec\views\blah.rb') {
     }.should_be_an_instance_of Spec::Rails::ViewContext
   end
   
@@ -35,6 +45,11 @@ context "the ContextFactory" do
     }.should_be_an_instance_of Spec::Rails::HelperContext
   end
   
+  specify "should return a ModelContext when given :spec_path => '\blah\spec\helpers\' (windows format)" do
+    Spec::Rails::ContextFactory.create("name", :spec_path => '\blah\spec\helpers\blah.rb') {
+    }.should_be_an_instance_of Spec::Rails::HelperContext
+  end
+  
   specify "should return a ControllerContext when given :context_type => :controller" do
     Spec::Rails::ContextFactory.create("name", :context_type => :controller) {
     }.should_be_an_instance_of Spec::Rails::ControllerContext
@@ -42,6 +57,11 @@ context "the ContextFactory" do
   
   specify "should return a ControllerContext when given :spec_path => '/blah/spec/controllers/'" do
     Spec::Rails::ContextFactory.create("name", :spec_path => '/blah/spec/controllers/blah.rb') {
+    }.should_be_an_instance_of Spec::Rails::ControllerContext
+  end
+  
+  specify "should return a ModelContext when given :spec_path => '\blah\spec\controllers\' (windows format)" do
+    Spec::Rails::ContextFactory.create("name", :spec_path => '\blah\spec\controllers\blah.rb') {
     }.should_be_an_instance_of Spec::Rails::ControllerContext
   end
 end
