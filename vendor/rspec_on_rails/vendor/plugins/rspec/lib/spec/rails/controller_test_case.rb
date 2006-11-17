@@ -1,4 +1,4 @@
-class Spec::Rails::ControllerTestCase < Spec::Rails::FunctionalTestCase
+class Spec::Rails::ControllerEvalContext < Spec::Rails::FunctionalEvalContext
 
   def setup
     super

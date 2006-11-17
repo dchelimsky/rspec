@@ -1,4 +1,4 @@
-class Spec::Rails::FunctionalTestCase < Spec::Rails::TestCase
+class Spec::Rails::FunctionalEvalContext < Spec::Rails::EvalContext
   attr_reader :flash, :session
   def setup
     super

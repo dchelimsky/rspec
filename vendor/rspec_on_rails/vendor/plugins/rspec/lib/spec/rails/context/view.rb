@@ -13,7 +13,7 @@ module Spec
         instance
       end
       def before_context_eval
-        inherit Spec::Rails::ViewTestCase
+        inherit Spec::Rails::ViewEvalContext
         include ExecutionContextInstanceMethods
       end
     end

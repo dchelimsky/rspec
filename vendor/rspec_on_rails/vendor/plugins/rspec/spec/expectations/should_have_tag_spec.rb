@@ -82,3 +82,4 @@ context "Given a template with one tag with one attribute, a 'should_have_tag' e
     end.should_fail
   end
 end
+

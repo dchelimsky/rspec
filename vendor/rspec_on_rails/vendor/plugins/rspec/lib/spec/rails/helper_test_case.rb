@@ -1,7 +1,7 @@
 ##
 # Stub controller for testing helpers.
 
-class HelperTestCaseController < ApplicationController
+class HelperEvalContextController < ApplicationController
 
   attr_accessor :request, :url
 
@@ -15,11 +15,11 @@ class HelperTestCaseController < ApplicationController
 end
 
 ##
-# HelperTestCase allows helpers to be easily tested.
+# HelperEvalContext allows helpers to be easily tested.
 #
 # Original concept by Ryan Davis, original implementation by Geoff Grosenbach.
 
-class Spec::Rails::HelperTestCase < Spec::Rails::FunctionalTestCase
+class Spec::Rails::HelperEvalContext < Spec::Rails::FunctionalEvalContext
 
   include ActionView::Helpers::ActiveRecordHelper
   include ActionView::Helpers::TagHelper
@@ -34,7 +34,7 @@ class Spec::Rails::HelperTestCase < Spec::Rails::FunctionalTestCase
   # Automatically includes the helper module into the test sublcass.
 
   def setup
-    @controller_class_name = 'HelperTestCaseController'
+    @controller_class_name = 'HelperEvalContextController'
     super
     @controller.request = @request
     @controller.url = ActionController::UrlRewriter.new @request, {} # url_for

@@ -59,3 +59,4 @@ context "Given an rjs call to hide a div using page['id'], a 'should_not_render_
     controller.should_not_render_rjs :page, 'mydiv', :replace
   end
 end
+

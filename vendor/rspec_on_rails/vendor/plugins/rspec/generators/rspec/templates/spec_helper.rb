@@ -8,7 +8,7 @@ require 'rspec_on_rails'
 # tightly coupled to Test::Unit in Rails, which is why you're seeing it here.
 module Spec
   module Rails
-    class TestCase < Test::Unit::TestCase
+    class EvalContext < Test::Unit::TestCase
       self.use_transactional_fixtures = true
       self.use_instantiated_fixtures  = false
       self.fixture_path = RAILS_ROOT + '/spec/fixtures'

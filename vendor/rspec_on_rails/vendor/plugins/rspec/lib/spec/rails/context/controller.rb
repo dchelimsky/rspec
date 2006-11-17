@@ -111,7 +111,7 @@ module Spec
       module ContextEvalInstanceMethods
         attr_reader :response, :request, :controller
 
-        #This is a hook provided by Spec::Rails::TestCase
+        #This is a hook provided by Spec::Rails::EvalContext
         def setup_extra
           (class << @controller; self; end).class_eval do
             include ControllerInstanceMethods
@@ -146,7 +146,7 @@ module Spec
       end
 
       def before_context_eval
-        inherit Spec::Rails::ControllerTestCase
+        inherit Spec::Rails::ControllerEvalContext
         @context_eval_module.extend ControllerContext::ContextEvalClassMethods
         @context_eval_module.include ControllerContext::ContextEvalInstanceMethods
       end
