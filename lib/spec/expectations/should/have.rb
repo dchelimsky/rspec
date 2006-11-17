@@ -3,12 +3,11 @@ module Spec
     module Should
       class Have < Base
 
-        def initialize(target, relativity=:exactly, expected=nil, negate=false)
+        def initialize(target, relativity=:exactly, expected=nil)
           @target = target
           @expected = expected == :no ? 0 : expected
           @at_least = (relativity == :at_least)
           @at_most = (relativity == :at_most)
-          @negate = negate
         end
     
         def exactly(expected_number=nil)
@@ -36,16 +35,15 @@ module Spec
           if @target.respond_to?(sym)
             fail_with_message(build_message(sym, args)) unless as_specified?(sym, args)
           elsif @target.respond_to?("has_#{sym}?")
-            if @negate
-              return unless @target.send("has_#{sym}?", *args)
-              fail_with_message msg(sym, args, "should not have")
-            else
-              return if @target.send("has_#{sym}?", *args)
-              fail_with_message msg(sym, args, "should have")
-            end
+            check_has_sym(sym, *args)
           else
             raise NoMethodError.new("#{@target.inspect} does not respond to `#{sym}' or `has_#{sym}?'")
           end
+        end
+        
+        def check_has_sym(sym, *args)
+          return if @target.send("has_#{sym}?", *args)
+          fail_with_message msg(sym, args, "should have")
         end
       
         def msg(sym, args, text)
@@ -72,6 +70,13 @@ module Spec
 
         def collection(sym, args)
           @target.send(sym, *args)
+        end
+      end
+      
+      class NotHave < Have
+        def check_has_sym(sym, *args)
+          return unless @target.send("has_#{sym}?", *args)
+          fail_with_message msg(sym, args, "should not have")
         end
       end
     end

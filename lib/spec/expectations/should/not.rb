@@ -9,7 +9,11 @@ module Spec
         end
 
         def have(expected_number=nil)
-          Have.new(@target, :exactly, expected_number, true)
+          NotHave.new(@target, :exactly, expected_number)
+        end
+
+        def change(receiver, message)
+          NotChange.new(@target, receiver, message)
         end
   
         def satisfy

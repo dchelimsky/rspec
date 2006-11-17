@@ -2,6 +2,7 @@
 
 == Version 0.7.3 (In SVN)
 
+* Applied [#6417] [PATCH] lambda {...}.should_change(receiver, :message)
 * Eliminated dependency on ZenTest
 * Fixed [#6650] Reserved characters in the TextMate bundle break svn on Win32
 * Fixed [#6643] script/generate rspec_controller: invalid symbol generation for 'controller_name' for *modularized* controllers

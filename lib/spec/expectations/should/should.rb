@@ -12,6 +12,10 @@ module Spec
           Have.new(@target, :exactly, expected_number)
         end
 
+        def change(receiver, message)
+          Change.new(@target, receiver, message)
+        end
+
         def not
           Not.new(@target)
         end
