@@ -13,15 +13,23 @@ module Spec
 
         assigns[:session] = @controller.session
         @controller.class.send :public, :flash # make flash accessible to the spec
-        @controller.class.send :helper, :view_spec
       end
 
       def assigns
         @ivar_proxy ||= Spec::Rails::IvarProxy.new @controller 
       end
-
+      
       def render(*options)
         options = Spec::Rails::OptsMerger.new(options).merge(:template)
+        
+        @controller.add_helper_for(options[:template])
+        @controller.add_helper(options[:helper]) if options[:helper]
+        if options[:helpers]
+          options[:helpers].each do |helper|
+            @controller.add_helper(helper)
+          end
+        end
+
         @action_name = action_name caller[0] if options.empty?
         assigns[:action_name] = @action_name
 
@@ -50,10 +58,30 @@ module Spec
         @controller.send :process_cleanup rescue nil
       end
     end
+
+    class ViewSpecController < ActionController::Base
+      attr_reader :template
+      
+      def add_helper_for(template_path)
+        add_helper(template_path.split('/')[0])
+      end
+      
+      def add_helper(name)
+        begin
+          helper_module = "#{name}_helper".camelize.constantize
+        rescue
+          return
+        end
+        (class << template; self; end).class_eval do
+          include helper_module
+        end
+      end
+    end
+
     class ViewContext < Rails::Context
       def execution_context specification=nil
         instance = execution_context_class.new(specification)
-        instance.instance_eval { @controller_class_name = "ActionController::Base" }
+        instance.instance_eval { @controller_class_name = "Spec::Rails::ViewSpecController" }
         instance
       end
       def before_context_eval
@@ -62,6 +90,3 @@ module Spec
     end
   end
 end
-
-
-

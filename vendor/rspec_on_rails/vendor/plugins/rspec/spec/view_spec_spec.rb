@@ -1,8 +1,25 @@
 require File.dirname(__FILE__) + '/spec_helper'
 
-context "Given a view with a specific helper", :context_type => :view do
-  # specify "blah" do
-  #   render "view_spec/show"
-  #   response.should_have_tag 'div', :content => "This is text from a method in the ViewSpecHelper"
-  # end
+context "Given a view with an implicit helper", :context_type => :view do
+  specify "the helper should be included" do
+    render "view_spec/show"
+    response.should_have_tag 'div', :content => "This is text from a method in the ViewSpecHelper"
+  end
 end
+
+context "Given a view requiring an explicit helper", :context_type => :view do
+  specify "the helper should be included if specified" do
+    render "view_spec/explicit_helper", :helper => 'explicit'
+    response.should_have_tag 'div', :content => "This is text from a method in the ExplicitHelper"
+  end
+end
+
+
+context "Given a view requiring multiple explicit helpers", :context_type => :view do
+  specify "the helper should be included if specified" do
+    render "view_spec/multiple_helpers", :helpers => ['explicit', 'more_explicit']
+    response.should_have_tag 'div', :content => "This is text from a method in the ExplicitHelper"
+    response.should_have_tag 'div', :content => "This is text from a method in the MoreExplicitHelper"
+  end
+end
+

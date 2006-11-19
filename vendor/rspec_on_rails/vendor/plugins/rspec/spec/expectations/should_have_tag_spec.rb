@@ -4,7 +4,7 @@ context "Given any template, a 'should_have_tag' expectation with",
   :context_type => :view do
     
   specify "angle brackets should raise with a useful warning" do
-    render "/tag_spec/no_tags"
+    render "tag_spec/no_tags"
     message = %-
 
 SyntaxError in should_have_tag(tag, *opts)
@@ -20,7 +20,7 @@ context "Given a template with no tags, a 'should_have_tag' expectation",
   :context_type => :view do
   
   specify "should fail" do
-    render "/tag_spec/no_tags"
+    render "tag_spec/no_tags"
     lambda { response.should_have_tag 'div'}.should_fail
   end
 end
@@ -29,7 +29,7 @@ context "Given a template with one div tag with no attributes, a 'should_have_ta
   :context_type => :view do
   
   setup do
-    render "/tag_spec/single_div_with_no_attributes"
+    render "tag_spec/single_div_with_no_attributes"
   end
   
   specify "'div' should pass" do
@@ -49,7 +49,7 @@ context "Given a template with one tag with one attribute, a 'should_have_tag' e
   :context_type => :view do
   
   setup do
-    render "/tag_spec/single_div_with_one_attribute"
+    render "tag_spec/single_div_with_one_attribute"
   end
   
   specify "the right tag and no attributes should pass" do

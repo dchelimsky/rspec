@@ -4,7 +4,7 @@ context "Given a template with no tags, a 'should_not_have_tag' spec with",
   :context_type => :view do
 
   setup do
-    render "/tag_spec/no_tags"
+    render "tag_spec/no_tags"
   end
     
   specify "['div'] should pass" do
@@ -20,7 +20,7 @@ context "Given a template with one div tag with no attributes, a 'should_not_hav
   :context_type => :view do
   
   setup do
-    render "/tag_spec/single_div_with_no_attributes"
+    render "tag_spec/single_div_with_no_attributes"
   end
   
   specify "['div'] should fail" do
