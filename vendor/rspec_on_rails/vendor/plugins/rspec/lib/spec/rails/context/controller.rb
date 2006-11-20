@@ -45,6 +45,7 @@ module Spec
             @template.stub!(:file_exists?).and_return(true)
             @template.stub!(:full_template_path)
             @template.stub!(:render_file)
+            @template.stub!(:render_partial)
           end
         end
         render_matcher.set_actual(ensure_default_options(options), response, &block)

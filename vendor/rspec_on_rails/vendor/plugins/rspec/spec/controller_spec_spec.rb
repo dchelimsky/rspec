@@ -25,6 +25,11 @@ require File.dirname(__FILE__) + '/spec_helper'
       get 'action_with_template'
       controller.session.should_not_be nil
     end
+    
+    specify "specifying a partial should work" do
+      controller.should_render :partial => 'controller_isolation_spec/a_partial'
+      get 'action_with_partial'
+    end
 
     specify "routes should be speccable" do
       routing(:controller => "controller_isolation_spec", :action => "some_action").should_eql "/controller_isolation_spec/some_action"

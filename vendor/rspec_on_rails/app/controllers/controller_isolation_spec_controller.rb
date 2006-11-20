@@ -12,4 +12,8 @@ class ControllerIsolationSpecController < ActionController::Base
   
   def action_with_errors_in_template
   end
+  
+  def action_with_partial
+    render :partial => "controller_isolation_spec/a_partial"
+  end
 end
