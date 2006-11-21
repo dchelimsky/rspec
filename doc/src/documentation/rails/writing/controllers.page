@@ -76,6 +76,40 @@ controller.should_render :text => "expected text"
 controller.should_render :action => "expected_action"
 </ruby>
 
+You can specify <code>:template</code>, <code>:text</code> or <code>:action</code>, depending on how the
+rendering was supposed to happen in your code. So, for example, if
+you planned to render something as text, you would use:
+
+controller.should_render :text => "it's a bird, it's a plane, nope,
+it's a bird alright."
+
+If your controller is expected to render by action (and only by
+action), then then use <code>:action</code>. Here is some controller code:
+
+<ruby>
+def index
+  list
+  render :action => 'list'
+end
+</ruby>
+
+and the spec for that:
+
+<ruby>
+specify "should render using the list *action*" do
+  controller.should_render :action => 'list'
+end
+</ruby>
+
+Note that while the above example works properly, the following
+fails, even though you knew the exact correct template name:
+
+<ruby>
+specify "should render using the list template" do
+  controller.should_render :template => 'users/list'
+end
+</ruby>
+
 h3. controller.should_have_rendered
 
 Use this to verify an expectation after an action:
