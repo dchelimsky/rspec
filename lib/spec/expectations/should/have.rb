@@ -10,13 +10,6 @@ module Spec
           @at_most = (relativity == :at_most)
         end
     
-        def exactly(expected_number=nil)
-          @at_least = false
-          @at_most = false
-          @expected = expected_number == :no ? 0 : expected_number
-          self
-        end
-
         def at_least(expected_number=nil)
           @at_least = true
           @at_most = false
