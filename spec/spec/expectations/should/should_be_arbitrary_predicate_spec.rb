@@ -24,7 +24,7 @@ module Spec
           mock=HandCodedMock.new(false)
           lambda do
             mock.should_be_funny
-          end.should_fail
+          end.should_fail_with /should be funny/
         end
     
         specify "should fail when predicate returns nil" do
@@ -69,7 +69,7 @@ module Spec
           end.should_pass
         end
     
-        specify "should support plural form" do
+        specify "should support present tense (i.e. t.should_exist evaluates t.exists?)" do
           mock=HandCodedMock.new(true)
           lambda do
             mock.should_exist

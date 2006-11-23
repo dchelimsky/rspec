@@ -45,8 +45,7 @@ module Spec
   
         def __delegate_method_missing_to_target(original_sym, actual_sym, *args)
           return if @target.send(actual_sym, *args)
-          message = default_message("should#{@be_seen ? ' be' : ''} #{original_sym}", args[0])
-          fail_with_message(message)
+          fail_with_message(default_message("should#{@be_seen ? ' be' : ''} #{original_sym}" + (args.empty? ? '' : ' ' + args[0].inspect)))
         end
 
         def match(expected)

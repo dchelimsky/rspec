@@ -12,3 +12,4 @@ class Proc; def inspect_for_expectation_not_met_error; "<Proc>" end end
 class Array; def inspect_for_expectation_not_met_error; inspect end end
 class String; def inspect_for_expectation_not_met_error; inspect end end
 class Numeric; def inspect_for_expectation_not_met_error; inspect end end
+class Hash; def inspect_for_expectation_not_met_error; inspect end end

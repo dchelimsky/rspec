@@ -29,6 +29,7 @@ module Spec
             return Not.new(@target).__send__(original_sym.to_s[4..-1].to_sym, *args, &block)
           end
           if original_sym.to_s =~ /^be_/
+            @be_seen = true
             return __send__(original_sym.to_s[3..-1].to_sym, *args, &block)
           end
           if original_sym.to_s =~ /^have_/

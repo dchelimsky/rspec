@@ -61,11 +61,16 @@ These expectations will work whether in isolation or integration mode.
 
 h3. controller.should_render
 
-Use this to set an expectation in advance of the action:
-
 <ruby>
 controller.should_render :template => "path/to/template/for/action"
 get 'some_action'
+</ruby>
+
+OR
+
+<ruby>
+get 'some_action'
+controller.should_render :template => "path/to/template/for/action"
 </ruby>
 
 You can specify :template, :text, or :action.
@@ -80,8 +85,9 @@ You can specify <code>:template</code>, <code>:text</code> or <code>:action</cod
 rendering was supposed to happen in your code. So, for example, if
 you planned to render something as text, you would use:
 
-controller.should_render :text => "it's a bird, it's a plane, nope,
-it's a bird alright."
+<ruby>
+controller.should_render :text => "it's a bird, it's a plane, nope, it's a bird alright."
+</ruby>
 
 If your controller is expected to render by action (and only by
 action), then then use <code>:action</code>. Here is some controller code:
@@ -110,16 +116,18 @@ specify "should render using the list template" do
 end
 </ruby>
 
-h3. controller.should_have_rendered
+h3. %{color:red}DEPRECATED% controller.should_have_rendered
 
-Use this to verify an expectation after an action:
+%{color:red}Use should_render before OR after the action%
+
+%{font-decoration:line-through}Use this to verify an expectation after an action:%
 
 <ruby>
 get 'some_action'
 controller.should_have_rendered :template => "path/to/template/for/action"
 </ruby>
 
-Like should_render above, you can specify :template, :text, or :action.
+%{font-decoration:line-through}Like should_render above, you can specify :template, :text, or :action.%
 
 h3. controller.should_render_rjs
 
@@ -193,8 +201,6 @@ Use these to check that variables have been assigned AFTER the action.
 get 'some_action'
 assigns[:person].should == Person.new(:name => "Joe Smith")
 </ruby>
-
-Note that the old syntax (assigns(key)) is still working but it is no longer officially supported.
 
 h2. Response Expectations
 

@@ -22,12 +22,14 @@ require File.dirname(__FILE__) + '/../spec_helper'
       controller.should_render :template => 'non_existent_template'
       lambda do
         post 'some_action'
-      end.should_fail_with "<{:template=>\"non_existent_template\"}> should == <{:template=>\"render_spec/some_action\"}>"
+      end.should_fail_with "{:template=>\"non_existent_template\"} should == {:template=>\"render_spec/some_action\"}"
     end
 
     specify "a 'should_render' expectation should fail if placed after an action that renders something different" do
       post 'some_action'
-      lambda { controller.should_render :template => 'non_existent_template' }.should_fail
+      lambda do
+        controller.should_render :template => 'non_existent_template'
+      end.should_fail_with "{:template=>\"non_existent_template\"} should == {:template=>\"render_spec/some_action\"}"
     end
 
     specify "a 'should_render' expectation should support :text after the action" do
@@ -41,5 +43,3 @@ require File.dirname(__FILE__) + '/../spec_helper'
     end
   end
 end
-
-

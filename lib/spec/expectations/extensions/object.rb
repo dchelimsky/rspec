@@ -62,12 +62,12 @@ module Spec
         should.not.be(expected)
       end
       
-      def should_satisfy &block
-        should.satisfy &block
+      def should_satisfy(&block)
+        should.satisfy(&block)
       end
       
-      def should_not_satisfy &block
-        should.not.satisfy &block
+      def should_not_satisfy(&block)
+        should.not.satisfy(&block)
       end
       
       def should_be_an_instance_of(expected_class)

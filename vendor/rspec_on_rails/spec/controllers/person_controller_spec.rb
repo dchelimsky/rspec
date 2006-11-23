@@ -73,7 +73,7 @@ context "When requesting /person with controller isolated from views" do
   end
 
   specify "the response should render 'list'" do
-    controller.should_have_rendered :template => "person/list"
+    controller.should_render :template => "person/list"
   end
 
   specify "should find all people on GET to index" do
@@ -96,12 +96,12 @@ context "When requesting /person with views integrated" do
   end
   
   specify "the response should render 'list'" do
-    controller.should_have_rendered :template => "person/list"
+    controller.should_render :template => "person/list"
   end
 
   specify "the response should not render 'index'" do
     lambda {
-      controller.should_have_rendered :template => "person/index"
+      controller.should_render :template => "person/index"
     }.should_raise
   end
 
