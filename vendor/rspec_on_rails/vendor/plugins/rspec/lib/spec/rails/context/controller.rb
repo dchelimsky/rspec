@@ -146,10 +146,6 @@ module Spec
         ActionController::Routing::Routes.reload if ActionController::Routing::Routes.empty?
         ActionController::Routing::Routes.generate(options)[0]
       end
-
-      def assigns
-        @ivar_proxy ||= Spec::Rails::IvarProxy.new(controller)
-      end
     end
 
     class ControllerContext < Rails::Context

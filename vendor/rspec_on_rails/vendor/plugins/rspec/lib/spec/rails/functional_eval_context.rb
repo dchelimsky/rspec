@@ -23,6 +23,21 @@ module Spec
         setup_extra if respond_to? :setup_extra
       end
 
+      # Docs say only use assigns[:key] format, but allowing assigns(:key)
+      # in order to avoid breaking old specs.
+      def assigns(key = nil)
+        if key.nil?
+          _controller_ivar_proxy
+        else
+          _controller_ivar_proxy[key]
+        end
+      end
+      
+      private
+      def _controller_ivar_proxy
+        @controller_ivar_proxy ||= Spec::Rails::IvarProxy.new @controller 
+      end
     end
   end
 end
+

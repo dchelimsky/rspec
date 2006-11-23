@@ -6,8 +6,6 @@ Almost normal bug fix/new feature release.
 
 A couple of things you need to change in your rails specs:
 # spec_helper.rb is a little different (see http://rspec.rubyforge.org/upgrade.html)
-# make sure you're using assigns[:with_brackets] and NOT assigns(:with_parens). This is how it
-was documented before, but assigns(:with_parens) just _happened_ to work.
 # use controller.should_render before OR after the action (controller.should_have_rendered is deprecated)
 
 * Fixed [#6835] bad message with arbitrary predicate

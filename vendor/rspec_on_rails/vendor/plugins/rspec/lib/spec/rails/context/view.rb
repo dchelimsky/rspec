@@ -15,10 +15,6 @@ module Spec
         @controller.class.send :public, :flash # make flash accessible to the spec
       end
 
-      def assigns
-        @ivar_proxy ||= Spec::Rails::IvarProxy.new @controller 
-      end
-      
       def render(*options)
         options = Spec::Rails::OptsMerger.new(options).merge(:template)
         
