@@ -8,6 +8,7 @@ A couple of things you need to change in your rails specs:
 # spec_helper.rb is a little different (see http://rspec.rubyforge.org/upgrade.html)
 # use controller.should_render before OR after the action (controller.should_have_rendered is deprecated)
 
+* Fixed [#6780] routing() was failing...fix included - works for 1.1.6 and edge (1.2)
 * Fixed [#6835] bad message with arbitrary predicate
 * Added [#6731] Partial templates rendered
 * Fixed [#6713] helper methods not rendered in view tests?
