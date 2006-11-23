@@ -1,12 +1,12 @@
 module Spec
   module Rails
     class FunctionalEvalContext < Spec::Rails::EvalContext
-      attr_reader :flash, :session
+      attr_reader :session
       def setup
         super
 
         @controller_class = Object.path2class @controller_class_name
-        raise "Can't determine controller class for #{self.class}" if @controller_class.nil?
+        raise "Can't determine controller class for #{@controller_class_name}" if @controller_class.nil?
 
         @controller = @controller_class.new
 
@@ -40,4 +40,3 @@ module Spec
     end
   end
 end
-

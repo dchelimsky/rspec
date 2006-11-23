@@ -4,6 +4,8 @@ class ControllerIsolationSpecController < ActionController::Base
   end
   
   def action_with_template
+    flash[:flash_key] = "flash value"
+    session[:session_key] = "session value"
   end
   
   def action_with_specified_template

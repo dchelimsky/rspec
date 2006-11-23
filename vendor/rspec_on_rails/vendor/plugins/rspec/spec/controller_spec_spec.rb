@@ -30,6 +30,16 @@ require File.dirname(__FILE__) + '/spec_helper'
       controller.should_render :partial => 'controller_isolation_spec/a_partial'
       get 'action_with_partial'
     end
+    
+    specify "spec should have access to flash" do
+      get 'action_with_template'
+      flash[:flash_key].should == "flash value"
+    end
+
+    specify "spec should have access to session" do
+      get 'action_with_template'
+      session[:session_key].should == "session value"
+    end
 
     specify "custom routes should be speccable" do
       routing(:controller => "custom_route_spec", :action => "custom_route").should_eql "/custom_route"
@@ -53,4 +63,3 @@ end
     end
   end
 end
-

@@ -144,7 +144,13 @@ module Spec
       def routing(options)
         # Load routes.rb if it hasn't been loaded
         ActionController::Routing::Routes.reload if ActionController::Routing::Routes.empty?
-        ActionController::Routing::Routes.generate(options)[0]
+        #Rails 1.1.6
+        if ActionPack::VERSION::STRING == "1.12.5"
+          ActionController::Routing::Routes.generate(options)[0]
+        #Assume Rails 1.2 or later
+        else 
+          ActionController::Routing::Routes.generate(options)
+        end
       end
     end
 
