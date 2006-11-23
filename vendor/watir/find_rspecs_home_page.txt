@@ -1,6 +1,6 @@
 = Find RSpec's home page =
 
-As an agile customer
+As an agile coach
 I want to easily find RSpec's home page
 So that I can learn about this fantastic tool
 
