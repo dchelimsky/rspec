@@ -145,9 +145,9 @@ module Spec
         # Load routes.rb if it hasn't been loaded
         ActionController::Routing::Routes.reload if ActionController::Routing::Routes.empty?
         routes = ActionController::Routing::Routes.generate(options)
-        #Rails 1.1.6
+        # Rails 1.1.6
         return routes[0] if routes.is_a?(Array)
-        #Rails 1.2
+        # Rails 1.2
         return routes if routes.is_a?(String)
       end
     end

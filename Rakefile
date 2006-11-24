@@ -159,7 +159,7 @@ task :touch_revision_storing_files do
   end
 end
 
-task :release => [:clobber, :verify_committed, :verify_user, :verify_password, :spec, :publish_packages, :tag, :publish_website, :publish_news]
+task :release => [:clobber, :verify_committed, :verify_user, :spec, :publish_packages, :tag, :publish_website, :publish_news]
 
 desc "Verifies that there is no uncommitted code"
 task :verify_committed do
@@ -209,10 +209,6 @@ task :verify_user do
   raise "RUBYFORGE_USER environment variable not set!" unless ENV['RUBYFORGE_USER']
 end
 
-task :verify_password do
-  raise "RUBYFORGE_PASSWORD environment variable not set!" unless ENV['RUBYFORGE_PASSWORD']
-end
-
 desc "Upload Website to RubyForge"
 task :publish_website => [:verify_user, :website] do
   publisher = Rake::SshDirPublisher.new(
@@ -235,7 +231,7 @@ end
 task :package => :package_tmbundle
 
 desc "Publish gem+tgz+zip on RubyForge. You must make sure lib/version.rb is aligned with the CHANGELOG file"
-task :publish_packages => [:verify_user, :verify_password, :package] do
+task :publish_packages => [:verify_user, :package] do
   require 'meta_project'
   require 'rake/contrib/xforge'
   release_files = FileList[
@@ -255,7 +251,7 @@ task :publish_packages => [:verify_user, :verify_password, :package] do
 end
 
 desc "Publish news on RubyForge"
-task :publish_news => [:verify_user, :verify_password] do
+task :publish_news => [:verify_user] do
   require 'meta_project'
   require 'rake/contrib/xforge'
   Rake::XForge::NewsPublisher.new(MetaProject::Project::XForge::RubyForge.new(PKG_NAME)) do |news|

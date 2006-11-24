@@ -11,34 +11,27 @@ unless defined?(RAILS_ROOT)
   RAILS_ROOT = root_path
 end
 
+if ENV['RSPEC_RAILS_VERSION'].nil?
+  ENV['RSPEC_RAILS_VERSION'] = '1.1.6'
+end
+
+puts "running against rails #{ENV['RSPEC_RAILS_VERSION']}"
+
 unless defined?(Rails::Initializer)
-  if File.directory?("#{RAILS_ROOT}/vendor/rails")
-    require "#{RAILS_ROOT}/vendor/rails/railties/lib/initializer"
+  
+  version_root = File.expand_path("#{RAILS_ROOT}/vendor/rails/#{ENV['RSPEC_RAILS_VERSION']}")
+  if File.directory?(version_root)
+    $LOAD_PATH.unshift "#{version_root}/actionpack/lib/"
+    $LOAD_PATH.unshift "#{version_root}/actionmailer/lib/"
+    $LOAD_PATH.unshift "#{version_root}/actionwebservice/lib/"
+    $LOAD_PATH.unshift "#{version_root}/activerecord/lib/"
+    $LOAD_PATH.unshift "#{version_root}/activesupport/lib/"
+    $LOAD_PATH.unshift "#{version_root}/railties/lib/"
+    require "#{version_root}/railties/lib/initializer"
   else
-    require 'rubygems'
-
-    environment_without_comments = IO.readlines(File.dirname(__FILE__) + '/environment.rb').reject { |l| l =~ /^#/ }.join
-    environment_without_comments =~ /[^#]RAILS_GEM_VERSION = '([\d.]+)'/
-    rails_gem_version = $1
-
-    if version = defined?(RAILS_GEM_VERSION) ? RAILS_GEM_VERSION : rails_gem_version
-      rails_gem = Gem.cache.search('rails', "=#{version}").first
-
-      if rails_gem
-        require_gem "rails", "=#{version}"
-        require rails_gem.full_gem_path + '/lib/initializer'
-      else
-        STDERR.puts %(Cannot find gem for Rails =#{version}:
-    Install the missing gem with 'gem install -v=#{version} rails', or
-    change environment.rb to define RAILS_GEM_VERSION with your desired version.
-  )
-        exit 1
-      end
-    else
-      require_gem "rails"
-      require 'initializer'
-    end
+    raise "Attempting to run against rails #{version_root} but no such directory exists"
+    exit
   end
-
+  
   Rails::Initializer.run(:set_load_path)
 end
