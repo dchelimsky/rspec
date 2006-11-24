@@ -21,3 +21,4 @@ class RedirectSpecController < ApplicationController
   end
 
 end
+

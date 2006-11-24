@@ -10,13 +10,13 @@ module Spec
 
         @controller = @controller_class.new
 
-        @session = ActionController::TestSession.new
+        # session = ActionController::TestSession.new
 
         @flash = ActionController::Flash::FlashHash.new
-        @session['flash'] = @flash
+        session['flash'] = @flash
 
         @request = ActionController::TestRequest.new
-        @request.session = @session
+        @request.session = session
 
         @response = ActionController::TestResponse.new
 
@@ -31,6 +31,10 @@ module Spec
         else
           _controller_ivar_proxy[key]
         end
+      end
+      
+      def session
+        @session ||= ActionController::TestSession.new
       end
       
       private

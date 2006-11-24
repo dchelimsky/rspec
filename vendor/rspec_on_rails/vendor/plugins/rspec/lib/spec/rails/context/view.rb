@@ -8,7 +8,13 @@ module Spec
         super
         # these go here so that flash and session work as they should.
         @controller.send :initialize_template_class, @response
-        @controller.send :assign_shortcuts, @request, @response
+        begin
+          @controller.send :assign_shortcuts, @request, @response
+        rescue => e
+          unless e.message =~ /Deprecating @session/
+            raise e
+          end
+        end
         @controller.send :reset_session
 
         assigns[:session] = @controller.session
