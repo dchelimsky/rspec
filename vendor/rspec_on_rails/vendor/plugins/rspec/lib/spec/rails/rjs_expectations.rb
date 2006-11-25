@@ -14,17 +14,21 @@ module Spec
           send("should_not_#{action}", *args) :
           lined_response.should_not_include(create_generator.send(action, *args, &block))
       end
+      
+      def to_s
+        @response_body.to_s
+      end
 
       protected
       
       def should_page(*args)
         content = build_method_chain!(args)
-        self.to_s.should_match Regexp.new(Regexp.escape(content))
+        @response_body.should_match Regexp.new(Regexp.escape(content))
       end
 
       def should_not_page(*args)
         content = build_method_chain!(args)
-        self.to_s.should_not_match Regexp.new(Regexp.escape(content))
+        @response_body.should_not_match Regexp.new(Regexp.escape(content))
       end
 
       def build_method_chain!(args)
@@ -85,7 +89,7 @@ module Spec
         else
           Regexp.new("Effect.#{effect.to_s.camelize}(.*#{div}.*);")
         end
-        self.to_s.__send__ "should_#{predicate}match", regex
+        @response_body.__send__ "should_#{predicate}match", regex
       end
       
       def should_insert_html_helper(predicate, *args)
@@ -96,14 +100,14 @@ module Spec
         unless content.blank?
           case content
             when Regexp
-              self.to_s.__send__ "should_#{predicate}match", Regexp.new("new Insertion\.#{position.to_s.camelize}(.*#{item_id}.*,.*#{content.source}.*);")
+              @response_body.__send__ "should_#{predicate}match", Regexp.new("new Insertion\.#{position.to_s.camelize}(.*#{item_id}.*,.*#{content.source}.*);")
             when String
               lined_response.__send__ "should_#{predicate}include", ("new Insertion.#{position.to_s.camelize}(\"#{item_id}\", #{content});")
             else
               raise "Invalid content type"
           end
         else
-          self.to_s.__send__ "should_#{predicate}match", Regexp.new("new Insertion\.#{position.to_s.camelize}(.*#{item_id}.*,.*?);")
+          @response_body.__send__ "should_#{predicate}match", Regexp.new("new Insertion\.#{position.to_s.camelize}(.*#{item_id}.*,.*?);")
         end
       end
 
@@ -121,7 +125,7 @@ module Spec
               raise "Invalid content type"
           end
         else
-          self.to_s.__send__ "should_#{predicate}match", Regexp.new("Element.update(.*#{div}.*,.*?);")
+          @response_body.__send__ "should_#{predicate}match", Regexp.new("Element.update(.*#{div}.*,.*?);")
         end
       end
       
@@ -139,17 +143,17 @@ module Spec
               raise "Invalid content type"
           end
         else
-          self.to_s.__send__ "should_#{predicate}match", Regexp.new("Element.replace(.*#{div}.*,.*?);")
+          @response_body.__send__ "should_#{predicate}match", Regexp.new("Element.replace(.*#{div}.*,.*?);")
         end
       end
 
       def lined_response
-        self.to_s.split("\n")
+        @response_body.split("\n")
       end
 
       def create_generator
         block = Proc.new { |*args| yield *args if block_given? } 
-        JavaScriptGenerator.new self, &block
+        JavaScriptGenerator.new @response_body, &block
       end
 
       def extract_matchable_content(args)

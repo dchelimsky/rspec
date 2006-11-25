@@ -7,7 +7,7 @@ module Spec
           @target = target
           @be_seen = false
         end
-      
+        
         def have(expected_number=nil)
           Have.new(@target, :exactly, expected_number)
         end

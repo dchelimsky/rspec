@@ -40,7 +40,7 @@ module Spec
         end
       
         def msg(sym, args, text)
-          "#{@target.inspect_for_expectation_not_met_error} #{text} #{sym}: #{args.collect{|arg| arg.inspect_for_expectation_not_met_error}.join(', ')}"
+          "#{@target.inspect} #{text} #{sym}: #{args.collect{|arg| arg.inspect}.join(', ')}"
         end
     
         def actual_size(collection)
@@ -49,7 +49,7 @@ module Spec
         end
     
         def build_message(sym, args)
-          message = "#{@target.inspect_for_expectation_not_met_error} should have"
+          message = "#{@target.inspect} should have"
           message += " at least" if @at_least
           message += " at most" if @at_most
           message += " #{@expected} #{sym} (has #{actual_size(collection(sym, args))})"

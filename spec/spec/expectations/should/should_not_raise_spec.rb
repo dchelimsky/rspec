@@ -9,7 +9,7 @@ context "should_not_raise" do
     rescue 
       e=$!
     end
-    e.message.should_eql("<Proc> should not raise <NoMethodError>")
+    e.message.should_match /<Proc.*> should not raise NoMethodError/
   end
 
   specify "should fail when exact exception is raised with message" do
@@ -36,7 +36,7 @@ context "should_not_raise" do
     rescue 
       e=$!
     end
-    e.message.should_eql("<Proc> should not raise <Exception> but raised #<NoMethodError: undefined method `nonexistent_method' for \"\":String>")
+    e.message.should_match /<Proc.*> should not raise Exception but raised #<NoMethodError: undefined method `nonexistent_method' for \"\":String>/
   end
 
   specify "should pass when exact exception is raised with wrong message" do
@@ -44,7 +44,7 @@ context "should_not_raise" do
       lambda do
         raise(StandardError.new("abc"))
       end.should_not_raise(StandardError, "xyz")
-    end.should_not_raise
+    end.should_pass
   end
 
   specify "should pass when exact exception is raised with message not matching regexp" do
@@ -52,7 +52,7 @@ context "should_not_raise" do
       lambda do
         raise(StandardError.new("abc"))
       end.should_not_raise(StandardError, /xyz/)
-    end.should_not_raise
+    end.should_pass
   end
 
   specify "should pass when no exception is raised" do
@@ -60,7 +60,7 @@ context "should_not_raise" do
       lambda do
         "".to_s
       end.should_not_raise(NoMethodError)
-    end.should_not_raise
+    end.should_pass
   end
 
   specify "should pass when other exception is raised" do
@@ -68,7 +68,7 @@ context "should_not_raise" do
       lambda do
         "".nonexistent_method
       end.should_not_raise(SyntaxError)
-    end.should_not_raise
+    end.should_pass
   end
 
   specify "without exception should pass when no exception is raised" do
@@ -76,6 +76,6 @@ context "should_not_raise" do
       lambda do
         "".to_s
       end.should_not_raise
-    end.should_not_raise
+    end.should_pass
   end
 end

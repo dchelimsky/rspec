@@ -98,7 +98,7 @@ module Spec
               if part.is_a?(UnboundMethod)
                 part.bind(self).call
               else
-                instance_exec(&part)
+                instance_eval(&part)
               end
             end
           end

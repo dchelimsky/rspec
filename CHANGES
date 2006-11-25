@@ -3,6 +3,8 @@
 == HEAD
 
 * Fixed [#6870] rspec on edge rails spec:controller fixture loading fails
+* Using obj.inspect for all messages
+* Got rid of instance_exec (just using instance_eval because we never need to pass it args)
 
 == Version 0.7.3
 

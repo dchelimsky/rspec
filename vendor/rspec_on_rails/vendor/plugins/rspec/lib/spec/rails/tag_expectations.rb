@@ -12,7 +12,7 @@ module Spec
       private 
 
       def raise_rspec_error(message, *opts)
-        Kernel::raise(Spec::Expectations::ExpectationNotMetError.new(self + message + opts.inspect))
+        Kernel::raise(Spec::Expectations::ExpectationNotMetError.new(@response_body + message + opts.inspect))
       end
 
       def find_tag(*opts)
@@ -28,7 +28,7 @@ SyntaxError in should_have_tag(tag, *opts)
           raise Spec::Expectations::ExpectationNotMetError.new(message)
         end
           
-        HTML::Document.new(self).find(opts)
+        HTML::Document.new(@response_body).find(opts)
       end
     end
   end

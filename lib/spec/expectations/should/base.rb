@@ -2,13 +2,35 @@ module Spec
   module Expectations
     module Should
       class Base
-
-        instance_methods.each { |m| undef_method m unless m =~ /^(__|\w)/ }
+        
+        def <(expected)
+          __delegate_method_missing_to_target "<", "<", expected
+        end
+        
+        def <=(expected)
+          __delegate_method_missing_to_target "<=", "<=", expected
+        end
+        
+        def ==(expected)
+          __delegate_method_missing_to_target "==", "==", expected
+        end
+        
+        def =~(expected)
+          __delegate_method_missing_to_target "=~", "=~", expected
+        end
+        
+        def >=(expected)
+          __delegate_method_missing_to_target ">=", ">=", expected
+        end
+        
+        def >(expected)
+          __delegate_method_missing_to_target ">", ">", expected
+        end
 
         def default_message(expectation, expected=:no_expectation_specified)
-          message = "#{@target.inspect_for_expectation_not_met_error} #{expectation}"
+          message = "#{@target.inspect} #{expectation}"
           if (expected != :no_expectation_specified)
-            message << " " << expected.inspect_for_expectation_not_met_error
+            message << " " << expected.inspect
           end
           message
          end
@@ -21,7 +43,7 @@ module Spec
           ["#{original_sym}?", "#{original_sym}s?"].each do |alternate_sym|
             return alternate_sym.to_s if @target.respond_to?(alternate_sym.to_s)
           end
-          return original_sym.supported_by_rspec? ? original_sym : "#{original_sym}?"
+          return ["<","<=",">=",">","==","=~"].include?(original_sym) ? original_sym : "#{original_sym}?"
         end
 
         def method_missing(original_sym, *args, &block)

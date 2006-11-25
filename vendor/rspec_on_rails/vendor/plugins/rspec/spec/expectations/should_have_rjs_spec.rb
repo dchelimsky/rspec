@@ -245,4 +245,3 @@ context "Given an rjs call to :visual_effect for a toggle, a 'should_have_rjs' s
   end
   
 end
-  

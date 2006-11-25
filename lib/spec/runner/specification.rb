@@ -22,16 +22,16 @@ module Spec
         @@current_spec = self
         errors = []
         begin
-          execution_context.instance_exec(&setup_block) unless setup_block.nil?
+          execution_context.instance_eval(&setup_block) unless setup_block.nil?
           setup_ok = true
-          execution_context.instance_exec(&@block)
+          execution_context.instance_eval(&@block)
           spec_ok = true
         rescue => e
           errors << e
         end
 
         begin
-          execution_context.instance_exec(&teardown_block) unless teardown_block.nil?
+          execution_context.instance_eval(&teardown_block) unless teardown_block.nil?
           teardown_ok = true
         rescue => e
           errors << e
