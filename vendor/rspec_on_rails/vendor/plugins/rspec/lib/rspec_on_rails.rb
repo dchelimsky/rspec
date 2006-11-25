@@ -25,6 +25,7 @@ require File.expand_path("#{dir}/extensions/action_controller/base")
 require File.expand_path("#{dir}/extensions/action_controller/test_response")
 require File.expand_path("#{dir}/extensions/nil_class")
 require File.expand_path("#{dir}/extensions/kernel")
+require File.expand_path("#{dir}/extensions/proc")
 require File.expand_path("#{dir}/extensions/object")
 
 Test::Unit.run = true
