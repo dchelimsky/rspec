@@ -35,7 +35,7 @@ module Spec
 
     end
 
-    class HelperContext < Rails::Context
+    class HelperContext < Spec::Rails::Context
       module ContextEvalClassMethods
         def helper_name(name=nil)
           send :include, "#{name}_helper".camelize.constantize

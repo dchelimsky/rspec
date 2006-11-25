@@ -244,7 +244,6 @@ task :publish_packages => [:verify_user, :package] do
   Rake::XForge::Release.new(MetaProject::Project::XForge::RubyForge.new(PKG_NAME)) do |xf|
     # Never hardcode user name and password in the Rakefile!
     xf.user_name = ENV['RUBYFORGE_USER']
-    xf.password = ENV['RUBYFORGE_PASSWORD']
     xf.files = release_files.to_a
     xf.release_name = "RSpec #{PKG_VERSION}"
   end
@@ -257,6 +256,5 @@ task :publish_news => [:verify_user] do
   Rake::XForge::NewsPublisher.new(MetaProject::Project::XForge::RubyForge.new(PKG_NAME)) do |news|
     # Never hardcode user name and password in the Rakefile!
     news.user_name = ENV['RUBYFORGE_USER']
-    news.password = ENV['RUBYFORGE_PASSWORD']
   end
 end

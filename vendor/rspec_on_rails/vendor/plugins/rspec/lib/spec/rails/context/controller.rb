@@ -152,7 +152,7 @@ module Spec
       end
     end
 
-    class ControllerContext < Rails::Context
+    class ControllerContext < Spec::Rails::Context
 
       def execution_context specification=nil
         instance = execution_context_class.new(specification)

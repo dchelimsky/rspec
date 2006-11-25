@@ -9,6 +9,7 @@ require 'rspec_on_rails'
 module Spec
   module Rails
     class EvalContext < Test::Unit::TestCase
+      cattr_accessor :fixture_path, :use_transactional_fixtures, :use_instantiated_fixtures
       self.use_transactional_fixtures = true
       self.use_instantiated_fixtures  = false
       self.fixture_path = RAILS_ROOT + '/spec/fixtures'

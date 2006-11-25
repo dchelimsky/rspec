@@ -80,7 +80,7 @@ module Spec
       end
     end
 
-    class ViewContext < Rails::Context
+    class ViewContext < Spec::Rails::Context
       def execution_context specification=nil
         instance = execution_context_class.new(specification)
         instance.instance_eval { @controller_class_name = "Spec::Rails::ViewSpecController" }

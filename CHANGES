@@ -1,6 +1,10 @@
 = RSpec Changelog
 
-== Version 0.7.3 (In SVN)
+== HEAD
+
+* Fixed [#6870] rspec on edge rails spec:controller fixture loading fails
+
+== Version 0.7.3
 
 Almost normal bug fix/new feature release.
 
