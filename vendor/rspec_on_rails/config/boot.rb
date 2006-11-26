@@ -11,9 +11,7 @@ unless defined?(RAILS_ROOT)
   RAILS_ROOT = root_path
 end
 
-if ENV['RSPEC_RAILS_VERSION'].nil?
-  ENV['RSPEC_RAILS_VERSION'] = '1.1.6'
-end
+ENV['RSPEC_RAILS_VERSION'] ||= '1.1.6'
 
 puts "running against rails #{ENV['RSPEC_RAILS_VERSION']}"
 

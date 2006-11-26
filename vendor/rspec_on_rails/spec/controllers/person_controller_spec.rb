@@ -109,7 +109,16 @@ context "When requesting /person with views integrated" do
     response.should_be_success
     assigns[:people].should_be @people
   end
+  
+  specify "should list pets on GET to show" do
+    person = mock("person")
+    person.should_receive(:pets).and_return([OpenStruct.new(:name => 'Hannibal'), OpenStruct.new(:name => 'Rufus')])
+    Person.should_receive(:find).with('4').and_return(person)
 
+    get 'show', :id => '4'
+    response.should_have_tag 'li', :content => 'Hannibal'
+    response.should_have_tag 'li', :content => 'Rufus'
+  end
 end
 
 context "/person/show/3" do

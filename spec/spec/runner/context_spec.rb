@@ -59,24 +59,6 @@ module Spec
         setup_ran.should_be true
       end
 
-      specify "should allow method definitions in setup (IS THIS OBSOLETE?)" do
-        @formatter.should_receive(:add_context).with :any_args
-        @formatter.should_receive(:spec_started).with "test"
-        @formatter.should_receive(:spec_finished).with :any_args
-
-        $method_in_setup_called = false
-        @context.setup do
-          def method_in_setup
-            $method_in_setup_called = true
-          end
-        end
-
-        @context.specify("test") {method_in_setup}
-        @context.run(@formatter)
-
-        $method_in_setup_called.should_be true
-      end
-
       specify "should run superclass teardown method and teardown block" do
         @formatter.should_receive(:add_context).with :any_args
         @formatter.should_receive(:spec_started).with "test"

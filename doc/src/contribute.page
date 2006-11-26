@@ -71,5 +71,5 @@ if we can't reproduce them. If you find a bug, please submit a Bug
 report. Be sure to include:
 
 * rspec version (either a versioned release or svn revision number)
-* a failing spec AND code - we need to be able to reproduce the failure.
+* a failing spec AND code - we need to be able to reproduce the failure. While code snippets are better than nothing, what we really prefer is modifications to RSpec's own specs, as a unified diff file.
 

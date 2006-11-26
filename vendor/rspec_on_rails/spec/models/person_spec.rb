@@ -41,15 +41,6 @@ context "A new Person" do
     @person = Person.new
   end
 
-  specify "should have no name" do
-    @person.name.should_be nil
-  end
-  
-  specify "should validate presence of name" do
-    @person.save.should_be false
-    @person.errors.should_include ["name", "can't be blank"]
-  end
-  
   specify "should be valid for save if includes a name" do
     @person.name = "CheliDaveSlak and the Fabulous Baker Boy"
     @person.save.should_be true
