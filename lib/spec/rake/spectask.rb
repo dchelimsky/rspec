@@ -12,8 +12,9 @@ module Spec
     #
     # Example:
     #  
-    #   Rake::SpecTask.new do |t|
+    #   Spec::Rake::SpecTask.new do |t|
     #     t.warning = true
+    #     t.rcov = true
     #   end
     #
     # This will create a task that can be run with:
