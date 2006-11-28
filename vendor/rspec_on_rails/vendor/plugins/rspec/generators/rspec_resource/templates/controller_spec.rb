@@ -32,8 +32,8 @@ context "Requesting /<%= table_name %> using GET" do
   controller_name :<%= table_name %>
 
   setup do
-    @mock_<%= class_name.underscore %> = mock('<%= class_name %>')
-    <%= class_name %>.stub!(:find).and_return([@mock_<%= class_name.underscore %>])
+    @mock_<%= table_name %> = mock('<%= table_name %>')
+    <%= class_name %>.stub!(:find).and_return(@mock_<%= table_name %>)
   end
   
   def do_get
@@ -51,13 +51,45 @@ context "Requesting /<%= table_name %> using GET" do
   end
   
   specify "should find all <%= table_name %>" do
-    <%= class_name %>.should_receive(:find).with(:all).and_return([@mock_<%= class_name.underscore %>])
+    <%= class_name %>.should_receive(:find).with(:all).and_return(@mock_<%= table_name %>)
     do_get
   end
   
-  specify "should assign all <%= table_name %> for the view" do
+  specify "should assign the found <%= table_name %> for the view" do
     do_get
-    assigns[:<%= table_name %>].should_eql [ @mock_<%= class_name.underscore %> ]
+    assigns[:<%= table_name %>].should_be @mock_<%= table_name %>
+    
+  end
+end
+
+context "Requesting /<%= table_name %>.xml using GET" do
+  controller_name :<%= table_name %>
+
+  setup do
+    @mock_<%= table_name %> = mock('<%= table_name %>')
+    @mock_<%= table_name %>.stub!(:to_xml).and_return("XML")
+    <%= class_name %>.stub!(:find).and_return(@mock_<%= table_name %>)
+  end
+  
+  def do_get
+    @request.env["HTTP_ACCEPT"] = "application/xml"
+    get :index
+  end
+  
+  specify "should be successful" do
+    do_get
+    response.should_be_success
+  end
+
+  specify "should find all <%= table_name %>" do
+    <%= class_name %>.should_receive(:find).with(:all).and_return(@mock_<%= table_name %>)
+    do_get
+  end
+  
+  specify "should render the found <%= table_name %> as xml" do
+    @mock_<%= table_name %>.should_receive(:to_xml).and_return("XML")
+    do_get
+    response.body.should_eql "XML"
   end
 end
 
@@ -88,9 +120,40 @@ context "Requesting /<%= table_name %>/1 using GET" do
     do_get
   end
   
-  specify "should assign the <%= class_name.underscore %> for the view" do
+  specify "should assign the found <%= class_name.underscore %> for the view" do
     do_get
     assigns[:<%= class_name.underscore %>].should_be @mock_<%= class_name.underscore %>
+  end
+end
+
+context "Requesting /<%= table_name %>/1.xml using GET" do
+  controller_name :<%= table_name %>
+
+  setup do
+    @mock_<%= class_name.underscore %> = mock('<%= class_name %>')
+    @mock_<%= class_name.underscore %>.stub!(:to_xml).and_return("XML")
+    <%= class_name %>.stub!(:find).and_return(@mock_<%= class_name.underscore %>)
+  end
+  
+  def do_get
+    @request.env["HTTP_ACCEPT"] = "application/xml"
+    get :show, :id => "1"
+  end
+
+  specify "should be successful" do
+    do_get
+    response.should_be_success
+  end
+  
+  specify "should find the <%= class_name.underscore %> requested" do
+    <%= class_name %>.should_receive(:find).with("1").and_return(@mock_<%= class_name.underscore %>)
+    do_get
+  end
+  
+  specify "should render the found <%= class_name.underscore %> as xml" do
+    @mock_<%= class_name.underscore %>.should_receive(:to_xml).and_return("XML")
+    do_get
+    response.body.should_eql "XML"
   end
 end
 
@@ -116,12 +179,17 @@ context "Requesting /<%= table_name %>/new using GET" do
     do_get
   end
   
-  specify "should create an unsaved <%= class_name.underscore %>" do
+  specify "should create an new <%= class_name.underscore %>" do
     <%= class_name %>.should_receive(:new).and_return(@mock_<%= class_name.underscore %>)
     do_get
   end
   
-  specify "should assign the created <%= class_name.underscore %> for the view" do
+  specify "should not save the new <%= class_name.underscore %>" do
+    @mock_<%= class_name.underscore %>.should_not_receive(:save)
+    do_get
+  end
+  
+  specify "should assign the new <%= class_name.underscore %> for the view" do
     do_get
     assigns[:<%= class_name.underscore %>].should_be @mock_<%= class_name.underscore %>
   end
@@ -171,11 +239,11 @@ context "Requesting /<%= table_name %> using POST" do
   end
   
   def do_post
-    post :create, :<%= class_name.underscore %> => { }
+    post :create, :<%= class_name.underscore %> => {:name => '<%= class_name %>'}
   end
   
   specify "should create a new <%= class_name.underscore %>" do
-    <%= class_name %>.should_receive(:new).with({}).and_return(@mock_<%= class_name.underscore %>)
+    <%= class_name %>.should_receive(:new).with({'name' => '<%= class_name %>'}).and_return(@mock_<%= class_name.underscore %>)
     do_post
   end
 
@@ -199,18 +267,18 @@ context "Requesting /<%= table_name %>/1 using PUT" do
     put :update, :id => "1"
   end
   
-  specify "should find the <%= class_name.underscore %>" do
+  specify "should find the <%= class_name.underscore %> requested" do
     <%= class_name %>.should_receive(:find).with("1").and_return(@mock_<%= class_name.underscore %>)
     do_update
   end
 
-  specify "should update the <%= class_name.underscore %>" do
+  specify "should update the found <%= class_name.underscore %>" do
     @mock_<%= class_name.underscore %>.should_receive(:update_attributes)
     do_update
     assigns(:<%= class_name.underscore %>).should_be @mock_<%= class_name.underscore %>
   end
 
-  specify "should assign the <%= class_name.underscore %> for the view" do
+  specify "should assign the found <%= class_name.underscore %> for the view" do
     do_update
     assigns(:<%= class_name.underscore %>).should_be @mock_<%= class_name.underscore %>
   end
@@ -234,12 +302,12 @@ context "Requesting /<%= table_name %>/1 using DELETE" do
     delete :destroy, :id => "1"
   end
 
-  specify "should find the relevant <%= class_name.underscore %>" do
+  specify "should find the <%= class_name.underscore %> requested" do
     <%= class_name %>.should_receive(:find).with("1").and_return(@mock_<%= class_name.underscore %>)
     do_delete
   end
   
-  specify "should call destroy on the relevant of <%= class_name.underscore %>" do
+  specify "should call destroy on the found <%= class_name.underscore %>" do
     @mock_<%= class_name.underscore %>.should_receive(:destroy)
     do_delete
   end
