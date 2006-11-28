@@ -76,6 +76,7 @@ controller.should_render :template => "path/to/template/for/action"
 You can specify :template, :text, or :action.
 
 <ruby>
+controller.should_render :action_name #i.e. :list, :
 controller.should_render :template => "path/to/template/for/action"
 controller.should_render :text => "expected text"
 controller.should_render :action => "expected_action"

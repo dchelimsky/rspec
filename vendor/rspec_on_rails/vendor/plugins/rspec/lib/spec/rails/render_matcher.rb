@@ -7,9 +7,9 @@ module Spec
         @should_render_called = false
       end
       
-      def set_expected(options, &block)
+      def set_expected(expected, &block)
         if @performed_render
-          verify_rendered(@options, options)
+          verify_rendered(expected, @options)
           return
         end
         should_render_called
@@ -17,20 +17,20 @@ module Spec
         @mock.should_receive(
           :render, 
           :expected_from => caller(0)[2],
-          :message => "controller expected call to render #{options.inspect} but it was never received"
-        ).with(options)
-        @options = options
+          :message => "controller expected call to render #{expected.inspect} but it was never received"
+        ).with(expected)
+        @options = expected
         @block = block
       end
 
-      def set_actual(options, response=nil, &block)
+      def set_actual(actual, response=nil, &block)
         @response = response
         @performed_render = true
         if should_render_called?
           @mock.__reset_mock
-          verify_rendered(options, @options)
+          verify_rendered(@options, actual)
         else
-          @options = options
+          @options = actual
           @block = block
         end
       end

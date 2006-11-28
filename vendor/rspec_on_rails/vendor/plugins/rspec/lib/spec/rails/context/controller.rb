@@ -53,6 +53,9 @@ module Spec
       end
       
       def should_render(expected)
+        if expected.is_a?(Symbol) || expected.is_a?(String)
+          expected = {:template => "#{controller_path}/#{expected}"}
+        end
         render_matcher.set_expected(expected)
       end
       
@@ -103,7 +106,7 @@ module Spec
       end
       
       def ensure_default_options(options)
-        return {:template => default_template_name} if options.nil?
+        options ||= {:template => default_template_name}
         return options
       end
     end
@@ -113,6 +116,12 @@ module Spec
       
       def setup_extra
         (class << @controller; self; end).class_eval do
+          # Rails 1.1.6 doesn't have controller_path, but >= 1.2.0 does
+          unless instance_methods.include?("controller_path")
+            def controller_path
+              self.class.name.underscore.gsub('_controller','')
+            end
+          end
           include ControllerInstanceMethods
         end
         @controller.integrate_views! if @integrate_views
@@ -172,6 +181,3 @@ module Spec
     end
   end
 end
-
-
-
