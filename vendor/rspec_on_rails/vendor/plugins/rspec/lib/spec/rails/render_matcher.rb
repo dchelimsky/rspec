@@ -2,7 +2,8 @@ module Spec
   module Rails
     class RenderMatcher
       
-      def initialize(integrate_views=false)
+      def initialize(controller_path=nil, integrate_views=false)
+        @controller_path = controller_path
         @integrate_views = integrate_views
         @should_render_called = false
       end
@@ -103,6 +104,13 @@ module Spec
       end
 
       def verify_rendered(expected, actual)
+        if actual.is_a?(Hash)
+          if (content_type = actual[:content_type]) && (action = actual[:action])
+            if content_type == "text/html"
+              actual = {:template => "#{@controller_path}/#{action}"}
+            end
+          end
+        end
         actual.should == expected
       end
     end

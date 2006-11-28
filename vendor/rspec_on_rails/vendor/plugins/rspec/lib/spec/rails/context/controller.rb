@@ -59,7 +59,7 @@ module Spec
         render_matcher.set_expected(expected)
       end
       
-      #backwards compatibility to 0.7.0-0.7.2
+      #backwards compatibility to RSpec 0.7.0-0.7.2
       alias_method :should_have_rendered, :should_render
 
       def should_render_rjs(element, *opts)
@@ -98,7 +98,7 @@ module Spec
       end
 
       def render_matcher
-        @render_matcher ||= Spec::Rails::RenderMatcher.new(integrate_views?)
+        @render_matcher ||= Spec::Rails::RenderMatcher.new(controller_path, integrate_views?)
       end
 
       def redirect_matcher
@@ -150,15 +150,22 @@ module Spec
         ActionMailer::Base.deliveries = @deliveries
       end
 
-      def routing(options)
-        # Load routes.rb if it hasn't been loaded
-        ActionController::Routing::Routes.reload if ActionController::Routing::Routes.empty?
+      def route_for(options)
+        ensure_that_routes_are_loaded
         routes = ActionController::Routing::Routes.generate(options)
         # Rails 1.1.6
         return routes[0] if routes.is_a?(Array)
         # Rails 1.2
         return routes if routes.is_a?(String)
       end
+      
+      #backwards compatibility to RSpec 0.7.0-0.7.3
+      alias_method :routing, :route_for
+      
+      private
+        def ensure_that_routes_are_loaded
+          ActionController::Routing::Routes.reload if ActionController::Routing::Routes.empty?
+        end
     end
 
     class ControllerContext < Spec::Rails::Context

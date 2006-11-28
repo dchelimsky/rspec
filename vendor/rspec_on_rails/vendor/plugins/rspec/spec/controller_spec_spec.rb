@@ -42,11 +42,11 @@ require File.dirname(__FILE__) + '/spec_helper'
     end
 
     specify "custom routes should be speccable" do
-      routing(:controller => "custom_route_spec", :action => "custom_route").should_eql "/custom_route"
+      route_for(:controller => "custom_route_spec", :action => "custom_route").should_eql "/custom_route"
     end
 
     specify "routes should be speccable" do
-      routing(:controller => "controller_isolation_spec", :action => "some_action").should_eql "/controller_isolation_spec/some_action"
+      route_for(:controller => "controller_isolation_spec", :action => "some_action").should_eql "/controller_isolation_spec/some_action"
     end
   end
 end

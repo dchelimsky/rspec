@@ -4,27 +4,27 @@ context "Routes for the <%= controller_class_name %>Controller should map" do
   controller_name :<%= table_name %>
 
   specify "{ :controller => '<%= table_name %>', :action => 'index' } to /<%= table_name %>" do
-    routing(:controller => "<%= table_name %>", :action => "index").should_eql "/<%= table_name %>"
+    route_for(:controller => "<%= table_name %>", :action => "index").should_eql "/<%= table_name %>"
   end
   
   specify "{ :controller => '<%= table_name %>', :action => 'new' } to /<%= table_name %>/new" do
-    routing(:controller => "<%= table_name %>", :action => "new").should_eql "/<%= table_name %>/new"
+    route_for(:controller => "<%= table_name %>", :action => "new").should_eql "/<%= table_name %>/new"
   end
   
   specify "{ :controller => '<%= table_name %>', :action => 'show', :id => 1 } to /<%= table_name %>/1" do
-    routing(:controller => "<%= table_name %>", :action => "show", :id => 1).should_eql "/<%= table_name %>/1"
+    route_for(:controller => "<%= table_name %>", :action => "show", :id => 1).should_eql "/<%= table_name %>/1"
   end
   
   specify "{ :controller => '<%= table_name %>', :action => 'edit', :id => 1 } to /<%= table_name %>/1;edit" do
-    routing(:controller => "<%= table_name %>", :action => "edit", :id => 1).should_eql "/<%= table_name %>/1;edit"
+    route_for(:controller => "<%= table_name %>", :action => "edit", :id => 1).should_eql "/<%= table_name %>/1;edit"
   end
   
   specify "{ :controller => '<%= table_name %>', :action => 'update', :id => 1} to /<%= table_name %>/1" do
-    routing(:controller => "<%= table_name %>", :action => "update", :id => 1).should_eql "/<%= table_name %>/1"
+    route_for(:controller => "<%= table_name %>", :action => "update", :id => 1).should_eql "/<%= table_name %>/1"
   end
   
   specify "{ :controller => '<%= table_name %>', :action => 'destroy', :id => 1} to /<%= table_name %>/1" do
-    routing(:controller => "<%= table_name %>", :action => "destroy", :id => 1).should_eql "/<%= table_name %>/1"
+    route_for(:controller => "<%= table_name %>", :action => "destroy", :id => 1).should_eql "/<%= table_name %>/1"
   end
 end
 
