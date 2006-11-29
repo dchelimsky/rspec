@@ -52,9 +52,17 @@ module Spec
           @output.puts "      <div class=\"failure\" id=\"failure_#{counter}\">"
           @output.puts "        <div class=\"message\"><pre>#{escape(failure.exception.message)}</pre></div>" unless failure.exception.nil?
           @output.puts "        <div class=\"backtrace\"><pre>#{format_backtrace(failure.exception.backtrace)}</pre></div>" unless failure.exception.nil?
+          extra_failure_content
           @output.puts "      </div>"
           @output.puts "    </li>"
           STDOUT.flush
+        end
+        
+        # Override this method if you wish to output extra HTML for a failed spec. For example, you
+        # could output links to images or other files produced during the specs. Example:
+        #
+        #
+        def extra_failure_content
         end
         
         def move_progress

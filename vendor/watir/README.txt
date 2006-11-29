@@ -22,9 +22,9 @@ and type:
 
   ruby find_rspecs_home_page.rb --format specdoc
 
-Or better:
+Or better - if you want to generate a super-hot HTML report with screenshots:
 
-  ruby find_rspecs_home_page.rb --format html > find_rspecs_home_page.html
+  spec find_rspecs_home_page.rb --require ../web_test_html_formatter.rb --format WebTestHtmlFormatter > report/report.html
 
 And upload find_rspecs_home_page.html to your project's web page or intranet.
 This will give immediate visibility to the intended behaviour of your web app,
