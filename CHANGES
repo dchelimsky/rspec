@@ -2,6 +2,7 @@
 
 == HEAD
 
+* Added callback library from Brian Takita
 * Added [#6925] support controller.should_render :action_name
 * Fixed [#6884] intermittent errors related to method binding
 * Fixed [#6870] rspec on edge rails spec:controller fixture loading fails

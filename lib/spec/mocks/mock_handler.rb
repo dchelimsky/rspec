@@ -41,12 +41,9 @@ module Spec
       end
 
       def __add expected_from, sym, block
-        Runner::Specification.add_listener(self) if @options[:auto_verify]
+        current_spec = Runner::Specification.current
+        current_spec.after_teardown {verify} if current_spec && @options[:auto_verify]
         define_expected_method(sym)
-      end
-
-      def spec_finished spec
-        verify
       end
 
       def define_expected_method(sym)

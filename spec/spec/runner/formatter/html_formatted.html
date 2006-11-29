@@ -111,7 +111,10 @@
       <div class="failed_spec_name">should fail when expected message not received</div>
       <div class="failure" id="failure_1">
         <div class="message"><pre>Mock 'poke me' expected :poke once, but received it 0 times</pre></div>
-        <div class="backtrace"><pre>./failing_examples/mocking_example.rb:13</pre></div>
+        <div class="backtrace"><pre>./failing_examples/mocking_example.rb:13
+/Users/david/projects/ruby/rspec/trunk/lib/spec/callback/callback_container.rb:34:in `notify'
+/Users/david/projects/ruby/rspec/trunk/lib/spec/callback/callback_container.rb:32:in `notify'
+/Users/david/projects/ruby/rspec/trunk/lib/spec/callback/extensions/object.rb:21:in `notify_callbacks'</pre></div>
       </div>
     </li>
     <script type="text/javascript">makeProgressbarRed();</script>
@@ -130,7 +133,10 @@
       <div class="failed_spec_name">should get yelled at when sending unexpected messages</div>
       <div class="failure" id="failure_3">
         <div class="message"><pre>Mock 'don't talk to me' expected :any_message_at_all 0 times, but received it once</pre></div>
-        <div class="backtrace"><pre>./failing_examples/mocking_example.rb:28</pre></div>
+        <div class="backtrace"><pre>./failing_examples/mocking_example.rb:28
+/Users/david/projects/ruby/rspec/trunk/lib/spec/callback/callback_container.rb:34:in `notify'
+/Users/david/projects/ruby/rspec/trunk/lib/spec/callback/callback_container.rb:32:in `notify'
+/Users/david/projects/ruby/rspec/trunk/lib/spec/callback/extensions/object.rb:21:in `notify_callbacks'</pre></div>
       </div>
     </li>
   </ul>
