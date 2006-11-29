@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<!DOCTYPE html
+<!DOCTYPE html 
      PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -24,8 +24,8 @@
   }
 
   #progress-bar-bg {
-    background-color: #C9C9C9;
-    border-bottom: 1px solid gray;
+    background-color: #C9C9C9; 
+    border-bottom: 1px solid gray; 
     border-right: 1px solid gray;
   }
 
@@ -44,8 +44,8 @@
     padding-left: 0px;
   }
 
-  li {
-    list-style-type: none;
+  li { 
+    list-style-type: none; 
     margin: 0;
     border: 1px solid #fff;
   }
@@ -67,16 +67,16 @@
   }
 
   li.passed {
-    display: block;
-    background: #659D32;
-    padding: 1px 4px;
+    display: block; 
+    background: #659D32; 
+    padding: 1px 4px; 
   }
 
   li.failed {
-    display: block;
-    background: #CD0000;
-    color: #000;
-    padding: 2px 4px;
+    display: block; 
+    background: #CD0000; 
+    color: #000; 
+    padding: 2px 4px; 
   }
 
   li.failed .failure {
@@ -85,11 +85,11 @@
   }
 
   div.backtrace {
-    color: #fff;
+    color: #fff; 
   }
 
   div.backtrace a {
-    color: #fff;
+    color: #fff; 
   }
 
   </style>
@@ -111,10 +111,7 @@
       <div class="failed_spec_name">should fail when expected message not received</div>
       <div class="failure" id="failure_1">
         <div class="message"><pre>Mock 'poke me' expected :poke once, but received it 0 times</pre></div>
-        <div class="backtrace"><pre>./failing_examples/mocking_example.rb:13
-/Users/david/projects/ruby/rspec/trunk/lib/spec/callback/callback_container.rb:34:in `notify'
-/Users/david/projects/ruby/rspec/trunk/lib/spec/callback/callback_container.rb:32:in `notify'
-/Users/david/projects/ruby/rspec/trunk/lib/spec/callback/extensions/object.rb:21:in `notify_callbacks'</pre></div>
+        <div class="backtrace"><pre>./failing_examples/mocking_example.rb:13</pre></div>
       </div>
     </li>
     <script type="text/javascript">makeProgressbarRed();</script>
@@ -133,10 +130,7 @@
       <div class="failed_spec_name">should get yelled at when sending unexpected messages</div>
       <div class="failure" id="failure_3">
         <div class="message"><pre>Mock 'don't talk to me' expected :any_message_at_all 0 times, but received it once</pre></div>
-        <div class="backtrace"><pre>./failing_examples/mocking_example.rb:28
-/Users/david/projects/ruby/rspec/trunk/lib/spec/callback/callback_container.rb:34:in `notify'
-/Users/david/projects/ruby/rspec/trunk/lib/spec/callback/callback_container.rb:32:in `notify'
-/Users/david/projects/ruby/rspec/trunk/lib/spec/callback/extensions/object.rb:21:in `notify_callbacks'</pre></div>
+        <div class="backtrace"><pre>./failing_examples/mocking_example.rb:28</pre></div>
       </div>
     </li>
   </ul>
