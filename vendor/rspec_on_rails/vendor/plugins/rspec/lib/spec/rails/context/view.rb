@@ -31,6 +31,7 @@ module Spec
         set_base_view_path(options)
         @controller.add_helper_for(options[:template])
         @controller.add_helper(options[:helper]) if options[:helper]
+        @controller.add_helper("application")
         if options[:helpers]
           options[:helpers].each do |helper|
             @controller.add_helper(helper)

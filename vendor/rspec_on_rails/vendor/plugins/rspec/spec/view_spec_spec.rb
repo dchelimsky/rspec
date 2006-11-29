@@ -1,24 +1,45 @@
 require File.dirname(__FILE__) + '/spec_helper'
 
 context "Given a view with an implicit helper", :context_type => :view do
-  specify "the helper should be included" do
+  setup do
     render "view_spec/show"
+  end
+  
+  specify "the helper should be included" do
     response.should_have_tag 'div', :content => "This is text from a method in the ViewSpecHelper"
+  end
+
+  specify "the application helper should be included" do
+    response.should_have_tag 'div', :content => "This is text from a method in the ApplicationHelper"
   end
 end
 
 context "Given a view requiring an explicit helper", :context_type => :view do
-  specify "the helper should be included if specified" do
+  setup do
     render "view_spec/explicit_helper", :helper => 'explicit'
+  end
+  
+  specify "the helper should be included if specified" do
     response.should_have_tag 'div', :content => "This is text from a method in the ExplicitHelper"
+  end
+
+  specify "the application helper should be included" do
+    response.should_have_tag 'div', :content => "This is text from a method in the ApplicationHelper"
   end
 end
 
 context "Given a view requiring multiple explicit helpers", :context_type => :view do
-  specify "the helper should be included if specified" do
+  setup do
     render "view_spec/multiple_helpers", :helpers => ['explicit', 'more_explicit']
+  end
+  
+  specify "all helpers should be included if specified" do
     response.should_have_tag 'div', :content => "This is text from a method in the ExplicitHelper"
     response.should_have_tag 'div', :content => "This is text from a method in the MoreExplicitHelper"
+  end
+
+  specify "the application helper should be included" do
+    response.should_have_tag 'div', :content => "This is text from a method in the ApplicationHelper"
   end
 end
 
@@ -34,5 +55,8 @@ context "Given a view that includes a partial", :context_type => :view do
   specify "the partial should get rendered" do
     response.should_have_tag 'div', :content => "method_in_partial_including_template in ViewSpecHelper"
   end
-end
 
+  specify "the application helper should be included" do
+    response.should_have_tag 'div', :content => "This is text from a method in the ApplicationHelper"
+  end
+end
