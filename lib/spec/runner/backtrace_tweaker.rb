@@ -29,6 +29,7 @@ module Spec
           line = nil if line =~ /\/lib\/spec\/mocks\//
           line = nil if line =~ /\/lib\/spec\/rake\//
           line = nil if line =~ /\/lib\/spec\/runner\//
+          line = nil if line =~ /\/lib\/spec\/callback\//
           line = nil if line =~ /bin\/spec:/
           line = nil if line =~ /bin\/rcov:/
           line = nil if line =~ /lib\/rspec_on_rails/
