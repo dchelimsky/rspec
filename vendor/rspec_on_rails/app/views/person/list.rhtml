@@ -2,7 +2,7 @@
 <p>Find me in app/views/person/list.rhtml</p>
 <ul>
 <% for person in @people %>
-  <li><%= person.name %></li>
+  <%= render :partial => "person", :object => person %>
 <% end %>
 </ul>
 <div id="a"></div>

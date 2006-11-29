@@ -11,7 +11,7 @@ module Spec
         begin
           @controller.send :assign_shortcuts, @request, @response
         rescue => e
-          unless e.message =~ /Deprecating @session/
+          unless e.message =~ /^Deprecating.*/
             raise e
           end
         end
@@ -20,10 +20,15 @@ module Spec
         assigns[:session] = @controller.session
         @controller.class.send :public, :flash # make flash accessible to the spec
       end
+      
+      def set_base_view_path(options)
+        parts = options[:template].split('/')
+        ActionView::Base.base_view_path = "#{parts[0..-2].join('/')}/"
+      end
 
       def render(*options)
         options = Spec::Rails::OptsMerger.new(options).merge(:template)
-        
+        set_base_view_path(options)
         @controller.add_helper_for(options[:template])
         @controller.add_helper(options[:helper]) if options[:helper]
         if options[:helpers]
@@ -92,3 +97,4 @@ module Spec
     end
   end
 end
+

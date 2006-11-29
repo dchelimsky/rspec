@@ -2,6 +2,7 @@
 
 == HEAD
 
+* Fixed [#6903] Rendering a partial in a view makes the view spec blow up
 * Added callback library from Brian Takita
 * Added [#6925] support controller.should_render :action_name
 * Fixed [#6884] intermittent errors related to method binding
