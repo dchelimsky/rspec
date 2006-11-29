@@ -9,9 +9,10 @@ context "/person/list" do
   end
   
   specify "should display the list of people" do
-    @person.should_receive(:name).and_return("Smith")
+    @person.should_receive(:name).twice.and_return("Smith", "Jones")
     render "/person/list"
     response.should_have_tag 'li', :content => 'Smith'
+    response.should_have_tag 'li', :content => 'Jones'
   end
 
   specify "should have a <div> tag with :id => 'a" do

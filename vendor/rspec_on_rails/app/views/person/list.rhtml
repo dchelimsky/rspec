@@ -4,5 +4,6 @@
 <% for person in @people %>
   <%= render :partial => "person", :object => person %>
 <% end %>
+<%= render :partial => "person", :collection => @people %>
 </ul>
 <div id="a"></div>
