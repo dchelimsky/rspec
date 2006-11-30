@@ -3,7 +3,7 @@ module Spec
     class ErrorGenerator
       attr_writer :opts
       
-      def initialize target, name
+      def initialize(target, name)
         @target = target
         @name = name
       end
@@ -12,34 +12,34 @@ module Spec
         @opts ||= {}
       end
 
-      def raise_unexpected_message_error sym, *args
+      def raise_unexpected_message_error(sym, *args)
         __raise "#{intro} received unexpected message :#{sym}#{arg_message(*args)}"
       end
       
-      def raise_unexpected_message_args_error expectation, *args
+      def raise_unexpected_message_args_error(expectation, *args)
         #this is either :no_args or an Array
-        expected_args = (expectation.expected_args == :no_args ? "no args" : format_args(*expectation.expected_args))
-        actual_args = args.empty? ? "no args" : format_args(*args)
+        expected_args = (expectation.expected_args == :no_args ? "(no args)" : format_args(*expectation.expected_args))
+        actual_args = args.empty? ? "(no args)" : format_args(*args)
         __raise "#{intro} expected #{expectation.sym.inspect} with #{expected_args} but received it with #{actual_args}"
       end
       
-      def raise_expectation_error sym, expected_received_count, actual_received_count, *args
+      def raise_expectation_error(sym, expected_received_count, actual_received_count, *args)
         __raise "#{intro} expected :#{sym}#{arg_message(*args)} #{count_message(expected_received_count)}, but received it #{count_message(actual_received_count)}"
       end
       
-      def raise_out_of_order_error sym
+      def raise_out_of_order_error(sym)
         __raise "#{intro} received :#{sym} out of order"
       end
       
-      def raise_block_failed_error sym, detail
+      def raise_block_failed_error(sym, detail)
         __raise "#{intro} received :#{sym} but passed block failed with: #{detail}"
       end
       
-      def raise_missing_block_error args_to_yield
+      def raise_missing_block_error(args_to_yield)
         __raise "#{intro} asked to yield |#{arg_list(*args_to_yield)}| but no block was passed"
       end
       
-      def raise_wrong_arity_error args_to_yield, arity
+      def raise_wrong_arity_error(args_to_yield, arity)
         __raise "#{intro} yielded |#{arg_list(*args_to_yield)}| to block with arity of #{arity}"
       end
       
@@ -48,19 +48,19 @@ module Spec
         @name ? "Mock '#{@name}'" : @target.to_s
       end
       
-      def __raise message
+      def __raise(message)
         message = opts[:message] unless opts[:message].nil?
         Kernel::raise(Spec::Mocks::MockExpectationError, message)
       end
       
-      def arg_message *args
-        return "" if [:any_args] == args
-        return "" if args.empty?
+      def arg_message(*args)
         " with " + format_args(*args)
       end
       
-      def format_args *args
-        "[" + arg_list(*args) + "]"
+      def format_args(*args)
+        return "(no args)" if args.empty? || args == :no_args || args == [:no_args]
+        return "(any args)" if [:any_args] == args
+        "(" + arg_list(*args) + ")"
       end
 
       def arg_list(*args)

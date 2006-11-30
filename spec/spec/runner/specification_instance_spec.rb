@@ -119,7 +119,7 @@ module Spec
         @reporter.should_receive(:spec_started).with("spec")
         @reporter.should_receive(:spec_finished) do |spec_name, error|
           spec_name.should_eql("spec")
-          error.message.should_match(/expected :poke once, but received it 0 times/)
+          error.message.should_match(/expected :poke with \(any args\) once, but received it 0 times/)
         end
         spec.run(@reporter, nil, nil, nil, ::Spec::Runner::ExecutionContext.new(nil))
       end

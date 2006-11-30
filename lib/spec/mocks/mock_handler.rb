@@ -103,7 +103,7 @@ module Spec
         @proxied_methods.clear
       end
 
-      def metaclass_eval str
+      def metaclass_eval(str)
         (class << @target; self; end).class_eval str
       end
 
@@ -140,11 +140,11 @@ module Spec
         end
       end
 
-      def raise_unexpected_message_args_error expectation, *args
+      def raise_unexpected_message_args_error(expectation, *args)
         @error_generator.raise_unexpected_message_args_error expectation, *args
       end
 
-      def raise_unexpected_message_error sym, *args
+      def raise_unexpected_message_error(sym, *args)
         @error_generator.raise_unexpected_message_error sym, *args
       end
 

@@ -41,7 +41,7 @@ module Spec
           @mock.__verify
           violated
         rescue MockExpectationError => e
-          e.message.should_eql "Mock 'test mock' expected :not_expected 0 times, but received it once"
+          e.message.should_eql "Mock 'test mock' expected :not_expected with (any args) 0 times, but received it once"
         end
       end
 
@@ -52,7 +52,7 @@ module Spec
           @mock.__verify
           violated
         rescue MockExpectationError => e
-          e.message.should_eql "Mock 'test mock' expected :not_expected with [\"unexpected text\"] 0 times, but received it once"
+          e.message.should_eql "Mock 'test mock' expected :not_expected with (\"unexpected text\") 0 times, but received it once"
         end
       end
 
@@ -86,7 +86,7 @@ module Spec
           @mock.something("a","d","c")
           violated
         rescue MockExpectationError => e
-          e.message.should_eql "Mock 'test mock' expected :something with [\"a\", \"b\", \"c\"] but received it with [\"a\", \"d\", \"c\"]"
+          e.message.should_eql "Mock 'test mock' expected :something with (\"a\", \"b\", \"c\") but received it with (\"a\", \"d\", \"c\")"
         end
       end
      
@@ -95,7 +95,7 @@ module Spec
           @mock.something("a","b","c")
           violated
         rescue MockExpectationError => e
-          e.message.should_eql "Mock 'test mock' received unexpected message :something with [\"a\", \"b\", \"c\"]"
+          e.message.should_eql "Mock 'test mock' received unexpected message :something with (\"a\", \"b\", \"c\")"
         end
       end
   
@@ -189,7 +189,7 @@ module Spec
         begin
           @mock.something 1
         rescue MockExpectationError => e
-          e.message.should_eql "Mock 'test mock' expected :something with no args but received it with [1]"
+          e.message.should_eql "Mock 'test mock' expected :something with (no args) but received it with (1)"
         end
       end
       
@@ -198,7 +198,7 @@ module Spec
         begin
           @mock.something
         rescue MockExpectationError => e
-          e.message.should_eql "Mock 'test mock' expected :something with [1] but received it with no args"
+          e.message.should_eql "Mock 'test mock' expected :something with (1) but received it with (no args)"
         end
       end
       
@@ -262,14 +262,14 @@ module Spec
         begin
           @mock.foobar
         rescue MockExpectationError => e
-          e.message.should_eql "Mock 'test mock' received unexpected message :foobar"
+          e.message.should_eql "Mock 'test mock' received unexpected message :foobar with (no args)"
         end
       end
       
       specify "should verify if auto verify is set to true" do
         reporter = Spec::Mocks::Mock.new("reporter", :null_object => true)
         reporter.should_receive(:spec_finished) do |name, error, location|
-          error.to_s.should_match /expected :abcde once, but received it 0 times/
+          error.to_s.should_match /expected :abcde with \(any args\) once, but received it 0 times/
         end
         Runner::Specification.new("spec") do
           mock = Spec::Mocks::Mock.new("mock", :auto_verify => true)
@@ -281,7 +281,7 @@ module Spec
       specify "should verify if auto verify not set explicitly" do
         reporter = Spec::Mocks::Mock.new("reporter", :null_object => true)
         reporter.should_receive(:spec_finished) do |name, error, location|
-          error.to_s.should_match /expected :abcde once, but received it 0 times/
+          error.to_s.should_match /expected :abcde with \(any args\) once, but received it 0 times/
         end
         Runner::Specification.new("spec") do
           mock = Spec::Mocks::Mock.new("mock")
