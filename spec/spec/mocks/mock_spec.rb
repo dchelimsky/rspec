@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 
 module Spec
   module Mocks
-    context "a Mock" do
+    context "a Mock expectation" do
 
       setup do
         @mock = Mock.new("test mock", :auto_verify => false)
@@ -80,13 +80,13 @@ module Spec
         @mock.__verify
       end
 
-      specify "should raise exception if parameters dont match when method called" do
+      specify "should raise exception if args dont match when method called" do
         @mock.should_receive(:something).with("a","b","c").and_return("booh")
         begin
           @mock.something("a","d","c")
           violated
         rescue MockExpectationError => e
-          e.message.should_eql "Mock 'test mock' received unexpected message :something with [\"a\", \"d\", \"c\"]"
+          e.message.should_eql "Mock 'test mock' expected :something with [\"a\", \"b\", \"c\"] but received it with [\"a\", \"d\", \"c\"]"
         end
       end
      
@@ -189,7 +189,16 @@ module Spec
         begin
           @mock.something 1
         rescue MockExpectationError => e
-          e.message.should_eql "Mock 'test mock' received unexpected message :something with [1]"
+          e.message.should_eql "Mock 'test mock' expected :something with no args but received it with [1]"
+        end
+      end
+      
+      specify "should fail when args are expected but none are received" do
+        @mock.should_receive(:something).with(1)
+        begin
+          @mock.something
+        rescue MockExpectationError => e
+          e.message.should_eql "Mock 'test mock' expected :something with [1] but received it with no args"
         end
       end
       

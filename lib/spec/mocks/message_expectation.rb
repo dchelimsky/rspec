@@ -22,6 +22,10 @@ module Spec
         @at_most = nil
         @args_to_yield = nil
       end
+      
+      def expected_args
+        @args_expectation.args
+      end
 
       def and_return(*values, &return_block)
         Kernel::raise AmbiguousReturnError unless @method_block.nil?

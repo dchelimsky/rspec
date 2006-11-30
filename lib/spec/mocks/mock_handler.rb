@@ -134,10 +134,14 @@ module Spec
         elsif stub = find_matching_method_stub(sym)
           stub.invoke([], nil)
         elsif expectation = find_almost_matching_expectation(sym, *args)
-          raise_unexpected_message_error(sym, *args) unless has_negative_expectation?(sym) unless null_object?
+          raise_unexpected_message_args_error(expectation, *args) unless has_negative_expectation?(sym) unless null_object?
         else
           @target.send :method_missing, sym, *args, &block
         end
+      end
+
+      def raise_unexpected_message_args_error expectation, *args
+        @error_generator.raise_unexpected_message_args_error expectation, *args
       end
 
       def raise_unexpected_message_error sym, *args

@@ -2,6 +2,7 @@
 
 == HEAD
 
+* Added [#6978] mock should tell you the expected and actual args when receiving the right message with the wrong args
 * Added the possibility to tweak the output of the HtmlFormatter (by overriding extra_failure_content).
 * Fixed [#6936] View specs don't include ApplicationHelper by default
 * Fixed [#6903] Rendering a partial in a view makes the view spec blow up

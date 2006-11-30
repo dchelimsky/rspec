@@ -60,3 +60,4 @@ context "Given a view that includes a partial", :context_type => :view do
     response.should_have_tag 'div', :content => "This is text from a method in the ApplicationHelper"
   end
 end
+
