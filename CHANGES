@@ -2,6 +2,7 @@
 
 == HEAD
 
+* Fixed [#6981] helper method is not available in partial template.
 * Added [#6978] mock should tell you the expected and actual args when receiving the right message with the wrong args
 * Added the possibility to tweak the output of the HtmlFormatter (by overriding extra_failure_content).
 * Fixed [#6936] View specs don't include ApplicationHelper by default

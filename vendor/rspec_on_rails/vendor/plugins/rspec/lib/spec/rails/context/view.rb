@@ -22,20 +22,26 @@ module Spec
       end
       
       def set_base_view_path(options)
-        parts = options[:template].split('/')
-        ActionView::Base.base_view_path = "#{parts[0..-2].join('/')}/"
+        ActionView::Base.base_view_path = base_view_path(options)
       end
-
+      
+      def base_view_path(options)
+        "/#{derived_controller_name(options)}/"
+      end
+      
+      def derived_controller_name(options)
+        parts = options[:template].split('/').reject { |part| part.empty? }
+        "#{parts[0..-2].join('/')}"
+      end
+      
       def render(*options)
         options = Spec::Rails::OptsMerger.new(options).merge(:template)
         set_base_view_path(options)
-        @controller.add_helper_for(options[:template])
-        @controller.add_helper(options[:helper]) if options[:helper]
         @controller.add_helper("application")
+        @controller.add_helper(derived_controller_name(options))
+        @controller.add_helper(options[:helper]) if options[:helper]
         if options[:helpers]
-          options[:helpers].each do |helper|
-            @controller.add_helper(helper)
-          end
+          options[:helpers].each { |helper| @controller.add_helper(helper) }
         end
 
         @action_name = action_name caller[0] if options.empty?

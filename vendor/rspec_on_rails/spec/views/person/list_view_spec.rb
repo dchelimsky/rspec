@@ -3,16 +3,21 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 context "/person/list" do
   
   setup do
-    @person = mock("person")
-    @person.stub!(:name).and_return("Joe")
-    assigns[:people] = [@person]
+    @smith = mock("Smith")
+    @jones = mock("Jones")
+    @smith.stub!(:name).and_return("Joe")
+    @jones.stub!(:name).and_return("Joe")
+    assigns[:people] = [@smith, @jones]
   end
   
   specify "should display the list of people" do
-    @person.should_receive(:name).twice.and_return("Smith", "Jones")
+    @smith.should_receive(:name).twice.and_return("Smith")
+    @jones.should_receive(:name).twice.and_return("Jones")
+
     render "/person/list"
-    response.should_have_tag 'li', :content => 'Smith'
-    response.should_have_tag 'li', :content => 'Jones'
+    
+    response.should_have_tag 'li', :content => 'Name: Smith'
+    response.should_have_tag 'li', :content => 'Name: Jones'
   end
 
   specify "should have a <div> tag with :id => 'a" do
