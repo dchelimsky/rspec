@@ -1,29 +1,19 @@
 require 'rubygems'
 require 'win32screenshot'
-require 'RMagick'
+require 'watir'
+require File.dirname(__FILE__) + '/web_test_html_formatter_helper'
 
 # include this module in your spec and call +save_screenshot+ and +save_source+ from
 # teardown.
 module WebTestHtmlFormatterWinHelper
-  def save_screenshot(dir, spec_number)
+  include WebTestHtmlFormatterHelper
+
+  def save_screenshots(dir, spec_number)
     width, height, bmp = Win32::Screenshot.foreground
 
     img = Magick::Image.from_blob(bmp)[0]
-    thumb = img.scale(0.25)
-
-    png = img.to_blob do
-      self.format = 'PNG'
-    end
-    File.open("#{dir}/#{spec_number}.png", "wb") {|io| io.write(png)}
-
-    thumb_png = thumb.to_blob do
-      self.format = 'PNG'
-    end
-    File.open("#{dir}/#{spec_number}_thumb.png", "wb") {|io| io.write(thumb_png)}
+    img_path = "#{dir}/#{spec_number}.png"
+    img.write(img_path)
+    save_thumb(img, dir, spec_number)
   end
-
-  def save_source(dir, spec_number, html)
-    File.open("#{dir}/#{spec_number}.html", "w") {|io| io.write(html)}
-  end
-
 end

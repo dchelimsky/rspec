@@ -1,8 +1,6 @@
 require 'rubygems'
 require 'spec'
-require 'watir'
 require 'fileutils'
-require File.dirname(__FILE__) + '/../web_test_html_formatter_win_helper'
 
 # Comment out to enable ActiveRecord fixtures
 #require 'active_record'
@@ -15,20 +13,30 @@ require File.dirname(__FILE__) + '/../web_test_html_formatter_win_helper'
 class RSpecWatir
   @@img_dir = File.dirname(__FILE__) + '/report/images'
   FileUtils.mkdir_p(@@img_dir) unless File.exist?(@@img_dir)
-
-  include WebTestHtmlFormatterWinHelper
   @@n = 1
+
+  if RUBY_PLATFORM =~ /darwin/
+    require File.dirname(__FILE__) + '/../web_test_html_formatter_osx_helper'
+    include WebTestHtmlFormatterOsxHelper
+  else
+    require File.dirname(__FILE__) + '/../web_test_html_formatter_win_helper'
+    include WebTestHtmlFormatterWinHelper
+  end
   
   def setup
     #Fixtures.create_fixtures($fixture_path, @@fixtures)
-    @browser = Watir::IE.new
+    if RUBY_PLATFORM =~ /darwin/
+      @browser = Watir::Safari.new
+    else
+      @browser = Watir::IE.new
+    end
   end
 
   def teardown
-    save_screenshot(@@img_dir, @@n)
+    save_screenshots(@@img_dir, @@n)
     save_source(@@img_dir, @@n, @browser.html)
     @@n += 1
-    @browser.close
+    @browser.close unless RUBY_PLATFORM =~ /darwin/
   end
   
   #def self.fixtures(*testdata)
@@ -43,14 +51,5 @@ module Spec
         inherit RSpecWatir
       end
     end
-  end
-end
-
-# Extensions to Watir to make it play nicer with RSpec
-module Watir
-  class IE
-    # @browser.should_contain("bla bla")
-    # @browser.should_not_contain("bla bla")
-    alias_method :contain?, :contains_text
   end
 end
