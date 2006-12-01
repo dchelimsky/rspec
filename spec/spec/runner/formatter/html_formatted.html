@@ -111,7 +111,9 @@
       <div class="failed_spec_name">should fail when expected message not received</div>
       <div class="failure" id="failure_1">
         <div class="message"><pre>Mock 'poke me' expected :poke with (any args) once, but received it 0 times</pre></div>
-        <div class="backtrace"><pre>./failing_examples/mocking_example.rb:13</pre></div>
+        <div class="backtrace"><pre>./failing_examples/mocking_example.rb:13
+./spec/spec/runner/formatter/html_formatter_spec.rb:11
+./spec/spec/runner/formatter/html_formatter_spec.rb:8</pre></div>
       </div>
     </li>
     <script type="text/javascript">makeProgressbarRed();</script>
@@ -121,7 +123,9 @@
       <div class="failure" id="failure_2">
         <div class="message"><pre>Mock 'one two three' received :three out of order</pre></div>
         <div class="backtrace"><pre>(eval):3:in `three'
-./failing_examples/mocking_example.rb:22</pre></div>
+./failing_examples/mocking_example.rb:22
+./spec/spec/runner/formatter/html_formatter_spec.rb:11
+./spec/spec/runner/formatter/html_formatter_spec.rb:8</pre></div>
       </div>
     </li>
     <script type="text/javascript">makeProgressbarRed();</script>
@@ -130,7 +134,9 @@
       <div class="failed_spec_name">should get yelled at when sending unexpected messages</div>
       <div class="failure" id="failure_3">
         <div class="message"><pre>Mock 'don't talk to me' expected :any_message_at_all with (any args) 0 times, but received it once</pre></div>
-        <div class="backtrace"><pre>./failing_examples/mocking_example.rb:28</pre></div>
+        <div class="backtrace"><pre>./failing_examples/mocking_example.rb:28
+./spec/spec/runner/formatter/html_formatter_spec.rb:11
+./spec/spec/runner/formatter/html_formatter_spec.rb:8</pre></div>
       </div>
     </li>
   </ul>
@@ -144,7 +150,9 @@
       <div class="failed_spec_name">should print diff of different strings</div>
       <div class="failure" id="failure_4">
         <div class="message"><pre>&quot;RSpec is a\nbehavior driven development\nframework for Ruby\n&quot; should == &quot;RSpec is a\nbehaviour driven development\nframework for Ruby\n&quot;</pre></div>
-        <div class="backtrace"><pre>./failing_examples/diffing_spec.rb:13</pre></div>
+        <div class="backtrace"><pre>./failing_examples/diffing_spec.rb:13
+./spec/spec/runner/formatter/html_formatter_spec.rb:11
+./spec/spec/runner/formatter/html_formatter_spec.rb:8</pre></div>
       </div>
     </li>
     <script type="text/javascript">makeProgressbarRed();</script>
@@ -161,7 +169,9 @@ name=bob,
 species=tortoise
 &gt;
 </pre></div>
-        <div class="backtrace"><pre>./failing_examples/diffing_spec.rb:34</pre></div>
+        <div class="backtrace"><pre>./failing_examples/diffing_spec.rb:34
+./spec/spec/runner/formatter/html_formatter_spec.rb:11
+./spec/spec/runner/formatter/html_formatter_spec.rb:8</pre></div>
       </div>
     </li>
   </ul>
