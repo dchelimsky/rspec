@@ -15,7 +15,7 @@ context "HtmlFormatter" do
       )
       
       html = out.string
-      # File.open(File.dirname(__FILE__) + "/html_formatted.html", 'w') {|io| io.write(html)}
+      File.open(File.dirname(__FILE__) + "/html_formatted.html", 'w') {|io| io.write(html)}
       html.should_eql expected_html
     end
   end

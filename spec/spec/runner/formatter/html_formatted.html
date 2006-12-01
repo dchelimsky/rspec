@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<!DOCTYPE html 
+<!DOCTYPE html
      PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -13,113 +13,132 @@
     document.getElementById("progress-bar").style.width = percentDone +"%";
   }
   function makeProgressbarRed() {
-    document.getElementById('progress-bar').style.background = '#CD0000';
+    document.getElementById('progress-bar').style.background = '#C40D0D';
   }
   </script>
   <style type="text/css">
   body {
-    font-size: 9pt;
-    font-family: verdana, arial, helvetica;
-    width: 85%;
+    margin: 0; padding: 0;
+    background: #fff;
+  }
+
+  h1 {
+    margin: 0 0 10px;
+    padding: 10px;
+    font: bold 18px "Lucida Grande", Helvetica, sans-serif;
+    background: #0B3563; color: #fff;
   }
 
   #progress-bar-bg {
     background-color: #C9C9C9; 
     border-bottom: 1px solid gray; 
     border-right: 1px solid gray;
+
   }
 
   #progress-bar {
-    background-color: #659D32;
+    background-color: #DBFFB4;
     width: 0px;
   }
 
-  div.context {
-    padding: 0px;
+  .context {
+    margin: 0 10px 5px;
     background: #fff;
-    margin-top: 0px;
   }
 
-  ul {
-    padding-left: 0px;
+  dl {
+    margin: 0; padding: 0 0 5px;
+    font: normal 11px "Lucida Grande", Helvetica, sans-serif;
   }
 
-  li { 
-    list-style-type: none; 
-    margin: 0;
-    border: 1px solid #fff;
-  }
-
-  li.context_name {
-    font-size: 1.3em;
+  dt {
+    padding: 3px;
+    background: #0B3563;
+    color: #fff;
     font-weight: bold;
-    color: #589CCF;
   }
 
-  div.passed_spec_name {
-    font-weight: bold;
-    color: #324F17;
+  dd {
+    margin: 5px 0 5px 5px;
+    padding: 3px 3px 3px 18px;
   }
 
-  div.failed_spec_name {
-    font-weight: bold;
-    color: #EEB4B4;
+  dd.spec.passed {
+    border-left: 5px solid #65C400;
+    border-bottom: 1px solid #65C400;
+    background: #DBFFB4; color: #3D7700;
   }
 
-  li.passed {
-    display: block; 
-    background: #659D32; 
-    padding: 1px 4px; 
-  }
-
-  li.failed {
-    display: block; 
-    background: #CD0000; 
-    color: #000; 
-    padding: 2px 4px; 
-  }
-
-  li.failed .failure {
-    font-weight: normal;
-    font-size: 9pt;
+  dd.spec.failed {
+    border-left: 5px solid #C20000;
+    border-bottom: 1px solid #C20000;
+    color: #C20000; background: #FFFBD3;
   }
 
   div.backtrace {
-    color: #fff; 
+    color: #000;
+    font-size: 12px;
   }
 
-  div.backtrace a {
-    color: #fff; 
+  a {
+    color: #BE5C00;
+  }
+
+  #summary {
+    margin: 0; padding: 10px 10px;
+    font: bold 10px "Lucida Grande", Helvetica, sans-serif;
+    background: #0B3563; color: #fff;
+    text-align: right;
+  }
+
+  #summary.failures {
+    background: #C40D0D;
+  }
+
+  #summary.success {
+    background: #65C400;
+  }
+
+  #summary p {
+    margin: 0 0 2px;
+  }
+
+  #summary #totals {
+    font-size: 14px;
   }
 
   </style>
 </head>
 <body>
 
+  <h1>RSpec Results</h1>
+
+
 <div id="progress-bar-bg">
   <div id="progress-bar">&nbsp;</div>
 </div>
 
+  <div id="results">
 <div class="context">
-  <ul>
-  <li class="context_name">Mocker</li>
+  <dl>
+  <dt>Mocker</dt>
     <script type="text/javascript">moveProgressBar('7.6');</script>
-    <li class="spec passed"><div class="passed_spec_name">should be able to call mock()</div></li>
+    <dd class="spec passed"><span class="passed_spec_name">should be able to call mock()</span></dd>
     <script type="text/javascript">makeProgressbarRed();</script>
     <script type="text/javascript">moveProgressBar('15.3');</script>
-    <li class="spec failed">
-      <div class="failed_spec_name">should fail when expected message not received</div>
+    <dd class="spec failed">
+      <span class="failed_spec_name">should fail when expected message not received</span>
       <div class="failure" id="failure_1">
         <div class="message"><pre>Mock 'poke me' expected :poke with (any args) once, but received it 0 times</pre></div>
         <div class="backtrace"><pre>./failing_examples/mocking_example.rb:13
 ./spec/spec/runner/formatter/html_formatter_spec.rb:11
 ./spec/spec/runner/formatter/html_formatter_spec.rb:8</pre></div>
       </div>
-    </li>
+    </dd>
     <script type="text/javascript">makeProgressbarRed();</script>
     <script type="text/javascript">moveProgressBar('23.0');</script>
-    <li class="spec failed">
-      <div class="failed_spec_name">should fail when messages are received out of order</div>
+    <dd class="spec failed">
+      <span class="failed_spec_name">should fail when messages are received out of order</span>
       <div class="failure" id="failure_2">
         <div class="message"><pre>Mock 'one two three' received :three out of order</pre></div>
         <div class="backtrace"><pre>(eval):3:in `three'
@@ -127,38 +146,38 @@
 ./spec/spec/runner/formatter/html_formatter_spec.rb:11
 ./spec/spec/runner/formatter/html_formatter_spec.rb:8</pre></div>
       </div>
-    </li>
+    </dd>
     <script type="text/javascript">makeProgressbarRed();</script>
     <script type="text/javascript">moveProgressBar('30.7');</script>
-    <li class="spec failed">
-      <div class="failed_spec_name">should get yelled at when sending unexpected messages</div>
+    <dd class="spec failed">
+      <span class="failed_spec_name">should get yelled at when sending unexpected messages</span>
       <div class="failure" id="failure_3">
         <div class="message"><pre>Mock 'don't talk to me' expected :any_message_at_all with (any args) 0 times, but received it once</pre></div>
         <div class="backtrace"><pre>./failing_examples/mocking_example.rb:28
 ./spec/spec/runner/formatter/html_formatter_spec.rb:11
 ./spec/spec/runner/formatter/html_formatter_spec.rb:8</pre></div>
       </div>
-    </li>
-  </ul>
+    </dd>
+  </dl>
 </div>
 <div class="context">
-  <ul>
-  <li class="context_name">Running specs with --diff</li>
+  <dl>
+  <dt>Running specs with --diff</dt>
     <script type="text/javascript">makeProgressbarRed();</script>
     <script type="text/javascript">moveProgressBar('38.4');</script>
-    <li class="spec failed">
-      <div class="failed_spec_name">should print diff of different strings</div>
+    <dd class="spec failed">
+      <span class="failed_spec_name">should print diff of different strings</span>
       <div class="failure" id="failure_4">
         <div class="message"><pre>&quot;RSpec is a\nbehavior driven development\nframework for Ruby\n&quot; should == &quot;RSpec is a\nbehaviour driven development\nframework for Ruby\n&quot;</pre></div>
         <div class="backtrace"><pre>./failing_examples/diffing_spec.rb:13
 ./spec/spec/runner/formatter/html_formatter_spec.rb:11
 ./spec/spec/runner/formatter/html_formatter_spec.rb:8</pre></div>
       </div>
-    </li>
+    </dd>
     <script type="text/javascript">makeProgressbarRed();</script>
     <script type="text/javascript">moveProgressBar('46.1');</script>
-    <li class="spec failed">
-      <div class="failed_spec_name">should print diff of different objects' pretty representation</div>
+    <dd class="spec failed">
+      <span class="failed_spec_name">should print diff of different objects' pretty representation</span>
       <div class="failure" id="failure_5">
         <div class="message"><pre>&lt;Animal
 name=bob,
@@ -173,37 +192,42 @@ species=tortoise
 ./spec/spec/runner/formatter/html_formatter_spec.rb:11
 ./spec/spec/runner/formatter/html_formatter_spec.rb:8</pre></div>
       </div>
-    </li>
-  </ul>
+    </dd>
+  </dl>
 </div>
 <div class="context">
-  <ul>
-  <li class="context_name">A consumer of a stub</li>
+  <dl>
+  <dt>A consumer of a stub</dt>
     <script type="text/javascript">moveProgressBar('53.8');</script>
-    <li class="spec passed"><div class="passed_spec_name">should be able to stub methods on any Object</div></li>
-  </ul>
+    <dd class="spec passed"><span class="passed_spec_name">should be able to stub methods on any Object</span></dd>
+  </dl>
 </div>
 <div class="context">
-  <ul>
-  <li class="context_name">A stubbed method on a class</li>
+  <dl>
+  <dt>A stubbed method on a class</dt>
     <script type="text/javascript">moveProgressBar('61.5');</script>
-    <li class="spec passed"><div class="passed_spec_name">should return the stubbed value</div></li>
+    <dd class="spec passed"><span class="passed_spec_name">should return the stubbed value</span></dd>
     <script type="text/javascript">moveProgressBar('69.2');</script>
-    <li class="spec passed"><div class="passed_spec_name">should revert to the original method after each spec</div></li>
+    <dd class="spec passed"><span class="passed_spec_name">should revert to the original method after each spec</span></dd>
     <script type="text/javascript">moveProgressBar('76.9');</script>
-    <li class="spec passed"><div class="passed_spec_name">can stub! and mock the same message</div></li>
-  </ul>
+    <dd class="spec passed"><span class="passed_spec_name">can stub! and mock the same message</span></dd>
+  </dl>
 </div>
 <div class="context">
-  <ul>
-  <li class="context_name">A mock</li>
+  <dl>
+  <dt>A mock</dt>
     <script type="text/javascript">moveProgressBar('84.6');</script>
-    <li class="spec passed"><div class="passed_spec_name">can stub!</div></li>
+    <dd class="spec passed"><span class="passed_spec_name">can stub!</span></dd>
     <script type="text/javascript">moveProgressBar('92.3');</script>
-    <li class="spec passed"><div class="passed_spec_name">can stub! and mock</div></li>
+    <dd class="spec passed"><span class="passed_spec_name">can stub! and mock</span></dd>
     <script type="text/javascript">moveProgressBar('100.0');</script>
-    <li class="spec passed"><div class="passed_spec_name">can stub! and mock the same message</div></li>
-  </ul>
+    <dd class="spec passed"><span class="passed_spec_name">can stub! and mock the same message</span></dd>
+  </dl>
+</div>
+<div id="summary" class="failures"
+<p>Finished in <strong>0.015 seconds</strong></p>
+<p id="totals">13 specifications, 5 failures</p>
+</div>
 </div>
 </body>
 </html>
