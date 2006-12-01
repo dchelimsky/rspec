@@ -4,24 +4,26 @@ module Spec
       class HtmlFormatter < BaseTextFormatter
         def initialize(output, dry_run=false, colour=false)
           super
-          @current_count = 0
+          @current_spec_number = 0
+          @current_context_number = 0
         end
 
         def start(spec_count)
           @spec_count = spec_count
 
-          @output.puts HEADER
+          @output.puts @@header
           STDOUT.flush
         end
 
         def add_context(name, first)
+          @current_context_number += 1
           unless first
             @output.puts "  </dl>"
             @output.puts "</div>"
           end
           @output.puts "<div class=\"context\">"
           @output.puts "  <dl>"
-          @output.puts "  <dt>#{name}</dt>"
+          @output.puts "  <dt id=\"context_#{@current_context_number}\">#{name}</dt>"
           STDOUT.flush
         end
 
@@ -33,7 +35,7 @@ module Spec
 
         def spec_started(name)
           @current_spec = name
-          @current_count += 1
+          @current_spec_number += 1
           STDOUT.flush
         end
 
@@ -44,7 +46,8 @@ module Spec
         end
 
         def spec_failed(name, counter, failure)
-          @output.puts "    <script type=\"text/javascript\">makeProgressbarRed();</script>"
+          @output.puts "    <script type=\"text/javascript\">makeRed('header');</script>"
+          @output.puts "    <script type=\"text/javascript\">makeRed('context_#{@current_context_number}');</script>"
           move_progress
           @output.puts "    <dd class=\"spec failed\">"
           @output.puts "      <span class=\"failed_spec_name\">#{escape(@current_spec)}</span>"
@@ -65,7 +68,7 @@ module Spec
         end
         
         def move_progress
-          percent_done = @spec_count == 0 ? 100.0 : (@current_count.to_f / @spec_count.to_f * 1000).to_i / 10.0
+          percent_done = @spec_count == 0 ? 100.0 : (@current_spec_number.to_f / @spec_count.to_f * 1000).to_i / 10.0
           @output.puts "    <script type=\"text/javascript\">moveProgressBar('#{percent_done}');</script>"
         end
         
@@ -90,7 +93,7 @@ module Spec
           STDOUT.flush
         end
 
-        HEADER = <<-HEADER
+        @@header = <<-HEADER
 <?xml version="1.0" encoding="iso-8859-1"?>
 <!DOCTYPE html
      PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
@@ -103,10 +106,10 @@ module Spec
   <meta http-equiv="Content-Script-Type" content="text/javascript" />
   <script type="text/javascript">
   function moveProgressBar(percentDone) {
-    document.getElementById("progress-bar").style.width = percentDone +"%";
+    document.getElementById("header").style.width = percentDone +"%";
   }
-  function makeProgressbarRed() {
-    document.getElementById('progress-bar').style.background = '#C40D0D';
+  function makeRed(element_id) {
+    document.getElementById(element_id).style.background = '#C40D0D';
   }
   </script>
   <style type="text/css">
@@ -116,7 +119,7 @@ module Spec
   }
 
   #header {
-    background: #0B3563; color: #fff;
+    background: #65C400; color: #fff;
   }
 
   h1 {
@@ -154,7 +157,7 @@ module Spec
 
   dt {
     padding: 3px;
-    background: #0B3563;
+    background: #65C400;
     color: #fff;
     font-weight: bold;
   }

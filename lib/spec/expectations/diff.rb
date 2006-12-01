@@ -14,9 +14,9 @@ module Spec
           result = old_default_message(expectation, expected)
           if expected != :no_expectation_specified
             if expected.is_a?(String)
-              result << "\nDiff:" << @@differ.diff_as_string(@target.to_s, expected)
+              result << "\nDiff:" << @@differ.diff_as_string(@target.to_s, expected) unless @@differ.nil?
             elsif ! @target.is_a? Proc
-              result << "\nDiff:" << @@differ.diff_as_object(@target, expected)
+              result << "\nDiff:" << @@differ.diff_as_object(@target, expected) unless @@differ.nil?
             end
           end
 

@@ -10,10 +10,10 @@
   <meta http-equiv="Content-Script-Type" content="text/javascript" />
   <script type="text/javascript">
   function moveProgressBar(percentDone) {
-    document.getElementById("progress-bar").style.width = percentDone +"%";
+    document.getElementById("header").style.width = percentDone +"%";
   }
-  function makeProgressbarRed() {
-    document.getElementById('progress-bar').style.background = '#C40D0D';
+  function makeRed(element_id) {
+    document.getElementById(element_id).style.background = '#C40D0D';
   }
   </script>
   <style type="text/css">
@@ -23,7 +23,7 @@
   }
 
   #header {
-    background: #0B3563; color: #fff;
+    background: #65C400; color: #fff;
   }
 
   h1 {
@@ -61,7 +61,7 @@
 
   dt {
     padding: 3px;
-    background: #0B3563;
+    background: #65C400;
     color: #fff;
     font-weight: bold;
   }
@@ -107,21 +107,24 @@
 <div id="results">
 <div class="context">
   <dl>
-  <dt>Mocker</dt>
+  <dt id="context_1">Mocker</dt>
     <script type="text/javascript">moveProgressBar('7.6');</script>
     <dd class="spec passed"><span class="passed_spec_name">should be able to call mock()</span></dd>
-    <script type="text/javascript">makeProgressbarRed();</script>
+    <script type="text/javascript">makeRed('header');</script>
+    <script type="text/javascript">makeRed('context_1');</script>
     <script type="text/javascript">moveProgressBar('15.3');</script>
     <dd class="spec failed">
       <span class="failed_spec_name">should fail when expected message not received</span>
       <div class="failure" id="failure_1">
         <div class="message"><pre>Mock 'poke me' expected :poke with (any args) once, but received it 0 times</pre></div>
         <div class="backtrace"><pre>./failing_examples/mocking_example.rb:13
-./spec/spec/runner/formatter/html_formatter_spec.rb:13
+./spec/spec/runner/formatter/html_formatter_spec.rb:14
+./spec/spec/runner/formatter/html_formatter_spec.rb:10
 ./spec/spec/runner/formatter/html_formatter_spec.rb:9</pre></div>
       </div>
     </dd>
-    <script type="text/javascript">makeProgressbarRed();</script>
+    <script type="text/javascript">makeRed('header');</script>
+    <script type="text/javascript">makeRed('context_1');</script>
     <script type="text/javascript">moveProgressBar('23.0');</script>
     <dd class="spec failed">
       <span class="failed_spec_name">should fail when messages are received out of order</span>
@@ -129,18 +132,21 @@
         <div class="message"><pre>Mock 'one two three' received :three out of order</pre></div>
         <div class="backtrace"><pre>(eval):3:in `three'
 ./failing_examples/mocking_example.rb:22
-./spec/spec/runner/formatter/html_formatter_spec.rb:13
+./spec/spec/runner/formatter/html_formatter_spec.rb:14
+./spec/spec/runner/formatter/html_formatter_spec.rb:10
 ./spec/spec/runner/formatter/html_formatter_spec.rb:9</pre></div>
       </div>
     </dd>
-    <script type="text/javascript">makeProgressbarRed();</script>
+    <script type="text/javascript">makeRed('header');</script>
+    <script type="text/javascript">makeRed('context_1');</script>
     <script type="text/javascript">moveProgressBar('30.7');</script>
     <dd class="spec failed">
       <span class="failed_spec_name">should get yelled at when sending unexpected messages</span>
       <div class="failure" id="failure_3">
         <div class="message"><pre>Mock 'don't talk to me' expected :any_message_at_all with (any args) 0 times, but received it once</pre></div>
         <div class="backtrace"><pre>./failing_examples/mocking_example.rb:28
-./spec/spec/runner/formatter/html_formatter_spec.rb:13
+./spec/spec/runner/formatter/html_formatter_spec.rb:14
+./spec/spec/runner/formatter/html_formatter_spec.rb:10
 ./spec/spec/runner/formatter/html_formatter_spec.rb:9</pre></div>
       </div>
     </dd>
@@ -148,8 +154,9 @@
 </div>
 <div class="context">
   <dl>
-  <dt>Running specs with --diff</dt>
-    <script type="text/javascript">makeProgressbarRed();</script>
+  <dt id="context_2">Running specs with --diff</dt>
+    <script type="text/javascript">makeRed('header');</script>
+    <script type="text/javascript">makeRed('context_2');</script>
     <script type="text/javascript">moveProgressBar('38.4');</script>
     <dd class="spec failed">
       <span class="failed_spec_name">should print diff of different strings</span>
@@ -163,11 +170,13 @@ Diff:
  framework for Ruby
 </pre></div>
         <div class="backtrace"><pre>./failing_examples/diffing_spec.rb:13
-./spec/spec/runner/formatter/html_formatter_spec.rb:13
+./spec/spec/runner/formatter/html_formatter_spec.rb:14
+./spec/spec/runner/formatter/html_formatter_spec.rb:10
 ./spec/spec/runner/formatter/html_formatter_spec.rb:9</pre></div>
       </div>
     </dd>
-    <script type="text/javascript">makeProgressbarRed();</script>
+    <script type="text/javascript">makeRed('header');</script>
+    <script type="text/javascript">makeRed('context_2');</script>
     <script type="text/javascript">moveProgressBar('46.1');</script>
     <dd class="spec failed">
       <span class="failed_spec_name">should print diff of different objects' pretty representation</span>
@@ -190,7 +199,8 @@ Diff:
  &gt;
 </pre></div>
         <div class="backtrace"><pre>./failing_examples/diffing_spec.rb:34
-./spec/spec/runner/formatter/html_formatter_spec.rb:13
+./spec/spec/runner/formatter/html_formatter_spec.rb:14
+./spec/spec/runner/formatter/html_formatter_spec.rb:10
 ./spec/spec/runner/formatter/html_formatter_spec.rb:9</pre></div>
       </div>
     </dd>
@@ -198,14 +208,14 @@ Diff:
 </div>
 <div class="context">
   <dl>
-  <dt>A consumer of a stub</dt>
+  <dt id="context_3">A consumer of a stub</dt>
     <script type="text/javascript">moveProgressBar('53.8');</script>
     <dd class="spec passed"><span class="passed_spec_name">should be able to stub methods on any Object</span></dd>
   </dl>
 </div>
 <div class="context">
   <dl>
-  <dt>A stubbed method on a class</dt>
+  <dt id="context_4">A stubbed method on a class</dt>
     <script type="text/javascript">moveProgressBar('61.5');</script>
     <dd class="spec passed"><span class="passed_spec_name">should return the stubbed value</span></dd>
     <script type="text/javascript">moveProgressBar('69.2');</script>
@@ -216,7 +226,7 @@ Diff:
 </div>
 <div class="context">
   <dl>
-  <dt>A mock</dt>
+  <dt id="context_5">A mock</dt>
     <script type="text/javascript">moveProgressBar('84.6');</script>
     <dd class="spec passed"><span class="passed_spec_name">can stub!</span></dd>
     <script type="text/javascript">moveProgressBar('92.3');</script>
