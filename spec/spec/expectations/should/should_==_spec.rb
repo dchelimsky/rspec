@@ -7,9 +7,16 @@ context "should ==" do
     end.should_pass
   end
 
-  specify "should raise when objects are not ==" do
+  specify "should raise exception with diff when objects are not ==" do
+    # Please don't change this to non-diffed format - it will break the diffing support.
     lambda do
       "apple".should == "cadillac"
-    end.should_fail_with /\"apple\" should == \"cadillac\"/
+    end.should_fail_with <<-EOD
+"apple" should == "cadillac"
+Diff:
+@@ -1,2 +1,2 @@
+-apple
++cadillac
+EOD
   end
 end

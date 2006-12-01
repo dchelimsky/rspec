@@ -9,23 +9,19 @@ module Spec
           @@differ = differ
         end
 
-        unless defined?(RSPEC_TESTING)
-          alias old_default_message default_message
-          def default_message(expectation, expected=:no_expectation_specified)
-            result = old_default_message(expectation, expected)
-
-            if expected != :no_expectation_specified
-              if expected.is_a?(String)
-                result << "\nDiff:" << @@differ.diff_as_string(@target.to_s, expected)
-              elsif ! @target.is_a? Proc
-                result << "\nDiff:" << @@differ.diff_as_object(@target,expected)
-              end
+        alias old_default_message default_message
+        def default_message(expectation, expected=:no_expectation_specified)
+          result = old_default_message(expectation, expected)
+          if expected != :no_expectation_specified
+            if expected.is_a?(String)
+              result << "\nDiff:" << @@differ.diff_as_string(@target.to_s, expected)
+            elsif ! @target.is_a? Proc
+              result << "\nDiff:" << @@differ.diff_as_object(@target, expected)
             end
-
-            result
           end
-        end
 
+          result
+        end
       end
     end
   end

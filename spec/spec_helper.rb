@@ -2,7 +2,6 @@ require 'stringio'
 $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
 require 'spec'
 require File.dirname(__FILE__) + '/../spec/spec/spec_classes'
-RSPEC_TESTING = true unless defined? RSPEC_TESTING # This causes the diff extension to not be loaded
 require 'spec/expectations/diff'
 
 class Proc
