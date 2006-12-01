@@ -4,7 +4,8 @@ require 'stringio'
 context "HtmlFormatter" do
   specify "should produce HTML identical to the one we designed manually" do
     root = File.expand_path(File.dirname(__FILE__) + '/../../../..')
-    expected_html = File.read(File.dirname(__FILE__) + '/html_formatted.html')
+    expected_file = File.dirname(__FILE__) + '/html_formatted.html'
+    expected_html = File.read(expected_file)
     Dir.chdir(root) do
       err = StringIO.new
       out = StringIO.new
@@ -14,8 +15,10 @@ context "HtmlFormatter" do
         out
       )
       
-      html = out.string
-      File.open(File.dirname(__FILE__) + "/html_formatted.html", 'w') {|io| io.write(html)}
+      seconds = /\d+\.\d+ seconds/
+      html = out.string.gsub seconds, 'x seconds'
+      expected_html.gsub! seconds, 'x seconds'
+      #File.open(expected_file + ".html", 'w') {|io| io.write(html)}
       html.should_eql expected_html
     end
   end

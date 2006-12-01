@@ -2,6 +2,7 @@
 
 == HEAD
 
+* Much nicer reports with --format --html (patch from Luke Redpath)
 * Applied [#6959] Calls to render and redirect in controllers should return true
 * Fixed [#6981] helper method is not available in partial template.
 * Added [#6978] mock should tell you the expected and actual args when receiving the right message with the wrong args
@@ -13,7 +14,7 @@
 * Fixed [#6884] intermittent errors related to method binding
 * Fixed [#6870] rspec on edge rails spec:controller fixture loading fails
 * Using obj.inspect for all messages
-* Got rid of instance_exec (just using instance_eval because we never need to pass it args)
+* Improved performance by getting rid of instance_exec (instance_eval is good enough because we never need to pass it args)
 
 == Version 0.7.3
 

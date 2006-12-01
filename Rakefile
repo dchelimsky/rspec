@@ -21,11 +21,9 @@ PKG_FILES = FileList[
   'lib/**/*.rb', 
   'test/**/*.rb', 
   'examples/**/*',
-  'vendor/watir/*.rb',
-  'vendor/watir/*.txt',
-  'vendor/selenium/*.rb',
-  'vendor/selenium/*.patch',
-  'vendor/selenium/*.txt'
+  'vendor/web_spec/**/*.rb',
+  'vendor/web_spec/**/*.txt',
+  'vendor/web_spec/**/*.patch'
 ]
 
 task :default => [:spec, :verify_rcov]
