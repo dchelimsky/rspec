@@ -1,49 +1,103 @@
 module Spec
   module Expectations
+    # rspec adds all of these expectations to every Object (and,
+    # implicitly, every Class).
     module ObjectExpectations
+      
+      # Supports the following expectations:
+      #   receiver.should == expected #any value
+      #     Passes if (target == expected)
+      #
+      #   target.should =~ expected #a regexp
+      #     Passes if (target =~ expected), where expected
+      #     is a Regexp.
+      #
+      # NOTE that this does NOT support target.should != expected.
+      # Instead, use target.should_not == expected
       def should
         Should::Should.new self
       end
 
+      # Supports the following expectations:
+      #   target.should_not == expected #any value
+      #     Passes unless (target == expected)
+      #
+      #   target.should_not =~ expected #a regexp
+      #     Passes unless (target =~ expected), where expected
+      #     is a Regexp.
       def should_not
         should.not
       end
 
-      def should_equal(arg)
-        should.equal(arg)
+      # Passes if target.equal?(expected)
+      def should_equal(expected)
+        should.equal(expected)
       end
 
-      def should_not_equal(arg)
-        should.not.equal(arg)
+      # Passes unless target.equal?(expected)
+      def should_not_equal(expected)
+        should.not.equal(expected)
       end
 
-      def should_eql(arg)
-        should.eql(arg)
+      # Passes if target.eql?(expected)
+      def should_eql(expected)
+        should.eql(expected)
       end
 
-      def should_not_eql(arg)
-        should.not.eql(arg)
+      # Passes unless target.eql?(expected)
+      def should_not_eql(expected)
+        should.not.eql(expected)
       end
 
-      def should_have(arg)
-        should.have(arg)
+      # Specify that the receiver should have a
+      # specified number of items in a named collection. For example:
+      #
+      #   team.should_have(40).players
+      #
+      # Passes if team.players.size == 40.
+      #
+      # Works for collections with size() and/or length() methods.
+      def should_have(expected)
+        should.have(expected)
       end
       alias_method :should_have_exactly, :should_have
 
-      def should_have_at_least(arg)
-        should.have.at_least(arg)
+      # Specify that the receiver should have at least a
+      # specified number of items in a named collection. For example:
+      #
+      #   team.should_have_at_least(10).players
+      #
+      # Passes if team.players.size == 10 (or more)
+      #
+      # Fails if team.players.size == 9 (or less)
+      #
+      # Works for collections with size() and/or length() methods.
+      def should_have_at_least(expected)
+        should.have.at_least(expected)
       end
 
-      def should_have_at_most(arg)
-        should.have.at_most(arg)
+      # Specify that the receiver should have at most a
+      # specified number of items in a named collection. For example:
+      #
+      #   team.should_have_at_most(10).players
+      #
+      # Passes if team.players.size == 10 (or less)
+      #
+      # Fails if team.players.size == 11 (or more)
+      #
+      # Works for collections with size() and/or length() methods.
+      def should_have_at_most(expected)
+        should.have.at_most(expected)
       end
 
-      def should_include(arg)
-        should.include(arg)
+      # Passes if receiver.include?(expected)
+      def should_include(expected)
+        should.include(expected)
       end
 
-      def should_not_include(arg)
-        should.not.include(arg)
+      # Passes unless receiver.include?(expected)
+      def should_not_include(expected)
+        should.not.include(expected)
       end
       
       def should_change(receiver, message)
