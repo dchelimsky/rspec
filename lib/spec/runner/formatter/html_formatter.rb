@@ -77,15 +77,13 @@ module Spec
         end
 
         def dump_summary(duration, spec_count, failure_count)
-          @output.puts "<div id=\"summary\" class=\"#{failure_count == 0 ? 'success' : 'failures'}\""
           if @dry_run
-            @output.puts "This was a dry-run"
+            totals = "This was a dry-run"
           else
-            @output.puts "<p>Finished in <strong>#{duration} seconds</strong></p>"
-            summary = "#{spec_count} specification#{'s' unless spec_count == 1}, #{failure_count} failure#{'s' unless failure_count == 1}"
-            @output.puts "<p id=\"totals\">#{summary}</p>"
+            totals = "#{spec_count} specification#{'s' unless spec_count == 1}, #{failure_count} failure#{'s' unless failure_count == 1}"
           end
-          @output.puts "</div>"
+          @output.puts "<script type=\"text/javascript\">document.getElementById('duration').innerHTML = \"Finished in <strong>#{duration} seconds</strong>\";</script>"
+          @output.puts "<script type=\"text/javascript\">document.getElementById('totals').innerHTML = \"#{totals}\";</script>"
           @output.puts "</div>"
           @output.puts "</body>"
           @output.puts "</html>"
@@ -117,23 +115,31 @@ module Spec
     background: #fff;
   }
 
+  #header {
+    background: #0B3563; color: #fff;
+  }
+
   h1 {
     margin: 0 0 10px;
     padding: 10px;
     font: bold 18px "Lucida Grande", Helvetica, sans-serif;
-    background: #0B3563; color: #fff;
   }
 
-  #progress-bar-bg {
-    background-color: #C9C9C9; 
-    border-bottom: 1px solid gray; 
-    border-right: 1px solid gray;
-
+  #summary {
+    margin: 0; padding: 5px 10px;
+    font: bold 10px "Lucida Grande", Helvetica, sans-serif;
+    text-align: right;
+    position: absolute;
+    top: 0px;
+    right: 0px;
   }
 
-  #progress-bar {
-    background-color: #DBFFB4;
-    width: 0px;
+  #summary p {
+    margin: 0 0 2px;
+  }
+
+  #summary #totals {
+    font-size: 14px;
   }
 
   .context {
@@ -178,42 +184,20 @@ module Spec
   a {
     color: #BE5C00;
   }
-
-  #summary {
-    margin: 0; padding: 10px 10px;
-    font: bold 10px "Lucida Grande", Helvetica, sans-serif;
-    background: #0B3563; color: #fff;
-    text-align: right;
-  }
-
-  #summary.failures {
-    background: #C40D0D;
-  }
-
-  #summary.success {
-    background: #65C400;
-  }
-
-  #summary p {
-    margin: 0 0 2px;
-  }
-
-  #summary #totals {
-    font-size: 14px;
-  }
-
   </style>
 </head>
 <body>
 
+<div id="header">
   <h1>RSpec Results</h1>
 
-
-<div id="progress-bar-bg">
-  <div id="progress-bar">&nbsp;</div>
+  <div id="summary">
+    <p id="duration">&nbsp;</p>
+    <p id="totals">&nbsp;</p>
+  </div>
 </div>
 
-  <div id="results">
+<div id="results">
 HEADER
       end
     end

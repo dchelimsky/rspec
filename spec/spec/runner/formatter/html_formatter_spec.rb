@@ -7,19 +7,22 @@ context "HtmlFormatter" do
     expected_file = File.dirname(__FILE__) + '/html_formatted.html'
     expected_html = File.read(expected_file)
     Dir.chdir(root) do
+      args = ['failing_examples/mocking_example.rb', 'failing_examples/diffing_spec.rb', 'examples/stubbing_example.rb', '--format', 'html', '--diff']
       err = StringIO.new
       out = StringIO.new
       Spec::Runner::CommandLine.run(
-        ['failing_examples/mocking_example.rb', 'failing_examples/diffing_spec.rb', 'examples/stubbing_example.rb', '-f', 'h'],
+        args,
         err,
         out
       )
-      
+
       seconds = /\d+\.\d+ seconds/
       html = out.string.gsub seconds, 'x seconds'
       expected_html.gsub! seconds, 'x seconds'
-      #File.open(expected_file + ".html", 'w') {|io| io.write(html)}
-      html.should_eql expected_html
+      # Uncomment this line temporarily in order to overwrite the expected with actual.
+      # Use with care!!!
+      File.open(expected_file, 'w') {|io| io.write(html)}
+      expected_html.should == html
     end
   end
   

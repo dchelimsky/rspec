@@ -22,23 +22,31 @@
     background: #fff;
   }
 
+  #header {
+    background: #0B3563; color: #fff;
+  }
+
   h1 {
     margin: 0 0 10px;
     padding: 10px;
     font: bold 18px "Lucida Grande", Helvetica, sans-serif;
-    background: #0B3563; color: #fff;
   }
 
-  #progress-bar-bg {
-    background-color: #C9C9C9; 
-    border-bottom: 1px solid gray; 
-    border-right: 1px solid gray;
-
+  #summary {
+    margin: 0; padding: 5px 10px;
+    font: bold 10px "Lucida Grande", Helvetica, sans-serif;
+    text-align: right;
+    position: absolute;
+    top: 0px;
+    right: 0px;
   }
 
-  #progress-bar {
-    background-color: #DBFFB4;
-    width: 0px;
+  #summary p {
+    margin: 0 0 2px;
+  }
+
+  #summary #totals {
+    font-size: 14px;
   }
 
   .context {
@@ -83,42 +91,20 @@
   a {
     color: #BE5C00;
   }
-
-  #summary {
-    margin: 0; padding: 10px 10px;
-    font: bold 10px "Lucida Grande", Helvetica, sans-serif;
-    background: #0B3563; color: #fff;
-    text-align: right;
-  }
-
-  #summary.failures {
-    background: #C40D0D;
-  }
-
-  #summary.success {
-    background: #65C400;
-  }
-
-  #summary p {
-    margin: 0 0 2px;
-  }
-
-  #summary #totals {
-    font-size: 14px;
-  }
-
   </style>
 </head>
 <body>
 
+<div id="header">
   <h1>RSpec Results</h1>
 
-
-<div id="progress-bar-bg">
-  <div id="progress-bar">&nbsp;</div>
+  <div id="summary">
+    <p id="duration">&nbsp;</p>
+    <p id="totals">&nbsp;</p>
+  </div>
 </div>
 
-  <div id="results">
+<div id="results">
 <div class="context">
   <dl>
   <dt>Mocker</dt>
@@ -131,7 +117,7 @@
       <div class="failure" id="failure_1">
         <div class="message"><pre>Mock 'poke me' expected :poke with (any args) once, but received it 0 times</pre></div>
         <div class="backtrace"><pre>./failing_examples/mocking_example.rb:13
-./spec/spec/runner/formatter/html_formatter_spec.rb:12
+./spec/spec/runner/formatter/html_formatter_spec.rb:13
 ./spec/spec/runner/formatter/html_formatter_spec.rb:9</pre></div>
       </div>
     </dd>
@@ -143,7 +129,7 @@
         <div class="message"><pre>Mock 'one two three' received :three out of order</pre></div>
         <div class="backtrace"><pre>(eval):3:in `three'
 ./failing_examples/mocking_example.rb:22
-./spec/spec/runner/formatter/html_formatter_spec.rb:12
+./spec/spec/runner/formatter/html_formatter_spec.rb:13
 ./spec/spec/runner/formatter/html_formatter_spec.rb:9</pre></div>
       </div>
     </dd>
@@ -154,7 +140,7 @@
       <div class="failure" id="failure_3">
         <div class="message"><pre>Mock 'don't talk to me' expected :any_message_at_all with (any args) 0 times, but received it once</pre></div>
         <div class="backtrace"><pre>./failing_examples/mocking_example.rb:28
-./spec/spec/runner/formatter/html_formatter_spec.rb:12
+./spec/spec/runner/formatter/html_formatter_spec.rb:13
 ./spec/spec/runner/formatter/html_formatter_spec.rb:9</pre></div>
       </div>
     </dd>
@@ -168,9 +154,16 @@
     <dd class="spec failed">
       <span class="failed_spec_name">should print diff of different strings</span>
       <div class="failure" id="failure_4">
-        <div class="message"><pre>&quot;RSpec is a\nbehavior driven development\nframework for Ruby\n&quot; should == &quot;RSpec is a\nbehaviour driven development\nframework for Ruby\n&quot;</pre></div>
+        <div class="message"><pre>&quot;RSpec is a\nbehavior driven development\nframework for Ruby\n&quot; should == &quot;RSpec is a\nbehaviour driven development\nframework for Ruby\n&quot;
+Diff:
+@@ -1,4 +1,4 @@
+ RSpec is a
+-behavior driven development
++behaviour driven development
+ framework for Ruby
+</pre></div>
         <div class="backtrace"><pre>./failing_examples/diffing_spec.rb:13
-./spec/spec/runner/formatter/html_formatter_spec.rb:12
+./spec/spec/runner/formatter/html_formatter_spec.rb:13
 ./spec/spec/runner/formatter/html_formatter_spec.rb:9</pre></div>
       </div>
     </dd>
@@ -187,9 +180,17 @@ species=giraffe
 name=bob,
 species=tortoise
 &gt;
+
+Diff:
+@@ -1,5 +1,5 @@
+ &lt;Animal
+ name=bob,
+-species=giraffe
++species=tortoise
+ &gt;
 </pre></div>
         <div class="backtrace"><pre>./failing_examples/diffing_spec.rb:34
-./spec/spec/runner/formatter/html_formatter_spec.rb:12
+./spec/spec/runner/formatter/html_formatter_spec.rb:13
 ./spec/spec/runner/formatter/html_formatter_spec.rb:9</pre></div>
       </div>
     </dd>
@@ -224,10 +225,8 @@ species=tortoise
     <dd class="spec passed"><span class="passed_spec_name">can stub! and mock the same message</span></dd>
   </dl>
 </div>
-<div id="summary" class="failures"
-<p>Finished in <strong>0.013694 seconds</strong></p>
-<p id="totals">13 specifications, 5 failures</p>
-</div>
+<script type="text/javascript">document.getElementById('duration').innerHTML = "Finished in <strong>x seconds</strong>";</script>
+<script type="text/javascript">document.getElementById('totals').innerHTML = "13 specifications, 5 failures";</script>
 </div>
 </body>
 </html>
