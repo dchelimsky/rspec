@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'spec'
 require 'fileutils'
+require File.dirname(__FILE__) + '/../web_test_html_formatter_helper'
 
 # Comment out to enable ActiveRecord fixtures
 #require 'active_record'
@@ -11,25 +12,15 @@ require 'fileutils'
 #ActiveRecord::Base.establish_connection(config['db'])
 
 class RSpecWatir
+  include WebTestHtmlFormatterHelper
+
   @@img_dir = File.dirname(__FILE__) + '/report/images'
   FileUtils.mkdir_p(@@img_dir) unless File.exist?(@@img_dir)
   @@n = 1
-
-  if RUBY_PLATFORM =~ /darwin/
-    require File.dirname(__FILE__) + '/../web_test_html_formatter_osx_helper'
-    include WebTestHtmlFormatterOsxHelper
-  else
-    require File.dirname(__FILE__) + '/../web_test_html_formatter_win_helper'
-    include WebTestHtmlFormatterWinHelper
-  end
   
   def setup
     #Fixtures.create_fixtures($fixture_path, @@fixtures)
-    if RUBY_PLATFORM =~ /darwin/
-      @browser = Watir::Safari.new
-    else
-      @browser = Watir::IE.new
-    end
+    @browser = Watir::Browser.new
   end
 
   def teardown
