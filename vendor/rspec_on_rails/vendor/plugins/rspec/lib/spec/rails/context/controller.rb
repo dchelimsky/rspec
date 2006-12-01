@@ -44,7 +44,7 @@ module Spec
             @template.stub!(:render)
             @template.stub!(:file_exists?).and_return(true)
             @template.stub!(:full_template_path)
-            @template.stub!(:render_file)
+            @template.stub!(:render_file).and_return(true)
             @template.stub!(:render_partial)
           end
         end

@@ -136,3 +136,22 @@ context "/person/show/3" do
     assigns[:person].should_be @person
   end
 end
+
+context "Given an attempt to show a person that doesn't exist" do
+  controller_name :person
+  
+  setup do
+    Person.stub!(:find)
+  end
+
+  specify "should not assign a person" do
+    get 'show', :id => 'broken'
+    assigns[:person].should == nil
+  end
+
+  specify "should render 404 file" do
+    controller.should_render :file => "#{RAILS_ROOT}/public/404.html",
+                             :status => "404 Not Found"
+    get 'show', :id => 'broken'
+  end
+end

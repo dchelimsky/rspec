@@ -24,4 +24,16 @@ class PersonController < ApplicationController
     render :template => 'person/show'
   end
   
+  def show
+    @person = Person.find(params[:id])
+    show_404 and return unless @person
+    render :template => 'person/show'
+  end
+
+  protected
+  def show_404
+    render( :file => "#{RAILS_ROOT}/public/404.html",
+            :status => "404 Not Found" )
+  end
+  
 end
