@@ -1,6 +1,6 @@
 = RSpec Changelog
 
-== HEAD
+== Version 0.7.4
 
 * Applied [#7010] Fixes :spacer_template does not work w/ view spec (patch from Shintaro Kakutani)
 * Applied [#6798] ensure two ':' in the first backtrace line for Emacs's 'next-error' command (patch from Kouhei Sutou)
