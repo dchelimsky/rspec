@@ -20,20 +20,20 @@ module Spec
         assigns[:session] = @controller.session
         @controller.class.send :public, :flash # make flash accessible to the spec
       end
-      
+
       def set_base_view_path(options)
         ActionView::Base.base_view_path = base_view_path(options)
       end
-      
+
       def base_view_path(options)
         "/#{derived_controller_name(options)}/"
       end
-      
+
       def derived_controller_name(options)
         parts = options[:template].split('/').reject { |part| part.empty? }
         "#{parts[0..-2].join('/')}"
       end
-      
+
       def render(*options)
         options = Spec::Rails::OptsMerger.new(options).merge(:template)
         set_base_view_path(options)
@@ -57,6 +57,11 @@ module Spec
 
         @controller.instance_variable_set :@params, @request.parameters
         @controller.send :initialize_current_url
+        @controller.class.instance_eval %{
+          def controller_path
+            "#{derived_controller_name(options)}"
+          end
+        }
 
         # Rails 1.0
         @controller.send :assign_names rescue nil
@@ -75,11 +80,11 @@ module Spec
 
     class ViewSpecController < ActionController::Base
       attr_reader :template
-      
+
       def add_helper_for(template_path)
         add_helper(template_path.split('/')[0])
       end
-      
+
       def add_helper(name)
         begin
           helper_module = "#{name}_helper".camelize.constantize

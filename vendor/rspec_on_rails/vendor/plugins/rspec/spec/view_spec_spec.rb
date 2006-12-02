@@ -4,7 +4,7 @@ context "Given a view with an implicit helper", :context_type => :view do
   setup do
     render "view_spec/show"
   end
-  
+
   specify "the helper should be included" do
     response.should_have_tag 'div', :content => "This is text from a method in the ViewSpecHelper"
   end
@@ -18,7 +18,7 @@ context "Given a view requiring an explicit helper", :context_type => :view do
   setup do
     render "view_spec/explicit_helper", :helper => 'explicit'
   end
-  
+
   specify "the helper should be included if specified" do
     response.should_have_tag 'div', :content => "This is text from a method in the ExplicitHelper"
   end
@@ -32,7 +32,7 @@ context "Given a view requiring multiple explicit helpers", :context_type => :vi
   setup do
     render "view_spec/multiple_helpers", :helpers => ['explicit', 'more_explicit']
   end
-  
+
   specify "all helpers should be included if specified" do
     response.should_have_tag 'div', :content => "This is text from a method in the ExplicitHelper"
     response.should_have_tag 'div', :content => "This is text from a method in the MoreExplicitHelper"
@@ -47,11 +47,11 @@ context "Given a view that includes a partial", :context_type => :view do
   setup do
     render "view_spec/partial_including_template"
   end
-  
+
   specify "the enclosing template should get rendered" do
     response.should_have_tag 'div', :content => "method_in_included_partial in ViewSpecHelper"
   end
-  
+
   specify "the partial should get rendered" do
     response.should_have_tag 'div', :content => "method_in_partial_including_template in ViewSpecHelper"
   end
@@ -61,3 +61,15 @@ context "Given a view that includes a partial", :context_type => :view do
   end
 end
 
+context "Given a view that includes a partial using :collection and :spacer_template", :context_type => :view  do
+  setup do
+    render "view_spec/partial_collection_including_template"
+  end
+
+  specify "the partial should get rendered w/ spacer_tamplate" do
+    response.should_have_tag 'div', :content => 'Alice'
+    response.should_have_tag 'hr', :attributes =>{:id => "spacer"}
+    response.should_have_tag 'div', :content => 'Bob'
+  end
+
+end
