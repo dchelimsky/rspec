@@ -40,6 +40,21 @@ context "ProgressBarFormatter" do
       
     end
   
+    specify "should ensure two ':' in the first backtrace" do
+        backtrace = ["/tmp/x.rb:1", "/tmp/x.rb:2", "/tmp/x.rb:3"]
+        @formatter.format_backtrace(backtrace).should_eql(<<-EOE.rstrip)
+/tmp/x.rb:1:
+/tmp/x.rb:2:
+/tmp/x.rb:3:
+EOE
+
+        backtrace = ["/tmp/x.rb:1: message", "/tmp/x.rb:2", "/tmp/x.rb:3"]
+        @formatter.format_backtrace(backtrace).should_eql(<<-EOE.rstrip)
+/tmp/x.rb:1: message
+/tmp/x.rb:2:
+/tmp/x.rb:3:
+EOE
+    end
 end
 end
 end

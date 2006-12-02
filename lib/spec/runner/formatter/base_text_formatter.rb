@@ -92,7 +92,7 @@ module Spec
       protected
       
         def backtrace_line(line)
-          line
+          line.sub(/\A([^:]+:\d+)$/, '\\1:')
         end
 
         def colour(text, colour_code)
