@@ -16,6 +16,12 @@ rails:
   orderInfo: 50
   inMenu: true
 
+report.html:
+  title: RSpec Report
+  dest: ../report.html
+  inMenu: true
+  orderInfo: 55
+
 rdoc.html:
   title: RDoc
   dest: ../rdoc/index.html

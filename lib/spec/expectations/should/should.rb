@@ -45,7 +45,6 @@ module Spec
   
         def __delegate_method_missing_to_target(original_sym, actual_sym, *args)
           return if @target.send(actual_sym, *args)
-#          fail_with_message(default_message("should#{@be_seen ? ' be' : ''} #{original_sym}" + (args.empty? ? '' : ' ' + args[0].inspect)))
           message = default_message("should#{@be_seen ? ' be' : ''} #{original_sym}", args[0])
           fail_with_message(message)
         end
@@ -60,9 +59,9 @@ module Spec
           rescue exception => e
             unless message.nil?
               if message.is_a?(Regexp)
-                e.message.should_match message
+                e.message.should =~ message
               else
-                e.message.should_eql message
+                e.message.should == message
               end
             end
             return

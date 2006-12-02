@@ -37,6 +37,12 @@ Spec::Rake::SpecTask.new do |t|
   t.rcov_opts = ['--exclude', 'spec\/spec,bin\/spec,bin\/drbspec,examples']
 end
 
+desc "Run all specs and store html output in doc/output/report.html"
+Spec::Rake::SpecTask.new('spec_html') do |t|
+  t.spec_files = FileList['spec/**/*_spec.rb', 'vendor/RSpec.tmbundle/Support/spec/*_spec.rb']
+  t.spec_opts = ['--diff','--format html','--backtrace','--out doc/output/report.html']
+end
+
 desc "Run all failing examples"
 Spec::Rake::SpecTask.new('failing_examples') do |t|
   t.spec_files = FileList['failing_examples/**/*_spec.rb']
@@ -201,7 +207,7 @@ task :commit_ok do |t|
 end
 
 desc "Build the website, but do not publish it"
-task :website => [:clobber, :verify_rcov, :webgen, :failing_examples_with_html, :spec, :examples_specdoc, :rdoc]
+task :website => [:clobber, :verify_rcov, :spec_html, :webgen, :failing_examples_with_html, :examples_specdoc, :rdoc]
 
 task :verify_user do
   raise "RUBYFORGE_USER environment variable not set!" unless ENV['RUBYFORGE_USER']

@@ -2,6 +2,7 @@
 
 == HEAD
 
+* Added Much nicer reports to generated website
 * Much nicer reports with --format --html (patch from Luke Redpath)
 * Applied [#6959] Calls to render and redirect in controllers should return true
 * Fixed [#6981] helper method is not available in partial template.

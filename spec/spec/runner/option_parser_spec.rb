@@ -48,9 +48,16 @@ context "OptionParser" do
   end
 
   specify "should print version to stdout" do
-      options = parse(["--version"])
-      @out.rewind
-      @out.read.should_match(/RSpec-\d+\.\d+\.\d+ \(r\d+\) - BDD for Ruby\nhttp:\/\/rspec.rubyforge.org\/\n/n)
+    options = parse(["--version"])
+    @out.rewind
+    @out.read.should_match(/RSpec-\d+\.\d+\.\d+ \(r\d+\) - BDD for Ruby\nhttp:\/\/rspec.rubyforge.org\/\n/n)
+  end
+  
+  specify "should accept -o option" do
+    options = parse(["-o", "#{File.expand_path(File.dirname(__FILE__))}/output_file.txt"])
+    options.out.should_be_an_instance_of File
+    options.out.path.should == "#{File.expand_path(File.dirname(__FILE__))}/output_file.txt"
+    File.delete(options.out.path)
   end
 
   specify "should require file when require specified" do
