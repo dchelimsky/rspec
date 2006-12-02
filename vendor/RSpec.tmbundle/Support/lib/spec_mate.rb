@@ -35,6 +35,7 @@ class SpecMate
     if options[:dry_run]
       argv << '--dry-run'
     end
+    argv += ENV['TM_RSPEC_OPTS'].split(" ") if ENV['TM_RSPEC_OPTS']
     Dir.chdir(ENV['TM_PROJECT_DIRECTORY']) do
       ::Spec::Runner::CommandLine.run(argv, STDERR, stdout, false, true)
     end

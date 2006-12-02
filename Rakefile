@@ -31,7 +31,7 @@ task :default => [:spec, :verify_rcov]
 desc "Run all specs"
 Spec::Rake::SpecTask.new do |t|
   t.spec_files = FileList['spec/**/*_spec.rb', 'vendor/RSpec.tmbundle/Support/spec/*_spec.rb']
-  t.spec_opts = ['--diff','--color','--backtrace']
+  t.spec_opts = ['--color','--backtrace']
   t.rcov = true
   t.rcov_dir = 'doc/output/coverage'
   t.rcov_opts = ['--exclude', 'spec\/spec,bin\/spec,bin\/drbspec,examples']
