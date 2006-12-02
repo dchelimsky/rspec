@@ -1,5 +1,9 @@
 = RSpec Changelog
 
+== Version 0.7.5 (Not yet released)
+
+Release notes go here
+
 == Version 0.7.4
 
 This release features a complete redesign of the reports generated with --format html.
