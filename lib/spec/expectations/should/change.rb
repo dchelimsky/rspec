@@ -3,7 +3,8 @@ module Spec
     module Should
       class Change < Base
 
-        def initialize(target, receiver, message)
+        def initialize(target, receiver=nil, message=nil, &block)
+          @block = block
           @target = target
           @receiver = receiver
           @message = message
@@ -12,34 +13,38 @@ module Spec
         end
 
         def execute_change
-          @before_change = @receiver.send(@message)
+          @before_change = @block.nil? ? @receiver.send(@message) : @block.call
           @target.call
-          @after_change = @receiver.send(@message)
+          @after_change = @block.nil? ? @receiver.send(@message) : @block.call
+        end
+        
+        def message
+          @message.nil? ? 'result' : @message
         end
 
         def evaluate_change
           if @before_change == @after_change
-            fail_with_message "#{@message} should have changed, but is still #{@after_change.inspect}"
+            fail_with_message "#{message} should have changed, but is still #{@after_change.inspect}"
           end
         end
 
         def from(value)
           if @before_change != value
-            fail_with_message "#{@message} should have initially been #{value.inspect}, but was #{@before_change.inspect}"
+            fail_with_message "#{message} should have initially been #{value.inspect}, but was #{@before_change.inspect}"
           end
           self
         end
 
         def to(value)
           if @after_change != value
-            fail_with_message "#{@message} should have been changed to #{value.inspect}, but is now #{@after_change.inspect}"
+            fail_with_message "#{message} should have been changed to #{value.inspect}, but is now #{@after_change.inspect}"
           end
           self
         end
 
         def by(expected_delta)
           if actual_delta != expected_delta
-            fail_with_message "#{@message} should have been changed by #{expected_delta}, but was changed by #{actual_delta}"
+            fail_with_message "#{message} should have been changed by #{expected_delta}, but was changed by #{actual_delta}"
           end
           self
         end

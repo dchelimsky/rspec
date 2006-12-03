@@ -17,6 +17,6 @@ context "should_not_change" do
   specify "should raise exception when the target is modified by the block" do
     lambda do
       lambda {@instance.some_value = 6}.should_not_change(@instance, :some_value)
-    end.should_fail
+    end.should_fail_with "some_value should not have changed, but is now 6"
   end
 end

@@ -12,8 +12,8 @@ module Spec
           Have.new(@target, :exactly, expected_number)
         end
 
-        def change(receiver, message)
-          Change.new(@target, receiver, message)
+        def change(receiver=nil, message=nil, &block)
+          Change.new(@target, receiver, message, &block)
         end
 
         def not

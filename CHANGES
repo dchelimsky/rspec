@@ -4,6 +4,7 @@
 
 Release notes go here
 
+* Added [#7025] should_change should accept a block
 * Applied [#6989] partials with locals (patch from Micah Martin)
 * Applied [#7023] Typo in team.page
 

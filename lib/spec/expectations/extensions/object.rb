@@ -99,15 +99,7 @@ module Spec
       def should_not_include(expected)
         should.not.include(expected)
       end
-      
-      def should_change(receiver, message)
-        should.change(receiver, message)
-      end
-      
-      def should_not_change(receiver, message)
-        should.not.change(receiver, message)
-      end
-      
+    
       def should_be(expected = :___no_arg)
         should.be(expected)
       end
