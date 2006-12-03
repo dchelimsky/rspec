@@ -5,6 +5,7 @@
 Release notes go here
 
 * Applied [#6989] partials with locals (patch from Micah Martin)
+* Applied [#7023] Typo in team.page
 
 == Version 0.7.4
 
