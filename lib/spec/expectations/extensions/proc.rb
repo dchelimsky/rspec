@@ -20,6 +20,7 @@ module Spec
         should.change(receiver, message, &block)
       end
   
+      # Negative of should_change.
       def should_not_change(receiver, message)
         should.not.change(receiver, message)
       end

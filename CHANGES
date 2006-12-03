@@ -3,7 +3,7 @@
 == Version 0.7.5 (Not yet released)
 
 Release notes go here.
-Checklist: Are all the new features documented?
+Checklist: Are all the new features documented in both the website and rdoc?
 
 * Added [#7025] should_change should accept a block
 * Applied [#6989] partials with locals (patch from Micah Martin)
