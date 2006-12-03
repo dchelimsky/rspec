@@ -178,8 +178,19 @@ proc.should_change(receiver, :message).from(old_value).to(new_value)
                                          =>#fails if before OR after values are not as expected
 </ruby>
 
+
 Calls <code>receiver.message</code> before and after the proc is executed and checks that
 the value has changed per the various forms.
+
+This will also accept a block:
+
+<ruby>
+proc.should_change{ #arbitrary block }                => #fails if no change
+proc.should_change{ #arbitrary block }.by(value)      => #fails if changed by other value
+proc.should_change{ #arbitrary block }.to(new_value)  => #fails if changed to a different value
+proc.should_change{ #arbitrary block }.from(old_value).to(new_value)
+                                         =>#fails if before OR after values are not as expected
+</ruby>
 
 h2. Collections
 
