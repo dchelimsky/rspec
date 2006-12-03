@@ -75,10 +75,6 @@ module Spec
             options.spec_name = spec_name
           end
           
-          opts.on("-o", "--out OUTPUT_FILE", "Path to output file (defaults to STDOUT)") do |outfile|
-            options.out = File.new(outfile, 'w')
-          end
-          
           opts.on("-l", "--line LINE_NUMBER", Integer, "Execute context or specification at given line") do |line_number|
             options.line_number = line_number.to_i
           end
@@ -117,6 +113,10 @@ module Spec
           
           opts.on("-d", "--dry-run", "Don't execute specs") do
             options.dry_run = true
+          end
+          
+          opts.on("-o", "--out OUTPUT_FILE", "Path to output file (defaults to STDOUT)") do |outfile|
+            options.out = File.new(outfile, 'w')
           end
           
           opts.on("-v", "--version", "Show version") do
