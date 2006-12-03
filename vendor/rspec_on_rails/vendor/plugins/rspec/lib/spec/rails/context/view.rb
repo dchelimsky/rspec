@@ -30,8 +30,17 @@ module Spec
       end
 
       def derived_controller_name(options)
-        parts = options[:template].split('/').reject { |part| part.empty? }
+        parts = subject_of_render(options).split('/').reject { |part| part.empty? }
         "#{parts[0..-2].join('/')}"
+      end
+      
+      def subject_of_render(options)
+        [:template, :partial, :file].each do |render_type|
+          if options.has_key?(render_type)
+            return options[render_type]
+          end
+        end
+        raise Exception.new("Unhandled render type in view spec.")
       end
 
       def render(*options)
