@@ -47,10 +47,8 @@ desc "Touches files storing revisions so that svn will update $LastChangedRevisi
 task :touch_revision_storing_files do
   # See http://svnbook.red-bean.com/en/1.0/ch07s02.html - the section on svn:keywords
   files = [
-    'rspec/lib/spec/version.rb', 
-    'rspec_on_rails/plugin/lib/spec/rails/version.rb',
-    'rspec_on_rails/demo/vendor/plugins/rspec_on_rails/lib/spec/rails/version.rb',
-    'rspec_on_rails/spec/vendor/plugins/rspec_on_rails/lib/spec/rails/version.rb'
+    'rspec/lib/spec/version.rb',
+    'rspec_on_rails/plugin/lib/spec/rails/version.rb'
   ]
   new_token = rand
   files.each do |path|
