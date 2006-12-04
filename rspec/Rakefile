@@ -33,14 +33,14 @@ Spec::Rake::SpecTask.new do |t|
   t.spec_files = FileList['spec/**/*_spec.rb', 'vendor/RSpec.tmbundle/Support/spec/*_spec.rb']
   t.spec_opts = ['--color','--backtrace']
   t.rcov = true
-  t.rcov_dir = 'doc/output/coverage'
+  t.rcov_dir = '../doc/output/coverage'
   t.rcov_opts = ['--exclude', 'spec\/spec,bin\/spec,bin\/drbspec,examples']
 end
 
 desc "Run all specs and store html output in doc/output/report.html"
 Spec::Rake::SpecTask.new('spec_html') do |t|
   t.spec_files = FileList['spec/**/*_spec.rb', 'vendor/RSpec.tmbundle/Support/spec/*_spec.rb']
-  t.spec_opts = ['--diff','--format html','--backtrace','--out doc/output/report.html']
+  t.spec_opts = ['--diff','--format html','--backtrace','--out ../doc/output/report.html']
 end
 
 desc "Run all failing examples"
@@ -58,7 +58,7 @@ end
 
 desc 'Generate HTML documentation for website'
 task :webgen do
-  Dir.chdir 'doc' do
+  Dir.chdir '../doc' do
     output = nil
     IO.popen('webgen 2>&1') do |io|
       output = io.read
@@ -69,7 +69,7 @@ end
 
 desc 'Generate RDoc'
 rd = Rake::RDocTask.new do |rdoc|
-  rdoc.rdoc_dir = 'doc/output/rdoc'
+  rdoc.rdoc_dir = '../doc/output/rdoc'
   rdoc.options << '--title' << 'RSpec' << '--line-numbers' << '--inline-source' << '--main' << 'README'
   rdoc.rdoc_files.include('README', 'CHANGES', 'EXAMPLES.rd', 'lib/**/*.rb')
 end
@@ -130,7 +130,7 @@ task :todo do
 end
 
 task :clobber do
-  rm_rf 'doc/output'
+  rm_rf '../doc/output'
 end
 
 desc "Touches files storing revisions so that svn will update $LastChangedRevision"
@@ -189,10 +189,22 @@ task :pre_commit => [
   :examples, 
   :failing_examples_with_html, 
   :rails_pre_commit, 
+  :rails_demo_pre_commit, 
   :commit_ok]
 
 task :rails_pre_commit do
   Dir.chdir '../rspec_on_rails' do    
+    IO.popen("rake pre_commit --verbose") do |io|
+      io.each do |line|
+        puts line
+      end
+    end
+    raise "RSpec on Rails pre_commit failed" if $? != 0
+  end
+end
+
+task :rails_demo_pre_commit do
+  Dir.chdir '../rspec_on_rails_demo' do    
     IO.popen("rake pre_commit --verbose") do |io|
       io.each do |line|
         puts line
@@ -218,7 +230,7 @@ task :publish_website => [:verify_user, :website] do
   publisher = Rake::SshDirPublisher.new(
     "rspec-website@rubyforge.org",
     "/var/www/gforge-projects/#{PKG_NAME}",
-    "doc/output"
+    "../doc/output"
   )
 
   publisher.upload

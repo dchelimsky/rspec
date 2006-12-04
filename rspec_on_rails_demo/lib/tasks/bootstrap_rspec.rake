@@ -1,3 +1,6 @@
+#TODO - this is an almost exact duplicate of what is in rspec_on_rails/lib/tasks/bootstrap.
+# The only difference is that pre_commit_tasks runs spec:app instead of spec:plugins
+
 # We have to make sure the rspec lib above gets loaded rather than the gem one (in case it's installed)
 $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + '/../../../rspec/lib'))
 require 'spec/rake/spectask'

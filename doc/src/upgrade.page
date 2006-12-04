@@ -1,0 +1,178 @@
+---
+title: Upgrade
+inMenu: true
+---
+
+h2. Upgrading from RSpec 0.6.x to 0.7
+
+We've made some significant improvements in 0.7, some of which required API changes that
+will cause some existing specs to fail. Please read the following instructions before you upgrade
+from 0.7.
+
+h2. Expectations (in core)
+
+h3. <font style="color:red;">Replace should_equal and should_not_equal</font>
+
+<ruby>
+#Change this:
+actual.should_equal <value>
+#to this:
+actual.should == <value>
+
+#Change this:
+actual.should_not_equal <value>
+#to this:
+actual.should_not == <value>
+</ruby>
+
+RSpec now delegates equality evaluation directly to ruby's methods and operators:
+
+<ruby>
+actual.should_equal <value> #passes if actual.equal? <value>
+actual.should_not_equal <value> #passes if !actual.equal? <value>
+
+actual.should_eql <value> #passes if actual.eql? <value>
+actual.should_not_eql <value> #passes if !actual.eql? <value>
+
+actual.should == <value> #passes if actual == <value>
+actual.should_not == <value> #passes if actual != <value>
+#Note: there is no support for actual.should != <value>, use actual.should_not == <value> instead
+</ruby>
+
+We recognize that this does not align with assert_equal in Test::Unit, and that this may feel awkward for those of you experienced with either Test::Unit or previous releases of RSpec. We chose to make this change because there was some confusion over the meaning of should_equal and should_be and we decided that it would be less confusing in the long run if should_equal aligns with the Ruby language.
+
+Please see "http://www.ruby-doc.org/core/classes/Object.html#M001057":http://www.ruby-doc.org/core/classes/Object.html#M001057 for more information on the  implications of equal?, eql? and ==.
+
+h2. Mocks
+
+h3. <font style="color:red;">Adjust mock expectations with multiple return values</font>
+
+RSpec's mock framework supports setting multiple return values for a consecutive calls to single message expectation:
+
+<ruby>
+mock.should_receive(:next_value).and_return(:value1, :value2, :value3)
+mock.message.next_value
+=> :value1
+mock.message.next_value
+=> :value2
+mock.message.next_value
+=> :value3
+</ruby>
+
+This feature was present in previous releases, but the syntax used to be:
+
+<ruby>
+#OLD SYNTAX - DO NOT USE
+mock.should_receive(:next_value).and_return([:value1, :value2, :value3])
+</ruby>
+
+This presented a problem in that you couldn't specify an Array as a return value. To fix
+this one, you'll have to do a regex search for "and_return\(*\s*\[" and remove the square
+brackets either by hand. You could do this with a script, but given the low usage of this
+feature, we believe it will be much more efficient and less error prone to do it by hand.
+
+h2. RSpec on Rails
+
+We've made significant improvements to the RSpec on Rails plugin. We've made an effort
+to indicate below what you need to change to get your existing specs, but we may have
+missed something. If you have trouble upgrading, please take a look at the "RSpec on Rails
+Documentation":documentation/rails/index.html first.
+
+If you do find the solution to your problem, whether you found it in other documentation
+or devised your own solution, please submit a Documentation RFE so we can update this page:
+
+"http://rubyforge.org/tracker/?atid=9738&group_id=797&func=browse":http://rubyforge.org/tracker/?atid=9738&group_id=797&func=browse
+
+If you do not find a solution to your problem, please submit a Bug Report (use
+"Bugs - Rails Plugin" for RSpec on Rails problems, "Bugs" for problems in core):
+
+"http://rubyforge.org/tracker/?group_id=797":http://rubyforge.org/tracker/?group_id=797
+
+h3. <font style="color:red;text-decoration:line-through;">gem install ZenTest</font>
+
+%{color:red;font-weight:bold}The dependency on ZenTest is removed as of 0.7.3, however 0.7.0, 0.7.1, 0.7.2 all still need it.%
+
+%{text-decoration:line-through}The RSpec on Rails plugin now extends, and therefore depends on, ZenTest. If you don't already have ZenTest, simply....%
+
+<ruby>
+gem install zentest -v 3.4.1
+</ruby>
+
+h3. <font style="color:red;">update spec/spec_helper.rb</font>
+
+The new spec_helper.rb no longer mixes in the ControllerMixin. Update your spec_helper.rb
+so it looks like the following, plus whatever customizations you have already made (like
+fixtures or other requires, etc)
+
+<pre>{includeFile: {filename: ../../rspec_on_rails/vendor/plugins/rspec/generators/rspec/templates/spec_helper.rb, processOutput: false}}</pre>
+
+You can do this automatically by re-running "script/generate rspec", but you'll overwrite your
+existing spec_helper.rb and lose your customizations in doing so.
+
+h3. <font style="color:red;">integrate_views</font>
+
+h4. Add "integrate_views" to all of your controller specs using the Rails Plugin
+
+We've enhanced rspec_on_rails to support specification of controllers and views in complete
+isolation from each other. This allows you to spec your controllers before their corresponding
+views exist and vice versa. It also stops errors in views from causing controller specs
+to fail and vice versa.
+
+While this is the preferred approach for BDD (and TDD), we recognize that
+this does not align with the more high level approach supported by rails functional tests.
+Between that and the desire to make upgrading to RSpec 0.7 as smooth as possible, we've included a
+mechanism that will let you spec your controllers and views together.
+Just add the integrate_views command to the context after the controller_name:
+
+<ruby>
+context "Given a user who is not logged in" do
+  controller_name :admin
+  integrate_views
+  
+  setup do
+    ...
+  end
+  
+  specify "an error message should be displayed when the user requests /admin/update_record"
+    ...
+  end
+end
+</ruby>
+
+See "Rails Plugin":documentation/rails/index.html for more information.
+
+h3. <font style="color:red;">controller.should_have_rendered</font>
+
+h4. Change "response.should_render" to "controller.should_have_rendered"
+
+In keeping with the separation of controllers and views, we moved should_render from the response
+to the controller. This should be a simple search and replace.
+
+<ruby>
+context "..." do
+  controller_name :...
+  
+  specify "..." do
+    post 'index'
+    controller.should_have_rendered :template => "index" #used to be response.should_render
+  end
+end
+</ruby>
+
+h2. Regarding inequality...
+
+You'll notice that the syntax for == and != are different:
+
+<ruby>
+actual = 5
+actual.should == 5
+actual.should_not == 4
+</ruby>
+
+We would LOVE to support ...
+
+<ruby>
+actual.should != 4
+</ruby>
+
+... but we found that while Ruby very generously provides us access to a variety of operational symbols (<, <=, ==, >=, >, and even =~), it does NOT provide us access to "!". So for now, you must use "actual.should_not == value". Patches welcome!

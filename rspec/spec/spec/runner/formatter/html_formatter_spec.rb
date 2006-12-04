@@ -8,7 +8,7 @@ context "HtmlFormatter" do
     expected_html = File.read(expected_file)
     ['--diff', '--dry-run'].each do |opt|
       Dir.chdir(root) do
-        args = ['failing_examples/mocking_example.rb', 'failing_examples/diffing_spec.rb', 'examples/stubbing_example.rb', '--format', 'html', opt]
+        args = ['../failing_examples/mocking_example.rb', '../failing_examples/diffing_spec.rb', '../examples/stubbing_example.rb', '--format', 'html', opt]
         err = StringIO.new
         out = StringIO.new
         Spec::Runner::CommandLine.run(
@@ -24,7 +24,7 @@ context "HtmlFormatter" do
         if opt == '--diff'
           # Uncomment this line temporarily in order to overwrite the expected with actual.
           # Use with care!!!
-          #File.open(expected_file, 'w') {|io| io.write(html)}
+          # File.open(expected_file, 'w') {|io| io.write(html)}
 
           html.should == expected_html
         else

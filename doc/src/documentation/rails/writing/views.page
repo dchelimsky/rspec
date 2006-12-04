@@ -1,0 +1,86 @@
+---
+title: Views
+inMenu: true
+---
+h2. RSpec on Rails - Specifying Views
+
+View Specs live in $RAILS_ROOT/spec/views/.
+
+RSpec on Rails supports the specification of views in complete isolation from their controllers.
+This allows you to spec and write your views even before their controllers exist,
+or before the related actions have been developed. It also means that bugs introduced
+into controllers will not cause view specs to fail.
+
+As noted in the "introduction":index.html, these are great benefits
+but they could hide bugs that exist in the interaction between a controller and its
+view. We strongly recommend combining these isolated view specs with some sort of
+high level "integration":integration.html testing.
+
+h2. Conveniences
+
+h3. assigns
+
+Use assigns[:key] to set values to be used in the spec. We highly recommend that
+you exploit the mock framework here rather than providing real model objects
+in order to keep the view specs isolated from changes to your models.
+
+<ruby>
+article = mock("article")
+article.should_receive(:author).and_return("Joe")
+article.should_receive(:text).and_return("this is the text of the article")
+assigns[:article] = article
+assigns[:articles] = [article]
+</ruby>
+
+h2. Expectations
+
+RSpec on Rails' View Specs support the following custom expectations, all of which
+are also available in "controller":controller.html specs when run in "integrate_views" mode.
+
+h3. response.should_have_tag
+
+This is similar to assert_tag in rails testing:
+
+<ruby>
+response.should_have_tag :div #passes if any div tags appear
+response.should_have_tag :div, :attributes => {:id => "interesting_div"}
+response.should_have_tag :div, :content => "expected content"
+response.should_have_tag :div, :content => /regexp matching expected content/
+</ruby>
+
+Note that any of the hash values can be either Strings or Regexps and will be
+evaluated accordingly.
+
+h3. response.should_have_rjs
+
+Thanks to Jake Howerton's port (for RSpec) of "Kevin Clark's ARTS library":http://glu.ttono.us/articles/2006/05/29/guide-test-driven-rjs-with-arts (for test/unit), you can specify
+calls made in your rjs templates.
+
+<ruby>
+response.should_have_rjs :replace_html, 'mydiv', 'replacement text'
+response.should_have_rjs :replace_html, 'mydiv', /replace/
+response.should_have_rjs :insert_html, 'mydiv', 'replacement text'
+response.should_have_rjs :insert_html, 'mydiv', /place ex/
+response.should_have_rjs :replace, 'mydiv', '<div>replacement text</div>'
+response.should_have_rjs :replace, 'mydiv', /placement/
+response.should_have_rjs :hide, 'mydiv'
+</ruby>
+
+It also supports the page['element'] format as follows:
+
+<ruby>
+response.should_have_rjs :page, 'mydiv', :replace_html, 'replacement text'
+response.should_have_rjs :page, 'mydiv', :replace_html, /replace/
+response.should_have_rjs :page, 'mydiv', :insert_html, 'replacement text'
+response.should_have_rjs :page, 'mydiv', :insert_html, /place ex/
+response.should_have_rjs :page, 'mydiv', :replace, '<div>replacement text</div>'
+response.should_have_rjs :page, 'mydiv', :replace, /placement/
+response.should_have_rjs :page, 'mydiv', :hide
+</ruby>
+
+Note that text being inserted or replacing other text can be matched against
+Strings or Regexps.
+
+h2. Example View Specs
+
+<ruby file="../rspec_on_rails_demo/spec/views/person/list_view_spec.rb"/>
