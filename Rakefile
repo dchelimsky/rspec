@@ -18,13 +18,13 @@ task :core_pre_commit do
 end
 
 task :rails_pre_commit do
-  Dir.chdir 'rspec_on_rails' do    
+  Dir.chdir 'rspec_on_rails_spec' do    
     IO.popen("rake pre_commit --verbose") do |io|
       io.each do |line|
         puts line
       end
     end
-    raise "RSpec on Rails pre_commit failed" if $? != 0
+    raise "RSpec on Rails Plugin pre_commit failed" if $? != 0
   end
 end
 
@@ -48,8 +48,7 @@ task :touch_revision_storing_files do
   # See http://svnbook.red-bean.com/en/1.0/ch07s02.html - the section on svn:keywords
   files = [
     'rspec/lib/spec/version.rb', 
-    'rspec_on_rails/vendor/plugins/rspec_on_rails/lib/spec/rails/version.rb',
-    'rspec_on_rails_demo/vendor/plugins/rspec_on_rails/lib/spec/rails/version.rb'
+    'rspec_on_rails/lib/spec/rails/version.rb'
   ]
   new_token = rand
   files.each do |path|

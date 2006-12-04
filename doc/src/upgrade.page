@@ -104,7 +104,7 @@ The new spec_helper.rb no longer mixes in the ControllerMixin. Update your spec_
 so it looks like the following, plus whatever customizations you have already made (like
 fixtures or other requires, etc)
 
-<pre>{includeFile: {filename: ../../rspec_on_rails/vendor/plugins/rspec_on_rails/generators/rspec/templates/spec_helper.rb, processOutput: false}}</pre>
+<pre>{includeFile: {filename: ../../rspec_on_rails/generators/rspec/templates/spec_helper.rb, processOutput: false}}</pre>
 
 You can do this automatically by re-running "script/generate rspec", but you'll overwrite your
 existing spec_helper.rb and lose your customizations in doing so.
