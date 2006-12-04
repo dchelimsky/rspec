@@ -188,35 +188,7 @@ task :pre_commit => [
   :website, 
   :examples,
   :failing_examples_with_html, 
-  :rails_pre_commit, 
-  :rails_demo_pre_commit, 
-  :commit_ok]
-
-task :rails_pre_commit do
-  Dir.chdir '../rspec_on_rails' do    
-    IO.popen("rake pre_commit --verbose") do |io|
-      io.each do |line|
-        puts line
-      end
-    end
-    raise "RSpec on Rails pre_commit failed" if $? != 0
-  end
-end
-
-task :rails_demo_pre_commit do
-  Dir.chdir '../rspec_on_rails_demo' do    
-    IO.popen("rake pre_commit --verbose") do |io|
-      io.each do |line|
-        puts line
-      end
-    end
-    raise "RSpec on Rails pre_commit failed" if $? != 0
-  end
-end
-
-task :commit_ok do |t|
-  puts "OK TO COMMIT"
-end
+]
 
 desc "Build the website, but do not publish it"
 task :website => [:clobber, :verify_rcov, :spec_html, :webgen, :failing_examples_with_html, :examples_specdoc, :rdoc]
