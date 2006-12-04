@@ -186,7 +186,7 @@ task :pre_commit => [
   :touch_revision_storing_files, 
   :verify_warnings, 
   :website, 
-  :examples, 
+  :examples,
   :failing_examples_with_html, 
   :rails_pre_commit, 
   :rails_demo_pre_commit, 
