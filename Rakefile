@@ -61,3 +61,7 @@ task :touch_revision_storing_files do
     end
   end
 end
+
+task :clobber do
+  rm_rf 'doc/output'
+end
