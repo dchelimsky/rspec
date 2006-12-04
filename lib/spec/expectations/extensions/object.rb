@@ -142,14 +142,6 @@ module Spec
         should.not.respond_to(message)
       end
       
-      def should_match(expression)
-        should.match(expression)
-      end
-      
-      def should_not_match(expression)
-        should.not.match(expression)
-      end
-      
       def should_raise(exception=Exception, message=nil)
         should.raise(exception, message)
       end

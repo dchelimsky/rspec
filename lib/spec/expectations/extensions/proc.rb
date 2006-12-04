@@ -20,7 +20,15 @@ module Spec
         should.change(receiver, message, &block)
       end
   
-      # Negative of should_change.
+      # Given a receiver and a message (Symbol), specifies that the result
+      # of sending that message that receiver should NOT change after
+      # executing the proc.
+      #
+      #   lambda { @team.add player }.should_not_change(@team.players, :size)
+      #
+      # You can use a block instead of a message and receiver.
+      #
+      #   lambda { @team.add player }.should_not_change{@team.players.size}
       def should_not_change(receiver, message)
         should.not.change(receiver, message)
       end
@@ -29,6 +37,5 @@ module Spec
 end
 
 class Proc
-  
   include Spec::Expectations::ProcExpectations
 end

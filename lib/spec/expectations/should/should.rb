@@ -1,6 +1,6 @@
 module Spec
   module Expectations
-    module Should
+    module Should # :nodoc:
       class Should < Base
 
         def initialize(target)

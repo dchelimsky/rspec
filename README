@@ -1,4 +1,28 @@
-== Building the RSpec gem ==
+== RSpec
+
+RSpec is a framework for developing ruby applications using Behaviour Driven Development.
+
+== Expectations
+
+RSpec adds expectation methods to every object, with specific types of expectations
+set on specific classes. For example ...
+
+<code>
+@message = "some message"
+@message.should == "some message"
+</code>
+
+... will be available on every object, whereas ...
+
+<code>
+proc { @number = @number + 1 }.should_change{ @number }.by(1)
+</code>
+
+... will only be available for proc objects.
+
+See Spec::Expectations for details on the different expectations you can set.
+
+== Building the RSpec gem
 rake gem
 gem install pkg/rspec-0.x.x.gem (you may have to sudo)
 

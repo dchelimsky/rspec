@@ -1,7 +1,7 @@
 module Spec
   module Expectations
     # This module adds syntactic sugar that allows usage of should_* instead of should.*
-    module UnderscoreSugar
+    module UnderscoreSugar # :nodoc:
       def handle_underscores_for_rspec!
         original_method_missing = instance_method(:method_missing)
         class_eval do
@@ -14,7 +14,7 @@ module Spec
             return Spec::Expectations::Should::Should.new(self).__send__(__strip_should(sym), *args, &block)
           end
           
-          def __strip_should sym
+          def __strip_should(sym) # :nodoc 
             sym.to_s[7..-1]
           end
         end

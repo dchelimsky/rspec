@@ -8,7 +8,7 @@ context "Given a generated <%= class_name.underscore %>_spec.rb with fixtures lo
     <%= class_name %>.should_have(2).records
   end
 
-  specify "you shoud add more specs" do
+  specify "you should add more specs" do
     violated "not enough specs"
   end
 end
