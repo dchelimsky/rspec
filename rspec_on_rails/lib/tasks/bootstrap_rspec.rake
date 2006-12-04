@@ -2,8 +2,6 @@
 $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + '/../../../rspec/lib'))
 require 'spec/rake/spectask'
 
-
-
 desc "Run all specs against sample app and spec/rails (Rails 1.1.6, 1.2.0 RC 1 and edge)"
 task :pre_commit_all do
   IO.popen("rake pre_commit_1_1_6 --verbose") do |io|
@@ -33,7 +31,7 @@ task :pre_commit_1_2_0 => [:set_rails_version_1_2_0, :pre_commit_tasks]
 desc "Run all specs against sample app and spec/rails (Rails edge)"
 task :pre_commit_edge => [:set_rails_version_edge, :pre_commit_tasks]
 
-task :pre_commit_tasks => [:clobber_sqlite, "db:migrate", :generate_rspec, "spec:all"]
+task :pre_commit_tasks => [:clobber_sqlite, "db:migrate", :generate_rspec, "spec:plugins"]
 
 task :set_rails_version_1_1_6 do
   ENV['RSPEC_RAILS_VERSION'] = '1.1.6'

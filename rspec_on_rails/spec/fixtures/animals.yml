@@ -1,8 +1,0 @@
-pig:
-  id: 1
-  name: Pig 
-  person_id: 1
-horse:
-  id: 2
-  name: Horse
-  person_id: 1
