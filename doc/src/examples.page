@@ -6,4 +6,4 @@ h2. Examples
 
 Here is an example of an RSpec spec:
 
-<ruby file="../examples/stack_spec.rb" />
+<ruby file="../rspec/examples/stack_spec.rb" />

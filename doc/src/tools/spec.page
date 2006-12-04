@@ -36,7 +36,7 @@ well as an unexpected exception being raised.  Here's an example with a failing 
 <pre>
 $ spec failing_examples/stack_spec.rb
 
-{execute: ruby -I../lib ../bin/spec ../failing_examples/stack_spec.rb}
+{execute: ruby -I../lib ../bin/spec ../rspec/failing_examples/stack_spec.rb}
 </pre>
 
 In this case, the context is named "An almost full stack (with one item less than capacity)" 
@@ -62,14 +62,14 @@ h3. --diff
 This option tells RSpec to print a unified diff of any Strings that are expected to be equal,
 but are not. This is especially handy when comparing large Strings. Example:
 
-<ruby file="../failing_examples/diffing_spec.rb" />
+<ruby file="../rspec/failing_examples/diffing_spec.rb" />
 
 And the output using <tt>--diff</tt>
 
 <pre>
 $ spec failing_examples/diffing_spec.rb --diff
 
-{execute: ruby -I../lib ../bin/spec ../failing_examples/diffing_spec.rb --diff}
+{execute: ruby -I../lib ../bin/spec ../rspec/failing_examples/diffing_spec.rb --diff}
 </pre>
 
 If you want to use the <tt>--diff</tt> option, you must also gem install diff-lcs. You
@@ -88,7 +88,7 @@ all the specs in a context ...
 <pre>
 $ spec examples --spec "A stack which is neither empty nor full" -f s
 
-{execute: ruby -I../lib ../bin/spec ../examples --spec "A stack which is neither empty nor full" -f s}
+{execute: ruby -I../lib ../bin/spec ../rspec/examples --spec "A stack which is neither empty nor full" -f s}
 </pre>
 
 ... any spec in any context with a given name ...
@@ -96,7 +96,7 @@ $ spec examples --spec "A stack which is neither empty nor full" -f s
 <pre>
 $ spec examples --spec "should return the top item when sent 'pop'" -f s
 
-{execute: ruby -I../lib ../bin/spec ../examples --spec "should return the top item when sent 'pop'" -f s}
+{execute: ruby -I../lib ../bin/spec ../rspec/examples --spec "should return the top item when sent 'pop'" -f s}
 </pre>
 
 ... or a specific spec in a specific context:
@@ -104,7 +104,7 @@ $ spec examples --spec "should return the top item when sent 'pop'" -f s
 <pre>
 $ spec examples --spec "A stack which is neither empty nor full should return the top item when sent 'pop'" -f s
 
-{execute: ruby -I../lib ../bin/spec ../examples --spec "A stack which is neither empty nor full should return the top item when sent 'pop'" -f s}
+{execute: ruby -I../lib ../bin/spec ../rspec/examples --spec "A stack which is neither empty nor full should return the top item when sent 'pop'" -f s}
 </pre>
 
 h3. -l, --line
@@ -116,7 +116,7 @@ not use it in conjunction with --spec.
 <pre>
 $ spec examples/stack_spec.rb --line 16 -f s
 
-{execute: ruby -I../lib ../bin/spec ../examples/stack_spec.rb --line 16 -f s}
+{execute: ruby -I../lib ../bin/spec ../rspec/examples/stack_spec.rb --line 16 -f s}
 </pre>
 
 
@@ -131,7 +131,7 @@ needs to produce something like "this":../rdoc/files/EXAMPLES_rd.html
 <pre>
 $ spec failing_examples/team_spec.rb -f rdoc
 
-{execute: ruby -I../lib ../bin/spec ../failing_examples/team_spec.rb -f rdoc}
+{execute: ruby -I../lib ../bin/spec ../rspec/failing_examples/team_spec.rb -f rdoc}
 </pre>
 
 You can also output an "HTML report":failing_examples.html
@@ -164,7 +164,7 @@ you can use -b or --backtrace:
 <pre>
 $ spec failing_examples/team_spec.rb -b
 
-{execute: ruby -I../lib ../bin/spec ../failing_examples/team_spec.rb -b}
+{execute: ruby -I../lib ../bin/spec ../rspec/failing_examples/team_spec.rb -b}
 </pre>
 
 h3. -d, --dry-run
