@@ -83,4 +83,4 @@ Strings or Regexps.
 
 h2. Example View Specs
 
-<ruby file="../vendor/rspec_on_rails/spec/views/person/list_view_spec.rb"/>
+<ruby file="../rspec_on_rails/demo/spec/views/person/list_view_spec.rb"/>
