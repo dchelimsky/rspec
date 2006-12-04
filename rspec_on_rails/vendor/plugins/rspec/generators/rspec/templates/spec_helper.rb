@@ -1,6 +1,6 @@
 ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
-require 'rspec_on_rails'
+require 'spec/rails'
 
 # Even if you're using RSpec, RSpec on Rails is reusing some of the
 # Rails-specific extensions for fixtures and stubbed requests, response
