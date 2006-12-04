@@ -1,1 +1,1 @@
-<pre>{includeFile: {filename: ../../CHANGES, processOutput: false}}</pre>
+<pre>{includeFile: {filename: ../../rspec/CHANGES, processOutput: false}}</pre>

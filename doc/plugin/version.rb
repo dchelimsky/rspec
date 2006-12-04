@@ -1,5 +1,5 @@
 require 'webgen/plugins/tags/tags'
-require File.dirname(__FILE__) + '/../../lib/spec/version'
+require File.dirname(__FILE__) + '/../../rspec/lib/spec/version'
 
 module Tags
 

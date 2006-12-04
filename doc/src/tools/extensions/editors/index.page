@@ -44,7 +44,7 @@ to implement your own Formatter class, typically by subclassing
 can override the <code>backtrace_line</code> method to make the output be something that works with your editor.
 Example:
 
-<ruby file="../examples/custom_formatter.rb"/>
+<ruby file="../rspec/examples/custom_formatter.rb"/>
 
 Then, when the editor plugin launches RSpec, just make sure it uses the <code>--formatter</code> 
 option to specify *your* custom formatter. Note that you will probably have to use <code>--require</code> 
