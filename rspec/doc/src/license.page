@@ -8,4 +8,4 @@ h2. RSpec
 h2. RSpec on Rails (a.k.a. Spec::Rails, a.k.a. 'spec/rails')
 
 <br>
-<pre>{includeFile: {filename: ../../vendor/rspec_on_rails/vendor/plugins/rspec/lib/spec/rails/MIT-LICENSE, processOutput: false}}</pre>
+<pre>{includeFile: {filename: ../../../rspec_on_rails/vendor/plugins/rspec/lib/spec/rails/MIT-LICENSE, processOutput: false}}</pre>

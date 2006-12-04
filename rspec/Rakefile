@@ -21,9 +21,9 @@ PKG_FILES = FileList[
   'lib/**/*.rb', 
   'test/**/*.rb', 
   'examples/**/*',
-  'vendor/web_spec/**/*.rb',
-  'vendor/web_spec/**/*.txt',
-  'vendor/web_spec/**/*.patch'
+  '../web_spec/**/*.rb',
+  '../web_spec/**/*.txt',
+  '../web_spec/**/*.patch'
 ]
 
 task :default => [:spec, :verify_rcov]
@@ -99,7 +99,7 @@ spec = Gem::Specification.new do |s|
   s.bindir = 'bin'
   s.executables = ['spec', 'drbspec']
   s.default_executable = 'spec'
-  s.author = ["Steven Baker", "Aslak Hellesoy", "Dave Astels", "David Chelimsky", "Brian Takita"]
+  s.author = ["RSpec Development Team"]
   s.email = "rspec-devel@rubyforge.org"
   s.homepage = "http://rspec.rubyforge.org"
   s.rubyforge_project = "rspec"
@@ -138,7 +138,7 @@ task :touch_revision_storing_files do
   # See http://svnbook.red-bean.com/en/1.0/ch07s02.html - the section on svn:keywords
   files = [
     'lib/spec/version.rb', 
-    'vendor/rspec_on_rails/vendor/plugins/rspec/lib/spec/rails/version.rb'
+    '../rspec_on_rails/vendor/plugins/rspec/lib/spec/rails/version.rb'
   ]
   touch_needed = false
   IO.popen('svn stat') do |io|
@@ -192,7 +192,7 @@ task :pre_commit => [
   :commit_ok]
 
 task :rails_pre_commit do
-  Dir.chdir 'vendor/rspec_on_rails' do    
+  Dir.chdir '../rspec_on_rails' do    
     IO.popen("rake pre_commit --verbose") do |io|
       io.each do |line|
         puts line
@@ -227,7 +227,7 @@ end
 desc "Package the RSpec.tmbundle"
 task :package_tmbundle => :pkg do
   rm_rf 'pkg/RSpec.tmbundle'
-  `svn export vendor/RSpec.tmbundle pkg/RSpec.tmbundle`
+  `svn export ../RSpec.tmbundle pkg/RSpec.tmbundle`
   Dir.chdir 'pkg' do
     `tar cvzf RSpec-#{PKG_VERSION}.tmbundle.tgz RSpec.tmbundle`
   end

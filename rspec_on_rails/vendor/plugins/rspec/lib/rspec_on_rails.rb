@@ -1,3 +1,6 @@
+dir = File.dirname(__FILE__)
+require File.expand_path("#{dir}/extensions/object")
+
 require 'application'
 
 silence_warnings { RAILS_ENV = "test" }
@@ -7,7 +10,6 @@ require 'active_record/base'
 require 'active_record/fixtures'
 require 'spec'
 
-dir = File.dirname(__FILE__)
 require File.expand_path("#{dir}/spec/rails/context")
 require File.expand_path("#{dir}/spec/rails/ivar_proxy")
 require File.expand_path("#{dir}/spec/rails/functional_eval_context")
@@ -27,6 +29,5 @@ require File.expand_path("#{dir}/extensions/action_view/base")
 require File.expand_path("#{dir}/extensions/nil_class")
 require File.expand_path("#{dir}/extensions/kernel")
 require File.expand_path("#{dir}/extensions/proc")
-require File.expand_path("#{dir}/extensions/object")
 
 Test::Unit.run = true
