@@ -2,7 +2,7 @@
 # The only difference is that pre_commit_tasks runs spec:app instead of spec:plugins
 
 # We have to make sure the rspec lib above gets loaded rather than the gem one (in case it's installed)
-$LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + '/../../../rspec/lib'))
+$LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + '/../../../../rspec/lib'))
 require 'spec/rake/spectask'
 
 desc "Run all specs against sample app and spec/rails (Rails 1.1.6, 1.2.0 RC 1 and edge)"
