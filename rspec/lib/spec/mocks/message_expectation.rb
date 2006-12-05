@@ -87,7 +87,7 @@ module Spec
         if block.nil?
           @error_generator.raise_missing_block_error @args_to_yield
         end
-        if @args_to_yield.length != block.arity
+        if block.arity > -1 && @args_to_yield.length != block.arity
           @error_generator.raise_wrong_arity_error @args_to_yield, block.arity
         end
         block.call(*@args_to_yield)
