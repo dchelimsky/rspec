@@ -56,3 +56,8 @@ task :generate_rspec do
   result = `ruby script/generate rspec --force`
   raise "Failed to generate rspec environment:\n#{result}" if $? != 0 || result =~ /^Missing/
 end
+
+task :install_plugin do
+  rm_rf 'vendor/plugins/rspec_on_rails'
+  cp_r '../vendor/plugins/rspec_on_rails', 'vendor/plugins/rspec_on_rails'
+end

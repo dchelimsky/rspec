@@ -18,7 +18,8 @@ Rails::Initializer.run do |config|
 
   # Add additional load paths for your own custom dirs
   # config.load_paths += %W( #{RAILS_ROOT}/extras )
-  config.load_paths += %W( #{RAILS_ROOT}/../../lib #{RAILS_ROOT}/vendor/generators/rspec/lib )
+  
+  config.plugin_paths = File.expand_path("#{RAILS_ROOT}/../vendor/plugins")
 
   # Force all environments to use the same logger level 
   # (by default production uses :info, the others :debug)
