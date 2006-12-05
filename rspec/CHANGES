@@ -5,6 +5,8 @@
 Release notes go here.
 Checklist: Are all the new features documented in both the website and rdoc?
 
+* Fixed [#6971] and_yield does not work when the arity is -1
+* Fixed [#6898] Can we separate rspec from the plugins?
 * Added [#7025] should_change should accept a block
 * Applied [#6989] partials with locals (patch from Micah Martin)
 * Applied [#7023] Typo in team.page
