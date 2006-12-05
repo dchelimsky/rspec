@@ -26,7 +26,7 @@ task :pre_commit_all do
 end
 
 desc "Run all specs against sample app and spec/rails (Rails 1.1.6)"
-task :pre_commit => [:set_rails_version_1_1_6, :pre_commit_tasks]
+task :pre_commit => [:install_plugin, :set_rails_version_1_1_6, :pre_commit_tasks]
 
 desc "Run all specs against sample app and spec/rails (Rails 1.2.0 RC 1)"
 task :pre_commit_1_2_0 => [:set_rails_version_1_2_0, :pre_commit_tasks]
@@ -57,6 +57,7 @@ task :generate_rspec do
   raise "Failed to generate rspec environment:\n#{result}" if $? != 0 || result =~ /^Missing/
 end
 
+desc "installs the rspec_on_rails plugin in this project"
 task :install_plugin do
   rm_rf 'vendor/plugins/rspec_on_rails'
   cp_r '../vendor/plugins/rspec_on_rails', 'vendor/plugins/rspec_on_rails'

@@ -33,4 +33,3 @@ SyntaxError in should_have_tag(tag, *opts)
     end
   end
 end
-
