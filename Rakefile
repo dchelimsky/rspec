@@ -1,11 +1,15 @@
+task :default => :pre_commit
+
+desc "Runs pre_commit against rspec (core), rspec_on_rails/spec and rspec_on_rails/demo"
 task :pre_commit => [
-  :touch_revision_storing_files, 
+  :touch_revision_storing_files,
   :core_pre_commit,
   :rails_pre_commit,
   :rails_demo_pre_commit,
   :ok_to_commit
 ]
 
+desc "Runs pre_commit against rspec (core)"
 task :core_pre_commit do
   Dir.chdir 'rspec' do    
     IO.popen("rake pre_commit --verbose") do |io|
@@ -17,6 +21,7 @@ task :core_pre_commit do
   raise "RSpec Core pre_commit failed" if $? != 0
 end
 
+desc "Runs pre_commit against rspec_on_rails/spec"
 task :rails_pre_commit do
   Dir.chdir 'rspec_on_rails/spec' do    
     IO.popen("rake pre_commit --verbose") do |io|
@@ -28,6 +33,7 @@ task :rails_pre_commit do
   end
 end
 
+desc "Runs pre_commit against rspec_on_rails/demo"
 task :rails_demo_pre_commit do
   Dir.chdir 'rspec_on_rails/demo' do    
     IO.popen("rake pre_commit --verbose") do |io|
@@ -61,6 +67,7 @@ task :touch_revision_storing_files do
   end
 end
 
+desc "deletes generated documentation"
 task :clobber do
   rm_rf 'doc/output'
 end
