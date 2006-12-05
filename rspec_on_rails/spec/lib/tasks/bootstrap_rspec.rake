@@ -3,7 +3,7 @@ $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + '/../../../../rspec
 require 'spec/rake/spectask'
 
 desc "Run all specs against sample app and spec/rails (Rails 1.1.6, 1.2.0 RC 1 and edge)"
-task :pre_commit_all do
+task :pre_commit_all => [:install_plugin] do
   IO.popen("rake pre_commit_1_1_6 --verbose") do |io|
     io.each do |line|
       puts line
@@ -52,4 +52,9 @@ end
 task :generate_rspec do
   result = `ruby script/generate rspec --force`
   raise "Failed to generate rspec environment:\n#{result}" if $? != 0 || result =~ /^Missing/
+end
+
+task :install_plugin do
+  rm_rf 'vendor/plugins/rspec_on_rails'
+  cp_r '../vendor/plugins/rspec_on_rails', 'vendor/plugins/rspec_on_rails'
 end
