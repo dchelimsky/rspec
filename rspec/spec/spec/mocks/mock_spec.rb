@@ -201,7 +201,31 @@ module Spec
           e.message.should_eql "Mock 'test mock' expected :something with (1) but received it with (no args)"
         end
       end
-      
+
+      specify "should yield 0 args to blocks that take a variable number of arguments" do
+        @mock.should_receive(:yield_back).with(:no_args).once.and_yield
+        a = nil
+        @mock.yield_back {|*a|}
+        a.should_eql []
+        @mock.__verify
+      end
+
+      specify "should yield one arg to blocks that take a variable number of arguments" do
+        @mock.should_receive(:yield_back).with(:no_args).once.and_yield(99)
+        a = nil
+        @mock.yield_back {|*a|}
+        a.should_eql [99]
+        @mock.__verify
+      end
+
+      specify "should yield many args to blocks that take a variable number of arguments" do
+        @mock.should_receive(:yield_back).with(:no_args).once.and_yield(99, 27, "go")
+        a = nil
+        @mock.yield_back {|*a|}
+        a.should_eql [99, 27, "go"]
+        @mock.__verify
+      end
+
       specify "should yield single value" do
         @mock.should_receive(:yield_back).with(:no_args).once.and_yield(99)
         a = nil
