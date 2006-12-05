@@ -17,7 +17,7 @@ puts "running against rails #{ENV['RSPEC_RAILS_VERSION']}"
 
 unless defined?(Rails::Initializer)
   
-  version_root = File.expand_path("#{RAILS_ROOT}/vendor/rails/#{ENV['RSPEC_RAILS_VERSION']}")
+  version_root = File.expand_path("#{RAILS_ROOT}/../vendor/rails/#{ENV['RSPEC_RAILS_VERSION']}")
   if File.directory?(version_root)
     $LOAD_PATH.unshift "#{version_root}/actionpack/lib/"
     $LOAD_PATH.unshift "#{version_root}/actionmailer/lib/"
@@ -30,6 +30,8 @@ unless defined?(Rails::Initializer)
     raise "Attempting to run against rails #{version_root} but no such directory exists"
     exit
   end
-  
-  Rails::Initializer.run(:set_load_path)
+
+  Rails::Initializer.run(:set_load_path) do |config|
+    config.plugin_paths = File.expand_path("#{RAILS_ROOT}/../vendor/plugins")
+  end
 end
