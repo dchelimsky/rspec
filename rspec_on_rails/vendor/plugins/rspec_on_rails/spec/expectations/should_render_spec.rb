@@ -33,7 +33,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
       post 'some_action'
     end
 
-    specify "you should be able to use a symbol after a post to an action" do
+    specify "you should be able to use a String after a post to an action" do
       post 'some_action'
       controller.should_render 'some_action'
     end
@@ -52,14 +52,14 @@ require File.dirname(__FILE__) + '/../spec_helper'
       end.should_fail_with "{:template=>\"render_spec/some_action\"} should == {:template=>\"non_existent_template\"}"
     end
 
-    specify "a 'should_render' expectation should support :text after the action" do
-      post 'text_action'
-      controller.should_render :text => "this the text for this action"
-    end
-
     specify "a 'should_render' expectation should support :text before the action" do
       controller.should_render :text => "this the text for this action"
       post 'text_action'
+    end
+
+    specify "a 'should_render' expectation should support :text after the action" do
+      post 'text_action'
+      controller.should_render :text => "this the text for this action"
     end
   end
 end
