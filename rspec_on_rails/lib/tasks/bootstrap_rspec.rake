@@ -1,5 +1,5 @@
 # We have to make sure the rspec lib above gets loaded rather than the gem one (in case it's installed)
-$LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + '/../../../../rspec/lib'))
+$LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + '/../../../rspec/lib'))
 require 'spec/rake/spectask'
 
 desc "Run all specs against sample app and spec/rails (Rails 1.1.6, 1.2.0 RC 1 and edge)"
@@ -56,6 +56,6 @@ end
 
 desc "installs the rspec_on_rails plugin in this project"
 task :install_plugin do
-  rm_rf 'vendor/plugins/rspec_on_rails'
-  cp_r '../vendor/plugins/rspec_on_rails', 'vendor/plugins/rspec_on_rails'
+  # rm_rf 'vendor/plugins/rspec_on_rails'
+  # cp_r '../vendor/plugins/rspec_on_rails', 'vendor/plugins/rspec_on_rails'
 end
