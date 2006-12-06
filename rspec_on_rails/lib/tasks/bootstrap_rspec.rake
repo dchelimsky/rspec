@@ -31,7 +31,7 @@ task :pre_commit_1_2_0 => [:set_rails_version_1_2_0, :pre_commit_tasks]
 desc "Run all specs against sample app and spec/rails (Rails edge)"
 task :pre_commit_edge => [:set_rails_version_edge, :pre_commit_tasks]
 
-task :pre_commit_tasks => [:clobber_sqlite, "db:migrate", :generate_rspec, "spec:plugins"]
+task :pre_commit_tasks => [:clobber_sqlite, "db:migrate", :generate_rspec, "spec:all"]
 
 task :set_rails_version_1_1_6 do
   ENV['RSPEC_RAILS_VERSION'] = '1.1.6'
