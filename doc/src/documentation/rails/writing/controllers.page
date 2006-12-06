@@ -239,4 +239,4 @@ routing(:controller => "hello", :action => "world").should_eql "/hello/world"
 
 h2. Example Controller Specs
 
-<ruby file="../rspec_on_rails/demo/spec/controllers/person_controller_spec.rb"/>
+<ruby file="../rspec_on_rails/spec/controllers/person_controller_spec.rb"/>
