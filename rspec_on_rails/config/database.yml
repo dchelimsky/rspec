@@ -1,0 +1,14 @@
+development:
+  adapter: sqlite3
+  dbfile: db/development.db
+  # adapter: mysql
+  # database: rspec_dev
+  # username: rspec_dev
+  # password: rspec_dev
+test:
+  adapter: sqlite3
+  dbfile: db/test.db
+  # adapter: mysql
+  # database: rspec_test
+  # username: rspec_test
+  # password: rspec_test

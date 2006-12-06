@@ -23,7 +23,7 @@ end
 
 desc "Runs pre_commit against rspec_on_rails/spec"
 task :rails_pre_commit do
-  Dir.chdir 'rspec_on_rails/spec' do    
+  Dir.chdir 'rspec_on_rails' do    
     IO.popen("rake pre_commit --verbose") do |io|
       io.each do |line|
         puts line
