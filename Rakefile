@@ -1,15 +1,15 @@
 task :default => :pre_commit
 
-desc "Runs pre_commit against rspec (core), rspec_on_rails/spec and rspec_on_rails/demo"
+desc "Runs pre_commit_core and pre_commit_rails"
 task :pre_commit => [
   :touch_revision_storing_files,
-  :core_pre_commit,
-  :rails_pre_commit,
+  :pre_commit_core,
+  :pre_commit_rails,
   :ok_to_commit
 ]
 
 desc "Runs pre_commit against rspec (core)"
-task :core_pre_commit do
+task :pre_commit_core do
   Dir.chdir 'rspec' do    
     IO.popen("rake pre_commit --verbose") do |io|
       io.each do |line|
@@ -20,15 +20,26 @@ task :core_pre_commit do
   raise "RSpec Core pre_commit failed" if $? != 0
 end
 
-desc "Runs pre_commit against rspec_on_rails/spec"
-task :rails_pre_commit do
+desc "Runs pre_commit against rspec_on_rails (against rails 1.1.6 and 1.2.0 RC 1)"
+task :pre_commit_rails do
   Dir.chdir 'rspec_on_rails' do    
-    IO.popen("rake pre_commit --verbose") do |io|
+    IO.popen("rake rspec:pre_commit --verbose") do |io|
       io.each do |line|
         puts line
       end
     end
-    raise "RSpec on Rails Plugin pre_commit failed" if $? != 0
+    if $? != 0
+      message = <<EOF
+############################################################
+RSpec on Rails Plugin pre_commit failed. For more info:
+
+  cd rspec_on_rails
+  rake rspec:pre_commit
+
+############################################################
+EOF
+      raise message
+    end
   end
 end
 
@@ -54,7 +65,7 @@ task :touch_revision_storing_files do
   end
 end
 
-desc "deletes generated documentation"
+desc "Deletes generated documentation"
 task :clobber do
   rm_rf 'doc/output'
 end
