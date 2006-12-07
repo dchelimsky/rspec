@@ -6,45 +6,45 @@ module Spec
       
       # Supports the following expectations:
       #   receiver.should == expected #any value
-      #     Passes if (target == expected)
+      #     Passes if (receiver == expected)
       #
-      #   target.should =~ expected #a regexp
-      #     Passes if (target =~ expected), where expected
+      #   receiver.should =~ expected #a regexp
+      #     Passes if (receiver =~ expected), where expected
       #     is a Regexp.
       #
-      # NOTE that this does NOT support target.should != expected.
-      # Instead, use target.should_not == expected
+      # NOTE that this does NOT support receiver.should != expected.
+      # Instead, use receiver.should_not == expected
       def should
         Should::Should.new self
       end
 
       # Supports the following expectations:
-      #   target.should_not == expected #any value
-      #     Passes unless (target == expected)
+      #   receiver.should_not == expected #any value
+      #     Passes unless (receiver == expected)
       #
-      #   target.should_not =~ expected #a regexp
-      #     Passes unless (target =~ expected), where expected
+      #   receiver.should_not =~ expected #a regexp
+      #     Passes unless (receiver =~ expected), where expected
       #     is a Regexp.
       def should_not
         should.not
       end
 
-      # Passes if target.equal?(expected)
+      # Passes if receiver.equal?(expected)
       def should_equal(expected)
         should.equal(expected)
       end
 
-      # Passes unless target.equal?(expected)
+      # Passes unless receiver.equal?(expected)
       def should_not_equal(expected)
         should.not.equal(expected)
       end
 
-      # Passes if target.eql?(expected)
+      # Passes if receiver.eql?(expected)
       def should_eql(expected)
         should.eql(expected)
       end
 
-      # Passes unless target.eql?(expected)
+      # Passes unless receiver.eql?(expected)
       def should_not_eql(expected)
         should.not.eql(expected)
       end
