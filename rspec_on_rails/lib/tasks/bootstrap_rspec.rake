@@ -96,8 +96,8 @@ EOF
   end
 
   desc "configures config/database.yml for sqlite3"
-  task :generate_sqlite_config do
-    copy 'config/database.sqlite.yml', 'config/database.yml'
+  task :generate_sqlite3_config do
+    copy 'config/database.sqlite3.yml', 'config/database.yml'
   end
 
   desc "deletes config/database.yml"
