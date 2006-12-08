@@ -9,9 +9,5 @@ Please refer to the Documentation on the website:
 
 http://rspec.rubyforge.org/tools/rails/
 
-Or if you've checked this out from Subversion, also
-read the README under the rails app for instructions
-on how to run from source.
-
 RSpec on Rails is licensed under the same license as RSpec itself,
 the MIT-LICENSE. See http://rspec.rubyforge.org/license.html.
