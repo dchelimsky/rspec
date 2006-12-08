@@ -194,13 +194,14 @@ controller.should_redirect_to 'http://test.host/some_controller/some_action'
 controller.should_redirect_to 'http://some.other.domain.com'
 </ruby>
 
-h3. assigns
+h3. assigns, flash and session
 
-Use these to check that variables have been assigned AFTER the action.
+Use these to access assigns, flash and session.
 
 <ruby>
-get 'some_action'
-assigns[:person].should == Person.new(:name => "Joe Smith")
+assigns[:key]
+flash[:key]
+session[:key]
 </ruby>
 
 h2. Response Expectations
