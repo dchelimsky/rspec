@@ -20,6 +20,5 @@ require File.expand_path("#{dir}/rails/tag_expectations")
 require File.expand_path("#{dir}/rails/render_matcher")
 require File.expand_path("#{dir}/rails/redirect_matcher")
 require File.expand_path("#{dir}/rails/extensions")
-require File.expand_path("#{dir}/rails/html_selector")
 
 Test::Unit.run = true
