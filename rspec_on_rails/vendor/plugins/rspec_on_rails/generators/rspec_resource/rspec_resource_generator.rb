@@ -47,7 +47,7 @@ class RspecResourceGenerator < Rails::Generator::NamedBase
       m.template 'scaffold_resource:controller.rb',
         File.join('app/controllers', controller_class_path, "#{controller_file_name}_controller.rb")
 
-      m.template 'controller:helper.rb',
+      m.template 'scaffold_resource:helper.rb',
         File.join('app/helpers', controller_class_path, "#{controller_file_name}_helper.rb")
 
       for action in scaffold_views

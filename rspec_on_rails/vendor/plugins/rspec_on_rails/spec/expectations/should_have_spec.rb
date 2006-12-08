@@ -206,7 +206,7 @@ context "ShouldHave", :context_type => :controller do
   end
 
 
-  # TODO - no RJS yet
+  # TODO - no RJS yet - need to come up w/ a name
   # specify "assert_select_from_rjs" do
   #   render_rjs do |page|
   #     page.replace_html "test", "<div id=\"1\">foo</div>\n<div id=\"2\">foo</div>"
