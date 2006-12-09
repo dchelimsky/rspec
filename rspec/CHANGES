@@ -5,6 +5,7 @@
 Release notes go here.
 Checklist: Are all the new features documented in both the website and rdoc?
 
+* Fixed [#6760] fatal error when accessing nested finders in rspec
 * Fixed [#7179] script/generate rspec_resource generates incorrect helper name
 * Added preliminary support for assert_select (response.should_have)
 * Fixed [#6971] and_yield does not work when the arity is -1

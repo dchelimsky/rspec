@@ -47,3 +47,22 @@ context "A new Person" do
     @person.errors.should_be_empty
   end
 end
+
+context "A person with 2 animals" do
+  setup do
+    @fluff = Animal.new(:name => "fluff", :age => 7)
+    @binki = Animal.new(:name => "binki", :age => 0.5)
+    @person = Person.new(:name => "David")
+    @person.add_animal(@fluff)
+    @person.add_animal(@binki)
+  end
+  
+  specify "should be able to tell you its pups" do
+    @person.animals.pups.should == [@binki]
+  end
+  
+  specify "should be able to tell you its adults" do
+    @person.animals.adults.should == [@fluff]
+  end
+end
+    
