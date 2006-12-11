@@ -222,12 +222,18 @@ response.should_be_success
 
 h3. response.should_be_redirect
 
-We recommend that you use controller.should_redirect_to 'destination' instead.
-
 Passes if a status of 300-399 was returned.
 
 <ruby>
 response.should_be_redirect
+</ruby>
+
+h3. response.should_redirect_to
+
+Passes if response.redirect? and response.redirect_url == argument
+
+<ruby>
+response.should_redirect_to "http://test.host/some/path"
 </ruby>
 
 h2. Routing Expectations

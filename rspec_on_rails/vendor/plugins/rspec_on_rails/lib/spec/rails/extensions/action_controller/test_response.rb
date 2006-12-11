@@ -34,6 +34,14 @@ module ActionController
         __assert_select_wrapper.should_have_email(&block)
       end
       
+      def should_redirect_to(url)
+        unless redirect?
+          message = %Q{expected redirect to #{url} but there was no redirect}
+          raise Spec::Expectations::ExpectationNotMetError.new(message)
+        end
+        redirect_url.should == url
+      end
+      
       private
       def __response_body
         Spec::Rails::ResponseBody.new(self.body)

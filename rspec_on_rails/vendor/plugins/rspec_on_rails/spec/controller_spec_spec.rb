@@ -60,6 +60,18 @@ end
       get 'action_with_redirect_to_somewhere'
       response.should_be_redirect
       response.redirect_url.should_eql "http://test.host/redirect_spec/somewhere"
+      response.should_redirect_to "http://test.host/redirect_spec/somewhere"
+    end
+    
+    specify "a call to response.should_redirect_to should fail if no redirect" do
+      get 'action_with_no_redirect'
+      lambda {
+        response.should_be_redirect
+      }.should_fail
+      lambda {
+        response.should_redirect_to "http://test.host/redirect_spec/somewhere"
+      }.should_fail_with "expected redirect to http://test.host/redirect_spec/somewhere but there was no redirect"
     end
   end
 end
+
