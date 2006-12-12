@@ -27,16 +27,12 @@ module Spec
           __delegate_method_missing_to_target ">", ">", expected
         end
 
-        def default_message(expectation, expected=:no_expectation_specified)
-          message = "#{@target.inspect} #{expectation}"
-          if (expected != :no_expectation_specified)
-            message << " " << expected.inspect
-          end
-          message
+        def default_message(expectation, expected=nil)
+          Spec::Expectations.build_message(@target, expectation, expected)
          end
 
         def fail_with_message(message)
-          Kernel::raise(Spec::Expectations::ExpectationNotMetError.new(message))
+          Spec::Expectations.fail_with(message)
         end
     
         def find_supported_sym(original_sym)
