@@ -1,15 +1,46 @@
 module Spec
   module Expectations
     module Should
-      class Have < Base
-
+      class Have
+        def initialize(target, relativity=:exactly, expected=nil)
+          @target = target
+          init_collection_handler(target, relativity, expected)
+          init_item_handler(target)
+        end
+        
+        def init_collection_handler(target, relativity, expected)
+          @collection_handler = CollectionHandler.new(target, relativity, expected)
+        end
+        
+        def init_item_handler(target)
+          @item_handler = PositiveItemHandler.new(target)
+        end
+    
+        def method_missing(sym, *args)
+          if @collection_handler.wants_to_handle(sym)
+            @collection_handler.handle_message(sym, *args)
+          elsif @item_handler.wants_to_handle(sym)
+            @item_handler.handle_message(sym, *args)
+          else
+            raise NoMethodError.new("#{@target.inspect} does not respond to `#{sym}' or `has_#{sym}?'")
+          end
+        end
+      end
+      
+      class NotHave < Have
+        def init_item_handler(target)
+          @item_handler = NegativeItemHandler.new(target)
+        end
+      end
+      
+      class CollectionHandler
         def initialize(target, relativity=:exactly, expected=nil)
           @target = target
           @expected = expected == :no ? 0 : expected
           @at_least = (relativity == :at_least)
           @at_most = (relativity == :at_most)
         end
-    
+        
         def at_least(expected_number=nil)
           @at_least = true
           @at_most = false
@@ -26,50 +57,78 @@ module Spec
 
         def method_missing(sym, *args)
           if @target.respond_to?(sym)
-            fail_with_message(build_message(sym, args)) unless as_specified?(sym, args)
-          elsif @target.respond_to?("has_#{sym}?")
-            check_has_sym(sym, *args)
-          else
-            raise NoMethodError.new("#{@target.inspect} does not respond to `#{sym}' or `has_#{sym}?'")
+            handle_message(sym, *args)
           end
         end
-        
-        def check_has_sym(sym, *args)
-          return if @target.send("has_#{sym}?", *args)
-          fail_with_message msg(sym, args, "should have")
+
+        def wants_to_handle(sym)
+          respond_to?(sym) || @target.respond_to?(sym)
         end
-      
-        def msg(sym, args, text)
-          "#{@target.inspect} #{text} #{sym}: #{args.collect{|arg| arg.inspect}.join(', ')}"
+
+        def handle_message(sym, *args)
+          return at_least(args[0]) if sym == :at_least
+          return at_most(args[0]) if sym == :at_most
+          Spec::Expectations.fail_with(build_message(sym, args)) unless as_specified?(sym, args)
         end
-    
-        def actual_size(collection)
-          return collection.length if collection.respond_to? :length
-          return collection.size if collection.respond_to? :size
-        end
-    
+
         def build_message(sym, args)
           message = "#{@target.inspect} should have"
           message += " at least" if @at_least
           message += " at most" if @at_most
-          message += " #{@expected} #{sym} (has #{actual_size(collection(sym, args))})"
+          message += " #{@expected} #{sym} (has #{actual_size_of(collection(sym, args))})"
         end
-    
+
         def as_specified?(sym, args)
-          return actual_size(collection(sym, args)) >= @expected if @at_least
-          return actual_size(collection(sym, args)) <= @expected if @at_most
-          return actual_size(collection(sym, args)) == @expected
+          return actual_size_of(collection(sym, args)) >= @expected if @at_least
+          return actual_size_of(collection(sym, args)) <= @expected if @at_most
+          return actual_size_of(collection(sym, args)) == @expected
         end
 
         def collection(sym, args)
           @target.send(sym, *args)
         end
+    
+        def actual_size_of(collection)
+          return collection.length if collection.respond_to? :length
+          return collection.size if collection.respond_to? :size
+        end
       end
       
-      class NotHave < Have
-        def check_has_sym(sym, *args)
-          return unless @target.send("has_#{sym}?", *args)
-          fail_with_message msg(sym, args, "should not have")
+      class ItemHandler
+        def wants_to_handle(sym)
+          @target.respond_to?("has_#{sym}?")
+        end
+
+        def initialize(target)
+          @target = target
+        end
+
+        def build_message(sym, args)
+          "#{@target.inspect} #{item_expectation} #{sym}: #{args.collect{|arg| arg.inspect}.join(', ')}"
+        end
+        
+        def fail_with(message)
+          Spec::Expectations.fail_with(message)
+        end
+      end
+      
+      class PositiveItemHandler < ItemHandler
+        def handle_message(sym, *args)
+          fail_with(build_message(sym, args)) unless @target.send("has_#{sym}?", *args)
+        end
+        
+        def item_expectation
+          "should have"
+        end
+      end
+      
+      class NegativeItemHandler < ItemHandler
+        def handle_message(sym, *args)
+          fail_with(build_message(sym, args)) if @target.send("has_#{sym}?", *args)
+        end
+        
+        def item_expectation
+          "should not have"
         end
       end
     end

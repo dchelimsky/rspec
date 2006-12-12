@@ -141,22 +141,6 @@ module Spec
       def should_not_respond_to(message)
         should.not.respond_to(message)
       end
-      
-      def should_raise(exception=Exception, message=nil)
-        should.raise(exception, message)
-      end
-      
-      def should_not_raise(exception=Exception, message=nil)
-        should.not.raise(exception, message)
-      end
-      
-      def should_throw(symbol)
-        should.throw(symbol)
-      end
-      
-      def should_not_throw(symbol=:___this_is_a_symbol_that_will_likely_never_occur___)
-        should.not.throw(symbol)
-      end
     end
   end
 end
