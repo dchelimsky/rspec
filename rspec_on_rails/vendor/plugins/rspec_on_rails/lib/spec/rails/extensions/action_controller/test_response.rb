@@ -36,8 +36,7 @@ module ActionController
       
       def should_redirect_to(url)
         unless redirect?
-          message = %Q{expected redirect to #{url} but there was no redirect}
-          raise Spec::Expectations::ExpectationNotMetError.new(message)
+          Spec::Expectations.fail_with(%Q{expected redirect to #{url} but there was no redirect})
         end
         redirect_url.should == url
       end
