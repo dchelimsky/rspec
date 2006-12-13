@@ -39,7 +39,7 @@ module Spec
       def render(options=nil, deprecated_status=nil, &block)
         unless block_given?
           unless integrate_views?
-            @template = Spec::Mocks::Mock.new("mock template") 
+            @template = Spec::Mocks::Mock.new("template") 
             @template.stub!(:evaluate_assigns)
             @template.stub!(:render)
             @template.stub!(:file_exists?).and_return(true)
@@ -50,6 +50,10 @@ module Spec
         end
         render_matcher.set_actual(ensure_default_options(options), response, &block)
         super
+      end
+      
+      def response
+        @_response || @response
       end
       
       def should_render(expected)

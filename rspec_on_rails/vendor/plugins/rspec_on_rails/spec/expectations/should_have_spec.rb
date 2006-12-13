@@ -1,4 +1,3 @@
-if ENV['RSPEC_RAILS_VERSION'] == '1.1.6'
 # receiver.should_have
 #
 # This is the RSpec port of assert_select. If you are using
@@ -524,7 +523,5 @@ protected
     @controller.response = xml
     get :xml
   end
-
-end
 
 end
