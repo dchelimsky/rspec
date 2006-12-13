@@ -118,6 +118,14 @@ module Spec
         end.should_raise
       end
       
+      specify "should support yielding" do
+        @obj.stub!(:method_that_yields).and_yield(:yielded_value)
+        current_value = :value_before
+        @obj.method_that_yields {|val| current_value = val}
+        current_value.should_equal :yielded_value
+        @obj.__verify
+      end
+      
     end
   end
 end

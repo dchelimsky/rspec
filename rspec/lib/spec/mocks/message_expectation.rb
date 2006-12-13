@@ -45,6 +45,10 @@ module Spec
         @exception_to_raise = exception
       end
       
+      def and_yield(*args)
+        @args_to_yield = args
+      end
+  
       def matches(sym, args)
         @sym == sym and @args_expectation.check_args(args)
       end
@@ -129,7 +133,6 @@ module Spec
         end
       end
 
-
       def with(*args)
         @args_expectation = ArgumentExpectation.new(args)
         self
@@ -150,7 +153,7 @@ module Spec
         self
       end
       
-      def set_expected_received_count relativity, n
+      def set_expected_received_count(relativity, n)
         @at_least = (relativity == :at_least)
         @at_most = (relativity == :at_most)
         @expected_received_count = 1 if n == :once
@@ -187,34 +190,30 @@ module Spec
         @symbol_to_throw = symbol
       end
       
-      def and_yield(*args)
-        @args_to_yield = args
-      end
-  
       def ordered
         @order_group.register(self)
         @ordered = true
         self
       end
       
-      def negative_expectation_for? sym
+      def negative_expectation_for?(sym)
         return false
       end
     end
     
     class NegativeMessageExpectation < MessageExpectation
       def initialize(message, expectation_ordering, expected_from, sym, method_block)
-        super message, expectation_ordering, expected_from, sym, method_block, 0
+        super(message, expectation_ordering, expected_from, sym, method_block, 0)
       end
       
-      def negative_expectation_for? sym
+      def negative_expectation_for?(sym)
         return @sym == sym
       end
     end
     
     class MethodStub < BaseExpectation
       def initialize(message, expectation_ordering, expected_from, sym, method_block)
-        super message, expectation_ordering, expected_from, sym, method_block, 0
+        super(message, expectation_ordering, expected_from, sym, method_block, 0)
         @expected_received_count = :any
       end
     end
