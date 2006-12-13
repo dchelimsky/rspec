@@ -45,6 +45,10 @@ module Spec
         @exception_to_raise = exception
       end
       
+      def and_throw(symbol)
+        @symbol_to_throw = symbol
+      end
+      
       def and_yield(*args)
         @args_to_yield = args
       end
@@ -186,10 +190,6 @@ module Spec
         self
       end
   
-      def and_throw(symbol)
-        @symbol_to_throw = symbol
-      end
-      
       def ordered
         @order_group.register(self)
         @ordered = true

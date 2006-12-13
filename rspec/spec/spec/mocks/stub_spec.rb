@@ -125,6 +125,13 @@ module Spec
         current_value.should_equal :yielded_value
         @obj.__verify
       end
+
+      specify "should throw when told to" do
+        @mock.stub!(:something).and_throw(:blech)
+        lambda do
+          @mock.something
+        end.should_throw(:blech)
+      end
       
     end
   end
