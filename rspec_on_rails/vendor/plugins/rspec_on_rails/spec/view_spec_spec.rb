@@ -75,7 +75,6 @@ context "Given a view that includes a partial using :collection and :spacer_temp
 end
 
 context "Different types of renders (not :template)", :context_type => :view do
-
   specify "partial with local" do
     render :partial => "view_spec/partial_with_local_variable", :locals => {:x => "Ender"}
     response.should_have_tag 'div', :content => "Ender"
@@ -85,5 +84,20 @@ context "Different types of renders (not :template)", :context_type => :view do
     render :file => File.expand_path(File.dirname(__FILE__)) + "/../../../../app/views/view_spec/_partial_with_local_variable.rhtml", :locals => {:x => "Ender"}
     response.should_have_tag 'div', :content => "Ender"
   end
+end
 
+context "A view", :context_type => :view do
+  setup do
+    session[:a_message] = "this is a message from the session"
+    @session_before = session
+    render "view_spec/accessor"
+  end
+
+  specify "session should be the same object before and after the action" do
+    session.should_equal @session_before
+  end
+  
+  specify "should have access to session data" do
+    response.should_have "div#session_data", "this is a message from the session"
+  end
 end

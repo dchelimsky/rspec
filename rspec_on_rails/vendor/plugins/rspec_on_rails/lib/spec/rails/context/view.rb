@@ -2,21 +2,13 @@ module Spec
   module Rails
     class ViewEvalContext < Spec::Rails::FunctionalEvalContext
 
-      attr_reader :response
-
       def setup
         super
         # these go here so that flash and session work as they should.
         @controller.send :initialize_template_class, @response
-        begin
-          @controller.send :assign_shortcuts, @request, @response
-        rescue => e
-          unless e.message =~ /^Deprecating.*/
-            raise e
-          end
-        end
+        @controller.send :assign_shortcuts, @request, @response rescue nil
         @controller.send :reset_session
-
+        @session = @controller.session
         assigns[:session] = @controller.session
         @controller.class.send :public, :flash # make flash accessible to the spec
       end

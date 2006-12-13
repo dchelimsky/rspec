@@ -1,7 +1,7 @@
 module Spec
   module Rails
     class FunctionalEvalContext < Spec::Rails::EvalContext
-      attr_reader :session
+      attr_reader :session, :response
       def setup
         super
 
@@ -9,8 +9,6 @@ module Spec
         raise "Can't determine controller class for #{@controller_class_name}" if @controller_class.nil?
 
         @controller = @controller_class.new
-
-        # session = ActionController::TestSession.new
 
         @flash = ActionController::Flash::FlashHash.new
         session['flash'] = @flash
