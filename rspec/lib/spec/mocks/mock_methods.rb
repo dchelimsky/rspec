@@ -10,7 +10,7 @@ module Spec
       end
       
       def stub!(sym)
-        __mock_handler.add_stub caller(1)[0], sym
+        __mock_handler.add_stub(caller(1)[0], sym)
       end
       
       def received_message?(sym, *args, &block)

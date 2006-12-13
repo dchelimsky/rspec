@@ -132,7 +132,7 @@ module Spec
         if expectation = find_matching_expectation(sym, *args)
           expectation.invoke(args, block)
         elsif stub = find_matching_method_stub(sym)
-          stub.invoke([], nil)
+          stub.invoke([], block)
         elsif expectation = find_almost_matching_expectation(sym, *args)
           raise_unexpected_message_args_error(expectation, *args) unless has_negative_expectation?(sym) unless null_object?
         else
