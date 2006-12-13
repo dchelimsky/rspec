@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
-context "The Person model" do
+context "The Person model with fixtures loaded" do
   fixtures :people, :animals
 
   setup do
@@ -12,11 +12,11 @@ context "The Person model" do
   end
 
   specify "should have one record" do
-    Person.should_have(1).records
+    Person.should_have(1).record
   end
 
   specify "should find an existing person" do
-    person = Person.find(1)
+    person = Person.find(people(:lachie).id)
     person.should_eql people(:lachie)
   end
 
@@ -34,15 +34,18 @@ context "The Person model" do
   end
 end
 
-context "A new Person" do
+context "A new Person with a name" do
   fixtures :people
   
   setup do
-    @person = Person.new
+    @person = Person.new(:name => "CheliDaveSlak and the Fabulous Baker Boy")
   end
 
-  specify "should be valid for save if includes a name" do
-    @person.name = "CheliDaveSlak and the Fabulous Baker Boy"
+  specify "should be valid" do
+    @person.should_be_valid
+  end
+
+  specify "should have no errors after save" do
     @person.save.should_be true
     @person.errors.should_be_empty
   end
