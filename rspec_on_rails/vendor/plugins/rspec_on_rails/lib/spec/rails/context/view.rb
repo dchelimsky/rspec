@@ -7,9 +7,7 @@ module Spec
         # these go here so that flash and session work as they should.
         @controller.send :initialize_template_class, @response
         @controller.send :assign_shortcuts, @request, @response rescue nil
-        @controller.send :reset_session
         @session = @controller.session
-        assigns[:session] = @controller.session
         @controller.class.send :public, :flash # make flash accessible to the spec
       end
 
@@ -34,16 +32,18 @@ module Spec
         end
         raise Exception.new("Unhandled render type in view spec.")
       end
+      
+      def add_helpers(options)
+        @controller.add_helper("application")
+        @controller.add_helper(derived_controller_name(options))
+        @controller.add_helper(options[:helper]) if options[:helper]
+        options[:helpers].each { |helper| @controller.add_helper(helper) } if options[:helpers]
+      end
 
       def render(*options)
         options = Spec::Rails::OptsMerger.new(options).merge(:template)
         set_base_view_path(options)
-        @controller.add_helper("application")
-        @controller.add_helper(derived_controller_name(options))
-        @controller.add_helper(options[:helper]) if options[:helper]
-        if options[:helpers]
-          options[:helpers].each { |helper| @controller.add_helper(helper) }
-        end
+        add_helpers(options)
 
         @action_name = action_name caller[0] if options.empty?
         assigns[:action_name] = @action_name
@@ -55,6 +55,8 @@ module Spec
 
         defaults = { :layout => false }
         options = defaults.merge options
+        
+        @request.parameters.merge(@params)
 
         @controller.instance_variable_set :@params, @request.parameters
         @controller.send :initialize_current_url
