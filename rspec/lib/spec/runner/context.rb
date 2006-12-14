@@ -20,6 +20,7 @@ module Spec
         def inherit(klass)
           @context_eval_module.inherit klass
         end
+        alias :inherit_context_eval_module_from :inherit
 
         def include(mod)
           @context_eval_module.include mod
