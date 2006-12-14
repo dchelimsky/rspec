@@ -186,7 +186,7 @@ module Spec
       end
 
       def before_context_eval
-        inherit Spec::Rails::ControllerEvalContext
+        inherit_context_eval_module_from Spec::Rails::ControllerEvalContext
       end
 
     end

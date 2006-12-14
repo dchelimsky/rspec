@@ -42,7 +42,7 @@ module Spec
         end
       end
       def before_context_eval
-        inherit Spec::Rails::HelperEvalContext
+        inherit_context_eval_module_from Spec::Rails::HelperEvalContext
         @context_eval_module.extend HelperContext::ContextEvalClassMethods
       end
     end

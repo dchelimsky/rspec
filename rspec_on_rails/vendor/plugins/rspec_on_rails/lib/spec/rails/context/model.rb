@@ -4,7 +4,7 @@ module Spec
     end
     class ModelContext < Spec::Rails::Context
       def before_context_eval
-        inherit Spec::Rails::ModelEvalContext
+        inherit_context_eval_module_from Spec::Rails::ModelEvalContext
       end
     end
   end

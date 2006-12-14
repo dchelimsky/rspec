@@ -107,7 +107,7 @@ module Spec
         instance
       end
       def before_context_eval
-        inherit Spec::Rails::ViewEvalContext
+        inherit_context_eval_module_from Spec::Rails::ViewEvalContext
       end
     end
   end
