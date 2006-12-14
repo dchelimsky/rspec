@@ -88,16 +88,22 @@ end
 
 context "A view", :context_type => :view do
   setup do
-    session[:a_message] = "this is a message from the session"
-    @session_before = session
+    session[:key] = "session"
+    params[:key] = "params"
+    flash[:key] = "flash"
     render "view_spec/accessor"
   end
 
-  specify "session should be the same object before and after the action" do
-    session.should_equal @session_before
-  end
-  
   specify "should have access to session data" do
-    response.should_have "div#session_data", "this is a message from the session"
+    response.should_have "div#session", "session"
+  end
+
+  #TODO - A view should have access to params data
+  # specify "should have access to params data" do
+  #   response.should_have "div#params", "params"
+  # end
+
+  specify "should have access to flash data" do
+    response.should_have "div#flash", "flash"
   end
 end

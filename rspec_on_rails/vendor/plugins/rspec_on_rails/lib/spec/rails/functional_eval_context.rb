@@ -1,7 +1,7 @@
 module Spec
   module Rails
     class FunctionalEvalContext < Spec::Rails::EvalContext
-      attr_reader :session, :response
+      attr_reader :session, :flash, :request, :response, :params
       def setup
         super
 
@@ -9,17 +9,18 @@ module Spec
         raise "Can't determine controller class for #{@controller_class_name}" if @controller_class.nil?
 
         @controller = @controller_class.new
-
+        
+        @session = ActionController::TestSession.new
         @flash = ActionController::Flash::FlashHash.new
-        session['flash'] = @flash
-
         @request = ActionController::TestRequest.new
-        @request.session = session
-
         @response = ActionController::TestResponse.new
+        @params = Hash.new
+
+        @session['flash'] = @flash
+        @request.session = @session
 
         setup_extra if respond_to? :setup_extra
-      end
+      end      
 
       # Docs say only use assigns[:key] format, but allowing assigns(:key)
       # in order to avoid breaking old specs.
@@ -29,10 +30,6 @@ module Spec
         else
           _controller_ivar_proxy[key]
         end
-      end
-      
-      def session
-        @session ||= ActionController::TestSession.new
       end
       
       private
