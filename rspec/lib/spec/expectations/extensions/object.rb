@@ -108,28 +108,36 @@ module Spec
         should.not.be(expected)
       end
       
+      # Passes if &block returns true
       def should_satisfy(&block)
         should.satisfy(&block)
       end
       
+      # Passes unless &block returns true
       def should_not_satisfy(&block)
         should.not.satisfy(&block)
       end
       
+      # Passes if receiver is an instance of expected_class
       def should_be_an_instance_of(expected_class)
         should.be.an_instance_of(expected_class)
       end
       alias_method :should_be_instance_of, :should_be_an_instance_of
       
+      # Passes unless receiver is an instance of expected_class
       def should_not_be_an_instance_of(expected_class)
         should.not.be.an_instance_of(expected_class)
       end
       
+      # Passes if receiver is an instance of either expected_class
+      # or a subclass of expected_class
       def should_be_a_kind_of(expected_class)
         should.be.a_kind_of(expected_class)
       end
       alias_method :should_be_kind_of, :should_be_a_kind_of
       
+      # Passes unless receiver is an instance of either expected_class
+      # or a subclass of expected_class
       def should_not_be_a_kind_of(expected_class)
         should.not.be.a_kind_of(expected_class)
       end

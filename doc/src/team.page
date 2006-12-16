@@ -32,7 +32,10 @@ h3. RSpec!
 
 In alphabetical order (by last name)
 
-* Wilson Bilkovich (lambda {...}.should_change(obj, :message))
+* Wilson Bilkovich [
+  lambda {...}.should_change(obj, :message),
+  ar_subclass.should_have(n).errors_on(:attribute)
+]
 * Lachie Cox (Initial Rails support and diffing enhancements for Objects and custom formats)
 * Lindsay Evans (Patch for RSpec on Rails on Windows)
 * David Goodlad (Patch for allowing non-Strings as partial_paths in view/specs)

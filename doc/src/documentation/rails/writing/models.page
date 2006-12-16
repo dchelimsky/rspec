@@ -20,6 +20,14 @@ Model.should_have(3).records
 
 This is an alias for <code>Model.find(:all).length.should_eql 3</code>.
 
+h3. Errors
+
+<ruby>
+model.should_have(:no).errors_on(:attribute)
+model.should_have(1).error_on(:attribute)
+model.should_have(3).errors_on(:attribute)
+</ruby>
+
 h2. Example Model Specs
 
 <ruby file="../rspec_on_rails/spec/models/person_spec.rb"/>
