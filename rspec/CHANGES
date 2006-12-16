@@ -5,6 +5,7 @@
 Release notes go here.
 Checklist: Are all the new features documented in both the website and rdoc?
 
+* Applied [#7277] model.should_have(n).errors_on(:attribute)
 * Applied [#7270] RSpec render_partial colliding with simply_helpful
 * Added [#7250] stubs should support throwing
 * Added [#7249] stubs should support yielding
