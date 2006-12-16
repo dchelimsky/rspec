@@ -19,10 +19,14 @@ module Spec
       
       def run(exit_when_done)
         @reporter.start(number_of_specs)
-        @contexts.each do |context|
-          context.run(@reporter, @dry_run)
+        begin
+          @contexts.each do |context|
+            context.run(@reporter, @dry_run)
+          end
+        rescue Interrupt
+        ensure
+          @reporter.end
         end
-        @reporter.end
         failure_count = @reporter.dump
         if(exit_when_done)
           exit_code = (failure_count == 0) ? 0 : 1
