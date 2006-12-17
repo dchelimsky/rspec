@@ -16,7 +16,10 @@ context "ContextRunner" do
     reporter.should_receive(:start).with(0)
     reporter.should_receive(:end)
     reporter.should_receive(:dump)
-    runner = Spec::Runner::ContextRunner.new(reporter, false)
+
+    options = OpenStruct.new
+    options.reporter = reporter
+    runner = Spec::Runner::ContextRunner.new(options)
     runner.add_context(context1)
     runner.add_context(context2)
     runner.run(false)
@@ -33,7 +36,11 @@ context "ContextRunner" do
     other_context.should_receive(:run).never
     other_context.should_receive(:number_of_specs).never
     reporter = mock("reporter")
-    runner = Spec::Runner::ContextRunner.new(reporter, false, "desired context legal spec")
+    options = OpenStruct.new
+    options.reporter = reporter
+    options.spec_name = "desired context legal spec"
+
+    runner = Spec::Runner::ContextRunner.new(options)
     runner.add_context(desired_context)
     runner.add_context(other_context)
     reporter.should_receive(:start)
@@ -53,8 +60,6 @@ context "ContextRunner" do
     end
 
     reporter = mock("reporter")
-    runner = Spec::Runner::ContextRunner.new(reporter, false)
-    runner.add_context(context)
     reporter.should_receive(:start)
     reporter.should_receive(:add_context).with("context")
     reporter.should_receive(:spec_started).with("no error")
@@ -62,6 +67,11 @@ context "ContextRunner" do
     reporter.should_receive(:spec_started).with("should interrupt")
     reporter.should_receive(:end)
     reporter.should_receive(:dump)
+
+    options = OpenStruct.new
+    options.reporter = reporter
+    runner = Spec::Runner::ContextRunner.new(options)
+    runner.add_context(context)
     runner.run(false)
   end
 end

@@ -4,16 +4,16 @@ module Spec
   module Runner
     class ContextRunner
       
-      def initialize(reporter, dry_run, single_spec=nil)
+      def initialize(options)
         @contexts = []
-        @reporter = reporter
-        @dry_run = dry_run
-        @single_spec = single_spec
+        @reporter = options.reporter
+        @dry_run = options.dry_run
+        @spec_name = options.spec_name
       end
     
       def add_context(context)
-        return if !@single_spec.nil? unless context.matches?(@single_spec)
-        context.run_single_spec @single_spec if context.matches?(@single_spec)
+        return if !@spec_name.nil? unless context.matches?(@spec_name)
+        context.run_single_spec(@spec_name) if context.matches?(@spec_name)
         @contexts << context
       end
       
@@ -28,6 +28,7 @@ module Spec
           @reporter.end
         end
         failure_count = @reporter.dump
+        
         if(exit_when_done)
           exit_code = (failure_count == 0) ? 0 : 1
           exit(exit_code)
