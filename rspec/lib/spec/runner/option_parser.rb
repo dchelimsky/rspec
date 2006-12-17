@@ -111,8 +111,9 @@ module Spec
             options.backtrace_tweaker = NoisyBacktraceTweaker.new
           end
 
-          opts.on("-H", "--heckle CODE", "Heckle your code if all specs pass", 
-                                         "This will run your specs many times, modifying it little by little",
+          opts.on("-H", "--heckle CODE", "If all specs pass, this will run your specs many times, mutating",
+                                         "the specced code a little each time. The intent is that specs",
+                                         "*should* fail, and RSpec will tell you if they don't.",
                                          "CODE should be either Some::Module, Some::Class or Some::Fabulous#method}") do |heckle|
             require 'spec/runner/heckle_runner'
             options.heckle_runner = HeckleRunner.new(heckle)

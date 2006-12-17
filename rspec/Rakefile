@@ -65,6 +65,8 @@ task :webgen do
     end
     raise "ERROR while running webgen: #{output}" if output =~ /ERROR/n || $? != 0
   end
+  spec_page = File.open(File.dirname(__FILE__) + '/../doc/output/tools/spec.html').read
+  raise "It seems like the output in the generated documentation is broken" unless spec_page =~/\.\.\.\.\.\.\.\.\.\.\.\.\.\.\.\.\.\.\.\./m
 end
 
 desc 'Generate RDoc'

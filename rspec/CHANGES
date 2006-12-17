@@ -1,13 +1,16 @@
 = RSpec Changelog
 
 == Version 0.7.5 (Not yet released)
-
-Release notes go here.
 Checklist: Are all the new features documented in both the website and rdoc?
+
+This release adds support for Heckle - Seattle'rb's code mutation tool.
+IMPORTANT: DO NOT RELEASE BEFORE HECKLE IS RELEASED WITH THIS PATCH:
+https://rubyforge.org/tracker/index.php?func=detail&aid=7312&group_id=1513&atid=5923
+There are also several bug fixes to the RSpec core and the RSpec on Rails plugin.
 
 * Applied [#7319] Migration code uses drop_column when it should use remove_column (patch from Pat Maddox)
 * Added support for Heckle
-* Applied [#7282] dump results even if spec is interruptted (patch from Kouhei Sutou)
+* Applied [#7282] dump results even if spec is interrupted (patch from Kouhei Sutou)
 * Applied [#7277] model.should_have(n).errors_on(:attribute) (patch from Wilson Bilkovich)
 * Applied [#7270] RSpec render_partial colliding with simply_helpful (patch from David Goodlad)
 * Added [#7250] stubs should support throwing
