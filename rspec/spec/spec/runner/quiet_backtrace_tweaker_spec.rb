@@ -14,12 +14,6 @@ module Spec
         end.should_not_raise
       end
 
-      specify "should remove anything from rspec on rails" do
-        @error.set_backtrace(["/usr/local/lib/ruby/gems/1.8/gems/rspec_generator-0.5.12/lib/rspec_on_rails.rb:33:in `run'"])
-        @tweaker.tweak_backtrace(@error, "spec name")
-        @error.backtrace.should_be_empty
-      end
-
       specify "should remove anything from textmate ruby bundle" do
         @error.set_backtrace(["/Applications/TextMate.app/Contents/SharedSupport/Bundles/Ruby.tmbundle/Support/tmruby.rb:147"])
         @tweaker.tweak_backtrace(@error, "spec name")
@@ -27,10 +21,13 @@ module Spec
       end
 
       specify "should remove anything in lib spec dir" do
-        @error.set_backtrace(["/lib/spec/"])
-        @tweaker.tweak_backtrace(@error, "spec name")
-        unless (@error.backtrace.empty?)
-          raise("Should have tweaked away '#{element}'")
+        ["expectations", "mocks", "runner", "callback"].each do |child|
+          element="/lib/spec/#{child}/anything.rb"
+          @error.set_backtrace([element])
+          @tweaker.tweak_backtrace(@error, "spec name")
+          unless (@error.backtrace.empty?)
+            raise("Should have tweaked away '#{element}'")
+          end
         end
       end
 
