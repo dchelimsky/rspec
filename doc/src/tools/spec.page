@@ -163,7 +163,7 @@ $ spec failing_examples/team_spec.rb -b
 {execute: cd ../rspec ; bin/spec failing_examples/team_spec.rb -b}
 </pre>
 
-h3. -H, --heckle
+h3. -H, --heckle CODE
 
 If all specs pass, this will run your specs many times, mutating
 the specced code a little each time. The intent is that specs
