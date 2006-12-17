@@ -232,4 +232,8 @@ context "OptionParser" do
     @err.string.should_match(/You cannot use both --line and --spec/n)
   end
 
+   specify "should heckle when --heckle is specified" do
+     options = parse(["--heckle", "Spec"])
+     options.heckle_runner.should_be_instance_of(Spec::Runner::HeckleRunner)
+   end
 end

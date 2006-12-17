@@ -4,14 +4,10 @@ module Spec
       
       def initialize(formatter, backtrace_tweaker)
         @formatter = formatter
-        @context_names = []
-        @failures = []
-        @spec_names = []
         @backtrace_tweaker = backtrace_tweaker
-        @start_time = nil
-        @end_time = nil
+        clear!
       end
-  
+      
       def add_context(name)
         #TODO - @context_names.empty? tells the formatter whether this is the first context or not - that's a little slippery
         @formatter.add_context(name, @context_names.empty?)
@@ -33,6 +29,7 @@ module Spec
       end
       
       def start(number_of_specs)
+        clear!
         @start_time = Time.new
         @formatter.start(number_of_specs)
       end
@@ -50,6 +47,14 @@ module Spec
       end
 
       private
+  
+      def clear!
+        @context_names = []
+        @failures = []
+        @spec_names = []
+        @start_time = nil
+        @end_time = nil
+      end
   
       def dump_failures
         return if @failures.empty?

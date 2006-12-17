@@ -74,4 +74,27 @@ context "ContextRunner" do
     runner.add_context(context)
     runner.run(false)
   end
+
+  specify "should heckle when options have heckle_runner" do
+    context = mock("context", :null_object => true)
+    context.should_receive(:number_of_specs).and_return(0)
+    context.should_receive(:run).and_return(0)
+
+    reporter = mock("reporter")
+    reporter.should_receive(:start).with(0)
+    reporter.should_receive(:end)
+    reporter.should_receive(:dump).and_return(0)
+
+    heckle_runner = mock("heckle_runner")
+    heckle_runner.should_receive(:heckle_with)
+
+    options = OpenStruct.new
+    options.reporter = reporter
+    options.heckle_runner = heckle_runner
+
+    runner = Spec::Runner::ContextRunner.new(options)
+    runner.add_context(context)
+    runner.run(false)
+
+  end
 end

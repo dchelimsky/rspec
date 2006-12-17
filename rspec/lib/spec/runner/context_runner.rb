@@ -6,33 +6,41 @@ module Spec
       
       def initialize(options)
         @contexts = []
-        @reporter = options.reporter
-        @dry_run = options.dry_run
-        @spec_name = options.spec_name
+        @options = options
       end
     
       def add_context(context)
-        return if !@spec_name.nil? unless context.matches?(@spec_name)
-        context.run_single_spec(@spec_name) if context.matches?(@spec_name)
+        return if !@options.spec_name.nil? unless context.matches?(@options.spec_name)
+        context.run_single_spec(@options.spec_name) if context.matches?(@options.spec_name)
         @contexts << context
       end
       
+      # Runs all contexts and returns the number of failures.
       def run(exit_when_done)
-        @reporter.start(number_of_specs)
+        @options.reporter.start(number_of_specs)
         begin
           @contexts.each do |context|
-            context.run(@reporter, @dry_run)
+            context.run(@options.reporter, @options.dry_run)
           end
         rescue Interrupt
         ensure
-          @reporter.end
+          @options.reporter.end
         end
-        failure_count = @reporter.dump
+        failure_count = @options.reporter.dump
+        
+        if(failure_count == 0 && !@options.heckle_runner.nil?)
+          heckle_runner = @options.heckle_runner
+          @options.heckle_runner = nil
+          context_runner = self.class.new(@options)
+          context_runner.instance_variable_set(:@contexts, @contexts)
+          heckle_runner.heckle_with(context_runner)
+        end
         
         if(exit_when_done)
           exit_code = (failure_count == 0) ? 0 : 1
           exit(exit_code)
         end
+        failure_count
       end
     
       def number_of_specs
