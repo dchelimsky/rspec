@@ -47,3 +47,7 @@ h3. 7) Integrated diffing
 
 When you run specs with the <tt>--diff</tt> option, you'll see unified diffs when Strings don't match.
 Very useful when your specs are comparing big strings!
+
+h3. 8) Mutation with Heckle
+
+The <tt>--heckle</tt> option will run your specs with mutations.

@@ -10,8 +10,11 @@ rake.page:
 rcov.page:
   orderInfo: 13
 
+heckle.page:
+  orderInfo: 14
+
 extensions:
   title: Extensions
-  orderInfo: 14
+  orderInfo: 15
   inMenu: true
 

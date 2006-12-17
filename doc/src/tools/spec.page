@@ -26,7 +26,7 @@ that are found are loaded. Running spec on the previous example results in:
 <pre>
 $ spec examples
 
-{execute: ruby -I../rspec/lib ../rspec/bin/spec ../examples}
+{execute: cd ../rspec ; bin/spec examples}
 </pre>
 
 Very simple and to the point. Passing specifications are indicated by a '.',
@@ -36,12 +36,8 @@ well as an unexpected exception being raised.  Here's an example with a failing 
 <pre>
 $ spec failing_examples/stack_spec.rb
 
-{execute: ruby -I../lib ../bin/spec ../rspec/failing_examples/stack_spec.rb}
+{execute: cd ../rspec ; bin/spec failing_examples/team_spec.rb}
 </pre>
-
-In this case, the context is named "An almost full stack (with one item less than capacity)" 
-and the specification is named "should return top when sent pop". These two are concatenated 
-on the first line of the backtrace.
 
 h2. Command line options
 
@@ -50,7 +46,7 @@ When you run <tt>spec</tt> with the <tt>--help</tt> option it prints a help mess
 <pre>
 $ spec --help
 
-{execute: ruby -I../lib ../bin/spec --help}
+{execute: cd ../rspec ; bin/spec --help}
 </pre>
 
 The command line options can be passed to customize the output and behaviour of RSpec.
@@ -69,7 +65,7 @@ And the output using <tt>--diff</tt>
 <pre>
 $ spec failing_examples/diffing_spec.rb --diff
 
-{execute: ruby -I../lib ../bin/spec ../rspec/failing_examples/diffing_spec.rb --diff}
+{execute: cd ../rspec ; bin/spec failing_examples/diffing_spec.rb --diff}
 </pre>
 
 If you want to use the <tt>--diff</tt> option, you must also gem install diff-lcs. You
@@ -88,7 +84,7 @@ all the specs in a context ...
 <pre>
 $ spec examples --spec "A stack which is neither empty nor full" -f s
 
-{execute: ruby -I../lib ../bin/spec ../rspec/examples --spec "A stack which is neither empty nor full" -f s}
+{execute: cd ../rspec ; bin/spec examples --spec "A stack which is neither empty nor full" -f s}
 </pre>
 
 ... any spec in any context with a given name ...
@@ -96,7 +92,7 @@ $ spec examples --spec "A stack which is neither empty nor full" -f s
 <pre>
 $ spec examples --spec "should return the top item when sent 'pop'" -f s
 
-{execute: ruby -I../lib ../bin/spec ../rspec/examples --spec "should return the top item when sent 'pop'" -f s}
+{execute: cd ../rspec ; bin/spec examples --spec "should return the top item when sent 'pop'" -f s}
 </pre>
 
 ... or a specific spec in a specific context:
@@ -104,7 +100,7 @@ $ spec examples --spec "should return the top item when sent 'pop'" -f s
 <pre>
 $ spec examples --spec "A stack which is neither empty nor full should return the top item when sent 'pop'" -f s
 
-{execute: ruby -I../lib ../bin/spec ../rspec/examples --spec "A stack which is neither empty nor full should return the top item when sent 'pop'" -f s}
+{execute: cd ../rspec ; bin/spec examples --spec "A stack which is neither empty nor full should return the top item when sent 'pop'" -f s}
 </pre>
 
 h3. -l, --line
@@ -116,7 +112,7 @@ not use it in conjunction with --spec.
 <pre>
 $ spec examples/stack_spec.rb --line 16 -f s
 
-{execute: ruby -I../lib ../bin/spec ../rspec/examples/stack_spec.rb --line 16 -f s}
+{execute: cd ../rspec ; bin/spec examples/stack_spec.rb --line 16 -f s}
 </pre>
 
 
@@ -131,7 +127,7 @@ needs to produce something like "this":../rdoc/files/EXAMPLES_rd.html
 <pre>
 $ spec failing_examples/team_spec.rb -f rdoc
 
-{execute: ruby -I../lib ../bin/spec ../rspec/failing_examples/team_spec.rb -f rdoc}
+{execute: cd ../rspec ; bin/spec failing_examples/team_spec.rb -f rdoc}
 </pre>
 
 You can also output an "HTML report":failing_examples.html
@@ -164,7 +160,20 @@ you can use -b or --backtrace:
 <pre>
 $ spec failing_examples/team_spec.rb -b
 
-{execute: ruby -I../lib ../bin/spec ../rspec/failing_examples/team_spec.rb -b}
+{execute: cd ../rspec ; bin/spec failing_examples/team_spec.rb -b}
+</pre>
+
+h3. -H, --heckle
+
+If all specs pass, this will run your specs many times, mutating
+the specced code a little each time. The intent is that specs
+*should* fail, and RSpec will tell you if they don't.
+CODE should be either Some::Module, Some::Class or Some::Fabulous#method}
+
+<pre>
+$ spec examples --heckle Stack#pop
+
+{execute: cd ../rspec ; bin/spec examples --heckle Stack#pop}
 </pre>
 
 h3. -d, --dry-run
