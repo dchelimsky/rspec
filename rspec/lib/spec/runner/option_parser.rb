@@ -110,6 +110,13 @@ module Spec
           opts.on("-b", "--backtrace", "Output full backtrace") do
             options.backtrace_tweaker = NoisyBacktraceTweaker.new
           end
+
+          opts.on("-H", "--heckle CODE", "Heckle your code if all specs pass", 
+                                         "This will run your specs many times, modifying it little by little",
+                                         "CODE should be either Some::Module, Some::Class or Some::Fabulous#method}") do |heckle|
+            require 'spec/runner/heckle_runner'
+            options.heckle_runner = HeckleRunner.new(heckle)
+          end
           
           opts.on("-d", "--dry-run", "Don't execute specs") do
             options.dry_run = true
