@@ -13,7 +13,7 @@ module Spec
         options = parse(args, err, out, warn_if_no_files)
 
         formatter = options.formatter_type.new(options.out, options.dry_run, options.colour)
-        reporter = Reporter.new(formatter, options.backtrace_tweaker) 
+        options.reporter = Reporter.new(formatter, options.backtrace_tweaker) 
 
         # this doesn't really belong here.
         # it should, but the way things are coupled, it doesn't
@@ -21,7 +21,7 @@ module Spec
           Spec::Expectations::Should::Base.differ = options.differ_class.new(options.diff_format, options.context_lines, options.colour)
         end
 
-        ContextRunner.new(reporter, options.dry_run, options.spec_name)
+        ContextRunner.new(options)
       end
 
       def parse(args, err, out, warn_if_no_files)
