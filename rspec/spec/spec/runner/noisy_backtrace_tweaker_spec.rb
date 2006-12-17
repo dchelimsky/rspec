@@ -34,11 +34,12 @@ module Spec
         end.should_not_raise
       end
       
-      specify "should replace instance exec with spec name" do
-        @error.set_backtrace(["./examples/airport_spec.rb:28:in `__instance_exec_1014688_1661744'"])
+      specify "should clean up double slashes" do
+        @error.set_backtrace(["/a//b/c//d.rb"])
         @tweaker.tweak_backtrace(@error, "spec name")
-        @error.backtrace[0].should_eql("./examples/airport_spec.rb:28:in `spec name'")
+        @error.backtrace.should_include "/a/b/c/d.rb"
       end
+      
     end
   end
 end

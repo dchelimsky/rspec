@@ -1,29 +1,26 @@
 module Spec
   module Runner
-    class NoisyBacktraceTweaker
-      def tweak_instance_exec_line line, spec_name
-        line = line.split(':in')[0] + ":in `#{spec_name}'" if line.include?('__instance_exec')
-        line
+    class BacktraceTweaker
+      def clean_up_double_slashes(line)
+        line.gsub!('//','/')
       end
+    end
+
+    class NoisyBacktraceTweaker < BacktraceTweaker
       def tweak_backtrace(error, spec_name)
         return if error.backtrace.nil?
-        error.backtrace.collect! do |line|
-          tweak_instance_exec_line line, spec_name
+        error.backtrace.each do |line|
+          clean_up_double_slashes(line)
         end
-        error.backtrace.compact!
       end
     end
 
     # Tweaks raised Exceptions to mask noisy (unneeded) parts of the backtrace
-    class QuietBacktraceTweaker
-      def tweak_instance_exec_line line, spec_name
-        line = line.split(':in')[0] if line.include?('__instance_exec')
-        line
-      end
+    class QuietBacktraceTweaker < BacktraceTweaker
       def tweak_backtrace(error, spec_name)
         return if error.backtrace.nil?
         error.backtrace.collect! do |line|
-          line = tweak_instance_exec_line line, spec_name
+          clean_up_double_slashes(line)
           line = nil if line =~ /\/lib\/ruby\//
           line = nil if line =~ /\/lib\/spec\//
           line = nil if line =~ /bin\/spec:/

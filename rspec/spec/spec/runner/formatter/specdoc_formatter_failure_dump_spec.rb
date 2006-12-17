@@ -12,11 +12,11 @@ context "SpecdocFormatterFailureDump" do
     set_backtrace(error)
     @reporter.spec_finished("spec", error, "spec")
     @reporter.dump
-    @io.string.should_match(/\ncontext\n- spec \(FAILED - 1\)\n\n1\)\n'context spec' FAILED\nmessage\n\/a\/b\/c\/d\/e.rb:34:\n\nFinished in /)
+    @io.string.should_match(/\ncontext\n- spec \(FAILED - 1\)\n\n1\)\n'context spec' FAILED\nmessage\n\/a\/b\/c\/d\/e.rb:34:in `some_method'\n\nFinished in /)
   end
 
   def set_backtrace(error)
-    error.set_backtrace(["/a/b/c/d/e.rb:34:in `__instance_exec'"])
+    error.set_backtrace(["/a/b/c/d/e.rb:34:in `some_method'"])
   end
   
 end
