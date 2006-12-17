@@ -4,6 +4,6 @@ class Animals < ActiveRecord::Migration
   end
 
   def self.down
-    drop_column :animals, :age
+    remove_column :animals, :age
   end
 end
