@@ -27,15 +27,10 @@ module Spec
       end
 
       specify "should remove anything in lib spec dir" do
-        element=
-        element=nil
-        ["expectations", "mocks", "runner", "callback"].each do |child|
-          element="/lib/spec/#{child}/anything.rb"
-          @error.set_backtrace([element])
-          @tweaker.tweak_backtrace(@error, "spec name")
-          unless (@error.backtrace.empty?)
-            raise("Should have tweaked away '#{element}'")
-          end
+        @error.set_backtrace(["/lib/spec/"])
+        @tweaker.tweak_backtrace(@error, "spec name")
+        unless (@error.backtrace.empty?)
+          raise("Should have tweaked away '#{element}'")
         end
       end
 
@@ -44,11 +39,11 @@ module Spec
         @tweaker.tweak_backtrace(@error, "spec name")
         @error.backtrace.should_be_empty
       end
-
-      specify "should remove instance exec" do
-        @error.set_backtrace(["./examples/airport_spec.rb:28:in `__instance_exec_1014688_1661744'"])
+      
+      specify "should clean up double slashes" do
+        @error.set_backtrace(["/a//b/c//d.rb"])
         @tweaker.tweak_backtrace(@error, "spec name")
-        @error.backtrace[0].should_eql("./examples/airport_spec.rb:28")
+        @error.backtrace.should_include "/a/b/c/d.rb"
       end
     end
   end
