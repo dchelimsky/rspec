@@ -25,11 +25,7 @@ module Spec
         error.backtrace.collect! do |line|
           line = tweak_instance_exec_line line, spec_name
           line = nil if line =~ /\/lib\/ruby\//
-          line = nil if line =~ /\/lib\/spec\/expectations\//
-          line = nil if line =~ /\/lib\/spec\/mocks\//
-          line = nil if line =~ /\/lib\/spec\/rake\//
-          line = nil if line =~ /\/lib\/spec\/runner\//
-          line = nil if line =~ /\/lib\/spec\/callback\//
+          line = nil if line =~ /\/lib\/spec\//
           line = nil if line =~ /bin\/spec:/
           line = nil if line =~ /bin\/rcov:/
           line = nil if line =~ /lib\/rspec_on_rails/
