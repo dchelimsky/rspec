@@ -61,5 +61,15 @@ require File.dirname(__FILE__) + '/../spec_helper'
       post 'text_action'
       controller.should_render :text => "this the text for this action"
     end
+    
+    specify "a 'should_render' expectation should support an Ajax request and RJS template before the action" do
+      controller.should_render :template => 'render_spec/some_action.rjs'
+      xhr :post, 'some_action'
+    end
+    
+    specify "a 'should_render' expectation should support an Ajax request and RJS template after the action" do
+      xhr :post, 'some_action'
+      controller.should_render :template => 'render_spec/some_action.rjs'
+    end
   end
 end

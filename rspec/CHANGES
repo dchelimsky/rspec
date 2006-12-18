@@ -8,6 +8,7 @@ IMPORTANT: DO NOT RELEASE BEFORE HECKLE IS RELEASED WITH THIS PATCH:
 https://rubyforge.org/tracker/index.php?func=detail&aid=7312&group_id=1513&atid=5923
 There are also several bug fixes to the RSpec core and the RSpec on Rails plugin.
 
+* Applied [#7320] [PATCH] Allow XHR requests in controller specs to render RJS templates
 * Applied [#7319] Migration code uses drop_column when it should use remove_column (patch from Pat Maddox)
 * Added support for Heckle
 * Applied [#7282] dump results even if spec is interrupted (patch from Kouhei Sutou)
