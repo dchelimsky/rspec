@@ -11,6 +11,14 @@ module Spec
           context_modules << mod
         end
 
+        def context_setup(&block)
+          context_setup_parts << block
+        end
+
+        def context_teardown(&block)
+          context_teardown_parts << block
+        end
+
         def setup(&block)
           setup_parts << block
         end
@@ -39,6 +47,18 @@ module Spec
         end
 
       private
+
+        def context_setup_block
+          parts = context_setup_parts.dup
+          add_context_superclass_method(:context_setup, parts)
+          create_block_from_parts(parts)
+        end
+
+        def context_teardown_block
+          parts = context_teardown_parts.dup
+          add_context_superclass_method(:context_teardown, parts)
+          create_block_from_parts(parts)
+        end
 
         def setup_block
           parts = setup_parts.dup
@@ -73,6 +93,14 @@ module Spec
         
         def specifications
           @specifications ||= []
+        end
+
+        def context_setup_parts
+          @context_setup_parts ||= []
+        end
+
+        def context_teardown_parts
+          @context_teardown_parts ||= []
         end
 
         def setup_parts

@@ -26,6 +26,14 @@ module Spec
           @context_eval_module.include mod
         end
 
+        def context_setup(&block)
+          @context_eval_module.context_setup(&block)
+        end
+
+        def context_teardown(&block)
+          @context_eval_module.context_teardown(&block)
+        end
+
         def setup(&block)
           @context_eval_module.setup(&block)
         end
@@ -40,15 +48,16 @@ module Spec
 
         def run(reporter, dry_run=false)
           reporter.add_context(@name)
-
           prepare_execution_context_class
+          errors = run_context_setup(reporter, dry_run)
+
           specifications.each do |specification|
-            specification.run(reporter, setup_block, teardown_block, dry_run, execution_context(specification))
-          end
-        end
-        
-        def execution_context specification
-          execution_context_class.new(specification)
+            specification_execution_context = execution_context(specification)
+            specification_execution_context.copy_instance_variables_from(@once_only_execution_context_instance, [:@spec]) unless context_setup_block.nil?
+            specification.run(reporter, setup_block, teardown_block, dry_run, specification_execution_context)
+          end unless errors.length > 0
+          
+          run_context_teardown(reporter, dry_run)
         end
 
         def number_of_specs
@@ -81,6 +90,14 @@ module Spec
 
         def method_missing(*args)
           @context_eval_module.method_missing(*args)
+        end
+
+        def context_setup_block
+          @context_eval_module.send :context_setup_block
+        end
+
+        def context_teardown_block
+          @context_eval_module.send :context_teardown_block
         end
 
         def specifications
@@ -117,6 +134,37 @@ module Spec
 
         def execution_context_class
           @context_eval_module.send :execution_context_class
+        end
+
+        def execution_context specification
+          execution_context_class.new(specification)
+        end
+
+        def run_context_setup(reporter, dry_run)
+          errors = []
+          unless dry_run
+            begin
+              @once_only_execution_context_instance = execution_context(nil)
+              @once_only_execution_context_instance.instance_eval(&context_setup_block)
+            rescue => e
+              errors << e
+              location = "context_setup"
+              reporter.spec_finished(location, e, location) if reporter
+            end
+          end
+          errors
+        end
+        
+        def run_context_teardown(reporter, dry_run)
+          unless dry_run
+            begin 
+              @once_only_execution_context_instance ||= execution_context(nil) 
+              @once_only_execution_context_instance.instance_eval(&context_teardown_block) 
+            rescue => e
+              location = "context_teardown"
+              reporter.spec_finished(location, e, location) if reporter
+            end
+          end
         end
 
       end

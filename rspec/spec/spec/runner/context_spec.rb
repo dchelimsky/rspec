@@ -37,6 +37,106 @@ module Spec
         @context.run(@formatter, true)
         $spec_ran.should_be false
       end
+
+      specify "should not run context_setup or context_teardown on dry run" do
+        @formatter.should_receive(:add_context).with :any_args
+        @formatter.should_receive(:spec_started).with "test"
+        @formatter.should_receive(:spec_finished).with "test"
+        
+        context_setup_ran = false
+        context_teardown_ran = false
+        @context.context_setup { context_setup_ran = true }
+        @context.context_teardown { context_teardown_ran = true }
+        @context.specify("test") {true}
+        @context.run(@formatter, true)
+        context_setup_ran.should_be false
+        context_teardown_ran.should_be false
+      end
+
+      specify "should not run context if context_setup fails" do
+        @formatter.should_receive(:add_context).with :any_args
+        @formatter.should_receive(:spec_finished).with :any_args
+        
+        spec_ran = false
+        @context.context_setup { raise "help" }
+        @context.specify("test") {spec_ran = true}
+        @context.run(@formatter)
+        spec_ran.should_be false
+      end
+
+      specify "should run context_teardown if any spec fails" do
+        @formatter.should_receive(:add_context).with :any_args
+        @formatter.should_receive(:spec_finished).with :any_args
+        
+        context_teardown_ran = false
+        @context.context_setup { raise "context_setup error" }
+        @context.context_teardown { context_teardown_ran = true }
+        @context.run(@formatter)
+        context_teardown_ran.should_be true
+      end
+
+      specify "should run context_teardown if any context_setup fails" do
+        @formatter.should_receive(:add_context).with :any_args
+        @formatter.should_receive(:spec_started).with "test"
+        @formatter.should_receive(:spec_finished).with :any_args
+        
+        context_teardown_ran = false
+        @context.context_teardown { context_teardown_ran = true }
+        @context.specify("test") {raise "spec error" }
+        @context.run(@formatter)
+        context_teardown_ran.should_be true
+      end
+
+
+      specify "should supply context_setup as spec name if failure in context_setup" do
+        @formatter.should_receive(:add_context).with :any_args
+
+        @formatter.should_receive(:spec_finished) do |name, error, location|
+          name.should_eql("context_setup")
+          error.message.should_eql("in context_setup")
+          location.should_eql("context_setup")
+        end
+        
+        @context.context_setup { raise "in context_setup" }
+        @context.specify("test") {true}
+        @context.run(@formatter)
+      end
+
+      specify "should provide context_teardown as spec name if failure in context_teardown" do
+        @formatter.should_receive(:add_context).with :any_args
+
+        @formatter.should_receive(:spec_finished) do |name, error, location|
+          name.should_eql("context_teardown")
+          error.message.should_eql("in context_teardown")
+          location.should_eql("context_teardown")
+        end
+        
+        @context.context_teardown { raise "in context_teardown" }
+        @context.run(@formatter)
+      end
+
+      specify "should run superclass context_setup and context_setup block only once per context" do
+        @formatter.should_receive(:add_context).with :any_args
+        @formatter.should_receive(:spec_started).with "test"
+        @formatter.should_receive(:spec_started).with "test2"
+        @formatter.should_receive(:spec_finished).twice.with :any_args
+
+        super_class_context_setup_run_count = 0
+        super_class = Class.new do
+          define_method :context_setup do
+            super_class_context_setup_run_count += 1
+          end
+        end
+        @context.inherit super_class
+
+        context_setup_run_count = 0
+        @context.context_setup {context_setup_run_count += 1}
+        @context.specify("test") {true}
+        @context.specify("test2") {true}
+        @context.run(@formatter)
+        super_class_context_setup_run_count.should_be 1
+        context_setup_run_count.should_be 1
+      end
       
       specify "should run superclass setup method and setup block" do
         @formatter.should_receive(:add_context).with :any_args
@@ -58,6 +158,113 @@ module Spec
         super_class_setup_ran.should_be true
         setup_ran.should_be true
       end
+
+      specify "should run superclass context_teardown method and context_teardown block only once" do
+        @formatter.should_receive(:add_context).with :any_args
+        @formatter.should_receive(:spec_started).with "test"
+        @formatter.should_receive(:spec_started).with "test2"
+        @formatter.should_receive(:spec_finished).twice.with :any_args
+
+        super_class_context_teardown_run_count = 0
+        super_class = Class.new do
+          define_method :context_teardown do
+            super_class_context_teardown_run_count += 1
+          end
+        end
+        @context.inherit super_class
+
+        context_teardown_run_count = 0
+        @context.context_teardown {context_teardown_run_count += 1}
+        @context.specify("test") {true}
+        @context.specify("test2") {true}
+        @context.run(@formatter)
+        super_class_context_teardown_run_count.should_be 1
+        context_teardown_run_count.should_be 1
+        @formatter.__verify
+      end
+
+      specify "context_teardown should have access to all instance variables defined in context_setup" do
+        @formatter.should_receive(:add_context).with :any_args
+        @formatter.should_receive(:spec_started).with "test"
+        @formatter.should_receive(:spec_finished).with :any_args
+
+        context_instance_value_in = "Hello there"
+        context_instance_value_out = ""
+        @context.context_setup { @instance_var = context_instance_value_in }
+        @context.context_teardown { context_instance_value_out = @instance_var }
+        @context.specify("test") {true}
+        @context.run(@formatter)
+        context_instance_value_in.should == context_instance_value_out
+      end
+
+      specify "should copy instance variables from context_setup's execution context into spec's execution context" do
+        @formatter.should_receive(:add_context).with :any_args
+        @formatter.should_receive(:spec_started).with "test"
+        @formatter.should_receive(:spec_finished).with :any_args
+
+        context_instance_value_in = "Hello there"
+        context_instance_value_out = ""
+        @context.context_setup { @instance_var = context_instance_value_in }
+        @context.specify("test") {context_instance_value_out = @instance_var}
+        @context.run(@formatter)
+        context_instance_value_in.should == context_instance_value_out
+      end
+
+      specify "should not copy @spec instance variable from context_setup's execution context into spec's execution context" do
+        @formatter.should_receive(:add_context).with :any_args
+        @formatter.should_receive(:spec_started).with "test"
+        @formatter.should_receive(:spec_finished).with :any_args
+
+        context_spec  = nil
+        specify_spec  = nil
+        @context.context_setup { context_spec = @spec }
+        @context.specify("test") { specify_spec = @spec }
+        @context.run(@formatter)
+        context_spec.should_not == specify_spec
+      end
+
+      specify "should call context_setup before any setup" do
+        @formatter.should_receive(:add_context).with :any_args
+        @formatter.should_receive(:spec_started).with "test"
+        @formatter.should_receive(:spec_finished).with :any_args
+
+        fiddle = []
+        super_class = Class.new do
+          define_method :setup do
+            fiddle << "superclass setup"
+          end
+        end
+        @context.inherit super_class
+
+        @context.context_setup { fiddle << "context_setup" }
+        @context.setup { fiddle << "setup" }
+        @context.specify("test") {true}
+        @context.run(@formatter)
+        fiddle.first.should == "context_setup"
+        fiddle.last.should == "setup"
+      end
+
+      specify "should call context_teardown after any teardown" do
+        @formatter.should_receive(:add_context).with :any_args
+        @formatter.should_receive(:spec_started).with "test"
+        @formatter.should_receive(:spec_finished).with :any_args
+
+        fiddle = []
+        super_class = Class.new do
+          define_method :teardown do
+            fiddle << "superclass teardown"
+          end
+        end
+        @context.inherit super_class
+
+        @context.context_teardown { fiddle << "context_teardown" }
+        @context.teardown { fiddle << "teardown" }
+        @context.specify("test") {true}
+        @context.run(@formatter)
+        fiddle.first.should == "superclass teardown"
+        fiddle.last.should == "context_teardown"
+      end
+
 
       specify "should run superclass teardown method and teardown block" do
         @formatter.should_receive(:add_context).with :any_args

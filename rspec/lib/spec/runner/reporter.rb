@@ -27,7 +27,7 @@ module Spec
           spec_failed(name, Failure.new(@context_names.last, name, error))
         end
       end
-      
+
       def start(number_of_specs)
         clear!
         @start_time = Time.new

@@ -3,11 +3,10 @@ title: Contexts
 ---
 h2. Contexts and Specifications
 
-Rather than expressing examples in classes, RSpec uses a custom
-Domain Specific Language to express
+Rather than expressing examples in classes, RSpec uses a custom domain specific language to express
 examples using contexts and specifications.
 
-A context is the equivalent of a fixture in xunit-speak. It is a metaphor for the context
+A context is the equivalent of a fixture in xUnit-speak. It is a metaphor for the context
 in which you will run your executable example - a set of known objects in a known starting state.
 
 <ruby>
@@ -30,31 +29,64 @@ hold the example code that expresses the event (when) and the expected outcome (
 h3. Helper Methods
 
 A primary goal of RSpec is to keep the examples clear. We therefore prefer
-less indirection than you might see in xunit examples and in well factored, DRY production code. We feel
+less indirection than you might see in xUnit examples and in well factored, DRY production code. We feel
 that duplication is OK if removing it makes it harder to understand an example without
 having to look elsewhere to understand its context.
 
 That said, RSpec does support some level of encapsulating common code in helper
 methods that can exist within a context or within an included module.
 
-IT IS IMPORTANT TO NOTE, however, that these approaches are somewhat experimental, and
-may be removed from future releases in favor of new approaches that better support clarity
-and consistency while still supporting some level of indirection.
+h4. Setup and Teardown
+
+You can use setup, teardown, context_setup and context_teardown within a context:
+
+<ruby>
+context "..." do
+  context_setup do
+    ...
+  end
+
+  setup do
+    ...
+  end
+
+  specify "number one" do
+    ...
+  end
+
+  specify "number two" do
+    ...
+  end
+
+  teardown do
+    ...
+  end
+
+  context_teardown do
+    ...
+  end
+  
+end
+</ruby>
+
+The <code>setup</code> block will run before each of the specs, once for each spec. Likewise,
+the <code>teardown</code> block will run after each of the specs.
+
+It is also possible to specify a <code>context_setup</code> and <code>context_teardown</code>
+block that will run only once for each context, respectively before the first <code>setup</code>
+and after the last <code>teardown</code>. The use of these is generally discouraged, because it
+introduces dependencies between the specs. Still, it might prove useful for very expensive operations
+if you know what you are doing.
 
 h4. Local helper methods
 
 You can include local helper methods by simply expressing them within a context:
 
 <ruby>
-context "A new account" do
+context "..." do
 
-  setup do
-    @account = Account.new
-  end
-
-  specify "should have a balance of $0" do
+  specify "..." do
     helper_method
-    @account.balance.should_eql Money.new(0, :dollars)
   end
   
   def helper_method
