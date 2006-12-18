@@ -106,9 +106,13 @@ module Spec
       def verify_rendered(expected, actual)
         if actual.is_a?(Hash)
           if (content_type = actual[:content_type]) && (action = actual[:action])
-            if content_type == "text/html"
+            if content_type == "text/html" || content_type == "text/javascript"
               actual = {:template => "#{@controller_path}/#{action}"}
             end
+          # Rails 1.1.6 - content_type isn't passed in when
+          # you make an xhr request
+          elsif (action = actual[:action]) =~ /\.rjs$/
+            actual = {:template => "#{@controller_path}/#{action}"}
           end
         end
         actual.should == expected
