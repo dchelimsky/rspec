@@ -1,3 +1,5 @@
+require 'spec/runner/extensions/object'
+
 module Kernel
   def context(name, &block)
     context = Spec::Runner::Context.new(name, &block)

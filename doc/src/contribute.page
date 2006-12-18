@@ -62,6 +62,7 @@ Please submit a patch, but please follow these guidelines.
 
 * patch against the TRUNK (not a released gem)
 * include specs!
+* include docs!
 * run "rake pre_commit" on your patched source
 
 h3. Bugs
