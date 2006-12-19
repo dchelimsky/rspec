@@ -70,26 +70,47 @@ task :clobber do
   rm_rf 'doc/output'
 end
 
-desc "Downloads dependencies for development environment"
+RSPEC_DEPS = [
+  ["rspec_on_rails/vendor/rails/1.1.6", "rails 1.1.6", "http://dev.rubyonrails.org/svn/rails/tags/rel_1-1-6"],
+  ["rspec_on_rails/vendor/rails/1.2.0", "rails 1.2.0", "http://dev.rubyonrails.org/svn/rails/tags/rel_1-2-0_RC1"],
+  ["rspec_on_rails/vendor/rails/edge", "edge rails", "http://dev.rubyonrails.org/svn/rails/trunk vendor/rails/edge"],
+  ["rspec_on_rails/vendor/plugins/assert_select", "assert_select", "http://labnotes.org/svn/public/ruby/rails_plugins/assert_select"],
+  ["jruby/jruby", "jruby", "http://svn.codehaus.org/jruby/trunk"]
+]
+
+desc "Installs dependencies for development environment"
 task :install_dependencies do
-  deps = [
-    ["rails/1.1.6", "rails 1.1.6", "svn co http://dev.rubyonrails.org/svn/rails/tags/rel_1-1-6 vendor/rails/1.1.6"],
-    ["rails/1.2.0", "rails 1.2.0", "svn co http://dev.rubyonrails.org/svn/rails/tags/rel_1-2-0_RC1 vendor/rails/1.2.0"],
-    ["rails/edge", "edge rails", "svn co http://dev.rubyonrails.org/svn/rails/trunk vendor/rails/edge"],
-    ["plugins/assert_select", "assert_select", "ruby script/plugin install http://labnotes.org/svn/public/ruby/rails_plugins/assert_select"]
-  ]
   Dir.chdir 'rspec_on_rails' do
-    deps.each do |dep|
-      puts "\nchecking for #{dep[1]} ..."
-      if File.exists?(File.dirname(__FILE__)  + "/rspec_on_rails/vendor/#{dep[0]}")
+    RSPEC_DEPS.each do |dep|
+      puts "\nChecking for #{dep[1]} ..."
+      dest = File.expand_path(File.join(File.dirname(__FILE__), dep[0]))
+      if File.exists?(dest)
         puts "#{dep[1]} already installed"
       else
-        puts "installing #{dep[1]}"
-        puts "this may take a while ..."
-        `#{dep[2]}`
+        cmd = "svn co #{dep[2]} #{dest}"
+        puts "Installing #{dep[1]}"
+        puts "This may take a while."
+        puts cmd
+        IO.popen(cmd) do |io|
+          io.each_line{|line| STDOUT.write("."); STDOUT.flush}
+        end
         puts "Done!"
       end
     end
     puts
+  end
+end
+
+desc "Updates dependencies for development environment"
+task :update_dependencies do
+  RSPEC_DEPS.each do |dep|
+    puts "\nUpdating #{dep[1]} ..."
+    dest = File.expand_path(File.join(File.dirname(__FILE__), dep[0]))
+    cmd = "svn up #{dest}"
+    puts cmd
+    IO.popen(cmd) do |io|
+      io.each_line{|line| STDOUT.write("."); STDOUT.flush}
+    end
+    puts "Done!"
   end
 end
