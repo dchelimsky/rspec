@@ -4,8 +4,6 @@
 Checklist: Are all the new features documented in both the website and rdoc?
 
 This release adds support for Heckle - Seattle'rb's code mutation tool.
-IMPORTANT: DO NOT RELEASE BEFORE HECKLE IS RELEASED WITH THIS PATCH:
-https://rubyforge.org/tracker/index.php?func=detail&aid=7312&group_id=1513&atid=5923
 There are also several bug fixes to the RSpec core and the RSpec on Rails plugin.
 
 * Removed svn:externals on rails versions and plugins

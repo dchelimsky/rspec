@@ -38,7 +38,7 @@ module Spec
       end
     end
     
-    class Heckler < Heckle
+    class Heckler < Heckle::Base
       def initialize(klass_name, method_name, context_runner)
         super(klass_name, method_name)
         @context_runner = context_runner
