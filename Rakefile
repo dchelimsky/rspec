@@ -69,3 +69,27 @@ desc "Deletes generated documentation"
 task :clobber do
   rm_rf 'doc/output'
 end
+
+desc "Downloads dependencies for development environment"
+task :install_dependencies do
+  deps = [
+    ["rails/1.1.6", "rails 1.1.6", "svn co http://dev.rubyonrails.org/svn/rails/tags/rel_1-1-6 vendor/rails/1.1.6"],
+    ["rails/1.2.0", "rails 1.2.0", "svn co http://dev.rubyonrails.org/svn/rails/tags/rel_1-2-0_RC1 vendor/rails/1.2.0"],
+    ["rails/edge", "edge rails", "svn co http://dev.rubyonrails.org/svn/rails/trunk vendor/rails/edge"],
+    ["plugins/assert_select", "assert_select", "ruby script/plugin install http://labnotes.org/svn/public/ruby/rails_plugins/assert_select"]
+  ]
+  Dir.chdir 'rspec_on_rails' do
+    deps.each do |dep|
+      puts "\nchecking for #{dep[1]} ..."
+      if File.exists?(File.dirname(__FILE__)  + "/rspec_on_rails/vendor/#{dep[0]}")
+        puts "#{dep[1]} already installed"
+      else
+        puts "installing #{dep[1]}"
+        puts "this may take a while ..."
+        `#{dep[2]}`
+        puts "Done!"
+      end
+    end
+    puts
+  end
+end
