@@ -75,7 +75,7 @@ RSPEC_DEPS = [
   ["rspec_on_rails/vendor/rails/1.2.0", "rails 1.2.0", "http://dev.rubyonrails.org/svn/rails/tags/rel_1-2-0_RC1"],
   ["rspec_on_rails/vendor/rails/edge", "edge rails", "http://dev.rubyonrails.org/svn/rails/trunk vendor/rails/edge"],
   ["rspec_on_rails/vendor/plugins/assert_select", "assert_select", "http://labnotes.org/svn/public/ruby/rails_plugins/assert_select"],
-  ["jruby/jruby", "jruby", "http://svn.codehaus.org/jruby/trunk"]
+  ["jruby/jruby", "jruby", "http://svn.codehaus.org/jruby/trunk/jruby"]
 ]
 
 desc "Installs dependencies for development environment"
@@ -92,7 +92,7 @@ task :install_dependencies do
         puts "This may take a while."
         puts cmd
         IO.popen(cmd) do |io|
-          io.each_line{|line| STDOUT.write("."); STDOUT.flush}
+          io.each_line{|line| puts line; STDOUT.flush}
         end
         puts "Done!"
       end
@@ -109,7 +109,7 @@ task :update_dependencies do
     cmd = "svn up #{dest}"
     puts cmd
     IO.popen(cmd) do |io|
-      io.each_line{|line| STDOUT.write("."); STDOUT.flush}
+      io.each_line{|line| puts line; STDOUT.flush}
     end
     puts "Done!"
   end
