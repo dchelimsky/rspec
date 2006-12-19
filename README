@@ -1,0 +1,10 @@
+Note to developers:
+
+You may need to run a couple of rake tasks to get things configured
+and some deps installed.
+
+See rspec/README for rspec specific items (mostly gems you need to install).
+
+Run "rake install_dependencies" from the project root for rspec_on_rails
+specific items (this will download rails versions and plugins that you need
+to successfully run "rake pre_commit")
