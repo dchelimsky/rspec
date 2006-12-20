@@ -27,4 +27,8 @@ context "State created in context_setup" do
     @sideeffect += 1
     @isolated += 1
   end
+  
+  context_teardown do
+    $global = 0
+  end
 end
