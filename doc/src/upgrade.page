@@ -141,9 +141,9 @@ end
 
 See "Rails Plugin":documentation/rails/index.html for more information.
 
-h3. <font style="color:red;">controller.should_have_rendered</font>
+h3. <font style="color:red;">controller.should_render</font>
 
-h4. Change "response.should_render" to "controller.should_have_rendered"
+h4. Change "response.should_render" to "controller.should_render"
 
 In keeping with the separation of controllers and views, we moved should_render from the response
 to the controller. This should be a simple search and replace.
@@ -154,7 +154,7 @@ context "..." do
   
   specify "..." do
     post 'index'
-    controller.should_have_rendered :template => "index" #used to be response.should_render
+    controller.should_render :template => "index" #used to be response.should_render
   end
 end
 </ruby>

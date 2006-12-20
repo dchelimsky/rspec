@@ -1,8 +1,6 @@
 = RSpec Changelog
 
-== Version 0.7.5 (Not yet released)
-Checklist: Are all the new features documented in both the website and rdoc?
-
+== Version 0.7.5
 This release adds support for Heckle - Seattle'rb's code mutation tool.
 There are also several bug fixes to the RSpec core and the RSpec on Rails plugin.
 
