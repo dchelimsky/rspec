@@ -41,7 +41,19 @@ module ActionController
         redirect_url.should == url
       end
       
+      attr_writer :render_matcher
+      attr_writer :controller_path
+      def should_render(expected)
+        if expected.is_a?(Symbol) || expected.is_a?(String)
+          expected = {:template => "#{controller_path}/#{expected}"}
+        end
+        render_matcher.set_expected(expected)
+      end
+      
       private
+      attr_reader :render_matcher
+      attr_reader :controller_path
+      
       def __response_body
         Spec::Rails::ResponseBody.new(self.body)
       end

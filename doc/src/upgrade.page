@@ -88,16 +88,6 @@ If you do not find a solution to your problem, please submit a Bug Report (use
 
 "http://rubyforge.org/tracker/?group_id=797":http://rubyforge.org/tracker/?group_id=797
 
-h3. <font style="color:red;text-decoration:line-through;">gem install ZenTest</font>
-
-%{color:red;font-weight:bold}The dependency on ZenTest is removed as of 0.7.3, however 0.7.0, 0.7.1, 0.7.2 all still need it.%
-
-%{text-decoration:line-through}The RSpec on Rails plugin now extends, and therefore depends on, ZenTest. If you don't already have ZenTest, simply....%
-
-<ruby>
-gem install zentest -v 3.4.1
-</ruby>
-
 h3. <font style="color:red;">update spec/spec_helper.rb</font>
 
 The new spec_helper.rb no longer mixes in the ControllerMixin. Update your spec_helper.rb
@@ -140,24 +130,6 @@ end
 </ruby>
 
 See "Rails Plugin":documentation/rails/index.html for more information.
-
-h3. <font style="color:red;">controller.should_render</font>
-
-h4. Change "response.should_render" to "controller.should_render"
-
-In keeping with the separation of controllers and views, we moved should_render from the response
-to the controller. This should be a simple search and replace.
-
-<ruby>
-context "..." do
-  controller_name :...
-  
-  specify "..." do
-    post 'index'
-    controller.should_render :template => "index" #used to be response.should_render
-  end
-end
-</ruby>
 
 h2. Regarding inequality...
 
