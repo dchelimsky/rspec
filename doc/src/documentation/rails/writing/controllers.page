@@ -8,7 +8,7 @@ Controller Specs live in $RAILS_ROOT/spec/controllers/.
 
 h2. Isolation from views
 
-RSpec on Rails 0.7.0 introduces the ability to specify your controllers in complete
+RSpec on Rails 0.7 introduces the ability to specify your controllers in complete
 isolation from their related views. This allows you to spec your controllers
 before the views even exist, and will keep the specs from failing when there
 are errors in your views.
@@ -55,11 +55,11 @@ Account.stub!(:find).and_return(account)
 See "Mocks and Stubs":../../mocks/index.html for more information about the
 built in mocking/stubbing framework.
 
-h2. Controller Expectations
+h2. Controller and Response Expectations
 
 These expectations will work whether in isolation or integration mode.
 
-h3. controller.should_render
+h3. controller.should_render / response.should_render
 
 <ruby>
 controller.should_render :template => "path/to/template/for/action"
@@ -73,13 +73,25 @@ get 'some_action'
 controller.should_render :template => "path/to/template/for/action"
 </ruby>
 
+OR
+
+<ruby>
+get 'some_action'
+response.should_render :template => "path/to/template/for/action"
+</ruby>
+
 You can specify :template, :text, or :action.
 
 <ruby>
-controller.should_render :action_name #i.e. :list, :
+controller.should_render :action_name #i.e. 'list', 'new', etc
 controller.should_render :template => "path/to/template/for/action"
 controller.should_render :text => "expected text"
 controller.should_render :action => "expected_action"
+
+response.should_render :action_name #i.e. 'list', 'new', etc
+response.should_render :template => "path/to/template/for/action"
+response.should_render :text => "expected text"
+response.should_render :action => "expected_action"
 </ruby>
 
 You can specify <code>:template</code>, <code>:text</code> or <code>:action</code>, depending on how the
@@ -116,19 +128,6 @@ specify "should render using the list template" do
   controller.should_render :template => 'users/list'
 end
 </ruby>
-
-h3. %{color:red}DEPRECATED% controller.should_have_rendered
-
-%{color:red}Use should_render before OR after the action%
-
-%{font-decoration:line-through}Use this to verify an expectation after an action:%
-
-<ruby>
-get 'some_action'
-controller.should_have_rendered :template => "path/to/template/for/action"
-</ruby>
-
-%{font-decoration:line-through}Like should_render above, you can specify :template, :text, or :action.%
 
 h3. controller.should_render_rjs
 
@@ -206,15 +205,12 @@ session[:key]
 
 h2. Response Expectations
 
-These are intended to be used in integration mode (integrate_views), as they involve
-header status codes that are generated when attempting to render a file.
-
-In isolation mode, these will not break, but since there is no response being rendered,
-they don't really tell you much (i.e. they're sort of a false positive).
+These work in isolation and integration modes.
 
 h3. response.should_be_success
 
-Passes if a status of 200 was returned.
+Passes if a status of 200 was returned. NOTE that in isolation mode, this will
+always return true, so it's not that useful - but at least your specs won't break.
 
 <ruby>
 response.should_be_success
