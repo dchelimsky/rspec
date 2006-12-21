@@ -66,7 +66,9 @@ end
     specify "a call to response.should_redirect_to should fail if no redirect" do
       get 'action_with_no_redirect'
       lambda {
-        response.should_be_redirect
+        #For some reason, if this is response.should_be_redirect it fires
+        # a bunch of deprecation warnings against rails 1.2.0 RC 1. No idea why yet.
+        response.redirect?.should_be true
       }.should_fail
       lambda {
         response.should_redirect_to "http://test.host/redirect_spec/somewhere"

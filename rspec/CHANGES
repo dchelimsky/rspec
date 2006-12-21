@@ -2,6 +2,7 @@
 
 == Version 0.7.5 (Not yet released)
 
+* Applied [#7406] [PATCH] 0.7.5 rspec_on_rails loads fixtures into development database
 * Applied [#7387] Allow stubs to return consecutive values (Patch from Pat Maddox)
 * Applied [#7393] Fix for rake task (Patch from Pat Maddox)
 * Reinstated support for response.should_render (in addition to controller.should_render)
