@@ -36,7 +36,8 @@ module Spec
         else
           value = values
           @consecutive = true
-          @expected_received_count = values.size if @expected_received_count < values.size
+          @expected_received_count = values.size if @expected_received_count != :any &&
+                                                    @expected_received_count < values.size
         end
         @return_block = block_given? ? return_block : lambda { value }
       end

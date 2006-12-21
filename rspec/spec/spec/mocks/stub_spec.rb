@@ -76,6 +76,24 @@ module Spec
         @obj.__verify
       end
 
+      specify "should return values in order to consecutive calls" do
+        return_values = ["1",2,Object.new]
+        @obj.stub!(:msg).and_return(return_values[0],return_values[1],return_values[2])
+        @obj.msg.should_eql return_values[0]
+        @obj.msg.should_eql return_values[1]
+        @obj.msg.should_eql return_values[2]
+      end
+
+      specify "should keep returning last value in consecutive calls" do
+        return_values = ["1",2,Object.new]
+        @obj.stub!(:msg).and_return(return_values[0],return_values[1],return_values[2])
+        @obj.msg.should_eql return_values[0]
+        @obj.msg.should_eql return_values[1]
+        @obj.msg.should_eql return_values[2]
+        @obj.msg.should_eql return_values[2]
+        @obj.msg.should_eql return_values[2]
+      end
+
       specify "should revert to original instance method if existed" do
         @obj.existing_instance_method.should_equal(:original_value)
         @obj.stub!(:existing_instance_method).and_return(:mock_value)
@@ -132,7 +150,6 @@ module Spec
           @mock.something
         end.should_throw(:blech)
       end
-      
     end
   end
 end

@@ -3,7 +3,22 @@ title: Upgrade
 inMenu: true
 ---
 
-h2. Upgrading from RSpec 0.6.x to 0.7
+h2. Upgrading
+
+While we try to keep things as stable as possible, we get a lot of requests
+for enhancement and, from time to time, we discover that a new and better
+way of doing things is incompatible with the way we used to do it.
+
+As of now (release 0.7.6) the RSpec core has been quite stable for several months
+and we don't anticipate much in the way of significant changes.
+
+The Rails plugin is a different story.
+
+The information on this page assumes that you are upgrading from some
+previous release to the current release. If you are moving to anything other
+than the current release you are on your own.
+
+h2. Upgrading from RSpec 0.6.x to 0.7.6
 
 We've made some significant improvements in 0.7, some of which required API changes that
 will cause some existing specs to fail. Please read the following instructions before you upgrade

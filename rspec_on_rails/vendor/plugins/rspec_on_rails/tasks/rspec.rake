@@ -1,4 +1,12 @@
-require 'spec/rake/spectask'
+# In rails 1.2, plugins aren't available in the path until they're loaded.
+# Check to see if the rspec plugin is installed first and require
+# it if it is.  If not, use the gem version.
+rspec_base = File.expand_path(File.dirname(__FILE__) + '/../../rspec/')
+if File.exist?(rspec_base)
+  require rspec_base + '/lib/spec/rake/spectask'
+else
+  require 'spec/rake/spectask'
+end
 
 task :default => :spec
 

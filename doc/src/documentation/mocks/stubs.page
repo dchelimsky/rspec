@@ -30,6 +30,17 @@ MyClass.stub!(:msg).and_return { ... }
 While this is possible, it is generally to be avoided. Calculating a value to return defeats
 the declarative nature of stubs.
 
+h3. Multiple return values
+
+<ruby>
+my_instance.stub!(:msg).and_return("1",2)
+MyClass.stub!(:msg).and_return("1",2)
+</ruby>
+
+This will return "1" the first time it is called and 2 every subsequent call. Like
+calculated return values, this is a little un-stubby, but it can be a handy feature
+once in a while.
+
 h3. Mixing stubs and mock messages
 
 In some cases it can be helpful to stub a default return value, but set a mock expectation
