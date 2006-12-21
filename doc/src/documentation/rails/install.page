@@ -23,19 +23,19 @@ It's important that the REL_X_Y_Z corresponds to the version of RSpec core you h
 REL_0_7_0.
 
 <pre>
-ruby script/plugin install svn://rubyforge.org/var/svn/rspec/tags/REL_X_Y_Z/rspec_on_rails/vendor/plugin/rspec_on_rails
+ruby script/plugin install svn://rubyforge.org/var/svn/rspec/tags/REL_X_Y_Z/rspec_on_rails/vendor/plugins/rspec_on_rails
 </pre>
 
 Or if you like to live dangerously you can get the HEAD of the trunk (in which case you *must* build and install your own RSpec gem):
 
 <pre>
-ruby script/plugin install svn://rubyforge.org/var/svn/rspec/trunk/rspec_on_rails/vendor/plugin/rspec_on_rails
+ruby script/plugin install svn://rubyforge.org/var/svn/rspec/trunk/rspec_on_rails/vendor/plugins/rspec_on_rails
 </pre>
 
 If your own project is in Subversion and you'd like RSpec on Rails to always follow HEAD, install with -x:
 
 <pre>
-ruby script/plugin install -x svn://rubyforge.org/var/svn/rspec/trunk/rspec_on_rails/vendor/plugin/rspec_on_rails
+ruby script/plugin install -x svn://rubyforge.org/var/svn/rspec/trunk/rspec_on_rails/vendor/plugins/rspec_on_rails
 </pre>
 
 Once the plugin is installed, you must bootstrap your Rails app with RSpec. Stand in the root of your Rails app and run:
