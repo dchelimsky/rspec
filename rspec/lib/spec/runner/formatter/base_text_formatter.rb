@@ -96,10 +96,18 @@ module Spec
         end
 
         def colour(text, colour_code)
-          return text unless @colour && @output == Kernel
+          return text unless @colour && output_to_tty?
           "#{colour_code}#{text}\e[0m"
         end
-    
+
+        def output_to_tty?
+          begin
+            @output == Kernel || @output.tty?
+          rescue NoMethodError
+            false
+          end
+        end
+        
         def red(text); colour(text, "\e[31m"); end
         def green(text); colour(text, "\e[32m"); end
         def magenta(text); colour(text, "\e[35m"); end

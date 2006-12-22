@@ -43,7 +43,7 @@ In alphabetical order (by last name)
 * David Goodlad - Patch for allowing non-Strings as partial_paths in view/specs
 * Jake Howerton - Port of Kevin Clark's ARTS to RSpec
 * KAKUTANI Shintaro<br>
- - Patch for coloured progress<br>
+ - Patches for coloured progress<br>
  - assorted Rails patches
 * Rich Kilmer - Underscore syntactic sugar
 * Riley Lynch - Patches for the rake task
