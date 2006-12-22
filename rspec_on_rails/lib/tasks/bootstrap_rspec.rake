@@ -3,34 +3,16 @@ $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + '/../../../rspec/li
 require 'spec/rake/spectask'
 
 namespace :rspec do
-  desc "Run rspec_on_rails specs against rails 1.1.6 and 1.2.0 RC 1"
+  desc "Run rspec_on_rails specs against all supported rails versions"
   task :pre_commit => "rspec:ensure_db_config" do
-    IO.popen("rake rspec:pre_commit_1_1_6 --verbose") do |io|
-      io.each do |line|
-        puts line
+    ["rspec:pre_commit_1_1_6", "rspec:pre_commit_1_2_0", "rspec:pre_commit_edge"].each do |task|
+      IO.popen("rake #{target} --verbose") do |io|
+        io.each do |line|
+          puts line
+        end
       end
+      raise "RSpec on Rails #{task} failed" if $? != 0
     end
-    IO.popen("rake rspec:pre_commit_1_2_0 --verbose") do |io|
-      io.each do |line|
-        puts line
-      end
-    end
-    raise "RSpec on Rails pre_commit failed" if $? != 0
-  end
-
-  desc "Run rspec_on_rails specs against rails 1.1.6, 1.2.0 RC 1 and edge"
-  task :pre_commit_all => "rspec:ensure_db_config" do
-    IO.popen("rake rspec:pre_commit --verbose") do |io|
-      io.each do |line|
-        puts line
-      end
-    end
-    IO.popen("rake rspec:pre_commit_edge --verbose") do |io|
-      io.each do |line|
-        puts line
-      end
-    end
-    raise "RSpec on Rails pre_commit_all failed" if $? != 0
   end
 
   desc "Run rspec_on_rails specs against rails 1.1.6"
@@ -74,7 +56,7 @@ Could not find #{config_path}
 
 You can get rake to generate this file for you using either of:
   rake rspec:generate_mysql_config
-  rake rspec:generate_sqlite_config
+  rake rspec:generate_sqlite3_config
 
 If you use mysql, you'll need to create dev and test
 databases and users for each. To do this, standing
