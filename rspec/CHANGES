@@ -2,6 +2,7 @@
 
 == Version 0.7.5 (Not yet released)
 
+* Applied [#7339] Turn off caching in HTML reports
 * Applied [#7419] "c option for colorizing output does not work with rails_spec" (Patch from Shintaro Kakutani)
 * Applied [#7406] [PATCH] 0.7.5 rspec_on_rails loads fixtures into development database (Patch from Wilson Bilkovich)
 * Applied [#7387] Allow stubs to return consecutive values (Patch from Pat Maddox)
