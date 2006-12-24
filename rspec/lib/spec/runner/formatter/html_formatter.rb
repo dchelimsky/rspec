@@ -11,7 +11,9 @@ module Spec
         def start(spec_count)
           @spec_count = spec_count
 
-          @output.puts @@header
+          @output.puts HEADER_1
+          extra_header_content
+          @output.puts HEADER_2
           STDOUT.flush
         end
 
@@ -60,9 +62,13 @@ module Spec
           STDOUT.flush
         end
         
+        # Override this method if you wish to output extra HTML in the header
+        #
+        def extra_header_content
+        end
+
         # Override this method if you wish to output extra HTML for a failed spec. For example, you
         # could output links to images or other files produced during the specs. Example:
-        #
         #
         def extra_failure_content
         end
@@ -93,7 +99,7 @@ module Spec
           STDOUT.flush
         end
 
-        @@header = <<-HEADER
+        HEADER_1 = <<-EOF
 <?xml version="1.0" encoding="iso-8859-1"?>
 <!DOCTYPE html
      PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
@@ -103,7 +109,11 @@ module Spec
 <head>
   <title>RSpec results</title>
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <meta http-equiv="Expires" content="-1" />
+  <meta http-equiv="Pragma" content="no-cache" />
+EOF
+
+        HEADER_2 = <<-EOF
   <script type="text/javascript">
   function moveProgressBar(percentDone) {
     document.getElementById("header").style.width = percentDone +"%";
@@ -201,7 +211,7 @@ module Spec
 </div>
 
 <div id="results">
-HEADER
+EOF
       end
     end
   end
