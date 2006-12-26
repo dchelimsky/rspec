@@ -3,8 +3,6 @@ require File.dirname(__FILE__) + '/rspec_selenium'
 context "Google's search page" do
 
   setup do
-    @browser = Selenium::SeleneseInterpreter.new("localhost", 4444, "*firefox", "http://www.google.no", 10000)
-    @browser.start
     @browser.open('http://www.google.no')
   end
 

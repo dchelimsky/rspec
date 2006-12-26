@@ -2,6 +2,8 @@ module Spec
   module Runner
     module Formatter
       class HtmlFormatter < BaseTextFormatter
+        attr_reader :current_spec_number, :current_context_number
+        
         def initialize(output, dry_run=false, colour=false)
           super
           @current_spec_number = 0
@@ -12,7 +14,7 @@ module Spec
           @spec_count = spec_count
 
           @output.puts HEADER_1
-          extra_header_content
+          @output.puts extra_header_content unless extra_header_content.nil?
           @output.puts HEADER_2
           STDOUT.flush
         end
@@ -56,7 +58,7 @@ module Spec
           @output.puts "      <div class=\"failure\" id=\"failure_#{counter}\">"
           @output.puts "        <div class=\"message\"><pre>#{escape(failure.exception.message)}</pre></div>" unless failure.exception.nil?
           @output.puts "        <div class=\"backtrace\"><pre>#{format_backtrace(failure.exception.backtrace)}</pre></div>" unless failure.exception.nil?
-          extra_failure_content
+          @output.puts extra_failure_content unless extra_failure_content.nil?
           @output.puts "      </div>"
           @output.puts "    </dd>"
           STDOUT.flush
@@ -68,7 +70,7 @@ module Spec
         end
 
         # Override this method if you wish to output extra HTML for a failed spec. For example, you
-        # could output links to images or other files produced during the specs. Example:
+        # could output links to images or other files produced during the specs.
         #
         def extra_failure_content
         end

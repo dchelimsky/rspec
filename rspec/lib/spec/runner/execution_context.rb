@@ -2,8 +2,7 @@ module Spec
   module Runner
     class ExecutionContext
       module InstanceMethods
-        def initialize(spec)
-          @spec = spec
+        def initialize(*args)
         end
 
         def mock(name, options={})

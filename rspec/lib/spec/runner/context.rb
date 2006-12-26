@@ -53,7 +53,7 @@ module Spec
 
           specifications.each do |specification|
             specification_execution_context = execution_context(specification)
-            specification_execution_context.copy_instance_variables_from(@once_only_execution_context_instance, [:@spec]) unless context_setup_block.nil?
+            specification_execution_context.copy_instance_variables_from(@once_only_execution_context_instance, []) unless context_setup_block.nil?
             specification.run(reporter, setup_block, teardown_block, dry_run, specification_execution_context)
           end unless errors.length > 0
           
