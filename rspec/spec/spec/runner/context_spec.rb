@@ -210,19 +210,6 @@ module Spec
         context_instance_value_in.should == context_instance_value_out
       end
 
-      specify "should not copy @spec instance variable from context_setup's execution context into spec's execution context" do
-        @formatter.should_receive(:add_context).with :any_args
-        @formatter.should_receive(:spec_started).with "test"
-        @formatter.should_receive(:spec_finished).with :any_args
-
-        context_spec  = nil
-        specify_spec  = nil
-        @context.context_setup { context_spec = @spec }
-        @context.specify("test") { specify_spec = @spec }
-        @context.run(@formatter)
-        context_spec.should_not == specify_spec
-      end
-
       specify "should call context_setup before any setup" do
         @formatter.should_receive(:add_context).with :any_args
         @formatter.should_receive(:spec_started).with "test"
