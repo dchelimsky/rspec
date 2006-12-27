@@ -6,7 +6,7 @@ namespace :rspec do
   desc "Run rspec_on_rails specs against all supported rails versions"
   task :pre_commit => "rspec:ensure_db_config" do
     ["rspec:pre_commit_1_1_6", "rspec:pre_commit_1_2_0", "rspec:pre_commit_edge"].each do |task|
-      IO.popen("rake #{target} --verbose") do |io|
+      IO.popen("rake #{task} --verbose") do |io|
         io.each do |line|
           puts line
         end

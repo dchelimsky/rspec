@@ -13,7 +13,7 @@ context "receiver.should_have(n).errors_on(:attribute)" do
   specify "should fail if the expected error count does not match the actual" do
     lambda {
       @animal.should_have(7).errors_on(:age)
-    }.should_fail_with "Animal should have 7 errors on :age (has 2)\n  is not a number\n  can't be blank\n"
+    }.should_fail_with /Animal should have 7 errors on :age \(has 2\)/
   end
 
   specify "should pass if the expected error count matches the actual (plural form)" do
