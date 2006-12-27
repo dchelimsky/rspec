@@ -2,4 +2,5 @@
 $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + "/../../../../rspec/lib"))
 $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + "/../../../lib"))
 
+require 'rubygems'
 require 'spec/ui/watir_helper'
