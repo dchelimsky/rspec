@@ -38,14 +38,13 @@ module Spec
         end
 
         def spec_started(name)
-          @current_spec = name
           @current_spec_number += 1
           STDOUT.flush
         end
 
         def spec_passed(name)
           move_progress
-          @output.puts "    <dd class=\"spec passed\"><span class=\"passed_spec_name\">#{escape(@current_spec)}</span></dd>"
+          @output.puts "    <dd class=\"spec passed\"><span class=\"passed_spec_name\">#{escape(name)}</span></dd>"
           STDOUT.flush
         end
 
@@ -54,7 +53,7 @@ module Spec
           @output.puts "    <script type=\"text/javascript\">makeRed('context_#{@current_context_number}');</script>"
           move_progress
           @output.puts "    <dd class=\"spec failed\">"
-          @output.puts "      <span class=\"failed_spec_name\">#{escape(@current_spec)}</span>"
+          @output.puts "      <span class=\"failed_spec_name\">#{escape(name)}</span>"
           @output.puts "      <div class=\"failure\" id=\"failure_#{counter}\">"
           @output.puts "        <div class=\"message\"><pre>#{escape(failure.exception.message)}</pre></div>" unless failure.exception.nil?
           @output.puts "        <div class=\"backtrace\"><pre>#{format_backtrace(failure.exception.backtrace)}</pre></div>" unless failure.exception.nil?

@@ -2,5 +2,6 @@
 $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + "/../../../../rspec/lib"))
 $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + "/../../../lib"))
 
+require 'rubygems'
 require 'spec/ui/selenium_helper'
 require File.dirname(__FILE__) + '/selenium'
