@@ -15,16 +15,16 @@ AUTHOR = "aslak_hellesoy"  # can also be an array of Authors
 EMAIL = "your contact email for bug fixes and info"
 DESCRIPTION = "description of gem"
 GEM_NAME = "spec_ui" # what ppl will type to install your gem
-RUBYFORGE_PROJECT = "spec_ui" # The unix name for your project
+RUBYFORGE_PROJECT = "rspec" # The unix name for your project
 HOMEPATH = "http://#{RUBYFORGE_PROJECT}.rubyforge.org"
 RELEASE_TYPES = %w( gem ) # can use: gem, tar, zip
 
 
 NAME = "spec_ui"
-REV = nil # UNCOMMENT IF REQUIRED: File.read(".svn/entries")[/committed-rev="(d+)"/, 1] rescue nil
+REV = File.read(".svn/entries")[/committed-rev="(d+)"/, 1] rescue nil
 VERS = ENV['VERSION'] || (Spec::Ui::VERSION::STRING + (REV ? ".#{REV}" : ""))
 CLEAN.include ['**/.*.sw?', '*.gem', '.config']
-RDOC_OPTS = ['--quiet', '--title', "spec_ui documentation",
+RDOC_OPTS = ['--quiet', '--title', "spec/ui documentation",
     "--opname", "index.html",
     "--line-numbers", 
     "--main", "README",
@@ -38,8 +38,7 @@ hoe = Hoe.new(GEM_NAME, VERS) do |p|
   p.email = EMAIL
   p.summary = DESCRIPTION
   p.url = HOMEPATH
-  p.rubyforge_name = RUBYFORGE_PROJECT if RUBYFORGE_PROJECT
-  p.test_globs = ["test/**/*_test.rb"]
+  p.rubyforge_name = RUBYFORGE_PROJECT
   p.clean_globs = CLEAN  #An array of file patterns to delete on clean.
   
   # == Optional

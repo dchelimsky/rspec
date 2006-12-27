@@ -4,6 +4,7 @@ desc "Runs pre_commit_core and pre_commit_rails"
 task :pre_commit => [
   :touch_revision_storing_files,
   :pre_commit_core,
+  :update_dependencies,
   :pre_commit_rails,
   :ok_to_commit
 ]
@@ -71,11 +72,11 @@ task :clobber do
 end
 
 RSPEC_DEPS = [
-  ["rspec_on_rails/vendor/rails/1.1.6", "rails 1.1.6", "http://dev.rubyonrails.org/svn/rails/tags/rel_1-1-6"],
-  ["rspec_on_rails/vendor/rails/1.2.0", "rails 1.2.0", "http://dev.rubyonrails.org/svn/rails/tags/rel_1-2-0_RC1"],
-  ["rspec_on_rails/vendor/rails/edge", "edge rails", "http://dev.rubyonrails.org/svn/rails/trunk vendor/rails/edge"],
-  ["rspec_on_rails/vendor/plugins/assert_select", "assert_select", "http://labnotes.org/svn/public/ruby/rails_plugins/assert_select"],
-  ["jruby/jruby", "jruby", "http://svn.codehaus.org/jruby/trunk/jruby"]
+  ["rspec_on_rails/vendor/rails/1.1.6", "rails 1.1.6", "http://dev.rubyonrails.org/svn/rails/tags/rel_1-1-6", true],
+  ["rspec_on_rails/vendor/rails/1.2.0", "rails 1.2.0", "http://dev.rubyonrails.org/svn/rails/tags/rel_1-2-0_RC1", true],
+  ["rspec_on_rails/vendor/rails/edge", "edge rails", "http://dev.rubyonrails.org/svn/rails/trunk", false],
+  ["rspec_on_rails/vendor/plugins/assert_select", "assert_select", "http://labnotes.org/svn/public/ruby/rails_plugins/assert_select", false],
+  ["jruby/jruby", "jruby", "http://svn.codehaus.org/jruby/trunk/jruby", false]
 ]
 
 desc "Installs dependencies for development environment"
@@ -97,13 +98,14 @@ task :install_dependencies do
         puts "Done!"
       end
     end
-    puts
+      puts
   end
 end
 
 desc "Updates dependencies for development environment"
 task :update_dependencies do
   RSPEC_DEPS.each do |dep|
+    next if dep[3]
     puts "\nUpdating #{dep[1]} ..."
     dest = File.expand_path(File.join(File.dirname(__FILE__), dep[0]))
     cmd = "svn up #{dest}"
