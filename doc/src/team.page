@@ -32,34 +32,49 @@ h3. RSpec!
 
 In alphabetical order (by last name)
 
-* Wilson Bilkovich<br>
- - lambda {...}.should_change(obj, :message)<br>
- - ar_subclass.should_have(n).errors_on(:attribute)
-* Bob Cotton - Support for context_setup and context_teardown
-* Lachie Cox<br>
- - Initial Rails support<br>
- - diffing enhancements for Objects and custom formats
-* Lindsay Evans - Patch for RSpec on Rails on Windows
-* David Goodlad - Patch for allowing non-Strings as partial_paths in view/specs
-* Jake Howerton - Port of Kevin Clark's ARTS to RSpec
-* KAKUTANI Shintaro<br>
- - Patches for coloured progress<br>
- - assorted Rails patches
-* Rich Kilmer - Underscore syntactic sugar
-* Riley Lynch - Patches for the rake task
-* Pat Maddox<br>
- - spec'ing routes (Rails)<br>
- - accepting xhr requests (Rails)<br>
- - multiple return values for stubs
-* Micah Martin - RSpec on Rails patches for partials
+* Wilson Bilkovich
+** lambda {...}.should_change(obj, :message)
+** ar_subclass.should_have(n).errors_on(:attribute)
+* Bob Cotton
+** Support for context_setup and context_teardown
+* Lachie Cox
+** Initial Rails support
+** Diffing enhancements for Objects and custom formats
+* Lindsay Evans
+** Patch for RSpec on Rails on Windows
+* David Goodlad
+** Patch for allowing non-Strings as partial_paths in view/specs
+* Jake Howerton
+** Port of Kevin Clark's ARTS to RSpec
+* KAKUTANI Shintaro
+** Patches for coloured progress<br>
+** Assorted Rails patches
+* Rich Kilmer
+** Underscore syntactic sugar
+* Riley Lynch
+** Patches for the rake task
+* Pat Maddox
+** Spec'ing routes (Rails)
+** Accepting xhr requests (Rails)
+** Multiple return values for stubs
+** Port of scaffold_resource to rspec_resource
+* Micah Martin
+** RSpec on Rails patches for partials
 * Luke Redpath
- - TextMate bundle
- - Readable HTML output!
-* Nick Sieger - RSpec on Rails patches for stats
-* Daniel Siemssen - RSpec on Rails patches for rails_spec_server
-* Kouhei Sutou - Patches for Emacs and handling of Interrupt
-* Nikolai Weibull - Core patches for spec names
-* Mike Williams - Core patches for arbitrary comparisons like 5.should_be < 6
-* Chad Wooley - Patch to mocks to make it possible to specify raised exception instance
+** TextMate bundle
+** Readable HTML output!
+* Nick Sieger
+** RSpec on Rails patches for stats
+* Daniel Siemssen
+** RSpec on Rails patches for rails_spec_server
+* Kouhei Sutou
+** Patches for Emacs
+** Handling of Interrupt
+* Nikolai Weibull
+** Core patches for spec names
+* Mike Williams
+** Core patches for arbitrary comparisons like 5.should_be < 6
+* Chad Wooley
+** Patch to mocks to make it possible to specify raised exception instance
 
 If you think your name ought to be here, please contact the RSpec team.
