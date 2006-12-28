@@ -1,12 +1,5 @@
 require File.dirname(__FILE__) + '<%= '/..' * class_nesting_depth %>/../../spec_helper'
 
-#Delete this context and add some real ones
-context "Given a generated <%= class_name.underscore %>/<%= action %>_view_spec.rb" do  
-  specify "you should add more specs" do
-    violated "not enough specs"
-  end
-end
-
 context "Given a request to render <%= class_name.underscore %>/<%= action %>" do
   setup do
     render '<%= class_name.underscore %>/<%= action %>'

@@ -9,8 +9,4 @@ context "Given a generated <%= class_name.underscore %>_helper_spec.rb" do
       included_modules.should_include <%= class_name %>Helper
     end
   end
-  
-  specify "you should add more specs or delete the file" do
-    violated "not enough specs or too many generated files"
-  end
 end
