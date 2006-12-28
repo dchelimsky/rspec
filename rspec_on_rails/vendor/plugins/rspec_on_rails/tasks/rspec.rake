@@ -8,7 +8,8 @@ else
   require 'spec/rake/spectask'
 end
 
-task :noop {}
+task :noop do
+end
 task :default => :spec
 
 desc 'Run all application-specific specs'

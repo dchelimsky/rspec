@@ -7,10 +7,6 @@ context "Given a generated <%= class_name.underscore %>_controller_spec.rb" do
   specify "the controller should be a<%= class_name =~ /A|E|I|O|U/ ? 'n' : ''%> <%= class_name %>Controller" do
     controller.should_be_an_instance_of <%= class_name %>Controller
   end
-  
-  specify "you should add more specs" do
-    violated "not enough specs"
-  end
 end
 
 <% unless actions.empty? -%>
