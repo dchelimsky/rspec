@@ -15,13 +15,15 @@ class RspecGenerator < Rails::Generator::Base
 
       m.directory 'spec'
       m.template  'spec_helper.rb',           'spec/spec_helper.rb'
+      m.file      'spec.opts',                'spec/spec.opts'
       m.file      'script/rails_spec_server', 'script/rails_spec_server', script_options
     end
   end
 
-  protected
-    def banner
-      "Usage: #{$0} rspec"
-    end
+protected
+
+  def banner
+    "Usage: #{$0} rspec"
+  end
 
 end

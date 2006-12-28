@@ -1,5 +1,6 @@
 module Spec
   module Runner
+    # Parses a spec file and finds the nearest spec for a given line number.
     class SpecParser
       def spec_name_for(io, line_number)
         source  = io.read

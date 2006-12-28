@@ -11,6 +11,9 @@ module Spec
 
       def create_context_runner(args, err, out, warn_if_no_files)
         options = parse(args, err, out, warn_if_no_files)
+        # Some exit points in parse (--generate, --drb) don't return the options, 
+        # but hand over control. In that case we don't want to continue.
+        return nil unless options.is_a?(OpenStruct)
 
         formatter = options.formatter_type.new(options.out, options.dry_run, options.colour)
         options.reporter = Reporter.new(formatter, options.backtrace_tweaker) 
@@ -21,12 +24,16 @@ module Spec
           Spec::Expectations::Should::Base.differ = options.differ_class.new(options.diff_format, options.context_lines, options.colour)
         end
 
-        ContextRunner.new(options)
+        unless options.generate
+          ContextRunner.new(options)  
+        end
       end
 
       def parse(args, err, out, warn_if_no_files)
+        options_file = nil
+        args_copy = args.dup
         options = OpenStruct.new
-        options.out = out == STDOUT ? Kernel : out
+        options.out = (out == STDOUT ? Kernel : out)
         options.formatter_type = Formatter::ProgressBarFormatter
         options.backtrace_tweaker = QuietBacktraceTweaker.new
         options.spec_name = nil
@@ -123,10 +130,42 @@ module Spec
             options.dry_run = true
           end
           
-          opts.on("-o", "--out OUTPUT_FILE", "Path to output file (defaults to STDOUT)") do |outfile|
-            options.out = File.new(outfile, 'w')
+          opts.on("-o", "--out OUTPUT_FILE", "Path to output file (defaults to STDOUT)") do |out_file|
+            options.out = File.new(out_file, 'w')
           end
           
+          opts.on("-O", "--options PATH", "Read options from a file") do |options_file|
+            # Remove the --options option and the argument before writing to file
+            index = args_copy.index("-O") || args_copy.index("--options")
+            args_copy.delete_at(index)
+            args_copy.delete_at(index)
+
+            new_args = args_copy + IO.readlines(options_file).each {|s| s.chomp!}
+            return CommandLine.run(new_args, err, out, warn_if_no_files)
+          end
+
+          opts.on("-G", "--generate PATH", "Generate an options file for --options") do |options_file|
+            # Remove the --generate option and the argument before writing to file
+            index = args_copy.index("-G") || args_copy.index("--generate")
+            args_copy.delete_at(index)
+            args_copy.delete_at(index)
+
+            File.open(options_file, 'w') do |io|
+              io.puts args_copy.join("\n")
+            end
+            out.puts "\nOptions written to #{options_file}. You can now use these options with:"
+            out.puts "spec --options #{options_file}"
+            options.generate = true
+          end
+          
+          opts.on("-X", "--drb", "Run specs via DRb. (For example against script/rails_spec_server)") do |options_file|
+            # Remove the --options option and the argument before writing to file
+            index = args_copy.index("-X") || args_copy.index("--drb")
+            args_copy.delete_at(index)
+
+            return DrbCommandLine.run(args_copy, err, out, warn_if_no_files)
+          end
+
           opts.on("-v", "--version", "Show version") do
             out.puts ::Spec::VERSION::DESCRIPTION
             exit if out == $stdout
@@ -141,8 +180,9 @@ module Spec
         opts.parse!(args)
 
         if args.empty? && warn_if_no_files
+          err.puts "No files specified."
           err.puts opts
-          exit(1) if err == $stderr
+          exit(6) if err == $stderr
         end
 
         if options.line_number
@@ -163,15 +203,15 @@ module Spec
               exit(1) if err == $stderr
             else
               err.puts "#{args[0]} does not exist"
-              exit(1) if err == $stderr
+              exit(2) if err == $stderr
             end
           else
-            err.puts "Only one file can be specified when using the --line option"
-            exit(1) if err == $stderr
+            err.puts "Only one file can be specified when using the --line option: #{args.inspect}"
+            exit(3) if err == $stderr
           end
         else
           err.puts "You cannot use both --line and --spec"
-          exit(1) if err == $stderr
+          exit(4) if err == $stderr
         end
       end
     end
