@@ -1,7 +1,14 @@
 = RSpec Changelog
 
 == Version 0.7.5 (Not yet released)
+This release improves the spec command line by adding DRb support to and making it possible to
+store command line options in a file. This means a more flexible RSpec experience with Rails, 
+Rake and editor plugins like TextMate.
 
+* The drbspec command is gone. Use spec --drb instead.
+* The drb option is gone from the Rake task. Pass --drb to spec_opts instead.
+* New -X/--drb option for running specs against a server like spec/rails' script/rails_spec_server
+* New -O/--options and -G/--generate flags for file-based options (handy for spec/rails)
 * Applied [#7339] Turn off caching in HTML reports
 * Applied [#7419] "c option for colorizing output does not work with rails_spec" (Patch from Shintaro Kakutani)
 * Applied [#7406] [PATCH] 0.7.5 rspec_on_rails loads fixtures into development database (Patch from Wilson Bilkovich)

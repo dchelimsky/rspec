@@ -51,11 +51,11 @@ module Spec
           @proxied_methods[sym] = @target.method(sym)
         end
 
-        metaclass_eval %-
+        metaclass_eval(<<-EOF, __FILE__, __LINE__)
           def #{sym}(*args, &block)
             __mock_handler.message_received :#{sym}, *args, &block
           end
-        -
+        EOF
       end
 
       def verify #:nodoc:
@@ -103,8 +103,8 @@ module Spec
         @proxied_methods.clear
       end
 
-      def metaclass_eval(str)
-        (class << @target; self; end).class_eval str
+      def metaclass_eval(str, filename, lineno)
+        (class << @target; self; end).class_eval(str, filename, lineno)
       end
 
       def received_message?(sym, *args, &block)

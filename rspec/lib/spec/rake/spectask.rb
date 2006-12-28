@@ -64,11 +64,6 @@ module Spec
 
       # A message to print to stdout when there are failures.
       attr_accessor :failure_message
-      
-      # Whether or not to run specs via DRb. Setting this to true may
-      # run specs faster, especially in a Rails environment.
-      # Defaults to false
-      attr_accessor :drb
 
       # Explicitly define the list of spec files to be included in a
       # spec.  +list+ is expected to be an array of file names (a
@@ -99,7 +94,7 @@ module Spec
       end
 
       def define
-        spec_script = File.expand_path(File.dirname(__FILE__) + '/../../../bin/' + (drb ? 'drbspec' : 'spec'))
+        spec_script = File.expand_path(File.dirname(__FILE__) + '/../../../bin/spec')
 
         lib_path = @libs.join(File::PATH_SEPARATOR)
         actual_name = Hash === name ? name.keys.first : name

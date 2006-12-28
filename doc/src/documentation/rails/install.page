@@ -45,3 +45,9 @@ ruby script/generate rspec
 </pre>
 
 This will generate the various files needed to use RSpec with Rails.
+
+h3. Post-Installation
+
+After you have installed the plugin, you should have a <tt>spec/spec.opts</tt> file with generic command line
+options for the various <tt>spec:*</tt> tasks. You can edit this file and use any of the command line options
+supported by the <tt>spec</tt> command.

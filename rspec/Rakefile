@@ -34,7 +34,7 @@ Spec::Rake::SpecTask.new do |t|
   t.spec_opts = ['--color','--backtrace']
   t.rcov = true
   t.rcov_dir = '../doc/output/coverage'
-  t.rcov_opts = ['--exclude', 'spec\/spec,bin\/spec,bin\/drbspec,examples']
+  t.rcov_opts = ['--exclude', 'spec\/spec,bin\/spec,examples']
 end
 
 desc "Run all specs and store html output in doc/output/report.html"
@@ -97,7 +97,7 @@ spec = Gem::Specification.new do |s|
   
   s.autorequire = 'spec'
   s.bindir = 'bin'
-  s.executables = ['spec', 'drbspec']
+  s.executables = ['spec']
   s.default_executable = 'spec'
   s.author = ["RSpec Development Team"]
   s.email = "rspec-devel@rubyforge.org"

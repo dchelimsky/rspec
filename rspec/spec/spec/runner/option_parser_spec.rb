@@ -236,4 +236,27 @@ context "OptionParser" do
      options = parse(["--heckle", "Spec"])
      options.heckle_runner.should_be_instance_of(Spec::Runner::HeckleRunner)
    end
+   
+   specify "should read options from file when --options is specified" do
+     Spec::Runner::CommandLine.should_receive(:run).with(["--diff", "--colour"], @err, @out, true)
+     options = parse(["--options", File.dirname(__FILE__) + "/spec.opts"])
+   end
+
+   specify "should append options from file when --options is specified" do
+     Spec::Runner::CommandLine.should_receive(:run).with(["some/spec.rb", "--diff", "--colour"], @err, @out, true)
+     options = parse(["some/spec.rb", "--options", File.dirname(__FILE__) + "/spec.opts"])
+   end
+   
+   specify "should save config to file when --generate is specified" do
+     FileUtils.rm 'spec.opts' rescue nil
+     options = parse(["--colour", "--generate", "spec.opts", "--diff"])
+     File.open('spec.opts').read.should == "--colour\n--diff\n"
+     FileUtils.rm 'spec.opts' rescue nil
+   end
+
+   specify "should call DrbCommandLine when --drb is specified" do
+     Spec::Runner::DrbCommandLine.should_receive(:run).with(["some/spec.rb", "--diff", "--colour"], @err, @out, true)
+     options = parse(["some/spec.rb", "--diff", "--drb", "--colour"])
+   end
+   
 end
