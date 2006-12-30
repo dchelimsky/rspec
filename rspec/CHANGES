@@ -1,6 +1,6 @@
 = RSpec Changelog
 
-== Version 0.7.5 (Not yet released)
+== Version 0.7.6 (Not yet released)
 This release improves the spec command line by adding DRb support to and making it possible to
 store command line options in a file. This means a more flexible RSpec experience with Rails, 
 Rake and editor plugins like TextMate.
