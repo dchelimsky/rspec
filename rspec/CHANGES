@@ -5,6 +5,7 @@ This release improves the spec command line by adding DRb support to and making 
 store command line options in a file. This means a more flexible RSpec experience with Rails, 
 Rake and editor plugins like TextMate.
 
+* Fixed [#7506] unnecessary complex output on failure of response.should_be_redirect
 * Applied [#6098] Make scaffold_resource generator. Based on code from Pat Maddox.
 * The drbspec command is gone. Use spec --drb instead.
 * The drb option is gone from the Rake task. Pass --drb to spec_opts instead.

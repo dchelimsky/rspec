@@ -2,6 +2,17 @@ module ActionController
   class TestResponse
     
     module InstanceMethodsForRSpec
+      def should_be_success
+        unless success?
+          message = %Q{response should be success but was redirect to }
+          # Rails 1.1.6 & 1.2.0 RC 1
+          message += headers['location'] if headers['location']
+          # Rails 1.2.0
+          message += headers['Location'] if headers['Location']
+          Spec::Expectations.fail_with(message)
+        end
+      end
+      
       def should_have_rjs(element, *args, &block)
         __response_body.should_have_rjs element, *args
       end

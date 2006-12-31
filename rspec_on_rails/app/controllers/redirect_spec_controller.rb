@@ -19,6 +19,9 @@ class RedirectSpecController < ApplicationController
   def action_with_redirect_back
     redirect_to :back
   end
+  
+  def action_with_no_template
+  end
 
 end
 
