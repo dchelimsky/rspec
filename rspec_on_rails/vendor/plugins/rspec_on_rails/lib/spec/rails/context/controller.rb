@@ -51,7 +51,7 @@ module Spec
         render_matcher.set_actual(ensure_default_options(options), response, &block)
         response.controller_path = controller_path
         response.render_matcher = render_matcher
-        super
+        super unless performed?
       end
       
       def response

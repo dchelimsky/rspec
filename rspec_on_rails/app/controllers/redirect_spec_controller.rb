@@ -10,6 +10,7 @@ class RedirectSpecController < ApplicationController
   
   def action_with_redirect_to_somewhere_and_return
     redirect_to :action => 'somewhere' and return
+    render :text => "this is after the return"
   end
   
   def somewhere
