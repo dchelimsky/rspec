@@ -85,7 +85,7 @@ module Spec
         @out = nil
         @fail_on_error = true
         @rcov = false
-        @rcov_opts = ['--exclude', 'lib\/spec,bin\/spec']
+        @rcov_opts = ['--exclude', 'lib\/spec,bin\/spec,config\/boot.rb']
         @rcov_dir = "coverage"
 
         yield self if block_given?
