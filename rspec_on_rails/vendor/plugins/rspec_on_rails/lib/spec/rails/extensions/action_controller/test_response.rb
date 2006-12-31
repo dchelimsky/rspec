@@ -4,11 +4,16 @@ module ActionController
     module InstanceMethodsForRSpec
       def should_be_success
         unless success?
-          message = %Q{response should be success but was redirect to }
-          # Rails 1.1.6 & 1.2.0 RC 1
-          message += headers['location'] if headers['location']
-          # Rails 1.2.0
-          message += headers['Location'] if headers['Location']
+          message = %Q{response code should be success (200) but }
+          if redirect?
+            message += %Q{was redirect (#{response_code}) to }
+            # Rails 1.1.6 & 1.2.0 RC 1
+            message += headers['location'] if headers['location']
+            # Rails 1.2.0
+            message += headers['Location'] if headers['Location']
+          else
+            message += "was (#{response_code})"
+          end
           Spec::Expectations.fail_with(message)
         end
       end
