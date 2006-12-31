@@ -52,10 +52,20 @@ module ActionController
       
       def should_redirect_to(url)
         unless redirect?
-          Spec::Expectations.fail_with(%Q{expected redirect to #{url} but there was no redirect})
+          Spec::Expectations.fail_with(%Q{expected redirect to #{to_url(url)} but there was no redirect})
         end
-        redirect_url.should == url
+        Spec::Expectations.fail_with(%Q{expected redirect to #{to_url(url)} but was redirected to #{redirect_url} instead}) unless  redirect_url == to_url(url)
       end
+      
+      def to_url(opts)
+        case opts
+          when %r{^\w+://.*}
+            return opts
+          else
+            return 'http://test.host' + (opts.split('')[0] == '/' ? '' : '/') + opts
+        end
+      end
+      
       
       attr_writer :render_matcher
       attr_writer :controller_path

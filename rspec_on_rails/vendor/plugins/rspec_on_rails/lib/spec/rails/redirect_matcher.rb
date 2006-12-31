@@ -1,6 +1,10 @@
 module Spec
   module Rails
     class RedirectMatcher
+
+      def interested_in?(opts)
+        opts.is_a?(String) && %r{^\w+://.*} =~ opts        
+      end
       
       def set_expected(opts)
         @expected_opts = opts
@@ -15,30 +19,23 @@ module Spec
       def match(request, opts)
         @should_redirect_mock.__reset_mock unless @should_redirect_mock.nil?
         return if @expected_opts.nil?
-        case @expected_opts
-          when Hash
-            expected_url = ActionController::UrlRewriter.new(request, {}).rewrite(@expected_opts)
-            unless expected_url == opts
-              raise_should_redirect_error(@expected_opts, opts)
-            end
-          when :back
-            unless request.env['HTTP_REFERER'] == opts
-              raise_should_redirect_error(@expected_opts, opts)
-            end
-          when %r{^\w+://.*}
-            unless @expected_opts == opts
-              raise_should_redirect_error(@expected_opts, opts)
-            end
-          else
-            expected_url = 'http://test.host' + (@expected_opts.split('')[0] == '/' ? '' : '/') + @expected_opts
-            unless expected_url == opts
-              raise_should_redirect_error(@expected_opts, opts)
-            end
-        end
+        expected_url = to_url(request, @expected_opts)
+        actual_url = to_url(request, opts)
+        raise_should_redirect_error(@expected_opts, opts) unless expected_url == actual_url
       end
       
-      def interested_in?(opts)
-        opts.is_a?(String) && %r{^\w+://.*} =~ opts        
+      private
+      def to_url(request, opts)
+        case opts
+          when Hash
+            return ActionController::UrlRewriter.new(request, {}).rewrite(opts)
+          when :back
+            return request.env['HTTP_REFERER']
+          when %r{^\w+://.*}
+            return opts
+          else
+            return 'http://test.host' + (opts.split('')[0] == '/' ? '' : '/') + opts
+        end
       end
       
       def raise_should_redirect_error expected, actual
