@@ -32,7 +32,7 @@ module Spec
 
         ActionView::Helpers::AssetTagHelper::reset_javascript_include_default
       end
-
+      
     end
 
     class HelperContext < Spec::Rails::Context
@@ -44,6 +44,7 @@ module Spec
       def before_context_eval
         inherit_context_eval_module_from Spec::Rails::HelperEvalContext
         @context_eval_module.extend HelperContext::ContextEvalClassMethods
+        @context_eval_module.init_global_fixtures
       end
     end
   end
