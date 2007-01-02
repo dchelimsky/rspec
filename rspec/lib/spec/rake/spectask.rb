@@ -34,7 +34,7 @@ module Spec
       # E.g. warning=true implies "ruby -w" used to run the specs. Defaults to false.
       attr_accessor :warning
 
-      # Glob pattern to match spec files. (default is 'spec/spec*.rb')
+      # Glob pattern to match spec files. (default is 'spec/**/*_spec.rb')
       attr_accessor :pattern
 
       # Array of commandline options to pass to RSpec. Defaults to [].

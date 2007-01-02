@@ -40,6 +40,8 @@ In alphabetical order (by last name)
 * Lachie Cox
 ** Initial Rails support
 ** Diffing enhancements for Objects and custom formats
+* Steven Duncan
+** Documentation for rake task
 * Lindsay Evans
 ** Patch for RSpec on Rails on Windows
 * David Goodlad
