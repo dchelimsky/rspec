@@ -1,8 +1,6 @@
 require 'rubygems'
 require 'RMagick'
 
-# include this module in your spec and call +save_screenshot+ and +save_source+ from
-# teardown.
 module Spec
   module Ui
     module ScreenshotHelper
