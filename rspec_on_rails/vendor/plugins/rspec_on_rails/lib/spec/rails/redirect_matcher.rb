@@ -38,7 +38,7 @@ module Spec
         end
       end
       
-      def raise_should_redirect_error expected, actual
+      def raise_should_redirect_error(expected, actual)
         message = "expected redirect to #{expected.inspect}"
         message << " but redirected to #{actual.inspect} instead"
         raise Spec::Expectations::ExpectationNotMetError.new(message)

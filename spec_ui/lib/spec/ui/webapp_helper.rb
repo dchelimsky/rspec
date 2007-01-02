@@ -12,7 +12,7 @@ module Spec
 
       def teardown
         @@spec_number += 1
-        save_screenshots(ENV['RSPEC_IMG_DIR'], @@spec_number)
+        save_screenshot(ENV['RSPEC_IMG_DIR'], @@spec_number)
         save_source(ENV['RSPEC_IMG_DIR'], @@spec_number, @browser.html)
       end
 

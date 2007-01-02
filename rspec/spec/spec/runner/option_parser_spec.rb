@@ -247,9 +247,9 @@ context "OptionParser" do
      options = parse(["some/spec.rb", "--options", File.dirname(__FILE__) + "/spec.opts"])
    end
    
-   specify "should save config to file when --generate is specified" do
+   specify "should save config to file when --generate-options is specified" do
      FileUtils.rm 'spec.opts' rescue nil
-     options = parse(["--colour", "--generate", "spec.opts", "--diff"])
+     options = parse(["--colour", "--generate-options", "spec.opts", "--diff"])
      File.open('spec.opts').read.should == "--colour\n--diff\n"
      FileUtils.rm 'spec.opts' rescue nil
    end

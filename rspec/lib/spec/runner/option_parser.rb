@@ -11,7 +11,7 @@ module Spec
 
       def create_context_runner(args, err, out, warn_if_no_files)
         options = parse(args, err, out, warn_if_no_files)
-        # Some exit points in parse (--generate, --drb) don't return the options, 
+        # Some exit points in parse (--generate-options, --drb) don't return the options, 
         # but hand over control. In that case we don't want to continue.
         return nil unless options.is_a?(OpenStruct)
 
@@ -144,9 +144,9 @@ module Spec
             return CommandLine.run(new_args, err, out, warn_if_no_files)
           end
 
-          opts.on("-G", "--generate PATH", "Generate an options file for --options") do |options_file|
-            # Remove the --generate option and the argument before writing to file
-            index = args_copy.index("-G") || args_copy.index("--generate")
+          opts.on("-G", "--generate-options PATH", "Generate an options file for --options") do |options_file|
+            # Remove the --generate-options option and the argument before writing to file
+            index = args_copy.index("-G") || args_copy.index("--generate-options")
             args_copy.delete_at(index)
             args_copy.delete_at(index)
 

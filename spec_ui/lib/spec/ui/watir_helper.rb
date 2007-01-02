@@ -13,4 +13,6 @@ class Watir::Browser
   def kill!
     close
   end
+  
+  alias contain_text? contains_text
 end
