@@ -111,7 +111,7 @@ module Spec
           opts.on("-r", "--require FILE", "Require FILE before running specs",
                                           "Useful for loading custom formatters or other extensions",
                                           "If this option is used it must come before the others") do |req|
-            require req
+            req.split(",").each{|file| require file}
           end
           
           opts.on("-b", "--backtrace", "Output full backtrace") do

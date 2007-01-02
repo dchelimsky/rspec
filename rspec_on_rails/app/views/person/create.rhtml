@@ -1,3 +1,7 @@
 <h1>Person#create</h1>
 <p>Find me in app/views/person/create.rhtml</p>
-<%= person_address_text_field %>
+<%= form_tag %>
+  <%= text_field("person", "name") %>
+  <%= person_address_text_field %>
+  <%= submit_tag %>
+</form>
