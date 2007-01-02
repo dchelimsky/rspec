@@ -4,7 +4,7 @@ inMenu: true
 ---
 h2. RSpec on Rails - Overview
 
-A Rails plugin that brings RSpec to Rails. NOTE: RSpec on Rails has only been tested against Rails 1.1.6.
+A Rails plugin that brings RSpec to Rails.
 
 h3. Features
 
@@ -20,14 +20,14 @@ apps are generally much easier to maintain than they would have been without suc
 
 For those of us coming from a history with TDD, and now BDD, the existing support
 presents some problems related to dependencies across specs. To that end, RSpec
-supports 4 types of specs. This is largely inspired by (and actually extends)
-Test::Rails, which is the rails testing framework built into "ZenTest":http://zentest.rubyforge.org. 
+supports 4 types of specs. This is largely inspired by Test::Rails, which is
+the rails testing framework built into "ZenTest":http://zentest.rubyforge.org. 
 We've also built in first class mocking
 and stubbing support in order to break dependencies across these different concerns.
 
 h2. Different Contexts for different Contexts
 
-RSpec on Rails 0.7.0 supports different Context subclasses for the following types of specs:
+'spec/rails' supports different Context subclasses for the following types of specs:
 
 h3. Model Specs
 
@@ -59,6 +59,13 @@ For the time being we recommend that you use either
 "rails integration testing":http://weblog.jamisbuck.org/2006/3/9/integration-testing-in-rails-1-1
  or another framework like "watir":http://wtr.rubyforge.org/ or "selenium":http://www.openqa.org/selenium/.
 
+h2. Fixtures
+
+While we really don't recommend the use of rails fixtures, you can use
+them in any of your specs. If you have fixtures that you want to use
+globally, you can set them in spec/spec_helper.rb. See that file for
+more information. 
+
 h2. Naming conventions
 
 For clarity and consistency, RSpec uses a slightly different naming convention
@@ -75,6 +82,8 @@ project
   |
   +--spec
       |
+      +-- spec_helper.rb
+      |
       +-- controllers
       |
       +-- helpers
@@ -85,3 +94,4 @@ project
 </ruby>
 
 The Rake tasks are named accordingly.
+

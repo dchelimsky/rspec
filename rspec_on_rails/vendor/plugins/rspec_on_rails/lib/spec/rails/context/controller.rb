@@ -189,6 +189,7 @@ module Spec
 
       def before_context_eval
         inherit_context_eval_module_from Spec::Rails::ControllerEvalContext
+        @context_eval_module.init_global_fixtures
       end
 
     end

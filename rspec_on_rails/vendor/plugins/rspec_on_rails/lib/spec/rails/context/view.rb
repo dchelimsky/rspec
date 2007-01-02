@@ -98,6 +98,7 @@ module Spec
           include helper_module
         end
       end
+      
     end
 
     class ViewContext < Spec::Rails::Context
@@ -108,6 +109,7 @@ module Spec
       end
       def before_context_eval
         inherit_context_eval_module_from Spec::Rails::ViewEvalContext
+        @context_eval_module.init_global_fixtures
       end
     end
   end
