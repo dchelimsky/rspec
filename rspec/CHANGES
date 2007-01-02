@@ -5,6 +5,7 @@ This release improves the spec command line by adding DRb support to and making 
 store command line options in a file. This means a more flexible RSpec experience with Rails, 
 Rake and editor plugins like TextMate.
 
+* Fixed [#7409] default fixtures do not appear to run.
 * Fixed [#7507] "render..and return" doesn't return
 * Fixed [#7509] rcov/rspec incorrectly includes boot.rb (Patch from Courtenay)
 * Fixed [#7506] unnecessary complex output on failure of response.should_be_redirect
