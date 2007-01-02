@@ -3,7 +3,7 @@ title: Upgrade
 inMenu: true
 ---
 
-h2. Upgrading
+h2. Upgrading to RSpec 0.7.6
 
 While we try to keep things as stable as possible, we get a lot of requests
 for enhancement and, from time to time, we discover that a new and better
@@ -18,7 +18,7 @@ The information on this page assumes that you are upgrading from some
 previous release to the current release. If you are moving to anything other
 than the current release you are on your own.
 
-h2. Upgrading from RSpec 0.6.x to 0.7.6
+h2. Upgrading from RSpec 0.6 to 0.7
 
 We've made some significant improvements in 0.7, some of which required API changes that
 will cause some existing specs to fail. Please read the following instructions before you upgrade
