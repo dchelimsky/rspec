@@ -36,8 +36,8 @@ module Spec
 
       def add_stub(expected_from, sym)
         __add expected_from, sym, nil
-        @stubs << MethodStub.new(@error_generator, @expectation_ordering, expected_from, sym, nil)
-        @stubs.last
+        @stubs.unshift MethodStub.new(@error_generator, @expectation_ordering, expected_from, sym, nil)
+        @stubs.first
       end
 
       def __add expected_from, sym, block

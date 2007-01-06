@@ -2,10 +2,9 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 module Spec
   module Mocks
-    context "Stub" do
+    context "A method stub" do
       setup do
-        @class=Class.new
-        @class.class_eval do
+        @class = Class.new do
           def self.existing_class_method
             :original_value
           end
@@ -17,8 +16,8 @@ module Spec
         @obj = @class.new
       end
 
-      specify "should allow for a mock message to temporarily replace the stub" do
-        mock=Spec::Mocks::Mock.new("a mock")
+      specify "should allow for a mock expectation to temporarily replace a method stub on a mock" do
+        mock = Spec::Mocks::Mock.new("a mock")
         mock.stub!(:msg).and_return(:stub_value)
         mock.should_receive(:msg).with(:arg).and_return(:mock_value)
         mock.msg(:arg).should_equal(:mock_value)
@@ -27,7 +26,7 @@ module Spec
         mock.__verify
       end
 
-      specify "should allow for a mock to temporarily replace the stub" do
+      specify "should allow for a mock expectation to temporarily replace a method stub on a non-mock" do
         @obj.stub!(:msg).and_return(:stub_value)
         @obj.should_receive(:msg).with(:arg).and_return(:mock_value)
         @obj.msg(:arg).should_equal(:mock_value)
@@ -149,6 +148,11 @@ module Spec
         lambda do
           @mock.something
         end.should_throw(:blech)
+      end
+      
+      specify "should support overriding w/ a new stub" do
+        @stub.stub!(:existing_instance_method).and_return(:updated_stub_value)
+        @stub.existing_instance_method.should == :updated_stub_value
       end
     end
   end
