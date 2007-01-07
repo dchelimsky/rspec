@@ -238,12 +238,12 @@ context "OptionParser" do
    end
    
    specify "should read options from file when --options is specified" do
-     Spec::Runner::CommandLine.should_receive(:run).with(["--diff", "--colour"], @err, @out, true)
+     Spec::Runner::CommandLine.should_receive(:run).with(["--diff", "--colour"], @err, @out, true, true)
      options = parse(["--options", File.dirname(__FILE__) + "/spec.opts"])
    end
 
    specify "should append options from file when --options is specified" do
-     Spec::Runner::CommandLine.should_receive(:run).with(["some/spec.rb", "--diff", "--colour"], @err, @out, true)
+     Spec::Runner::CommandLine.should_receive(:run).with(["some/spec.rb", "--diff", "--colour"], @err, @out, true, true)
      options = parse(["some/spec.rb", "--options", File.dirname(__FILE__) + "/spec.opts"])
    end
    
@@ -255,7 +255,7 @@ context "OptionParser" do
    end
 
    specify "should call DrbCommandLine when --drb is specified" do
-     Spec::Runner::DrbCommandLine.should_receive(:run).with(["some/spec.rb", "--diff", "--colour"], @err, @out, true)
+     Spec::Runner::DrbCommandLine.should_receive(:run).with(["some/spec.rb", "--diff", "--colour"], @err, @out, true, true)
      options = parse(["some/spec.rb", "--diff", "--drb", "--colour"])
    end
    
