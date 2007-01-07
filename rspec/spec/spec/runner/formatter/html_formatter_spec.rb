@@ -16,7 +16,8 @@ context "HtmlFormatter" do
         Spec::Runner::CommandLine.run(
           args,
           err,
-          out
+          out,
+          false
         )
 
         seconds = /\d+\.\d+ seconds/

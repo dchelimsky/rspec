@@ -7,7 +7,7 @@ context "DrbCommandLine without running local server" do
     specify "should print error when there is no running local server" do
       err = StringIO.new
       out = StringIO.new
-      Spec::Runner::DrbCommandLine.run(['--version'], err, out)
+      Spec::Runner::DrbCommandLine.run(['--version'], err, out, false)
     
       err.rewind
       err.read.should =~ /No server is running/
@@ -65,7 +65,7 @@ end
       out.instance_eval do
         def tty?; true end
       end
-      Spec::Runner::DrbCommandLine.run(args, err, out, true)
+      Spec::Runner::DrbCommandLine.run(args, err, out, false, true)
       out.rewind; out.read
     end
   end

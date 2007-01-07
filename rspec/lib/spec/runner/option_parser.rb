@@ -141,7 +141,7 @@ module Spec
             args_copy.delete_at(index)
 
             new_args = args_copy + IO.readlines(options_file).each {|s| s.chomp!}
-            return CommandLine.run(new_args, err, out, warn_if_no_files)
+            return CommandLine.run(new_args, err, out, true, warn_if_no_files)
           end
 
           opts.on("-G", "--generate-options PATH", "Generate an options file for --options") do |options_file|
@@ -163,7 +163,7 @@ module Spec
             index = args_copy.index("-X") || args_copy.index("--drb")
             args_copy.delete_at(index)
 
-            return DrbCommandLine.run(args_copy, err, out, warn_if_no_files)
+            return DrbCommandLine.run(args_copy, err, out, true, warn_if_no_files)
           end
 
           opts.on("-v", "--version", "Show version") do
