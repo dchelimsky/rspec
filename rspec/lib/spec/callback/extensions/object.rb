@@ -21,6 +21,10 @@ module Callback
       callbacks.notify(event, *args, &error_handler)
     end
 
+    def notify_class_callbacks(event, *args, &error_handler)
+      self.class.send(:notify_callbacks, event, *args, &error_handler)      
+    end
+
     # The CallbackContainer for this object.
     def callbacks
       @callbacks ||= CallbackContainer.new
