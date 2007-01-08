@@ -69,13 +69,13 @@ module Spec
       end
 
       def notify_before_setup(errors)
-        self.class.send(:notify_callbacks, :before_setup, self, &append_errors(errors))
+        notify_class_callbacks(:before_setup, self, &append_errors(errors))
         notify_callbacks(:before_setup, self, &append_errors(errors))
       end
       
       def notify_after_teardown(errors)
         notify_callbacks(:after_teardown, self, &append_errors(errors))
-        self.class.send(:notify_callbacks, :after_teardown, self, &append_errors(errors))
+        notify_class_callbacks(:after_teardown, self, &append_errors(errors))
       end
       
       def append_errors(errors)
