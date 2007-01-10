@@ -14,8 +14,8 @@ module Spec
       #
       # NOTE that this does NOT support receiver.should != expected.
       # Instead, use receiver.should_not == expected
-      def should
-        Should::Should.new self
+      def should(matcher=nil)
+        Should::Should.new(self,matcher)
       end
 
       # Supports the following expectations:

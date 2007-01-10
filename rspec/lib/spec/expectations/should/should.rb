@@ -3,7 +3,12 @@ module Spec
     module Should # :nodoc:
       class Should < Base
 
-        def initialize(target)
+        def initialize(target, matcher=nil)
+          unless matcher.nil?
+            unless matcher.pass?(target)
+              fail_with_message matcher.message
+            end
+          end
           @target = target
           @be_seen = false
         end
