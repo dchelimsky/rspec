@@ -1,12 +1,12 @@
-require File.dirname(__FILE__) + '/../../../spec_helper.rb'
+require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
-module Matchers
+module ExampleExpectations
   class BeEmpty
-    def pass?(target)
+    def met_by?(target)
       target.empty?
     end
   
-    def message
+    def failure_message
       "this is the message"
     end
   end
@@ -15,10 +15,10 @@ module Matchers
   end
 end
 
-context "ShouldMatcher behaviour" do
-  include Matchers
+context "Given an Expectation passed to #should" do
+  include ExampleExpectations
   
-  specify "should be passed to Should, which then verifies passing it target" do
+  specify "#should should pass the target to met_by?" do
     a = Array.new
     a.should be_empty
     
