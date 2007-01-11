@@ -88,7 +88,10 @@ module Spec
         end
 
         def context_modules
-          @context_modules ||= []
+          @context_modules ||= [
+            Spec::Expectations::EqualityExpectations,
+            Spec::Expectations::NumericExpectations,
+          ]
         end
         
         def specifications

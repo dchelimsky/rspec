@@ -3,6 +3,8 @@ require 'spec/expectations/errors'
 require 'spec/expectations/extensions'
 require 'spec/expectations/should'
 require 'spec/expectations/message_builder'
+require 'spec/expectations/equality'
+require 'spec/expectations/numeric'
 
 module Spec
   # See Spec::Expectations::ObjectExpectations for expectations that
