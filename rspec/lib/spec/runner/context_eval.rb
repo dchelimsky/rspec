@@ -91,6 +91,7 @@ module Spec
           @context_modules ||= [
             Spec::Expectations::EqualityExpectations,
             Spec::Expectations::NumericExpectations,
+            Spec::Expectations::CollectionExpectations,
           ]
         end
         

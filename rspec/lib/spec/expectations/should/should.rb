@@ -4,11 +4,6 @@ module Spec
       class Should < Base
 
         def initialize(target, expectation=nil)
-          unless expectation.nil?
-            unless expectation.met_by?(target)
-              fail_with_message expectation.failure_message
-            end
-          end
           @target = target
           @be_seen = false
         end

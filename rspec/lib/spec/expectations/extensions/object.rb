@@ -15,7 +15,8 @@ module Spec
       # NOTE that this does NOT support receiver.should != expected.
       # Instead, use receiver.should_not == expected
       def should(matcher=nil)
-        Should::Should.new(self,matcher)
+        ExpectationHandler.new(self,matcher) if matcher
+        Should::Should.new(self)
       end
 
       # Supports the following expectations:
@@ -25,26 +26,27 @@ module Spec
       #   receiver.should_not =~ expected #a regexp
       #     Passes unless (receiver =~ expected), where expected
       #     is a Regexp.
-      def should_not
+      def should_not(matcher=nil)
+        NegativeExpectationHandler.new(self,matcher) if matcher
         should.not
       end
 
-      # Passes if receiver.equal?(expected)
+      # Deprecated - use target.should equal(expected)
       def should_equal(expected)
         should.equal(expected)
       end
 
-      # Passes unless receiver.equal?(expected)
+      # Deprecated - use target.should not_equal(expected)
       def should_not_equal(expected)
         should.not.equal(expected)
       end
 
-      # Passes if receiver.eql?(expected)
+      # Deprecated - use target.should eql(expected)
       def should_eql(expected)
         should.eql(expected)
       end
 
-      # Passes unless receiver.eql?(expected)
+      # Deprecated - use target.should not_eql(expected)
       def should_not_eql(expected)
         should.not.eql(expected)
       end

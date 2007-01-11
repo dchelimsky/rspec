@@ -5,6 +5,9 @@ This release improves the spec command line by adding DRb support to and making 
 store command line options in a file. This means a more flexible RSpec experience with Rails, 
 Rake and editor plugins like TextMate.
 
+It also introduces a new approach to handling should expectations (NEED TO POINT TO DOC BEFORE RELEASE)
+
+* Added support for target.should arbitrary_expectation_handler and target.should_not arbitrary_expectation_handler
 * Fixed [#7533] Spec suite fails and the process exits with a code 0
 * Fixed [#7565] Subsequent stub! calls for method fail to override the first call to method
 * Applied [#7524] Incorrect Documentation for 'pattern' in Rake task (patch from Stephen Duncan)
