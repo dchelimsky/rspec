@@ -21,5 +21,6 @@ require File.expand_path("#{dir}/rails/render_matcher")
 require File.expand_path("#{dir}/rails/redirect_matcher")
 require File.expand_path("#{dir}/rails/extensions")
 require File.expand_path("#{dir}/rails/assert_select_wrapper")
+require File.expand_path("#{dir}/rails/matchers")
 
 Test::Unit.run = true
