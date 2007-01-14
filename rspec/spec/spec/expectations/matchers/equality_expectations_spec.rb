@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../../spec_helper.rb'
+require File.dirname(__FILE__) + '/../../../spec_helper.rb'
 
 context "target.should equal(expected)" do
   specify "should pass if target.equal?(expected)" do
