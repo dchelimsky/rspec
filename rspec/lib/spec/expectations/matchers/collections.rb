@@ -2,21 +2,6 @@ module Spec
   module Expectations
     module Matchers
       module Collections
-        def have(n)
-          Have.new(n)
-        end
-      
-        def have_exactly(n)
-          Have.new(n)
-        end
-      
-        def have_at_least(n)
-          Have.new(n, :at_least)
-        end
-      
-        def have_at_most(n)
-          Have.new(n, :at_most)
-        end
       
         class Have
           def initialize(expected, relativity=:exactly)

@@ -36,7 +36,7 @@ module Spec
         should.equal(expected)
       end
 
-      # Deprecated - use target.should not_equal(expected)
+      # Deprecated - use target.should_not equal(expected)
       def should_not_equal(expected)
         should.not.equal(expected)
       end
@@ -46,7 +46,7 @@ module Spec
         should.eql(expected)
       end
 
-      # Deprecated - use target.should not_eql(expected)
+      # Deprecated - use target.should_not eql(expected)
       def should_not_eql(expected)
         should.not.eql(expected)
       end
