@@ -31,26 +31,6 @@ module Spec
         should.not
       end
 
-      # Deprecated - use target.should equal(expected)
-      def should_equal(expected)
-        should.equal(expected)
-      end
-
-      # Deprecated - use target.should_not equal(expected)
-      def should_not_equal(expected)
-        should.not.equal(expected)
-      end
-
-      # Deprecated - use target.should eql(expected)
-      def should_eql(expected)
-        should.eql(expected)
-      end
-
-      # Deprecated - use target.should_not eql(expected)
-      def should_not_eql(expected)
-        should.not.eql(expected)
-      end
-
       # Specify that the receiver should have a
       # specified number of items in a named collection. For example:
       #

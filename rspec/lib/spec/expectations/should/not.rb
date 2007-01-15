@@ -70,6 +70,14 @@ module Spec
           return unless @target.__send__(actual_sym, *args)
           fail_with_message(default_message("should not#{@be_seen ? ' be' : ''} #{original_sym}" + (args.empty? ? '' : ' ' + args[0].inspect)))
         end
+
+        def method_missing(sym, *args, &block)
+          if matcher.respond_to?(sym)
+            return NegativeExpectationHandler.new(@target,matcher.__send__(sym, *args))
+          else
+            super
+          end
+        end
       end
     end
   end
