@@ -277,7 +277,7 @@ module Spec #:nodoc:
               end
               text.strip! unless NO_STRIP.include?(match.name)
               unless match_with.is_a?(Regexp) ? (text =~ match_with) : (text == match_with.to_s)
-                content_mismatch ||= build_message(message, "<?> expected but was\n<?>.", match_with, text)
+                content_mismatch ||= "Expected <#{element}> with #{match_with.is_a?(Regexp) ? "text matching " : ""}#{match_with.inspect}"
                 true
               end
             end
@@ -298,7 +298,7 @@ module Spec #:nodoc:
           if equals[:minimum]
             unless matches.size >= equals[:minimum]
               return fail_with(
-                "Expected at least #{equals[:minimum]} <#{element}> tag#{equals[:minimum] > 1 ? 's' : ''}, found #{matches.size}",
+                message || "Expected at least #{equals[:minimum]} <#{element}> tag#{equals[:minimum] > 1 ? 's' : ''}, found #{matches.size}",
                 nil
               )
             end
@@ -306,7 +306,7 @@ module Spec #:nodoc:
           if equals[:maximum]
             unless matches.size <= equals[:maximum]
               return fail_with(
-                "Expected at most #{equals[:maximum]} <#{element}> tag#{equals[:maximum] == 1 ? '' : 's'}, found #{matches.size}",
+                message || "Expected at most #{equals[:maximum]} <#{element}> tag#{equals[:maximum] == 1 ? '' : 's'}, found #{matches.size}",
                 nil
               )
             end
@@ -326,7 +326,6 @@ module Spec #:nodoc:
           # Returns all matches elements.
           matches
         end
-
 
         # :call-seq:
         #   assert_select_rjs(id?) { |elements| ... }
