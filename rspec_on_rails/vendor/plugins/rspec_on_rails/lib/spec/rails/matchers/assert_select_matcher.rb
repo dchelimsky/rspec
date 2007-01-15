@@ -30,7 +30,7 @@ module Spec #:nodoc:
       # 
       # Also see HTML::Selector for learning how to use selectors.
       class AssertSelect 
-        attr_reader :response
+        attr_reader :response, :failure_message, :negative_failure_message
         
         def initialize(*args, &block)
           @args = args
@@ -41,7 +41,13 @@ module Spec #:nodoc:
           @response = target
           assert_select(*@args, &@block)
         end
-
+        
+        def fail_with(failure_message, negative_failure_message)
+          @failure_message = failure_message
+          @negative_failure_message = negative_failure_message
+          return false
+        end
+        
         unless const_defined?(:NO_STRIP)
           NO_STRIP = %w{pre script style textarea}
         end
@@ -291,15 +297,17 @@ module Spec #:nodoc:
           # Test minimum/maximum occurrence.
           if equals[:minimum]
             unless matches.size >= equals[:minimum]
-              Spec::Expectations.fail_with(
-                "Expected at least #{equals[:minimum]} <#{element}> tag#{equals[:minimum] > 1 ? 's' : ''}, found #{matches.size}"
+              return fail_with(
+                "Expected at least #{equals[:minimum]} <#{element}> tag#{equals[:minimum] > 1 ? 's' : ''}, found #{matches.size}",
+                nil
               )
             end
           end
           if equals[:maximum]
             unless matches.size <= equals[:maximum]
-              Spec::Expectations.fail_with(
-                "Expected at most #{equals[:maximum]} elements, found #{matches.size}."
+              return fail_with(
+                "Expected at most #{equals[:maximum]} <#{element}> tag#{equals[:maximum] == 1 ? '' : 's'}, found #{matches.size}",
+                nil
               )
             end
           end

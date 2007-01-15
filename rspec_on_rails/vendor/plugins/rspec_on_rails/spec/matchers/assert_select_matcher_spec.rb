@@ -78,15 +78,15 @@ context "assert_select_matcher", :context_type => :controller do
     lambda { response.should have_tag("p") }.should_raise SpecFailed, "Expected at least 1 <p> tag, found 0"
   end
 
-  # def test_equality_true_false
-  #   render_html %Q{<div id="1"></div><div id="2"></div>}
-  #   assert_nothing_raised               { assert_select "div" }
-  #   assert_raises(AssertionFailedError) { assert_select "p" }
-  #   assert_nothing_raised               { assert_select "div", true }
-  #   assert_raises(AssertionFailedError) { assert_select "p", true }
-  #   assert_raises(AssertionFailedError) { assert_select "div", false }
-  #   assert_nothing_raised               { assert_select "p", false }
-  # end
+  specify "equality_true_false" do
+    render_html %Q{<div id="1"></div><div id="2"></div>}
+    response.should have_tag( "div" )
+    lambda { response.should have_tag( "p" )}.should_raise SpecFailed, "Expected at least 1 <p> tag, found 0"
+    response.should have_tag( "div", true )
+    lambda { response.should have_tag( "p", true )}.should_raise SpecFailed, "Expected at least 1 <p> tag, found 0"
+    lambda { response.should have_tag( "div", false )}.should_raise SpecFailed, "Expected at most 0 <div> tags, found 2"
+    response.should have_tag( "p", false )
+  end
 # 
 # 
 #   def test_equality_string_and_regexp
