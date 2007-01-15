@@ -36,5 +36,9 @@ module Spec
         Collections::Have.new(n, :at_most)
       end
     end
+    
+    class Matcher
+      include Matchers
+    end
   end      
 end

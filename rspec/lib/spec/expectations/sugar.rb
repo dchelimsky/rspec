@@ -11,11 +11,16 @@ module Spec
 
           define_method :_method_missing do |sym, args, block|
             return original_method_missing.bind(self).call(sym, *args, &block) unless sym.to_s =~ /^should_/
+            return Spec::Expectations::Should::Not.new(self).__send__(__strip_should_not(sym), *args, &block) if sym.to_s =~ /^should_not_/
             return Spec::Expectations::Should::Should.new(self).__send__(__strip_should(sym), *args, &block)
           end
           
-          def __strip_should(sym) # :nodoc 
+          def __strip_should(sym) # :nodoc
             sym.to_s[7..-1]
+          end
+          
+          def __strip_should_not(sym) # :nodoc
+            sym.to_s[11..-1]
           end
         end
       end
