@@ -62,45 +62,47 @@ context "assert_select_matcher", :context_type => :controller do
     ActionMailer::Base.deliveries = []
   end
 
-
   teardown do
     ActionMailer::Base.deliveries.clear
   end
 
-  #
-  # Test assert select.
-  #
-
-  specify "assert_select" do
+  specify "should find specific numbers of elements" do
     render_html %Q{<div id="1"></div><div id="2"></div>}
+    response.should have_tag( "div" )
     response.should have_tag("div", 2)
     lambda { response.should have_tag("div", 3) }.should_raise SpecFailed, "Expected at least 3 <div> tags, found 2"
     lambda { response.should have_tag("p") }.should_raise SpecFailed, "Expected at least 1 <p> tag, found 0"
   end
 
-  specify "equality_true_false" do
+  specify "should expect to find elements when using true" do
     render_html %Q{<div id="1"></div><div id="2"></div>}
-    response.should have_tag( "div" )
-    lambda { response.should have_tag( "p" )}.should_raise SpecFailed, "Expected at least 1 <p> tag, found 0"
     response.should have_tag( "div", true )
     lambda { response.should have_tag( "p", true )}.should_raise SpecFailed, "Expected at least 1 <p> tag, found 0"
+  end
+
+  specify "should expect to not find elements when using false" do
+    render_html %Q{<div id="1"></div><div id="2"></div>}
     lambda { response.should have_tag( "div", false )}.should_raise SpecFailed, "Expected at most 0 <div> tags, found 2"
     response.should have_tag( "p", false )
   end
-# 
-# 
-#   def test_equality_string_and_regexp
-#     render_html %Q{<div id="1">foo</div><div id="2">foo</div>}
-#     assert_nothing_raised               { assert_select "div", "foo" }
-#     assert_raises(AssertionFailedError) { assert_select "div", "bar" }
-#     assert_nothing_raised               { assert_select "div", :text=>"foo" }
-#     assert_raises(AssertionFailedError) { assert_select "div", :text=>"bar" }
-#     assert_nothing_raised               { assert_select "div", /(foo|bar)/ }
-#     assert_raises(AssertionFailedError) { assert_select "div", /foobar/ }
-#     assert_nothing_raised               { assert_select "div", :text=>/(foo|bar)/ }
-#     assert_raises(AssertionFailedError) { assert_select "div", :text=>/foobar/ }
-#     assert_raises(AssertionFailedError) { assert_select "p", :text=>/foobar/ }
-#   end
+
+
+  specify "should match submitted text using text or regexp" do
+    render_html %Q{<div id="1">foo</div><div id="2">foo</div>}
+    response.should have_tag("div", "foo")
+    response.should have_tag("div", /(foo|bar)/)
+    response.should have_tag("div", :text=>"foo")
+    response.should have_tag("div", :text=>/(foo|bar)/)
+
+    lambda { response.should have_tag("div", "bar") }.should_raise SpecFailed, "Expected <div> with \"bar\""
+    lambda { response.should have_tag("div", :text=>"bar") }.should_raise SpecFailed, "Expected <div> with \"bar\""
+    lambda { response.should have_tag("p", :text=>"foo") }.should_raise SpecFailed, "Expected at least 1 <p> tag, found 0"
+
+    lambda { response.should have_tag("div", /foobar/) }.should_raise SpecFailed, "Expected <div> with text matching /foobar/"
+    lambda { response.should have_tag("div", :text=>/foobar/) }.should_raise SpecFailed, "Expected <div> with text matching /foobar/"
+    lambda { response.should have_tag("p", :text=>/foo/) }.should_raise SpecFailed, "Expected at least 1 <p> tag, found 0"
+  end
+
 # 
 # 
 #   def test_equality_of_html

@@ -58,7 +58,7 @@ class ShouldHaveMailer < ActionMailer::Base
 
 end
 
-SpecFailed = Spec::Expectations::ExpectationNotMetError
+# SpecFailed = Spec::Expectations::ExpectationNotMetError
 
 context "ShouldHave", :context_type => :controller do
   controller_name :should_have
