@@ -35,6 +35,7 @@ module Spec
       def have_at_most(n)
         Collections::Have.new(n, :at_most)
       end
+
     end
     
     class Matcher

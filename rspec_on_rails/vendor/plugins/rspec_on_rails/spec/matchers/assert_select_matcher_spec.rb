@@ -103,59 +103,65 @@ context "assert_select_matcher", :context_type => :controller do
     lambda { response.should have_tag("p", :text=>/foo/) }.should_raise SpecFailed, "Expected at least 1 <p> tag, found 0"
   end
 
-# 
-# 
-#   def test_equality_of_html
-#     render_html %Q{<p>\n<em>"This is <strong>not</strong> a big problem,"</em> he said.\n</p>}
-#     text = "\"This is not a big problem,\" he said."
-#     html = "<em>\"This is <strong>not</strong> a big problem,\"</em> he said."
-#     assert_nothing_raised               { assert_select "p", text }
-#     assert_raises(AssertionFailedError) { assert_select "p", html }
-#     assert_nothing_raised               { assert_select "p", :html=>html }
-#     assert_raises(AssertionFailedError) { assert_select "p", :html=>text }
-#     # No stripping for pre.
-#     render_html %Q{<pre>\n<em>"This is <strong>not</strong> a big problem,"</em> he said.\n</pre>}
-#     text = "\n\"This is not a big problem,\" he said.\n"
-#     html = "\n<em>\"This is <strong>not</strong> a big problem,\"</em> he said.\n"
-#     assert_nothing_raised               { assert_select "pre", text }
-#     assert_raises(AssertionFailedError) { assert_select "pre", html }
-#     assert_nothing_raised               { assert_select "pre", :html=>html }
-#     assert_raises(AssertionFailedError) { assert_select "pre", :html=>text }
-#   end
-# 
-# 
-#   def test_equality_of_instances
-#     render_html %Q{<div id="1">foo</div><div id="2">foo</div>}
-#     assert_nothing_raised               { assert_select "div", 2 }
-#     assert_raises(AssertionFailedError) { assert_select "div", 3 }
-#     assert_nothing_raised               { assert_select "div", 1..2 }
-#     assert_raises(AssertionFailedError) { assert_select "div", 3..4 }
-#     assert_nothing_raised               { assert_select "div", :count=>2 }
-#     assert_raises(AssertionFailedError) { assert_select "div", :count=>3 }
-#     assert_nothing_raised               { assert_select "div", :minimum=>1 }
-#     assert_nothing_raised               { assert_select "div", :minimum=>2 }
-#     assert_raises(AssertionFailedError) { assert_select "div", :minimum=>3 }
-#     assert_nothing_raised               { assert_select "div", :maximum=>2 }
-#     assert_nothing_raised               { assert_select "div", :maximum=>3 }
-#     assert_raises(AssertionFailedError) { assert_select "div", :maximum=>1 }
-#     assert_nothing_raised               { assert_select "div", :minimum=>1, :maximum=>2 }
-#     assert_raises(AssertionFailedError) { assert_select "div", :minimum=>3, :maximum=>4 }
-#   end
-# 
-# 
-#   def test_substitution_values
-#     render_html %Q{<div id="1">foo</div><div id="2">foo</div>}
-#     assert_select "div#?", /\d+/ do |elements|
-#       assert_equal 2, elements.size
-#     end
-#     assert_select "div" do
-#       assert_select "div#?", /\d+/ do |elements|
-#         assert_equal 2, elements.size
-#         assert_select "#1"
-#         assert_select "#2"
-#       end
-#     end
-#   end
+
+
+  specify "should match submitted html" do
+    render_html %Q{<p>\n<em>"This is <strong>not</strong> a big problem,"</em> he said.\n</p>}
+    text = "\"This is not a big problem,\" he said."
+    html = "<em>\"This is <strong>not</strong> a big problem,\"</em> he said."
+    response.should have_tag("p", text)
+    lambda { response.should have_tag("p", html) }.should_raise SpecFailed, "Expected <p> with #{html.inspect}"
+    response.should have_tag("p", :html=>html)
+    lambda { response.should have_tag("p", :html=>text) }.should_raise SpecFailed, "Expected <p> with #{text.inspect}"
+
+    # # No stripping for pre.
+    render_html %Q{<pre>\n<em>"This is <strong>not</strong> a big problem,"</em> he said.\n</pre>}
+    text = "\n\"This is not a big problem,\" he said.\n"
+    html = "\n<em>\"This is <strong>not</strong> a big problem,\"</em> he said.\n"
+    response.should have_tag("pre", text)
+    lambda { response.should have_tag("pre", html) }.should_raise SpecFailed, "Expected <pre> with #{html.inspect}"
+    response.should have_tag("pre", :html=>html)
+    lambda { response.should have_tag("pre", :html=>text) }.should_raise SpecFailed, "Expected <pre> with #{text.inspect}"
+  end
+
+  specify "should match number of instances" do
+    render_html %Q{<div id="1">foo</div><div id="2">foo</div>}
+    response.should have_tag("div", 2)
+    lambda { response.should have_tag("div", 3) }.should_raise SpecFailed
+    response.should have_tag("div", 1..2)
+    lambda { response.should have_tag("div", 3..4) }.should_raise SpecFailed
+    response.should have_tag("div", :count=>2)
+    lambda { response.should have_tag("div", :count=>3) }.should_raise SpecFailed
+    response.should have_tag("div", :minimum=>1)
+    response.should have_tag("div", :minimum=>2)
+    lambda { response.should have_tag("div", :minimum=>3) }.should_raise SpecFailed
+    response.should have_tag("div", :maximum=>2)
+    response.should have_tag("div", :maximum=>3)
+    lambda { response.should have_tag("div", :maximum=>1) }.should_raise SpecFailed
+    response.should have_tag("div", :minimum=>1, :maximum=>2)
+    lambda { response.should have_tag("div", :minimum=>3, :maximum=>4) }.should_raise SpecFailed
+  end
+
+  specify "substitution values" do
+    render_html %Q{<div id="1">foo</div><div id="2">foo</div>}
+    response.should have_tag("div#?", /\d+/) { |elements|
+      elements.size.should == 2
+    }
+    lambda {
+      response.should have_tag("div#?", /\d+/) { |elements|
+        elements.size.should == 3
+      }
+    }.should_raise SpecFailed, "2 should == 3"
+    #TODO - this should be a better message like "expected 3, got 2 (using ==)"
+
+    response.should have_tag("div") {
+      response.should have_tag("div#?", /\d+/) { |elements|
+        elements.size.should == 2
+        response.should have_tag("#1")
+        response.should have_tag("#2")
+      }
+    }
+  end
 # 
 #   
 #   def test_nested_assert_select

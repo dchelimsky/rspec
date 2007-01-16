@@ -11,6 +11,7 @@ context "should ==" do
 
   specify "should raise exception with diff when objects are not ==" do
     # Please don't change this to non-diffed format - it will break the diffing support.
+    #   #TODO - this should become "expected \"cadillac\", got \"apple\" (using ==)"
     begin
       Spec::Expectations::Should::Base.differ = Spec::Expectations::Differs::Default.new
       lambda do
