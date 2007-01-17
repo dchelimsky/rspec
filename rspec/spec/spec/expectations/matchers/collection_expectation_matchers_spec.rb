@@ -23,6 +23,15 @@ context "have(n).items" do
     have(3).items_in_collection_with_size_method.met_by?(owner).should_be true
   end
 
+  specify "should handle :no" do
+    #given
+    owner = create_collection_owner_with(0)
+    
+    #then
+    have(:no).items_in_collection_with_length_method.met_by?(owner).should_be true
+    have(:no).items_in_collection_with_size_method.met_by?(owner).should_be true
+  end
+
   specify "should fail if target has a collection of items with < n members" do
     #given
     owner = create_collection_owner_with(3)

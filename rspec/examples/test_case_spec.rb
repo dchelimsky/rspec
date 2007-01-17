@@ -7,7 +7,7 @@ class RSpecIntegrationTest < Test::Unit::TestCase
   end
   
   def self.verify_class_method
-    @@fixtures.should_be true
+    @@fixtures.should == true
   end
   
   def setup
@@ -35,7 +35,7 @@ end
 context "RSpec should integrate with Test::Unit::TestCase" do
   inherit RSpecIntegrationTest
   include RandomHelperModule
-
+  
   fixtures :some_table
 
   setup do
@@ -43,18 +43,18 @@ context "RSpec should integrate with Test::Unit::TestCase" do
   end
 
   specify "TestCase#setup should be called." do
-    @test_case_setup_called.should_be true
-    @rspec_setup_called.should_be true
+    @test_case_setup_called.should be(true)
+    @rspec_setup_called.should be(true)
   end
 
   specify "RSpec should be able to access TestCase methods" do
     helper_method
-    @helper_method_called.should_be true
+    @helper_method_called.should be(true)
   end
 
   specify "RSpec should be able to accept included modules" do
     random_task
-    @random_task_called.should_be true
+    @random_task_called.should be(true)
   end
   
   teardown do
