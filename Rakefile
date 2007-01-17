@@ -17,8 +17,8 @@ task :pre_commit_core do
         puts line
       end
     end
+    raise "RSpec Core pre_commit failed" if $? != 0
   end
-  raise "RSpec Core pre_commit failed" if $? != 0
 end
 
 desc "Runs pre_commit against rspec_on_rails (against rails 1.1.6 and 1.2.0 RC 1)"
@@ -73,7 +73,7 @@ end
 
 RSPEC_DEPS = [
   ["rspec_on_rails/vendor/rails/1.1.6", "rails 1.1.6", "http://dev.rubyonrails.org/svn/rails/tags/rel_1-1-6", true],
-  ["rspec_on_rails/vendor/rails/1.2.0", "rails 1.2.0", "http://dev.rubyonrails.org/svn/rails/tags/rel_1-2-0_RC1", true],
+  ["rspec_on_rails/vendor/rails/1.2.0", "rails 1.2.0", "http://dev.rubyonrails.org/svn/rails/tags/rel_1-2-0_RC2", true],
   ["rspec_on_rails/vendor/rails/edge", "edge rails", "http://dev.rubyonrails.org/svn/rails/trunk", false],
   ["rspec_on_rails/vendor/plugins/assert_select", "assert_select", "http://labnotes.org/svn/public/ruby/rails_plugins/assert_select", false],
   ["jruby/jruby", "jruby", "http://svn.codehaus.org/jruby/trunk/jruby", false]
@@ -105,7 +105,14 @@ end
 desc "Updates dependencies for development environment"
 task :update_dependencies do
   RSPEC_DEPS.each do |dep|
-    next if dep[3]
+    # Verify that the current working copy is right
+    if `svn info #{dep[0]}` =~ /^URL: (.*)/
+      actual_url = $1
+      if actual_url != dep[2]
+        raise "Your working copy in #{dep[0]} points to \n#{actual_url}\nIt has moved to\n#{dep[2]}\nPlease delete the working copy and run rake install_dependencies"
+      end
+    end
+    next if dep[3] #
     puts "\nUpdating #{dep[1]} ..."
     dest = File.expand_path(File.join(File.dirname(__FILE__), dep[0]))
     cmd = "svn up #{dest}"

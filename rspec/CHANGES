@@ -1,12 +1,13 @@
 = RSpec Changelog
 
 == Version 0.7.6 (Not yet released)
-This release improves the spec command line by adding DRb support to and making it possible to
+This release improves the spec command line by adding DRb support and making it possible to
 store command line options in a file. This means a more flexible RSpec experience with Rails, 
 Rake and editor plugins like TextMate.
 
 It also introduces a new approach to handling should expectations (NEED TO POINT TO DOC BEFORE RELEASE)
 
+* In a Rails app, RSpec core is only loaded when RAILS_ENV==test (init.rb)
 * Added support for target.should arbitrary_expectation_handler and target.should_not arbitrary_expectation_handler
 * Fixed [#7533] Spec suite fails and the process exits with a code 0
 * Fixed [#7565] Subsequent stub! calls for method fail to override the first call to method
