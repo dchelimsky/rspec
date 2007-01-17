@@ -12,21 +12,21 @@ context "The Person model with fixtures loaded" do
   end
 
   specify "should have one record" do
-    Person.should_have(1).record
+    Person.should have(1).record
   end
 
   specify "should find an existing person" do
     person = Person.find(people(:lachie).id)
-    person.should_eql people(:lachie)
+    person.should eql(people(:lachie))
   end
 
   specify "should have animals" do
-    people(:lachie).should_have(2).animals
+    people(:lachie).should have(2).animals
   end
 
   specify "should include animals" do
-    people(:lachie).should_have(2).animals
-    people(:lachie).animals.should_include animals(:horse)
+    people(:lachie).should have(2).animals
+    people(:lachie).animals.should include(animals(:horse))
   end
 
   teardown do

@@ -72,16 +72,6 @@ module Spec
         should.have.at_most(expected)
       end
 
-      # Passes if receiver.include?(expected)
-      def should_include(expected)
-        should.include(expected)
-      end
-
-      # Passes unless receiver.include?(expected)
-      def should_not_include(expected)
-        should.not.include(expected)
-      end
-    
       def should_be(expected = :___no_arg)
         should.be(expected)
       end
@@ -98,38 +88,6 @@ module Spec
       # Passes unless &block returns true
       def should_not_satisfy(&block)
         should.not.satisfy(&block)
-      end
-      
-      # Passes if receiver is an instance of expected_class
-      def should_be_an_instance_of(expected_class)
-        should.be.an_instance_of(expected_class)
-      end
-      alias_method :should_be_instance_of, :should_be_an_instance_of
-      
-      # Passes unless receiver is an instance of expected_class
-      def should_not_be_an_instance_of(expected_class)
-        should.not.be.an_instance_of(expected_class)
-      end
-      
-      # Passes if receiver is an instance of either expected_class
-      # or a subclass of expected_class
-      def should_be_a_kind_of(expected_class)
-        should.be.a_kind_of(expected_class)
-      end
-      alias_method :should_be_kind_of, :should_be_a_kind_of
-      
-      # Passes unless receiver is an instance of either expected_class
-      # or a subclass of expected_class
-      def should_not_be_a_kind_of(expected_class)
-        should.not.be.a_kind_of(expected_class)
-      end
-      
-      def should_respond_to(message)
-        should.respond_to(message)
-      end
-      
-      def should_not_respond_to(message)
-        should.not.respond_to(message)
       end
     end
   end

@@ -1,0 +1,24 @@
+Moving from 0.7.5 to 0.8 will require the following syntax changes, which we should
+support with a translation script:
+
+###################################################
+The following applies to:
+should_equal
+should_eql
+should_be_close
+should_include
+
+#before
+actual.should_equal expected
+actual.should_not_equal expected
+
+#after
+actual.should equal(expected)
+actual.should_not equal(expected)
+
+###################################################
+#before
+team.should_have(3).players
+
+#after
+team.should have(3).players
