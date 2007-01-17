@@ -82,7 +82,13 @@ EOF
   task :create_purchase => ['rspec:generate_purchase', 'rspec:migrate_up']
 
   task :generate_purchase do
-    `ruby script/generate --force rspec_resource purchase order_id:integer created_at:datetime amount:decimal`
+    generator = "ruby script/generate rspec_resource purchase order_id:integer created_at:datetime amount:decimal --force"
+    puts <<EOF
+#####################################################
+#{generator}
+#####################################################
+EOF
+    `#{generator}`
     raise "rspec_resource failed" if $? != 0
   end
 
@@ -94,6 +100,11 @@ EOF
   task :destroy_purchase => ['rspec:migrate_down', 'rspec:rm_unknown']
 
   task :migrate_down do
+    puts <<EOF
+#####################################################
+Migrating down and reverting config/routes.rb
+#####################################################
+EOF
     ENV['VERSION'] = '3'
     Rake::Task["db:migrate"].invoke
     `svn revert config/routes.rb`
@@ -101,10 +112,13 @@ EOF
   end
   
   task :rm_unknown do
+    puts "#####################################################"
+    puts "Removing generated files:"
     `svn stat`.split("\n").each do |line|
       if line =~ /^\?\s*(.*)$/
         rm_rf $1
       end
     end
+    puts "#####################################################"
   end
 end
