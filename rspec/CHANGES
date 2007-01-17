@@ -5,7 +5,7 @@ This release improves the spec command line by adding DRb support and making it 
 store command line options in a file. This means a more flexible RSpec experience with Rails, 
 Rake and editor plugins like TextMate.
 
-It also introduces a new approach to handling should expectations (NEED TO POINT TO DOC BEFORE RELEASE)
+It also introduces a new approach to handling should expectations. See SYNTAX_CHANGES.
 
 * In a Rails app, RSpec core is only loaded when RAILS_ENV==test (init.rb)
 * Added support for target.should arbitrary_expectation_handler and target.should_not arbitrary_expectation_handler

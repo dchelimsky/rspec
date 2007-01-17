@@ -1,6 +1,6 @@
 module Spec
   module Expectations
-    # rspec adds all of these expectations to every Object (and,
+    # rspec adds #should and #should_not to every Object (and,
     # implicitly, every Class).
     module ObjectExpectations
       

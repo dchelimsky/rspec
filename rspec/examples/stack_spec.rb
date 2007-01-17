@@ -37,12 +37,12 @@ context "An empty stack" do
   end
   
   specify "should be empty" do
-    @stack.should_be_empty
+    @stack.should be(:empty)
   end
   
   specify "should no longer be empty after 'push'" do
     @stack.push "anything"
-    @stack.should_not_be_empty
+    @stack.should_not be(:empty)
   end
   
   specify "should complain when sent 'peek'" do
@@ -61,17 +61,17 @@ context "An almost empty stack (with one item)" do
   end
   
   specify "should not be empty" do
-    @stack.should_not_be_empty
+    @stack.should_not be(:empty)
   end
   
   specify "should remain not empty after 'peek'" do
     @stack.peek
-    @stack.should_not_be_empty
+    @stack.should_not be(:empty)
   end
   
   specify "should become empty after 'pop'" do
     @stack.pop
-    @stack.should_be_empty
+    @stack.should be(:empty)
   end
 end
 
@@ -82,12 +82,12 @@ context "An almost full stack (with one item less than capacity)" do
   end
   
   specify "should not be full" do
-    @stack.should_not_be_full
+    @stack.should_not be(:full)
   end
   
   specify "should become full when sent 'push'" do
     @stack.push Object.new
-    @stack.should_be_full
+    @stack.should be(:full)
   end
 end
 
@@ -98,17 +98,17 @@ context "A full stack" do
   end
   
   specify "should be full" do
-    @stack.should_be_full
+    @stack.should be(:full)
   end
   
   specify "should remain full after 'peek'" do
     @stack.peek
-    @stack.should_be_full
+    @stack.should be(:full)
   end
   
   specify "should no longer be full after 'pop'" do
     @stack.pop
-    @stack.should_not_be_full
+    @stack.should_not be(:full)
   end
 
   specify "should complain on 'push'" do

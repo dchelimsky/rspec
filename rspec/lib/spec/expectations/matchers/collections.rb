@@ -4,7 +4,7 @@ module Spec
       
       class Have
         def initialize(expected, relativity=:exactly)
-          @expected = expected
+          @expected = (expected == :no ? 0 : expected)
           @relativity = relativity
         end
       

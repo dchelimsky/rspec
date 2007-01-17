@@ -28,19 +28,19 @@ context "A new team" do
   end
   
   specify "should have 3 players (failing example)" do
-    @team.should_have(3).players
+    @team.should have(3).players
   end
   
   specify "should include some player (failing example)" do
-    @team.players.should_include("Some Player")
+    @team.players.should include("Some Player")
   end
 
   specify "should include 5 (failing example)" do
-    @team.players.should_include(5)
+    @team.players.should include(5)
   end
   
   specify "should have no players" do
-    @team.should_have(:no).players
+    @team.should have(:no).players
   end
   
 end

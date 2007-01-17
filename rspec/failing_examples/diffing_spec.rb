@@ -31,6 +31,6 @@ species=#{@species}
   specify "should print diff of different objects' pretty representation" do
     expected = Animal.new "bob", "giraffe"
     actual   = Animal.new "bob", "tortoise"
-    expected.should_eql actual
+    expected.should eql(actual)
   end
 end

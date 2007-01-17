@@ -2,6 +2,7 @@ require 'spec/expectations/matchers/collections'
 require 'spec/expectations/matchers/equality'
 require 'spec/expectations/matchers/numeric'
 require 'spec/expectations/matchers/include'
+require 'spec/expectations/matchers/be'
 
 module Spec
   module Expectations
@@ -39,6 +40,10 @@ module Spec
       
       def include(expected)
         Matchers::Include.new(expected)
+      end
+      
+      def be(expected)
+        Matchers::Be.new(expected)
       end
 
     end
