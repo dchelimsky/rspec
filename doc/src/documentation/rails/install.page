@@ -15,7 +15,7 @@ gem install rspec
 Take note of what rspec version you're installing - it's very important that you
 install a compatible RSpec on Rails plugin.
 
-h3. Installation
+h3. Plugin Installation
 
 RSpec on Rails is a regular Rails plugin. It can be installed via your Rails app's script/plugin tool.
 
@@ -78,7 +78,9 @@ ruby script/plugin install -x svn://rubyforge.org/var/svn/rspec/trunk/rspec_on_r
 ruby script/plugin install -x svn://rubyforge.org/var/svn/rspec/trunk/rspec
 </pre>
 
-Once the plugin is installed, you must bootstrap your Rails app with RSpec. Stand in the root of your Rails app and run:
+h3. Bootstrapping
+
+Once the plugin and a compatible RSpec core is installed, you must bootstrap your Rails app with RSpec. Stand in the root of your Rails app and run:
 
 <pre>
 ruby script/generate rspec
