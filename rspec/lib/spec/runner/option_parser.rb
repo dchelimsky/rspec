@@ -122,7 +122,8 @@ module Spec
                                          "the specced code a little each time. The intent is that specs",
                                          "*should* fail, and RSpec will tell you if they don't.",
                                          "CODE should be either Some::Module, Some::Class or Some::Fabulous#method}") do |heckle|
-            require 'spec/runner/heckle_runner'
+            heckle_runner = PLATFORM == 'i386-mswin32' ? 'spec/runner/heckle_runner_win' : 'spec/runner/heckle_runner'
+            require heckle_runner
             options.heckle_runner = HeckleRunner.new(heckle)
           end
           

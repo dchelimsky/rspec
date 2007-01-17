@@ -57,7 +57,7 @@ context "OptionParser" do
     options = parse(["-o", "#{File.expand_path(File.dirname(__FILE__))}/output_file.txt"])
     options.out.should_be_an_instance_of File
     options.out.path.should == "#{File.expand_path(File.dirname(__FILE__))}/output_file.txt"
-    File.delete(options.out.path)
+    File.delete(options.out.path) rescue nil
   end
 
   specify "should require file when require specified" do
@@ -232,31 +232,39 @@ context "OptionParser" do
     @err.string.should_match(/You cannot use both --line and --spec/n)
   end
 
-   specify "should heckle when --heckle is specified" do
-     options = parse(["--heckle", "Spec"])
-     options.heckle_runner.should_be_instance_of(Spec::Runner::HeckleRunner)
-   end
+  if(PLATFORM != "i386-mswin32")
+    specify "should heckle when --heckle is specified (and platform is not windows)" do
+      options = parse(["--heckle", "Spec"])
+      options.heckle_runner.should_be_instance_of(Spec::Runner::HeckleRunner)
+    end
+  else
+    specify "should barf when --heckle is specified (and platform is windows)" do
+      lambda do
+        options = parse(["--heckle", "Spec"])
+      end.should_raise(StandardError, "Heckle not supported on Windows")
+    end
+  end
    
-   specify "should read options from file when --options is specified" do
-     Spec::Runner::CommandLine.should_receive(:run).with(["--diff", "--colour"], @err, @out, true, true)
-     options = parse(["--options", File.dirname(__FILE__) + "/spec.opts"])
-   end
+  specify "should read options from file when --options is specified" do
+    Spec::Runner::CommandLine.should_receive(:run).with(["--diff", "--colour"], @err, @out, true, true)
+    options = parse(["--options", File.dirname(__FILE__) + "/spec.opts"])
+  end
 
-   specify "should append options from file when --options is specified" do
-     Spec::Runner::CommandLine.should_receive(:run).with(["some/spec.rb", "--diff", "--colour"], @err, @out, true, true)
-     options = parse(["some/spec.rb", "--options", File.dirname(__FILE__) + "/spec.opts"])
-   end
+  specify "should append options from file when --options is specified" do
+    Spec::Runner::CommandLine.should_receive(:run).with(["some/spec.rb", "--diff", "--colour"], @err, @out, true, true)
+    options = parse(["some/spec.rb", "--options", File.dirname(__FILE__) + "/spec.opts"])
+  end
    
-   specify "should save config to file when --generate-options is specified" do
-     FileUtils.rm 'spec.opts' rescue nil
-     options = parse(["--colour", "--generate-options", "spec.opts", "--diff"])
-     File.open('spec.opts').read.should == "--colour\n--diff\n"
-     FileUtils.rm 'spec.opts' rescue nil
-   end
+  specify "should save config to file when --generate-options is specified" do
+    FileUtils.rm 'spec.opts' rescue nil
+    options = parse(["--colour", "--generate-options", "spec.opts", "--diff"])
+    File.open('spec.opts').read.should == "--colour\n--diff\n"
+    FileUtils.rm 'spec.opts' rescue nil
+  end
 
-   specify "should call DrbCommandLine when --drb is specified" do
-     Spec::Runner::DrbCommandLine.should_receive(:run).with(["some/spec.rb", "--diff", "--colour"], @err, @out, true, true)
-     options = parse(["some/spec.rb", "--diff", "--drb", "--colour"])
-   end
+  specify "should call DrbCommandLine when --drb is specified" do
+    Spec::Runner::DrbCommandLine.should_receive(:run).with(["some/spec.rb", "--diff", "--colour"], @err, @out, true, true)
+    options = parse(["some/spec.rb", "--diff", "--drb", "--colour"])
+  end
    
 end
