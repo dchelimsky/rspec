@@ -1,45 +1,50 @@
 require 'spec/expectations/matchers/collections'
 require 'spec/expectations/matchers/equality'
 require 'spec/expectations/matchers/numeric'
+require 'spec/expectations/matchers/include'
 
 module Spec
   module Expectations
-    module Matchers
+    module MatcherMethods
       
       #passes if receiver.equal?(expected)
       def equal(other)
-        Equality::Equal.new(other)
+        Matchers::Equal.new(other)
       end
       
       #passes if receiver.eql?(expected)
       def eql(other)
-        Equality::Eql.new(other)
+        Matchers::Eql.new(other)
       end
       
       def be_close(expected, delta)
-        Numeric::BeClose.new(expected, delta)
+        Matchers::BeClose.new(expected, delta)
       end
 
       def have(n)
-        Collections::Have.new(n)
+        Matchers::Have.new(n)
       end
     
       def have_exactly(n)
-        Collections::Have.new(n)
+        Matchers::Have.new(n)
       end
     
       def have_at_least(n)
-        Collections::Have.new(n, :at_least)
+        Matchers::Have.new(n, :at_least)
       end
     
       def have_at_most(n)
-        Collections::Have.new(n, :at_most)
+        Matchers::Have.new(n, :at_most)
+      end
+      
+      def include(expected)
+        Matchers::Include.new(expected)
       end
 
     end
     
     class Matcher
-      include Matchers
+      include MatcherMethods
     end
   end      
 end

@@ -88,7 +88,7 @@ module Spec
         end
 
         def context_modules
-          @context_modules ||= [Spec::Expectations::Matchers]
+          @context_modules ||= [Spec::Expectations::MatcherMethods]
         end
         
         def specifications

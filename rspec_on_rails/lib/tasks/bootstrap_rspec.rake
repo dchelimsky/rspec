@@ -16,7 +16,7 @@ namespace :rspec do
   end
 
   desc "Run rspec_on_rails specs against rails 1.1.6"
-  task :pre_commit_1_1_6 => ["rspec:rails_1_1_6", "rspec:pre_commit_tasks"]
+  task :pre_commit_1_1_6 => ["rspec:rails_1_1_6", "destroy_purchase", "rspec:pre_commit_tasks"]
 
   desc "Run rspec_on_rails specs against rails 1.2.0"
   task :pre_commit_1_2_0 => ["rspec:rails_1_2_0", "create_purchase", "rspec:pre_commit_tasks", "destroy_purchase"]
