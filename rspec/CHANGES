@@ -7,6 +7,7 @@ Rake and editor plugins like TextMate.
 
 It also introduces a new approach to handling should expectations. See SYNTAX_CHANGES.
 
+* rspec_resource now generates specs for views (TODO: make them use the new assert_select, when it's documented)
 * In a Rails app, RSpec core is only loaded when RAILS_ENV==test (init.rb)
 * Added support for target.should arbitrary_expectation_handler and target.should_not arbitrary_expectation_handler
 * Fixed [#7533] Spec suite fails and the process exits with a code 0

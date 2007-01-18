@@ -1,3 +1,4 @@
+$LOAD_PATH.unshift(File.dirname(__FILE__) + '/../../../../../rspec/lib')
 require File.dirname(__FILE__) + '/../../../../spec/spec_helper'
 
 class Proc

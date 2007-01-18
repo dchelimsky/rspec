@@ -39,6 +39,7 @@ class RspecResourceGenerator < Rails::Generator::NamedBase
       m.directory(File.join('spec/controllers', controller_class_path))
       m.directory(File.join('spec/models', class_path))
       m.directory File.join('spec/fixtures', class_path)
+      m.directory File.join('spec/views', controller_class_path, controller_file_name)
       
       # Controller spec, class, and helper.
       m.template 'rspec_resource:controller_spec.rb',
@@ -62,6 +63,16 @@ class RspecResourceGenerator < Rails::Generator::NamedBase
       m.template 'model:fixtures.yml',  File.join('spec/fixtures', class_path, "#{table_name}.yml")
       m.template 'rspec_model:model_spec.rb',       File.join('spec/models', class_path, "#{file_name}_spec.rb")
 
+      # View specs
+      m.template 'rspec_resource:edit_rhtml_spec.rb',
+        File.join('spec/views', controller_class_path, controller_file_name, "edit_rhtml_spec.rb")
+      m.template 'rspec_resource:index_rhtml_spec.rb',
+        File.join('spec/views', controller_class_path, controller_file_name, "index_rhtml_spec.rb")
+      m.template 'rspec_resource:new_rhtml_spec.rb',
+        File.join('spec/views', controller_class_path, controller_file_name, "new_rhtml_spec.rb")
+      m.template 'rspec_resource:show_rhtml_spec.rb',
+        File.join('spec/views', controller_class_path, controller_file_name, "show_rhtml_spec.rb")
+
       unless options[:skip_migration]
         m.migration_template(
           'model:migration.rb', 'db/migrate', 
@@ -74,6 +85,7 @@ class RspecResourceGenerator < Rails::Generator::NamedBase
       end
 
       m.route_resources controller_file_name
+
     end
   end
 
@@ -90,4 +102,25 @@ class RspecResourceGenerator < Rails::Generator::NamedBase
     def model_name 
       class_name.demodulize
     end
+end
+
+module Rails
+  module Generator
+    class GeneratedAttribute
+      def default_value
+        @default_value ||= case type
+          when :integer                     then "1"
+          when :float                       then "1.5"
+          when :decimal                     then "\"9.99\""
+          when :datetime, :timestamp, :time then "Time.now"
+          when :date                        then "Date.today"
+          when :string                      then "\"MyString\""
+          when :text                        then "\"MyText\""
+          when :boolean                     then "false"
+          else
+            ""
+        end      
+      end
+    end
+  end
 end
