@@ -13,14 +13,14 @@ context "ContextMatching" do
         @context.specify("spec1") {}
         @context.specify("spec2") {}
         @context.run_single_spec("context")
-        @context.number_of_specs.should_equal(2)
+        @context.number_of_specs.should equal(2)
       
     end
     specify "should only run specified specs when specified" do
         @context.specify("spec1") {}
         @context.specify("spec2") {}
         @context.run_single_spec("context spec1")
-        @context.number_of_specs.should_equal(1)
+        @context.number_of_specs.should equal(1)
       
     end
     specify "should use spec matcher" do

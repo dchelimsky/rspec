@@ -71,14 +71,14 @@ module Spec
       end
       
       specify "should use last return value for subsequent calls" do
-        @mock.message.should_equal(11)
-        @mock.message.should_equal(22)
-        @mock.message.should_equal(22)
+        @mock.message.should equal(11)
+        @mock.message.should equal(22)
+        @mock.message.should equal(22)
         @mock.__verify
       end
 
       specify "should fail when called less than the specified number" do
-        @mock.message.should_equal(11)
+        @mock.message.should equal(11)
         lambda { @mock.__verify }.should_raise MockExpectationError, "Mock 'mock' expected :message with (no args) twice, but received it once"
       end
     end
@@ -89,22 +89,22 @@ module Spec
       end
       
       specify "should use last return value for subsequent calls" do
-        @mock.message.should_equal(11)
-        @mock.message.should_equal(22)
-        @mock.message.should_equal(22)
+        @mock.message.should equal(11)
+        @mock.message.should equal(22)
+        @mock.message.should equal(22)
         @mock.__verify
       end
 
       specify "should fail when called less than the specified number" do
-        @mock.message.should_equal(11)
+        @mock.message.should equal(11)
         lambda { @mock.__verify }.should_raise MockExpectationError, "Mock 'mock' expected :message with (any args) 3 times, but received it once"
       end
 
       specify "should fail when called greater than the specified number" do
-        @mock.message.should_equal(11)
-        @mock.message.should_equal(22)
-        @mock.message.should_equal(22)
-        @mock.message.should_equal(22)
+        @mock.message.should equal(11)
+        @mock.message.should equal(22)
+        @mock.message.should equal(22)
+        @mock.message.should equal(22)
         lambda { @mock.__verify }.should_raise MockExpectationError, "Mock 'mock' expected :message with (any args) 3 times, but received it 4 times"
       end
     end

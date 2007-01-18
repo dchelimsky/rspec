@@ -22,7 +22,7 @@ context "a Specification declared with {:should_raise => " do
       raise Spec::Expectations::ExpectationNotMetError
     end
     @reporter.should_receive(:spec_finished) do |spec_name, error|
-      error.should_be nil
+      error.should be(nil)
     end
     spec.run(@reporter, nil, nil, nil, nil)
   end
@@ -40,7 +40,7 @@ context "a Specification declared with {:should_raise => " do
       raise NameError
     end
     @reporter.should_receive(:spec_finished) do |spec_name, error|
-      error.should_be nil
+      error.should be(nil)
     end
     spec.run(@reporter, nil, nil, nil, nil)
   end
@@ -70,7 +70,7 @@ context "a Specification declared with {:should_raise => " do
       raise NameError
     end
     @reporter.should_receive(:spec_finished) do |spec_name, error|
-      error.should_be nil
+      error.should be(nil)
     end
     spec.run(@reporter, nil, nil, nil, nil)
   end
@@ -99,7 +99,7 @@ context "a Specification declared with {:should_raise => " do
       raise NameError, 'expected'
     end
     @reporter.should_receive(:spec_finished) do |spec_name, error|
-      error.should_be nil
+      error.should be(nil)
     end
     spec.run(@reporter, nil, nil, nil, nil)
   end
@@ -109,7 +109,7 @@ context "a Specification declared with {:should_raise => " do
       raise NameError, 'expected'
     end
     @reporter.should_receive(:spec_finished) do |spec_name, error|
-      error.should_be nil
+      error.should be(nil)
     end
     spec.run(@reporter, nil, nil, nil, nil)
   end

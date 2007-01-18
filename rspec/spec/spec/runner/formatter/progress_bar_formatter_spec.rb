@@ -70,7 +70,7 @@ EOE
 
         specify "should not throw NoMethodError on output_to_tty?" do
           @out.should_receive(:tty?).and_raise(NoMethodError)
-          @formatter.output_to_tty?.should_be false
+          @formatter.output_to_tty?.should be(false)
         end
       end
     end

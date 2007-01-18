@@ -49,7 +49,7 @@ context "DrbCommandLine with local server" do
         f.write %{
 context "DUMMY CONTEXT for 'DrbCommandLine with -c option'" do
   specify "should be output with green bar" do
-    true.should_be true
+    true.should be(true)
   end
 
   specify "should be output with red bar" do
