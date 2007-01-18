@@ -1,7 +1,6 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
-context "Given an rjs call to :replace_html in a div, a 'should_have_rjs' spec with",
-  :context_type => :view do
+context "Given an rjs call to :replace_html in a div, a 'should_have_rjs' spec with", :context_type => :view do
   
   setup do
     render 'rjs_spec/replace_html'
