@@ -18,7 +18,7 @@ context "OptionParser" do
 
   specify "should eval and use custom formatter when none of the builtins" do
     options = parse(["--format", "Custom::Formatter"])
-    options.formatter_type.should_equal(Custom::Formatter)
+    options.formatter_type.should equal(Custom::Formatter)
   end
 
   specify "should not be verbose by default" do
@@ -98,12 +98,12 @@ context "OptionParser" do
 
   specify "should use html formatter when format is h" do
     options = parse(["--format", "h"])
-    options.formatter_type.should_equal(Spec::Runner::Formatter::HtmlFormatter)
+    options.formatter_type.should equal(Spec::Runner::Formatter::HtmlFormatter)
   end
 
   specify "should use html formatter when format is html" do
     options = parse(["--format", "html"])
-    options.formatter_type.should_equal(Spec::Runner::Formatter::HtmlFormatter)
+    options.formatter_type.should equal(Spec::Runner::Formatter::HtmlFormatter)
   end
 
   specify "should use noisy backtrace tweaker with b option" do
@@ -123,27 +123,27 @@ context "OptionParser" do
 
   specify "should use progress bar formatter by default" do
     options = parse([])
-    options.formatter_type.should_equal(Spec::Runner::Formatter::ProgressBarFormatter)
+    options.formatter_type.should equal(Spec::Runner::Formatter::ProgressBarFormatter)
   end
 
   specify "should use rdoc formatter when format is r" do
     options = parse(["--format", "r"])
-    options.formatter_type.should_equal(Spec::Runner::Formatter::RdocFormatter)
+    options.formatter_type.should equal(Spec::Runner::Formatter::RdocFormatter)
   end
 
   specify "should use rdoc formatter when format is rdoc" do
     options = parse(["--format", "rdoc"])
-    options.formatter_type.should_equal(Spec::Runner::Formatter::RdocFormatter)
+    options.formatter_type.should equal(Spec::Runner::Formatter::RdocFormatter)
   end
 
   specify "should use specdoc formatter when format is s" do
     options = parse(["--format", "s"])
-    options.formatter_type.should_equal(Spec::Runner::Formatter::SpecdocFormatter)
+    options.formatter_type.should equal(Spec::Runner::Formatter::SpecdocFormatter)
   end
 
   specify "should use specdoc formatter when format is specdoc" do
     options = parse(["--format", "specdoc"])
-    options.formatter_type.should_equal(Spec::Runner::Formatter::SpecdocFormatter)
+    options.formatter_type.should equal(Spec::Runner::Formatter::SpecdocFormatter)
   end
 
   specify "should support diff option when format is not specified" do

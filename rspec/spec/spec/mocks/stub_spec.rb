@@ -20,18 +20,18 @@ module Spec
         mock = Spec::Mocks::Mock.new("a mock")
         mock.stub!(:msg).and_return(:stub_value)
         mock.should_receive(:msg).with(:arg).and_return(:mock_value)
-        mock.msg(:arg).should_equal(:mock_value)
-        mock.msg.should_equal(:stub_value)
-        mock.msg.should_equal(:stub_value)
+        mock.msg(:arg).should equal(:mock_value)
+        mock.msg.should equal(:stub_value)
+        mock.msg.should equal(:stub_value)
         mock.__verify
       end
 
       specify "should allow for a mock expectation to temporarily replace a method stub on a non-mock" do
         @obj.stub!(:msg).and_return(:stub_value)
         @obj.should_receive(:msg).with(:arg).and_return(:mock_value)
-        @obj.msg(:arg).should_equal(:mock_value)
-        @obj.msg.should_equal(:stub_value)
-        @obj.msg.should_equal(:stub_value)
+        @obj.msg(:arg).should equal(:mock_value)
+        @obj.msg.should equal(:stub_value)
+        @obj.msg.should equal(:stub_value)
         @obj.__verify
       end
 
@@ -71,7 +71,7 @@ module Spec
       
       specify "should return expected value when expected message is received" do
         @obj.stub!(:msg).and_return(:return_value)
-        @obj.msg.should_equal(:return_value)
+        @obj.msg.should equal(:return_value)
         @obj.__verify
       end
 
@@ -94,9 +94,9 @@ module Spec
       end
 
       specify "should revert to original instance method if existed" do
-        @obj.existing_instance_method.should_equal(:original_value)
+        @obj.existing_instance_method.should equal(:original_value)
         @obj.stub!(:existing_instance_method).and_return(:mock_value)
-        @obj.existing_instance_method.should_equal(:mock_value)
+        @obj.existing_instance_method.should equal(:mock_value)
         @obj.__verify
         # TODO JRUBY: This causes JRuby to fail with:
         # NativeException in 'Stub should revert to original instance method if existed'
@@ -115,15 +115,15 @@ module Spec
         # org.jruby.evaluator.EvaluationState.evalInternal(EvaluationState.java:462)
         # org.jruby.evaluator.EvaluationState.evalInternal(EvaluationState.java:390)
         # org.jruby.evaluator.EvaluationState.eval(EvaluationState.java:133)
-        @obj.existing_instance_method.should_equal(:original_value)
+        @obj.existing_instance_method.should equal(:original_value)
       end
       
       specify "should revert to original class method if existed" do
-        @class.existing_class_method.should_equal(:original_value)
+        @class.existing_class_method.should equal(:original_value)
         @class.stub!(:existing_class_method).and_return(:mock_value)
-        @class.existing_class_method.should_equal(:mock_value)
+        @class.existing_class_method.should equal(:mock_value)
         @class.__verify
-        @class.existing_class_method.should_equal(:original_value)
+        @class.existing_class_method.should equal(:original_value)
       end
 
       specify "should clear itself on __verify" do

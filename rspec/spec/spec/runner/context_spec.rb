@@ -25,7 +25,7 @@ module Spec
         $spec_ran = false
         @context.specify("test") {$spec_ran = true}
         @context.run(@formatter)
-        $spec_ran.should_be true
+        $spec_ran.should be(true)
       end
          
       specify "should not run spec on dry run" do
@@ -35,7 +35,7 @@ module Spec
         $spec_ran = false
         @context.specify("test") {$spec_ran = true}
         @context.run(@formatter, true)
-        $spec_ran.should_be false
+        $spec_ran.should be(false)
       end
 
       specify "should not run context_setup or context_teardown on dry run" do
@@ -49,8 +49,8 @@ module Spec
         @context.context_teardown { context_teardown_ran = true }
         @context.specify("test") {true}
         @context.run(@formatter, true)
-        context_setup_ran.should_be false
-        context_teardown_ran.should_be false
+        context_setup_ran.should be(false)
+        context_teardown_ran.should be(false)
       end
 
       specify "should not run context if context_setup fails" do
@@ -61,7 +61,7 @@ module Spec
         @context.context_setup { raise "help" }
         @context.specify("test") {spec_ran = true}
         @context.run(@formatter)
-        spec_ran.should_be false
+        spec_ran.should be(false)
       end
 
       specify "should run context_teardown if any spec fails" do
@@ -72,7 +72,7 @@ module Spec
         @context.context_setup { raise "context_setup error" }
         @context.context_teardown { context_teardown_ran = true }
         @context.run(@formatter)
-        context_teardown_ran.should_be true
+        context_teardown_ran.should be(true)
       end
 
       specify "should run context_teardown if any context_setup fails" do
@@ -84,7 +84,7 @@ module Spec
         @context.context_teardown { context_teardown_ran = true }
         @context.specify("test") {raise "spec error" }
         @context.run(@formatter)
-        context_teardown_ran.should_be true
+        context_teardown_ran.should be(true)
       end
 
 
@@ -155,8 +155,8 @@ module Spec
         @context.setup {setup_ran = true}
         @context.specify("test") {true}
         @context.run(@formatter)
-        super_class_setup_ran.should_be true
-        setup_ran.should_be true
+        super_class_setup_ran.should be(true)
+        setup_ran.should be(true)
       end
 
       specify "should run superclass context_teardown method and context_teardown block only once" do
@@ -270,8 +270,8 @@ module Spec
         @context.teardown {teardown_ran = true}
         @context.specify("test") {true}
         @context.run(@formatter)
-        super_class_teardown_ran.should_be true
-        teardown_ran.should_be true
+        super_class_teardown_ran.should be(true)
+        teardown_ran.should be(true)
         @formatter.__verify
       end
 
@@ -290,7 +290,7 @@ module Spec
 
         @context.specify("test") {helper_method}
         @context.run(@formatter)
-        helper_method_ran.should_be true
+        helper_method_ran.should be(true)
       end
 
       specify "should have accessible class methods from inherited superclass" do
@@ -303,7 +303,7 @@ module Spec
         end
         @context.inherit super_class
         @context.class_method
-        class_method_ran.should_be true
+        class_method_ran.should be(true)
 
         lambda {@context.foobar}.should_raise(NoMethodError)
       end
@@ -346,8 +346,8 @@ module Spec
           mod2_method
         end
         @context.run(@formatter)
-        mod1_method_called.should_be true
-        mod2_method_called.should_be true
+        mod1_method_called.should be(true)
+        mod2_method_called.should be(true)
       end
       
       specify "should count number of specs" do

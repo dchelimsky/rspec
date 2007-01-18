@@ -76,7 +76,7 @@ module Spec
 
       specify "should return nil if no return value set" do
         @mock.should_receive(:something).with("a","b","c")
-        @mock.something("a","b","c").should_be nil
+        @mock.something("a","b","c").should be(nil)
         @mock.__verify
       end
 
@@ -110,11 +110,11 @@ module Spec
       end
   
       specify "should fail if expectation block fails" do
-        @mock.should_receive(:something) {| bool | bool.should_be true}
+        @mock.should_receive(:something) {| bool | bool.should be(true)}
         begin
           @mock.something false
         rescue MockExpectationError => e
-          e.message.should_match /Mock 'test mock' received :something but passed block failed with: false should be true/
+          e.message.should_match /Mock 'test mock' received :something but passed block failed with: expected true, got false/
         end
       end
   

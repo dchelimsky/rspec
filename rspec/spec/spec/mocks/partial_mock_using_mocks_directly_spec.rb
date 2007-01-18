@@ -51,11 +51,11 @@ context "PartialMockUsingMocksDirectly" do
       
     end
     specify "should revert to original method if existed" do
-        @obj.existing_method.should_equal(:original_value)
+        @obj.existing_method.should equal(:original_value)
         @obj.should_receive(:existing_method).and_return(:mock_value)
-        @obj.existing_method.should_equal(:mock_value)
+        @obj.existing_method.should equal(:mock_value)
         @obj.__verify
-        @obj.existing_method.should_equal(:original_value)
+        @obj.existing_method.should equal(:original_value)
       
     end
   

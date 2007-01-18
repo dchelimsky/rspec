@@ -21,18 +21,18 @@ module Spec
 
       specify "should_receive should mock out the method" do
         @object.should_receive(:foobar).with(:test_param).and_return(1)
-        @object.foobar(:test_param).should_equal(1)
+        @object.foobar(:test_param).should equal(1)
       end
 
       specify "should_receive should handle a hash" do
         @object.should_receive(:foobar).with(:key => "value").and_return(1)
-        @object.foobar(:key => "value").should_equal(1)
+        @object.foobar(:key => "value").should equal(1)
       end
 
       specify "should_receive should handle an inner hash" do
         hash = {:a => {:key => "value"}}
         @object.should_receive(:foobar).with(:key => "value").and_return(1)
-        @object.foobar(hash[:a]).should_equal(1)
+        @object.foobar(hash[:a]).should equal(1)
       end
 
       specify "should_receive should return a message expectation" do

@@ -54,6 +54,7 @@ module Spec
       end
 
       class HandCodedMock
+        include Spec::Expectations::Matchers
         def initialize(return_val)
           @return_val = return_val
           @funny_called = false
@@ -65,9 +66,9 @@ module Spec
         end
 
         def hungry?(a, b, c)
-          a.should_be 1
-          b.should_be 2
-          c.should_be 3
+          a.should equal(1)
+          b.should equal(2)
+          c.should equal(3)
           @funny_called = true
           @return_val
         end
@@ -81,7 +82,7 @@ module Spec
         end
 
         def __verify
-          @funny_called.should_be true
+          @funny_called.should be(true)
         end
       end
       class ClassWithUnqueriedPredicate
