@@ -4,6 +4,8 @@ require 'spec/expectations/matchers/eql'
 require 'spec/expectations/matchers/equal'
 require 'spec/expectations/matchers/have'
 require 'spec/expectations/matchers/include'
+require 'spec/expectations/matchers/match'
+require 'spec/expectations/matchers/satisfy'
 
 module Spec
   module Expectations
@@ -55,6 +57,14 @@ module Spec
       
       def be(expected)
         Matchers::Be.new(expected)
+      end
+      
+      def match(regexp)
+        Matchers::Match.new(regexp)
+      end
+      
+      def satisfy(&block)
+        Matchers::Satisfy.new(&block)
       end
 
     end
