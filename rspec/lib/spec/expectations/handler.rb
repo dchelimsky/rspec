@@ -2,7 +2,7 @@ module Spec
   module Expectations
     class ExpectationHandler
 
-      def initialize(target, expectation=nil)
+      def initialize(target, expectation)
         unless expectation.nil?
           unless expectation.met_by?(target)
             Spec::Expectations.fail_with(expectation.failure_message)
@@ -14,7 +14,7 @@ module Spec
 
     class NegativeExpectationHandler
     
-      def initialize(target, expectation=nil)
+      def initialize(target, expectation)
         unless expectation.nil?
           if expectation.met_by?(target)
             Spec::Expectations.fail_with(expectation.negative_failure_message)

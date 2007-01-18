@@ -79,16 +79,6 @@ module Spec
       def should_not_be(expected = :___no_arg)
         should.not.be(expected)
       end
-      
-      # Passes if &block returns true
-      def should_satisfy(&block)
-        should.satisfy(&block)
-      end
-      
-      # Passes unless &block returns true
-      def should_not_satisfy(&block)
-        should.not.satisfy(&block)
-      end
     end
   end
 end
