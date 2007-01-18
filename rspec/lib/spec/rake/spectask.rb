@@ -108,7 +108,7 @@ module Spec
             ruby_opts.push( "-S rcov" ) if @rcov
             ruby_opts.push( "-w" ) if @warning
 
-            redirect = @out.nil? ? "" : " > #{@out}"
+            redirect = @out.nil? ? "" : " > \"#{@out}\""
 
             unless file_list.empty?
               # ruby [ruby_opts] -Ilib -S rcov [rcov_opts] bin/spec -- [spec_opts] examples

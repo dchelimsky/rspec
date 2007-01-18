@@ -15,10 +15,10 @@ context "Google's search page" do
     @browser.contains_text("rspec.rubyforge.org").should_not_be nil # should_contain_text is RSpec sugar
   end
 
-  specify "should find rspec's home page when I search for 'better than fudge' (will probably fail)" do
+  specify "should find rspec's home page when I search for 'better than fudge' (this is supposed to fail)" do
     @browser.text_field(:name, "q").set("better than fudge")
     @browser.button(:name, "btnG").click
-    @browser.contains_text("rspec.rubyforge.org").should_not_be nil
+    @browser.contains_text("rspec.rubyforge.org").should_be true
   end
 
   specify "should not find Ali G when I search for respec" do
