@@ -15,7 +15,7 @@ context "/<%= table_name %>/show.rhtml" do
   specify "should render attributes in <p>" do
     render "/<%= table_name %>/show.rhtml"
 <% for attribute in attributes -%><% unless attribute.name =~ /_id/ || [:datetime, :timestamp, :time, :date].index(attribute.type) -%>
-    # response.should_have_tag('p', :content => <%= attribute.default_value %><% end -%><% end -%>)
+    # response.should_have_tag('p', :content => <%= attribute.default_value %>)<% end -%><% end -%>
   end
 end
 

@@ -72,6 +72,8 @@ In alphabetical order (by last name)
 * Kouhei Sutou
 ** Patches for Emacs
 ** Handling of Interrupt
+* Jonathan Tron
+** Patch for spec/rails resource_generator
 * Nikolai Weibull
 ** Core patches for spec names
 * Mike Williams
