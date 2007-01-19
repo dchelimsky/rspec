@@ -4,34 +4,35 @@ inMenu: true
 ---
 h2. RSpec on Rails - Installation
 
-h3. Pre-Installation
+RSpec on Rails is a standard Rails plugin that can be installed with Rails' familiar <tt>script/plugin</tt> tool.
+
+h3. Installation of a stable release
 
 You'll have to install the RSpec gem first:
 
 <pre>
-gem install rspec
+gem install rspec (mac/linux users use sudo)
 </pre>
 
-Take note of what rspec version you're installing - it's very important that you
-install a compatible RSpec on Rails plugin.
+Take note of what RSpec version you're installing - it's very important that you
+install a compatible RSpec on Rails plugin. (You can pass -v X.Y.Z to the gem command to install a particular version).
 
-h3. Installation
-
-RSpec on Rails is a standard Rails plugin. You can install it like this:
+Now, install the plugin:
 
 <pre>
-gem install rspec -v "0.8.0" (mac users use sudo)
-ruby script/plugin install svn://rubyforge.org/var/svn/rspec/tags/REL_0_8_0/rspec_on_rails/vendor/plugins/rspec_on_rails
+ruby script/plugin install svn://rubyforge.org/var/svn/rspec/tags/REL_X_Y_Z/rspec_on_rails/vendor/plugins/rspec_on_rails
 </pre>
 
 That works for everything back to 0.7.5 (i.e. REL_0_7_5). Versions before 0.7.5 had a different path:
 
 <pre>
-gem install rspec -v ">= X.Y.Z" (mac users use sudo)
-ruby script/plugin install svn://rubyforge.org/var/svn/rspec/tags/REL_X_Y_Z/vendor/plugins/rspec_on_rails
+ruby script/plugin install svn://rubyforge.org/var/svn/rspec/tags/REL_X_Y_Z/vendor/rspec_on_rails
 </pre>
 
-If you prefer to live dangerously you can get the HEAD of the trunk as follows (you still need to install the latest gem):
+h3. Installation of trunk HEAD
+
+If you prefer to live dangerously you can get the HEAD of the trunk. If you do this, you must also install RSpec itself
+as a Rails plugin:
 
 <pre>
 ruby script/plugin install svn://rubyforge.org/var/svn/rspec/trunk/rspec
@@ -45,10 +46,19 @@ ruby script/plugin install -x svn://rubyforge.org/var/svn/rspec/trunk/rspec
 ruby script/plugin install -x svn://rubyforge.org/var/svn/rspec/trunk/rspec_on_rails/vendor/plugin/rspec_on_rails
 </pre>
 
+Note that if you want to use the <tt>spec</tt> command directly (as opposed to the spec:* tasks), you must type
+the full path to your RSpec plugin's spec command. For example:
+
+<pre>
+ruby vendor/plugins/rspec/bin/spec spec/models/foo_spec.rb
+</pre>
+
+h3. Bootstrapping
+
 Once the plugin is installed, you must bootstrap your Rails app with RSpec. Stand in the root of your Rails app and run:
 
 <pre>
 ruby script/generate rspec
 </pre>
 
-This will generate the various files needed to use RSpec with Rails.
+This will generate the various files needed to use RSpec with Rails and install RSpec Rake tasks.
