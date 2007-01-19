@@ -25,7 +25,7 @@ h3. Installing from trunk HEAD in subversion
 Get the source via subversion to some location on your drive:
 
 <pre>
-svn co svn://rubyforge.org/var/svn/rspec/trunk/vendor/RSpec.tmbundle path/to/RSpec.tmbundle
+svn co svn://rubyforge.org/var/svn/rspec/trunk/RSpec.tmbundle path/to/RSpec.tmbundle
 </pre>
 
 (If you have RSpec checked out you don't need this - it's under vendor/RSpec.tmbundle).
