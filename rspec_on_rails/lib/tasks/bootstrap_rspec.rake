@@ -5,7 +5,7 @@ require 'spec/rake/spectask'
 namespace :rspec do
   desc "Run rspec_on_rails specs against all supported rails versions"
   task :pre_commit do
-    ["rspec:pre_commit_1_1_6", "rspec:pre_commit_1_2_0", "rspec:pre_commit_edge"].each do |task|
+    ["rspec:pre_commit_1_1_6", "rspec:pre_commit_1_2_1", "rspec:pre_commit_edge"].each do |task|
       IO.popen("rake #{task} --verbose") do |io|
         io.each do |line|
           puts line
@@ -16,16 +16,16 @@ namespace :rspec do
   end
 
   desc "Run rspec_on_rails specs against rails 1.1.6"
-  task :pre_commit_1_1_6 => ["rspec:rails_1_1_6", "destroy_purchase", "rspec:pre_commit_tasks"]
+  task :pre_commit_1_1_6 => ["rspec:rails_1_1_6", "rspec:pre_commit_tasks"]
 
-  desc "Run rspec_on_rails specs against rails 1.2.0"
-  task :pre_commit_1_2_0 => ["rspec:rails_1_2_0", "create_purchase", "rspec:pre_commit_tasks", "destroy_purchase"]
+  desc "Run rspec_on_rails specs against rails 1.2.1"
+  task :pre_commit_1_2_1 => ["rspec:rails_1_2_1", "create_purchase", "rspec:pre_commit_tasks", "destroy_purchase"]
 
   desc "Run rspec_on_rails specs against edge rails"
   task :pre_commit_edge => ["rspec:rails_edge", "create_purchase", "rspec:pre_commit_tasks", "destroy_purchase"]
 
   task(:rails_1_1_6) { ENV['RSPEC_RAILS_VERSION'] = '1.1.6' }
-  task(:rails_1_2_0) { ENV['RSPEC_RAILS_VERSION'] = '1.2.0' }
+  task(:rails_1_2_1) { ENV['RSPEC_RAILS_VERSION'] = '1.2.1' }
   task(:rails_edge)  { ENV['RSPEC_RAILS_VERSION'] = 'edge' }
   task :pre_commit_tasks => ["rspec:ensure_db_config", "rspec:clobber_sqlite_data", "db:migrate", "rspec:generate_rspec", "spec:all"]
 
