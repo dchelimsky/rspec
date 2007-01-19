@@ -51,5 +51,9 @@ You may also have to set your <tt>TM_RUBY</tt> environment variable in TextMate'
 
 You can tell RSpec.tmbundle to use a particular RSpec at a particular location on your filesystem.
 You probably want to do this if you run the bundle off trunk HEAD.
-Just define the TM_RSPEC_HOME environment variable in TextMate's preferences. This should
+Just define the <tt>TM_RSPEC_HOME</tt> environment variable in TextMate's preferences. This should
 point to the root directory of your working copy of RSpec (where you checked out RSpec core).
+
+h3. Setting RSpec command line options
+
+You can specify these in the <tt>TM_RSPEC_OPTS</tt> environment variable in TextMate's preferences.
