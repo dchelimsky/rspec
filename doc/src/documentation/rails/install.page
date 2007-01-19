@@ -15,81 +15,40 @@ gem install rspec
 Take note of what rspec version you're installing - it's very important that you
 install a compatible RSpec on Rails plugin.
 
-h3. Plugin Installation
+h3. Installation
 
-RSpec on Rails is a regular Rails plugin. It can be installed via your Rails app's script/plugin tool.
-
-<pre>
-ruby script/plugin install svn://rubyforge.org/var/svn/rspec/tags/REL_0_7_5/rspec_on_rails/vendor/plugins/rspec_on_rails
-</pre>
-
-It's important that 'spec/rails' match the version of RSpec core that you have installed. If you are using
-anything prior to 0.7.5, the path is different. In these examples, be sure to replace REL_X_Y_Z 
-with the correct version  - for example REL_0_7_4.
+RSpec on Rails is a standard Rails plugin. You can install it like this:
 
 <pre>
-#for 0.7.4 and earlier
-ruby script/plugin install svn://rubyforge.org/var/svn/rspec/tags/REL_X_Y_Z/vendor/rspec_on_rails/vendor/plugins/rspec
+gem install rspec -v "0.8.0" (mac users use sudo)
+ruby script/plugin install svn://rubyforge.org/var/svn/rspec/tags/REL_0_8_0/rspec_on_rails/vendor/plugins/rspec_on_rails
 </pre>
 
-If you like to live dangerously you can get the HEAD of the trunk.
+That works for everything back to 0.7.5 (i.e. REL_0_7_5). Versions before 0.7.5 had a different path:
 
 <pre>
-ruby script/plugin install svn://rubyforge.org/var/svn/rspec/trunk/rspec_on_rails/vendor/plugins/rspec_on_rails
+gem install rspec -v ">= X.Y.Z" (mac users use sudo)
+ruby script/plugin install svn://rubyforge.org/var/svn/rspec/tags/REL_X_Y_Z/vendor/plugins/rspec_on_rails
 </pre>
 
-If you do this, however, you must have a compatible version of RSpec. Two options are to build your own gem from the current trunk.
-
-<pre>
-svn co svn://rubyforge.org/var/svn/rspec/trunk/rspec
-cd rspec
-rake gem
-gem install pkg/rspec-X.Y.Z.gem
-#look in the pkg directory to see the correct version number
-</pre>
-
-There are a number of dependencies required for this. See the README in the project root for more info. The
-benefit of this approach is that you can use the spec command directly:
-
-<pre>
-#standing in your rails project root
-spec spec
-</pre>
-
-The other, more common approach, is to install RSpec core into your rails app (recommended):
+If you prefer to live dangerously you can get the HEAD of the trunk as follows (you still need to install the latest gem):
 
 <pre>
 ruby script/plugin install svn://rubyforge.org/var/svn/rspec/trunk/rspec
-</pre>
-
-You won't be able to use the installed 'spec' command in this case, but you can use either rake or a direct
-reference to the spec command in the plugin dir, or adding your own:
-
-<pre>
-#these work out of the box
-rake spec
-vendor/plugins/rspec/bin/spec spec
+ruby script/plugin install svn://rubyforge.org/var/svn/rspec/trunk/rspec_on_rails/vendor/plugins/rspec_on_rails
 </pre>
 
 If your own project is in Subversion and you'd like RSpec on Rails to always follow HEAD, install with -x:
 
 <pre>
-ruby script/plugin install -x svn://rubyforge.org/var/svn/rspec/trunk/rspec_on_rails/vendor/plugins/rspec_on_rails
 ruby script/plugin install -x svn://rubyforge.org/var/svn/rspec/trunk/rspec
+ruby script/plugin install -x svn://rubyforge.org/var/svn/rspec/trunk/rspec_on_rails/vendor/plugin/rspec_on_rails
 </pre>
 
-h3. Bootstrapping
-
-Once the plugin and a compatible RSpec core is installed, you must bootstrap your Rails app with RSpec. Stand in the root of your Rails app and run:
+Once the plugin is installed, you must bootstrap your Rails app with RSpec. Stand in the root of your Rails app and run:
 
 <pre>
 ruby script/generate rspec
 </pre>
 
 This will generate the various files needed to use RSpec with Rails.
-
-h3. Post-Installation
-
-After you have installed the plugin, you should have a <tt>spec/spec.opts</tt> file with generic command line
-options for the various <tt>spec:*</tt> tasks. You can edit this file and use any of the command line options
-supported by the <tt>spec</tt> command.
