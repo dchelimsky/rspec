@@ -26,7 +26,7 @@ ruby script/plugin install svn://rubyforge.org/var/svn/rspec/tags/REL_X_Y_Z/rspe
 That works for everything back to 0.7.5 (i.e. REL_0_7_5). Versions before 0.7.5 had a different path:
 
 <pre>
-ruby script/plugin install svn://rubyforge.org/var/svn/rspec/tags/REL_X_Y_Z/vendor/rspec_on_rails
+ruby script/plugin install svn://rubyforge.org/var/svn/rspec/tags/REL_X_Y_Z/vendor/rspec_on_rails/vendor/plugins/rspec_on_rails
 </pre>
 
 h3. Installation of trunk HEAD
