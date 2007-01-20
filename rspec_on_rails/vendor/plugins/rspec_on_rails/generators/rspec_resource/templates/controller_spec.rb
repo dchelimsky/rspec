@@ -4,27 +4,27 @@ context "Routes for the <%= controller_class_name %>Controller should map" do
   controller_name :<%= table_name %>
 
   specify "{ :controller => '<%= table_name %>', :action => 'index' } to /<%= table_name %>" do
-    route_for(:controller => "<%= table_name %>", :action => "index").should_eql "/<%= table_name %>"
+    route_for(:controller => "<%= table_name %>", :action => "index").should == "/<%= table_name %>"
   end
   
   specify "{ :controller => '<%= table_name %>', :action => 'new' } to /<%= table_name %>/new" do
-    route_for(:controller => "<%= table_name %>", :action => "new").should_eql "/<%= table_name %>/new"
+    route_for(:controller => "<%= table_name %>", :action => "new").should == "/<%= table_name %>/new"
   end
   
   specify "{ :controller => '<%= table_name %>', :action => 'show', :id => 1 } to /<%= table_name %>/1" do
-    route_for(:controller => "<%= table_name %>", :action => "show", :id => 1).should_eql "/<%= table_name %>/1"
+    route_for(:controller => "<%= table_name %>", :action => "show", :id => 1).should == "/<%= table_name %>/1"
   end
   
   specify "{ :controller => '<%= table_name %>', :action => 'edit', :id => 1 } to /<%= table_name %>/1;edit" do
-    route_for(:controller => "<%= table_name %>", :action => "edit", :id => 1).should_eql "/<%= table_name %>/1;edit"
+    route_for(:controller => "<%= table_name %>", :action => "edit", :id => 1).should == "/<%= table_name %>/1;edit"
   end
   
   specify "{ :controller => '<%= table_name %>', :action => 'update', :id => 1} to /<%= table_name %>/1" do
-    route_for(:controller => "<%= table_name %>", :action => "update", :id => 1).should_eql "/<%= table_name %>/1"
+    route_for(:controller => "<%= table_name %>", :action => "update", :id => 1).should == "/<%= table_name %>/1"
   end
   
   specify "{ :controller => '<%= table_name %>', :action => 'destroy', :id => 1} to /<%= table_name %>/1" do
-    route_for(:controller => "<%= table_name %>", :action => "destroy", :id => 1).should_eql "/<%= table_name %>/1"
+    route_for(:controller => "<%= table_name %>", :action => "destroy", :id => 1).should == "/<%= table_name %>/1"
   end
 end
 
@@ -42,7 +42,7 @@ context "Requesting /<%= table_name %> using GET" do
   
   specify "should be successful" do
     do_get
-    response.should_be_success
+    response.should be(:success)
   end
 
   specify "should render index.rhtml" do
@@ -57,7 +57,7 @@ context "Requesting /<%= table_name %> using GET" do
   
   specify "should assign the found <%= table_name %> for the view" do
     do_get
-    assigns[:<%= table_name %>].should_be @mock_<%= table_name %>
+    assigns[:<%= table_name %>].should equal(@mock_<%= table_name %>)
     
   end
 end
@@ -78,7 +78,7 @@ context "Requesting /<%= table_name %>.xml using GET" do
   
   specify "should be successful" do
     do_get
-    response.should_be_success
+    response.should be(:success)
   end
 
   specify "should find all <%= table_name %>" do
@@ -89,7 +89,7 @@ context "Requesting /<%= table_name %>.xml using GET" do
   specify "should render the found <%= table_name %> as xml" do
     @mock_<%= table_name %>.should_receive(:to_xml).and_return("XML")
     do_get
-    response.body.should_eql "XML"
+    response.body.should == "XML"
   end
 end
 
@@ -107,7 +107,7 @@ context "Requesting /<%= table_name %>/1 using GET" do
 
   specify "should be successful" do
     do_get
-    response.should_be_success
+    response.should be(:success)
   end
   
   specify "should render show.rhtml" do
@@ -122,7 +122,7 @@ context "Requesting /<%= table_name %>/1 using GET" do
   
   specify "should assign the found <%= class_name.underscore %> for the view" do
     do_get
-    assigns[:<%= class_name.underscore %>].should_be @mock_<%= class_name.underscore %>
+    assigns[:<%= class_name.underscore %>].should equal(@mock_<%= class_name.underscore %>)
   end
 end
 
@@ -142,7 +142,7 @@ context "Requesting /<%= table_name %>/1.xml using GET" do
 
   specify "should be successful" do
     do_get
-    response.should_be_success
+    response.should be(:success)
   end
   
   specify "should find the <%= class_name.underscore %> requested" do
@@ -153,7 +153,7 @@ context "Requesting /<%= table_name %>/1.xml using GET" do
   specify "should render the found <%= class_name.underscore %> as xml" do
     @mock_<%= class_name.underscore %>.should_receive(:to_xml).and_return("XML")
     do_get
-    response.body.should_eql "XML"
+    response.body.should == "XML"
   end
 end
 
@@ -171,7 +171,7 @@ context "Requesting /<%= table_name %>/new using GET" do
 
   specify "should be successful" do
     do_get
-    response.should_be_success
+    response.should be(:success)
   end
   
   specify "should render new.rhtml" do
@@ -191,7 +191,7 @@ context "Requesting /<%= table_name %>/new using GET" do
   
   specify "should assign the new <%= class_name.underscore %> for the view" do
     do_get
-    assigns[:<%= class_name.underscore %>].should_be @mock_<%= class_name.underscore %>
+    assigns[:<%= class_name.underscore %>].should be(@mock_<%= class_name.underscore %>)
   end
 end
 
@@ -209,7 +209,7 @@ context "Requesting /<%= table_name %>/1;edit using GET" do
 
   specify "should be successful" do
     do_get
-    response.should_be_success
+    response.should be(:success)
   end
   
   specify "should render edit.rhtml" do
@@ -224,7 +224,7 @@ context "Requesting /<%= table_name %>/1;edit using GET" do
   
   specify "should assign the found <%= class_name %> for the view" do
     do_get
-    assigns(:<%= class_name.underscore %>).should_equal @mock_<%= class_name.underscore %>
+    assigns[:<%= class_name.underscore %>].should equal(@mock_<%= class_name.underscore %>)
   end
 end
 
@@ -249,8 +249,8 @@ context "Requesting /<%= table_name %> using POST" do
 
   specify "should redirect to the new <%= class_name.underscore %>" do
     do_post
-    response.should_be_redirect
-    response.redirect_url.should_eql "http://test.host/<%= table_name %>/1"
+    response.should be(:redirect)
+    response.redirect_url.should == "http://test.host/<%= table_name %>/1"
   end
 end
 
@@ -275,18 +275,18 @@ context "Requesting /<%= table_name %>/1 using PUT" do
   specify "should update the found <%= class_name.underscore %>" do
     @mock_<%= class_name.underscore %>.should_receive(:update_attributes)
     do_update
-    assigns(:<%= class_name.underscore %>).should_be @mock_<%= class_name.underscore %>
+    assigns(:<%= class_name.underscore %>).should equal(@mock_<%= class_name.underscore %>)
   end
 
   specify "should assign the found <%= class_name.underscore %> for the view" do
     do_update
-    assigns(:<%= class_name.underscore %>).should_be @mock_<%= class_name.underscore %>
+    assigns(:<%= class_name.underscore %>).should equal(@mock_<%= class_name.underscore %>)
   end
 
   specify "should redirect to the <%= class_name.underscore %>" do
     do_update
-    response.should_be_redirect
-    response.redirect_url.should_eql "http://test.host/<%= table_name %>/1"
+    response.should be(:redirect)
+    response.redirect_url.should == "http://test.host/<%= table_name %>/1"
   end
 end
 
@@ -314,7 +314,7 @@ context "Requesting /<%= table_name %>/1 using DELETE" do
   
   specify "should redirect to the <%= table_name %> list" do
     do_delete
-    response.should_be_redirect
-    response.redirect_url.should_eql "http://test.host/<%= table_name %>"
+    response.should be(:redirect)
+    response.redirect_url.should == "http://test.host/<%= table_name %>"
   end
 end

@@ -128,15 +128,15 @@ context "A view", :context_type => :view do
   end
 
   specify "should have access to session data" do
-    response.should_have "div#session", "session"
+    response.should have_tag("div#session", "session")
   end
 
   #TODO - A view should have access to params data
   # specify "should have access to params data" do
-  #   response.should_have "div#params", "params"
+  #   response.should have_tag "div#params", "params"
   # end
 
   specify "should have access to flash data" do
-    response.should_have "div#flash", "flash"
+    response.should have_tag("div#flash", "flash")
   end
 end
