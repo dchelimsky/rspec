@@ -29,6 +29,26 @@ That works for everything back to 0.7.5 (i.e. REL_0_7_5). Versions before 0.7.5 
 ruby script/plugin install svn://rubyforge.org/var/svn/rspec/tags/REL_X_Y_Z/vendor/rspec_on_rails/vendor/plugins/rspec_on_rails
 </pre>
 
+h3. Installation of rspec core as a plugin
+
+If you prefer to use rspec core as a plugin, you can install it side by side with rspec_on_rails.
+This can be useful if you have applications that are using different releases of rspec on
+the same machine, or if you are running on a server on which you can't control which gems are installed.
+
+As with the gem, be sure that you are installing the same version of rspec as the version
+of rspec_on_rails.
+
+<pre>
+ruby script/plugin install svn://rubyforge.org/var/svn/rspec/tags/REL_X_Y_Z/vendor/rspec
+</pre>
+
+Note that if you want to use the <tt>spec</tt> command directly (as opposed to the spec:* tasks), you must type
+the full path to your RSpec plugin's spec command. For example:
+
+<pre>
+ruby vendor/plugins/rspec/bin/spec spec/models/foo_spec.rb
+</pre>
+
 h3. Installation of trunk HEAD
 
 If you prefer to live dangerously you can get the HEAD of the trunk. If you do this, you must also install RSpec itself
@@ -46,7 +66,7 @@ ruby script/plugin install -x svn://rubyforge.org/var/svn/rspec/trunk/rspec
 ruby script/plugin install -x svn://rubyforge.org/var/svn/rspec/trunk/rspec_on_rails/vendor/plugin/rspec_on_rails
 </pre>
 
-Note that if you want to use the <tt>spec</tt> command directly (as opposed to the spec:* tasks), you must type
+As noted above, if you want to use the <tt>spec</tt> command directly (as opposed to the spec:* tasks), you must type
 the full path to your RSpec plugin's spec command. For example:
 
 <pre>
