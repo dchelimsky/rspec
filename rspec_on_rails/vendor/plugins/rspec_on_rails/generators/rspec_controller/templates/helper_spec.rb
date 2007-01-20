@@ -6,7 +6,7 @@ context "Given a generated <%= class_name.underscore %>_helper_spec.rb" do
   
   specify "the <%= class_name %>Helper should be included" do
     (class << self; self; end).class_eval do
-      included_modules.should_include <%= class_name %>Helper
+      included_modules.should include(<%= class_name %>Helper)
     end
   end
 end

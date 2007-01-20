@@ -16,7 +16,7 @@ context "Given a<%= class_name =~ /A|E|I|O|U/ ? 'n' : ''%> <%= class_name %>Cont
 
   specify "GET '<%= action %>' should be successful" do
     get '<%= action %>'
-    response.should_be_success
+    response.should be(:success)
   end
 <% end -%>
 end

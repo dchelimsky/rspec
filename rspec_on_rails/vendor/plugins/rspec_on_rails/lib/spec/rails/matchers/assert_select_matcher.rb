@@ -10,26 +10,8 @@
 
 module Spec #:nodoc:
   module Rails #:nodoc:
-    module Matchers
-
-      # assert_select wrapper for 'spec/rails' ported (i.e. mostly copied) from
-      # Test::Unit::AssertSelect
-      #
-      # Use #have_tag to set expectations on the response HTML of a controller
-      # action. You can also call #have_tag within another #have_tag to
-      # set expectations on elements selected by the enclosing expectation.
-      #
-      # In addition to HTML responses, you can set the following expectations:
-      # * #have_rjs    -- Expectations on HTML content of RJS update and
-      #     insertion operations.
-      # * #assert_select_feed   -- Assertions on the response Atom or RSS feed,
-      #     using CSS selectors to select XML elements.
-      # * #assert_select_encoded  -- Assertions on HTML encoded inside XML,
-      #     for example for dealing with feed item descriptions.
-      # * #assert_select_email    -- Assertions on the HTML body of an e-mail.
-      # 
-      # Also see HTML::Selector for learning how to use selectors.
-      class AssertSelect 
+    module Matchers #:nodoc:
+      class AssertSelect  #:nodoc:
         cattr_accessor :selected
         attr_reader :failure_message, :negative_failure_message
         
@@ -60,91 +42,7 @@ module Spec #:nodoc:
           NO_STRIP = %w{pre script style textarea}
         end
 
-        # :call-seq:
-        #   assert_select(selector, equality?, message?)
-        #   assert_select(element, selector, equality?, message?)
-        #
-        # An expecations that selects elements and makes one or more equality comparisons.
-        #
-        # If the first argument is an element, selects all matching elements
-        # starting from (and including) that element and all its children in
-        # depth-first order.
-        #
-        # If no element if specified, calling #have_tag will select from the
-        # response HTML. Calling #have_tag inside an #have_tag block will
-        # run the assertion for each element selected by the enclosing assertion.
-        #
-        # For example:
-        #   response.should have_tag("ol>li") { |elements|
-        #     elements.each do |element|
-        #       element.should have_tag("li")
-        #     end
-        #   end
-        # Or for short:
-        #   assert_select "ol>li" {
-        #     assert_select "li"
-        #   }
-        #
-        # The selector may be a CSS selector expression (+String+), an expression
-        # with substitution values, or an HTML::Selector object.
-        #
-        # === Equality Tests
-        #
-        # The equality test may be one of the following:
-        # * <tt>true</tt> -- Assertion is true if at least one element selected.
-        # * <tt>false</tt> -- Assertion is true if no element selected.
-        # * <tt>String/Regexp</tt> -- Assertion is true if the text value of at least
-        #   one element matches the string or regular expression.
-        # * <tt>Integer</tt> -- Assertion is true if exactly that number of
-        #   elements are selected.
-        # * <tt>Range</tt> -- Assertion is true if the number of selected
-        #   elements fit the range.
-        # If no equality test specified, the assertion is true if at least one
-        # element selected.
-        #
-        # To perform more than one equality tests, use a hash with the following keys:
-        # * <tt>:text</tt> -- Narrow the selection to elements that have this text
-        #   value (string or regexp).
-        # * <tt>:html</tt> -- Narrow the selection to elements that have this HTML
-        #   content (string or regexp).
-        # * <tt>:count</tt> -- Assertion is true if the number of selected elements
-        #   is equal to this value.
-        # * <tt>:minimum</tt> -- Assertion is true if the number of selected
-        #   elements is at least this value.
-        # * <tt>:maximum</tt> -- Assertion is true if the number of selected
-        #   elements is at most this value.
-        #
-        # If the method is called with a block, once all equality tests are
-        # evaluated the block is called with an array of all selected elements.
-        #
-        # === Examples
-        # 
-        #   # At least one form element
-        #   assert_select "form"
-        #
-        #   # Form element includes four input fields
-        #   assert_select "form input", 4
-        #
-        #   # Page title is "Welcome"
-        #   assert_select "title", "Welcome"
-        #
-        #   # Page title is "Welcome" and there is only one title element
-        #   assert_select "title", {:count=>1, :text=>"Welcome"},
-        #       "Wrong title or more than one title element"
-        #
-        #   # Page contains no forms
-        #   assert_select "form", false, "This page must contain no forms"
-        #
-        #   # Test the content and style
-        #   assert_select "body div.header ul.menu"
-        #
-        #   # Use substitution values
-        #   assert_select "ol>li#?", /item-\d+/
-        #
-        #   # All input fields in the form have a name
-        #   assert_select "form input" do
-        #     assert_select "[name=?]", /.+/  # Not empty
-        #   end
+
         def assert_select(*args, &block)
           # Start with optional element followed by mandatory selector.
           element = arg = args.shift

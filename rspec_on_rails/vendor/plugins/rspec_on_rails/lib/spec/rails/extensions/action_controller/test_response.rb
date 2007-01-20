@@ -33,11 +33,7 @@ module ActionController
       def should_not_have_tag(tag, *opts)
         __response_body.should_not_have_tag tag, *opts
       end
-      
-      def should_have(*args, &block)
-        __assert_select_wrapper.should_have(*args, &block)
-      end
-      
+            
       def should_have_feed(type, version=nil, &block)
         __assert_select_wrapper.should_have_feed(type, version, &block)
       end

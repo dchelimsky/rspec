@@ -5,6 +5,6 @@ context "Given a generated <%= class_name.underscore %>_spec.rb with fixtures lo
   fixtures :<%= table_name %>
 
   specify "fixtures should load two <%= class_name.pluralize %>" do
-    <%= class_name %>.should_have(2).records
+    <%= class_name %>.should have(2).records
   end
 end

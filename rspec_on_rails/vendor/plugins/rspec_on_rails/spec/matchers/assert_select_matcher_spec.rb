@@ -129,8 +129,13 @@ context "should have_tag", :context_type => :controller do
     lambda { response.should have_tag("div", :text=>/foobar/) }.should_raise SpecFailed, "Expected <div> with text matching /foobar/"
     lambda { response.should have_tag("p", :text=>/foo/) }.should_raise SpecFailed, "Expected at least 1 <p> tag, found 0"
   end
-
-
+  
+  specify "should use submitted message" do
+    render_html %Q{nothing here}
+    lambda {
+      response.should have_tag("div", {}, "custom message")
+    }.should_raise SpecFailed, "custom message"
+  end
 
   specify "should match submitted html" do
     render_html %Q{<p>\n<em>"This is <strong>not</strong> a big problem,"</em> he said.\n</p>}
@@ -319,7 +324,7 @@ context "css_select", :context_type => :controller do
 
   specify "can select nested tags from html" do
     render_html %Q{<div id="1">foo</div><div id="2">foo</div>}
-    response.should_have("div#?", /\d+/) { |elements|
+    response.should have_tag("div#?", /\d+/) { |elements|
       css_select(elements[0], "div").size.should == 1
       css_select(elements[1], "div").size.should == 1
     }
