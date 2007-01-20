@@ -1,3 +1,6 @@
+# This is a port of assert_select for rspec.
+# Note that the docs are still in transition....
+
 # assert_select plugins for Rails
 #
 # Copyright (c) 2006 Assaf Arkin, under Creative Commons Attribution and/or MIT License
@@ -9,18 +12,15 @@ module Spec #:nodoc:
   module Rails #:nodoc:
     module Matchers
 
-      # Adds the #assert_select method for use in Rails functional
-      # test cases.
+      # assert_select wrapper for 'spec/rails' ported (i.e. mostly copied) from
+      # Test::Unit::AssertSelect
       #
-      # Use #assert_select to make assertions on the response HTML of a controller
-      # action. You can also call #assert_select within another #assert_select to
-      # make assertions on elements selected by the enclosing assertion.
+      # Use #have_tag to set expectations on the response HTML of a controller
+      # action. You can also call #have_tag within another #have_tag to
+      # set expectations on elements selected by the enclosing expectation.
       #
-      # Use #css_select to select elements without making an assertions, either
-      # from the response HTML or elements selected by the enclosing assertion.
-      #
-      # In addition to HTML responses, you can make the following assertions:
-      # * #assert_select_rjs    -- Assertions on HTML content of RJS update and
+      # In addition to HTML responses, you can set the following expectations:
+      # * #have_rjs    -- Expectations on HTML content of RJS update and
       #     insertion operations.
       # * #assert_select_feed   -- Assertions on the response Atom or RSS feed,
       #     using CSS selectors to select XML elements.
@@ -30,19 +30,27 @@ module Spec #:nodoc:
       # 
       # Also see HTML::Selector for learning how to use selectors.
       class AssertSelect 
-        attr_reader :response, :failure_message, :negative_failure_message
+        cattr_accessor :selected
+        attr_reader :failure_message, :negative_failure_message
         
         def initialize(*args, &block)
+          @response = args.shift
+          @select_type = determine_select_type(*args)
           @args = args
           @block = block
         end
         
         def met_by?(target)
-          @response = target
-          assert_select(*@args, &@block)
+          @@selected  = determine_selected(target)
+          case @select_type
+            when "rjs"
+              assert_select_rjs(*@args, &@block)
+            else
+              assert_select(*@args, &@block)
+          end
         end
         
-        def fail_with(failure_message, negative_failure_message)
+        def fail_with(failure_message, negative_failure_message=nil)
           @failure_message = failure_message
           @negative_failure_message = negative_failure_message
           return false
@@ -53,87 +61,29 @@ module Spec #:nodoc:
         end
 
         # :call-seq:
-        #   css_select(selector) => array
-        #   css_select(element, selector) => array
-        #
-        # Select and return all matching elements.
-        #
-        # If called with a single argument, uses that argument as a selector
-        # to match all elements of the current page. Returns an empty array
-        # if no match is found.
-        #
-        # If called with two arguments, uses the first argument as the base
-        # element and the second argument as the selector. Attempts to match the
-        # base element and any of its children. Returns an empty array if no
-        # match is found.
-        #
-        # The selector may be a CSS selector expression (+String+), an expression
-        # with substitution values (+Array+) or an HTML::Selector object.
-        #
-        # For example:
-        #   forms = css_select("form")
-        #   forms.each do |form|
-        #     inputs = css_select(form, "input")
-        #     ...
-        #   end
-        def css_select(*args)
-          # See assert_select to understand what's going on here.
-          arg = args.shift
-          if arg.is_a?(HTML::Node)
-            root = arg
-            arg = args.shift
-          elsif arg == nil
-            raise ArgumentError, "First arugment is either selector or element to select, but nil found. Perhaps you called assert_select with an element that does not exist?"
-          elsif @selected
-            matches = []
-            @selected.each do |selected|
-              subset = css_select(selected, HTML::Selector.new(arg.dup, args.dup))
-              subset.each do |match|
-                matches << match unless matches.any? { |m| m.equal?(match) }
-              end
-            end
-            return matches
-          else
-            root = response_from_page_or_rjs
-          end
-          case arg
-            when String
-              selector = HTML::Selector.new(arg, args)
-            when Array
-              selector = HTML::Selector.new(*arg)
-            when HTML::Selector 
-              selector = arg
-            else raise ArgumentError, "Expecting a selector as the first argument"
-          end
-
-          selector.select(root)  
-        end
-
-
-        # :call-seq:
         #   assert_select(selector, equality?, message?)
         #   assert_select(element, selector, equality?, message?)
         #
-        # An assertion that selects elements and makes one or more equality tests.
+        # An expecations that selects elements and makes one or more equality comparisons.
         #
         # If the first argument is an element, selects all matching elements
         # starting from (and including) that element and all its children in
         # depth-first order.
         #
-        # If no element if specified, calling #assert_select will select from the
-        # response HTML. Calling #assert_select inside an #assert_select block will
+        # If no element if specified, calling #have_tag will select from the
+        # response HTML. Calling #have_tag inside an #have_tag block will
         # run the assertion for each element selected by the enclosing assertion.
         #
         # For example:
-        #   assert_select "ol>li" do |elements|
+        #   response.should have_tag("ol>li") { |elements|
         #     elements.each do |element|
-        #       assert_select element, "li"
+        #       element.should have_tag("li")
         #     end
         #   end
         # Or for short:
-        #   assert_select "ol>li" do
+        #   assert_select "ol>li" {
         #     assert_select "li"
-        #   end
+        #   }
         #
         # The selector may be a CSS selector expression (+String+), an expression
         # with substitution values, or an HTML::Selector object.
@@ -207,9 +157,9 @@ module Spec #:nodoc:
             # This usually happens when passing a node/element that
             # happens to be nil.
             raise ArgumentError, "First arugment is either selector or element to select, but nil found. Perhaps you called assert_select with an element that does not exist?"
-          elsif @selected
+          elsif @@selected 
             root = HTML::Node.new(nil)
-            root.children.concat @selected
+            root.children.concat @@selected 
           else
             # Otherwise just operate on the response document.
             root = response_from_page_or_rjs
@@ -312,15 +262,21 @@ module Spec #:nodoc:
             end
           end
 
-          # If a block is given call that block. Set @selected to allow
+          # If a block is given call that block. Set @@selected  to allow
           # nested assert_select, which can be nested several levels deep.
-          if block_given? and !matches.empty?
-            begin
-              in_scope, @selected = @selected, matches
-              yield matches
-            ensure
-              @selected = in_scope
+          unless matches.empty?
+            if block_given?
+              begin
+                in_scope, @@selected  = @@selected , matches
+                yield matches
+              ensure
+                @@selected  = in_scope
+              end
             end
+          end
+          
+          if @@selected == @response
+            @@selected = nil
           end
 
           # Returns all matches elements.
@@ -430,16 +386,16 @@ module Spec #:nodoc:
           if matches
             if block_given?
               begin
-                in_scope, @selected = @selected, matches
+                in_scope, @@selected  = @@selected , matches
                 yield matches
               ensure
-                @selected = in_scope
+                @@selected  = in_scope
               end
             end
             matches
           else
             # RJS statement not found.
-            flunk args.shift || "No RJS statement that replaces or inserts HTML content."
+            fail_with(args.shift || "No RJS statement that replaces or inserts HTML content.")
           end
         end
 
@@ -509,7 +465,7 @@ module Spec #:nodoc:
             when HTML::Node
               elements = [element]
             when nil
-              unless elements = @selected
+              unless elements = @@selected 
                 raise ArgumentError, "First argument is optional, but must be called from a nested assert_select"
               end
             else
@@ -526,10 +482,10 @@ module Spec #:nodoc:
             css_select(root, "encoded:root", &block)[0]
           end
           begin
-            old_selected, @selected = @selected, selected
+            old_selected, @@selected  = @@selected , selected
             assert_select ":root", &block
           ensure
-            @selected = old_selected
+            @@selected  = old_selected
           end
         end
 
@@ -559,7 +515,7 @@ module Spec #:nodoc:
 
       protected
         def html_document
-          @html_document ||= HTML::Document.new(response.body)
+          @html_document ||= HTML::Document.new(@response.body)
         end
 
 
@@ -606,6 +562,27 @@ module Spec #:nodoc:
             html_document.root
           end
         end
+        
+        private
+          def determine_select_type(*args)
+            if Hash === args.last
+              select_type = args.last[:select_type]
+            end
+            return select_type ||= "tag"
+          end
+          
+          def determine_selected(target)
+            unless target.equal?(@response)
+              if @@selected
+                return @@selected
+              end
+              if Array === target
+                return target
+              else
+                return[target]
+              end
+            end
+          end
 
       end
     end

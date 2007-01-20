@@ -54,7 +54,9 @@ module Spec
         super unless performed?
       end
       
-      def response
+      #NOTE - we're setting @update for the assert_select_matcher_spec
+      def response(&block)
+        @update = block
         @_response || @response
       end
       
