@@ -96,7 +96,7 @@ module Spec
         AssertSelect.new(*args, &block)
       end
 
-      def have_rjs(*args, &block)
+      def be_rjs(*args, &block)
         args.unshift(response)
         case args.last
         when Hash
@@ -111,8 +111,40 @@ module Spec
         AssertSelect.selected.should have_tag(*args, &block)
       end
       
+      def with_encoded(*args, &block)
+        case args.last
+        when Hash
+          args.last[:select_type] = "encoded"
+        else
+          args << {:select_type => "encoded"}
+        end
+        AssertSelect.selected.should have_tag(*args, &block)
+      end
+      
       def without_tag(*args, &block)
         AssertSelect.selected.should_not have_tag(*args, &block)
+      end
+      
+      def be_feed(*args, &block)
+        args.unshift(response)
+        case args.last
+        when Hash
+          args.last[:select_type] = "feed"
+        else
+          args << {:select_type => "feed"}
+        end
+        AssertSelect.new(*args, &block)
+      end
+      
+      def send_email(*args, &block)
+        args.unshift(response)
+        case args.last
+        when Hash
+          args.last[:select_type] = "email"
+        else
+          args << {:select_type => "email"}
+        end
+        AssertSelect.new(*args, &block)
       end
     end
   end

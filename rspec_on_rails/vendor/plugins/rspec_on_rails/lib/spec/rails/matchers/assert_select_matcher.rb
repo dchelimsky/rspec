@@ -27,6 +27,21 @@ module Spec #:nodoc:
           case @select_type
             when "rjs"
               assert_select_rjs(*@args, &@block)
+            when "feed"
+              if Hash === @args.last
+                @args.delete(@args.last)
+              end
+              assert_select_feed(*@args, &@block)
+            when "encoded"
+              if Hash === @args.last
+                @args.delete(@args.last)
+              end
+              assert_select_encoded(*@args, &@block)
+            when "email"
+              if Hash === @args.last
+                @args.delete(@args.last)
+              end
+              assert_select_email(*@args, &@block)
             else
               assert_select(*@args, &@block)
           end
@@ -41,7 +56,6 @@ module Spec #:nodoc:
         unless const_defined?(:NO_STRIP)
           NO_STRIP = %w{pre script style textarea}
         end
-
 
         def assert_select(*args, &block)
           # Start with optional element followed by mandatory selector.
@@ -403,11 +417,44 @@ module Spec #:nodoc:
         # end
         def assert_select_email(&block)
           deliveries = ActionMailer::Base.deliveries
-          assert !deliveries.empty?, "No e-mail in delivery list"
+          return fail_with("No e-mail in delivery list") if deliveries.empty?
           for delivery in deliveries
             root = HTML::Document.new(delivery.body).root
             assert_select root, ":root", &block
           end
+        end
+
+        def css_select(*args)
+          # See assert_select to understand what's going on here.
+          arg = args.shift
+          if arg.is_a?(HTML::Node)
+            root = arg
+            arg = args.shift
+          elsif arg == nil
+            raise ArgumentError, "First arugment is either selector or element to select, but nil found. Perhaps you called assert_select with an element that does not exist?"
+          elsif @selected
+            matches = []
+            @selected.each do |selected|
+              subset = css_select(selected, HTML::Selector.new(arg.dup, args.dup))
+              subset.each do |match|
+                matches << match unless matches.any? { |m| m.equal?(match) }
+              end
+            end
+            return matches
+          else
+            root = response_from_page_or_rjs
+          end
+          case arg
+            when String
+              selector = HTML::Selector.new(arg, args)
+            when Array
+              selector = HTML::Selector.new(*arg)
+            when HTML::Selector 
+              selector = arg
+            else raise ArgumentError, "Expecting a selector as the first argument"
+          end
+
+          selector.select(root)  
         end
 
 

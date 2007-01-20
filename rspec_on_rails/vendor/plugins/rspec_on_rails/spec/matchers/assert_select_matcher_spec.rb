@@ -83,16 +83,6 @@ context "should have_tag", :context_type => :controller do
   controller_name :assert_select
   integrate_views
 
-  setup do
-    ActionMailer::Base.delivery_method = :test
-    ActionMailer::Base.perform_deliveries = true
-    ActionMailer::Base.deliveries = []
-  end
-
-  teardown do
-    ActionMailer::Base.deliveries.clear
-  end
-
   specify "should find specific numbers of elements" do
     render_html %Q{<div id="1"></div><div id="2"></div>}
     response.should have_tag( "div" )
@@ -189,9 +179,9 @@ context "should have_tag", :context_type => :controller do
     response.should have_tag("div") {
       response.should have_tag("div#?", /\d+/) { |elements|
         elements.size.should == 2
-        elements.should have_tag("#1")
-        elements.should have_tag("#2")
-        elements.should have_tag("#3", false)
+        with_tag("#1")
+        with_tag("#2")
+        with_tag("#3", false)
       }
     }
   end
@@ -207,14 +197,14 @@ context "should have_tag", :context_type => :controller do
       </form>
     }
     response.should have_tag("form[action=test]") { |form|
-      form.should have_tag("input[type=text][name=email]")
+      with_tag("input[type=text][name=email]")
     }
     response.should have_tag("form[action=test]") { |form|
       with_tag("input[type=text][name=email]")
     }
     lambda {
       response.should have_tag("form[action=test]") { |form|
-        form.should have_tag("input[type=text][name=other_input]")
+        with_tag("input[type=text][name=other_input]")
       }
     }.should_fail
     lambda {
@@ -262,16 +252,16 @@ context "should have_tag", :context_type => :controller do
   specify "assert_select_text_match" do
     render_html %Q{<div id="1"><span>foo</span></div><div id="2"><span>bar</span></div>}
     response.should have_tag("div") { |divs|
-      divs.should have_tag("div", "foo")
-      divs.should have_tag("div", "bar")
-      divs.should have_tag("div", /\w*/)
-      divs.should have_tag("div", /\w*/, :count=>2)
-      divs.should_not have_tag("div", :text=>"foo", :count=>2)
-      divs.should have_tag("div", :html=>"<span>bar</span>")
-      divs.should have_tag("div", :html=>"<span>bar</span>")
-      divs.should have_tag("div", :html=>/\w*/)
-      divs.should have_tag("div", :html=>/\w*/, :count=>2)
-      divs.should_not have_tag("div", :html=>"<span>foo</span>", :count=>2)
+      with_tag("div", "foo")
+      with_tag("div", "bar")
+      with_tag("div", /\w*/)
+      with_tag("div", /\w*/, :count=>2)
+      without_tag("div", :text=>"foo", :count=>2)
+      with_tag("div", :html=>"<span>bar</span>")
+      with_tag("div", :html=>"<span>bar</span>")
+      with_tag("div", :html=>/\w*/)
+      with_tag("div", :html=>/\w*/, :count=>2)
+      without_tag("div", :html=>"<span>foo</span>", :count=>2)
     }
   end
 
@@ -282,12 +272,12 @@ context "should have_tag", :context_type => :controller do
     end
     response.should have_tag("div") { |elements|
       elements.size.should == 2
-      response.should have_tag("#1")
-      response.should have_tag("#2")
+      with_tag("#1")
+      with_tag("#2")
     }
     response.should have_tag("div#?", /\d+/) { |elements|
-      elements.should have_tag("#1")
-      elements.should have_tag("#2")
+      with_tag("#1")
+      with_tag("#2")
     }
   end
   
@@ -298,13 +288,13 @@ context "should have_tag", :context_type => :controller do
     end
     response.should have_tag("div") { |elements|
       elements.size.should == 2
-      elements.should have_tag("#1")
-      elements.should have_tag("#2")
+      with_tag("#1")
+      with_tag("#2")
     }
 
     lambda {
       response.should have_tag("div") { |elements|
-        elements.should have_tag("#3")
+        with_tag("#3")
       }
     }.should_fail
   end
@@ -375,15 +365,15 @@ context "have_rjs behaviour", :context_type => :controller do
   end
   
   specify "should pass if any rjs exists" do
-    response.should have_rjs
+    response.should be_rjs
   end
 
   specify "should find all rjs from multiple statements" do
     found = false
-    response.should have_rjs {
-      response.should have_tag("#1")
-      response.should have_tag("#2")
-      response.should have_tag("#3")
+    response.should be_rjs {
+      with_tag("#1")
+      with_tag("#2")
+      with_tag("#3")
       found = true
     }
     found.should be(true)
@@ -391,84 +381,84 @@ context "have_rjs behaviour", :context_type => :controller do
     render_rjs do |page|
     end
     lambda {
-      response.should have_rjs
+      response.should be_rjs
     }.should_fail
   end
 
   specify "should find by id" do
-    response.should have_rjs("test1") { |rjs|
+    response.should be_rjs("test1") { |rjs|
       rjs.size.should == 1
-      rjs.should have_tag("div", 1)
-      rjs.should have_tag("div#1", "foo")
+      with_tag("div", 1)
+      with_tag("div#1", "foo")
     }
-    response.should have_rjs("test2") { |rjs|
+    response.should be_rjs("test2") { |rjs|
       rjs.size.should == 2
-      rjs.should have_tag("div", 2)
-      rjs.should have_tag("div#2", "bar")
-      rjs.should have_tag("div#3", "none")
+      with_tag("div", 2)
+      with_tag("div#2", "bar")
+      with_tag("div#3", "none")
     }
     lambda {
-      response.should have_rjs("test4")
+      response.should be_rjs("test4")
     }.should_fail
   end
 
   specify "should find rjs using :replace" do
-    response.should have_rjs(:replace) { |rjs|
-      rjs.should have_tag("div", 1)
-      rjs.should have_tag("div#1", "foo")
+    response.should be_rjs(:replace) { |rjs|
+      with_tag("div", 1)
+      with_tag("div#1", "foo")
     }
-    response.should have_rjs(:replace, "test1") { |rjs|
-      rjs.should have_tag("div", 1)
-      rjs.should have_tag("div#1", "foo")
+    response.should be_rjs(:replace, "test1") { |rjs|
+      with_tag("div", 1)
+      with_tag("div#1", "foo")
     }
     lambda {
-      response.should have_rjs(:replace, "test2")
+      response.should be_rjs(:replace, "test2")
     }.should_fail
 
     lambda {
-      response.should have_rjs(:replace, "test3")
+      response.should be_rjs(:replace, "test3")
     }.should_fail
   end
 
   specify "should find rjs using :replace_html" do
-    response.should have_rjs(:replace_html) { |rjs|
-      rjs.should have_tag("div", 2)
-      rjs.should have_tag("div#2", "bar")
-      rjs.should have_tag("div#3", "none")
+    response.should be_rjs(:replace_html) { |rjs|
+      with_tag("div", 2)
+      with_tag("div#2", "bar")
+      with_tag("div#3", "none")
     }
 
-    response.should have_rjs(:replace_html, "test2") { |rjs|
-      rjs.should have_tag("div", 2)
-      rjs.should have_tag("div#2", "bar")
-      rjs.should have_tag("div#3", "none")
+    response.should be_rjs(:replace_html, "test2") { |rjs|
+      with_tag("div", 2)
+      with_tag("div#2", "bar")
+      with_tag("div#3", "none")
     }
 
     lambda {
-      response.should have_rjs(:replace_html, "test1")
+      response.should be_rjs(:replace_html, "test1")
     }.should_fail
 
     lambda {
-      response.should have_rjs(:replace_html, "test3")
+      response.should be_rjs(:replace_html, "test3")
     }.should_fail
   end
     
   specify "should find rjs using :insert_html (non-positioned)" do
-    response.should have_rjs(:insert_html) { |rjs|
-      rjs.should have_tag("div", 1)
-      rjs.should have_tag("div#4", "loopy")
+    response.should be_rjs(:insert_html) { |rjs|
+      with_tag("div", 1)
+      with_tag("div#4", "loopy")
     }
 
-    response.should have_rjs(:insert_html, "test3") { |rjs|
-      rjs.should have_tag("div", 1)
-      rjs.should have_tag("div#4", "loopy")
+    response.should be_rjs(:insert_html, "test3") { |rjs|
+      with_tag("div", 1)
+      with_tag("div#4", "loopy")
     }
 
     lambda {
-      response.should have_rjs(:insert_html, "test1")
+      response.should be_rjs(:insert_html, "test1")
     }.should_fail
 
     lambda {
-      response.should have_rjs(:insert_html, "test2")
+      response.should be_rjs(:insert_html, "test2")
     }.should_fail
   end
 
@@ -479,150 +469,190 @@ context "have_rjs behaviour", :context_type => :controller do
       page.insert_html :before, "test3", "<div id=\"3\">none</div>"
       page.insert_html :after, "test4", "<div id=\"4\">loopy</div>"
     end
-    response.should have_rjs(:insert, :top) {|rjs|
-      rjs.should have_tag("div", 1)
-      rjs.should have_tag("#1")
+    response.should be_rjs(:insert, :top) {|rjs|
+      with_tag("div", 1)
+      with_tag("#1")
     }
-    response.should have_rjs(:insert, :top, "test1") {|rjs|
-      rjs.should have_tag("div", 1)
-      rjs.should have_tag("#1")
+    response.should be_rjs(:insert, :top, "test1") {|rjs|
+      with_tag("div", 1)
+      with_tag("#1")
     }
     lambda {
-      response.should have_rjs(:insert, :top, "test2")
+      response.should be_rjs(:insert, :top, "test2")
     }.should_fail
-    response.should have_rjs(:insert, :bottom) {|rjs|
-      rjs.should have_tag("div", 1)
-      rjs.should have_tag("#2")
+    response.should be_rjs(:insert, :bottom) {|rjs|
+      with_tag("div", 1)
+      with_tag("#2")
     }
-    response.should have_rjs(:insert, :bottom, "test2") {|rjs|
-      rjs.should have_tag("div", 1)
-      rjs.should have_tag("#2")
+    response.should be_rjs(:insert, :bottom, "test2") {|rjs|
+      with_tag("div", 1)
+      with_tag("#2")
     }
-    response.should have_rjs(:insert, :before) {|rjs|
-      rjs.should have_tag("div", 1)
-      rjs.should have_tag("#3")
+    response.should be_rjs(:insert, :before) {|rjs|
+      with_tag("div", 1)
+      with_tag("#3")
     }
-    response.should have_rjs(:insert, :before, "test3") {|rjs|
-      rjs.should have_tag("div", 1)
-      rjs.should have_tag("#3")
+    response.should be_rjs(:insert, :before, "test3") {|rjs|
+      with_tag("div", 1)
+      with_tag("#3")
     }
-    response.should have_rjs(:insert, :after) {|rjs|
-      rjs.should have_tag("div", 1)
-      rjs.should have_tag("#4")
+    response.should be_rjs(:insert, :after) {|rjs|
+      with_tag("div", 1)
+      with_tag("#4")
     }
-    response.should have_rjs(:insert, :after, "test4") {|rjs|
-      rjs.should have_tag("div", 1)
-      rjs.should have_tag("#4")
+    response.should be_rjs(:insert, :after, "test4") {|rjs|
+      with_tag("div", 1)
+      with_tag("#4")
     }
   end
-# 
-# 
-#   #
-#   # Test assert_select_feed and assert_select_encoded
-#   #
-# 
-#   def test_feed_versions
-#     # Atom 1.0.
-#     render_xml %Q{<feed xmlns="http://www.w3.org/2005/Atom"><title>test</title></feed>}
-#     assert_nothing_raised               { assert_select_feed :atom }
-#     assert_nothing_raised               { assert_select_feed :atom, 1.0 }
-#     assert_raises(AssertionFailedError) { assert_select_feed :atom, 0.3 }
-#     assert_raises(AssertionFailedError) { assert_select_feed :rss }
-#     assert_select_feed(:atom, 1.0) { assert_select "feed>title", "test" }
-#     # Atom 0.3.
-#     render_xml %Q{<feed version="0.3"><title>test</title></feed>}
-#     assert_nothing_raised               { assert_select_feed :atom, 0.3 }
-#     assert_raises(AssertionFailedError) { assert_select_feed :atom }
-#     assert_raises(AssertionFailedError) { assert_select_feed :atom, 1.0 }
-#     assert_raises(AssertionFailedError) { assert_select_feed :rss }
-#     assert_select_feed(:atom, 0.3) { assert_select "feed>title", "test" }
-#     # RSS 2.0.
-#     render_xml %Q{<rss version="2.0"><channel><title>test</title></channel></rss>}
-#     assert_nothing_raised               { assert_select_feed :rss }
-#     assert_nothing_raised               { assert_select_feed :rss, 2.0 }
-#     assert_raises(AssertionFailedError) { assert_select_feed :rss, 0.92 }
-#     assert_raises(AssertionFailedError) { assert_select_feed :atom }
-#     assert_select_feed(:rss, 2.0) { assert_select "rss>channel>title", "test" }
-#     # RSS 0.92.
-#     render_xml %Q{<rss version="0.92"><channel><title>test</title></channel></rss>}
-#     assert_nothing_raised               { assert_select_feed :rss, 0.92 }
-#     assert_raises(AssertionFailedError) { assert_select_feed :rss }
-#     assert_raises(AssertionFailedError) { assert_select_feed :rss, 2.0 }
-#     assert_raises(AssertionFailedError) { assert_select_feed :atom }
-#     assert_select_feed(:rss, 0.92) { assert_select "rss>channel>title", "test" }
-#   end
-# 
-# 
-#   def test_feed_item_encoded
-#     render_xml <<-EOF
-# <rss version="2.0">
-#   <channel>
-#     <item>
-#       <description>
-#         <![CDATA[
-#           <p>Test 1</p>
-#         ]]>
-#       </description>
-#     </item>
-#     <item>
-#       <description>
-#         <![CDATA[
-#           <p>Test 2</p>
-#         ]]>
-#       </description>
-#     </item>
-#   </channel>
-# </rss>
-# EOF
-#     assert_select_feed :rss, 2.0 do
-#       assert_select "channel item description" do
-#         # Test element regardless of wrapper.
-#         assert_select_encoded do
-#           assert_select "p", :count=>2, :text=>/Test/
-#         end
-#         # Test through encoded wrapper.
-#         assert_select_encoded do
-#           assert_select "encoded p", :count=>2, :text=>/Test/
-#         end
-#         # Use :root instead (recommended)
-#         assert_select_encoded do
-#           assert_select ":root p", :count=>2, :text=>/Test/
-#         end
-#         # Test individually.
-#         assert_select "description" do |elements|
-#           assert_select_encoded elements[0] do
-#             assert_select "p", "Test 1"
-#           end
-#           assert_select_encoded elements[1] do
-#             assert_select "p", "Test 2"
-#           end
-#         end
-#       end
-#     end
-#     # Test that we only un-encode element itself.
-#     assert_select_feed :rss, 2.0 do
-#       assert_select "channel item" do
-#         assert_select_encoded do
-#           assert_select "p", 0
-#         end
-#       end
-#     end
-#   end
-# 
-# 
-#   #
-#   # Test assert_select_email
-#   #
-# 
-#   def test_assert_select_email
-#     assert_raises(AssertionFailedError) { assert_select_email {} }
-#     AssertSelectMailer.deliver_test "<div><p>foo</p><p>bar</p></div>"
-#     assert_select_email do
-#       assert_select "div:root" do
-#         assert_select "p:first-child", "foo"
-#         assert_select "p:last-child", "bar"
-#       end
-#     end
-#   end
+end
+
+context "be_feed behaviour", :context_type => :controller do
+  include AssertSelectSpecHelpers
+  controller_name :assert_select
+  integrate_views
+
+  specify "should support atom 1.0" do
+    # Atom 1.0.
+    render_xml %Q{<feed xmlns="http://www.w3.org/2005/Atom"><title>test</title></feed>}
+    response.should be_feed(:atom)
+    response.should be_feed(:atom, 1.0)
+    response.should be_feed(:atom, 1.0) {
+      with_tag("feed>title", "test")
+    }
+
+    lambda {
+      response.should be_feed(:atom, 0.3)
+    }.should_fail
+
+    lambda {
+      response.should be_feed(:rss)
+    }.should_fail
+  end
+  
+  specify "should support atom 0.3" do
+    render_xml %Q{<feed version="0.3"><title>test</title></feed>}
+    response.should be_feed(:atom, 0.3)
+    response.should be_feed(:atom, 0.3) { with_tag("feed>title", "test") }
+
+    lambda { response.should be_feed(:atom) }.should_fail
+    lambda { response.should be_feed(:atom, 1.0) }.should_fail
+    lambda { response.should be_feed(:rss) }.should_fail
+  end
+  
+  specify "should support rss 2.0" do
+    render_xml %Q{<rss version="2.0"><channel><title>test</title></channel></rss>}
+    response.should be_feed(:rss)
+    response.should be_feed(:rss, 2.0)
+    response.should be_feed(:rss, 2.0) { with_tag("rss>channel>title", "test") }
+
+    lambda { response.should be_feed(:rss, 0.92) }.should_fail
+    lambda { response.should be_feed(:atom) }.should_fail
+  end
+  
+  specify "should support rss 0.92" do
+    render_xml %Q{<rss version="0.92"><channel><title>test</title></channel></rss>}
+    response.should be_feed(:rss, 0.92)
+    response.should be_feed(:rss, 0.92) { with_tag("rss>channel>title", "test") }
+
+    lambda { response.should be_feed(:rss) }.should_fail
+    lambda { response.should be_feed(:rss, 2.0) }.should_fail
+    lambda { response.should be_feed(:atom) }.should_fail
+  end
+
+  specify "should support encoded feed items" do
+    render_xml <<-EOF
+<rss version="2.0">
+  <channel>
+    <item>
+      <description>
+        <![CDATA[
+          <p>Test 1</p>
+        ]]>
+      </description>
+    </item>
+    <item>
+      <description>
+        <![CDATA[
+          <p>Test 2</p>
+        ]]>
+      </description>
+    </item>
+  </channel>
+</rss>
+EOF
+    response.should be_feed(:rss, 2.0) { 
+      with_tag("channel item description") {
+        # Test element regardless of wrapper.
+        with_encoded {
+          with_tag("p", :count=>2, :text=>/Test/)
+        }
+        # # Test through encoded wrapper.
+        with_encoded {
+          with_tag("encoded p", :count=>2, :text=>/Test/)
+        }
+        # # Use :root instead (recommended)
+        with_encoded {
+          with_tag(":root p", :count=>2, :text=>/Test/)
+        }
+        # # Test individually.
+        with_tag("description") { |elements|
+          with_encoded {
+            with_tag("p", "Test 1")
+          }
+          with_encoded {
+            with_tag("p", "Test 2")
+          }
+          
+        }
+      }
+    }
+    # Test that we only un-encode element itself.
+    response.should be_feed(:rss, 2.0) {
+      with_tag("channel item") {
+        with_encoded {
+          with_tag("p", 0)
+        }
+      }
+    }
+  end
+end
+
+context "send_email behaviour", :context_type => :controller do
+  include AssertSelectSpecHelpers
+  controller_name :assert_select
+  integrate_views
+
+  setup do
+    ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+  end
+
+  teardown do
+    ActionMailer::Base.deliveries.clear
+  end
+
+  specify "should fail with nothing sent" do
+    response.should_not send_email
+    lambda {
+      response.should send_email{}
+    }.should_fail
+  end
+  
+  specify "should pass otherwise" do
+    AssertSelectMailer.deliver_test "<div><p>foo</p><p>bar</p></div>"
+    response.should send_email
+    lambda {
+      response.should_not send_email
+    }.should_fail
+    response.should send_email{}
+    response.should send_email {
+      with_tag("div:root") {
+        with_tag("p:first-child", "foo")
+        with_tag("p:last-child", "bar")
+      }
+    }
+  end
 
 end
