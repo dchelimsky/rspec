@@ -13,7 +13,7 @@ module ExampleExpectations
       @block = block
     end
     
-    def met_by?(target)
+    def matches?(target)
       @target = target
       return @expected == target
     end
@@ -38,7 +38,7 @@ module ExampleExpectations
   
 end
 
-context "ExpectationHandler behaviour" do
+context "ExpectationMatcherHandler behaviour" do
   include ExampleExpectations
   
   setup do

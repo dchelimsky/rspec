@@ -7,7 +7,7 @@ module Spec
           @expected = expected
         end
         
-        def met_by?(actual)
+        def matches?(actual)
           @actual = actual
           return true if actual.equal?(@expected) unless handling_predicate?
           return actual.__send__(predicate) if actual.respond_to?(predicate)

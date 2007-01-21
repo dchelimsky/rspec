@@ -33,16 +33,16 @@ module Spec
     # Both methods take an optional expectation matcher. An expectation matcher is any object
     # that responds to the following methods:
     #
-    #   met_by?(actual)
+    #   matches?(actual)
     #   failure_message
     #   negative_failure_message
     #
-    # When <code>should</code> receives a matcher, it calls <code>met_by?(self)</code>. If
+    # When <code>should</code> receives a matcher, it calls <code>matches?(self)</code>. If
     # it returns <code>true</code>, the spec passes and execution continues. If it returns
     # <code>false</code>, then <code>should</code> raises an ExpectationNotMetError with
     # the message returned by <code>matcher.failure_message</code>
     #
-    # Similarly, when <code>should_not</code> receives a matcher, it calls <code>met_by?(self)</code>. If
+    # Similarly, when <code>should_not</code> receives a matcher, it calls <code>matches?(self)</code>. If
     # it returns <code>false</code>, the spec passes and execution continues. If it returns
     # <code>true</code>, then <code>should_not</code> raises an ExpectationNotMetError with
     # the message returned by <code>matcher.negative_failure_message</code>
@@ -74,7 +74,7 @@ module Spec
     #     def initialize(expected)
     #       @expected = expected
     #     end
-    #     def met_by?(actual)
+    #     def matches?(actual)
     #       @actual = actual
     #       bob.current_zone.eql?(Zone.new(@expected))
     #     end
@@ -112,7 +112,7 @@ module Spec
     #   end
     module Matchers
       
-      # Matches based on object identity.
+      # Passes if actual and expected are the same object (object identity).
       #
       # See http://www.ruby-doc.org/core/classes/Object.html#M001057 for more information about equality in Ruby.
       #
@@ -124,13 +124,13 @@ module Spec
         Matchers::Equal.new(expected)
       end
       
-      # Matches based on object value equivalence.
+      # Passes if actual and expected are of equal value, but not necessarily the same object.
       #
       # See http://www.ruby-doc.org/core/classes/Object.html#M001057 for more information about equality in Ruby.
       #
       # == Examples
       #
-      #   5.should
+      #   5.should eql(5)
       #   5.should_not equal(3)
       def eql(expected)
         Matchers::Eql.new(expected)

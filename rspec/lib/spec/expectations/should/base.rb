@@ -48,7 +48,7 @@ module Spec
 
         def method_missing(original_sym, *args, &block)
           if matcher.respond_to?(original_sym)
-            return ExpectationHandler.new(@target,matcher.__send__(original_sym, *args))
+            return ExpectationMatcherHandler.new(@target,matcher.__send__(original_sym, *args))
           end
           if original_sym.to_s =~ /^not_/
             return Not.new(@target).__send__(sym, *args, &block)

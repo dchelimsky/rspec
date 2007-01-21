@@ -21,7 +21,7 @@ module Spec
           self
         end
       
-        def met_by?(collection_owner)
+        def matches?(collection_owner)
           collection = collection_owner.send @sym
           @actual = collection.length if collection.respond_to?(:length)
           @actual = collection.size if collection.respond_to?(:size)

@@ -1,23 +1,23 @@
 module Spec
   module Expectations
-    class ExpectationHandler
+    class ExpectationMatcherHandler
 
-      def initialize(target, expectation)
-        unless expectation.nil?
-          unless expectation.met_by?(target)
-            Spec::Expectations.fail_with(expectation.failure_message)
+      def initialize(actual, matcher)
+        unless matcher.nil?
+          unless matcher.matches?(actual)
+            Spec::Expectations.fail_with(matcher.failure_message)
           end
         end
       end
 
     end
 
-    class NegativeExpectationHandler
+    class NegativeExpectationMatcherHandler
     
-      def initialize(target, expectation)
-        unless expectation.nil?
-          if expectation.met_by?(target)
-            Spec::Expectations.fail_with(expectation.negative_failure_message)
+      def initialize(actual, matcher)
+        unless matcher.nil?
+          if matcher.matches?(actual)
+            Spec::Expectations.fail_with(matcher.negative_failure_message)
           end
         end
       end
