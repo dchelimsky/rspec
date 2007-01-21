@@ -1,0 +1,69 @@
+Beginning with 0.7.6, RSpec is moving towards a new syntax using expectation matchers
+instead of adding expectations directly to Object. We'll still be adding a few methods
+to Object, but it will be much less invasive, and will eliminate conflicts with
+other tools and frameworks that utilize method_missing to perform magic.
+
+For more information on expectation matchers, see the rdoc for Spec::Expectations::Matchers
+
+Our plan is as follows:
+
+* release 0.7.6 with partial support for expectation matchers
+* release 0.8.0 with:
+ * full support for expectation matchers
+ * a translation tool that will convert the majority of your specs from the old syntax to the new syntax
+ * deprecation warnings for all of the old methods that will be removed
+* release 0.9.0 with all of the old methods removed
+
+Everything that is listed below is already supported and usable right now.
+
+###################################################
+##### general: should_xyz
+
+#before
+actual.should_xyz expected
+actual.should_not_xyz expected
+
+#after
+actual.should xyz(expected)
+actual.should_not xyz(expected)
+
+This change applies to all of these as well:
+should_equal
+should_eql
+should_be_close
+should_include
+should_match
+should_satisfy
+
+###################################################
+##### should_have
+
+#before
+team.should_have(3).players
+
+#after
+team.should have(3).players
+
+###################################################
+##### should_be
+
+#before
+result.should_be true
+result.should_be false
+result.should_be nil
+result.should_not_be nil
+
+#after
+result.should be(true)
+result.should be(false)
+result.should be(nil)
+result.should_not be(true)
+
+###################################################
+##### should_be with arbitrary predicates
+
+#before
+true.should_be_arbitrary_predicate
+
+#after
+true.should be(:arbitrary_predicate)
