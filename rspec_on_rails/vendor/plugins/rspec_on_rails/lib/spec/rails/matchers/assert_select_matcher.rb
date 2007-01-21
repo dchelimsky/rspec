@@ -8,9 +8,9 @@
 # Code and documention: http://labnotes.org
 
 
-module Spec #:nodoc:
-  module Rails #:nodoc:
-    module Matchers #:nodoc:
+module Spec
+  module Rails
+    module Matchers
       class AssertSelect  #:nodoc:
         cattr_accessor :selected
         attr_reader :failure_message, :negative_failure_message
@@ -195,64 +195,6 @@ module Spec #:nodoc:
           matches
         end
 
-        # :call-seq:
-        #   assert_select_rjs(id?) { |elements| ... }
-        #   assert_select_rjs(statement, id?) { |elements| ... }
-        #   assert_select_rjs(:insert, position, id?) { |elements| ... }
-        #
-        # Selects content from the RJS response.
-        #
-        # === Narrowing down
-        #
-        # With no arguments, asserts that one or more elements are updated or
-        # inserted by RJS statements.
-        #
-        # Use the +id+ argument to narrow down the assertion to only statements
-        # that update or insert an element with that identifier.
-        #
-        # Use the first argument to narrow down assertions to only statements
-        # of that type. Possible values are +:replace+, +:replace_html+ and
-        # +:insert_html+.
-        #
-        # Use the argument +:insert+ followed by an insertion position to narrow
-        # down the assertion to only statements that insert elements in that
-        # position. Possible values are +:top+, +:bottom+, +:before+ and +:after+.
-        #
-        # === Using blocks
-        #
-        # Without a block, #assert_select_rjs merely asserts that the response
-        # contains one or more RJS statements that replace or update content.
-        #
-        # With a block, #assert_select_rjs also selects all elements used in
-        # these statements and passes them to the block. Nested assertions are
-        # supported.
-        #
-        # Calling #assert_select_rjs with no arguments and using nested asserts
-        # asserts that the HTML content is returned by one or more RJS statements.
-        # Using #assert_select directly makes the same assertion on the content,
-        # but without distinguishing whether the content is returned in an HTML
-        # or JavaScript.
-        #
-        # === Examples
-        #
-        #   # Updating the element foo.
-        #   assert_select_rjs :update, "foo"
-        #
-        #   # Inserting into the element bar, top position.
-        #   assert_select rjs, :insert, :top, "bar"
-        #
-        #   # Changing the element foo, with an image.
-        #   assert_select_rjs "foo" do
-        #     assert_select "img[src=/images/logo.gif""
-        #   end
-        #
-        #   # RJS inserts or updates a list with four items.
-        #   assert_select_rjs do
-        #     assert_select "ol>li", 4
-        #   end
-        #
-        #   # The same, but shorter.
-        #   assert_select "ol>li", 4
         def assert_select_rjs(*args, &block)
           arg = args.shift
           # If the first argument is a symbol, it's the type of RJS statement we're looking

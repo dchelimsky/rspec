@@ -3,15 +3,31 @@ require File.expand_path("#{dir}/matchers/assert_select_matcher")
 
 module Spec
   module Rails
+    # == Expectation Matchers
+    #
+    # ExpectationMatchers are methods (with classes underlying) that allow you
+    # set expectations on objects. For example, if you expect the value of an
+    # object to be 37 after some calculation, you could say:
+    #
+    #   result.should equal(37)
+    #
+    # In this example, "should equal(37)" is an expectation, with "equal(37)" being
+    # the ExpecationMatcher.
+    #
+    # RSpec on Rails sports several matchers specifically intended to work with Rails
+    # components like responses. For example:
+    #
+    #   response.should be_redirect #be_redirect() is the matcher.
     module Matchers
       # :call-seq:
-      #   response.should have_tag(selector, equality?, message?)
-      #   response.should have_tag(element, selector, equality?, message?)
+      #   have_tag(selector, equality?, message?)
+      #   have_tag(element, selector, equality?, message?)
       #
-      # This is a wrapper for assert_select and works the same way
-      # but with rspec-friendly syntax
+      # Used to expect specific content in the response to an http request.
       #
-      # An expecation that selects elements and makes one or more equality comparisons.
+      #   response.should have_tag("div", "Go Bears!")
+      #
+      # An expectation that selects elements and makes one or more equality comparisons.
       #
       # If the first argument is an element, selects all matching elements
       # starting from (and including) that element and all its children in
@@ -96,6 +112,65 @@ module Spec
         AssertSelect.new(*args, &block)
       end
 
+      # :call-seq:
+      #   response.should be_rjs(id?) { |elements| ... }
+      #   response.should be_rjs(statement, id?) { |elements| ... }
+      #   response.should be_rjs(:insert, position, id?) { |elements| ... }
+      #
+      # This is a wrapper for assert_select_rjs and works the same way
+      # but with rspec-friendly syntax
+      #
+      # === Narrowing down
+      #
+      # With no arguments, expects that one or more elements are updated or
+      # inserted by RJS statements.
+      #
+      # Use the +id+ argument to narrow down the expectation to only statements
+      # that update or insert an element with that identifier.
+      #
+      # Use the first argument to narrow down expectations to only statements
+      # of that type. Possible values are +:replace+, +:replace_html+ and
+      # +:insert_html+.
+      #
+      # Use the argument +:insert+ followed by an insertion position to narrow
+      # down the expectation to only statements that insert elements in that
+      # position. Possible values are +:top+, +:bottom+, +:before+ and +:after+.
+      #
+      # === Using blocks
+      #
+      # Without a block, response.should be_rjs merely expects that the response
+      # contains one or more RJS statements that replace or update content.
+      #
+      # With a block, response.should be_rjs also selects all elements used in
+      # these statements and passes them to the block. Nested expectations are
+      # supported.
+      #
+      # Calling response.should be_rjs with no arguments and using nested expectations
+      # expects that the HTML content is returned by one or more RJS statements.
+      # Using #with_tag directly makes the same assertion on the content,
+      # but without distinguishing whether the content is returned in an HTML
+      # or JavaScript.
+      #
+      # === Examples
+      #
+      #   # Updating the element foo.
+      #   response.should be_rjs(:update, "foo")
+      #
+      #   # Inserting into the element bar, top position.
+      #   response.should be_rjs(:insert, :top, "bar")
+      #
+      #   # Changing the element foo, with an image.
+      #   response.should be_rjs("foo") {
+      #     with_tag("img[src=/images/logo.gif"")
+      #   }
+      #
+      #   # RJS inserts or updates a list with four items.
+      #   response.should be_rjs {
+      #     with_tag("ol>li", 4)
+      #   }
+      #
+      #   # The same, but shorter.
+      #   response.should be_rjs("ol>li", 4)
       def be_rjs(*args, &block)
         args.unshift(response)
         case args.last
@@ -107,10 +182,24 @@ module Spec
         AssertSelect.new(*args, &block)
       end
       
+      # :call-seq:
+      #   with_tag(selector, equality?, message?)
+      #
+      # This is used within a block to set expectations about specific
+      # tags nested within the element selected before the block.
+      #
+      # === Example
+      #  
+      #  # Defining a login form
+      #  response.should have_tag("form[action=/login]") {
+      #    with_tag("input[type=text][name=email]")
+      #    with_tag("input[type=password][name=password]")
+      #    with_tag("input[type=submit][value=Login]")
+      #  }
       def with_tag(*args, &block)
         AssertSelect.selected.should have_tag(*args, &block)
       end
-      
+
       def with_encoded(*args, &block)
         case args.last
         when Hash

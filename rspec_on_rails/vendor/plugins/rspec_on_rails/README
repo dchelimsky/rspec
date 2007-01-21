@@ -1,13 +1,58 @@
-This directory contains the sources for RSpec on Rails,
-which is a set of extensions to RSpec to port fixtures
-and other common Rails testing features to RSpec.
+== RSpec on Rails 
 
-There is also a set of generators for setting up a Rails
-project for RSpec and generate spec skeletons.
+RSpec on Rails (a.k.a. 'spec/rails') is a Ruby on Rails plugin that allows you to drive the development
+of your RoR application using RSpec, a framework that aims to enable Behaviour Driven Development
+in Ruby.
 
-Please refer to the Documentation on the website:
+== Features
 
-http://rspec.rubyforge.org/tools/rails/
+* Use RSpec to independently specify models, views, controllers and helpers
+* Integrated fixture loading
+* Special generators for models and controllers that generate specs instead of tests.
+
+== Vision
+
+For people for whom TDD is a brand new concept, the testing support built into Ruby on Rails
+is a huge leap forward. The fact that it is built right in is fantastic, and Ruby on Rails
+apps are generally much easier to maintain than they might have been without such support.
+
+For those of us coming from a history with TDD, and now BDD, the existing support presents some problems related to dependencies across specs. To that end, RSpec on Rails supports 4 types of specs. We’ve also built in first class mocking and stubbing support in order to break dependencies across these different concerns.
+
+== Different Contexts for different Contexts
+
+RSpec on Rails supports different Context subclasses for the following types of specs:
+
+== Model Specs
+
+These are the equivalent of unit tests in Rails' built in testing. Ironically (for the traditional TDD'er) these are the only specs that we feel should actually interact with the database.
+
+See Spec::Rails::ModelContext.
+
+== Controller Specs
+
+These align somewhat with functional tests in rails, except that they do not actually render views (though you can force rendering of views if you prefer). Instead of setting expectations about what goes on a page, you set expectations about what templates get rendered.
+
+See Spec::Rails::ControllerContext.
+
+== View Specs
+
+This is the other half of Rails’’ functional testing. View specs allow you to set up assigns (thanks to ZenTest).
+
+See Spec::Rails::ViewContext.
+
+== Helper Specs
+
+... let you specify directly methods that live in your helpers.
+
+See Spec::Rails::HelperContext.
+
+== More Information
+
+Please refer to the Documentation on the website for additional information:
+
+http://rspec.rubyforge.org/documentation/rails/index.html
+
+== License
 
 RSpec on Rails is licensed under the same license as RSpec itself,
 the MIT-LICENSE. See http://rspec.rubyforge.org/license.html.
