@@ -195,7 +195,7 @@ module Spec
       # Given true, false, or nil, will pass if actual is
       # true, false or nil (respectively).
       #
-      # Given a Symbol (:sym), will send a message to actual
+      # Given a Symbol (:sym, *args), will send a message to actual
       # which is built from appending "?" to the Symbol
       #
       # == Examples 
@@ -206,9 +206,11 @@ module Spec
       #   result.should_not be(nil)
       #
       #   collection.should be(:empty) #passes if collection.empty?
+      #   collection.should be(:old_enough, 16) #passes if collection.old_enough?(16)
       #   collection.should_not be(:empty) #passes unless collection.empty?
-      def be(expected)
-        Matchers::Be.new(expected)
+      #   collection.should_not be(:old_enough, 16) #passes unless collection.old_enough?(16)
+      def be(expected, *args)
+        Matchers::Be.new(expected, *args)
       end
       
       # Given a Regexp, passes if actual =~ regexp
