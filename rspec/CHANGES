@@ -35,6 +35,10 @@ It also sports myriad bug fixes, patches and general goodness:
 * Applied [#7393] Fix for rake task (Patch from Pat Maddox)
 * Reinstated support for response.should_render (in addition to controller.should_render)
 
+== Version 0.7.5.1
+
+Bug fix release to allow downloads of rspec gem using rubygems 0.9.1.
+
 == Version 0.7.5
 This release adds support for Heckle - Seattle'rb's code mutation tool.
 There are also several bug fixes to the RSpec core and the RSpec on Rails plugin.
