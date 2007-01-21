@@ -14,7 +14,7 @@ module Spec
     # In this example, "should equal(37)" is an expectation, with "equal(37)" being
     # the ExpecationMatcher.
     #
-    # RSpec on Rails sports several matchers specifically intended to work with Rails
+    # RSpec on Rails sports several expectation matchers specifically intended to work with Rails
     # components like responses. For example:
     #
     #   response.should be_redirect #be_redirect() is the matcher.
@@ -200,6 +200,27 @@ module Spec
         AssertSelect.selected.should have_tag(*args, &block)
       end
 
+      # :call-seq:
+      #   with_encoded(element?) { |elements| ... }
+      #
+      # Extracts the content of an element, treats it as encoded HTML and runs
+      # nested assertion on it.
+      #
+      # This is intended to called within another expectation to operate on
+      # all currently selected elements.
+      #
+      # The content of each element is un-encoded, and wrapped in the root
+      # element +encoded+. It then calls the block with all un-encoded elements.
+      #
+      # === Example
+      #
+      #   response.should be_feed(:rss, 2.0) {
+      #     with_tag("channel>item>description") {
+      #       with_encoded {
+      #         with_tag("p")
+      #       }
+      #     }
+      #   }
       def with_encoded(*args, &block)
         case args.last
         when Hash
@@ -210,10 +231,48 @@ module Spec
         AssertSelect.selected.should have_tag(*args, &block)
       end
       
+      # :call-seq:
+      #   without_tag(selector, equality?, message?)
+      #
+      # This is used within a block to expect a specific tag
+      # to NOT be nested within the selected element.
+      #
+      # === Example
+      #  
+      #  # A list of users in which the logged in user can edit her own record
+      # response.should have_tag("div#users") {
+      #   with_tag("div#user_1") {
+      #     with_tag("a")
+      #   }
+      #   with_tag("div#user_2") {
+      #     #user 2 is logged in and gets a link to edit record
+      #     without_tag("a[href=/users/2;edit]")
+      #   }
+      #   with_tag("div#user_3") {
+      #     with_tag("a")
+      #   }
+      # }
       def without_tag(*args, &block)
         AssertSelect.selected.should_not have_tag(*args, &block)
       end
       
+      # :call-seq:
+      #   be_feed(type, version?) { ... }
+      #
+      # Selects root of the feed element. Calls the block for nested expectations.
+      #
+      # The feed type may be <tt>:atom</tt> or <tt>:rss</tt>. Currently supported
+      # are versions 2.0 (default) and 0.92 for RSS and versions 0.3 and 1.0 (default)
+      # for Atom.
+      #
+      # === Example
+      #
+      #   response.should be_feed(:rss, 2.0) {
+      #     with_tag("title", "My feed")
+      #     with_tag("item") { |items|
+      #       . . .
+      #     }
+      #   }
       def be_feed(*args, &block)
         args.unshift(response)
         case args.last
@@ -225,6 +284,19 @@ module Spec
         AssertSelect.new(*args, &block)
       end
       
+      # :call-seq:
+      #   send_email { }
+      #
+      # Extracts the body of an email and runs nested expectations on it.
+      #
+      # You must enable deliveries for this assertion to work, use:
+      #   ActionMailer::Base.perform_deliveries = true
+      #
+      # === Example
+      #
+      # response.should send_mail {
+      #   with_tag("h1", "Email alert")
+      #  }
       def send_email(*args, &block)
         args.unshift(response)
         case args.last

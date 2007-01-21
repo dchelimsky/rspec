@@ -254,23 +254,6 @@ module Spec
         end
 
 
-        # :call-seq:
-        #   assert_select_feed(type, version?) { ... }
-        #
-        # Selects root of the feed element. Calls the block for nested assertions.
-        #
-        # The feed type may be <tt>:atom</tt> or <tt>:rss</tt>. Currently supported
-        # are versions 2.0 (default) and 0.92 for RSS and versions 0.3 and 1.0 (default)
-        # for Atom.
-        #
-        # === Example
-        #
-        #   assert_select_feed :rss, 2.0 do
-        #     assert_select "title", "My feed"
-        #     assert_select "item" do |items|
-        #       . . .
-        #     end
-        #   end
         def assert_select_feed(type, version = nil, &block)
           root = HTML::Document.new(@response.body, true, true).root
           case [type.to_sym, version && version.to_s]
@@ -287,31 +270,6 @@ module Spec
           assert_select root, selector, &block
         end
 
-
-        # :call-seq:
-        #   assert_select_encoded(element?) { |elements| ... }
-        #
-        # Extracts the content of an element, treats it as encoded HTML and runs
-        # nested assertion on it.
-        #
-        # You typically call this method within another assertion to operate on
-        # all currently selected elements. You can also pass an element or array
-        # of elements.
-        #
-        # The content of each element is un-encoded, and wrapped in the root
-        # element +encoded+. It then calls the block with all un-encoded elements.
-        #
-        # === Example
-        #
-        #   assert_select_feed :rss, 2.0 do
-        #     # Select description element of each feed item. 
-        #     assert_select "channel>item>description" do
-        #       # Run assertions on the encoded elements.
-        #       assert_select_encoded do
-        #         assert_select "p"
-        #       end
-        #     end
-        #   end
         def assert_select_encoded(element = nil, &block)
           case element
             when Array
@@ -343,20 +301,6 @@ module Spec
           end
         end
 
-
-        # :call-seq:
-        #   assert_select_email { }
-        #
-        # Extracts the body of an email and runs nested assertions on it.
-        #
-        # You must enable deliveries for this assertion to work, use:
-        #   ActionMailer::Base.perform_deliveries = true
-        #
-        # === Example
-        #
-        # assert_select_email do
-        #   assert_select "h1", "Email alert"
-        # end
         def assert_select_email(&block)
           deliveries = ActionMailer::Base.deliveries
           return fail_with("No e-mail in delivery list") if deliveries.empty?
