@@ -1,11 +1,13 @@
 = RSpec Changelog
 
-== Version 0.8.0 (Not yet released)
+== Trunk (not yet released)
 This release improves the spec command line by adding DRb support and making it possible to
 store command line options in a file. This means a more flexible RSpec experience with Rails, 
 Rake and editor plugins like TextMate.
 
-It also introduces a new approach to handling should expectations. See SYNTAX_CHANGES.
+It also introduces a new approach to handling should expectations. See RELEASE_PLAN for more info.
+
+It also sports myriad bug fixes, patches and general goodness:
 
 * Applied [#8008] Correct generated specs for view when calling resource generator (Patch from Jonathan Tron)
 * Fixed [#7754] Command-R fails to run spec in TextMate (added instruction from Luke Redpath to the website)

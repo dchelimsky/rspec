@@ -31,6 +31,8 @@ module Spec
         should.not
       end
 
+      # Deprecated: use should have(n).items (see Spec::Expectations::Matchers)
+      #
       # Specify that the receiver should have a
       # specified number of items in a named collection. For example:
       #
@@ -44,6 +46,8 @@ module Spec
       end
       alias_method :should_have_exactly, :should_have
 
+      # Deprecated: use should have_at_least(n).items (see Spec::Expectations::Matchers)
+      #
       # Specify that the receiver should have at least a
       # specified number of items in a named collection. For example:
       #
@@ -58,6 +62,8 @@ module Spec
         should.have.at_least(expected)
       end
 
+      # Deprecated: use should have_at_most(n).items (see Spec::Expectations::Matchers)
+      #
       # Specify that the receiver should have at most a
       # specified number of items in a named collection. For example:
       #
@@ -72,10 +78,12 @@ module Spec
         should.have.at_most(expected)
       end
 
+      # Deprecated: use should be(expected) (see Spec::Expectations::Matchers)
       def should_be(expected = :___no_arg)
         should.be(expected)
       end
       
+      # Deprecated: use should_not be(expected) (see Spec::Expectations::Matchers)
       def should_not_be(expected = :___no_arg)
         should.not.be(expected)
       end

@@ -1,3 +1,6 @@
+# The following copyright applies to Object#copy_instance_variables_from,
+# which we borrowed from active_support.
+#
 # Copyright (c) 2004 David Heinemeier Hansson
 # 
 # Permission is hereby granted, free of charge, to any person obtaining
@@ -20,7 +23,7 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 class Object
   # From active_support
-  def copy_instance_variables_from(object, exclude = [])
+  def copy_instance_variables_from(object, exclude = []) # :nodoc:
     exclude += object.protected_instance_variables if object.respond_to? :protected_instance_variables
     
     instance_variables = object.instance_variables - exclude.map { |name| name.to_s }
