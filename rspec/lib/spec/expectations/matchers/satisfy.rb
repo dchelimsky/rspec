@@ -1,24 +1,26 @@
 module Spec
   module Expectations
     module Matchers
-      class Satisfy
+      
+      class Satisfy #:nodoc:
         def initialize(&block)
           @block = block
         end
         
-        def met_by?(target)
-          @target = target
-          @block.call(target)
+        def met_by?(actual)
+          @actual = actual
+          @block.call(actual)
         end
         
         def failure_message
-          "expected #{@target} to satisfy block"
+          "expected #{@actual} to satisfy block"
         end
 
         def negative_failure_message
-          "expected #{@target} to not satisfy block"
+          "expected #{@actual} to not satisfy block"
         end
       end
+      
     end
   end
 end

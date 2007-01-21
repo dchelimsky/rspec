@@ -1,25 +1,27 @@
 module Spec
   module Expectations
     module Matchers
-      class Match
+      
+      class Match #:nodoc:
         def initialize(expected)
           @expected = expected
         end
         
-        def met_by?(target)
-          @target = target
-          return true if target =~ @expected
+        def met_by?(actual)
+          @actual = actual
+          return true if actual =~ @expected
           return false
         end
         
         def failure_message
-          "expected #{@target.inspect} to match #{@expected.inspect}"
+          "expected #{@actual.inspect} to match #{@expected.inspect}"
         end
         
         def negative_failure_message
-          "expected #{@target.inspect} to not match #{@expected.inspect}"
+          "expected #{@actual.inspect} to not match #{@expected.inspect}"
         end
       end
+      
     end
   end
 end

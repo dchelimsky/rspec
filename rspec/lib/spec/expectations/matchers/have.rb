@@ -2,7 +2,7 @@ module Spec
   module Expectations
     module Matchers
       
-      class Have
+      class Have #:nodoc:
         def initialize(expected, relativity=:exactly)
           @expected = (expected == :no ? 0 : expected)
           @relativity = relativity
