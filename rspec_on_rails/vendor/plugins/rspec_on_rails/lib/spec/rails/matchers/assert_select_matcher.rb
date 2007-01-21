@@ -22,7 +22,7 @@ module Spec
           @block = block
         end
         
-        def met_by?(target)
+        def matches?(target)
           @@selected  = determine_selected(target)
           case @select_type
             when "rjs"

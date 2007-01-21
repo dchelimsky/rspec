@@ -19,8 +19,8 @@ context "have(n).items" do
     owner = create_collection_owner_with(3)
     
     #then
-    have(3).items_in_collection_with_length_method.met_by?(owner).should be(true)
-    have(3).items_in_collection_with_size_method.met_by?(owner).should be(true)
+    have(3).items_in_collection_with_length_method.matches?(owner).should be(true)
+    have(3).items_in_collection_with_size_method.matches?(owner).should be(true)
   end
 
   specify "should handle :no" do
@@ -28,8 +28,8 @@ context "have(n).items" do
     owner = create_collection_owner_with(0)
     
     #then
-    have(:no).items_in_collection_with_length_method.met_by?(owner).should be(true)
-    have(:no).items_in_collection_with_size_method.met_by?(owner).should be(true)
+    have(:no).items_in_collection_with_length_method.matches?(owner).should be(true)
+    have(:no).items_in_collection_with_size_method.matches?(owner).should be(true)
   end
 
   specify "should fail if target has a collection of items with < n members" do
@@ -37,8 +37,8 @@ context "have(n).items" do
     owner = create_collection_owner_with(3)
     
     #then
-    have(4).items_in_collection_with_length_method.met_by?(owner).should be(false)
-    have(4).items_in_collection_with_size_method.met_by?(owner).should be(false)
+    have(4).items_in_collection_with_length_method.matches?(owner).should be(false)
+    have(4).items_in_collection_with_size_method.matches?(owner).should be(false)
   end
   
   specify "should fail if target has a collection of items with > n members" do
@@ -46,8 +46,8 @@ context "have(n).items" do
     owner = create_collection_owner_with(3)
     
     #then
-    have(2).items_in_collection_with_length_method.met_by?(owner).should be(false)
-    have(2).items_in_collection_with_size_method.met_by?(owner).should be(false)
+    have(2).items_in_collection_with_length_method.matches?(owner).should be(false)
+    have(2).items_in_collection_with_size_method.matches?(owner).should be(false)
   end
   
   specify "should provide failure messages" do
@@ -57,8 +57,8 @@ context "have(n).items" do
     size_matcher = have(4).items_in_collection_with_size_method
     
     #when
-    length_matcher.met_by?(owner)
-    size_matcher.met_by?(owner)
+    length_matcher.matches?(owner)
+    size_matcher.matches?(owner)
     
     #then
     length_matcher.failure_message.should == "expected 4 items_in_collection_with_length_method, got 3"
@@ -72,8 +72,8 @@ context "have(n).items" do
     size_matcher = have(3).items_in_collection_with_size_method
     
     #when
-    length_matcher.met_by?(owner)
-    size_matcher.met_by?(owner)
+    length_matcher.matches?(owner)
+    size_matcher.matches?(owner)
     
     #then
     length_matcher.negative_failure_message.should == "expected not 3 items_in_collection_with_length_method, got 3"
@@ -89,8 +89,8 @@ context "have_exactly(n).items" do
     owner = create_collection_owner_with(3)
     
     #then
-    have_exactly(3).items_in_collection_with_length_method.met_by?(owner).should be(true)
-    have_exactly(3).items_in_collection_with_size_method.met_by?(owner).should be(true)
+    have_exactly(3).items_in_collection_with_length_method.matches?(owner).should be(true)
+    have_exactly(3).items_in_collection_with_size_method.matches?(owner).should be(true)
   end
 
   specify "should fail if target has a collection of items with < n members" do
@@ -98,8 +98,8 @@ context "have_exactly(n).items" do
     owner = create_collection_owner_with(3)
     
     #then
-    have_exactly(4).items_in_collection_with_length_method.met_by?(owner).should be(false)
-    have_exactly(4).items_in_collection_with_size_method.met_by?(owner).should be(false)
+    have_exactly(4).items_in_collection_with_length_method.matches?(owner).should be(false)
+    have_exactly(4).items_in_collection_with_size_method.matches?(owner).should be(false)
   end
   
   specify "should fail if target has a collection of items with > n members" do
@@ -107,8 +107,8 @@ context "have_exactly(n).items" do
     owner = create_collection_owner_with(3)
     
     #then
-    have_exactly(2).items_in_collection_with_length_method.met_by?(owner).should be(false)
-    have_exactly(2).items_in_collection_with_size_method.met_by?(owner).should be(false)
+    have_exactly(2).items_in_collection_with_length_method.matches?(owner).should be(false)
+    have_exactly(2).items_in_collection_with_size_method.matches?(owner).should be(false)
   end
   
   specify "should provide failure messages" do
@@ -118,8 +118,8 @@ context "have_exactly(n).items" do
     size_matcher = have_exactly(4).items_in_collection_with_size_method
     
     #when
-    length_matcher.met_by?(owner)
-    size_matcher.met_by?(owner)
+    length_matcher.matches?(owner)
+    size_matcher.matches?(owner)
     
     #then
     length_matcher.failure_message.should == "expected 4 items_in_collection_with_length_method, got 3"
@@ -133,8 +133,8 @@ context "have_exactly(n).items" do
     size_matcher = have_exactly(3).items_in_collection_with_size_method
     
     #when
-    length_matcher.met_by?(owner)
-    size_matcher.met_by?(owner)
+    length_matcher.matches?(owner)
+    size_matcher.matches?(owner)
     
     #then
     length_matcher.negative_failure_message.should == "expected not 3 items_in_collection_with_length_method, got 3"
@@ -150,8 +150,8 @@ context "have_at_least(n).items" do
     owner = create_collection_owner_with(3)
     
     #then
-    have_at_least(3).items_in_collection_with_length_method.met_by?(owner).should be(true)
-    have_at_least(3).items_in_collection_with_size_method.met_by?(owner).should be(true)
+    have_at_least(3).items_in_collection_with_length_method.matches?(owner).should be(true)
+    have_at_least(3).items_in_collection_with_size_method.matches?(owner).should be(true)
   end
 
   specify "should fail if target has a collection of items with < n members" do
@@ -159,8 +159,8 @@ context "have_at_least(n).items" do
     owner = create_collection_owner_with(3)
     
     #then
-    have_at_least(4).items_in_collection_with_length_method.met_by?(owner).should be(false)
-    have_at_least(4).items_in_collection_with_size_method.met_by?(owner).should be(false)
+    have_at_least(4).items_in_collection_with_length_method.matches?(owner).should be(false)
+    have_at_least(4).items_in_collection_with_size_method.matches?(owner).should be(false)
   end
   
   specify "should pass if target has a collection of items with > n members" do
@@ -168,8 +168,8 @@ context "have_at_least(n).items" do
     owner = create_collection_owner_with(3)
     
     #then
-    have_at_least(2).items_in_collection_with_length_method.met_by?(owner).should be(true)
-    have_at_least(2).items_in_collection_with_size_method.met_by?(owner).should be(true)
+    have_at_least(2).items_in_collection_with_length_method.matches?(owner).should be(true)
+    have_at_least(2).items_in_collection_with_size_method.matches?(owner).should be(true)
   end
   
   specify "should provide failure messages" do
@@ -179,8 +179,8 @@ context "have_at_least(n).items" do
     size_matcher = have_at_least(4).items_in_collection_with_size_method
     
     #when
-    length_matcher.met_by?(owner)
-    size_matcher.met_by?(owner)
+    length_matcher.matches?(owner)
+    size_matcher.matches?(owner)
     
     #then
     length_matcher.failure_message.should == "expected at least 4 items_in_collection_with_length_method, got 3"
@@ -194,8 +194,8 @@ context "have_at_least(n).items" do
     size_matcher = have_at_least(3).items_in_collection_with_size_method
     
     #when
-    length_matcher.met_by?(owner)
-    size_matcher.met_by?(owner)
+    length_matcher.matches?(owner)
+    size_matcher.matches?(owner)
     
     #then
     length_matcher.negative_failure_message.should == <<-EOF
@@ -224,8 +224,8 @@ context "have_at_most(n).items" do
     owner = create_collection_owner_with(3)
     
     #then
-    have_at_most(3).items_in_collection_with_length_method.met_by?(owner).should be(true)
-    have_at_most(3).items_in_collection_with_size_method.met_by?(owner).should be(true)
+    have_at_most(3).items_in_collection_with_length_method.matches?(owner).should be(true)
+    have_at_most(3).items_in_collection_with_size_method.matches?(owner).should be(true)
   end
 
   specify "should pass if target has a collection of items with < n members" do
@@ -233,8 +233,8 @@ context "have_at_most(n).items" do
     owner = create_collection_owner_with(3)
     
     #then
-    have_at_most(4).items_in_collection_with_length_method.met_by?(owner).should be(true)
-    have_at_most(4).items_in_collection_with_size_method.met_by?(owner).should be(true)
+    have_at_most(4).items_in_collection_with_length_method.matches?(owner).should be(true)
+    have_at_most(4).items_in_collection_with_size_method.matches?(owner).should be(true)
   end
   
   specify "should fail if target has a collection of items with > n members" do
@@ -242,8 +242,8 @@ context "have_at_most(n).items" do
     owner = create_collection_owner_with(3)
     
     #then
-    have_at_most(2).items_in_collection_with_length_method.met_by?(owner).should be(false)
-    have_at_most(2).items_in_collection_with_size_method.met_by?(owner).should be(false)
+    have_at_most(2).items_in_collection_with_length_method.matches?(owner).should be(false)
+    have_at_most(2).items_in_collection_with_size_method.matches?(owner).should be(false)
   end
   
   specify "should provide failure messages" do
@@ -253,8 +253,8 @@ context "have_at_most(n).items" do
     size_matcher = have_at_most(4).items_in_collection_with_size_method
     
     #when
-    length_matcher.met_by?(owner)
-    size_matcher.met_by?(owner)
+    length_matcher.matches?(owner)
+    size_matcher.matches?(owner)
     
     #then
     length_matcher.failure_message.should == "expected at most 4 items_in_collection_with_length_method, got 3"
@@ -268,8 +268,8 @@ context "have_at_most(n).items" do
     size_matcher = have_at_most(3).items_in_collection_with_size_method
     
     #when
-    length_matcher.met_by?(owner)
-    size_matcher.met_by?(owner)
+    length_matcher.matches?(owner)
+    size_matcher.matches?(owner)
     
     #then
     length_matcher.negative_failure_message.should == <<-EOF

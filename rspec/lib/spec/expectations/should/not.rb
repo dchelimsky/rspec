@@ -73,7 +73,7 @@ module Spec
 
         def method_missing(sym, *args, &block)
           if matcher.respond_to?(sym)
-            return NegativeExpectationHandler.new(@target,matcher.__send__(sym, *args))
+            return NegativeExpectationMatcherHandler.new(@target,matcher.__send__(sym, *args))
           else
             super
           end

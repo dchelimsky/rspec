@@ -8,7 +8,7 @@ module Spec
           @expected = expected
         end
         
-        def met_by?(actual)
+        def matches?(actual)
           @actual = actual
           actual.include?(@expected)
         end

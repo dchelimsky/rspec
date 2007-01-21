@@ -7,7 +7,7 @@ module Spec
           @expected = expected
           @delta = delta
         end
-        def met_by?(actual)
+        def matches?(actual)
           @actual = actual
           (@actual - @expected).abs < @delta
         end

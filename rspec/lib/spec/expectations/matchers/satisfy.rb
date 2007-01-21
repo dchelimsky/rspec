@@ -7,7 +7,7 @@ module Spec
           @block = block
         end
         
-        def met_by?(actual)
+        def matches?(actual)
           @actual = actual
           @block.call(actual)
         end
