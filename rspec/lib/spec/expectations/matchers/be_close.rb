@@ -2,7 +2,7 @@ module Spec
   module Expectations
     module Matchers
 
-      class BeClose
+      class BeClose #:nodoc:
         def initialize(expected, delta)
           @expected = expected
           @delta = delta
@@ -12,7 +12,7 @@ module Spec
           (@actual - @expected).abs < @delta
         end
         def failure_message
-          "expected #{@expected} +/- (<#{@delta}), but got #{@actual}"
+          "expected #{@expected} +/- (<#{@delta}), got #{@actual}"
         end
       end
 

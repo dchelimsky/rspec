@@ -2,28 +2,28 @@ module Spec
   module Expectations
     module Matchers
 
-      class Include
+      class Include #:nodoc:
         
         def initialize(expected)
           @expected = expected
         end
         
-        def met_by?(target)
-          @target = target
-          target.include?(@expected)
+        def met_by?(actual)
+          @actual = actual
+          actual.include?(@expected)
         end
         
         def failure_message
-          _message(true)
+          _message
         end
         
         def negative_failure_message
-          _message(false)
+          _message("not ")
         end
         
         private
-          def _message(predicate)
-            "expected #{@target.inspect} to #{predicate ? "" : "not "}include #{@expected.inspect}"
+          def _message(maybe_not="")
+            "expected #{@actual.inspect} to #{maybe_not}include #{@expected.inspect}"
           end
       end
 

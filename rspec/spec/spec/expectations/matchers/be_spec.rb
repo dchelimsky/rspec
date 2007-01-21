@@ -28,7 +28,7 @@ context "be(:sym)" do
     matcher.met_by?(target)
     
     #then
-    matcher.failure_message.should == "expected target to respond to :happy? with true"
+    matcher.failure_message.should == "expected actual.happy? to return true, got false"
   end
   
   specify "should provide negative_failure_message for :sym?" do
@@ -41,7 +41,7 @@ context "be(:sym)" do
     matcher.met_by?(target)
     
     #then
-    matcher.negative_failure_message.should == "expected target to respond to :happy? with false"
+    matcher.negative_failure_message.should == "expected actual.happy? to return false, got true"
   end
 
   specify "should explain when target does not respond to :sym?" do
@@ -53,8 +53,8 @@ context "be(:sym)" do
     matcher.met_by?(target)
     
     #then
-    matcher.failure_message.should == "target does not respond to :happy?"
-    matcher.negative_failure_message.should == "target does not respond to :happy?"
+    matcher.failure_message.should == "actual does not respond to #happy?"
+    matcher.negative_failure_message.should == "actual does not respond to #happy?"
   end
 end
 
