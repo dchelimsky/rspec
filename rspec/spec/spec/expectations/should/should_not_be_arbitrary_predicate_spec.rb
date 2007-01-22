@@ -51,7 +51,7 @@ module Spec
         specify "should raise NoMethodError when target does not respond to predicate" do
           lambda do
             5.should_not_be_funny
-          end.should_raise(NoMethodError)
+          end.should_fail
         end
 
         specify "should support multi word predicates with should" do

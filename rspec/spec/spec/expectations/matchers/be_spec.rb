@@ -14,8 +14,9 @@ context "be(:sym)" do
   end
   
   specify "should fail when actual does not respond to :sym?" do
-    actual = Object.new
-    be(:happy).matches?(actual).should equal(false)
+    lambda {
+      be(:happy).matches?(Object.new)
+    }.should_fail_with "actual does not respond to #happy?"
   end
   
   specify "should provide failure_message for :sym?" do
@@ -43,19 +44,6 @@ context "be(:sym)" do
     #then
     matcher.negative_failure_message.should == "expected actual.happy? to return false, got true"
   end
-
-  specify "should explain when actual does not respond to :sym?" do
-    #given
-    actual = Object.new
-    matcher = be(:happy)
-
-    #when
-    matcher.matches?(actual)
-    
-    #then
-    matcher.failure_message.should == "actual does not respond to #happy?"
-    matcher.negative_failure_message.should == "actual does not respond to #happy?"
-  end
 end
 
 context "be(:sym, *args)" do
@@ -72,8 +60,7 @@ context "be(:sym, *args)" do
   end
   
   specify "should fail when actual does not respond to :sym?" do
-    actual = Object.new
-    be(:happy).matches?(actual).should equal(false)
+    lambda { be(:happy, 3).matches?(Object.new) }.should_fail_with "actual does not respond to #happy?"
   end
   
   specify "should provide failure_message for :sym?(*args) with one arg" do
