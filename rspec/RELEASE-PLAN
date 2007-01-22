@@ -61,6 +61,13 @@ This change applies to all of these as well:
 
   #before
   true.should_be_arbitrary_predicate
+  true.should_be_a_arbitrary_predicate
+  true.should_be_an_arbitrary_predicate
 
   #after
-  true.should be(:arbitrary_predicate)
+  true.should be_arbitrary_predicate #still supported
+  true.should be_a_arbitrary_predicate #still supported
+  true.should be_an_arbitrary_predicate #still supported
+  true.should be(:arbitrary_predicate) #more explicit
+  true.should be_a(:arbitrary_predicate) #more explicit
+  true.should be_an(:arbitrary_predicate) #more explicit
