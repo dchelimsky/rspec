@@ -240,6 +240,21 @@ module Spec
       def satisfy(&block)
         Matchers::Satisfy.new(&block)
       end
+      
+      def method_missing(sym, *args, &block) # :nodoc:
+        if sym.to_s[0..5] == "be_an_"
+          remaining_sym = sym.to_s[6..-1].to_sym
+          be(remaining_sym, *args)
+        elsif sym.to_s[0..4] == "be_a_"
+          remaining_sym = sym.to_s[5..-1].to_sym
+          be(remaining_sym, *args)
+        elsif sym.to_s[0..2] == "be_"
+          remaining_sym = sym.to_s[3..-1].to_sym
+          be(remaining_sym, *args)
+        else
+          super
+        end
+      end
 
     end
     
