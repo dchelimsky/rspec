@@ -42,11 +42,10 @@ context "The PersonController" do
   specify "with a valid person should redirect to index on successful POST to create" do
     @person.should_receive(:new_record?).and_return(false)
     Person.should_receive(:create).with({"name" => 'Aslak'}).and_return(@person)
-    controller.should_redirect_to :action => 'index'
     
     post 'create', {:person => {:name => 'Aslak'}}
-    
-    response.should_be_redirect
+
+    response.should redirect_to(:action => 'index')
   end
   
   specify "with a valid person re-render 'person/create' on failed POST to create" do
@@ -56,7 +55,7 @@ context "The PersonController" do
     
     post 'create', {:person => {:name => 'Aslak'}}
     
-    response.should_not_be_redirect
+    response.should_not be_redirect
     assigns[:person].should == Person.new({:name => 'Aslak'})
   end
 end

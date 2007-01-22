@@ -11,19 +11,20 @@ module Spec
         def matches?(actual)
           @actual = actual
           return true if actual.equal?(@expected) unless handling_predicate?
-          return actual.__send__(predicate, *@args) if actual.respond_to?(predicate)
+          if handling_predicate?
+            Spec::Expectations.fail_with("actual does not respond to ##{predicate}") unless @actual.respond_to?(predicate)
+            return actual.__send__(predicate, *@args) if actual.respond_to?(predicate)
+          end
           return false
         end
         
         def failure_message
           return "expected #{@expected.inspect}, got #{@actual.inspect}" unless handling_predicate?
-          return "actual does not respond to ##{predicate}" unless @actual.respond_to?(predicate)
           return "expected actual.#{predicate}#{args_to_s} to return true, got false"
         end
         
         def negative_failure_message
           return "expected not #{@expected.inspect}, got #{@actual.inspect}" unless handling_predicate?
-          return "actual does not respond to ##{predicate}" unless @actual.respond_to?(predicate)
           return "expected actual.#{predicate}#{args_to_s} to return false, got true"
         end
         

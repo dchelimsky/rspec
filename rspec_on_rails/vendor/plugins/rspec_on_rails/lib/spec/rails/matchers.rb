@@ -1,5 +1,6 @@
 dir = File.dirname(__FILE__)
 require File.expand_path("#{dir}/matchers/assert_select_matcher")
+require File.expand_path("#{dir}/matchers/redirect_to")
 
 module Spec
   module Rails
@@ -306,6 +307,10 @@ module Spec
           args << {:select_type => "email"}
         end
         AssertSelect.new(*args, &block)
+      end
+      
+      def redirect_to(opts)
+        RedirectTo.new(controller, opts)
       end
     end
   end

@@ -253,7 +253,6 @@ module Spec
           end
         end
 
-
         def assert_select_feed(type, version = nil, &block)
           root = HTML::Document.new(@response.body, true, true).root
           case [type.to_sym, version && version.to_s]

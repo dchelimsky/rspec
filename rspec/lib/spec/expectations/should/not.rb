@@ -1,11 +1,17 @@
 module Spec
   module Expectations
     module Should
+      
       class Not < Base
-    
         def initialize(target)
           @target = target
           @be_seen = false
+        end
+
+        def be(expected = :no_arg)
+          @be_seen = true
+          return self if (expected == :no_arg)
+          fail_with_message(default_message("should not be", expected)) if (@target.equal?(expected))
         end
 
         def have(expected_number=nil)
@@ -16,32 +22,6 @@ module Spec
           NotChange.new(@target, receiver, message)
         end
   
-        def satisfy
-          fail_with_message "Supplied expectation was satisfied, but should not have been" if (yield @target)
-        end
-        
-        def be(expected = :no_arg)
-          @be_seen = true
-          return self if (expected == :no_arg)
-          fail_with_message(default_message("should not be", expected)) if (@target.equal?(expected))
-        end
-
-        def an_instance_of expected_class
-          fail_with_message(default_message("should not be an instance of", expected_class)) if @target.instance_of? expected_class
-        end
-    
-        def a_kind_of expected_class
-          fail_with_message(default_message("should not be a kind of", expected_class)) if @target.kind_of? expected_class
-        end
-
-        def respond_to message
-          fail_with_message(default_message("should not respond to", message)) if @target.respond_to? message
-        end
-    
-        def match(expected)
-          fail_with_message(default_message("should not match", expected)) if (@target =~ expected)
-        end
-    
         def raise(exception=Exception, message=nil)
           begin
             @target.call
@@ -70,15 +50,8 @@ module Spec
           return unless @target.__send__(actual_sym, *args)
           fail_with_message(default_message("should not#{@be_seen ? ' be' : ''} #{original_sym}" + (args.empty? ? '' : ' ' + args[0].inspect)))
         end
-
-        def method_missing(sym, *args, &block)
-          if matcher.respond_to?(sym)
-            return NegativeExpectationMatcherHandler.new(@target,matcher.__send__(sym, *args))
-          else
-            super
-          end
-        end
       end
+
     end
   end
 end

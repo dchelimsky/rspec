@@ -24,7 +24,7 @@ module Spec
           mock=HandCodedMock.new(false)
           lambda do
             mock.should_be_funny
-          end.should_fail_with /should be funny/
+          end.should_fail
         end
     
         specify "should fail when predicate returns nil" do
@@ -51,10 +51,10 @@ module Spec
           mock.__verify
         end
 
-        specify "should raise when target does not respond to predicate" do
+        specify "should fail when target does not respond to predicate" do
           lambda do
             5.should_be_funny
-          end.should_raise(NoMethodError)
+          end.should_fail
         end
 
         specify "should support multi word predicates with should" do
