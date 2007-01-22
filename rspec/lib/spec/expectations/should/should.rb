@@ -1,6 +1,7 @@
 module Spec
   module Expectations
     module Should # :nodoc:
+
       class Should < Base
 
         def initialize(target, expectation=nil)
@@ -81,7 +82,17 @@ module Spec
             fail_with_message(default_message("should throw", symbol.inspect))
           end
         end
+        
+        def method_missing(sym, *args, &block)
+          if matcher.respond_to?(sym)
+            return @target.should(matcher.__send__(sym, *args, &block))
+          else
+            super
+          end
+        end
+
       end
+
     end
   end
 end

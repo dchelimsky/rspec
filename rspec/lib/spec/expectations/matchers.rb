@@ -10,9 +10,9 @@ require 'spec/expectations/matchers/satisfy'
 module Spec
   module Expectations
     
-    # == Expectation Matchers
+    # == Spec::Expectations::Matchers
     #
-    # The Matchers module provides methods called "expectation matchers" that allow you
+    # Spec::Expectations::Matchers provides methods called "expectation matchers" that allow you
     # set expectations on objects using <code>should</code> and <code>should_not</code>.
     # For example, if you expect the value of an
     # object to be 37 after some calculation, you could say:
@@ -23,7 +23,7 @@ module Spec
     # In this example, <code>should equal(37)</code> is an expectation, with <code>equal(37)</code>
     # being the expectation matcher.
     #
-    # == How they work.
+    # == How Matchers work.
     #
     # RSpec adds two methods to Object:
     #
@@ -46,6 +46,35 @@ module Spec
     # it returns <code>false</code>, the spec passes and execution continues. If it returns
     # <code>true</code>, then <code>should_not</code> raises an ExpectationNotMetError with
     # the message returned by <code>matcher.negative_failure_message</code>
+    #
+    # == Arbitrary Predicates
+    #
+    # A Ruby predicate is a method that ends with a "?" and returns true or false.
+    # Common examples are <code>empty?</code>, <code>nil?</code>, and <code>instance_of?</code>.
+    #
+    # You can use the <code>be()</code> matcher to specify any predicate. For example:
+    #
+    #   collection.should be(:empty) #see Matchers#be
+    #   collection.should_not be(:empty) #see be
+    #   "a string".should be(:instance_of, String)
+    #   3.should be(:kind_of, Numeric)
+    #   3.should be(:instance_of, Fixnum)
+    #   3.should_not be(:instance_of, Numeric)
+    #
+    # In addition to the methods defined explicitly, RSpec will create custom matchers
+    # on the fly for any arbitrary predicate, giving your specs a much more natural
+    # language feel. 
+    #
+    # All you need to do is prefix the predicate with "be_", "be_a", or "be_an".
+    # For example:
+    #
+    #   #creates a matcher that delegates to be(:empty)
+    #   collection.should be_empty
+    #   collection.should_not be_empty
+    #
+    #   #creates a matcher that delegates to be(:instance_of, String)
+    #   "a string".should be_an_instance_of(String)
+    #   3.should_not be_an_instance_of(Numeric)
     #
     # == Custom Expectation Matchers
     #
@@ -192,23 +221,29 @@ module Spec
         Matchers::Include.new(expected)
       end
       
+      # :call-seq:
+      #   be(true)
+      #   be(false)
+      #   be(nil)
+      #   be(:sym, *args)
+      #
       # Given true, false, or nil, will pass if actual is
       # true, false or nil (respectively).
       #
-      # Given a Symbol (:sym, *args), will send a message to actual
+      # Given a Symbol, will send a message to actual
       # which is built from appending "?" to the Symbol
       #
       # == Examples 
       #
-      #   result.should be(true)
-      #   result.should be(false)
-      #   result.should be(nil)
-      #   result.should_not be(nil)
+      #   target.should be(true)
+      #   target.should be(false)
+      #   target.should be(nil)
+      #   target.should_not be(nil)
       #
-      #   collection.should be(:empty) #passes if collection.empty?
-      #   collection.should be(:old_enough, 16) #passes if collection.old_enough?(16)
-      #   collection.should_not be(:empty) #passes unless collection.empty?
-      #   collection.should_not be(:old_enough, 16) #passes unless collection.old_enough?(16)
+      #   target.should be(:empty) #passes if target.empty?
+      #   target.should be(:old_enough, 16) #passes if target.old_enough?(16)
+      #   target.should_not be(:empty) #passes unless target.empty?
+      #   target.should_not be(:old_enough, 16) #passes unless target.old_enough?(16)
       def be(expected, *args)
         Matchers::Be.new(expected, *args)
       end
