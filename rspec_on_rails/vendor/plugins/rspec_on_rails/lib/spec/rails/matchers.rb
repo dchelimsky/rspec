@@ -1,6 +1,7 @@
 dir = File.dirname(__FILE__)
 require File.expand_path("#{dir}/matchers/assert_select")
 require File.expand_path("#{dir}/matchers/redirect_to")
+require File.expand_path("#{dir}/matchers/render")
 
 module Spec
   module Rails
@@ -19,6 +20,18 @@ module Spec
     # components like responses. For example:
     #
     #   response.should be_redirect #be_redirect() is the matcher.
+    #
+    # == Isolation and Integration modes
+    #
+    # RSpec on Rails lets you run your controller specs in isolation or integration modes.
+    # In isolation mode, no templates are rendered. In fact, they are not even used at all.
+    # This allows you to spec your controllers even when there are no templates present.
+    #
+    # Isolation mode is somewhat risky unless you are also doing some sort of integration
+    # testing.
+    #
+    # In integration mode, controller specs work just like rails functional tests, invoking
+    # the views as expected.
     module Matchers
       # :call-seq:
       #   have_tag(selector, equality?, message?)
@@ -309,8 +322,46 @@ module Spec
         AssertSelect.new(*args, &block)
       end
       
+      # :call-seq:
+      #
+      #   redirect_to(url)
+      #   redirect_to(:action => action_name)
+      #   redirect_to(:controller => controller_name, :action => action_name)
+      #
+      # Passes if the response is a redirect to the url, action or controller/action.
+      # Useful in controller specs (integration or isolation mode).
+      #
+      # == Examples
+      #
+      #   response.should redirect_to("path/to/action")
+      #   response.should redirect_to("http://test.host/path/to/action")
+      #   response.should redirect_to(:action => 'list')
       def redirect_to(opts)
         RedirectTo.new(request, opts)
+      end
+      
+      # Passes if the specified template is rendered by the response.
+      # Useful in controller specs (integration or isolation mode).
+      #
+      # <code>path</code> can include the controller path or not.
+      #
+      # == Examples
+      #
+      #   response.should render_template('index')
+      #   response.should render_template('same_controller/index')
+      #   response.should render_template('other_controller/index')
+      def render_template(path)
+        RenderTemplate.new(path.to_s)
+      end
+      
+      # Passes if the specified text is rendered by the response.
+      # Useful in controller specs (integration or isolation mode).
+      #
+      # == Examples
+      #
+      #   response.should render_text("This is the expected text")
+      def render_text(text)
+        RenderText.new(text)
       end
     end
   end
