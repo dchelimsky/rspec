@@ -63,7 +63,7 @@ If your own project is in Subversion and you'd like RSpec on Rails to always fol
 
 <pre>
 ruby script/plugin install -x svn://rubyforge.org/var/svn/rspec/trunk/rspec
-ruby script/plugin install -x svn://rubyforge.org/var/svn/rspec/trunk/rspec_on_rails/vendor/plugin/rspec_on_rails
+ruby script/plugin install -x svn://rubyforge.org/var/svn/rspec/trunk/rspec_on_rails/vendor/plugins/rspec_on_rails
 </pre>
 
 As noted above, if you want to use the <tt>spec</tt> command directly (as opposed to the spec:* tasks), you must type
