@@ -12,6 +12,11 @@ require File.dirname(__FILE__) + '/../spec_helper'
       response.should redirect_to(:action => 'somewhere')
     end
     
+    specify "redirected to another controller and action" do
+      get 'action_with_redirect_to_other_somewhere'
+      response.should redirect_to(:controller => 'other', :action => 'somewhere')
+    end
+    
     specify "redirected to another action (with 'and return')" do
       get 'action_with_redirect_to_somewhere_and_return'
       response.should redirect_to(:action => 'somewhere')
@@ -119,7 +124,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
     specify "no redirect at all" do
       get 'action_with_no_redirect'
       lambda {
-        response.should redirect_to :action => 'nowhere'
+        response.should redirect_to(:action => 'nowhere')
       }.should_fail_with "expected redirect to {:action=>\"nowhere\"}, got no redirect"
     end
   
