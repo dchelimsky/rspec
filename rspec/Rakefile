@@ -7,11 +7,11 @@ require 'rake/rdoctask'
 require 'spec/version'
 
 # Some of the tasks are in separate files since they are also part of the website documentation
-load File.dirname(__FILE__) + '/tasks/examples.rake'
-load File.dirname(__FILE__) + '/tasks/examples_specdoc.rake'
-load File.dirname(__FILE__) + '/tasks/examples_with_rcov.rake'
-load File.dirname(__FILE__) + '/tasks/failing_examples_with_html.rake'
-load File.dirname(__FILE__) + '/tasks/verify_rcov.rake'
+load File.dirname(__FILE__) + '/rake_tasks/examples.rake'
+load File.dirname(__FILE__) + '/rake_tasks/examples_specdoc.rake'
+load File.dirname(__FILE__) + '/rake_tasks/examples_with_rcov.rake'
+load File.dirname(__FILE__) + '/rake_tasks/failing_examples_with_html.rake'
+load File.dirname(__FILE__) + '/rake_tasks/verify_rcov.rake'
 
 PKG_NAME = "rspec"
 PKG_VERSION   = Spec::VERSION::STRING
