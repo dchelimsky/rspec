@@ -19,7 +19,8 @@ context "/<%= table_name %>/edit.rhtml" do
     render "/<%= table_name %>/edit.rhtml"
     response.should_have_tag 'form', :attributes =>{:action => <%= file_name %>_path(@<%= file_name %>), :method => 'post'}
 <% for attribute in attributes -%><% unless attribute.name =~ /_id/ || [:datetime, :timestamp, :time, :date].index(attribute.type) -%>
-    response.should_have_tag 'input', :attributes =>{:name => '<%= file_name %>[<%= attribute.name %>]'}<% end -%><% end -%>
+    response.should_have_tag '<%= attribute.input_type -%>', :attributes =>{:name => '<%= file_name %>[<%= attribute.name %>]'}<% end -%><% end -%>
   end
 end
+
 

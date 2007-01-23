@@ -121,6 +121,14 @@ module Rails
             ""
         end      
       end
+
+      def input_type
+        @input_type ||= case type
+          when :text                        then "textarea"
+          else
+            "input"
+        end      
+      end
     end
   end
 end

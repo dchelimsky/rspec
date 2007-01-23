@@ -42,31 +42,31 @@ namespace :spec do
   
   desc "Run the specs under spec/models"
   Spec::Rake::SpecTask.new(:models => "db:test:prepare") do |t|
-    t.spec_opts = ['--options', "#{RAILS_ROOT}/spec/spec.opts"]
+    t.spec_opts = ['--options', "\"#{RAILS_ROOT}/spec/spec.opts\""]
     t.spec_files = FileList['spec/models/**/*_spec.rb']
   end
 
   desc "Run the specs under spec/controllers"
   Spec::Rake::SpecTask.new(:controllers => "db:test:prepare") do |t|
-    t.spec_opts = ['--options', "#{RAILS_ROOT}/spec/spec.opts"]
+    t.spec_opts = ['--options', "\"#{RAILS_ROOT}/spec/spec.opts\""]
     t.spec_files = FileList['spec/controllers/**/*_spec.rb']
   end
   
   desc "Run the specs under spec/views"
   Spec::Rake::SpecTask.new(:views => "db:test:prepare") do |t|
-    t.spec_opts = ['--options', "#{RAILS_ROOT}/spec/spec.opts"]
+    t.spec_opts = ['--options', "\"#{RAILS_ROOT}/spec/spec.opts\""]
     t.spec_files = FileList['spec/views/**/*_spec.rb']
   end
   
   desc "Run the specs under spec/helpers"
   Spec::Rake::SpecTask.new(:helpers => "db:test:prepare") do |t|
-    t.spec_opts = ['--options', "#{RAILS_ROOT}/spec/spec.opts"]
+    t.spec_opts = ['--options', "\"#{RAILS_ROOT}/spec/spec.opts\""]
     t.spec_files = FileList['spec/helpers/**/*_spec.rb']
   end
   
   desc "Run the specs under vendor/plugins"
   Spec::Rake::SpecTask.new(:plugins => "db:test:prepare") do |t|
-    t.spec_opts = ['--options', "#{RAILS_ROOT}/spec/spec.opts"]
+    t.spec_opts = ['--options', "\"#{RAILS_ROOT}/spec/spec.opts\""]
     t.spec_files = FileList['vendor/plugins/**/spec/**/*_spec.rb']
   end
 

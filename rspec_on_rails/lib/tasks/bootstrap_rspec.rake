@@ -83,7 +83,7 @@ EOF
 
   desc "Generates temporary purchase files with rspec_resource"
   task :generate_purchase do
-    generator = "ruby script/generate rspec_resource purchase order_id:integer created_at:datetime amount:decimal --force"
+    generator = "ruby script/generate rspec_resource purchase order_id:integer created_at:datetime amount:decimal type:string description:text --force"
     puts <<EOF
 #####################################################
 #{generator}
