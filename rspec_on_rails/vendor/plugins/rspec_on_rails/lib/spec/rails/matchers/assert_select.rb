@@ -7,11 +7,12 @@
 # Developed for http://co.mments.com
 # Code and documention: http://labnotes.org
 
-
 module Spec
   module Rails
     module Matchers
+      
       class AssertSelect  #:nodoc:
+
         cattr_accessor :selected
         attr_reader :failure_message, :negative_failure_message
         
@@ -414,7 +415,8 @@ module Spec
             end
           end
 
-      end
+        end
+      
     end
   end
 end

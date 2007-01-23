@@ -1,5 +1,5 @@
 dir = File.dirname(__FILE__)
-require File.expand_path("#{dir}/matchers/assert_select_matcher")
+require File.expand_path("#{dir}/matchers/assert_select")
 require File.expand_path("#{dir}/matchers/redirect_to")
 
 module Spec
@@ -310,7 +310,7 @@ module Spec
       end
       
       def redirect_to(opts)
-        RedirectTo.new(controller, opts)
+        RedirectTo.new(request, opts)
       end
     end
   end
