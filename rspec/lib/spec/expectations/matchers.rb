@@ -5,7 +5,9 @@ require 'spec/expectations/matchers/equal'
 require 'spec/expectations/matchers/have'
 require 'spec/expectations/matchers/include'
 require 'spec/expectations/matchers/match'
+require 'spec/expectations/matchers/raise_error'
 require 'spec/expectations/matchers/satisfy'
+require 'spec/expectations/matchers/throw_symbol'
 
 module Spec
   module Expectations
@@ -274,6 +276,40 @@ module Spec
       #   }
       def satisfy(&block)
         Matchers::Satisfy.new(&block)
+      end
+      
+      # :call-seq:
+      #
+      #   raise_error()
+      #   raise_error(NamedError)
+      #   raise_error(NamedError, expected_message)
+      #
+      # With no args, matches if any error is raised.
+      # With a named error, matches only if that specific error is raised.
+      # With a named error and messsage specified, matches only if both match.
+      #
+      # == Examples
+      #
+      #   lambda { do_something_risky }.should raise_error
+      #   lambda { do_something_risky }.should raise_error(TooRiskyError)
+      #   lambda { do_something_risky }.should raise_error(TooRiskyError, "that was too risky")
+      #
+      #   lambda { do_something_risky }.should_not raise_error
+      #   lambda { do_something_risky }.should_not raise_error(TooRiskyError)
+      #   lambda { do_something_risky }.should_not raise_error(TooRiskyError, "that was too risky")
+      def raise_error(error=Exception, message=nil)
+        Matchers::RaiseError.new(error, message)
+      end
+      
+      # Matches if a proc throws the specified Symbol
+      #
+      # == Examples
+      #
+      #   lambda { do_something_risky }.should throw_symbol(:that_was_risky)
+      #
+      #   lambda { do_something_risky }.should_not throw_symbol(:that_was_risky)
+      def throw_symbol(sym=nil)
+        Matchers::ThrowSymbol.new(sym)
       end
       
       def method_missing(sym, *args, &block) # :nodoc:
