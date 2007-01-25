@@ -3,20 +3,22 @@ module Spec
     module Should
       class Base
         
-        def <(expected)
-          __delegate_method_missing_to_target "<", "<", expected
-        end
-        
-        def <=(expected)
-          __delegate_method_missing_to_target "<=", "<=", expected
-        end
-        
+        #== and =~ will stay after the new syntax
         def ==(expected)
           __delegate_method_missing_to_target "==", "==", expected
         end
         
         def =~(expected)
           __delegate_method_missing_to_target "=~", "=~", expected
+        end
+        
+        #<, <=, >=, > are all implemented in Spec::Expectations::Matchers::Be
+        def <(expected)
+          __delegate_method_missing_to_target "<", "<", expected
+        end
+        
+        def <=(expected)
+          __delegate_method_missing_to_target "<=", "<=", expected
         end
         
         def >=(expected)

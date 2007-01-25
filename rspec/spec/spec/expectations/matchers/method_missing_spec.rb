@@ -22,6 +22,13 @@ context "Spec::Expectations::Matchers#method_missing behaviour" do
     lambda {3.should_not be_an_instance_of(Fixnum)}.should_fail_with "expected actual.instance_of?(Fixnum) to return false, got true"
   end
   
+  specify "should infer boolean from be_true and be_false" do
+    true.should be_true
+    false.should be_false
+    lambda { true.should be_false }.should_fail_with "expected false, got true"
+    lambda { false.should be_true }.should_fail_with "expected true, got false"
+  end
+  
   specify "should respond_to? anything starting w/ be_" do
     be_xyz
     be_a_xyz

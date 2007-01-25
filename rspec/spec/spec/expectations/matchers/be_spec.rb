@@ -1,21 +1,21 @@
 require File.dirname(__FILE__) + '/../../../spec_helper.rb'
 
-context "be(:sym)" do
+context "be(:sym?)" do
   specify "should pass when actual returns true for :sym?" do
     actual = mock("actual")
     actual.should_receive(:happy?).and_return(true)
-    be(:happy).matches?(actual).should equal(true)
+    be(:happy?).matches?(actual).should equal(true)
   end
 
   specify "should fail when actual returns false for :sym?" do
     actual = mock("actual")
     actual.should_receive(:happy?).and_return(false)
-    be(:happy).matches?(actual).should equal(false)
+    be(:happy?).matches?(actual).should equal(false)
   end
   
   specify "should fail when actual does not respond to :sym?" do
     lambda {
-      be(:happy).matches?(Object.new)
+      be(:happy?).matches?(Object.new)
     }.should_fail_with "actual does not respond to #happy?"
   end
   
@@ -23,7 +23,7 @@ context "be(:sym)" do
     #given
     actual = mock("actual")
     actual.should_receive(:happy?).and_return(false)
-    matcher = be(:happy)
+    matcher = be(:happy?)
 
     #when
     matcher.matches?(actual)
@@ -36,7 +36,7 @@ context "be(:sym)" do
     #given
     actual = mock("actual")
     actual.should_receive(:happy?).and_return(true)
-    matcher = be(:happy)
+    matcher = be(:happy?)
 
     #when
     matcher.matches?(actual)
@@ -50,24 +50,24 @@ context "be(:sym, *args)" do
   specify "should pass when actual returns true for :sym?(*args)" do
     actual = mock("actual")
     actual.should_receive(:older_than?).with(3).and_return(true)
-    be(:older_than, 3).matches?(actual).should equal(true)
+    be(:older_than?, 3).matches?(actual).should equal(true)
   end
 
   specify "should fail when actual returns false for :sym?(*args)" do
     actual = mock("actual")
     actual.should_receive(:older_than?).with(3).and_return(false)
-    be(:older_than, 3).matches?(actual).should equal(false)
+    be(:older_than?, 3).matches?(actual).should equal(false)
   end
   
   specify "should fail when actual does not respond to :sym?" do
-    lambda { be(:happy, 3).matches?(Object.new) }.should_fail_with "actual does not respond to #happy?"
+    lambda { be(:happy?, 3).matches?(Object.new) }.should_fail_with "actual does not respond to #happy?"
   end
   
   specify "should provide failure_message for :sym?(*args) with one arg" do
     #given
     actual = mock("actual")
     actual.should_receive(:older_than?).with(3).and_return(false)
-    matcher = be(:older_than, 3)
+    matcher = be(:older_than?, 3)
   
     #when
     matcher.matches?(actual)
@@ -80,7 +80,7 @@ context "be(:sym, *args)" do
     #given
     actual = mock("actual")
     actual.should_receive(:ok_with?).with(3, "a", obj = Object.new).and_return(false)
-    matcher = be(:ok_with, 3, "a", obj)
+    matcher = be(:ok_with?, 3, "a", obj)
   
     #when
     matcher.matches?(actual)
@@ -93,7 +93,7 @@ context "be(:sym, *args)" do
     #given
     actual = mock("actual")
     actual.should_receive(:older_than?).with(3).and_return(true)
-    matcher = be(:older_than, 3)
+    matcher = be(:older_than?, 3)
   
     #when
     matcher.matches?(actual)
@@ -106,7 +106,7 @@ context "be(:sym, *args)" do
     #given
     actual = mock("actual")
     actual.should_receive(:ok_with?).with(3, "a", obj = Object.new).and_return(false)
-    matcher = be(:ok_with, 3, "a", obj)
+    matcher = be(:ok_with?, 3, "a", obj)
   
     #when
     matcher.matches?(actual)
@@ -114,21 +114,19 @@ context "be(:sym, *args)" do
     #then
     matcher.negative_failure_message.should =~ /expected actual.ok_with\?\(3, \"a\", #<Object:.*>\) to return false, got true/
   end
-  
-
 end
 
-context "be(true)" do
+context "be(:true?)" do
   specify "should pass when actual equal(true)" do
-    be(true).matches?(true).should equal(true)
+    be(:true?).matches?(true).should equal(true)
   end
 
   specify "should fail when actual equal(false)" do
-    be(true).matches?(false).should equal(false)
+    be(:true?).matches?(false).should equal(false)
   end
   
   specify "should provide failure_message" do
-    matcher = be(true)
+    matcher = be(:true?)
     
     matcher.matches?(false)
     
@@ -136,7 +134,7 @@ context "be(true)" do
   end
   
   specify "should provide negative_failure_message" do
-    matcher = be(true)
+    matcher = be(:true?)
     
     matcher.matches?(true)
     
@@ -144,17 +142,17 @@ context "be(true)" do
   end
 end
 
-context "be(false)" do
+context "be(:false?)" do
   specify "should pass when actual equal(false)" do
-    be(false).matches?(false).should equal(true)
+    be(:false?).matches?(false).should equal(true)
   end
 
   specify "should fail when actual equal(true)" do
-    be(false).matches?(true).should equal(false)
+    be(:false?).matches?(true).should equal(false)
   end
   
   specify "should provide failure_message" do
-    matcher = be(false)
+    matcher = be(:false?)
     
     matcher.matches?(true)
     
@@ -162,7 +160,7 @@ context "be(false)" do
   end
   
   specify "should provide negative_failure_message" do
-    matcher = be(false)
+    matcher = be(:false?)
     
     matcher.matches?(false)
     
@@ -195,3 +193,47 @@ context "be(nil)" do
     matcher.negative_failure_message.should == "expected not nil, got nil"
   end
 end
+
+context "should be <" do
+  specify "should pass when < operator returns true" do
+    3.should be < 4
+  end
+
+  specify "should fail when < operator returns false" do
+    lambda { 3.should be < 3 }.should_fail_with "expected < 3, got 3"
+  end
+end
+
+context "should be <=" do
+  specify "should pass when <= operator returns true" do
+    3.should be <= 4
+    4.should be <= 4
+  end
+
+  specify "should fail when <= operator returns false" do
+    lambda { 3.should be <= 2 }.should_fail_with "expected <= 2, got 3"
+  end
+end
+
+context "should be >=" do
+  specify "should pass when >= operator returns true" do
+    4.should be >= 4
+    5.should be >= 4
+  end
+
+  specify "should fail when >= operator returns false" do
+    lambda { 3.should be >= 4 }.should_fail_with "expected >= 4, got 3"
+  end
+end
+
+context "should be >" do
+  specify "should pass when > operator returns true" do
+    5.should be > 4
+  end
+
+  specify "should fail when > operator returns false" do
+    lambda { 3.should be > 4 }.should_fail_with "expected > 4, got 3"
+  end
+end
+
+

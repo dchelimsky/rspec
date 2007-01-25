@@ -8,7 +8,7 @@ context "The Person model with fixtures loaded" do
   end
 
   specify "should have a non-empty collection of people" do
-    Person.find(:all).should_not be(:empty)
+    Person.find(:all).should_not be_empty
   end
 
   specify "should have one record" do
@@ -42,12 +42,12 @@ context "A new Person with a name" do
   end
 
   specify "should be valid" do
-    @person.should be(:valid)
+    @person.should be_valid
   end
 
   specify "should have no errors after save" do
     @person.save.should_be true
-    @person.errors.should be(:empty)
+    @person.errors.should be_empty
   end
 end
 

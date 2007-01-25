@@ -9,28 +9,43 @@ module Spec
         
         def matches?(proc)
           begin
-            catch @expected do
-              proc.call
-              return false
+            proc.call
+          rescue NameError => e
+            @actual = extract_sym_from_name_error(e)
+          ensure
+            if @expected.nil?
+              return @actual.nil? ? false : true
+            else
+              return @actual == @expected
             end
-          rescue => e
-            @actual = e
-            return false
           end
-          return true
         end
 
         def failure_message
           if @actual
-            "expected #{@expected.inspect} thrown, got #{@actual.inspect}"
+            "expected #{expected} thrown, got #{@actual.inspect}"
           else
-            "expected #{@expected.inspect} thrown but nothing was thrown"
+            "expected #{expected} thrown but nothing was thrown"
           end
         end
         
         def negative_failure_message
-          "expected #{@expected.inspect} to not be thrown, but it was"
+          if @expected
+            "expected #{expected} to not be thrown, but it was"
+          else
+            "expected no Symbol thrown, got :#{@actual}"
+          end
         end
+        
+        private
+        
+          def expected
+            @expected.nil? ? "a Symbol" : @expected.inspect
+          end
+        
+          def extract_sym_from_name_error(error)
+            return :"#{error.message.split("`").last.split("'").first}"
+          end
       end
    
     end

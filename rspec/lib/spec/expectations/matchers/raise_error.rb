@@ -16,11 +16,20 @@ module Spec
           rescue @expected_error => @actual_error
             if @expected_message.nil?
               @raised_expected_error = true
-            else @expected_message.nil?
-              if @actual_error.message == @expected_message
-                @raised_expected_error = true
+            else
+              case @expected_message
+              when Regexp
+                if @expected_message =~ @actual_error.message
+                  @raised_expected_error = true
+                else
+                  @raised_other = true
+                end
               else
-                @raised_other = true
+                if @actual_error.message == @expected_message
+                  @raised_expected_error = true
+                else
+                  @raised_other = true
+                end
               end
             end
           rescue => @actual_error
@@ -40,7 +49,14 @@ module Spec
         
         private
           def expected_error
-            @expected_message.nil? ? @expected_error : "#{@expected_error} with #{@expected_message.inspect}"
+            case @expected_message
+            when nil
+              @expected_error
+            when Regexp
+              "RuntimeError with message matching #{@expected_message.inspect}"
+            else
+              "#{@expected_error} with #{@expected_message.inspect}"
+            end
           end
 
           def actual_error
