@@ -54,14 +54,15 @@ module Spec
     # A Ruby predicate is a method that ends with a "?" and returns true or false.
     # Common examples are <code>empty?</code>, <code>nil?</code>, and <code>instance_of?</code>.
     #
-    # You can use the <code>be()</code> matcher to specify any predicate. For example:
+    # RSpec uses a be() matcher and method_missing to support any arb
+    # You can use the <code>be</code> matcher to specify any predicate. For example:
     #
-    #   collection.should be(:empty) #see Matchers#be
-    #   collection.should_not be(:empty) #see be
-    #   "a string".should be(:instance_of, String)
-    #   3.should be(:kind_of, Numeric)
-    #   3.should be(:instance_of, Fixnum)
-    #   3.should_not be(:instance_of, Numeric)
+    #   collection.should be_empty
+    #   collection.should_not be_empty
+    #   "a string".should be_an_instance_of(String)
+    #   3.should be_a_kind_of(Numeric)
+    #   3.should be_an_instance_of(Fixnum)
+    #   3.should_not be_instance_of(Numeric)
     #
     # In addition to the methods defined explicitly, RSpec will create custom matchers
     # on the fly for any arbitrary predicate, giving your specs a much more natural
@@ -224,29 +225,35 @@ module Spec
       end
       
       # :call-seq:
-      #   be(true)
-      #   be(false)
-      #   be(nil)
-      #   be(:sym, *args)
+      #   be_true
+      #   be_false
+      #   be_nil
+      #   be_arbitrary_predicate(*args)
       #
       # Given true, false, or nil, will pass if actual is
       # true, false or nil (respectively).
       #
-      # Given a Symbol, will send a message to actual
-      # which is built from appending "?" to the Symbol
+      # Predicates are any Ruby method that ends in a "?" and returns true or false.
+      # Given be_ followed by arbitrary_predicate (without the "?"), RSpec will match
+      # convert that into a query against the target object.
+      #
+      # The arbitrary_predicate feature will handle any predicate
+      # prefixed with "be_an_" (e.g. be_an_instance_of), "be_a_" (e.g. be_a_kind_of)
+      # or "be_" (e.g. be_empty), letting you choose the prefix that best suits the predicate.
       #
       # == Examples 
       #
-      #   target.should be(true)
-      #   target.should be(false)
-      #   target.should be(nil)
-      #   target.should_not be(nil)
+      #   target.should be_true
+      #   target.should be_false
+      #   target.should be_nil
+      #   target.should_not be_nil
       #
-      #   target.should be(:empty) #passes if target.empty?
-      #   target.should be(:old_enough, 16) #passes if target.old_enough?(16)
-      #   target.should_not be(:empty) #passes unless target.empty?
-      #   target.should_not be(:old_enough, 16) #passes unless target.old_enough?(16)
-      def be(expected, *args)
+      #   collection.should be_empty #passes if target.empty?
+      #   "this string".should be_an_intance_of(String)
+      #
+      #   target.should_not be_empty #passes unless target.empty?
+      #   target.should_not be_old_enough(16) #passes unless target.old_enough?(16)
+      def be(expected=nil, *args)
         Matchers::Be.new(expected, *args)
       end
       
@@ -282,49 +289,61 @@ module Spec
       #
       #   raise_error()
       #   raise_error(NamedError)
-      #   raise_error(NamedError, expected_message)
+      #   raise_error(NamedError, String)
+      #   raise_error(NamedError, Regexp)
       #
       # With no args, matches if any error is raised.
       # With a named error, matches only if that specific error is raised.
-      # With a named error and messsage specified, matches only if both match.
+      # With a named error and messsage specified as a String, matches only if both match.
+      # With a named error and messsage specified as a Regexp, matches only if both match.
       #
       # == Examples
       #
       #   lambda { do_something_risky }.should raise_error
-      #   lambda { do_something_risky }.should raise_error(TooRiskyError)
-      #   lambda { do_something_risky }.should raise_error(TooRiskyError, "that was too risky")
+      #   lambda { do_something_risky }.should raise_error(PoorRiskDecisionError)
+      #   lambda { do_something_risky }.should raise_error(PoorRiskDecisionError, "that was too risky")
+      #   lambda { do_something_risky }.should raise_error(PoorRiskDecisionError, /oo ri/)
       #
       #   lambda { do_something_risky }.should_not raise_error
-      #   lambda { do_something_risky }.should_not raise_error(TooRiskyError)
-      #   lambda { do_something_risky }.should_not raise_error(TooRiskyError, "that was too risky")
+      #   lambda { do_something_risky }.should_not raise_error(PoorRiskDecisionError)
+      #   lambda { do_something_risky }.should_not raise_error(PoorRiskDecisionError, "that was too risky")
+      #   lambda { do_something_risky }.should_not raise_error(PoorRiskDecisionError, /oo ri/)
       def raise_error(error=Exception, message=nil)
         Matchers::RaiseError.new(error, message)
       end
       
-      # Matches if a proc throws the specified Symbol
+      # :call-seq:
+      #   throw_symbol()
+      #   throw_symbol(:sym)
+      #
+      # Given a Symbol argument, matches if a proc throws the specified Symbol.
+      #
+      # Given no argument, matches if a proc throws any Symbol.
       #
       # == Examples
       #
+      #   lambda { do_something_risky }.should throw_symbol
       #   lambda { do_something_risky }.should throw_symbol(:that_was_risky)
       #
+      #   lambda { do_something_risky }.should_not throw_symbol
       #   lambda { do_something_risky }.should_not throw_symbol(:that_was_risky)
       def throw_symbol(sym=nil)
         Matchers::ThrowSymbol.new(sym)
       end
       
       def method_missing(sym, *args, &block) # :nodoc:
-        if sym.to_s[0..5] == "be_an_"
-          remaining_sym = sym.to_s[6..-1].to_sym
-          be(remaining_sym, *args)
-        elsif sym.to_s[0..4] == "be_a_"
-          remaining_sym = sym.to_s[5..-1].to_sym
-          be(remaining_sym, *args)
-        elsif sym.to_s[0..2] == "be_"
-          remaining_sym = sym.to_s[3..-1].to_sym
-          be(remaining_sym, *args)
-        else
-          super
+        prefixes = ["be_an_","be_a_","be_"].each do |prefix|
+          return be(make_predicate(prefix, sym), *args) if starts_with(sym, prefix)
         end
+        super
+      end
+      
+      def starts_with(sym, prefix)
+        sym.to_s[0..(prefix.length - 1)] == prefix
+      end
+      
+      def make_predicate(what_to_chop, sym)
+        "#{sym.to_s[what_to_chop.length..-1]}?".to_sym
       end
 
     end

@@ -42,7 +42,7 @@ context "Requesting /<%= table_name %> using GET" do
   
   specify "should be successful" do
     do_get
-    response.should be(:success)
+    response.should be_success
   end
 
   specify "should render index.rhtml" do
@@ -78,7 +78,7 @@ context "Requesting /<%= table_name %>.xml using GET" do
   
   specify "should be successful" do
     do_get
-    response.should be(:success)
+    response.should be_success
   end
 
   specify "should find all <%= table_name %>" do
@@ -107,7 +107,7 @@ context "Requesting /<%= table_name %>/1 using GET" do
 
   specify "should be successful" do
     do_get
-    response.should be(:success)
+    response.should be_success
   end
   
   specify "should render show.rhtml" do
@@ -142,7 +142,7 @@ context "Requesting /<%= table_name %>/1.xml using GET" do
 
   specify "should be successful" do
     do_get
-    response.should be(:success)
+    response.should be_success
   end
   
   specify "should find the <%= class_name.underscore %> requested" do
@@ -171,7 +171,7 @@ context "Requesting /<%= table_name %>/new using GET" do
 
   specify "should be successful" do
     do_get
-    response.should be(:success)
+    response.should be_success
   end
   
   specify "should render new.rhtml" do
@@ -209,7 +209,7 @@ context "Requesting /<%= table_name %>/1;edit using GET" do
 
   specify "should be successful" do
     do_get
-    response.should be(:success)
+    response.should be_success
   end
   
   specify "should render edit.rhtml" do
@@ -249,8 +249,7 @@ context "Requesting /<%= table_name %> using POST" do
 
   specify "should redirect to the new <%= class_name.underscore %>" do
     do_post
-    response.should be(:redirect)
-    response.redirect_url.should == "http://test.host/<%= table_name %>/1"
+    response.should redirect_to("http://test.host/<%= table_name %>/1")
   end
 end
 
@@ -285,7 +284,7 @@ context "Requesting /<%= table_name %>/1 using PUT" do
 
   specify "should redirect to the <%= class_name.underscore %>" do
     do_update
-    response.should be(:redirect)
+    response.should be_redirect
     response.redirect_url.should == "http://test.host/<%= table_name %>/1"
   end
 end
@@ -314,7 +313,6 @@ context "Requesting /<%= table_name %>/1 using DELETE" do
   
   specify "should redirect to the <%= table_name %> list" do
     do_delete
-    response.should be(:redirect)
-    response.redirect_url.should == "http://test.host/<%= table_name %>"
+    response.should redirect_to("http://test.host/<%= table_name %>")
   end
 end

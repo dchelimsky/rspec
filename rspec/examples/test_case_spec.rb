@@ -43,18 +43,18 @@ context "RSpec should integrate with Test::Unit::TestCase" do
   end
 
   specify "TestCase#setup should be called." do
-    @test_case_setup_called.should be(true)
-    @rspec_setup_called.should be(true)
+    @test_case_setup_called.should be_true
+    @rspec_setup_called.should be_true
   end
 
   specify "RSpec should be able to access TestCase methods" do
     helper_method
-    @helper_method_called.should be(true)
+    @helper_method_called.should be_true
   end
 
   specify "RSpec should be able to accept included modules" do
     random_task
-    @random_task_called.should be(true)
+    @random_task_called.should be_true
   end
   
   teardown do

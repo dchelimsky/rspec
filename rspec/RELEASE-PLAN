@@ -1,4 +1,4 @@
-Beginning with 0.7.6, RSpec is moving towards a new syntax using expectation matchers
+Beginning with 0.8.0, RSpec is moving towards a new syntax using expectation matchers
 instead of adding expectations directly to Object. We'll still be adding a few methods
 to Object, but it will be much less invasive, and will eliminate conflicts with
 other tools and frameworks that utilize method_missing to perform magic.
@@ -7,7 +7,6 @@ For more information on expectation matchers, see the rdoc for Spec::Expectation
 
 Our plan is as follows:
 
-* release 0.7.6 with partial support for expectation matchers
 * release 0.8.0 with:
   - full support for expectation matchers
   - a translation tool that will convert the majority of your specs from the old syntax to the new syntax
@@ -65,9 +64,40 @@ This change applies to all of these as well:
   true.should_be_an_arbitrary_predicate
 
   #after
-  true.should be_arbitrary_predicate #still supported
-  true.should be_a_arbitrary_predicate #still supported
-  true.should be_an_arbitrary_predicate #still supported
-  true.should be(:arbitrary_predicate) #more explicit
-  true.should be_a(:arbitrary_predicate) #more explicit
-  true.should be_an(:arbitrary_predicate) #more explicit
+  true.should be_arbitrary_predicate
+  true.should be_a_arbitrary_predicate
+  true.should be_an_arbitrary_predicate
+
+== should_be with comparison operators
+
+  #before
+  5.should_be > 3
+  4.should_be >= 4
+  4.should_be <= 4
+  4.should_be < 4
+
+  #before
+  5.should be > 3
+  4.should be >= 4
+  4.should be <= 4
+  4.should be < 4
+  
+== should ==
+
+  #before
+  actual.should == expected
+  actual.should_not == expected
+  
+  #after - exactly the same
+  actual.should == expected
+  actual.should_not == expected
+
+== should =~
+
+  #before
+  actual.should =~ regexp
+  actual.should_not =~ regexp
+
+  #after - exactly the same
+  actual.should =~ regexp
+  actual.should_not =~ regexp

@@ -91,7 +91,7 @@ context "proc.should raise_error(NamedError)" do
   
 end
 
-context "proc.should raise_error(NamedError, error_message)" do
+context "proc.should raise_error(NamedError, error_message) with String" do
   specify "should match if named error is raised with same message" do
     block = lambda { raise "example message" }
     raise_error(RuntimeError, "example message").matches?(block).should be(true)
@@ -159,6 +159,79 @@ context "proc.should raise_error(NamedError, error_message)" do
     
     #then
     matcher.negative_failure_message.should =~ /expected no RuntimeError with \"expected message\", got #<RuntimeError: expected message/
+  end
+  
+end
+
+
+context "proc.should raise_error(NamedError, error_message) with Regex" do
+  specify "should match if named error is raised with same message" do
+    block = lambda { raise "example message" }
+    raise_error(RuntimeError, /ample mess/).matches?(block).should be(true)
+  end
+  
+  specify "should not match if nothing is raised" do
+    block = lambda {}
+    raise_error(RuntimeError, /ample mess/).matches?(block).should be(false)
+  end
+  
+  specify "should not match if incorrect error is raised" do
+    block = lambda { raise }
+    raise_error(NameError, /ample mess/).matches?(block).should be(false)
+  end
+  
+  specify "should not match if correct error is raised with incorrect message" do
+    block = lambda { raise RuntimeError.new("example message") }
+    raise_error(RuntimeError, /wrong example/).matches?(block).should be(false)
+  end
+  
+  specify "should provide failure messsage when no error is raised" do
+    #given
+    proc = lambda {}
+    matcher = raise_error(RuntimeError, /x-peck-did/)
+    
+    #when
+    matcher.matches?(proc)
+    
+    #then
+    matcher.failure_message.should == "expected RuntimeError with message matching /x-peck-did/ but nothing was raised"
+  end
+  
+  specify "should provide failure messsage when wrong error is raised" do
+    #given
+    proc = lambda { non_existent_method }
+    matcher = raise_error(RuntimeError, /x-peck-did/)
+    
+    #when
+    matcher.matches?(proc)
+    
+    #then
+    matcher.failure_message.should =~ /expected RuntimeError with message matching \/x-peck-did\/, got #<NameError: undefined/
+  end
+  
+  specify "should provide failure messsage when wrong message is raised" do
+    #given
+    proc = lambda { raise RuntimeError.new("expected") }
+    matcher = raise_error(RuntimeError, /x-peck-did/)
+    
+    #when
+    matcher.matches?(proc)
+    
+    #then
+    matcher.failure_message.should =~ /expected RuntimeError with message matching \/x-peck-did\/, got #<RuntimeError: expected/
+  end
+  
+  
+  specify "should provide negative failure messsage when correct error is raised with correct message" do
+    #given
+    proc = lambda { raise RuntimeError.new("expected message") }
+    matcher = raise_error(RuntimeError, /expected message/)
+    
+    #when
+    matcher.matches?(proc)
+    
+    #then
+    matcher.negative_failure_message.should == "expected no RuntimeError with message matching /expected message/, got #<RuntimeError: expected message>"
   end
   
 end

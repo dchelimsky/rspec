@@ -5,7 +5,7 @@ context "Given a generated <%= class_name.underscore %>_controller_spec.rb" do
   controller_name '<%= class_name.underscore %>'
   
   specify "the controller should be a<%= class_name =~ /A|E|I|O|U/ ? 'n' : ''%> <%= class_name %>Controller" do
-    controller.should_be_an_instance_of <%= class_name %>Controller
+    controller.should be_an_instance_of(<%= class_name %>Controller)
   end
 end
 
@@ -16,7 +16,7 @@ context "Given a<%= class_name =~ /A|E|I|O|U/ ? 'n' : ''%> <%= class_name %>Cont
 
   specify "GET '<%= action %>' should be successful" do
     get '<%= action %>'
-    response.should be(:success)
+    response.should be_success
   end
 <% end -%>
 end
