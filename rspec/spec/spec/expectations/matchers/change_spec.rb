@@ -24,6 +24,23 @@ context "should change(actual, message)" do
   end
 end
 
+context "should_not change(actual, message)" do
+  setup do
+    @instance = SomethingExpected.new
+    @instance.some_value = 5
+  end
+
+  specify "should pass when actual is not modified by the block" do
+    lambda { }.should_not change(@instance, :some_value)
+  end
+
+  specify "should fail when actual is not modified by the block" do
+    lambda do
+      lambda {@instance.some_value = 6}.should_not change(@instance, :some_value)
+    end.should_fail_with "some_value should not have changed, but did change from 5 to 6"
+  end
+end
+
 context "should change { block }" do
   setup do
     @instance = SomethingExpected.new
@@ -38,6 +55,23 @@ context "should change { block }" do
     lambda do
       lambda {}.should change{ @instance.some_value }
     end.should_fail_with "result should have changed, but is still 5"
+  end
+end
+
+context "should_not change { block }" do
+  setup do
+    @instance = SomethingExpected.new
+    @instance.some_value = 5
+  end
+
+  specify "should pass when actual is modified by the block" do
+    lambda {}.should_not change{ @instance.some_value }
+  end
+
+  specify "should fail when actual is not modified by the block" do
+    lambda do
+      lambda {@instance.some_value = 6}.should_not change { @instance.some_value }
+    end.should_fail_with "result should not have changed, but did change from 5 to 6"
   end
 end
 

@@ -47,6 +47,7 @@ module Spec
         end
         
         def negative_failure_message
+          "#{result} should not have changed, but did change from #{@before.inspect} to #{@after.inspect}"
         end
         
         def by(amount)
