@@ -1,5 +1,6 @@
 require 'spec/expectations/matchers/be'
 require 'spec/expectations/matchers/be_close'
+require 'spec/expectations/matchers/change'
 require 'spec/expectations/matchers/eql'
 require 'spec/expectations/matchers/equal'
 require 'spec/expectations/matchers/have'
@@ -329,6 +330,10 @@ module Spec
       #   lambda { do_something_risky }.should_not throw_symbol(:that_was_risky)
       def throw_symbol(sym=nil)
         Matchers::ThrowSymbol.new(sym)
+      end
+      
+      def change(target=nil, message=nil, &block)
+        Matchers::Change.new(target, message, &block)
       end
       
       def method_missing(sym, *args, &block) # :nodoc:

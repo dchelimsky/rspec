@@ -41,10 +41,6 @@ end
 context "ExpectationMatcherHandler behaviour" do
   include ExampleExpectations
   
-  setup do
-    Spec::Expectations::Matcher.__send__ :include, ExampleExpectations
-  end
-  
   specify "should handle submitted args" do
     5.should arbitrary_matcher(:expected => 5)
     5.should arbitrary_matcher(:expected => "wrong").with(5)
