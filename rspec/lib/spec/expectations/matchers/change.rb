@@ -1,4 +1,4 @@
-#Based on patch from 
+#Based on patch from Wilson Bilkovich
 
 module Spec
   module Expectations
