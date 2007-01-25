@@ -9,24 +9,29 @@ module Spec
           @be_seen = false
         end
         
+        #Gone for 0.9
         def not
           Not.new(@target)
         end
             
+        #Gone for 0.9
         def be(expected = :___no_arg)
           @be_seen = true
           return self if (expected == :___no_arg)
           fail_with_message(default_message("should be", expected)) unless (@target.equal?(expected))
         end
 
+        #Gone for 0.9
         def have(expected_number=nil)
           Have.new(@target, :exactly, expected_number)
         end
 
+        #Gone for 0.9
         def change(receiver=nil, message=nil, &block)
           Change.new(@target, receiver, message, &block)
         end
 
+        #Gone for 0.9
         def raise(exception=Exception, message=nil)
           begin
             @target.call
@@ -45,6 +50,7 @@ module Spec
           fail_with_message("#{default_message("should raise", exception)} but raised nothing")
         end
   
+        #Gone for 0.9
         def throw(symbol)
           begin
             catch symbol do
