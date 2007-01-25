@@ -2,26 +2,30 @@ module Spec
   module Expectations
     module Should
       
-      class Not < Base
+      class Not < Base #:nodoc:
         def initialize(target)
           @target = target
           @be_seen = false
         end
 
+        #Gone for 0.9
         def be(expected = :no_arg)
           @be_seen = true
           return self if (expected == :no_arg)
           fail_with_message(default_message("should not be", expected)) if (@target.equal?(expected))
         end
 
+        #Gone for 0.9
         def have(expected_number=nil)
           NotHave.new(@target, :exactly, expected_number)
         end
 
+        #Gone for 0.9
         def change(receiver, message)
           NotChange.new(@target, receiver, message)
         end
   
+        #Gone for 0.9
         def raise(exception=Exception, message=nil)
           begin
             @target.call
@@ -34,6 +38,7 @@ module Spec
           end
         end
     
+        #Gone for 0.9
         def throw(symbol=:___this_is_a_symbol_that_will_likely_never_occur___)
           begin
             catch symbol do
