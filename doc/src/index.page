@@ -2,7 +2,7 @@
 title: Overview 
 --- 
 
-h2. Behaviour Driven Development 
+h2. Behaviour Driven Development
 
 Test Driven Development (TDD) has you define the behaviour of your system by
 writing small tests that precisely define some small piece of your system's
@@ -47,18 +47,18 @@ the greater Chicago area, allowing them to explore some ideas resulting in the t
 Aslak joined in and the three rewrote the higher level syntax and the core, reworking RSpec into what you see now:
 
 <ruby>
-context "BDD framework" do
+context "Behaviour Definition Framework" do
 
   setup do
-    @bdd_framework = BddFramework.new
+    @bd_framework = BehaviourDefinitionFramework.new
   end
 
   specify "should be adopted quickly" do
-    @bdd_framework.should_be_adopted_quickly
+    @bd_framework.should be_adopted_quickly
   end
   
   specify "should be intuitive" do
-    @bdd_framework.should_be_intuitive
+    @bd_framework.should be_intuitive
   end
 
 end
