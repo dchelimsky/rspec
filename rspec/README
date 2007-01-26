@@ -1,30 +1,31 @@
 == RSpec
 
-RSpec is a framework for developing ruby applications using Behaviour Driven Development.
+RSpec is a Behaviour Definition Framework, which you can use to write executable
+examples of the expected behaviour of an application (OK, tests).
 
 == Expectations
 
-RSpec adds expectation methods to every object, with specific types of expectations
-set on specific classes. For example ...
+RSpec adds two methods to every object: <code>should</code> and <code>should_not</code>,
+each of which takes an expectation matcher. RSpec
+provides a collection of useful matchers, as well as a simple mechanism for writing your
+own custom matchers. Here are a couple of examples, but see Spec::Expectations::Matchers
+for more detail:
 
-<code>
-@message = "some message"
-@message.should == "some message"
-</code>
+  @message = "some message"
+  @message.should == "some message"
 
-... will be available on every object, whereas ...
+== Installation
 
-<code>
-proc { @number = @number + 1 }.should_change{ @number }.by(1)
-</code>
+The simplest approach is to install the gem:
 
-... will only be available for proc objects.
-
-See Spec::Expectations for details on the different expectations you can set.
+  gem install -r rspec #mac users must sudo
 
 == Building the RSpec gem
-rake gem
-gem install pkg/rspec-0.x.x.gem (you may have to sudo)
+If you prefer to build the gem locally, check out source from svn://rubyforge.org/var/svn/rspec/trunk. Then
+do the following:
+
+  rake gem
+  gem install pkg/rspec-0.x.x.gem (you may have to sudo)
 
 == Running the specs ==
 In order to run RSpec's full suite of specs (rake pre_commit) you must install the following gems:

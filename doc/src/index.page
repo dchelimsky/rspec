@@ -32,7 +32,7 @@ was the first BDD framework to support this new thinking.
 
 h2. RSpec
 
-RSpec is a framework for practicing __Behaviour Driven Development__ (BDD) in Ruby.
+RSpec is a __Behaviour Definition Framework__ well suited for practicing __Behaviour Driven Development__ (BDD) in Ruby.
 
 It all started with a blogpost 
 ("A New Look at Test Driven Development":http://blog.daveastels.com/articles/2005/07/05/a-new-look-at-test-driven-development) 
