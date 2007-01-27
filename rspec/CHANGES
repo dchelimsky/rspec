@@ -7,8 +7,9 @@ Rake and editor plugins like TextMate.
 
 It also introduces a new approach to handling should expectations. See RELEASE-PLAN for more info.
 
-It also sports myriad bug fixes, patches and general goodness:
+It also sports myriad new features, bug fixes, patches and general goodness:
 
+* Applied [#8216] shortcut for creating object stub
 * Applied [#8008] Correct generated specs for view when calling resource generator (Patch from Jonathan Tron)
 * Fixed [#7754] Command-R fails to run spec in TextMate (added instruction from Luke Redpath to the website)
 * Fixed [#7826] RSpect.tmbundle web page out of date.
