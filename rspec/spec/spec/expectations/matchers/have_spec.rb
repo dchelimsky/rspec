@@ -289,3 +289,18 @@ We recommend that you use this instead:
 EOF
   end
 end
+
+context "have(n).items(args, block)" do
+  specify "should pass args to target" do
+    target = mock("target")
+    target.should_receive(:items).with("arg1","arg2").and_return([1,2,3])
+    target.should have(3).items("arg1","arg2")
+  end
+
+  specify "should pass block to target" do
+    target = mock("target")
+    block = lambda { 5 }
+    target.should_receive(:items).with("arg1","arg2", block).and_return([1,2,3])
+    target.should have(3).items("arg1","arg2", block)
+  end
+end

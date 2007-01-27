@@ -18,11 +18,13 @@ module Spec
       
         def method_missing(sym, *args, &block)
           @sym = sym
+          @args = args
+          @block = block
           self
         end
       
         def matches?(collection_owner)
-          collection = collection_owner.send @sym
+          collection = collection_owner.send(@sym, *@args, &@block)
           @actual = collection.length if collection.respond_to?(:length)
           @actual = collection.size if collection.respond_to?(:size)
           return @actual >= @expected if @relativity == :at_least
