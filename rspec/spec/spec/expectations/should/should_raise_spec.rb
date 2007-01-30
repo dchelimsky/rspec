@@ -20,7 +20,7 @@ context "should_raise" do
   specify "should fail when no exception is raised" do
     lambda do
       lambda {}.should_raise(SyntaxError)
-    end.should_raise(Spec::Expectations::ExpectationNotMetError, /<Proc.*> should raise SyntaxError but raised nothing/)
+    end.should_raise(Spec::Expectations::ExpectationNotMetError, "expected SyntaxError, but nothing was raised")
   end
 
   specify "should fail when wrong exception is raised" do
@@ -28,7 +28,7 @@ context "should_raise" do
       lambda do
         "".nonexistent_method
       end.should_raise(SyntaxError)
-    end.should_raise(Spec::Expectations::ExpectationNotMetError, /<Proc.*> should raise SyntaxError but raised #<NoMethodError: undefined method `nonexistent_method' for \"\":String>/)
+    end.should_raise(Spec::Expectations::ExpectationNotMetError, /expected SyntaxError, got #<NoMethodError: undefined method/)
   end
 
   specify "should pass when exact exception is raised" do

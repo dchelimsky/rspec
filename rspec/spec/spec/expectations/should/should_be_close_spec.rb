@@ -10,7 +10,7 @@ context "should_be_close" do
   end
 
   specify "should raise when values are outside bounds" do
-    lambda { 3.5.should_be_close(3.0, 0.5) }.should_fail
+    lambda { 3.5.should_be_close(3.0, 0.5) }.should_fail_with "expected 3.0 +/- (<0.5), got 3.5"
     lambda { 3.5.should_be_close(2.0, 0.5) }.should_fail
     lambda { 3.5.should_be_close(3.0, 0.5) }.should_fail
     lambda { 3.5.should_be_close(4.0, 0.5) }.should_fail

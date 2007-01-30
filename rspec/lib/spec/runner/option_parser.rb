@@ -21,7 +21,7 @@ module Spec
         # this doesn't really belong here.
         # it should, but the way things are coupled, it doesn't
         if options.differ_class
-          Spec::Expectations::Should::Base.differ = options.differ_class.new(options.diff_format, options.context_lines, options.colour)
+          Spec::Expectations.differ = options.differ_class.new(options.diff_format, options.context_lines, options.colour)
         end
 
         unless options.generate
@@ -46,7 +46,6 @@ module Spec
                                            "Builtin formats: unified|u|context|c",
                                            "You can also specify a custom differ class",
                                            "(in which case you should also specify --require)") do |format|
-            require 'spec/expectations/diff'  # patches in diff extension
 
             # TODO make context_lines settable
             options.context_lines = 3

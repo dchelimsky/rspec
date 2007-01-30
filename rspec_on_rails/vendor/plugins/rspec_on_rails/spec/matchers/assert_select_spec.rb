@@ -173,8 +173,7 @@ context "should have_tag", :context_type => :controller do
       response.should have_tag("div#?", /\d+/) { |elements|
         elements.size.should == 3
       }
-    }.should_raise SpecFailed, "2 should == 3"
-    #TODO - this should be a better message like "expected 3, got 2 (using ==)"
+    }.should_raise SpecFailed, "expected 3, got 2 (using ==)"
 
     response.should have_tag("div") {
       response.should have_tag("div#?", /\d+/) { |elements|
