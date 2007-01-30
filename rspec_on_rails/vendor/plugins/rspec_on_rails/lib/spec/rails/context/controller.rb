@@ -60,6 +60,8 @@ module Spec
         @_response || @response
       end
       
+      # Deprecated - gone for 9.0
+      # Use response.should render_template or response.should render_text #see Spec::Rails::Matchers
       def should_render(expected)
         if expected.is_a?(Symbol) || expected.is_a?(String)
           expected = {:template => "#{controller_path}/#{expected}"}
@@ -70,14 +72,20 @@ module Spec
       #backwards compatibility to RSpec 0.7.0-0.7.2
       alias_method :should_have_rendered, :should_render
 
+      # Deprecated - gone for 9.0
+      # Use response.should be_rjs #see Spec::Rails::Matchers
       def should_render_rjs(element, *opts)
         render_matcher.should_render_rjs(element, *opts)
       end
 
+      # Deprecated - gone for 9.0
+      # Use response.should_not be_rjs #see Spec::Rails::Matchers
       def should_not_render_rjs(element, *opts)
         render_matcher.should_not_render_rjs(element, *opts)
       end
       
+      # Deprecated - gone for 9.0
+      # Use response.should redirect_to #see Spec::Rails::Matchers
       def should_redirect_to(opts)
         redirect_matcher.set_expected(opts)
       end

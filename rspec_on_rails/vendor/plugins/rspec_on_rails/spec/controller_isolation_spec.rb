@@ -4,15 +4,15 @@ context "a controller spec running in isolation mode", :context_type => :control
   controller_name :controller_isolation_spec
   
   specify "should not care if the template doesn't exist" do
-    controller.should_render :template => "/file/that/does/not/actually/exist"
     get 'some_action'
     response.should be_success
+    response.should render_template("/file/that/does/not/actually/exist")
   end
   
   specify "should not care if the template has errors" do
-    controller.should_render :template => "controller_isolation_spec/action_with_errors_in_template"
     get 'action_with_errors_in_template'
     response.should be_success
+    response.should render_template("controller_isolation_spec/action_with_errors_in_template")
   end
   
   specify "should not create any templates" do

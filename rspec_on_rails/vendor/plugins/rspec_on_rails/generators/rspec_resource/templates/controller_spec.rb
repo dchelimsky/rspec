@@ -46,8 +46,8 @@ context "Requesting /<%= table_name %> using GET" do
   end
 
   specify "should render index.rhtml" do
-    controller.should_render :index
     do_get
+    response.should render_template(:index)
   end
   
   specify "should find all <%= table_name %>" do
@@ -86,7 +86,7 @@ context "Requesting /<%= table_name %>.xml using GET" do
     do_get
   end
   
-  specify "should render the found <%= table_name %> as xml" do
+  specify "should_render the found <%= table_name %> as xml" do
     @mock_<%= table_name %>.should_receive(:to_xml).and_return("XML")
     do_get
     response.body.should == "XML"
@@ -111,8 +111,8 @@ context "Requesting /<%= table_name %>/1 using GET" do
   end
   
   specify "should render show.rhtml" do
-    controller.should_render :show
     do_get
+    response.should render_template(:show)
   end
   
   specify "should find the <%= class_name.underscore %> requested" do
@@ -150,7 +150,7 @@ context "Requesting /<%= table_name %>/1.xml using GET" do
     do_get
   end
   
-  specify "should render the found <%= class_name.underscore %> as xml" do
+  specify "should_render the found <%= class_name.underscore %> as xml" do
     @mock_<%= class_name.underscore %>.should_receive(:to_xml).and_return("XML")
     do_get
     response.body.should == "XML"
@@ -175,8 +175,8 @@ context "Requesting /<%= table_name %>/new using GET" do
   end
   
   specify "should render new.rhtml" do
-    controller.should_render :new
     do_get
+    response.should render_template(:new)
   end
   
   specify "should create an new <%= class_name.underscore %>" do
@@ -214,7 +214,7 @@ context "Requesting /<%= table_name %>/1;edit using GET" do
   
   specify "should render edit.rhtml" do
     do_get
-    controller.should_render :edit
+    response.should render_template(:edit)
   end
   
   specify "should find the <%= class_name.underscore %> requested" do
@@ -234,7 +234,7 @@ context "Requesting /<%= table_name %> using POST" do
   setup do
     @mock_<%= class_name.underscore %> = mock('<%= class_name %>')
     @mock_<%= class_name.underscore %>.stub!(:save).and_return(true)
-    @mock_<%= class_name.underscore %>.stub!(:to_param).and_return(1)
+    @mock_<%= class_name.underscore %>.stub!(:to_param).and_return("1")
     <%= class_name %>.stub!(:new).and_return(@mock_<%= class_name.underscore %>)
   end
   
@@ -258,7 +258,7 @@ context "Requesting /<%= table_name %>/1 using PUT" do
 
   setup do
     @mock_<%= class_name.underscore %> = mock('<%= class_name %>', :null_object => true)
-    @mock_<%= class_name.underscore %>.stub!(:to_param).and_return(1)
+    @mock_<%= class_name.underscore %>.stub!(:to_param).and_return("1")
     <%= class_name %>.stub!(:find).and_return(@mock_<%= class_name.underscore %>)
   end
   
@@ -274,18 +274,17 @@ context "Requesting /<%= table_name %>/1 using PUT" do
   specify "should update the found <%= class_name.underscore %>" do
     @mock_<%= class_name.underscore %>.should_receive(:update_attributes)
     do_update
-    assigns(:<%= class_name.underscore %>).should equal(@mock_<%= class_name.underscore %>)
+    assigns[:<%= class_name.underscore %>].should equal(@mock_<%= class_name.underscore %>)
   end
 
   specify "should assign the found <%= class_name.underscore %> for the view" do
     do_update
-    assigns(:<%= class_name.underscore %>).should equal(@mock_<%= class_name.underscore %>)
+    assigns[:<%= class_name.underscore %>].should equal(@mock_<%= class_name.underscore %>)
   end
 
   specify "should redirect to the <%= class_name.underscore %>" do
     do_update
-    response.should be_redirect
-    response.redirect_url.should == "http://test.host/<%= table_name %>/1"
+    response.should redirect_to "http://test.host/<%= table_name %>/1"
   end
 end
 
