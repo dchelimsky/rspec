@@ -10,6 +10,7 @@ It also introduces a new approach to handling should expectations. See RELEASE-P
 It also sports myriad new features, bug fixes, patches and general goodness:
 
 * Added mock_model method to RSpec on Rails, which stubs common methods. Based on http://metaclass.org/2006/12/22/making-a-mockery-of-activerecord
+* Fixed [#8165] Partial Mock Errors when respond_to? is true but the method is not in the object
 * Fixed [#7611] Partial Mocks override Subclass methods
 * Fixed [#8302] Strange side effect when mocking a class method
 * Applied [#8316] to_param should return a stringified key in resource generator's controller spec (Patch from Chris Anderson)
