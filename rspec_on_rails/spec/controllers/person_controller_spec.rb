@@ -29,8 +29,8 @@ context "The PersonController" do
   end
   
   specify "should render 'person/create' on GET to create" do
-    controller.should_render :create
     get 'create'
+    response.should render_template(:create)
   end
   
   specify "should tell the Person model to create a new person on POST to create" do
@@ -51,10 +51,10 @@ context "The PersonController" do
   specify "with a valid person re-render 'person/create' on failed POST to create" do
     @person.should_receive(:new_record?).and_return(true)
     Person.should_receive(:create).with({"name" => 'Aslak'}).and_return(@person)
-    controller.should_render :template => "person/create"
     
     post 'create', {:person => {:name => 'Aslak'}}
     
+    response.should render_template("person/create")
     response.should_not be_redirect
     assigns[:person].should == Person.new({:name => 'Aslak'})
   end
@@ -72,7 +72,7 @@ context "When requesting /person with controller isolated from views" do
   end
 
   specify "the response should render 'list'" do
-    controller.should_render :list
+    response.should render_template(:list)
   end
 
   specify "should find all people on GET to index" do
@@ -95,12 +95,12 @@ context "When requesting /person with views integrated" do
   end
   
   specify "the response should render 'list'" do
-    controller.should_render :list
+    response.should render_template(:list)
   end
 
   specify "the response should not render 'index'" do
     lambda {
-      controller.should_render :index
+      response.should render_template(:index)
     }.should_raise
   end
 
