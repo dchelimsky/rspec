@@ -2,7 +2,6 @@ require 'stringio'
 $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
 require 'spec'
 require File.dirname(__FILE__) + '/../spec/spec/spec_classes'
-require 'spec/expectations/diff'
 
 class Proc
   def should_fail

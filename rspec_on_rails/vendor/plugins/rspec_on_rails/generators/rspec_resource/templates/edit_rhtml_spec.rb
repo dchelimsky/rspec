@@ -7,9 +7,7 @@ context "/<%= table_name %>/edit.rhtml" do
     @errors = mock("errors")
     @errors.stub!(:count).and_return(0)
 
-    @<%= file_name %> = mock("<%= file_name %>")
-    @<%= file_name %>.stub!(:to_param).and_return("99")
-    @<%= file_name %>.stub!(:errors).and_return(@errors)<% for attribute in attributes -%>
+    @<%= file_name %> = mock_model(<%= class_name %>, :errors => @errors)<% for attribute in attributes -%>
     @<%= file_name %>.stub!(:<%= attribute.name %>).and_return(<%= attribute.default_value %>)<% end -%>
 
     assigns[:<%= file_name %>] = @<%= file_name %>
