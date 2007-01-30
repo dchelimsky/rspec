@@ -56,7 +56,7 @@ module Spec
         specify "should raise when expecting more than actual size" do
           lambda do
             @owner.should_have(4).items_in_collection_with_size_method
-          end.should_fail
+          end.should_fail_with "expected 4 items_in_collection_with_size_method (has 3)"
         end
       end
     end

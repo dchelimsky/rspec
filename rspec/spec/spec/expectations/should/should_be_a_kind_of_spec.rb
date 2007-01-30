@@ -4,7 +4,7 @@ context "should_be_a_kind_of" do
   specify "should fail when target is not specified class" do
     lambda do
       5.should_be_a_kind_of(String)
-    end.should_fail_with "expected actual.kind_of?(String) to return true, got false"
+    end.should_fail_with "expected kind_of?(String) to return true, got false"
   end
 
   specify "should pass when target is of specified class" do

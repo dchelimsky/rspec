@@ -17,7 +17,7 @@ module Spec
         end
 
         def negative_failure_message
-          "expected #{@actual} to not satisfy block"
+          "expected #{@actual} not to satisfy block"
         end
       end
       

@@ -23,7 +23,7 @@ module Spec
         
         private
           def _message(maybe_not="")
-            "expected #{@actual.inspect} to #{maybe_not}include #{@expected.inspect}"
+            "expected #{@actual.inspect} #{maybe_not}to include #{@expected.inspect}"
           end
       end
 

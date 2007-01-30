@@ -22,7 +22,7 @@ module Spec
           elsif @item_handler.wants_to_handle(sym)
             @item_handler.handle_message(sym, *args)
           else
-            raise NoMethodError.new("#{@target.inspect} does not respond to `#{sym}' or `has_#{sym}?'")
+            raise NoMethodError.new("target does not respond to `#{sym}' or `has_#{sym}?'")
           end
         end
       end
@@ -72,7 +72,7 @@ module Spec
         end
 
         def build_message(sym, args)
-          message = "#{@target.inspect} should have"
+          message = "expected"
           message += " at least" if @at_least
           message += " at most" if @at_most
           message += " #{@expected} #{sym} (has #{actual_size_of(collection(sym, args))})"

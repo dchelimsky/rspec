@@ -16,6 +16,6 @@ context "should_have_key" do
   specify "should fail when target does not respond to has_key?" do
     lambda do
       Object.new.should_have_key("b")
-    end.should_raise NoMethodError, /#<Object:.*> does not respond to `key' or `has_key\?'/
+    end.should_raise NoMethodError, /target does not respond to `key' or `has_key\?'/
   end
 end

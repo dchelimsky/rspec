@@ -18,7 +18,7 @@ module Spec
         end
         
         def negative_failure_message
-          "expected #{@actual.inspect} to not match #{@expected.inspect}"
+          "expected #{@actual.inspect} not to match #{@expected.inspect}"
         end
       end
       

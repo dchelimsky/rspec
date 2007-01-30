@@ -13,7 +13,7 @@ module Spec
           @actual = actual
           return true if match_or_compare unless handling_predicate?
           if handling_predicate?
-            Spec::Expectations.fail_with("actual does not respond to ##{predicate}") unless @actual.respond_to?(predicate)
+            Spec::Expectations.fail_with("target does not respond to ##{predicate}") unless @actual.respond_to?(predicate)
             return actual.__send__(predicate, *@args) if actual.respond_to?(predicate)
           end
           return false
@@ -21,12 +21,12 @@ module Spec
         
         def failure_message
           return "expected #{@comparison}#{expected}, got #{@actual.inspect}" unless handling_predicate?
-          return "expected actual.#{predicate}#{args_to_s} to return true, got false"
+          return "expected #{predicate}#{args_to_s} to return true, got false"
         end
         
         def negative_failure_message
           return "expected not #{expected}, got #{@actual.inspect}" unless handling_predicate?
-          return "expected actual.#{predicate}#{args_to_s} to return false, got true"
+          return "expected #{predicate}#{args_to_s} to return false, got true"
         end
         
         def expected
