@@ -9,6 +9,7 @@ It also introduces a new approach to handling should expectations. See RELEASE-P
 
 It also sports myriad new features, bug fixes, patches and general goodness:
 
+* Applied [#8316] to_param should return a stringified key in resource generator's controller spec (Patch from Chris Anderson)
 * Applied [#8216] shortcut for creating object stub
 * Applied [#8008] Correct generated specs for view when calling resource generator (Patch from Jonathan Tron)
 * Fixed [#7754] Command-R fails to run spec in TextMate (added instruction from Luke Redpath to the website)

@@ -32,6 +32,8 @@ h3. RSpec!
 
 In alphabetical order (by last name)
 
+* Chris Anderson
+** Patch to return strings in response to :to_param (in generated controller/view specs)
 * Wilson Bilkovich
 ** lambda {...}.should_change(obj, :message)
 ** ar_subclass.should_have(n).errors_on(:attribute)
