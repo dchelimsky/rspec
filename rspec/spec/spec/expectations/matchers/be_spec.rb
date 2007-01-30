@@ -16,7 +16,7 @@ context "be(:sym?)" do
   specify "should fail when actual does not respond to :sym?" do
     lambda {
       be(:happy?).matches?(Object.new)
-    }.should_fail_with "actual does not respond to #happy?"
+    }.should_fail_with "target does not respond to #happy?"
   end
   
   specify "should provide failure_message for :sym?" do
@@ -29,7 +29,7 @@ context "be(:sym?)" do
     matcher.matches?(actual)
     
     #then
-    matcher.failure_message.should == "expected actual.happy? to return true, got false"
+    matcher.failure_message.should == "expected happy? to return true, got false"
   end
   
   specify "should provide negative_failure_message for :sym?" do
@@ -42,7 +42,7 @@ context "be(:sym?)" do
     matcher.matches?(actual)
     
     #then
-    matcher.negative_failure_message.should == "expected actual.happy? to return false, got true"
+    matcher.negative_failure_message.should == "expected happy? to return false, got true"
   end
 end
 
@@ -60,7 +60,7 @@ context "be(:sym, *args)" do
   end
   
   specify "should fail when actual does not respond to :sym?" do
-    lambda { be(:happy?, 3).matches?(Object.new) }.should_fail_with "actual does not respond to #happy?"
+    lambda { be(:happy?, 3).matches?(Object.new) }.should_fail_with "target does not respond to #happy?"
   end
   
   specify "should provide failure_message for :sym?(*args) with one arg" do
@@ -73,7 +73,7 @@ context "be(:sym, *args)" do
     matcher.matches?(actual)
     
     #then
-    matcher.failure_message.should == "expected actual.older_than?(3) to return true, got false"
+    matcher.failure_message.should == "expected older_than?(3) to return true, got false"
   end
   
   specify "should provide failure_message for :sym?(*args) with multi args" do
@@ -86,7 +86,7 @@ context "be(:sym, *args)" do
     matcher.matches?(actual)
     
     #then
-    matcher.failure_message.should =~ /expected actual.ok_with\?\(3, \"a\", #<Object:.*>\) to return true, got false/
+    matcher.failure_message.should =~ /expected ok_with\?\(3, \"a\", #<Object:.*>\) to return true, got false/
   end
   
   specify "should provide negative_failure_message for :sym?(*args) with one arg" do
@@ -99,7 +99,7 @@ context "be(:sym, *args)" do
     matcher.matches?(actual)
     
     #then
-    matcher.negative_failure_message.should == "expected actual.older_than?(3) to return false, got true"
+    matcher.negative_failure_message.should == "expected older_than?(3) to return false, got true"
   end
   
   specify "should provide failure_message for :sym?(*args) with multi args" do
@@ -112,7 +112,7 @@ context "be(:sym, *args)" do
     matcher.matches?(actual)
     
     #then
-    matcher.negative_failure_message.should =~ /expected actual.ok_with\?\(3, \"a\", #<Object:.*>\) to return false, got true/
+    matcher.negative_failure_message.should =~ /expected ok_with\?\(3, \"a\", #<Object:.*>\) to return false, got true/
   end
 end
 

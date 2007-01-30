@@ -22,6 +22,6 @@ context "target.should satisfy { block }" do
     
     matcher.matches?(true)
     
-    matcher.negative_failure_message.should == "expected true to not satisfy block"
+    matcher.negative_failure_message.should == "expected true not to satisfy block"
   end
 end

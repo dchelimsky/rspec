@@ -25,9 +25,9 @@ context "target.should_not include(expected)" do
   specify "should fail if target includes expected" do
     lambda {
       [1,2,3].should_not include(3)
-    }.should_fail_with "expected [1, 2, 3] to not include 3"
+    }.should_fail_with "expected [1, 2, 3] not to include 3"
     lambda {
       "abc".should_not include("c")
-      }.should_fail_with "expected \"abc\" to not include \"c\""
+    }.should_fail_with "expected \"abc\" not to include \"c\""
   end
 end

@@ -18,6 +18,6 @@ context "target.should match(expected)" do
   specify "should provide a negative_failure_message" do
     matcher = match(/ring/)
     matcher.matches?("string")
-    matcher.negative_failure_message.should == "expected \"string\" to not match /ring/"
+    matcher.negative_failure_message.should == "expected \"string\" not to match /ring/"
   end
 end

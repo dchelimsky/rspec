@@ -17,7 +17,7 @@ module Spec
         end
         
         def negative_failure_message
-          "expected #{@actual.inspect} to not equal #{@expected.inspect} (using .eql?)"
+          "expected #{@actual.inspect} not to equal #{@expected.inspect} (using .eql?)"
         end
       end
       

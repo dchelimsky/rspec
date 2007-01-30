@@ -9,7 +9,7 @@ context "target.should equal(expected)" do
   specify "should fail if !target.equal?(expected)" do
     lambda {
       1.should equal("1")
-    }.should_fail_with "expected 1 to equal \"1\" (using .equal?)"
+    }.should_fail_with "expected \"1\", got 1 (using .equal?)"
   end
   
 end
@@ -22,7 +22,7 @@ context "target.should_not equal(expected)" do
   specify "should fail unless !target.equal?(expected)" do
     lambda {
       1.should_not equal(1)
-    }.should_fail_with "expected 1 to not equal 1 (using .equal?)"
+    }.should_fail_with "expected 1 not to equal 1 (using .equal?)"
   end
 end
   
@@ -46,6 +46,6 @@ context "target.should_not eql(expected)" do
   specify "should fail if target.eql?(expected)" do
     lambda {
       1.should_not eql(1)
-    }.should_fail_with "expected 1 to not equal 1 (using .eql?)"
+    }.should_fail_with "expected 1 not to equal 1 (using .eql?)"
   end
 end
