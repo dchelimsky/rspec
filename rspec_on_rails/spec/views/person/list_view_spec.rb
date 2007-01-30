@@ -3,8 +3,8 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 context "/person/list" do
 
   setup do
-    @smith = mock("Smith")
-    @jones = mock("Jones")
+    @smith = mock_model(Person)
+    @jones = mock_model(Person)
     @smith.stub!(:name).and_return("Joe")
     @jones.stub!(:name).and_return("Joe")
     assigns[:people] = [@smith, @jones]

@@ -4,7 +4,7 @@ context "/person/create" do
   include PersonHelper
   
   setup do
-    @person = mock("person")
+    @person = mock_model(Person)
     assigns[:people] = [@person]
   end
 

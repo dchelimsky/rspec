@@ -37,6 +37,7 @@ In alphabetical order (by last name)
 * Wilson Bilkovich
 ** lambda {...}.should_change(obj, :message)
 ** ar_subclass.should_have(n).errors_on(:attribute)
+** mock_model in RSpec on Rails
 * Bob Cotton
 ** Support for context_setup and context_teardown
 * Lachie Cox
