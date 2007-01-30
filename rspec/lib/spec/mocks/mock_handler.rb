@@ -48,14 +48,23 @@ module Spec
       end
       
       def munge(sym)
-        "#{sym.to_s}__proxied_by_rspec".to_sym
+        "proxied_by_rspec__#{sym.to_s}".to_sym
+      end
+      
+      def target_responds_to?(sym)
+        if @respond_to_proxied
+          @target.send(munge(:respond_to?),sym)
+        else
+          @target.respond_to?(sym)
+        end
       end
 
       def define_expected_method(sym)
-        if @target.respond_to?(sym) && !@proxied_methods.include?(sym)
+        if target_responds_to?(sym) && !@proxied_methods.include?(sym)
           @proxied_methods << sym
           metaclass.__send__(:alias_method, munge(sym), sym)
         end
+        @respond_to_proxied = true if sym == :respond_to?
 
         metaclass_eval(<<-EOF, __FILE__, __LINE__)
           def #{sym}(*args, &block)
