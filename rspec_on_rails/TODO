@@ -1,7 +1,5 @@
 integration spec'ing (derived from ActionController::IntegrationTest)
 resolve inconsistencies in running script/rails_spec
-controller.should_not_redirect
-controller.should_assign
 match regexps on should_render :text => 
 - right now if you fire up script/rails_spec_server and
   run 'script/rails_spec spec/helpers' twice, the first
@@ -14,7 +12,3 @@ match regexps on should_render :text =>
   We have to make sure HelperEvalContextController is redefined, but
   I haven't been able to do so successfully with require, require_dependency
   or load. (Aslak)
-  
-documentation
-- should_have_(rjs|tag) vs should_render[_rjs]
-- controller.should_render vs response.should_have_rendered
