@@ -2,7 +2,6 @@ require 'spec/expectations/sugar'
 require 'spec/expectations/errors'
 require 'spec/expectations/extensions'
 require 'spec/expectations/should'
-require 'spec/expectations/message_builder'
 require 'spec/expectations/matchers'
 require 'spec/expectations/handler'
 
