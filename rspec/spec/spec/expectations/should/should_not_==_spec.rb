@@ -10,6 +10,6 @@ context "should_not ==" do
   specify "should fail when objects are ==" do
     lambda do
       "apple".should_not == "apple"
-    end.should_fail
+    end.should_fail_with "expected not == \"apple\", got \"apple\""
   end
 end

@@ -17,17 +17,25 @@ module Spec
   # are available on Numeric objects.
   module Expectations
     class << self
+      attr_accessor :differ
+
       # raises a Spec::Expectations::ExpecationNotMetError with message
-      def fail_with(message)
+      #
+      # When a differ has been assigned and fail_with is passed
+      # <code>expected</code> and <code>target</code>, passes them
+      # to the differ to append a diff message to the failure message.
+      def fail_with(message, expected=nil, target=nil)
+        if Array === message && message.length == 3
+          message, expected, target = message[0], message[1], message[2]
+        end
+        unless (expected.nil? || target.nil? || differ.nil?)
+          if expected.is_a?(String)
+            message << "\nDiff:" << self.differ.diff_as_string(target.to_s, expected)
+          elsif !target.is_a?(Proc)
+            message << "\nDiff:" << self.differ.diff_as_object(target, expected)
+          end
+        end
         Kernel::raise(Spec::Expectations::ExpectationNotMetError.new(message))
-      end
-      
-      def build_message(actual, expectation, expected)
-        message_builder.build_message(actual, expectation, expected)
-      end
-      
-      def message_builder #:nodoc:
-        @message_builder ||= MessageBuilder.new
       end
     end
   end

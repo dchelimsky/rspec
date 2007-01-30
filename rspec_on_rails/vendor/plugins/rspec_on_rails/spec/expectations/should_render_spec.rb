@@ -95,21 +95,21 @@ require File.dirname(__FILE__) + '/../spec_helper'
       controller.should_render :template => 'non_existent_template'
       lambda do
         post 'some_action'
-      end.should_fail_with "{:template=>\"render_spec/some_action\"} should == {:template=>\"non_existent_template\"}"
+      end.should_fail_with "expected {:template=>\"non_existent_template\"}, got {:template=>\"render_spec/some_action\"} (using ==)"
     end
 
     specify "controller.should_render :template after an action that renders something different" do
       post 'some_action'
       lambda do
         controller.should_render :template => 'non_existent_template'
-      end.should_fail_with "{:template=>\"render_spec/some_action\"} should == {:template=>\"non_existent_template\"}"
+      end.should_fail_with "expected {:template=>\"non_existent_template\"}, got {:template=>\"render_spec/some_action\"} (using ==)"
     end
 
     specify "response.should_render :template after an action that renders something different" do
       post 'some_action'
       lambda do
         response.should_render :template => 'non_existent_template'
-      end.should_fail_with "{:template=>\"render_spec/some_action\"} should == {:template=>\"non_existent_template\"}"
+      end.should_fail_with "expected {:template=>\"non_existent_template\"}, got {:template=>\"render_spec/some_action\"} (using ==)"
     end
   end
 end

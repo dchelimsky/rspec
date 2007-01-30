@@ -24,7 +24,7 @@ context "a RenderMatcher" do
   specify "should raise if an expectation is set first but and not met by call to set_rendered",
     :should_raise => [
       Spec::Expectations::ExpectationNotMetError, 
-      "{:template=>\"actual\"} should == {:template=>\"expected\"}"
+      "expected {:template=>\"expected\"}, got {:template=>\"actual\"} (using ==)"
     ] do
     matcher = Spec::Rails::RenderMatcher.new
     matcher.set_expected(:template => 'expected')
@@ -34,7 +34,7 @@ context "a RenderMatcher" do
   specify "should raise if an expectation is set after but and not met by call to set_rendered",
     :should_raise => [
       Spec::Expectations::ExpectationNotMetError, 
-      "{:template=>\"actual\"} should == {:template=>\"expected\"}"
+      "expected {:template=>\"expected\"}, got {:template=>\"actual\"} (using ==)"
     ] do
     matcher = Spec::Rails::RenderMatcher.new
     matcher.set_actual(:template => 'actual')

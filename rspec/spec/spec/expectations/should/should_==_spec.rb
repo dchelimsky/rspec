@@ -3,28 +3,17 @@ require File.dirname(__FILE__) + '/../../../spec_helper.rb'
 require 'spec/expectations/differs/default'
 
 context "should ==" do
+  
   specify "should pass when objects are ==" do
     lambda do
       "apple".should == "apple"
     end.should_pass
   end
 
-  specify "should raise exception with diff when objects are not ==" do
-    # Please don't change this to non-diffed format - it will break the diffing support.
-    #   #TODO - this should become "expected \"cadillac\", got \"apple\" (using ==)"
-    begin
-      Spec::Expectations::Should::Base.differ = Spec::Expectations::Differs::Default.new
-      lambda do
-        "apple".should == "cadillac"
-      end.should_fail_with <<-EOD
-"apple" should == "cadillac"
-Diff:
-@@ -1,2 +1,2 @@
--apple
-+cadillac
-EOD
-    ensure
-      Spec::Expectations::Should::Base.differ = nil
-    end
+  specify "should fail when objects are not ==" do
+    lambda do
+      "1".should == 1
+    end.should_fail_with "expected 1, got \"1\" (using ==)"
   end
+
 end

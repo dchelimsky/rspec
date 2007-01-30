@@ -16,7 +16,7 @@ module Spec
           mock=HandCodedMock.new(false)
           lambda do
             mock.should_be_hungry(1, 2, 3)
-          end.should_fail
+          end.should_fail_with "expected actual.hungry?(1, 2, 3) to return true, got false"
           mock.__verify
         end
     

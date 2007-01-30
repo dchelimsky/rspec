@@ -13,6 +13,7 @@ module Spec
         end
         
         #<, <=, >=, > are all implemented in Spec::Expectations::Matchers::Be
+        # and will be removed with 0.9
         def <(expected)
           __delegate_method_missing_to_target "<", "<", expected
         end
@@ -30,11 +31,12 @@ module Spec
         end
 
         def default_message(expectation, expected=nil)
-          Spec::Expectations.build_message(@target, expectation, expected)
-         end
+          return "expected #{expected.inspect}, got #{@target.inspect} (using #{expectation})" if expectation == '=='
+          "expected #{expectation} #{expected.inspect}, got #{@target.inspect}" unless expectation == '=='
+        end
 
-        def fail_with_message(message)
-          Spec::Expectations.fail_with(message)
+        def fail_with_message(message, expected=nil, target=nil)
+          Spec::Expectations.fail_with(message, expected, target)
         end
     
         def find_supported_sym(original_sym)

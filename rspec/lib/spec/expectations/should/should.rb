@@ -18,7 +18,11 @@ module Spec
         def be(expected = :___no_arg)
           @be_seen = true
           return self if (expected == :___no_arg)
-          fail_with_message(default_message("should be", expected)) unless (@target.equal?(expected))
+          if Symbol === expected
+            fail_with_message(default_message("should be", expected)) unless (@target.equal?(expected))
+          else
+            fail_with_message("expected #{expected}, got #{@target}") unless (@target.equal?(expected))
+          end
         end
 
         #Gone for 0.9
@@ -45,9 +49,9 @@ module Spec
             end
             return
           rescue => e
-            fail_with_message("#{default_message("should raise", exception)} but raised #{e.inspect}")
+            fail_with_message("expected #{exception}#{message.nil? ? "" : "with #{message.inspect}"}, got #{e.inspect}")
           end
-          fail_with_message("#{default_message("should raise", exception)} but raised nothing")
+          fail_with_message("expected #{exception}#{message.nil? ? "" : "with #{message.inspect}"}, but nothing was raised")
         end
   
         #Gone for 0.9
@@ -55,17 +59,16 @@ module Spec
           begin
             catch symbol do
               @target.call
-              fail_with_message(default_message("should throw", symbol.inspect))
+              fail_with_message("expected #{symbol.inspect} to be thrown, but nothing was thrown")
             end
-          rescue NameError
-            fail_with_message(default_message("should throw", symbol.inspect))
+          rescue NameError => e
+            fail_with_message("expected #{symbol.inspect} to be thrown, got #{e.inspect}")
           end
         end
 
         def __delegate_method_missing_to_target(original_sym, actual_sym, *args)
           return if @target.send(actual_sym, *args)
-          message = default_message("should#{@be_seen ? ' be' : ''} #{original_sym}", args[0])
-          fail_with_message(message)
+          fail_with_message(default_message(original_sym, args[0]), args[0], @target)
         end
       end
 

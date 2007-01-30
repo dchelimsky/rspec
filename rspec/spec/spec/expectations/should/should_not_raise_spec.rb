@@ -2,14 +2,11 @@ require File.dirname(__FILE__) + '/../../../spec_helper.rb'
 
 context "should_not_raise" do
   specify "should fail when specific exception is raised" do
-    begin
+    lambda {
       lambda do
         "".nonexistent_method
       end.should_not_raise(NoMethodError)
-    rescue 
-      e=$!
-    end
-    e.message.should_match /<Proc.*> should not raise NoMethodError/
+    }.should_fail_with /expected no NoMethodError, got #<NoMethodError: undefined method/
   end
 
   specify "should fail when exact exception is raised with message" do
@@ -17,7 +14,7 @@ context "should_not_raise" do
       lambda do
         raise(StandardError.new("abc"))
       end.should_not_raise(StandardError, "abc")
-    end.should_fail
+    end.should_fail_with "expected no StandardError with \"abc\", got #<StandardError: abc>"
   end
 
   specify "should fail when exact exception is raised with message matching regexp" do
@@ -25,18 +22,15 @@ context "should_not_raise" do
       lambda do
         raise(StandardError.new("abc"))
       end.should_not_raise(StandardError, /^a.c$/)
-    end.should_fail
+    end.should_fail_with "expected no StandardError with message matching /^a.c$/, got #<StandardError: abc>"
   end
 
   specify "should include actual error in failure message" do
-    begin
-      lambda do
+    lambda {
+      lambda {
         "".nonexistent_method
-      end.should_not_raise(Exception)
-    rescue 
-      e=$!
-    end
-    e.message.should_match /<Proc.*> should not raise Exception but raised #<NoMethodError: undefined method `nonexistent_method' for \"\":String>/
+      }.should_not_raise(Exception)
+    }.should_fail_with /expected no Exception, got #<NoMethodError: undefined method/
   end
 
   specify "should pass when exact exception is raised with wrong message" do

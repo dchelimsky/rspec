@@ -6,7 +6,7 @@ context "should_be <" do
   end
 
   specify "should fail when < operator returns false" do
-    lambda { 3.should_be < 3 }.should_fail
+    lambda { 3.should_be < 3 }.should_fail_with "expected < 3, got 3"
   end
 end
 

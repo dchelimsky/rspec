@@ -9,9 +9,9 @@ module Spec
         end
 
         #Gone for 0.9
-        def be(expected = :no_arg)
+        def be(expected = :___no_arg)
           @be_seen = true
-          return self if (expected == :no_arg)
+          return self if (expected == :___no_arg)
           fail_with_message(default_message("should not be", expected)) if (@target.equal?(expected))
         end
 
@@ -31,8 +31,17 @@ module Spec
             @target.call
           rescue exception => e
             return unless message.nil? || e.message == message || (message.is_a?(Regexp) && e.message =~ message)
-            fail_with_message("#{default_message("should not raise", exception)}") if e.instance_of? exception
-            fail_with_message("#{default_message("should not raise", exception)} but raised #{e.inspect}") unless e.instance_of? exception
+            if e.kind_of?(exception)
+              failure_message = "expected no "
+              failure_message << exception.to_s
+              unless message.nil?
+                failure_message << " with "
+                failure_message << "message matching " if message.is_a?(Regexp)
+                failure_message << message.inspect
+              end
+              failure_message << ", got " << e.inspect
+              fail_with_message(failure_message)
+            end
           rescue
             true
           end
@@ -45,7 +54,7 @@ module Spec
               @target.call
               return true
             end
-            fail_with_message(default_message("should not throw", symbol.inspect))
+            fail_with_message("expected #{symbol.inspect} not to be thrown, but it was")
           rescue NameError
             true
           end
@@ -53,7 +62,7 @@ module Spec
 
         def __delegate_method_missing_to_target original_sym, actual_sym, *args
           return unless @target.__send__(actual_sym, *args)
-          fail_with_message(default_message("should not#{@be_seen ? ' be' : ''} #{original_sym}" + (args.empty? ? '' : ' ' + args[0].inspect)))
+          fail_with_message(default_message("not #{original_sym}", args[0]))
         end
       end
 

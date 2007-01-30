@@ -5,7 +5,7 @@ require 'spec/rake/spectask'
 namespace :rspec do
   desc "Run rspec_on_rails specs against all supported rails versions"
   task :pre_commit do
-    ["rspec:pre_commit_1_1_6", "rspec:pre_commit_1_2_1", "rspec:pre_commit_edge"].each do |task|
+    ["rspec:pre_commit_1_1_6", "rspec:pre_commit_1_2_1"].each do |task|
       IO.popen("rake #{task} --verbose") do |io|
         io.each do |line|
           puts line
