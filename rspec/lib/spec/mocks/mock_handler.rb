@@ -9,7 +9,8 @@ module Spec
         @expectations = []
         @messages_received = []
         @stubs = []
-        @proxied_methods = {}
+        @proxied_methods = []
+        # @proxied_methods = {}
         @options = options ? DEFAULT_OPTIONS.dup.merge(options) : DEFAULT_OPTIONS
       end
 
@@ -40,15 +41,20 @@ module Spec
         @stubs.first
       end
 
-      def __add expected_from, sym, block
+      def __add(expected_from, sym, block)
         current_spec = Runner::Specification.current
         current_spec.after_teardown {verify} if current_spec && @options[:auto_verify]
         define_expected_method(sym)
       end
+      
+      def munge(sym)
+        "#{sym.to_s}__proxied_by_rspec".to_sym
+      end
 
       def define_expected_method(sym)
-        if @target.respond_to?(sym) && !@proxied_methods[sym]
-          @proxied_methods[sym] = @target.method(sym)
+        if @target.respond_to?(sym) && !@proxied_methods.include?(sym)
+          @proxied_methods << sym
+          metaclass.__send__(:alias_method, munge(sym), sym)
         end
 
         metaclass_eval(<<-EOF, __FILE__, __LINE__)
@@ -80,14 +86,9 @@ module Spec
       end
 
       def reset_proxied_methods
-        @proxied_methods.each do |method_name, method_obj|
-          define_instance_method(method_name, method_obj)
-        end
-      end
-
-      def define_instance_method(method_name, method_obj)
-        (class << @target; self; end).class_eval do
-          define_method method_name, &method_obj
+        @proxied_methods.each do |sym|
+          metaclass.__send__(:alias_method, sym, munge(sym))
+          metaclass.__send__(:undef_method, munge(sym))
         end
       end
 
@@ -105,6 +106,10 @@ module Spec
 
       def metaclass_eval(str, filename, lineno)
         (class << @target; self; end).class_eval(str, filename, lineno)
+      end
+      
+      def metaclass
+        (class << @target; self; end)
       end
 
       def received_message?(sym, *args, &block)
