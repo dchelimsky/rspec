@@ -10,7 +10,6 @@ require 'spec'
 
 require File.expand_path("#{dir}/rails/context")
 require File.expand_path("#{dir}/rails/ivar_proxy")
-require File.expand_path("#{dir}/rails/functional_eval_context")
 
 require File.expand_path("#{dir}/rails/version")
 require File.expand_path("#{dir}/rails/opts_merger")

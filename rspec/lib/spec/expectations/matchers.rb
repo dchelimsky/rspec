@@ -3,6 +3,7 @@ require 'spec/expectations/matchers/be_close'
 require 'spec/expectations/matchers/change'
 require 'spec/expectations/matchers/eql'
 require 'spec/expectations/matchers/equal'
+require 'spec/expectations/matchers/has'
 require 'spec/expectations/matchers/have'
 require 'spec/expectations/matchers/include'
 require 'spec/expectations/matchers/match'
@@ -369,19 +370,24 @@ module Spec
         prefixes = ["be_an_","be_a_","be_"].each do |prefix|
           return be(make_predicate(prefix, sym), *args) if starts_with(sym, prefix)
         end
+        if starts_with(sym, "have_")
+          return Matchers::Has.new("#{unprefix(sym, "have_")}", *args)
+        end
         super
       end
-      
       
       private
         def starts_with(sym, prefix)
           sym.to_s[0..(prefix.length - 1)] == prefix
         end
       
-        def make_predicate(what_to_chop, sym)
-          "#{sym.to_s[what_to_chop.length..-1]}?".to_sym
+        def make_predicate(prefix, sym)
+          "#{unprefix(sym, prefix)}?".to_sym
         end
-
+        
+        def unprefix(str, prefix)
+          str.to_s.sub(prefix,"")
+        end
     end
     
     class Matcher

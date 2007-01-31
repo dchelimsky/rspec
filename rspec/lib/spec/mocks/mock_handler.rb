@@ -1,6 +1,11 @@
 module Spec
   module Mocks
     class MockHandler
+      DEFAULT_OPTIONS = {
+        :null_object => false,
+        :auto_verify => true
+      }
+
       def initialize(target, name, options={})
         @target = target
         @name = name
@@ -13,11 +18,6 @@ module Spec
         # @proxied_methods = {}
         @options = options ? DEFAULT_OPTIONS.dup.merge(options) : DEFAULT_OPTIONS
       end
-
-      DEFAULT_OPTIONS = {
-        :null_object => false,
-        :auto_verify => true
-      }
 
       def null_object?
         @options[:null_object]
@@ -41,38 +41,6 @@ module Spec
         @stubs.first
       end
 
-      def __add(expected_from, sym, block)
-        current_spec = Runner::Specification.current
-        current_spec.after_teardown {verify} if current_spec && @options[:auto_verify]
-        define_expected_method(sym)
-      end
-      
-      def munge(sym)
-        "proxied_by_rspec__#{sym.to_s}".to_sym
-      end
-      
-      def target_responds_to?(sym)
-        if @respond_to_proxied
-          @target.send(munge(:respond_to?),sym)
-        else
-          @target.respond_to?(sym)
-        end
-      end
-
-      def define_expected_method(sym)
-        if target_responds_to?(sym) && !@proxied_methods.include?(sym)
-          @proxied_methods << sym
-          metaclass.__send__(:alias_method, munge(sym), sym)
-        end
-        @respond_to_proxied = true if sym == :respond_to?
-
-        metaclass_eval(<<-EOF, __FILE__, __LINE__)
-          def #{sym}(*args, &block)
-            __mock_handler.message_received :#{sym}, *args, &block
-          end
-        EOF
-      end
-
       def verify #:nodoc:
         begin
           verify_expectations
@@ -88,54 +56,9 @@ module Spec
         clear_proxied_methods
       end
 
-      def verify_expectations
-        @expectations.each do |expectation|
-          expectation.verify_messages_received
-        end
-      end
-
-      def reset_proxied_methods
-        @proxied_methods.each do |sym|
-          metaclass.__send__(:alias_method, sym, munge(sym))
-          metaclass.__send__(:undef_method, munge(sym))
-        end
-      end
-
-      def clear_expectations #:nodoc:
-        @expectations.clear
-      end
-
-      def clear_stubs #:nodoc:
-        @stubs.clear
-      end
-
-      def clear_proxied_methods #:nodoc:
-        @proxied_methods.clear
-      end
-
-      def metaclass_eval(str, filename, lineno)
-        (class << @target; self; end).class_eval(str, filename, lineno)
-      end
-      
-      def metaclass
-        (class << @target; self; end)
-      end
-
       def received_message?(sym, *args, &block)
         return true if @messages_received.find {|array| array == [sym, args, block]}
         return false
-      end
-
-      def find_matching_expectation(sym, *args)
-        @expectations.find {|expectation| expectation.matches(sym, args)}
-      end
-
-      def find_almost_matching_expectation(sym, *args)
-        @expectations.find {|expectation| expectation.matches_name_but_not_args(sym, args)}
-      end
-
-      def find_matching_method_stub(sym)
-        @stubs.find {|stub| stub.matches(sym, [])}
       end
 
       def has_negative_expectation?(sym)
@@ -160,6 +83,82 @@ module Spec
 
       def raise_unexpected_message_error(sym, *args)
         @error_generator.raise_unexpected_message_error sym, *args
+      end
+      
+      private
+
+      def __add(expected_from, sym, block)
+        current_spec = Runner::Specification.current
+        current_spec.after_teardown {verify} if current_spec && @options[:auto_verify]
+        define_expected_method(sym)
+      end
+      
+      def define_expected_method(sym)
+        if target_responds_to?(sym) && !@proxied_methods.include?(sym)
+          @proxied_methods << sym
+          metaclass.__send__(:alias_method, munge(sym), sym)
+        end
+
+        metaclass_eval(<<-EOF, __FILE__, __LINE__)
+          def #{sym}(*args, &block)
+            __mock_handler.message_received :#{sym}, *args, &block
+          end
+        EOF
+      end
+
+      def target_responds_to?(sym)
+        return @target.send(munge(:respond_to?),sym) if @already_proxied_respond_to
+        return @already_proxied_respond_to = true if sym == :respond_to?
+        return @target.respond_to?(sym)
+      end
+
+      def munge(sym)
+        "proxied_by_rspec__#{sym.to_s}".to_sym
+      end
+
+      def clear_expectations
+        @expectations.clear
+      end
+
+      def clear_stubs
+        @stubs.clear
+      end
+
+      def clear_proxied_methods
+        @proxied_methods.clear
+      end
+
+      def metaclass_eval(str, filename, lineno)
+        metaclass.class_eval(str, filename, lineno)
+      end
+      
+      def metaclass
+        (class << @target; self; end)
+      end
+
+      def verify_expectations
+        @expectations.each do |expectation|
+          expectation.verify_messages_received
+        end
+      end
+
+      def reset_proxied_methods
+        @proxied_methods.each do |sym|
+          metaclass.__send__(:alias_method, sym, munge(sym))
+          metaclass.__send__(:undef_method, munge(sym))
+        end
+      end
+
+      def find_matching_expectation(sym, *args)
+        @expectations.find {|expectation| expectation.matches(sym, args)}
+      end
+
+      def find_almost_matching_expectation(sym, *args)
+        @expectations.find {|expectation| expectation.matches_name_but_not_args(sym, args)}
+      end
+
+      def find_matching_method_stub(sym)
+        @stubs.find {|stub| stub.matches(sym, [])}
       end
 
     end

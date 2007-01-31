@@ -29,11 +29,16 @@ context "Spec::Expectations::Matchers#method_missing behaviour" do
     lambda { false.should be_true }.should_fail_with "expected true, got false"
   end
   
-  specify "should respond_to? anything starting w/ be_" do
+  specify "should infer has_x? from have_x" do
+    have_key(:a).should be_an_instance_of(Spec::Expectations::Matchers::Has)
+  end
+  
+  specify "should respond_to? anything starting w/ be_ or have_" do
     be_xyz
     be_a_xyz
     be_an_xyz
     be_anything_at_all
+    have_key
   end
   
   specify "should handle anything else normally" do

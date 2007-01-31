@@ -10,6 +10,9 @@ module Spec
           send :fixtures, self.global_fixtures if self.global_fixtures
         end
       end
+      
+      def add_assertion
+      end
 
       # Creates a mock object instance for a +model_class+ with common
       # methods stubbed out.
@@ -34,6 +37,9 @@ module Spec
         m
       end
 
+      # TODO - Shouldn't this just be an extension of stub! ??
+      # - object.stub!(:method => return_value, :method2 => return_value2, :etc => etc)
+      #
       # Stubs methods on +object+ (if +object+ is a symbol or string a new mock 
       # with that name will be created). +stubs+ is a Hash of <tt>method=>value</tt>
       def add_stubs(object, stubs = {})
