@@ -76,6 +76,17 @@ module Spec
     #   3.should be_an_instance_of(Fixnum) => 3.instance_of?(Fixnum) #passes
     #   3.should_not be_instance_of(Numeric) => 3.instance_of?(Numeric) #fails
     #
+    # RSpec will also create custom matchers for predicates like <code>has_key?</code>. To
+    # use this feature, just state that the object should have_key(:key) and RSpec will
+    # call has_key?(:key) on the target. For example:
+    #
+    #   {:a => "A"}.should have_key(:a) #passes
+    #   {:a => "A"}.should have_key(:b) #fails
+    #   [].should have_key(:b) #fails telling you that the target does not respond to has_key?
+    #
+    # You can use this feature to invoke any predicate that begins with "has", whether it is
+    # part of the Ruby libraries (like <code>Hash#has_key?</code>) or a method you wrote on your own class.
+    #
     # == Custom Expectation Matchers
     #
     # A primary goal of RSpec is to provide a more "natural language" feel than you get
@@ -115,7 +126,7 @@ module Spec
     #     end
     #   end
     #
-    # And a with a method like this:
+    # ... and a method like this:
     #
     #   def be_in_zone(expected)
     #     BeInZone.new(expected)
@@ -141,6 +152,10 @@ module Spec
     #   end
     module Matchers
       
+      # :call-seq:
+      #   should equal(expected)
+      #   should_not equal(expected)
+      #
       # Passes if actual and expected are the same object (object identity).
       #
       # See http://www.ruby-doc.org/core/classes/Object.html#M001057 for more information about equality in Ruby.
@@ -153,6 +168,10 @@ module Spec
         Matchers::Equal.new(expected)
       end
       
+      # :call-seq:
+      #   should eql(expected)
+      #   should_not eql(expected)
+      #
       # Passes if actual and expected are of equal value, but not necessarily the same object.
       #
       # See http://www.ruby-doc.org/core/classes/Object.html#M001057 for more information about equality in Ruby.
@@ -165,6 +184,10 @@ module Spec
         Matchers::Eql.new(expected)
       end
       
+      # :call-seq:
+      #   should be_close(expected, delta)
+      #   should_not be_close(expected, delta)
+      #
       # Passes if actual == expected +/- delta
       #
       # == Example
@@ -174,6 +197,10 @@ module Spec
         Matchers::BeClose.new(expected, delta)
       end
 
+      # :call-seq:
+      #   should have(number).items
+      #   should_not have(number).items
+      #
       # Passes if actual owns a collection
       # which contains n elements
       #
@@ -186,6 +213,9 @@ module Spec
       end
       alias :have_exactly :have
     
+      # :call-seq:
+      #   should have_at_least(number).items
+      #
       # Passes if actual owns a collection
       # which contains at least n elements
       #
@@ -193,10 +223,15 @@ module Spec
       #
       #   # Passes if team.players.size >= 11
       #   team.should have_at_least(11).players
+      #
+      # Note that should_not have_at_least is <b>not supported</b>
       def have_at_least(n)
         Matchers::Have.new(n, :at_least)
       end
     
+      # :call-seq:
+      #   should have_at_most(number).items
+      #
       # Passes if actual owns a collection
       # which contains at most n elements
       #
@@ -204,10 +239,16 @@ module Spec
       #
       #   # Passes if team.players.size <= 11
       #   team.should have_at_most(11).players
+      #
+      # Note that should_not have_at_most is <b>not supported</b>
       def have_at_most(n)
         Matchers::Have.new(n, :at_most)
       end
       
+      # :call-seq:
+      #   should include(expected)
+      #   should_not include(expected)
+      #
       # Passes if actual includes expected. This works for
       # collections and Strings
       #
@@ -222,10 +263,12 @@ module Spec
       end
       
       # :call-seq:
-      #   be_true
-      #   be_false
-      #   be_nil
-      #   be_arbitrary_predicate(*args)
+      #   should be_true
+      #   should be_false
+      #   should be_nil
+      #   should be_arbitrary_predicate(*args)
+      #   should_not be_nil
+      #   should_not be_arbitrary_predicate(*args)
       #
       # Given true, false, or nil, will pass if actual is
       # true, false or nil (respectively).
@@ -254,6 +297,10 @@ module Spec
         Matchers::Be.new(expected, *args)
       end
       
+      # :call-seq:
+      #   should match(regexp)
+      #   should_not match(regexp)
+      #
       # Given a Regexp, passes if actual =~ regexp
       #
       # == Examples
@@ -263,7 +310,11 @@ module Spec
         Matchers::Match.new(regexp)
       end
       
-      # Passes if the submitted block returns true. Yields actual to the
+      # :call-seq:
+      #   should satisfy {}
+      #   should_not satisfy {}
+      #
+      # Passes if the submitted block returns true. Yields target to the
       # block.
       #
       # Generally speaking, this should be thought of as a last resort when
@@ -283,10 +334,14 @@ module Spec
       end
       
       # :call-seq:
-      #   raise_error()
-      #   raise_error(NamedError)
-      #   raise_error(NamedError, String)
-      #   raise_error(NamedError, Regexp)
+      #   should raise_error()
+      #   should raise_error(NamedError)
+      #   should raise_error(NamedError, String)
+      #   should raise_error(NamedError, Regexp)
+      #   should_not raise_error()
+      #   should_not raise_error(NamedError)
+      #   should_not raise_error(NamedError, String)
+      #   should_not raise_error(NamedError, Regexp)
       #
       # With no args, matches if any error is raised.
       # With a named error, matches only if that specific error is raised.
@@ -309,8 +364,10 @@ module Spec
       end
       
       # :call-seq:
-      #   throw_symbol()
-      #   throw_symbol(:sym)
+      #   should throw_symbol()
+      #   should throw_symbol(:sym)
+      #   should_not throw_symbol()
+      #   should_not throw_symbol(:sym)
       #
       # Given a Symbol argument, matches if a proc throws the specified Symbol.
       #
@@ -328,9 +385,10 @@ module Spec
       end
       
       # :call-seq:
-      #   change(receiver, message, &block)
-      #   change(receiver, message, &block).by(value)
-      #   change(receiver, message, &block).from(old).to(new)
+      #   should change(receiver, message, &block)
+      #   should change(receiver, message, &block).by(value)
+      #   should change(receiver, message, &block).from(old).to(new)
+      #   should_not change(receiver, message, &block)
       #
       # Allows you to specify that a Proc will cause some value to change.
       #
@@ -362,6 +420,9 @@ module Spec
       #
       # Then compares the values before and after the <code>receiver.message</code> and
       # evaluates the difference compared to the expected difference.
+      #
+      # Note that should_not change <b>only supports the form with no subsequent calls</b> to
+      # <code>be</code>, <code>to</code> or <code>from </code>.
       def change(target=nil, message=nil, &block)
         Matchers::Change.new(target, message, &block)
       end

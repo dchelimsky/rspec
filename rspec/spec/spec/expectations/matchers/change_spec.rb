@@ -1,7 +1,5 @@
 #Based on patch from Wilson Bilkovich
 
-#TODO - spec should_not scenarios
-
 require File.dirname(__FILE__) + '/../../../spec_helper.rb'
 class SomethingExpected
   attr_accessor :some_value
