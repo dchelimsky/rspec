@@ -49,9 +49,7 @@ require File.dirname(__FILE__) + '/spec_helper'
       route_for(:controller => "controller_isolation_spec", :action => "some_action").should_eql "/controller_isolation_spec/some_action"
     end
   end
-end
 
-['integration', 'isolation'].each do |mode|
   context "Given a controller spec for RedirectSpecController running in #{mode} mode", :context_type => :controller do
     controller_name :redirect_spec
     integrate_views if mode == 'integration'
@@ -75,5 +73,6 @@ end
       }.should_fail_with "expected redirect to http://test.host/redirect_spec/somewhere but there was no redirect"
     end
   end
+  
 end
 
