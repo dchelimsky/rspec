@@ -24,6 +24,7 @@ module Spec
 
         def include(mod)
           @context_eval_module.include mod
+          mod.send :included, self
         end
 
         def context_setup(&block)
