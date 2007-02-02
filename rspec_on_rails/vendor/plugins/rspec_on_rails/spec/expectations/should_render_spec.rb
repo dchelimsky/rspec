@@ -9,78 +9,103 @@ require File.dirname(__FILE__) + '/../spec_helper'
     end
 
     specify "controller.should_render :template before an action" do
+      #Gone for 0.9
       controller.should_render :template => 'render_spec/some_action'
       post 'some_action'
     end
 
     specify "controller.should_render :template after an action" do
       post 'some_action'
+      #Gone for 0.9
       controller.should_render :template => 'render_spec/some_action'
     end
 
     specify "response.should_render :template after an action" do
       post 'some_action'
+      #Gone for 0.9
       response.should_render :template => 'render_spec/some_action'
+      #0.8
+      response.should render_template('render_spec/some_action')
     end
 
     specify "controller.should_render :symbol before an action" do
+      #Gone for 0.9
       controller.should_render :some_action
       post 'some_action'
     end
 
     specify "controller.should_render :symbol after an action" do
       post 'some_action'
+      #Gone for 0.9
       controller.should_render :some_action
     end
 
     specify "response.should_render :symbol after an action" do
       post 'some_action'
+      #Gone for 0.9
       response.should_render :some_action
+      #0.8
+      response.should render_template(:some_action)
     end
 
     specify "controller.should_render 'string' before an action" do
+      #Gone for 0.9
       controller.should_render 'some_action'
       post 'some_action'
     end
 
     specify "controller.should_render 'string' after an action" do
       post 'some_action'
+      #Gone for 0.9
       controller.should_render 'some_action'
     end
 
     specify "response.should_render 'string' after an action" do
+      #Gone for 0.9
       post 'some_action'
       response.should_render 'some_action'
+      #0.8
+      response.should render_template('some_action')
     end
 
     specify "controller.should_render :text before an action" do
-      controller.should_render :text => "this the text for this action"
+      #Gone for 0.9
+      controller.should_render :text => "this is the text for this action"
       post 'text_action'
     end
 
     specify "controller.should_render :text after an action" do
       post 'text_action'
-      controller.should_render :text => "this the text for this action"
+      #Gone for 0.9
+      controller.should_render :text => "this is the text for this action"
     end
 
     specify "response.should_render :text after an action" do
       post 'text_action'
-      response.should_render :text => "this the text for this action"
+      #Gone for 0.9
+      response.should_render :text => "this is the text for this action"
+      #0.8
+      response.should render_text("this is the text for this action")
     end
     
     specify "controller.should_render with an Ajax request and RJS template before the action" do
+      #Gone for 0.9
       controller.should_render :template => 'render_spec/some_action.rjs'
       xhr :post, 'some_action'
     end
     
     specify "controller.should_render with an Ajax request and RJS template before the action" do
       xhr :post, 'some_action'
+      #Gone for 0.9
       controller.should_render :template => 'render_spec/some_action.rjs'
     end
     
     specify "response.should_render with an Ajax request and RJS template before the action" do
       xhr :post, 'some_action'
+      #Gone for 0.9
       response.should_render :template => 'render_spec/some_action.rjs'
+      #0.8
+      response.should render_template('render_spec/some_action.rjs')
     end
   end
   
@@ -92,6 +117,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
     end
 
     specify "controller.should_render :template before an action that renders something different" do
+      #Gone for 0.9
       controller.should_render :template => 'non_existent_template'
       lambda do
         post 'some_action'
@@ -101,6 +127,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
     specify "controller.should_render :template after an action that renders something different" do
       post 'some_action'
       lambda do
+        #Gone for 0.9
         controller.should_render :template => 'non_existent_template'
       end.should_fail_with "expected {:template=>\"non_existent_template\"}, got {:template=>\"render_spec/some_action\"} (using ==)"
     end
@@ -108,8 +135,13 @@ require File.dirname(__FILE__) + '/../spec_helper'
     specify "response.should_render :template after an action that renders something different" do
       post 'some_action'
       lambda do
+        #Gone for 0.9
         response.should_render :template => 'non_existent_template'
       end.should_fail_with "expected {:template=>\"non_existent_template\"}, got {:template=>\"render_spec/some_action\"} (using ==)"
+      lambda do
+        #0.8
+        response.should render_template('non_existent_template')
+      end.should_fail_with "expected \"non_existent_template\", got \"some_action\""
     end
   end
 end

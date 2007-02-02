@@ -34,8 +34,10 @@ module Spec
     # the views as expected.
     module Matchers
       # :call-seq:
-      #   have_tag(selector, equality?, message?)
-      #   have_tag(element, selector, equality?, message?)
+      #   response.should have_tag(selector, equality?, message?)
+      #   response.should have_tag(element, selector, equality?, message?)
+      #   response.should_not have_tag(selector, equality?, message?)
+      #   response.should_not have_tag(element, selector, equality?, message?)
       #
       # Used to expect specific content in the response to an http request.
       #
@@ -130,6 +132,9 @@ module Spec
       #   response.should be_rjs(id?) { |elements| ... }
       #   response.should be_rjs(statement, id?) { |elements| ... }
       #   response.should be_rjs(:insert, position, id?) { |elements| ... }
+      #   response.should_not be_rjs(id?) { |elements| ... }
+      #   response.should_not be_rjs(statement, id?) { |elements| ... }
+      #   response.should_not be_rjs(:insert, position, id?) { |elements| ... }
       #
       # This is a wrapper for assert_select_rjs and works the same way
       # but with rspec-friendly syntax
@@ -271,7 +276,8 @@ module Spec
       end
       
       # :call-seq:
-      #   be_feed(type, version?) { ... }
+      #   response.should be_feed(type, version?) { ... }
+      #   response.should_not be_feed(type, version?) { ... }
       #
       # Selects root of the feed element. Calls the block for nested expectations.
       #
@@ -299,7 +305,8 @@ module Spec
       end
       
       # :call-seq:
-      #   send_email { }
+      #   response.should send_email { }
+      #   response.should_not send_email { }
       #
       # Extracts the body of an email and runs nested expectations on it.
       #
@@ -323,10 +330,12 @@ module Spec
       end
       
       # :call-seq:
-      #
-      #   redirect_to(url)
-      #   redirect_to(:action => action_name)
-      #   redirect_to(:controller => controller_name, :action => action_name)
+      #   response.should redirect_to(url)
+      #   response.should redirect_to(:action => action_name)
+      #   response.should redirect_to(:controller => controller_name, :action => action_name)
+      #   response.should_not redirect_to(url)
+      #   response.should_not redirect_to(:action => action_name)
+      #   response.should_not redirect_to(:controller => controller_name, :action => action_name)
       #
       # Passes if the response is a redirect to the url, action or controller/action.
       # Useful in controller specs (integration or isolation mode).
@@ -340,22 +349,45 @@ module Spec
         RedirectTo.new(request, opts)
       end
       
+      # :call-seq:
+      #   response.should render_template(path)
+      #   response.should_not render_template(path)
+      #
       # Passes if the specified template is rendered by the response.
       # Useful in controller specs (integration or isolation mode).
       #
-      # <code>path</code> can include the controller path or not.
+      # <code>path</code> can include the controller path or not. It
+      # can also include an optional extension (no extension assumes .rhtml).
+      #
+      # Note that partials must be spelled with the preceding underscore.
       #
       # == Examples
       #
-      #   response.should render_template('index')
-      #   response.should render_template('same_controller/index')
-      #   response.should render_template('other_controller/index')
+      #   response.should render_template('list')
+      #   response.should render_template('same_controller/list')
+      #   response.should render_template('other_controller/list')
+      #
+      #   #rjs
+      #   response.should render_template('list.rjs')
+      #   response.should render_template('same_controller/list.rjs')
+      #   response.should render_template('other_controller/list.rjs')
+      #
+      #   #partials
+      #   response.should render_template('_a_partial')
+      #   response.should render_template('same_controller/_a_partial')
+      #   response.should render_template('other_controller/_a_partial')
       def render_template(path)
         RenderTemplate.new(path.to_s)
       end
       
-      # Passes if the specified text is rendered by the response.
-      # Useful in controller specs (integration or isolation mode).
+      # :call-seq:
+      #   response.should render_text(expected)
+      #   response.should_not render_text(expected)
+      #
+      # Accepts a String or a Regexp, matching a String using ==
+      # and a Regexp using =~.
+      #
+      # Use this 
       #
       # == Examples
       #

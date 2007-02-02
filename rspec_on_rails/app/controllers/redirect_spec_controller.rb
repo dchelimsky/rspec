@@ -27,7 +27,13 @@ class RedirectSpecController < ApplicationController
   
   def action_with_redirect_back
     redirect_to :back
-  end    
+  end
+  
+  def action_with_redirect_in_respond_to
+    respond_to do |wants|
+      wants.html { redirect_to :action => 'somewhere' }
+    end
+  end
 
 end
 

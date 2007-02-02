@@ -29,6 +29,8 @@ require File.dirname(__FILE__) + '/spec_helper'
     specify "specifying a partial should work" do
       controller.should_render :partial => 'controller_isolation_spec/a_partial'
       get 'action_with_partial'
+      response.should render_template("_a_partial")
+      response.should render_template("controller_isolation_spec/_a_partial")
     end
     
     specify "spec should have access to flash" do

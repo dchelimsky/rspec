@@ -28,7 +28,12 @@ module Spec
       class RenderText < Render  #:nodoc:
         def matches?(response)
           @actual = response.body
-          actual == expected
+          case expected
+          when Regexp
+            actual =~ expected
+          else
+            actual == expected
+          end
         end
       end
       

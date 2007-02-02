@@ -48,10 +48,15 @@ require File.dirname(__FILE__) + '/../spec_helper'
       response.should redirect_to(:back)
     end
   
-    specify "redirected :back and should_redirect_to URL matches" do
+    specify "redirected :back and should redirect_to URL matches" do
       request.env['HTTP_REFERER'] = "http://test.host/previous/page"
       get 'action_with_redirect_back'
       response.should redirect_to("http://test.host/previous/page")
+    end
+    
+    specify "redirected from within a respond_to block" do
+      get 'action_with_redirect_in_respond_to'
+      response.should redirect_to('redirect_spec/somewhere')
     end
   end
   
@@ -61,12 +66,12 @@ require File.dirname(__FILE__) + '/../spec_helper'
     end
     controller_name :redirect_spec
   
-    specify "an action that redirects should not result in an error if no should_redirect_to expectation is called" do
+    specify "an action that redirects should not result in an error if no should redirect_to expectation is called" do
       get 'action_with_redirect_to_somewhere'
     end
   end
   
-  context "Given a controller spec in #{mode} mode, should_redirect_to should fail when", :context_type => :controller do
+  context "Given a controller spec in #{mode} mode, should redirect_to should fail when", :context_type => :controller do
     if mode == 'integration'
       integrate_views
     end

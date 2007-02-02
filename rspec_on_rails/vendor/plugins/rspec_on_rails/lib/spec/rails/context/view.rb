@@ -10,6 +10,12 @@ module Spec
         @session = @controller.session
         @controller.class.send :public, :flash # make flash accessible to the spec
       end
+      
+      def teardown
+        super
+        #necessary to ensure that base_view_path is not set across contexts
+        ActionView::Base.base_view_path = nil
+      end
 
       def set_base_view_path(options)
         ActionView::Base.base_view_path = base_view_path(options)
