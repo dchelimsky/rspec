@@ -62,6 +62,9 @@ module Spec
           throw_symbol.should be_an_instance_of(ThrowSymbol)
           throw_symbol(:sym).should be_an_instance_of(ThrowSymbol)
         end
+        specify "respond_to" do
+          respond_to(:sym).should be_an_instance_of(RespondTo)
+        end
         
       end
       

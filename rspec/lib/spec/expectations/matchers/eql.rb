@@ -13,11 +13,11 @@ module Spec
         end
 
         def failure_message
-          "expected #{@actual.inspect} to equal #{@expected.inspect} (using .eql?)"
+          return "expected #{@expected.inspect}, got #{@actual.inspect} (using .eql?)", @expected, @actual
         end
         
         def negative_failure_message
-          "expected #{@actual.inspect} not to equal #{@expected.inspect} (using .eql?)"
+          return "expected #{@actual.inspect} not to equal #{@expected.inspect} (using .eql?)", @expected, @actual
         end
       end
       

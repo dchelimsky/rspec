@@ -8,6 +8,7 @@ require 'spec/expectations/matchers/have'
 require 'spec/expectations/matchers/include'
 require 'spec/expectations/matchers/match'
 require 'spec/expectations/matchers/raise_error'
+require 'spec/expectations/matchers/respond_to'
 require 'spec/expectations/matchers/satisfy'
 require 'spec/expectations/matchers/throw_symbol'
 
@@ -427,6 +428,15 @@ module Spec
         Matchers::Change.new(target, message, &block)
       end
       
+      # :call-seq:
+      #   should respond_to(:sym)
+      #   should_not respond_to(:sym)
+      #
+      # Matches if the target object responds to :sym
+      def respond_to(sym)
+        Matchers::RespondTo.new(sym)
+      end
+
       def method_missing(sym, *args, &block) # :nodoc:
         prefixes = ["be_an_","be_a_","be_"].each do |prefix|
           return be(make_predicate(prefix, sym), *args) if starts_with(sym, prefix)

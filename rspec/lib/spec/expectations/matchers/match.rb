@@ -14,11 +14,11 @@ module Spec
         end
         
         def failure_message
-          "expected #{@actual.inspect} to match #{@expected.inspect}"
+          return "expected #{@actual.inspect} to match #{@expected.inspect}", @expected, @actual
         end
         
         def negative_failure_message
-          "expected #{@actual.inspect} not to match #{@expected.inspect}"
+          return "expected #{@actual.inspect} not to match #{@expected.inspect}", @expected, @actual
         end
       end
       

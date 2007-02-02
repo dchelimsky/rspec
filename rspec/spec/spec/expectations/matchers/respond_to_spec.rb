@@ -1,13 +1,17 @@
 require File.dirname(__FILE__) + '/../../../spec_helper.rb'
 
-context "Spec::Expectations::Matchers#respond_to behaviour" do
-  specify "should return true if starts with be_" do
-    matcher = Spec::Expectations::Matcher.new
-    matcher.respond_to?(:be_something).should be(true)
+context "respond_to" do
+  
+  specify "should match if target responds to :sym" do
+    matcher = respond_to(:methods)
+    matcher.matches?(Object.new).should be_true
+    matcher.negative_failure_message.should == "expected target not to respond to :methods"
   end
-  specify "should handle normally otherwise" do
-    matcher = Spec::Expectations::Matcher.new
-    matcher.respond_to?(:have).should be(true)
-    matcher.respond_to?(:non_existent_method).should be(false)
+  
+  specify "should not match if target responds to :sym" do
+    matcher = respond_to(:some_method)
+    matcher.matches?(Object.new).should be_false
+    matcher.failure_message.should == "expected target to respond to :some_method"
   end
+  
 end
