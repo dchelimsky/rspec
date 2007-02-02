@@ -9,6 +9,7 @@ It also introduces a new approach to handling should expectations. See RELEASE-P
 
 It also sports myriad new features, bug fixes, patches and general goodness:
 
+* Applied [#8218] heckle_runner.rb doesn't work with heckle >= 1.2.0 (Patch from Michal Kwiatkowski)
 * Fixed [#8240] Cryptic error message when no controller_name
 * Applied [#7461] [PATCH] Contexts don't call Module::included when they include a module
 * Removed unintended block of test/unit assertions in rspec_on_rails - they should all, in theory, now be accessible

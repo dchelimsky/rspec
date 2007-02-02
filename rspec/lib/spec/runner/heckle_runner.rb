@@ -40,7 +40,8 @@ module Spec
       end
     end
     
-    class Heckler < Heckle::Base
+    #Supports Heckle 1.2 and prior (earlier versions used Heckle::Base)
+    class Heckler < (Heckle.const_defined?(:Base) ? Heckle::Base : Heckle)
       def initialize(klass_name, method_name, context_runner)
         super(klass_name, method_name)
         @context_runner = context_runner
