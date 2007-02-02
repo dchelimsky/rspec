@@ -34,14 +34,6 @@ This change applies to all of these as well:
   should_match
   should_satisfy
 
-== should_have
-
-  #before
-  team.should_have(3).players
-
-  #after
-  team.should have(3).players
-
 == should_be
 
   #before
@@ -101,3 +93,25 @@ This change applies to all of these as well:
   #after - exactly the same
   actual.should =~ regexp
   actual.should_not =~ regexp
+  
+== should_have
+
+  #before
+  team.should_have(3).players
+  hash.should_have_key(:a)
+
+  #after
+  team.should have(3).players
+  hash.should have_key(:a)
+
+== should_change
+
+  #before
+  proc.should_change(:target, message)
+  proc.should_change(:target, message).by(1)
+  proc.should_change(:target, message).from("a").to("b")
+  
+  proc.should change(:target, message)
+  proc.should change(:target, message).by(1)
+  proc.should change(:target, message).from("a").to("b")
+  

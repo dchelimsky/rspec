@@ -32,8 +32,16 @@ module ExampleExpectations
     end
   end
   
+  class PositiveOnlyMatcher < ArbitraryMatcher
+    undef negative_failure_message
+  end
+  
   def arbitrary_matcher(*args, &block)
     ArbitraryMatcher.new(*args, &block)
+  end
+  
+  def positive_only_matcher(*args, &block)
+    PositiveOnlyMatcher.new(*args, &block)
   end
   
 end
@@ -56,6 +64,12 @@ context "ExpectationMatcherHandler behaviour" do
     5.should arbitrary_matcher { 5 }
     5.should arbitrary_matcher(:expected => 4) { 5 }
     5.should arbitrary_matcher(:expected => 4).with(5) { 3 }
+  end
+  
+  specify "should explain when matcher does not support should_not" do
+    lambda {
+      5.should_not positive_only_matcher(:expected => 5)
+    }.should_fail_with /Matcher does not support should_not.\n/
   end
 
 end

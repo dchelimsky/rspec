@@ -27,7 +27,7 @@ module Spec
         if Array === message && message.length == 3
           message, expected, target = message[0], message[1], message[2]
         end
-        unless (expected.nil? || target.nil? || differ.nil?)
+        unless (differ.nil? || expected.nil? || target.nil?)
           if expected.is_a?(String)
             message << "\nDiff:" << self.differ.diff_as_string(target.to_s, expected)
           elsif !target.is_a?(Proc)

@@ -183,13 +183,21 @@ Diff:
       <div class="failure" id="failure_5">
         <div class="message"><pre>expected &lt;Animal
 name=bob,
-species=giraffe
-&gt;
- to equal &lt;Animal
-name=bob,
 species=tortoise
 &gt;
- (using .eql?)</pre></div>
+, got &lt;Animal
+name=bob,
+species=giraffe
+&gt;
+ (using .eql?)
+Diff:
+@@ -1,5 +1,5 @@
+ &lt;Animal
+ name=bob,
+-species=giraffe
++species=tortoise
+ &gt;
+</pre></div>
         <div class="backtrace"><pre>./failing_examples/diffing_spec.rb:34:
 ./spec/spec/runner/formatter/html_formatter_spec.rb:16:
 ./spec/spec/runner/formatter/html_formatter_spec.rb:12:

@@ -62,7 +62,8 @@ In alphabetical order (by last name)
 ** Spec'ing routes (Rails)
 ** Accepting xhr requests (Rails)
 ** Multiple return values for stubs
-** Port of scaffold_resource to rspec_resource
+** Port of scaffold_resource to rspec_resource (Rails)
+** Contexts should call Module::included when they include a module
 * Micah Martin
 ** RSpec on Rails patches for partials
 * Luke Redpath
