@@ -32,6 +32,16 @@ assigns[:article] = article
 assigns[:articles] = [article]
 </ruby>
 
+h3. flash
+
+Use flash[:key] to set values to be used in the spec.
+
+<ruby>
+flash[:notice] = "Press the button!"
+</ruby>
+
+Your specs can now check that your view renders the flash message appropriately.
+
 h2. Expectations
 
 RSpec on Rails' View Specs support the following custom expectations, all of which
