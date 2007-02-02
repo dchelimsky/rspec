@@ -9,6 +9,7 @@ It also introduces a new approach to handling should expectations. See RELEASE-P
 
 It also sports myriad new features, bug fixes, patches and general goodness:
 
+* Fixed [#8240] Cryptic error message when no controller_name
 * Applied [#7461] [PATCH] Contexts don't call Module::included when they include a module
 * Removed unintended block of test/unit assertions in rspec_on_rails - they should all, in theory, now be accessible
 * Added mock_model method to RSpec on Rails, which stubs common methods. Based on http://metaclass.org/2006/12/22/making-a-mockery-of-activerecord

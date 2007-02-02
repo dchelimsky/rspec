@@ -131,6 +131,14 @@ module Spec
       attr_reader :response, :request, :controller
       
       def setup_extra
+        unless @controller.class.ancestors.include?(ActionController::Base)
+          Spec::Expectations.fail_with <<-EOE
+You have to declare the controller name in controller specs. For example:
+  context "The ExampleController" do
+    controller_name "example" #invokes the ExampleController
+  end
+EOE
+        end
         (class << @controller; self; end).class_eval do
           # Rails 1.1.6 doesn't have controller_path, but >= 1.2.0 does
           unless instance_methods.include?("controller_path")
@@ -141,7 +149,13 @@ module Spec
           include ControllerInstanceMethods
         end
         @controller.integrate_views! if @integrate_views
-        @controller.session = session
+        begin
+          @controller.session = session
+        rescue
+          # Spec::Expectations.fail_with(
+          #   
+          # )
+        end
       end
 
       class << self
