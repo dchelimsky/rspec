@@ -28,6 +28,30 @@ require File.dirname(__FILE__) + '/../spec_helper'
       response.should render_template('render_spec/some_action.rjs')
     end
 
+    specify "should fail on the wrong extension (given rjs)" do
+      xhr :post, 'some_action'
+      lambda {
+        response.should render_template('render_spec/some_action')
+      }.should_fail_with "expected \"render_spec/some_action\", got \"render_spec/some_action.rjs\""
+    end
+
+    specify "should fail on the wrong extension (given rhtml)" do
+      get 'some_action'
+      lambda {
+        response.should render_template('render_spec/some_action.rjs')
+      }.should_fail_with "expected \"render_spec/some_action.rjs\", got \"render_spec/some_action\""
+    end
+
+    specify "should match a partial template (simple path)" do
+      get 'action_with_partial'
+      response.should render_template("_a_partial")
+    end
+
+    specify "should match a partial template (complex path)" do
+      get 'action_with_partial'
+      response.should render_template("render_spec/_a_partial")
+    end
+
     specify "should fail when the wrong template is rendered" do
       post 'some_action'
       lambda do
@@ -50,23 +74,28 @@ require File.dirname(__FILE__) + '/../spec_helper'
       integrate_views
     end
 
-    specify "should pass with matching text" do
+    specify "should pass with exactly matching text" do
       post 'text_action'
-      response.should render_text("this the text for this action")
+      response.should render_text("this is the text for this action")
+    end
+
+    specify "should pass with matching text (using Regexp)" do
+      post 'text_action'
+      response.should render_text(/is the text/)
     end
 
     specify "should fail with matching text" do
       post 'text_action'
       lambda {
         response.should render_text("this is NOT the text for this action")
-      }.should_fail_with "expected \"this is NOT the text for this action\", got \"this the text for this action\""
+      }.should_fail_with "expected \"this is NOT the text for this action\", got \"this is the text for this action\""
     end
 
     specify "should fail when a template is rendered" do
       post 'some_action'
       lambda {
-        response.should render_text("this the text for this action")
-      }.should_fail_with /expected \"this the text for this action\", got .*/
+        response.should render_text("this is the text for this action")
+      }.should_fail_with /expected \"this is the text for this action\", got .*/
     end
   end
 end

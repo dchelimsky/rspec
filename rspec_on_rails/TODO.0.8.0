@@ -1,17 +1,3 @@
 Here's what needs to happen vis a vis the rails plugin before the 0.8.0 release.
 
-== should render
-handle the other should_render possibilities
-match regexps on should render_text
-
-===========
-note: previously we used should_render :key => value, where :key might be
-:template, :text or :action. The matcher syntax separates them to avoid conflict
-with the render method (used in view specs.)
-
-Question: it now supports render_template and render_text. Do we need to
-support render_action? Or is that something that really shouldn't even
-be spec'able?
-
-Rails only supports assert_template - it doesn't even support assert_text!
-===========
+== response.should return_code????
