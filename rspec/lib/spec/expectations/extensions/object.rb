@@ -15,6 +15,7 @@ module Spec
       # NOTE that this does NOT support receiver.should != expected.
       # Instead, use receiver.should_not == expected
       def should(matcher=nil)
+        Spec::Expectations.fail_with(block_syntax_warning("should")) if block_given?
         ExpectationMatcherHandler.new(self,matcher) if matcher
         Should::Should.new(self)
       end
@@ -27,8 +28,22 @@ module Spec
       #     Passes unless (receiver =~ expected), where expected
       #     is a Regexp.
       def should_not(matcher=nil)
+        Spec::Expectations.fail_with(block_syntax_warning("should_not")) if block_given?
         NegativeExpectationMatcherHandler.new(self,matcher) if matcher
         should.not
+      end
+      
+      def block_syntax_warning(should_or_should_not)
+        <<-EOW
+
+    ===================================================================
+    ##{should_or_should_not} received an unexpected block. If you are using a
+    matcher that requires a block, be sure to use {} instead of do/end.
+    This will ensure that the block is passed to the matcher instead
+    of ##{should_or_should_not}.
+    ===================================================================
+
+EOW
       end
 
       # Deprecated: use should have(n).items (see Spec::Expectations::Matchers)
