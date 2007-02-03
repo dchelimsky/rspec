@@ -1,0 +1,9 @@
+require 'rake'
+require 'rake/rdoctask'
+
+desc 'Generate RDoc'
+rd = Rake::RDocTask.new do |rdoc|
+  rdoc.rdoc_dir = '../../../../doc/output/rdoc-rails'
+  rdoc.options << '--title' << 'RSpec on Rails' << '--line-numbers' << '--inline-source' << '--main' << 'README'
+  rdoc.rdoc_files.include('README', 'MIT-LICENSE', 'lib/**/*.rb')
+end

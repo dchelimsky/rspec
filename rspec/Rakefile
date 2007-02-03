@@ -19,11 +19,8 @@ PKG_FILE_NAME = "#{PKG_NAME}-#{PKG_VERSION}"
 PKG_FILES = FileList[
   '[A-Z]*',
   'lib/**/*.rb', 
-  'test/**/*.rb', 
-  'examples/**/*',
-  '../web_spec/**/*.rb',
-  '../web_spec/**/*.txt',
-  '../web_spec/**/*.patch'
+  'spec/**/*.rb', 
+  'examples/**/*'
 ]
 
 task :default => [:spec, :verify_rcov]
@@ -161,7 +158,13 @@ task :pre_commit => [
 ]
 
 desc "Build the website, but do not publish it"
-task :website => [:clobber, :verify_rcov, :spec_html, :webgen, :failing_examples_with_html, :examples_specdoc, :rdoc]
+task :website => [:clobber, :verify_rcov, :spec_html, :webgen, :failing_examples_with_html, :examples_specdoc, :rdoc, :rdoc_rails]
+
+task :rdoc_rails do
+  Dir.chdir '../rspec_on_rails/vendor/plugins/rspec_on_rails' do
+    `rake rdoc`
+  end
+end
 
 task :verify_user do
   raise "RUBYFORGE_USER environment variable not set!" unless ENV['RUBYFORGE_USER']

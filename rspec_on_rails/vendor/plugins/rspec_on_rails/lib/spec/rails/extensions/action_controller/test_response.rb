@@ -67,7 +67,7 @@ module ActionController
       attr_writer :controller_path
 
       # Deprecated - gone for 9.0
-      # Use should render_template or render_text #see Spec::Rails::Matchers
+      # Use should render_template or have_text #see Spec::Rails::Matchers
       def should_render(expected)
         if expected.is_a?(Symbol) || expected.is_a?(String)
           expected = {:template => "#{controller_path}/#{expected}"}

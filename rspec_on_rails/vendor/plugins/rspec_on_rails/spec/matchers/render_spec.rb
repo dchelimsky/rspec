@@ -67,7 +67,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
     end
   end
 
-  context "response.should render_text (in #{mode} mode)",
+  context "response.should have_text (in #{mode} mode)",
     :context_type => :controller do
     controller_name :render_spec
     if mode == 'integration'
@@ -76,25 +76,25 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
     specify "should pass with exactly matching text" do
       post 'text_action'
-      response.should render_text("this is the text for this action")
+      response.should have_text("this is the text for this action")
     end
 
     specify "should pass with matching text (using Regexp)" do
       post 'text_action'
-      response.should render_text(/is the text/)
+      response.should have_text(/is the text/)
     end
 
     specify "should fail with matching text" do
       post 'text_action'
       lambda {
-        response.should render_text("this is NOT the text for this action")
+        response.should have_text("this is NOT the text for this action")
       }.should_fail_with "expected \"this is NOT the text for this action\", got \"this is the text for this action\""
     end
 
     specify "should fail when a template is rendered" do
       post 'some_action'
       lambda {
-        response.should render_text("this is the text for this action")
+        response.should have_text("this is the text for this action")
       }.should_fail_with /expected \"this is the text for this action\", got .*/
     end
   end
