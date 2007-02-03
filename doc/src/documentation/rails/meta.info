@@ -18,3 +18,9 @@ generators.page:
 runners.page:
   inMenu: true
   orderInfo: 125  
+
+rdoc.html:
+  title: RDoc
+  dest: ../../rdoc-rails/index.html
+  inMenu: true
+  orderInfo: 130

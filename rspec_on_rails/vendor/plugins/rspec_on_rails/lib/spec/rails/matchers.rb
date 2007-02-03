@@ -1,7 +1,8 @@
 dir = File.dirname(__FILE__)
-require File.expand_path("#{dir}/matchers/assert_select")
-require File.expand_path("#{dir}/matchers/redirect_to")
-require File.expand_path("#{dir}/matchers/render")
+require "spec/rails/matchers/assert_select"
+require "spec/rails/matchers/have_text"
+require "spec/rails/matchers/redirect_to"
+require "spec/rails/matchers/render_template"
 
 module Spec
   module Rails
@@ -381,19 +382,19 @@ module Spec
       end
       
       # :call-seq:
-      #   response.should render_text(expected)
-      #   response.should_not render_text(expected)
+      #   response.should have_text(expected)
+      #   response.should_not have_text(expected)
       #
       # Accepts a String or a Regexp, matching a String using ==
       # and a Regexp using =~.
       #
-      # Use this 
+      # Use this as a lightweight version of 
       #
       # == Examples
       #
-      #   response.should render_text("This is the expected text")
-      def render_text(text)
-        RenderText.new(text)
+      #   response.should have_text("This is the expected text")
+      def have_text(text)
+        HaveText.new(text)
       end
     end
   end

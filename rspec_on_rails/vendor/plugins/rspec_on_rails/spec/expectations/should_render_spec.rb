@@ -85,7 +85,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
       #Gone for 0.9
       response.should_render :text => "this is the text for this action"
       #0.8
-      response.should render_text("this is the text for this action")
+      response.should have_text("this is the text for this action")
     end
     
     specify "controller.should_render with an Ajax request and RJS template before the action" do

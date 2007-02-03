@@ -1,11 +1,9 @@
-dir = File.expand_path(File.dirname(__FILE__))
-
-require "#{dir}/context/base"
-require "#{dir}/context/functional"
-require "#{dir}/context/model"
-require "#{dir}/context/controller"
-require "#{dir}/context/helper"
-require "#{dir}/context/view"
+require "spec/rails/context/base"
+require "spec/rails/context/functional"
+require "spec/rails/context/model"
+require "spec/rails/context/controller"
+require "spec/rails/context/helper"
+require "spec/rails/context/view"
 
 
 
