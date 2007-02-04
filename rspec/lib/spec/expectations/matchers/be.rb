@@ -4,7 +4,7 @@ module Spec
       
       class Be #:nodoc:
         def initialize(expected=nil, *args)
-          @expected = expected
+          @expected = parse_expected(expected)
           @args = args
           @comparison = ""
         end
@@ -32,12 +32,14 @@ module Spec
         def expected
           return true if @expected == :true?
           return false if @expected == :false?
+          return "nil" if @expected == :nil?
           return @expected.inspect
         end
         
         def match_or_compare
           return @actual == true if @expected == :true?
           return @actual == false if @expected == :false?
+          return @actual.nil? if @expected == :nil?
           return @actual < @expected if @less_than
           return @actual <= @expected if @less_than_or_equal
           return @actual >= @expected if @greater_than_or_equal
@@ -74,6 +76,15 @@ module Spec
         end
 
         private
+          def parse_expected(expected)
+            if Symbol === expected
+              ["be_an_","be_a_","be_"].each do |prefix|
+                return "#{expected.to_s.sub(prefix,"")}?".to_sym if expected.starts_with?(prefix)
+              end
+            end
+            return expected
+          end
+
           def predicate
             "#{@expected.to_s}".to_sym
           end
@@ -85,7 +96,7 @@ module Spec
           end
           
           def handling_predicate?
-            return false if [:true?, :false?].include?(@expected)
+            return false if [:true?, :false?, :nil?].include?(@expected)
             return @expected.is_a?(Symbol) && @expected.to_s =~ /\?$/
           end
       end

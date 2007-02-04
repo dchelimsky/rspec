@@ -70,14 +70,14 @@ module Spec
       
       context "Spec::Expectations::Matchers should convert be_xyz to..." do
         specify "sym passed to Be" do
-          Be.should_receive(:new).with(:whatever?)
+          Be.should_receive(:new).with(:be_whatever)
           be_whatever
         end
       end
       
       context "Spec::Expectations::Matchers should convert have_xyz to..." do
         specify "string passed to Has" do
-          Has.should_receive(:new).with("whatever")
+          Has.should_receive(:new).with(:have_whatever)
           have_whatever
         end
       end

@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../../../spec_helper.rb'
 
-context "target.should be_close(expected, delta)" do
+context "should be_close(expected, delta)" do
   specify "should pass if target == expected" do
     5.0.should be_close(5.0, 0.5)
   end

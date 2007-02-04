@@ -1,31 +1,37 @@
 require File.dirname(__FILE__) + '/../../../spec_helper.rb'
 
-context "Has.new(:sym)" do
-  specify "should match if has_sym? returns true" do
-    Spec::Expectations::Matchers::Has.new(:key, :a).matches?({:a => "A"}).should be_true
+context "should have_sym(*args)" do
+  specify "should pass if #has_sym?(*args) returns true" do
+    {:a => "A"}.should have_key(:a)
   end
 
-  specify "should not match if target has_sym? returns false" do
-    matcher = Spec::Expectations::Matchers::Has.new(:key, :a)
-    matcher.matches?({:b => "A"}).should be_false
-    matcher.failure_message.should == "expected #has_key?(:a) to return true, got false"
+  specify "should fail if #has_sym?(*args) returns false" do
+    lambda {
+      {:b => "B"}.should have_key(:a)
+    }.should_fail_with "expected #has_key?(:a) to return true, got false"
   end
 
-  specify "should not match if target does not respond to has_sym?" do
-    matcher = Spec::Expectations::Matchers::Has.new(:key, :a)
-    matcher.matches?(Object.new).should be_false
-    matcher.failure_message.should == "target does not respond to #has_key?"
+  specify "should fail if target does not respond to #has_sym?" do
+    lambda {
+      Object.new.should have_key(:a)
+    }.should_fail_with "target does not respond to #has_key?"
   end
-  
-  specify "should have negative failure message when has_sym? returns true" do
-    matcher = Spec::Expectations::Matchers::Has.new(:key, :a)
-    matcher.matches?({:a => "A"})
-    matcher.negative_failure_message.should == "expected #has_key?(:a) to return false, got true"
+end
+
+context "should_not have_sym(*args)" do
+  specify "should pass if #has_sym?(*args) returns false" do
+    {:a => "A"}.should_not have_key(:b)
   end
-  
-  specify "should have negative failure message when target does not respond to has_sym?" do
-    matcher = Spec::Expectations::Matchers::Has.new(:key, :a)
-    matcher.matches?(Object.new)
-    matcher.negative_failure_message.should == "target does not respond to #has_key?"
+
+  specify "should fail if #has_sym?(*args) returns true" do
+    lambda {
+      {:a => "A"}.should_not have_key(:a)
+    }.should_fail_with "expected #has_key?(:a) to return false, got true"
+  end
+
+  specify "should fail if target does not respond to #has_sym?" do
+    lambda {
+      Object.new.should have_key(:a)
+    }.should_fail_with "target does not respond to #has_key?"
   end
 end

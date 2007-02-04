@@ -38,7 +38,7 @@ module Spec
 
         def negative_failure_message
           if @relativity == :exactly
-            return "expected not #{relativities[@relativity]}#{@expected} #{@sym}, got #{@actual}"
+            return "expected target not to have #{@expected} #{@sym}, got #{@actual}"
           elsif @relativity == :at_most
             return <<-EOF
 Isn't life confusing enough?

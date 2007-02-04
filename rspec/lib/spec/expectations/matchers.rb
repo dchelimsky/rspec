@@ -294,8 +294,8 @@ module Spec
       #
       #   target.should_not be_empty #passes unless target.empty?
       #   target.should_not be_old_enough(16) #passes unless target.old_enough?(16)
-      def be(expected=nil, *args)
-        Matchers::Be.new(expected, *args)
+      def be(*args)
+        Matchers::Be.new(*args)
       end
       
       # :call-seq:
@@ -438,27 +438,10 @@ module Spec
       end
 
       def method_missing(sym, *args, &block) # :nodoc:
-        prefixes = ["be_an_","be_a_","be_"].each do |prefix|
-          return be(make_predicate(prefix, sym), *args) if starts_with(sym, prefix)
-        end
-        if starts_with(sym, "have_")
-          return Matchers::Has.new("#{unprefix(sym, "have_")}", *args)
-        end
+        return Matchers::Be.new(sym, *args) if sym.starts_with?("be_")
+        return Matchers::Has.new(sym, *args) if sym.starts_with?("have_")
         super
       end
-      
-      private
-        def starts_with(sym, prefix)
-          sym.to_s[0..(prefix.length - 1)] == prefix
-        end
-      
-        def make_predicate(prefix, sym)
-          "#{unprefix(sym, prefix)}?".to_sym
-        end
-        
-        def unprefix(str, prefix)
-          str.to_s.sub(prefix,"")
-        end
     end
     
     class Matcher

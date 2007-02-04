@@ -10,25 +10,23 @@ module Spec
         
         def matches?(target)
           @target = target
-          return false unless target.respond_to?(predicate)
+          Spec::Expectations.fail_with("target does not respond to ##{predicate.to_s}") unless @target.respond_to?(predicate)
           return target.send(predicate, *@args)
         end
         
         def failure_message
-          return "target does not respond to #has_key?" unless @target.respond_to?(predicate)
-          "expected ##{predicate.to_s}(#{@args[0].inspect}) to return true, got false"
+          "expected ##{predicate}(#{@args[0].inspect}) to return true, got false"
         end
         
         def negative_failure_message
-          return "target does not respond to #has_key?" unless @target.respond_to?(predicate)
-          "expected ##{predicate.to_s}(#{@args[0].inspect}) to return false, got true"
+          "expected ##{predicate}(#{@args[0].inspect}) to return false, got true"
         end
         
         private
           def predicate
-            "has_#{@sym.to_s}?".to_sym
+            "#{@sym.to_s.sub("have_","has_")}?".to_sym
           end
-        
+          
       end
    
     end

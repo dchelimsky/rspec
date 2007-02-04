@@ -46,7 +46,7 @@ module ExampleExpectations
   
 end
 
-context "ExpectationMatcherHandler behaviour" do
+context "ExpectationMatcherHandler" do
   include ExampleExpectations
   
   specify "should handle submitted args" do

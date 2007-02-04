@@ -11,180 +11,127 @@ module HaveSpecHelper
   end
 end
 
-context "have(n).items" do
+context "should have(n).items" do
   include HaveSpecHelper
 
   specify "should pass if target has a collection of items with n members" do
-    #given
     owner = create_collection_owner_with(3)
-    
-    #then
-    have(3).items_in_collection_with_length_method.matches?(owner).should be(true)
-    have(3).items_in_collection_with_size_method.matches?(owner).should be(true)
+    owner.should have(3).items_in_collection_with_length_method
+    owner.should have(3).items_in_collection_with_size_method
   end
 
-  specify "should handle :no" do
-    #given
+  specify "should convert :no to 0" do
     owner = create_collection_owner_with(0)
-    
-    #then
-    have(:no).items_in_collection_with_length_method.matches?(owner).should be(true)
-    have(:no).items_in_collection_with_size_method.matches?(owner).should be(true)
+    owner.should have(:no).items_in_collection_with_length_method
+    owner.should have(:no).items_in_collection_with_size_method
   end
 
   specify "should fail if target has a collection of items with < n members" do
-    #given
     owner = create_collection_owner_with(3)
-    
-    #then
-    have(4).items_in_collection_with_length_method.matches?(owner).should be(false)
-    have(4).items_in_collection_with_size_method.matches?(owner).should be(false)
+    lambda {
+      owner.should have(4).items_in_collection_with_length_method
+    }.should_fail_with "expected 4 items_in_collection_with_length_method, got 3"
+    lambda {
+      owner.should have(4).items_in_collection_with_size_method
+    }.should_fail_with "expected 4 items_in_collection_with_size_method, got 3"
   end
   
   specify "should fail if target has a collection of items with > n members" do
-    #given
     owner = create_collection_owner_with(3)
-    
-    #then
-    have(2).items_in_collection_with_length_method.matches?(owner).should be(false)
-    have(2).items_in_collection_with_size_method.matches?(owner).should be(false)
-  end
-  
-  specify "should provide failure messages" do
-    #given
-    owner = create_collection_owner_with(3)
-    length_matcher = have(4).items_in_collection_with_length_method
-    size_matcher = have(4).items_in_collection_with_size_method
-    
-    #when
-    length_matcher.matches?(owner)
-    size_matcher.matches?(owner)
-    
-    #then
-    length_matcher.failure_message.should == "expected 4 items_in_collection_with_length_method, got 3"
-    size_matcher.failure_message.should == "expected 4 items_in_collection_with_size_method, got 3"
-  end
-  
-  specify "should provide negative failure messages" do
-    #given
-    owner = create_collection_owner_with(3)
-    length_matcher = have(3).items_in_collection_with_length_method
-    size_matcher = have(3).items_in_collection_with_size_method
-    
-    #when
-    length_matcher.matches?(owner)
-    size_matcher.matches?(owner)
-    
-    #then
-    length_matcher.negative_failure_message.should == "expected not 3 items_in_collection_with_length_method, got 3"
-    size_matcher.negative_failure_message.should == "expected not 3 items_in_collection_with_size_method, got 3"
+    lambda {
+      owner.should have(2).items_in_collection_with_length_method
+    }.should_fail_with "expected 2 items_in_collection_with_length_method, got 3"
+    lambda {
+      owner.should have(2).items_in_collection_with_size_method
+    }.should_fail_with "expected 2 items_in_collection_with_size_method, got 3"
   end
 end
 
-context "have_exactly(n).items" do
+context "should_not have(n).items" do
   include HaveSpecHelper
 
-  specify "should pass if target has a collection of items with n members" do
-    #given
+  specify "should pass if target has a collection of items with < n members" do
     owner = create_collection_owner_with(3)
-    
-    #then
-    have_exactly(3).items_in_collection_with_length_method.matches?(owner).should be(true)
-    have_exactly(3).items_in_collection_with_size_method.matches?(owner).should be(true)
-  end
-
-  specify "should fail if target has a collection of items with < n members" do
-    #given
-    owner = create_collection_owner_with(3)
-    
-    #then
-    have_exactly(4).items_in_collection_with_length_method.matches?(owner).should be(false)
-    have_exactly(4).items_in_collection_with_size_method.matches?(owner).should be(false)
-  end
-  
-  specify "should fail if target has a collection of items with > n members" do
-    #given
-    owner = create_collection_owner_with(3)
-    
-    #then
-    have_exactly(2).items_in_collection_with_length_method.matches?(owner).should be(false)
-    have_exactly(2).items_in_collection_with_size_method.matches?(owner).should be(false)
-  end
-  
-  specify "should provide failure messages" do
-    #given
-    owner = create_collection_owner_with(3)
-    length_matcher = have_exactly(4).items_in_collection_with_length_method
-    size_matcher = have_exactly(4).items_in_collection_with_size_method
-    
-    #when
-    length_matcher.matches?(owner)
-    size_matcher.matches?(owner)
-    
-    #then
-    length_matcher.failure_message.should == "expected 4 items_in_collection_with_length_method, got 3"
-    size_matcher.failure_message.should == "expected 4 items_in_collection_with_size_method, got 3"
-  end
-  
-  specify "should provide negative failure messages" do
-    #given
-    owner = create_collection_owner_with(3)
-    length_matcher = have_exactly(3).items_in_collection_with_length_method
-    size_matcher = have_exactly(3).items_in_collection_with_size_method
-    
-    #when
-    length_matcher.matches?(owner)
-    size_matcher.matches?(owner)
-    
-    #then
-    length_matcher.negative_failure_message.should == "expected not 3 items_in_collection_with_length_method, got 3"
-    size_matcher.negative_failure_message.should == "expected not 3 items_in_collection_with_size_method, got 3"
-  end
-end
-
-context "have_at_least(n).items" do
-  include HaveSpecHelper
-
-  specify "should pass if target has a collection of items with n members" do
-    #given
-    owner = create_collection_owner_with(3)
-    
-    #then
-    have_at_least(3).items_in_collection_with_length_method.matches?(owner).should be(true)
-    have_at_least(3).items_in_collection_with_size_method.matches?(owner).should be(true)
-  end
-
-  specify "should fail if target has a collection of items with < n members" do
-    #given
-    owner = create_collection_owner_with(3)
-    
-    #then
-    have_at_least(4).items_in_collection_with_length_method.matches?(owner).should be(false)
-    have_at_least(4).items_in_collection_with_size_method.matches?(owner).should be(false)
+    owner.should_not have(4).items_in_collection_with_length_method
+    owner.should_not have(4).items_in_collection_with_size_method
   end
   
   specify "should pass if target has a collection of items with > n members" do
-    #given
     owner = create_collection_owner_with(3)
-    
-    #then
-    have_at_least(2).items_in_collection_with_length_method.matches?(owner).should be(true)
-    have_at_least(2).items_in_collection_with_size_method.matches?(owner).should be(true)
+    owner.should_not have(2).items_in_collection_with_length_method
+    owner.should_not have(2).items_in_collection_with_size_method
+  end
+
+  specify "should fail if target has a collection of items with n members" do
+    owner = create_collection_owner_with(3)
+    lambda {
+      owner.should_not have(3).items_in_collection_with_length_method
+    }.should_fail_with "expected target not to have 3 items_in_collection_with_length_method, got 3"
+    lambda {
+      owner.should_not have(3).items_in_collection_with_size_method
+      }.should_fail_with "expected target not to have 3 items_in_collection_with_size_method, got 3"
+  end
+end
+
+context "should have_exactly(n).items" do
+  include HaveSpecHelper
+
+  specify "should pass if target has a collection of items with n members" do
+    owner = create_collection_owner_with(3)
+    owner.should have_exactly(3).items_in_collection_with_length_method
+    owner.should have_exactly(3).items_in_collection_with_size_method
+  end
+
+  specify "should convert :no to 0" do
+    owner = create_collection_owner_with(0)
+    owner.should have_exactly(:no).items_in_collection_with_length_method
+    owner.should have_exactly(:no).items_in_collection_with_size_method
+  end
+
+  specify "should fail if target has a collection of items with < n members" do
+    owner = create_collection_owner_with(3)
+    lambda {
+      owner.should have_exactly(4).items_in_collection_with_length_method
+    }.should_fail_with "expected 4 items_in_collection_with_length_method, got 3"
+    lambda {
+      owner.should have_exactly(4).items_in_collection_with_size_method
+    }.should_fail_with "expected 4 items_in_collection_with_size_method, got 3"
   end
   
-  specify "should provide failure messages" do
-    #given
+  specify "should fail if target has a collection of items with > n members" do
     owner = create_collection_owner_with(3)
-    length_matcher = have_at_least(4).items_in_collection_with_length_method
-    size_matcher = have_at_least(4).items_in_collection_with_size_method
-    
-    #when
-    length_matcher.matches?(owner)
-    size_matcher.matches?(owner)
-    
-    #then
-    length_matcher.failure_message.should == "expected at least 4 items_in_collection_with_length_method, got 3"
-    size_matcher.failure_message.should == "expected at least 4 items_in_collection_with_size_method, got 3"
+    lambda {
+      owner.should have_exactly(2).items_in_collection_with_length_method
+    }.should_fail_with "expected 2 items_in_collection_with_length_method, got 3"
+    lambda {
+      owner.should have_exactly(2).items_in_collection_with_size_method
+    }.should_fail_with "expected 2 items_in_collection_with_size_method, got 3"
+  end
+end
+
+context "should have_at_least(n).items" do
+  include HaveSpecHelper
+
+  specify "should pass if target has a collection of items with n members" do
+    owner = create_collection_owner_with(3)
+    owner.should have_at_least(3).items_in_collection_with_length_method
+    owner.should have_at_least(3).items_in_collection_with_size_method
+  end
+  
+  specify "should pass if target has a collection of items with > n members" do
+    owner = create_collection_owner_with(3)
+    owner.should have_at_least(2).items_in_collection_with_length_method
+    owner.should have_at_least(2).items_in_collection_with_size_method
+  end
+
+  specify "should fail if target has a collection of items with < n members" do
+    owner = create_collection_owner_with(3)
+    lambda {
+      owner.should have_at_least(4).items_in_collection_with_length_method
+    }.should_fail_with "expected at least 4 items_in_collection_with_length_method, got 3"
+    lambda {
+      owner.should have_at_least(4).items_in_collection_with_size_method
+    }.should_fail_with "expected at least 4 items_in_collection_with_size_method, got 3"
   end
   
   specify "should provide educational negative failure messages" do
@@ -216,51 +163,31 @@ EOF
   end
 end
 
-context "have_at_most(n).items" do
+context "should have_at_most(n).items" do
   include HaveSpecHelper
 
   specify "should pass if target has a collection of items with n members" do
-    #given
     owner = create_collection_owner_with(3)
-    
-    #then
-    have_at_most(3).items_in_collection_with_length_method.matches?(owner).should be(true)
-    have_at_most(3).items_in_collection_with_size_method.matches?(owner).should be(true)
+    owner.should have_at_most(3).items_in_collection_with_length_method
+    owner.should have_at_most(3).items_in_collection_with_size_method
   end
 
-  specify "should pass if target has a collection of items with < n members" do
-    #given
-    owner = create_collection_owner_with(3)
-    
-    #then
-    have_at_most(4).items_in_collection_with_length_method.matches?(owner).should be(true)
-    have_at_most(4).items_in_collection_with_size_method.matches?(owner).should be(true)
-  end
-  
   specify "should fail if target has a collection of items with > n members" do
-    #given
     owner = create_collection_owner_with(3)
-    
-    #then
-    have_at_most(2).items_in_collection_with_length_method.matches?(owner).should be(false)
-    have_at_most(2).items_in_collection_with_size_method.matches?(owner).should be(false)
+    lambda {
+      owner.should have_at_most(2).items_in_collection_with_length_method
+    }.should_fail_with "expected at most 2 items_in_collection_with_length_method, got 3"
+    lambda {
+      owner.should have_at_most(2).items_in_collection_with_size_method
+    }.should_fail_with "expected at most 2 items_in_collection_with_size_method, got 3"
   end
   
-  specify "should provide failure messages" do
-    #given
+  specify "should pass if target has a collection of items with < n members" do
     owner = create_collection_owner_with(3)
-    length_matcher = have_at_most(4).items_in_collection_with_length_method
-    size_matcher = have_at_most(4).items_in_collection_with_size_method
-    
-    #when
-    length_matcher.matches?(owner)
-    size_matcher.matches?(owner)
-    
-    #then
-    length_matcher.failure_message.should == "expected at most 4 items_in_collection_with_length_method, got 3"
-    size_matcher.failure_message.should == "expected at most 4 items_in_collection_with_size_method, got 3"
+    owner.should have_at_most(4).items_in_collection_with_length_method
+    owner.should have_at_most(4).items_in_collection_with_size_method
   end
-  
+
   specify "should provide educational negative failure messages" do
     #given
     owner = create_collection_owner_with(3)

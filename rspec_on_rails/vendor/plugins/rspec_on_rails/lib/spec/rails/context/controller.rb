@@ -6,7 +6,7 @@ module Spec
       #
       # This gets added to the controller's singleton meta class,
       # allowing Controller Specs to run in two modes, freely switching
-      # from spec to spec.
+      # from context to context.
       #
       # The two modes represent the tension between the more granular
       # testing common in TDD and the more high level testing built into
@@ -70,6 +70,8 @@ module Spec
       end
       
       #backwards compatibility to RSpec 0.7.0-0.7.2
+      # Deprecated - gone for 9.0
+      # Use response.should render_template or response.should have_text #see Spec::Rails::Matchers
       alias_method :should_have_rendered, :should_render
 
       # Deprecated - gone for 9.0

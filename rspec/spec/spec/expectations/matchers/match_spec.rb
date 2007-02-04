@@ -1,23 +1,37 @@
 require File.dirname(__FILE__) + '/../../../spec_helper.rb'
 
-context "target.should match(expected)" do
+context "should match(expected)" do
   specify "should pass when target (String) matches expected (Regexp)" do
-    match(/tri/).matches?("string").should be_true
+    "string".should match(/tri/)
   end
 
   specify "should fail when target (String) matches expected (Regexp)" do
-    match(/rings/).matches?("string").should be_false
+    lambda {
+      "string".should match(/rings/)
+    }.should_fail
   end
 
-  specify "should provide a failure_message" do
+  specify "should provide message, expected and actual on failure" do
     matcher = match(/rings/)
     matcher.matches?("string")
     matcher.failure_message.should == ["expected \"string\" to match /rings/", /rings/, "string"]
   end
+end
 
-  specify "should provide a negative_failure_message" do
-    matcher = match(/ring/)
+context "should_not match(expected)" do
+  specify "should pass when target (String) matches expected (Regexp)" do
+    "string".should_not match(/rings/)
+  end
+
+  specify "should fail when target (String) matches expected (Regexp)" do
+    lambda {
+      "string".should_not match(/tri/)
+    }.should_fail
+  end
+
+  specify "should provide message, expected and actual on failure" do
+    matcher = match(/tri/)
     matcher.matches?("string")
-    matcher.negative_failure_message.should == ["expected \"string\" not to match /ring/", /ring/, "string"]
+    matcher.negative_failure_message.should == ["expected \"string\" not to match /tri/", /tri/, "string"]
   end
 end
