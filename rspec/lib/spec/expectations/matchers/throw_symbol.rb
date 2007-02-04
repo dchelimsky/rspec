@@ -23,17 +23,17 @@ module Spec
 
         def failure_message
           if @actual
-            "expected #{expected} thrown, got #{@actual.inspect}"
+            "expected #{expected}, got #{@actual.inspect}"
           else
-            "expected #{expected} thrown but nothing was thrown"
+            "expected #{expected} but nothing was thrown"
           end
         end
         
         def negative_failure_message
           if @expected
-            "expected #{expected} to not be thrown, but it was"
+            "expected #{expected} not to be thrown"
           else
-            "expected no Symbol thrown, got :#{@actual}"
+            "expected no Symbol, got :#{@actual}"
           end
         end
         

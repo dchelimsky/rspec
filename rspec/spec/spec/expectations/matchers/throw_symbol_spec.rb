@@ -1,85 +1,59 @@
 require File.dirname(__FILE__) + '/../../../spec_helper.rb'
 
-context "proc.should throw_symbol(:sym)" do
-  specify "should match if symbol is thrown" do
-    throw_symbol.matches?(lambda{ throw :sym }).should be(true)
+context "should throw_symbol" do
+  specify "should pass if any Symbol is thrown" do
+    lambda{ throw :sym }.should throw_symbol
   end
 
-  specify "should not match if symbol is not thrown" do
-    throw_symbol.matches?(lambda{ }).should be(false)
-  end
-  
-  specify "should provide failure message" do
-    #given
-    proc = lambda {}
-    matcher = throw_symbol
-    
-    #when
-    matcher.matches?(proc)
-    
-    #then
-    matcher.failure_message.should == "expected a Symbol thrown but nothing was thrown"
-  end
-  
-  specify "should provide negative failure message" do
-    #given
-    proc = lambda {throw :sym}
-    matcher = throw_symbol
-    
-    #when
-    matcher.matches?(proc)
-    
-    #then
-    matcher.negative_failure_message.should == "expected no Symbol thrown, got :sym"
+  specify "should fail if no Symbol is thrown" do
+    lambda {
+      lambda { }.should throw_symbol
+    }.should_fail_with "expected a Symbol but nothing was thrown"
   end
 end
 
-context "proc.should throw_symbol(:sym)" do
-  specify "should match if symbol is thrown" do
-    throw_symbol(:sym).matches?(lambda{ throw :sym }).should be(true)
+context "should_not throw_symbol" do
+  specify "should pass if no Symbol is thrown" do
+    lambda{ }.should_not throw_symbol
   end
 
-  specify "should not match if no symbol is thrown" do
-    throw_symbol(:sym).matches?(lambda{ }).should be(false)
+  specify "should fail if any Symbol is thrown" do
+    lambda {
+      lambda { throw :sym }.should_not throw_symbol
+    }.should_fail_with "expected no Symbol, got :sym"
+  end
+end
+
+context "should throw_symbol(:sym)" do
+  specify "should pass if correct Symbol is thrown" do
+    lambda{ throw :sym }.should throw_symbol(:sym)
   end
 
-  specify "should not match if wrong symbol is thrown" do
-    throw_symbol(:sym).matches?(lambda{ throw :other }).should be(false)
+  specify "should fail if no Symbol is thrown" do
+    lambda {
+      lambda { }.should throw_symbol(:sym)
+    }.should_fail_with "expected :sym but nothing was thrown"
   end
-  
-  specify "should supply failure_message if no symbol is thrown" do
-    #given
-    proc = lambda {}
-    matcher = throw_symbol(:sym)
-    
-    #when
-    matcher.matches?(proc)
-    
-    #then
-    matcher.failure_message.should == "expected :sym thrown but nothing was thrown"
+
+  specify "should fail if wrong Symbol is thrown" do
+    lambda {
+      lambda { throw :wrong_sym }.should throw_symbol(:sym)
+    }.should_fail_with "expected :sym, got :wrong_sym"
   end
-  
-  specify "should supply failure_message if wrong symbol is thrown" do
-    #given
-    proc = lambda { throw :other }
-    matcher = throw_symbol(:sym)
-    
-    #when
-    matcher.matches?(proc)
-    
-    #then
-    matcher.failure_message.should == "expected :sym thrown, got :other"
+end
+
+context "should_not throw_symbol(:sym)" do
+  specify "should pass if no Symbol is thrown" do
+    lambda { }.should_not throw_symbol(:sym)
   end
-  
-  specify "should supply negative_failure_message if exact symbol is thrown" do
-    #given
-    proc = lambda { throw :sym }
-    matcher = throw_symbol(:sym)
-    
-    #when
-    matcher.matches?(proc)
-    
-    #then
-    matcher.negative_failure_message.should == "expected :sym to not be thrown, but it was"
+
+  specify "should pass if other Symbol is thrown" do
+    lambda { throw :wrong_sym }.should_not throw_symbol(:sym)
+  end
+
+  specify "should fail if correct Symbol is thrown" do
+    lambda {
+      lambda{ throw :sym }.should_not throw_symbol(:sym)
+    }.should_fail_with "expected :sym not to be thrown"
   end
 end

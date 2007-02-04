@@ -388,7 +388,7 @@ module Spec
       # Accepts a String or a Regexp, matching a String using ==
       # and a Regexp using =~.
       #
-      # Use this as a lightweight version of 
+      # Use this as a lightweight version of response.should have_tag().
       #
       # == Examples
       #

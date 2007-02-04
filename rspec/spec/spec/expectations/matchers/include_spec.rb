@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../../../spec_helper.rb'
 
-context "target.should include(expected)" do
+context "should include(expected)" do
   specify "should pass if target includes expected" do
     [1,2,3].should include(3)
     "abc".should include("a")
@@ -16,7 +16,7 @@ context "target.should include(expected)" do
   end
 end
 
-context "target.should_not include(expected)" do
+context "should_not include(expected)" do
   specify "should pass if target does not include expected" do
     [1,2,3].should_not include(4)
     "abc".should_not include("d")

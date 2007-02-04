@@ -53,7 +53,7 @@ module Spec
             when nil
               @expected_error
             when Regexp
-              "RuntimeError with message matching #{@expected_message.inspect}"
+              "#{@expected_error} with message matching #{@expected_message.inspect}"
             else
               "#{@expected_error} with #{@expected_message.inspect}"
             end
