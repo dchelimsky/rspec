@@ -316,9 +316,9 @@ module Spec
       #
       # === Example
       #
-      # response.should send_mail {
-      #   with_tag("h1", "Email alert")
-      #  }
+      #   response.should send_mail {
+      #     with_tag("h1", "Email alert")
+      #   }
       def send_email(*args, &block)
         args.unshift(response)
         case args.last

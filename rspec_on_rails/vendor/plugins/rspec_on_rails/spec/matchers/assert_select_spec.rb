@@ -185,7 +185,7 @@ context "should have_tag", :context_type => :controller do
     }
   end
   
-  #added for RSpec - all others are converted
+  #added for RSpec
   specify "nested tags in form" do
     render_html %Q{
       <form action="test">
