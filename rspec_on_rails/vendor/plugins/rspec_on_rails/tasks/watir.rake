@@ -1,4 +1,9 @@
-require 'spec/rake/spectask'
+rspec_base = File.expand_path(File.dirname(__FILE__) + '/../../rspec')
+if File.exist?(rspec_base)
+  require rspec_base + '/lib/spec/rake/spectask'
+else
+  require 'spec/rake/spectask'
+end
 
 namespace :spec do
   report_dir = "#{RAILS_ROOT}/doc/spec/watir"
