@@ -8,7 +8,9 @@ lib/spec/ui/selenium_helper.rb
 lib/spec/ui/version.rb
 lib/spec/ui/watir_helper.rb
 lib/spec/ui/webapp_helper.rb
-lib/spec/ui/rmagick_not_installed.rb
+lib/spec/ui/rmagick_not_installed.png
+lib/spec/ui/win32screenshot_not_installed.png
+lib/spec/ui/wrong_win32screenshot.png
 examples/selenium/Rakefile
 examples/selenium/README.txt
 examples/selenium/spec/google/find_rspecs_homepage_spec.rb

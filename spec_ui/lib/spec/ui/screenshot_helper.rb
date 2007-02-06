@@ -1,3 +1,5 @@
+require 'fileutils'
+
 module Spec
   module Ui
     module ScreenshotHelper
@@ -18,6 +20,8 @@ module Spec
             begin
               img = Magick::Image.from_blob(bmp)[0]
               img_path = "#{dir}/#{spec_number}.png"
+              dir = File.dirname(img_path)
+              FileUtils.mkdir_p(dir) unless File.exist?(dir)
               img.write(img_path)
               img
             rescue Magick::ImageMagickError => e
