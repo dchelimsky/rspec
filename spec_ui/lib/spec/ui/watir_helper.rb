@@ -20,6 +20,29 @@ end
 module Spec
   # Matchers for Watir
   module Watir
+    class HaveText
+      def initialize(text_or_regexp)
+        @text_or_regexp = text_or_regexp
+      end
+      
+      def matches?(browser)
+        @browser = browser
+        if @text_or_regexp.is_a?(Regexp)
+          !!browser.text =~ @text_or_regexp
+        else
+          !!browser.text.index(@text_or_regexp.to_s)
+        end
+      end
+      
+      def failure_message
+        "Expected browser to have text matching #{@text_or_regexp}, but it was not found in:\n#{@browser.text}"
+      end
+
+      def negative_failure_message
+        "Expected browser to not have text matching #{@text_or_regexp}, but it was found in:\n#{@browser.text}"
+      end
+    end
+
     class HaveHtml
       def initialize(text_or_regexp)
         @text_or_regexp = text_or_regexp
@@ -37,6 +60,10 @@ module Spec
       def failure_message
         "Expected browser to have HTML matching #{@text_or_regexp}, but it was not found in:\n#{@browser.html}"
       end
+
+      def negative_failure_message
+        "Expected browser to not have HTML matching #{@text_or_regexp}, but it was found in:\n#{@browser.html}"
+      end
     end
 
     class HaveLink
@@ -48,8 +75,14 @@ module Spec
         @browser = browser
         begin
           link = @browser.link(@how, @what)
-          link.assert_exists
-          true
+          if link.respond_to?(:assert_exists)
+            # IE
+            link.assert_exists
+            true
+          else
+            # Safari
+            link.exists?
+          end
         rescue ::Watir::Exception::UnknownObjectException => e
           false
         end
@@ -89,6 +122,10 @@ module Spec
       end
     end
   end
+end
+
+def have_text(text)
+  Spec::Watir::HaveText.new(text)
 end
 
 def have_html(text)
