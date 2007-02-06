@@ -11,7 +11,13 @@ module Spec
           @block = block
         end
         
-        def matches?(target)
+        def matches?(target, &block)
+          if block
+            Spec::Expectations.fail_with(<<-EOF
+block passed to should or should_not change must use {} instead of do/end
+EOF
+)
+          end
           @target = target
           execute_change
           return false if @from && (@from != @before)

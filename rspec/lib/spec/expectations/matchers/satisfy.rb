@@ -7,7 +7,8 @@ module Spec
           @block = block
         end
         
-        def matches?(actual)
+        def matches?(actual, &block)
+          @block = block if block
           @actual = actual
           @block.call(actual)
         end
