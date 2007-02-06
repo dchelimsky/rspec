@@ -54,6 +54,13 @@ context "should change { block }" do
       lambda {}.should change{ @instance.some_value }
     end.should_fail_with "result should have changed, but is still 5"
   end
+  
+  specify "should warn if passed a block using do/end" do
+    lambda do
+      lambda {}.should change do
+      end
+    end.should_fail_with /block passed to should or should_not/
+  end
 end
 
 context "should_not change { block }" do
@@ -70,6 +77,13 @@ context "should_not change { block }" do
     lambda do
       lambda {@instance.some_value = 6}.should_not change { @instance.some_value }
     end.should_fail_with "result should not have changed, but did change from 5 to 6"
+  end
+  
+  specify "should warn if passed a block using do/end" do
+    lambda do
+      lambda {}.should_not change do
+      end
+    end.should_fail_with /block passed to should or should_not/
   end
 end
 

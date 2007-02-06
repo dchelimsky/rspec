@@ -406,7 +406,7 @@ module Spec
       #   string = "string"
       #   lambda {
       #     string.reverse
-      #   }.should change{ string }.from("string").to("gnirts")
+      #   }.should change { string }.from("string").to("gnirts")
       #
       #   lambda {
       #     person.happy_birthday
@@ -422,8 +422,11 @@ module Spec
       # Then compares the values before and after the <code>receiver.message</code> and
       # evaluates the difference compared to the expected difference.
       #
-      # Note that should_not change <b>only supports the form with no subsequent calls</b> to
+      # <b>Note that <code>should_not change</code> only supports the form with no subsequent calls</b> to
       # <code>be</code>, <code>to</code> or <code>from </code>.
+      #
+      # <b>Note that blocks passed to <code>should change</code> and <code>should_not change</code>
+      # must use the <code>{}</code> form (<code>do/end</code> is not supported)</b>
       def change(target=nil, message=nil, &block)
         Matchers::Change.new(target, message, &block)
       end

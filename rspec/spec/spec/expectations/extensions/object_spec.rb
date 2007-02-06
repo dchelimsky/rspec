@@ -21,13 +21,6 @@ context "Object#should" do
       @target.should @matcher
     }.should_fail_with "the failure message"
   end
-  
-  specify "should warn when it receives a block" do
-    lambda {
-      @target.should @matcher do
-      end
-    }.should_fail_with /#should received an unexpected block/
-  end
 end
 
 context "Object#should_not" do
@@ -49,12 +42,5 @@ context "Object#should_not" do
     lambda {
       @target.should_not @matcher
     }.should_fail_with "the negative failure message"
-  end
-  
-  specify "should warn when it receives a block" do
-    lambda {
-      @target.should_not @matcher do
-      end
-    }.should_fail_with /#should_not received an unexpected block/
   end
 end
