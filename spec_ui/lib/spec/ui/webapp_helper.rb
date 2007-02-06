@@ -1,7 +1,6 @@
 require 'spec'
-require 'spec/ui/screenshot_helper'
-require 'spec/ui/webapp_helper'
-require 'spec/ui/formatter'
+require File.dirname(__FILE__) + '/screenshot_helper'
+require File.dirname(__FILE__) + '/formatter'
 
 module Spec
   module Ui
