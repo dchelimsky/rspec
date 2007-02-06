@@ -27,4 +27,12 @@ context "Google's search page" do
     @browser.click_and_wait "name=btnG"
     @browser.is_text_present("Ali G").should_be(false)
   end
+
+  teardown do
+    save_screenshot_and_source(@browser)
+  end
+
+  context_teardown do
+    @browser.kill! rescue nil
+  end
 end

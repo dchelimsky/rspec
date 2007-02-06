@@ -26,4 +26,12 @@ context "Google's search page" do
     @browser.button(:name, "btnG").click
     @browser.contains_text("Ali G").should_be nil
   end
+
+  teardown do
+    save_screenshot_and_source(@browser)
+  end
+
+  context_teardown do
+    @browser.kill! rescue nil
+  end
 end
