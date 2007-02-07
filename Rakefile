@@ -11,8 +11,9 @@ task :pre_commit => [
 
 desc "Runs pre_commit against rspec (core)"
 task :pre_commit_core do
-  Dir.chdir 'rspec' do    
-    system("rake pre_commit --verbose")
+  Dir.chdir 'rspec' do
+    rake = (PLATFORM == "i386-mswin32") ? "rake.cmd" : "rake"
+    system("#{rake} pre_commit --verbose")
     raise "RSpec Core pre_commit failed" if $? != 0
   end
 end
