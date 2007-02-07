@@ -46,7 +46,7 @@ context "A new Person with a name" do
   end
 
   specify "should have no errors after save" do
-    @person.save.should_be true
+    @person.save.should be_true
     @person.errors.should be_empty
   end
 end

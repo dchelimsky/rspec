@@ -23,7 +23,8 @@ module Spec
           @block = block
         end
         
-        def matches?(target)
+        def matches?(target, &block)
+          @block = block if block
           @@selected  = determine_selected(target)
           case @select_type
             when "rjs"
@@ -198,6 +199,7 @@ module Spec
 
         def assert_select_rjs(*args, &block)
           arg = args.shift
+          rjs_type = arg
           # If the first argument is a symbol, it's the type of RJS statement we're looking
           # for (update, replace, insertion, etc). Otherwise, we're looking for just about
           # any RJS statement.
@@ -229,13 +231,15 @@ module Spec
           
           # Duplicate the body since the next step involves destroying it.
           matches = nil
-          @response.body.dup.gsub(pattern) do |match|
+          @response.body.dup.gsub(pattern) do
             html = $2
             # RJS encodes double quotes and line breaks.
-            html.gsub!(/\\"/, "\"")
-            html.gsub!(/\\n/, "\n")
-            matches ||= []
-            matches.concat HTML::Document.new(html).root.children.select { |n| n.tag? }
+            if html
+              html.gsub!(/\\"/, "\"")
+              html.gsub!(/\\n/, "\n")
+              matches ||= []
+              matches.concat HTML::Document.new(html).root.children.select { |n| n.tag? }
+            end
             ""
           end
           if matches
@@ -248,9 +252,11 @@ module Spec
               end
             end
             matches
+          elsif rjs_type == :hide
+            @response.body =~ /Element\.hide/
           else
             # RJS statement not found.
-            fail_with(args.shift || "No RJS statement that replaces or inserts HTML content.")
+            fail_with(args.shift || "No RJS statement with #{rjs_type.inspect}")
           end
         end
 
@@ -353,7 +359,8 @@ module Spec
         unless const_defined?(:RJS_STATEMENTS)
           RJS_STATEMENTS = {
             :replace      => /Element\.replace/,
-            :replace_html => /Element\.update/
+            :replace_html => /Element\.update/,
+            :hide => /Element\.hide/
           }
           RJS_INSERTIONS = [:top, :bottom, :before, :after]
           RJS_INSERTIONS.each do |insertion|

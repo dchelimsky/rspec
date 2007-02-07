@@ -1,6 +1,15 @@
 ---
 title: Expectations
 ---
+<p style="color:red; font-weight:bold;font-size:1.5em">
+All of the Expectations described on this page<br>
+have been DEPRECATED and REPLACED<br>
+with new syntax based on Expectation Matchers.
+<br>
+<br>
+Please see
+"Spec::Expectations::Matchers":../rdoc/index.html for information.</p>
+
 h2. Expectations
 
 When RSpec executes specifications, it defines a method <code>should</code> on every object in the system. This <code>should</code> method is your entry to the magic of RSpec.
@@ -9,7 +18,9 @@ Almost all expectation forms have a corresponding negated form. It is listed whe
 
 h2. General
 
-h3. %{color:red}CHANGED IN 0.7:% Equality and Identity
+h3. Equality and Identity
+
+%{color:red;font-weight:bold;font-size:1.2em}DEPRECATED. See "Spec::Expectations::Matchers":../rdoc/index.html% 
 
 RSpec now delegates equality evaluation directly to ruby's methods and operators:
 
@@ -31,6 +42,8 @@ Please see "http://www.ruby-doc.org/core/classes/Object.html#M001057":http://www
 
 h3. Floating Point Comparison
 
+%{color:red;font-weight:bold;font-size:1.2em}DEPRECATED. See "Spec::Expectations::Matchers":../rdoc/index.html% 
+
 <ruby>
 actual.should_be_close <value>, <tolerance>
 actual.should_not_be_close <value>, <tolerance>
@@ -43,6 +56,8 @@ actual.should_be_close 27.35, 0.05
 </ruby>
 
 h3. Arbitrary Predicate
+
+%{color:red;font-weight:bold;font-size:1.2em}DEPRECATED. See "Spec::Expectations::Matchers":../rdoc/index.html% 
 
 <ruby>
 actual.should_predicate [optional args]
@@ -60,7 +75,9 @@ container.should_include('a') => container.include?('a')
 container.should_be_empty => container.empty?
 </ruby>
 
-h3. %{color:red}NEW IN 0.7:% Arbitrary ownership 
+h3. Arbitrary ownership 
+
+%{color:red;font-weight:bold;font-size:1.2em}DEPRECATED. See "Spec::Expectations::Matchers":../rdoc/index.html% 
 
 <ruby>
 actual.should_have_<anything> [optional args] 
@@ -76,6 +93,8 @@ hash.should_have_key(:key) => hash.has_key?(:key)
 
 h3. Arbitrary Operators
 
+%{color:red;font-weight:bold;font-size:1.2em}DEPRECATED. See "Spec::Expectations::Matchers":../rdoc/index.html% 
+
 <ruby>
 actual.should_be < value
 actual.should_be <= value
@@ -90,6 +109,8 @@ The operators are sent to <code>actual</code> with supplied arguments. Note that
 
 h3. Pattern Matching
 
+%{color:red;font-weight:bold;font-size:1.2em}DEPRECATED. See "Spec::Expectations::Matchers":../rdoc/index.html% 
+
 <ruby>
 actual.should_match <regexp>
 actual.should =~ <regexp>
@@ -102,6 +123,8 @@ h2. Class/Type
 
 h3. Direct Instance
 
+%{color:red;font-weight:bold;font-size:1.2em}DEPRECATED. See "Spec::Expectations::Matchers":../rdoc/index.html% 
+
 <ruby>
 actual.should_be_an_instance_of <class>
 actual.should_not_be_an_instance_of <class>
@@ -111,6 +134,8 @@ An <code>ExpectationNotMetError</code> is raised if <code>actual</code> is not o
 
 h3. Ancestor Class
 
+%{color:red;font-weight:bold;font-size:1.2em}DEPRECATED. See "Spec::Expectations::Matchers":../rdoc/index.html% 
+
 <ruby>
 actual.should_be_a_kind_of <class>
 actual.should_not_be_a_kind_of <class>
@@ -119,6 +144,8 @@ actual.should_not_be_a_kind_of <class>
 As above, but uses <code>actual.kind_of? class</code>: checking whether <code>class</code> is the direct class of <code>actual</code>, or an ancestor of <code>actual</code>'s direct class.
 
 h3. Duck Type
+
+%{color:red;font-weight:bold;font-size:1.2em}DEPRECATED. See "Spec::Expectations::Matchers":../rdoc/index.html% 
 
 <ruby>
 actual.should_respond_to <symbol>
@@ -131,7 +158,7 @@ h2. Procs
 
 h3. Raising
 
-%{color:red; font-size:1.2em; font-weight:bold}NEW IN 0.7%: should_raise will match the message against a regexp
+%{color:red;font-weight:bold;font-size:1.2em}DEPRECATED. See "Spec::Expectations::Matchers":../rdoc/index.html% 
 
 <ruby>
 proc.should_raise [<exception>], [<message>|<regexp>]
@@ -155,6 +182,8 @@ These forms don't worry about what exception is raised (or not). All they are co
 
 h3. Throwing
 
+%{color:red;font-weight:bold;font-size:1.2em}DEPRECATED. See "Spec::Expectations::Matchers":../rdoc/index.html% 
+
 <ruby>
 proc.should_throw <symbol>
 proc.should_not_throw <symbol>
@@ -168,7 +197,9 @@ proc.should_not_throw
 
 This form is more specific.  It checks that no symbol is thrown from within <code>proc</code>.
 
-h3. %{color:red}NEW IN 0.7.3:% Changing
+h3. Changing
+
+%{color:red;font-weight:bold;font-size:1.2em}DEPRECATED. See "Spec::Expectations::Matchers":../rdoc/index.html% 
 
 <ruby>
 proc.should_change(receiver, :message)                => #fails if no change
@@ -177,7 +208,6 @@ proc.should_change(receiver, :message).to(new_value)  => #fails if changed to a 
 proc.should_change(receiver, :message).from(old_value).to(new_value)
                                          =>#fails if before OR after values are not as expected
 </ruby>
-
 
 Calls <code>receiver.message</code> before and after the proc is executed and checks that
 the value has changed per the various forms.
@@ -196,6 +226,8 @@ h2. Collections
 
 h3. Containment
 
+%{color:red;font-weight:bold;font-size:1.2em}DEPRECATED. See "Spec::Expectations::Matchers":../rdoc/index.html% 
+
 <ruby>
 actual.should_include <object>
 actual.should_not_include <object>
@@ -204,6 +236,8 @@ actual.should_not_include <object>
 This is simply a specific case of the arbitrary predicate form. It uses <code>actual.include?(object)</code> and raises an <code>ExpectationNotMetError</code> if that returns false. 
 
 h3. Size
+
+%{color:red;font-weight:bold;font-size:1.2em}DEPRECATED. See "Spec::Expectations::Matchers":../rdoc/index.html% 
 
 The remaining collection forms are a little more involved. They rely on two things:
 
@@ -214,6 +248,8 @@ Currently <code>length</code> is used if is appropriate, otherwise <code>size</c
 
 h3. Exact Size
 
+%{color:red;font-weight:bold;font-size:1.2em}DEPRECATED. See "Spec::Expectations::Matchers":../rdoc/index.html% 
+
 <ruby>
 actual.should_have(<number>).things
 </ruby>
@@ -221,6 +257,8 @@ actual.should_have(<number>).things
 The <code>things</code> of <code>actual</code> has a length/size of exactly <code>number</code>.
 
 h3. Lower Bound
+
+%{color:red;font-weight:bold;font-size:1.2em}DEPRECATED. See "Spec::Expectations::Matchers":../rdoc/index.html% 
 
 <ruby>
 actual.should_have_at_least(<number>).things
@@ -230,6 +268,8 @@ The <code>things</code> of <code>actual</code> has a length/size of no less than
 
 h3. Upper Bound
 
+%{color:red;font-weight:bold;font-size:1.2em}DEPRECATED. See "Spec::Expectations::Matchers":../rdoc/index.html% 
+
 <ruby>
 actual.should_have_at_most(<number>).things
 </ruby>
@@ -237,6 +277,8 @@ actual.should_have_at_most(<number>).things
 The <code>things</code> of <code>actual</code> has a length/size of no more than <code>number</code>.
 
 h3. Arbitrary Block
+
+%{color:red;font-weight:bold;font-size:1.2em}DEPRECATED. See "Spec::Expectations::Matchers":../rdoc/index.html% 
 
 <ruby>
 actual.should_satisfy {|arg| ...}
