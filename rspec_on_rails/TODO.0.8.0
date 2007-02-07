@@ -2,7 +2,6 @@ Here's what needs to happen vis a vis the rails plugin before the 0.8.0 release.
 
 == response.should return_code????
 
-== response.should have_rjs(:hide, "selector")
 == response.should have_rjs(:effect)
 == with_text
     this is mostly useful for nested expectations on have_tag
