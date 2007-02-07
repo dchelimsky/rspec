@@ -1,5 +1,4 @@
 # Don't change this file. Configuration is done in config/environment.rb and config/environments/*.rb
-
 unless defined?(RAILS_ROOT)
   root_path = File.join(File.dirname(__FILE__), '..')
 
@@ -11,7 +10,16 @@ unless defined?(RAILS_ROOT)
   RAILS_ROOT = root_path
 end
 
-ENV['RSPEC_RAILS_VERSION'] ||= '1.1.6'
+if ENV['RSPEC_RAILS_VERSION'].nil?
+  raise <<-EOM
+The RSPEC_RAILS_VERSION environment variable is not set. 
+Either set it in your shell to one of the dir names under vendor/rails,
+or run Rake via the Multirails.rake script, which will iterate over
+all available Rails versions:
+
+  rake -f Multirails.rake pre_commit
+EOM
+end
 
 puts "running against rails #{ENV['RSPEC_RAILS_VERSION']}"
 
