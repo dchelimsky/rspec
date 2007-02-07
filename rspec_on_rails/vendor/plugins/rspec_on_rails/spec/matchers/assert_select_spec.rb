@@ -385,21 +385,21 @@ context "have_rjs behaviour", :context_type => :controller do
     response.should have_rjs
   end
   
+  specify "should fail if no rjs exists" do
+    render_rjs do |page|
+    end
+    lambda do
+      response.should have_rjs
+    end.should_fail
+  end
+  
   specify "should find all rjs from multiple statements" do
-    found = false
-    response.should have_rjs {
+    response.should have_rjs do
       with_tag("#1")
       with_tag("#2")
       with_tag("#3")
-      found = true
-    }
-    found.should be(true)
-    # Test that we fail if there is nothing to pick.
-    render_rjs do |page|
+      with_tag("#4")
     end
-    lambda {
-      response.should have_rjs
-    }.should_fail
   end
 
   specify "should find by id" do
@@ -414,14 +414,16 @@ context "have_rjs behaviour", :context_type => :controller do
       with_tag("div#2", "bar")
       with_tag("div#3", "none")
     }
-    lambda {
-      response.should have_rjs("test4")
-    }.should_fail
+    response.should have_rjs("test4")
   end
   
   specify "should find rjs using :hide" do
     #TODO - this needs more specs
     response.should have_rjs(:hide)
+    response.should have_rjs(:hide, "test4")
+    lambda do
+      response.should have_rjs(:hide, "test3")
+    end.should_fail
   end
 
   specify "should find rjs using :replace" do

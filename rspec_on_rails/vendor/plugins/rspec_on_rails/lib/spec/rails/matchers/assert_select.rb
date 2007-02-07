@@ -196,7 +196,7 @@ module Spec
           # Returns all matches elements.
           matches
         end
-
+        
         def assert_select_rjs(*args, &block)
           arg = args.shift
           rjs_type = arg
@@ -227,22 +227,9 @@ module Spec
             id = "[^\"]*"
           end
 
-          pattern = Regexp.new("#{statement}\\(\"#{id}\", #{RJS_PATTERN_HTML}\\)", Regexp::MULTILINE)
-          
-          # Duplicate the body since the next step involves destroying it.
-          matches = nil
-          @response.body.dup.gsub(pattern) do
-            html = $2
-            # RJS encodes double quotes and line breaks.
-            if html
-              html.gsub!(/\\"/, "\"")
-              html.gsub!(/\\n/, "\n")
-              matches ||= []
-              matches.concat HTML::Document.new(html).root.children.select { |n| n.tag? }
-            end
-            ""
-          end
-          if matches
+          matches = match_rjs_with_html(@response, statement, id)
+          matches = match_rjs_without_html(@response, statement, id) if matches.nil?
+          unless matches.nil?
             if block_given?
               begin
                 in_scope, @@selected  = @@selected , matches
@@ -252,14 +239,35 @@ module Spec
               end
             end
             matches
-          elsif rjs_type == :hide
-            @response.body =~ /Element\.hide/
           else
-            # RJS statement not found.
             fail_with(args.shift || "No RJS statement with #{rjs_type.inspect}")
           end
         end
-
+        
+        def decode_rjs_html(html)
+          html.gsub!(/\\"/, "\"")
+          html.gsub!(/\\n/, "\n")
+        end
+        
+        def match_rjs_with_html(response, statement, id)
+          html_pattern = Regexp.new("#{statement}\\(\"#{id}\", #{RJS_PATTERN_HTML}\\)", Regexp::MULTILINE)
+          matches = nil
+          response.body.dup.gsub(html_pattern) do
+            if html = $2
+              decode_rjs_html(html)
+              matches ||= []
+              matches.concat HTML::Document.new(html).root.children.select { |n| n.tag? }
+            end
+          end
+          matches
+        end
+        
+        def match_rjs_without_html(response, statement, id)
+          no_html_pattern = Regexp.new("#{statement}\\(\"#{id}\"\\)", Regexp::MULTILINE)
+          @response.body.dup.gsub(no_html_pattern) { return [] }
+          nil
+        end
+        
         def assert_select_feed(type, version = nil, &block)
           root = HTML::Document.new(@response.body, true, true).root
           case [type.to_sym, version && version.to_s]
