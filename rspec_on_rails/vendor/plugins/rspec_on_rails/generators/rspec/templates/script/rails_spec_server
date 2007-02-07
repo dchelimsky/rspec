@@ -10,6 +10,9 @@ module Spec
   module Runner
     class RailsSpecServer
       def run(args, stderr, stdout)
+    	$stdout = stdout
+    	$stderr = stderr
+
         ::Dispatcher.reset_application!
         ::Dependencies.mechanism = :load
         require_dependency('application.rb') unless Object.const_defined?(:ApplicationController)
