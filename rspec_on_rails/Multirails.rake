@@ -6,7 +6,8 @@ task :pre_commit do
     unless rails_version == 'edge' # Currently it seems to just exit() somewhere
       ENV['RSPEC_RAILS_VERSION'] = rails_version
       used_railses << rails_version
-      cmd = "rake rspec:pre_commit"
+      rake = (PLATFORM == "i386-mswin32") ? "rake.cmd" : "rake"
+      cmd = "#{rake} rspec:pre_commit"
       system(cmd)
       raise "'#{cmd}' failed" if $? != 0
     end
