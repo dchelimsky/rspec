@@ -12,34 +12,26 @@ task :pre_commit => [
 desc "Runs pre_commit against rspec (core)"
 task :pre_commit_core do
   Dir.chdir 'rspec' do    
-    IO.popen("rake pre_commit --verbose") do |io|
-      io.each do |line|
-        puts line
-      end
-    end
+    system("rake pre_commit --verbose")
     raise "RSpec Core pre_commit failed" if $? != 0
   end
 end
 
-desc "Runs pre_commit against rspec_on_rails (against rails 1.1.6 and 1.2.0 RC 1)"
+desc "Runs pre_commit against rspec_on_rails (against all supported Rails versions)"
 task :pre_commit_rails do
-  Dir.chdir 'rspec_on_rails' do    
-    IO.popen("rake rspec:pre_commit --verbose") do |io|
-      io.each do |line|
-        puts line
-      end
-    end
+  Dir.chdir 'rspec_on_rails' do
+    cmd = "rake -f Multirails.rake pre_commit"
+    system(cmd)
     if $? != 0
-      message = <<EOF
+      raise <<-EOF
 ############################################################
 RSpec on Rails Plugin pre_commit failed. For more info:
 
   cd rspec_on_rails
-  rake rspec:pre_commit
+  #{cmd}
 
 ############################################################
 EOF
-      raise message
     end
   end
 end
@@ -72,8 +64,10 @@ task :clobber do
 end
 
 RSPEC_DEPS = [
+  # checkout path,                      name,         url,                                                    tagged?
   ["rspec_on_rails/vendor/rails/1.1.6", "rails 1.1.6", "http://dev.rubyonrails.org/svn/rails/tags/rel_1-1-6", true],
   ["rspec_on_rails/vendor/rails/1.2.1", "rails 1.2.1", "http://dev.rubyonrails.org/svn/rails/tags/rel_1-2-1", true],
+  ["rspec_on_rails/vendor/rails/1.2.2", "rails 1.2.2", "http://dev.rubyonrails.org/svn/rails/tags/rel_1-2-2", true],
   ["rspec_on_rails/vendor/rails/edge", "edge rails", "http://dev.rubyonrails.org/svn/rails/trunk", false],
   ["rspec_on_rails/vendor/plugins/assert_select", "assert_select", "http://labnotes.org/svn/public/ruby/rails_plugins/assert_select", false],
   ["jruby/jruby", "jruby", "http://svn.codehaus.org/jruby/trunk/jruby", false]
@@ -92,19 +86,18 @@ task :install_dependencies do
         puts "Installing #{dep[1]}"
         puts "This may take a while."
         puts cmd
-        IO.popen(cmd) do |io|
-          io.each_line{|line| puts line; STDOUT.flush}
-        end
+        system(cmd)
         puts "Done!"
       end
     end
-      puts
+    puts
   end
 end
 
 desc "Updates dependencies for development environment"
 task :update_dependencies do
   RSPEC_DEPS.each do |dep|
+    raise "There is no checkout of #{dep[0]}. Please run rake install_dependencies" unless File.exist?(dep[0])
     # Verify that the current working copy is right
     if `svn info #{dep[0]}` =~ /^URL: (.*)/
       actual_url = $1
@@ -115,11 +108,10 @@ task :update_dependencies do
     next if dep[3] #
     puts "\nUpdating #{dep[1]} ..."
     dest = File.expand_path(File.join(File.dirname(__FILE__), dep[0]))
+    system("svn cleanup #{dest}")
     cmd = "svn up #{dest}"
     puts cmd
-    IO.popen(cmd) do |io|
-      io.each_line{|line| puts line; STDOUT.flush}
-    end
+    system(cmd)
     puts "Done!"
   end
 end
