@@ -12,7 +12,7 @@ namespace :spec do
   Spec::Rake::SpecTask.new('watir') do |t|
     t.ruby_opts = ["-I#{File.expand_path(File.dirname(__FILE__) + '/../../../../../spec_ui/lib')}"]
     t.spec_files = FileList['spec/watir/**/*_spec.rb']
-    t.spec_opts = ['--require', 'rubygems,spec/ui/watir_helper', '--format', 'Spec::Ui::WebappFormatter']
+    t.spec_opts = ['--options', "\"#{RAILS_ROOT}/spec/watir_spec.opts\""]
     t.out = "#{report_dir}/index.html"
   end
 

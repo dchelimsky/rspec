@@ -1,0 +1,4 @@
+--require
+vendor/plugins/spec_ui/lib/spec/ui/watir_helper.rb
+--format
+Spec::Ui::WebappFormatter
