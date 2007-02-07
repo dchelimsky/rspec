@@ -382,12 +382,12 @@ context "have_rjs behaviour", :context_type => :controller do
   end
   
   specify "should pass if any rjs exists" do
-    response.should be_rjs
+    response.should have_rjs
   end
   
   specify "should find all rjs from multiple statements" do
     found = false
-    response.should be_rjs {
+    response.should have_rjs {
       with_tag("#1")
       with_tag("#2")
       with_tag("#3")
@@ -398,89 +398,89 @@ context "have_rjs behaviour", :context_type => :controller do
     render_rjs do |page|
     end
     lambda {
-      response.should be_rjs
+      response.should have_rjs
     }.should_fail
   end
 
   specify "should find by id" do
-    response.should be_rjs("test1") { |rjs|
+    response.should have_rjs("test1") { |rjs|
       rjs.size.should == 1
       with_tag("div", 1)
       with_tag("div#1", "foo")
     }
-    response.should be_rjs("test2") { |rjs|
+    response.should have_rjs("test2") { |rjs|
       rjs.size.should == 2
       with_tag("div", 2)
       with_tag("div#2", "bar")
       with_tag("div#3", "none")
     }
     lambda {
-      response.should be_rjs("test4")
+      response.should have_rjs("test4")
     }.should_fail
   end
   
   specify "should find rjs using :hide" do
     #TODO - this needs more specs
-    response.should be_rjs(:hide)
+    response.should have_rjs(:hide)
   end
 
   specify "should find rjs using :replace" do
-    response.should be_rjs(:replace) { |rjs|
+    response.should have_rjs(:replace) { |rjs|
       with_tag("div", 1)
       with_tag("div#1", "foo")
     }
-    response.should be_rjs(:replace, "test1") { |rjs|
+    response.should have_rjs(:replace, "test1") { |rjs|
       with_tag("div", 1)
       with_tag("div#1", "foo")
     }
     lambda {
-      response.should be_rjs(:replace, "test2")
+      response.should have_rjs(:replace, "test2")
     }.should_fail
 
     lambda {
-      response.should be_rjs(:replace, "test3")
+      response.should have_rjs(:replace, "test3")
     }.should_fail
   end
 
   specify "should find rjs using :replace_html" do
-    response.should be_rjs(:replace_html) { |rjs|
+    response.should have_rjs(:replace_html) { |rjs|
       with_tag("div", 2)
       with_tag("div#2", "bar")
       with_tag("div#3", "none")
     }
 
-    response.should be_rjs(:replace_html, "test2") { |rjs|
+    response.should have_rjs(:replace_html, "test2") { |rjs|
       with_tag("div", 2)
       with_tag("div#2", "bar")
       with_tag("div#3", "none")
     }
 
     lambda {
-      response.should be_rjs(:replace_html, "test1")
+      response.should have_rjs(:replace_html, "test1")
     }.should_fail
 
     lambda {
-      response.should be_rjs(:replace_html, "test3")
+      response.should have_rjs(:replace_html, "test3")
     }.should_fail
   end
     
   specify "should find rjs using :insert_html (non-positioned)" do
-    response.should be_rjs(:insert_html) { |rjs|
+    response.should have_rjs(:insert_html) { |rjs|
       with_tag("div", 1)
       with_tag("div#4", "loopy")
     }
 
-    response.should be_rjs(:insert_html, "test3") { |rjs|
+    response.should have_rjs(:insert_html, "test3") { |rjs|
       with_tag("div", 1)
       with_tag("div#4", "loopy")
     }
 
     lambda {
-      response.should be_rjs(:insert_html, "test1")
+      response.should have_rjs(:insert_html, "test1")
     }.should_fail
 
     lambda {
-      response.should be_rjs(:insert_html, "test2")
+      response.should have_rjs(:insert_html, "test2")
     }.should_fail
   end
 
@@ -491,38 +491,38 @@ context "have_rjs behaviour", :context_type => :controller do
       page.insert_html :before, "test3", "<div id=\"3\">none</div>"
       page.insert_html :after, "test4", "<div id=\"4\">loopy</div>"
     end
-    response.should be_rjs(:insert, :top) {|rjs|
+    response.should have_rjs(:insert, :top) {|rjs|
       with_tag("div", 1)
       with_tag("#1")
     }
-    response.should be_rjs(:insert, :top, "test1") {|rjs|
+    response.should have_rjs(:insert, :top, "test1") {|rjs|
       with_tag("div", 1)
       with_tag("#1")
     }
     lambda {
-      response.should be_rjs(:insert, :top, "test2")
+      response.should have_rjs(:insert, :top, "test2")
     }.should_fail
-    response.should be_rjs(:insert, :bottom) {|rjs|
+    response.should have_rjs(:insert, :bottom) {|rjs|
       with_tag("div", 1)
       with_tag("#2")
     }
-    response.should be_rjs(:insert, :bottom, "test2") {|rjs|
+    response.should have_rjs(:insert, :bottom, "test2") {|rjs|
       with_tag("div", 1)
       with_tag("#2")
     }
-    response.should be_rjs(:insert, :before) {|rjs|
+    response.should have_rjs(:insert, :before) {|rjs|
       with_tag("div", 1)
       with_tag("#3")
     }
-    response.should be_rjs(:insert, :before, "test3") {|rjs|
+    response.should have_rjs(:insert, :before, "test3") {|rjs|
       with_tag("div", 1)
       with_tag("#3")
     }
-    response.should be_rjs(:insert, :after) {|rjs|
+    response.should have_rjs(:insert, :after) {|rjs|
       with_tag("div", 1)
       with_tag("#4")
     }
-    response.should be_rjs(:insert, :after, "test4") {|rjs|
+    response.should have_rjs(:insert, :after, "test4") {|rjs|
       with_tag("div", 1)
       with_tag("#4")
     }

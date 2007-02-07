@@ -130,12 +130,12 @@ module Spec
       end
 
       # :call-seq:
-      #   response.should be_rjs(id?) { |elements| ... }
-      #   response.should be_rjs(statement, id?) { |elements| ... }
-      #   response.should be_rjs(:insert, position, id?) { |elements| ... }
-      #   response.should_not be_rjs(id?) { |elements| ... }
-      #   response.should_not be_rjs(statement, id?) { |elements| ... }
-      #   response.should_not be_rjs(:insert, position, id?) { |elements| ... }
+      #   response.should have_rjs(id?) { |elements| ... }
+      #   response.should have_rjs(statement, id?) { |elements| ... }
+      #   response.should have_rjs(:insert, position, id?) { |elements| ... }
+      #   response.should_not have_rjs(id?) { |elements| ... }
+      #   response.should_not have_rjs(statement, id?) { |elements| ... }
+      #   response.should_not have_rjs(:insert, position, id?) { |elements| ... }
       #
       # This is a wrapper for assert_select_rjs and works the same way
       # but with rspec-friendly syntax
@@ -158,14 +158,14 @@ module Spec
       #
       # === Using blocks
       #
-      # Without a block, response.should be_rjs merely expects that the response
+      # Without a block, response.should have_rjs merely expects that the response
       # contains one or more RJS statements that replace or update content.
       #
-      # With a block, response.should be_rjs also selects all elements used in
+      # With a block, response.should have_rjs also selects all elements used in
       # these statements and passes them to the block. Nested expectations are
       # supported.
       #
-      # Calling response.should be_rjs with no arguments and using nested expectations
+      # Calling response.should have_rjs with no arguments and using nested expectations
       # expects that the HTML content is returned by one or more RJS statements.
       # Using #with_tag directly makes the same assertion on the content,
       # but without distinguishing whether the content is returned in an HTML
@@ -174,24 +174,24 @@ module Spec
       # === Examples
       #
       #   # Updating the element foo.
-      #   response.should be_rjs(:update, "foo")
+      #   response.should have_rjs(:update, "foo")
       #
       #   # Inserting into the element bar, top position.
-      #   response.should be_rjs(:insert, :top, "bar")
+      #   response.should have_rjs(:insert, :top, "bar")
       #
       #   # Changing the element foo, with an image.
-      #   response.should be_rjs("foo") {
+      #   response.should have_rjs("foo") {
       #     with_tag("img[src=/images/logo.gif"")
       #   }
       #
       #   # RJS inserts or updates a list with four items.
-      #   response.should be_rjs {
+      #   response.should have_rjs {
       #     with_tag("ol>li", 4)
       #   }
       #
       #   # The same, but shorter.
-      #   response.should be_rjs("ol>li", 4)
-      def be_rjs(*args, &block)
+      #   response.should have_rjs("ol>li", 4)
+      def have_rjs(*args, &block)
         args.unshift(response)
         case args.last
         when Hash
