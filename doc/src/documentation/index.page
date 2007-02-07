@@ -116,7 +116,7 @@ context "A new account" do
 
   specify "should have a balance of $0" do
     helper_method
-    @account.balance.should_eql Money.new(0, :dollars)
+    @account.balance.should eql(Money.new(0, :dollars))
   end
 end
 </ruby>

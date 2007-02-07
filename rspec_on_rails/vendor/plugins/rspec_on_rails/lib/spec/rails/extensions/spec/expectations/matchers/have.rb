@@ -4,8 +4,9 @@ module Spec
       class Have
         alias_method :__original_failure_message, :failure_message
         def failure_message
-          return __original_failure_message unless @sym == :errors_on
-          "expected #{relativities[@relativity]}#{@expected} errors on :#{@args[0]}, got #{@actual}"
+          return "expected #{relativities[@relativity]}#{@expected} errors on :#{@args[0]}, got #{@actual}" if @sym == :errors_on
+          return "expected #{relativities[@relativity]}#{@expected} error on :#{@args[0]}, got #{@actual}" if @sym == :error_on
+          return __original_failure_message
         end
       end
     end

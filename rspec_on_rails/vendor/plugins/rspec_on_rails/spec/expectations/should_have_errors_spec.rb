@@ -10,10 +10,16 @@ context "receiver.should have(n).errors_on(:attribute)" do
     @animal = Animal.new
   end
 
-  specify "should fail if the expected error count does not match the actual" do
+  specify "should fail if the expected error count is more than the actual count" do
     lambda {
       @animal.should have(7).errors_on(:age)
     }.should_fail_with "expected 7 errors on :age, got 2"
+  end
+
+  specify "should fail if the expected error count is less than the actual count" do
+    lambda {
+      @animal.should have(1).error_on(:age)
+    }.should_fail_with "expected 1 error on :age, got 2"
   end
 
   specify "should pass if the expected error count matches the actual (plural form)" do

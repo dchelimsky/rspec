@@ -76,7 +76,9 @@ module AssertSelectSpecHelpers
     end
 end
 
-SpecFailed = Spec::Expectations::ExpectationNotMetError
+unless defined?(SpecFailed)
+  SpecFailed = Spec::Expectations::ExpectationNotMetError 
+end
 
 context "should have_tag", :context_type => :controller do
   include AssertSelectSpecHelpers
@@ -166,23 +168,36 @@ context "should have_tag", :context_type => :controller do
 
   specify "substitution values" do
     render_html %Q{<div id="1">foo</div><div id="2">foo</div><span id="3"></span>}
-    response.should have_tag("div#?", /\d+/) { |elements|
+    response.should have_tag("div#?", /\d+/) do |elements|
       elements.size.should == 2
-    }
+    end
     lambda {
       response.should have_tag("div#?", /\d+/) { |elements|
         elements.size.should == 3
       }
     }.should_raise SpecFailed, "expected 3, got 2 (using ==)"
+    lambda {
+      response.should have_tag("div#?", /\d+/) do |elements|
+        elements.size.should == 3
+      end
+    }.should_raise SpecFailed, "expected 3, got 2 (using ==)"
 
-    response.should have_tag("div") {
-      response.should have_tag("div#?", /\d+/) { |elements|
+    response.should have_tag("div") do
+      response.should have_tag("div#?", /\d+/) do |elements|
         elements.size.should == 2
         with_tag("#1")
         with_tag("#2")
         with_tag("#3", false)
-      }
-    }
+      end
+    end
+    
+    lambda do
+      response.should have_tag("div") do
+        response.should have_tag("div#?", /\d+/) do |elements|
+          elements.size.should == 3
+        end
+      end
+    end.should_fail
   end
   
   #added for RSpec
@@ -214,12 +229,14 @@ context "should have_tag", :context_type => :controller do
   end
   
   specify "beatles" do
-    BEATLES = [
-      ["John", "Guitar"],
-      ["George", "Guitar"],
-      ["Paul", "Bass"],
-      ["Ringo", "Drums"]
-    ]
+    unless defined?(BEATLES)
+      BEATLES = [
+        ["John", "Guitar"],
+        ["George", "Guitar"],
+        ["Paul", "Bass"],
+        ["Ringo", "Drums"]
+      ]
+    end
 
     render_html %Q{
       <div id="beatles">
@@ -360,13 +377,14 @@ context "have_rjs behaviour", :context_type => :controller do
       page.replace "test1", "<div id=\"1\">foo</div>"
       page.replace_html "test2", "<div id=\"2\">bar</div><div id=\"3\">none</div>"
       page.insert_html :top, "test3", "<div id=\"4\">loopy</div>"
+      page.hide "test4"
     end
   end
   
   specify "should pass if any rjs exists" do
     response.should be_rjs
   end
-
+  
   specify "should find all rjs from multiple statements" do
     found = false
     response.should be_rjs {
@@ -399,6 +417,11 @@ context "have_rjs behaviour", :context_type => :controller do
     lambda {
       response.should be_rjs("test4")
     }.should_fail
+  end
+  
+  specify "should find rjs using :hide" do
+    #TODO - this needs more specs
+    response.should be_rjs(:hide)
   end
 
   specify "should find rjs using :replace" do
