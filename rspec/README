@@ -52,6 +52,5 @@ and stdlib - with a few exceptions:
 * The spec command line uses diff-lcs when --diff is specified.
 * The spec command line uses heckle when --heckle is specified.
 * The Spec::Rake::SpecTask needs RCov if RCov is enabled in the task.
-* RSpec on Rails needs the ZenTest gem to be installed (and Rails and its dependencies of course)
 
 See http://rspec.rubyforge.org for further documentation.
