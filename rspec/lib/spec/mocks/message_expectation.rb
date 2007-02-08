@@ -83,6 +83,8 @@ module Spec
           @received_count += 1
         end
       end
+      
+      protected
 
       def invoke_method_block(args)
         begin
@@ -119,7 +121,7 @@ module Spec
     end
     
     class MessageExpectation < BaseExpectation
-  
+      
       def matches_name_but_not_args(sym, args)
         @sym == sym and not @args_expectation.check_args(args)
       end
@@ -138,7 +140,8 @@ module Spec
         end
       end
 
-      def with(*args)
+      def with(*args, &block)
+        @method_block = block if block
         @args_expectation = ArgumentExpectation.new(args)
         self
       end
@@ -157,21 +160,14 @@ module Spec
         set_expected_received_count :at_most, n
         self
       end
-      
-      def set_expected_received_count(relativity, n)
-        @at_least = (relativity == :at_least)
-        @at_most = (relativity == :at_most)
-        @expected_received_count = 1 if n == :once
-        @expected_received_count = 2 if n == :twice
-        @expected_received_count = n if n.kind_of? Numeric
-      end
 
-      def times
-        #pure sugar
+      def times(&block)
+        @method_block = block if block
         self
       end
   
-      def any_number_of_times
+      def any_number_of_times(&block)
+        @method_block = block if block
         @expected_received_count = :any
         self
       end
@@ -181,17 +177,20 @@ module Spec
         self
       end
   
-      def once
+      def once(&block)
+        @method_block = block if block
         @expected_received_count = 1
         self
       end
   
-      def twice
+      def twice(&block)
+        @method_block = block if block
         @expected_received_count = 2
         self
       end
   
-      def ordered
+      def ordered(&block)
+        @method_block = block if block
         @order_group.register(self)
         @ordered = true
         self
@@ -200,6 +199,16 @@ module Spec
       def negative_expectation_for?(sym)
         return false
       end
+      
+      protected
+        def set_expected_received_count(relativity, n)
+          @at_least = (relativity == :at_least)
+          @at_most = (relativity == :at_most)
+          @expected_received_count = 1 if n == :once
+          @expected_received_count = 2 if n == :twice
+          @expected_received_count = n if n.kind_of? Numeric
+        end
+      
     end
     
     class NegativeMessageExpectation < MessageExpectation

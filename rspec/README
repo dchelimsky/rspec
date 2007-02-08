@@ -13,6 +13,12 @@ for more detail:
 
   @message = "some message"
   @message.should == "some message"
+  
+== Mocks and Stubs
+
+RSpec ships with a built-in mocking/stubbing framework.
+
+See Spec::Mocks for more information.
 
 == Installation
 
