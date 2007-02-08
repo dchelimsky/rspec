@@ -4,7 +4,7 @@ require 'stringio'
 context "HtmlFormatter" do
   specify "should produce HTML identical to the one we designed manually" do
     root = File.expand_path(File.dirname(__FILE__) + '/../../../..')
-    expected_file = File.dirname(__FILE__) + '/html_formatted.html'
+    expected_file = File.dirname(__FILE__) + "/html_formatted-#{VERSION}.html"
     expected_html = File.read(expected_file)
     raise "There should be no absolute paths in html_formatted.html!!" if expected_html =~ /\/Users/n
     

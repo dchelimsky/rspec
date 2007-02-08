@@ -331,6 +331,77 @@ module Spec
         mock.should_receive(:blah)
         mock.__reset_mock
       end
+
+    end
+
+    context "a mock message receiving a block" do
+      setup do
+        @mock = mock("mock")
+        @calls = 0
+      end
+      
+      def add_call
+        @calls = @calls + 1
+      end
+      
+      specify "should call the block after #should_receive" do
+        @mock.should_receive(:foo) { add_call }
+
+        @mock.foo
+
+        @calls.should == 1
+      end
+
+      specify "should call the block after #once" do
+        @mock.should_receive(:foo).once { add_call }
+
+        @mock.foo
+
+        @calls.should == 1
+      end
+
+      specify "should call the block after #twice" do
+        @mock.should_receive(:foo).twice { add_call }
+
+        @mock.foo
+        @mock.foo
+
+        @calls.should == 2
+      end
+
+      specify "should call the block after #times" do
+        @mock.should_receive(:foo).exactly(10).times { add_call }
+        
+        (1..10).each { @mock.foo }
+
+        @calls.should == 10
+      end
+
+      specify "should call the block after #any_number_of_times" do
+        @mock.should_receive(:foo).any_number_of_times { add_call }
+        
+        (1..7).each { @mock.foo }
+
+        @calls.should == 7
+      end
+
+      specify "should call the block after #with" do
+        @mock.should_receive(:foo).with(:arg) { add_call }
+        
+        @mock.foo(:arg)
+
+        @calls.should == 1
+      end
+
+      specify "should call the block after #ordered" do
+        @mock.should_receive(:foo).ordered { add_call }
+        @mock.should_receive(:bar).ordered { add_call }
+        
+        @mock.foo
+        @mock.bar
+
+        @calls.should == 2
+      end
     end
   end
 end

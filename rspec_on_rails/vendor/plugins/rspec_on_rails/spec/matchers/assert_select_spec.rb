@@ -267,7 +267,7 @@ context "should have_tag", :context_type => :controller do
 
   specify "assert_select_text_match" do
     render_html %Q{<div id="1"><span>foo</span></div><div id="2"><span>bar</span></div>}
-    response.should have_tag("div") { |divs|
+    response.should have_tag("div") do |divs|
       with_tag("div", "foo")
       with_tag("div", "bar")
       with_tag("div", /\w*/)
@@ -278,7 +278,7 @@ context "should have_tag", :context_type => :controller do
       with_tag("div", :html=>/\w*/)
       with_tag("div", :html=>/\w*/, :count=>2)
       without_tag("div", :html=>"<span>foo</span>", :count=>2)
-    }
+    end
   end
 
 
@@ -302,6 +302,7 @@ context "should have_tag", :context_type => :controller do
       page.replace_html "test", "<div id=\"1\">foo</div>"
       page.replace_html "test2", "<div id=\"2\">foo</div>"
     end
+    response.should have_tag("div")
     response.should have_tag("div") { |elements|
       elements.size.should == 2
       with_tag("#1")
@@ -378,6 +379,7 @@ context "have_rjs behaviour", :context_type => :controller do
       page.replace_html "test2", "<div id=\"2\">bar</div><div id=\"3\">none</div>"
       page.insert_html :top, "test3", "<div id=\"4\">loopy</div>"
       page.hide "test4"
+      page["test5"].hide
     end
   end
   
@@ -415,12 +417,13 @@ context "have_rjs behaviour", :context_type => :controller do
       with_tag("div#3", "none")
     }
     response.should have_rjs("test4")
+    response.should have_rjs("test5")
   end
   
   specify "should find rjs using :hide" do
-    #TODO - this needs more specs
     response.should have_rjs(:hide)
     response.should have_rjs(:hide, "test4")
+    response.should have_rjs(:hide, "test5")
     lambda do
       response.should have_rjs(:hide, "test3")
     end.should_fail

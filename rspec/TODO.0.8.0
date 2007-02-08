@@ -5,5 +5,5 @@ Here's what remains to do everywhere else before the 0.8.0 release:
 Update website docs to reflect deprecations and where to find new documentation.
 Switch from metaproject to hoe?
 
-
+RDoc for mocks
 

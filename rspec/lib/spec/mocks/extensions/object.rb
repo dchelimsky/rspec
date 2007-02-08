@@ -1,3 +1,3 @@
 class Object
-  include Spec::Mocks::MockMethods
+  include Spec::Mocks::Methods
 end

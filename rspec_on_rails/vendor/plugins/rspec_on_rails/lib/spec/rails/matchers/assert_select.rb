@@ -227,9 +227,11 @@ module Spec
             id = "[^\"]*"
           end
 
-          matches = match_rjs_with_html(@response, statement, id)
-          matches = match_rjs_without_html(@response, statement, id) if matches.nil?
-          unless matches.nil?
+          matches = []
+          matches.concat(match_rjs_with_html(@response, statement, id))
+          matches.concat(match_page_rjs_with_html(@response, statement, id))
+          
+          if !matches.empty?
             if block_given?
               begin
                 in_scope, @@selected  = @@selected , matches
@@ -238,7 +240,9 @@ module Spec
                 @@selected  = in_scope
               end
             end
-            matches
+            return matches
+          elsif match_rjs_without_html(@response, statement, id) || match_page_rjs_without_html(@response, statement, id)
+            true
           else
             fail_with(args.shift || "No RJS statement with #{rjs_type.inspect}")
           end
@@ -251,11 +255,22 @@ module Spec
         
         def match_rjs_with_html(response, statement, id)
           html_pattern = Regexp.new("#{statement}\\(\"#{id}\", #{RJS_PATTERN_HTML}\\)", Regexp::MULTILINE)
-          matches = nil
+          matches = []
           response.body.dup.gsub(html_pattern) do
             if html = $2
               decode_rjs_html(html)
-              matches ||= []
+              matches.concat HTML::Document.new(html).root.children.select { |n| n.tag? }
+            end
+          end
+          matches
+        end
+        
+        def match_page_rjs_with_html(response, statement, id)
+          pattern = Regexp.new("\\$\\(\"#{id}\"\\)\\.#{statement.gsub("Element\\.","")}\\(#{RJS_PATTERN_HTML}\\)", Regexp::MULTILINE)
+          matches = []
+          response.body.dup.gsub(pattern) do
+            if html = $3
+              decode_rjs_html(html)
               matches.concat HTML::Document.new(html).root.children.select { |n| n.tag? }
             end
           end
@@ -266,6 +281,12 @@ module Spec
           no_html_pattern = Regexp.new("#{statement}\\(\"#{id}\"\\)", Regexp::MULTILINE)
           @response.body.dup.gsub(no_html_pattern) { return [] }
           nil
+        end
+        
+        def match_page_rjs_without_html(response, statement, id)
+          pattern = Regexp.new("\\$\\(\"#{id}\"\\)\\.#{statement.gsub("Element\\.","")}", Regexp::MULTILINE)
+          @response.body.dup.gsub(pattern) { return true }
+          false
         end
         
         def assert_select_feed(type, version = nil, &block)
