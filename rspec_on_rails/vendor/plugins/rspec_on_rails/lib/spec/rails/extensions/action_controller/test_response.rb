@@ -80,7 +80,7 @@ module ActionController
       attr_reader :controller_path
       
       def __response_body
-        Spec::Rails::ResponseBody.new(self.body)
+        Spec::Rails::Expectations::ResponseBody.new(self.body)
       end
     end
     

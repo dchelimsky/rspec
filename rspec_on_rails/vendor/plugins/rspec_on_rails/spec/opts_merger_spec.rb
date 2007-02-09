@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/spec_helper'
 
 context "Given an empty array, an OptsMerger" do
   setup do
-    @merger = Spec::Rails::OptsMerger.new([])
+    @merger = Spec::Rails::Expectations::OptsMerger.new([])
   end
   specify "should return an empty hash on 'merge'" do
     @merger.merge(:key).should == {}
@@ -11,7 +11,7 @@ end
 
 context "Given a nil array, an OptsMerger" do
   setup do
-    @merger = Spec::Rails::OptsMerger.new(nil)
+    @merger = Spec::Rails::Expectations::OptsMerger.new(nil)
   end
   specify "should create an empty hash on 'merge" do
     @merger.merge(:key).should == {}
@@ -20,7 +20,7 @@ end
 
 context "Given an array with only a hash, an OptsMerger" do
   setup do
-    @merger = Spec::Rails::OptsMerger.new([{:a => :b, :c => :d}])
+    @merger = Spec::Rails::Expectations::OptsMerger.new([{:a => :b, :c => :d}])
   end
   
   specify "should return an equivalent hash" do
@@ -30,7 +30,7 @@ end
 
 context "Given an array with only a single String, an OptsMerger" do
   setup do
-    @merger = Spec::Rails::OptsMerger.new(["value"])
+    @merger = Spec::Rails::Expectations::OptsMerger.new(["value"])
   end
   
   specify "should return a hash with the submitted key and that String as its value on 'merge" do
@@ -41,7 +41,7 @@ end
 context "Given an array with String and a Hash, an OptsMerger" do
   setup do
     @original_array = ["value", {:a => :b}]
-    @merger = Spec::Rails::OptsMerger.new(@original_array)
+    @merger = Spec::Rails::Expectations::OptsMerger.new(@original_array)
   end
   
   specify "should return the submitted hash with the submitted key added with the String as its value on 'merge" do
