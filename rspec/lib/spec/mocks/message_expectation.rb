@@ -89,7 +89,7 @@ module Spec
       def invoke_method_block(args)
         begin
           @method_block.call(*args)
-        rescue Spec::Expectations::ExpectationNotMetError => detail
+        rescue => detail
           @error_generator.raise_block_failed_error @sym, detail.message
         end
       end
