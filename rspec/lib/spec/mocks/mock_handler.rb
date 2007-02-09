@@ -88,6 +88,7 @@ module Spec
       private
 
       def __add(expected_from, sym, block)
+        # TODO - this is the only reference in the 'spec/mocks' to the Runner
         current_spec = Runner::Specification.current
         current_spec.after_teardown {verify} if current_spec && @options[:auto_verify]
         define_expected_method(sym)
