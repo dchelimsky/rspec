@@ -1,3 +1,5 @@
+require File.dirname(__FILE__) + '/../../spec_helper.rb'
+
 module Bug7611
   class Foo
   end

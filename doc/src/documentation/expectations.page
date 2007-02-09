@@ -1,14 +1,32 @@
 ---
 title: Expectations
 ---
-<p style="color:red; font-weight:bold;font-size:1.5em">
-All of the Expectations described on this page<br>
-have been DEPRECATED and REPLACED<br>
-with new syntax based on Expectation Matchers.
-<br>
-<br>
-Please see
-"Spec::Expectations::Matchers":../rdoc/index.html for information.</p>
+h2. Deprecation
+
+%{color:red; font-weight:bold; font-size:1.2em}Most of the Expectations described on this page have been DEPRECATED and REPLACED with new syntax based on Expectation Matchers.%
+
+Generally, any expectation that looks like ...
+
+<ruby>
+#before - deprecated
+target.should_x expected
+target.should_not_x expected
+</ruby>
+
+... will be replaced by ...
+
+<ruby>
+#after - 0.8+ syntax
+target.should x(expected)
+target.should_not x(expected)
+</ruby>
+
+Exceptions to this are the expectations that use operators, like <code>should ==</code>
+and <code>should_be ></code>. These are all noted below.
+
+%{color:red; font-weight:bold; font-size:1.2em}Read "Upgrade":../upgrade.html for more info on why we are making this change.%
+
+%{color:red; font-weight:bold; font-size:1.2em}Please see "Spec::Expectations::Matchers":../rdoc/index.html for documentation about the new syntax.%
 
 h2. Expectations
 
@@ -31,9 +49,9 @@ actual.should_not_equal <value> #passes if !actual.equal? <value>
 actual.should_eql <value> #passes if actual.eql? <value>
 actual.should_not_eql <value> #passes if !actual.eql? <value>
 
-actual.should == <value> #passes if actual == <value>
-actual.should_not == <value> #passes if actual != <value>
-#Note: there is no support for actual.should != <value>, use actual.should_not == <value> instead
+actual.should == <value> #passes if actual == <value> #NOT deprecated
+actual.should_not == <value> #passes if actual != <value> #NOT deprecated
+#Warning: there is no support for actual.should != <value>, use actual.should_not == <value> instead
 </ruby>
 
 We recognize that this does not align with assert_equal in Test::Unit, and that this may feel awkward for those of you experienced with either Test::Unit or previous releases of RSpec. We chose to make this change because there was some confusion over the meaning of should_equal and should_be and we decided that it would be less confusing in the long run if should_equal aligns with the Ruby language.
@@ -93,7 +111,7 @@ hash.should_have_key(:key) => hash.has_key?(:key)
 
 h3. Arbitrary Operators
 
-%{color:red;font-weight:bold;font-size:1.2em}DEPRECATED. See "Spec::Expectations::Matchers":../rdoc/index.html% 
+%{color:red;font-weight:bold;font-size:1.2em}These are NOT deprecated. See "Spec::Expectations::Matchers":../rdoc/index.html% 
 
 <ruby>
 actual.should_be < value
@@ -113,7 +131,7 @@ h3. Pattern Matching
 
 <ruby>
 actual.should_match <regexp>
-actual.should =~ <regexp>
+actual.should =~ <regexp> #NOT deprecated
 actual.should_not_match <regexp>
 </ruby>
 
@@ -236,8 +254,6 @@ actual.should_not_include <object>
 This is simply a specific case of the arbitrary predicate form. It uses <code>actual.include?(object)</code> and raises an <code>ExpectationNotMetError</code> if that returns false. 
 
 h3. Size
-
-%{color:red;font-weight:bold;font-size:1.2em}DEPRECATED. See "Spec::Expectations::Matchers":../rdoc/index.html% 
 
 The remaining collection forms are a little more involved. They rely on two things:
 
