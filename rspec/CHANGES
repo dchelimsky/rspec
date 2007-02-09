@@ -9,6 +9,7 @@ It also introduces a new approach to handling should expectations. See RELEASE-P
 
 It also sports myriad new features, bug fixes, patches and general goodness:
 
+* Fixed [#5485] proc#should_raise and proc#should_not_raise output
 * Added [#8484] should_receive with blocks
 * Applied [#8218] heckle_runner.rb doesn't work with heckle >= 1.2.0 (Patch from Michal Kwiatkowski)
 * Fixed [#8240] Cryptic error message when no controller_name

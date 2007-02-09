@@ -9,7 +9,7 @@ in Ruby.
 RSpec on Rails uses a set of custom Spec::Expectations::Matchers that are specific to
 Rails.
 
-See Spec::Rails::Matchers.
+See Spec::Rails::Expectations::Matchers.
 
 == Features
 

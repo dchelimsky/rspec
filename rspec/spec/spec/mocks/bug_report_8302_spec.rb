@@ -1,3 +1,5 @@
+require File.dirname(__FILE__) + '/../../spec_helper.rb'
+
 module Bug8302
   class Foo
     def Foo.class_method(arg)
