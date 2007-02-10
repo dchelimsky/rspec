@@ -44,7 +44,7 @@ module Spec
           end
         
           def extract_sym_from_name_error(error)
-            return :"#{error.message.split("`").last.split("'").first}"
+            return "#{error.message.split("`").last.split("'").first}".to_sym
           end
       end
    
