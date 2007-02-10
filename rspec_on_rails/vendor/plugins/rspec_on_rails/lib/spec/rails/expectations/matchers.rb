@@ -18,22 +18,11 @@ module Spec
       # In this example, "should equal(37)" is an expectation, with "equal(37)" being
       # the ExpecationMatcher.
       #
-      # RSpec on Rails sports several expectation matchers specifically intended to work with Rails
-      # components like responses. For example:
+      # Spec::Rails::Expectations::Matchers provides several expectation matchers
+      # intended to work with Rails components like models and responses. For example:
       #
       #   response.should be_redirect #be_redirect() is the matcher.
       #
-      # == Isolation and Integration modes
-      #
-      # RSpec on Rails lets you run your controller specs in isolation or integration modes.
-      # In isolation mode, no templates are rendered. In fact, they are not even used at all.
-      # This allows you to spec your controllers even when there are no templates present.
-      #
-      # Isolation mode is somewhat risky unless you are also doing some sort of integration
-      # testing.
-      #
-      # In integration mode, controller specs work just like rails functional tests, invoking
-      # the views as expected.
       module Matchers
         # :call-seq:
         #   response.should have_tag(selector, equality?, message?)

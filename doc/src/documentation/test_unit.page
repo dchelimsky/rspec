@@ -8,36 +8,35 @@ find the RSpec equivalent of Test::Unit's asserts.
 
 | Test::Unit                                           | RSpec                           | Comment                             |
 | assert(object)                                       | N/A                             | |
-| assert_block {...}                                   | lambda {...}.call.should_be true| |
+| assert_block {...}                                   | lambda {...}.call.should be_true| |
 | assert_equal(expected, actual)                       | actual.should == expected       | Uses <code>==</code> |
-| ''                                                   | actual.should_eql expected      | Uses <code>Object.eql?</code> |
-| assert_in_delta(expected_float, actual_float, delta) | actual_float.should_be_close(expected_float, delta) | |
-| assert_instance_of(klass, object)                    | actual.should_be_instance_of(klass) | |
-| assert_match(pattern, string)                        | string.should_match(regexp)     | |
+| ''                                                   | actual.should eql(expected)      | Uses <code>Object.eql?</code> |
+| assert_in_delta(expected_float, actual_float, delta) | actual_float.should be_close(expected_float, delta) | |
+| assert_instance_of(klass, object)                    | actual.should be_an_instance_of(klass) | |
+| assert_match(pattern, string)                        | string.should match(regexp)     | |
 | ''                                                   | string.should =~ regexp         | |
-| assert_nil(object)                                   | actual.should_be nil   | |
-| assert_no_match(regexp, string)                      | string.should_not_match(regexp) | |
-| assert_not_equal(expected, actual)                   | actual.should_not_eql expected       | Uses <code>!Object.eql?</code> |
-| assert_not_nil(object)                               | actual.should_not_be nil       | |
-| assert_not_same(expected, actual)                    | actual.should_not_equal(nil)    | Uses <code>Object.equal?</code> |
-| assert_nothing_raised(*args) {...}                   | lambda {...}.should_not_raise(Exception=nil, message=nil) |
-| assert_nothing_thrown {...}                          | lambda {...}.should_not_throw(symbol=nil) |
+| assert_nil(object)                                   | actual.should be_nil   | |
+| assert_no_match(regexp, string)                      | string.should_not match(regexp) | |
+| assert_not_equal(expected, actual)                   | actual.should_not eql(expected)       | Uses <code>!Object.eql?</code> |
+| assert_not_nil(object)                               | actual.should_not be_nil       | |
+| assert_not_same(expected, actual)                    | actual.should_not equal(nil)    | Uses <code>Object.equal?</code> |
+| assert_nothing_raised(*args) {...}                   | lambda {...}.should_not raise_error(Exception=nil, message=nil) |
+| assert_nothing_thrown {...}                          | lambda {...}.should_not throw_symbol(symbol=nil) |
 | assert_operator(object1, operator, object2)          | N/A | |
-| assert_raise(*args) {...}                            | lambda {...}.should_raise(Exception=nil, message=nil) |
-| assert_raises(*args) {...}                           | lambda {...}.should_raise(Exception=nil, message=nil) |
-| assert_respond_to(object, method)                    | actual.should_respond_to(method) | |
-| assert_same(expected, actual)                        | actual.should_equal(expected)         | Uses <code>!Object.equal?</code> |
+| assert_raise(*args) {...}                            | lambda {...}.should raise_error(Exception=nil, message=nil) |
+| assert_raises(*args) {...}                           | lambda {...}.should raise_error(Exception=nil, message=nil) |
+| assert_respond_to(object, method)                    | actual.should respond_to(method) | |
+| assert_same(expected, actual)                        | actual.should equal(expected)         | Uses <code>!Object.equal?</code> |
 | assert_send(send_array)                              | N/A | |
-| assert_throws(expected_symbol, &proc)                | lambda {...}.should_throw(symbol=nil) | |
+| assert_throws(expected_symbol, &proc)                | lambda {...}.should throw_symbol(symbol=nil) | |
 | flunk(message="Flunked")                             | violated(message=nil) | |
-| N/A                                                  | actual.should_something | Passes if object.something? is true |
-| N/A                                                  | actual.should_be_something | Passes if object.be_something? is true |
+| N/A                                                  | actual.should_be_something | Passes if object.something? is true |
 
 There is a significant difference in how Test::Unit and RSpec handle equality, and this may cause some confusion. Consider the following code:
 
 <ruby>
 "hi".equal?("hi") #=> false
-"hi".should_equal("hi") #=> fails
+"hi".should equal("hi") #=> fails
 assert_equal("hi", "hi") #=> passes - it uses == internally
 </ruby>
 

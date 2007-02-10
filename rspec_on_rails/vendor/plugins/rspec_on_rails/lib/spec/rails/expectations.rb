@@ -8,3 +8,12 @@ require File.expand_path("#{dir}/expectations/tag_expectations")
 require File.expand_path("#{dir}/expectations/render_matcher")
 require File.expand_path("#{dir}/expectations/matchers")
 require File.expand_path("#{dir}/expectations/response_body")
+
+module Spec
+  module Rails
+    # Spec::Rails::Expectations provides Rails-specific extensions to Spec::Expectations
+    # (RSpec's core Expectations module)
+    module Expectations
+    end
+  end
+end
