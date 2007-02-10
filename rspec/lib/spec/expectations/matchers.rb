@@ -14,79 +14,15 @@ require 'spec/expectations/matchers/throw_symbol'
 
 module Spec
   module Expectations
-    
-    # == Spec::Expectations::Matchers
-    #
-    # Spec::Expectations::Matchers provides methods called "expectation matchers" that allow you
-    # set expectations on objects using +should+ and +should_not+.
-    # For example, if you expect the value of an
-    # object to be 37 after some calculation, you could say:
-    #
-    #   result.should equal(37)
-    #   result.should_not equal(35)
-    #
-    # In this example, +should equal(37)+ is an expectation, with +equal(37)+
-    # being the expectation matcher.
-    #
-    # == How Matchers work.
-    #
-    # RSpec adds two methods to Object:
-    #
-    #   should(matcher=nil)
-    #   should_not(matcher=nil)
-    #
-    # Both methods take an optional expectation matcher. An expectation matcher is any object
-    # that responds to the following methods:
+
+    # RSpec ships with a number of useful expectation matchers. An expectation matcher
+    # is any object that responds to the following methods:
     #
     #   matches?(actual)
     #   failure_message
     #   negative_failure_message
     #
-    # When +should+ receives a matcher, it calls +matches?(self)+. If
-    # it returns +true+, the spec passes and execution continues. If it returns
-    # +false+, then +should+ raises an ExpectationNotMetError with
-    # the message returned by +matcher.failure_message+
-    #
-    # Similarly, when +should_not+ receives a matcher, it calls +matches?(self)+. If
-    # it returns +false+, the spec passes and execution continues. If it returns
-    # +true+, then +should_not+ raises an ExpectationNotMetError with
-    # the message returned by +matcher.negative_failure_message+
-    #
-    # == Predicates
-    #
-    # In addition to the methods defined explicitly, RSpec will create custom matchers
-    # on the fly for any arbitrary predicate, giving your specs a much more natural
-    # language feel. 
-    #
-    # A Ruby predicate is a method that ends with a "?" and returns true or false.
-    # Common examples are +empty?+, +nil?+, and +instance_of?+.
-    #
-    # All you need to do is write +should be_+ followed by the predicate without
-    # the question mark, and RSpec will figure it out from there. For example:
-    #
-    #   [].should be_empty => collection.empty? #passes
-    #   [].should_not be_empty => collection.empty? #fails
-    #
-    # In addtion to prefixing the predicate matchers with "be_", you can also use "be_a_"
-    # and "be_an_", making your specs read much more naturally:
-    #
-    #   "a string".should be_an_instance_of(String) =>"a string".instance_of?(String) #passes
-    #
-    #   3.should be_a_kind_of(Fixnum) => 3.kind_of?(Numeric) #passes
-    #   3.should be_a_kind_of(Numeric) => 3.kind_of?(Numeric) #passes
-    #   3.should be_an_instance_of(Fixnum) => 3.instance_of?(Fixnum) #passes
-    #   3.should_not be_instance_of(Numeric) => 3.instance_of?(Numeric) #fails
-    #
-    # RSpec will also create custom matchers for predicates like +has_key?+. To
-    # use this feature, just state that the object should have_key(:key) and RSpec will
-    # call has_key?(:key) on the target. For example:
-    #
-    #   {:a => "A"}.should have_key(:a) #passes
-    #   {:a => "A"}.should have_key(:b) #fails
-    #   [].should have_key(:b) #fails telling you that the target does not respond to has_key?
-    #
-    # You can use this feature to invoke any predicate that begins with "has", whether it is
-    # part of the Ruby libraries (like +Hash#has_key?+) or a method you wrote on your own class.
+    # See Spec::Expectations for documentation on how these are used in your specs.
     #
     # == Custom Expectation Matchers
     #

@@ -1,24 +1,22 @@
 == RSpec
 
-RSpec is a Behaviour Definition Framework, which you can use to write executable
-examples of the expected behaviour of an application (OK, tests).
+RSpec is a Behaviour Definition Framework intended for use in Behaviour
+Driven Development. RSpec plays the same role that a unit testing framework
+would play in a Test Driven Development environment, but does so using
+words and structures that better support BDD.
 
-== Expectations
+RSpec ships with three modules:
 
-RSpec adds two methods to every object: <code>should</code> and <code>should_not</code>,
-each of which takes an expectation matcher. RSpec
-provides a collection of useful matchers, as well as a simple mechanism for writing your
-own custom matchers. Here are a couple of examples, but see Spec::Expectations::Matchers
-for more detail:
+Spec::Expectations supports setting expectations on your objects so you
+can do things like:
 
-  @message = "some message"
-  @message.should == "some message"
+  result.should equal(expected_result)
   
-== Mocks and Stubs
+Spec::Mocks supports creating Mock Objects, Stubs, and adding Mock/Stub
+behaviour to your existing objects.
 
-RSpec ships with a built-in mocking/stubbing framework.
-
-See Spec::Mocks for more information.
+Spec::Runner provides a very small but powerful DSL for writing executable
+specifications.
 
 == Installation
 

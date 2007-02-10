@@ -9,6 +9,11 @@ Although 0.8 sports a bunch of new features, everything from 0.7 is still
 supported in 0.8. Therefore, you should be able to safely upgrade without
 having to change anything in your specs.
 
+When we release version 0.9, however, deprecated methods will be removed, so
+you may want to start writing new specs using the new syntax.
+See "Spec::Expectations":rdoc/index.html for information about the new
+expectation syntax.
+
 If, however, you are upgrading from anything prior to 0.7, you'll have quite
 a bit to change. If you are doing that, we'd recommend that you review the
 new expectation format (see below) and move in that direction.

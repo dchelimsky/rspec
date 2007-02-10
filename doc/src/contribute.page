@@ -43,7 +43,7 @@ context "My Problem" do
   specify "can be reproduced as follows" do
     # Why doesn't this work?
     # (This is just a silly example)
-    true.should_be :true
+    true.should be_true
   end
 end
 </ruby>

@@ -1,9 +1,9 @@
-#Based on patch from Wilson Bilkovich
 
 module Spec
   module Expectations
     module Matchers
       
+      #Based on patch from Wilson Bilkovich
       class Change #:nodoc:
         def initialize(receiver=nil, message=nil, &block)
           @receiver = receiver

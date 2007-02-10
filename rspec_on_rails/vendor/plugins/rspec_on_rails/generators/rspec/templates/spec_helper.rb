@@ -10,15 +10,17 @@ require 'spec/rails'
 # tightly coupled to Test::Unit in Rails, which is why you're seeing it here.
 module Spec
   module Rails
-    class EvalContext < Test::Unit::TestCase
-      self.use_transactional_fixtures = true
-      self.use_instantiated_fixtures  = false
-      self.fixture_path = RAILS_ROOT + '/spec/fixtures'
+    module Runner
+      class EvalContext < Test::Unit::TestCase
+        self.use_transactional_fixtures = true
+        self.use_instantiated_fixtures  = false
+        self.fixture_path = RAILS_ROOT + '/spec/fixtures'
 
-      # You can set up your global fixtures here, or you
-      # can do it in individual contexts using "fixtures :table_a, table_b".
-      #
-      #self.global_fixtures = :table_a, :table_b
+        # You can set up your global fixtures here, or you
+        # can do it in individual contexts using "fixtures :table_a, table_b".
+        #
+        #self.global_fixtures = :table_a, :table_b
+      end
     end
   end
 end
