@@ -1,5 +1,5 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
-unless PLATFORM == 'i386-mswin32'
+unless ['i386-mswin32', 'java'].index(PLATFORM)
   require 'spec/runner/heckle_runner'
 
   context "Heckler" do
