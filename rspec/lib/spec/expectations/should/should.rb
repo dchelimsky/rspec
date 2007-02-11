@@ -49,9 +49,9 @@ module Spec
             end
             return
           rescue => e
-            fail_with_message("expected #{exception}#{message.nil? ? "" : "with #{message.inspect}"}, got #{e.inspect}")
+            fail_with_message("expected #{exception}#{message.nil? ? "" : " with #{message.inspect}"}, got #{e.inspect}")
           end
-          fail_with_message("expected #{exception}#{message.nil? ? "" : "with #{message.inspect}"}, but nothing was raised")
+          fail_with_message("expected #{exception}#{message.nil? ? "" : " with #{message.inspect}"}, but nothing was raised")
         end
   
         #Gone for 0.9
