@@ -27,7 +27,7 @@ expectation methods.
 
 h2. Release Plan
 
-0.8 (current release):
+0.8:
 * introduce expectation matchers alongside previous expectations
 * quietly deprecate the old expectations
 

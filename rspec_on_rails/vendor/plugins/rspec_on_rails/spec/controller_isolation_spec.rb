@@ -37,11 +37,17 @@ context "a controller spec running in integration mode", :context_type => :contr
     response.should have_tag('div',"This template, \"specified_template.rhtml\", is specified by the controller")
   end
   
-  #TODO - for some reason these choke in 1.1.6 - and not just choke - they simply cause
+  # TODO - for some reason these choke in 1.1.6 and edge - and not just choke - they simply cause
   # the process to exit with no information posted to stdout
-  unless ENV['RSPEC_RAILS_VERSION'] == '1.1.6'
+  #
+  # DaC - I've narrowed this down to line 1125 in activerecord/lib/active_record/vendor/mysql.rb (rev 6145):
+  #   @sock.flush
+  #
+  # Also, the line below that calls "get 'some_action'" sets the problem in motion - but ONLY after
+  # a spec above w/ the same get is run. If this spec is the only one that gets run, all is well.
+  unless ['1.1.6', 'edge'].include?(ENV['RSPEC_RAILS_VERSION'])
     specify "should choke if the template doesn't exist" do
-      lambda { get 'some_action' }.should_raise ActionView::TemplateError
+      lambda { get 'some_action' }.should raise_error(ActionView::TemplateError)
       response.should_not be_success
     end
   
