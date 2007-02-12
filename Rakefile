@@ -21,7 +21,8 @@ end
 desc "Runs pre_commit against rspec_on_rails (against all supported Rails versions)"
 task :pre_commit_rails do
   Dir.chdir 'rspec_on_rails' do
-    cmd = "rake -f Multirails.rake pre_commit"
+    rake = (PLATFORM == "i386-mswin32") ? "rake.cmd" : "rake"
+    cmd = "#{rake} -f Multirails.rake pre_commit"
     system(cmd)
     if $? != 0
       raise <<-EOF
