@@ -4,6 +4,24 @@ module Spec
       class ContextFactory
 
         class << self
+          # Kernel#context calls this to create the appropriate extension of
+          # Spec::Runner::Context for Model, View, Controller and Helper specs.
+          # In the spirit of Rails' convention
+          # over configuration, putting the spec files in the right directory
+          # will cause the ContextFactory to do the right thing:
+          #
+          #   spec/controllers => ControllerContext
+          #   spec/helpers => HelperContext
+          #   spec/models => ModelContext
+          #   spec/views => ViewContext
+          #
+          # If you prefer or need configuration, you can use the options Hash submitted
+          # to create as follows:
+          # 
+          #   context "name", :context_type => :controller do ...
+          #   context "name", :context_type => :helper do ...
+          #   context "name", :context_type => :model do ...
+          #   context "name", :context_type => :view ...
           def create(*args, &block)
             spec_path = args.last.is_a?(Hash) ? args.last[:spec_path] : nil
             context_type = args.last.is_a?(Hash) ? args.last[:context_type] : nil

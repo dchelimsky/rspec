@@ -608,32 +608,32 @@ context "be_feed behaviour", :context_type => :controller do
   </channel>
 </rss>
 EOF
-    response.should be_feed(:rss, 2.0) { 
-      with_tag("channel item description") {
+    response.should be_feed(:rss, 2.0) do
+      with_tag("channel item description") do
         # Test element regardless of wrapper.
-        with_encoded {
+        with_encoded do
           with_tag("p", :count=>2, :text=>/Test/)
-        }
+        end
         # # Test through encoded wrapper.
-        with_encoded {
+        with_encoded do
           with_tag("encoded p", :count=>2, :text=>/Test/)
-        }
+        end
         # # Use :root instead (recommended)
-        with_encoded {
+        with_encoded do
           with_tag(":root p", :count=>2, :text=>/Test/)
-        }
+        end
         # # Test individually.
-        with_tag("description") { |elements|
-          with_encoded {
+        with_tag("description") do |elements|
+          with_encoded do
             with_tag("p", "Test 1")
-          }
-          with_encoded {
+          end
+          with_encoded do
             with_tag("p", "Test 2")
-          }
+          end
           
-        }
-      }
-    }
+        end
+      end
+    end
     # Test that we only un-encode element itself.
     response.should be_feed(:rss, 2.0) {
       with_tag("channel item") {
