@@ -15,32 +15,33 @@ h2. Installation
 
 There are several ways to install the RSpec bundle for TextMate. We'll start by the easiest.
 
-h3. Installing from RubyForge.
+h3. Installing from RubyForge
 
 Just download the tgz file from RubyForge, unpack it and double-click the RSpec.tmbundle icon.
 It is very important that your installed Ruby gem is a compatible version.
 
-h3. Installing from trunk HEAD in subversion
-
-Get the source via subversion to some location on your drive:
+h3. Installing from Subversion straight into your TextMate
 
 <pre>
-svn co svn://rubyforge.org/var/svn/rspec/trunk/RSpec.tmbundle path/to/RSpec.tmbundle
+cd ~/Library/Application\ Support/TextMate/Bundles/
+svn co svn://rubyforge.org/var/svn/rspec/trunk/RSpec.tmbundle
 </pre>
 
-(If you have RSpec checked out you don't need this - it's under vendor/RSpec.tmbundle).
+h3. Symlinking an existing RSpec.tmbundle Subversion checkout to TextMate
 
-Now, make a symbolic link from TextMate's bundle directory to your working copy of the bundle:
+If you already have the RSpec trunk checked out somewhere, you should have the RSpec.tmbundle
+directory right under your working copy's root directory.
+
+All you need to do is to make a symbolic link from TextMate's bundle directory to your working copy of the bundle:
 
 <pre>
-ln -s path/to/RSpec.tmbundle ~/Library/Application\ Support/TextMate/Bundles/RSpec.tmbundle
+ln -s path/to/rspec_trunk_checkout/RSpec.tmbundle ~/Library/Application\ Support/TextMate/Bundles/RSpec.tmbundle
 </pre>
 
-Of course, the last step is not necessary if you check the bundle out straight into the TextMate directory.
+h2. Pointing to the right Ruby and RSpec.
 
-h3. Pointing to the right Ruby and RSpec.
-
-You may need to adjust the PATH in your <tt>~/.MacOSX/environment.plist</tt> file. For example:
+You may need to adjust the PATH in your <tt>~/.MacOSX/environment.plist</tt> file to point to the directory
+where your ruby and spec executables live. For example:
 
 <pre>
 <key>PATH</key>
@@ -49,11 +50,10 @@ You may need to adjust the PATH in your <tt>~/.MacOSX/environment.plist</tt> fil
 
 You may also have to set your <tt>TM_RUBY</tt> environment variable in TextMate's preferences to point to your ruby executable.
 
-You can tell RSpec.tmbundle to use a particular RSpec at a particular location on your filesystem.
-You probably want to do this if you run the bundle off trunk HEAD.
+You can also tell RSpec.tmbundle to use a particular RSpec (the library) at a particular location on your filesystem.
 Just define the <tt>TM_RSPEC_HOME</tt> environment variable in TextMate's preferences. This should
-point to the root directory of your working copy of RSpec (where you checked out RSpec core).
+point to the your working copy's rspec directory.
 
-h3. Setting RSpec command line options
+h2. Setting RSpec command line options
 
 You can specify these in the <tt>TM_RSPEC_OPTS</tt> environment variable in TextMate's preferences.
