@@ -7,21 +7,16 @@ require "spec/rails/expectations/matchers/render_template"
 module Spec
   module Rails
     module Expectations
-      # == Expectation Matchers
-      #
-      # ExpectationMatchers are methods (with classes underlying) that allow you
-      # set expectations on objects. For example, if you expect the value of an
-      # object to be 37 after some calculation, you could say:
-      #
-      #   result.should equal(37)
-      #
-      # In this example, "should equal(37)" is an expectation, with "equal(37)" being
-      # the ExpecationMatcher.
-      #
       # Spec::Rails::Expectations::Matchers provides several expectation matchers
       # intended to work with Rails components like models and responses. For example:
       #
-      #   response.should be_redirect #be_redirect() is the matcher.
+      #   response.should redirect_to("some/url") #redirect_to(url) is the matcher.
+      #
+      # In addition to those you see below, the arbitrary predicate feature of RSpec
+      # makes the following available as well:
+      #
+      #   response.should be_success #passes if response.success?
+      #   response.should be_redirect #passes if response.redirect?
       #
       module Matchers
         # :call-seq:
@@ -45,15 +40,15 @@ module Spec
         # run the assertion for each element selected by the enclosing assertion.
         #
         # For example:
-        #   response.should have_tag("ol>li") { |elements|
+        #   response.should have_tag("ol>li") do |elements|
         #     elements.each do |element|
         #       element.should have_tag("li")
         #     end
         #   end
         # Or for short:
-        #   response.should have_tag("ol>li") {
+        #   response.should have_tag("ol>li") do
         #     with_tag("li")
-        #   }
+        #   end
         # The selector may be a CSS selector expression (+String+), an expression
         # with substitution values, or an HTML::Selector object.
         #
@@ -170,14 +165,14 @@ module Spec
         #   response.should have_rjs(:insert, :top, "bar")
         #
         #   # Changing the element foo, with an image.
-        #   response.should have_rjs("foo") {
+        #   response.should have_rjs("foo") do
         #     with_tag("img[src=/images/logo.gif"")
-        #   }
+        #   end
         #
         #   # RJS inserts or updates a list with four items.
-        #   response.should have_rjs {
+        #   response.should have_rjs do
         #     with_tag("ol>li", 4)
-        #   }
+        #   end
         #
         #   # The same, but shorter.
         #   response.should have_rjs("ol>li", 4)
@@ -201,11 +196,11 @@ module Spec
         # === Example
         #  
         #  # Defining a login form
-        #  response.should have_tag("form[action=/login]") {
+        #  response.should have_tag("form[action=/login]") do
         #    with_tag("input[type=text][name=email]")
         #    with_tag("input[type=password][name=password]")
         #    with_tag("input[type=submit][value=Login]")
-        #  }
+        #  end
         def with_tag(*args, &block)
           AssertSelect.selected.should have_tag(*args, &block)
         end
@@ -224,13 +219,13 @@ module Spec
         #
         # === Example
         #
-        #   response.should be_feed(:rss, 2.0) {
-        #     with_tag("channel>item>description") {
-        #       with_encoded {
+        #   response.should be_feed(:rss, 2.0) do
+        #     with_tag("channel>item>description") do
+        #       with_encoded do
         #         with_tag("p")
-        #       }
-        #     }
-        #   }
+        #       end
+        #     end
+        #   end
         def with_encoded(*args, &block)
           case args.last
           when Hash
@@ -250,18 +245,18 @@ module Spec
         # === Example
         #  
         #  # A list of users in which the logged in user can edit her own record
-        # response.should have_tag("div#users") {
-        #   with_tag("div#user_1") {
-        #     with_tag("a")
-        #   }
-        #   with_tag("div#user_2") {
-        #     #user 2 is logged in and gets a link to edit record
-        #     without_tag("a[href=/users/2;edit]")
-        #   }
-        #   with_tag("div#user_3") {
-        #     with_tag("a")
-        #   }
-        # }
+        #   response.should have_tag("div#users") do
+        #     with_tag("div#user_1") do
+        #       with_tag("a")
+        #     end
+        #     with_tag("div#user_2") do
+        #       #user 2 is logged in and gets a link to edit record
+        #       without_tag("a[href=/users/2;edit]")
+        #     end
+        #     with_tag("div#user_3") do
+        #       with_tag("a")
+        #     end
+        #   end
         def without_tag(*args, &block)
           AssertSelect.selected.should_not have_tag(*args, &block)
         end
@@ -319,7 +314,7 @@ module Spec
           end
           AssertSelect.new(*args, &block)
         end
-      
+        
         # :call-seq:
         #   response.should redirect_to(url)
         #   response.should redirect_to(:action => action_name)
