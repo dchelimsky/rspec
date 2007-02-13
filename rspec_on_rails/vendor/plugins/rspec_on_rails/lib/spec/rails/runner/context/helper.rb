@@ -1,7 +1,7 @@
 module Spec
   module Rails
     module Runner
-      class HelperEvalContextController < ApplicationController
+      class HelperEvalContextController < ApplicationController #:nodoc:
 
         attr_accessor :request, :url
 
@@ -24,8 +24,15 @@ module Spec
         include ActionView::Helpers::UrlHelper
         include ActionView::Helpers::AssetTagHelper
         include ActionView::Helpers::PrototypeHelper rescue nil # Rails 1.0 only
+        
+        class << self
+          # The helper name....
+          def helper_name(name=nil)
+            send :include, "#{name}_helper".camelize.constantize
+          end
+        end
 
-        def setup
+        def setup #:nodoc:
           @controller_class_name = 'Spec::Rails::Runner::HelperEvalContextController'
           super
           @controller.request = @request
@@ -37,14 +44,8 @@ module Spec
       end
 
       class HelperContext < Spec::Rails::Runner::Context
-        module ContextEvalClassMethods
-          def helper_name(name=nil)
-            send :include, "#{name}_helper".camelize.constantize
-          end
-        end
-        def before_context_eval
+        def before_context_eval #:nodoc:
           inherit_context_eval_module_from Spec::Rails::Runner::HelperEvalContext
-          @context_eval_module.extend HelperContext::ContextEvalClassMethods
           @context_eval_module.init_global_fixtures
         end
       end

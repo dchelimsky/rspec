@@ -133,7 +133,7 @@ context "A view", :context_type => :view do
 
   #TODO - A view should have access to params data
   # specify "should have access to params data" do
-  #   response.should have_tag "div#params", "params"
+  #   response.should have_tag("div#params", "params")
   # end
 
   specify "should have access to flash data" do
