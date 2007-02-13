@@ -1,7 +1,7 @@
-module Spec
-  module Expectations
-    module Should
-      class CollectionHandler
+module Spec #:nodoc:
+  module Expectations #:nodoc:
+    module Should #:nodoc:
+      class CollectionHandler #:nodoc:
         alias_method :__original_build_message, :build_message
         def build_message(sym, args)
           return __original_build_message(sym, args) unless sym == :errors_on

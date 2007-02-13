@@ -1,7 +1,7 @@
 module Spec
   module Rails
     module Expectations
-      class OptsMerger
+      class OptsMerger #:nodoc:
         def initialize opts
           @opts = opts
         end

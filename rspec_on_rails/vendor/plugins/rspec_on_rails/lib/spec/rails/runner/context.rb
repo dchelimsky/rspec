@@ -7,5 +7,14 @@ require File.expand_path("#{dir}/context/controller")
 require File.expand_path("#{dir}/context/helper")
 require File.expand_path("#{dir}/context/view")
 
+module Spec
+  module Rails
+    module Runner
+      class Context #:nodoc:
+      end
+    end
+  end
+end
+
 
 

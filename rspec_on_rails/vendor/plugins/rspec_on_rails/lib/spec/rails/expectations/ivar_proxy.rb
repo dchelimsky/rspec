@@ -5,7 +5,7 @@
 module Spec
   module Rails
     module Expectations
-      class IvarProxy
+      class IvarProxy #:nodoc:
 
         ##
         # Wraps +object+ allowing its instance variables to be manipulated.

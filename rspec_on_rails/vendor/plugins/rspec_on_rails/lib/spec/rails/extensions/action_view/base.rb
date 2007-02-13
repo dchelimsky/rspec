@@ -1,5 +1,5 @@
-module ActionView
-  class Base
+module ActionView #:nodoc:
+  class Base #:nodoc:
     cattr_accessor :base_view_path
     def render_partial(partial_path, local_assigns = nil, deprecated_local_assigns = nil) #:nodoc:
       if partial_path.is_a?(String)

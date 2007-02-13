@@ -1,4 +1,4 @@
-module ActiveRecord
+module ActiveRecord #:nodoc:
   class Base
 
     (class << self; self; end).class_eval do
