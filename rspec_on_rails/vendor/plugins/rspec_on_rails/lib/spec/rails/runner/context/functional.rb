@@ -3,7 +3,7 @@ module Spec
     module Runner
       class FunctionalEvalContext < Spec::Rails::Runner::EvalContext
         attr_reader :session, :flash, :request, :response, :params
-        def setup
+        def setup #:nodoc:
           super
 
           @controller_class = Object.path2class @controller_class_name
@@ -23,8 +23,24 @@ module Spec
           setup_extra if respond_to? :setup_extra
         end      
 
-        # Docs say only use assigns[:key] format, but allowing assigns(:key)
+        # :call-seq:
+        #   assigns()
+        #
+        # Hash of instance variables to values that are made available to views.
+        # == Examples
+        #
+        #   #in thing_controller.rb
+        #   def new
+        #     @thing = Thing.new
+        #   end
+        #
+        #   #in thing_controller_spec
+        #   get 'new'
+        #   assigns[:registration].should == Thing.new
+        #--
+        # NOTE - Even though docs say only use assigns[:key] format, but allowing assigns(:key)
         # in order to avoid breaking old specs.
+        #++
         def assigns(key = nil)
           if key.nil?
             _controller_ivar_proxy

@@ -186,6 +186,11 @@ module Spec
           ActionMailer::Base.deliveries = @deliveries
         end
 
+        # Uses ActionController::Routing::Routes to generate
+        # the correct route for a given set of options.
+        # == Examples
+        #   route_for(:controller => 'registrations', :action => 'edit', :id => 1)
+        #     => '/registrations/1;edit'
         def route_for(options)
           ensure_that_routes_are_loaded
           routes = ActionController::Routing::Routes.generate(options)
