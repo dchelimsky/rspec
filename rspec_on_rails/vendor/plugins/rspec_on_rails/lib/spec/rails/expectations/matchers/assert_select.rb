@@ -7,7 +7,7 @@
 # Developed for http://co.mments.com
 # Code and documention: http://labnotes.org
 
-module Spec
+module Spec # :nodoc:
   module Rails
     module Expectations
       module Matchers

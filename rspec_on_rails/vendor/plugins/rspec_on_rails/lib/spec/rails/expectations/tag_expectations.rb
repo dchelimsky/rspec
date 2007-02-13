@@ -1,7 +1,7 @@
 module Spec
   module Rails
     module Expectations
-      module TagExpectations
+      module TagExpectations #:nodoc:
         def should_have_tag(*opts)
           raise_rspec_error(" should include ", opts.inspect) if find_tag(*opts).nil?
         end

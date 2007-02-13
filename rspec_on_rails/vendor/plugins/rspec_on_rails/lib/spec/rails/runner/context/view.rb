@@ -108,13 +108,14 @@ module Spec
       
       end
 
+      # View Specs go in spec/views and use a Spec::Rails::Runner::ViewContext to provide
       class ViewContext < Spec::Rails::Runner::Context
-        def execution_context specification=nil
+        def execution_context(specification=nil) # :nodoc:
           instance = execution_context_class.new(specification)
           instance.instance_eval { @controller_class_name = "Spec::Rails::Runner::ViewSpecController" }
           instance
         end
-        def before_context_eval
+        def before_context_eval # :nodoc:
           inherit_context_eval_module_from Spec::Rails::Runner::ViewEvalContext
           @context_eval_module.init_global_fixtures
         end

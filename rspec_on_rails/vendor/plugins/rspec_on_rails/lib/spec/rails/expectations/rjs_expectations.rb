@@ -1,7 +1,7 @@
 module Spec
   module Rails
     module Expectations
-      module RjsExpectations
+      module RjsExpectations #:nodoc:
         include ActionView::Helpers::PrototypeHelper
 
         def should_have_rjs(action, *args, &block)

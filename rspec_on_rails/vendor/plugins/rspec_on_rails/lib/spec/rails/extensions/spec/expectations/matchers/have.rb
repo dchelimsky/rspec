@@ -1,7 +1,7 @@
-module Spec
-  module Expectations
-    module Matchers
-      class Have
+module Spec #:nodoc:
+  module Expectations #:nodoc:
+    module Matchers #:nodoc:
+      class Have #:nodoc:
         alias_method :__original_failure_message, :failure_message
         def failure_message
           return "expected #{relativities[@relativity]}#{@expected} errors on :#{@args[0]}, got #{@actual}" if @sym == :errors_on

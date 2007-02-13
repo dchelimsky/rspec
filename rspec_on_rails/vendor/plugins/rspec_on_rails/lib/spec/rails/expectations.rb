@@ -13,6 +13,8 @@ module Spec
   module Rails
     # Spec::Rails::Expectations provides Rails-specific extensions to Spec::Expectations
     # (RSpec's core Expectations module)
+    #
+    # See Spec::Rails::Expectations::Matchers for more information.
     module Expectations
     end
   end

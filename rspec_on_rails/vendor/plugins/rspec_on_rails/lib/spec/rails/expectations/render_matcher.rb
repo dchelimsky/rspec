@@ -1,7 +1,7 @@
 module Spec
   module Rails
     module Expectations
-      class RenderMatcher
+      class RenderMatcher #:nodoc:
       
         def initialize(controller_path=nil, integrate_views=false)
           @controller_path = controller_path

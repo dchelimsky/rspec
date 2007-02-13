@@ -1,7 +1,7 @@
-module ActionController
-  class TestResponse
+module ActionController #:nodoc:
+  class TestResponse #:nodoc:
     
-    module InstanceMethodsForRSpec
+    module InstanceMethodsForRSpec #:nodoc:
       # Deprecated - gone for 9.0
       # Use should be_success #see Spec::Rails::Expectations::Matchers
       def should_be_success

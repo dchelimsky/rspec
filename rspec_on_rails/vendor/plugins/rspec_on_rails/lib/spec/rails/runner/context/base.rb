@@ -7,12 +7,14 @@ module Spec
         remove_method :default_test if respond_to?(:default_test)
         @@model_id = 1000
         class << self
-          def init_global_fixtures
+          def init_global_fixtures #:nodoc:
             send :fixtures, self.global_fixtures if self.global_fixtures
           end
         end
       
-        def add_assertion
+        # This is here to override add_assertion in Test::Unit::TestCase as
+        # a no-op.
+        def add_assertion #:nodoc:
         end
 
         # Creates a mock object instance for a +model_class+ with common
@@ -38,12 +40,13 @@ module Spec
           m
         end
 
+        #--
         # TODO - Shouldn't this just be an extension of stub! ??
         # - object.stub!(:method => return_value, :method2 => return_value2, :etc => etc)
-        #
+        #++
         # Stubs methods on +object+ (if +object+ is a symbol or string a new mock 
         # with that name will be created). +stubs+ is a Hash of <tt>method=>value</tt>
-        def add_stubs(object, stubs = {})
+        def add_stubs(object, stubs = {}) #:nodoc:
           m = [String, Symbol].index(object.class) ? mock(object.to_s) : object
           stubs.each {|k,v| m.stub!(k).and_return(v)}
           m

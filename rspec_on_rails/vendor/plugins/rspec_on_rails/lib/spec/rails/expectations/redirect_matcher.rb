@@ -1,7 +1,7 @@
 module Spec
   module Rails
     module Expectations
-      class RedirectMatcher
+      class RedirectMatcher #:nodoc:
 
         def interested_in?(opts)
           opts.is_a?(String) && %r{^\w+://.*} =~ opts        
