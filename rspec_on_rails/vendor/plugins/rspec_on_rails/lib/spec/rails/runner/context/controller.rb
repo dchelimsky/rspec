@@ -209,7 +209,9 @@ module Spec
           end
       end
 
-      # Spec::Rails::Runner::ControllerContext supports running specs for
+      # Controller Specs live in $RAILS_ROOT/spec/controllers/.
+      #
+      # Controller Specs use Spec::Rails::Runner::ControllerContext, which supports running specs for
       # Controllers in two modes, which represent the tension between the more granular
       # testing common in TDD and the more high level testing built into
       # rails. BDD sits somewhere in between: we want to a balance between

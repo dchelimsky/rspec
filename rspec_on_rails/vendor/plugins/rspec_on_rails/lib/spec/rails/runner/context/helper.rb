@@ -43,6 +43,30 @@ module Spec
       
       end
 
+      # Helper Specs live in $RAILS_ROOT/spec/helpers/.
+      #
+      # Helper Specs use Spec::Rails::Runner::HelperContext, which allows you to
+      # include your Helper directly in the context and write specs directly
+      # against its methods.
+      #
+      # HelperContext also includes the standard lot of ActionView::Helpers in case your
+      # helpers rely on any of those.
+      #
+      # == Example
+      #
+      #   class ThingHelper
+      #     def number_of_things
+      #       Thing.count
+      #     end
+      #   end
+      #
+      #   context "ThingHelper behaviour" do
+      #     include ThingHelper
+      #     specify "should tell you the number of things" do
+      #       Thing.should_receive(:count).and_return(37)
+      #       number_of_things.should == 37
+      #     end
+      #   end
       class HelperContext < Spec::Rails::Runner::Context
         def before_context_eval #:nodoc:
           inherit_context_eval_module_from Spec::Rails::Runner::HelperEvalContext
