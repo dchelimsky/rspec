@@ -9,14 +9,14 @@ module Spec
       end
       extend ClassMethods
 
-      attr_reader :command
+      attr_reader :spec_block
       callback_events :before_setup, :after_teardown
 
-      def initialize(name, opts={}, &block)
+      def initialize(name, opts={}, &spec_block)
         @from = caller(0)[3]
         @name = name
         @options = opts
-        @command = block
+        @spec_block = spec_block
       end
 
       def run(reporter, setup_block, teardown_block, dry_run, execution_context)
@@ -52,11 +52,13 @@ module Spec
       end
 
       def execute_spec(execution_context, errors)
-        execution_context.instance_eval(&command)
-        return true
-      rescue => e
-        errors << e
-        return false
+        begin
+          execution_context.instance_eval(&spec_block)
+          return true
+        rescue Exception => e
+          errors << e
+          return false
+        end
       end
 
       def teardown_spec(execution_context, errors, &teardown_block)

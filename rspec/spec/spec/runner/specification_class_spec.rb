@@ -24,13 +24,23 @@ module Spec
       end
 
       specify "should have before_setup callback add errors to spec run" do
-        error=RuntimeError.new
+        error=Exception.new
         @specification.before_setup do
           raise(error)
         end
         spec=@specification.new("spec") {}
         @reporter.should_receive(:spec_started).with("spec")
         @reporter.should_receive(:spec_finished).with("spec", error, "setup")
+        spec.run(@reporter, nil, nil, nil, ::Spec::Runner::ExecutionContext.new(nil))
+      end
+
+      specify "should report exceptions in spec" do
+        error = Exception.new
+        spec=@specification.new("spec") do
+          raise(error)
+        end
+        @reporter.should_receive(:spec_started).with("spec")
+        @reporter.should_receive(:spec_finished).with("spec", error, "spec")
         spec.run(@reporter, nil, nil, nil, ::Spec::Runner::ExecutionContext.new(nil))
       end
 
@@ -48,7 +58,7 @@ module Spec
       end
 
       specify "should have after_teardown callback add errors to spec run" do
-        error=RuntimeError.new
+        error=Exception.new
         @specification.after_teardown do
           raise(error)
         end

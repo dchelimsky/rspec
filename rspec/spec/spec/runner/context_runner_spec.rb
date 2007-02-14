@@ -63,8 +63,8 @@ context "ContextRunner" do
     reporter.should_receive(:start)
     reporter.should_receive(:add_context).with("context")
     reporter.should_receive(:spec_started).with("no error")
-    reporter.should_receive(:spec_finished)
     reporter.should_receive(:spec_started).with("should interrupt")
+    reporter.should_receive(:spec_finished).twice
     reporter.should_receive(:end)
     reporter.should_receive(:dump)
 

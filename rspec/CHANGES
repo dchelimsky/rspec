@@ -9,6 +9,7 @@ It also introduces a new approach to handling should expectations. See RELEASE-P
 
 It also sports myriad new features, bug fixes, patches and general goodness:
 
+* Fixed [#8646] Context Runner does not report on Non standard exceptions and return a 0 return code
 * RSpec on Rails' spec_helper.rb will only force RAILS_ENV to test if it was not specified on the command line.
 * Fixed [#5485] proc#should_raise and proc#should_not_raise output
 * Added [#8484] should_receive with blocks
