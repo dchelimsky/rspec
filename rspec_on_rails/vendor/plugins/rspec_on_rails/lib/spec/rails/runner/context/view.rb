@@ -125,8 +125,10 @@ module Spec
         end
       
       end
-
-      # View Specs go in spec/views and use a Spec::Rails::Runner::ViewContext,
+      
+      # View Specs live in $RAILS_ROOT/spec/views/.
+      #
+      # View Specs use Spec::Rails::Runner::ViewContext,
       # which provides access to views without invoking any of your controllers.
       # See Spec::Rails::Expectations::Matchers for information about specific
       # expectations that you can set on views.
