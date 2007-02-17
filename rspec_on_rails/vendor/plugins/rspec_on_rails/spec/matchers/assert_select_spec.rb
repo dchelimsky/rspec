@@ -496,14 +496,14 @@ context "have_rjs behaviour", :context_type => :controller do
       page.insert_html :before, "test3", "<div id=\"3\">none</div>"
       page.insert_html :after, "test4", "<div id=\"4\">loopy</div>"
     end
-    response.should have_rjs(:insert, :top) {|rjs|
+    response.should have_rjs(:insert, :top) do
       with_tag("div", 1)
       with_tag("#1")
-    }
-    response.should have_rjs(:insert, :top, "test1") {|rjs|
+    end
+    response.should have_rjs(:insert, :top, "test1") do
       with_tag("div", 1)
       with_tag("#1")
-    }
+    end
     lambda {
       response.should have_rjs(:insert, :top, "test2")
     }.should_fail
@@ -682,4 +682,54 @@ context "send_email behaviour", :context_type => :controller do
     }
   end
 
+end
+
+context "Given an rjs call to :visual_effect, a 'should have_rjs' spec with",
+  :context_type => :view do
+    
+  setup do
+    render 'rjs_spec/visual_effect'
+  end
+  
+  specify "the correct element name should pass" do
+    response.should have_rjs(:effect, :fade, 'mydiv')
+  end
+  
+  specify "the wrong element name should fail" do
+    lambda {
+      response.should have_rjs(:effect, :fade, 'wrongname')
+    }.should_fail
+  end
+  
+  specify "the correct element but the wrong command should fail" do
+    lambda {
+      response.should have_rjs(:effect, :puff, 'mydiv')
+    }.should_fail
+  end
+  
+end
+  
+context "Given an rjs call to :visual_effect for a toggle, a 'should have_rjs' spec with",
+  :context_type => :view do
+    
+  setup do
+    render 'rjs_spec/visual_toggle_effect'
+  end
+  
+  specify "the correct element name should pass" do
+    response.should have_rjs(:effect, :toggle_blind, 'mydiv')
+  end
+  
+  specify "the wrong element name should fail" do
+    lambda {
+      response.should have_rjs(:effect, :toggle_blind, 'wrongname')
+    }.should_fail
+  end
+  
+  specify "the correct element but the wrong command should fail" do
+    lambda {
+      response.should have_rjs(:effect, :puff, 'mydiv')
+    }.should_fail
+  end
+  
 end

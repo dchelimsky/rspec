@@ -176,6 +176,10 @@ module Spec
         #
         #   # The same, but shorter.
         #   response.should have_rjs("ol>li", 4)
+        #
+        #   # RJS effects
+        #   response.should have_rjs(:effect, :fade, "mydiv")
+        #   response.should have_rjs(:effect, :toggle_blind, "mydiv")
         def have_rjs(*args, &block)
           args.unshift(response)
           case args.last

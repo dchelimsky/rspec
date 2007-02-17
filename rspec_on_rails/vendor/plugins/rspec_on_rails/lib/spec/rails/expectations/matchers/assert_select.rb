@@ -210,6 +210,16 @@ module Spec # :nodoc:
                 insertion = "insert_#{arg}".to_sym
                 raise ArgumentError, "Unknown RJS insertion type #{arg}" unless RJS_STATEMENTS[insertion]
                 statement = "(#{RJS_STATEMENTS[insertion]})"
+              elsif arg == :effect
+                rjs_type = arg = args.shift
+                effect = "effect_#{arg}".to_sym
+                raise ArgumentError, "Unknown RJS effect type #{arg}" unless RJS_STATEMENTS[effect]
+                if Array === RJS_STATEMENTS[effect]
+                  statement = "(#{RJS_STATEMENTS[effect][0]})"
+                  toggle_type = RJS_STATEMENTS[effect][1]
+                else
+                  statement = "(#{RJS_STATEMENTS[effect]})"
+                end
               else
                 raise ArgumentError, "Unknown RJS statement type #{arg}" unless RJS_STATEMENTS[arg]
                 statement = "(#{RJS_STATEMENTS[arg]})"
@@ -243,6 +253,10 @@ module Spec # :nodoc:
               end
               return matches
             elsif match_rjs_without_html(@response, statement, id) || match_page_rjs_without_html(@response, statement, id)
+              true
+            elsif match_effect_rjs(@response, statement, id)
+              true
+            elsif match_toggle_rjs(@response, statement, toggle_type, id)
               true
             else
               fail_with(args.shift || "No RJS statement with #{rjs_type.inspect}")
@@ -281,6 +295,18 @@ module Spec # :nodoc:
           def match_rjs_without_html(response, statement, id)
             no_html_pattern = Regexp.new("#{statement}\\(\"#{id}\"\\)", Regexp::MULTILINE)
             @response.body.dup.gsub(no_html_pattern) { return [] }
+            nil
+          end
+        
+          def match_effect_rjs(response, statement, id)
+            no_html_pattern = Regexp.new("#{statement}\\(\"#{id}\",\\{\\}\\)", Regexp::MULTILINE)
+            @response.body.dup.gsub(no_html_pattern) { return [] }
+            nil
+          end
+        
+          def match_toggle_rjs(response, statement, toggle_type, id)
+            pattern = Regexp.new("#{statement}\\(\"#{id}\",\'#{toggle_type.to_s}\',\\{\\}\\)", Regexp::MULTILINE)
+            @response.body.dup.gsub(pattern) { return [] }
             nil
           end
         
@@ -385,7 +411,6 @@ module Spec # :nodoc:
             @html_document ||= HTML::Document.new(@response.body)
           end
 
-
           unless const_defined?(:RJS_STATEMENTS)
             RJS_STATEMENTS = {
               :replace      => /Element\.replace/,
@@ -396,6 +421,13 @@ module Spec # :nodoc:
             RJS_INSERTIONS.each do |insertion|
               RJS_STATEMENTS["insert_#{insertion}".to_sym] = Regexp.new(Regexp.quote("new Insertion.#{insertion.to_s.camelize}"))
             end
+            [:fade, :puff, :highlight, :appear].each do |effect|
+              RJS_STATEMENTS["effect_#{effect}".to_sym] = Regexp.new(Regexp.quote("new Effect.#{effect.to_s.camelize}"))
+            end
+            [:appear, :slide, :blind].each do |effect|
+              RJS_STATEMENTS["effect_toggle_#{effect}".to_sym] = [Regexp.new(Regexp.quote("Effect.toggle")), effect]
+            end
+            # RJS_STATEMENTS[:effect_toggle_blind] = Regexp.new(Regexp.quote("Effect.toggle"))
             RJS_STATEMENTS[:any] = Regexp.new("(#{RJS_STATEMENTS.values.join('|')})")
             RJS_STATEMENTS[:insert_html] = Regexp.new(RJS_INSERTIONS.collect do |insertion|
               Regexp.quote("new Insertion.#{insertion.to_s.camelize}")
