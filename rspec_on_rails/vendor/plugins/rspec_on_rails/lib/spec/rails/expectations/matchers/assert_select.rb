@@ -212,14 +212,14 @@ module Spec # :nodoc:
                 statement = "(#{RJS_STATEMENTS[insertion]})"
               elsif arg == :effect
                 rjs_type = arg = args.shift
-                effect = "effect_#{arg}".to_sym
-                raise ArgumentError, "Unknown RJS effect type #{arg}" unless RJS_STATEMENTS[effect]
-                if Array === RJS_STATEMENTS[effect]
-                  statement = "(#{RJS_STATEMENTS[effect][0]})"
-                  toggle_type = RJS_STATEMENTS[effect][1]
+                if rjs_type.starts_with?("toggle")
+                  effect = "effect_toggle".to_sym
+                  toggle_type = rjs_type.to_s.split('_')[1].to_sym
                 else
-                  statement = "(#{RJS_STATEMENTS[effect]})"
+                  effect = "effect_#{arg}".to_sym
                 end
+                raise ArgumentError, "Unknown RJS effect type #{arg}" unless RJS_STATEMENTS[effect]
+                statement = "(#{RJS_STATEMENTS[effect]})"
               else
                 raise ArgumentError, "Unknown RJS statement type #{arg}" unless RJS_STATEMENTS[arg]
                 statement = "(#{RJS_STATEMENTS[arg]})"
@@ -424,10 +424,7 @@ module Spec # :nodoc:
             [:fade, :puff, :highlight, :appear].each do |effect|
               RJS_STATEMENTS["effect_#{effect}".to_sym] = Regexp.new(Regexp.quote("new Effect.#{effect.to_s.camelize}"))
             end
-            [:appear, :slide, :blind].each do |effect|
-              RJS_STATEMENTS["effect_toggle_#{effect}".to_sym] = [Regexp.new(Regexp.quote("Effect.toggle")), effect]
-            end
-            # RJS_STATEMENTS[:effect_toggle_blind] = Regexp.new(Regexp.quote("Effect.toggle"))
+            RJS_STATEMENTS[:effect_toggle] = Regexp.new(Regexp.quote("Effect.toggle"))
             RJS_STATEMENTS[:any] = Regexp.new("(#{RJS_STATEMENTS.values.join('|')})")
             RJS_STATEMENTS[:insert_html] = Regexp.new(RJS_INSERTIONS.collect do |insertion|
               Regexp.quote("new Insertion.#{insertion.to_s.camelize}")
