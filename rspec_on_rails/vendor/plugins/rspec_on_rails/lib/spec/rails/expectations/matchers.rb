@@ -18,12 +18,20 @@ module Spec
       #   response.should be_success #passes if response.success?
       #   response.should be_redirect #passes if response.redirect?
       #
+      # Note that many of these matchers are part of a wrapper of <tt>assert_select</tt>, so
+      # the documentation comes straight from that with some slight modifications.
+      # <tt>assert_select</tt> is a Test::Unit extension originally contributed to the
+      # Rails community as a plugin by Assaf Arkin and eventually shipped as part of Rails.
+      #
+      # For more info on <tt>assert_select</tt>, see the relevant Rails documentation.
       module Matchers
         # :call-seq:
         #   response.should have_tag(selector, equality?, message?)
         #   response.should have_tag(element, selector, equality?, message?)
         #   response.should_not have_tag(selector, equality?, message?)
         #   response.should_not have_tag(element, selector, equality?, message?)
+        #
+        # RSpec wrapper for <tt>assert_select</tt>
         #
         # Used to expect specific content in the response to an http request.
         #
@@ -122,8 +130,7 @@ module Spec
         #   response.should_not have_rjs(statement, id?) { |elements| ... }
         #   response.should_not have_rjs(:insert, position, id?) { |elements| ... }
         #
-        # This is a wrapper for assert_select_rjs and works the same way
-        # but with rspec-friendly syntax
+        # RSpec wrapper for <tt>assert_select_rjs</tt>
         #
         # === Narrowing down
         #
@@ -194,6 +201,8 @@ module Spec
         # :call-seq:
         #   with_tag(selector, equality?, message?)
         #
+        # RSpec wrapper for a nested <tt>assert_select</tt>
+        #
         # This is used within a block to set expectations about specific
         # tags nested within the element selected before the block.
         #
@@ -211,6 +220,8 @@ module Spec
 
         # :call-seq:
         #   with_encoded(element?) { |elements| ... }
+        #
+        # RSpec wrapper for <tt>assert_select_encoded</tt>
         #
         # Extracts the content of an element, treats it as encoded HTML and runs
         # nested assertion on it.
@@ -243,8 +254,8 @@ module Spec
         # :call-seq:
         #   without_tag(selector, equality?, message?)
         #
-        # This is used within a block to expect a specific tag
-        # to NOT be nested within the selected element.
+        # RSpec wrapper for a nested <tt>assert_select</tt>, allowing you
+        # to specify the absence of a nested tag.
         #
         # === Example
         #  
@@ -268,6 +279,8 @@ module Spec
         # :call-seq:
         #   response.should be_feed(type, version?) { ... }
         #   response.should_not be_feed(type, version?) { ... }
+        #
+        # RSpec wrapper for a <tt>assert_select_feed</tt>
         #
         # Selects root of the feed element. Calls the block for nested expectations.
         #
@@ -298,9 +311,11 @@ module Spec
         #   response.should send_email { }
         #   response.should_not send_email { }
         #
+        # RSpec wrapper for a <tt>assert_select_email</tt>
+        #
         # Extracts the body of an email and runs nested expectations on it.
         #
-        # You must enable deliveries for this assertion to work, use:
+        # You must enable deliveries for this to work, use:
         #   ActionMailer::Base.perform_deliveries = true
         #
         # === Example
@@ -377,7 +392,9 @@ module Spec
         # Accepts a String or a Regexp, matching a String using ==
         # and a Regexp using =~.
         #
-        # Use this as a lightweight version of response.should have_tag().
+        # Use this instead of <tt>response.should have_tag()</tt>
+        # when you either don't know or don't care where on the page
+        # this text appears.
         #
         # == Examples
         #

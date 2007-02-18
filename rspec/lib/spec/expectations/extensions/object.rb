@@ -43,6 +43,18 @@ module Spec
       def should_have_at_least(expected)
         should.have.at_least(expected)
       end
+      
+      # Deprecated: use should include(expected) (see Spec::Expectations::Matchers)
+      # This will be removed in 0.9
+      def should_include(expected)
+        should.include(expected)
+      end
+
+      # Deprecated: use should_not include(expected) (see Spec::Expectations::Matchers)
+      # This will be removed in 0.9
+      def should_not_include(expected)
+        should.not.include(expected)
+      end
 
       # Deprecated: use should have_at_most(n).items (see Spec::Expectations::Matchers)
       # This will be removed in 0.9
