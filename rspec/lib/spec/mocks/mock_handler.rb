@@ -15,7 +15,6 @@ module Spec
         @messages_received = []
         @stubs = []
         @proxied_methods = []
-        # @proxied_methods = {}
         @options = options ? DEFAULT_OPTIONS.dup.merge(options) : DEFAULT_OPTIONS
       end
 

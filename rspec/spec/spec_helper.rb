@@ -3,14 +3,35 @@ $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
 require 'spec'
 require File.dirname(__FILE__) + '/../spec/spec/spec_classes'
 
-class Proc
-  def should_fail
-    lambda { self.call }.should_raise(Spec::Expectations::ExpectationNotMetError)
-  end
-  def should_fail_with message
-    lambda { self.call }.should_raise(Spec::Expectations::ExpectationNotMetError, message)
-  end
-  def should_pass
-    lambda { self.call }.should_not_raise
+module Spec
+  module Expectations
+    module Matchers
+      def fail
+        raise_error(Spec::Expectations::ExpectationNotMetError)
+      end
+
+      def fail_with(message)
+        raise_error(Spec::Expectations::ExpectationNotMetError, message)
+      end
+
+      class Pass
+        def matches?(proc, &block)
+          begin
+            proc.call
+            true
+          rescue
+            false
+          end
+        end
+
+        def failure_message
+          "Didn't pass"
+        end
+      end
+
+      def pass
+        Pass.new
+      end
+    end
   end
 end
