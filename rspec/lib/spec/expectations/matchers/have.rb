@@ -59,6 +59,57 @@ EOF
         end
       end
 
+      # :call-seq:
+      #   should have(number).items
+      #   should_not have(number).items
+      #
+      # Passes if actual owns a collection
+      # which contains n elements
+      #
+      # == Example
+      #
+      #   # Passes if team.players.size == 11
+      #   team.should have(11).players
+      def have(n)
+        Matchers::Have.new(n)
+      end
+      alias :have_exactly :have
+
+      # :call-seq:
+      #   should have_at_least(number).items
+      #
+      # Passes if actual owns a collection
+      # which contains at least n elements
+      #
+      # == Example
+      #
+      #   # Passes if team.players.size >= 11
+      #   team.should have_at_least(11).players
+      #
+      # == Warning
+      #
+      # +should_not+ +have_at_least+ is not supported
+      def have_at_least(n)
+        Matchers::Have.new(n, :at_least)
+      end
+
+      # :call-seq:
+      #   should have_at_most(number).items
+      #
+      # Passes if actual owns a collection
+      # which contains at most n elements
+      #
+      # == Example
+      #
+      #   # Passes if team.players.size <= 11
+      #   team.should have_at_most(11).players
+      #
+      # == Warning
+      #
+      # +should_not+ +have_at_most+ is not supported
+      def have_at_most(n)
+        Matchers::Have.new(n, :at_most)
+      end
     end
   end
 end

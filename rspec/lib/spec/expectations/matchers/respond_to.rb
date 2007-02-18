@@ -20,6 +20,14 @@ module Spec
         end
       end
       
+      # :call-seq:
+      #   should respond_to(:sym)
+      #   should_not respond_to(:sym)
+      #
+      # Matches if the target object responds to :sym
+      def respond_to(sym)
+        Matchers::RespondTo.new(sym)
+      end
     end
   end
 end

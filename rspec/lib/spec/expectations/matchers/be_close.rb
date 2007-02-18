@@ -15,7 +15,19 @@ module Spec
           "expected #{@expected} +/- (<#{@delta}), got #{@actual}"
         end
       end
-
+      
+      # :call-seq:
+      #   should be_close(expected, delta)
+      #   should_not be_close(expected, delta)
+      #
+      # Passes if actual == expected +/- delta
+      #
+      # == Example
+      #
+      #   result.should be_close(3.0, 0.5)
+      def be_close(expected, delta)
+        Matchers::BeClose.new(expected, delta)
+      end
     end
   end
 end
