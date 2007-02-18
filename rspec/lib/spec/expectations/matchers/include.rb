@@ -27,6 +27,22 @@ module Spec
           end
       end
 
+      # :call-seq:
+      #   should include(expected)
+      #   should_not include(expected)
+      #
+      # Passes if actual includes expected. This works for
+      # collections and Strings
+      #
+      # == Examples
+      #
+      #   [1,2,3].should include(3)
+      #   [1,2,3].should_not include(4)
+      #   "spread".should include("read")
+      #   "spread".should_not include("red")
+      def include(expected)
+        Matchers::Include.new(expected)
+      end
     end
   end
 end

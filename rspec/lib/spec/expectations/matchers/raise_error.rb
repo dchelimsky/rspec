@@ -64,6 +64,35 @@ module Spec
           end
       end
       
+      # :call-seq:
+      #   should raise_error()
+      #   should raise_error(NamedError)
+      #   should raise_error(NamedError, String)
+      #   should raise_error(NamedError, Regexp)
+      #   should_not raise_error()
+      #   should_not raise_error(NamedError)
+      #   should_not raise_error(NamedError, String)
+      #   should_not raise_error(NamedError, Regexp)
+      #
+      # With no args, matches if any error is raised.
+      # With a named error, matches only if that specific error is raised.
+      # With a named error and messsage specified as a String, matches only if both match.
+      # With a named error and messsage specified as a Regexp, matches only if both match.
+      #
+      # == Examples
+      #
+      #   lambda { do_something_risky }.should raise_error
+      #   lambda { do_something_risky }.should raise_error(PoorRiskDecisionError)
+      #   lambda { do_something_risky }.should raise_error(PoorRiskDecisionError, "that was too risky")
+      #   lambda { do_something_risky }.should raise_error(PoorRiskDecisionError, /oo ri/)
+      #
+      #   lambda { do_something_risky }.should_not raise_error
+      #   lambda { do_something_risky }.should_not raise_error(PoorRiskDecisionError)
+      #   lambda { do_something_risky }.should_not raise_error(PoorRiskDecisionError, "that was too risky")
+      #   lambda { do_something_risky }.should_not raise_error(PoorRiskDecisionError, /oo ri/)
+      def raise_error(error=Exception, message=nil)
+        Matchers::RaiseError.new(error, message)
+      end
     end
   end
 end

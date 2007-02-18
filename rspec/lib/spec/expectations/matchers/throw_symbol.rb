@@ -48,6 +48,26 @@ module Spec
           end
       end
    
+      # :call-seq:
+      #   should throw_symbol()
+      #   should throw_symbol(:sym)
+      #   should_not throw_symbol()
+      #   should_not throw_symbol(:sym)
+      #
+      # Given a Symbol argument, matches if a proc throws the specified Symbol.
+      #
+      # Given no argument, matches if a proc throws any Symbol.
+      #
+      # == Examples
+      #
+      #   lambda { do_something_risky }.should throw_symbol
+      #   lambda { do_something_risky }.should throw_symbol(:that_was_risky)
+      #
+      #   lambda { do_something_risky }.should_not throw_symbol
+      #   lambda { do_something_risky }.should_not throw_symbol(:that_was_risky)
+      def throw_symbol(sym=nil)
+        Matchers::ThrowSymbol.new(sym)
+      end
     end
   end
 end
