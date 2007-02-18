@@ -24,7 +24,7 @@ module Spec
             fail_with_message("expected #{expected}, got #{@target}") unless (@target.equal?(expected))
           end
         end
-
+        
         #Gone for 0.9
         def have(expected_number=nil)
           Have.new(@target, :exactly, expected_number)
