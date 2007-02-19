@@ -16,7 +16,7 @@ module Spec
       # Instead, use receiver.should_not == expected
       def should(matcher=nil, &block)
         ExpectationMatcherHandler.new(self, matcher, &block) if matcher
-        return nil if ENV['RSPEC_DISABLE_DEPRECATED_FEATURES'] 
+#        return nil if ENV['RSPEC_DISABLE_DEPRECATED_FEATURES'] 
         Should::Should.new(self)
       end
 
@@ -29,7 +29,7 @@ module Spec
       #     is a Regexp.
       def should_not(matcher=nil, &block)
         NegativeExpectationMatcherHandler.new(self, matcher, &block) if matcher
-        return nil if ENV['RSPEC_DISABLE_DEPRECATED_FEATURES'] 
+#        return nil if ENV['RSPEC_DISABLE_DEPRECATED_FEATURES'] 
         should.not
       end
 

@@ -23,7 +23,7 @@ context "Translator" do
     @t.translate('lambda { self.call }.should_throw').should eql('lambda { self.call }.should throw_symbol')
   end
 
-  specify "should not translate 0.8 should_not" do
+  specify "should not translate 0.9 should_not" do
     @t.translate('@target.should_not @matcher').should eql('@target.should_not @matcher')
   end
 
@@ -42,5 +42,25 @@ context "Translator" do
   specify "should translate multi word predicates prefixed with be" do
     @t.translate('foo.should_be_multi_word_predicate').should eql('foo.should be_multi_word_predicate')
   end
+
+  specify "should translate multi word predicates prefixed with be" do
+    @t.translate('foo.should_be :cool').should eql('foo.should equal :cool')
+  end
+
+  specify "should translate instance_of" do
+    @t.translate('5.should_be_an_instance_of(Integer)').should eql('5.should be_instance_of(Integer)')
+  end
+
+=begin
+  specify "should translate kind of" do
+    @t.translate('@object.should_receive(:foobar).should_be_kind_of(MessageExpectation)').should(
+    eql('@object.should_receive(:foobar).should be_kind_of(MessageExpectation)'))
+  end
+  
+  specify "should translate should_be <=" do
+    @t.translate('3.should_be <= 4').should(
+    eql('3.should be <= 4'))
+  end
+=end
 
 end

@@ -159,7 +159,7 @@ context "OptionParser" do
 
   specify "should use context diff format option when format is context" do
     options = parse(["--diff", "context"])
-    options.diff_format.should_be :context
+    options.diff_format.should eql(:context)
     options.differ_class.should_eql Spec::Expectations::Differs::Default
   end
 
