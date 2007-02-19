@@ -46,11 +46,11 @@ context "An empty stack" do
   end
   
   specify "should complain when sent 'peek'" do
-    lambda { @stack.peek }.should_raise StackUnderflowError
+    lambda { @stack.peek }.should raise_error(StackUnderflowError)
   end
   
   specify "should complain when sent 'pop'" do
-    lambda { @stack.pop }.should_raise StackUnderflowError
+    lambda { @stack.pop }.should raise_error(StackUnderflowError)
   end
 end
 
@@ -112,6 +112,6 @@ context "A full stack" do
   end
 
   specify "should complain on 'push'" do
-    lambda { @stack.push Object.new }.should_raise StackOverflowError
+    lambda { @stack.push Object.new }.should raise_error(StackOverflowError)
   end
 end

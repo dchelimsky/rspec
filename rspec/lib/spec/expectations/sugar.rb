@@ -1,3 +1,4 @@
+deprecated do
 module Spec
   module Expectations
     # This module adds syntactic sugar that allows usage of should_* instead of should.*
@@ -41,4 +42,6 @@ module Spec
       end
     end
   end
+end
+
 end

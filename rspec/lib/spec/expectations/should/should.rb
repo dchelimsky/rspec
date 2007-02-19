@@ -9,60 +9,62 @@ module Spec
           @be_seen = false
         end
         
-        #Gone for 0.9
-        def not
-          Not.new(@target)
-        end
+        deprecated do
+          #Gone for 0.9
+          def not
+            Not.new(@target)
+          end
             
-        #Gone for 0.9
-        def be(expected = :___no_arg)
-          @be_seen = true
-          return self if (expected == :___no_arg)
-          if Symbol === expected
-            fail_with_message(default_message("should be", expected)) unless (@target.equal?(expected))
-          else
-            fail_with_message("expected #{expected}, got #{@target}") unless (@target.equal?(expected))
+          #Gone for 0.9
+          def be(expected = :___no_arg)
+            @be_seen = true
+            return self if (expected == :___no_arg)
+            if Symbol === expected
+              fail_with_message(default_message("should be", expected)) unless (@target.equal?(expected))
+            else
+              fail_with_message("expected #{expected}, got #{@target}") unless (@target.equal?(expected))
+            end
           end
-        end
         
-        #Gone for 0.9
-        def have(expected_number=nil)
-          Have.new(@target, :exactly, expected_number)
-        end
-
-        #Gone for 0.9
-        def change(receiver=nil, message=nil, &block)
-          Change.new(@target, receiver, message, &block)
-        end
-
-        #Gone for 0.9
-        def raise(exception=Exception, message=nil)
-          begin
-            @target.call
-          rescue exception => e
-            unless message.nil?
-              if message.is_a?(Regexp)
-                e.message.should =~ message
-              else
-                e.message.should == message
-              end
-            end
-            return
-          rescue => e
-            fail_with_message("expected #{exception}#{message.nil? ? "" : " with #{message.inspect}"}, got #{e.inspect}")
+          #Gone for 0.9
+          def have(expected_number=nil)
+            Have.new(@target, :exactly, expected_number)
           end
-          fail_with_message("expected #{exception}#{message.nil? ? "" : " with #{message.inspect}"}, but nothing was raised")
-        end
-  
-        #Gone for 0.9
-        def throw(symbol)
-          begin
-            catch symbol do
+
+          #Gone for 0.9
+          def change(receiver=nil, message=nil, &block)
+            Change.new(@target, receiver, message, &block)
+          end
+
+          #Gone for 0.9
+          def raise(exception=Exception, message=nil)
+            begin
               @target.call
-              fail_with_message("expected #{symbol.inspect} to be thrown, but nothing was thrown")
+            rescue exception => e
+              unless message.nil?
+                if message.is_a?(Regexp)
+                  e.message.should =~ message
+                else
+                  e.message.should == message
+                end
+              end
+              return
+            rescue => e
+              fail_with_message("expected #{exception}#{message.nil? ? "" : " with #{message.inspect}"}, got #{e.inspect}")
             end
-          rescue NameError => e
-            fail_with_message("expected #{symbol.inspect} to be thrown, got #{e.inspect}")
+            fail_with_message("expected #{exception}#{message.nil? ? "" : " with #{message.inspect}"}, but nothing was raised")
+          end
+  
+          #Gone for 0.9
+          def throw(symbol)
+            begin
+              catch symbol do
+                @target.call
+                fail_with_message("expected #{symbol.inspect} to be thrown, but nothing was thrown")
+              end
+            rescue NameError => e
+              fail_with_message("expected #{symbol.inspect} to be thrown, got #{e.inspect}")
+            end
           end
         end
 
