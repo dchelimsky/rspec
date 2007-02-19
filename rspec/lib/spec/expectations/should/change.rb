@@ -58,7 +58,7 @@ module Spec
       class NotChange < Change
         def evaluate_change
           if @before_change != @after_change
-            fail_with_message "#{@message} should not have changed, but is now #{@after_change.inspect}"
+            fail_with_message "#{@message} should not have changed, but did change from #{@before_change.inspect} to #{@after_change.inspect}"
           end
         end
       end
