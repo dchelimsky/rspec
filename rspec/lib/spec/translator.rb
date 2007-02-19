@@ -47,7 +47,6 @@ module Spec
         
         post.gsub!(/^raise/, 'raise_error')
         post.gsub!(/^throw/, 'throw_symbol')
-        post.gsub!(/^be_an_instance_of/, 'instance_of')
         
         unless standard_matcher?(post)
           post = "be_#{post}"
