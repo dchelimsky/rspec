@@ -9,7 +9,7 @@ context "should equal(expected)" do
   specify "should fail unless target.equal?(expected)" do
     lambda {
       "1".should equal("1")
-    }.should_fail
+    }.should fail
   end
   
   specify "should provide message, expected and actual on failure" do
@@ -29,7 +29,7 @@ context "should_not equal(expected)" do
   specify "should fail if target.equal?(expected)" do
     lambda {
       1.should_not equal(1)
-    }.should_fail
+    }.should fail
   end
   
   specify "should provide message, expected and actual on failure" do
