@@ -8,13 +8,13 @@ context "should have_sym(*args)" do
   specify "should fail if #has_sym?(*args) returns false" do
     lambda {
       {:b => "B"}.should have_key(:a)
-    }.should_fail_with "expected #has_key?(:a) to return true, got false"
+    }.should fail_with("expected #has_key?(:a) to return true, got false")
   end
 
   specify "should fail if target does not respond to #has_sym?" do
     lambda {
       Object.new.should have_key(:a)
-    }.should_fail_with "target does not respond to #has_key?"
+    }.should fail_with("target does not respond to #has_key?")
   end
 end
 
@@ -26,12 +26,12 @@ context "should_not have_sym(*args)" do
   specify "should fail if #has_sym?(*args) returns true" do
     lambda {
       {:a => "A"}.should_not have_key(:a)
-    }.should_fail_with "expected #has_key?(:a) to return false, got true"
+    }.should fail_with("expected #has_key?(:a) to return false, got true")
   end
 
   specify "should fail if target does not respond to #has_sym?" do
     lambda {
       Object.new.should have_key(:a)
-    }.should_fail_with "target does not respond to #has_key?"
+    }.should fail_with("target does not respond to #has_key?")
   end
 end

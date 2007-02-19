@@ -1,5 +1,5 @@
 def deprecated(&block)
-  block.call if ENV['RSPEC_DISABLE_DEPRECATED_FEATURES'].nil?
+  block.call unless ENV['RSPEC_DISABLE_DEPRECATED_FEATURES'] == 'true'
 end
 
 require 'spec/version'
