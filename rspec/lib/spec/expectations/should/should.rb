@@ -22,7 +22,7 @@ module Spec
             if Symbol === expected
               fail_with_message(default_message("should be", expected)) unless (@target.equal?(expected))
             else
-              fail_with_message("expected #{expected}, got #{@target}") unless (@target.equal?(expected))
+              fail_with_message("expected #{expected}, got #{@target} (using .equal?)") unless (@target.equal?(expected))
             end
           end
         

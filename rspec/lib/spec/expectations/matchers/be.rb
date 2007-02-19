@@ -15,8 +15,10 @@ module Spec
           if handling_predicate?
             if @actual.respond_to?(predicate)
               return actual.__send__(predicate, *@args)
+            elsif @actual.respond_to?(present_tense_predicate)
+              return actual.__send__(present_tense_predicate, *@args)
             else
-              Spec::Expectations.fail_with("target does not respond to ##{predicate}")
+              Spec::Expectations.fail_with("target does not respond to ##{predicate} (or ##{present_tense_predicate})")
             end
           end
           return false
@@ -91,6 +93,10 @@ module Spec
 
           def predicate
             "#{@expected.to_s}?".to_sym
+          end
+          
+          def present_tense_predicate
+            "#{@expected.to_s}s?".to_sym
           end
           
           def args_to_s

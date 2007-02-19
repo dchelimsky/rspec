@@ -4,7 +4,7 @@ context "should_be false" do
   specify "should fail when target is true" do
     lambda do
       true.should_be false
-    end.should_fail_with "expected false, got true"
+    end.should_fail_with "expected false, got true (using .equal?)"
   end
 
   specify "should fail when target is a number" do

@@ -10,6 +10,6 @@ context "should_not_have_key" do
   specify "should fail when key is present" do
     lambda do
       {"a" => 1}.should_not_have_key("a")
-    end.should_fail_with '{"a"=>1} should not have key: "a"'
+    end.should_fail_with('expected #has_key?("a") to return false, got true')
   end
 end

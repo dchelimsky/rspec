@@ -22,7 +22,7 @@ module Spec
           elsif @item_handler.wants_to_handle(sym)
             @item_handler.handle_message(sym, *args)
           else
-            raise NoMethodError.new("target does not respond to `#{sym}' or `has_#{sym}?'")
+            Spec::Expectations.fail_with("target does not respond to #has_#{sym}?")
           end
         end
       end
@@ -75,7 +75,7 @@ module Spec
           message = "expected"
           message += " at least" if @at_least
           message += " at most" if @at_most
-          message += " #{@expected} #{sym} (has #{actual_size_of(collection(sym, args))})"
+          message += " #{@expected} #{sym}, got #{actual_size_of(collection(sym, args))}"
         end
 
         def as_specified?(sym, args)
@@ -103,10 +103,6 @@ module Spec
           @target = target
         end
 
-        def build_message(sym, args)
-          "#{@target.inspect} #{item_expectation} #{sym}: #{args.collect{|arg| arg.inspect}.join(', ')}"
-        end
-        
         def fail_with(message)
           Spec::Expectations.fail_with(message)
         end
@@ -114,21 +110,17 @@ module Spec
       
       class PositiveItemHandler < ItemHandler
         def handle_message(sym, *args)
-          fail_with(build_message(sym, args)) unless @target.send("has_#{sym}?", *args)
-        end
-        
-        def item_expectation
-          "should have"
+          fail_with(
+          "expected #has_#{sym}?(#{args.collect{|arg| arg.inspect}.join(', ')}) to return true, got false"
+          ) unless @target.send("has_#{sym}?", *args)
         end
       end
       
       class NegativeItemHandler < ItemHandler
         def handle_message(sym, *args)
-          fail_with(build_message(sym, args)) if @target.send("has_#{sym}?", *args)
-        end
-        
-        def item_expectation
-          "should not have"
+          fail_with(
+          "expected #has_#{sym}?(#{args.collect{|arg| arg.inspect}.join(', ')}) to return false, got true"
+          ) if @target.send("has_#{sym}?", *args)
         end
       end
     end
