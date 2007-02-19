@@ -4,30 +4,48 @@ module Spec
     # implicitly, every Class).
     module ObjectExpectations
 
-      # Supports the following expectations:
-      #   receiver.should == expected #any value
-      #     Passes if (receiver == expected)
+      # :call-seq:
+      #   should(matcher)
+      #   should == expected
+      #   should =~ expected
       #
-      #   receiver.should =~ expected #a regexp
-      #     Passes if (receiver =~ expected), where expected
-      #     is a Regexp.
+      #   receiver.should(matcher)
+      #     => Passes if matcher.matches?(receiver)
+      #
+      #   receiver.should == expected #any value
+      #     => Passes if (receiver == expected)
+      #
+      #   receiver.should =~ regexp
+      #     => Passes if (receiver =~ regexp)
+      #
+      # See Spec::Expecations::Matchers for more information about matchers
+      #
+      # == Warning
       #
       # NOTE that this does NOT support receiver.should != expected.
       # Instead, use receiver.should_not == expected
       def should(matcher=nil, &block)
-        ExpectationMatcherHandler.handle_matcher(self, matcher, &block) if matcher
+        return ExpectationMatcherHandler.handle_matcher(self, matcher, &block) if matcher
         Should::Should.new(self)
       end
 
-      # Supports the following expectations:
-      #   receiver.should_not == expected #any value
-      #     Passes unless (receiver == expected)
+      # :call-seq:
+      #   should_not(matcher)
+      #   should_not == expected
+      #   should_not =~ expected
       #
-      #   receiver.should_not =~ expected #a regexp
-      #     Passes unless (receiver =~ expected), where expected
-      #     is a Regexp.
+      #   receiver.should_not(matcher)
+      #     => Passes unless matcher.matches?(receiver)
+      #
+      #   receiver.should_not == expected
+      #     => Passes unless (receiver == expected)
+      #
+      #   receiver.should_not =~ regexp
+      #     => Passes unless (receiver =~ regexp)
+      #
+      # See Spec::Expecations::Matchers for more information about matchers
       def should_not(matcher=nil, &block)
-        NegativeExpectationMatcherHandler.handle_matcher(self, matcher, &block) if matcher
+        return NegativeExpectationMatcherHandler.handle_matcher(self, matcher, &block) if matcher
         should.not
       end
 
@@ -72,7 +90,7 @@ module Spec
         # Deprecated: use should_not be(expected) (see Spec::Expectations::Matchers)
         # This will be removed in 0.9
         def should_not_be(expected = :___no_arg)
-          should.not.be(expected)
+          should_not.be(expected)
         end
       end
     end

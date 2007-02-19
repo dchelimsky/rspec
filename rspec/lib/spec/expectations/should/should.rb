@@ -68,6 +68,7 @@ module Spec
           end
         end
 
+        private
         def __delegate_method_missing_to_target(original_sym, actual_sym, *args)
           return if @target.send(actual_sym, *args)
           fail_with_message(default_message(original_sym, args[0]), args[0], @target)

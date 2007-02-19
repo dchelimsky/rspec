@@ -38,7 +38,7 @@ module Spec
         post = $3
         be_or_equal = post =~ /(<|>)/ ? "be" : "equal"
         
-        line = "#{pre}#{should} #{be_or_equal}#{post}"
+        return "#{pre}#{should} #{be_or_equal}#{post}"
       end
       
       if line =~ /(.*\.)(should_not|should)_(?!not)(.*)/m

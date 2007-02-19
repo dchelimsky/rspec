@@ -1,6 +1,6 @@
 require 'stringio'
 $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
-#require 'spec'
+require 'spec'
 require File.dirname(__FILE__) + '/../spec/spec/spec_classes'
 
 module Spec
