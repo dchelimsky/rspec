@@ -266,5 +266,4 @@ context "OptionParser" do
     Spec::Runner::DrbCommandLine.should_receive(:run).with(["some/spec.rb", "--diff", "--colour"], @err, @out, true, true)
     options = parse(["some/spec.rb", "--diff", "--drb", "--colour"])
   end
-   
 end
