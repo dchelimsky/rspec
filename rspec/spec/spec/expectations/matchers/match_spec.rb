@@ -8,7 +8,7 @@ context "should match(expected)" do
   specify "should fail when target (String) matches expected (Regexp)" do
     lambda {
       "string".should match(/rings/)
-    }.should_fail
+    }.should fail
   end
 
   specify "should provide message, expected and actual on failure" do
@@ -26,7 +26,7 @@ context "should_not match(expected)" do
   specify "should fail when target (String) matches expected (Regexp)" do
     lambda {
       "string".should_not match(/tri/)
-    }.should_fail
+    }.should fail
   end
 
   specify "should provide message, expected and actual on failure" do
