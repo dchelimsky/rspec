@@ -9,7 +9,7 @@ context "should eql(expected)" do
   specify "should fail unless target.eql?(expected)" do
     lambda {
       1.should eql("1")
-    }.should_fail
+    }.should fail
   end
   
   specify "should provide message, expected and actual on failure" do
@@ -29,7 +29,7 @@ context "should_not eql(expected)" do
   specify "should fail if target.eql?(expected)" do
     lambda {
       1.should_not eql(1)
-    }.should_fail
+    }.should fail
   end
   
   specify "should provide message, expected and actual on failure" do

@@ -1,8 +1,9 @@
 module Spec
   module Expectations
+    
     class ExpectationMatcherHandler
 
-      def initialize(actual, matcher, &block)
+      def self.handle_matcher(actual, matcher, &block)
         unless matcher.nil?
           unless matcher.matches?(actual, &block)
             Spec::Expectations.fail_with(matcher.failure_message)
@@ -14,7 +15,7 @@ module Spec
 
     class NegativeExpectationMatcherHandler
     
-      def initialize(actual, matcher, &block)
+      def self.handle_matcher(actual, matcher, &block)
         unless matcher.nil?
           unless matcher.respond_to?(:negative_failure_message)
             Spec::Expectations.fail_with(

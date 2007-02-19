@@ -10,13 +10,13 @@ context "should be_predicate" do
     actual = stub("actual", :happy? => false)
     lambda {
       actual.should be_happy
-    }.should_fail_with "expected happy? to return true, got false"
+    }.should fail_with("expected happy? to return true, got false")
   end
   
   specify "should fail when actual does not respond to :predicate?" do
     lambda {
       Object.new.should be_happy
-    }.should_fail_with "target does not respond to #happy?"
+    }.should fail_with("target does not respond to #happy?")
   end
 end
 
@@ -30,13 +30,13 @@ context "should_not be_predicate" do
     actual = stub("actual", :happy? => true)
     lambda {
       actual.should_not be_happy
-    }.should_fail_with "expected happy? to return false, got true"
+    }.should fail_with("expected happy? to return false, got true")
   end
 
   specify "should fail when actual does not respond to :sym?" do
     lambda {
       Object.new.should_not be_happy
-    }.should_fail_with "target does not respond to #happy?"
+    }.should fail_with("target does not respond to #happy?")
   end
 end
 
@@ -52,13 +52,13 @@ context "should be_predicate(*args)" do
     actual.should_receive(:older_than?).with(3).and_return(false)
     lambda {
       actual.should be_older_than(3)
-    }.should_fail_with("expected older_than?(3) to return true, got false")
+    }.should fail_with("expected older_than?(3) to return true, got false")
   end
   
   specify "should fail when actual does not respond to :predicate?" do
     lambda {
       Object.new.should be_older_than(3)
-    }.should_fail_with "target does not respond to #older_than?"
+    }.should fail_with("target does not respond to #older_than?")
   end
 end
 
@@ -74,13 +74,13 @@ context "should_not be_predicate(*args)" do
     actual.should_receive(:older_than?).with(3).and_return(true)
     lambda {
       actual.should_not be_older_than(3)
-    }.should_fail_with "expected older_than?(3) to return false, got true"
+    }.should fail_with("expected older_than?(3) to return false, got true")
   end
 
   specify "should fail when actual does not respond to :predicate?" do
     lambda {
       Object.new.should_not be_older_than(3)
-    }.should_fail_with "target does not respond to #older_than?"
+    }.should fail_with("target does not respond to #older_than?")
   end
 end
 
@@ -92,7 +92,7 @@ context "should be_true" do
   specify "should fail when actual equal(false)" do
     lambda {
       false.should be_true
-    }.should_fail_with "expected true, got false"
+    }.should fail_with("expected true, got false")
   end
 end
 
@@ -104,7 +104,7 @@ context "should be_false" do
   specify "should fail when actual equal(true)" do
     lambda {
       true.should be_false
-    }.should_fail_with "expected false, got true"
+    }.should fail_with("expected false, got true")
   end
 end
 
@@ -116,7 +116,7 @@ context "should be_nil" do
   specify "should fail when actual is not nil" do
     lambda {
       :not_nil.should be_nil
-    }.should_fail_with "expected nil, got :not_nil"
+    }.should fail_with("expected nil, got :not_nil")
   end
 end
 
@@ -128,7 +128,7 @@ context "should_not be_nil" do
   specify "should fail when actual is nil" do
     lambda {
       nil.should_not be_nil
-    }.should_fail_with "expected not nil, got nil"
+    }.should fail_with("expected not nil, got nil")
   end
 end
 
@@ -138,7 +138,7 @@ context "should be <" do
   end
 
   specify "should fail when < operator returns false" do
-    lambda { 3.should be < 3 }.should_fail_with "expected < 3, got 3"
+    lambda { 3.should be < 3 }.should fail_with("expected < 3, got 3")
   end
 end
 
@@ -149,7 +149,7 @@ context "should be <=" do
   end
 
   specify "should fail when <= operator returns false" do
-    lambda { 3.should be <= 2 }.should_fail_with "expected <= 2, got 3"
+    lambda { 3.should be <= 2 }.should fail_with("expected <= 2, got 3")
   end
 end
 
@@ -160,7 +160,7 @@ context "should be >=" do
   end
 
   specify "should fail when >= operator returns false" do
-    lambda { 3.should be >= 4 }.should_fail_with "expected >= 4, got 3"
+    lambda { 3.should be >= 4 }.should fail_with("expected >= 4, got 3")
   end
 end
 
@@ -170,7 +170,7 @@ context "should be >" do
   end
 
   specify "should fail when > operator returns false" do
-    lambda { 3.should be > 4 }.should_fail_with "expected > 4, got 3"
+    lambda { 3.should be > 4 }.should fail_with("expected > 4, got 3")
   end
 end
 

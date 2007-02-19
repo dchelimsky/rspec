@@ -30,20 +30,20 @@ context "should have(n).items" do
     owner = create_collection_owner_with(3)
     lambda {
       owner.should have(4).items_in_collection_with_length_method
-    }.should_fail_with "expected 4 items_in_collection_with_length_method, got 3"
+    }.should fail_with("expected 4 items_in_collection_with_length_method, got 3")
     lambda {
       owner.should have(4).items_in_collection_with_size_method
-    }.should_fail_with "expected 4 items_in_collection_with_size_method, got 3"
+    }.should fail_with("expected 4 items_in_collection_with_size_method, got 3")
   end
   
   specify "should fail if target has a collection of items with > n members" do
     owner = create_collection_owner_with(3)
     lambda {
       owner.should have(2).items_in_collection_with_length_method
-    }.should_fail_with "expected 2 items_in_collection_with_length_method, got 3"
+    }.should fail_with("expected 2 items_in_collection_with_length_method, got 3")
     lambda {
       owner.should have(2).items_in_collection_with_size_method
-    }.should_fail_with "expected 2 items_in_collection_with_size_method, got 3"
+    }.should fail_with("expected 2 items_in_collection_with_size_method, got 3")
   end
 end
 
@@ -66,10 +66,10 @@ context "should_not have(n).items" do
     owner = create_collection_owner_with(3)
     lambda {
       owner.should_not have(3).items_in_collection_with_length_method
-    }.should_fail_with "expected target not to have 3 items_in_collection_with_length_method, got 3"
+    }.should fail_with("expected target not to have 3 items_in_collection_with_length_method, got 3")
     lambda {
       owner.should_not have(3).items_in_collection_with_size_method
-      }.should_fail_with "expected target not to have 3 items_in_collection_with_size_method, got 3"
+      }.should fail_with("expected target not to have 3 items_in_collection_with_size_method, got 3")
   end
 end
 
@@ -92,20 +92,20 @@ context "should have_exactly(n).items" do
     owner = create_collection_owner_with(3)
     lambda {
       owner.should have_exactly(4).items_in_collection_with_length_method
-    }.should_fail_with "expected 4 items_in_collection_with_length_method, got 3"
+    }.should fail_with("expected 4 items_in_collection_with_length_method, got 3")
     lambda {
       owner.should have_exactly(4).items_in_collection_with_size_method
-    }.should_fail_with "expected 4 items_in_collection_with_size_method, got 3"
+    }.should fail_with("expected 4 items_in_collection_with_size_method, got 3")
   end
   
   specify "should fail if target has a collection of items with > n members" do
     owner = create_collection_owner_with(3)
     lambda {
       owner.should have_exactly(2).items_in_collection_with_length_method
-    }.should_fail_with "expected 2 items_in_collection_with_length_method, got 3"
+    }.should fail_with("expected 2 items_in_collection_with_length_method, got 3")
     lambda {
       owner.should have_exactly(2).items_in_collection_with_size_method
-    }.should_fail_with "expected 2 items_in_collection_with_size_method, got 3"
+    }.should fail_with("expected 2 items_in_collection_with_size_method, got 3")
   end
 end
 
@@ -128,10 +128,10 @@ context "should have_at_least(n).items" do
     owner = create_collection_owner_with(3)
     lambda {
       owner.should have_at_least(4).items_in_collection_with_length_method
-    }.should_fail_with "expected at least 4 items_in_collection_with_length_method, got 3"
+    }.should fail_with("expected at least 4 items_in_collection_with_length_method, got 3")
     lambda {
       owner.should have_at_least(4).items_in_collection_with_size_method
-    }.should_fail_with "expected at least 4 items_in_collection_with_size_method, got 3"
+    }.should fail_with("expected at least 4 items_in_collection_with_size_method, got 3")
   end
   
   specify "should provide educational negative failure messages" do
@@ -176,10 +176,10 @@ context "should have_at_most(n).items" do
     owner = create_collection_owner_with(3)
     lambda {
       owner.should have_at_most(2).items_in_collection_with_length_method
-    }.should_fail_with "expected at most 2 items_in_collection_with_length_method, got 3"
+    }.should fail_with("expected at most 2 items_in_collection_with_length_method, got 3")
     lambda {
       owner.should have_at_most(2).items_in_collection_with_size_method
-    }.should_fail_with "expected at most 2 items_in_collection_with_size_method, got 3"
+    }.should fail_with("expected at most 2 items_in_collection_with_size_method, got 3")
   end
   
   specify "should pass if target has a collection of items with < n members" do

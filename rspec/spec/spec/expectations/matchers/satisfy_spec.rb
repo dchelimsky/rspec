@@ -11,12 +11,12 @@ context "should satisfy { block }" do
   specify "should fail if block returns false" do
     lambda {
       false.should satisfy { |val| val }
-    }.should_fail_with "expected false to satisfy block"
+    }.should fail_with("expected false to satisfy block")
     lambda do
       false.should satisfy do |val|
         val
       end
-    end.should_fail_with "expected false to satisfy block"
+    end.should fail_with("expected false to satisfy block")
   end
 end
 
@@ -31,6 +31,6 @@ context "should_not satisfy { block }" do
   specify "should fail if block returns true" do
     lambda {
       true.should_not satisfy { |val| val }
-    }.should_fail_with "expected true not to satisfy block"
+    }.should fail_with("expected true not to satisfy block")
   end
 end
