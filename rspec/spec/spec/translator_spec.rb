@@ -48,7 +48,7 @@ context "Translator" do
   end
 
   specify "should translate instance_of" do
-    @t.translate('5.should_be_an_instance_of(Integer)').should eql('5.should be_instance_of(Integer)')
+    @t.translate('5.should_be_an_instance_of(Integer)').should eql('5.should be_an_instance_of(Integer)')
   end
 
 =begin
