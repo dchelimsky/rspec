@@ -20,7 +20,7 @@ context "should_raise" do
   specify "should fail when no exception is raised" do
     lambda do
       lambda {}.should_raise(SyntaxError)
-    end.should_raise(Spec::Expectations::ExpectationNotMetError, "expected SyntaxError, but nothing was raised")
+    end.should_raise(Spec::Expectations::ExpectationNotMetError, "expected SyntaxError but nothing was raised")
   end
 
   specify "should fail when wrong exception is raised" do

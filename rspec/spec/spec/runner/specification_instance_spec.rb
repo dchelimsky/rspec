@@ -62,8 +62,8 @@ module Spec
 
       specify "should run spec in scope of execution context" do
         spec=Specification.new("should pass") do
-          self.should_not_be_an_instance_of(Specification)
-          self.should_be_an_instance_of(ExecutionContext)
+          self.instance_of?(Specification).should == false
+          self.instance_of?(ExecutionContext).should == true
         end
         @reporter.should_receive(:spec_started).with("should pass")
         @reporter.should_receive(:spec_finished).with("should pass", nil, nil)
