@@ -6,6 +6,11 @@ context "should be_predicate" do
     actual.should be_happy
   end
 
+  specify "should pass when actual returns true for :predicates? (present tense)" do
+    actual = stub("actual", :exists? => true)
+    actual.should be_exist
+  end
+
   specify "should fail when actual returns false for :predicate?" do
     actual = stub("actual", :happy? => false)
     lambda {
@@ -16,7 +21,7 @@ context "should be_predicate" do
   specify "should fail when actual does not respond to :predicate?" do
     lambda {
       Object.new.should be_happy
-    }.should fail_with("target does not respond to #happy?")
+    }.should fail_with("target does not respond to #happy? (or #happys?)")
   end
 end
 
@@ -36,7 +41,7 @@ context "should_not be_predicate" do
   specify "should fail when actual does not respond to :sym?" do
     lambda {
       Object.new.should_not be_happy
-    }.should fail_with("target does not respond to #happy?")
+    }.should fail_with("target does not respond to #happy? (or #happys?)")
   end
 end
 
@@ -58,7 +63,7 @@ context "should be_predicate(*args)" do
   specify "should fail when actual does not respond to :predicate?" do
     lambda {
       Object.new.should be_older_than(3)
-    }.should fail_with("target does not respond to #older_than?")
+    }.should fail_with("target does not respond to #older_than? (or #older_thans?)")
   end
 end
 
@@ -80,7 +85,7 @@ context "should_not be_predicate(*args)" do
   specify "should fail when actual does not respond to :predicate?" do
     lambda {
       Object.new.should_not be_older_than(3)
-    }.should fail_with("target does not respond to #older_than?")
+    }.should fail_with("target does not respond to #older_than? (or #older_thans?)")
   end
 end
 
