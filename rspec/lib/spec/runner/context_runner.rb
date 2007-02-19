@@ -1,5 +1,3 @@
-require File.dirname(__FILE__) + '/../../spec'
-
 module Spec
   module Runner
     class ContextRunner

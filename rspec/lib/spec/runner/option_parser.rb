@@ -1,5 +1,10 @@
 require 'ostruct'
 require 'optparse'
+require 'spec/runner/spec_parser'
+require 'spec/runner/formatter'
+require 'spec/runner/backtrace_tweaker'
+require 'spec/runner/reporter'
+require 'spec/runner/context_runner'
 
 module Spec
   module Runner

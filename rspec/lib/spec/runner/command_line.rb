@@ -1,3 +1,5 @@
+require 'spec/runner/option_parser'
+
 module Spec
   module Runner
     # Facade to run specs without having to fork a new ruby process (using `spec ...`)

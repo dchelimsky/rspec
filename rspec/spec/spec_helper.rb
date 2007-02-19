@@ -1,6 +1,6 @@
 require 'stringio'
 $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
-require 'spec'
+#require 'spec'
 require File.dirname(__FILE__) + '/../spec/spec/spec_classes'
 
 module Spec
@@ -19,13 +19,13 @@ module Spec
           begin
             proc.call
             true
-          rescue
+          rescue => @error
             false
           end
         end
 
         def failure_message
-          "Didn't pass"
+          @error.message + "\n" + @error.backtrace.join("\n")
         end
       end
 

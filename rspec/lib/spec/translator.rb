@@ -31,6 +31,15 @@ module Spec
 
     def translate(line)
       return line if line =~ /(should_not|should)_receive/
+      
+      if line =~ /(.*\.)(should_not|should)(?:_be)(?!_)(.*)/m
+        pre = $1
+        should = $2
+        post = $3
+
+        line = "#{pre}#{should} equal#{post}"
+      end
+      
       if line =~ /(.*\.)(should_not|should)_(?!not)(.*)/m
         pre = $1
         should = $2
@@ -38,16 +47,16 @@ module Spec
         
         post.gsub!(/^raise/, 'raise_error')
         post.gsub!(/^throw/, 'throw_symbol')
+        post.gsub!(/^be_an_instance_of/, 'instance_of')
         
         unless standard_matcher?(post)
           post = "be_#{post}"
         end
         
-        result = "#{pre}#{should} #{post}"
-        result
-      else
-        line
+        line = "#{pre}#{should} #{post}"
       end
+
+      line
     end
     
     def standard_matcher?(matcher)
