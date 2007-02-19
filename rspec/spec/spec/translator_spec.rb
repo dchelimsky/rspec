@@ -66,7 +66,7 @@ context "Translator" do
   specify "should translate should_be >" do
     @t.translate('4.should_be > 3').should eql('4.should be > 3')
   end
-  
+    
 =begin
   
   specify "should translate kind of" do
