@@ -39,6 +39,13 @@ unless ['i386-mswin32', 'java'].index(PLATFORM)
       heckle_runner.heckle_with(context_runner)
     end
 
+    specify "should fail heckling when the class is not found" do
+      lambda do
+        heckle_runner = Spec::Runner::HeckleRunner.new("Foo::Bob", @heckle_class)
+        heckle_runner.heckle_with(context_runner)
+      end.should raise_error(StandardError, "Heckling failed - \"Foo::Bob\" is not a known class or module")
+    end
+
     specify "should heckle specific method in a class (with #)" do
       @heckle_class.should_receive(:new).with("Foo::Bar", "two", context_runner).and_return(@heckle)
 

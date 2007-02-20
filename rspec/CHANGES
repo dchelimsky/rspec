@@ -9,6 +9,7 @@ It also introduces a new approach to handling should expectations. See RELEASE-P
 
 It also sports myriad new features, bug fixes, patches and general goodness:
 
+* --heckle now fails if the heckled class or module is not found.
 * Fixed [#8771] Spec::Mocks::BaseExpectation#with converts hash params to array of arrays with #collect
 * Fixed [#8750] should[_not]_include backwards compatibility between 0.8.0-RC1 and 0.7.5.1 broken
 * Fixed [#8646] Context Runner does not report on Non standard exceptions and return a 0 return code
