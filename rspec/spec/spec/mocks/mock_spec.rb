@@ -47,7 +47,7 @@ module Spec
 
       specify "should fail when receiving message specified as not to be received with args" do
         @mock.should_not_receive(:not_expected).with("unexpected text")
-        @mock.not_expected "unexpected text"
+        @mock.not_expected("unexpected text")
         begin
           @mock.__verify
           violated

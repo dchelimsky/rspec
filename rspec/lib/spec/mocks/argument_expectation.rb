@@ -79,7 +79,7 @@ module Spec
       @@constraint_classes[:string] = StringArgConstraint
       
       def initialize(args)
-        @args = *args
+        @args = args
         if [:any_args] == args then @expected_params = nil
         elsif [:no_args] == args then @expected_params = []
         else @expected_params = process_arg_constraints(args)

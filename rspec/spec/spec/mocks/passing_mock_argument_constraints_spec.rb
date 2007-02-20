@@ -65,6 +65,23 @@ module Spec
         @mock.should_receive(:random_call).with(/bcd/)
         @mock.random_call(/bcd/)
       end
+      
+      specify "should match against a hash submitted and received by value" do
+        @mock.should_receive(:random_call).with(:a => "a", :b => "b")
+        @mock.random_call(:a => "a", :b => "b")
+      end
+      
+      specify "should match against a hash submitted by reference and received by value" do
+        opts = {:a => "a", :b => "b"}
+        @mock.should_receive(:random_call).with(opts)
+        @mock.random_call(:a => "a", :b => "b")
+      end
+      
+      specify "should match against a hash submitted by value and received by reference" do
+        opts = {:a => "a", :b => "b"}
+        @mock.should_receive(:random_call).with(:a => "a", :b => "b")
+        @mock.random_call(opts)
+      end
     end
   end
 end
