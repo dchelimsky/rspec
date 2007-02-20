@@ -133,7 +133,7 @@ module Spec
         return if @expected_received_count == @received_count
     
         begin
-          @error_generator.raise_expectation_error @sym, @expected_received_count, @received_count, @args_expectation.args
+          @error_generator.raise_expectation_error(@sym, @expected_received_count, @received_count, *@args_expectation.args)
         rescue => error
           error.backtrace.insert(0, @expected_from)
           Kernel::raise error
