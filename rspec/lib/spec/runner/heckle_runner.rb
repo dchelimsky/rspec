@@ -17,18 +17,24 @@ module Spec
       # methods in the matched classes.
       def heckle_with(context_runner)
         if @filter =~ /(.*)[#\.](.*)/
-          heckle = @heckle_class.new($1, $2, context_runner)
-          heckle.validate
+          heckle_method($1, $2)
         else
-          heckle_module
+          heckle_class_or_module(@filter)
         end
       end
       
-      def heckle_module
-        filter = /^#{@filter}/
+      def heckle_method(class_name, method_name)
+        verify_constant(class_name)
+        heckle = @heckle_class.new(class_name, method_name, context_runner)
+        heckle.validate
+      end
+      
+      def heckle_class_or_module(class_or_module_name)
+        verify_constant(class_or_module_name)
+        pattern = /^#{class_or_module_name}/
         classes = []
         ObjectSpace.each_object(Class) do |klass|
-          classes << klass if klass.name =~ filter
+          classes << klass if klass.name =~ pattern
         end
         
         classes.each do |klass|
@@ -36,6 +42,15 @@ module Spec
             heckle = @heckle_class.new(klass.name, method_name, context_runner)
             heckle.validate
           end
+        end
+      end
+      
+      def verify_constant(name)
+        begin
+          # This is defined in Heckle
+          name.to_class
+        rescue
+          raise "Heckling failed - \"#{name}\" is not a known class or module"
         end
       end
     end
