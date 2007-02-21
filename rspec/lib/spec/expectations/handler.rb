@@ -27,7 +27,7 @@ EOF
 )
           end
           match = matcher.matches?(actual, &block)
-          ::Spec::Expectations::Matchers.generated_name = "should_not #{matcher.to_s}"
+          ::Spec::Expectations::Matchers.generated_name = "should not #{matcher.to_s}"
           Spec::Expectations.fail_with(matcher.negative_failure_message) if match
         end
       end

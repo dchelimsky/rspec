@@ -18,6 +18,10 @@ module Spec
         def negative_failure_message
           "expected target not to respond to #{@sym.inspect}"
         end
+        
+        def to_s
+          "respond to #{@sym.inspect}"
+        end
       end
       
       # :call-seq:

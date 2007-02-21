@@ -85,6 +85,10 @@ module Spec
           @expected = expected
           self
         end
+        
+        def to_s
+          "be #{@expected}"
+        end
 
         private
           def parse_expected(expected)

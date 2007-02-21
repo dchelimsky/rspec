@@ -36,7 +36,8 @@ context "An empty stack" do
     @stack = Stack.new
   end
   
-  specify "should be empty" do
+  # NOTE that this one auto-generates the name "should be_empty"
+  specify do
     @stack.should be_empty
   end
   
@@ -60,7 +61,8 @@ context "An almost empty stack (with one item)" do
     @stack.push 3
   end
   
-  specify "should not be empty" do
+  # NOTE that this one auto-generates the name "should not be empty"
+  specify do
     @stack.should_not be_empty
   end
   
@@ -81,7 +83,8 @@ context "An almost full stack (with one item less than capacity)" do
     (1..9).each { |i| @stack.push i }
   end
   
-  specify "should not be full" do
+  # NOTE that this one auto-generates the name "should not be full"
+  specify do
     @stack.should_not be_full
   end
   
@@ -97,7 +100,8 @@ context "A full stack" do
     (1..10).each { |i| @stack.push i }
   end
   
-  specify "should be full" do
+  # NOTE that this one auto-generates the name "should be full"
+  specify do
     @stack.should be_full
   end
   

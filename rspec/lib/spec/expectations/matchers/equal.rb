@@ -21,7 +21,7 @@ module Spec
         end
         
         def to_s
-          "equal(#{@expected.inspect})"
+          "equal #{@expected.inspect}"
         end
       end
       

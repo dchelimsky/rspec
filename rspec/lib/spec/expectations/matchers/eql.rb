@@ -21,7 +21,7 @@ module Spec
         end
 
         def to_s
-          "eql(#{@expected.inspect})"
+          "eql #{@expected.inspect}"
         end
       end
       

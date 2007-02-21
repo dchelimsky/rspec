@@ -22,6 +22,10 @@ module Spec
           "expected ##{predicate}(#{@args[0].inspect}) to return false, got true"
         end
         
+        def to_s
+          "have key #{@args[0].inspect}"
+        end
+        
         private
           def predicate
             "#{@sym.to_s.sub("have_","has_")}?".to_sym

@@ -21,6 +21,10 @@ module Spec
           _message("not ")
         end
         
+        def to_s
+          "include #{@expected.inspect}"
+        end
+        
         private
           def _message(maybe_not="")
             "expected #{@actual.inspect} #{maybe_not}to include #{@expected.inspect}"

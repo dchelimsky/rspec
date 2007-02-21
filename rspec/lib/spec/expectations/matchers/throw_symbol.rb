@@ -37,6 +37,10 @@ module Spec
           end
         end
         
+        def to_s
+          "throw #{expected}"
+        end
+        
         private
         
           def expected
