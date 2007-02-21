@@ -53,14 +53,14 @@ module Spec
         @mock.should_receive(:random_call).with(:a => "b", :c => "d")
         lambda do
           @mock.random_call(:a => "b", :c => "e")
-        end.should_raise(MockExpectationError, "Mock 'test mock' expected :random_call with ({:c=>\"d\", :a=>\"b\"}) but received it with ({:c=>\"e\", :a=>\"b\"})")
+        end.should_raise(MockExpectationError, /Mock 'test mock' expected :random_call with \(\{(:a=>\"b\", :c=>\"d\"|:c=>\"d\", :a=>\"b\")\}\) but received it with \(\{(:a=>\"b\", :c=>\"e\"|:c=>\"e\", :a=>\"b\")\}\)/)
       end
       
       specify "should fail for a hash w/ wrong keys" do
         @mock.should_receive(:random_call).with(:a => "b", :c => "d")
         lambda do
           @mock.random_call("a" => "b", "c" => "d")
-        end.should_raise(MockExpectationError, "Mock 'test mock' expected :random_call with ({:c=>\"d\", :a=>\"b\"}) but received it with ({\"a\"=>\"b\", \"c\"=>\"d\"})")
+        end.should_raise(MockExpectationError, /Mock 'test mock' expected :random_call with \(\{(:a=>\"b\", :c=>\"d\"|:c=>\"d\", :a=>\"b\")\}\) but received it with \(\{(\"a\"=>\"b\", \"c\"=>\"d\"|\"c\"=>\"d\", \"a\"=>\"b\")\}\)/)
       end
     end
   end

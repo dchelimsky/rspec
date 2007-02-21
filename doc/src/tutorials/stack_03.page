@@ -20,7 +20,7 @@ end
 </ruby>
 
 <pre>
-$ spec stack_spec.rb -f s
+$ spec stack_spec.rb -fs
 
 A new stack
 - should be empty
@@ -31,7 +31,7 @@ An empty stack
 A stack with one item
 - should return top when you send it 'top'
 
-Finished in 0.001582 seconds
+Finished in 0.001778 seconds
 
 3 specifications, 0 failures
 </pre>
@@ -51,7 +51,7 @@ end
 </ruby>
 
 <pre>
-$ spec stack_spec.rb -f s
+$ spec stack_spec.rb -fs
 
 A new stack
 - should be empty
@@ -62,7 +62,7 @@ An empty stack
 A stack with one item
 - should return top when you send it 'top'
 
-Finished in 0.001621 seconds
+Finished in 0.001778 seconds
 
 3 specifications, 0 failures
 </pre>
@@ -77,13 +77,13 @@ context "A stack with one item" do
   end
 
   specify "should return top when you send it 'top'" do
-    @stack.top.should_equal "one item"
+    @stack.top.should == "one item"
   end
 end
 </ruby>
 
 <pre>
-$ spec stack_spec.rb -f s
+$ spec stack_spec.rb -fs
 
 A new stack
 - should be empty
@@ -92,14 +92,14 @@ An empty stack
 - should not be empty after 'push'
 
 A stack with one item
-- should return top when you send it 'top' (FAILED - 1)
+- should return top when you send it 'top' (ERROR - 1)
 
 1)
 NoMethodError in 'A stack with one item should return top when you send it 'top''
-undefined method `top' for #<Stack:0x5b3750 @empty=false>
-./stack_spec.rb:28:in `should return top when you send it 'top''
+undefined method `top' for #<Stack:0x5b6e64 @item="one item">
+./stack_spec.rb:31:
 
-Finished in 0.001801 seconds
+Finished in 0.002033 seconds
 
 3 specifications, 1 failure
 </pre>
@@ -115,7 +115,7 @@ end
 </ruby>
 
 <pre>
- spec stack_spec.rb -f s
+$ spec stack_spec.rb -fs
 
 A new stack
 - should be empty
@@ -127,11 +127,11 @@ A stack with one item
 - should return top when you send it 'top' (FAILED - 1)
 
 1)
-Spec::Expectations::ExpectationNotMetError in 'A stack with one item should return top when you send it 'top''
-nil should equal "one item"
-./stack_spec.rb:28:in `should return top when you send it 'top''
+'A stack with one item should return top when you send it 'top'' FAILED
+expected "one item", got nil (using ==)
+./stack_spec.rb:31:
 
-Finished in 0.001829 seconds
+Finished in 0.002969 seconds
 
 3 specifications, 1 failure
 </pre>
@@ -148,7 +148,7 @@ end
 </ruby>
 
 <pre>
-$ spec stack_spec.rb -f s
+$ spec stack_spec.rb -fs
 
 A new stack
 - should be empty
@@ -159,7 +159,7 @@ An empty stack
 A stack with one item
 - should return top when you send it 'top'
 
-Finished in 0.001675 seconds
+Finished in 0.001873 seconds
 
 3 specifications, 0 failures
 </pre>
@@ -189,7 +189,7 @@ end
 </ruby>
 
 <pre>
- spec stack_spec.rb -f s
+$ spec stack_spec.rb -fs
 
 A new stack
 - should be empty
@@ -200,7 +200,7 @@ An empty stack
 A stack with one item
 - should return top when you send it 'top'
 
-Finished in 0.001663 seconds
+Finished in 0.001825 seconds
 
 3 specifications, 0 failures
 </pre>
@@ -226,7 +226,7 @@ end
 </ruby>
 
 <pre>
-$ spec stack_spec.rb -f s
+$ spec stack_spec.rb -fs
 
 A new stack
 - should be empty
@@ -237,12 +237,12 @@ An empty stack
 A stack with one item
 - should return top when you send it 'top'
 
-Finished in 0.00167 seconds
+Finished in 0.001846 seconds
 
 3 specifications, 0 failures
 </pre>
 
-Now we can eliminate <code>@empty</code> (which means we can eliminate <code>initialize</code> as well).
+Now we can eliminate <code>@empty</code> (which means we can eliminate <code>#initialize</code> as well).
 
 <ruby>
 class Stack
@@ -259,7 +259,7 @@ end
 </ruby>
 
 <pre>
-$ spec stack_spec.rb -f s
+$ spec stack_spec.rb -fs
 
 A new stack
 - should be empty
@@ -270,7 +270,7 @@ An empty stack
 A stack with one item
 - should return top when you send it 'top'
 
-Finished in 0.001339 seconds
+Finished in 0.001844 seconds
 
 3 specifications, 0 failures
 </pre>

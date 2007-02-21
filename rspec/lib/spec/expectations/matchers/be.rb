@@ -13,12 +13,18 @@ module Spec
           @actual = actual
           return true if match_or_compare unless handling_predicate?
           if handling_predicate?
-            if @actual.respond_to?(predicate)
-              return actual.__send__(predicate, *@args)
-            elsif @actual.respond_to?(present_tense_predicate)
-              return actual.__send__(present_tense_predicate, *@args)
-            else
-              Spec::Expectations.fail_with("target does not respond to ##{predicate} (or ##{present_tense_predicate})")
+            begin
+              return @result = actual.__send__(predicate, *@args)
+            rescue => predicate_error
+            end
+            
+            # This supports should_exist > target.exists? in the old world.
+            # We should consider deprecating that ability as in the new world
+            # you can't write "should exist" unless you have your own custom matcher.
+            begin
+              return @result = actual.__send__(present_tense_predicate, *@args)
+            rescue
+              raise predicate_error
             end
           end
           return false
@@ -26,12 +32,12 @@ module Spec
         
         def failure_message
           return "expected #{@comparison}#{expected}, got #{@actual.inspect}" unless handling_predicate?
-          return "expected #{predicate}#{args_to_s} to return true, got false"
+          return "expected #{predicate}#{args_to_s} to return true, got #{@result.inspect}"
         end
         
         def negative_failure_message
           return "expected not #{expected}, got #{@actual.inspect}" unless handling_predicate?
-          return "expected #{predicate}#{args_to_s} to return false, got true"
+          return "expected #{predicate}#{args_to_s} to return false, got #{@result.inspect}"
         end
         
         def expected

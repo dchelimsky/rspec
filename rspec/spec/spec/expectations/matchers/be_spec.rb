@@ -21,7 +21,7 @@ context "should be_predicate" do
   specify "should fail when actual does not respond to :predicate?" do
     lambda {
       Object.new.should be_happy
-    }.should fail_with("target does not respond to #happy? (or #happys?)")
+    }.should raise_error(NameError)
   end
 end
 
@@ -41,7 +41,7 @@ context "should_not be_predicate" do
   specify "should fail when actual does not respond to :sym?" do
     lambda {
       Object.new.should_not be_happy
-    }.should fail_with("target does not respond to #happy? (or #happys?)")
+    }.should raise_error(NameError)
   end
 end
 
@@ -63,7 +63,7 @@ context "should be_predicate(*args)" do
   specify "should fail when actual does not respond to :predicate?" do
     lambda {
       Object.new.should be_older_than(3)
-    }.should fail_with("target does not respond to #older_than? (or #older_thans?)")
+    }.should raise_error(NameError)
   end
 end
 
@@ -85,7 +85,7 @@ context "should_not be_predicate(*args)" do
   specify "should fail when actual does not respond to :predicate?" do
     lambda {
       Object.new.should_not be_older_than(3)
-    }.should fail_with("target does not respond to #older_than? (or #older_thans?)")
+    }.should raise_error(NameError)
   end
 end
 

@@ -4,7 +4,7 @@ h3. Where do we start?
 
 We want to start off with the simplest example that we can come think of, just as we would in TDD. Remember that in spite of some important (if subtle) distinctions, BDD <em>is</em> TDD at its core.
 
-As discussed in the <a href="index.html">Overview</a>, a common first specification is that a new stack should be empty, and we typically verify this by checking that its size is 0. This simplicity is what we're looking for, but we want to avoid the "size" question. We'll just consider emptiness rather than size.
+As discussed in the "Overview":index.html, a common first specification is that a new stack should be empty, and we typically verify this by checking that its size is 0. This simplicity is what we're looking for, but we want to avoid the <code>#size</code> question. We'll just consider emptiness rather than size.
 
 Thinking of how we might specify something about emptiness, we know that a newly created Stack should be empty. So we'll start with exactly that specification: "A new Stack should be empty".
 
@@ -37,7 +37,7 @@ Finished in 0.000154 seconds
 0 specifications, 0 failures
 </pre>
 
-The <code>spec</code> command is installed when you install RSpec. It requires (using the ruby <code>require</code> method) any file(s) (or all of the files in a directory) that you specify on the command line. The <code>context</code> method accepts a name ("An empty stack") and a block (do ... end) and processes everything inside the block. Since there's nothing in this block to process, we discover that RSpec processed 0 specifications.
+The <code>spec</code> command is installed when you install RSpec. It requires (using the ruby <code>#require</code> method) any file(s) (or all of the files in a directory) that you specify on the command line. The <code>#context</code> method accepts a name ("An empty stack") and a block (do ... end) and processes everything inside the block. Since there's nothing in this block to process, we discover that RSpec processed 0 specifications.
 
 You may wonder why bother with the name? Try adding the <code>-f s</code> option to the command
 
@@ -144,30 +144,32 @@ context "A new stack" do
     @stack = Stack.new
   end
   specify "should be empty" do
-    @stack.should_be_empty
+    @stack.should be_empty
   end
 end
 </ruby>
 
 <pre>
-$ spec stack_spec.rb -f s
+$ spec stack_spec.rb 
 
-A new stack
-- should be empty (FAILED - 1)
+F
 
 1)
 NoMethodError in 'A new stack should be empty'
-undefined method `empty?' for #<Stack:0x5b5ec4>
-./stack_spec.rb:8:in `should be empty'
+undefined method `empty?' for #<Stack:0x5ba44c>
+./stack_spec.rb:9:
 
-Finished in 0.000784 seconds
+Finished in 0.00115 seconds
 
 1 specification, 1 failure
 </pre>
 
-In this case, RSpec interprets the message <code>should_be_empty</code>, and sends <code>empty?</code> to <code>stack</code>. This will work for any predicate (ruby methods that end with a "?" and return boolean).
+In this case, RSpec interprets the message <code>#be_empty</code> and
+sends <code>#empty?</code> to <code>Stack</code>. This will work for
+any predicate (ruby methods that end with a "?" and return boolean).
 
-You can think of <code>NameError</code> as the equivalent of a compilation failure in java or C#. <code>Stack</code> doesn't respond to the <code>empty?</code> message ... yet.
+You can think of NameError as the equivalent of a compilation
+failure in java or C#. Stack doesn’t respond to the empty? message ... yet.
 
 <ruby>
 class Stack
@@ -177,22 +179,22 @@ end
 </ruby>
 
 <pre>
-$ spec stack_spec.rb -f s
+$ spec stack_spec.rb -fs
 
 A new stack
 - should be empty (FAILED - 1)
 
 1)
-Spec::Expectations::ExpectationNotMetError in 'A new stack should be empty'
-Stack #<Stack:0x5b5dfc> should be empty
-./stack_spec.rb:8:in `should be empty'
+'A new stack should be empty' FAILED
+expected empty? to return true, got nil
+./stack_spec.rb:9:
 
-Finished in 0.000774 seconds
+Finished in 0.000945 seconds
 
 1 specification, 1 failure
 </pre>
 
-... and NOW we get a failing expectation. "Stack #&lt;Stack:0x5b5dfc&gt; should be empty" is the detail of this <code>ExpectationNotMetError</code>. The expectation is that <code>empty?</code> should return <code>true</code>, but it does not. Let's make it so ...
+... and NOW we get a failing expectation. "expected empty? to return true, got nil" is the detail of this <code>ExpectationNotMetError</code>. The expectation is that <code>#empty?</code> should return <code>true</code>, but it does not. Let's make it so ...
 
 <ruby>
 class Stack
@@ -203,12 +205,12 @@ end
 </ruby>
 
 <pre>
-$ spec stack_spec.rb -f s
+$ spec stack_spec.rb -fs
 
 A new stack
 - should be empty
 
-Finished in 0.000617 seconds
+Finished in 0.000725 seconds
 
 1 specification, 0 failures
 </pre>
