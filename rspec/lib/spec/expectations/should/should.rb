@@ -70,6 +70,7 @@ module Spec
 
         private
         def __delegate_method_missing_to_target(original_sym, actual_sym, *args)
+          ::Spec::Expectations::Matchers.generated_name = "should #{original_sym} #{args[0].inspect}"
           return if @target.send(actual_sym, *args)
           fail_with_message(default_message(original_sym, args[0]), args[0], @target)
         end

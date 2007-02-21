@@ -24,7 +24,11 @@ module Spec
         end
       
         def matches?(collection_owner)
-          collection = collection_owner.send(collection_name, *@args, &@block)
+          if collection_owner.respond_to?(collection_name)
+            collection = collection_owner.send(collection_name, *@args, &@block)
+          else
+            collection = collection_owner
+          end
           @actual = collection.length if collection.respond_to?(:length)
           @actual = collection.size if collection.respond_to?(:size)
           return @actual >= @expected if @relativity == :at_least
@@ -73,16 +77,36 @@ EOF
       end
 
       # :call-seq:
-      #   should have(number).items
-      #   should_not have(number).items
+      #   should have(number).named_collection__or__sugar
+      #   should_not have(number).named_collection__or__sugar
       #
-      # Passes if actual owns a collection
-      # which contains n elements
+      # Passes if receiver is a collection with the submitted
+      # number of items OR if the receiver OWNS a collection
+      # with the submitted number of items.
       #
-      # == Example
+      # If the receiver OWNS the collection, you must use the name
+      # of the collection. So if a <tt>Team</tt> instance has a
+      # collection named <tt>#players</tt>, you must use that name
+      # to set the expectation.
+      #
+      # If the receiver IS the collection, you can use any name
+      # you like for <tt>named_collection</tt>. We'd recommend using
+      # either "elements", "members", or "items" as these are all
+      # standard ways of describing the things IN a collection.
+      #
+      # This also works for Strings, letting you set an expectation
+      # about its length
+      #
+      # == Examples
       #
       #   # Passes if team.players.size == 11
       #   team.should have(11).players
+      #
+      #   # Passes if [1,2,3].length == 3
+      #   [1,2,3].should have(3).items #"items" is pure sugar
+      #
+      #   # Passes if "this string".length == 11
+      #   "this string".should have(11).characters #"characters" is pure sugar
       def have(n)
         Matchers::Have.new(n)
       end
@@ -91,13 +115,7 @@ EOF
       # :call-seq:
       #   should have_at_least(number).items
       #
-      # Passes if actual owns a collection
-      # which contains at least n elements
-      #
-      # == Example
-      #
-      #   # Passes if team.players.size >= 11
-      #   team.should have_at_least(11).players
+      # Exactly like have() with >=.
       #
       # == Warning
       #
@@ -109,13 +127,7 @@ EOF
       # :call-seq:
       #   should have_at_most(number).items
       #
-      # Passes if actual owns a collection
-      # which contains at most n elements
-      #
-      # == Example
-      #
-      #   # Passes if team.players.size <= 11
-      #   team.should have_at_most(11).players
+      # Exactly like have() with <=.
       #
       # == Warning
       #

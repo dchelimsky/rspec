@@ -87,7 +87,7 @@ module Spec
         end
         
         def to_s
-          "be #{@expected}"
+          "be #{@comparison}#{@expected}"
         end
 
         private

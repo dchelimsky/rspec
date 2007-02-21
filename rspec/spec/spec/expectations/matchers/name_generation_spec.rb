@@ -7,6 +7,16 @@ context "Matchers should be able to generate a name" do
     Spec::Expectations::Matchers.name_generated(&@callback)
   end
   
+  specify "should == expected" do
+    "this".should == "this"
+    @name.should == "should == \"this\""
+  end
+  
+  specify "should_not == expected" do
+    "this".should_not == "that"
+    @name.should == "should not == \"that\""
+  end
+  
   specify "should be empty (arbitrary predicate)" do
     [].should be_empty
     @name.should == "should be empty"
@@ -30,6 +40,11 @@ context "Matchers should be able to generate a name" do
   specify "should be nil" do
     nil.should be_nil
     @name.should == "should be nil"
+  end
+  
+  specify "should be > n" do
+    5.should be > 3
+    @name.should == "should be > 3"
   end
   
   specify "should be close" do
@@ -105,7 +120,7 @@ context "Matchers should be able to generate a name" do
   
   specify "should respond_to" do
     [].should respond_to(:insert)
-    @name.should == "should respond to :insert"
+    @name.should == "should respond to #insert"
   end
   
   specify "should throw symbol" do

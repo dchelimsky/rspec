@@ -37,9 +37,7 @@ context "An empty stack" do
   end
   
   # NOTE that this one auto-generates the name "should be_empty"
-  specify do
-    @stack.should be_empty
-  end
+  specify { @stack.should be_empty }
   
   specify "should no longer be empty after 'push'" do
     @stack.push "anything"
@@ -62,9 +60,7 @@ context "An almost empty stack (with one item)" do
   end
   
   # NOTE that this one auto-generates the name "should not be empty"
-  specify do
-    @stack.should_not be_empty
-  end
+  specify { @stack.should_not be_empty }
   
   specify "should remain not empty after 'peek'" do
     @stack.peek
@@ -84,9 +80,7 @@ context "An almost full stack (with one item less than capacity)" do
   end
   
   # NOTE that this one auto-generates the name "should not be full"
-  specify do
-    @stack.should_not be_full
-  end
+  specify { @stack.should_not be_full }
   
   specify "should become full when sent 'push'" do
     @stack.push Object.new
@@ -101,9 +95,7 @@ context "A full stack" do
   end
   
   # NOTE that this one auto-generates the name "should be full"
-  specify do
-    @stack.should be_full
-  end
+  specify { @stack.should be_full }
   
   specify "should remain full after 'peek'" do
     @stack.peek
