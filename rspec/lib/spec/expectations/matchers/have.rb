@@ -17,14 +17,14 @@ module Spec
         end
       
         def method_missing(sym, *args, &block)
-          @sym = sym
+          @collection_name = sym
           @args = args
           @block = block
           self
         end
       
         def matches?(collection_owner)
-          collection = collection_owner.send(@sym, *@args, &@block)
+          collection = collection_owner.send(collection_name, *@args, &@block)
           @actual = collection.length if collection.respond_to?(:length)
           @actual = collection.size if collection.respond_to?(:size)
           return @actual >= @expected if @relativity == :at_least
@@ -33,29 +33,42 @@ module Spec
         end
       
         def failure_message
-          "expected #{relativities[@relativity]}#{@expected} #{@sym}, got #{@actual}"
+          "expected #{relative_expectation} #{collection_name}, got #{@actual}"
         end
 
         def negative_failure_message
           if @relativity == :exactly
-            return "expected target not to have #{@expected} #{@sym}, got #{@actual}"
+            return "expected target not to have #{@expected} #{collection_name}, got #{@actual}"
           elsif @relativity == :at_most
             return <<-EOF
 Isn't life confusing enough?
 Instead of having to figure out the meaning of this:
-  should_not have_at_most(#{@expected}).#{@sym}
+  should_not have_at_most(#{@expected}).#{collection_name}
 We recommend that you use this instead:
-  should have_at_least(#{@expected + 1}).#{@sym}
+  should have_at_least(#{@expected + 1}).#{collection_name}
 EOF
           elsif @relativity == :at_least
             return <<-EOF
 Isn't life confusing enough?
 Instead of having to figure out the meaning of this:
-  should_not have_at_least(#{@expected}).#{@sym}
+  should_not have_at_least(#{@expected}).#{collection_name}
 We recommend that you use this instead:
-  should have_at_most(#{@expected - 1}).#{@sym}
+  should have_at_most(#{@expected - 1}).#{collection_name}
 EOF
           end
+        end
+        
+        def to_s
+          "have #{relative_expectation} #{collection_name}"
+        end
+        
+        private
+        def collection_name
+          @collection_name
+        end
+        
+        def relative_expectation
+          "#{relativities[@relativity]}#{@expected}"
         end
       end
 

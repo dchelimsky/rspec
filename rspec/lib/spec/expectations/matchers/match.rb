@@ -20,6 +20,10 @@ module Spec
         def negative_failure_message
           return "expected #{@actual.inspect} not to match #{@expected.inspect}", @expected, @actual
         end
+        
+        def to_s
+          "match #{@expected.inspect}"
+        end
       end
       
       # :call-seq:

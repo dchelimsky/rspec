@@ -6,6 +6,7 @@ context "specs with no names" do
   
   #spec name is auto-generated as "should equal(5)"
   specify do
+    3.should equal(3)
     5.should equal(5)
   end
 end

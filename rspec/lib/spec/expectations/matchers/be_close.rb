@@ -7,12 +7,18 @@ module Spec
           @expected = expected
           @delta = delta
         end
+        
         def matches?(actual)
           @actual = actual
           (@actual - @expected).abs < @delta
         end
+        
         def failure_message
           "expected #{@expected} +/- (<#{@delta}), got #{@actual}"
+        end
+        
+        def to_s
+          "be close to #{@expected} (+- #{@delta})"
         end
       end
       

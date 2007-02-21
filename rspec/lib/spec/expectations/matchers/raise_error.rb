@@ -47,6 +47,10 @@ module Spec
           "expected no #{expected_error}#{actual_error}"
         end
         
+        def to_s
+          "raise #{expected_error}"
+        end
+        
         private
           def expected_error
             case @expected_message
