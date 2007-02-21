@@ -231,3 +231,23 @@ context "have(n).items(args, block)" do
     target.should have(3).items("arg1","arg2", block)
   end
 end
+
+context "have(n).items where target IS a collection" do
+  specify "should reference the number of items IN the collection" do
+    [1,2,3].should have(3).items
+  end
+
+  specify "should reference the number of items IN the collection" do
+    lambda { [1,2,3].should have(7).items }.should_fail_with("expected 7 items, got 3")
+  end
+end
+
+context "have(n).characters where target IS a String" do
+  specify "should pass if the length is correct" do
+    "this string".should have(11).characters
+  end
+
+  specify "should fail if the length is incorrect" do
+    lambda { "this string".should have(12).characters }.should_fail_with("expected 12 characters, got 11")
+  end
+end

@@ -20,7 +20,7 @@ module Spec
         end
         
         def to_s
-          "respond to #{@sym.inspect}"
+          "respond to ##{@sym.to_s}"
         end
       end
       
