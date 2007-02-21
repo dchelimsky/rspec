@@ -88,6 +88,13 @@ module Spec
     #     ...
     #   end
     module Matchers
+      
+      class << self
+        callback_events :name_generated
+        def generated_name=(name)
+          notify_callbacks(:name_generated, name)
+        end
+      end
 
       def method_missing(sym, *args, &block) # :nodoc:
         return Matchers::Be.new(sym, *args) if sym.starts_with?("be_")

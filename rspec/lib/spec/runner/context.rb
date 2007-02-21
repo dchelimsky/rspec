@@ -17,34 +17,9 @@ module Spec
         def before_context_eval
         end
 
-        def inherit(klass)
+        #this is here for Spec::Rails
+        def inherit_context_eval_module_from(klass)
           @context_eval_module.inherit klass
-        end
-        alias :inherit_context_eval_module_from :inherit
-
-        def include(mod)
-          @context_eval_module.include mod
-          mod.send :included, self
-        end
-
-        def context_setup(&block)
-          @context_eval_module.context_setup(&block)
-        end
-
-        def context_teardown(&block)
-          @context_eval_module.context_teardown(&block)
-        end
-
-        def setup(&block)
-          @context_eval_module.setup(&block)
-        end
-
-        def teardown(&block)
-          @context_eval_module.teardown(&block)
-        end
-
-        def specify(spec_name, opts={}, &block)
-          @context_eval_module.specify(spec_name, opts, &block)
         end
 
         def run(reporter, dry_run=false)

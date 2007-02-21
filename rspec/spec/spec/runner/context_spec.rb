@@ -7,6 +7,7 @@ module Spec
       setup do
         @formatter = Spec::Mocks::Mock.new "formatter", :register_as_spec_listener => false
         @context = Context.new("context") {}
+        @context_eval = @context.instance_eval { @context_eval_module }
       end
 
       teardown do
@@ -23,7 +24,7 @@ module Spec
         @formatter.should_receive(:spec_started).with "test"
         @formatter.should_receive(:spec_finished).with "test", :anything, :anything
         $spec_ran = false
-        @context.specify("test") {$spec_ran = true}
+        @context_eval.specify("test") {$spec_ran = true}
         @context.run(@formatter)
         $spec_ran.should be_true
       end
@@ -33,7 +34,7 @@ module Spec
         @formatter.should_receive(:spec_started).with "test"
         @formatter.should_receive(:spec_finished).with "test"
         $spec_ran = false
-        @context.specify("test") {$spec_ran = true}
+        @context_eval.specify("test") {$spec_ran = true}
         @context.run(@formatter, true)
         $spec_ran.should be_false
       end
@@ -45,9 +46,9 @@ module Spec
         
         context_setup_ran = false
         context_teardown_ran = false
-        @context.context_setup { context_setup_ran = true }
-        @context.context_teardown { context_teardown_ran = true }
-        @context.specify("test") {true}
+        @context_eval.context_setup { context_setup_ran = true }
+        @context_eval.context_teardown { context_teardown_ran = true }
+        @context_eval.specify("test") {true}
         @context.run(@formatter, true)
         context_setup_ran.should be_false
         context_teardown_ran.should be_false
@@ -58,8 +59,8 @@ module Spec
         @formatter.should_receive(:spec_finished).with :any_args
         
         spec_ran = false
-        @context.context_setup { raise "help" }
-        @context.specify("test") {spec_ran = true}
+        @context_eval.context_setup { raise "help" }
+        @context_eval.specify("test") {spec_ran = true}
         @context.run(@formatter)
         spec_ran.should be_false
       end
@@ -69,8 +70,8 @@ module Spec
         @formatter.should_receive(:spec_finished).with :any_args
         
         context_teardown_ran = false
-        @context.context_setup { raise "context_setup error" }
-        @context.context_teardown { context_teardown_ran = true }
+        @context_eval.context_setup { raise "context_setup error" }
+        @context_eval.context_teardown { context_teardown_ran = true }
         @context.run(@formatter)
         context_teardown_ran.should be_true
       end
@@ -81,8 +82,8 @@ module Spec
         @formatter.should_receive(:spec_finished).with :any_args
         
         context_teardown_ran = false
-        @context.context_teardown { context_teardown_ran = true }
-        @context.specify("test") {raise "spec error" }
+        @context_eval.context_teardown { context_teardown_ran = true }
+        @context_eval.specify("test") {raise "spec error" }
         @context.run(@formatter)
         context_teardown_ran.should be_true
       end
@@ -97,8 +98,8 @@ module Spec
           location.should_eql("context_setup")
         end
         
-        @context.context_setup { raise "in context_setup" }
-        @context.specify("test") {true}
+        @context_eval.context_setup { raise "in context_setup" }
+        @context_eval.specify("test") {true}
         @context.run(@formatter)
       end
 
@@ -111,7 +112,7 @@ module Spec
           location.should_eql("context_teardown")
         end
         
-        @context.context_teardown { raise "in context_teardown" }
+        @context_eval.context_teardown { raise "in context_teardown" }
         @context.run(@formatter)
       end
 
@@ -127,12 +128,14 @@ module Spec
             super_class_context_setup_run_count += 1
           end
         end
-        @context.inherit super_class
+        # using @context.inherit_context_eval_module_from here, but other examples use @context_eval.inherit
+        # - inherit_context_eval_module_from is used by Spec::Rails to avoid confusion with Ruby's #include method
+        @context.inherit_context_eval_module_from super_class
 
         context_setup_run_count = 0
-        @context.context_setup {context_setup_run_count += 1}
-        @context.specify("test") {true}
-        @context.specify("test2") {true}
+        @context_eval.context_setup {context_setup_run_count += 1}
+        @context_eval.specify("test") {true}
+        @context_eval.specify("test2") {true}
         @context.run(@formatter)
         super_class_context_setup_run_count.should_be 1
         context_setup_run_count.should_be 1
@@ -149,11 +152,11 @@ module Spec
             super_class_setup_ran = true
           end
         end
-        @context.inherit super_class
+        @context_eval.inherit super_class
 
         setup_ran = false
-        @context.setup {setup_ran = true}
-        @context.specify("test") {true}
+        @context_eval.setup {setup_ran = true}
+        @context_eval.specify("test") {true}
         @context.run(@formatter)
         super_class_setup_ran.should be_true
         setup_ran.should be_true
@@ -171,12 +174,12 @@ module Spec
             super_class_context_teardown_run_count += 1
           end
         end
-        @context.inherit super_class
+        @context_eval.inherit super_class
 
         context_teardown_run_count = 0
-        @context.context_teardown {context_teardown_run_count += 1}
-        @context.specify("test") {true}
-        @context.specify("test2") {true}
+        @context_eval.context_teardown {context_teardown_run_count += 1}
+        @context_eval.specify("test") {true}
+        @context_eval.specify("test2") {true}
         @context.run(@formatter)
         super_class_context_teardown_run_count.should_be 1
         context_teardown_run_count.should_be 1
@@ -190,9 +193,9 @@ module Spec
 
         context_instance_value_in = "Hello there"
         context_instance_value_out = ""
-        @context.context_setup { @instance_var = context_instance_value_in }
-        @context.context_teardown { context_instance_value_out = @instance_var }
-        @context.specify("test") {true}
+        @context_eval.context_setup { @instance_var = context_instance_value_in }
+        @context_eval.context_teardown { context_instance_value_out = @instance_var }
+        @context_eval.specify("test") {true}
         @context.run(@formatter)
         context_instance_value_in.should == context_instance_value_out
       end
@@ -204,8 +207,8 @@ module Spec
 
         context_instance_value_in = "Hello there"
         context_instance_value_out = ""
-        @context.context_setup { @instance_var = context_instance_value_in }
-        @context.specify("test") {context_instance_value_out = @instance_var}
+        @context_eval.context_setup { @instance_var = context_instance_value_in }
+        @context_eval.specify("test") {context_instance_value_out = @instance_var}
         @context.run(@formatter)
         context_instance_value_in.should == context_instance_value_out
       end
@@ -221,11 +224,11 @@ module Spec
             fiddle << "superclass setup"
           end
         end
-        @context.inherit super_class
+        @context_eval.inherit super_class
 
-        @context.context_setup { fiddle << "context_setup" }
-        @context.setup { fiddle << "setup" }
-        @context.specify("test") {true}
+        @context_eval.context_setup { fiddle << "context_setup" }
+        @context_eval.setup { fiddle << "setup" }
+        @context_eval.specify("test") {true}
         @context.run(@formatter)
         fiddle.first.should == "context_setup"
         fiddle.last.should == "setup"
@@ -242,11 +245,11 @@ module Spec
             fiddle << "superclass teardown"
           end
         end
-        @context.inherit super_class
+        @context_eval.inherit super_class
 
-        @context.context_teardown { fiddle << "context_teardown" }
-        @context.teardown { fiddle << "teardown" }
-        @context.specify("test") {true}
+        @context_eval.context_teardown { fiddle << "context_teardown" }
+        @context_eval.teardown { fiddle << "teardown" }
+        @context_eval.specify("test") {true}
         @context.run(@formatter)
         fiddle.first.should == "superclass teardown"
         fiddle.last.should == "context_teardown"
@@ -264,11 +267,11 @@ module Spec
             super_class_teardown_ran = true
           end
         end
-        @context.inherit super_class
+        @context_eval.inherit super_class
 
         teardown_ran = false
-        @context.teardown {teardown_ran = true}
-        @context.specify("test") {true}
+        @context_eval.teardown {teardown_ran = true}
+        @context_eval.specify("test") {true}
         @context.run(@formatter)
         super_class_teardown_ran.should be_true
         teardown_ran.should be_true
@@ -286,9 +289,9 @@ module Spec
             helper_method_ran = true
           end
         end
-        @context.inherit super_class
+        @context_eval.inherit super_class
 
-        @context.specify("test") {helper_method}
+        @context_eval.specify("test") {helper_method}
         @context.run(@formatter)
         helper_method_ran.should be_true
       end
@@ -301,7 +304,7 @@ module Spec
             class_method_ran = true
           end
         end
-        @context.inherit super_class
+        @context_eval.inherit super_class
         @context.class_method
         class_method_ran.should be_true
 
@@ -314,7 +317,7 @@ module Spec
         class << super_class
           def super_class_class_method; end
         end
-        @context.inherit super_class
+        @context_eval.inherit super_class
 
         @context.methods.should_include("super_class_class_method")
       end
@@ -338,10 +341,10 @@ module Spec
           end
         end
 
-        @context.include mod1
-        @context.include mod2
+        @context_eval.include mod1
+        @context_eval.include mod2
 
-        @context.specify("test") do
+        @context_eval.specify("test") do
           mod1_method
           mod2_method
         end
@@ -381,20 +384,20 @@ module Spec
           end
         end
 
-        @context.include mod1
-        @context.include mod2
+        @context_eval.include mod1
+        @context_eval.include mod2
 
-        @context.mod1_method
-        @context.mod2_method
+        @context_eval.mod1_method
+        @context_eval.mod2_method
         mod1_method_called.should_be true
         mod2_method_called.should_be true
       end
       
       specify "should count number of specs" do
-        @context.specify("one") {}
-        @context.specify("two") {}
-        @context.specify("three") {}
-        @context.specify("four") {}
+        @context_eval.specify("one") {}
+        @context_eval.specify("two") {}
+        @context_eval.specify("three") {}
+        @context_eval.specify("four") {}
         @context.number_of_specs.should_be 4
       end
     end
