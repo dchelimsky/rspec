@@ -8,6 +8,7 @@ module Spec
       end
   
       def matches?(spec_name)
+        return false if spec_name.nil?
         return true if matches_context? && (matches_spec?(spec_name) || context_only?)
         return true if matches_spec?(spec_name) && spec_only?(spec_name)
         return false

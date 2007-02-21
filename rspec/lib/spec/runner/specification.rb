@@ -2,14 +2,18 @@ module Spec
   module Runner
     class Specification
       module ClassMethods
-        attr_accessor :current
+        attr_accessor :current, :generated_name
         protected :current=
+        
+        Spec::Expectations::Matchers.name_generated do |name|
+          Specification.generated_name = name
+        end
 
         callback_events :before_setup, :after_teardown
       end
       extend ClassMethods
 
-      attr_reader :spec_block
+      attr_reader :spec_block, :generated_name
       callback_events :before_setup, :after_teardown
 
       def initialize(name, opts={}, &spec_block)
@@ -34,14 +38,22 @@ module Spec
         end
 
         SpecShouldRaiseHandler.new(@from, @options).handle(errors)
-        reporter.spec_finished(@name, errors.first, failure_location(setup_ok, spec_ok, teardown_ok)) if reporter
+        reporter.spec_finished(name, errors.first, failure_location(setup_ok, spec_ok, teardown_ok)) if reporter
       end
-
+      
       def matches_matcher?(matcher)
-        matcher.matches? @name 
+        matcher.matches?(name)
       end
 
       private
+      def name
+        if @name == :__generate_name
+          Specification.generated_name
+        else
+          @name
+        end
+      end
+      
       def setup_spec(execution_context, errors, &setup_block)
         notify_before_setup(errors)
         execution_context.instance_eval(&setup_block) if setup_block
@@ -94,7 +106,7 @@ module Spec
 
       def failure_location(setup_ok, spec_ok, teardown_ok)
         return 'setup' unless setup_ok
-        return @name unless spec_ok
+        return name unless spec_ok
         return 'teardown' unless teardown_ok
       end
     end

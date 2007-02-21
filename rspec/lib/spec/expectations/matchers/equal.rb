@@ -19,6 +19,10 @@ module Spec
         def negative_failure_message
           return "expected #{@actual.inspect} not to equal #{@expected.inspect} (using .equal?)", @expected, @actual
         end
+        
+        def to_s
+          "equal(#{@expected.inspect})"
+        end
       end
       
       # :call-seq:

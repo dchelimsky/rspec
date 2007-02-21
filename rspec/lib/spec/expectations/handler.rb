@@ -5,9 +5,9 @@ module Spec
 
       def self.handle_matcher(actual, matcher, &block)
         unless matcher.nil?
-          unless matcher.matches?(actual, &block)
-            Spec::Expectations.fail_with(matcher.failure_message)
-          end
+          match = matcher.matches?(actual, &block)
+          ::Spec::Expectations::Matchers.generated_name = "should #{matcher.to_s}"
+          Spec::Expectations.fail_with(matcher.failure_message) unless match
         end
       end
 
@@ -26,9 +26,9 @@ about matchers.
 EOF
 )
           end
-          if matcher.matches?(actual, &block)
-            Spec::Expectations.fail_with(matcher.negative_failure_message)
-          end
+          match = matcher.matches?(actual, &block)
+          ::Spec::Expectations::Matchers.generated_name = "should_not #{matcher.to_s}"
+          Spec::Expectations.fail_with(matcher.negative_failure_message) if match
         end
       end
     

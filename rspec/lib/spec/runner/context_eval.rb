@@ -9,9 +9,6 @@ module Spec
 
         def include(mod)
           context_modules << mod
-          # NOTE - this line was added by a patch [#7461] from Pat Maddox. Unfortunately, if
-          # removed, no specs will fail, but functionality will. We need to figure
-          # out how to write a spec that will fail if this line is gone.
           mod.send :included, self
         end
         
@@ -31,7 +28,7 @@ module Spec
           teardown_parts << block
         end
 
-        def specify(spec_name, opts={}, &block)
+        def specify(spec_name=:__generate_name, opts={}, &block)
           specifications << Specification.new(spec_name, opts, &block)
         end
 
