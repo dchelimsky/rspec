@@ -9,9 +9,11 @@ context "A new stack" do
   setup do
     @stack = Stack.new
   end
+
   specify "should be empty" do
-    @stack.should_be_empty
+    @stack.should be_empty
   end
+
 end
 
 context "An empty stack" do
@@ -19,8 +21,8 @@ context "An empty stack" do
     @stack = Stack.new
   end
   specify "should not be empty after 'push'" do
-    @stack.push 37
-    @stack.should_not_be_empty
+    @stack.push(37)
+    @stack.should_not be_empty
   end
 end
 
@@ -29,8 +31,9 @@ context "A stack with one item" do
     @stack = Stack.new
     @stack.push "one item"
   end
+
   specify "should return top when you send it 'top'" do
-    @stack.top.should_equal "one item"
+    @stack.top.should == "one item"
   end
 end
 </ruby>
@@ -54,7 +57,7 @@ end
 ...and the output should look like this:
 
 <pre>
-$ spec stack_spec.rb -f s
+$ spec stack_spec.rb -fs
 
 A new stack
 - should be empty
@@ -65,7 +68,7 @@ An empty stack
 A stack with one item
 - should return top when you send it 'top'
 
-Finished in 0.001791 seconds
+Finished in 0.00184 seconds
 
 3 specifications, 0 failures
 </pre>
@@ -94,7 +97,7 @@ end
 </ruby>
 
 <pre>
-$ spec stack_spec.rb -f s
+$ spec stack_spec.rb -fs
 
 A new stack
 - should be empty
@@ -106,7 +109,7 @@ A stack with one item
 - should return top when you send it 'top'
 - should not be empty
 
-Finished in 0.002159 seconds
+Finished in 0.002383 seconds
 
 4 specifications, 0 failures
 </pre>
@@ -120,8 +123,9 @@ context "A new stack" do
   setup do
     @stack = Stack.new
   end
+
   specify "should be empty" do
-    @stack.should_be_empty
+    @stack.should be_empty
   end
 end
 
@@ -132,17 +136,17 @@ context "A stack with one item" do
   end
 
   specify "should return top when you send it 'top'" do
-    @stack.top.should_equal "one item"
+    @stack.top.should == "one item"
   end
-  
+
   specify "should not be empty" do
-    @stack.should_not_be_empty
+    @stack.should_not be_empty
   end
 end
 </ruby>
 
 <pre>
-$ spec stack_spec.rb -f s
+$ spec stack_spec.rb -fs
 
 A new stack
 - should be empty
@@ -151,7 +155,7 @@ A stack with one item
 - should return top when you send it 'top'
 - should not be empty
 
-Finished in 0.001609 seconds
+Finished in 0.001629 seconds
 
 3 specifications, 0 failures
 </pre>
@@ -160,7 +164,7 @@ So keep your eye on the contexts and specifications as they evolve. Don't be afr
 
 h4. In Summary
 
-Obviously this only scratches the surface, but this should give you enough to get started. Try finishing out the spec on your own. Focus on the different contexts: How does a stack with one item behave when you call pop? What about a full stack? What if you call pop on an empty stack?
+Obviously this only scratches the surface. The current implementation will not behave as you expect as soon as you add a second item to the stack. But this should give you enough to get started. Try finishing out the spec on your own. Focus on the different contexts: How does a stack with one item behave when you call #pop? What about a full stack? What if you call #pop on an empty stack?
 
 Check back here periodically as there will be other tutorials coming covering topics like how to specify objects interacting with other objects at runtime. Thanks for exploring thus far, and good luck!
 

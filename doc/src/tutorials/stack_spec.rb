@@ -6,7 +6,7 @@ context "A new stack" do
   end
 
   specify "should be empty" do
-    @stack.should_be_empty
+    @stack.should be_empty
   end
 end
 
@@ -17,10 +17,10 @@ context "A stack with one item" do
   end
 
   specify "should return top when you send it 'top'" do
-    @stack.top.should_eql "one item"
+    @stack.top.should == "one item"
   end
 
   specify "should not be empty" do
-    @stack.should_not_be_empty
+    @stack.should_not be_empty
   end
 end

@@ -61,44 +61,44 @@ context "An empty stack" do
     @stack = Stack.new
   end
   specify "should not be empty after 'push'" do
-    @stack.push 37
+    @stack.push(37)
   end
 end
 </ruby>
 
 <pre>
-$ spec stack_spec.rb -f s
+$ spec stack_spec.rb -fs
 
 A new stack
 - should be empty
 
 An empty stack
-- should not be empty after 'push' (FAILED - 1)
+- should not be empty after 'push' (ERROR - 1)
 
 1)
 NoMethodError in 'An empty stack should not be empty after 'push''
-undefined method `push' for #<Stack:0x5b4c68>
-./stack_spec.rb:17:in `should not be empty after 'push''
+undefined method `push' for #<Stack:0x5b8818>
+./stack_spec.rb:19:
 
-Finished in 0.001254 seconds
+Finished in 0.001448 seconds
 
 2 specifications, 1 failure
 </pre>
 
-The <code>NoMethodError</code> tells us we need to add a push method to the stack.
+The <code>NoMethodError</code> tells us we need to add a <code>#push</code> method to the stack.
 
 <ruby>
 class Stack
   def empty?
     true
   end
-  def push item
+  def push(item)
   end
 end
 </ruby>
 
 <pre>
-$ spec stack_spec.rb -f s
+$ spec stack_spec.rb -fs
 
 A new stack
 - should be empty
@@ -106,12 +106,12 @@ A new stack
 An empty stack
 - should not be empty after 'push'
 
-Finished in 0.001082 seconds
+Finished in 0.001246 seconds
 
 2 specifications, 0 failures
 </pre>
 
-The idea is to add a little bit of spec, just enough to get some kind of failure, then just enough code to get the code to meet the expectations expressed in the spec. In this case, the NameError was like a compilation failure in java or C#.
+The idea is to add a little bit of spec, just enough to get some kind of failure, then just enough code to get the code to meet the expectations expressed in the spec. In this case, the <code>NoMethodError</code> was like a compilation failure in java or C#.
 
 Next we set our expectation:
 
@@ -121,14 +121,14 @@ context "An empty stack" do
     @stack = Stack.new
   end
   specify "should not be empty after 'push'" do
-    @stack.push 37
-    @stack.should_not_be_empty
+    @stack.push(37)
+    @stack.should_not be_empty
   end
 end
 </ruby>
 
 <pre>
-$ spec stack_spec.rb -f s
+$ spec stack_spec.rb -fs
 
 A new stack
 - should be empty
@@ -137,11 +137,11 @@ An empty stack
 - should not be empty after 'push' (FAILED - 1)
 
 1)
-Spec::Expectations::ExpectationNotMetError in 'An empty stack should not be empty after 'push''
-Stack #<Stack:0x5b4b00> should not be empty
-./stack_spec.rb:18:in `should not be empty after 'push''
+'An empty stack should not be empty after 'push'' FAILED
+expected empty? to return false, got true
+./stack_spec.rb:20:
 
-Finished in 0.001454 seconds
+Finished in 0.001972 seconds
 
 2 specifications, 1 failure
 </pre>
@@ -163,7 +163,7 @@ end
 </ruby>
 
 <pre>
-$ spec stack_spec.rb -f s
+$ spec stack_spec.rb -fs
 
 A new stack
 - should be empty
@@ -171,7 +171,7 @@ A new stack
 An empty stack
 - should not be empty after 'push'
 
-Finished in 0.001077 seconds
+Finished in 0.001922 seconds
 
 2 specifications, 0 failures
 </pre>

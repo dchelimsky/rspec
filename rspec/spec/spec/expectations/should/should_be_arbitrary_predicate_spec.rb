@@ -51,10 +51,10 @@ module Spec
           mock.__verify
         end
 
-        specify "should fail when target does not respond to predicate" do
+        specify "should raise when target does not respond to predicate" do
           lambda do
             5.should_be_funny
-          end.should_fail
+          end.should_raise(NameError)
         end
 
         specify "should support multi word predicates with should" do
