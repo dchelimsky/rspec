@@ -26,8 +26,10 @@ module Spec
         def matches?(collection_owner)
           if collection_owner.respond_to?(collection_name)
             collection = collection_owner.send(collection_name, *@args, &@block)
-          else
+          elsif (collection_owner.respond_to?(:length) || collection_owner.respond_to?(:size))
             collection = collection_owner
+          else
+            collection_owner.send(collection_name, *@args, &@block)
           end
           @actual = collection.length if collection.respond_to?(:length)
           @actual = collection.size if collection.respond_to?(:size)

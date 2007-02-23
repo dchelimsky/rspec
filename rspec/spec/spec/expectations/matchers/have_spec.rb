@@ -251,3 +251,9 @@ context "have(n).characters where target IS a String" do
     lambda { "this string".should have(12).characters }.should_fail_with("expected 12 characters, got 11")
   end
 end
+
+context "have(n).things on an object which is not a collection nor contains one" do
+  specify "should fail" do
+    lambda { Object.new.should have(2).things }.should_raise(NoMethodError, /undefined method `things' for #<Object:/)
+  end
+end
