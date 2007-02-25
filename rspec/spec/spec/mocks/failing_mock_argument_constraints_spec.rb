@@ -62,6 +62,13 @@ module Spec
           @mock.random_call("a" => "b", "c" => "d")
         end.should_raise(MockExpectationError, /Mock 'test mock' expected :random_call with \(\{(:a=>\"b\", :c=>\"d\"|:c=>\"d\", :a=>\"b\")\}\) but received it with \(\{(\"a\"=>\"b\", \"c\"=>\"d\"|\"c\"=>\"d\", \"a\"=>\"b\")\}\)/)
       end
+      
+      specify "should match against a Matcher" do
+        lambda do
+          @mock.should_receive(:msg).with(equal(3))
+          @mock.msg(37)
+        end.should_raise(MockExpectationError, "Mock 'test mock' expected :msg with (equal 3) but received it with (37)")
+      end
     end
   end
 end

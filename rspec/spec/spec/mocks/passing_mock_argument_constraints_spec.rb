@@ -82,6 +82,11 @@ module Spec
         @mock.should_receive(:random_call).with(:a => "a", :b => "b")
         @mock.random_call(opts)
       end
+      
+      specify "should match against a Matcher" do
+        @mock.should_receive(:msg).with(equal(37))
+        @mock.msg(37)
+      end
     end
   end
 end
