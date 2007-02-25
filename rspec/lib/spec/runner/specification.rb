@@ -6,7 +6,7 @@ module Spec
         attr_accessor :current, :generated_name
         protected :current=
         
-        Spec::Expectations::Matchers.name_generated do |name|
+        Spec::Expectations::Matchers.description_generated do |name|
           Specification.generated_name = name
         end
 

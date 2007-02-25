@@ -19,7 +19,7 @@ module Spec
             "expected #{expected.inspect}, got #{actual.inspect}"
           end
           
-          def to_s
+          def description
             "render template #{actual.inspect}"
           end
         

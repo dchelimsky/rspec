@@ -37,7 +37,7 @@ module Spec
           end
         end
         
-        def to_s
+        def description
           "throw #{expected}"
         end
         

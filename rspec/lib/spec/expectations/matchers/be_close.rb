@@ -17,7 +17,7 @@ module Spec
           "expected #{@expected} +/- (<#{@delta}), got #{@actual}"
         end
         
-        def to_s
+        def description
           "be close to #{@expected} (+- #{@delta})"
         end
       end

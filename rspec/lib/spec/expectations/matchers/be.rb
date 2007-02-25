@@ -86,7 +86,7 @@ module Spec
           self
         end
         
-        def to_s
+        def description
           "be #{@comparison}#{@expected}"
         end
 
