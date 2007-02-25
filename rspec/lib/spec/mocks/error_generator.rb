@@ -64,7 +64,9 @@ module Spec
       end
 
       def arg_list(*args)
-        args.collect{|arg| arg.inspect}.join(", ")
+        args.collect do |arg|
+          arg.respond_to?(:description) ? arg.description : arg.inspect
+        end.join(", ")
       end
       
       def count_message(count)

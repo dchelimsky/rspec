@@ -1,6 +1,16 @@
 module Spec
   module Mocks
   
+    class MatcherConstraint
+      def initialize(matcher)
+        @matcher = matcher
+      end
+      
+      def matches?(value)
+        @matcher.matches?(value)
+      end
+    end
+      
     class LiteralArgConstraint
       def initialize(literal)
         @literal_value = literal
@@ -95,9 +105,13 @@ module Spec
       def convert_constraint(constraint)
         return @@constraint_classes[constraint].new(constraint) if constraint.is_a?(Symbol)
         return constraint if constraint.is_a?(DuckTypeArgConstraint)
+        return MatcherConstraint.new(constraint) if is_matcher?(constraint)
         return RegexpArgConstraint.new(constraint) if constraint.is_a?(Regexp)
         return LiteralArgConstraint.new(constraint)
-        
+      end
+      
+      def is_matcher?(obj)
+        return obj.respond_to?(:matches?) && obj.respond_to?(:failure_message)
       end
       
       def check_args(args)
