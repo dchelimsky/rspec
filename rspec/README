@@ -5,7 +5,10 @@ Driven Development. RSpec plays the same role that a unit testing framework
 would play in a Test Driven Development environment, but does so using
 words and structures that better support BDD.
 
-RSpec ships with three modules:
+RSpec ships with four modules:
+
+Spec::Matchers provides Expression Matchers for use with Spec::Expectations
+and Spec::Mocks.
 
 Spec::Expectations supports setting expectations on your objects so you
 can do things like:
