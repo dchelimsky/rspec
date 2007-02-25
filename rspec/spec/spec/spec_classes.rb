@@ -54,7 +54,7 @@ module Spec
       end
 
       class HandCodedMock
-        include Spec::Expectations::Matchers
+        include Spec::Matchers
         def initialize(return_val)
           @return_val = return_val
           @funny_called = false

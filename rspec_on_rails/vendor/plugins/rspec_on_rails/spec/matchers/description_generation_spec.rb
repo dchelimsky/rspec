@@ -14,7 +14,7 @@ context "Description generation", :context_type => :controller do
   setup do
     @desc = nil
     @callback = lambda { |desc| @desc = desc }
-    Spec::Expectations::Matchers.description_generated(&@callback)
+    Spec::Matchers.description_generated(&@callback)
   end
   
   specify "should generate description for render_template" do

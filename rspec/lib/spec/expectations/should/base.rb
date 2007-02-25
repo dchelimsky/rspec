@@ -12,7 +12,7 @@ module Spec
           __delegate_method_missing_to_target "=~", "=~", expected
         end
         
-        #<, <=, >=, > are all implemented in Spec::Expectations::Matchers::Be
+        #<, <=, >=, > are all implemented in Spec::Matchers::Be
         # and will be removed with 0.9
         deprecated do
           def <(expected)

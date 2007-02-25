@@ -18,7 +18,7 @@ module Spec
       #   receiver.should =~ regexp
       #     => Passes if (receiver =~ regexp)
       #
-      # See Spec::Expecations::Matchers for more information about matchers
+      # See Spec::Matchers for more information about matchers
       #
       # == Warning
       #
@@ -43,51 +43,51 @@ module Spec
       #   receiver.should_not =~ regexp
       #     => Passes unless (receiver =~ regexp)
       #
-      # See Spec::Expecations::Matchers for more information about matchers
+      # See Spec::Matchers for more information about matchers
       def should_not(matcher=nil, &block)
         return NegativeExpectationMatcherHandler.handle_matcher(self, matcher, &block) if matcher
         should.not
       end
 
       deprecated do
-        # Deprecated: use should have(n).items (see Spec::Expectations::Matchers)
+        # Deprecated: use should have(n).items (see Spec::Matchers)
         # This will be removed in 0.9
         def should_have(expected)
           should.have(expected)
         end
         alias_method :should_have_exactly, :should_have
 
-        # Deprecated: use should have_at_least(n).items (see Spec::Expectations::Matchers)
+        # Deprecated: use should have_at_least(n).items (see Spec::Matchers)
         # This will be removed in 0.9
         def should_have_at_least(expected)
           should.have.at_least(expected)
         end
       
-        # Deprecated: use should have_at_most(n).items (see Spec::Expectations::Matchers)
+        # Deprecated: use should have_at_most(n).items (see Spec::Matchers)
         # This will be removed in 0.9
         def should_have_at_most(expected)
           should.have.at_most(expected)
         end
 
-        # Deprecated: use should include(expected) (see Spec::Expectations::Matchers)
+        # Deprecated: use should include(expected) (see Spec::Matchers)
         # This will be removed in 0.9
         def should_include(expected)
           should.include(expected)
         end
 
-        # Deprecated: use should_not include(expected) (see Spec::Expectations::Matchers)
+        # Deprecated: use should_not include(expected) (see Spec::Matchers)
         # This will be removed in 0.9
         def should_not_include(expected)
           should.not.include(expected)
         end
 
-        # Deprecated: use should be(expected) (see Spec::Expectations::Matchers)
+        # Deprecated: use should be(expected) (see Spec::Matchers)
         # This will be removed in 0.9
         def should_be(expected = :___no_arg)
           should.be(expected)
         end
       
-        # Deprecated: use should_not be(expected) (see Spec::Expectations::Matchers)
+        # Deprecated: use should_not be(expected) (see Spec::Matchers)
         # This will be removed in 0.9
         def should_not_be(expected = :___no_arg)
           should_not.be(expected)
