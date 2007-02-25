@@ -1,7 +1,8 @@
 module Spec
   module Runner
     class Specification
-      module ClassMethods
+
+      class << self
         attr_accessor :current, :generated_name
         protected :current=
         
@@ -11,9 +12,8 @@ module Spec
 
         callback_events :before_setup, :after_teardown
       end
-      extend ClassMethods
 
-      attr_reader :spec_block, :generated_name
+      attr_reader :spec_block
       callback_events :before_setup, :after_teardown
 
       def initialize(name, opts={}, &spec_block)
@@ -24,8 +24,8 @@ module Spec
       end
 
       def run(reporter, setup_block, teardown_block, dry_run, execution_context)
-        reporter.spec_started(@name) if reporter
-        return reporter.spec_finished(@name) if dry_run
+        reporter.spec_started(name) if reporter
+        return reporter.spec_finished(name) if dry_run
 
         errors = []
         begin
@@ -39,6 +39,7 @@ module Spec
 
         SpecShouldRaiseHandler.new(@from, @options).handle(errors)
         reporter.spec_finished(name, errors.first, failure_location(setup_ok, spec_ok, teardown_ok)) if reporter
+        Specification.generated_name = nil
       end
       
       def matches_matcher?(matcher)
@@ -47,11 +48,11 @@ module Spec
 
       private
       def name
-        if @name == :__generate_name
-          Specification.generated_name
-        else
-          @name
-        end
+        @name == :__generate_name ? generated_name : @name
+      end
+      
+      def generated_name
+        Specification.generated_name || "NAME NOT GENERATED"
       end
       
       def setup_spec(execution_context, errors, &setup_block)
