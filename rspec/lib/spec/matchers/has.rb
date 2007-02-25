@@ -9,15 +9,20 @@ module Spec
       
       def matches?(target)
         @target = target
-        Spec::Expectations.fail_with("target does not respond to ##{predicate.to_s}") unless @target.respond_to?(predicate)
-        return target.send(predicate, *@args)
+        begin
+          return target.send(predicate, *@args)
+        rescue => @error
+        end
+        return false
       end
       
       def failure_message
+        raise @error if @error
         "expected ##{predicate}(#{@args[0].inspect}) to return true, got false"
       end
       
       def negative_failure_message
+        raise @error if @error
         "expected ##{predicate}(#{@args[0].inspect}) to return false, got true"
       end
       

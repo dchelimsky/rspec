@@ -11,7 +11,7 @@ module Spec
       
       def matches?(target, &block)
         if block
-          Spec::Expectations.fail_with(<<-EOF
+          raise MatcherError.new(<<-EOF
 block passed to should or should_not change must use {} instead of do/end
 EOF
 )

@@ -19,16 +19,51 @@ module Spec
   #
   #   matches?(actual)
   #   failure_message
-  #   negative_failure_message
+  #   negative_failure_message #optional
+  #   description #optional
   #
-  # See Spec::Expectations and Spec::Mocks for documentation on how these are used in your specs.
+  # See Spec::Expectations to learn how to use these as Expectation Matchers.
+  # See Spec::Mocks to learn how to use them as Mock Argument Constraints.
+  #
+  # == Predicates
+  #
+  # In addition to those Expression Matchers that are defined explicitly, RSpec will
+  # create custom Matchers on the fly for any arbitrary predicate, giving your specs
+  # a much more natural language feel. 
+  #
+  # A Ruby predicate is a method that ends with a "?" and returns true or false.
+  # Common examples are +empty?+, +nil?+, and +instance_of?+.
+  #
+  # All you need to do is write +should be_+ followed by the predicate without
+  # the question mark, and RSpec will figure it out from there. For example:
+  #
+  #   [].should be_empty => [].empty? #passes
+  #   [].should_not be_empty => [].empty? #fails
+  #
+  # In addtion to prefixing the predicate matchers with "be_", you can also use "be_a_"
+  # and "be_an_", making your specs read much more naturally:
+  #
+  #   "a string".should be_an_instance_of(String) =>"a string".instance_of?(String) #passes
+  #
+  #   3.should be_a_kind_of(Fixnum) => 3.kind_of?(Numeric) #passes
+  #   3.should be_a_kind_of(Numeric) => 3.kind_of?(Numeric) #passes
+  #   3.should be_an_instance_of(Fixnum) => 3.instance_of?(Fixnum) #passes
+  #   3.should_not be_instance_of(Numeric) => 3.instance_of?(Numeric) #fails
+  #
+  # RSpec will also create custom matchers for predicates like +has_key?+. To
+  # use this feature, just state that the object should have_key(:key) and RSpec will
+  # call has_key?(:key) on the target. For example:
+  #
+  #   {:a => "A"}.should have_key(:a) => {:a => "A"}.has_key?(:a) #passes
+  #   {:a => "A"}.should have_key(:b) => {:a => "A"}.has_key?(:b) #fails
+  #
+  # You can use this feature to invoke any predicate that begins with "has_", whether it is
+  # part of the Ruby libraries (like +Hash#has_key?+) or a method you wrote on your own class.
   #
   # == Custom Expression Matchers
   #
-  # A primary goal of RSpec is to provide a more "natural language" feel than you get
-  # from standard xUnit tools like Test::Unit. When you find that none of the stock
-  # expectation matchers provide a natural feeling expectation, you can very easily
-  # write your own.
+  # When you find that none of the stock Expression Matchers provide a natural
+  # feeling expectation, you can very easily write your own.
   #
   # For example, imagine that you are writing a game in which players can
   # be in various zones on a virtual board. To specify that bob should
@@ -90,11 +125,11 @@ module Spec
     
     class << self
       callback_events :description_generated
-      def generated_name=(name)
+      def generated_description=(name)
         notify_callbacks(:description_generated, name)
       end
     end
-
+    
     def method_missing(sym, *args, &block) # :nodoc:
       return Matchers::Be.new(sym, *args) if sym.starts_with?("be_")
       return Matchers::Has.new(sym, *args) if sym.starts_with?("have_")
@@ -114,6 +149,9 @@ module Spec
           end
         end
       end
+    end
+    
+    class MatcherError < StandardError
     end
     
   end

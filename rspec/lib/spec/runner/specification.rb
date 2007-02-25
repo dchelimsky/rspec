@@ -3,11 +3,11 @@ module Spec
     class Specification
 
       class << self
-        attr_accessor :current, :generated_name
+        attr_accessor :current, :generated_description
         protected :current=
         
         Spec::Matchers.description_generated do |name|
-          Specification.generated_name = name
+          Specification.generated_description = name
         end
 
         callback_events :before_setup, :after_teardown
@@ -39,7 +39,7 @@ module Spec
 
         SpecShouldRaiseHandler.new(@from, @options).handle(errors)
         reporter.spec_finished(name, errors.first, failure_location(setup_ok, spec_ok, teardown_ok)) if reporter
-        Specification.generated_name = nil
+        Specification.generated_description = nil
       end
       
       def matches_matcher?(matcher)
@@ -48,11 +48,11 @@ module Spec
 
       private
       def name
-        @name == :__generate_name ? generated_name : @name
+        @name == :__generate_name ? generated_description : @name
       end
       
-      def generated_name
-        Specification.generated_name || "NAME NOT GENERATED"
+      def generated_description
+        Specification.generated_description || "NAME NOT GENERATED"
       end
       
       def setup_spec(execution_context, errors, &setup_block)
