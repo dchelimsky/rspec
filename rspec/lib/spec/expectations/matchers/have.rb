@@ -64,7 +64,7 @@ EOF
           end
         end
         
-        def to_s
+        def description
           "have #{relative_expectation} #{collection_name}"
         end
         

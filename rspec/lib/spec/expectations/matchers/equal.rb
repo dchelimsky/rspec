@@ -20,7 +20,7 @@ module Spec
           return "expected #{@actual.inspect} not to equal #{@expected.inspect} (using .equal?)", @expected, @actual
         end
         
-        def to_s
+        def description
           "equal #{@expected.inspect}"
         end
       end

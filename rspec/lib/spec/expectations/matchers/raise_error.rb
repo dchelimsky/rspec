@@ -47,7 +47,7 @@ module Spec
           "expected no #{expected_error}#{actual_error}"
         end
         
-        def to_s
+        def description
           "raise #{expected_error}"
         end
         

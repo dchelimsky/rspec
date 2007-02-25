@@ -90,9 +90,9 @@ module Spec
     module Matchers
       
       class << self
-        callback_events :name_generated
+        callback_events :description_generated
         def generated_name=(name)
-          notify_callbacks(:name_generated, name)
+          notify_callbacks(:description_generated, name)
         end
       end
 

@@ -40,7 +40,7 @@ module Spec
             end
           end
           
-          def to_s
+          def description
             "redirect to #{@actual.inspect}"
           end
         end

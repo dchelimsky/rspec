@@ -21,7 +21,7 @@ module Spec
           _message("not ")
         end
         
-        def to_s
+        def description
           "include #{@expected.inspect}"
         end
         

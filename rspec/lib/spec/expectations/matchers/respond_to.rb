@@ -19,7 +19,7 @@ module Spec
           "expected target not to respond to #{@sym.inspect}"
         end
         
-        def to_s
+        def description
           "respond to ##{@sym.to_s}"
         end
       end

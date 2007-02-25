@@ -22,7 +22,7 @@ module Spec
           "expected ##{predicate}(#{@args[0].inspect}) to return false, got true"
         end
         
-        def to_s
+        def description
           "have key #{@args[0].inspect}"
         end
         
