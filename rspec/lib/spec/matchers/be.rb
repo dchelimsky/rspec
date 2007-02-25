@@ -15,15 +15,14 @@ module Spec
           begin
             return @result = actual.__send__(predicate, *@args)
           rescue => predicate_error
-          end
-          
-          # This supports should_exist > target.exists? in the old world.
-          # We should consider deprecating that ability as in the new world
-          # you can't write "should exist" unless you have your own custom matcher.
-          begin
-            return @result = actual.__send__(present_tense_predicate, *@args)
-          rescue
-            raise predicate_error
+            # This supports should_exist > target.exists? in the old world.
+            # We should consider deprecating that ability as in the new world
+            # you can't write "should exist" unless you have your own custom matcher.
+            begin
+              return @result = actual.__send__(present_tense_predicate, *@args)
+            rescue
+              raise predicate_error
+            end
           end
         end
         return false

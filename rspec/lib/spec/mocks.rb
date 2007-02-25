@@ -33,13 +33,14 @@ module Spec
   # requirements for its collaborators - often leading to the discovery of new types that are
   # needed in your system.
   # 
-  # Read "Endo-Testing":http://www.mockobjects.com/files/endotesting.pdf for a much
+  # Read Endo-Testing[http://www.mockobjects.com/files/endotesting.pdf] for a much
   # more in depth description of this process.
   # 
   # == Stubs
   # 
   # Stubs are objects that allow you to set "stub" responses to
-  # messages. As Martin Fowler points out on his site, "Mocks aren't stubs" (http://www.martinfowler.com/articles/mocksArentStubs.html).
+  # messages. As Martin Fowler points out on his site,
+  # mocks_arent_stubs[http://www.martinfowler.com/articles/mocksArentStubs.html].
   # Paraphrasing Fowler's paraphrasing
   # of Gerard Meszaros: Stubs provide canned responses to messages they might receive in a test, while
   # mocks allow you to specify and, subsquently, verify that certain messages should be received during
@@ -111,12 +112,18 @@ module Spec
   #   my_mock.should_receive(:sym).with(*args)
   #   my_mock.should_not_receive(:sym).with(*args)
   #
-  # == Argument Constraints
+  # == Argument Constraints using Expression Matchers
   #
-  # Sometimes you don't need to specify specific arguments, but want to specify
-  # the number of arguments, or specific types. In this case you can use any of 
-  # the following argument constraints. Shown here with should_receive, but they
-  # all work with should_not_receive as well:
+  # Arguments that are passed to #with are compared with actual arguments received
+  # using == by default. In cases in which you want to specify things about the arguments
+  # rather than the arguments themselves, you can use any of the Expression Matchers.
+  # They don't all make syntactic sense (they were primarily designed for use with
+  # Spec::Expectations), but you are free to create your own custom Spec::Matchers.
+  #
+  # Spec::Mocks does provide one additional Matcher method named #ducktype.
+  #
+  # In addition, Spec::Mocks adds some keyword Symbols that you can use to
+  # specify certain kinds of arguments:
   #
   #   my_mock.should_receive(:sym).with(:no_args)
   #   my_mock.should_receive(:sym).with(:any_args)
@@ -125,7 +132,7 @@ module Spec
   #   my_mock.should_receive(:sym).with(1, :string, "b") #2nd argument can be any String
   #   my_mock.should_receive(:sym).with(1, /abc/, "b") #2nd argument can be any String matching the submitted Regexp
   #   my_mock.should_receive(:sym).with(1, :anything, "b") #2nd argument can be anything at all
-  #   my_mock.should_receive(:sym).with(1, :ducktype(:abs, :div), "b")
+  #   my_mock.should_receive(:sym).with(1, ducktype(:abs, :div), "b")
   #                            #2nd argument can be object that responds to #abs and #div
   #                                                                       
   # == Receive Counts

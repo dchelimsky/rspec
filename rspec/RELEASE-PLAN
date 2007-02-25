@@ -1,14 +1,14 @@
-Beginning with 0.8.0, RSpec is moving towards a new syntax using expectation matchers
+Beginning with 0.8.0, RSpec is moving towards a new syntax using Expression Matchers
 instead of adding expectations directly to Object. We'll still be adding a few methods
 to Object, but it will be much less invasive, and will eliminate conflicts with
 other tools and frameworks that utilize method_missing to perform magic.
 
-For more information on expectation matchers, see the rdoc for Spec::Matchers
+For more information on Expression Matchers, see the rdoc for Spec::Matchers
 
 Our plan is as follows:
 
 * release 0.8.0 with:
-  - full support for expectation matchers
+  - full support for Expression Matchers
   - a translation tool that will convert the majority of your specs from the old syntax to the new syntax
   - deprecation warnings for all of the old methods that will be removed
 * release 0.9.0 with all of the old methods removed

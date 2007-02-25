@@ -62,7 +62,7 @@ module Spec
           end
 
           def __delegate_method_missing_to_target original_sym, actual_sym, *args
-            ::Spec::Matchers.generated_name = "should not #{original_sym} #{args[0].inspect}"
+            ::Spec::Matchers.generated_description = "should not #{original_sym} #{args[0].inspect}"
             return unless @target.__send__(actual_sym, *args)
             fail_with_message(default_message("not #{original_sym}", args[0]))
           end

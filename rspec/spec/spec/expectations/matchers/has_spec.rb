@@ -14,7 +14,7 @@ context "should have_sym(*args)" do
   specify "should fail if target does not respond to #has_sym?" do
     lambda {
       Object.new.should have_key(:a)
-    }.should fail_with("target does not respond to #has_key?")
+    }.should raise_error(NoMethodError)
   end
 end
 
@@ -32,6 +32,6 @@ context "should_not have_sym(*args)" do
   specify "should fail if target does not respond to #has_sym?" do
     lambda {
       Object.new.should have_key(:a)
-    }.should fail_with("target does not respond to #has_key?")
+    }.should raise_error(NoMethodError)
   end
 end
