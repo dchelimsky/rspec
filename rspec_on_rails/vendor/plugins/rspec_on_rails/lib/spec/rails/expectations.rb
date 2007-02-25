@@ -6,7 +6,6 @@ require File.expand_path("#{dir}/expectations/redirect_matcher")
 require File.expand_path("#{dir}/expectations/rjs_expectations")
 require File.expand_path("#{dir}/expectations/tag_expectations")
 require File.expand_path("#{dir}/expectations/render_matcher")
-require File.expand_path("#{dir}/expectations/matchers")
 require File.expand_path("#{dir}/expectations/response_body")
 
 module Spec

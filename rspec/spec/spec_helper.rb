@@ -4,34 +4,32 @@ require 'spec'
 require File.dirname(__FILE__) + '/../spec/spec/spec_classes'
 
 module Spec
-  module Expectations
-    module Matchers
-      def fail
-        raise_error(Spec::Expectations::ExpectationNotMetError)
-      end
+  module Matchers
+    def fail
+      raise_error(Spec::Expectations::ExpectationNotMetError)
+    end
 
-      def fail_with(message)
-        raise_error(Spec::Expectations::ExpectationNotMetError, message)
-      end
+    def fail_with(message)
+      raise_error(Spec::Expectations::ExpectationNotMetError, message)
+    end
 
-      class Pass
-        def matches?(proc, &block)
-          begin
-            proc.call
-            true
-          rescue => @error
-            false
-          end
-        end
-
-        def failure_message
-          @error.message + "\n" + @error.backtrace.join("\n")
+    class Pass
+      def matches?(proc, &block)
+        begin
+          proc.call
+          true
+        rescue => @error
+          false
         end
       end
 
-      def pass
-        Pass.new
+      def failure_message
+        @error.message + "\n" + @error.backtrace.join("\n")
       end
+    end
+
+    def pass
+      Pass.new
     end
   end
 end

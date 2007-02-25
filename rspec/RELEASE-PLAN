@@ -3,7 +3,7 @@ instead of adding expectations directly to Object. We'll still be adding a few m
 to Object, but it will be much less invasive, and will eliminate conflicts with
 other tools and frameworks that utilize method_missing to perform magic.
 
-For more information on expectation matchers, see the rdoc for Spec::Expectations::Matchers
+For more information on expectation matchers, see the rdoc for Spec::Matchers
 
 Our plan is as follows:
 

@@ -2,7 +2,6 @@ require 'spec/expectations/sugar'
 require 'spec/expectations/errors'
 require 'spec/expectations/extensions'
 require 'spec/expectations/should'
-require 'spec/expectations/matchers'
 require 'spec/expectations/handler'
 
 module Spec
@@ -37,7 +36,7 @@ module Spec
   # the message returned by <tt>matcher.negative_failure_message</tt>.
   #
   # RSpec ships with a standard set of useful matchers, and writing your own
-  # matchers is quite simple. See Spec::Expectations::Matchers for details.
+  # matchers is quite simple. See Spec::Matchers for details.
   #
   # == Predicates
   #

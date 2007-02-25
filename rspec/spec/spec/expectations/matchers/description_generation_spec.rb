@@ -4,7 +4,7 @@ context "Matchers should be able to generate a description" do
   setup do
     @desc = nil
     @callback = lambda { |desc| @desc = desc }
-    Spec::Expectations::Matchers.description_generated(&@callback)
+    Spec::Matchers.description_generated(&@callback)
   end
   
   specify "should == expected" do
@@ -142,6 +142,6 @@ context "Matchers should be able to generate a description" do
   end
   
   teardown do
-    Spec::Expectations::Matchers.unregister_callback(:description_generated, @callback)
+    Spec::Matchers.unregister_callback(:description_generated, @callback)
   end
 end
