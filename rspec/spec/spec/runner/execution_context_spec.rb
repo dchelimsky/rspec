@@ -3,12 +3,9 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 context "ExecutionContext" do
   
   specify "should provide duck type" do
-    ec=Spec::Runner::ExecutionContext.new(Spec::Mocks::Mock.new("spec", {
-      :null_object => true
-    }))
-    duck_type=ec.duck_type(:length)
-    duck_type.should be_an_instance_of(Spec::Mocks::DuckTypeArgConstraint)
-    duck_type.matches?([]).should be_true
+    dt = duck_type(:length)
+    dt.should be_an_instance_of(Spec::Mocks::DuckTypeArgConstraint)
+    dt.matches?([]).should be_true
   end
 
   specify "should violate on :violated" do

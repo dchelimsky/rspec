@@ -113,7 +113,7 @@ module Spec
 
       specify "should verify mocks after teardown" do
         spec=Specification.new("spec") do
-          mock=mock("a mock")
+          mock=Spec::Mocks::Mock.new("a mock")
           mock.should_receive(:poke)
         end
         @reporter.should_receive(:spec_started).with("spec")
