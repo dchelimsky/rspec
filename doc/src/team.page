@@ -54,6 +54,8 @@ In alphabetical order (by last name)
 * KAKUTANI Shintaro
 ** Patches for coloured progress<br>
 ** Assorted Rails patches
+* Erik Kastner
+** Patch to rename file_list to spec_file_list in spectask.rake (to avoid conflicts w/ other tools)
 * Michal Kwiatkowski
 ** Patch to get RSpec to work w/ Heckle +/- 1.2
 * Rich Kilmer

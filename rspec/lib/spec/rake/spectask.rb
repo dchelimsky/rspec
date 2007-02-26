@@ -110,7 +110,7 @@ module Spec
 
             redirect = @out.nil? ? "" : " > \"#{@out}\""
 
-            unless file_list.empty?
+            unless spec_file_list.empty?
               # ruby [ruby_opts] -Ilib -S rcov [rcov_opts] bin/spec -- [spec_opts] examples
               # or
               # ruby [ruby_opts] -Ilib bin/spec [spec_opts] examples
@@ -121,7 +121,7 @@ module Spec
                   (@rcov ? %[ -o "#{@rcov_dir}" ] : "") + 
                   '"' + spec_script + '"' + " " +
                   (@rcov ? "-- " : "") + 
-                  file_list.collect { |fn| %["#{fn}"] }.join(' ') + " " + 
+                  spec_file_list.collect { |fn| %["#{fn}"] }.join(' ') + " " + 
                   spec_option_list + " " +
                   redirect
                 )
@@ -156,7 +156,7 @@ module Spec
         ENV['RSPECOPTS'] || @spec_opts.join(" ") || ""
       end
 
-      def file_list # :nodoc:
+      def spec_file_list # :nodoc:
         if ENV['SPEC']
           FileList[ ENV['SPEC'] ]
         else
