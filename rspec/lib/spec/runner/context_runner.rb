@@ -8,8 +8,8 @@ module Spec
       end
     
       def add_context(context)
-        return if !@options.spec_name.nil? unless context.matches?(@options.spec_name)
-        context.run_single_spec(@options.spec_name) if context.matches?(@options.spec_name)
+        return unless spec_description.nil? || context.matches?(spec_description)
+        context.run_single_spec(spec_description) if context.matches?(spec_description)
         @contexts << context
       end
       
@@ -43,6 +43,11 @@ module Spec
     
       def number_of_specs
         @contexts.inject(0) {|sum, context| sum + context.number_of_specs}
+      end
+      
+      private
+      def spec_description
+        @options.spec_name
       end
       
     end

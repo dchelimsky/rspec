@@ -64,7 +64,7 @@ module Spec
     context "Specification with generated name" do
       include SpecNameSpecHelper
       setup do
-        @spec = spec_class.new(:__generate_name) { 5.should == 5 }
+        @spec = spec_class.new(:__generate_description) { 5.should == 5 }
       end
       
       # specify "should start spec with given name" do
@@ -83,7 +83,7 @@ module Spec
     # context "Specification with generated name and error" do
     #   include SpecNameSpecHelper
     #   setup do
-    #     @spec = spec_class.new(:__generate_name) { raise }
+    #     @spec = spec_class.new(:__generate_description) { raise }
     #   end
     #   
     #   specify "should start spec with given name" do

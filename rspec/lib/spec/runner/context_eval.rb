@@ -28,7 +28,7 @@ module Spec
           teardown_parts << block
         end
 
-        def specify(spec_name=:__generate_name, opts={}, &block)
+        def specify(spec_name=:__generate_description, opts={}, &block)
           specifications << Specification.new(spec_name, opts, &block)
         end
 

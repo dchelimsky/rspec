@@ -14,7 +14,7 @@ module Spec
 
       def initialize(name, opts={}, &spec_block)
         @from = caller(0)[3]
-        @name = name
+        @description = name
         @options = opts
         @spec_block = spec_block
         @description_generated_callback = lambda { |desc| @generated_description = desc }
@@ -38,13 +38,14 @@ module Spec
         reporter.spec_finished(name, errors.first, failure_location(setup_ok, spec_ok, teardown_ok)) if reporter
       end
       
-      def matches_matcher?(matcher)
-        matcher.matches?(name)
+      def matches?(matcher, description)
+        matcher.spec_desc = name
+        matcher.matches?(description)
       end
-
+      
       private
       def name
-        @name == :__generate_name ? generated_description : @name
+        @description == :__generate_description ? generated_description : @description
       end
       
       def generated_description

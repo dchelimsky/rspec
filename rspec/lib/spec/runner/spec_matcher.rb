@@ -2,36 +2,24 @@ module Spec
   module Runner
     class SpecMatcher
 
-      def initialize(context_and_or_spec_name, context_name)
-        @context_name = context_name
-        @name_to_match = context_and_or_spec_name
+      attr_writer :spec_desc
+      def initialize(context_desc, spec_desc=nil)
+        @context_desc = context_desc
+        @spec_desc = spec_desc
       end
-  
-      def matches?(spec_name)
-        return false if spec_name.nil?
-        return true if matches_context? && (matches_spec?(spec_name) || context_only?)
-        return true if matches_spec?(spec_name) && spec_only?(spec_name)
-        return false
+      
+      def matches?(desc)
+        desc =~ /(^#{context_regexp} #{spec_regexp}$|^#{context_regexp}$|^#{spec_regexp}$)/
       end
-  
+      
       private
-  
-      def spec_only? spec
-        @name_to_match == spec
-      end
-  
-      def context_only?
-        @name_to_match == @context_name
-      end
-  
-      def matches_context?
-        @name_to_match =~ /^#{Regexp.escape(@context_name)}\b/
-      end
-  
-      def matches_spec?(spec_name)
-        @name_to_match =~ /\b#{Regexp.escape(spec_name)}$/
-      end
-  
+        def context_regexp
+          Regexp.escape(@context_desc)
+        end
+        
+        def spec_regexp
+          Regexp.escape(@spec_desc)
+        end
     end
   end
 end

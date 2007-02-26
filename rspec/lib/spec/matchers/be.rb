@@ -18,6 +18,10 @@ module Spec
             # This supports should_exist > target.exists? in the old world.
             # We should consider deprecating that ability as in the new world
             # you can't write "should exist" unless you have your own custom matcher.
+            
+            # Also, this was initially below this rescue clause instead of inside it.
+            # It seems that rcov lists this clause as uncovered, even though the
+            # same specs pass either way - implying a possible rcov bug?
             begin
               return @result = actual.__send__(present_tense_predicate, *@args)
             rescue
