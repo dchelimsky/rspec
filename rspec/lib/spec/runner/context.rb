@@ -4,8 +4,8 @@ module Spec
     end
     class Context
       module InstanceMethods
-        def initialize(name, &context_block)
-          @name = name
+        def initialize(description, &context_block)
+          @description = description
 
           @context_eval_module = ContextEvalModule.new
           @context_eval_module.extend ContextEval::ModuleMethods
@@ -23,7 +23,7 @@ module Spec
         end
 
         def run(reporter, dry_run=false)
-          reporter.add_context(@name)
+          reporter.add_context(@description)
           prepare_execution_context_class
           errors = run_context_setup(reporter, dry_run)
 
@@ -40,19 +40,19 @@ module Spec
           specifications.length
         end
 
-        def matches? name, matcher=nil
-          matcher ||= SpecMatcher.new name, @name
+        def matches?(full_description)
+          matcher ||= SpecMatcher.new(@description)
           specifications.each do |spec|
-            return true if spec.matches_matcher? matcher
+            return true if spec.matches?(matcher, full_description)
           end
           return false
         end
 
-        def run_single_spec name
-          return if @name == name
-          matcher = SpecMatcher.new name, @name
+        def run_single_spec(full_description)
+          return if @description == full_description
+          matcher = SpecMatcher.new(@description)
           specifications.reject! do |spec|
-            !spec.matches_matcher? matcher
+            !spec.matches?(matcher, full_description)
           end
         end
 

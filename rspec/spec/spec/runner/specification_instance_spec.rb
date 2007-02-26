@@ -32,21 +32,6 @@ module Spec
         spec.run(@reporter, nil, nil, nil, nil)
       end
 
-      specify "should match if name matches end of input" do
-        spec=Specification.new("spec")
-        spec.matches_matcher?(SpecMatcher.new("context spec", "context")).should_be(true)
-      end
-
-      specify "should match if name matches entire input" do
-        spec=Specification.new("spec")
-        spec.matches_matcher?(SpecMatcher.new("spec", "context")).should_be(true)
-      end
-
-      specify "should not match if name does not match" do
-        spec=Specification.new("otherspec")
-        spec.matches_matcher?(SpecMatcher.new("context spec", "context")).should_be(false)
-      end
-
       specify "should not run spec if setup fails" do
         spec_ran = false
         spec=Specification.new("should pass") do

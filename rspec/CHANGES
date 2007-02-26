@@ -9,6 +9,7 @@ It also introduces a new approach to handling should expectations. See RELEASE-P
 
 It also sports myriad new features, bug fixes, patches and general goodness:
 
+* Fixed [#8789] --line and --spec not working when the context has parenhesis in the name
 * Added [#8783] auto generate spec names from last expectation
 * --heckle now fails if the heckled class or module is not found.
 * Fixed [#8771] Spec::Mocks::BaseExpectation#with converts hash params to array of arrays with #collect
