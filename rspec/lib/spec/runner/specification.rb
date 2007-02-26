@@ -5,10 +5,6 @@ module Spec
       class << self
         attr_accessor :current, :generated_description
         protected :current=
-        
-        Spec::Matchers.description_generated do |name|
-          Specification.generated_description = name
-        end
 
         callback_events :before_setup, :after_teardown
       end
@@ -21,6 +17,7 @@ module Spec
         @name = name
         @options = opts
         @spec_block = spec_block
+        @description_generated_callback = lambda { |desc| @generated_description = desc }
       end
 
       def run(reporter, setup_block, teardown_block, dry_run, execution_context)
@@ -39,7 +36,6 @@ module Spec
 
         SpecShouldRaiseHandler.new(@from, @options).handle(errors)
         reporter.spec_finished(name, errors.first, failure_location(setup_ok, spec_ok, teardown_ok)) if reporter
-        Specification.generated_description = nil
       end
       
       def matches_matcher?(matcher)
@@ -52,7 +48,7 @@ module Spec
       end
       
       def generated_description
-        Specification.generated_description || "NAME NOT GENERATED"
+        @generated_description || "NAME NOT GENERATED"
       end
       
       def setup_spec(execution_context, errors, &setup_block)
@@ -98,10 +94,12 @@ module Spec
       end
       
       def set_current
+        Spec::Matchers.description_generated(&@description_generated_callback)
         self.class.send(:current=, self)
       end
 
       def clear_current
+        Spec::Matchers.unregister_callback(:description_generated, @description_generated_callback)
         self.class.send(:current=, nil)
       end
 

@@ -129,6 +129,7 @@ end
 
 task :clobber do
   rm_rf '../doc/output'
+  rm_rf 'translated_specs'
 end
 
 task :release => [:clobber, :verify_committed, :verify_user, :spec, :publish_packages, :tag, :publish_website, :publish_news]
