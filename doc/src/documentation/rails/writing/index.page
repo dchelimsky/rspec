@@ -2,9 +2,9 @@
 title: Writing Specs - Introduction
 inMenu: true
 ---
-h2. Introduction to Writing Specs using RSpec on Rails
+h2. Introduction to Writing Specs using Spec::Rails
 
-RSpec on Rails supports 4 different types of specs:
+Spec::Rails supports 4 different types of specs:
 
 * "Model Specs":models.html
 * "View Specs":views.html

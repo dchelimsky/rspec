@@ -2,13 +2,13 @@
 title: Controllers
 inMenu: true
 ---
-h2. RSpec on Rails - Specifying Controllers
+h2. Spec::Rails - Specifying Controllers
 
 Controller Specs live in $RAILS_ROOT/spec/controllers/.
 
 h2. Isolation from views
 
-RSpec on Rails 0.7 introduces the ability to specify your controllers in complete
+Spec::Rails 0.7 introduces the ability to specify your controllers in complete
 isolation from their related views. This allows you to spec your controllers
 before the views even exist, and will keep the specs from failing when there
 are errors in your views.
@@ -60,6 +60,8 @@ h2. Controller and Response Expectations
 These expectations will work whether in isolation or integration mode.
 
 h3. controller.should_render / response.should_render
+
+%{color:red;font-weight:bold;font-size:1.2em}DEPRECATED. See "Spec::Rails::Expectations":../../../rdoc-rails/index.html% 
 
 <ruby>
 controller.should_render :template => "path/to/template/for/action"
@@ -131,6 +133,8 @@ end
 
 h3. controller.should_render_rjs
 
+%{color:red;font-weight:bold;font-size:1.2em}DEPRECATED. See "Spec::Rails::Expectations":../../../rdoc-rails/index.html% 
+
 Thanks to Jake Howerton's port (for RSpec) of "Kevin Clark's ARTS library":http://glu.ttono.us/articles/2006/05/29/guide-test-driven-rjs-with-arts (for test/unit), you can specify
 calls made in your rjs templates.
 
@@ -177,6 +181,8 @@ the partial does not exist.
 
 h3. controller.should_redirect_to
 
+%{color:red;font-weight:bold;font-size:1.2em}DEPRECATED. See "Spec::Rails::Expectations":../../../rdoc-rails/index.html% 
+
 Use these to set redirect expectations in advance of the action:
 
 <ruby>
@@ -209,6 +215,8 @@ These work in isolation and integration modes.
 
 h3. response.should_be_success
 
+%{color:red;font-weight:bold;font-size:1.2em}DEPRECATED. See "Spec::Rails::Expectations":../../../rdoc-rails/index.html% 
+
 Passes if a status of 200 was returned. NOTE that in isolation mode, this will
 always return true, so it's not that useful - but at least your specs won't break.
 
@@ -218,6 +226,8 @@ response.should_be_success
 
 h3. response.should_be_redirect
 
+%{color:red;font-weight:bold;font-size:1.2em}DEPRECATED. See "Spec::Rails::Expectations":../../../rdoc-rails/index.html% 
+
 Passes if a status of 300-399 was returned.
 
 <ruby>
@@ -225,6 +235,8 @@ response.should_be_redirect
 </ruby>
 
 h3. response.should_redirect_to
+
+%{color:red;font-weight:bold;font-size:1.2em}DEPRECATED. See "Spec::Rails::Expectations":../../../rdoc-rails/index.html% 
 
 Passes if response.redirect? and response.redirect_url == argument
 

@@ -2,7 +2,7 @@
 title: Runners 
 inMenu: true
 ---
-h2. RSpec on Rails - Runners
+h2. Spec::Rails - Runners
 
 h3. Standard spec command
 
@@ -14,7 +14,7 @@ spec path/to/individual_spec.rb
 h3. Run specs fast with --drb (recommended)
 
 Loading the entire Rails environment every time a spec is executed is quite slow.
-To speed things up, RSpec on Rails installs a daemon script that loads the local Rails app
+To speed things up, Spec::Rails installs a daemon script that loads the local Rails app
 and listens for incoming connections via DRb.
 
 Open up a separate shell and start the spec server:

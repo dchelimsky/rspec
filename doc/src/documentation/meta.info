@@ -3,16 +3,17 @@ index.page:
   inMenu: true
   
 expectations.page:
+  title: Spec::Expectations
   orderInfo: 20
   inMenu: true
 
 mocks:
-  title: Mocks and Stubs
+  title: Spec::Mocks
   orderInfo: 40
   inMenu: true
 
 rails:
-  title: Rails Plugin
+  title: Spec::Rails
   orderInfo: 50
   inMenu: true
 

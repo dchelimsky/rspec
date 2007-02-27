@@ -11,7 +11,7 @@ having to change anything in your specs.
 
 When we release version 0.9, however, deprecated methods will be removed, so
 you may want to start writing new specs using the new syntax.
-See "Spec::Expectations":rdoc/index.html for information about the new
+See "Spec::Expectations":rdoc/index.html and "Spec::Matchers":rdoc/index.html for information about the new
 expectation syntax.
 
 If, however, you are upgrading from anything prior to 0.7, you'll have quite

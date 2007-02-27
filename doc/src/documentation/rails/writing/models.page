@@ -2,7 +2,7 @@
 title: Models
 inMenu: true
 ---
-h2. RSpec on Rails - Specifying Models
+h2. Spec::Rails - Specifying Models
 
 Model Specs live in $RAILS_ROOT/spec/models/ and provide access to fixtures.
 
@@ -12,15 +12,19 @@ Model Specs support the following custom expectations:
 
 h3. Records
 
+%{color:red;font-weight:bold;font-size:1.2em}DEPRECATED. See "Spec::Rails::Expectations":../../../rdoc-rails/index.html% 
+
 <ruby>
 Model.should_have(:no).records
 Model.should_have(1).record
 Model.should_have(3).records
 </ruby>
 
-This is an alias for <code>Model.find(:all).length.should_eql 3</code>.
+This is a shortcut for <code>Model.find(:all).length.should == 3</code>.
 
 h3. Errors
+
+%{color:red;font-weight:bold;font-size:1.2em}DEPRECATED. See "Spec::Rails::Expectations":../../../rdoc-rails/index.html% 
 
 <ruby>
 model.should_have(:no).errors_on(:attribute)

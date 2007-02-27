@@ -1,8 +1,8 @@
 ---
-title: RSpec on Rails - Overview
+title: Spec::Rails - Overview
 inMenu: true
 ---
-h2. RSpec on Rails - Overview
+h2. Spec::Rails - Overview
 
 A Rails plugin that brings RSpec to Rails.
 

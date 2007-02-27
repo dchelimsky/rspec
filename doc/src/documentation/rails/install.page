@@ -2,9 +2,9 @@
 title: Installation
 inMenu: true
 ---
-h2. RSpec on Rails - Installation
+h2. Spec::Rails - Installation
 
-RSpec on Rails is a standard Rails plugin that can be installed with Rails' familiar <tt>script/plugin</tt> tool.
+Spec::Rails is a standard Rails plugin that can be installed with Rails' familiar <tt>script/plugin</tt> tool.
 
 h3. Installation of a stable release
 
@@ -15,7 +15,7 @@ gem install rspec (mac/linux users use sudo)
 </pre>
 
 Take note of what RSpec version you're installing - it's very important that you
-install a compatible RSpec on Rails plugin. (You can pass -v X.Y.Z to the gem command to install a particular version).
+install a compatible Spec::Rails plugin. (You can pass -v X.Y.Z to the gem command to install a particular version).
 
 Now, install the plugin:
 
@@ -59,7 +59,7 @@ ruby script/plugin install svn://rubyforge.org/var/svn/rspec/trunk/rspec
 ruby script/plugin install svn://rubyforge.org/var/svn/rspec/trunk/rspec_on_rails/vendor/plugins/rspec_on_rails
 </pre>
 
-If your own project is in Subversion and you'd like RSpec on Rails to always follow HEAD, install with -x:
+If your own project is in Subversion and you'd like Spec::Rails to always follow HEAD, install with -x:
 
 <pre>
 ruby script/plugin install -x svn://rubyforge.org/var/svn/rspec/trunk/rspec

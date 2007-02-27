@@ -37,7 +37,7 @@ In alphabetical order (by last name)
 * Wilson Bilkovich
 ** lambda {...}.should_change(obj, :message)
 ** ar_subclass.should_have(n).errors_on(:attribute)
-** mock_model in RSpec on Rails
+** mock_model in Spec::Rails
 * Bob Cotton
 ** Support for context_setup and context_teardown
 * Lachie Cox
@@ -46,7 +46,7 @@ In alphabetical order (by last name)
 * Steven Duncan
 ** Documentation for rake task
 * Lindsay Evans
-** Patch for RSpec on Rails on Windows
+** Patch for Spec::Rails on Windows
 * David Goodlad
 ** Patch for allowing non-Strings as partial_paths in view/specs
 * Jake Howerton
@@ -69,14 +69,14 @@ In alphabetical order (by last name)
 ** Port of scaffold_resource to rspec_resource (Rails)
 ** Contexts should call Module::included when they include a module
 * Micah Martin
-** RSpec on Rails patches for partials
+** Spec::Rails patches for partials
 * Luke Redpath
 ** TextMate bundle
 ** Readable HTML output!
 * Nick Sieger
-** RSpec on Rails patches for stats
+** Spec::Rails patches for stats
 * Daniel Siemssen
-** RSpec on Rails patches for rails_spec_server
+** Spec::Rails patches for rails_spec_server
 * Kouhei Sutou
 ** Patches for Emacs
 ** Handling of Interrupt
