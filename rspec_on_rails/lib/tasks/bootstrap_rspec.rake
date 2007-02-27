@@ -73,7 +73,7 @@ EOF
   end
 
   task :migrate_up do
-    ENV['VERSION'] = '4'
+    ENV['VERSION'] = '5'
     Rake::Task["db:migrate"].invoke
   end
 
@@ -86,7 +86,7 @@ EOF
 Migrating down and reverting config/routes.rb
 #####################################################
 EOF
-    ENV['VERSION'] = '3'
+    ENV['VERSION'] = '4'
     Rake::Task["db:migrate"].invoke
     `svn revert config/routes.rb`
     raise "svn revert failed" if $? != 0
@@ -100,7 +100,7 @@ EOF
       app/models/purchase.rb
       app/controllers/purchases_controller.rb
       app/views/purchases
-      db/migrate/004_create_purchases.rb
+      db/migrate/005_create_purchases.rb
       spec/models/purchase_spec.rb
       spec/controllers/purchases_controller_spec.rb
       spec/fixtures/purchases.yml
