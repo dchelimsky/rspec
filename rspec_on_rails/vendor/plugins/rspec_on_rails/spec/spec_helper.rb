@@ -1,5 +1,7 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + '/../../../../../rspec/lib')
+$LOAD_PATH.unshift(File.dirname(__FILE__) + '/../spec_resources/controllers')
 require File.dirname(__FILE__) + '/../../../../spec/spec_helper'
+
 
 class Proc
   def should_fail
