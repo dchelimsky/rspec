@@ -2,8 +2,4 @@ See ~/rspec_on_rails/TODO.0.8.0 for issues related to the rails plugin.
 
 Here's what remains to do everywhere else before the 0.8.0 release:
 
-Update website docs to reflect deprecations and where to find new documentation.
-Switch from metaproject to hoe?
-
-RDoc for mocks
-
+NOTHING
