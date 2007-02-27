@@ -2,7 +2,7 @@
 title: Helpers
 inMenu: true
 ---
-h2. RSpec on Rails - Specifying Helpers
+h2. Spec::Rails - Specifying Helpers
 
 Helper Specs live in $RAILS_ROOT/spec/helpers/.
 

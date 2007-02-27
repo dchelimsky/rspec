@@ -2,9 +2,9 @@
 title: Generators
 inMenu: true
 ---
-h2. RSpec on Rails - Generators
+h2. Spec::Rails - Generators
 
-RSpec on Rails contains generators that you can use to generate models and RESTful controllers 
+Spec::Rails contains generators that you can use to generate models and RESTful controllers 
 in a similar fashion to Rails' builtin generators. The only difference is that they generate specs instead 
 of tests and fixtures will be put under the spec folder. Example:
 
