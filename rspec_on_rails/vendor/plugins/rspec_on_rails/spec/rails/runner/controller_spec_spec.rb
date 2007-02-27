@@ -1,4 +1,5 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
+require 'controller_isolation_spec_controller'
 
 ['integration', 'isolation'].each do |mode|
   context "Given a controller spec for ControllerIsolationSpecController running in #{mode} mode", :context_type => :controller do
@@ -26,11 +27,14 @@ require File.dirname(__FILE__) + '/../../spec_helper'
       controller.session.should_not_be nil
     end
     
-    specify "specifying a partial should work" do
-      controller.should_render :partial => 'controller_isolation_spec/a_partial'
+    specify "specifying a partial should work with partial name only" do
       get 'action_with_partial'
       response.should render_template("_a_partial")
-      response.should render_template("controller_isolation_spec/_a_partial")
+    end
+    
+    specify "specifying a partial should work with path relative to RAILS_ROOT/app/views/" do
+      get 'action_with_partial'
+      response.should render_template("../../vendor/plugins/rspec_on_rails/spec_resources/views/controller_isolation_spec/_a_partial")
     end
     
     specify "spec should have access to flash" do
