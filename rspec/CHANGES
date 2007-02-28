@@ -1,11 +1,14 @@
 = RSpec Changelog
 
-== Trunk (not yet released)
-This release improves the spec command line by adding DRb support and making it possible to
+== Version 0.8.0
+
+This release introduces a new approach to handling expectations using Expression Matchers.
+
+See Upgrade[http://rspec.rubyforge.org/upgrade.html], Spec::Expectations, Spec::Matchers and RELEASE-PLAN for more info.
+
+This release also improves the spec command line by adding DRb support and making it possible to
 store command line options in a file. This means a more flexible RSpec experience with Rails, 
 Rake and editor plugins like TextMate.
-
-It also introduces a new approach to handling should expectations. See RELEASE-PLAN for more info.
 
 It also sports myriad new features, bug fixes, patches and general goodness:
 
