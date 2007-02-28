@@ -5,7 +5,7 @@ h2. TextMate
 
 TextMate is a popular text editor for OS X. RSpec's TextMate bundle has a big number of snippets for
 all of RSpec's expectations, contexts and specify's. You can even run specs from TextMate using
-CMD-R and CMD-SHIFT-R - and you'll see a nice progress bar while the specs are running (except
+CMD-R - and you'll see a nice progress bar while the specs are running (except
 usually they run so fast you won't be able to see it move).
 
 If you select one or more directories or files you can run those too with CMD-R (but you have to have 
