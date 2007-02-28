@@ -15,7 +15,7 @@ SpecMate.new.run_focussed STDOUT
 	<key>input</key>
 	<string>document</string>
 	<key>keyEquivalent</key>
-	<string>@R</string>
+	<string>@r</string>
 	<key>name</key>
 	<string>Run Focussed Specification</string>
 	<key>output</key>
