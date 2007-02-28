@@ -9,6 +9,8 @@ It also introduces a new approach to handling should expectations. See RELEASE-P
 
 It also sports myriad new features, bug fixes, patches and general goodness:
 
+* Fixed [#8928] rspec_on_rails 0.8.0-RC1 controller tests make double call to setup_with_fixtures
+* Fixed [#8925] Documentation bug in 0.8.0RC1 rspec website
 * Applied [#8132] [PATCH] RSpec breaks "rake db:sessions:create" in a rails project that has the rspec_on_rails plugin (Patch from Erik Kastner)
 * Fixed [#8789] --line and --spec not working when the context has parenhesis in the name
 * Added [#8783] auto generate spec names from last expectation
