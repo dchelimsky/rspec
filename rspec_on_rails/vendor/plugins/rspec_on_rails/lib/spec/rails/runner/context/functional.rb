@@ -4,7 +4,6 @@ module Spec
       class FunctionalEvalContext < Spec::Rails::Runner::EvalContext
         attr_reader :session, :flash, :request, :response, :params
         def setup #:nodoc:
-          super
 
           @controller_class = Object.path2class @controller_class_name
           raise "Can't determine controller class for #{@controller_class_name}" if @controller_class.nil?
