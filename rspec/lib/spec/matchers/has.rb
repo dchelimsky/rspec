@@ -12,6 +12,9 @@ module Spec
         begin
           return target.send(predicate, *@args)
         rescue => @error
+          # This clause should be empty, but rcov will not report it as covered
+          # unless something (anything) is executed within the clause
+          rcov_error_report = "http://eigenclass.org/hiki.rb?rcov-0.8.0"
         end
         return false
       end
