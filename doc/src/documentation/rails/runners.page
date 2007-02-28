@@ -11,7 +11,7 @@ spec path/to/directory/with/specs
 spec path/to/individual_spec.rb
 </pre>
 
-h3. Run specs fast with --drb (recommended)
+h3. Run specs fast with &minus;&minus;drb (recommended)
 
 Loading the entire Rails environment every time a spec is executed is quite slow.
 To speed things up, Spec::Rails installs a daemon script that loads the local Rails app
@@ -23,8 +23,8 @@ Open up a separate shell and start the spec server:
 script/rails_spec_server
 </pre>
 
-Now you can run specs with the <tt>--drb</tt> flag. 
-If you're using Rake you should add <tt>--drb</tt> to the <tt>spec/spec.opts</tt> file.
+Now you can run specs with the <tt>&minus;&minus;drb</tt> flag. 
+If you're using Rake you should add <tt>&minus;&minus;drb</tt> to the <tt>spec/spec.opts</tt> file.
 
 h3. Running specs with Rake
 
