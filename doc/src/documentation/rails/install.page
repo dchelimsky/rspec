@@ -39,7 +39,7 @@ As with the gem, be sure that you are installing the same version of rspec as th
 of rspec_on_rails.
 
 <pre>
-ruby script/plugin install svn://rubyforge.org/var/svn/rspec/tags/REL_X_Y_Z/vendor/rspec
+ruby script/plugin install svn://rubyforge.org/var/svn/rspec/tags/REL_X_Y_Z/rspec
 </pre>
 
 Note that if you want to use the <tt>spec</tt> command directly (as opposed to the spec:* tasks), you must type
