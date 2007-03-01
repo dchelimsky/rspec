@@ -1,5 +1,9 @@
 = RSpec Changelog
 
+== Version 0.8.1
+
+Quick "in house" bug-fix
+
 == Version 0.8.0
 
 This release introduces a new approach to handling expectations using Expression Matchers.
