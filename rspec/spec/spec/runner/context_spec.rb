@@ -128,7 +128,7 @@ module Spec
             super_class_context_setup_run_count += 1
           end
         end
-        # using @context.inherit_context_eval_module_from here, but other examples use @context_eval.inherit
+        # using @context.inherit_context_eval_module_from here, but other examples use @context.inherit
         # - inherit_context_eval_module_from is used by Spec::Rails to avoid confusion with Ruby's #include method
         @context.inherit_context_eval_module_from super_class
 
@@ -152,7 +152,7 @@ module Spec
             super_class_setup_ran = true
           end
         end
-        @context_eval.inherit super_class
+        @context.inherit super_class
 
         setup_ran = false
         @context_eval.setup {setup_ran = true}
@@ -174,7 +174,7 @@ module Spec
             super_class_context_teardown_run_count += 1
           end
         end
-        @context_eval.inherit super_class
+        @context.inherit super_class
 
         context_teardown_run_count = 0
         @context_eval.context_teardown {context_teardown_run_count += 1}
@@ -224,7 +224,7 @@ module Spec
             fiddle << "superclass setup"
           end
         end
-        @context_eval.inherit super_class
+        @context.inherit super_class
 
         @context_eval.context_setup { fiddle << "context_setup" }
         @context_eval.setup { fiddle << "setup" }
@@ -245,7 +245,7 @@ module Spec
             fiddle << "superclass teardown"
           end
         end
-        @context_eval.inherit super_class
+        @context.inherit super_class
 
         @context_eval.context_teardown { fiddle << "context_teardown" }
         @context_eval.teardown { fiddle << "teardown" }
@@ -267,7 +267,7 @@ module Spec
             super_class_teardown_ran = true
           end
         end
-        @context_eval.inherit super_class
+        @context.inherit super_class
 
         teardown_ran = false
         @context_eval.teardown {teardown_ran = true}
@@ -289,7 +289,7 @@ module Spec
             helper_method_ran = true
           end
         end
-        @context_eval.inherit super_class
+        @context.inherit super_class
 
         @context_eval.specify("test") {helper_method}
         @context.run(@formatter)
@@ -304,7 +304,7 @@ module Spec
             class_method_ran = true
           end
         end
-        @context_eval.inherit super_class
+        @context.inherit super_class
         @context.class_method
         class_method_ran.should be_true
 
@@ -317,7 +317,7 @@ module Spec
         class << super_class
           def super_class_class_method; end
         end
-        @context_eval.inherit super_class
+        @context.inherit super_class
 
         @context.methods.should_include("super_class_class_method")
       end
@@ -341,8 +341,8 @@ module Spec
           end
         end
 
-        @context_eval.include mod1
-        @context_eval.include mod2
+        @context.include mod1
+        @context.include mod2
 
         @context_eval.specify("test") do
           mod1_method
@@ -384,8 +384,8 @@ module Spec
           end
         end
 
-        @context_eval.include mod1
-        @context_eval.include mod2
+        @context.include mod1
+        @context.include mod2
 
         @context_eval.mod1_method
         @context_eval.mod2_method

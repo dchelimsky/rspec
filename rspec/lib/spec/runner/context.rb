@@ -17,9 +17,13 @@ module Spec
         def before_context_eval
         end
 
-        #this is here for Spec::Rails
         def inherit_context_eval_module_from(klass)
           @context_eval_module.inherit klass
+        end
+        alias :inherit :inherit_context_eval_module_from
+        
+        def include(mod)
+          @context_eval_module.include(mod)
         end
 
         def run(reporter, dry_run=false)

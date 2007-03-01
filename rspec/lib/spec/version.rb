@@ -11,10 +11,10 @@ module Spec
     unless defined? MAJOR
       MAJOR  = 0
       MINOR  = 8
-      TINY   = 0
+      TINY   = 1
       # RELEASE_CANDIDATE = "RC1"
       
-      # RANDOM_TOKEN: 0.714915709821417
+      # RANDOM_TOKEN: 0.749142077161729
       REV = "$LastChangedRevision$".match(/LastChangedRevision: (\d+)/)[1]
 
       STRING = [MAJOR, MINOR, TINY].join('.')
