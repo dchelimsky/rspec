@@ -111,7 +111,7 @@ module Spec
       end
       
       def is_matcher?(obj)
-        return obj.respond_to?(:matches?) && obj.respond_to?(:failure_message)
+        return obj.respond_to?(:matches?) && obj.respond_to?(:description)
       end
       
       def check_args(args)
