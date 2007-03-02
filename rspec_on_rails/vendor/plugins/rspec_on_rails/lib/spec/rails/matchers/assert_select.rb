@@ -30,7 +30,6 @@ module Spec # :nodoc:
           {
             :assert_select => "have_tag#{format_args(*@args)}",
             :assert_select_email => "send_email#{format_args(*@args)}",
-            :assert_select => "have_tag#{format_args(*@args)}",
           }[@message]
         end
         

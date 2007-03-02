@@ -289,7 +289,7 @@ context "should have_tag", :context_type => :controller do
       with_tag("#1")
       with_tag("#2")
     }
-
+    
     lambda {
       response.should have_tag("div") { |elements|
         elements.size.should == 2
@@ -435,7 +435,7 @@ context "have_rjs behaviour", :context_type => :controller do
       with_tag("div", 1)
       with_tag("div#1", "foo")
     }
-
+    
     lambda do
       response.should have_rjs("test1") { |rjs|
         rjs.size.should == 1
