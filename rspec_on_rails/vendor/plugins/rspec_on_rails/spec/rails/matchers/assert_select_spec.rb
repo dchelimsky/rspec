@@ -89,20 +89,22 @@ context "should have_tag", :context_type => :controller do
     render_html %Q{<div id="1"></div><div id="2"></div>}
     response.should have_tag( "div" )
     response.should have_tag("div", 2)
-    lambda { response.should have_tag("div", 3) }.should_raise SpecFailed#, "Expected at least 3 <div> tags, found 2"
-    lambda { response.should have_tag("p") }.should_raise SpecFailed#, "Expected at least 1 <p> tag, found 0"
+    lambda { response.should_not have_tag("div") }.should_raise SpecFailed, "should_not have_tag(\"div\"), but did"
+
+    lambda { response.should have_tag("div", 3) }.should_raise SpecFailed
+    lambda { response.should have_tag("p") }.should_raise SpecFailed
   end
 
   specify "should expect to find elements when using true" do
     render_html %Q{<div id="1"></div><div id="2"></div>}
     response.should have_tag( "div", true )
-    lambda { response.should have_tag( "p", true )}.should_raise SpecFailed#, "Expected at least 1 <p> tag, found 0"
+    lambda { response.should have_tag( "p", true )}.should_raise SpecFailed
   end
 
   specify "should expect to not find elements when using false" do
     render_html %Q{<div id="1"></div><div id="2"></div>}
-    lambda { response.should have_tag( "div", false )}.should_raise SpecFailed#, "Expected at most 0 <div> tags, found 2"
     response.should have_tag( "p", false )
+    lambda { response.should have_tag( "div", false )}.should_raise SpecFailed
   end
 
 
@@ -113,13 +115,13 @@ context "should have_tag", :context_type => :controller do
     response.should have_tag("div", :text=>"foo")
     response.should have_tag("div", :text=>/(foo|bar)/)
 
-    lambda { response.should have_tag("div", "bar") }.should_raise SpecFailed#, "Expected <div> with \"bar\""
-    lambda { response.should have_tag("div", :text=>"bar") }.should_raise SpecFailed#, "Expected <div> with \"bar\""
-    lambda { response.should have_tag("p", :text=>"foo") }.should_raise SpecFailed#, "Expected at least 1 <p> tag, found 0"
+    lambda { response.should have_tag("div", "bar") }.should_raise SpecFailed
+    lambda { response.should have_tag("div", :text=>"bar") }.should_raise SpecFailed
+    lambda { response.should have_tag("p", :text=>"foo") }.should_raise SpecFailed
 
-    lambda { response.should have_tag("div", /foobar/) }.should_raise SpecFailed#, "Expected <div> with text matching /foobar/"
-    lambda { response.should have_tag("div", :text=>/foobar/) }.should_raise SpecFailed#, "Expected <div> with text matching /foobar/"
-    lambda { response.should have_tag("p", :text=>/foo/) }.should_raise SpecFailed#, "Expected at least 1 <p> tag, found 0"
+    lambda { response.should have_tag("div", /foobar/) }.should_raise SpecFailed
+    lambda { response.should have_tag("div", :text=>/foobar/) }.should_raise SpecFailed
+    lambda { response.should have_tag("p", :text=>/foo/) }.should_raise SpecFailed
   end
   
   specify "should use submitted message" do
@@ -134,18 +136,18 @@ context "should have_tag", :context_type => :controller do
     text = "\"This is not a big problem,\" he said."
     html = "<em>\"This is <strong>not</strong> a big problem,\"</em> he said."
     response.should have_tag("p", text)
-    lambda { response.should have_tag("p", html) }.should_raise SpecFailed#, "Expected <p> with #{html.inspect}"
+    lambda { response.should have_tag("p", html) }.should_raise SpecFailed
     response.should have_tag("p", :html=>html)
-    lambda { response.should have_tag("p", :html=>text) }.should_raise SpecFailed#, "Expected <p> with #{text.inspect}"
+    lambda { response.should have_tag("p", :html=>text) }.should_raise SpecFailed
 
     # # No stripping for pre.
     render_html %Q{<pre>\n<em>"This is <strong>not</strong> a big problem,"</em> he said.\n</pre>}
     text = "\n\"This is not a big problem,\" he said.\n"
     html = "\n<em>\"This is <strong>not</strong> a big problem,\"</em> he said.\n"
     response.should have_tag("pre", text)
-    lambda { response.should have_tag("pre", html) }.should_raise SpecFailed#, "Expected <pre> with #{html.inspect}"
+    lambda { response.should have_tag("pre", html) }.should_raise SpecFailed
     response.should have_tag("pre", :html=>html)
-    lambda { response.should have_tag("pre", :html=>text) }.should_raise SpecFailed#, "Expected <pre> with #{text.inspect}"
+    lambda { response.should have_tag("pre", :html=>text) }.should_raise SpecFailed
   end
 
   specify "should match number of instances" do
@@ -250,7 +252,7 @@ context "should have_tag", :context_type => :controller do
         </div>
       </div>          
     }
-    response.should have_tag("div#beatles>div[class=\"beatle\"]", true, :count => 4)
+    response.should have_tag("div#beatles>div[class=\"beatle\"]", 4)
 
     response.should have_tag("div#beatles>div.beatle") {
       BEATLES.each { |name, instrument|
@@ -287,6 +289,32 @@ context "should have_tag", :context_type => :controller do
       with_tag("#1")
       with_tag("#2")
     }
+
+    lambda {
+      response.should have_tag("div") { |elements|
+        elements.size.should == 2
+        with_tag("#1")
+        with_tag("#3")
+      }
+    }.should raise_error(SpecFailed)
+
+    lambda {
+      response.should have_tag("div") { |elements|
+        elements.size.should == 2
+        with_tag("#1")
+        without_tag("#2")
+      }
+    }.should raise_error(SpecFailed, "should_not have_tag(\"#2\"), but did")
+
+    lambda {
+      response.should have_tag("div") { |elements|
+        elements.size.should == 3
+        with_tag("#1")
+        with_tag("#2")
+      }
+    }.should raise_error(SpecFailed)
+
+
     response.should have_tag("div#?", /\d+/) { |elements|
       with_tag("#1")
       with_tag("#2")
@@ -328,17 +356,17 @@ context "css_select", :context_type => :controller do
   specify "can select nested tags from html" do
     render_html %Q{<div id="1">foo</div><div id="2">foo</div>}
     response.should have_tag("div#?", /\d+/) { |elements|
-      css_select(elements[0], "div").size.should == 1
-      css_select(elements[1], "div").size.should == 1
+      css_select(elements[0], "div").should have(1).element
+      css_select(elements[1], "div").should have(1).element
     }
     response.should_have("div") {
-      css_select("div").size.should == 2
+      css_select("div").should have(2).elements
       css_select("div").each { |element|
         # Testing as a group is one thing
-        css_select("#1,#2").should_not be(:empty)
+        css_select("#1,#2").should have(2).elements
         # Testing individually is another
-        css_select("#1").should_not be(:empty)
-        css_select("#2").should_not be(:empty)
+        css_select("#1").should have(1).element
+        css_select("#2").should have(1).element
       }
     }
   end
@@ -347,9 +375,9 @@ context "css_select", :context_type => :controller do
     render_rjs do |page|
       page.replace_html "test", "<div id=\"1\">foo</div>\n<div id=\"2\">foo</div>"
     end
-    css_select("div").size.should == 2
-    css_select("#1").size.should == 1
-    css_select("#2").size.should == 1
+    css_select("div").should have(2).elements
+    css_select("#1").should have(1).element
+    css_select("#2").should have(1).element
   end
 
   specify "can select nested tags from rjs (two results)" do
@@ -357,9 +385,9 @@ context "css_select", :context_type => :controller do
       page.replace_html "test", "<div id=\"1\">foo</div>"
       page.replace_html "test2", "<div id=\"2\">foo</div>"
     end
-    css_select("div").size.should == 2
-    css_select("#1").size.should == 1
-    css_select("#2").size.should == 1
+    css_select("div").should have(2).elements
+    css_select("#1").should have(1).element
+    css_select("#2").should have(1).element
   end
   
 end
@@ -374,8 +402,8 @@ context "have_rjs behaviour", :context_type => :controller do
       page.replace "test1", "<div id=\"1\">foo</div>"
       page.replace_html "test2", "<div id=\"2\">bar</div><div id=\"3\">none</div>"
       page.insert_html :top, "test3", "<div id=\"4\">loopy</div>"
-      # page.hide "test4"
-      # page["test5"].hide
+      page.hide "test4"
+      page["test5"].hide
     end
   end
   
@@ -407,6 +435,14 @@ context "have_rjs behaviour", :context_type => :controller do
       with_tag("div", 1)
       with_tag("div#1", "foo")
     }
+
+    lambda do
+      response.should have_rjs("test1") { |rjs|
+        rjs.size.should == 1
+        without_tag("div#1", "foo")
+      }
+    end.should raise_error(SpecFailed, "should_not have_tag(\"div#1\", \"foo\"), but did")
+
     response.should have_rjs("test2") { |rjs|
       rjs.size.should == 2
       with_tag("div", 2)
@@ -670,7 +706,7 @@ context "send_email behaviour", :context_type => :controller do
     response.should_not send_email
     lambda {
       response.should send_email{}
-    }.should raise_error(SpecFailed)
+    }.should raise_error(SpecFailed, /No e-mail in delivery list./)
   end
   
   specify "should pass otherwise" do
@@ -686,6 +722,10 @@ context "send_email behaviour", :context_type => :controller do
         with_tag("p:last-child", "bar")
       }
     }
+    
+    lambda {
+      response.should_not send_email
+    }.should raise_error(SpecFailed, "should_not send_email, but did")
   end
 
 end
@@ -696,7 +736,7 @@ end
 #   setup do
 #     render 'rjs_spec/visual_effect'
 #   end
-#   
+# 
 #   specify "the correct element name should pass" do
 #     response.should have_rjs(:effect, :fade, 'mydiv')
 #   end
