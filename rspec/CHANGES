@@ -1,5 +1,9 @@
 = RSpec Changelog
 
+== Trunk
+
+* Applied [#8994] trunk: generated names for be_ specs (Patch from Yurii Rashkovskii)
+
 == Version 0.8.2
 
 Replaced assert_select fork with an assert_select wrapper for have_tag. This means that "should have_rjs" no longer supports :hide or :effect, but you can still use should_have_rjs for those.
