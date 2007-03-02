@@ -51,6 +51,11 @@ context "Matchers should be able to generate a description" do
     5.0.should be_close(5.0, 0.5)
     @desc.should == "should be close to 5.0 (+- 0.5)"
   end
+
+  specify "should be predicate arg1, arg2 and arg3" do
+    5.0.should be_between(0,10)
+    @desc.should == "should be between 0 and 10"
+  end
   
   specify "should equal" do
     expected = "expected"

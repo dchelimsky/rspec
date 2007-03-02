@@ -89,7 +89,7 @@ module Spec
       end
       
       def description
-        "be #{@comparison}#{@expected}"
+        "be #{@comparison}#{@expected}#{args_to_sentence}"
       end
 
       private
@@ -115,6 +115,17 @@ module Spec
           return "" if @args.empty?
           transformed_args = @args.collect{|a| a.inspect}
           return "(#{transformed_args.join(', ')})"
+        end
+
+        def args_to_sentence
+          case @args.length
+            when 0
+              ""
+            when 1
+              " #{@args[0]}"
+            else
+              " #{@args[0...-1].join(', ')} and #{@args[-1]}"
+          end
         end
         
         def handling_predicate?

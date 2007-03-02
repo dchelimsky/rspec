@@ -70,6 +70,8 @@ In alphabetical order (by last name)
 ** Contexts should call Module::included when they include a module
 * Micah Martin
 ** Spec::Rails patches for partials
+* Yurii Rashkovskii
+** Patch to improve generated descriptions for the "be" matcher
 * Luke Redpath
 ** TextMate bundle
 ** Readable HTML output!
