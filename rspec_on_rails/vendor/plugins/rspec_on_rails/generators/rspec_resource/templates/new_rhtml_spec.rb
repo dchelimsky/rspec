@@ -17,9 +17,10 @@ context "/<%= table_name %>/new.rhtml" do
 
   specify "should render new form" do
     render "/<%= table_name %>/new.rhtml"
-    response.should_have_tag 'form', :attributes =>{:action => <%= table_name %>_path, :method => 'post'}
-<% for attribute in attributes -%><% unless attribute.name =~ /_id/ || [:datetime, :timestamp, :time, :date].index(attribute.type) -%>
-    response.should_have_tag '<%= attribute.input_type -%>', :attributes =>{:name => '<%= file_name %>[<%= attribute.name %>]'}<% end -%><% end -%>
+    
+    response.should have_tag("form[action=?][method=post]", <%= table_name %>_path) do<% for attribute in attributes -%><% unless attribute.name =~ /_id/ || [:datetime, :timestamp, :time, :date].index(attribute.type) -%>
+      with_tag('<%= attribute.input_type -%>#<%= file_name %>_<%= attribute.name %>[name=?]', "<%= file_name %>[<%= attribute.name %>]")<% end -%><% end -%>
+    end
   end
 end
 

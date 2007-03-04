@@ -15,9 +15,10 @@ context "/<%= table_name %>/edit.rhtml" do
 
   specify "should render edit form" do
     render "/<%= table_name %>/edit.rhtml"
-    response.should_have_tag 'form', :attributes =>{:action => <%= file_name %>_path(@<%= file_name %>), :method => 'post'}
-<% for attribute in attributes -%><% unless attribute.name =~ /_id/ || [:datetime, :timestamp, :time, :date].index(attribute.type) -%>
-    response.should_have_tag '<%= attribute.input_type -%>', :attributes =>{:name => '<%= file_name %>[<%= attribute.name %>]'}<% end -%><% end -%>
+    
+    response.should have_tag("form[action=#{<%= file_name %>_path(@<%= file_name %>)}][method=post]") do<% for attribute in attributes -%><% unless attribute.name =~ /_id/ || [:datetime, :timestamp, :time, :date].index(attribute.type) -%>
+      with_tag('<%= attribute.input_type -%>#<%= file_name %>_<%= attribute.name %>[name=?]', "<%= file_name %>[<%= attribute.name %>]")<% end -%><% end -%>
+    end
   end
 end
 

@@ -46,8 +46,8 @@ context "Requesting /<%= table_name %> using GET" do
   end
 
   specify "should render index.rhtml" do
-    controller.should_render :index
     do_get
+    response.should render_template('index')
   end
   
   specify "should find all <%= table_name %>" do
@@ -109,8 +109,8 @@ context "Requesting /<%= table_name %>/1 using GET" do
   end
   
   specify "should render show.rhtml" do
-    controller.should_render :show
     do_get
+    response.should render_template('show')
   end
   
   specify "should find the <%= file_name %> requested" do
@@ -172,8 +172,8 @@ context "Requesting /<%= table_name %>/new using GET" do
   end
   
   specify "should render new.rhtml" do
-    controller.should_render :new
     do_get
+    response.should render_template('new')
   end
   
   specify "should create an new <%= file_name %>" do
@@ -211,7 +211,7 @@ context "Requesting /<%= table_name %>/1;edit using GET" do
   
   specify "should render edit.rhtml" do
     do_get
-    controller.should_render :edit
+    response.should render_template('edit')
   end
   
   specify "should find the <%= file_name %> requested" do
@@ -278,8 +278,7 @@ context "Requesting /<%= table_name %>/1 using PUT" do
 
   specify "should redirect to the <%= file_name %>" do
     do_update
-    response.should be_redirect
-    response.redirect_url.should == "http://test.host/<%= table_name %>/1"
+    response.should redirect_to("http://test.host/<%= table_name %>/1")
   end
 end
 
