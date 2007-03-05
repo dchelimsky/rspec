@@ -2,6 +2,7 @@
 
 == Trunk
 
+* Changed script/rails_spec_server to script/spec_server and added script/spec (w/ path to vendor/plugins/rspec)
 * Fixed [#8897] Error when mixing controller spec with/without integrated views and using template system other than rhtml
 * Updated generated specs to 0.8 syntax
 * Applied [#8994] trunk: generated names for be_ specs (Multiple patches from Yurii Rashkovskii)
