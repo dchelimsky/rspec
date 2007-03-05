@@ -56,6 +56,19 @@ context "Matchers should be able to generate a description" do
     5.0.should be_between(0,10)
     @desc.should == "should be between 0 and 10"
   end
+
+  specify "should be_few_words predicate should be transformed to 'be few words'" do
+    5.should be_kind_of(Fixnum)
+    @desc.should == "should be kind of Fixnum"
+  end
+
+  specify "should preserve a proper prefix for be predicate" do
+    5.should be_a_kind_of(Fixnum)
+    @desc.should == "should be a kind of Fixnum"
+    5.should be_an_instance_of(Fixnum)
+    @desc.should == "should be an instance of Fixnum"
+  end
+
   
   specify "should equal" do
     expected = "expected"
