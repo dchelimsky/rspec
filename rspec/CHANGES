@@ -4,7 +4,7 @@
 
 * Fixed [#8897] Error when mixing controller spec with/without integrated views and using template system other than rhtml
 * Updated generated specs to 0.8 syntax
-* Applied [#8994] trunk: generated names for be_ specs (Patch from Yurii Rashkovskii)
+* Applied [#8994] trunk: generated names for be_ specs (Multiple patches from Yurii Rashkovskii)
 
 == Version 0.8.2
 

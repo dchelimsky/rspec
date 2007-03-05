@@ -89,18 +89,24 @@ module Spec
       end
       
       def description
-        "be #{@comparison}#{@expected}#{args_to_sentence}"
+        "#{prefix_to_sentence}#{comparison}#{expected_to_sentence}#{args_to_sentence}"
       end
 
       private
         def parse_expected(expected)
           if Symbol === expected
-            ["be_an_","be_a_","be_"].each do |prefix|
-              @handling_predicate = true
-              return "#{expected.to_s.sub(prefix,"")}".to_sym if expected.starts_with?(prefix)
+            @handling_predicate = true
+            ["be_an_","be_a_","be_"].each do |@prefix|
+              return "#{expected.to_s.sub(@prefix,"")}".to_sym if expected.starts_with?(@prefix)
             end
           end
+          @prefix = "be "
           return expected
+        end
+        
+        def handling_predicate?
+          return false if [:true, :false, :nil].include?(@expected)
+          return @handling_predicate
         end
 
         def predicate
@@ -113,8 +119,24 @@ module Spec
         
         def args_to_s
           return "" if @args.empty?
-          transformed_args = @args.collect{|a| a.inspect}
-          return "(#{transformed_args.join(', ')})"
+          inspected_args = @args.collect{|a| a.inspect}
+          return "(#{inspected_args.join(', ')})"
+        end
+        
+        def comparison
+          @comparison
+        end
+        
+        def expected_to_sentence
+          split_words(@expected)
+        end
+        
+        def prefix_to_sentence
+          split_words(@prefix)
+        end
+
+        def split_words(sym)
+          sym.to_s.gsub(/_/,' ')
         end
 
         def args_to_sentence
@@ -128,10 +150,6 @@ module Spec
           end
         end
         
-        def handling_predicate?
-          return false if [:true, :false, :nil].include?(@expected)
-          return @handling_predicate
-        end
     end
  
     # :call-seq:
