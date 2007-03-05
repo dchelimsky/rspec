@@ -33,7 +33,7 @@ context "Requesting /<%= table_name %> using GET" do
 
   setup do
     @<%= file_name %> = mock_model(<%= class_name %>)
-    <%= class_name %>.stub!(:find).and_return(@<%= file_name %>)
+    <%= class_name %>.stub!(:find).and_return([@<%= file_name %>])
   end
   
   def do_get
@@ -57,7 +57,7 @@ context "Requesting /<%= table_name %> using GET" do
   
   specify "should assign the found <%= table_name %> for the view" do
     do_get
-    assigns[:<%= table_name %>].should equal(@<%= file_name %>)
+    assigns[:<%= table_name %>].should == [@<%= file_name %>]
   end
 end
 
