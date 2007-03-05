@@ -1,5 +1,5 @@
 begin
-  require_gem 'rspec', '>=0.7.6'
+  gem 'rspec', '>=0.7.6'
 rescue LoadError => e
   rspec_svn = File.dirname(__FILE__) + '/../../../rspec/lib'
   raise e unless File.directory?(rspec_svn)
