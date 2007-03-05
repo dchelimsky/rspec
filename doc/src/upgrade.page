@@ -3,11 +3,13 @@ title: Upgrade
 inMenu: true
 ---
 
-h2. Upgrading to RSpec 0.8.0
+h2. Upgrading to RSpec 0.8 from 0.7
 
 Although 0.8 sports a bunch of new features, everything from 0.7 is still
-supported in 0.8. Therefore, you should be able to safely upgrade without
+supported in 0.8. You should, therefore, be able to safely upgrade without
 having to change anything in your specs.
+
+%{color:red;font-weight:bold}If you are upgrading "Spec::Rails":rdoc-rails/index.html, you will need to update spec_helper.rb. This is discussed below in more detail.%
 
 When we release version 0.9, however, deprecated methods will be removed, so
 you may want to start writing new specs using the new syntax.
@@ -24,6 +26,15 @@ RSpec 0.8 introduces expectation matching, a new mechanism for writing
 expectations. You will NOT need to change any of your specs in order
 to upgrade to 0.8, however we will be deprecating most of the pre-existing
 expectation methods.
+
+h2. Spec::Rails spec_helper.rb
+
+spec_helper.rb is generated in the spec directory when you call "script/generate rspec".
+It provides hooks into the internals of Spec::Rails that let you configure fixtures
+and how they are handled. Because the internal structure of Spec::Rails has changed,
+you must re-generate that file using "script/generate rspec". If you have modified
+your local copy, be sure to take note of your settings beforehand and reconcile after
+re-generating the file.
 
 h2. Release Plan
 
