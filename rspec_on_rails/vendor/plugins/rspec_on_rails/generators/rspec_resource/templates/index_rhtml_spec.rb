@@ -14,7 +14,7 @@ context "/<%= table_name %>/index.rhtml" do
   specify "should render list of <%= table_name %>" do
     render "/<%= table_name %>/index.rhtml"
 <% for attribute in attributes -%><% unless attribute.name =~ /_id/ || [:datetime, :timestamp, :time, :date].index(attribute.type) -%>
-    response.should have_tag("td", <%= attribute.default_value %>)<% end -%><% end -%>
+    response.should have_tag("tr>td", <%= attribute.default_value %>, 2)<% end -%><% end -%>
   end
 end
 
