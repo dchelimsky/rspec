@@ -116,7 +116,7 @@ module Spec
           @context_eval_module.send :execution_context_class
         end
 
-        def execution_context specification
+        def execution_context(specification)
           execution_context_class.new(specification)
         end
 
