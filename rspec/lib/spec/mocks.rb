@@ -1,4 +1,6 @@
 require 'spec/mocks/methods'
+require 'spec/mocks/argument_constraint_matchers'
+require 'spec/mocks/spec_methods'
 require 'spec/mocks/mock_handler'
 require 'spec/mocks/mock'
 require 'spec/mocks/argument_expectation'
@@ -201,32 +203,5 @@ module Spec
   #
   #   my_mock.should_receive(:<<).with("illegal value").once.and_raise(ArgumentError)
   module Mocks
-    # Shortcut for creating an instance of Spec::Mocks::Mock.
-    def mock(name, options={})
-      Spec::Mocks::Mock.new(name, options)
-    end
-
-    # Shortcut for creating an instance of Spec::Mocks::Mock with
-    # predefined method stubs.
-    #
-    # == Examples
-    #
-    #   stub_thing = stub("thing", :a => "A")
-    #   stub_thing.a == "A" => true
-    #
-    #   stub_person = stub("thing", :name => "Joe", :email => "joe@domain.com")
-    #   stub_person.name => "Joe"
-    #   stub_person.email => "joe@domain.com"
-    def stub(name, stubs={})
-      object_stub = mock(name)
-      stubs.each { |key, value| object_stub.stub!(key).and_return(value) }
-      object_stub
-    end
-
-    # Shortcut for creating an instance of Spec::Mocks::DuckTypeArgConstraint
-    def duck_type(*args)
-      return Spec::Mocks::DuckTypeArgConstraint.new(*args)
-    end
-
   end
 end

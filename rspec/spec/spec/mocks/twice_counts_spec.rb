@@ -4,9 +4,8 @@ module Spec
   module Mocks
     context "TwiceCounts" do
       setup do
-        @mock = Mock.new("test mock", {
-          :auto_verify => false
-        })
+        disable_auto_verification_of_mocks
+        @mock = mock("test mock")
       end
 
       specify "twice should fail when call count is higher than expected" do

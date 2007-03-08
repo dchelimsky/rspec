@@ -6,7 +6,8 @@ module Spec
     context "Mock ordering" do
 
       setup do
-        @mock = Mock.new("test mock", :auto_verify => false)
+        disable_auto_verification_of_mocks
+        @mock = mock("test mock")
       end
 
       specify "should pass two calls in order" do

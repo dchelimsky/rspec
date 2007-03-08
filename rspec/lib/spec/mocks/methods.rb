@@ -25,12 +25,7 @@ module Spec
         __mock_handler.reset
       end
 
-      def method_missing(sym, *args, &block) #:nodoc:
-        __mock_handler.instance_eval {@messages_received << [sym, args, block]}
-        super(sym, *args, &block)
-      end
-      
-      private
+    private
 
       def __mock_handler
         @mock_handler ||= MockHandler.new(self, @name, @options)
