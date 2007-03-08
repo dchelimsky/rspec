@@ -71,12 +71,16 @@ module Spec
     end
     
     class DuckTypeArgConstraint
-      def initialize(*methods_to_respond_do)
-        @methods_to_respond_do = methods_to_respond_do
+      def initialize(*methods_to_respond_to)
+        @methods_to_respond_to = methods_to_respond_to
       end
   
       def matches?(value)
-        @methods_to_respond_do.all? { |sym| value.respond_to?(sym) }
+        @methods_to_respond_to.all? { |sym| value.respond_to?(sym) }
+      end
+      
+      def description
+        "duck_type"
       end
     end
 
@@ -104,7 +108,6 @@ module Spec
       
       def convert_constraint(constraint)
         return @@constraint_classes[constraint].new(constraint) if constraint.is_a?(Symbol)
-        return constraint if constraint.is_a?(DuckTypeArgConstraint)
         return MatcherConstraint.new(constraint) if is_matcher?(constraint)
         return RegexpArgConstraint.new(constraint) if constraint.is_a?(Regexp)
         return LiteralArgConstraint.new(constraint)

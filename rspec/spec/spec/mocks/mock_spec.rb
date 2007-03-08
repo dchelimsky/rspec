@@ -5,7 +5,8 @@ module Spec
     context "a Mock expectation" do
 
       setup do
-        @mock = Mock.new("test mock", :auto_verify => false)
+        disable_auto_verification_of_mocks
+        @mock = mock("test mock")
       end
       
       specify "should report line number of expectation of unreceived message" do
@@ -17,7 +18,7 @@ module Spec
           @mock.__verify
           violated
         rescue MockExpectationError => e
-          e.backtrace[0].should_match(/mock_spec\.rb:12/)
+          e.backtrace[0].should_match(/mock_spec\.rb:13/)
         end
     
       end

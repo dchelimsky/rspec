@@ -4,13 +4,9 @@ module Spec
   module Mocks
     context "FailingMockArgumentConstraints" do
       setup do
-        @mock = Mock.new("test mock", {
-          :auto_verify => false
-        })
-        @reporter = Mock.new("reporter", {
-          :null_object => true,
-          :auto_verify => false
-        })
+        disable_auto_verification_of_mocks
+        @mock = mock("test mock")
+        @reporter = Mock.new("reporter", :null_object => true)
       end
       
       specify "should reject goose when expecting a duck" do

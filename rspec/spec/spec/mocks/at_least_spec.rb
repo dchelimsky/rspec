@@ -4,7 +4,7 @@ module Spec
   module Mocks
     context "at_least" do
       setup do
-        @mock = Mock.new("test mock", :auto_verify => false)
+        @mock = Mock.new("test mock")
       end
 
       specify "should fail if method is never called" do
