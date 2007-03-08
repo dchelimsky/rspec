@@ -156,6 +156,30 @@ module Spec
         teardown = proc {mock.teardown}
         spec.run(@reporter, nil, teardown, nil, Object.new)
       end
+      
+      specify "should report NAME NOT GENERATED when told to use generated description but none is generated" do
+        spec = Specification.new(:__generate_description)
+        @reporter.stub!(:spec_started)
+        @reporter.should_receive(:spec_finished).with("NAME NOT GENERATED", :anything, :anything)
+        spec.run(@reporter, nil, nil, nil, Object.new)
+      end
+      
+      specify "should use generated description when told to and it is available" do
+        spec = Specification.new(:__generate_description) {
+          5.should == 5
+        }
+        @reporter.stub!(:spec_started)
+        @reporter.should_receive(:spec_finished).with("should == 5", :anything, :anything)
+        spec.run(@reporter, nil, nil, nil, Object.new)
+      end
+      
+      specify "should unregister description_generated callback (lest a memory leak should build up)" do
+        spec = Specification.new("something")
+        @reporter.stub!(:spec_started)
+        @reporter.stub!(:spec_finished)
+        Spec::Matchers.should_receive(:unregister_callback)
+        spec.run(@reporter, nil, nil, nil, Object.new)
+      end
     end
   end
 end
