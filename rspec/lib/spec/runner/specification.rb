@@ -3,13 +3,12 @@ module Spec
     class Specification
 
       class << self
-        attr_accessor :current, :generated_description
+        attr_accessor :current
         protected :current=
 
         callback_events :before_setup, :after_teardown
       end
 
-      attr_reader :spec_block
       callback_events :before_setup, :after_teardown
 
       def initialize(name, opts={}, &spec_block)
@@ -110,6 +109,10 @@ module Spec
 
       def clear_current
         self.class.send(:current=, nil)
+      end
+      
+      def spec_block
+        @spec_block
       end
 
       def failure_location(setup_ok, spec_ok, teardown_ok)
