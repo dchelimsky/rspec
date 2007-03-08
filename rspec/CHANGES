@@ -53,7 +53,7 @@ It also sports myriad new features, bug fixes, patches and general goodness:
 * Fixed [#7754] Command-R fails to run spec in TextMate (added instruction from Luke Redpath to the website)
 * Fixed [#7826] RSpect.tmbundle web page out of date.
 * RSpec on Rails specs are now running against RoR 1.2.1 and 1.2.2
-* rspec_resource now generates specs for views (TODO: make them use the new assert_select, when it's documented)
+* rspec_resource now generates specs for views
 * In a Rails app, RSpec core is only loaded when RAILS_ENV==test (init.rb)
 * Added support for target.should arbitrary_expectation_handler and target.should_not arbitrary_expectation_handler
 * Fixed [#7533] Spec suite fails and the process exits with a code 0

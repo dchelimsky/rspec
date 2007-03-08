@@ -18,7 +18,7 @@ module Spec
         @specification.before_setup {before_setup_called = true}
 
         spec = @specification.new("spec") {}
-        spec.run(@reporter, nil, nil, nil, ::Spec::Runner::ExecutionContext.new(nil))
+        spec.run(@reporter, nil, nil, nil, Object.new)
 
         before_setup_called.should == true
       end
@@ -31,7 +31,7 @@ module Spec
         spec=@specification.new("spec") {}
         @reporter.should_receive(:spec_started).with("spec")
         @reporter.should_receive(:spec_finished).with("spec", error, "setup")
-        spec.run(@reporter, nil, nil, nil, ::Spec::Runner::ExecutionContext.new(nil))
+        spec.run(@reporter, nil, nil, nil, Object.new)
       end
 
       specify "should report exceptions in spec" do
@@ -41,7 +41,7 @@ module Spec
         end
         @reporter.should_receive(:spec_started).with("spec")
         @reporter.should_receive(:spec_finished).with("spec", error, "spec")
-        spec.run(@reporter, nil, nil, nil, ::Spec::Runner::ExecutionContext.new(nil))
+        spec.run(@reporter, nil, nil, nil, Object.new)
       end
 
       specify "should have an after_teardown callback for all specs" do
@@ -52,7 +52,7 @@ module Spec
         @specification.after_teardown {after_teardown_called = true}
 
         spec = @specification.new("spec") {}
-        spec.run(@reporter, nil, nil, nil, ::Spec::Runner::ExecutionContext.new(nil))
+        spec.run(@reporter, nil, nil, nil, Object.new)
 
         after_teardown_called.should == true
       end
@@ -65,7 +65,7 @@ module Spec
         spec=@specification.new("spec") {}
         @reporter.should_receive(:spec_started).with("spec")
         @reporter.should_receive(:spec_finished).with("spec", error, "teardown")
-        spec.run(@reporter, nil, nil, nil, ::Spec::Runner::ExecutionContext.new(nil))
+        spec.run(@reporter, nil, nil, nil, Object.new)
       end
     end
   end

@@ -14,10 +14,20 @@ module Spec
 
       def initialize(name, opts={}, &spec_block)
         @from = caller(0)[3]
-        @description = name
         @options = opts
         @spec_block = spec_block
-        @description_generated_callback = lambda { |desc| @generated_description = desc }
+        @description = name
+        setup_auto_generated_description
+      end
+      
+      def setup_auto_generated_description
+        description_generated = lambda { |desc| @generated_description = desc }
+        before_setup do
+          Spec::Matchers.description_generated(&description_generated)
+        end
+        after_teardown do
+          Spec::Matchers.unregister_callback(:description_generated, description_generated)
+        end
       end
 
       def run(reporter, setup_block, teardown_block, dry_run, execution_context)
@@ -95,12 +105,10 @@ module Spec
       end
       
       def set_current
-        Spec::Matchers.description_generated(&@description_generated_callback)
         self.class.send(:current=, self)
       end
 
       def clear_current
-        Spec::Matchers.unregister_callback(:description_generated, @description_generated_callback)
         self.class.send(:current=, nil)
       end
 

@@ -40,19 +40,20 @@ module Spec
         @reporter.stub!(:spec_started)
         @reporter.stub!(:spec_finished)
         setup = proc {raise "Setup error"}
-        spec.run(@reporter, setup, nil, nil, ::Spec::Runner::ExecutionContext.new(nil))
+        spec.run(@reporter, setup, nil, nil, Object.new)
         spec_ran.should == false
         @reporter.__verify
       end
 
       specify "should run spec in scope of execution context" do
+        exec_context_class = Class.new
         spec=Specification.new("should pass") do
           self.instance_of?(Specification).should == false
-          self.instance_of?(ExecutionContext).should == true
+          self.instance_of?(exec_context_class).should == true
         end
         @reporter.should_receive(:spec_started).with("should pass")
         @reporter.should_receive(:spec_finished).with("should pass", nil, nil)
-        spec.run(@reporter, nil, nil, nil, ::Spec::Runner::ExecutionContext.new(nil))
+        spec.run(@reporter, nil, nil, nil, exec_context_class.new)
         @reporter.__verify
       end
 
@@ -106,7 +107,7 @@ module Spec
           spec_name.should_eql("spec")
           error.message.should_match(/expected :poke with \(any args\) once, but received it 0 times/)
         end
-        spec.run(@reporter, nil, nil, nil, ::Spec::Runner::ExecutionContext.new(nil))
+        spec.run(@reporter, nil, nil, nil, Object.new)
       end
       
       specify "should accept an options hash following the spec name" do
@@ -124,7 +125,7 @@ module Spec
         Specification.current.should_be_nil
         setup = proc {Specification.current.should == spec}
         teardown = proc {Specification.current.should == spec}
-        spec.run(@reporter, setup, teardown, nil, ::Spec::Runner::ExecutionContext.new(nil))
+        spec.run(@reporter, setup, teardown, nil, Object.new)
         Specification.current.should_be_nil
       end
 
@@ -139,7 +140,7 @@ module Spec
 
         spec.before_setup {mock.before_setup}
         setup = proc {mock.setup}
-        spec.run(@reporter, setup, nil, nil, ::Spec::Runner::ExecutionContext.new(nil))
+        spec.run(@reporter, setup, nil, nil, Object.new)
       end
 
       specify "should notify after_teardown callbacks after teardown" do
@@ -153,7 +154,7 @@ module Spec
 
         spec.after_teardown {mock.after_teardown}
         teardown = proc {mock.teardown}
-        spec.run(@reporter, nil, teardown, nil, ::Spec::Runner::ExecutionContext.new(nil))
+        spec.run(@reporter, nil, teardown, nil, Object.new)
       end
     end
   end

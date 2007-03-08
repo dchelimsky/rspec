@@ -79,9 +79,6 @@ module Spec
 
         def derive_execution_context_class_from_context_superclass
           @execution_context_class = Class.new(context_superclass)
-          @execution_context_class.class_eval do
-            include ::Spec::Runner::ExecutionContext::InstanceMethods
-          end
         end
 
         def context_superclass
@@ -89,7 +86,10 @@ module Spec
         end
 
         def context_modules
-          @context_modules ||= [Spec::Matchers, Spec::Mocks::SpecMethods]
+          @context_modules ||= [
+            ::Spec::Matchers,
+            ::Spec::Mocks::SpecMethods
+          ]
         end
         
         def specifications
@@ -135,6 +135,14 @@ module Spec
       end
 
       module InstanceMethods
+        def initialize(*args, &block) #:nodoc:
+          # TODO - inheriting from TestUnit::TestCase fails without this
+          # - let's figure out why and move this somewhere else
+        end
+        
+        def violated(message="")
+          raise Spec::Expectations::ExpectationNotMetError.new(message)
+        end
       end
       
     end
