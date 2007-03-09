@@ -9,8 +9,11 @@ context "/person/show" do
 
     assigns[:person] = person
     render "/person/show"
-    response.should_have_tag 'li', :content => 'Hannibal'
-    response.should_have_tag 'li', :content => 'Rufus'
+    response.should have_tag('ul') do |tags|
+      with_tag('li', 'Hannibal')
+      with_tag('li', 'Rufus')
+      without_tag('li', 'Ali G')
+    end
   end
 
 end

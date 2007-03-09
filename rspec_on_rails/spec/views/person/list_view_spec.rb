@@ -16,17 +16,17 @@ context "/person/list" do
 
     render "/person/list"
 
-    response.should_have_tag 'li', :content => 'Name: Smith'
-    response.should_have_tag 'li', :content => 'Name: Jones'
+    response.should have_tag('li', 'Name: Smith')
+    response.should have_tag('li', 'Name: Jones')
   end
 
   specify "should have a <div> tag with :id => 'a" do
     render "/person/list"
-    response.should_have_tag 'div', :attributes =>{:id => "a"}
+    response.should have_tag('div#a')
   end
 
   specify "should have a <hr> tag with :id => 'spacer" do
     render "/person/list"
-    response.should_have_tag 'hr', :attributes => {:id => "spacer"}
+    response.should have_tag('hr#spacer')
   end
 end
