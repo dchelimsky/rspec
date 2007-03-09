@@ -10,7 +10,7 @@ context "/person/create" do
 
   specify "should display stuff from helper" do
     render "/person/create"
-    response.should_have_tag 'input', :attributes =>{:id => 'person_address'}
+    response.should have_tag('input#person_address')
   end
   
 end
