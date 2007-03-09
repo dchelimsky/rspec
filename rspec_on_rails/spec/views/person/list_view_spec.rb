@@ -16,8 +16,10 @@ context "/person/list" do
 
     render "/person/list"
 
-    response.should have_tag('li', 'Name: Smith')
-    response.should have_tag('li', 'Name: Jones')
+    response.should have_tag('ul') do
+      with_tag('li', 'Name: Smith')
+      with_tag('li', 'Name: Jones')
+    end
   end
 
   specify "should have a <div> tag with :id => 'a" do
