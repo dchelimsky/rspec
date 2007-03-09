@@ -149,8 +149,8 @@ context "Given an attempt to show a person that doesn't exist" do
   end
 
   specify "should render 404 file" do
-    controller.should_render :file => "#{RAILS_ROOT}/public/404.html",
-                             :status => "404 Not Found"
     get 'show', :id => 'broken'
+    response.should render_template("#{RAILS_ROOT}/public/404.html")
+    response.headers["Status"].should == "404 Not Found"
   end
 end
