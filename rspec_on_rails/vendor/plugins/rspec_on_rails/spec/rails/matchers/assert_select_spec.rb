@@ -89,7 +89,7 @@ context "should have_tag", :context_type => :controller do
     render_html %Q{<div id="1"></div><div id="2"></div>}
     response.should have_tag( "div" )
     response.should have_tag("div", 2)
-    lambda { response.should_not have_tag("div") }.should_raise SpecFailed, "should_not have_tag(\"div\"), but did"
+    lambda { response.should_not have_tag("div") }.should_raise SpecFailed, "should not have tag(\"div\"), but did"
 
     lambda { response.should have_tag("div", 3) }.should_raise SpecFailed
     lambda { response.should have_tag("p") }.should_raise SpecFailed
@@ -170,10 +170,10 @@ context "should have_tag", :context_type => :controller do
 
   specify "substitution values" do
     render_html %Q{<div id="1">foo</div><div id="2">foo</div><span id="3"></span>}
-    response.should have_tag("div#?", /\d+/) do |elements|
+    response.should have_tag("div#?", /\d+/) do |elements| #using do/end
       elements.size.should == 2
     end
-    response.should have_tag("div#?", /\d+/) { |elements|
+    response.should have_tag("div#?", /\d+/) { |elements| #using {}
       elements.size.should == 2
     }
     lambda {
@@ -304,7 +304,7 @@ context "should have_tag", :context_type => :controller do
         with_tag("#1")
         without_tag("#2")
       }
-    }.should raise_error(SpecFailed, "should_not have_tag(\"#2\"), but did")
+    }.should raise_error(SpecFailed, "should not have tag(\"#2\"), but did")
 
     lambda {
       response.should have_tag("div") { |elements|
@@ -441,7 +441,7 @@ context "have_rjs behaviour", :context_type => :controller do
         rjs.size.should == 1
         without_tag("div#1", "foo")
       }
-    end.should raise_error(SpecFailed, "should_not have_tag(\"div#1\", \"foo\"), but did")
+    end.should raise_error(SpecFailed, "should not have tag(\"div#1\", \"foo\"), but did")
 
     response.should have_rjs("test2") { |rjs|
       rjs.size.should == 2
@@ -725,7 +725,7 @@ context "send_email behaviour", :context_type => :controller do
     
     lambda {
       response.should_not send_email
-    }.should raise_error(SpecFailed, "should_not send_email, but did")
+    }.should raise_error(SpecFailed, "should not send email, but did")
   end
 
 end
@@ -779,3 +779,35 @@ end
 #   end
 #   
 # end
+
+context "string.should have_tag", :context_type => :helper do
+  include AssertSelectSpecHelpers
+
+  specify "should find root element" do
+    "<p>a paragraph</p>".should have_tag("p", "a paragraph")
+  end
+
+  specify "should not find non-existent element" do
+    lambda do
+      "<p>a paragraph</p>".should have_tag("p", "wrong text")
+    end.should raise_error(SpecFailed)
+  end
+
+  specify "should find child element" do
+    "<div><p>a paragraph</p></div>".should have_tag("p", "a paragraph")
+  end
+
+  specify "should find nested element" do
+    "<div><p>a paragraph</p></div>".should have_tag("div") do
+      with_tag("p", "a paragraph")
+    end
+  end
+
+  specify "should not find wrong nested element" do
+    lambda do
+      "<div><p>a paragraph</p></div>".should have_tag("div") do
+        with_tag("p", "wrong text")
+      end
+    end.should raise_error(SpecFailed)
+  end
+end

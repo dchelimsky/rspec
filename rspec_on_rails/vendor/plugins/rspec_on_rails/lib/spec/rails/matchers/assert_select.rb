@@ -5,50 +5,65 @@ module Spec # :nodoc:
     module Matchers
       
       class AssertSelect #:nodoc:
+        
         def initialize(*args, &block)
-          @message = args.shift
+          @assertion = args.shift
           @spec_scope = args.shift
           @args = args
           @block = block
         end
-        def matches?(response, &block)
+        
+        def matches?(response_or_text, &block)
+          @args.unshift(HTML::Document.new(response_or_text).root) if String === response_or_text
           @block = block if block
           begin
-            @spec_scope.send(@message, *@args, &@block)
+            @spec_scope.send(@assertion, *@args, &@block)
           rescue Exception => @error
           end
           @error.nil?
         end
-        def failure_message
-          @error.message
-        end
-        def negative_failure_message
-          "should_not #{description}, but did"
-        end
+        
+        def failure_message; @error.message; end
+        def negative_failure_message; "should not #{description}, but did"; end
         
         def description
           {
-            :assert_select => "have_tag#{format_args(*@args)}",
-            :assert_select_email => "send_email#{format_args(*@args)}",
-          }[@message]
+            :assert_select => "have tag#{format_args(*@args)}",
+            :assert_select_email => "send email#{format_args(*@args)}",
+          }[@assertion]
         end
         
-        private
-          def format_args(*args)
-            return "" if args.empty?
-            return "(#{arg_list(*args)})"
-          end
-          def arg_list(*args)
-            args.collect do |arg|
-              arg.respond_to?(:description) ? arg.description : arg.inspect
-            end.join(", ")
-          end
+      private
+
+        def format_args(*args)
+          return "" if args.empty?
+          return "(#{arg_list(*args)})"
+        end
+
+        def arg_list(*args)
+          args.collect do |arg|
+            arg.respond_to?(:description) ? arg.description : arg.inspect
+          end.join(", ")
+        end
+        
       end
       
       # :call-seq:
       #   response.should have_tag(*args, &block)
+      #   string.should have_tag(*args, &block)
       #
-      # wrapper for assert_select
+      # wrapper for assert_select with additional support for using
+      # css selectors to set expectation on Strings. Use this in
+      # helper specs, for example, to set expectations on the results
+      # of helper methods.
+      #
+      # == Examples
+      #
+      #   # in a controller spec
+      #   response.should have_tag("div", "some text")
+      #
+      #   # in a helper spec (person_address_tag is a method in the helper)
+      #   person_address_tag.should have_tag("input#person_address")
       #
       # see documentation for assert_select at http://api.rubyonrails.org/
       def have_tag(*args, &block)
@@ -59,8 +74,8 @@ module Spec # :nodoc:
     
       # wrapper for a nested assert_select
       #
-      #   response.should have_tag("div#1") do
-      #     with_tag("span", "some text")
+      #   response.should have_tag("div#form") do
+      #     with_tag("input#person_name[name=?]", "person[name]")
       #   end
       #
       # see documentation for assert_select at http://api.rubyonrails.org/
@@ -76,7 +91,7 @@ module Spec # :nodoc:
       #
       # see documentation for assert_select at http://api.rubyonrails.org/
       def without_tag(*args, &block)
-        response.should_not have_tag(*args, &block)
+        should_not have_tag(*args, &block)
       end
     
       # :call-seq:
@@ -121,7 +136,7 @@ module Spec # :nodoc:
       def with_encoded(*args, &block)
         args.unshift(self)
         args.unshift(:assert_select_encoded)
-        response.should AssertSelect.new(*args, &block)
+        should AssertSelect.new(*args, &block)
       end
     end
   end
