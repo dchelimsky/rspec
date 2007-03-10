@@ -1,4 +1,6 @@
 class RspecResourceGenerator < Rails::Generator::NamedBase
+  default_options :skip_migration => false
+  
   attr_reader   :controller_name,
                 :controller_class_path,
                 :controller_file_path,
@@ -93,6 +95,13 @@ class RspecResourceGenerator < Rails::Generator::NamedBase
     # Override with your own usage banner.
     def banner
       "Usage: #{$0} rspec_resource ModelName [field:type field:type]"
+    end
+
+    def add_options!(opt)
+      opt.separator ''
+      opt.separator 'Options:'
+      opt.on("--skip-migration", 
+             "Don't generate a migration file for this model") { |v| options[:skip_migration] = v }
     end
 
     def scaffold_views

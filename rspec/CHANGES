@@ -2,6 +2,7 @@
 
 == Trunk
 
+* Applied [#7637] [PATCH] add skip-migration option to rspec_resource generator
 * Added [#9167] string.should have_tag
 * Changed script/rails_spec_server to script/spec_server and added script/spec (w/ path to vendor/plugins/rspec)
 * Fixed [#8897] Error when mixing controller spec with/without integrated views and using template system other than rhtml
