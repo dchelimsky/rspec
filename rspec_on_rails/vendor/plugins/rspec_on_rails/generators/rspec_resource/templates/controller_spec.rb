@@ -244,7 +244,7 @@ context "Requesting /<%= table_name %> using POST" do
 
   specify "should redirect to the new <%= file_name %>" do
     do_post
-    response.should redirect_to("http://test.host/<%= table_name %>/1")
+    response.should redirect_to(<%= table_name.singularize %>_url("1"))
   end
 end
 
@@ -278,7 +278,7 @@ context "Requesting /<%= table_name %>/1 using PUT" do
 
   specify "should redirect to the <%= file_name %>" do
     do_update
-    response.should redirect_to("http://test.host/<%= table_name %>/1")
+    response.should redirect_to(<%= table_name.singularize %>_url("1"))
   end
 end
 
@@ -306,6 +306,6 @@ context "Requesting /<%= table_name %>/1 using DELETE" do
   
   specify "should redirect to the <%= table_name %> list" do
     do_delete
-    response.should redirect_to("http://test.host/<%= table_name %>")
+    response.should redirect_to(<%= table_name %>_url)
   end
 end
