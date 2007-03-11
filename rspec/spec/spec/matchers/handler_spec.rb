@@ -46,10 +46,10 @@ module ExampleExpectations
   
 end
 
-context "ExpectationMatcherHandler" do
+describe "ExpectationMatcherHandler" do
   include ExampleExpectations
   
-  specify "should handle submitted args" do
+  it "should handle submitted args" do
     5.should arbitrary_matcher(:expected => 5)
     5.should arbitrary_matcher(:expected => "wrong").with(5)
     lambda { 5.should arbitrary_matcher(:expected => 4) }.should fail_with("expected 4, got 5")
@@ -60,13 +60,13 @@ context "ExpectationMatcherHandler" do
     lambda { 5.should_not arbitrary_matcher(:expected => 4).with(5) }.should fail_with("expected not 5, got 5")
   end
 
-  specify "should handle the submitted block" do
+  it "should handle the submitted block" do
     5.should arbitrary_matcher { 5 }
     5.should arbitrary_matcher(:expected => 4) { 5 }
     5.should arbitrary_matcher(:expected => 4).with(5) { 3 }
   end
   
-  specify "should explain when matcher does not support should_not" do
+  it "should explain when matcher does not support should_not" do
     lambda {
       5.should_not positive_only_matcher(:expected => 5)
     }.should fail_with(/Matcher does not support should_not.\n/)

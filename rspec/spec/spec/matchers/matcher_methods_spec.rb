@@ -2,8 +2,7 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 module Spec
   module Matchers
-    
-    context "Spec::Matchers should support" do
+    context "Spec::Matchers module should support" do
       specify "be_true" do
         be_true.should be_an_instance_of(Be)
       end
@@ -27,9 +26,6 @@ module Spec
       end
       specify "equal" do
         equal(:expected).should be_an_instance_of(Equal)
-      end
-      specify "have_x > has_x?" do
-        have_key(:key).should be_an_instance_of(Has)
       end
       specify "have" do
         have(0).should be_an_instance_of(Have)
@@ -64,7 +60,6 @@ module Spec
       specify "respond_to" do
         respond_to(:sym).should be_an_instance_of(RespondTo)
       end
-      
     end
     
     context "Spec::Matchers should convert be_xyz to..." do
@@ -80,6 +75,5 @@ module Spec
         have_whatever
       end
     end
-
   end
 end

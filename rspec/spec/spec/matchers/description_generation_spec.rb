@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
-context "Matchers should be able to generate a description" do
+context "The following Matchers should be able to generate their own descriptions" do
   setup do
     @desc = nil
     @callback = lambda { |desc| @desc = desc }
@@ -12,7 +12,7 @@ context "Matchers should be able to generate a description" do
     @desc.should == "should == \"this\""
   end
   
-  specify "should_not == expected" do
+  specify "should not == expected" do
     "this".should_not == "that"
     @desc.should == "should not == \"that\""
   end
@@ -68,7 +68,6 @@ context "Matchers should be able to generate a description" do
     5.should be_an_instance_of(Fixnum)
     @desc.should == "should be an instance of Fixnum"
   end
-
   
   specify "should equal" do
     expected = "expected"
