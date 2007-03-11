@@ -3,9 +3,6 @@ $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
 require 'spec'
 require File.dirname(__FILE__) + '/../spec/spec/spec_classes'
 
-alias_context_with :behaviour
-alias_specify_with :example
-
 module Spec
   module Matchers
     def fail
