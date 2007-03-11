@@ -47,11 +47,6 @@ context "Matchers should be able to generate their own descriptions" do
     @desc.should == "should be > 3"
   end
   
-  specify "should be close" do
-    5.0.should be_close(5.0, 0.5)
-    @desc.should == "should be close to 5.0 (+- 0.5)"
-  end
-
   specify "should be predicate arg1, arg2 and arg3" do
     5.0.should be_between(0,10)
     @desc.should == "should be between 0 and 10"

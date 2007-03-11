@@ -36,7 +36,7 @@ module Spec
           end
           
           def __matcher
-            @matcher ||= Spec::Matchers::Matcher.new
+            @matcher ||= Spec::Matchers::MatcherDelegate.new
           end
         end
       end

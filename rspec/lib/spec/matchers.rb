@@ -140,7 +140,7 @@ module Spec
 
     deprecated do
       # This supports sugar delegating to Matchers
-      class Matcher #:nodoc:
+      class MatcherDelegate #:nodoc:
         include Matchers
 
         def respond_to?(sym)
