@@ -1,14 +1,14 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
-context "should satisfy { block }" do
-  specify "should pass if block returns true" do
+describe "should satisfy { block }" do
+  it "should pass if block returns true" do
     true.should satisfy { |val| val }
     true.should satisfy do |val|
       val
     end
   end
 
-  specify "should fail if block returns false" do
+  it "should fail if block returns false" do
     lambda {
       false.should satisfy { |val| val }
     }.should fail_with("expected false to satisfy block")
@@ -20,15 +20,15 @@ context "should satisfy { block }" do
   end
 end
 
-context "should_not satisfy { block }" do
-  specify "should pass if block returns false" do
+describe "should_not satisfy { block }" do
+  it "should pass if block returns false" do
     false.should_not satisfy { |val| val }
     false.should_not satisfy do |val|
       val
     end
   end
 
-  specify "should fail if block returns true" do
+  it "should fail if block returns true" do
     lambda {
       true.should_not satisfy { |val| val }
     }.should fail_with("expected true not to satisfy block")

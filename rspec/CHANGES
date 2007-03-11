@@ -2,6 +2,15 @@
 
 == Trunk
 
+This release introduces #describe and #it as aliases for #context and #specify. This
+allows you to express specs like this:
+
+describe SomeClass do
+  it "should do something" do
+  end
+end
+
+* Added describe/it as aliases for context/specify - suggestion from Dan North.
 * Applied [#7637] [PATCH] add skip-migration option to rspec_resource generator
 * Added [#9167] string.should have_tag
 * Changed script/rails_spec_server to script/spec_server and added script/spec (w/ path to vendor/plugins/rspec)

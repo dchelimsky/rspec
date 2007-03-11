@@ -28,9 +28,10 @@ module Spec
           teardown_parts << block
         end
 
-        def specify(spec_name=:__generate_description, opts={}, &block)
-          specifications << Specification.new(spec_name, opts, &block)
+        def specify(description=:__generate_description, opts={}, &block)
+          specifications << Specification.new(description, opts, &block)
         end
+        alias :it :specify
 
         def methods
           my_methods = super

@@ -1,8 +1,8 @@
 module Kernel
-  def context(name, &block)
-    context = Spec::Runner::Context.new(name, &block)
-    context_runner.add_context(context)
+  def context(type_or_description, &block)
+    context_runner.add_context(Spec::Runner::Context.new(type_or_description.to_s, &block))
   end
+  alias :describe :context
 
 private
 
