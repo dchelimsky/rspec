@@ -31,8 +31,7 @@ module Spec
         def specify(description=:__generate_description, opts={}, &block)
           specifications << Specification.new(description, opts, &block)
         end
-        alias :it :specify
-
+        
         def methods
           my_methods = super
           my_methods |= context_superclass.methods

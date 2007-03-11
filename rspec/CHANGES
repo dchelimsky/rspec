@@ -10,6 +10,10 @@ describe SomeClass do
   end
 end
 
+It also adds #alias_context_with and #alias_specify_with to Kernel, allowing you define
+other words and combinations to get your specs to "speak".
+
+* Added #alias_context_with and #alias_specify_with to Kernel
 * Added describe/it as aliases for context/specify - suggestion from Dan North.
 * Applied [#7637] [PATCH] add skip-migration option to rspec_resource generator
 * Added [#9167] string.should have_tag
