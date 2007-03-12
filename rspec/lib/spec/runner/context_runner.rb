@@ -16,9 +16,10 @@ module Spec
       # Runs all contexts and returns the number of failures.
       def run(exit_when_done)
         @options.reporter.start(number_of_specs)
+        contexts = @options.reverse ? @contexts.reverse : @contexts
         begin
-          @contexts.each do |context|
-            context.run(@options.reporter, @options.dry_run)
+          contexts.each do |context|
+            context.run(@options.reporter, @options.dry_run, @options.reverse)
           end
         rescue Interrupt
         ensure

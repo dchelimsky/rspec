@@ -95,6 +95,35 @@ context "ContextRunner" do
     runner = Spec::Runner::ContextRunner.new(options)
     runner.add_context(context)
     runner.run(false)
+  end
+  
+  specify "should run specs backward if options.reverse is true" do
+    options = OpenStruct.new
+    options.reverse = true
 
+    reporter = mock("reporter")
+    reporter.should_receive(:start).with(3)
+    reporter.should_receive(:end)
+    reporter.should_receive(:dump).and_return(0)
+    options.reporter = reporter
+
+    runner = Spec::Runner::ContextRunner.new(options)
+    c1 = mock("c1")
+    c1.should_receive(:matches?).and_return(true)
+    c1.should_receive(:run_single_spec).and_return(false)
+    c1.should_receive(:number_of_specs).and_return(1)
+
+    c2 = mock("c2")
+    c2.should_receive(:matches?).and_return(true)
+    c2.should_receive(:run_single_spec).and_return(false)
+    c2.should_receive(:number_of_specs).and_return(2)
+    c2.should_receive(:run) do
+      c1.should_receive(:run)
+    end
+
+    runner.add_context(c1)
+    runner.add_context(c2)
+    
+    runner.run(false)
   end
 end

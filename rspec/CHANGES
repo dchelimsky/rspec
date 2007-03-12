@@ -10,6 +10,7 @@ describe SomeClass do
   end
 end
 
+* Added --reverse option, allowing contexts/specs to be run in reverse order. Are your specs independent?
 * Added describe/it as aliases for context/specify - suggestion from Dan North.
 * Applied [#7637] [PATCH] add skip-migration option to rspec_resource generator
 * Added [#9167] string.should have_tag
