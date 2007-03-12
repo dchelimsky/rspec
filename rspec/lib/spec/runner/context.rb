@@ -25,12 +25,13 @@ module Spec
         @context_eval_module.include(mod)
       end
 
-      def run(reporter, dry_run=false)
+      def run(reporter, dry_run=false, reverse=false)
         reporter.add_context(@description)
         prepare_execution_context_class
         errors = run_context_setup(reporter, dry_run)
 
-        specifications.each do |specification|
+        specs = reverse ? specifications.reverse : specifications
+        specs.each do |specification|
           specification_execution_context = execution_context(specification)
           specification_execution_context.copy_instance_variables_from(@once_only_execution_context_instance, []) unless context_setup_block.nil?
           specification.run(reporter, setup_block, teardown_block, dry_run, specification_execution_context)

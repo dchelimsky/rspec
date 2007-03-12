@@ -121,6 +121,10 @@ module Spec
           opts.on("-b", "--backtrace", "Output full backtrace") do
             options.backtrace_tweaker = NoisyBacktraceTweaker.new
           end
+          
+          opts.on("-R", "--reverse", "Run specs in reverse order") do
+            options.reverse = true
+          end
 
           opts.on("-H", "--heckle CODE", "If all specs pass, this will run your specs many times, mutating",
                                          "the specced code a little each time. The intent is that specs",

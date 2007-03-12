@@ -266,4 +266,8 @@ context "OptionParser" do
     Spec::Runner::DrbCommandLine.should_receive(:run).with(["some/spec.rb", "--diff", "--colour"], @err, @out, true, true)
     options = parse(["some/spec.rb", "--diff", "--drb", "--colour"])
   end
+  
+  specify "should reverse spec order when --reverse is specified" do
+    options = parse(["some/spec.rb", "--reverse"])
+  end
 end
