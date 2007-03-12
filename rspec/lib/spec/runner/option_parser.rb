@@ -122,10 +122,19 @@ module Spec
             options.backtrace_tweaker = NoisyBacktraceTweaker.new
           end
           
+          opts.on("-L", "--loadby CRITERION", "Specify the ordering criterion by which spec files should be loaded.",
+                                              "CRITERION can currently only be 'mtime' (File modification time).",
+                                              "By default, spec files are loaded in alphabetical order.") do |criterion|
+            file_sorters = {
+              'mtime' => lambda {|file_a, file_b| File.mtime(file_a) <=> File.mtime(file_b)}
+            }
+            options.file_sorter = file_sorters[criterion]
+          end
+
           opts.on("-R", "--reverse", "Run specs in reverse order") do
             options.reverse = true
           end
-
+          
           opts.on("-H", "--heckle CODE", "If all specs pass, this will run your specs many times, mutating",
                                          "the specced code a little each time. The intent is that specs",
                                          "*should* fail, and RSpec will tell you if they don't.",

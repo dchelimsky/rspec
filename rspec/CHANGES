@@ -5,12 +5,19 @@
 This release introduces #describe and #it as aliases for #context and #specify. This
 allows you to express specs like this:
 
-describe SomeClass do
-  it "should do something" do
+  describe SomeClass do
+    it "should do something" do
+    end
   end
-end
 
-* Added --reverse option, allowing contexts/specs to be run in reverse order. Are your specs independent?
+The command line features two new options: --reverse and --loadby. They give you more control
+over the order in which specs are run. This can be used to verify that your specs are
+independent (by running in opposite order with --reverse). It can also be used to cut 
+down feedback time by running the most recently modified specs first (--loadby mtime --reverse).
+
+* Added --reverse option, allowing contexts/specs to be run in reverse order. 
+* Added --loadby option, allowing better control over load order for spec files. Only mtime supported for now.
+* Implemented [#8696] --order option (see --reverse and --loadby)
 * Added describe/it as aliases for context/specify - suggestion from Dan North.
 * Applied [#7637] [PATCH] add skip-migration option to rspec_resource generator
 * Added [#9167] string.should have_tag
