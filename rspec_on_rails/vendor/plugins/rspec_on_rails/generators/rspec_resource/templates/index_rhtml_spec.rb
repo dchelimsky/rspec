@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
-context "/<%= table_name %>/index.rhtml" do
+describe "/<%= table_name %>/index.rhtml" do
   include <%= controller_class_name %>Helper
   
   setup do<% [98,99].each do |id| -%>
@@ -11,7 +11,7 @@ context "/<%= table_name %>/index.rhtml" do
     assigns[:<%= table_name %>] = [<%= file_name %>_98, <%= file_name %>_99]
   end
 
-  specify "should render list of <%= table_name %>" do
+  it "should render list of <%= table_name %>" do
     render "/<%= table_name %>/index.rhtml"
 <% for attribute in attributes -%><% unless attribute.name =~ /_id/ || [:datetime, :timestamp, :time, :date].index(attribute.type) -%>
     response.should have_tag("tr>td", <%= attribute.default_value %>, 2)<% end -%><% end -%>
