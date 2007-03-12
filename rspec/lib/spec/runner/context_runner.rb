@@ -14,7 +14,8 @@ module Spec
       end
       
       # Runs all contexts and returns the number of failures.
-      def run(exit_when_done)
+      def run(paths, exit_when_done)
+        load_specs(paths)
         @options.reporter.start(number_of_specs)
         contexts = @options.reverse ? @contexts.reverse : @contexts
         begin
@@ -27,13 +28,7 @@ module Spec
         end
         failure_count = @options.reporter.dump
         
-        if(failure_count == 0 && !@options.heckle_runner.nil?)
-          heckle_runner = @options.heckle_runner
-          @options.heckle_runner = nil
-          context_runner = self.class.new(@options)
-          context_runner.instance_variable_set(:@contexts, @contexts)
-          heckle_runner.heckle_with(context_runner)
-        end
+        heckle if(failure_count == 0 && !@options.heckle_runner.nil?)
         
         if(exit_when_done)
           exit_code = (failure_count == 0) ? 0 : 1
@@ -47,10 +42,34 @@ module Spec
       end
       
       private
+
       def spec_description
         @options.spec_name
       end
       
+      def load_specs(paths)
+        paths.each do |path|
+          if File.directory?(path)
+            files = Dir["#{path}/**/*.rb"]
+            files.sort!(&@options.file_sorter) unless @options.file_sorter.nil?
+            files.each do |file| 
+              load file
+            end
+          elsif File.file?(path)
+            load path
+          else
+            raise "File or directory not found: #{file_or_dir}"
+          end
+        end
+      end
+      
+      def heckle
+        heckle_runner = @options.heckle_runner
+        @options.heckle_runner = nil
+        context_runner = self.class.new(@options)
+        context_runner.instance_variable_set(:@contexts, @contexts)
+        heckle_runner.heckle_with(context_runner)
+      end
     end
   end
 end

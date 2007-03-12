@@ -22,7 +22,7 @@ context "ContextRunner" do
     runner = Spec::Runner::ContextRunner.new(options)
     runner.add_context(context1)
     runner.add_context(context2)
-    runner.run(false)
+    runner.run([], false)
   end
 
   specify "should support single spec" do
@@ -46,7 +46,7 @@ context "ContextRunner" do
     reporter.should_receive(:start)
     reporter.should_receive(:end)
     reporter.should_receive(:dump)
-    runner.run(false)
+    runner.run([], false)
   end
 
   specify "should dump even if Interrupt exception is occurred" do
@@ -72,7 +72,7 @@ context "ContextRunner" do
     options.reporter = reporter
     runner = Spec::Runner::ContextRunner.new(options)
     runner.add_context(context)
-    runner.run(false)
+    runner.run([], false)
   end
 
   specify "should heckle when options have heckle_runner" do
@@ -94,7 +94,7 @@ context "ContextRunner" do
 
     runner = Spec::Runner::ContextRunner.new(options)
     runner.add_context(context)
-    runner.run(false)
+    runner.run([], false)
   end
   
   specify "should run specs backward if options.reverse is true" do
@@ -124,6 +124,6 @@ context "ContextRunner" do
     runner.add_context(c1)
     runner.add_context(c2)
     
-    runner.run(false)
+    runner.run([], false)
   end
 end

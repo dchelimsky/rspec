@@ -270,4 +270,14 @@ context "OptionParser" do
   specify "should reverse spec order when --reverse is specified" do
     options = parse(["some/spec.rb", "--reverse"])
   end
+
+  specify "should set an mtime comparator when --loadby mtime" do
+    options = parse(["some/spec1.rb", "some/spec2.rb", "--loadby", 'mtime'])
+    Dir.chdir(File.dirname(__FILE__)) do
+      files = ['option_parser_spec.rb', 'object_ext_spec.rb', 'drb_command_line_spec.rb']
+      mtime_sorted_files = files.sort(&options.file_sorter)
+      # This may file if any of these are modified....
+      mtime_sorted_files.should == ["object_ext_spec.rb", "drb_command_line_spec.rb", "option_parser_spec.rb"]
+    end
+  end
 end
