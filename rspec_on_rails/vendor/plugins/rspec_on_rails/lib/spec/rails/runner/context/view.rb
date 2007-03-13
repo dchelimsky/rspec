@@ -99,7 +99,7 @@ module Spec
           @controller.send :forget_variables_added_to_assigns rescue nil
 
           # Do the render
-          @controller.render options
+          @controller.send :render, options
 
           # Rails 1.1
           @controller.send :process_cleanup rescue nil
