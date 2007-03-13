@@ -12,7 +12,7 @@ private
     # TODO: Figure out a better way to get this considered "covered" and keep this statement on multiple lines 
     unless $context_runner; \
       $context_runner = ::Spec::Runner::OptionParser.new.create_context_runner(ARGV.dup, STDERR, STDOUT, false); \
-      at_exit { $context_runner.run(false) }; \
+      at_exit { $context_runner.run(nil, false) }; \
     end
     $context_runner
   end

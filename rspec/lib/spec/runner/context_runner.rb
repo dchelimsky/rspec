@@ -15,7 +15,7 @@ module Spec
       
       # Runs all contexts and returns the number of failures.
       def run(paths, exit_when_done)
-        load_specs(paths)
+        load_specs(paths) unless paths.nil? # It's nil when running single specs with ruby
         @options.reporter.start(number_of_specs)
         contexts = @options.reverse ? @contexts.reverse : @contexts
         begin
