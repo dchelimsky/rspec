@@ -15,6 +15,18 @@ class Watir::Browser
   end
   
   alias contain_text? contains_text
+
+  alias old_goto goto
+  # Redefinition of Watir's original goto, which gives a better
+  # exception message (the URL is in the message)
+  def goto(url)
+    begin
+      old_goto(url)
+    rescue => e
+      e.message << "\nURL: #{url}"
+      raise e
+    end
+  end
 end
 
 module Spec
