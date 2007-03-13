@@ -9,11 +9,11 @@ module Spec
           # How do we capture the current window??
           `screencapture #{img_path}`
         end
-      else
+      else # Win32
         begin
           require 'rubygems'
           require 'RMagick'
-          require_gem 'win32screenshot', '>=0.0.3'
+          gem 'win32screenshot', '>=0.0.3'
           require 'win32screenshot'
           def save_screenshot(dir, spec_number)
             width, height, bmp = ::Win32::Screenshot.foreground

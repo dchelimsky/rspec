@@ -10,6 +10,7 @@ module Spec
     class Context
       def before_context_eval #:nodoc:
         include Spec::Ui::WebappHelper
+        include Spec::Watir # This gives us Watir matchers
       end
     end
   end
