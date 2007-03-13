@@ -7,6 +7,7 @@ module Spec
     module WebappHelper
       include Spec::Ui::ScreenshotHelper
       raise "$RSPEC_IMG_DIR must be defined" if ENV['RSPEC_IMG_DIR'].nil?
+      FileUtils.mkdir_p(ENV['RSPEC_IMG_DIR']) unless File.exist?(ENV['RSPEC_IMG_DIR'])
       @@spec_number = 0
 
       # Call this method from your teardown block to have source and screenshot written to disk.

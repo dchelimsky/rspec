@@ -7,6 +7,16 @@ if RUBY_PLATFORM =~ /darwin/
 else
   require 'watir'
   Watir::Browser = Watir::IE
+
+  class Watir::Browser
+    alias old_initialize initialize
+    # Brings the IE to the foreground (provided Win32::Screenshot is installed)
+    def initialize
+      result = old_initialize
+      ::Win32::Screenshot.setForegroundWindow(self.getIE.hwnd) rescue nil
+      result
+    end
+  end
 end
 
 class Watir::Browser
@@ -30,9 +40,14 @@ class Watir::Browser
 end
 
 module Spec
-  # Matchers for Watir
+  # Matchers for Watir::IE/Watir::Safari instances
   module Watir
-    class HaveText
+    # RSpec matcher that passes if @browser#text matches +text+ (String or Regexp) 
+    def have_text(text)
+      Spec::Watir::HaveText.new(text)
+    end
+
+    class HaveText # :nodoc
       def initialize(text_or_regexp)
         @text_or_regexp = text_or_regexp
       end
@@ -55,7 +70,12 @@ module Spec
       end
     end
 
-    class HaveHtml
+    # RSpec matcher that passes if @browser#html matches +text+ (String or Regexp) 
+    def have_html(text)
+      Spec::Watir::HaveHtml.new(text)
+    end
+
+    class HaveHtml # :nodoc
       def initialize(text_or_regexp)
         @text_or_regexp = text_or_regexp
       end
@@ -78,7 +98,12 @@ module Spec
       end
     end
 
-    class HaveLink
+    # RSpec matcher that passes if @browser#link(+how+,+what+) returns an existing link.
+    def have_link(how, what)
+      Spec::Watir::HaveLink.new(how, what)
+    end
+
+    class HaveLink # :nodoc
       def initialize(how, what)
         @how, @what = how, what
       end
@@ -109,7 +134,12 @@ module Spec
       end
     end
 
-    class HaveTextField
+    # RSpec matcher that passes if @browser#text_field(+how+,+what+) returns an existing text field.
+    def have_text_field(how, what)
+      Spec::Watir::HaveTextField.new(how, what)
+    end
+
+    class HaveTextField # :nodoc
       def initialize(how, what)
         @how, @what = how, what
       end
@@ -134,20 +164,4 @@ module Spec
       end
     end
   end
-end
-
-def have_text(text)
-  Spec::Watir::HaveText.new(text)
-end
-
-def have_html(text)
-  Spec::Watir::HaveHtml.new(text)
-end
-
-def have_link(how, what)
-  Spec::Watir::HaveLink.new(how, what)
-end
-
-def have_text_field(how, what)
-  Spec::Watir::HaveTextField.new(how, what)
 end
