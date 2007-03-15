@@ -11,7 +11,7 @@ end</string>
 	<key>scope</key>
 	<string>source.ruby</string>
 	<key>tabTrigger</key>
-	<string>cset</string>
+	<string>dset</string>
 	<key>uuid</key>
 	<string>7D960FC5-4859-4328-A06B-73A3CF6763E0</string>
 </dict>

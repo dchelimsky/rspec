@@ -3,10 +3,10 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>${1:target}.should_match /${2:regexp}/
+	<string>${1:target}.should match(/${2:regexp}/)
 $0</string>
 	<key>name</key>
-	<string>should_match</string>
+	<string>should match</string>
 	<key>scope</key>
 	<string>source.ruby</string>
 	<key>tabTrigger</key>

@@ -3,15 +3,16 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>${1:target}.should_include ${2:value}
-$0</string>
+	<string>it "${2:should ${1:description}}" do
+  $0
+end</string>
 	<key>name</key>
-	<string>should_include</string>
+	<string>It</string>
 	<key>scope</key>
 	<string>source.ruby</string>
 	<key>tabTrigger</key>
-	<string>shinc</string>
+	<string>it</string>
 	<key>uuid</key>
-	<string>3433F481-8F12-4FD6-9708-9BAAFFEF173A</string>
+	<string>AD51AA2B-09C9-40DE-9720-2FD43C967FA9</string>
 </dict>
 </plist>

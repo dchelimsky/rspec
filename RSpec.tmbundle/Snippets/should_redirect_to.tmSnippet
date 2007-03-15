@@ -3,10 +3,10 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>response.redirect_url.should_equal ${1:url}
+	<string>response.should redirect_to(${1:url})
 $0</string>
 	<key>name</key>
-	<string>should_redirect_to</string>
+	<string>should redirect_to</string>
 	<key>scope</key>
 	<string>source.ruby</string>
 	<key>tabTrigger</key>

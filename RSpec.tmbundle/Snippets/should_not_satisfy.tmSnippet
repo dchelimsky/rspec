@@ -3,10 +3,10 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>${1:target}.should_not_satisfy { |obj| $2 }
+	<string>${1:target}.should_not satisfy { |obj| $2 }
 $0</string>
 	<key>name</key>
-	<string>should_not_satisfy</string>
+	<string>should_not satisfy</string>
 	<key>scope</key>
 	<string>source.ruby</string>
 	<key>tabTrigger</key>

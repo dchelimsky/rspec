@@ -3,10 +3,10 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>${1:target}.should_be_an_instance_of ${2:klass}
+	<string>${1:target}.should be_instance_of(${2:klass})
 $0</string>
 	<key>name</key>
-	<string>should_be_an_instance_of</string>
+	<string>should be_instance_of</string>
 	<key>scope</key>
 	<string>source.ruby</string>
 	<key>tabTrigger</key>

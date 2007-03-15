@@ -3,10 +3,10 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>${1:target}.should_${2:be_${3:predicate}} $4
+	<string>${1:target}.should ${2:be_${3:predicate}} $4
 $0</string>
 	<key>name</key>
-	<string>should_predicate</string>
+	<string>should be_predicate</string>
 	<key>scope</key>
 	<string>source.ruby</string>
 	<key>tabTrigger</key>

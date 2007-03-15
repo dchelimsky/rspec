@@ -3,10 +3,10 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>${1:target}.should_not_equal ${2:value}
+	<string>${1:target}.should_not equal(${2:value})
 $0</string>
 	<key>name</key>
-	<string>should_not_equal</string>
+	<string>should_not equal</string>
 	<key>scope</key>
 	<string>source.ruby</string>
 	<key>tabTrigger</key>

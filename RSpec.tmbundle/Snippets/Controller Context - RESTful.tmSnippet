@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>context "Requesting ${1:/some/path} using ${2:GET|POST|PUT|DELETE}${3: with some parameters}" do
+	<string>describe "Requesting ${1:/some/path} using ${2:GET|POST|PUT|DELETE}${3: with some parameters}" do
   controller_name :${4:controller}
 
   $0
 end</string>
 	<key>name</key>
-	<string>Controller Context (RESTful style)</string>
+	<string>Controller Describe (RESTful style)</string>
 	<key>scope</key>
 	<string>source.ruby</string>
 	<key>tabTrigger</key>
-	<string>ccon</string>
+	<string>cdes</string>
 	<key>uuid</key>
 	<string>0ED99C84-1F7B-471E-BB88-B59C5D08FA6B</string>
 </dict>
