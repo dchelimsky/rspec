@@ -272,12 +272,14 @@ context "OptionParser" do
   end
 
   specify "should set an mtime comparator when --loadby mtime" do
-    options = parse(["some/spec1.rb", "some/spec2.rb", "--loadby", 'mtime'])
+    options = parse(["--loadby", "mtime"])
     Dir.chdir(File.dirname(__FILE__)) do
-      files = ['option_parser_spec.rb', 'object_ext_spec.rb', 'drb_command_line_spec.rb']
+      FileUtils.touch "most_recent_spec.rb"
+      files = ['context_spec.rb', 'most_recent_spec.rb']
       mtime_sorted_files = files.sort(&options.file_sorter)
-      # This may file if any of these are modified....
-      mtime_sorted_files.should == ["object_ext_spec.rb", "drb_command_line_spec.rb", "option_parser_spec.rb"]
+      # This may fail if any of these are modified....
+      mtime_sorted_files.should == ["most_recent_spec.rb", "context_spec.rb"]
+      FileUtils.rm "most_recent_spec.rb"
     end
   end
 end
