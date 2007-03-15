@@ -151,16 +151,6 @@ module Spec
         class << self
           attr_accessor :controller_class_name # :nodoc:
           
-          # You MUST provide a controller_name within the context of
-          # your controller specs:
-          #
-          #   context "ThingController" do
-          #     controller_name :thing
-          #     ...
-          def controller_name(name=nil)
-            @controller_class_name = "#{name}_controller".camelize
-          end
-          
           # Use this to instruct RSpec to render views in your controller specs (Integration Mode).
           # 
           #   context "ThingController" do
