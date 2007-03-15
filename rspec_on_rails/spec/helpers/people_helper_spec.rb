@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
-context "the PersonHelper" do
-  helper_name :person
+context PeopleHelper do
+  helper_name :people
   
   specify "should say hello" do
     say_hello.should_eql "Hello"

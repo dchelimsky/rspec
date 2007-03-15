@@ -21,4 +21,4 @@ in the context!
 
 h2. Example Helpers Specs
 
-<ruby file="../rspec_on_rails/spec/helpers/person_helper_spec.rb"/>
+<ruby file="../rspec_on_rails/spec/helpers/people_helper_spec.rb"/>

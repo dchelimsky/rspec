@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
-context "/person/create" do
-  include PersonHelper
+context "/people/create" do
+  include PeopleHelper
   
   setup do
     @person = mock_model(Person)
@@ -9,7 +9,7 @@ context "/person/create" do
   end
 
   specify "should display stuff from helper" do
-    render "/person/create"
+    render "/people/create"
     response.should have_tag('input#person_address')
   end
   
