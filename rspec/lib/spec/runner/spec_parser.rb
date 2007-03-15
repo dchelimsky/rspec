@@ -18,17 +18,17 @@ module Spec
     protected
 
       def context_at_line(source, line_number)
-        find_above(source, line_number, /^\s*(context|describe)\s+['|"](.*)['|"]/)
+        find_above(source, line_number, /^\s*(context|describe)\s+(.*)\s+do/)
       end
 
       def spec_at_line(source, line_number)
-        find_above(source, line_number, /^\s*(specify|it)\s+['|"](.*)['|"]/)
+        find_above(source, line_number, /^\s*(specify|it)\s+(.*)\s+do/)
       end
 
       # Returns the context/describe or specify/it name and the line number
       def find_above(source, line_number, pattern)
         lines_above_reversed(source, line_number).each_with_index do |line, n|
-          return [$2, line_number-n] if line =~ pattern
+          return [parse_description($2), line_number-n] if line =~ pattern
         end
         nil
       end
@@ -36,6 +36,14 @@ module Spec
       def lines_above_reversed(source, line_number)
         lines = source.split("\n")
       	lines[0...line_number].reverse
+      end
+      
+      def parse_description(str)
+        return str[1..-2] if str =~ /^['"].*['"]$/
+        if matches = /^(.*)\s*,\s*['"](.*)['"]$/.match(str)
+          return "#{matches[1]}#{matches[2]}"
+        end
+        return str
       end
     end
   end
