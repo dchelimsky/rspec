@@ -1,4 +1,6 @@
 class RenderSpecController < ApplicationController
+  self.template_root = File.join(File.dirname(__FILE__), "..", "views")
+  
   def some_action
     respond_to do |format|
       format.html

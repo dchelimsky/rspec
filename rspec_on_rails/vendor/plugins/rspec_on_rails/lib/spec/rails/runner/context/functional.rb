@@ -3,6 +3,19 @@ module Spec
     module Runner
       class FunctionalEvalContext < Spec::Rails::Runner::EvalContext
         attr_reader :session, :flash, :request, :response, :params
+        
+        class << self
+          # You MUST provide a controller_name within the context of
+          # your controller specs:
+          #
+          #   context "ThingController" do
+          #     controller_name :thing
+          #     ...
+          def controller_name(name=nil)
+            @controller_class_name = "#{name}_controller".camelize
+          end
+        end
+        
         def setup #:nodoc:
 
           @controller_class = Object.path2class @controller_class_name

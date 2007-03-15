@@ -34,7 +34,7 @@ require 'controller_isolation_spec_controller'
     
     specify "specifying a partial should work with path relative to RAILS_ROOT/app/views/" do
       get 'action_with_partial'
-      response.should render_template("../../vendor/plugins/rspec_on_rails/spec_resources/views/controller_isolation_spec/_a_partial")
+      response.should render_template("controller_isolation_spec/_a_partial")
     end
     
     specify "spec should have access to flash" do

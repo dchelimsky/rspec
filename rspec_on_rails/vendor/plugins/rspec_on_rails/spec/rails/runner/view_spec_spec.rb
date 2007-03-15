@@ -112,11 +112,6 @@ context "Different types of renders (not :template)", :context_type => :view do
     render :partial => "view_spec/partial_with_local_variable", :locals => {:x => "Ender"}
     response.should_have_tag 'div', :content => "Ender"
   end
-
-  specify "file" do
-    render :file => File.expand_path(File.dirname(__FILE__)) + "/../../../../../../app/views/view_spec/_partial_with_local_variable.rhtml", :locals => {:x => "Ender"}
-    response.should_have_tag 'div', :content => "Ender"
-  end
 end
 
 context "A view", :context_type => :view do
