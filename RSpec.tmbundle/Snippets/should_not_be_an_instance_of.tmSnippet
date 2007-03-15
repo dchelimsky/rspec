@@ -6,7 +6,7 @@
 	<string>${1:target}.should_not be_instance_of(${2:klass})
 $0</string>
 	<key>name</key>
-	<string>should_not be_instance_of</string>
+	<string>should_not be_an_instance_of</string>
 	<key>scope</key>
 	<string>source.ruby</string>
 	<key>tabTrigger</key>

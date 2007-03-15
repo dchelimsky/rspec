@@ -7,7 +7,7 @@
 $0
 </string>
 	<key>name</key>
-	<string>should_receive_with_args</string>
+	<string>should_receive with args</string>
 	<key>scope</key>
 	<string>source.ruby</string>
 	<key>tabTrigger</key>

@@ -3,10 +3,10 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>response.should render(:${1:action})
+	<string>response.should render_template(:${1:template})
 $0</string>
 	<key>name</key>
-	<string>should_render</string>
+	<string>should render_template</string>
 	<key>scope</key>
 	<string>source.ruby</string>
 	<key>tabTrigger</key>

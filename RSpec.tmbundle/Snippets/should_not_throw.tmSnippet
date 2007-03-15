@@ -3,10 +3,10 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>lambda { $1 }.should_not throw_symbol(:${2:exception})
+	<string>lambda { $1 }.should_not throw_symbol(:${2:symbol})
 $0</string>
 	<key>name</key>
-	<string>should_not throw_symbol</string>
+	<string>should_not throw</string>
 	<key>scope</key>
 	<string>source.ruby</string>
 	<key>tabTrigger</key>

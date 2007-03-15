@@ -4,15 +4,17 @@
 <dict>
 	<key>content</key>
 	<string>describe "${1:description}" do
-  $0
+  it "should ${2:description}" do
+    $0
+  end
 end</string>
 	<key>name</key>
-	<string>Describe</string>
+	<string>Describe (String)</string>
 	<key>scope</key>
 	<string>source.ruby</string>
 	<key>tabTrigger</key>
-	<string>des</string>
+	<string>de</string>
 	<key>uuid</key>
-	<string>B11A6204-C575-48A6-81A9-55E600BB5706</string>
+	<string>34CBBD13-CE8E-4601-9968-C2CB0D771CA5</string>
 </dict>
 </plist>
