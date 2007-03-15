@@ -9,7 +9,9 @@ require 'spec/runner'
 require "${1:yourlib}"
 
 describe "${2:description}" do
-  $0
+  it "should ${3:description}" do
+    $0
+  end
 end</string>
 	<key>name</key>
 	<string>RSpec Template</string>

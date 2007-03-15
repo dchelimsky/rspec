@@ -3,15 +3,18 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>lambda { $1 }.should throw_symbol(:${2:symbol})
-$0</string>
+	<string>describe ${1:Type} do
+  it "should ${2:description}" do
+    $0
+  end
+end</string>
 	<key>name</key>
-	<string>should throw</string>
+	<string>Describe (type)</string>
 	<key>scope</key>
 	<string>source.ruby</string>
 	<key>tabTrigger</key>
-	<string>shthr</string>
+	<string>desct</string>
 	<key>uuid</key>
-	<string>C41E8AD6-00F5-44E7-9809-F79666FE79F0</string>
+	<string>2ED94046-DAF7-4C91-8D98-771513BB3804</string>
 </dict>
 </plist>

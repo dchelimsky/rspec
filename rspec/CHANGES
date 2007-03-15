@@ -15,6 +15,7 @@ over the order in which specs are run. This can be used to verify that your spec
 independent (by running in opposite order with --reverse). It can also be used to cut 
 down feedback time by running the most recently modified specs first (--loadby mtime --reverse).
 
+* Moved all of the Spec::Rails specs down to the plugins directory - now you can run the specs after you install.
 * Updated RSpec.tmbundle to the 0.8 syntax and replaced context/specify with describe/it.
 * Applied [#9232] ActionController::Base#render is sometimes protected (patch from Dan Manges)
 * Added --reverse option, allowing contexts/specs to be run in reverse order. 

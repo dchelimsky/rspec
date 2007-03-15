@@ -3,15 +3,15 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>lambda { $1 }.should throw_symbol(:${2:symbol})
+	<string>${1:target}.should_not ${2:be_${3:predicate}} $4
 $0</string>
 	<key>name</key>
-	<string>should throw</string>
+	<string>should_not predicate</string>
 	<key>scope</key>
 	<string>source.ruby</string>
 	<key>tabTrigger</key>
-	<string>shthr</string>
+	<string>shn</string>
 	<key>uuid</key>
-	<string>C41E8AD6-00F5-44E7-9809-F79666FE79F0</string>
+	<string>1D0BB312-A029-4A43-A024-EF6C03506CEC</string>
 </dict>
 </plist>
