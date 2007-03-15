@@ -3,10 +3,10 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>${1:target}.should_be_close ${2:result}, ${3:tolerance}
+	<string>${1:target}.should be_close(${2:result}, ${3:tolerance})
 $0</string>
 	<key>name</key>
-	<string>should_be_close</string>
+	<string>should be_close</string>
 	<key>scope</key>
 	<string>source.ruby</string>
 	<key>tabTrigger</key>

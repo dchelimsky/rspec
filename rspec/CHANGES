@@ -15,9 +15,10 @@ over the order in which specs are run. This can be used to verify that your spec
 independent (by running in opposite order with --reverse). It can also be used to cut 
 down feedback time by running the most recently modified specs first (--loadby mtime --reverse).
 
+* Updated RSpec.tmbundle to the 0.8 syntax and replaced context/specify with describe/it.
 * Applied [#9232] ActionController::Base#render is sometimes protected (patch from Dan Manges)
 * Added --reverse option, allowing contexts/specs to be run in reverse order. 
-* Added --loadby option, allowing better control over load order for spec files. Only mtime supported for now.
+* Added --loadby option, allowing better control over load order for spec files. mtime and file.txt supported.
 * Implemented [#8696] --order option (see --reverse and --loadby)
 * Added describe/it as aliases for context/specify - suggestion from Dan North.
 * Applied [#7637] [PATCH] add skip-migration option to rspec_resource generator

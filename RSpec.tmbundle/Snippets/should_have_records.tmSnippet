@@ -3,10 +3,10 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>${1:target}.should_have(${2:x}).records
+	<string>${1:target}.should have(${2:x}).records
 $0</string>
 	<key>name</key>
-	<string>should_have_records</string>
+	<string>should have_records</string>
 	<key>scope</key>
 	<string>source.ruby</string>
 	<key>tabTrigger</key>

@@ -3,15 +3,15 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>${1:target}.should_not_include ${2:value}
+	<string>${1:target}.should =~ /${2:regexp}/
 $0</string>
 	<key>name</key>
-	<string>should_not_include</string>
+	<string>should =~</string>
 	<key>scope</key>
 	<string>source.ruby</string>
 	<key>tabTrigger</key>
-	<string>shinc</string>
+	<string>shma</string>
 	<key>uuid</key>
-	<string>B08960C5-CA15-4AF6-A12A-2980CD44EA11</string>
+	<string>0BD5A07E-5FB3-44A3-991F-ABA04BA632D7</string>
 </dict>
 </plist>

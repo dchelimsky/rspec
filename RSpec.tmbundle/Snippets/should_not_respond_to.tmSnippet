@@ -3,10 +3,10 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>${1:target}.should_not_respond_to ${2:sym}
+	<string>${1:target}.should_not respond_to(:${2:sym})
 $0</string>
 	<key>name</key>
-	<string>should_not_respond_to</string>
+	<string>should_not respond_to</string>
 	<key>scope</key>
 	<string>source.ruby</string>
 	<key>tabTrigger</key>

@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>response.should_render :${1:action}
+	<string>response.should render(:${1:action})
 $0</string>
 	<key>name</key>
 	<string>should_render</string>

@@ -3,10 +3,10 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>${1:target}.should_have_at_least(${2:num}).${3:things}
+	<string>${1:target}.should have_at_least(${2:num}).${3:things}
 $0</string>
 	<key>name</key>
-	<string>should_have_at_least</string>
+	<string>should have_at_least</string>
 	<key>scope</key>
 	<string>source.ruby</string>
 	<key>tabTrigger</key>

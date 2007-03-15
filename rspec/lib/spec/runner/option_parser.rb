@@ -86,7 +86,8 @@ module Spec
             options.spec_name = spec_name
           end
           
-          opts.on("-l", "--line LINE_NUMBER", Integer, "Execute context or specification at given line") do |line_number|
+          opts.on("-l", "--line LINE_NUMBER", Integer, "Execute context or specification at given line.",
+                                                       "(does not work for dynamically generated specs)") do |line_number|
             options.line_number = line_number.to_i
           end
 
@@ -122,13 +123,12 @@ module Spec
             options.backtrace_tweaker = NoisyBacktraceTweaker.new
           end
           
-          opts.on("-L", "--loadby CRITERION", "Specify the ordering criterion by which spec files should be loaded.",
-                                              "CRITERION can currently only be 'mtime' (File modification time).",
-                                              "By default, spec files are loaded in alphabetical order.") do |criterion|
-            file_sorters = {
-              'mtime' => lambda {|file_a, file_b| File.mtime(file_b) <=> File.mtime(file_a)}
-            }
-            options.file_sorter = file_sorters[criterion]
+          opts.on("-L", "--loadby STRATEGY", "Specify the strategy by which spec files should be loaded.",
+                                              "STRATEGY can be 'mtime' (File modification time) or some_file.txt.",
+                                              "some_file.txt must contain paths to spec files that are to be loaded",
+                                              "first, and the file extension must be .txt. By default, spec files are",
+                                              "loaded in alphabetical order if --loadby is not specified.") do |loadby|
+            options.loadby = loadby
           end
 
           opts.on("-R", "--reverse", "Run specs in reverse order") do

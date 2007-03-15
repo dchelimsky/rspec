@@ -3,15 +3,16 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>${1:target}.should_not be_instance_of(${2:klass})
-$0</string>
+	<string>describe "${1:description}" do
+  $0
+end</string>
 	<key>name</key>
-	<string>should_not be_instance_of</string>
+	<string>Describe</string>
 	<key>scope</key>
 	<string>source.ruby</string>
 	<key>tabTrigger</key>
-	<string>shiof</string>
+	<string>des</string>
 	<key>uuid</key>
-	<string>364B3C9C-409C-4FC8-A12A-9A05CFB476CF</string>
+	<string>B11A6204-C575-48A6-81A9-55E600BB5706</string>
 </dict>
 </plist>

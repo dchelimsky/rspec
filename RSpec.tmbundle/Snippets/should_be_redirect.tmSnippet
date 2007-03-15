@@ -3,10 +3,10 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>response.should_be_redirect
+	<string>response.should be_redirect
 $0</string>
 	<key>name</key>
-	<string>should_be_redirect</string>
+	<string>should be_redirect</string>
 	<key>scope</key>
 	<string>source.ruby</string>
 	<key>tabTrigger</key>
