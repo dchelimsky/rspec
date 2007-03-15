@@ -126,7 +126,7 @@ module Spec
                                               "CRITERION can currently only be 'mtime' (File modification time).",
                                               "By default, spec files are loaded in alphabetical order.") do |criterion|
             file_sorters = {
-              'mtime' => lambda {|file_a, file_b| File.mtime(file_a) <=> File.mtime(file_b)}
+              'mtime' => lambda {|file_a, file_b| File.mtime(file_b) <=> File.mtime(file_a)}
             }
             options.file_sorter = file_sorters[criterion]
           end
