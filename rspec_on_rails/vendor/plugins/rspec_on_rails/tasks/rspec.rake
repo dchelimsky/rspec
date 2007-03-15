@@ -32,6 +32,12 @@ namespace :spec do
     raise "RSpec failures" if got_error
   end
   
+  desc "Run all specs in spec directory"
+  Spec::Rake::SpecTask.new(:all_specs => "db:test:prepare") do |t|
+    t.spec_opts = ['--options', "\"#{RAILS_ROOT}/spec/spec.opts\""]
+    t.spec_files = FileList['spec/**/*_spec.rb']
+  end  
+  
   desc "Run all specs including plugins"
   task :all do
     Rake::Task["spec:app"].invoke       rescue got_error = true
