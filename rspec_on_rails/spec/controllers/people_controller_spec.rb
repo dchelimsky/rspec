@@ -3,8 +3,8 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-context "The PersonController" do
-  controller_name "person"
+context PeopleController do
+  controller_name "people"
   
   setup do
     @person = mock("person")
@@ -28,7 +28,7 @@ context "The PersonController" do
     assigns[:person].should_be @person
   end
   
-  specify "should render 'person/create' on GET to create" do
+  specify "should render 'people/create' on GET to create" do
     get 'create'
     response.should render_template(:create)
   end
@@ -48,20 +48,20 @@ context "The PersonController" do
     response.should redirect_to(:action => 'index')
   end
   
-  specify "with a valid person re-render 'person/create' on failed POST to create" do
+  specify "with a valid person re-render 'people/create' on failed POST to create" do
     @person.should_receive(:new_record?).and_return(true)
     Person.should_receive(:create).with({"name" => 'Aslak'}).and_return(@person)
     
     post 'create', {:person => {:name => 'Aslak'}}
     
-    response.should render_template("person/create")
+    response.should render_template("people/create")
     response.should_not be_redirect
     assigns[:person].should == Person.new({:name => 'Aslak'})
   end
 end
 
-context "When requesting /person with controller isolated from views" do
-  controller_name :person
+context "When requesting /people with controller isolated from views" do
+  controller_name :people
 
   setup do
     @mock_person = mock("person")
@@ -82,8 +82,8 @@ context "When requesting /person with controller isolated from views" do
 
 end
 
-context "When requesting /person with views integrated" do
-  controller_name :person
+context "When requesting /people with views integrated" do
+  controller_name :people
   integrate_views
 
   setup do
@@ -120,8 +120,8 @@ context "When requesting /person with views integrated" do
   end
 end
 
-context "/person/show/3" do
-  controller_name :person
+context "/people/show/3" do
+  controller_name :people
   
   setup do
     @person = mock("person")
@@ -137,7 +137,7 @@ context "/person/show/3" do
 end
 
 context "Given an attempt to show a person that doesn't exist" do
-  controller_name :person
+  controller_name :people
   
   setup do
     Person.stub!(:find)

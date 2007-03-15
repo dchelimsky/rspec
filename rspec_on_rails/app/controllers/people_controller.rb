@@ -1,8 +1,8 @@
-class PersonController < ApplicationController
+class PeopleController < ApplicationController
 
   def index
     @people = Person.find(:all)
-    render :template => 'person/list'
+    render :template => 'people/list'
   end
 
   def create
@@ -11,18 +11,18 @@ class PersonController < ApplicationController
       unless @person.new_record?
         redirect_to :action => 'index'
       else
-        render :template => 'person/create'
+        render :template => 'people/create'
       end
     else
       @person = Person.new
-      render :template => 'person/create'
+      render :template => 'people/create'
     end
   end
   
   def show
     @person = Person.find(params[:id])
     show_404 and return unless @person
-    render :template => 'person/show'
+    render :template => 'people/show'
   end
 
   protected
