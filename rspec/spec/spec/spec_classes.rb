@@ -82,7 +82,7 @@ module Spec
         end
 
         def __verify
-          @funny_called.should be(true)
+          @funny_called.should be_true
         end
       end
       class ClassWithUnqueriedPredicate

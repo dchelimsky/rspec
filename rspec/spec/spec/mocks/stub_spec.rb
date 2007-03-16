@@ -44,7 +44,7 @@ module Spec
       
       specify "should clear itself on __verify" do
         @obj.stub!(:this_should_go).and_return(:blah)
-        @obj.this_should_go.should_equal :blah
+        @obj.this_should_go.should == :blah
         @obj.__verify
         lambda do
           @obj.this_should_go
@@ -78,19 +78,19 @@ module Spec
       specify "should return values in order to consecutive calls" do
         return_values = ["1",2,Object.new]
         @obj.stub!(:msg).and_return(return_values[0],return_values[1],return_values[2])
-        @obj.msg.should_eql return_values[0]
-        @obj.msg.should_eql return_values[1]
-        @obj.msg.should_eql return_values[2]
+        @obj.msg.should == return_values[0]
+        @obj.msg.should == return_values[1]
+        @obj.msg.should == return_values[2]
       end
 
       specify "should keep returning last value in consecutive calls" do
         return_values = ["1",2,Object.new]
         @obj.stub!(:msg).and_return(return_values[0],return_values[1],return_values[2])
-        @obj.msg.should_eql return_values[0]
-        @obj.msg.should_eql return_values[1]
-        @obj.msg.should_eql return_values[2]
-        @obj.msg.should_eql return_values[2]
-        @obj.msg.should_eql return_values[2]
+        @obj.msg.should == return_values[0]
+        @obj.msg.should == return_values[1]
+        @obj.msg.should == return_values[2]
+        @obj.msg.should == return_values[2]
+        @obj.msg.should == return_values[2]
       end
 
       specify "should revert to original instance method if existed" do
@@ -128,18 +128,18 @@ module Spec
 
       specify "should clear itself on __verify" do
         @obj.stub!(:this_should_go).and_return(:blah)
-        @obj.this_should_go.should_equal :blah
+        @obj.this_should_go.should == :blah
         @obj.__verify
         lambda do
           @obj.this_should_go
-        end.should_raise
+        end.should raise_error
       end
       
       specify "should support yielding" do
         @obj.stub!(:method_that_yields).and_yield(:yielded_value)
         current_value = :value_before
         @obj.method_that_yields {|val| current_value = val}
-        current_value.should_equal :yielded_value
+        current_value.should == :yielded_value
         @obj.__verify
       end
 
@@ -147,7 +147,7 @@ module Spec
         @mock.stub!(:something).and_throw(:blech)
         lambda do
           @mock.something
-        end.should_throw(:blech)
+        end.should throw_symbol(:blech)
       end
       
       specify "should support overriding w/ a new stub" do

@@ -93,9 +93,9 @@ module Spec
         @formatter.should_receive(:add_context).with :any_args
 
         @formatter.should_receive(:spec_finished) do |name, error, location|
-          name.should_eql("context_setup")
-          error.message.should_eql("in context_setup")
-          location.should_eql("context_setup")
+          name.should eql("context_setup")
+          error.message.should eql("in context_setup")
+          location.should eql("context_setup")
         end
         
         @context_eval.context_setup { raise "in context_setup" }
@@ -107,9 +107,9 @@ module Spec
         @formatter.should_receive(:add_context).with :any_args
 
         @formatter.should_receive(:spec_finished) do |name, error, location|
-          name.should_eql("context_teardown")
-          error.message.should_eql("in context_teardown")
-          location.should_eql("context_teardown")
+          name.should eql("context_teardown")
+          error.message.should eql("in context_teardown")
+          location.should eql("context_teardown")
         end
         
         @context_eval.context_teardown { raise "in context_teardown" }

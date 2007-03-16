@@ -9,7 +9,7 @@ module Spec
       end
   
       def verify_error(error, message=nil)
-        error.should_be_an_instance_of Spec::Expectations::ExpectationNotMetError
+        error.should be_an_instance_of(Spec::Expectations::ExpectationNotMetError)
         unless message.nil?
           if message.is_a?(Regexp)
             error.message.should =~ message
@@ -24,7 +24,7 @@ module Spec
           raise Spec::Expectations::ExpectationNotMetError
         end
         @reporter.should_receive(:spec_finished) do |spec_name, error|
-          error.should be(nil)
+          error.should be_nil
         end
         spec.run(@reporter, nil, nil, nil, nil)
       end
@@ -42,7 +42,7 @@ module Spec
           raise NameError
         end
         @reporter.should_receive(:spec_finished) do |spec_name, error|
-          error.should be(nil)
+          error.should be_nil
         end
         spec.run(@reporter, nil, nil, nil, nil)
       end
@@ -72,7 +72,7 @@ module Spec
           raise NameError
         end
         @reporter.should_receive(:spec_finished) do |spec_name, error|
-          error.should be(nil)
+          error.should be_nil
         end
         spec.run(@reporter, nil, nil, nil, nil)
       end
@@ -101,7 +101,7 @@ module Spec
           raise NameError, 'expected'
         end
         @reporter.should_receive(:spec_finished) do |spec_name, error|
-          error.should be(nil)
+          error.should be_nil
         end
         spec.run(@reporter, nil, nil, nil, nil)
       end
@@ -111,7 +111,7 @@ module Spec
           raise NameError, 'expected'
         end
         @reporter.should_receive(:spec_finished) do |spec_name, error|
-          error.should be(nil)
+          error.should be_nil
         end
         spec.run(@reporter, nil, nil, nil, nil)
       end

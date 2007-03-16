@@ -19,7 +19,7 @@ context "Object#should" do
     @matcher.should_receive(:failure_message).and_return("the failure message")
     lambda {
       @target.should @matcher
-    }.should_fail_with "the failure message"
+    }.should fail_with("the failure message")
   end
 end
 
@@ -41,6 +41,6 @@ context "Object#should_not" do
     @matcher.should_receive(:negative_failure_message).and_return("the negative failure message")
     lambda {
       @target.should_not @matcher
-    }.should_fail_with "the negative failure message"
+    }.should fail_with("the negative failure message")
   end
 end

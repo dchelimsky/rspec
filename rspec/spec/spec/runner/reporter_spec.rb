@@ -104,7 +104,7 @@ module Spec
         @formatter.should_receive(:start).with(5)
         @formatter.should_receive(:start_dump)
         @formatter.should_receive(:dump_summary) do |time, a, b|
-          time.to_s.should_match(/[0-9].[0-9|e|-]+/)
+          time.to_s.should match(/[0-9].[0-9|e|-]+/)
         end
         @reporter.start(5)
         @reporter.end

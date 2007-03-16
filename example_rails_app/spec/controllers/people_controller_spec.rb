@@ -105,7 +105,7 @@ context "When requesting /people with views integrated" do
   end
 
   specify "should find all people on GET to index" do
-    response.should_be_success
+    response.should be_success
     assigns[:people].should equal(@people)
   end
   

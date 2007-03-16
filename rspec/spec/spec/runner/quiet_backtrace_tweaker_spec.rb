@@ -17,7 +17,7 @@ module Spec
       specify "should remove anything from textmate ruby bundle" do
         @error.set_backtrace(["/Applications/TextMate.app/Contents/SharedSupport/Bundles/Ruby.tmbundle/Support/tmruby.rb:147"])
         @tweaker.tweak_backtrace(@error, "spec name")
-        @error.backtrace.should_be_empty
+        @error.backtrace.should be_empty
       end
 
       specify "should remove anything in lib spec dir" do
@@ -34,7 +34,7 @@ module Spec
       specify "should remove bin spec" do
         @error.set_backtrace(["bin/spec:"])
         @tweaker.tweak_backtrace(@error, "spec name")
-        @error.backtrace.should_be_empty
+        @error.backtrace.should be_empty
       end
       
       specify "should clean up double slashes" do

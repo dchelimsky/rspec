@@ -15,7 +15,7 @@ module Spec
           set_backtrace(error)
           @reporter.spec_finished("spec", error, "spec")
           @reporter.dump
-          @io.string.should_match(/\n\z/)
+          @io.string.should match(/\n\z/)
         end
 
         specify "should include context and spec name in backtrace if error in spec" do
@@ -23,7 +23,7 @@ module Spec
           set_backtrace(error)
           @reporter.spec_finished("spec", error, "spec")
           @reporter.dump
-          @io.string.should_match(/RuntimeError in 'context spec'/)
+          @io.string.should match(/RuntimeError in 'context spec'/)
         end
 
         def set_backtrace(error)

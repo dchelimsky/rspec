@@ -66,9 +66,9 @@ module Spec
         end
         @reporter.should_receive(:spec_started).with("spec")
         @reporter.should_receive(:spec_finished) do |spec, error, location|
-          spec.should_eql("spec")
-          location.should_eql("spec")
-          error.message.should_eql("in body")
+          spec.should eql("spec")
+          location.should eql("spec")
+          error.message.should eql("in body")
         end
         spec.run(@reporter, nil, teardown, nil, nil)
       end
@@ -78,9 +78,9 @@ module Spec
         setup=lambda { raise("in setup") }
         @reporter.should_receive(:spec_started).with("spec")
         @reporter.should_receive(:spec_finished) do |name, error, location|
-          name.should_eql("spec")
-          error.message.should_eql("in setup")
-          location.should_eql("setup")
+          name.should eql("spec")
+          error.message.should eql("in setup")
+          location.should eql("setup")
         end
         spec.run(@reporter, setup, nil, nil, nil)
       end
@@ -90,9 +90,9 @@ module Spec
         teardown = lambda { raise("in teardown") }
         @reporter.should_receive(:spec_started).with("spec")
         @reporter.should_receive(:spec_finished) do |name, error, location|
-          name.should_eql("spec")
-          error.message.should_eql("in teardown")
-          location.should_eql("teardown")
+          name.should eql("spec")
+          error.message.should eql("in teardown")
+          location.should eql("teardown")
         end
         spec.run(@reporter, nil, teardown, nil, nil)
       end
@@ -104,8 +104,8 @@ module Spec
         end
         @reporter.should_receive(:spec_started).with("spec")
         @reporter.should_receive(:spec_finished) do |spec_name, error|
-          spec_name.should_eql("spec")
-          error.message.should_match(/expected :poke with \(any args\) once, but received it 0 times/)
+          spec_name.should eql("spec")
+          error.message.should match(/expected :poke with \(any args\) once, but received it 0 times/)
         end
         spec.run(@reporter, nil, nil, nil, Object.new)
       end
@@ -122,11 +122,11 @@ module Spec
           Example.current.should == spec
         end
 
-        Example.current.should_be_nil
+        Example.current.should be_nil
         setup = proc {Example.current.should == spec}
         teardown = proc {Example.current.should == spec}
         spec.run(@reporter, setup, teardown, nil, Object.new)
-        Example.current.should_be_nil
+        Example.current.should be_nil
       end
 
       specify "should notify before_setup callbacks before setup" do

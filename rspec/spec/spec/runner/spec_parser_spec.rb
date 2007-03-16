@@ -43,47 +43,47 @@ context "SpecParser" do
   end
 
   specify "should find spec name for 'specify' at same line" do
-    @p.spec_name_for(File.open(__FILE__), 5).should_eql "c 1"
+    @p.spec_name_for(File.open(__FILE__), 5).should == "c 1"
   end
 
   specify "should find spec name for 'specify' at end of spec line" do
-    @p.spec_name_for(File.open(__FILE__), 6).should_eql "c 1"
+    @p.spec_name_for(File.open(__FILE__), 6).should == "c 1"
   end
 
   specify "should find context for 'context' above all specs" do
-    @p.spec_name_for(File.open(__FILE__), 4).should_eql "c"
+    @p.spec_name_for(File.open(__FILE__), 4).should == "c"
   end
 
   specify "should find spec name for 'it' at same line" do
-    @p.spec_name_for(File.open(__FILE__), 15).should_eql "d 3"
+    @p.spec_name_for(File.open(__FILE__), 15).should == "d 3"
   end
 
   specify "should find spec name for 'it' at end of spec line" do
-    @p.spec_name_for(File.open(__FILE__), 16).should_eql "d 3"
+    @p.spec_name_for(File.open(__FILE__), 16).should == "d 3"
   end
 
   specify "should find context for 'describe' above all specs" do
-    @p.spec_name_for(File.open(__FILE__), 14).should_eql "d"
+    @p.spec_name_for(File.open(__FILE__), 14).should == "d"
   end
 
  # specify "should find context name between specs" do
- #   @p.spec_name_for(File.open(__FILE__), 7).should_eql "c"
+ #   @p.spec_name_for(File.open(__FILE__), 7).should == "c"
  # end
 
   specify "should find nothing outside a context" do
-    @p.spec_name_for(File.open(__FILE__), 2).should_be_nil
+    @p.spec_name_for(File.open(__FILE__), 2).should be_nil
   end
   
   specify "should find context name for type" do
-    @p.spec_name_for(File.open(__FILE__), 26).should_eql "SpecParserSubject"
+    @p.spec_name_for(File.open(__FILE__), 26).should == "SpecParserSubject"
   end
   
   specify "should find context and spec name for type" do
-    @p.spec_name_for(File.open(__FILE__), 28).should_eql "SpecParserSubject 5"
+    @p.spec_name_for(File.open(__FILE__), 28).should == "SpecParserSubject 5"
   end
 
   specify "should find context and description for type" do
-    @p.spec_name_for(File.open(__FILE__), 33).should_eql "SpecParserSubject described"
+    @p.spec_name_for(File.open(__FILE__), 33).should == "SpecParserSubject described"
   end
   
 end

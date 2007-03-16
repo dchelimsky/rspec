@@ -85,7 +85,7 @@ It also sports myriad new features, bug fixes, patches and general goodness:
 * Fixed [#7409] default fixtures do not appear to run.
 * Fixed [#7507] "render..and return" doesn't return
 * Fixed [#7509] rcov/rspec incorrectly includes boot.rb (Patch from Courtenay)
-* Fixed [#7506] unnecessary complex output on failure of response.should_be_redirect
+* Fixed [#7506] unnecessary complex output on failure of response.should be_redirect
 * Applied [#6098] Make scaffold_resource generator. Based on code from Pat Maddox.
 * The drbspec command is gone. Use spec --drb instead.
 * The drb option is gone from the Rake task. Pass --drb to spec_opts instead.
@@ -190,7 +190,7 @@ Bug fixes and a couple o' new features.
 * Fixed [#6555] should_have_tag does not match documentation
 * Fixed [#6567] SyntaxError should not stop entire run
 * Fixed [#6558] integrated views look for template even when redirected
-* Fixed [#6547] response.should_be_redirect broken in 0.7.0
+* Fixed [#6547] response.should be_redirect broken in 0.7.0
 * Applied [#6471] Easy way to spec routes
 * Applied [#6587] Rspec on Rails displays "Spec::Rails::ContextFactory" as context name
 * Applied [#6514] Document has trivial typos.
@@ -212,7 +212,7 @@ There are a few changes that will require that you change your existing specs.
 RSpec now handles equality exactly like ruby does:
 
 # actual.should_equal(expected) will pass if actual.equal?(expected) returns true
-# actual.should_eql(expected) will pass if actual.eql?(expected) returns true
+# actual.should eql(expected) will pass if actual.eql?(expected) returns true
 # actual.should == expected will pass if actual == expected) returns true
 
 At the high level, eql? implies equivalence, while equal? implies object identity. For more
@@ -236,7 +236,7 @@ Here's what you'll need to do to update your specs:
 # search for "should_equal" and replace with "should_eql"
 # run specs
 
-If any specs still fail, they are probably related to should_be(true) or should_be(false) using
+If any specs still fail, they are probably related to should be_true or should_be_false using
 non-boolean values. Those you'll just have to inspect manually and adjust appropriately (sorry!).
 
 --------------------------------------------------
@@ -351,7 +351,7 @@ This release makes an official commitment to underscore_syntax (with no more sup
 * Converted ALL tests to use underscore syntax
 * Fixed all remaining problems with underscores revealed by converting all the tests to underscores
 * Enhanced sugar to support combinations of methods (i.e. once.and_return) 
-* Simplified helper structure taking advantage of dot/underscore combos (i.e. should.be.an_instance_of, which can be expressed as should_be_an_instance_of)
+* Simplified helper structure taking advantage of dot/underscore combos (i.e. should.be.an_instance_of, which can be expressed as should be_an_instance_of)
 * Added support for at_most in mocks
 * Added support for should_not_receive(:msg) (will be removing should_receive(:msg).never some time soon)
 * Added support for should_have_exactly(5).items_in_collection
@@ -377,7 +377,7 @@ a experimental support for faster rails specs.
 
 * Added proc methods for specifying differences (increments and decrements). See difference_test.rb
 * Methods can now be defined alongside specs. This obsoletes the need for defining methods in setup. (Patch #5002 from Brian Takita)
-* Sugar (underscores) now works correctly with should_be_a_kind_of and should_be_an_instance_of
+* Sugar (underscores) now works correctly with should be_a_kind_of and should be_an_instance_of
 * Added support for include and inherit in contexts. (Patch #4971 from Brian Takita)
 * Added rails_spec and rails_spec_server for faster specs on rails (still buggy - help needed)
 * Fixed bug that caused should_render to break if given a :symbol (in Rails)
@@ -594,7 +594,7 @@ This release adds some improvements to the mock API and minor syntax improvement
 
 This release adds some shoulds and improves error reporting
 
-* Added should_be_same_as and should_not_be_same_as.
+* Added should be_same_as and should_not be_same_as.
 * Improved error reporting for comparison expectations.
 
 == Version 0.1.0

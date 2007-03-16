@@ -99,11 +99,4 @@ end
 
 class Object
   include Spec::Expectations::ObjectExpectations
-  deprecated do
-    include Spec::Expectations::UnderscoreSugar
-  end
-end
-
-deprecated do
-  Object.handle_underscores_for_rspec!
 end

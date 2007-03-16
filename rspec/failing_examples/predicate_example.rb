@@ -19,11 +19,11 @@ context "BDD framework" do
 
   specify "should be adopted quickly" do
     #this will fail because it reallly SHOULD be adopted quickly
-    @bdd_framework.should_be_adopted_quickly
+    @bdd_framework.should be_adopted_quickly
   end
   
   specify "should be intuitive" do
-    @bdd_framework.should_be_intuitive
+    @bdd_framework.should be_intuitive
   end
 
 end

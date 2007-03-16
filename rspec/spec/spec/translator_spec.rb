@@ -11,8 +11,8 @@ context "Translator" do
     @t.translate_dir(from, to)
   end
   
-  specify "should translate should_be_close" do
-    @t.translate('5.0.should_be_close(5.0, 0.5)').should eql('5.0.should be_close(5.0, 0.5)')
+  specify "should translate should be_close" do
+    @t.translate('5.0.should be_close(5.0, 0.5)').should eql('5.0.should be_close(5.0, 0.5)')
   end
 
   specify "should translate should_not_raise" do
@@ -40,7 +40,7 @@ context "Translator" do
   end
 
   specify "should translate multi word predicates prefixed with be" do
-    @t.translate('foo.should_be_multi_word_predicate').should eql('foo.should be_multi_word_predicate')
+    @t.translate('foo.should be_multi_word_predicate').should eql('foo.should be_multi_word_predicate')
   end
 
   specify "should translate be(expected) to equal(expected)" do
@@ -48,7 +48,7 @@ context "Translator" do
   end
 
   specify "should translate instance_of" do
-    @t.translate('5.should_be_an_instance_of(Integer)').should eql('5.should be_an_instance_of(Integer)')
+    @t.translate('5.should be_an_instance_of(Integer)').should eql('5.should be_an_instance_of(Integer)')
   end
 
   specify "should translate should_be <" do
@@ -70,7 +70,7 @@ context "Translator" do
 =begin
   
   specify "should translate kind of" do
-    @t.translate('@object.should_receive(:foobar).should_be_kind_of(MessageExpectation)').should(
+    @t.translate('@object.should_receive(:foobar).should be_kind_of(MessageExpectation)').should(
     eql('@object.should_receive(:foobar).should be_kind_of(MessageExpectation)'))
   end
   

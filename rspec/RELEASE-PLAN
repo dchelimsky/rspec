@@ -29,7 +29,7 @@ This change applies to all of these as well:
 
   should_equal
   should_eql
-  should_be_close
+  should be_close
   should_include
   should_match
   should_satisfy
@@ -43,17 +43,17 @@ This change applies to all of these as well:
   result.should_not_be nil
 
   #after
-  result.should be(true)
-  result.should be(false)
-  result.should be(nil)
-  result.should_not be(true)
+  result.should be_true
+  result.should be_false
+  result.should be_nil
+  result.should_not be_true
 
 == should_be with arbitrary predicates
 
   #before
-  true.should_be_arbitrary_predicate
-  true.should_be_a_arbitrary_predicate
-  true.should_be_an_arbitrary_predicate
+  true.should be_arbitrary_predicate
+  true.should be_a_arbitrary_predicate
+  true.should be_an_arbitrary_predicate
 
   #after
   true.should be_arbitrary_predicate

@@ -1,10 +1,6 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
 context "the ContextFactory" do
-  setup do
-    Spec::Rails::Runner::Context.handle_underscores_for_rspec!
-  end
-  
   specify "should return a ModelContext when given :context_type => :model" do
     Spec::Rails::Runner::ContextFactory.create("name", :context_type => :model) {
     }.should be_an_instance_of(Spec::Rails::Runner::ModelContext)

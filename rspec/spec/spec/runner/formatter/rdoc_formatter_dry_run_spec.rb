@@ -10,7 +10,7 @@ context "RdocFormatterDryRun" do
     end
     specify "should not produce summary on dry run" do
         @formatter.dump_summary(3, 2, 1)
-        @io.string.should_eql ""      
+        @io.string.should == ""      
     end
 end
 end

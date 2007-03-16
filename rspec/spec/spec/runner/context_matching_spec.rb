@@ -14,14 +14,14 @@ module Spec
         @context_eval.specify("spec1") {}
         @context_eval.specify("spec2") {}
         @context.run_single_spec("context")
-        @context.number_of_specs.should_equal(2)
+        @context.number_of_specs.should == 2
       end
 
       specify "should only run specified specs when specified" do
         @context_eval.specify("spec1") {}
         @context_eval.specify("spec2") {}
         @context.run_single_spec("context spec1")
-        @context.number_of_specs.should_equal(1)
+        @context.number_of_specs.should == 1
       end
     end
   end

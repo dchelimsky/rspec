@@ -25,7 +25,7 @@ module Spec
   #     end
   # 
   #     specify "should have a balance of $0" do
-  #       @account.balance.should_eql Money.new(0, :dollars)
+  #       @account.balance.should == Money.new(0, :dollars)
   #     end
   # 
   #   end

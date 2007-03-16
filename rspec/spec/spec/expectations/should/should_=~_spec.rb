@@ -8,6 +8,6 @@ context "should =~" do
   specify "should fail when =~ operator returns nil" do
     lambda do
       "fu".should =~ /oo/
-    end.should_fail_with "expected =~ /oo/, got \"fu\""
+    end.should fail_with("expected =~ /oo/, got \"fu\"")
   end
 end
