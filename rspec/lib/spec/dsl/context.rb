@@ -149,7 +149,7 @@ module Spec
       
       def plugin_mock_framework
         require File.expand_path(File.join(File.dirname(__FILE__), "..", "plugins","mock_framework.rb"))
-        include Spec::Runner::MockMethods
+        include Spec::Plugins::MockMethods
       end
 
     end

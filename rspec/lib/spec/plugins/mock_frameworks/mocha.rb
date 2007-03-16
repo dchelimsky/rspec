@@ -3,7 +3,7 @@
 # chain.
 
 module Spec
-  module Runner
+  module Plugins
     module MockMethods
       include Mocha::Standalone
       def setup_mocks

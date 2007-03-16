@@ -1,16 +1,12 @@
 require 'spec/runner/formatter'
-require 'spec/runner/context_eval'
-require 'spec/runner/specification'
 require 'spec/runner/context_runner'
 require 'spec/runner/option_parser'
 require 'spec/runner/command_line'
 require 'spec/runner/drb_command_line'
 require 'spec/runner/backtrace_tweaker'
 require 'spec/runner/reporter'
-require 'spec/runner/spec_matcher'
 require 'spec/runner/extensions/object'
 require 'spec/runner/extensions/kernel'
-require 'spec/runner/spec_should_raise_handler'
 require 'spec/runner/spec_parser'
 
 module Spec
