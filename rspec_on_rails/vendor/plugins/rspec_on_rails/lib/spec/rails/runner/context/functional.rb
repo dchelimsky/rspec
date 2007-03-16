@@ -63,7 +63,7 @@ module Spec
       
         private
         def _controller_ivar_proxy
-          @controller_ivar_proxy ||= Spec::Rails::Expectations::IvarProxy.new @controller 
+          @controller_ivar_proxy ||= IvarProxy.new @controller 
         end
       end
     end

@@ -4,7 +4,7 @@
 
 module Spec
   module Rails
-    module Expectations
+    module Runner
       class IvarProxy #:nodoc:
 
         ##
