@@ -31,7 +31,7 @@ Spec::Rake::SpecTask.new do |t|
   t.spec_opts = ['--color','--backtrace']
   t.rcov = true
   t.rcov_dir = '../doc/output/coverage'
-  t.rcov_opts = ['--exclude', 'spec\/spec,bin\/spec,examples']
+  t.rcov_opts = ['--exclude', 'spec\/spec,bin\/spec,examples,translator']
 end
 
 desc "Run all specs and store html output in doc/output/report.html"

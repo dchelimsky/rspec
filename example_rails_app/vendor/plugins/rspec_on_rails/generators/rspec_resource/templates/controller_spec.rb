@@ -188,7 +188,7 @@ describe "GET /<%= table_name %>/new" do
   
   it "should assign the new <%= file_name %> for the view" do
     do_get
-    assigns[:<%= file_name %>].should be(@<%= file_name %>)
+    assigns[:<%= file_name %>].should equal(@<%= file_name %>)
   end
 end
 

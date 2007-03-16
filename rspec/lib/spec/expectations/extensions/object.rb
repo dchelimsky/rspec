@@ -26,7 +26,7 @@ module Spec
       # Instead, use receiver.should_not == expected
       def should(matcher=nil, &block)
         return ExpectationMatcherHandler.handle_matcher(self, matcher, &block) if matcher
-        Should::Should.new(self)
+        Spec::Matchers::PositiveOperatorMatcher.new(self)
       end
 
       # :call-seq:
@@ -46,7 +46,7 @@ module Spec
       # See Spec::Matchers for more information about matchers
       def should_not(matcher=nil, &block)
         return NegativeExpectationMatcherHandler.handle_matcher(self, matcher, &block) if matcher
-        should.not
+        Spec::Matchers::NegativeOperatorMatcher.new(self)
       end
 
     end

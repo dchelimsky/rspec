@@ -1,4 +1,3 @@
-require 'spec/deprecated'
 require 'spec/version'
 require 'spec/callback'
 require 'spec/matchers'
