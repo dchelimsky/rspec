@@ -87,10 +87,7 @@ module Spec
         end
 
         def context_modules
-          @context_modules ||= [
-            ::Spec::Matchers,
-            ::Spec::Mocks::SpecMethods
-          ]
+          @context_modules ||= [::Spec::Matchers]
         end
         
         def specifications

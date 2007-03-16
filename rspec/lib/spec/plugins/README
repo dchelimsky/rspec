@@ -1,0 +1,14 @@
+This is an experimental attempt at being able to support the mock
+framework of your choice. There are no automated tests for this
+yet.
+
+We want to support only one mock framework loaded for any process,
+so to test this properly, we need to specify that:
+
+1. we can launch separate processes that load the appropriate framework
+2. if one framework is already loaded within one process, it should
+   complain when there is an attempt to load another
+   
+The reason for all that is that each framework puts its own methods
+on Object to manage stubs. Perhaps we should register/de-register
+methods on Object???

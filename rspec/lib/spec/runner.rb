@@ -127,5 +127,12 @@ module Spec
   #     end
   #   end
   module Runner
+    class << self
+      attr_reader :mock_framework
+      def mock_with(framework)
+        @mock_framework = framework
+      end
+    end
+    mock_with :rspec
   end
 end

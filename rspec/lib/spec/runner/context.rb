@@ -1,7 +1,6 @@
 module Spec
   module Runner
-    class ContextEvalModule < Module
-    end
+    class ContextEvalModule < Module; end
     class Context
       def initialize(description, &context_block)
         @description = description
@@ -26,6 +25,7 @@ module Spec
       end
 
       def run(reporter, dry_run=false, reverse=false)
+        plugin_mock_framework
         reporter.add_context(@description)
         prepare_execution_context_class
         errors = run_context_setup(reporter, dry_run)
@@ -66,7 +66,7 @@ module Spec
         my_methods
       end
 
-      protected
+    protected
 
       def method_missing(*args)
         @context_eval_module.method_missing(*args)
@@ -145,6 +145,11 @@ module Spec
             reporter.spec_finished(location, e, location) if reporter
           end
         end
+      end
+      
+      def plugin_mock_framework
+        require File.expand_path(File.join(File.dirname(__FILE__), "..", "plugins","mock_framework.rb"))
+        include Spec::Runner::MockMethods
       end
 
     end

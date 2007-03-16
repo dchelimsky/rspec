@@ -162,7 +162,7 @@ desc "Build the website, but do not publish it"
 task :website => [:clobber, :verify_rcov, :spec_html, :webgen, :failing_examples_with_html, :examples_specdoc, :rdoc, :rdoc_rails]
 
 task :rdoc_rails do
-  Dir.chdir '../rspec_on_rails/vendor/plugins/rspec_on_rails' do
+  Dir.chdir '../example_rails_app/vendor/plugins/rspec_on_rails' do
     rake = (PLATFORM == "i386-mswin32") ? "rake.cmd" : "rake"
     `#{rake} rdoc`
   end
