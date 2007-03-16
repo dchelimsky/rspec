@@ -296,7 +296,7 @@ module Spec
         reporter.should_receive(:spec_finished) do |name, error, location|
           error.to_s.should_match /expected :abcde with \(any args\) once, but received it 0 times/
         end
-        Spec::DSL:: Specification.new("spec") do
+        Spec::DSL:: Example.new("spec") do
           mock = Spec::Mocks::Mock.new("mock", :auto_verify => true)
           mock.should_receive(:abcde)
         end.run(reporter, nil, nil, nil, nil)
@@ -308,7 +308,7 @@ module Spec
         reporter.should_receive(:spec_finished) do |name, error, location|
           error.to_s.should_match /expected :abcde with \(any args\) once, but received it 0 times/
         end
-        Spec::DSL:: Specification.new("spec") do
+        Spec::DSL:: Example.new("spec") do
           mock = Spec::Mocks::Mock.new("mock")
           mock.should_receive(:abcde)
         end.run(reporter, nil, nil, nil, nil)
@@ -320,7 +320,7 @@ module Spec
         reporter.should_receive(:spec_finished) do |name, error, location|
           error.should_be_nil
         end
-        Spec::DSL:: Specification.new("spec") do
+        Spec::DSL:: Example.new("spec") do
           mock = Spec::Mocks::Mock.new("mock", :auto_verify => false)
           mock.should_receive(:abcde)
         end.run(reporter, nil, nil, nil, nil)

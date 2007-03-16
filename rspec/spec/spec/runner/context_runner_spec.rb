@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 module Spec
   module Runner
-    context ContextRunner do
+    context BehaviourRunner do
       specify "should call run on context" do
         context1 = mock("context1", {
          :null_object => true
@@ -21,7 +21,7 @@ module Spec
 
         options = OpenStruct.new
         options.reporter = reporter
-        runner = Spec::Runner::ContextRunner.new(options)
+        runner = Spec::Runner::BehaviourRunner.new(options)
         runner.add_context(context1)
         runner.add_context(context2)
         runner.run([], false)
@@ -42,7 +42,7 @@ module Spec
         options.reporter = reporter
         options.spec_name = "desired context legal spec"
 
-        runner = Spec::Runner::ContextRunner.new(options)
+        runner = Spec::Runner::BehaviourRunner.new(options)
         runner.add_context(desired_context)
         runner.add_context(other_context)
         reporter.should_receive(:start)
@@ -52,7 +52,7 @@ module Spec
       end
 
       specify "should dump even if Interrupt exception is occurred" do
-        context = Spec::DSL::Context.new("context") do
+        context = Spec::DSL::BehaviourOf.new("context") do
           specify "no error" do
           end
 
@@ -72,7 +72,7 @@ module Spec
 
         options = OpenStruct.new
         options.reporter = reporter
-        runner = Spec::Runner::ContextRunner.new(options)
+        runner = Spec::Runner::BehaviourRunner.new(options)
         runner.add_context(context)
         runner.run([], false)
       end
@@ -94,7 +94,7 @@ module Spec
         options.reporter = reporter
         options.heckle_runner = heckle_runner
 
-        runner = Spec::Runner::ContextRunner.new(options)
+        runner = Spec::Runner::BehaviourRunner.new(options)
         runner.add_context(context)
         runner.run([], false)
       end
@@ -109,7 +109,7 @@ module Spec
         reporter.should_receive(:dump).and_return(0)
         options.reporter = reporter
 
-        runner = Spec::Runner::ContextRunner.new(options)
+        runner = Spec::Runner::BehaviourRunner.new(options)
         c1 = mock("c1")
         c1.should_receive(:matches?).and_return(true)
         c1.should_receive(:run_single_spec).and_return(false)

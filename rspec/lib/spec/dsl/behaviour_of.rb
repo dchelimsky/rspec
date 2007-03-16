@@ -1,13 +1,13 @@
 module Spec
   module DSL
-    class ContextEvalModule < Module; end
-    class Context
+    class BehaviourEvalModule < Module; end
+    class BehaviourOf
       def initialize(description, &context_block)
         @description = description
 
-        @context_eval_module = ContextEvalModule.new
-        @context_eval_module.extend ContextEval::ModuleMethods
-        @context_eval_module.include ContextEval::InstanceMethods
+        @context_eval_module = BehaviourEvalModule.new
+        @context_eval_module.extend BehaviourEval::ModuleMethods
+        @context_eval_module.include BehaviourEval::InstanceMethods
         before_context_eval
         @context_eval_module.class_eval(&context_block)
       end

@@ -5,7 +5,7 @@ module Spec
 
         class << self
           # Kernel#context calls this to create the appropriate extension of
-          # Spec::DSL::Context for Model, View, Controller and Helper specs.
+          # Spec::DSL::Behaviour for Model, View, Controller and Helper specs.
           # In the spirit of Rails' convention
           # over configuration, putting the spec files in the right directory
           # will cause the ContextFactory to do the right thing:
@@ -34,7 +34,7 @@ module Spec
             elsif (spec_path =~ /spec(\/|\\)+models/) || (context_type == :model)
               return Spec::Rails::Runner::ModelContext.new(args[0], &block)
             else
-              return Spec::DSL::Context.new(args[0], &block)
+              return Spec::DSL::BehaviourOf.new(args[0], &block)
             end
           end
         end

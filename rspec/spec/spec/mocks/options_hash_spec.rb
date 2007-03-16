@@ -4,7 +4,7 @@ module Spec
   module Mocks
     context "calling :should_receive with an options hash" do
       specify "should report the file and line submitted with :expected_from" do
-        spec = Spec::DSL:: Specification.new "spec" do
+        spec = Spec::DSL:: Example.new "spec" do
           mock = Spec::Mocks::Mock.new("a mock")
           mock.should_receive(:message, :expected_from => "/path/to/blah.ext:37")
         end
@@ -16,7 +16,7 @@ module Spec
       end
 
       specify "should use the message supplied with :message" do
-        spec = Spec::DSL:: Specification.new "spec" do
+        spec = Spec::DSL:: Example.new "spec" do
           mock = Spec::Mocks::Mock.new("a mock")
           mock.should_receive(:message, :message => "recebi nada")
         end

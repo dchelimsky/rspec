@@ -1,6 +1,6 @@
 module Spec
   module DSL
-    module ContextEval
+    module BehaviourEval
       module ModuleMethods
         def inherit(klass)
           @context_superclass = klass
@@ -29,7 +29,7 @@ module Spec
         end
 
         def specify(description=:__generate_description, opts={}, &block)
-          specifications << Specification.new(description, opts, &block)
+          specifications << Example.new(description, opts, &block)
         end
         alias :it :specify
         

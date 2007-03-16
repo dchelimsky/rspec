@@ -1,6 +1,6 @@
 module Spec
   module DSL
-    class Specification
+    class Example
 
       class << self
         attr_accessor :current

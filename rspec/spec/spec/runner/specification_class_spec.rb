@@ -2,11 +2,11 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 module Spec
   module DSL
-    describe Specification, " class" do
+    describe Example, " class" do
       setup do
         @reporter = mock("reporter")
         callback_container = Callback::CallbackContainer.new
-        @specification = Specification.dup
+        @specification = Example.dup
         @specification.stub!(:callbacks).and_return {callback_container}
       end
 

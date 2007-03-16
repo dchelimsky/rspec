@@ -2,14 +2,14 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 module Spec
   module DSL
-    describe Specification, " instance" do
+    describe Example, " instance" do
       setup do
         @reporter = mock("reporter")
-        Specification.send(:current=, nil)
+        Example.send(:current=, nil)
       end
 
       specify "should add itself to reporter when calling run dry" do
-        spec=Specification.new("spec") {}
+        spec=Example.new("spec") {}
         @reporter.should_receive(:spec_started).with("spec")
         @reporter.should_receive(:spec_finished).with("spec")
         spec.run(@reporter, nil, nil, true, nil)
@@ -17,7 +17,7 @@ module Spec
 
       specify "should add itself to reporter when fails" do
         error=RuntimeError.new
-        spec=Specification.new("spec") do
+        spec=Example.new("spec") do
           raise(error)
         end
         @reporter.should_receive(:spec_started).with("spec")
@@ -26,7 +26,7 @@ module Spec
       end
 
       specify "should add itself to reporter when passes" do
-        spec=Specification.new("spec") {}
+        spec=Example.new("spec") {}
         @reporter.should_receive(:spec_started).with("spec")
         @reporter.should_receive(:spec_finished).with("spec", nil, nil)
         spec.run(@reporter, nil, nil, nil, nil)
@@ -34,7 +34,7 @@ module Spec
 
       specify "should not run spec if setup fails" do
         spec_ran = false
-        spec=Specification.new("should pass") do
+        spec=Example.new("should pass") do
           spec_ran = true
         end
         @reporter.stub!(:spec_started)
@@ -47,8 +47,8 @@ module Spec
 
       specify "should run spec in scope of execution context" do
         exec_context_class = Class.new
-        spec=Specification.new("should pass") do
-          self.instance_of?(Specification).should == false
+        spec=Example.new("should pass") do
+          self.instance_of?(Example).should == false
           self.instance_of?(exec_context_class).should == true
         end
         @reporter.should_receive(:spec_started).with("should pass")
@@ -58,7 +58,7 @@ module Spec
       end
 
       specify "should run teardown even when main block fails" do
-        spec=Specification.new("spec") do
+        spec=Example.new("spec") do
           raise("in body")
         end
         teardown=lambda do
@@ -74,7 +74,7 @@ module Spec
       end
 
       specify "should supply setup as spec name if failure in setup" do
-        spec=Specification.new("spec") {}
+        spec=Example.new("spec") {}
         setup=lambda { raise("in setup") }
         @reporter.should_receive(:spec_started).with("spec")
         @reporter.should_receive(:spec_finished) do |name, error, location|
@@ -86,7 +86,7 @@ module Spec
       end
 
       specify "should supply teardown as failure location if failure in teardown" do
-        spec = Specification.new("spec") {}
+        spec = Example.new("spec") {}
         teardown = lambda { raise("in teardown") }
         @reporter.should_receive(:spec_started).with("spec")
         @reporter.should_receive(:spec_finished) do |name, error, location|
@@ -98,7 +98,7 @@ module Spec
       end
 
       specify "should verify mocks after teardown" do
-        spec=Specification.new("spec") do
+        spec=Example.new("spec") do
           mock=Spec::Mocks::Mock.new("a mock")
           mock.should_receive(:poke)
         end
@@ -111,26 +111,26 @@ module Spec
       end
       
       specify "should accept an options hash following the spec name" do
-        spec = Specification.new("name", :key => 'value')
+        spec = Example.new("name", :key => 'value')
       end
 
       specify "should update the current spec only when running the spec" do
         @reporter.stub!(:spec_started)
         @reporter.stub!(:spec_finished)
 
-        spec = Specification.new("spec") do
-          Specification.current.should == spec
+        spec = Example.new("spec") do
+          Example.current.should == spec
         end
 
-        Specification.current.should_be_nil
-        setup = proc {Specification.current.should == spec}
-        teardown = proc {Specification.current.should == spec}
+        Example.current.should_be_nil
+        setup = proc {Example.current.should == spec}
+        teardown = proc {Example.current.should == spec}
         spec.run(@reporter, setup, teardown, nil, Object.new)
-        Specification.current.should_be_nil
+        Example.current.should_be_nil
       end
 
       specify "should notify before_setup callbacks before setup" do
-        spec = Specification.new("spec")
+        spec = Example.new("spec")
         @reporter.stub!(:spec_started)
         @reporter.stub!(:spec_finished)
 
@@ -144,7 +144,7 @@ module Spec
       end
 
       specify "should notify after_teardown callbacks after teardown" do
-        spec = Specification.new("spec")
+        spec = Example.new("spec")
         @reporter.stub!(:spec_started)
         @reporter.stub!(:spec_finished)
 
@@ -158,14 +158,14 @@ module Spec
       end
       
       specify "should report NAME NOT GENERATED when told to use generated description but none is generated" do
-        spec = Specification.new(:__generate_description)
+        spec = Example.new(:__generate_description)
         @reporter.stub!(:spec_started)
         @reporter.should_receive(:spec_finished).with("NAME NOT GENERATED", :anything, :anything)
         spec.run(@reporter, nil, nil, nil, Object.new)
       end
       
       specify "should use generated description when told to and it is available" do
-        spec = Specification.new(:__generate_description) {
+        spec = Example.new(:__generate_description) {
           5.should == 5
         }
         @reporter.stub!(:spec_started)
@@ -174,7 +174,7 @@ module Spec
       end
       
       specify "should unregister description_generated callback (lest a memory leak should build up)" do
-        spec = Specification.new("something")
+        spec = Example.new("something")
         @reporter.stub!(:spec_started)
         @reporter.stub!(:spec_finished)
         Spec::Matchers.should_receive(:unregister_callback)

@@ -1,5 +1,5 @@
 require 'spec/runner/formatter'
-require 'spec/runner/context_runner'
+require 'spec/runner/behaviour_runner'
 require 'spec/runner/option_parser'
 require 'spec/runner/command_line'
 require 'spec/runner/drb_command_line'
@@ -10,7 +10,7 @@ require 'spec/runner/extensions/kernel'
 require 'spec/runner/spec_parser'
 
 module Spec
-  # == Contexts and Specifications
+  # == Behaviours and Examples
   # 
   # Rather than expressing examples in classes, RSpec uses a custom domain specific language to express
   # examples using contexts and specifications.

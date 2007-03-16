@@ -1,6 +1,6 @@
 module Spec
   module Runner
-    class ContextRunner
+    class BehaviourRunner
       
       def initialize(options)
         @contexts = []

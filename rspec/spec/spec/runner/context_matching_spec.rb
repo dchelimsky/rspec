@@ -6,7 +6,7 @@ module Spec
 
       setup do
         @formatter = Spec::Mocks::Mock.new("formatter")
-        @context = Context.new("context") {}
+        @context = BehaviourOf.new("context") {}
         @context_eval = @context.instance_eval { @context_eval_module }
       end
 
