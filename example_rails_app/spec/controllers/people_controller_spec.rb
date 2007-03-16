@@ -101,7 +101,7 @@ context "When requesting /people with views integrated" do
   specify "the response should not render 'index'" do
     lambda {
       response.should render_template(:index)
-    }.should_raise
+    }.should raise_error
   end
 
   specify "should find all people on GET to index" do

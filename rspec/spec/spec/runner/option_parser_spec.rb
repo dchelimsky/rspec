@@ -67,7 +67,7 @@ context "OptionParser" do
   specify "should require file when require specified" do
     lambda do
       parse(["--require", "whatever"])
-    end.should_raise(LoadError)
+    end.should raise_error(LoadError)
   end
 
   specify "should select dry run for rdoc formatter" do
@@ -245,7 +245,7 @@ context "OptionParser" do
     specify "should barf when --heckle is specified (and platform is windows)" do
       lambda do
         options = parse(["--heckle", "Spec"])
-      end.should_raise(StandardError, "Heckle not supported on Windows")
+      end.should raise_error(StandardError, "Heckle not supported on Windows")
     end
   end
    

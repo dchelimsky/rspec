@@ -59,7 +59,7 @@ describe "should change { block }" do
     lambda do
       lambda {}.should change do
       end
-    end.should_raise(Spec::Matchers::MatcherError, /block passed to should or should_not/)
+    end.should raise_error(Spec::Matchers::MatcherError, /block passed to should or should_not/)
   end
 end
 
@@ -83,7 +83,7 @@ describe "should_not change { block }" do
     lambda do
       lambda {}.should_not change do
       end
-    end.should_raise(Spec::Matchers::MatcherError, /block passed to should or should_not/)
+    end.should raise_error(Spec::Matchers::MatcherError, /block passed to should or should_not/)
   end
 end
 

@@ -11,7 +11,7 @@ module Spec
         @mock.should_receive(:random_call).at_least(4).times
           lambda do
         @mock.__verify
-        end.should_raise(MockExpectationError)
+        end.should raise_error(MockExpectationError)
       end
 
       specify "should fail when called less than n times" do
@@ -21,14 +21,14 @@ module Spec
         @mock.random_call
         lambda do
           @mock.__verify
-        end.should_raise(MockExpectationError)
+        end.should raise_error(MockExpectationError)
       end
 
       specify "should fail when at least once method is never called" do
         @mock.should_receive(:random_call).at_least(:once)
         lambda do
           @mock.__verify
-        end.should_raise(MockExpectationError)
+        end.should raise_error(MockExpectationError)
       end
 
       specify "should fail when at least twice method is called once" do
@@ -36,14 +36,14 @@ module Spec
         @mock.random_call
         lambda do
           @mock.__verify
-        end.should_raise(MockExpectationError)
+        end.should raise_error(MockExpectationError)
       end
 
       specify "should fail when at least twice method is never called" do
         @mock.should_receive(:random_call).at_least(:twice)
         lambda do
           @mock.__verify
-        end.should_raise(MockExpectationError)
+        end.should raise_error(MockExpectationError)
       end
 
       specify "should pass when at least n times method is called exactly n times" do

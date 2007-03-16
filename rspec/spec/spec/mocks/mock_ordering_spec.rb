@@ -33,7 +33,7 @@ module Spec
         @mock.should_receive(:two).ordered
         lambda do
           @mock.two
-        end.should_raise(MockExpectationError, "Mock 'test mock' received :two out of order")
+        end.should raise_error(MockExpectationError, "Mock 'test mock' received :two out of order")
       end
 
       specify "should fail if third call comes first" do
@@ -43,7 +43,7 @@ module Spec
         @mock.one
         lambda do
           @mock.three
-        end.should_raise(MockExpectationError, "Mock 'test mock' received :three out of order")
+        end.should raise_error(MockExpectationError, "Mock 'test mock' received :three out of order")
       end
       
       specify "should fail if third call comes second" do
@@ -53,7 +53,7 @@ module Spec
         @mock.one
         lambda do
           @mock.three
-        end.should_raise(MockExpectationError, "Mock 'test mock' received :three out of order")
+        end.should raise_error(MockExpectationError, "Mock 'test mock' received :three out of order")
       end
 
       specify "should ignore order of non ordered calls" do

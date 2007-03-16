@@ -20,21 +20,21 @@ context "PartialMockUsingMocksDirectly" do
         @obj.__verify
         lambda do
           @obj.msg
-        end.should_raise(NoMethodError)
+        end.should raise_error(NoMethodError)
       
     end
     specify "should fail when expected message is not received" do
         @obj.should_receive(:msg)
         lambda do
           @obj.__verify
-        end.should_raise(MockExpectationError)
+        end.should raise_error(MockExpectationError)
       
     end
     specify "should fail when message is received with incorrect args" do
         @obj.should_receive(:msg).with(:correct_arg)
         lambda do
           @obj.msg(:incorrect_arg)
-        end.should_raise(MockExpectationError)
+        end.should raise_error(MockExpectationError)
         @obj.msg(:correct_arg)
       
     end

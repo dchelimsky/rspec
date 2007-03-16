@@ -27,6 +27,6 @@ context "CommandLine" do
 
     lambda {
       Spec::Runner::CommandLine.run([file], err, out, false, true)
-    }.should_raise
+    }.should raise_error
   end
 end

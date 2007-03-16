@@ -66,7 +66,7 @@ module Spec
       specify "should not support with" do
         lambda do
           Spec::Mocks::Mock.new("a mock").stub!(:msg).with(:arg)
-        end.should_raise(NoMethodError)
+        end.should raise_error(NoMethodError)
       end
       
       specify "should return expected value when expected message is received" do

@@ -12,7 +12,7 @@ module Spec
         @object.fuhbar
         lambda do
           @object.__verify
-        end.should_raise(Spec::Mocks::MockExpectationError)
+        end.should raise_error(Spec::Mocks::MockExpectationError)
       end
 
       specify "should_not_receive should return a negative message expectation" do
@@ -44,7 +44,7 @@ module Spec
         @object.should_receive(:foobar).with(:test_param).and_return(1)
         lambda do
           @object.__verify
-        end.should_raise(Spec::Mocks::MockExpectationError)
+        end.should raise_error(Spec::Mocks::MockExpectationError)
       end
 
     end

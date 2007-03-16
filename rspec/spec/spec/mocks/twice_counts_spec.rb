@@ -15,7 +15,7 @@ module Spec
         @mock.random_call
         lambda do
           @mock.__verify
-        end.should_raise(MockExpectationError)
+        end.should raise_error(MockExpectationError)
       end
       
       specify "twice should fail when call count is lower than expected" do
@@ -23,14 +23,14 @@ module Spec
         @mock.random_call
         lambda do
           @mock.__verify
-        end.should_raise(MockExpectationError)
+        end.should raise_error(MockExpectationError)
       end
       
       specify "twice should fail when called twice with wrong args on the first call" do
         @mock.should_receive(:random_call).twice.with("1", 1)
         lambda do
           @mock.random_call(1, "1")
-        end.should_raise(MockExpectationError)
+        end.should raise_error(MockExpectationError)
       end
       
       specify "twice should fail when called twice with wrong args on the second call" do
@@ -38,7 +38,7 @@ module Spec
         @mock.random_call("1", 1)
         lambda do
           @mock.random_call(1, "1")
-        end.should_raise(MockExpectationError)
+        end.should raise_error(MockExpectationError)
       end
       
       specify "twice should pass when called twice" do

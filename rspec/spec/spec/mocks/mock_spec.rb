@@ -132,7 +132,7 @@ module Spec
         @mock.should_receive(:something).and_raise(RuntimeError)
         lambda do
           @mock.something
-        end.should_raise(RuntimeError)
+        end.should raise_error(RuntimeError)
       end
  
       specify "should raise passed an Exception instance" do
@@ -158,14 +158,14 @@ module Spec
         @mock.should_receive(:something).with(2).and_raise(RuntimeError)
         lambda do
           @mock.something 1
-        end.should_raise(MockExpectationError)
+        end.should raise_error(MockExpectationError)
       end
  
       specify "should throw when told to" do
         @mock.should_receive(:something).and_throw(:blech)
         lambda do
           @mock.something
-        end.should_throw(:blech)
+        end.should throw_symbol(:blech)
       end
 
       specify "should raise when explicit return and block constrained" do
@@ -173,7 +173,7 @@ module Spec
           @mock.should_receive(:fruit) do |colour|
             :strawberry
           end.and_return :apple
-        end.should_raise(AmbiguousReturnError)
+        end.should raise_error(AmbiguousReturnError)
       end
       
       specify "should ignore args on any args" do
@@ -275,7 +275,7 @@ module Spec
           @mock.yield_me do |x|
             raise "Bang"
           end
-        end.should_raise(StandardError)
+        end.should raise_error(StandardError)
 
         @mock.__verify
       end

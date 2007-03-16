@@ -22,7 +22,7 @@ context "An Object" do
       specify_registration_and_notification do |callback_key, expected_callback|
         @callback_object.register_callback(callback_key)
       end
-    end.should_raise(RuntimeError, "You must define the callback that accepts the call method.")
+    end.should raise_error(RuntimeError, "You must define the callback that accepts the call method.")
   end
 
   specify "should undefine a proc" do
@@ -36,7 +36,7 @@ context "An Object" do
       specify_unregistration do |callback_key, expected_callback|
         @callback_object.unregister_callback(callback_key, nil)
       end
-    end.should_raise(RuntimeError, "You may only undefine callbacks that use the call method.")
+    end.should raise_error(RuntimeError, "You may only undefine callbacks that use the call method.")
   end
   
   specify "should handle errors" do

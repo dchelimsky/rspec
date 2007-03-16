@@ -308,7 +308,7 @@ module Spec
         @context.class_method
         class_method_ran.should be_true
 
-        lambda {@context.foobar}.should_raise(NoMethodError)
+        lambda {@context.foobar}.should raise_error(NoMethodError)
       end
 
       specify "should include inherited class methods" do

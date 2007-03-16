@@ -16,11 +16,11 @@ context "Translator" do
   end
 
   specify "should translate should_not_raise" do
-    @t.translate('lambda { self.call }.should_not_raise').should eql('lambda { self.call }.should_not raise_error')
+    @t.translate('lambda { self.call }.should_not raise_error').should eql('lambda { self.call }.should_not raise_error')
   end
 
   specify "should translate should_throw" do
-    @t.translate('lambda { self.call }.should_throw').should eql('lambda { self.call }.should throw_symbol')
+    @t.translate('lambda { self.call }.should throw_symbol').should eql('lambda { self.call }.should throw_symbol')
   end
 
   specify "should not translate 0.9 should_not" do
@@ -36,7 +36,7 @@ context "Translator" do
   end
   
   specify "should translate multi word predicates" do
-    @t.translate('foo.should_multi_word_predicate').should eql('foo.should be_multi_word_predicate')
+    @t.translate('foo.should be_multi_word_predicate').should eql('foo.should be_multi_word_predicate')
   end
 
   specify "should translate multi word predicates prefixed with be" do
@@ -44,7 +44,7 @@ context "Translator" do
   end
 
   specify "should translate be(expected) to equal(expected)" do
-    @t.translate('foo.should_be :cool').should eql('foo.should equal :cool')
+    @t.translate('foo.should equal :cool').should eql('foo.should equal :cool')
   end
 
   specify "should translate instance_of" do
@@ -52,19 +52,19 @@ context "Translator" do
   end
 
   specify "should translate should_be <" do
-    @t.translate('3.should_be < 4').should eql('3.should be < 4')
+    @t.translate('3.should be < 4').should eql('3.should be < 4')
   end
 
   specify "should translate should_be <=" do
-    @t.translate('3.should_be <= 4').should eql('3.should be <= 4')
+    @t.translate('3.should be <= 4').should eql('3.should be <= 4')
   end
 
   specify "should translate should_be >=" do
-    @t.translate('4.should_be >= 3').should eql('4.should be >= 3')
+    @t.translate('4.should be >= 3').should eql('4.should be >= 3')
   end
 
   specify "should translate should_be >" do
-    @t.translate('4.should_be > 3').should eql('4.should be > 3')
+    @t.translate('4.should be > 3').should eql('4.should be > 3')
   end
     
 =begin

@@ -13,14 +13,14 @@ module Spec
         @mock.random_call
         lambda do
           @mock.__verify
-        end.should_raise(MockExpectationError)
+        end.should raise_error(MockExpectationError)
       end
 
       specify "should fail when exactly n times method is never called" do
         @mock.should_receive(:random_call).exactly(3).times
         lambda do
           @mock.__verify
-        end.should_raise(MockExpectationError)
+        end.should raise_error(MockExpectationError)
       end
 
       specify "should pass if exactly n times method is called exactly n times" do
