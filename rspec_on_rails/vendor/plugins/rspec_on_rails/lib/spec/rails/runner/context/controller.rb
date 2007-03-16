@@ -61,17 +61,6 @@ module Spec
           render_matcher.should_not_render_rjs(element, *opts)
         end
       
-        # Deprecated - gone for 9.0
-        # Use response.should redirect_to #see Spec::Rails::Matchers
-        def should_redirect_to(opts)
-          redirect_matcher.set_expected(opts)
-        end
-      
-        def redirect_to(opts)
-          super
-          redirect_matcher.match(request, opts) if redirect_matcher.interested_in?(opts)
-        end
-
         def integrate_views!
           @integrate_views = true
         end
@@ -94,10 +83,6 @@ module Spec
           @render_matcher ||= Spec::Rails::Expectations::RenderMatcher.new(controller_path, integrate_views?)
         end
 
-        def redirect_matcher
-          @redirect_matcher ||= Spec::Rails::Expectations::RedirectMatcher.new
-        end
-      
         def ensure_default_options(options)
           options ||= {:template => default_template_name}
           return options
