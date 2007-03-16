@@ -2,11 +2,11 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 
 module Spec
   module DSL
-    describe BehaviourOf do
+    describe Behaviour do
       
       setup do
         @formatter = Spec::Mocks::Mock.new "formatter", :register_as_spec_listener => false
-        @context = BehaviourOf.new("context") {}
+        @context = Behaviour.new("context") {}
         @context_eval = @context.instance_eval { @context_eval_module }
       end
 

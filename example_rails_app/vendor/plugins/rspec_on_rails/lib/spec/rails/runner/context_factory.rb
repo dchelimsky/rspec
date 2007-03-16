@@ -34,7 +34,7 @@ module Spec
             elsif (spec_path =~ /spec(\/|\\)+models/) || (context_type == :model)
               return Spec::Rails::Runner::ModelContext.new(args[0], &block)
             else
-              return Spec::DSL::BehaviourOf.new(args[0], &block)
+              return Spec::DSL::Behaviour.new(args[0], &block)
             end
           end
         end

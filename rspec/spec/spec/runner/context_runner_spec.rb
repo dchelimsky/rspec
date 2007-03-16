@@ -52,7 +52,7 @@ module Spec
       end
 
       specify "should dump even if Interrupt exception is occurred" do
-        context = Spec::DSL::BehaviourOf.new("context") do
+        context = Spec::DSL::Behaviour.new("context") do
           specify "no error" do
           end
 

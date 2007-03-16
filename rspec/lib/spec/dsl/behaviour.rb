@@ -1,7 +1,7 @@
 module Spec
   module DSL
     class BehaviourEvalModule < Module; end
-    class BehaviourOf
+    class Behaviour
       def initialize(description, &context_block)
         @description = description
 

@@ -54,7 +54,7 @@ module Spec
         end
       end
 
-      class Context < Spec::DSL::BehaviourOf
+      class Context < Spec::DSL::Behaviour
       end
     end
   end
