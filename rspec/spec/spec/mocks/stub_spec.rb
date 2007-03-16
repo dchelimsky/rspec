@@ -39,7 +39,7 @@ module Spec
         @obj.stub!(:msg)
         lambda do
           @obj.__verify
-        end.should_not_raise
+        end.should_not raise_error
       end
       
       specify "should clear itself on __verify" do
@@ -48,7 +48,7 @@ module Spec
         @obj.__verify
         lambda do
           @obj.this_should_go
-        end.should_raise
+        end.should raise_error
       end
 
       specify "should ignore when expected message is received" do

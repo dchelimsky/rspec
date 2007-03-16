@@ -132,7 +132,7 @@ context "/people/show/3" do
     
     get 'show', :id => 3
   
-    assigns[:person].should_be @person
+    assigns[:person].should equal(@person)
   end
 end
 

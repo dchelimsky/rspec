@@ -137,8 +137,8 @@ module Spec
         @context_eval.specify("test") {true}
         @context_eval.specify("test2") {true}
         @context.run(@formatter)
-        super_class_context_setup_run_count.should_be 1
-        context_setup_run_count.should_be 1
+        super_class_context_setup_run_count.should == 1
+        context_setup_run_count.should == 1
       end
       
       specify "should run superclass setup method and setup block" do
@@ -181,8 +181,8 @@ module Spec
         @context_eval.specify("test") {true}
         @context_eval.specify("test2") {true}
         @context.run(@formatter)
-        super_class_context_teardown_run_count.should_be 1
-        context_teardown_run_count.should_be 1
+        super_class_context_teardown_run_count.should == 1
+        context_teardown_run_count.should == 1
         @formatter.__verify
       end
 
@@ -319,7 +319,7 @@ module Spec
         end
         @context.inherit super_class
 
-        @context.methods.should_include("super_class_class_method")
+        @context.methods.should include("super_class_class_method")
       end
 
       specify "should have accessible instance methods from included module" do
@@ -389,8 +389,8 @@ module Spec
 
         @context_eval.mod1_method
         @context_eval.mod2_method
-        mod1_method_called.should_be true
-        mod2_method_called.should_be true
+        mod1_method_called.should be_true
+        mod2_method_called.should be_true
       end
       
       specify "should count number of specs" do
@@ -398,7 +398,7 @@ module Spec
         @context_eval.specify("two") {}
         @context_eval.specify("three") {}
         @context_eval.specify("four") {}
-        @context.number_of_specs.should_be 4
+        @context.number_of_specs.should == 4
       end
     end
   end

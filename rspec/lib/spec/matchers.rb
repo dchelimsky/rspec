@@ -138,21 +138,6 @@ module Spec
       super
     end
 
-    deprecated do
-      # This supports sugar delegating to Matchers
-      class MatcherDelegate #:nodoc:
-        include Matchers
-
-        def respond_to?(sym)
-          if sym.to_s[0..2] == "be_"
-            return true
-          else
-            super
-          end
-        end
-      end
-    end
-    
     class MatcherError < StandardError
     end
     

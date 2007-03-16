@@ -26,10 +26,6 @@ context "The Person model with fixtures loaded" do
 
   specify "should include animals" do
     people(:lachie).should have(2).animals
-    #<= 0.7
-    people(:lachie).animals.should_include(animals(:horse))
-    people(:lachie).animals.should_not_include(Animal.new(:name=>'monkey'))
-    #>= 0.8
     people(:lachie).animals.should include(animals(:horse))
     people(:lachie).animals.should_not include(Animal.new(:name=>'monkey'))
   end

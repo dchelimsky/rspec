@@ -10,7 +10,7 @@ module Spec
         end
         reporter = mock("reporter", :null_object => true)
         reporter.should_receive(:spec_finished) do |spec, error|
-          error.backtrace.detect {|line| line =~ /\/path\/to\/blah.ext:37/}.should_not_be nil
+          error.backtrace.detect {|line| line =~ /\/path\/to\/blah.ext:37/}.should_not be_nil
         end
         spec.run(reporter, nil, nil, nil, Object.new)
       end

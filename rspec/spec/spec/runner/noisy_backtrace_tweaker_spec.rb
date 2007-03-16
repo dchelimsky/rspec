@@ -31,13 +31,13 @@ module Spec
       specify "should not barf on nil backtrace" do
         lambda do
           @tweaker.tweak_backtrace(@error, "spec name")
-        end.should_not_raise
+        end.should_not raise_error
       end
       
       specify "should clean up double slashes" do
         @error.set_backtrace(["/a//b/c//d.rb"])
         @tweaker.tweak_backtrace(@error, "spec name")
-        @error.backtrace.should_include "/a/b/c/d.rb"
+        @error.backtrace.should include("/a/b/c/d.rb")
       end
       
     end

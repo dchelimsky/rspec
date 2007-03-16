@@ -152,24 +152,24 @@ context "OptionParser" do
 
   specify "should support diff option when format is not specified" do
     options = parse(["--diff"])
-    options.diff_format.should_be :unified
+    options.diff_format.should == :unified
   end
 
   specify "should use unified diff format option when format is unified" do
     options = parse(["--diff", "unified"])
-    options.diff_format.should_be :unified
-    options.differ_class.should_be Spec::Expectations::Differs::Default
+    options.diff_format.should == :unified
+    options.differ_class.should equal(Spec::Expectations::Differs::Default)
   end
 
   specify "should use context diff format option when format is context" do
     options = parse(["--diff", "context"])
-    options.diff_format.should eql(:context)
+    options.diff_format.should == :context
     options.differ_class.should == Spec::Expectations::Differs::Default
   end
 
   specify "should use custom diff format option when format is a custom format" do
     options = parse(["--diff", "Custom::Formatter"])
-    options.diff_format.should_be :custom
+    options.diff_format.should == :custom
     options.differ_class.should == Custom::Formatter
   end
 
