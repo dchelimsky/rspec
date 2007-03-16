@@ -25,7 +25,7 @@ context PeopleController do
   
   specify "should assign new person to template on GET to create" do
     get 'create'
-    assigns[:person].should_be @person
+    assigns[:person].should equal(@person)
   end
   
   specify "should render 'people/create' on GET to create" do
@@ -77,7 +77,7 @@ context "When requesting /people with controller isolated from views" do
 
   specify "should find all people on GET to index" do
     get 'index'
-    assigns[:people].should_be @people
+    assigns[:people].should equal(@people)
   end
 
 end
@@ -106,7 +106,7 @@ context "When requesting /people with views integrated" do
 
   specify "should find all people on GET to index" do
     response.should_be_success
-    assigns[:people].should_be @people
+    assigns[:people].should equal(@people)
   end
   
   specify "should list pets on GET to show" do
@@ -115,8 +115,8 @@ context "When requesting /people with views integrated" do
     Person.should_receive(:find).with('4').and_return(person)
 
     get 'show', :id => '4'
-    response.should_have_tag 'li', :content => 'Hannibal'
-    response.should_have_tag 'li', :content => 'Rufus'
+    response.should have_tag('li', 'Hannibal')
+    response.should have_tag('li', 'Rufus')
   end
 end
 
