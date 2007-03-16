@@ -1,5 +1,5 @@
 module Spec
-  module Runner
+  module DSL
     module ContextEval
       module ModuleMethods
         def inherit(klass)

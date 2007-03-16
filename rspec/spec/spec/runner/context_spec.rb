@@ -1,8 +1,8 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
 module Spec
-  module Runner
-    context "Context" do
+  module DSL
+    describe Context do
       
       setup do
         @formatter = Spec::Mocks::Mock.new "formatter", :register_as_spec_listener => false

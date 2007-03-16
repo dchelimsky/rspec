@@ -1,5 +1,5 @@
 module Spec
-  module Runner
+  module DSL
     class SpecMatcher
 
       attr_writer :spec_desc

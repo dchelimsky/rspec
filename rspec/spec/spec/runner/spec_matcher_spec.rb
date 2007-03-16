@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 module Spec
-  module Runner
+  module DSL
     module SpecMatcherSpecHelper
       class MatchDescription
         def initialize(description)

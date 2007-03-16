@@ -1,5 +1,5 @@
 module Spec
-  module Runner
+  module DSL
     class ContextEvalModule < Module; end
     class Context
       def initialize(description, &context_block)

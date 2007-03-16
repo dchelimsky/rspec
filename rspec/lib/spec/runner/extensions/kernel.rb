@@ -2,7 +2,7 @@ module Kernel
   def context(type_or_description, additional_description=nil, &block)
     description = "#{type_or_description.to_s}"
     description += " #{additional_description}" unless additional_description.nil?
-    context_runner.add_context(Spec::Runner::Context.new(description, &block))
+    context_runner.add_context(Spec::DSL::Context.new(description, &block))
   end
   alias :describe :context
   

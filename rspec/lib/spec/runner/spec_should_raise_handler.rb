@@ -1,5 +1,5 @@
 module Spec
-  module Runner
+  module DSL
     class SpecShouldRaiseHandler
       def initialize(file_and_line_number, opts)
         @file_and_line_number = file_and_line_number

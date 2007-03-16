@@ -54,7 +54,7 @@ module Spec
         end
       end
 
-      class Context < Spec::Runner::Context
+      class Context < Spec::DSL::Context
       end
     end
   end

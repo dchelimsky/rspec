@@ -1,8 +1,8 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 module Spec
-  module Runner
-    context "A Specification instance" do
+  module DSL
+    describe Specification, " instance" do
       setup do
         @reporter = mock("reporter")
         Specification.send(:current=, nil)

@@ -1,8 +1,8 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 module Spec
-  module Runner
-    context "A Specification class" do
+  module DSL
+    describe Specification, " class" do
       setup do
         @reporter = mock("reporter")
         callback_container = Callback::CallbackContainer.new
