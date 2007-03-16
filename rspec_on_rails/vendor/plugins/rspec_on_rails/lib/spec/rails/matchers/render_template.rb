@@ -2,7 +2,6 @@ module Spec
   module Rails
     module Matchers
     
-    
       class RenderTemplate #:nodoc:
     
         def initialize(expected)

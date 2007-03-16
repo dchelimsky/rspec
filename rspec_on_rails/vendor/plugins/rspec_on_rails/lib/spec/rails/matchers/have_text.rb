@@ -10,12 +10,8 @@ module Spec
 
         def matches?(response)
           @actual = response.body
-          case expected
-          when Regexp
-            actual =~ expected
-          else
-            actual == expected
-          end
+          return actual =~ expected if Regexp === expected
+          return actual == expected unless Regexp === expected
         end
       
         def failure_message
