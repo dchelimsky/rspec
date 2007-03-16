@@ -62,21 +62,10 @@ module ActionController #:nodoc:
         end
       end
       
-      
-      attr_writer :render_matcher
       attr_writer :controller_path
 
-      # Deprecated - gone for 9.0
-      # Use should render_template or have_text #see Spec::Rails::Expectations::Matchers
-      def should_render(expected)
-        if expected.is_a?(Symbol) || expected.is_a?(String)
-          expected = {:template => "#{controller_path}/#{expected}"}
-        end
-        render_matcher.set_expected(expected)
-      end
-      
-      private
-      attr_reader :render_matcher
+    private
+
       attr_reader :controller_path
       
       def __response_body

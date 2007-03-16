@@ -21,10 +21,6 @@ module Spec
           end
           response.controller_path = controller_path
           
-          # The next two lines should be_gone('after 0.9')
-          render_matcher.set_actual(ensure_default_options(options), response, &block)
-          response.render_matcher = render_matcher
-          
           super unless performed?
         end
       
@@ -33,32 +29,6 @@ module Spec
           # Should be_gone('after 0.9')
           @update = block
           @_response || @response
-        end
-      
-        # Deprecated - gone for 9.0
-        # Use response.should render_template or response.should have_text #see Spec::Rails::Matchers
-        def should_render(expected)
-          if expected.is_a?(Symbol) || expected.is_a?(String)
-            expected = {:template => "#{controller_path}/#{expected}"}
-          end
-          render_matcher.set_expected(expected)
-        end
-      
-        #backwards compatibility to RSpec 0.7.0-0.7.2
-        # Deprecated - gone for 9.0
-        # Use response.should render_template or response.should have_text #see Spec::Rails::Matchers
-        alias_method :should_have_rendered, :should_render
-
-        # Deprecated - gone for 9.0
-        # Use response.should be_rjs #see Spec::Rails::Matchers
-        def should_render_rjs(element, *opts)
-          render_matcher.should_render_rjs(element, *opts)
-        end
-
-        # Deprecated - gone for 9.0
-        # Use response.should_not be_rjs #see Spec::Rails::Matchers
-        def should_not_render_rjs(element, *opts)
-          render_matcher.should_not_render_rjs(element, *opts)
         end
       
         def integrate_views!
@@ -77,10 +47,6 @@ module Spec
 
         def render_called?
           @render_called
-        end
-
-        def render_matcher
-          @render_matcher ||= Spec::Rails::Expectations::RenderMatcher.new(controller_path, integrate_views?)
         end
 
         def ensure_default_options(options)
