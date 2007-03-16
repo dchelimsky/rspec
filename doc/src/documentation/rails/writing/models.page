@@ -34,4 +34,4 @@ model.should_have(3).errors_on(:attribute)
 
 h2. Example Model Specs
 
-<ruby file="../rspec_on_rails/spec/models/person_spec.rb"/>
+<ruby file="../example_rails_app/spec/models/person_spec.rb"/>
