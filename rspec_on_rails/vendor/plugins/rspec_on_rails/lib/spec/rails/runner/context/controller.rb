@@ -40,19 +40,6 @@ module Spec
         def integrate_views?
           @integrate_views
         end
-      
-        def render_called
-          @render_called = true
-        end
-
-        def render_called?
-          @render_called
-        end
-
-        def ensure_default_options(options)
-          options ||= {:template => default_template_name}
-          return options
-        end
       end
     
       # The methods provided by Spec::Rails::Runner::ControllerEvalContext
