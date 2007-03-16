@@ -20,15 +20,17 @@ module Spec
   end
 end
 
+def fail()
+  raise_error(Spec::Expectations::ExpectationNotMetError)
+end
+  
+def fail_with(message)
+  raise_error(Spec::Expectations::ExpectationNotMetError,message)
+end
+  
 
 class Proc
-  def should_fail
-    lambda { self.call }.should_raise(Spec::Expectations::ExpectationNotMetError)
-  end
-  def should_fail_with message
-    lambda { self.call }.should_raise(Spec::Expectations::ExpectationNotMetError, message)
-  end
   def should_pass
-    lambda { self.call }.should_not_raise
+    lambda { self.call }.should_not raise_error
   end
 end

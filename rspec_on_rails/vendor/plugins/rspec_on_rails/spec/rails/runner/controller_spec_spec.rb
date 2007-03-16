@@ -8,23 +8,23 @@ require 'controller_isolation_spec_controller'
   
     specify "session should be the same object as controller session" do
       get 'action_with_template'
-      session.should_equal controller.session
+      session.should equal(controller.session)
     end
   
     specify "session should be the same object before and after the action" do
       session_before = session
       get 'action_with_template'
-      session.should_equal session_before
+      session.should equal(session_before)
     end
   
     specify "controller.session should NOT be nil before the action" do
-      controller.session.should_not_be nil
+      controller.session.should_not be_nil
       get 'action_with_template'
     end
     
     specify "controller.session should NOT be nil after the action" do
       get 'action_with_template'
-      controller.session.should_not_be nil
+      controller.session.should_not be_nil
     end
     
     specify "specifying a partial should work with partial name only" do
@@ -48,11 +48,11 @@ require 'controller_isolation_spec_controller'
     end
 
     specify "custom routes should be speccable" do
-      route_for(:controller => "custom_route_spec", :action => "custom_route").should_eql "/custom_route"
+      route_for(:controller => "custom_route_spec", :action => "custom_route").should == "/custom_route"
     end
 
     specify "routes should be speccable" do
-      route_for(:controller => "controller_isolation_spec", :action => "some_action").should_eql "/controller_isolation_spec/some_action"
+      route_for(:controller => "controller_isolation_spec", :action => "some_action").should == "/controller_isolation_spec/some_action"
     end
   end
 
@@ -62,21 +62,19 @@ require 'controller_isolation_spec_controller'
 
     specify "a redirect should ignore the absence of a template" do
       get 'action_with_redirect_to_somewhere'
-      response.should_be_redirect
-      response.redirect_url.should_eql "http://test.host/redirect_spec/somewhere"
-      response.should_redirect_to "http://test.host/redirect_spec/somewhere"
+      response.should be_redirect
+      response.redirect_url.should == "http://test.host/redirect_spec/somewhere"
+      response.should redirect_to("http://test.host/redirect_spec/somewhere")
     end
     
-    specify "a call to response.should_redirect_to should fail if no redirect" do
+    specify "a call to response.should redirect_to should fail if no redirect" do
       get 'action_with_no_redirect'
       lambda {
-        #For some reason, if this is response.should_be_redirect it fires
-        # a bunch of deprecation warnings against rails 1.2.0 RC 1. No idea why yet.
-        response.redirect?.should_be true
-      }.should_fail
+        response.redirect?.should be_true
+      }.should fail
       lambda {
-        response.should_redirect_to "http://test.host/redirect_spec/somewhere"
-      }.should_fail_with "expected redirect to http://test.host/redirect_spec/somewhere but there was no redirect"
+        response.should redirect_to("http://test.host/redirect_spec/somewhere")
+      }.should fail_with("expected redirect to \"http://test.host/redirect_spec/somewhere\", got no redirect")
     end
   end
   

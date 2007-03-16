@@ -81,56 +81,56 @@ require File.dirname(__FILE__) + '/../../spec_helper'
       get 'action_with_redirect_to_somewhere'
       lambda {
         response.should redirect_to(:action => 'somewhere_else')
-      }.should_fail_with "expected redirect to {:action=>\"somewhere_else\"}, got redirect to \"http://test.host/redirect_spec/somewhere\""
+      }.should fail_with("expected redirect to {:action=>\"somewhere_else\"}, got redirect to \"http://test.host/redirect_spec/somewhere\"")
     end
     
     specify "redirected to incorrect path with leading /" do
       get 'action_with_redirect_to_somewhere'
       lambda {
         response.should redirect_to('/redirect_spec/somewhere_else')
-      }.should_fail_with 'expected redirect to "/redirect_spec/somewhere_else", got redirect to "http://test.host/redirect_spec/somewhere"'
+      }.should fail_with('expected redirect to "/redirect_spec/somewhere_else", got redirect to "http://test.host/redirect_spec/somewhere"')
     end
   
     specify "redirected to incorrect path without leading /" do
       get 'action_with_redirect_to_somewhere'
       lambda {
         response.should redirect_to('redirect_spec/somewhere_else')
-      }.should_fail_with 'expected redirect to "redirect_spec/somewhere_else", got redirect to "http://test.host/redirect_spec/somewhere"'
+      }.should fail_with('expected redirect to "redirect_spec/somewhere_else", got redirect to "http://test.host/redirect_spec/somewhere"')
     end
   
     specify "redirected to incorrect internal URL (based on the action)" do
       get 'action_with_redirect_to_somewhere'
       lambda {
         response.should redirect_to("http://test.host/redirect_spec/somewhere_else")
-      }.should_fail_with 'expected redirect to "http://test.host/redirect_spec/somewhere_else", got redirect to "http://test.host/redirect_spec/somewhere"'
+      }.should fail_with('expected redirect to "http://test.host/redirect_spec/somewhere_else", got redirect to "http://test.host/redirect_spec/somewhere"')
     end
     
     specify "redirected to wrong external URL" do
       get 'action_with_redirect_to_rspec_site'
       lambda {
         response.should redirect_to("http://test.unit.rubyforge.org")
-      }.should_fail_with 'expected redirect to "http://test.unit.rubyforge.org", got redirect to "http://rspec.rubyforge.org"'
+      }.should fail_with('expected redirect to "http://test.unit.rubyforge.org", got redirect to "http://rspec.rubyforge.org"')
     end
   
     specify "redirected to incorrect internal URL (based on the directory path)" do
       get 'action_with_redirect_to_somewhere'
       lambda {
         response.should redirect_to("http://test.host/non_existent_controller/somewhere")
-      }.should_fail_with 'expected redirect to "http://test.host/non_existent_controller/somewhere", got redirect to "http://test.host/redirect_spec/somewhere"'
+      }.should fail_with('expected redirect to "http://test.host/non_existent_controller/somewhere", got redirect to "http://test.host/redirect_spec/somewhere"')
     end
   
     specify "expected redirect :back, but redirected to a new URL" do
       get 'action_with_no_redirect'
       lambda {
         response.should redirect_to(:back)
-      }.should_fail_with 'expected redirect to :back, got no redirect'
+      }.should fail_with('expected redirect to :back, got no redirect')
     end
   
     specify "no redirect at all" do
       get 'action_with_no_redirect'
       lambda {
         response.should redirect_to(:action => 'nowhere')
-      }.should_fail_with "expected redirect to {:action=>\"nowhere\"}, got no redirect"
+      }.should fail_with("expected redirect to {:action=>\"nowhere\"}, got no redirect")
     end
   
   end

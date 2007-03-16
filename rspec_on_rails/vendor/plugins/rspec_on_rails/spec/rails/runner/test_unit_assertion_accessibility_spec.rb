@@ -7,7 +7,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
       assert_equal 1, 1
       lambda {
         assert_equal 1, 2
-      }.should_raise Test::Unit::AssertionFailedError
+      }.should raise_error(Test::Unit::AssertionFailedError)
     end
 
   end
@@ -22,7 +22,7 @@ end
       assert_equal 1, 1
       lambda {
         assert_equal 1, 2
-      }.should_raise Test::Unit::AssertionFailedError
+      }.should raise_error(Test::Unit::AssertionFailedError)
     end
   end
 end
