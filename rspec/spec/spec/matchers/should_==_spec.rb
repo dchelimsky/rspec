@@ -2,20 +2,40 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 require 'spec/expectations/differs/default'
 
-context "should ==" do
+describe "should ==" do
   
-  specify "should pass when objects are ==" do
-    "apple".should == "apple"
-    "1".should_not == 1
+  it "should delegate message to target" do
+    subject = "apple"
+    subject.should_receive(:==).with("apple").and_return(true)
+    subject.should == "apple"
+  end
+  
+  it "should fail when target.==(actual) returns false" do
+    subject = "apple"
+    subject.should_receive(:==).with("orange").and_return(false)
+    lambda do
+      subject.should == "orange"
+    end.should fail_with(%[expected "orange", got "apple" (using ==)])
   end
 
-  specify "should fail when objects are not ==" do
+end
+
+describe "should_not ==" do
+  
+  it "should delegate message to target" do
+    subject = "orange"
+    subject.should_receive(:==).with("apple").and_return(false)
+    subject.should_not == "apple"
+  end
+  
+  it "should fail when target.==(actual) returns false" do
+    subject = "apple"
+    subject.should_receive(:==).with("apple").and_return(true)
     lambda do
-      "1".should == 1
-    end.should fail_with("expected 1, got \"1\" (using ==)")
-    lambda do
-      "apple".should_not == "apple"
+      subject.should_not == "apple"
     end.should fail_with("expected not == \"apple\", got \"apple\"")
   end
 
 end
+
+  

@@ -1,17 +1,38 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
-context "should =~" do
-  specify "should pass when =~ operator returns non-nil" do
-    "foo".should =~ /oo/
-    "foo".should_not =~ /oof/
+describe "should =~" do
+  
+  it "should delegate message to target" do
+    subject = "foo"
+    subject.should_receive(:=~).with(/oo/).and_return(true)
+    subject.should =~ /oo/
+  end
+  
+  it "should fail when target.=~(actual) returns false" do
+    subject = "fu"
+    subject.should_receive(:=~).with(/oo/).and_return(false)
+    lambda do
+      subject.should =~ /oo/
+    end.should fail_with(%[expected =~ /oo/, got "fu"])
   end
 
-  specify "should fail when =~ operator returns nil" do
-    lambda do
-      "fu".should =~ /foo/
-    end.should fail_with("expected =~ /foo/, got \"fu\"")
-    lambda do
-      "foo".should_not =~ /oo/
-    end.should fail_with("expected not =~ /oo/, got \"foo\"")
-  end
 end
+
+describe "should_not =~" do
+  
+  it "should delegate message to target" do
+    subject = "fu"
+    subject.should_receive(:=~).with(/oo/).and_return(false)
+    subject.should_not =~ /oo/
+  end
+  
+  it "should fail when target.=~(actual) returns false" do
+    subject = "foo"
+    subject.should_receive(:=~).with(/oo/).and_return(true)
+    lambda do
+      subject.should_not =~ /oo/
+    end.should fail_with(%[expected not =~ /oo/, got "foo"])
+  end
+
+end
+

@@ -2,17 +2,16 @@ module Spec
   module Matchers
     class BaseOperatorMatcher
       
+      def initialize(target)
+        @target = target
+      end
+
       def ==(expected)
-        __delegate_method_missing_to_target "==", expected
+        __delegate_method_missing_to_target("==", expected)
       end
 
       def =~(expected)
-        __delegate_method_missing_to_target "=~", expected
-      end
-
-      def default_message(expectation, expected)
-        return "expected #{expected.inspect}, got #{@target.inspect} (using #{expectation})" if expectation == '=='
-        "expected #{expectation} #{expected.inspect}, got #{@target.inspect}" unless expectation == '=='
+        __delegate_method_missing_to_target("=~", expected)
       end
 
       def fail_with_message(message, expected=nil, target=nil)
@@ -21,34 +20,23 @@ module Spec
 
     end
 
-    class PositiveOperatorMatcher < BaseOperatorMatcher
-
-      def initialize(target, expectation=nil)
-        @target = target
-      end
-
-    private
+    class PositiveOperatorMatcher < BaseOperatorMatcher #:nodoc:
 
       def __delegate_method_missing_to_target(operator, expected)
         ::Spec::Matchers.generated_description = "should #{operator} #{expected.inspect}"
         return if @target.send(operator, expected)
-        fail_with_message(default_message(operator, expected), expected, @target)
+        return fail_with_message("expected #{expected.inspect}, got #{@target.inspect} (using ==)") if operator == '=='
+        return fail_with_message("expected =~ #{expected.inspect}, got #{@target.inspect}")
       end
 
     end
 
     class NegativeOperatorMatcher < BaseOperatorMatcher #:nodoc:
 
-      def initialize(target)
-        @target = target
-      end
-
-    private 
-
-      def __delegate_method_missing_to_target operator, expected
+      def __delegate_method_missing_to_target(operator, expected)
         ::Spec::Matchers.generated_description = "should not #{operator} #{expected.inspect}"
-        return unless @target.__send__(operator, expected)
-        fail_with_message(default_message("not #{operator}", expected))
+        return unless @target.send(operator, expected)
+        return fail_with_message("expected not #{operator} #{expected.inspect}, got #{@target.inspect}")
       end
 
     end
