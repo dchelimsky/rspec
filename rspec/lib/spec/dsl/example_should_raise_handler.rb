@@ -1,6 +1,6 @@
 module Spec
   module DSL
-    class SpecShouldRaiseHandler
+    class ExampleShouldRaiseHandler
       def initialize(file_and_line_number, opts)
         @file_and_line_number = file_and_line_number
         @options = opts
@@ -31,9 +31,9 @@ module Spec
   
       def build_message(exception=nil)
         if @expected_error_message.nil?
-          message = "specify block expected #{@expected_error_class.to_s}"
+          message = "example block expected #{@expected_error_class.to_s}"
         else
-          message = "specify block expected #{@expected_error_class.new(@expected_error_message.to_s).inspect}"
+          message = "example block expected #{@expected_error_class.new(@expected_error_message.to_s).inspect}"
         end
         message << " but raised #{exception.inspect}" if exception
         message << " but nothing was raised" unless exception

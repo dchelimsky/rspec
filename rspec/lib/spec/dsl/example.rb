@@ -11,10 +11,10 @@ module Spec
 
       callback_events :before_setup, :after_teardown
 
-      def initialize(name, opts={}, &spec_block)
+      def initialize(name, opts={}, &example_block)
         @from = caller(0)[3]
         @options = opts
-        @spec_block = spec_block
+        @example_block = example_block
         @description = name
         setup_auto_generated_description
       end
@@ -22,7 +22,7 @@ module Spec
       def setup_auto_generated_description
         description_generated = lambda { |desc| @generated_description = desc }
         before_setup do
-          Spec::Matchers.description_generated(&description_generated)
+          Spec::Matchers.register_callback(:description_generated, description_generated)
         end
         after_teardown do
           Spec::Matchers.unregister_callback(:description_generated, description_generated)
@@ -36,20 +36,20 @@ module Spec
         errors = []
         begin
           set_current
-          setup_ok = setup_spec(execution_context, errors, &setup_block)
-          spec_ok = execute_spec(execution_context, errors) if setup_ok
-          teardown_ok = teardown_spec(execution_context, errors, &teardown_block)
+          setup_ok = setup_example(execution_context, errors, &setup_block)
+          example_ok = run_example(execution_context, errors) if setup_ok
+          teardown_ok = teardown_example(execution_context, errors, &teardown_block)
         ensure
           clear_current
         end
 
-        SpecShouldRaiseHandler.new(@from, @options).handle(errors)
-        reporter.spec_finished(name, errors.first, failure_location(setup_ok, spec_ok, teardown_ok)) if reporter
+        ExampleShouldRaiseHandler.new(@from, @options).handle(errors)
+        reporter.spec_finished(name, errors.first, failure_location(setup_ok, example_ok, teardown_ok)) if reporter
       end
       
-      def matches?(matcher, description)
-        matcher.spec_desc = name
-        matcher.matches?(description)
+      def matches?(matcher, criteria)
+        matcher.example_desc = name
+        matcher.matches?(criteria)
       end
       
     private
@@ -61,7 +61,7 @@ module Spec
         @generated_description || "NAME NOT GENERATED"
       end
       
-      def setup_spec(execution_context, errors, &setup_block)
+      def setup_example(execution_context, errors, &setup_block)
         notify_before_setup(errors)
         execution_context.setup_mocks if execution_context.respond_to?(:setup_mocks)
         execution_context.instance_eval(&setup_block) if setup_block
@@ -71,9 +71,9 @@ module Spec
         return false
       end
 
-      def execute_spec(execution_context, errors)
+      def run_example(execution_context, errors)
         begin
-          execution_context.instance_eval(&spec_block)
+          execution_context.instance_eval(&@example_block)
           return true
         rescue Exception => e
           errors << e
@@ -81,7 +81,7 @@ module Spec
         end
       end
 
-      def teardown_spec(execution_context, errors, &teardown_block)
+      def teardown_example(execution_context, errors, &teardown_block)
         execution_context.instance_eval(&teardown_block) if teardown_block
         execution_context.teardown_mocks if execution_context.respond_to?(:teardown_mocks)
         notify_after_teardown(errors)
@@ -113,13 +113,9 @@ module Spec
         self.class.send(:current=, nil)
       end
       
-      def spec_block
-        @spec_block
-      end
-
-      def failure_location(setup_ok, spec_ok, teardown_ok)
+      def failure_location(setup_ok, example_ok, teardown_ok)
         return 'setup' unless setup_ok
-        return name unless spec_ok
+        return name unless example_ok
         return 'teardown' unless teardown_ok
       end
     end

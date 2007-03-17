@@ -279,10 +279,9 @@ context "OptionParser" do
     behaviour_runner = behaviour_runner(["--loadby", 'mtime'])
     Dir.chdir(File.dirname(__FILE__)) do
       FileUtils.touch "most_recent_spec.rb"
-      all_files = ['context_spec.rb', 'most_recent_spec.rb']
+      all_files = ['command_line_spec.rb', 'most_recent_spec.rb']
       sorted_files = behaviour_runner.sort_paths(all_files)
-      # This may fail if any of these are modified....
-      sorted_files.should == ["most_recent_spec.rb", "context_spec.rb"]
+      sorted_files.should == ["most_recent_spec.rb", "command_line_spec.rb"]
       FileUtils.rm "most_recent_spec.rb"
     end
   end
@@ -297,7 +296,7 @@ context "OptionParser" do
       behaviour_runner = behaviour_runner(["--loadby", 'failed.txt'])
 
       all_files = [
-        'context_spec.rb', 
+        'command_line_spec.rb', 
         'drb_command_line_spec.rb', 
         'heckler_spec.rb', 
         'object_ext_spec.rb', 
@@ -306,7 +305,7 @@ context "OptionParser" do
       ]
       sorted_files = behaviour_runner.sort_paths(all_files)
       sorted_files.should == [
-        'heckler_spec.rb', 'context_spec.rb', 'reporter_spec.rb', # The prioritised ones from file
+        'heckler_spec.rb', 'command_line_spec.rb', 'reporter_spec.rb', # The prioritised ones from file
         'drb_command_line_spec.rb', 'object_ext_spec.rb', 'option_parser_spec.rb' # The rest
       ]
     end

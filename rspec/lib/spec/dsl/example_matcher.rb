@@ -2,14 +2,14 @@ module Spec
   module DSL
     class ExampleMatcher
 
-      attr_writer :spec_desc
-      def initialize(context_desc, spec_desc=nil)
+      attr_writer :example_desc
+      def initialize(context_desc, example_desc=nil)
         @context_desc = context_desc
-        @spec_desc = spec_desc
+        @example_desc = example_desc
       end
       
       def matches?(desc)
-        desc =~ /(^#{context_regexp} #{spec_regexp}$|^#{context_regexp}$|^#{spec_regexp}$)/
+        desc =~ /(^#{context_regexp} #{example_regexp}$|^#{context_regexp}$|^#{example_regexp}$)/
       end
       
       private
@@ -17,8 +17,8 @@ module Spec
           Regexp.escape(@context_desc)
         end
         
-        def spec_regexp
-          Regexp.escape(@spec_desc)
+        def example_regexp
+          Regexp.escape(@example_desc)
         end
     end
   end

@@ -1,7 +1,22 @@
+require 'forwardable'
+
 module Spec
   module DSL
     class BehaviourEvalModule < Module; end
     class Behaviour
+      extend Forwardable
+      
+      def_delegator :@context_eval_module, :include
+      def_delegator :@context_eval_module, :inherit
+      def_delegator :@context_eval_module, :it
+      def_delegator :@context_eval_module, :context_setup
+      def_delegator :@context_eval_module, :setup
+      def_delegator :@context_eval_module, :teardown
+      def_delegator :@context_eval_module, :context_teardown
+
+      alias :specify :it
+      alias :inherit_context_eval_module_from :inherit
+
       def initialize(description, &context_block)
         @description = description
 
@@ -14,16 +29,7 @@ module Spec
 
       def before_context_eval
       end
-
-      def inherit_context_eval_module_from(klass)
-        @context_eval_module.inherit klass
-      end
-      alias :inherit :inherit_context_eval_module_from
       
-      def include(mod)
-        @context_eval_module.include(mod)
-      end
-
       def run(reporter, dry_run=false, reverse=false)
         plugin_mock_framework
         reporter.add_behaviour(@description)
@@ -68,28 +74,16 @@ module Spec
 
     protected
 
-      def method_missing(*args)
-        @context_eval_module.method_missing(*args)
-      end
-
-      def context_setup_block
-        @context_eval_module.send :context_setup_block
-      end
-
-      def context_teardown_block
-        @context_eval_module.send :context_teardown_block
-      end
-
-      def examples
-        @context_eval_module.send :examples
-      end
-
-      def setup_block
-        @context_eval_module.send :setup_block
-      end
-
-      def teardown_block
-        @context_eval_module.send :teardown_block
+      def_delegator :@context_eval_module, :context_setup_block
+      def_delegator :@context_eval_module, :context_teardown_block
+      def_delegator :@context_eval_module, :examples
+      def_delegator :@context_eval_module, :setup_block
+      def_delegator :@context_eval_module, :teardown_block
+      def_delegator :@context_eval_module, :context_modules
+      def_delegator :@context_eval_module, :execution_context_class
+      
+      def method_missing(sym, *args, &block)
+        @context_eval_module.send(sym, *args, &block)
       end
 
       def prepare_execution_context_class
@@ -106,14 +100,6 @@ module Spec
             include mod
           end
         end
-      end
-
-      def context_modules
-        @context_eval_module.send :context_modules
-      end
-
-      def execution_context_class
-        @context_eval_module.send :execution_context_class
       end
 
       def execution_context(example)
