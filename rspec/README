@@ -19,7 +19,7 @@ Spec::Mocks supports creating Mock Objects, Stubs, and adding Mock/Stub
 behaviour to your existing objects.
 
 Spec::Runner provides a very small but powerful DSL for writing executable
-specifications.
+examples of how your code should work.
 
 == Installation
 

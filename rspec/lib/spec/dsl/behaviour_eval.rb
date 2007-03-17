@@ -28,10 +28,10 @@ module Spec
           teardown_parts << block
         end
 
-        def specify(description=:__generate_description, opts={}, &block)
-          specifications << Example.new(description, opts, &block)
+        def it(description=:__generate_description, opts={}, &block)
+          examples << Example.new(description, opts, &block)
         end
-        alias :it :specify
+        alias :specify :it
         
         def methods
           my_methods = super
@@ -90,8 +90,8 @@ module Spec
           @context_modules ||= [::Spec::Matchers]
         end
         
-        def specifications
-          @specifications ||= []
+        def examples
+          @examples ||= []
         end
 
         def context_setup_parts

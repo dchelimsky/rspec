@@ -11,7 +11,7 @@ context "SpecdocFormatter" do
     end
     specify "should produce standard summary" do
         @formatter.dump_summary(3, 2, 1)
-        @io.string.should eql("\nFinished in 3 seconds\n\n2 specifications, 1 failure\n")
+        @io.string.should eql("\nFinished in 3 seconds\n\n2 examples, 1 failure\n")
       
     end
     specify "should push context name" do

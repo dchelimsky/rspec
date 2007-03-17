@@ -30,23 +30,23 @@ module Spec
         prepare_execution_context_class
         errors = run_context_setup(reporter, dry_run)
 
-        specs = reverse ? specifications.reverse : specifications
-        specs.each do |specification|
-          specification_execution_context = execution_context(specification)
-          specification_execution_context.copy_instance_variables_from(@once_only_execution_context_instance, []) unless context_setup_block.nil?
-          specification.run(reporter, setup_block, teardown_block, dry_run, specification_execution_context)
+        specs = reverse ? examples.reverse : examples
+        specs.each do |example|
+          example_execution_context = execution_context(example)
+          example_execution_context.copy_instance_variables_from(@once_only_execution_context_instance, []) unless context_setup_block.nil?
+          example.run(reporter, setup_block, teardown_block, dry_run, example_execution_context)
         end unless errors.length > 0
         
         run_context_teardown(reporter, dry_run)
       end
 
       def number_of_specs
-        specifications.length
+        examples.length
       end
 
       def matches?(full_description)
         matcher ||= SpecMatcher.new(@description)
-        specifications.each do |spec|
+        examples.each do |spec|
           return true if spec.matches?(matcher, full_description)
         end
         return false
@@ -55,7 +55,7 @@ module Spec
       def run_single_spec(full_description)
         return if @description == full_description
         matcher = SpecMatcher.new(@description)
-        specifications.reject! do |spec|
+        examples.reject! do |spec|
           !spec.matches?(matcher, full_description)
         end
       end
@@ -80,8 +80,8 @@ module Spec
         @context_eval_module.send :context_teardown_block
       end
 
-      def specifications
-        @context_eval_module.send :specifications
+      def examples
+        @context_eval_module.send :examples
       end
 
       def setup_block
@@ -116,8 +116,8 @@ module Spec
         @context_eval_module.send :execution_context_class
       end
 
-      def execution_context(specification)
-        execution_context_class.new(specification)
+      def execution_context(example)
+        execution_context_class.new(example)
       end
 
       def run_context_setup(reporter, dry_run)

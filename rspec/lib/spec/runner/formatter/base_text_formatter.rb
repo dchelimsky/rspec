@@ -76,7 +76,7 @@ module Spec
           @output.puts
           @output.puts "Finished in #{duration} seconds"
           @output.puts
-          summary = "#{spec_count} specification#{'s' unless spec_count == 1}, #{failure_count} failure#{'s' unless failure_count == 1}"
+          summary = "#{spec_count} example#{'s' unless spec_count == 1}, #{failure_count} failure#{'s' unless failure_count == 1}"
           if failure_count == 0
             @output.puts green(summary)
           else
