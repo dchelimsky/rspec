@@ -6,24 +6,24 @@ module Spec
     class Behaviour
       extend Forwardable
       
-      def_delegator :@context_eval_module, :include
-      def_delegator :@context_eval_module, :inherit
-      def_delegator :@context_eval_module, :it
-      def_delegator :@context_eval_module, :context_setup
-      def_delegator :@context_eval_module, :setup
-      def_delegator :@context_eval_module, :teardown
-      def_delegator :@context_eval_module, :context_teardown
+      def_delegator :@eval_module, :include
+      def_delegator :@eval_module, :inherit
+      def_delegator :@eval_module, :it
+      def_delegator :@eval_module, :context_setup
+      def_delegator :@eval_module, :setup
+      def_delegator :@eval_module, :teardown
+      def_delegator :@eval_module, :context_teardown
 
       alias :specify :it
 
       def initialize(description, &context_block)
         @description = description
 
-        @context_eval_module = BehaviourEvalModule.new
-        @context_eval_module.extend BehaviourEval::ModuleMethods
-        @context_eval_module.include BehaviourEval::InstanceMethods
+        @eval_module = BehaviourEvalModule.new
+        @eval_module.extend BehaviourEval::ModuleMethods
+        @eval_module.include BehaviourEval::InstanceMethods
         before_context_eval
-        @context_eval_module.class_eval(&context_block)
+        @eval_module.class_eval(&context_block)
       end
 
       def before_context_eval
@@ -67,22 +67,22 @@ module Spec
 
       def methods
         my_methods = super
-        my_methods |= @context_eval_module.methods
+        my_methods |= @eval_module.methods
         my_methods
       end
 
     protected
 
-      def_delegator :@context_eval_module, :context_setup_block
-      def_delegator :@context_eval_module, :context_teardown_block
-      def_delegator :@context_eval_module, :examples
-      def_delegator :@context_eval_module, :setup_block
-      def_delegator :@context_eval_module, :teardown_block
-      def_delegator :@context_eval_module, :context_modules
-      def_delegator :@context_eval_module, :execution_context_class
+      def_delegator :@eval_module, :context_setup_block
+      def_delegator :@eval_module, :context_teardown_block
+      def_delegator :@eval_module, :examples
+      def_delegator :@eval_module, :setup_block
+      def_delegator :@eval_module, :teardown_block
+      def_delegator :@eval_module, :context_modules
+      def_delegator :@eval_module, :execution_context_class
       
       def method_missing(sym, *args, &block)
-        @context_eval_module.send(sym, *args, &block)
+        @eval_module.send(sym, *args, &block)
       end
 
       def prepare_execution_context_class
@@ -92,9 +92,9 @@ module Spec
 
       def weave_in_context_modules
         mods = context_modules
-        context_eval_module = @context_eval_module
+        eval_module = @eval_module
         execution_context_class.class_eval do
-          include context_eval_module
+          include eval_module
           mods.each do |mod|
             include mod
           end

@@ -70,7 +70,7 @@ module Spec
       class HelperContext < Spec::Rails::Runner::Context
         def before_context_eval #:nodoc:
           inherit Spec::Rails::Runner::HelperEvalContext
-          @context_eval_module.init_global_fixtures
+          init_global_fixtures
         end
       end
     end

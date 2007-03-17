@@ -2,8 +2,9 @@
 
 == 0.9 (Dev)
 
-* Eliminated sugar
+* Sugar FREE!
 * Behaviours/Examples (rather than Contexts/Specifications)
+* Integrated support for mocha (just require 'mocha' in a helper file)
 
 == Version 0.8.3
 

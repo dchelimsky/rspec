@@ -176,12 +176,12 @@ module Spec
       # about methods you can use in your Controller Specs
       class ControllerContext < Spec::Rails::Runner::Context
 
-        def execution_context(specification=nil) # :nodoc:
-          instance = execution_context_class.new(specification)
-          controller_class_name = @context_eval_module.controller_class_name
-          integrate_views = @context_eval_module.integrate_views? ? true : false
+        def execution_context(example=nil) # :nodoc:
+          instance = execution_context_class.new(example)
+          controller_klass_name = controller_class_name.to_s
+          integrate_views = integrate_views?
           instance.instance_eval {
-            @controller_class_name = controller_class_name.to_s
+            @controller_class_name = controller_klass_name
             @integrate_views = integrate_views
           }
           instance
@@ -189,7 +189,7 @@ module Spec
 
         def before_context_eval # :nodoc:
           inherit Spec::Rails::Runner::ControllerEvalContext
-          @context_eval_module.init_global_fixtures
+          init_global_fixtures
         end
 
       end

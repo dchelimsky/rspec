@@ -156,7 +156,7 @@ module Spec
         end
         def before_context_eval # :nodoc:
           inherit Spec::Rails::Runner::ViewEvalContext
-          @context_eval_module.init_global_fixtures
+          init_global_fixtures
         end
       end
     end
