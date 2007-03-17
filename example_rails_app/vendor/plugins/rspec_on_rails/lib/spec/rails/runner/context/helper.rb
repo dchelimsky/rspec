@@ -69,7 +69,7 @@ module Spec
       #   end
       class HelperContext < Spec::Rails::Runner::Context
         def before_context_eval #:nodoc:
-          inherit_context_eval_module_from Spec::Rails::Runner::HelperEvalContext
+          inherit Spec::Rails::Runner::HelperEvalContext
           @context_eval_module.init_global_fixtures
         end
       end

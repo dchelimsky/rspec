@@ -15,7 +15,6 @@ module Spec
       def_delegator :@context_eval_module, :context_teardown
 
       alias :specify :it
-      alias :inherit_context_eval_module_from :inherit
 
       def initialize(description, &context_block)
         @description = description

@@ -127,9 +127,7 @@ module Spec
             super_class_context_setup_run_count += 1
           end
         end
-        # using @behaviour.inherit_context_eval_module_from here, but other examples use @behaviour.inherit
-        # - inherit_context_eval_module_from is used by Spec::Rails to avoid confusion with Ruby's #include method
-        @behaviour.inherit_context_eval_module_from super_class
+        @behaviour.inherit(super_class)
 
         context_setup_run_count = 0
         @behaviour.context_setup {context_setup_run_count += 1}

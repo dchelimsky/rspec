@@ -10,7 +10,7 @@ module Spec
       # to ActiveRecord::Base.
       class ModelContext < Spec::Rails::Runner::Context
         def before_context_eval # :nodoc:
-          inherit_context_eval_module_from Spec::Rails::Runner::ModelEvalContext
+          inherit Spec::Rails::Runner::ModelEvalContext
           @context_eval_module.init_global_fixtures
         end
       end
