@@ -19,7 +19,7 @@ module Spec
           STDOUT.flush
         end
 
-        def add_context(name, first)
+        def add_behaviour(name, first)
           @current_context_number += 1
           unless first
             @output.puts "  </dl>"

@@ -1,19 +1,19 @@
 module Kernel
-  def context(type_or_description, additional_description=nil, &block)
+  def describe(type_or_description, additional_description=nil, &block)
     description = "#{type_or_description.to_s}"
     description += "#{additional_description}" unless additional_description.nil?
-    context_runner.add_context(Spec::DSL::Behaviour.new(description, &block))
+    behaviour_runner.add_behaviour(Spec::DSL::Behaviour.new(description, &block))
   end
-  alias :describe :context
+  alias :context :describe
   
 private
 
-  def context_runner
+  def behaviour_runner
     # TODO: Figure out a better way to get this considered "covered" and keep this statement on multiple lines 
-    unless $context_runner; \
-      $context_runner = ::Spec::Runner::OptionParser.new.create_context_runner(ARGV.dup, STDERR, STDOUT, false); \
-      at_exit { $context_runner.run(nil, false) }; \
+    unless $behaviour_runner; \
+      $behaviour_runner = ::Spec::Runner::OptionParser.new.create_behaviour_runner(ARGV.dup, STDERR, STDOUT, false); \
+      at_exit { $behaviour_runner.run(nil, false) }; \
     end
-    $context_runner
+    $behaviour_runner
   end
 end

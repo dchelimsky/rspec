@@ -11,8 +11,8 @@ context "OptionParser" do
     @parser.parse(args, @err, @out, true)
   end
 
-  def context_runner(args)
-    @parser.create_context_runner(args, @err, @out, true)
+  def behaviour_runner(args)
+    @parser.create_behaviour_runner(args, @err, @out, true)
   end
 
   specify "should accept dry run option" do
@@ -276,11 +276,11 @@ context "OptionParser" do
   end
 
   specify "should set an mtime comparator when --loadby mtime" do
-    context_runner = context_runner(["--loadby", 'mtime'])
+    behaviour_runner = behaviour_runner(["--loadby", 'mtime'])
     Dir.chdir(File.dirname(__FILE__)) do
       FileUtils.touch "most_recent_spec.rb"
       all_files = ['context_spec.rb', 'most_recent_spec.rb']
-      sorted_files = context_runner.sort_paths(all_files)
+      sorted_files = behaviour_runner.sort_paths(all_files)
       # This may fail if any of these are modified....
       sorted_files.should == ["most_recent_spec.rb", "context_spec.rb"]
       FileUtils.rm "most_recent_spec.rb"
@@ -294,7 +294,7 @@ context "OptionParser" do
       # heckler_spec.rb
       # context_spec.rb
       # reporter_spec.rb
-      context_runner = context_runner(["--loadby", 'failed.txt'])
+      behaviour_runner = behaviour_runner(["--loadby", 'failed.txt'])
 
       all_files = [
         'context_spec.rb', 
@@ -304,7 +304,7 @@ context "OptionParser" do
         'option_parser_spec.rb',
         'reporter_spec.rb'
       ]
-      sorted_files = context_runner.sort_paths(all_files)
+      sorted_files = behaviour_runner.sort_paths(all_files)
       sorted_files.should == [
         'heckler_spec.rb', 'context_spec.rb', 'reporter_spec.rb', # The prioritised ones from file
         'drb_command_line_spec.rb', 'object_ext_spec.rb', 'option_parser_spec.rb' # The rest

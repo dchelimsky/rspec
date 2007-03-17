@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 module Spec
   module DSL
-    module SpecMatcherSpecHelper
+    module ExampleMatcherSpecHelper
       class MatchDescription
         def initialize(description)
           @description = description
@@ -25,80 +25,80 @@ module Spec
       end
     end
         
-    context "SpecMatcher" do
-      include SpecMatcherSpecHelper
+    context "ExampleMatcher" do
+      include ExampleMatcherSpecHelper
       
       specify "should match correct context and spec" do
-        matcher=SpecMatcher.new("context", "spec")
+        matcher=ExampleMatcher.new("context", "spec")
         matcher.should match_description("context spec")
       end
       
       specify "should not match wrong spec" do
-        matcher=SpecMatcher.new("context", "other spec")
+        matcher=ExampleMatcher.new("context", "other spec")
         matcher.should_not match_description("context spec")
       end
       
       specify "should not match wrong context" do
-        matcher=SpecMatcher.new("other context", "spec")
+        matcher=ExampleMatcher.new("other context", "spec")
         matcher.should_not match_description("context spec")
       end
       
       specify "should match spec only" do
-        matcher=SpecMatcher.new("context", "spec")
+        matcher=ExampleMatcher.new("context", "spec")
         matcher.should match_description("spec")
       end
       
       specify "should match context only" do
-        matcher=SpecMatcher.new("context", "spec")
+        matcher=ExampleMatcher.new("context", "spec")
         matcher.should match_description("context")
       end
       
       specify "should escape regexp chars" do
-        matcher=SpecMatcher.new("(con|text)", "[spec]")
+        matcher=ExampleMatcher.new("(con|text)", "[spec]")
         matcher.should_not match_description("con p")
       end
       
       # specify "should match context only" do
-      #   matcher=SpecMatcher.new("context", "a context")
+      #   matcher=ExampleMatcher.new("context", "a context")
       #   matcher.should match_description("a context")
       # end
       # 
       # specify "should match spec only" do
-      #   matcher=SpecMatcher.new("with a spec", "a context")
+      #   matcher=ExampleMatcher.new("with a spec", "a context")
       #   matcher.should match_description("with a spec")
       # end
       
       # specify "should match with regexp reserved (characters) in the spec" do
-      #   matcher=SpecMatcher.new("with ([#]) a spec", "a context")
+      #   matcher=ExampleMatcher.new("with ([#]) a spec", "a context")
       #   matcher.should match_description("a context")
       #   matcher.should match_description("with ([#]) a spec")
       #   matcher.should match_description("a context with ([#]) a spec")
       # end
       # 
       # specify "should match with regexp reserved (characters) in the context" do
-      #   matcher=SpecMatcher.new("with a spec", "a ([#]) context")
+      #   matcher=ExampleMatcher.new("with a spec", "a ([#]) context")
       #   matcher.should match_description("a ([#]) context with a spec")
       #   matcher.should match_description("a ([#]) context with a spec")
       #   matcher.should match_description("a ([#]) context with a spec")
       # end
       
       # specify "should not match wrong spec only" do
-      #   matcher=SpecMatcher.new("with another spec", "a context")
+      #   matcher=ExampleMatcher.new("with another spec", "a context")
       #   matcher.should_not match_description("with a spec")
       # end
       # 
       # specify "should not match wrong context" do
-      #   matcher=SpecMatcher.new("another context with a spec", "a context")
+      #   matcher=ExampleMatcher.new("another context with a spec", "a context")
       #   matcher.should_not match_description("with a spec")
       # end
       # 
       # specify "should not match wrong context only" do
-      #   matcher=SpecMatcher.new("another context", "a context")
+      #   matcher=ExampleMatcher.new("another context", "a context")
       #   matcher.should_not match_description("with a spec")
       # end
       # 
       # specify "should not match wrong spec" do
-      #   matcher=SpecMatcher.new("a context with another spec", "a context")
+      #   matcher=ExampleMatcher.new("a context with another spec", "a context")
       #   matcher.should_not match_description("with a spec")
       # end
       

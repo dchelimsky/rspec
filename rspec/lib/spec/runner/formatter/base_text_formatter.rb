@@ -17,7 +17,7 @@ module Spec
         # formatters that need to provide progress on feedback (graphical ones)
         #
         # This method will only be invoked once, and the next one to be invoked
-        # is #add_context
+        # is #add_behaviour
         def start(spec_count)
         end
 
@@ -26,7 +26,7 @@ module Spec
         # first context - otherwise it's false.
         #
         # The next method to be invoked after this is #spec_started
-        def add_context(name, first)
+        def add_behaviour(name, first)
         end
 
         # This method is invoked right before a spec is executed.

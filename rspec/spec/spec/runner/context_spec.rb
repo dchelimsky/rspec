@@ -15,12 +15,12 @@ module Spec
       end
       
       specify "should add itself to formatter on run" do
-        @formatter.should_receive(:add_context).with "context"
+        @formatter.should_receive(:add_behaviour).with "context"
         @context.run(@formatter)
       end
       
       specify "should run spec on run" do
-        @formatter.should_receive(:add_context).with :any_args
+        @formatter.should_receive(:add_behaviour).with :any_args
         @formatter.should_receive(:spec_started).with "test"
         @formatter.should_receive(:spec_finished).with "test", :anything, :anything
         $spec_ran = false
@@ -30,7 +30,7 @@ module Spec
       end
          
       specify "should not run spec on dry run" do
-        @formatter.should_receive(:add_context).with :any_args
+        @formatter.should_receive(:add_behaviour).with :any_args
         @formatter.should_receive(:spec_started).with "test"
         @formatter.should_receive(:spec_finished).with "test"
         $spec_ran = false
@@ -40,7 +40,7 @@ module Spec
       end
 
       specify "should not run context_setup or context_teardown on dry run" do
-        @formatter.should_receive(:add_context).with :any_args
+        @formatter.should_receive(:add_behaviour).with :any_args
         @formatter.should_receive(:spec_started).with "test"
         @formatter.should_receive(:spec_finished).with "test"
         
@@ -55,7 +55,7 @@ module Spec
       end
 
       specify "should not run context if context_setup fails" do
-        @formatter.should_receive(:add_context).with :any_args
+        @formatter.should_receive(:add_behaviour).with :any_args
         @formatter.should_receive(:spec_finished).with :any_args
         
         spec_ran = false
@@ -66,7 +66,7 @@ module Spec
       end
 
       specify "should run context_teardown if any spec fails" do
-        @formatter.should_receive(:add_context).with :any_args
+        @formatter.should_receive(:add_behaviour).with :any_args
         @formatter.should_receive(:spec_finished).with :any_args
         
         context_teardown_ran = false
@@ -77,7 +77,7 @@ module Spec
       end
 
       specify "should run context_teardown if any context_setup fails" do
-        @formatter.should_receive(:add_context).with :any_args
+        @formatter.should_receive(:add_behaviour).with :any_args
         @formatter.should_receive(:spec_started).with "test"
         @formatter.should_receive(:spec_finished).with :any_args
         
@@ -90,7 +90,7 @@ module Spec
 
 
       specify "should supply context_setup as spec name if failure in context_setup" do
-        @formatter.should_receive(:add_context).with :any_args
+        @formatter.should_receive(:add_behaviour).with :any_args
 
         @formatter.should_receive(:spec_finished) do |name, error, location|
           name.should eql("context_setup")
@@ -104,7 +104,7 @@ module Spec
       end
 
       specify "should provide context_teardown as spec name if failure in context_teardown" do
-        @formatter.should_receive(:add_context).with :any_args
+        @formatter.should_receive(:add_behaviour).with :any_args
 
         @formatter.should_receive(:spec_finished) do |name, error, location|
           name.should eql("context_teardown")
@@ -117,7 +117,7 @@ module Spec
       end
 
       specify "should run superclass context_setup and context_setup block only once per context" do
-        @formatter.should_receive(:add_context).with :any_args
+        @formatter.should_receive(:add_behaviour).with :any_args
         @formatter.should_receive(:spec_started).with "test"
         @formatter.should_receive(:spec_started).with "test2"
         @formatter.should_receive(:spec_finished).twice.with :any_args
@@ -142,7 +142,7 @@ module Spec
       end
       
       specify "should run superclass setup method and setup block" do
-        @formatter.should_receive(:add_context).with :any_args
+        @formatter.should_receive(:add_behaviour).with :any_args
         @formatter.should_receive(:spec_started).with "test"
         @formatter.should_receive(:spec_finished).with :any_args
 
@@ -163,7 +163,7 @@ module Spec
       end
 
       specify "should run superclass context_teardown method and context_teardown block only once" do
-        @formatter.should_receive(:add_context).with :any_args
+        @formatter.should_receive(:add_behaviour).with :any_args
         @formatter.should_receive(:spec_started).with "test"
         @formatter.should_receive(:spec_started).with "test2"
         @formatter.should_receive(:spec_finished).twice.with :any_args
@@ -187,7 +187,7 @@ module Spec
       end
 
       specify "context_teardown should have access to all instance variables defined in context_setup" do
-        @formatter.should_receive(:add_context).with :any_args
+        @formatter.should_receive(:add_behaviour).with :any_args
         @formatter.should_receive(:spec_started).with "test"
         @formatter.should_receive(:spec_finished).with :any_args
 
@@ -201,7 +201,7 @@ module Spec
       end
 
       specify "should copy instance variables from context_setup's execution context into spec's execution context" do
-        @formatter.should_receive(:add_context).with :any_args
+        @formatter.should_receive(:add_behaviour).with :any_args
         @formatter.should_receive(:spec_started).with "test"
         @formatter.should_receive(:spec_finished).with :any_args
 
@@ -214,7 +214,7 @@ module Spec
       end
 
       specify "should call context_setup before any setup" do
-        @formatter.should_receive(:add_context).with :any_args
+        @formatter.should_receive(:add_behaviour).with :any_args
         @formatter.should_receive(:spec_started).with "test"
         @formatter.should_receive(:spec_finished).with :any_args
 
@@ -235,7 +235,7 @@ module Spec
       end
 
       specify "should call context_teardown after any teardown" do
-        @formatter.should_receive(:add_context).with :any_args
+        @formatter.should_receive(:add_behaviour).with :any_args
         @formatter.should_receive(:spec_started).with "test"
         @formatter.should_receive(:spec_finished).with :any_args
 
@@ -257,7 +257,7 @@ module Spec
 
 
       specify "should run superclass teardown method and teardown block" do
-        @formatter.should_receive(:add_context).with :any_args
+        @formatter.should_receive(:add_behaviour).with :any_args
         @formatter.should_receive(:spec_started).with "test"
         @formatter.should_receive(:spec_finished).with :any_args
 
@@ -279,7 +279,7 @@ module Spec
       end
 
       specify "should have accessible methods from inherited superclass" do
-        @formatter.should_receive(:add_context).with :any_args
+        @formatter.should_receive(:add_behaviour).with :any_args
         @formatter.should_receive(:spec_started).with "test"
         @formatter.should_receive(:spec_finished).with :any_args
 
@@ -323,7 +323,7 @@ module Spec
       end
 
       specify "should have accessible instance methods from included module" do
-        @formatter.should_receive(:add_context).with :any_args
+        @formatter.should_receive(:add_behaviour).with :any_args
         @formatter.should_receive(:spec_started).with "test"
         @formatter.should_receive(:spec_finished).with :any_args
 

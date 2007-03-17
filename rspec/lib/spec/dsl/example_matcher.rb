@@ -1,6 +1,6 @@
 module Spec
   module DSL
-    class SpecMatcher
+    class ExampleMatcher
 
       attr_writer :spec_desc
       def initialize(context_desc, spec_desc=nil)

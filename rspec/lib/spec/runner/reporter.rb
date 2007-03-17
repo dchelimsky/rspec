@@ -8,9 +8,9 @@ module Spec
         clear!
       end
       
-      def add_context(name)
+      def add_behaviour(name)
         #TODO - @context_names.empty? tells the formatter whether this is the first context or not - that's a little slippery
-        @formatter.add_context(name, @context_names.empty?)
+        @formatter.add_behaviour(name, @context_names.empty?)
         @context_names << name
       end
       

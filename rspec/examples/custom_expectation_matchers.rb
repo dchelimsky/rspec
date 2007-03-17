@@ -35,19 +35,20 @@ module Animals
       [:cheese]
     end
   end
-end
 
-context "A mouse" do
-  include AnimalSpecHelper
-  setup do
-    @mouse = Animals::Mouse.new
-  end
+  describe Mouse do
+    include AnimalSpecHelper
+    setup do
+      @mouse = Animals::Mouse.new
+    end
   
-  specify "should eat cheese" do
-    @mouse.should eat(:cheese)
-  end
+    it "should eat cheese" do
+      @mouse.should eat(:cheese)
+    end
   
-  specify "should not eat cat" do
-    @mouse.should_not eat(:cat)
+    it "should not eat cat" do
+      @mouse.should_not eat(:cat)
+    end
   end
+
 end

@@ -30,7 +30,7 @@ module Spec
         end
 
         specify "should push line break for context" do
-          @formatter.add_context("context", :ignored)
+          @formatter.add_behaviour("context", :ignored)
           @io.string.should eql("\n")
         end
 

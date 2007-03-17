@@ -52,25 +52,25 @@ module Spec
 
         def context_setup_block
           parts = context_setup_parts.dup
-          add_context_superclass_method(:context_setup, parts)
+          add_behaviour_superclass_method(:context_setup, parts)
           create_block_from_parts(parts)
         end
 
         def context_teardown_block
           parts = context_teardown_parts.dup
-          add_context_superclass_method(:context_teardown, parts)
+          add_behaviour_superclass_method(:context_teardown, parts)
           create_block_from_parts(parts)
         end
 
         def setup_block
           parts = setup_parts.dup
-          add_context_superclass_method(:setup, parts)
+          add_behaviour_superclass_method(:setup, parts)
           create_block_from_parts(parts)
         end
         
         def teardown_block
           parts = teardown_parts.dup
-          add_context_superclass_method(:teardown, parts)
+          add_behaviour_superclass_method(:teardown, parts)
           create_block_from_parts(parts)
         end
 
@@ -110,7 +110,7 @@ module Spec
           @teardown_parts ||= []
         end
 
-        def add_context_superclass_method sym, parts
+        def add_behaviour_superclass_method sym, parts
           superclass_method = begin
             context_superclass.instance_method(sym)
           rescue

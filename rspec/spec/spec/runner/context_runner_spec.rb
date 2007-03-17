@@ -22,8 +22,8 @@ module Spec
         options = OpenStruct.new
         options.reporter = reporter
         runner = Spec::Runner::BehaviourRunner.new(options)
-        runner.add_context(context1)
-        runner.add_context(context2)
+        runner.add_behaviour(context1)
+        runner.add_behaviour(context2)
         runner.run([], false)
       end
 
@@ -43,8 +43,8 @@ module Spec
         options.spec_name = "desired context legal spec"
 
         runner = Spec::Runner::BehaviourRunner.new(options)
-        runner.add_context(desired_context)
-        runner.add_context(other_context)
+        runner.add_behaviour(desired_context)
+        runner.add_behaviour(other_context)
         reporter.should_receive(:start)
         reporter.should_receive(:end)
         reporter.should_receive(:dump)
@@ -63,7 +63,7 @@ module Spec
 
         reporter = mock("reporter")
         reporter.should_receive(:start)
-        reporter.should_receive(:add_context).with("context")
+        reporter.should_receive(:add_behaviour).with("context")
         reporter.should_receive(:spec_started).with("no error")
         reporter.should_receive(:spec_started).with("should interrupt")
         reporter.should_receive(:spec_finished).twice
@@ -73,7 +73,7 @@ module Spec
         options = OpenStruct.new
         options.reporter = reporter
         runner = Spec::Runner::BehaviourRunner.new(options)
-        runner.add_context(context)
+        runner.add_behaviour(context)
         runner.run([], false)
       end
 
@@ -95,7 +95,7 @@ module Spec
         options.heckle_runner = heckle_runner
 
         runner = Spec::Runner::BehaviourRunner.new(options)
-        runner.add_context(context)
+        runner.add_behaviour(context)
         runner.run([], false)
       end
   
@@ -123,8 +123,8 @@ module Spec
           c1.should_receive(:run)
         end
 
-        runner.add_context(c1)
-        runner.add_context(c2)
+        runner.add_behaviour(c1)
+        runner.add_behaviour(c2)
     
         runner.run([], false)
       end

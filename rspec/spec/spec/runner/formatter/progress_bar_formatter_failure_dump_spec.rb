@@ -7,7 +7,7 @@ module Spec
         setup do
           @io = StringIO.new
           @reporter = Reporter.new(ProgressBarFormatter.new(@io), NoisyBacktraceTweaker.new)
-          @reporter.add_context("context")
+          @reporter.add_behaviour("context")
         end
 
         specify "should end with line break" do

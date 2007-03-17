@@ -15,4 +15,5 @@ context "specs with no descriptions" do
   specify { ["a"].should include("a") }
   
   specify { [1,2,3].should respond_to(:size) }
+  
 end

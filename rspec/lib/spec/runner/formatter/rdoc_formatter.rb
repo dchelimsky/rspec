@@ -2,7 +2,7 @@ module Spec
   module Runner
     module Formatter
       class RdocFormatter < BaseTextFormatter
-        def add_context(name, first)
+        def add_behaviour(name, first)
           @output.print "# #{name}\n"
           STDOUT.flush
         end

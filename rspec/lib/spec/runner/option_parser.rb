@@ -9,7 +9,7 @@ module Spec
         @file_factory = File
       end
 
-      def create_context_runner(args, err, out, warn_if_no_files)
+      def create_behaviour_runner(args, err, out, warn_if_no_files)
         options = parse(args, err, out, warn_if_no_files)
         # Some exit points in parse (--generate-options, --drb) don't return the options, 
         # but hand over control. In that case we don't want to continue.

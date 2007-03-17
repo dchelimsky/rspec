@@ -7,7 +7,7 @@ module Spec
         @options = options
       end
     
-      def add_context(context)
+      def add_behaviour(context)
         return unless spec_description.nil? || context.matches?(spec_description)
         context.run_single_spec(spec_description) if context.matches?(spec_description)
         @contexts << context
@@ -102,9 +102,9 @@ module Spec
       def heckle
         heckle_runner = @options.heckle_runner
         @options.heckle_runner = nil
-        context_runner = self.class.new(@options)
-        context_runner.instance_variable_set(:@contexts, @contexts)
-        heckle_runner.heckle_with(context_runner)
+        behaviour_runner = self.class.new(@options)
+        behaviour_runner.instance_variable_set(:@contexts, @contexts)
+        heckle_runner.heckle_with(behaviour_runner)
       end
     end
   end

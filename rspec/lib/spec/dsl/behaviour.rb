@@ -26,7 +26,7 @@ module Spec
 
       def run(reporter, dry_run=false, reverse=false)
         plugin_mock_framework
-        reporter.add_context(@description)
+        reporter.add_behaviour(@description)
         prepare_execution_context_class
         errors = run_context_setup(reporter, dry_run)
 
@@ -45,7 +45,7 @@ module Spec
       end
 
       def matches?(full_description)
-        matcher ||= SpecMatcher.new(@description)
+        matcher ||= ExampleMatcher.new(@description)
         examples.each do |spec|
           return true if spec.matches?(matcher, full_description)
         end
@@ -54,7 +54,7 @@ module Spec
 
       def run_single_spec(full_description)
         return if @description == full_description
-        matcher = SpecMatcher.new(@description)
+        matcher = ExampleMatcher.new(@description)
         examples.reject! do |spec|
           !spec.matches?(matcher, full_description)
         end
