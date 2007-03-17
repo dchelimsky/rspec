@@ -1,0 +1,14 @@
+= Upgrading existing code to RSpec-0.9
+
+=== New Syntax for should and should_not
+
+* Use translator (should get 90% of your code)
+* Manually fix "parenthesis" warnings
+
+=== Change before_context_eval to before_eval
+
+before_context_eval is an un-published hook used by
+Spec::Rails to create specialized behaviour contexts.
+Most of you don't need to change this, but for those
+who have exploited it, you'll need to change it to
+before_eval.

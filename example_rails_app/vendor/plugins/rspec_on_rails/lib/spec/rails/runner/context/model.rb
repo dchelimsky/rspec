@@ -9,7 +9,7 @@ module Spec
       # provides support for fixtures and some custom expectations via extensions
       # to ActiveRecord::Base.
       class ModelContext < Spec::Rails::Runner::Context
-        def before_context_eval # :nodoc:
+        def before_eval # :nodoc:
           inherit Spec::Rails::Runner::ModelEvalContext
           init_global_fixtures
         end

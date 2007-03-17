@@ -154,7 +154,7 @@ module Spec
           instance.instance_eval { @controller_class_name = "Spec::Rails::Runner::ViewSpecController" }
           instance
         end
-        def before_context_eval # :nodoc:
+        def before_eval # :nodoc:
           inherit Spec::Rails::Runner::ViewEvalContext
           init_global_fixtures
         end

@@ -1,10 +1,11 @@
 = RSpec Changelog
 
-== 0.9 (Dev)
+== 0.9 (in SVN)
 
 * Sugar FREE!
 * Behaviours/Examples (rather than Contexts/Specifications)
 * Integrated support for mocha (just require 'mocha' in a helper file)
+* before_context_eval is replaced by before_eval
 
 == Version 0.8.3
 

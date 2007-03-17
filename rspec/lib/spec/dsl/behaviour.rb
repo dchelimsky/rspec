@@ -2,7 +2,7 @@ require 'forwardable'
 
 module Spec
   module DSL
-    class BehaviourEvalModule < Module; end
+    class EvalModule < Module; end
     class Behaviour
       extend Forwardable
       
@@ -19,14 +19,14 @@ module Spec
       def initialize(description, &context_block)
         @description = description
 
-        @eval_module = BehaviourEvalModule.new
+        @eval_module = EvalModule.new
         @eval_module.extend BehaviourEval::ModuleMethods
         @eval_module.include BehaviourEval::InstanceMethods
-        before_context_eval
+        before_eval
         @eval_module.class_eval(&context_block)
       end
 
-      def before_context_eval
+      def before_eval
       end
       
       def run(reporter, dry_run=false, reverse=false)
@@ -80,7 +80,11 @@ module Spec
       def_delegator :@eval_module, :teardown_block
       def_delegator :@eval_module, :context_modules
       def_delegator :@eval_module, :execution_context_class
-      
+
+      # Messages that this class does not understand
+      # are passed directly to the @eval_module, which
+      # is the scope in which user-defined helper methods
+      # can be found.
       def method_missing(sym, *args, &block)
         @eval_module.send(sym, *args, &block)
       end
