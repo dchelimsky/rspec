@@ -30,8 +30,8 @@ module Spec
       end
 
       def run(reporter, setup_block, teardown_block, dry_run, execution_context)
-        reporter.spec_started(name) if reporter
-        return reporter.spec_finished(name) if dry_run
+        reporter.example_started(name) if reporter
+        return reporter.example_finished(name) if dry_run
 
         errors = []
         begin
@@ -44,7 +44,7 @@ module Spec
         end
 
         ExampleShouldRaiseHandler.new(@from, @options).handle(errors)
-        reporter.spec_finished(name, errors.first, failure_location(setup_ok, example_ok, teardown_ok)) if reporter
+        reporter.example_finished(name, errors.first, failure_location(setup_ok, example_ok, teardown_ok)) if reporter
       end
       
       def matches?(matcher, criteria)

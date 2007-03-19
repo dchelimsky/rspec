@@ -11,8 +11,8 @@ module Spec
       end
 
       it "should have a before_setup callback for all examples" do
-        @reporter.stub!(:spec_started)
-        @reporter.stub!(:spec_finished)
+        @reporter.stub!(:example_started)
+        @reporter.stub!(:example_finished)
 
         before_setup_called = false
         @example_class.before_setup {before_setup_called = true}
@@ -29,8 +29,8 @@ module Spec
           raise(error)
         end
         example=@example_class.new("example") {}
-        @reporter.should_receive(:spec_started).with("example")
-        @reporter.should_receive(:spec_finished).with("example", error, "setup")
+        @reporter.should_receive(:example_started).with("example")
+        @reporter.should_receive(:example_finished).with("example", error, "setup")
         example.run(@reporter, nil, nil, nil, Object.new)
       end
 
@@ -39,14 +39,14 @@ module Spec
         example=@example_class.new("example") do
           raise(error)
         end
-        @reporter.should_receive(:spec_started).with("example")
-        @reporter.should_receive(:spec_finished).with("example", error, "example")
+        @reporter.should_receive(:example_started).with("example")
+        @reporter.should_receive(:example_finished).with("example", error, "example")
         example.run(@reporter, nil, nil, nil, Object.new)
       end
 
       it "should have an after_teardown callback for all examples" do
-        @reporter.stub!(:spec_started)
-        @reporter.stub!(:spec_finished)
+        @reporter.stub!(:example_started)
+        @reporter.stub!(:example_finished)
 
         after_teardown_called = false
         @example_class.after_teardown {after_teardown_called = true}
@@ -63,8 +63,8 @@ module Spec
           raise(error)
         end
         example=@example_class.new("example") {}
-        @reporter.should_receive(:spec_started).with("example")
-        @reporter.should_receive(:spec_finished).with("example", error, "teardown")
+        @reporter.should_receive(:example_started).with("example")
+        @reporter.should_receive(:example_finished).with("example", error, "teardown")
         example.run(@reporter, nil, nil, nil, Object.new)
       end
     end

@@ -37,7 +37,7 @@ module Spec
           STDOUT.flush
         end
 
-        def spec_started(name)
+        def example_started(name)
           @current_spec_number += 1
           STDOUT.flush
         end

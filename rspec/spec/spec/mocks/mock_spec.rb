@@ -294,7 +294,7 @@ module Spec
       
       specify "should verify if auto verify is set to true" do
         reporter = Spec::Mocks::Mock.new("reporter", :null_object => true)
-        reporter.should_receive(:spec_finished) do |name, error, location|
+        reporter.should_receive(:example_finished) do |name, error, location|
           error.to_s.should match(/expected :abcde with \(any args\) once, but received it 0 times/)
         end
         Spec::DSL:: Example.new("spec") do
@@ -306,7 +306,7 @@ module Spec
 
       specify "should verify if auto verify not set explicitly" do
         reporter = Spec::Mocks::Mock.new("reporter", :null_object => true)
-        reporter.should_receive(:spec_finished) do |name, error, location|
+        reporter.should_receive(:example_finished) do |name, error, location|
           error.to_s.should match(/expected :abcde with \(any args\) once, but received it 0 times/)
         end
         Spec::DSL:: Example.new("spec") do
@@ -318,7 +318,7 @@ module Spec
 
       specify "should not verify if auto verify is set to false" do
         reporter = Spec::Mocks::Mock.new("reporter", :null_object => true)
-        reporter.should_receive(:spec_finished) do |name, error, location|
+        reporter.should_receive(:example_finished) do |name, error, location|
           error.should be_nil
         end
         Spec::DSL:: Example.new("spec") do

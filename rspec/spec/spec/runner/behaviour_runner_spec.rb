@@ -11,9 +11,9 @@ module Spec
          :null_object => true
         })
         context1.should_receive(:run)
-        context1.should_receive(:number_of_specs).and_return(0)
+        context1.should_receive(:number_of_examples).and_return(0)
         context2.should_receive(:run)
-        context2.should_receive(:number_of_specs).and_return(0)
+        context2.should_receive(:number_of_examples).and_return(0)
         reporter = mock("reporter")
         reporter.should_receive(:start).with(0)
         reporter.should_receive(:end)
@@ -32,11 +32,11 @@ module Spec
         desired_context.should_receive(:matches?).at_least(:once).and_return(true)
         desired_context.should_receive(:run)
         desired_context.should_receive(:run_single_spec)
-        desired_context.should_receive(:number_of_specs).and_return(1)
+        desired_context.should_receive(:number_of_examples).and_return(1)
         other_context = mock("other context")
         other_context.should_receive(:matches?).and_return(false)
         other_context.should_receive(:run).never
-        other_context.should_receive(:number_of_specs).never
+        other_context.should_receive(:number_of_examples).never
         reporter = mock("reporter")
         options = OpenStruct.new
         options.reporter = reporter
@@ -64,9 +64,9 @@ module Spec
         reporter = mock("reporter")
         reporter.should_receive(:start)
         reporter.should_receive(:add_behaviour).with("context")
-        reporter.should_receive(:spec_started).with("no error")
-        reporter.should_receive(:spec_started).with("should interrupt")
-        reporter.should_receive(:spec_finished).twice
+        reporter.should_receive(:example_started).with("no error")
+        reporter.should_receive(:example_started).with("should interrupt")
+        reporter.should_receive(:example_finished).twice
         reporter.should_receive(:end)
         reporter.should_receive(:dump)
 
@@ -79,7 +79,7 @@ module Spec
 
       specify "should heckle when options have heckle_runner" do
         context = mock("context", :null_object => true)
-        context.should_receive(:number_of_specs).and_return(0)
+        context.should_receive(:number_of_examples).and_return(0)
         context.should_receive(:run).and_return(0)
 
         reporter = mock("reporter")
@@ -113,12 +113,12 @@ module Spec
         c1 = mock("c1")
         c1.should_receive(:matches?).and_return(true)
         c1.should_receive(:run_single_spec).and_return(false)
-        c1.should_receive(:number_of_specs).and_return(1)
+        c1.should_receive(:number_of_examples).and_return(1)
 
         c2 = mock("c2")
         c2.should_receive(:matches?).and_return(true)
         c2.should_receive(:run_single_spec).and_return(false)
-        c2.should_receive(:number_of_specs).and_return(2)
+        c2.should_receive(:number_of_examples).and_return(2)
         c2.should_receive(:run) do
           c1.should_receive(:run)
         end

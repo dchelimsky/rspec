@@ -25,14 +25,14 @@ module Spec
         # +name+ is the name of the context and +first+ is true if it is the
         # first context - otherwise it's false.
         #
-        # The next method to be invoked after this is #spec_started
+        # The next method to be invoked after this is #example_started
         def add_behaviour(name, first)
         end
 
         # This method is invoked right before a spec is executed.
         # The next method to be invoked after this one is one of #spec_failed
         # or #spec_passed.
-        def spec_started(name)
+        def example_started(name)
         end
 
         # This method is invoked when a spec fails, i.e. an exception occurred

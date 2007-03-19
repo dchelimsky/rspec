@@ -13,14 +13,14 @@ module Spec
         @behaviour.specify("spec1") {}
         @behaviour.specify("spec2") {}
         @behaviour.run_single_spec("context")
-        @behaviour.number_of_specs.should == 2
+        @behaviour.number_of_examples.should == 2
       end
 
-      specify "should only run specified specs when specified" do
+      specify "should only run specified examples when specified" do
         @behaviour.specify("spec1") {}
         @behaviour.specify("spec2") {}
         @behaviour.run_single_spec("context spec1")
-        @behaviour.number_of_specs.should == 1
+        @behaviour.number_of_examples.should == 1
       end
     end
   end

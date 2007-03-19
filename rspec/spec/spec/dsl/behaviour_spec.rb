@@ -5,7 +5,7 @@ module Spec
     describe Behaviour do
       
       setup do
-        @formatter = Spec::Mocks::Mock.new "formatter", :register_as_spec_listener => false
+        @formatter = Spec::Mocks::Mock.new "formatter"
         @behaviour = Behaviour.new("context") {}
       end
 
@@ -20,8 +20,8 @@ module Spec
       
       it "should run spec on run" do
         @formatter.should_receive(:add_behaviour).with :any_args
-        @formatter.should_receive(:spec_started).with "test"
-        @formatter.should_receive(:spec_finished).with "test", :anything, :anything
+        @formatter.should_receive(:example_started).with "test"
+        @formatter.should_receive(:example_finished).with "test", :anything, :anything
         $spec_ran = false
         @behaviour.specify("test") {$spec_ran = true}
         @behaviour.run(@formatter)
@@ -30,8 +30,8 @@ module Spec
          
       it "should not run spec on dry run" do
         @formatter.should_receive(:add_behaviour).with :any_args
-        @formatter.should_receive(:spec_started).with "test"
-        @formatter.should_receive(:spec_finished).with "test"
+        @formatter.should_receive(:example_started).with "test"
+        @formatter.should_receive(:example_finished).with "test"
         $spec_ran = false
         @behaviour.specify("test") {$spec_ran = true}
         @behaviour.run(@formatter, true)
@@ -40,8 +40,8 @@ module Spec
 
       it "should not run context_setup or context_teardown on dry run" do
         @formatter.should_receive(:add_behaviour).with :any_args
-        @formatter.should_receive(:spec_started).with "test"
-        @formatter.should_receive(:spec_finished).with "test"
+        @formatter.should_receive(:example_started).with "test"
+        @formatter.should_receive(:example_finished).with "test"
         
         context_setup_ran = false
         context_teardown_ran = false
@@ -55,7 +55,7 @@ module Spec
 
       it "should not run context if context_setup fails" do
         @formatter.should_receive(:add_behaviour).with :any_args
-        @formatter.should_receive(:spec_finished).with :any_args
+        @formatter.should_receive(:example_finished).with :any_args
         
         spec_ran = false
         @behaviour.context_setup { raise "help" }
@@ -66,7 +66,7 @@ module Spec
 
       it "should run context_teardown if any spec fails" do
         @formatter.should_receive(:add_behaviour).with :any_args
-        @formatter.should_receive(:spec_finished).with :any_args
+        @formatter.should_receive(:example_finished).with :any_args
         
         context_teardown_ran = false
         @behaviour.context_setup { raise "context_setup error" }
@@ -77,8 +77,8 @@ module Spec
 
       it "should run context_teardown if any context_setup fails" do
         @formatter.should_receive(:add_behaviour).with :any_args
-        @formatter.should_receive(:spec_started).with "test"
-        @formatter.should_receive(:spec_finished).with :any_args
+        @formatter.should_receive(:example_started).with "test"
+        @formatter.should_receive(:example_finished).with :any_args
         
         context_teardown_ran = false
         @behaviour.context_teardown { context_teardown_ran = true }
@@ -91,7 +91,7 @@ module Spec
       it "should supply context_setup as spec name if failure in context_setup" do
         @formatter.should_receive(:add_behaviour).with :any_args
 
-        @formatter.should_receive(:spec_finished) do |name, error, location|
+        @formatter.should_receive(:example_finished) do |name, error, location|
           name.should eql("context_setup")
           error.message.should eql("in context_setup")
           location.should eql("context_setup")
@@ -105,7 +105,7 @@ module Spec
       it "should provide context_teardown as spec name if failure in context_teardown" do
         @formatter.should_receive(:add_behaviour).with :any_args
 
-        @formatter.should_receive(:spec_finished) do |name, error, location|
+        @formatter.should_receive(:example_finished) do |name, error, location|
           name.should eql("context_teardown")
           error.message.should eql("in context_teardown")
           location.should eql("context_teardown")
@@ -117,9 +117,9 @@ module Spec
 
       it "should run superclass context_setup and context_setup block only once per context" do
         @formatter.should_receive(:add_behaviour).with :any_args
-        @formatter.should_receive(:spec_started).with "test"
-        @formatter.should_receive(:spec_started).with "test2"
-        @formatter.should_receive(:spec_finished).twice.with :any_args
+        @formatter.should_receive(:example_started).with "test"
+        @formatter.should_receive(:example_started).with "test2"
+        @formatter.should_receive(:example_finished).twice.with :any_args
 
         super_class_context_setup_run_count = 0
         super_class = Class.new do
@@ -140,8 +140,8 @@ module Spec
       
       it "should run superclass setup method and setup block" do
         @formatter.should_receive(:add_behaviour).with :any_args
-        @formatter.should_receive(:spec_started).with "test"
-        @formatter.should_receive(:spec_finished).with :any_args
+        @formatter.should_receive(:example_started).with "test"
+        @formatter.should_receive(:example_finished).with :any_args
 
         super_class_setup_ran = false
         super_class = Class.new do
@@ -161,9 +161,9 @@ module Spec
 
       it "should run superclass context_teardown method and context_teardown block only once" do
         @formatter.should_receive(:add_behaviour).with :any_args
-        @formatter.should_receive(:spec_started).with "test"
-        @formatter.should_receive(:spec_started).with "test2"
-        @formatter.should_receive(:spec_finished).twice.with :any_args
+        @formatter.should_receive(:example_started).with "test"
+        @formatter.should_receive(:example_started).with "test2"
+        @formatter.should_receive(:example_finished).twice.with :any_args
 
         super_class_context_teardown_run_count = 0
         super_class = Class.new do
@@ -185,8 +185,8 @@ module Spec
 
       it "context_teardown should have access to all instance variables defined in context_setup" do
         @formatter.should_receive(:add_behaviour).with :any_args
-        @formatter.should_receive(:spec_started).with "test"
-        @formatter.should_receive(:spec_finished).with :any_args
+        @formatter.should_receive(:example_started).with "test"
+        @formatter.should_receive(:example_finished).with :any_args
 
         context_instance_value_in = "Hello there"
         context_instance_value_out = ""
@@ -199,8 +199,8 @@ module Spec
 
       it "should copy instance variables from context_setup's execution context into spec's execution context" do
         @formatter.should_receive(:add_behaviour).with :any_args
-        @formatter.should_receive(:spec_started).with "test"
-        @formatter.should_receive(:spec_finished).with :any_args
+        @formatter.should_receive(:example_started).with "test"
+        @formatter.should_receive(:example_finished).with :any_args
 
         context_instance_value_in = "Hello there"
         context_instance_value_out = ""
@@ -212,8 +212,8 @@ module Spec
 
       it "should call context_setup before any setup" do
         @formatter.should_receive(:add_behaviour).with :any_args
-        @formatter.should_receive(:spec_started).with "test"
-        @formatter.should_receive(:spec_finished).with :any_args
+        @formatter.should_receive(:example_started).with "test"
+        @formatter.should_receive(:example_finished).with :any_args
 
         fiddle = []
         super_class = Class.new do
@@ -233,8 +233,8 @@ module Spec
 
       it "should call context_teardown after any teardown" do
         @formatter.should_receive(:add_behaviour).with :any_args
-        @formatter.should_receive(:spec_started).with "test"
-        @formatter.should_receive(:spec_finished).with :any_args
+        @formatter.should_receive(:example_started).with "test"
+        @formatter.should_receive(:example_finished).with :any_args
 
         fiddle = []
         super_class = Class.new do
@@ -255,8 +255,8 @@ module Spec
 
       it "should run superclass teardown method and teardown block" do
         @formatter.should_receive(:add_behaviour).with :any_args
-        @formatter.should_receive(:spec_started).with "test"
-        @formatter.should_receive(:spec_finished).with :any_args
+        @formatter.should_receive(:example_started).with "test"
+        @formatter.should_receive(:example_finished).with :any_args
 
         super_class_teardown_ran = false
         super_class = Class.new do
@@ -277,8 +277,8 @@ module Spec
 
       it "should have accessible methods from inherited superclass" do
         @formatter.should_receive(:add_behaviour).with :any_args
-        @formatter.should_receive(:spec_started).with "test"
-        @formatter.should_receive(:spec_finished).with :any_args
+        @formatter.should_receive(:example_started).with "test"
+        @formatter.should_receive(:example_finished).with :any_args
 
         helper_method_ran = false
         super_class = Class.new do
@@ -321,8 +321,8 @@ module Spec
 
       it "should have accessible instance methods from included module" do
         @formatter.should_receive(:add_behaviour).with :any_args
-        @formatter.should_receive(:spec_started).with "test"
-        @formatter.should_receive(:spec_finished).with :any_args
+        @formatter.should_receive(:example_started).with "test"
+        @formatter.should_receive(:example_finished).with :any_args
 
         mod1_method_called = false
         mod1 = Module.new do
@@ -359,7 +359,7 @@ module Spec
               end
           end
           
-          (class << self; self; end).class_eval do
+          metaclass.class_eval do
             define_method(:included) do |receiver|
               receiver.extend class_methods
             end
@@ -374,7 +374,7 @@ module Spec
               end
           end
           
-          (class << self; self; end).class_eval do
+          metaclass.class_eval do
             define_method(:included) do |receiver|
               receiver.extend class_methods
             end
@@ -395,7 +395,7 @@ module Spec
         @behaviour.specify("two") {}
         @behaviour.specify("three") {}
         @behaviour.specify("four") {}
-        @behaviour.number_of_specs.should == 4
+        @behaviour.number_of_examples.should == 4
       end
     end
   end

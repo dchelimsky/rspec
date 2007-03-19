@@ -9,7 +9,7 @@ module Spec
           mock.should_receive(:message, :expected_from => "/path/to/blah.ext:37")
         end
         reporter = mock("reporter", :null_object => true)
-        reporter.should_receive(:spec_finished) do |spec, error|
+        reporter.should_receive(:example_finished) do |spec, error|
           error.backtrace.detect {|line| line =~ /\/path\/to\/blah.ext:37/}.should_not be_nil
         end
         spec.run(reporter, nil, nil, nil, Object.new)
@@ -21,7 +21,7 @@ module Spec
           mock.should_receive(:message, :message => "recebi nada")
         end
         reporter = mock("reporter", :null_object => true)
-        reporter.should_receive(:spec_finished) do |spec, error|
+        reporter.should_receive(:example_finished) do |spec, error|
           error.message.should == "recebi nada"
         end
         spec.run(reporter, nil, nil, nil, Object.new)

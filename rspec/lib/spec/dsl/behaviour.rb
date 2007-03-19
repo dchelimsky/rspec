@@ -45,7 +45,7 @@ module Spec
         run_context_teardown(reporter, dry_run)
       end
 
-      def number_of_specs
+      def number_of_examples
         examples.length
       end
 
@@ -118,7 +118,7 @@ module Spec
           rescue => e
             errors << e
             location = "context_setup"
-            reporter.spec_finished(location, e, location) if reporter
+            reporter.example_finished(location, e, location) if reporter
           end
         end
         errors
@@ -131,7 +131,7 @@ module Spec
             @once_only_execution_context_instance.instance_eval(&context_teardown_block) 
           rescue => e
             location = "context_teardown"
-            reporter.spec_finished(location, e, location) if reporter
+            reporter.example_finished(location, e, location) if reporter
           end
         end
       end

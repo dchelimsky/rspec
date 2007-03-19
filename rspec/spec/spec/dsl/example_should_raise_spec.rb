@@ -5,7 +5,7 @@ module Spec
     describe Example, " declared with {:should_raise => " do
       setup do
         @reporter = mock("reporter")
-        @reporter.stub!(:spec_started)
+        @reporter.stub!(:example_started)
       end
   
       def verify_error(error, message=nil)
@@ -20,7 +20,7 @@ module Spec
         example = Spec::DSL:: Example.new("example", :should_raise => true) do
           raise Spec::Expectations::ExpectationNotMetError
         end
-        @reporter.should_receive(:spec_finished) do |description, error|
+        @reporter.should_receive(:example_finished) do |description, error|
           error.should be_nil
         end
         example.run(@reporter, nil, nil, nil, nil)
@@ -28,7 +28,7 @@ module Spec
 
       it "true} should fail if nothing is raised" do
         example = Spec::DSL:: Example.new("example", :should_raise => true) {}
-        @reporter.should_receive(:spec_finished) do |example_name, error|
+        @reporter.should_receive(:example_finished) do |example_name, error|
           verify_error(error, /example block expected Exception but nothing was raised/)
         end
         example.run(@reporter, nil, nil, nil, nil)
@@ -38,7 +38,7 @@ module Spec
         example = Spec::DSL:: Example.new("example", :should_raise => NameError) do
           raise NameError
         end
-        @reporter.should_receive(:spec_finished) do |example_name, error|
+        @reporter.should_receive(:example_finished) do |example_name, error|
           error.should be_nil
         end
         example.run(@reporter, nil, nil, nil, nil)
@@ -48,7 +48,7 @@ module Spec
         example = Spec::DSL:: Example.new("example", :should_raise => NameError) do
           #do nothing
         end
-        @reporter.should_receive(:spec_finished) do |example_name, error|
+        @reporter.should_receive(:example_finished) do |example_name, error|
           verify_error(error,/example block expected NameError but nothing was raised/)
         end
         example.run(@reporter, nil, nil, nil, nil)
@@ -58,7 +58,7 @@ module Spec
         example = Spec::DSL:: Example.new("example", :should_raise => NameError) do
           raise RuntimeError
         end
-        @reporter.should_receive(:spec_finished) do |example_name, error|
+        @reporter.should_receive(:example_finished) do |example_name, error|
           verify_error(error, /example block expected NameError but raised.+RuntimeError/)
         end
         example.run(@reporter, nil, nil, nil, nil)
@@ -68,7 +68,7 @@ module Spec
         example = Spec::DSL:: Example.new("spec", :should_raise => [NameError]) do
           raise NameError
         end
-        @reporter.should_receive(:spec_finished) do |description, error|
+        @reporter.should_receive(:example_finished) do |description, error|
           error.should be_nil
         end
         example.run(@reporter, nil, nil, nil, nil)
@@ -77,7 +77,7 @@ module Spec
       it "[NameError]} should fail when there is no error" do
         example = Spec::DSL:: Example.new("spec", :should_raise => [NameError]) do
         end
-        @reporter.should_receive(:spec_finished) do |description, error|
+        @reporter.should_receive(:example_finished) do |description, error|
           verify_error(error, /example block expected NameError but nothing was raised/)
         end
         example.run(@reporter, nil, nil, nil, nil)
@@ -87,7 +87,7 @@ module Spec
         example = Spec::DSL:: Example.new("spec", :should_raise => [NameError]) do
           raise RuntimeError
         end
-        @reporter.should_receive(:spec_finished) do |description, error|
+        @reporter.should_receive(:example_finished) do |description, error|
           verify_error(error, /example block expected NameError but raised.+RuntimeError/)
         end
         example.run(@reporter, nil, nil, nil, nil)
@@ -97,7 +97,7 @@ module Spec
         example = Spec::DSL:: Example.new("spec", :should_raise => [NameError, 'expected']) do
           raise NameError, 'expected'
         end
-        @reporter.should_receive(:spec_finished) do |description, error|
+        @reporter.should_receive(:example_finished) do |description, error|
           error.should be_nil
         end
         example.run(@reporter, nil, nil, nil, nil)
@@ -107,7 +107,7 @@ module Spec
         example = Spec::DSL:: Example.new("spec", :should_raise => [NameError, /xpec/]) do
           raise NameError, 'expected'
         end
-        @reporter.should_receive(:spec_finished) do |description, error|
+        @reporter.should_receive(:example_finished) do |description, error|
           error.should be_nil
         end
         example.run(@reporter, nil, nil, nil, nil)
@@ -117,7 +117,7 @@ module Spec
         example = Spec::DSL:: Example.new("spec", :should_raise => [NameError, 'expected']) do
           raise NameError, 'wrong message'
         end
-        @reporter.should_receive(:spec_finished) do |description, error|
+        @reporter.should_receive(:example_finished) do |description, error|
           verify_error(error, /example block expected #<NameError: expected> but raised #<NameError: wrong message>/)
         end
         example.run(@reporter, nil, nil, nil, nil)
@@ -127,7 +127,7 @@ module Spec
         example = Spec::DSL:: Example.new("spec", :should_raise => [NameError, /exp/]) do
           raise NameError, 'wrong message'
         end
-        @reporter.should_receive(:spec_finished) do |description, error|
+        @reporter.should_receive(:example_finished) do |description, error|
           verify_error(error, /example block expected #<NameError: \(\?-mix:exp\)> but raised #<NameError: wrong message>/)
         end
         example.run(@reporter, nil, nil, nil, nil)

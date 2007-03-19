@@ -14,12 +14,12 @@ module Spec
         @context_names << name
       end
       
-      def spec_started(name)
+      def example_started(name)
         @spec_names << name
-        @formatter.spec_started(name)
+        @formatter.example_started(name)
       end
       
-      def spec_finished(name, error=nil, failure_location=nil)
+      def example_finished(name, error=nil, failure_location=nil)
         if error.nil?
           spec_passed(name)
         else
@@ -28,10 +28,10 @@ module Spec
         end
       end
 
-      def start(number_of_specs)
+      def start(number_of_examples)
         clear!
         @start_time = Time.new
-        @formatter.start(number_of_specs)
+        @formatter.start(number_of_examples)
       end
   
       def end

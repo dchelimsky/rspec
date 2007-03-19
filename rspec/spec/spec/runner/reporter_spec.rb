@@ -16,25 +16,25 @@ module Spec
       end
       specify "should account for spec and error in stats for pass" do
         @formatter.should_receive(:add_behaviour)
-        @formatter.should_receive(:spec_started).with("spec")
+        @formatter.should_receive(:example_started).with("spec")
         @formatter.should_receive(:spec_failed).with("spec", 1, failure)
         @formatter.should_receive(:start_dump)
         @formatter.should_receive(:dump_failure).with(1, :anything)
         @formatter.should_receive(:dump_summary).with(:anything, 1, 1)
         @backtrace_tweaker.should_receive(:tweak_backtrace)
         @reporter.add_behaviour("context")
-        @reporter.spec_started("spec")
-        @reporter.spec_finished("spec", RuntimeError.new)
+        @reporter.example_started("spec")
+        @reporter.example_finished("spec", RuntimeError.new)
         @reporter.dump
       end
 
       specify "should account for spec in stats for pass" do
-        @formatter.should_receive(:spec_started)
+        @formatter.should_receive(:example_started)
         @formatter.should_receive(:spec_passed)
         @formatter.should_receive(:start_dump)
         @formatter.should_receive(:dump_summary).with(:anything, 1, 0)
-        @reporter.spec_started("spec")
-        @reporter.spec_finished("spec")
+        @reporter.example_started("spec")
+        @reporter.example_finished("spec")
         @reporter.dump
       end
 
@@ -43,32 +43,32 @@ module Spec
         @formatter.should_receive(:spec_failed)
         @backtrace_tweaker.should_receive(:tweak_backtrace)
         @reporter.add_behaviour("context")
-        @reporter.spec_finished("spec", RuntimeError.new)
+        @reporter.example_finished("spec", RuntimeError.new)
         @backtrace_tweaker.__verify
       end
 
       specify "should handle multiple contexts with same name" do
         @formatter.should_receive(:add_behaviour).exactly(3).times
-        @formatter.should_receive(:spec_started).exactly(3).times
+        @formatter.should_receive(:example_started).exactly(3).times
         @formatter.should_receive(:spec_passed).exactly(3).times
         @formatter.should_receive(:start_dump)
         @formatter.should_receive(:dump_summary).with(:anything, 3, 0)
         @reporter.add_behaviour("context")
-        @reporter.spec_started("spec 1")
-        @reporter.spec_finished("spec 1")
+        @reporter.example_started("spec 1")
+        @reporter.example_finished("spec 1")
         @reporter.add_behaviour("context")
-        @reporter.spec_started("spec 2")
-        @reporter.spec_finished("spec 2")
+        @reporter.example_started("spec 2")
+        @reporter.example_finished("spec 2")
         @reporter.add_behaviour("context")
-        @reporter.spec_started("spec 3")
-        @reporter.spec_finished("spec 3")
+        @reporter.example_started("spec 3")
+        @reporter.example_finished("spec 3")
         @reporter.dump
       end
 
       specify "should handle multiple specs same name" do
         error=RuntimeError.new
         @formatter.should_receive(:add_behaviour).exactly(2).times
-        @formatter.should_receive(:spec_started).with("spec").exactly(4).times
+        @formatter.should_receive(:example_started).with("spec").exactly(4).times
         @formatter.should_receive(:spec_passed).with("spec").exactly(2).times
         @formatter.should_receive(:spec_failed).with("spec", 1, failure)
         @formatter.should_receive(:spec_failed).with("spec", 2, failure)
@@ -77,15 +77,15 @@ module Spec
         @formatter.should_receive(:dump_summary).with(:anything, 4, 2)
         @backtrace_tweaker.should_receive(:tweak_backtrace)
         @reporter.add_behaviour("context")
-        @reporter.spec_started("spec")
-        @reporter.spec_finished("spec")
-        @reporter.spec_started("spec")
-        @reporter.spec_finished("spec", error)
+        @reporter.example_started("spec")
+        @reporter.example_finished("spec")
+        @reporter.example_started("spec")
+        @reporter.example_finished("spec", error)
         @reporter.add_behaviour("context")
-        @reporter.spec_started("spec")
-        @reporter.spec_finished("spec")
-        @reporter.spec_started("spec")
-        @reporter.spec_finished("spec", error)
+        @reporter.example_started("spec")
+        @reporter.example_finished("spec")
+        @reporter.example_started("spec")
+        @reporter.example_finished("spec", error)
         @reporter.dump
       end
       

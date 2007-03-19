@@ -3,14 +3,14 @@ module Spec
     class BehaviourRunner
       
       def initialize(options)
-        @contexts = []
+        @behaviours = []
         @options = options
       end
     
-      def add_behaviour(context)
-        return unless spec_description.nil? || context.matches?(spec_description)
-        context.run_single_spec(spec_description) if context.matches?(spec_description)
-        @contexts << context
+      def add_behaviour(behaviour)
+        return unless spec_description.nil? || behaviour.matches?(spec_description)
+        behaviour.run_single_spec(spec_description) if behaviour.matches?(spec_description)
+        @behaviours << behaviour
       end
       
       # Runs all contexts and returns the number of failures.
@@ -20,11 +20,11 @@ module Spec
           sorted_paths = sort_paths(paths)
           load_specs(sorted_paths) 
         end
-        @options.reporter.start(number_of_specs)
-        contexts = @options.reverse ? @contexts.reverse : @contexts
+        @options.reporter.start(number_of_examples)
+        behaviours = @options.reverse ? @behaviours.reverse : @behaviours
         begin
-          contexts.each do |context|
-            context.run(@options.reporter, @options.dry_run, @options.reverse)
+          behaviours.each do |behaviour|
+            behaviour.run(@options.reporter, @options.dry_run, @options.reverse)
           end
         rescue Interrupt
         ensure
@@ -41,8 +41,8 @@ module Spec
         failure_count
       end
     
-      def number_of_specs
-        @contexts.inject(0) {|sum, context| sum + context.number_of_specs}
+      def number_of_examples
+        @behaviours.inject(0) {|sum, behaviour| sum + behaviour.number_of_examples}
       end
       
       FILE_SORTERS = {
@@ -103,7 +103,7 @@ module Spec
         heckle_runner = @options.heckle_runner
         @options.heckle_runner = nil
         behaviour_runner = self.class.new(@options)
-        behaviour_runner.instance_variable_set(:@contexts, @contexts)
+        behaviour_runner.instance_variable_set(:@behaviours, @behaviours)
         heckle_runner.heckle_with(behaviour_runner)
       end
     end

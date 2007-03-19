@@ -13,7 +13,7 @@ module Spec
         specify "should end with line break" do
           error=Spec::Expectations::ExpectationNotMetError.new("message")
           set_backtrace(error)
-          @reporter.spec_finished("spec", error, "spec")
+          @reporter.example_finished("spec", error, "spec")
           @reporter.dump
           @io.string.should match(/\n\z/)
         end
@@ -21,7 +21,7 @@ module Spec
         specify "should include context and spec name in backtrace if error in spec" do
           error=RuntimeError.new("message")
           set_backtrace(error)
-          @reporter.spec_finished("spec", error, "spec")
+          @reporter.example_finished("spec", error, "spec")
           @reporter.dump
           @io.string.should match(/RuntimeError in 'context spec'/)
         end
