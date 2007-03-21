@@ -189,7 +189,7 @@ module Spec
 
         def before_eval # :nodoc:
           inherit Spec::Rails::Runner::ControllerEvalContext
-          init_global_fixtures
+          configure
         end
 
       end

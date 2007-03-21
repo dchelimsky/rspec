@@ -2,8 +2,6 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 module Spec
   module Runner
-    class Configuration
-    end
     describe Configuration do
       it "should default mock framework to rspec" do
         Spec::Runner::Configuration.new.mock_framework.should == :rspec

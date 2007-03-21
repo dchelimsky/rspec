@@ -8,7 +8,8 @@ module Spec
         remove_method :default_test if respond_to?(:default_test)
         @@model_id = 1000
         class << self
-          def init_global_fixtures #:nodoc:
+          def configure
+            Spec::Runner.configuration.configure(self)
             fixtures global_fixtures if global_fixtures
           end
         end

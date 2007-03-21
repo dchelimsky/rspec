@@ -11,7 +11,7 @@ module Spec
       class ModelContext < Spec::Rails::Runner::Context
         def before_eval # :nodoc:
           inherit Spec::Rails::Runner::ModelEvalContext
-          init_global_fixtures
+          configure
         end
       end
     end

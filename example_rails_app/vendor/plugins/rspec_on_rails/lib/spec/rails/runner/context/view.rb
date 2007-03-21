@@ -156,7 +156,9 @@ module Spec
         end
         def before_eval # :nodoc:
           inherit Spec::Rails::Runner::ViewEvalContext
-          init_global_fixtures
+          # TODO - this is required in every behaviour - should move it up to Behaviour and make
+          # it implicit
+          configure
         end
       end
     end
