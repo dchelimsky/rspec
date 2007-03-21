@@ -1,3 +1,4 @@
+require 'spec/runner/configuration'
 require 'spec/runner/formatter'
 require 'spec/runner/behaviour_runner'
 require 'spec/runner/option_parser'
@@ -123,5 +124,13 @@ module Spec
   #     end
   #   end
   module Runner
+    class << self
+      def configuration
+        @configuration ||= Configuration.new
+      end
+      def configure
+        yield configuration
+      end
+    end
   end
 end
