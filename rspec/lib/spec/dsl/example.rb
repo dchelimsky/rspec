@@ -47,9 +47,9 @@ module Spec
         reporter.example_finished(name, errors.first, failure_location(setup_ok, example_ok, teardown_ok)) if reporter
       end
       
-      def matches?(matcher, criteria)
+      def matches?(matcher, specified_examples)
         matcher.example_desc = name
-        matcher.matches?(criteria)
+        matcher.matches?(specified_examples)
       end
       
     private

@@ -8,8 +8,11 @@ module Spec
         @example_desc = example_desc
       end
       
-      def matches?(desc)
-        desc =~ /(^#{context_regexp} #{example_regexp}$|^#{context_regexp}$|^#{example_regexp}$)/
+      def matches?(specified_examples)
+        specified_examples.each do |specified_example|
+          return true if specified_example =~ /(^#{context_regexp} #{example_regexp}$|^#{context_regexp}$|^#{example_regexp}$)/
+        end
+        false
       end
       
       private

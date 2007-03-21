@@ -12,7 +12,7 @@ module Spec
       teardown do
         @formatter.__verify
       end
-      
+
       it "should add itself to formatter on run" do
         @formatter.should_receive(:add_behaviour).with "context"
         @behaviour.run(@formatter)
@@ -396,6 +396,17 @@ module Spec
         @behaviour.specify("three") {}
         @behaviour.specify("four") {}
         @behaviour.number_of_examples.should == 4
+      end
+      
+      it "should not match anything when there are no examples" do
+        @behaviour.should_not be_matches(['context'])
+      end
+
+      it "should match when one of the examples match" do
+        example = mock('my example')
+        example.should_receive(:matches?).and_return(true)
+        @behaviour.stub!(:examples).and_return([example])
+        @behaviour.should be_matches(['jalla'])
       end
     end
   end

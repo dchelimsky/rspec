@@ -49,19 +49,20 @@ module Spec
         examples.length
       end
 
-      def matches?(full_description)
+      def matches?(specified_examples)
         matcher ||= ExampleMatcher.new(@description)
-        examples.each do |spec|
-          return true if spec.matches?(matcher, full_description)
+
+        examples.each do |example|
+          return true if example.matches?(matcher, specified_examples)
         end
         return false
       end
 
-      def run_single_spec(full_description)
-        return if @description == full_description
+      def retain_examples_matching!(specified_examples)
+        return if specified_examples.index(@description)
         matcher = ExampleMatcher.new(@description)
-        examples.reject! do |spec|
-          !spec.matches?(matcher, full_description)
+        examples.reject! do |example|
+          !example.matches?(matcher, specified_examples)
         end
       end
 

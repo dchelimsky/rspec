@@ -3,17 +3,22 @@
 == 0.9 (in SVN)
 
 * Sugar FREE!
-* Behaviours/Examples (rather than Contexts/Specifications)
-* Integrated support for mocha (just require 'mocha' in a helper file)
-* before_context_eval is replaced by before_eval
+* Fixed [#8103] RSpec not installing spec script correctly.
+* The --spec option is replaced by the --example option.
+* The --loadby option no longer supports a file argument. Use --example file_name instead.
+* The --example option can now take a file name as an argument. The file should contain example names.
+* New --failures option which will write out a file that can later be used with --example.
+* Internal classes are named Behaviour/Example (rather than Context/Specification).
+* Integrated support for mocha (just require 'mocha' in a helper file).
+* before_context_eval is replaced by before_eval.
 
 == Version 0.8.3
 
 This release introduces #describe and #it as aliases for #context and #specify. This
 allows you to express specs like this:
 
-  describe SomeClass do
-    it "should do something" do
+  describe SomeClass do # Creates a Behaviour
+    it "should do something" do # Creates an Example
     end
   end
 

@@ -23,7 +23,7 @@ PKG_FILES = FileList[
   'examples/**/*'
 ]
 
-task :default => [:spec, :verify_rcov]
+task :default => [:verify_rcov]
 
 desc "Run all specs"
 Spec::Rake::SpecTask.new do |t|

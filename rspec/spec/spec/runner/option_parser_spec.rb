@@ -38,7 +38,7 @@ context "OptionParser" do
   specify "should print help to stdout" do
     options = parse(["--help"])
     @out.rewind
-    @out.read.should match(/Usage: spec \[options\] \(FILE\|DIRECTORY\|GLOB\)\+/n)
+    @out.read.should match(/Usage: spec \(FILE\|DIRECTORY\|GLOB\)\+ \[options\]/m)
   end
 
   specify "should print instructions about how to fix bad formatter" do
@@ -90,14 +90,21 @@ context "OptionParser" do
     options.colour.should be_true
   end
 
-  specify "should support single spec with s option" do
-    options = parse(["-s", "something or other"])
-    options.spec_name.should eql("something or other")
+  specify "should support single example with -e option" do
+    options = parse(["-e", "something or other"])
+    options.examples.should eql(["something or other"])
   end
 
-  specify "should support single spec with spec option" do
-    options = parse(["--spec", "something or other"])
-    options.spec_name.should eql("something or other")
+  specify "should support single example with --example option" do
+    options = parse(["--example", "something or other"])
+    options.examples.should eql(["something or other"])
+  end
+
+  specify "should read several example names from file if --example is given an existing file name" do
+    options = parse(["--example", File.dirname(__FILE__) + '/examples.txt'])
+    options.examples.should eql([
+      "Sir, if you were my husband, I would poison your drink.", 
+      "Madam, if you were my wife, I would drink it."])
   end
 
   specify "should use html formatter when format is h" do
@@ -190,7 +197,7 @@ context "OptionParser" do
     spec_parser.should_receive(:spec_name_for).with("fake_io", 169).and_return("some spec")
 
     options = parse(["some file", "--line", "169"])
-    options.spec_name.should eql("some spec")
+    options.examples.should eql(["some spec"])
     File.__verify
   end
 
@@ -228,12 +235,12 @@ context "OptionParser" do
     @err.string.should match(/Only one file can be specified when using the --line option/n)
   end
 
-  specify "should fail with error message if --spec and --line are used simultaneously" do
+  specify "should fail with error message if --example and --line are used simultaneously" do
     spec_parser = mock("spec_parser")
     @parser.instance_variable_set('@spec_parser', spec_parser)
 
-    options = parse(["some file", "--spec", "some spec", "--line", "169"])
-    @err.string.should match(/You cannot use both --line and --spec/n)
+    options = parse(["some file", "--example", "some example", "--line", "169"])
+    @err.string.should match(/You cannot use both --line and --example/n)
   end
 
   if(PLATFORM != "i386-mswin32")
@@ -286,28 +293,8 @@ context "OptionParser" do
     end
   end
 
-  specify "should set a filename comparator when --loadby failed.txt" do
-    Dir.chdir(File.dirname(__FILE__)) do
-      # failed.txt contains:
-      #
-      # heckler_spec.rb
-      # context_spec.rb
-      # reporter_spec.rb
-      behaviour_runner = behaviour_runner(["--loadby", 'failed.txt'])
-
-      all_files = [
-        'command_line_spec.rb', 
-        'drb_command_line_spec.rb', 
-        'heckler_spec.rb', 
-        'object_ext_spec.rb', 
-        'option_parser_spec.rb',
-        'reporter_spec.rb'
-      ]
-      sorted_files = behaviour_runner.sort_paths(all_files)
-      sorted_files.should == [
-        'heckler_spec.rb', 'command_line_spec.rb', 'reporter_spec.rb', # The prioritised ones from file
-        'drb_command_line_spec.rb', 'object_ext_spec.rb', 'option_parser_spec.rb' # The rest
-      ]
-    end
+  it "should write failures on exit" do
+    options = parse(["--failures", File.dirname(__FILE__) + '/../../../failures.txt'])
+    options.failure_io.should_not be_nil
   end
 end

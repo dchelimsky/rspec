@@ -1,7 +1,3 @@
-#!/usr/bin/env ruby
-
-# Define a task library for running RSpec contexts.
-
 require 'rake'
 require 'rake/tasklib'
 

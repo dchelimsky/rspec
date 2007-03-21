@@ -2,9 +2,10 @@ module Spec
   module Runner
     class Reporter
       
-      def initialize(formatter, backtrace_tweaker)
+      def initialize(formatter, backtrace_tweaker, failure_io=nil)
         @formatter = formatter
         @backtrace_tweaker = backtrace_tweaker
+        @failure_io = failure_io
         clear!
       end
       
@@ -23,8 +24,7 @@ module Spec
         if error.nil?
           spec_passed(name)
         else
-          @backtrace_tweaker.tweak_backtrace(error, failure_location)
-          spec_failed(name, Failure.new(@context_names.last, name, error))
+          spec_failed(name, error, failure_location)
         end
       end
 
@@ -73,25 +73,28 @@ module Spec
         @formatter.spec_passed(name)
       end
 
-      def spec_failed(name, failure)
+      def spec_failed(name, error, failure_location)
+        @backtrace_tweaker.tweak_backtrace(error, failure_location)
+        behaviour_example_name = "#{@context_names.last} #{name}"
+        @failure_io.puts(behaviour_example_name) unless @failure_io.nil?
+        failure = Failure.new(behaviour_example_name, error)
         @failures << failure
         @formatter.spec_failed(name, @failures.length, failure)
       end
-
+      
       class Failure
         attr_reader :exception
         
-        def initialize(context_name, spec_name, exception)
-          @context_name = context_name
-          @spec_name = spec_name
+        def initialize(behaviour_example_name, exception)
+          @behaviour_example_name = behaviour_example_name
           @exception = exception
         end
 
         def header
           if expectation_not_met?
-            "'#{@context_name} #{@spec_name}' FAILED"
+            "'#{@behaviour_example_name}' FAILED"
           else
-            "#{@exception.class.name} in '#{@context_name} #{@spec_name}'"
+            "#{@exception.class.name} in '#{@behaviour_example_name}'"
           end
         end
         

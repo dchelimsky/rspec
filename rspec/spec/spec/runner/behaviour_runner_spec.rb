@@ -3,44 +3,22 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 module Spec
   module Runner
     context BehaviourRunner do
-      specify "should call run on context" do
-        context1 = mock("context1", {
-         :null_object => true
-        })
-        context2 = mock("context2", {
-         :null_object => true
-        })
-        context1.should_receive(:run)
-        context1.should_receive(:number_of_examples).and_return(0)
-        context2.should_receive(:run)
-        context2.should_receive(:number_of_examples).and_return(0)
-        reporter = mock("reporter")
-        reporter.should_receive(:start).with(0)
-        reporter.should_receive(:end)
-        reporter.should_receive(:dump)
 
-        options = OpenStruct.new
-        options.reporter = reporter
-        runner = Spec::Runner::BehaviourRunner.new(options)
-        runner.add_behaviour(context1)
-        runner.add_behaviour(context2)
-        runner.run([], false)
-      end
-
-      specify "should support single spec" do
+      specify "should only run behaviours with at least one example" do
         desired_context = mock("desired context")
-        desired_context.should_receive(:matches?).at_least(:once).and_return(true)
         desired_context.should_receive(:run)
-        desired_context.should_receive(:run_single_spec)
-        desired_context.should_receive(:number_of_examples).and_return(1)
+        desired_context.should_receive(:retain_examples_matching!)
+        desired_context.should_receive(:number_of_examples).twice.and_return(1)
+
         other_context = mock("other context")
-        other_context.should_receive(:matches?).and_return(false)
         other_context.should_receive(:run).never
-        other_context.should_receive(:number_of_examples).never
+        other_context.should_receive(:retain_examples_matching!)
+        other_context.should_receive(:number_of_examples).and_return(0)
+
         reporter = mock("reporter")
         options = OpenStruct.new
         options.reporter = reporter
-        options.spec_name = "desired context legal spec"
+        options.examples = ["desired context legal spec"]
 
         runner = Spec::Runner::BehaviourRunner.new(options)
         runner.add_behaviour(desired_context)
@@ -79,11 +57,11 @@ module Spec
 
       specify "should heckle when options have heckle_runner" do
         context = mock("context", :null_object => true)
-        context.should_receive(:number_of_examples).and_return(0)
+        context.should_receive(:number_of_examples).twice.and_return(1)
         context.should_receive(:run).and_return(0)
 
         reporter = mock("reporter")
-        reporter.should_receive(:start).with(0)
+        reporter.should_receive(:start).with(1)
         reporter.should_receive(:end)
         reporter.should_receive(:dump).and_return(0)
 
@@ -98,7 +76,7 @@ module Spec
         runner.add_behaviour(context)
         runner.run([], false)
       end
-  
+
       specify "should run specs backward if options.reverse is true" do
         options = OpenStruct.new
         options.reverse = true
@@ -111,14 +89,10 @@ module Spec
 
         runner = Spec::Runner::BehaviourRunner.new(options)
         c1 = mock("c1")
-        c1.should_receive(:matches?).and_return(true)
-        c1.should_receive(:run_single_spec).and_return(false)
-        c1.should_receive(:number_of_examples).and_return(1)
+        c1.should_receive(:number_of_examples).twice.and_return(1)
 
         c2 = mock("c2")
-        c2.should_receive(:matches?).and_return(true)
-        c2.should_receive(:run_single_spec).and_return(false)
-        c2.should_receive(:number_of_examples).and_return(2)
+        c2.should_receive(:number_of_examples).twice.and_return(2)
         c2.should_receive(:run) do
           c1.should_receive(:run)
         end

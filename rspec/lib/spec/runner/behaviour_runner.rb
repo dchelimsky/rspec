@@ -8,9 +8,10 @@ module Spec
       end
     
       def add_behaviour(behaviour)
-        return unless spec_description.nil? || behaviour.matches?(spec_description)
-        behaviour.run_single_spec(spec_description) if behaviour.matches?(spec_description)
-        @behaviours << behaviour
+        unless specified_examples.nil? || specified_examples.empty? #|| behaviour.matches?(specified_examples)
+          behaviour.retain_examples_matching!(specified_examples) #if behaviour.matches?(specified_examples)
+        end
+        @behaviours << behaviour unless behaviour.number_of_examples == 0
       end
       
       # Runs all contexts and returns the number of failures.
@@ -50,17 +51,7 @@ module Spec
       }
       
       def sorter(paths)
-        sorter = FILE_SORTERS[@options.loadby]
-        if sorter.nil? && @options.loadby =~ /\.txt/
-          prioritised_order = File.open(@options.loadby).read.split("\n")
-          verify_files(prioritised_order)
-          sorter = lambda do |file_a, file_b|
-            a_pos = prioritised_order.index(file_a) || paths.index(file_a) + prioritised_order.length
-            b_pos = prioritised_order.index(file_b) || paths.index(file_b) + prioritised_order.length
-            a_pos <=> b_pos
-          end
-        end
-        sorter
+        FILE_SORTERS[@options.loadby]
       end
       
       def sort_paths(paths)
@@ -79,7 +70,7 @@ module Spec
           elsif File.file?(path)
             result << path
           else
-            raise "File or directory not found: #{file_or_dir}"
+            raise "File or directory not found: #{path}"
           end
         end
         result
@@ -91,12 +82,8 @@ module Spec
         end
       end
       
-      def verify_files(files)
-        files.each {|file| raise "File not found: #{file}" unless File.file?(file)}
-      end
-      
-      def spec_description
-        @options.spec_name
+      def specified_examples
+        @options.examples
       end
       
       def heckle
