@@ -9,7 +9,7 @@ module Spec
         @@model_id = 1000
         class << self
           def init_global_fixtures #:nodoc:
-            send :fixtures, self.global_fixtures if self.global_fixtures
+            fixtures global_fixtures if global_fixtures
           end
         end
       
