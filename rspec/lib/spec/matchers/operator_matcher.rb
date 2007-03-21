@@ -7,15 +7,17 @@ module Spec
       end
 
       def ==(expected)
+        @expected = expected
         __delegate_method_missing_to_target("==", expected)
       end
 
       def =~(expected)
+        @expected = expected
         __delegate_method_missing_to_target("=~", expected)
       end
 
-      def fail_with_message(message, expected=nil, target=nil)
-        Spec::Expectations.fail_with(message, expected, target)
+      def fail_with_message(message)
+        Spec::Expectations.fail_with(message, @expected, @target)
       end
 
     end

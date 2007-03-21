@@ -13,9 +13,8 @@ describe "should ==" do
   it "should fail when target.==(actual) returns false" do
     subject = "apple"
     subject.should_receive(:==).with("orange").and_return(false)
-    lambda do
-      subject.should == "orange"
-    end.should fail_with(%[expected "orange", got "apple" (using ==)])
+    Spec::Expectations.should_receive(:fail_with).with(%[expected "orange", got "apple" (using ==)], "orange", "apple")
+    subject.should == "orange"
   end
 
 end
@@ -31,9 +30,8 @@ describe "should_not ==" do
   it "should fail when target.==(actual) returns false" do
     subject = "apple"
     subject.should_receive(:==).with("apple").and_return(true)
-    lambda do
-      subject.should_not == "apple"
-    end.should fail_with("expected not == \"apple\", got \"apple\"")
+    Spec::Expectations.should_receive(:fail_with).with(%[expected not == "apple", got "apple"], "apple", "apple")
+    subject.should_not == "apple"
   end
 
 end

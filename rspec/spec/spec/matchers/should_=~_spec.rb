@@ -11,9 +11,8 @@ describe "should =~" do
   it "should fail when target.=~(actual) returns false" do
     subject = "fu"
     subject.should_receive(:=~).with(/oo/).and_return(false)
-    lambda do
-      subject.should =~ /oo/
-    end.should fail_with(%[expected =~ /oo/, got "fu"])
+    Spec::Expectations.should_receive(:fail_with).with(%[expected =~ /oo/, got "fu"], /oo/, "fu")
+    subject.should =~ /oo/
   end
 
 end
@@ -29,9 +28,8 @@ describe "should_not =~" do
   it "should fail when target.=~(actual) returns false" do
     subject = "foo"
     subject.should_receive(:=~).with(/oo/).and_return(true)
-    lambda do
-      subject.should_not =~ /oo/
-    end.should fail_with(%[expected not =~ /oo/, got "foo"])
+    Spec::Expectations.should_receive(:fail_with).with(%[expected not =~ /oo/, got "foo"], /oo/, "foo")
+    subject.should_not =~ /oo/
   end
 
 end
