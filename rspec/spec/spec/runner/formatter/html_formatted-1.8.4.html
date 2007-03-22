@@ -161,7 +161,14 @@
     <dd class="spec failed">
       <span class="failed_spec_name">should print diff of different strings</span>
       <div class="failure" id="failure_4">
-        <div class="message"><pre>expected &quot;RSpec is a\nbehaviour driven development\nframework for Ruby\n&quot;, got &quot;RSpec is a\nbehavior driven development\nframework for Ruby\n&quot; (using ==)</pre></div>
+        <div class="message"><pre>expected &quot;RSpec is a\nbehaviour driven development\nframework for Ruby\n&quot;, got &quot;RSpec is a\nbehavior driven development\nframework for Ruby\n&quot; (using ==)
+Diff:
+@@ -1,4 +1,4 @@
+ RSpec is a
+-behavior driven development
++behaviour driven development
+ framework for Ruby
+</pre></div>
         <div class="backtrace"><pre>./failing_examples/diffing_spec.rb:13:
 ./spec/spec/runner/formatter/html_formatter_spec.rb:16:
 ./spec/spec/runner/formatter/html_formatter_spec.rb:12:
