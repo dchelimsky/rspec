@@ -3,18 +3,38 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 module Spec
   module DSL
     describe Example, " instance" do
+      # TODO - this should be
+      #   predicate_matchers :is_a
+      def is_a(error)
+        be_is_a(error)
+      end
+      
       setup do
-        @reporter = mock("reporter")
+        @reporter = stub("reporter", :example_finished => nil)
         Example.send(:current=, nil)
       end
 
-      specify "should add itself to reporter when calling run dry" do
+      specify "should report its name for dry run" do
         example=Example.new("example") {}
         @reporter.should_receive(:example_finished).with("example")
-        example.run(@reporter, nil, nil, true, nil)
+        example.run(@reporter, nil, nil, true, nil) #4th arg indicates dry run
       end
 
-      specify "should add itself to reporter when fails" do
+      specify "should report success" do
+        example=Example.new("example") {}
+        @reporter.should_receive(:example_finished).with("example", nil, nil)
+        example.run(@reporter, nil, nil, nil, nil)
+      end
+
+      specify "should report failure due to failure" do
+        example=Example.new("example") do
+          (2+2).should == 5
+        end
+        @reporter.should_receive(:example_finished).with("example", is_a(Spec::Expectations::ExpectationNotMetError), "example")
+        example.run(@reporter, nil, nil, nil, nil)
+      end
+
+      specify "should report failure due to error" do
         error=RuntimeError.new
         example=Example.new("example") do
           raise(error)
@@ -23,36 +43,34 @@ module Spec
         example.run(@reporter, nil, nil, nil, nil)
       end
 
-      specify "should add itself to reporter when passes" do
-        example=Example.new("example") {}
-        @reporter.should_receive(:example_finished).with("example", nil, nil)
-        example.run(@reporter, nil, nil, nil, nil)
-      end
-
-      specify "should not run example if setup fails" do
-        example_ran = false
-        example=Example.new("should pass") do
-          example_ran = true
-        end
-        @reporter.stub!(:example_finished)
-        setup = proc {raise "Setup error"}
-        example.run(@reporter, setup, nil, nil, Object.new)
-        example_ran.should == false
-        @reporter.__verify
-      end
-
-      specify "should run example in scope of execution context" do
-        exec_context_class = Class.new
+      specify "should run example in scope of supplied object" do
+        scope_class = Class.new
         example=Example.new("should pass") do
           self.instance_of?(Example).should == false
-          self.instance_of?(exec_context_class).should == true
+          self.instance_of?(scope_class).should == true
         end
         @reporter.should_receive(:example_finished).with("should pass", nil, nil)
-        example.run(@reporter, nil, nil, nil, exec_context_class.new)
-        @reporter.__verify
+        example.run(@reporter, nil, nil, nil, scope_class.new)
       end
 
-      specify "should run teardown even when main block fails" do
+      specify "should not run example block if setup fails" do
+        example_ran = false
+        example=Example.new("should pass") {example_ran = true}
+        setup = lambda {raise "Setup error"}
+        example.run(@reporter, setup, nil, nil, Object.new)
+        example_ran.should == false
+      end
+
+      specify "should run teardown block if setup fails" do
+        teardown_ran = false
+        example=Example.new("should pass") {}
+        setup = lambda {raise "Setup error"}
+        teardown = lambda {teardown_ran = true}
+        example.run(@reporter, setup, teardown, nil, Object.new)
+        teardown_ran.should == true
+      end
+
+      specify "should run teardown block when example fails" do
         example=Example.new("example") do
           raise("in body")
         end
@@ -67,7 +85,7 @@ module Spec
         example.run(@reporter, nil, teardown, nil, nil)
       end
 
-      specify "should supply setup as example name if failure in setup" do
+      specify "should report failure location when in setup" do
         example=Example.new("example") {}
         setup=lambda { raise("in setup") }
         @reporter.should_receive(:example_finished) do |name, error, location|
@@ -78,7 +96,7 @@ module Spec
         example.run(@reporter, setup, nil, nil, nil)
       end
 
-      specify "should supply teardown as failure location if failure in teardown" do
+      specify "should report failure location when in teardown" do
         example = Example.new("example") {}
         teardown = lambda { raise("in teardown") }
         @reporter.should_receive(:example_finished) do |name, error, location|
@@ -105,9 +123,7 @@ module Spec
         example = Example.new("name", :key => 'value')
       end
 
-      specify "should update the current example only when running the example" do
-        @reporter.stub!(:example_finished)
-
+      specify "should update Example.current" do
         example = Example.new("example") do
           Example.current.should == example
         end
@@ -121,20 +137,18 @@ module Spec
 
       specify "should notify before_setup callbacks before setup" do
         example = Example.new("example")
-        @reporter.stub!(:example_finished)
 
         mock = mock("setup mock")
         mock.should_receive(:before_setup).ordered
         mock.should_receive(:setup).ordered
 
         example.before_setup {mock.before_setup}
-        setup = proc {mock.setup}
+        setup = lambda {mock.setup}
         example.run(@reporter, setup, nil, nil, Object.new)
       end
 
       specify "should notify after_teardown callbacks after teardown" do
         example = Example.new("example")
-        @reporter.stub!(:example_finished)
 
         mock = mock("teardown mock")
         mock.should_receive(:teardown).ordered
@@ -151,7 +165,7 @@ module Spec
         example.run(@reporter, nil, nil, nil, Object.new)
       end
       
-      specify "should use generated description when told to and it is available" do
+      specify "should report generated description when told to and it is available" do
         example = Example.new(:__generate_description) {
           5.should == 5
         }
@@ -161,8 +175,7 @@ module Spec
       
       specify "should unregister description_generated callback (lest a memory leak should build up)" do
         example = Example.new("something")
-        @reporter.stub!(:example_finished)
-        Spec::Matchers.should_receive(:unregister_callback)
+        Spec::Matchers.should_receive(:unregister_callback).with(:description_generated, is_a(Proc))
         example.run(@reporter, nil, nil, nil, Object.new)
       end
     end
