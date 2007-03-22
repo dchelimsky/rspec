@@ -1,3 +1,4 @@
+require 'spec/dsl/configuration'
 require 'spec/dsl/behaviour'
 require 'spec/dsl/behaviour_eval'
 require 'spec/dsl/example'

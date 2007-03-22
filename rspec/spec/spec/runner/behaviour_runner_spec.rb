@@ -100,6 +100,12 @@ module Spec
     
         runner.run([], false)
       end
+      
+      it "should yield global configuration" do
+        Spec::Runner.configure do |config|
+          config.should equal(Spec::Runner.configuration)
+        end
+      end
     end
   end
 end

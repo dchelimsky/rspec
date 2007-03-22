@@ -1,5 +1,5 @@
 module Spec
-  module Runner
+  module DSL
     class Configuration
       attr_writer :use_transactional_fixtures, :use_instantiated_fixtures, :fixture_path, :global_fixtures
       

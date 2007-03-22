@@ -1,4 +1,3 @@
-require 'spec/runner/configuration'
 require 'spec/runner/formatter'
 require 'spec/runner/behaviour_runner'
 require 'spec/runner/option_parser'
@@ -126,7 +125,7 @@ module Spec
   module Runner
     class << self
       def configuration
-        @configuration ||= Configuration.new
+        @configuration ||= Spec::DSL::Configuration.new
       end
       def configure
         yield configuration
