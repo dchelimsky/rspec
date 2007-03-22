@@ -15,12 +15,8 @@ module Spec
         @context_names << name
       end
       
-      def example_started(name)
-        @spec_names << name
-        @formatter.example_started(name)
-      end
-      
       def example_finished(name, error=nil, failure_location=nil)
+        @spec_names << name
         if error.nil?
           spec_passed(name)
         else

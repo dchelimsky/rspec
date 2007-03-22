@@ -20,7 +20,6 @@ module Spec
       
       it "should run spec on run" do
         @formatter.should_receive(:add_behaviour).with :any_args
-        @formatter.should_receive(:example_started).with "test"
         @formatter.should_receive(:example_finished).with "test", :anything, :anything
         $spec_ran = false
         @behaviour.specify("test") {$spec_ran = true}
@@ -30,7 +29,6 @@ module Spec
          
       it "should not run spec on dry run" do
         @formatter.should_receive(:add_behaviour).with :any_args
-        @formatter.should_receive(:example_started).with "test"
         @formatter.should_receive(:example_finished).with "test"
         $spec_ran = false
         @behaviour.specify("test") {$spec_ran = true}
@@ -40,7 +38,6 @@ module Spec
 
       it "should not run context_setup or context_teardown on dry run" do
         @formatter.should_receive(:add_behaviour).with :any_args
-        @formatter.should_receive(:example_started).with "test"
         @formatter.should_receive(:example_finished).with "test"
         
         context_setup_ran = false
@@ -77,7 +74,6 @@ module Spec
 
       it "should run context_teardown if any context_setup fails" do
         @formatter.should_receive(:add_behaviour).with :any_args
-        @formatter.should_receive(:example_started).with "test"
         @formatter.should_receive(:example_finished).with :any_args
         
         context_teardown_ran = false
@@ -117,8 +113,6 @@ module Spec
 
       it "should run superclass context_setup and context_setup block only once per context" do
         @formatter.should_receive(:add_behaviour).with :any_args
-        @formatter.should_receive(:example_started).with "test"
-        @formatter.should_receive(:example_started).with "test2"
         @formatter.should_receive(:example_finished).twice.with :any_args
 
         super_class_context_setup_run_count = 0
@@ -140,7 +134,6 @@ module Spec
       
       it "should run superclass setup method and setup block" do
         @formatter.should_receive(:add_behaviour).with :any_args
-        @formatter.should_receive(:example_started).with "test"
         @formatter.should_receive(:example_finished).with :any_args
 
         super_class_setup_ran = false
@@ -161,8 +154,6 @@ module Spec
 
       it "should run superclass context_teardown method and context_teardown block only once" do
         @formatter.should_receive(:add_behaviour).with :any_args
-        @formatter.should_receive(:example_started).with "test"
-        @formatter.should_receive(:example_started).with "test2"
         @formatter.should_receive(:example_finished).twice.with :any_args
 
         super_class_context_teardown_run_count = 0
@@ -185,7 +176,6 @@ module Spec
 
       it "context_teardown should have access to all instance variables defined in context_setup" do
         @formatter.should_receive(:add_behaviour).with :any_args
-        @formatter.should_receive(:example_started).with "test"
         @formatter.should_receive(:example_finished).with :any_args
 
         context_instance_value_in = "Hello there"
@@ -199,7 +189,6 @@ module Spec
 
       it "should copy instance variables from context_setup's execution context into spec's execution context" do
         @formatter.should_receive(:add_behaviour).with :any_args
-        @formatter.should_receive(:example_started).with "test"
         @formatter.should_receive(:example_finished).with :any_args
 
         context_instance_value_in = "Hello there"
@@ -212,7 +201,6 @@ module Spec
 
       it "should call context_setup before any setup" do
         @formatter.should_receive(:add_behaviour).with :any_args
-        @formatter.should_receive(:example_started).with "test"
         @formatter.should_receive(:example_finished).with :any_args
 
         fiddle = []
@@ -233,7 +221,6 @@ module Spec
 
       it "should call context_teardown after any teardown" do
         @formatter.should_receive(:add_behaviour).with :any_args
-        @formatter.should_receive(:example_started).with "test"
         @formatter.should_receive(:example_finished).with :any_args
 
         fiddle = []
@@ -255,7 +242,6 @@ module Spec
 
       it "should run superclass teardown method and teardown block" do
         @formatter.should_receive(:add_behaviour).with :any_args
-        @formatter.should_receive(:example_started).with "test"
         @formatter.should_receive(:example_finished).with :any_args
 
         super_class_teardown_ran = false
@@ -277,7 +263,6 @@ module Spec
 
       it "should have accessible methods from inherited superclass" do
         @formatter.should_receive(:add_behaviour).with :any_args
-        @formatter.should_receive(:example_started).with "test"
         @formatter.should_receive(:example_finished).with :any_args
 
         helper_method_ran = false
@@ -321,7 +306,6 @@ module Spec
 
       it "should have accessible instance methods from included module" do
         @formatter.should_receive(:add_behaviour).with :any_args
-        @formatter.should_receive(:example_started).with "test"
         @formatter.should_receive(:example_finished).with :any_args
 
         mod1_method_called = false

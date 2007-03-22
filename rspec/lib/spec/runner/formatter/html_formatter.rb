@@ -2,7 +2,7 @@ module Spec
   module Runner
     module Formatter
       class HtmlFormatter < BaseTextFormatter
-        attr_reader :current_spec_number, :current_context_number
+        attr_reader :current_context_number
         
         def initialize(output, dry_run=false, colour=false)
           super
@@ -34,11 +34,6 @@ module Spec
         def start_dump
           @output.puts "  </dl>"
           @output.puts "</div>"
-          STDOUT.flush
-        end
-
-        def example_started(name)
-          @current_spec_number += 1
           STDOUT.flush
         end
 
@@ -75,6 +70,7 @@ module Spec
         end
         
         def move_progress
+          @current_spec_number += 1
           percent_done = @spec_count == 0 ? 100.0 : (@current_spec_number.to_f / @spec_count.to_f * 1000).to_i / 10.0
           @output.puts "    <script type=\"text/javascript\">moveProgressBar('#{percent_done}');</script>"
         end

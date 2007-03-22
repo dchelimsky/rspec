@@ -10,7 +10,6 @@ module Spec
 
       specify "should add itself to reporter when calling run dry" do
         example=Example.new("example") {}
-        @reporter.should_receive(:example_started).with("example")
         @reporter.should_receive(:example_finished).with("example")
         example.run(@reporter, nil, nil, true, nil)
       end
@@ -20,14 +19,12 @@ module Spec
         example=Example.new("example") do
           raise(error)
         end
-        @reporter.should_receive(:example_started).with("example")
         @reporter.should_receive(:example_finished).with("example", error, "example")
         example.run(@reporter, nil, nil, nil, nil)
       end
 
       specify "should add itself to reporter when passes" do
         example=Example.new("example") {}
-        @reporter.should_receive(:example_started).with("example")
         @reporter.should_receive(:example_finished).with("example", nil, nil)
         example.run(@reporter, nil, nil, nil, nil)
       end
@@ -37,7 +34,6 @@ module Spec
         example=Example.new("should pass") do
           example_ran = true
         end
-        @reporter.stub!(:example_started)
         @reporter.stub!(:example_finished)
         setup = proc {raise "Setup error"}
         example.run(@reporter, setup, nil, nil, Object.new)
@@ -51,7 +47,6 @@ module Spec
           self.instance_of?(Example).should == false
           self.instance_of?(exec_context_class).should == true
         end
-        @reporter.should_receive(:example_started).with("should pass")
         @reporter.should_receive(:example_finished).with("should pass", nil, nil)
         example.run(@reporter, nil, nil, nil, exec_context_class.new)
         @reporter.__verify
@@ -64,7 +59,6 @@ module Spec
         teardown=lambda do
           raise("in teardown")
         end
-        @reporter.should_receive(:example_started).with("example")
         @reporter.should_receive(:example_finished) do |example, error, location|
           example.should eql("example")
           location.should eql("example")
@@ -76,7 +70,6 @@ module Spec
       specify "should supply setup as example name if failure in setup" do
         example=Example.new("example") {}
         setup=lambda { raise("in setup") }
-        @reporter.should_receive(:example_started).with("example")
         @reporter.should_receive(:example_finished) do |name, error, location|
           name.should eql("example")
           error.message.should eql("in setup")
@@ -88,7 +81,6 @@ module Spec
       specify "should supply teardown as failure location if failure in teardown" do
         example = Example.new("example") {}
         teardown = lambda { raise("in teardown") }
-        @reporter.should_receive(:example_started).with("example")
         @reporter.should_receive(:example_finished) do |name, error, location|
           name.should eql("example")
           error.message.should eql("in teardown")
@@ -102,7 +94,6 @@ module Spec
           mock=Spec::Mocks::Mock.new("a mock")
           mock.should_receive(:poke)
         end
-        @reporter.should_receive(:example_started).with("example")
         @reporter.should_receive(:example_finished) do |example_name, error|
           example_name.should eql("example")
           error.message.should match(/expected :poke with \(any args\) once, but received it 0 times/)
@@ -115,7 +106,6 @@ module Spec
       end
 
       specify "should update the current example only when running the example" do
-        @reporter.stub!(:example_started)
         @reporter.stub!(:example_finished)
 
         example = Example.new("example") do
@@ -131,7 +121,6 @@ module Spec
 
       specify "should notify before_setup callbacks before setup" do
         example = Example.new("example")
-        @reporter.stub!(:example_started)
         @reporter.stub!(:example_finished)
 
         mock = mock("setup mock")
@@ -145,7 +134,6 @@ module Spec
 
       specify "should notify after_teardown callbacks after teardown" do
         example = Example.new("example")
-        @reporter.stub!(:example_started)
         @reporter.stub!(:example_finished)
 
         mock = mock("teardown mock")
@@ -159,7 +147,6 @@ module Spec
       
       specify "should report NAME NOT GENERATED when told to use generated description but none is generated" do
         example = Example.new(:__generate_description)
-        @reporter.stub!(:example_started)
         @reporter.should_receive(:example_finished).with("NAME NOT GENERATED", :anything, :anything)
         example.run(@reporter, nil, nil, nil, Object.new)
       end
@@ -168,14 +155,12 @@ module Spec
         example = Example.new(:__generate_description) {
           5.should == 5
         }
-        @reporter.stub!(:example_started)
         @reporter.should_receive(:example_finished).with("should == 5", :anything, :anything)
         example.run(@reporter, nil, nil, nil, Object.new)
       end
       
       specify "should unregister description_generated callback (lest a memory leak should build up)" do
         example = Example.new("something")
-        @reporter.stub!(:example_started)
         @reporter.stub!(:example_finished)
         Spec::Matchers.should_receive(:unregister_callback)
         example.run(@reporter, nil, nil, nil, Object.new)

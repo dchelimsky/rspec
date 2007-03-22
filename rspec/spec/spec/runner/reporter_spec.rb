@@ -2,105 +2,69 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 module Spec
   module Runner
-    context "Reporter" do
-      setup do
+    
+    module ReporterSpecHelper
+      def setup
         @io = StringIO.new
-        disable_auto_verification_of_mocks
-        @backtrace_tweaker = mock("backtrace tweaker")
+        @backtrace_tweaker = stub("backtrace tweaker", :tweak_backtrace => nil)
         @formatter = mock("formatter")
         @reporter = Reporter.new(@formatter, @backtrace_tweaker)
       end
-      specify "should account for context in stats" do
-        @formatter.should_receive(:add_behaviour).with("context", true)
-        @reporter.add_behaviour("context")
+
+      def failure
+        Mocks::DuckTypeArgConstraint.new(:header, :exception)
       end
-      specify "should account for spec and error in stats for pass" do
-        @formatter.should_receive(:add_behaviour)
-        @formatter.should_receive(:example_started).with("spec")
-        @formatter.should_receive(:spec_failed).with("spec", 1, failure)
-        @formatter.should_receive(:start_dump)
-        @formatter.should_receive(:dump_failure).with(1, :anything)
-        @formatter.should_receive(:dump_summary).with(:anything, 1, 1)
-        @backtrace_tweaker.should_receive(:tweak_backtrace)
-        @reporter.add_behaviour("context")
-        @reporter.example_started("spec")
-        @reporter.example_finished("spec", RuntimeError.new)
-        @reporter.dump
+    end
+    
+    describe Reporter do
+      include ReporterSpecHelper
+      setup {setup}
+      
+      it "should tell formatter when behaviour is added" do
+        @formatter.should_receive(:add_behaviour).with("behaviour", true)
+        @reporter.add_behaviour("behaviour")
       end
 
-      specify "should account for spec in stats for pass" do
-        @formatter.should_receive(:example_started)
-        @formatter.should_receive(:spec_passed)
-        @formatter.should_receive(:start_dump)
-        @formatter.should_receive(:dump_summary).with(:anything, 1, 0)
-        @reporter.example_started("spec")
-        @reporter.example_finished("spec")
-        @reporter.dump
-      end
-
-      specify "should delegate to backtrace tweaker" do
-        @formatter.should_receive(:add_behaviour)
-        @formatter.should_receive(:spec_failed)
-        @backtrace_tweaker.should_receive(:tweak_backtrace)
-        @reporter.add_behaviour("context")
-        @reporter.example_finished("spec", RuntimeError.new)
-        @backtrace_tweaker.__verify
-      end
-
-      specify "should handle multiple contexts with same name" do
+      it "should handle multiple behaviours with same name" do
         @formatter.should_receive(:add_behaviour).exactly(3).times
-        @formatter.should_receive(:example_started).exactly(3).times
         @formatter.should_receive(:spec_passed).exactly(3).times
         @formatter.should_receive(:start_dump)
         @formatter.should_receive(:dump_summary).with(:anything, 3, 0)
-        @reporter.add_behaviour("context")
-        @reporter.example_started("spec 1")
+        @reporter.add_behaviour("behaviour")
         @reporter.example_finished("spec 1")
-        @reporter.add_behaviour("context")
-        @reporter.example_started("spec 2")
+        @reporter.add_behaviour("behaviour")
         @reporter.example_finished("spec 2")
-        @reporter.add_behaviour("context")
-        @reporter.example_started("spec 3")
+        @reporter.add_behaviour("behaviour")
         @reporter.example_finished("spec 3")
         @reporter.dump
       end
 
-      specify "should handle multiple specs same name" do
+      it "should handle multiple examples with the same name" do
         error=RuntimeError.new
         @formatter.should_receive(:add_behaviour).exactly(2).times
-        @formatter.should_receive(:example_started).with("spec").exactly(4).times
-        @formatter.should_receive(:spec_passed).with("spec").exactly(2).times
-        @formatter.should_receive(:spec_failed).with("spec", 1, failure)
-        @formatter.should_receive(:spec_failed).with("spec", 2, failure)
+        @formatter.should_receive(:spec_passed).with("example").exactly(2).times
+        @formatter.should_receive(:spec_failed).with("example", 1, failure)
+        @formatter.should_receive(:spec_failed).with("example", 2, failure)
         @formatter.should_receive(:dump_failure).exactly(2).times
         @formatter.should_receive(:start_dump)
         @formatter.should_receive(:dump_summary).with(:anything, 4, 2)
-        @backtrace_tweaker.should_receive(:tweak_backtrace)
-        @reporter.add_behaviour("context")
-        @reporter.example_started("spec")
-        @reporter.example_finished("spec")
-        @reporter.example_started("spec")
-        @reporter.example_finished("spec", error)
-        @reporter.add_behaviour("context")
-        @reporter.example_started("spec")
-        @reporter.example_finished("spec")
-        @reporter.example_started("spec")
-        @reporter.example_finished("spec", error)
+        @backtrace_tweaker.should_receive(:tweak_backtrace).twice
+        @reporter.add_behaviour("behaviour")
+        @reporter.example_finished("example")
+        @reporter.example_finished("example", error)
+        @reporter.add_behaviour("behaviour")
+        @reporter.example_finished("example")
+        @reporter.example_finished("example", error)
         @reporter.dump
       end
-      
-      specify "should push context to formatter" do
-        @formatter.should_receive(:add_behaviour).never
-        @reporter.add_behaviour("context")
-      end
-      
-      specify "should push stats to reporter even with no data" do
+
+      it "should push stats to formatter even with no data" do
         @formatter.should_receive(:start_dump)
         @formatter.should_receive(:dump_summary).with(:anything, 0, 0)
         @reporter.dump
       end
       
-      specify "should push time to reporter" do
+      it "should push time to formatter" do
         @formatter.should_receive(:start).with(5)
         @formatter.should_receive(:start_dump)
         @formatter.should_receive(:dump_summary) do |time, a, b|
@@ -110,11 +74,57 @@ module Spec
         @reporter.end
         @reporter.dump
       end
-      
-      def failure
-        Mocks::DuckTypeArgConstraint.new(:header, :exception)
+    end
+    
+    describe Reporter, " reporting one passing example" do
+      include ReporterSpecHelper
+      setup {setup}
+
+      it "should tell formatter example passed" do
+        @formatter.should_receive(:spec_passed)
+        @reporter.example_finished("example")
       end
-  
+      
+      it "should not delegate to backtrace tweaker" do
+        @formatter.should_receive(:spec_passed)
+        @backtrace_tweaker.should_not_receive(:tweak_backtrace)
+        @reporter.example_finished("example")
+      end
+
+      it "should account for passing example in stats" do
+        @formatter.should_receive(:spec_passed)
+        @formatter.should_receive(:start_dump)
+        @formatter.should_receive(:dump_summary).with(:anything, 1, 0)
+        @reporter.example_finished("example")
+        @reporter.dump
+      end
+    end
+
+    describe Reporter, " reporting one failing example" do
+      include ReporterSpecHelper
+      setup {setup}
+
+      it "should tell formatter that example failed" do
+        @formatter.should_receive(:spec_failed)
+        @reporter.example_finished("example", RuntimeError.new)
+      end
+      
+      it "should delegate to backtrace tweaker" do
+        @formatter.should_receive(:spec_failed)
+        @backtrace_tweaker.should_receive(:tweak_backtrace)
+        @reporter.example_finished("spec", RuntimeError.new)
+      end
+
+      it "should account for failing example in stats" do
+        @formatter.should_receive(:add_behaviour)
+        @formatter.should_receive(:spec_failed).with("example", 1, failure)
+        @formatter.should_receive(:start_dump)
+        @formatter.should_receive(:dump_failure).with(1, :anything)
+        @formatter.should_receive(:dump_summary).with(:anything, 1, 1)
+        @reporter.add_behaviour("behaviour")
+        @reporter.example_finished("example", RuntimeError.new)
+        @reporter.dump
+      end
     end
   end
 end
