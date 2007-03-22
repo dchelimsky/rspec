@@ -19,9 +19,9 @@ module Spec
           STDOUT.flush
         end
 
-        def add_behaviour(name, first)
+        def add_behaviour(name)
           @current_context_number += 1
-          unless first
+          unless @current_context_number == 1
             @output.puts "  </dl>"
             @output.puts "</div>"
           end

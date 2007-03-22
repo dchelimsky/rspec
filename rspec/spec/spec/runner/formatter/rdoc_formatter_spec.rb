@@ -20,7 +20,7 @@ context "RdocFormatter" do
       
     end
     specify "should push out context" do
-        @formatter.add_behaviour("context", :ignored)
+        @formatter.add_behaviour("context")
         @io.string.should eql("# context\n")
       
     end

@@ -2,8 +2,7 @@ module Spec
   module Runner
     module Formatter
       class ProgressBarFormatter < BaseTextFormatter
-        def add_behaviour(name, first)
-          @output.puts if first
+        def add_behaviour(name)
           STDOUT.flush
         end
       

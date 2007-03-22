@@ -29,11 +29,6 @@ module Spec
           @io.string.should eql(".")
         end
 
-        specify "should push line break for context" do
-          @formatter.add_behaviour("context", :ignored)
-          @io.string.should eql("\n")
-        end
-
         specify "should push nothing on start" do
           @formatter.start(4)
           @io.string.should eql("")

@@ -15,7 +15,7 @@ context "SpecdocFormatter" do
       
     end
     specify "should push context name" do
-        @formatter.add_behaviour("context", :ignored)
+        @formatter.add_behaviour("context")
         @io.string.should eql("\ncontext\n")
       
     end

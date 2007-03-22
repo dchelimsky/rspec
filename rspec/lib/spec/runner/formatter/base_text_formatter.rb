@@ -26,7 +26,7 @@ module Spec
         # first context - otherwise it's false.
         #
         # The next method to be invoked after this is #spec_failed or #spec_finished
-        def add_behaviour(name, first)
+        def add_behaviour(name)
         end
 
         # This method is invoked when a spec fails, i.e. an exception occurred

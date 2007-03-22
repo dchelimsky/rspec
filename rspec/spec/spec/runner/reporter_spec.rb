@@ -21,7 +21,7 @@ module Spec
       setup {setup}
       
       it "should tell formatter when behaviour is added" do
-        @formatter.should_receive(:add_behaviour).with("behaviour", true)
+        @formatter.should_receive(:add_behaviour).with("behaviour")
         @reporter.add_behaviour("behaviour")
       end
 
