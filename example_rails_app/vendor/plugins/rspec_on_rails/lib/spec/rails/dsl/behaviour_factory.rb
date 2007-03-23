@@ -11,7 +11,7 @@ module Spec
           # will cause the BehaviourFactory to do the right thing:
           #
           #   spec/controllers => ControllerBehaviour
-          #   spec/helpers => HelperContext
+          #   spec/helpers => HelperBehaviour
           #   spec/models => ModelBehaviour
           #   spec/views => ViewBehaviour
           #
@@ -28,7 +28,7 @@ module Spec
             if (spec_path =~ /spec(\/|\\)+views/) || (context_type == :view)
               return Spec::Rails::DSL::ViewBehaviour.new(args[0], &block)
             elsif (spec_path =~ /spec(\/|\\)+helpers/) || (context_type == :helper)
-              return Spec::Rails::DSL::HelperContext.new(args[0], &block)
+              return Spec::Rails::DSL::HelperBehaviour.new(args[0], &block)
             elsif (spec_path =~ /spec(\/|\\)+controllers/) || (context_type == :controller)
               return Spec::Rails::DSL::ControllerBehaviour.new(args[0], &block)
             elsif (spec_path =~ /spec(\/|\\)+models/) || (context_type == :model)

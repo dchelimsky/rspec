@@ -34,7 +34,7 @@ module Spec
     #
     # These let you specify directly methods that live in your helpers.
     #
-    # See Spec::Rails::DSL::HelperContext
+    # See Spec::Rails::DSL::HelperBehaviour
     module DSL
     end
   end

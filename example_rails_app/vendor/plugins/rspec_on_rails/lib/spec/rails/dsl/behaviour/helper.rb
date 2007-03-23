@@ -51,11 +51,11 @@ module Spec
 
       # Helper Specs live in $RAILS_ROOT/spec/helpers/.
       #
-      # Helper Specs use Spec::Rails::DSL::HelperContext, which allows you to
+      # Helper Specs use Spec::Rails::DSL::HelperBehaviour, which allows you to
       # include your Helper directly in the context and write specs directly
       # against its methods.
       #
-      # HelperContext also includes the standard lot of ActionView::Helpers in case your
+      # HelperBehaviour also includes the standard lot of ActionView::Helpers in case your
       # helpers rely on any of those.
       #
       # == Example
@@ -73,7 +73,7 @@ module Spec
       #       number_of_things.should == 37
       #     end
       #   end
-      class HelperContext < Spec::DSL::Behaviour
+      class HelperBehaviour < Spec::DSL::Behaviour
         def before_eval #:nodoc:
           inherit Spec::Rails::DSL::HelperEvalContext
           configure

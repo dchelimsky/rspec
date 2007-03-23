@@ -31,19 +31,19 @@ context "the BehaviourFactory" do
     }.should be_an_instance_of(Spec::Rails::DSL::ViewBehaviour)
   end
   
-  specify "should return a HelperContext when given :context_type => :helper" do
+  specify "should return a HelperBehaviour when given :context_type => :helper" do
     Spec::Rails::Runner::BehaviourFactory.create("name", :context_type => :helper) {
-    }.should be_an_instance_of(Spec::Rails::DSL::HelperContext)
+    }.should be_an_instance_of(Spec::Rails::DSL::HelperBehaviour)
   end
   
-  specify "should return a HelperContext when given :spec_path => '/blah/spec/helpers/'" do
+  specify "should return a HelperBehaviour when given :spec_path => '/blah/spec/helpers/'" do
     Spec::Rails::Runner::BehaviourFactory.create("name", :spec_path => '/blah/spec/helpers/blah.rb') {
-    }.should be_an_instance_of(Spec::Rails::DSL::HelperContext)
+    }.should be_an_instance_of(Spec::Rails::DSL::HelperBehaviour)
   end
   
   specify "should return a ModelBehaviour when given :spec_path => '\blah\spec\helpers\' (windows format)" do
     Spec::Rails::Runner::BehaviourFactory.create("name", :spec_path => '\blah\spec\helpers\blah.rb') {
-    }.should be_an_instance_of(Spec::Rails::DSL::HelperContext)
+    }.should be_an_instance_of(Spec::Rails::DSL::HelperBehaviour)
   end
   
   specify "should return a ControllerBehaviour when given :context_type => :controller" do
