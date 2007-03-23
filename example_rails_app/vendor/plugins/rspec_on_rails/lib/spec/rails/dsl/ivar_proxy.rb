@@ -4,7 +4,7 @@
 
 module Spec
   module Rails
-    module Runner
+    module DSL
       class IvarProxy #:nodoc:
 
         ##

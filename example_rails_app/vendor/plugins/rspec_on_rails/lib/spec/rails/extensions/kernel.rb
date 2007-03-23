@@ -10,7 +10,7 @@ module Kernel
       opts = {}
     end
     opts[:spec_path] = caller(0)[1]
-    behaviour_runner.add_behaviour(Spec::Rails::Runner::ContextFactory.create(name, opts, &block))
+    behaviour_runner.add_behaviour(Spec::Rails::Runner::BehaviourFactory.create(name, opts, &block))
   end
   alias :describe :context
 end

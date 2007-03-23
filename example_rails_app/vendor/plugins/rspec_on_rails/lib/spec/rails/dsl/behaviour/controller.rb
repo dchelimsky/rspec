@@ -1,6 +1,53 @@
 module Spec
   module Rails
-    module Runner
+    module DSL
+      module ControllerBehaviourHelpers
+        class << self
+          def included(mod)
+            mod.send :include, ExampleMethods
+            mod.send :extend, BehaviourMethods
+          end
+        end
+        
+        module BehaviourMethods
+          attr_accessor :controller_class_name # :nodoc:
+          
+          # Use this to instruct RSpec to render views in your controller examples (Integration Mode).
+          # 
+          #   context "ThingController" do
+          #     integrate_views
+          #     ...
+          #
+          # See Spec::Rails::DSL::ControllerBehaviour for more information about
+          # Integration and Isolation modes.
+          def integrate_views
+            @integrate_views = true
+          end
+          def integrate_views? # :nodoc:
+            @integrate_views
+          end
+        end
+        
+        module ExampleMethods
+          # Uses ActionController::Routing::Routes to generate
+          # the correct route for a given set of options.
+          # == Examples
+          #   route_for(:controller => 'registrations', :action => 'edit', :id => 1)
+          #     => '/registrations/1;edit'
+          def route_for(options)
+            ensure_that_routes_are_loaded
+            routes = ActionController::Routing::Routes.generate(options)
+            # Rails 1.1.6
+            return routes[0] if routes.is_a?(Array)
+            # Rails 1.2
+            return routes if routes.is_a?(String)
+          end
+
+          #backwards compatibility to RSpec 0.7.0-0.7.3
+          alias_method :routing, :route_for
+        end
+      end
+
       module ControllerInstanceMethods #:nodoc:
 
         # === render(options = nil, deprecated_status = nil, &block)
@@ -42,7 +89,7 @@ module Spec
         end
       end
     
-      # The methods provided by Spec::Rails::Runner::ControllerEvalContext
+      # The methods provided by Spec::Rails::DSL::ControllerEvalContext
       # are available to you in Controller Specs.
       #
       # The Public Class Methods are to be used within the +context+ block:
@@ -56,9 +103,10 @@ module Spec
       #     specify "should do stuff" do
       #       # public instance methods go here
       #
-      # See Spec::Rails::Runner::ControllerContext for more general information
+      # See Spec::Rails::DSL::ControllerBehaviour for more general information
       # on Controller Specs
-      class ControllerEvalContext < Spec::Rails::Runner::FunctionalEvalContext
+      class ControllerEvalContext < Spec::Rails::DSL::FunctionalEvalContext
+        include Spec::Rails::DSL::ControllerBehaviourHelpers
         attr_reader :response, :request, :controller
       
         def setup_extra #:nodoc:
@@ -70,7 +118,7 @@ module Spec
     end
   EOE
           end
-          (class << @controller; self; end).class_eval do
+          @controller.metaclass.class_eval do
             # Rails 1.1.6 doesn't have controller_path, but >= 1.2.0 does
             unless instance_methods.include?("controller_path")
               def controller_path #:nodoc:
@@ -80,29 +128,7 @@ module Spec
             include ControllerInstanceMethods
           end
           @controller.integrate_views! if @integrate_views
-          begin
-            @controller.session = session
-          rescue
-          end
-        end
-
-        class << self
-          attr_accessor :controller_class_name # :nodoc:
-          
-          # Use this to instruct RSpec to render views in your controller specs (Integration Mode).
-          # 
-          #   context "ThingController" do
-          #     integrate_views
-          #     ...
-          #
-          # See Spec::Rails::Runner::ControllerContext for more information about
-          # Integration and Isolation modes.
-          def integrate_views
-            @integrate_views = true
-          end
-          def integrate_views? # :nodoc:
-            @integrate_views
-          end
+          @controller.session = session rescue nil
         end
 
         def setup #:nodoc:
@@ -114,22 +140,6 @@ module Spec
           ActionMailer::Base.deliveries = @deliveries
         end
 
-        # Uses ActionController::Routing::Routes to generate
-        # the correct route for a given set of options.
-        # == Examples
-        #   route_for(:controller => 'registrations', :action => 'edit', :id => 1)
-        #     => '/registrations/1;edit'
-        def route_for(options)
-          ensure_that_routes_are_loaded
-          routes = ActionController::Routing::Routes.generate(options)
-          # Rails 1.1.6
-          return routes[0] if routes.is_a?(Array)
-          # Rails 1.2
-          return routes if routes.is_a?(String)
-        end
-      
-        #backwards compatibility to RSpec 0.7.0-0.7.3
-        alias_method :routing, :route_for
       
         private
           def ensure_that_routes_are_loaded
@@ -139,7 +149,7 @@ module Spec
 
       # Controller Specs live in $RAILS_ROOT/spec/controllers/.
       #
-      # Controller Specs use Spec::Rails::Runner::ControllerContext, which supports running specs for
+      # Controller Specs use Spec::Rails::DSL::ControllerBehaviour, which supports running specs for
       # Controllers in two modes, which represent the tension between the more granular
       # testing common in TDD and the more high level testing built into
       # rails. BDD sits somewhere in between: we want to a balance between
@@ -172,9 +182,9 @@ module Spec
       # we encourage you to explore using the isolation mode and revel
       # in its benefits.
       #
-      # See Spec::Rails::Runner::ControllerEvalContext for information
+      # See Spec::Rails::DSL::ControllerEvalContext for information
       # about methods you can use in your Controller Specs
-      class ControllerContext < Spec::Rails::Runner::Context
+      class ControllerBehaviour < Spec::DSL::Behaviour
 
         def execution_context(example=nil) # :nodoc:
           instance = execution_context_class.new(example)
@@ -188,7 +198,7 @@ module Spec
         end
 
         def before_eval # :nodoc:
-          inherit Spec::Rails::Runner::ControllerEvalContext
+          inherit Spec::Rails::DSL::ControllerEvalContext
           configure
         end
 

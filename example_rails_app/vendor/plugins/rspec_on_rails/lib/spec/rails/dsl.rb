@@ -2,8 +2,8 @@ dir = File.dirname(__FILE__)
 
 require File.expand_path("#{dir}/dsl/ivar_proxy")
 require File.expand_path("#{dir}/dsl/configuration")
-require File.expand_path("#{dir}/dsl/context")
-require File.expand_path("#{dir}/dsl/context_factory")
+require File.expand_path("#{dir}/dsl/behaviour")
+require File.expand_path("#{dir}/dsl/behaviour_factory")
 
 module Spec
   module Rails
@@ -14,13 +14,13 @@ module Spec
     #
     # These are the equivalent of unit tests in Rails' built in testing. Ironically (for the traditional TDD'er) these are the only specs that we feel should actually interact with the database.
     #
-    # See Spec::Rails::DSL::ModelContext
+    # See Spec::Rails::DSL::ModelBehaviour
     #
     # == Controller Specs
     #
     # These align somewhat with functional tests in rails, except that they do not actually render views (though you can force rendering of views if you prefer). Instead of setting expectations about what goes on a page, you set expectations about what templates get rendered.
     #
-    # See Spec::Rails::DSL::ControllerContext
+    # See Spec::Rails::DSL::ControllerBehaviour
     #
     # == View Specs
     #
@@ -28,7 +28,7 @@ module Spec
     # a template. By assigning mock model data, you can specify view behaviour with no dependency on a database
     # or your real models.
     #
-    # See Spec::Rails::DSL::ViewContext
+    # See Spec::Rails::DSL::ViewBehaviour
     #
     # == Helper Specs
     #

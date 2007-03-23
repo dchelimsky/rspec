@@ -12,8 +12,8 @@ require File.dirname(__FILE__) + '/../spec_resources/helpers/plugin_application_
 
 module Spec
   module Rails
-    module Runner
-      class ViewSpecController
+    module DSL
+      class ViewExampleController
         self.template_root = File.join(File.dirname(__FILE__), "..", "spec_resources", "views")
       end
     end
