@@ -1,6 +1,6 @@
-module Test
-  module Unit
-    class TestCase
+module Spec
+  module Rails
+    class TestCase < Test::Unit::TestCase
       cattr_accessor :fixture_path, :use_transactional_fixtures, :use_instantiated_fixtures, :global_fixtures
       remove_method :default_test if respond_to?(:default_test)
 
@@ -31,7 +31,6 @@ module Spec
         end
         
         module ExampleMethods
-
           @@model_id = 1000
           # Creates a mock object instance for a +model_class+ with common
           # methods stubbed out.
@@ -69,14 +68,8 @@ module Spec
           end
         end
       end
-    end
-  end
-end
 
-module Spec
-  module Rails
-    module Runner
-      class EvalContext < Test::Unit::TestCase
+      class EvalContext < Spec::Rails::TestCase
         include Spec::Rails::Matchers
         include Spec::Rails::DSL::AllBehaviourHelpers
       end

@@ -55,7 +55,7 @@ module Spec
         end
       end
 
-      class FunctionalEvalContext < Spec::Rails::Runner::EvalContext
+      class FunctionalEvalContext < Spec::Rails::DSL::EvalContext
         include Spec::Rails::DSL::FunctionalBehaviourHelpers
         attr_reader :session, :flash, :request, :response, :params
         

@@ -8,7 +8,7 @@ module Spec
       # to ActiveRecord::Base.
       class ModelBehaviour < Spec::DSL::Behaviour
         def before_eval # :nodoc:
-          inherit Spec::Rails::Runner::EvalContext
+          inherit Spec::Rails::DSL::EvalContext
           configure
         end
       end
