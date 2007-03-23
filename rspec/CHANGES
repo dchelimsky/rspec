@@ -3,6 +3,7 @@
 == 0.9 (in SVN)
 
 * Sugar FREE!
+* Moved rspec_on_rails up to the project root, simplifying the download url
 * Fixed [#8103] RSpec not installing spec script correctly.
 * The --spec option is replaced by the --example option.
 * The --loadby option no longer supports a file argument. Use --example file_name instead.
