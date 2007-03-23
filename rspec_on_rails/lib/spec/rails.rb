@@ -9,9 +9,9 @@ require 'active_record/fixtures'
 require 'spec'
 
 require File.expand_path("#{dir}/rails/version")
-require File.expand_path("#{dir}/rails/dsl")
 require File.expand_path("#{dir}/rails/extensions")
 require File.expand_path("#{dir}/rails/matchers")
+require File.expand_path("#{dir}/rails/dsl")
 
 Test::Unit.run = true
 

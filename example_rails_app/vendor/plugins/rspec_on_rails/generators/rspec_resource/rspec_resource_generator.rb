@@ -1,0 +1,1 @@
+require File.expand_path(File.join(File.dirname(__FILE__), "..", "..", "..", "..", "..", "..", "rspec_on_rails", "generators", "rspec_resource", "rspec_resource_generator"))
