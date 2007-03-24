@@ -3,6 +3,7 @@
 == 0.9 (in SVN)
 
 * Sugar FREE!
+* Added [#9522] support using rspec's expectations with test/unit
 * Moved rspec_on_rails up to the project root, simplifying the download url
 * Fixed [#8103] RSpec not installing spec script correctly.
 * The --spec option is replaced by the --example option.
