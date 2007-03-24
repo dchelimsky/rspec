@@ -255,7 +255,7 @@ context "OptionParser" do
       end.should raise_error(StandardError, "Heckle not supported on Windows")
     end
   end
-   
+
   specify "should read options from file when --options is specified" do
     Spec::Runner::CommandLine.should_receive(:run).with(["--diff", "--colour"], @err, @out, true, true)
     options = parse(["--options", File.dirname(__FILE__) + "/spec.opts"])
@@ -264,6 +264,11 @@ context "OptionParser" do
   specify "should append options from file when --options is specified" do
     Spec::Runner::CommandLine.should_receive(:run).with(["some/spec.rb", "--diff", "--colour"], @err, @out, true, true)
     options = parse(["some/spec.rb", "--options", File.dirname(__FILE__) + "/spec.opts"])
+  end
+  
+  specify "should read spaced and multi-line options from file when --options is specified" do
+    Spec::Runner::CommandLine.should_receive(:run).with(["--diff", "--colour", "--format", "s"], @err, @out, true, true)
+    options = parse(["--options", File.dirname(__FILE__) + "/spec_spaced.opts"])
   end
    
   specify "should save config to file when --generate-options is specified" do
