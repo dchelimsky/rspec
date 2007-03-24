@@ -158,7 +158,7 @@ module Spec
             args_copy.delete_at(index)
             args_copy.delete_at(index)
 
-            new_args = args_copy + IO.readlines(options_file).each {|s| s.chomp!}
+            new_args = args_copy + IO.readlines(options_file).map {|l| l.chomp.split " "}.flatten
             return CommandLine.run(new_args, err, out, true, warn_if_no_files)
           end
 

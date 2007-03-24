@@ -35,17 +35,24 @@ do the following:
   gem install pkg/rspec-0.x.x.gem (you may have to sudo)
 
 == Running the specs ==
-In order to run RSpec's full suite of specs (rake pre_commit) you must install the following gems:
+In order to run RSpec's full suite of specs (rake pre_commit) you must have either GraphicsMagick or ImageMagick
+installed.  If you are running MacOS X, these packages can be obtained through DarwinPorts.  Make sure you also
+install the port rb-rmagick.
 
-* rake          # Runs the build script
-* rcov          # Verifies that the code is 100% covered by specs
-* webgen        # Generates the static HTML website
-* RedCloth      # Required by webgen
-* syntax        # Required by our own custom webgen extension to highlight ruby code
-* diff-lcs      # Required if you use the --diff switch
-* win32console  # Required by the --colour switch if you're on Windows
-* meta_project  # Required in order to make releases at RubyForge
-* heckle        # Required if you use the --heckle switch
+The following gems are also required:
+
+* rake              # Runs the build script
+* rcov              # Verifies that the code is 100% covered by specs
+* webgen (v 0.3.8)  # Generates the static HTML website 
+* RedCloth          # Required by webgen
+* rmagick           # Also required by webgen
+* syntax            # Required by our own custom webgen extension to highlight ruby code
+* diff-lcs          # Required if you use the --diff switch
+* win32console      # Required by the --colour switch if you're on Windows
+* meta_project      # Required in order to make releases at RubyForge
+* heckle            # Required if you use the --heckle switch
+
+Make sure you install webgen version 0.3.8; later versions will break the build.        
 
 Note that RSpec itself - once built - doesn't have any dependencies outside the Ruby core 
 and stdlib - with a few exceptions:
