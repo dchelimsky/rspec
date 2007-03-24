@@ -70,6 +70,7 @@ RSPEC_DEPS = [
   ["example_rails_app/vendor/rails/1.1.6", "rails 1.1.6", "http://dev.rubyonrails.org/svn/rails/tags/rel_1-1-6", true],
   ["example_rails_app/vendor/rails/1.2.1", "rails 1.2.1", "http://dev.rubyonrails.org/svn/rails/tags/rel_1-2-1", true],
   ["example_rails_app/vendor/rails/1.2.2", "rails 1.2.2", "http://dev.rubyonrails.org/svn/rails/tags/rel_1-2-2", true],
+  ["example_rails_app/vendor/rails/1.2.3", "rails 1.2.3", "http://dev.rubyonrails.org/svn/rails/tags/rel_1-2-3", true],
   ["example_rails_app/vendor/rails/edge", "edge rails", "http://svn.rubyonrails.org/rails/trunk", false],
   ["example_rails_app/vendor/plugins/assert_select", "assert_select", "http://labnotes.org/svn/public/ruby/rails_plugins/assert_select", false],
 ]
