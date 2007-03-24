@@ -85,6 +85,10 @@ In alphabetical order (by last name)
 * Kouhei Sutou
 ** Patches for Emacs
 ** Handling of Interrupt
+* Scott Taylor
+** Patch [#9509] allow spaced options in spec.opts
+** Patch [#9510] Added html formatter spec file for Ruby 1.8.6
+** Patch [#9511] Clarification to README file in spec/
 * Jonathan Tron
 ** Patch for Spec::Rails resource_generator
 * Nikolai Weibull
