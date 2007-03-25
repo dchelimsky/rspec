@@ -1,3 +1,7 @@
+#!/usr/bin/env ruby
+
+# Define a task library for running RSpec contexts.
+
 require 'rake'
 require 'rake/tasklib'
 
@@ -7,7 +11,7 @@ module Spec
     # A Rake task that runs a set of RSpec contexts.
     #
     # Example:
-    #  
+    #
     #   Spec::Rake::SpecTask.new do |t|
     #     t.warning = true
     #     t.rcov = true
@@ -42,7 +46,7 @@ module Spec
       # Whether or not to use RCov (default is false)
       # See http://eigenclass.org/hiki.rb?rcov
       attr_accessor :rcov
-      
+
       # Array of commandline options to pass to RCov. Defaults to ['--exclude', 'lib\/spec,bin\/spec'].
       # Ignored if rcov=false
       attr_accessor :rcov_opts
@@ -99,31 +103,30 @@ module Spec
         end
         task @name do
           RakeFileUtils.verbose(@verbose) do
-            ruby_opts = @ruby_opts.clone
-            ruby_opts.push( "-I\"#{lib_path}\"" )
-            ruby_opts.push( "-S rcov" ) if @rcov
-            ruby_opts.push( "-w" ) if @warning
-
-            redirect = @out.nil? ? "" : " > \"#{@out}\""
-
             unless spec_file_list.empty?
               # ruby [ruby_opts] -Ilib -S rcov [rcov_opts] bin/spec -- [spec_opts] examples
               # or
               # ruby [ruby_opts] -Ilib bin/spec [spec_opts] examples
+              ruby_opts = @ruby_opts.clone
+              ruby_opts.push( "-I\"#{lib_path}\"" )
+              ruby_opts.push( "-S rcov" ) if @rcov
+              ruby_opts.push( "-w" ) if @warning
+              ruby_opts_output = ruby_opts.join(" ")
+              rcov_dir_option = @rcov ? %[ -o "#{@rcov_dir}" ] : ""
+              spec_script_output = %Q{"#{spec_script}"}
+              rcov_escape = @rcov ? "-- " : ""
+              spec_file_list_output = spec_file_list.collect { |fn| %["#{fn}"] }.join(' ')
+              redirect = @out.nil? ? "" : " > \"#{@out}\""
+
+              ruby_cmd  = "#{ruby_opts_output} #{rcov_option_list}#{rcov_dir_option}#{spec_script_output} " <<
+                          "#{spec_script_output} #{rcov_escape}#{spec_file_list_output} #{spec_option_list} #{redirect}"
+
               begin
-                ruby(
-                  ruby_opts.join(" ") + " " + 
-                  rcov_option_list +
-                  (@rcov ? %[ -o "#{@rcov_dir}" ] : "") + 
-                  '"' + spec_script + '"' + " " +
-                  (@rcov ? "-- " : "") + 
-                  spec_file_list.collect { |fn| %["#{fn}"] }.join(' ') + " " + 
-                  spec_option_list + " " +
-                  redirect
-                )
+                system("ruby #{ruby_cmd}")
               rescue => e
-                 puts @failure_message if @failure_message
-                 raise e if @fail_on_error
+                puts @failure_message if @failure_message
+                puts e.message
+                raise e if @fail_on_error
               end
             end
           end
@@ -157,8 +160,8 @@ module Spec
           FileList[ ENV['SPEC'] ]
         else
           result = []
-          result += @spec_files.to_a if @spec_files
-          result += FileList[ @pattern ].to_a if @pattern
+          result << @spec_files.to_a if @spec_files
+          result << FileList[ @pattern ].to_a if @pattern
           FileList[result]
         end
       end
