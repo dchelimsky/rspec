@@ -122,7 +122,8 @@ module Spec
                           "#{spec_script_output} #{rcov_escape}#{spec_file_list_output} #{spec_option_list} #{redirect}"
 
               begin
-                system("ruby #{ruby_cmd}")
+                ruby = (PLATFORM == "i386-mswin32") ? "ruby.cmd" : "ruby"
+                system("#{ruby} #{ruby_cmd}")
               rescue => e
                 puts @failure_message if @failure_message
                 puts e.message
