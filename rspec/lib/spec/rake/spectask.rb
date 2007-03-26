@@ -123,6 +123,7 @@ module Spec
 
               begin
                 ruby(ruby_cmd) do |ok, status|
+#                  show_command = ruby_cmd[0,42] + "..." if ruby_cmd.length > 45
 #                  ok or fail "Command failed with status (#{status.exitstatus}): [#{show_command}]"
                 end
               rescue => e
