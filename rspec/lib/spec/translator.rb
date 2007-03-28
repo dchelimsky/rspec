@@ -2,26 +2,30 @@ require 'fileutils'
 
 module Spec
   class Translator
-    def translate_dir(from, to)
+    def translate(from, to)
       from = File.expand_path(from)
       to = File.expand_path(to)
       if File.directory?(from)
-        FileUtils.mkdir_p(to) unless File.directory?(to)
-        Dir["#{from}/*"].each do |sub_from|
-          path = sub_from[from.length+1..-1]
-          sub_to = File.join(to, path)
-          translate_dir(sub_from, sub_to)
-        end
-      else
+        translate_dir(from, to)
+      elsif(from =~ /\.rb$/)
         translate_file(from, to)
       end
     end
     
+    def translate_dir(from, to)
+      FileUtils.mkdir_p(to) unless File.directory?(to)
+      Dir["#{from}/*"].each do |sub_from|
+        path = sub_from[from.length+1..-1]
+        sub_to = File.join(to, path)
+        translate(sub_from, sub_to)
+      end
+    end
+
     def translate_file(from, to)
       translation = ""
       File.open(from) do |io|
         io.each_line do |line|
-          translation << translate(line)
+          translation << translate_line(line)
         end
       end
       File.open(to, "w") do |io|
@@ -29,7 +33,7 @@ module Spec
       end
     end
 
-    def translate(line)
+    def translate_line(line)
       return line if line =~ /(should_not|should)_receive/
       
       if line =~ /(.*\.)(should_not|should)(?:_be)(?!_)(.*)/m
@@ -53,6 +57,10 @@ module Spec
           post = "be_#{post}"
         end
         
+        # Add parenthesis
+        if(post =~ /^(\w+)\s(.*)\n/)
+          post = "#{$1}(#{$2.strip})\n"
+        end
         line = "#{pre}#{should} #{post}"
       end
 
