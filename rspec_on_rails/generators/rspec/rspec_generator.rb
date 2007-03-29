@@ -14,10 +14,11 @@ class RspecGenerator < Rails::Generator::Base
       script_options     = { :chmod => 0755, :shebang => options[:shebang] == DEFAULT_SHEBANG ? nil : options[:shebang] }
 
       m.directory 'spec'
-      m.template  'spec_helper.rb',           'spec/spec_helper.rb'
-      m.file      'spec.opts',                'spec/spec.opts'
-      m.file      'script/spec_server', 'script/spec_server', script_options
-      m.file      'script/spec',        'script/spec',        script_options
+      m.template  'spec_helper.rb',                'spec/spec_helper.rb'
+      m.file      'spec.opts',                     'spec/spec.opts'
+      m.file      'previous_spec_failures.txt',    'previous_spec_failures.txt'
+      m.file      'script/spec_server',            'script/spec_server', script_options
+      m.file      'script/spec',                   'script/spec',        script_options
     end
   end
 

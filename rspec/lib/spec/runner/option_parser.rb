@@ -144,19 +144,18 @@ module Spec
           end
           
           opts.on("-L", "--loadby STRATEGY", "Specify the strategy by which spec files should be loaded.",
-                                              "STRATEGY can be 'mtime' (File modification time) or some_file.txt.",
-                                              "some_file.txt must contain paths to spec files that are to be loaded",
-                                              "first, and the file extension must be .txt. By default, spec files are",
-                                              "loaded in alphabetical order if --loadby is not specified.") do |loadby|
+                                              "STRATEGY can currently only be 'mtime' (File modification time)",
+                                              "By default, spec files are loaded in alphabetical order if --loadby",
+                                              "is not specified.") do |loadby|
             options.loadby = loadby
           end
 
-          opts.on("-R", "--reverse", "Run specs in reverse order") do
+          opts.on("-R", "--reverse", "Run examples in reverse order") do
             options.reverse = true
           end
           
-          opts.on("-H", "--heckle CODE", "If all specs pass, this will run your specs many times, mutating",
-                                         "the specced code a little each time. The intent is that specs",
+          opts.on("-H", "--heckle CODE", "If all examples pass, this will run your examples many times, mutating",
+                                         "the specced code a little each time. The intent is that examples",
                                          "*should* fail, and RSpec will tell you if they don't.",
                                          "CODE should be either Some::Module, Some::Class or Some::Fabulous#method}") do |heckle|
             heckle_runner = PLATFORM == 'i386-mswin32' ? 'spec/runner/heckle_runner_win' : 'spec/runner/heckle_runner'
@@ -164,7 +163,7 @@ module Spec
             options.heckle_runner = HeckleRunner.new(heckle)
           end
           
-          opts.on("-d", "--dry-run", "Don't execute specs") do
+          opts.on("-d", "--dry-run", "Don't execute examples") do
             options.dry_run = true
           end
           
@@ -196,7 +195,7 @@ module Spec
             options.generate = true
           end
           
-          opts.on("-X", "--drb", "Run specs via DRb. (For example against script/rails_spec_server)") do |options_file|
+          opts.on("-X", "--drb", "Run examples via DRb. (For example against script/rails_spec_server)") do |options_file|
             # Remove the --options option and the argument before writing to file
             index = args_copy.index("-X") || args_copy.index("--drb")
             args_copy.delete_at(index)
