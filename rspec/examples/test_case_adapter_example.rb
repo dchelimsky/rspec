@@ -1,7 +1,6 @@
 #This is an example of using RSpec's expectations in test/unit.
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), "..", "lib")
 
-require 'rubygems'
 require 'test/unit'
 require 'spec/test_case_adapter'
 
