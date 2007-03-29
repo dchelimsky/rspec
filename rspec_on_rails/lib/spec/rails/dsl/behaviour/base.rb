@@ -25,7 +25,10 @@ module Spec
         
         module BehaviourMethods
           def configure
-            Spec::Runner.configuration.configure(self)
+            self.use_transactional_fixtures = Spec::Runner.configuration.use_transactional_fixtures
+            self.use_instantiated_fixtures = Spec::Runner.configuration.use_instantiated_fixtures
+            self.fixture_path = Spec::Runner.configuration.fixture_path
+            self.global_fixtures = Spec::Runner.configuration.global_fixtures
             fixtures global_fixtures if global_fixtures
           end
         end

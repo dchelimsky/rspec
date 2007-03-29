@@ -26,6 +26,7 @@ module Spec
         @eval_module.class_eval(&context_block)
       end
 
+      # TODO - shouldn't this just be a callback?
       def before_eval
       end
       

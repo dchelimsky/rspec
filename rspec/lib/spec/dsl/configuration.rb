@@ -7,10 +7,6 @@ module Spec
       def mock_framework
         @mock_framework ||= :rspec
       end
-      
-      def configure(behaviour)
-        behaviour.mock_with(mock_framework)
-      end
     end
   end
 end

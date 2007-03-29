@@ -9,14 +9,12 @@ module Spec
       end
 
       it "should default mock framework to rspec" do
-        @behaviour.should_receive(:mock_with).with(:rspec)
-        @config.configure(@behaviour)
+        @config.mock_framework.should == :rspec
       end
 
       it "should let you set the mock framework" do
         @config.mock_with(:other_framework)
-        @behaviour.should_receive(:mock_with).with(:other_framework)
-        @config.configure(@behaviour)
+        @config.mock_framework.should == :other_framework
       end
     end
   end
