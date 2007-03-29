@@ -4,6 +4,7 @@
 require 'rubygems'
 gem 'mocha'
 require 'mocha/standalone'
+require 'mocha/object'
 
 module Spec
   module Plugins

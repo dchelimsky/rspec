@@ -4,9 +4,9 @@
 
 # To run it, stand in this directory and say:
 #
-#   RUN_MOCHA_SPEC=true ruby ../bin/spec mocking_with_mocha.rb
+#   RUN_MOCHA_EXAMPLE=true ruby ../bin/spec mocking_with_mocha.rb
 
-if ENV['RUN_MOCHA_SPEC']
+if ENV['RUN_MOCHA_EXAMPLE']
   Spec::Runner.configure do |config|
     config.mock_with :mocha
   end
@@ -15,6 +15,11 @@ if ENV['RUN_MOCHA_SPEC']
       m = mock()
       m.expects(:msg).with("arg")
       m.msg
+    end
+    it "should should be made available by saying config.mock_with :mocha" do
+      o = Object.new
+      o.expects(:msg).with("arg")
+      o.msg
     end
   end
 end
