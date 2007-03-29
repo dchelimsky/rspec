@@ -79,7 +79,7 @@ context "Translator" do
     @t.translate_line("@browser.should_contain_text /Sn.rrunger og annet rusk/\n").should eql("@browser.should be_contain_text(/Sn.rrunger og annet rusk/)\n")
   end
    
-  specify "should translate should_not_be_nil\n" do
+  specify "should translate should_not_be_nil" do
     @t.translate_line("foo.should_not_be_nil\n").should eql("foo.should_not be_nil\n")
   end
     
@@ -88,7 +88,13 @@ context "Translator" do
     eql('@object.should be_kind_of(MessageExpectation)'))
   end
   
-  specify "should translate should_be_true\n" do
+  specify "should translate should_be_true" do
     @t.translate_line("foo.should_be_true\n").should eql("foo.should be_true\n")
+  end
+
+  # [#9674] spec_translate incorrectly handling shoud_match, when regexp in a var, in a block
+  # http://rubyforge.org/tracker/?func=detail&atid=3149&aid=9674&group_id=797
+  specify "should translate should_match on a regexp, in a var, in a block" do
+    @t.translate_line("collection.each { |c| c.should_match a_regexp_in_a_var }\n").should eql("collection.each { |c| c.should match(a_regexp_in_a_var) }\n")
   end
 end

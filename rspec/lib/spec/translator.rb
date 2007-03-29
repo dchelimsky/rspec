@@ -58,9 +58,8 @@ module Spec
         end
         
         # Add parenthesis
-        if(post =~ /^(\w+)\s(.*)\n/)
-          post = "#{$1}(#{$2.strip})\n"
-        end
+        post.gsub!(/^(\w+)\s+(\w+)/, '\1(\2)')
+        post.gsub!(/^(\w+)\s+(\/.*\/)/, '\1(\2)')
         line = "#{pre}#{should} #{post}"
       end
 
