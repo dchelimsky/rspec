@@ -30,7 +30,7 @@ module Spec
       def before_eval
       end
       
-      def run(reporter, dry_run=false, reverse=false)
+      def run(reporter, dry_run=false, reverse=false, timeout=nil)
         plugin_mock_framework
         reporter.add_behaviour(@description)
         prepare_execution_context_class
@@ -40,7 +40,7 @@ module Spec
         specs.each do |example|
           example_execution_context = execution_context(example)
           example_execution_context.copy_instance_variables_from(@once_only_execution_context_instance, []) unless context_setup_block.nil?
-          example.run(reporter, setup_block, teardown_block, dry_run, example_execution_context)
+          example.run(reporter, setup_block, teardown_block, dry_run, example_execution_context, timeout)
         end unless errors.length > 0
         
         run_context_teardown(reporter, dry_run)

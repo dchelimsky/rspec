@@ -154,6 +154,11 @@ module Spec
             options.reverse = true
           end
           
+          opts.on("-t", "--timeout FLOAT", "Interrupt and fail each example that doesn't complete in the",
+                                             "specified time") do |timeout|
+            options.timeout = timeout.to_f
+          end
+
           opts.on("-H", "--heckle CODE", "If all examples pass, this will run your examples many times, mutating",
                                          "the specced code a little each time. The intent is that examples",
                                          "*should* fail, and RSpec will tell you if they don't.",

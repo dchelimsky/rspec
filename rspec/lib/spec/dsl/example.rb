@@ -1,3 +1,5 @@
+require 'timeout'
+
 module Spec
   module DSL
     class Example
@@ -11,9 +13,9 @@ module Spec
 
       callback_events :before_setup, :after_teardown
 
-      def initialize(name, opts={}, &example_block)
+      def initialize(name, options={}, &example_block)
         @from = caller(0)[3]
-        @options = opts
+        @options = options
         @example_block = example_block
         @description = name
         setup_auto_generated_description
@@ -29,21 +31,22 @@ module Spec
         end
       end
 
-      def run(reporter, setup_block, teardown_block, dry_run, execution_context)
+      def run(reporter, setup_block, teardown_block, dry_run, execution_context, timeout=nil)
         return reporter.example_finished(name) if dry_run
 
         errors = []
-        begin
-          set_current
+        set_current
+        location = nil
+        Timeout.timeout(timeout) do
           setup_ok = setup_example(execution_context, errors, &setup_block)
           example_ok = run_example(execution_context, errors) if setup_ok
           teardown_ok = teardown_example(execution_context, errors, &teardown_block)
-        ensure
-          clear_current
+          location = failure_location(setup_ok, example_ok, teardown_ok)
         end
+        clear_current
 
         ExampleShouldRaiseHandler.new(@from, @options).handle(errors)
-        reporter.example_finished(name, errors.first, failure_location(setup_ok, example_ok, teardown_ok)) if reporter
+        reporter.example_finished(name, errors.first, location) if reporter
       end
       
       def matches?(matcher, specified_examples)

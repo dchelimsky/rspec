@@ -3,6 +3,7 @@
 == 0.9 (in SVN)
 
 * Sugar FREE!
+* Applied [#9700] Make Spec::DSL::Example#name public / Add a --timeout switch. A great way to prevent specs from getting slow.
 * In Rails, script/generate rspec will generate a spec.opts file that optimises faster/more efficient running of specs.
 * Added [#9522] support using rspec's expectations with test/unit
 * Moved rspec_on_rails up to the project root, simplifying the download url

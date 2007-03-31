@@ -25,7 +25,7 @@ module Spec
         behaviours = @options.reverse ? @behaviours.reverse : @behaviours
         begin
           behaviours.each do |behaviour|
-            behaviour.run(@options.reporter, @options.dry_run, @options.reverse)
+            behaviour.run(@options.reporter, @options.dry_run, @options.reverse, @options.timeout)
           end
         rescue Interrupt
         ensure
