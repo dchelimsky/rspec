@@ -9,15 +9,15 @@ Spec::Runner.configure do |config|
   config.use_instantiated_fixtures  = false
   config.fixture_path = RAILS_ROOT + '/spec/fixtures'
 
-  # You can declare fixtures within each context like this:
-  #   context "...." do
+  # You can declare fixtures for each behaviour like this:
+  #   describe "...." do
   #     fixtures :table_a, :table_b
   #
   # Alternatively, if you prefer to declare them only once, you can
-  # do so here, using self.global_fixtures:
+  # do so here, like so ...
   #
-  # config.global_fixtures = :table_a, :table_b
+  #   config.global_fixtures = :table_a, :table_b
   #
   # If you declare global fixtures, be aware that they will be declared
-  # for all of your contexts, even those that don't use them.
+  # for all of your examples, even those that don't use them.
 end
