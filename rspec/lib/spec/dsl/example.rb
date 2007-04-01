@@ -13,11 +13,11 @@ module Spec
 
       callback_events :before_setup, :after_teardown
 
-      def initialize(name, options={}, &example_block)
+      def initialize(description, options={}, &example_block)
         @from = caller(0)[3]
         @options = options
         @example_block = example_block
-        @description = name
+        @description = description
         setup_auto_generated_description
       end
       
@@ -32,7 +32,7 @@ module Spec
       end
 
       def run(reporter, setup_block, teardown_block, dry_run, execution_context, timeout=nil)
-        return reporter.example_finished(name) if dry_run
+        return reporter.example_finished(description) if dry_run
 
         errors = []
         set_current
@@ -46,16 +46,16 @@ module Spec
         clear_current
 
         ExampleShouldRaiseHandler.new(@from, @options).handle(errors)
-        reporter.example_finished(name, errors.first, location) if reporter
+        reporter.example_finished(description, errors.first, location) if reporter
       end
       
       def matches?(matcher, specified_examples)
-        matcher.example_desc = name
+        matcher.example_desc = description
         matcher.matches?(specified_examples)
       end
       
     private
-      def name
+      def description
         @description == :__generate_description ? generated_description : @description
       end
       
@@ -117,7 +117,7 @@ module Spec
       
       def failure_location(setup_ok, example_ok, teardown_ok)
         return 'setup' unless setup_ok
-        return name unless example_ok
+        return description unless example_ok
         return 'teardown' unless teardown_ok
       end
     end
