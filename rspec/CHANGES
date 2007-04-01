@@ -3,6 +3,7 @@
 == 0.9 (in SVN)
 
 * Sugar FREE!
+* Applied a simplified version of [#9282] Change to allow running specs from textmate with rspec installed as a rails plugin (and no rspec gem installed)
 * Applied [#9700] Make Spec::DSL::Example#name public / Add a --timeout switch. A great way to prevent specs from getting slow.
 * In Rails, script/generate rspec will generate a spec.opts file that optimises faster/more efficient running of specs.
 * Added [#9522] support using rspec's expectations with test/unit

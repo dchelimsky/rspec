@@ -91,6 +91,7 @@ In alphabetical order (by last name)
 ** Patch [#9511] Clarification to README file in spec/
 * Jonathan Tron
 ** Patch for Spec::Rails resource_generator
+** Patch for RSpec.tmbundle to make it work with RSpec installed as a plugin
 * Nikolai Weibull
 ** Core patches for spec names
 * Mike Williams

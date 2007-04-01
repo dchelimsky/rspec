@@ -1,5 +1,7 @@
 require 'rubygems'
 $LOAD_PATH.unshift(File.join(ENV['TM_RSPEC_HOME'], 'lib')) unless ENV['TM_RSPEC_HOME'].nil?
+rspec_rails_plugin = File.join(ENV['TM_PROJECT_DIRECTORY'],'vendor','plugins','rspec','lib')
+$LOAD_PATH.unshift(rspec_rails_plugin) if File.exist?(rspec_rails_plugin)
 require 'spec'
 require File.dirname(__FILE__) + '/text_mate_formatter'
 
