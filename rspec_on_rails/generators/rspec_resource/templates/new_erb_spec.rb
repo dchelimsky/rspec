@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
-describe "/<%= table_name %>/new.rhtml" do
+describe "/<%= table_name %>/new.<%= default_file_extension %>" do
   include <%= controller_class_name %>Helper
   
   setup do
@@ -11,7 +11,7 @@ describe "/<%= table_name %>/new.rhtml" do
   end
 
   it "should render new form" do
-    render "/<%= table_name %>/new.rhtml"
+    render "/<%= table_name %>/new.<%= default_file_extension %>"
     
     response.should have_tag("form[action=?][method=post]", <%= table_name %>_path) do<% for attribute in attributes -%><% unless attribute.name =~ /_id/ || [:datetime, :timestamp, :time, :date].index(attribute.type) -%>
       with_tag("<%= attribute.input_type -%>#<%= file_name %>_<%= attribute.name %>[name=?]", "<%= file_name %>[<%= attribute.name %>]")<% end -%><% end -%>

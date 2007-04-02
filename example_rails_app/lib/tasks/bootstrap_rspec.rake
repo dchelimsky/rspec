@@ -96,8 +96,8 @@ EOF
 #{generator}
 #####################################################
 EOF
-    `#{generator}`
-    raise "rspec_resource failed" if $? != 0
+    result = `#{generator}`
+    raise "rspec_resource failed" if $? != 0 || result =~ /not/
   end
 
   task :migrate_up do

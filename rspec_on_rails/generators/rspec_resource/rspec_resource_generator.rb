@@ -8,7 +8,9 @@ class RspecResourceGenerator < Rails::Generator::NamedBase
                 :controller_class_nesting_depth,
                 :controller_class_name,
                 :controller_singular_name,
-                :controller_plural_name
+                :controller_plural_name,
+                :resource_edit_path,
+                :default_file_extension
   alias_method  :controller_file_name,  :controller_singular_name
   alias_method  :controller_table_name, :controller_plural_name
 
@@ -25,10 +27,19 @@ class RspecResourceGenerator < Rails::Generator::NamedBase
     else
       @controller_class_name = "#{@controller_class_nesting}::#{@controller_class_name_without_nesting}"
     end
+    
+    if ["1.1.6","1.2.1","1.2.2","1.2.3"].include?(Rails::VERSION::STRING)
+      @default_file_extension = "rhtml"
+      @resource_edit_path = ";edit"
+    else
+      @default_file_extension = "erb"
+      @resource_edit_path = "/edit"
+    end
   end
 
   def manifest
     record do |m|
+      
       # Check for class naming collisions.
       m.class_collisions(controller_class_path, "#{controller_class_name}Controller", "#{controller_class_name}Helper")
       m.class_collisions(class_path, "#{class_name}")
@@ -55,8 +66,8 @@ class RspecResourceGenerator < Rails::Generator::NamedBase
 
       for action in scaffold_views
         m.template(
-          "scaffold_resource:view_#{action}.rhtml",
-          File.join('app/views', controller_class_path, controller_file_name, "#{action}.rhtml")
+          "scaffold_resource:view_#{action}.#{@default_file_extension}",
+          File.join('app/views', controller_class_path, controller_file_name, "#{action}.#{default_file_extension}")
         )
       end
       
@@ -66,14 +77,14 @@ class RspecResourceGenerator < Rails::Generator::NamedBase
       m.template 'rspec_model:model_spec.rb',       File.join('spec/models', class_path, "#{file_name}_spec.rb")
 
       # View specs
-      m.template 'rspec_resource:edit_rhtml_spec.rb',
-        File.join('spec/views', controller_class_path, controller_file_name, "edit_rhtml_spec.rb")
-      m.template 'rspec_resource:index_rhtml_spec.rb',
-        File.join('spec/views', controller_class_path, controller_file_name, "index_rhtml_spec.rb")
-      m.template 'rspec_resource:new_rhtml_spec.rb',
-        File.join('spec/views', controller_class_path, controller_file_name, "new_rhtml_spec.rb")
-      m.template 'rspec_resource:show_rhtml_spec.rb',
-        File.join('spec/views', controller_class_path, controller_file_name, "show_rhtml_spec.rb")
+      m.template "rspec_resource:edit_erb_spec.rb",
+        File.join('spec/views', controller_class_path, controller_file_name, "edit_#{default_file_extension}_spec.rb")
+      m.template "rspec_resource:index_erb_spec.rb",
+        File.join('spec/views', controller_class_path, controller_file_name, "index_#{default_file_extension}_spec.rb")
+      m.template "rspec_resource:new_erb_spec.rb",
+        File.join('spec/views', controller_class_path, controller_file_name, "new_#{default_file_extension}_spec.rb")
+      m.template "rspec_resource:show_erb_spec.rb",
+        File.join('spec/views', controller_class_path, controller_file_name, "show_#{default_file_extension}_spec.rb")
 
       unless options[:skip_migration]
         m.migration_template(

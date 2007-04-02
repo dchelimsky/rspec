@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
-describe "/<%= table_name %>/show.rhtml" do
+describe "/<%= table_name %>/show.<%= default_file_extension %>" do
   include <%= controller_class_name %>Helper
   
   setup do
@@ -13,7 +13,7 @@ describe "/<%= table_name %>/show.rhtml" do
   end
 
   it "should render attributes in <p>" do
-    render "/<%= table_name %>/show.rhtml"
+    render "/<%= table_name %>/show.<%= default_file_extension %>"
 <% for attribute in attributes -%><% unless attribute.name =~ /_id/ || [:datetime, :timestamp, :time, :date].index(attribute.type) -%>
     response.should have_text(/<%= Regexp.escape(attribute.default_value)[1..-2]%>/)<% end -%><% end -%>
   end

@@ -15,8 +15,8 @@ describe <%= controller_class_name %>Controller, "#route_for" do
     route_for(:controller => "<%= table_name %>", :action => "show", :id => 1).should == "/<%= table_name %>/1"
   end
   
-  it "should map { :controller => '<%= table_name %>', :action => 'edit', :id => 1 } to /<%= table_name %>/1;edit" do
-    route_for(:controller => "<%= table_name %>", :action => "edit", :id => 1).should == "/<%= table_name %>/1;edit"
+  it "should map { :controller => '<%= table_name %>', :action => 'edit', :id => 1 } to /<%= table_name %>/1<%= resource_edit_path %>" do
+    route_for(:controller => "<%= table_name %>", :action => "edit", :id => 1).should == "/<%= table_name %>/1<%= resource_edit_path %>"
   end
   
   it "should map { :controller => '<%= table_name %>', :action => 'update', :id => 1} to /<%= table_name %>/1" do
