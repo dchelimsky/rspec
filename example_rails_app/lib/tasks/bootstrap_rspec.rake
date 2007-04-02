@@ -6,7 +6,35 @@ pre_commit_tasks = ["rspec:ensure_db_config", "rspec:clobber_sqlite_data", "db:m
 pre_commit_tasks.unshift "rspec:create_purchase" unless ENV['RSPEC_RAILS_VERSION'] == '1.1.6'
 
 namespace :rspec do
-  task :pre_commit => pre_commit_tasks
+  task :pre_commit do
+    begin
+      rm_rf 'vendor/plugins/rspec_on_rails'
+      `svn export ../rspec_on_rails vendor/plugins/rspec_on_rails`
+      pre_commit_tasks.each do |t|
+        output = nil
+        IO.popen("rake #{t}") do |io|
+          io.each_line do |line|
+            puts line unless line =~ /^running against rails/ || line =~ /^\(in /
+          end
+          output = io.read
+        end
+        raise "ERROR while running rake: #{output}" if output =~ /ERROR/n || $? != 0
+      end
+    ensure
+      rm_rf 'vendor/plugins/rspec_on_rails'
+    end
+  end
+  
+  task :install_plugin do
+    rm_rf 'vendor/plugins/rspec_on_rails'
+    puts "installing rspec_on_rails ..."
+    result = `svn export ../rspec_on_rails vendor/plugins/rspec_on_rails`
+    raise "Failed to install plugin:\n#{result}" if $? != 0
+  end
+  
+  task :uninstall_plugin do
+    rm_rf 'vendor/plugins/rspec_on_rails'
+  end
 
   task :generate_rspec do
     result = `ruby script/generate rspec --force`

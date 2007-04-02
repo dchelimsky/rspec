@@ -1,3 +1,0 @@
-This is just a shim to enable keeping the real plugin
-outside the vendor/plugins directory of this example
-application.
