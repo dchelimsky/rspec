@@ -6,7 +6,7 @@ module Spec
       TINY   = 0
       RELEASE_CANDIDATE = nil #{}"RC1"
       
-      # RANDOM_TOKEN: 0.20177160841594
+      # RANDOM_TOKEN: 0.327319468847234
       REV = "$LastChangedRevision$".match(/LastChangedRevision: (\d+)/)[1]
 
       STRING = [MAJOR, MINOR, TINY, RELEASE_CANDIDATE].compact.join('.')

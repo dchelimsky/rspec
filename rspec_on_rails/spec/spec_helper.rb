@@ -14,7 +14,7 @@ module Spec
   module Rails
     module DSL
       class ViewExampleController
-        self.template_root = File.join(File.dirname(__FILE__), "..", "spec_resources", "views")
+        set_view_path File.join(File.dirname(__FILE__), "..", "spec_resources", "views")
       end
     end
   end

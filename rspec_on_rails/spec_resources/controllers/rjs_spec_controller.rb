@@ -1,5 +1,5 @@
 class RjsSpecController < ApplicationController
-  self.template_root = File.join(File.dirname(__FILE__), "..", "views")
+  set_view_path File.join(File.dirname(__FILE__), "..", "views")
   
   def replace_html
   end

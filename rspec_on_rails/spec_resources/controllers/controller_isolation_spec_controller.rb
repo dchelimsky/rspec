@@ -1,5 +1,5 @@
 class ControllerIsolationSpecController < ActionController::Base
-  self.template_root = File.join(File.dirname(__FILE__), "..", "views")
+  set_view_path File.join(File.dirname(__FILE__), "..", "views")
   
   def some_action
     render :template => "template/that/does/not/actually/exist"
