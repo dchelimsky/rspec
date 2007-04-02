@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/spec_helper'
 require File.dirname(__FILE__) + "/stack"
 
-describe "Stack" do
+describe Stack do
   setup do
     @stack = Stack.new
     ["a","b","c"].each { |x| @stack.push x }

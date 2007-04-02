@@ -58,6 +58,11 @@ module Spec
         matcher.should_not match_description("con p")
       end
       
+      it "should match when behaviour is modularized" do
+        matcher=ExampleMatcher.new("MyModule::MyClass", "example")
+        matcher.should match_description("MyClass example")
+      end
+      
       # it "should match with regexp reserved (characters) in the example" do
       #   matcher=ExampleMatcher.new("with ([#]) an example", "a context")
       #   matcher.should match_description("a context")

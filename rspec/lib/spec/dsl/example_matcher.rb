@@ -17,7 +17,7 @@ module Spec
       
       private
         def context_regexp
-          Regexp.escape(@context_desc)
+          Regexp.escape(@context_desc.split('::').last)
         end
         
         def example_regexp
