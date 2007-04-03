@@ -10,10 +10,10 @@ module Spec
   module Plugins
     module MockMethods
       include Mocha::Standalone
-      def setup_mocks
+      def setup_mocks_for_rspec
         mocha_setup
       end
-      def teardown_mocks
+      def teardown_mocks_for_rspec
         mocha_verify
         mocha_teardown
       end

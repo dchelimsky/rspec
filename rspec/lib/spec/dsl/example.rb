@@ -65,7 +65,7 @@ module Spec
       
       def setup_example(execution_context, errors, &setup_block)
         notify_before_setup(errors)
-        execution_context.setup_mocks if execution_context.respond_to?(:setup_mocks)
+        execution_context.setup_mocks_for_rspec if execution_context.respond_to?(:setup_mocks_for_rspec)
         execution_context.instance_eval(&setup_block) if setup_block
         return errors.empty?
       rescue => e
@@ -85,7 +85,7 @@ module Spec
 
       def teardown_example(execution_context, errors, &teardown_block)
         execution_context.instance_eval(&teardown_block) if teardown_block
-        execution_context.teardown_mocks if execution_context.respond_to?(:teardown_mocks)
+        execution_context.teardown_mocks_for_rspec if execution_context.respond_to?(:teardown_mocks_for_rspec)
         notify_after_teardown(errors)
         return errors.empty?
       rescue => e
