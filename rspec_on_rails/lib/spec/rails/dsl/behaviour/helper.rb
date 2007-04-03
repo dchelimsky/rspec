@@ -76,7 +76,6 @@ module Spec
       class HelperBehaviour < Spec::DSL::Behaviour
         def before_eval #:nodoc:
           inherit Spec::Rails::DSL::HelperEvalContext
-          configure
         end
       end
     end

@@ -126,12 +126,20 @@ context "A view", :context_type => :view do
     response.should have_tag("div#session", "session")
   end
 
-  #TODO - A view should have access to params data
   # specify "should have access to params data" do
   #   response.should have_tag("div#params", "params")
   # end
 
   specify "should have access to flash data" do
     response.should have_tag("div#flash", "flash")
+  end
+end
+
+unless Rails::VERSION::STRING == "1.1.6" #1.1.6 did not have form_tag
+  describe "A view with a form_tag", :context_type => :view do
+    it "should render the right action" do
+      render "view_spec/entry_form"
+      response.should have_tag("form[action=?]","/view_spec/entry_form")
+    end
   end
 end

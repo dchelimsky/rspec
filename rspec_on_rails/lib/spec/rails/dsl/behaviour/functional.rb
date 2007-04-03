@@ -75,8 +75,6 @@ module Spec
 
           @session['flash'] = @flash
           @request.session = @session
-
-          setup_extra if respond_to? :setup_extra
         end      
 
       end

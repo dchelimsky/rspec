@@ -109,7 +109,11 @@ module Spec
         include Spec::Rails::DSL::ControllerBehaviourHelpers
         attr_reader :response, :request, :controller
       
-        def setup_extra #:nodoc:
+        def setup #:nodoc:
+          super
+          @deliveries = []
+          ActionMailer::Base.deliveries = @deliveries
+
           unless @controller.class.ancestors.include?(ActionController::Base)
             Spec::Expectations.fail_with <<-EOE
   You have to declare the controller name in controller specs. For example:
@@ -128,14 +132,7 @@ module Spec
             include ControllerInstanceMethods
           end
           @controller.integrate_views! if @integrate_views
-          @controller.session = session rescue nil
-        end
-
-        def setup #:nodoc:
-          super
-          @deliveries = []
-          ActionMailer::Base.deliveries = @deliveries
-        end
+          @controller.session = session rescue nil        end
 
       
         private

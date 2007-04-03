@@ -20,23 +20,18 @@ module Spec
           #   render(:partial => '/people/_address')
           #
           # See Spec::Rails::DSL::ViewBehaviour for more information.
-          def render(template=nil, options={})
-            case template
-            when Hash
-              options = template
-            when String || Symbol
-              options[:template] = template.to_s
-            end
+          def render(*args)
+            options = Hash === args.last ? args.pop : {}
+            options[:template] = args.first.to_s unless args.empty?
 
             set_base_view_path(options)
             add_helpers(options)
 
-            @action_name = action_name caller[0] if options.empty?
             assigns[:action_name] = @action_name
 
             @request.path_parameters = {
-              :controller => @controller.controller_name,
-              :action => @action_name,
+              :controller => derived_controller_name(options),
+              :action => derived_action_name(options)
             }
 
             defaults = { :layout => false }
@@ -119,6 +114,11 @@ module Spec
           "#{parts[0..-2].join('/')}"
         end
       
+        def derived_action_name(options) #:nodoc:
+          parts = subject_of_render(options).split('/').reject { |part| part.empty? }
+          "#{parts.last}"
+        end
+      
         def subject_of_render(options) #:nodoc:
           [:template, :partial, :file].each do |render_type|
             if options.has_key?(render_type)
@@ -168,8 +168,6 @@ module Spec
         end
         def before_eval # :nodoc:
           inherit Spec::Rails::DSL::ViewEvalContext
-          # TODO - this is required in every behaviour - should move it up to Behaviour and make
-          # it implicit
           configure
         end
       end
