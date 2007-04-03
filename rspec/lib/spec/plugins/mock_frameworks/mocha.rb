@@ -14,8 +14,11 @@ module Spec
         mocha_setup
       end
       def teardown_mocks_for_rspec
-        mocha_verify
-        mocha_teardown
+        begin
+          mocha_verify
+        ensure
+          mocha_teardown
+        end
       end
     end
   end
