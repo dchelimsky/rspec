@@ -2,9 +2,9 @@ require File.dirname(__FILE__) + '/spec_helper'
 
 # Run spec w/ -fs to see the output of this file
 
-context "specs with no descriptions" do
+describe "Examples with no descriptions" do
   
-  # spec description is auto-generated as "should equal(5)"
+  # description is auto-generated as "should equal(5)" based on the last #should
   specify do
     3.should equal(3)
     5.should equal(5)
