@@ -96,5 +96,11 @@ context "Translator" do
   # http://rubyforge.org/tracker/?func=detail&atid=3149&aid=9674&group_id=797
   specify "should translate should_match on a regexp, in a var, in a block" do
     @t.translate_line("collection.each { |c| c.should_match a_regexp_in_a_var }\n").should eql("collection.each { |c| c.should match(a_regexp_in_a_var) }\n")
+    @t.translate_line("collection.each{|c| c.should_match a_regexp_in_a_var}\n").should eql("collection.each{|c| c.should match(a_regexp_in_a_var) }\n")
+  end
+  
+  # From Rubinius specs
+  it "should translate close_to without parens" do
+    @t.translate_line("end.should_be_close 3.14159_26535_89793_23846, TOLERANCE\n").should eql("end.should be_close(3.14159_26535_89793_23846, TOLERANCE)\n")
   end
 end

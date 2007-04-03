@@ -58,7 +58,9 @@ module Spec
         end
         
         # Add parenthesis
-        post.gsub!(/^(\w+)\s+(\w+)/, '\1(\2)')
+        post.gsub!(/^(\w+)\s+([\w|\.|\, ]+)/, '\1(\2)')
+        post.gsub!(/(\s+\))/, ')')
+        post.gsub!(/\)\}/, ') }')
         post.gsub!(/^(\w+)\s+(\/.*\/)/, '\1(\2)')
         line = "#{pre}#{should} #{post}"
       end

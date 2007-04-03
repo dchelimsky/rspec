@@ -40,7 +40,8 @@ Spec::Rake::SpecTask.new do |t|
     'mtime', 
     '--reverse',
     '--timeout',
-    '1'
+    '1',
+    '--diff'
   ]
   t.rcov = true
   t.rcov_dir = '../doc/output/coverage'
