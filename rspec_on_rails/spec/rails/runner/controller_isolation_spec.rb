@@ -25,6 +25,10 @@ end
 context "a controller spec running in integration mode", :context_type => :controller do
   controller_name :controller_isolation_spec
   integrate_views
+  
+  setup do
+    controller.class.send(:define_method, :rescue_action) { |e| raise e }
+  end
 
   specify "should render a template" do
     get 'action_with_template'

@@ -133,9 +133,6 @@ module Spec
 
         def setup #:nodoc:
           super
-
-          @controller_class.send(:define_method, :rescue_action) { |e| raise e }
-
           @deliveries = []
           ActionMailer::Base.deliveries = @deliveries
         end
