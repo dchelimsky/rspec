@@ -8,6 +8,10 @@ require File.dirname(__FILE__) + '/../../spec_helper'
       integrate_views
     end
 
+    setup do
+      controller.class.send(:define_method, :rescue_action) { |e| raise e }
+    end
+
     specify "controller.should_render :template before an action" do
       #Gone for 0.9
       controller.should_render :template => 'render_spec/some_action'

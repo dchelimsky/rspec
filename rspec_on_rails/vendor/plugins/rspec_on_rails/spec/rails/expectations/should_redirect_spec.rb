@@ -7,6 +7,10 @@ require File.dirname(__FILE__) + '/../../spec_helper'
     end
     controller_name :redirect_spec
   
+    setup do
+      controller.class.send(:define_method, :rescue_action) { |e| raise e }
+    end
+
     specify "redirected to another action" do
       controller.should_redirect_to :action => 'somewhere'
       get 'action_with_redirect_to_somewhere'
