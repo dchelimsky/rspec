@@ -3,7 +3,6 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 module Spec
   module DSL
     describe Behaviour do
-      
       setup do
         @formatter = Spec::Mocks::Mock.new "formatter"
         @behaviour = Behaviour.new("context") {}
@@ -391,6 +390,16 @@ module Spec
         example.should_receive(:matches?).and_return(true)
         @behaviour.stub!(:examples).and_return([example])
         @behaviour.should be_matches(['jalla'])
+      end
+    end
+    
+    class BehaviourSubclass < Behaviour
+      public :described_type
+    end
+
+    describe Behaviour, " subclass" do
+      it "should have access to the described_type" do
+        BehaviourSubclass.new(Describable.new(Example)){}.described_type.should == Example
       end
     end
   end

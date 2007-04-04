@@ -182,8 +182,8 @@ module Spec
 
         def execution_context(example=nil) # :nodoc:
           instance = execution_context_class.new(example)
-          if controller_class_name.nil? && !@description.described_type.nil?
-            controller_klass_name = @description.described_type.to_s
+          if controller_class_name.nil? && !described_type.nil?
+            controller_klass_name = described_type.to_s
           else
             controller_klass_name = controller_class_name.to_s
           end

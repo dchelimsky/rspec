@@ -146,6 +146,10 @@ module Spec
       def description
         @description.respond_to?(:description) ? @description.description : @description
       end
+      
+      def described_type
+        @description.respond_to?(:described_type) ? @description.described_type : nil
+      end
 
     end
   end
