@@ -2,7 +2,7 @@
 $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + '/../../../rspec/lib'))
 require 'spec/rake/spectask'
 
-pre_commit_tasks = ["rspec:ensure_db_config", "rspec:clobber_sqlite_data", "db:migrate", "rspec:generate_rspec", "spec", "rspec:destroy_purchase"]
+pre_commit_tasks = ["rspec:ensure_db_config", "rspec:clobber_sqlite_data", "db:migrate", "rspec:generate_rspec", "spec", "spec:plugins", "rspec:destroy_purchase"]
 pre_commit_tasks.unshift "rspec:create_purchase" unless ENV['RSPEC_RAILS_VERSION'] == '1.1.6'
 
 namespace :rspec do

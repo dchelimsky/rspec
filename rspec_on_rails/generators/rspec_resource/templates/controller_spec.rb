@@ -1,7 +1,6 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe <%= controller_class_name %>Controller, "#route_for" do
-  controller_name :<%= table_name %>
 
   it "should map { :controller => '<%= table_name %>', :action => 'index' } to /<%= table_name %>" do
     route_for(:controller => "<%= table_name %>", :action => "index").should == "/<%= table_name %>"
@@ -26,10 +25,10 @@ describe <%= controller_class_name %>Controller, "#route_for" do
   it "should map { :controller => '<%= table_name %>', :action => 'destroy', :id => 1} to /<%= table_name %>/1" do
     route_for(:controller => "<%= table_name %>", :action => "destroy", :id => 1).should == "/<%= table_name %>/1"
   end
+  
 end
 
-describe "GET /<%= table_name %>" do
-  controller_name :<%= table_name %>
+describe <%= controller_class_name %>Controller, " handling GET /<%= table_name %>" do
 
   setup do
     @<%= file_name %> = mock_model(<%= class_name %>)
@@ -61,8 +60,7 @@ describe "GET /<%= table_name %>" do
   end
 end
 
-describe "GET /<%= table_name %>.xml" do
-  controller_name :<%= table_name %>
+describe <%= controller_class_name %>Controller, " handling GET /<%= table_name %>.xml" do
 
   setup do
     @<%= file_name %> = mock_model(<%= class_name %>, :to_xml => "XML")
@@ -91,8 +89,7 @@ describe "GET /<%= table_name %>.xml" do
   end
 end
 
-describe "GET /<%= table_name %>/1" do
-  controller_name :<%= table_name %>
+describe <%= controller_class_name %>Controller, " handling GET /<%= table_name %>/1" do
 
   setup do
     @<%= file_name %> = mock_model(<%= class_name %>)
@@ -124,8 +121,7 @@ describe "GET /<%= table_name %>/1" do
   end
 end
 
-describe "GET /<%= table_name %>/1.xml" do
-  controller_name :<%= table_name %>
+describe <%= controller_class_name %>Controller, " handling GET /<%= table_name %>/1.xml" do
 
   setup do
     @<%= file_name %> = mock_model(<%= class_name %>, :to_xml => "XML")
@@ -154,8 +150,7 @@ describe "GET /<%= table_name %>/1.xml" do
   end
 end
 
-describe "GET /<%= table_name %>/new" do
-  controller_name :<%= table_name %>
+describe <%= controller_class_name %>Controller, " handling GET /<%= table_name %>/new" do
 
   setup do
     @<%= file_name %> = mock_model(<%= class_name %>)
@@ -192,8 +187,7 @@ describe "GET /<%= table_name %>/new" do
   end
 end
 
-describe "GET /<%= table_name %>/1;edit" do
-  controller_name :<%= table_name %>
+describe <%= controller_class_name %>Controller, " handling GET /<%= table_name %>/1;edit" do
 
   setup do
     @<%= file_name %> = mock_model(<%= class_name %>)
@@ -225,8 +219,7 @@ describe "GET /<%= table_name %>/1;edit" do
   end
 end
 
-describe "POST /<%= table_name %>" do
-  controller_name :<%= table_name %>
+describe <%= controller_class_name %>Controller, " handling POST /<%= table_name %>" do
 
   setup do
     @<%= file_name %> = mock_model(<%= class_name %>, :to_param => "1", :save => true)
@@ -248,8 +241,7 @@ describe "POST /<%= table_name %>" do
   end
 end
 
-describe "PUT /<%= table_name %>/1" do
-  controller_name :<%= table_name %>
+describe <%= controller_class_name %>Controller, " handling PUT /<%= table_name %>/1" do
 
   setup do
     @<%= file_name %> = mock_model(<%= class_name %>, :to_param => "1", :update_attributes => true)
@@ -282,8 +274,7 @@ describe "PUT /<%= table_name %>/1" do
   end
 end
 
-describe "DELETE /<%= table_name %>/1" do
-  controller_name :<%= table_name %>
+describe <%= controller_class_name %>Controller, " handling DELETE /<%= table_name %>/1" do
 
   setup do
     @<%= file_name %> = mock_model(<%= class_name %>, :destroy => true)

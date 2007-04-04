@@ -1,17 +1,17 @@
 require File.dirname(__FILE__) + '<%= '/..' * class_nesting_depth %>/../spec_helper'
 
-#Delete this context and add some real ones
 describe <%= class_name %>Controller do
-  controller_name '<%= class_name.underscore %>'
-  
+
+<% if actions.empty? -%>
+  #Delete this example and add some real ones
+<% else -%>
+  #Delete these examples and add some real ones
+<% end -%>
   it "should use <%= class_name %>Controller" do
     controller.should be_an_instance_of(<%= class_name %>Controller)
   end
-end
 
 <% unless actions.empty? -%>
-describe <%= class_name %>Controller do
-  controller_name '<%= class_name.underscore %>'
 <% for action in actions -%>
 
   specify "GET '<%= action %>' should be successful" do
@@ -19,5 +19,5 @@ describe <%= class_name %>Controller do
     response.should be_success
   end
 <% end -%>
-end
 <% end -%>
+end
