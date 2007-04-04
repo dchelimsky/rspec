@@ -111,9 +111,13 @@ module Spec
       
         def setup #:nodoc:
           super
-          @deliveries = []
-          ActionMailer::Base.deliveries = @deliveries
           
+          # Some Rails apps explicitly disable ActionMailer in environment.rb
+          if defined?(ActionMailer)
+            @deliveries = []
+            ActionMailer::Base.deliveries = @deliveries
+          end
+
           unless @controller.class.ancestors.include?(ActionController::Base)
             Spec::Expectations.fail_with <<-EOE
   You have to declare the controller name in controller specs. For example:
