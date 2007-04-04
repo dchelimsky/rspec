@@ -2,6 +2,34 @@
 
 == 0.9 (in SVN)
 
+This release introduces #describe and #it (aliased as #context and #specify for
+backwards compatibility). This allows you to express specs like this:
+
+  describe SomeClass do # Creates a Behaviour
+    it "should do something" do # Creates an Example
+    end
+  end
+
+The command line features two new options: --reverse and --loadby. They give you more control
+over the order in which specs are run. This can be used to verify that your specs are
+independent (by running in opposite order with --reverse). It can also be used to cut 
+down feedback time by running the most recently modified specs first (--loadby mtime --reverse).
+
+There is now a simple configuration model. For Spec::Rails, you do something like this:
+
+  Spec::Runner.configure do |config|
+    config.use_transactional_fixtures = true
+    config.use_instantiated_fixtures  = false
+    config.fixture_path = RAILS_ROOT + '/spec/fixtures'
+  end
+
+You can now use mocha with RSpec if you prefer it to RSpec's own mock framework. Just
+put this in a file that is loaded before your specs:
+
+  Spec::Runner.configure do |config|
+    config.mock_with :mocha
+  end
+
 * Sugar FREE!
 * Fixed [#6523] Run rspec on rails without a db
 * Fixed [#9295] rake spec should run anything in the spec directory (not just rspec's standard dirs)
@@ -24,27 +52,11 @@
 * Internal classes are named Behaviour/Example (rather than Context/Specification).
 * You can now use mocha by saying config.mock_with :mocha in a spec_helper
 * before_context_eval is replaced by before_eval.
-
-== Version 0.8.3
-
-This release introduces #describe and #it as aliases for #context and #specify. This
-allows you to express specs like this:
-
-  describe SomeClass do # Creates a Behaviour
-    it "should do something" do # Creates an Example
-    end
-  end
-
-The command line features two new options: --reverse and --loadby. They give you more control
-over the order in which specs are run. This can be used to verify that your specs are
-independent (by running in opposite order with --reverse). It can also be used to cut 
-down feedback time by running the most recently modified specs first (--loadby mtime --reverse).
-
 * Applied [#9509] allow spaced options in spec.opts
 * Applied [#9510] Added File for Ruby 1.8.6
 * Applied [#9511] Clarification to README file in spec/
 * Moved all of the Spec::Rails specs down to the plugins directory - now you can run the specs after you install.
-* Updated RSpec.tmbundle to the 0.8 syntax and replaced context/specify with describe/it.
+* Updated RSpec.tmbundle to the 0.9 syntax and replaced context/specify with describe/it.
 * Applied [#9232] ActionController::Base#render is sometimes protected (patch from Dan Manges)
 * Added --reverse option, allowing contexts/specs to be run in reverse order. 
 * Added --loadby option, allowing better control over load order for spec files. mtime and file.txt supported.
@@ -54,8 +66,8 @@ down feedback time by running the most recently modified specs first (--loadby m
 * Added [#9167] string.should have_tag
 * Changed script/rails_spec_server to script/spec_server and added script/spec (w/ path to vendor/plugins/rspec)
 * Fixed [#8897] Error when mixing controller spec with/without integrated views and using template system other than rhtml
-* Updated sample app specs to 0.8 syntax
-* Updated generated specs to 0.8 syntax
+* Updated sample app specs to 0.9 syntax
+* Updated generated specs to 0.9 syntax
 * Applied [#8994] trunk: generated names for be_ specs (Multiple patches from Yurii Rashkovskii)
 
 == Version 0.8.2
