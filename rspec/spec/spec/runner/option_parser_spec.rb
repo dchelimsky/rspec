@@ -54,7 +54,7 @@ context "OptionParser" do
   specify "should print version to stdout" do
     options = parse(["--version"])
     @out.rewind
-    @out.read.should match(/RSpec-\d+\.\d+\.\d+ \(r\d+\) - BDD for Ruby\nhttp:\/\/rspec.rubyforge.org\/\n/n)
+    @out.read.should match(/RSpec-\d+\.\d+\.\d+.*\(r\d+\) - BDD for Ruby\nhttp:\/\/rspec.rubyforge.org\/\n/n)
   end
   
   specify "should accept -o option" do

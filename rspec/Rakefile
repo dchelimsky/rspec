@@ -159,9 +159,11 @@ end
 
 desc "Creates a tag in svn"
 task :tag do
+  from = `svn info #{File.dirname(__FILE__)}`.match(/URL: (.*)\/rspec/n)[1]
+  to = from.gsub(/(.*rubyforge.org\/var\/svn\/rspec)(.*)/, "\\1/tags/#{Spec::VERSION::TAG}")
   puts "Creating tag in SVN"
-  `svn cp svn+ssh://#{ENV['RUBYFORGE_USER']}@rubyforge.org/var/svn/rspec/trunk svn+ssh://#{ENV['RUBYFORGE_USER']}@rubyforge.org/var/svn/rspec/tags/#{Spec::VERSION::TAG} -m "Tag release #{Spec::VERSION::STRING}"`
-  puts "Done!"
+  `svn cp #{from} #{to} -m "Tag release #{Spec::VERSION::FULL_VERSION}"`
+  raise "Tagging failed" unless $? == 0
 end
 
 desc "Run this task before you commit. You should see 'OK TO COMMIT'"
@@ -188,13 +190,16 @@ end
 
 desc "Upload Website to RubyForge"
 task :publish_website => [:verify_user, :website] do
-  publisher = Rake::SshDirPublisher.new(
-    "rspec-website@rubyforge.org",
-    "/var/www/gforge-projects/#{PKG_NAME}",
-    "../doc/output"
-  )
-
-  publisher.upload
+  unless Spec::VERSION::RELEASE_CANDIDATE
+    publisher = Rake::SshDirPublisher.new(
+      "rspec-website@rubyforge.org",
+      "/var/www/gforge-projects/#{PKG_NAME}",
+      "../doc/output"
+    )
+    publisher.upload
+  else
+    puts "** Not publishing packages to RubyForge - this is a prerelease"
+  end
 end
 
 desc "Package the RSpec.tmbundle"
@@ -209,29 +214,57 @@ task :package => :package_tmbundle
 
 desc "Publish gem+tgz+zip on RubyForge. You must make sure lib/version.rb is aligned with the CHANGELOG file"
 task :publish_packages => [:verify_user, :package] do
-  require 'meta_project'
-  require 'rake/contrib/xforge'
   release_files = FileList[
     "pkg/#{PKG_FILE_NAME}.gem",
     "pkg/#{PKG_FILE_NAME}.tgz",
     "pkg/#{PKG_FILE_NAME}.zip",
     "pkg/RSpec-#{PKG_VERSION}.tmbundle.tgz"
   ]
+  unless Spec::VERSION::RELEASE_CANDIDATE
+    require 'meta_project'
+    require 'rake/contrib/xforge'
 
-  Rake::XForge::Release.new(MetaProject::Project::XForge::RubyForge.new(PKG_NAME)) do |xf|
-    # Never hardcode user name and password in the Rakefile!
-    xf.user_name = ENV['RUBYFORGE_USER']
-    xf.files = release_files.to_a
-    xf.release_name = "RSpec #{PKG_VERSION}"
+    Rake::XForge::Release.new(MetaProject::Project::XForge::RubyForge.new(PKG_NAME)) do |xf|
+      # Never hardcode user name and password in the Rakefile!
+      xf.user_name = ENV['RUBYFORGE_USER']
+      xf.files = release_files.to_a
+      xf.release_name = "RSpec #{PKG_VERSION}"
+    end
+  else
+    puts "SINCE THIS IS A PRERELEASE, FILES ARE UPLOADED WITH SSH, NOT TO THE RUBYFORGE FILE SECTION"
+    puts "YOU MUST TYPE THE PASSWORD #{release_files.length} TIMES..."
+
+    host = "rspec-website@rubyforge.org"
+    remote_dir = "/var/www/gforge-projects/#{PKG_NAME}"
+
+    publisher = Rake::SshFilePublisher.new(
+      host,
+      remote_dir,
+      File.dirname(__FILE__),
+      *release_files
+    )
+    publisher.upload
+    
+    puts "UPLADED THE FOLLOWING FILES:"
+    release_files.each do |file|
+      name = file.match(/pkg\/(.*)/)[1]
+      puts "* http://rspec.rubyforge.org/#{name}"
+    end
+
+    puts "They are not linked to anywhere, so don't forget to tell people!"
   end
 end
 
 desc "Publish news on RubyForge"
 task :publish_news => [:verify_user] do
-  require 'meta_project'
-  require 'rake/contrib/xforge'
-  Rake::XForge::NewsPublisher.new(MetaProject::Project::XForge::RubyForge.new(PKG_NAME)) do |news|
-    # Never hardcode user name and password in the Rakefile!
-    news.user_name = ENV['RUBYFORGE_USER']
+  unless Spec::VERSION::RELEASE_CANDIDATE
+    require 'meta_project'
+    require 'rake/contrib/xforge'
+    Rake::XForge::NewsPublisher.new(MetaProject::Project::XForge::RubyForge.new(PKG_NAME)) do |news|
+      # Never hardcode user name and password in the Rakefile!
+      news.user_name = ENV['RUBYFORGE_USER']
+    end
+  else
+    puts "** Not publishing news to RubyForge - this is a prerelease"
   end
 end

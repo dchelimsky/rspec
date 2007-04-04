@@ -4,14 +4,14 @@ module Spec
       MAJOR  = 0
       MINOR  = 9
       TINY   = 0
-      RELEASE_CANDIDATE = nil #{}"RC1"
+      RELEASE_CANDIDATE = "beta-1"
       
-      # RANDOM_TOKEN: 0.634080507379035
+      # RANDOM_TOKEN: 0.0528084128577506
       REV = "$LastChangedRevision$".match(/LastChangedRevision: (\d+)/)[1]
 
-      STRING = [MAJOR, MINOR, TINY, RELEASE_CANDIDATE].compact.join('.')
-      TAG = "REL_" + STRING.gsub(/\./, '_')
-      FULL_VERSION = "#{STRING} (r#{REV})"
+      STRING = [MAJOR, MINOR, TINY].join('.')
+      TAG = "REL_#{[MAJOR, MINOR, TINY, RELEASE_CANDIDATE].compact.join('_')}".upcase.gsub(/\.|-/, '_')
+      FULL_VERSION = "#{[MAJOR, MINOR, TINY, RELEASE_CANDIDATE].compact.join('.')} (r#{REV})"
 
       NAME   = "RSpec"
       URL    = "http://rspec.rubyforge.org/"  
