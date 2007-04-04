@@ -8,87 +8,41 @@ else
   require 'spec/rake/spectask'
 end
 
+spec_prereq = File.exist?(File.join(RAILS_ROOT, 'config', 'database.yml')) ? "db:test:prepare" : :noop
 task :noop do
 end
+
 task :default => :spec
-
-desc 'Run all application-specific specs'
-task :spec do
-  Rake::Task["spec:app"].invoke      rescue got_error = true
-    
-  raise "RSpec failures" if got_error
-end
-
 task :stats => "spec:statsetup"
 
+desc "Run all specs in spec directory (excluding plugin specs)"
+Spec::Rake::SpecTask.new(:spec => spec_prereq) do |t|
+  t.spec_opts = ['--options', "\"#{RAILS_ROOT}/spec/spec.opts\""]
+  t.spec_files = FileList['spec/**/*_spec.rb'].exclude('spec/watir/**')
+end  
+
 namespace :spec do
-  desc 'Run all application-specific specs'
-  task :app do
-    Rake::Task["spec:models"].invoke      rescue got_error = true
-    Rake::Task["spec:controllers"].invoke rescue got_error = true
-    Rake::Task["spec:helpers"].invoke     rescue got_error = true
-    Rake::Task["spec:views"].invoke       rescue got_error = true
-
-    raise "RSpec failures" if got_error
-  end
-  
-  desc "Run all specs in spec directory"
-  Spec::Rake::SpecTask.new(:all_specs => "db:test:prepare") do |t|
-    t.spec_opts = ['--options', "\"#{RAILS_ROOT}/spec/spec.opts\""]
-    t.spec_files = FileList['spec/**/*_spec.rb']
-  end  
-  
-  desc "Run all specs including plugins"
-  task :all do
-    Rake::Task["spec:app"].invoke       rescue got_error = true
-    Rake::Task["spec:plugins"].invoke   rescue got_error = true
-
-    raise "RSpec failures" if got_error
-  end
-  
-  desc "Run the specs under spec/models"
-  Spec::Rake::SpecTask.new(:models => "db:test:prepare") do |t|
-    t.spec_opts = ['--options', "\"#{RAILS_ROOT}/spec/spec.opts\""]
-    t.spec_files = FileList['spec/models/**/*_spec.rb']
-  end
-
-  desc "Run the specs under spec/controllers"
-  Spec::Rake::SpecTask.new(:controllers => "db:test:prepare") do |t|
-    t.spec_opts = ['--options', "\"#{RAILS_ROOT}/spec/spec.opts\""]
-    t.spec_files = FileList['spec/controllers/**/*_spec.rb']
-  end
-  
-  desc "Run the specs under spec/views"
-  Spec::Rake::SpecTask.new(:views => "db:test:prepare") do |t|
-    t.spec_opts = ['--options', "\"#{RAILS_ROOT}/spec/spec.opts\""]
-    t.spec_files = FileList['spec/views/**/*_spec.rb']
-  end
-  
-  desc "Run the specs under spec/helpers"
-  Spec::Rake::SpecTask.new(:helpers => "db:test:prepare") do |t|
-    t.spec_opts = ['--options', "\"#{RAILS_ROOT}/spec/spec.opts\""]
-    t.spec_files = FileList['spec/helpers/**/*_spec.rb']
-  end
-  
-  desc "Run the specs under vendor/plugins"
-  Spec::Rake::SpecTask.new(:plugins => "db:test:prepare") do |t|
-    t.spec_opts = ['--options', "\"#{RAILS_ROOT}/spec/spec.opts\""]
-    t.spec_files = FileList['vendor/plugins/**/spec/**/*_spec.rb']
-  end
-
-  desc "Print Specdoc for all specs"
+  desc "Print Specdoc for all specs (excluding plugin specs)"
   Spec::Rake::SpecTask.new('doc') do |t|
-    t.spec_files = FileList[
-      'spec/models/**/*_spec.rb',
-      'spec/controllers/**/*_spec.rb',
-      'spec/helpers/**/*_spec.rb',
-      'spec/views/**/*_spec.rb',
-      'vendor/plugins/**/spec/**/*_spec.rb'
-    ]
-    t.spec_opts = ["--format", "specdoc"]
+    t.spec_opts = ["--format", "specdoc", "--dry-run"]
+    t.spec_files = FileList['spec/**/*_spec.rb']
   end
 
-  desc "Setup specs for stats"
+  [:models, :controllers, :views, :helpers].each do |sub|
+    desc "Run the specs under spec/#{sub}"
+    Spec::Rake::SpecTask.new(sub => spec_prereq) do |t|
+      t.spec_opts = ['--options', "\"#{RAILS_ROOT}/spec/spec.opts\""]
+      t.spec_files = FileList['spec/#{sub}/**/*_spec.rb']
+    end
+  end
+  
+  desc "Run the specs under vendor/plugins (except RSpec's own)"
+  Spec::Rake::SpecTask.new(:plugins => spec_prereq) do |t|
+    t.spec_opts = ['--options', "\"#{RAILS_ROOT}/spec/spec.opts\""]
+    t.spec_files = FileList['vendor/plugins/**/spec/**/*_spec.rb'].exclude('vendor/plugins/rspec*')
+  end
+
+  # Setup specs for stats
   task :statsetup do
     require 'code_statistics'
     ::STATS_DIRECTORIES << %w(Model\ specs spec/models)

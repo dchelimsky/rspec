@@ -3,6 +3,8 @@
 == 0.9 (in SVN)
 
 * Sugar FREE!
+* Fixed [#6523] Run rspec on rails without a db
+* Fixed [#9295] rake spec should run anything in the spec directory (not just rspec's standard dirs)
 * Added [#9786] infer controller and helper names from the described type
 * Fixed [#7795] form_tag renders action='/view_spec' in view specs
 * Fixed [#9767] rspec_on_rails should not define rescue_action on controllers

@@ -1,3 +1,4 @@
+$LOAD_PATH.unshift(File.expand_path(File.join(RAILS_ROOT, '..', 'spec_ui', 'lib')))
 require 'spec/ui/watir_helper'
 
 context "Person Webpage" do
