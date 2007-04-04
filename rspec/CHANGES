@@ -3,6 +3,12 @@
 == 0.9 (in SVN)
 
 * Sugar FREE!
+* Added [#9786] infer controller and helper names from the described type
+* Fixed [#7795] form_tag renders action='/view_spec' in view specs
+* Fixed [#9767] rspec_on_rails should not define rescue_action on controllers
+* Fixed [#9421] --line doesn't work with behaviours that use class names
+* Fixed [#9760] rspec generators incompatible with changes to edge rails
+* Added [#9786] infer controller and helper names from the described type
 * Applied a simplified version of [#9282] Change to allow running specs from textmate with rspec installed as a rails plugin (and no rspec gem installed)
 * Applied [#9700] Make Spec::DSL::Example#name public / Add a --timeout switch. A great way to prevent specs from getting slow.
 * In Rails, script/generate rspec will generate a spec.opts file that optimises faster/more efficient running of specs.
