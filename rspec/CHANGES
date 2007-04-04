@@ -20,7 +20,7 @@
 * The --example option can now take a file name as an argument. The file should contain example names.
 * New --failures option which will write out a file that can later be used with --example.
 * Internal classes are named Behaviour/Example (rather than Context/Specification).
-* Integrated support for mocha (just require 'mocha' in a helper file).
+* You can now use mocha by saying config.mock_with :mocha in a spec_helper
 * before_context_eval is replaced by before_eval.
 
 == Version 0.8.3
