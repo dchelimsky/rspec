@@ -3,8 +3,8 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-context PeopleController do
-  controller_name "people"
+describe PeopleController do
+  # If you pass the controller to #describe, you don't need to declare the controller name
   
   setup do
     @person = mock("person")
@@ -61,6 +61,7 @@ context PeopleController do
 end
 
 context "When requesting /people with controller isolated from views" do
+  # If you do not pass the controller to #describe, you need to declare the controller name
   controller_name :people
 
   setup do

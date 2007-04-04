@@ -1,9 +1,9 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
-require 'controller_isolation_spec_controller'
+require 'controller_spec_controller'
 
 ['integration', 'isolation'].each do |mode|
-  context "Given a controller spec for ControllerIsolationSpecController running in #{mode} mode", :context_type => :controller do
-    controller_name :controller_isolation_spec
+  context "Given a controller spec for ControllerSpecController running in #{mode} mode", :context_type => :controller do
+    controller_name :controller_spec
     integrate_views if mode == 'integration'
   
     specify "session should be the same object as controller session" do
@@ -34,7 +34,7 @@ require 'controller_isolation_spec_controller'
     
     specify "specifying a partial should work with path relative to RAILS_ROOT/app/views/" do
       get 'action_with_partial'
-      response.should render_template("controller_isolation_spec/_a_partial")
+      response.should render_template("controller_spec/_a_partial")
     end
     
     specify "spec should have access to flash" do
@@ -52,7 +52,7 @@ require 'controller_isolation_spec_controller'
     end
 
     specify "routes should be speccable" do
-      route_for(:controller => "controller_isolation_spec", :action => "some_action").should == "/controller_isolation_spec/some_action"
+      route_for(:controller => "controller_spec", :action => "some_action").should == "/controller_spec/some_action"
     end
   end
 
@@ -88,6 +88,10 @@ require 'controller_isolation_spec_controller'
     end
   end
   
-  
+end
+
+describe ControllerSpecController, :context_type => :controller do
+  it "should not require naming the controller if describe is passed a type" do
+  end
 end
 

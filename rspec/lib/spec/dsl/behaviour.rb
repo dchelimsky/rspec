@@ -32,7 +32,7 @@ module Spec
       
       def run(reporter, dry_run=false, reverse=false, timeout=nil)
         plugin_mock_framework
-        reporter.add_behaviour(@description)
+        reporter.add_behaviour(description)
         prepare_execution_context_class
         errors = run_context_setup(reporter, dry_run)
 
@@ -51,7 +51,7 @@ module Spec
       end
 
       def matches?(specified_examples)
-        matcher ||= ExampleMatcher.new(@description)
+        matcher ||= ExampleMatcher.new(description)
 
         examples.each do |example|
           return true if example.matches?(matcher, specified_examples)
@@ -60,8 +60,8 @@ module Spec
       end
 
       def retain_examples_matching!(specified_examples)
-        return if specified_examples.index(@description)
-        matcher = ExampleMatcher.new(@description)
+        return if specified_examples.index(description)
+        matcher = ExampleMatcher.new(description)
         examples.reject! do |example|
           !example.matches?(matcher, specified_examples)
         end
@@ -141,6 +141,10 @@ module Spec
       def plugin_mock_framework
         require File.expand_path(File.join(File.dirname(__FILE__), "..", "plugins","mock_framework.rb"))
         include Spec::Plugins::MockMethods
+      end
+      
+      def description
+        @description.respond_to?(:description) ? @description.description : @description
       end
 
     end

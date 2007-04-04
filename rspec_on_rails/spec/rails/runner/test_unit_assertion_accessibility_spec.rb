@@ -15,7 +15,7 @@ end
 
 ['integration', 'isolation'].each do |mode|
   context "A controller spec in #{mode} mode should be able to access 'test/unit' assertions", :context_type => :controller do
-    controller_name :controller_isolation_spec
+    controller_name :controller_spec
     integrate_views if mode == 'integration'
 
     specify "like assert_equal" do

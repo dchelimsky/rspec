@@ -1,8 +1,8 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
-require 'controller_isolation_spec_controller'
+require 'controller_spec_controller'
 
 context "a controller spec running in isolation mode", :context_type => :controller do
-  controller_name :controller_isolation_spec
+  controller_name :controller_spec
 
   specify "should not care if the template doesn't exist" do
     get 'some_action'
@@ -23,7 +23,7 @@ context "a controller spec running in isolation mode", :context_type => :control
 end
 
 context "a controller spec running in integration mode", :context_type => :controller do
-  controller_name :controller_isolation_spec
+  controller_name :controller_spec
   integrate_views
   
   setup do

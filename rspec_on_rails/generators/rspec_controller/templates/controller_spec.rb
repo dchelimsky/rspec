@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '<%= '/..' * class_nesting_depth %>/../spec_helper'
 
 #Delete this context and add some real ones
-describe "A generated <%= class_name.underscore %>_controller_spec.rb" do
+describe <%= class_name %>Controller do
   controller_name '<%= class_name.underscore %>'
   
   it "should use <%= class_name %>Controller" do

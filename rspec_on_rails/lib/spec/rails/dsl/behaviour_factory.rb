@@ -23,18 +23,19 @@ module Spec
           #   context "name", :context_type => :model do ...
           #   context "name", :context_type => :view ...
           def create(*args, &block)
-            spec_path = args.last.is_a?(Hash) ? args.last[:spec_path] : nil
-            context_type = args.last.is_a?(Hash) ? args.last[:context_type] : nil
+            describable = Spec::DSL::Describable.new(*args)
+            spec_path = describable[:spec_path]
+            context_type = describable[:context_type]
             if (spec_path =~ /spec(\/|\\)+views/) || (context_type == :view)
-              return Spec::Rails::DSL::ViewBehaviour.new(args[0], &block)
+              return Spec::Rails::DSL::ViewBehaviour.new(describable, &block)
             elsif (spec_path =~ /spec(\/|\\)+helpers/) || (context_type == :helper)
-              return Spec::Rails::DSL::HelperBehaviour.new(args[0], &block)
+              return Spec::Rails::DSL::HelperBehaviour.new(describable, &block)
             elsif (spec_path =~ /spec(\/|\\)+controllers/) || (context_type == :controller)
-              return Spec::Rails::DSL::ControllerBehaviour.new(args[0], &block)
+              return Spec::Rails::DSL::ControllerBehaviour.new(describable, &block)
             elsif (spec_path =~ /spec(\/|\\)+models/) || (context_type == :model)
-              return Spec::Rails::DSL::ModelBehaviour.new(args[0], &block)
+              return Spec::Rails::DSL::ModelBehaviour.new(describable, &block)
             else
-              return Spec::DSL::Behaviour.new(args[0], &block)
+              return Spec::DSL::Behaviour.new(describable, &block)
             end
           end
         end

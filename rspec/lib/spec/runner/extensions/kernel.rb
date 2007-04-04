@@ -1,8 +1,8 @@
 module Kernel
-  def describe(type_or_description, additional_description=nil, &block)
-    description = "#{type_or_description.to_s}"
-    description += "#{additional_description}" unless additional_description.nil?
-    behaviour_runner.add_behaviour(Spec::DSL::Behaviour.new(description, &block))
+  def describe(*args, &block)
+    behaviour_runner.add_behaviour(
+      Spec::DSL::Behaviour.new(Spec::DSL::Describable.new(*args), &block)
+    )
   end
   alias :context :describe
   

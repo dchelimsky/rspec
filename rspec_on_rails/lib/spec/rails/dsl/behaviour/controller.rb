@@ -5,7 +5,7 @@ module Spec
         class << self
           def included(mod)
             mod.send :include, ExampleMethods
-            mod.send :extend, BehaviourMethods
+            mod.send :extend,  BehaviourMethods
           end
         end
         
@@ -113,7 +113,7 @@ module Spec
           super
           @deliveries = []
           ActionMailer::Base.deliveries = @deliveries
-
+          
           unless @controller.class.ancestors.include?(ActionController::Base)
             Spec::Expectations.fail_with <<-EOE
   You have to declare the controller name in controller specs. For example:
@@ -182,7 +182,11 @@ module Spec
 
         def execution_context(example=nil) # :nodoc:
           instance = execution_context_class.new(example)
-          controller_klass_name = controller_class_name.to_s
+          if controller_class_name.nil? && !@description.described_type.nil?
+            controller_klass_name = @description.described_type.to_s
+          else
+            controller_klass_name = controller_class_name.to_s
+          end
           integrate_views = integrate_views?
           instance.instance_eval {
             @controller_class_name = controller_klass_name
