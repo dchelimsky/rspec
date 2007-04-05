@@ -45,7 +45,7 @@ module Spec
         return "#{pre}#{should} #{be_or_equal}#{post}"
       end
       
-      if line =~ /(.*\.)(should_not|should)_(?!not)(.*)/m
+      if line =~ /(.*\.)(should_not|should)_(?!not)\s*(.*)/m
         pre = $1
         should = $2
         post = $3
@@ -58,10 +58,11 @@ module Spec
         end
         
         # Add parenthesis
-        post.gsub!(/^(\w+)\s+([\w|\.|\, ]+)/, '\1(\2)')
+        post.gsub!(/^(\w+)\s+([\w|\.|\,|\(.*\)|\'|\"|\:|@| ]+)(\})/, '\1(\2)\3') # inside a block
+        post.gsub!(/^(\w+)\s+([\w|\.|\,|\(.*\)|\{.*\}|\'|\"|\:|@| ]+)/, '\1(\2)')
         post.gsub!(/(\s+\))/, ')')
         post.gsub!(/\)\}/, ') }')
-        post.gsub!(/^(\w+)\s+(\/.*\/)/, '\1(\2)')
+        post.gsub!(/^(\w+)\s+(\/.*\/)/, '\1(\2)') #regexps
         line = "#{pre}#{should} #{post}"
       end
 

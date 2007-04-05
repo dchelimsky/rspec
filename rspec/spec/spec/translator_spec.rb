@@ -103,4 +103,50 @@ context "Translator" do
   it "should translate close_to without parens" do
     @t.translate_line("end.should_be_close 3.14159_26535_89793_23846, TOLERANCE\n").should eql("end.should be_close(3.14159_26535_89793_23846, TOLERANCE)\n")
   end
+
+  # [#9882] 0.9 Beta 1 - translator bugs
+  # http://rubyforge.org/tracker/index.php?func=detail&aid=9882&group_id=797&atid=3149
+  it "should support symbol arguments" do
+    @t.translate_line(
+      "lambda { sequence.parse\n('bar') }.should_throw :ZeroWidthParseSuccess"
+    ).should eql(
+      "lambda { sequence.parse\n('bar') }.should throw_symbol(:ZeroWidthParseSuccess)"
+    )
+  end
+
+  # [#9882] 0.9 Beta 1 - translator bugs
+  # http://rubyforge.org/tracker/index.php?func=detail&aid=9882&group_id=797&atid=3149
+  it "should support instance var arguments" do
+    @t.translate_line("a.should_eql @local").should eql("a.should eql(@local)")
+  end
+
+  # [#9882] 0.9 Beta 1 - translator bugs
+  # http://rubyforge.org/tracker/index.php?func=detail&aid=9882&group_id=797&atid=3149
+  it "should support lambdas as expecteds" do
+    @t.translate_line(
+      "@parslet.should_not_eql lambda { nil }.to_parseable"
+    ).should eql(
+      "@parslet.should_not eql(lambda { nil }.to_parseable)"
+    )
+  end
+  
+  # [#9882] 0.9 Beta 1 - translator bugs
+  # http://rubyforge.org/tracker/index.php?func=detail&aid=9882&group_id=797&atid=3149
+  it "should support fully qualified names" do
+    @t.translate_line(
+      "results.should_be_kind_of SimpleASTLanguage::Identifier"
+    ).should eql(
+      "results.should be_kind_of(SimpleASTLanguage::Identifier)"
+    )
+  end
+    
+  # [#9882] 0.9 Beta 1 - translator bugs
+  # http://rubyforge.org/tracker/index.php?func=detail&aid=9882&group_id=797&atid=3149
+  # it "should leave whitespace between expression and comments" do
+  #   @t.translate_line(
+  #     "lambda { @instance.foo = foo }.should_raise NoMethodError # no writer defined"
+  #   ).should eql(
+  #     "lambda { @instance.foo = foo }.should raise_error(NoMethodError) # no writer defined"
+  #   )
+  # end
 end
