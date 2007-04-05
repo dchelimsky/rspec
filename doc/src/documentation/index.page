@@ -86,7 +86,7 @@ module MyHelperMethods
   end
 end
 
-describe Something do
+describe Thing do
   include MyHelperMethods
   
   it "should do stuff" do
@@ -94,13 +94,14 @@ describe Something do
     ...
   end
 end
+</ruby>
 
 h4. Setup and Teardown
 
 You can use setup, teardown, context_setup and context_teardown within a Behavior:
 
 <ruby>
-describe SomeThing do
+describe Thing do
   context_setup do
     ...
   end
