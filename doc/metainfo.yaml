@@ -10,29 +10,6 @@ examples.page:
   orderInfo: 3
   inMenu: true
 
-tutorials/:
-  orderInfo: 5   
-tutorials/index.page:
-  directoryName: Tutorial
-  inMenu: true
-  orderInfo: 10
-tutorials/stack_01.page:
-  title: '1'
-  inMenu: true
-  orderInfo: 11
-tutorials/stack_02.page:
-  title: '2'
-  inMenu: true
-  orderInfo: 12
-tutorials/stack_03.page:
-  title: '3'
-  inMenu: true
-  orderInfo: 13
-tutorials/stack_04.page:
-  title: '4'
-  inMenu: true
-  orderInfo: 14  
-                   
 documentation/:
   orderInfo: 6    
 documentation/index.page:
