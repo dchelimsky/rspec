@@ -7,6 +7,7 @@ module Spec
       # :call-seq:
       #   should(matcher)
       #   should == expected
+      #   should === expected
       #   should =~ expected
       #
       #   receiver.should(matcher)
@@ -14,6 +15,9 @@ module Spec
       #
       #   receiver.should == expected #any value
       #     => Passes if (receiver == expected)
+      #
+      #   receiver.should === expected #any value
+      #     => Passes if (receiver === expected)
       #
       #   receiver.should =~ regexp
       #     => Passes if (receiver =~ regexp)
@@ -32,6 +36,7 @@ module Spec
       # :call-seq:
       #   should_not(matcher)
       #   should_not == expected
+      #   should_not === expected
       #   should_not =~ expected
       #
       #   receiver.should_not(matcher)
@@ -39,6 +44,9 @@ module Spec
       #
       #   receiver.should_not == expected
       #     => Passes unless (receiver == expected)
+      #
+      #   receiver.should_not === expected
+      #     => Passes unless (receiver === expected)
       #
       #   receiver.should_not =~ regexp
       #     => Passes unless (receiver =~ regexp)

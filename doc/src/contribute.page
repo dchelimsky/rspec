@@ -39,8 +39,8 @@ category (expectations, mocks, runner, rails plugin, or RSpec.tmbundle)
 Wherever feasible, please please please submit a complete spec we can run - something like:
 
 <ruby>
-context "My Problem" do
-  specify "can be reproduced as follows" do
+describe "My Problem" do
+  it "can be reproduced as follows" do
     # Why doesn't this work?
     # (This is just a silly example)
     true.should be_true

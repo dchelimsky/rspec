@@ -19,7 +19,7 @@ If you prefer to integrate views (a la rails functional testing) you can by incl
 the keyword/commmand "integrate_views".
 
 <ruby>
-context "Given a list of articles" do
+describe "Given a list of articles" do
   controller_name :articles
   integrate_views
   ...
