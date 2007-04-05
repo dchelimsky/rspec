@@ -31,6 +31,7 @@ put this in a file that is loaded before your specs:
   end
 
 * Sugar FREE!
+* Applied [#9852] Patch for RSpec's Website using Webgen 0.4.2
 * Fixed [#6523] Run rspec on rails without a db
 * Fixed [#9295] rake spec should run anything in the spec directory (not just rspec's standard dirs)
 * Added [#9786] infer controller and helper names from the described type

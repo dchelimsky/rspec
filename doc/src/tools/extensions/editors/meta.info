@@ -1,7 +1,0 @@
-index.page:
-  orderInfo: 10
-  inMenu: true
-  
-textmate.page:
-  orderInfo: 20
-  inMenu: true

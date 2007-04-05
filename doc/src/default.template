@@ -19,7 +19,7 @@
   </div>
 
   <div id="content">
-    {content: }
+    {block: }
     
     <div id="footer">
       Webdesign by <a href="http://www.oswd.org/user/profile/id/9462">JM</a>
