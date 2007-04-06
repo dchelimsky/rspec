@@ -2,12 +2,25 @@ task :default => :pre_commit
 
 desc "Runs pre_commit_core and pre_commit_rails"
 task :pre_commit => [
+  :check_for_gem_dependencies,
   :touch_revision_storing_files,
   :pre_commit_core,
   :update_dependencies,
   :pre_commit_rails,
   :ok_to_commit
 ]
+
+desc "Makes sure the correct versions of gems are on the system"
+task :check_for_gem_dependencies do
+  gem 'rake'
+  gem 'rcov'
+  gem 'webgen', '= 0.3.8'
+  gem 'BlueCloth'
+  gem 'RedCloth'
+  gem 'syntax'
+  gem 'diff-lcs'
+  gem 'heckle'
+end
 
 desc "Runs pre_commit against rspec (core)"
 task :pre_commit_core do
