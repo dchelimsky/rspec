@@ -1,7 +1,7 @@
 ---
-title: Extenions Oveview
+title: Extensions Oveview
 ---
-h2. Extenions Oveview
+h2. Extensions Oveview
 
 RSpec extensions typically come in two different kinds: API extensions and runner extensions.
 

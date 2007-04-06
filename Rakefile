@@ -18,9 +18,9 @@ task :pre_commit_core do
   end
 end
 
-desc "Runs pre_commit against rspec_on_rails (against all supported Rails versions)"
+desc "Runs pre_commit against example_rails_app (against all supported Rails versions)"
 task :pre_commit_rails do
-  Dir.chdir 'rspec_on_rails' do
+  Dir.chdir 'example_rails_app' do
     rake = (PLATFORM == "i386-mswin32") ? "rake.cmd" : "rake"
     cmd = "#{rake} -f Multirails.rake pre_commit"
     system(cmd)
@@ -29,7 +29,7 @@ task :pre_commit_rails do
 ############################################################
 RSpec on Rails Plugin pre_commit failed. For more info:
 
-  cd rspec_on_rails
+  cd example_rails_app
   #{cmd}
 
 ############################################################
@@ -47,7 +47,7 @@ task :touch_revision_storing_files do
   # See http://svnbook.red-bean.com/en/1.0/ch07s02.html - the section on svn:keywords
   files = [
     'rspec/lib/spec/version.rb',
-    'rspec_on_rails/vendor/plugins/rspec_on_rails/lib/spec/rails/version.rb'
+    'rspec_on_rails/lib/spec/rails/version.rb'
   ]
   new_token = rand
   files.each do |path|
@@ -67,16 +67,17 @@ end
 
 RSPEC_DEPS = [
   # checkout path,                      name,         url,                                                    tagged?
-  ["rspec_on_rails/vendor/rails/1.1.6", "rails 1.1.6", "http://dev.rubyonrails.org/svn/rails/tags/rel_1-1-6", true],
-  ["rspec_on_rails/vendor/rails/1.2.1", "rails 1.2.1", "http://dev.rubyonrails.org/svn/rails/tags/rel_1-2-1", true],
-  ["rspec_on_rails/vendor/rails/1.2.2", "rails 1.2.2", "http://dev.rubyonrails.org/svn/rails/tags/rel_1-2-2", true],
-  ["rspec_on_rails/vendor/rails/edge", "edge rails", "http://svn.rubyonrails.org/rails/trunk", false],
-  ["rspec_on_rails/vendor/plugins/assert_select", "assert_select", "http://labnotes.org/svn/public/ruby/rails_plugins/assert_select", false],
+  ["example_rails_app/vendor/rails/1.1.6", "rails 1.1.6", "http://dev.rubyonrails.org/svn/rails/tags/rel_1-1-6", true],
+  ["example_rails_app/vendor/rails/1.2.1", "rails 1.2.1", "http://dev.rubyonrails.org/svn/rails/tags/rel_1-2-1", true],
+  ["example_rails_app/vendor/rails/1.2.2", "rails 1.2.2", "http://dev.rubyonrails.org/svn/rails/tags/rel_1-2-2", true],
+  ["example_rails_app/vendor/rails/1.2.3", "rails 1.2.3", "http://dev.rubyonrails.org/svn/rails/tags/rel_1-2-3", true],
+  ["example_rails_app/vendor/rails/edge", "edge rails", "http://svn.rubyonrails.org/rails/trunk", false],
+  ["example_rails_app/vendor/plugins/assert_select", "assert_select", "http://labnotes.org/svn/public/ruby/rails_plugins/assert_select", false],
 ]
 
 desc "Installs dependencies for development environment"
 task :install_dependencies do
-  Dir.chdir 'rspec_on_rails' do
+  Dir.chdir 'example_rails_app' do
     RSPEC_DEPS.each do |dep|
       puts "\nChecking for #{dep[1]} ..."
       dest = File.expand_path(File.join(File.dirname(__FILE__), dep[0]))

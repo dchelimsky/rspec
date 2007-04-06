@@ -47,17 +47,17 @@ the greater Chicago area, allowing them to explore some ideas resulting in the t
 Aslak joined in and the three rewrote the higher level syntax and the core, reworking RSpec into what you see now:
 
 <ruby>
-context "Behaviour Definition Framework" do
+describe "Behaviour Definition Framework" do
 
   setup do
     @bd_framework = BehaviourDefinitionFramework.new
   end
 
-  specify "should be adopted quickly" do
+  it "should be adopted quickly" do
     @bd_framework.should be_adopted_quickly
   end
   
-  specify "should be intuitive" do
+  it "should be intuitive" do
     @bd_framework.should be_intuitive
   end
 
@@ -65,9 +65,9 @@ end
 </ruby>
 
 RSpec provides a framework for writing what we call __executable
-specifications of program behaviour__. Since that's rather wordy, we usually
-just call them __specs__. 
-"Some other people":http://www.testing.com/cgi-bin/blog/2006/04/12#spec-vs-example call these things __examples__.
+examples of program behaviour__. Since that's rather wordy, we usually
+just call them __examples__. We used to call them __specs__, but have since
+been "enlightened":http://www.testing.com/cgi-bin/blog/2006/04/12#spec-vs-example.
 
 On this site you will find examples, documentation, and tutorials as well as
 links to download and community resources.

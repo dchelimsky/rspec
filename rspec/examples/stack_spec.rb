@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/spec_helper'
 require File.dirname(__FILE__) + "/stack"
 
-describe "Stack" do
+describe Stack do
   setup do
     @stack = Stack.new
     ["a","b","c"].each { |x| @stack.push x }
@@ -31,7 +31,7 @@ describe "Stack" do
   end
 end
 
-describe Stack, "(empty)" do
+describe Stack, " (empty)" do
   setup do
     @stack = Stack.new
   end
@@ -53,7 +53,7 @@ describe Stack, "(empty)" do
   end
 end
 
-describe Stack, "(with one item)" do
+describe Stack, " (with one item)" do
   setup do
     @stack = Stack.new
     @stack.push 3
@@ -73,7 +73,7 @@ describe Stack, "(with one item)" do
   end
 end
 
-describe Stack, "(with one item less than capacity)" do
+describe Stack, " (with one item less than capacity)" do
   setup do
     @stack = Stack.new
     (1..9).each { |i| @stack.push i }
@@ -88,7 +88,7 @@ describe Stack, "(with one item less than capacity)" do
   end
 end
 
-describe Stack, "(full)" do
+describe Stack, " (full)" do
   setup do
     @stack = Stack.new
     (1..10).each { |i| @stack.push i }

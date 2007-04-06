@@ -10,12 +10,12 @@ module Spec
       # +warn_if_no_files+ tells whether or not a warning (the help message)
       # should be printed to +err+ in case no files are specified.
       def self.run(argv, err, out, exit=true, warn_if_no_files=true)
-        old_context_runner = defined?($context_runner) ? $context_runner : nil
-        $context_runner = OptionParser.new.create_context_runner(argv, err, out, warn_if_no_files)
-        return if $context_runner.nil? # This is the case if we use --drb
+        old_behaviour_runner = defined?($behaviour_runner) ? $behaviour_runner : nil
+        $behaviour_runner = OptionParser.new.create_behaviour_runner(argv, err, out, warn_if_no_files)
+        return if $behaviour_runner.nil? # This is the case if we use --drb
 
-        $context_runner.run(argv, exit)
-        $context_runner = old_context_runner
+        $behaviour_runner.run(argv, exit)
+        $behaviour_runner = old_behaviour_runner
       end
     end
   end

@@ -10,26 +10,26 @@ module Spec
       end
       
       specify "should return values in order to consecutive calls" do
-        @mock.message.should_eql @return_values[0]
-        @mock.message.should_eql @return_values[1]
-        @mock.message.should_eql @return_values[2]
+        @mock.message.should == @return_values[0]
+        @mock.message.should == @return_values[1]
+        @mock.message.should == @return_values[2]
         @mock.__verify
       end
 
       specify "should complain when there are too few calls" do
         third = Object.new
-        @mock.message.should_eql @return_values[0]
-        @mock.message.should_eql @return_values[1]
-        lambda { @mock.__verify }.should_raise MockExpectationError, "Mock 'mock' expected :message with (any args) 3 times, but received it twice"
+        @mock.message.should == @return_values[0]
+        @mock.message.should == @return_values[1]
+        lambda { @mock.__verify }.should raise_error(MockExpectationError, "Mock 'mock' expected :message with (any args) 3 times, but received it twice")
       end
 
       specify "should complain when there are too many calls" do
         third = Object.new
-        @mock.message.should_eql @return_values[0]
-        @mock.message.should_eql @return_values[1]
-        @mock.message.should_eql @return_values[2]
-        @mock.message.should_eql @return_values[2]
-        lambda { @mock.__verify }.should_raise MockExpectationError, "Mock 'mock' expected :message with (any args) 3 times, but received it 4 times"
+        @mock.message.should == @return_values[0]
+        @mock.message.should == @return_values[1]
+        @mock.message.should == @return_values[2]
+        @mock.message.should == @return_values[2]
+        lambda { @mock.__verify }.should raise_error(MockExpectationError, "Mock 'mock' expected :message with (any args) 3 times, but received it 4 times")
       end
     end
 
@@ -41,26 +41,26 @@ module Spec
       end
 
       specify "should return values in order to consecutive calls" do
-        @mock.message.should_eql @return_values[0]
-        @mock.message.should_eql @return_values[1]
-        @mock.message.should_eql @return_values[2]
+        @mock.message.should == @return_values[0]
+        @mock.message.should == @return_values[1]
+        @mock.message.should == @return_values[2]
         @mock.__verify
       end
 
       specify "should complain when there are too few calls" do
         third = Object.new
-        @mock.message.should_eql @return_values[0]
-        @mock.message.should_eql @return_values[1]
-        lambda { @mock.__verify }.should_raise MockExpectationError, "Mock 'mock' expected :message with (any args) 3 times, but received it twice"
+        @mock.message.should == @return_values[0]
+        @mock.message.should == @return_values[1]
+        lambda { @mock.__verify }.should raise_error(MockExpectationError, "Mock 'mock' expected :message with (any args) 3 times, but received it twice")
       end
 
       specify "should complain when there are too many calls" do
         third = Object.new
-        @mock.message.should_eql @return_values[0]
-        @mock.message.should_eql @return_values[1]
-        @mock.message.should_eql @return_values[2]
-        @mock.message.should_eql @return_values[2]
-        lambda { @mock.__verify }.should_raise MockExpectationError, "Mock 'mock' expected :message with (any args) 3 times, but received it 4 times"
+        @mock.message.should == @return_values[0]
+        @mock.message.should == @return_values[1]
+        @mock.message.should == @return_values[2]
+        @mock.message.should == @return_values[2]
+        lambda { @mock.__verify }.should raise_error(MockExpectationError, "Mock 'mock' expected :message with (any args) 3 times, but received it 4 times")
       end
     end
 
@@ -79,7 +79,7 @@ module Spec
 
       specify "should fail when called less than the specified number" do
         @mock.message.should equal(11)
-        lambda { @mock.__verify }.should_raise MockExpectationError, "Mock 'mock' expected :message with (no args) twice, but received it once"
+        lambda { @mock.__verify }.should raise_error(MockExpectationError, "Mock 'mock' expected :message with (no args) twice, but received it once")
       end
     end
     context "a Mock expectation with multiple return values with a specified count larger than the number of values" do
@@ -97,7 +97,7 @@ module Spec
 
       specify "should fail when called less than the specified number" do
         @mock.message.should equal(11)
-        lambda { @mock.__verify }.should_raise MockExpectationError, "Mock 'mock' expected :message with (any args) 3 times, but received it once"
+        lambda { @mock.__verify }.should raise_error(MockExpectationError, "Mock 'mock' expected :message with (any args) 3 times, but received it once")
       end
 
       specify "should fail when called greater than the specified number" do
@@ -105,7 +105,7 @@ module Spec
         @mock.message.should equal(22)
         @mock.message.should equal(22)
         @mock.message.should equal(22)
-        lambda { @mock.__verify }.should_raise MockExpectationError, "Mock 'mock' expected :message with (any args) 3 times, but received it 4 times"
+        lambda { @mock.__verify }.should raise_error(MockExpectationError, "Mock 'mock' expected :message with (any args) 3 times, but received it 4 times")
       end
     end
   end

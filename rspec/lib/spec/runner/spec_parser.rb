@@ -1,15 +1,15 @@
 module Spec
   module Runner
-    # Parses a spec file and finds the nearest spec for a given line number.
+    # Parses a spec file and finds the nearest example for a given line number.
     class SpecParser
       def spec_name_for(io, line_number)
         source  = io.read
-        context, context_line = context_at_line(source, line_number)
-        spec, spec_line = spec_at_line(source, line_number)
-        if context && spec && (context_line < spec_line)
-          "#{context} #{spec}"
-        elsif context
-          context
+        behaviour, behaviour_line = behaviour_at_line(source, line_number)
+        example, example_line = example_at_line(source, line_number)
+        if behaviour && example && (behaviour_line < example_line)
+          "#{behaviour} #{example}"
+        elsif behaviour
+          behaviour
         else
           nil
         end
@@ -17,11 +17,11 @@ module Spec
 
     protected
 
-      def context_at_line(source, line_number)
+      def behaviour_at_line(source, line_number)
         find_above(source, line_number, /^\s*(context|describe)\s+(.*)\s+do/)
       end
 
-      def spec_at_line(source, line_number)
+      def example_at_line(source, line_number)
         find_above(source, line_number, /^\s*(specify|it)\s+(.*)\s+do/)
       end
 

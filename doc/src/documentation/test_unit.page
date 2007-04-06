@@ -32,21 +32,48 @@ find the RSpec equivalent of Test::Unit's asserts.
 | flunk(message="Flunked")                             | violated(message=nil) | |
 | N/A                                                  | actual.should_be_something | Passes if object.something? is true |
 
-There is a significant difference in how Test::Unit and RSpec handle equality, and this may cause some confusion. Consider the following code:
+h2. Regarding Equality
+
+RSpec lets you express equality the same way Ruby does. This is different from
+Test::Unit and other xUnit frameworks, and this may cause some confusion for those
+of you who are making a switch.
+
+Consider this example:
 
 <ruby>
-"hi".equal?("hi") #=> false
-"hi".should equal("hi") #=> fails
-assert_equal("hi", "hi") #=> passes - it uses == internally
+words = "the words"
+assert_equals("the words", words) #passes
+assert_same("the words", words) #fails
 </ruby>
 
-Or this:
+xUnit frameworks traditionally use method names like <code>#assert_equals</code> to
+imply object equivalence (objects with the same values) and method names like <code>#assert_same</code> to
+imply object identity (actually the same object). For programmers who are used to this syntax,
+it makes perfect sense to see this in a unit testing framework for Ruby.
+
+The problem that we found is that Ruby handles equality differently from other languages. In
+java, for example, we override <code>Object#equals(other)</code> to describe object equivalence,
+whereas we use <code>==</code> to describe object identity. In Ruby, we do just the opposite.
+In fact, Ruby provides us with four ways to express equality:
 
 <ruby>
-"hi" == "hi" #=> true
-"hi".should == "hi" #=> true
-assert_same("hi", "hi") #=> fails - it uses Object.equal? internally
+a == b
+a === b
+a.equal?(b)
+a.eql?(b)
 </ruby>
 
-As you see, Test::Unit's semantics of "equal" is not the same as Ruby's. Test::Unit's assert_equal method uses the == operator. Test::Unit's semantics of "equal" is equivalent 
-to other xUnit libraries' semantics. RSpec follows Ruby's semantics of equality.
+Each of these has its own semantics, which can (and often do) vary from class to class. In
+order to minimize the translation required to understand what an example might be expressing,
+we chose to express these directly in RSpec. If you understand Ruby equality, then you
+can understand what RSpec examples are describing:
+
+<ruby>
+a.should == b      #passes if a == b
+a.should === b     #passes if a === b
+a.should equal(b)  #passes if a.equal?(b)
+a.should eql(b)    #passes if a.eql?(b)
+</ruby>
+
+See "http://www.ruby-doc.org/core/classes/Object.html#M001057":http://www.ruby-doc.org/core/classes/Object.html#M001057 for
+more information about equality in Ruby.

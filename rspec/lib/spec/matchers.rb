@@ -1,4 +1,3 @@
-require 'spec/deprecated'
 require 'spec/callback'
 require 'spec/matchers/be'
 require 'spec/matchers/be_close'
@@ -13,6 +12,7 @@ require 'spec/matchers/raise_error'
 require 'spec/matchers/respond_to'
 require 'spec/matchers/satisfy'
 require 'spec/matchers/throw_symbol'
+require 'spec/matchers/operator_matcher'
 
 module Spec
 
@@ -138,21 +138,6 @@ module Spec
       super
     end
 
-    deprecated do
-      # This supports sugar delegating to Matchers
-      class MatcherDelegate #:nodoc:
-        include Matchers
-
-        def respond_to?(sym)
-          if sym.to_s[0..2] == "be_"
-            return true
-          else
-            super
-          end
-        end
-      end
-    end
-    
     class MatcherError < StandardError
     end
     

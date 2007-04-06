@@ -57,7 +57,6 @@ module Spec
         return @actual <= @expected if @less_than_or_equal
         return @actual >= @expected if @greater_than_or_equal
         return @actual > @expected if @greater_than
-        return @actual.equal?(@expected)
       end
 
       def <(expected)

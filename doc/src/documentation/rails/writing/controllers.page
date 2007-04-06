@@ -19,7 +19,7 @@ If you prefer to integrate views (a la rails functional testing) you can by incl
 the keyword/commmand "integrate_views".
 
 <ruby>
-context "Given a list of articles" do
+describe "Given a list of articles" do
   controller_name :articles
   integrate_views
   ...
@@ -254,4 +254,4 @@ routing(:controller => "hello", :action => "world").should_eql "/hello/world"
 
 h2. Example Controller Specs
 
-<ruby file="../rspec_on_rails/spec/controllers/people_controller_spec.rb"/>
+<ruby file="../example_rails_app/spec/controllers/people_controller_spec.rb"/>

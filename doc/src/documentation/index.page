@@ -1,47 +1,107 @@
 ---
-title: Contexts
+title: Executable Examples
 ---
-h2. Contexts and Specifications
+h2. Executable Examples
 
-Rather than expressing examples in classes, RSpec uses a custom domain specific language to express
-examples using contexts and specifications.
+RSpec provides a Domain Specific Language with which you can express executable
+examples of the expected behaviour of a system.
 
-A context is the equivalent of a fixture in xUnit-speak. It is a metaphor for the context
-in which you will run your executable example - a set of known objects in a known starting state.
+Imagine that you were talking to a customer requesting software for her bank.
+Part of that conversation might well look like this:
+
+<pre>
+You: Describe an account when it is first created.
+Customer: It should have a balance of $0.
+</pre>
+
+Here's how we express that conversation in RSpec:
 
 <ruby>
-context "A new account" do
+describe Account, " when first created" do
+  it "should have a balance of $0" do
+    ...
+  end
+end
+</ruby>
+
+When you execute this example, RSpec can provide a report like this:
+
+<pre>
+Account, when first created
+- should have a balance of $0
+</pre>
+
+So we use RSpec to <code>#describe</code> <b>Behaviour</b> of a system using <b>Examples</b>
+of how <code>#it</code> should work.
+
+h2. A Bit More Detail
+
+Here's how the example might look with some more code filled in:
+
+<ruby>
+describe "A new account" do
 
   setup do
     @account = Account.new
   end
 
-  specify "should have a balance of $0" do
+  it "should have a balance of $0" do
     @account.balance.should_eql Money.new(0, :dollars)
   end
 
 end
 </ruby>
 
-We use the setup block to set up the context (given), and then the specify method to
-hold the example code that expresses the event (when) and the expected outcome (then).
+The <code>#describe</code> method returns a <code>Behaviour</code> object, which represents
+a particular behaviour of the system that you wish to describe. Technically,
+a <code>Behaviour</code> is the equivalent of a fixture in xUnit-speak. It
+is a metaphor for the context in which you will execute your example - a set of
+known objects in a known starting state.
+
+The <code>#it</code> method returns an <code>Example</code> object, which represents
+and example of the behaviour your are trying to describe.
+
+The <code>#setup</code> method is just like <code>#setup</code> in xUnit. You use it to
+set up the state in which each example will be executed.
+
+For each <code>Example</code> within a <code>Behaviour</code>, RSpec creates a
+new object in which the <code>Example</code> is executed. In each case, RSpec
+runs <code>#setup</code> first, then the <code>Example</code>. This means that the
+examples have no runtime relationship to each other, as would be expected.
 
 h3. Helper Methods
 
 A primary goal of RSpec is to keep the examples clear. We therefore prefer
-less indirection than you might see in xUnit examples and in well factored, DRY production code. We feel
+less indirection than you might see in well factored, DRY production code. We feel
 that duplication is OK if removing it makes it harder to understand an example without
-having to look elsewhere to understand its context.
+having to look elsewhere to understand its environment.
 
 That said, RSpec does support some level of encapsulating common code in helper
-methods that can exist within a context or within an included module.
+methods that can exist within a Behavior or within an included module.
+
+<ruby>
+module MyHelperMethods
+  def help_me
+    ...
+  end
+end
+
+describe Thing do
+  include MyHelperMethods
+  
+  it "should do stuff" do
+    help_me
+    ...
+  end
+end
+</ruby>
 
 h4. Setup and Teardown
 
-You can use setup, teardown, context_setup and context_teardown within a context:
+You can use setup, teardown, context_setup and context_teardown within a Behavior:
 
 <ruby>
-context "..." do
+describe Thing do
   context_setup do
     ...
   end
@@ -50,11 +110,11 @@ context "..." do
     ...
   end
 
-  specify "number one" do
+  it "should do stuff" do
     ...
   end
 
-  specify "number two" do
+  it "should do more stuff" do
     ...
   end
 
@@ -69,21 +129,21 @@ context "..." do
 end
 </ruby>
 
-The <code>setup</code> block will run before each of the specs, once for each spec. Likewise,
-the <code>teardown</code> block will run after each of the specs.
+The <code>setup</code> block will run before each of the Examples, once for each Example. Likewise,
+the <code>teardown</code> block will run after each of the Examples.
 
-It is also possible to specify a <code>context_setup</code> and <code>context_teardown</code>
-block that will run only once for each context, respectively before the first <code>setup</code>
-and after the last <code>teardown</code>. The use of these is generally discouraged, because it
-introduces dependencies between the specs. Still, it might prove useful for very expensive operations
-if you know what you are doing.
+It is also possible to define a <code>context_setup</code> and <code>context_teardown</code>
+block that will run only once for each Behaviour. <code>context_setup</code runs before the
+first <code>setup</code> and <code>context_teardown</code> runs after the last <code>teardown</code>.
+The use of these is generally discouraged, because it introduces dependencies between the Examples.
+Still, it might prove useful for very expensive operations if you know what you are doing.
 
 h4. Local helper methods
 
-You can include local helper methods by simply expressing them within a context:
+You can include local helper methods by simply expressing them within a Behaviour:
 
 <ruby>
-context "..." do
+describe "..." do
 
   specify "..." do
     helper_method
@@ -98,8 +158,8 @@ end
 
 h4. Included helper methods
 
-You can include helper methods in multiple contexts by expressing them within
-a module, and then including that module in your context:
+You can include helper methods in multiple Behaviours by expressing them within
+a module, and then including that module in your Behaviour:
 
 <ruby>
 module AccountExampleHelperMethods
@@ -108,13 +168,13 @@ module AccountExampleHelperMethods
   end
 end
 
-context "A new account" do
+describe "A new account" do
   include AccountExampleHelperMethods
   setup do
     @account = Account.new
   end
 
-  specify "should have a balance of $0" do
+  it "should have a balance of $0" do
     helper_method
     @account.balance.should eql(Money.new(0, :dollars))
   end

@@ -17,7 +17,7 @@ module Spec
         # formatters that need to provide progress on feedback (graphical ones)
         #
         # This method will only be invoked once, and the next one to be invoked
-        # is #add_context
+        # is #add_behaviour
         def start(spec_count)
         end
 
@@ -25,14 +25,8 @@ module Spec
         # +name+ is the name of the context and +first+ is true if it is the
         # first context - otherwise it's false.
         #
-        # The next method to be invoked after this is #spec_started
-        def add_context(name, first)
-        end
-
-        # This method is invoked right before a spec is executed.
-        # The next method to be invoked after this one is one of #spec_failed
-        # or #spec_passed.
-        def spec_started(name)
+        # The next method to be invoked after this is #spec_failed or #spec_finished
+        def add_behaviour(name)
         end
 
         # This method is invoked when a spec fails, i.e. an exception occurred
@@ -76,7 +70,7 @@ module Spec
           @output.puts
           @output.puts "Finished in #{duration} seconds"
           @output.puts
-          summary = "#{spec_count} specification#{'s' unless spec_count == 1}, #{failure_count} failure#{'s' unless failure_count == 1}"
+          summary = "#{spec_count} example#{'s' unless spec_count == 1}, #{failure_count} failure#{'s' unless failure_count == 1}"
           if failure_count == 0
             @output.puts green(summary)
           else

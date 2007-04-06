@@ -10,7 +10,7 @@ Writing specs for your helpers is a snap. Just tell the context the name of the
 helper ...
 
 <ruby>
-context "the registration helper" do
+context RegistrationHelper do
   helper_name :registration #tells rspec to include the RegistrationHelper
   ...
 </ruby>
@@ -21,4 +21,4 @@ in the context!
 
 h2. Example Helpers Specs
 
-<ruby file="../rspec_on_rails/spec/helpers/people_helper_spec.rb"/>
+<ruby file="../example_rails_app/spec/helpers/people_helper_spec.rb"/>

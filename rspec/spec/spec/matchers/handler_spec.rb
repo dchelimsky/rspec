@@ -48,9 +48,18 @@ end
 
 module Spec
   module Expectations
+    describe ExpectationMatcherHandler, ".handle_matcher" do
+      it "should ask the matcher if it matches" do
+        matcher = mock("matcher")
+        actual = Object.new
+        matcher.should_receive(:matches?).with(actual).and_return(true)
+        ExpectationMatcherHandler.handle_matcher(actual, matcher)
+      end
+    end
+    
     describe ExpectationMatcherHandler do
       include ExampleExpectations
-  
+      
       it "should handle submitted args" do
         5.should arbitrary_matcher(:expected => 5)
         5.should arbitrary_matcher(:expected => "wrong").with(5)

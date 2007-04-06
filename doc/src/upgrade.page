@@ -3,70 +3,32 @@ title: Upgrade
 inMenu: true
 ---
 
-h2. Upgrading to RSpec 0.8 from 0.7
+h2. Upgrading to RSpec 0.9
 
-Although 0.8 sports a bunch of new features, everything from 0.7 is still
-supported in 0.8. You should, therefore, be able to safely upgrade without
-having to change anything in your specs.
+RSpec 0.9 removes all of the features that were deprecated in 0.8.
 
-%{color:red;font-weight:bold}If you are upgrading "Spec::Rails":rdoc-rails/index.html, you will need to update spec_helper.rb. This is discussed below in more detail.%
+In order to ease the transition from 0.8 to 0.9, we have included a
+tool to translate your 0.8 style specs to 0.9 style. After installing
+the 0.9 gem, you should run:
 
-When we release version 0.9, however, deprecated methods will be removed, so
-you may want to start writing new specs using the new syntax.
-See "Spec::Expectations":rdoc/index.html and "Spec::Matchers":rdoc/index.html for information about the new
-expectation syntax.
+<pre>
+spec_translator path_to_my_spec_dir path_to_my_translated_spec_dir
+</pre>
 
-If, however, you are upgrading from anything prior to 0.7, you'll have quite
-a bit to change. If you are doing that, we'd recommend that you review the
-new expectation format (see below) and move in that direction.
+(or alternatively, if you have your code under version control and can
+do a revert if things go wrong:)
 
-h2. Expectation Matchers
+<pre>
+spec_translator path_to_my_spec_dir path_to_my_spec_dir
+</pre>
 
-RSpec 0.8 introduces expectation matching, a new mechanism for writing
-expectations. You will NOT need to change any of your specs in order
-to upgrade to 0.8, however we will be deprecating most of the pre-existing
-expectation methods.
+(This will translate your specs in-place)
 
-h2. Spec::Rails spec_helper.rb
+h2. Spec::Rails
 
-spec_helper.rb is generated in the spec directory when you call "script/generate rspec".
-It provides hooks into the internals of Spec::Rails that let you configure fixtures
-and how they are handled. Because the internal structure of Spec::Rails has changed,
-you must re-generate that file using "script/generate rspec". If you have modified
-your local copy, be sure to take note of your settings beforehand and reconcile after
-re-generating the file.
+Rails users must update spec_helper.rb and assorted commands in the scripts directory.
+To do so, execute the following command:
 
-h2. Release Plan
-
-0.8:
-* introduce expectation matchers alongside previous expectations
-* quietly deprecate the old expectations
-
-0.8.x:
-* translation tool to convert 0.7-style specs to 0.8-style
-* less-quiet warnings of all deprecated features
-
-0.9
-* remove all deprecated features
-
-The timeline for this will be at least a couple of months, so you will have plenty of
-time to change your existing specs after we release the translator.
-
-h2. Why are we making this change?
-
-The RSpec team is very anxious to get to a 1.0 release and commit to a stable
-API. It is crucial, however, that that API be easy to maintain and extend. The 0.7
-framework uses method_missing on Object in order to produce some seemingly sexy
-syntax like result.should_be_true and result.should_not_be_nil. It turns out that
-this conflicts with other frameworks, most notably Ruby on Rails, which like to
-use method_missing for their own sexy syntax (like MyModel.find_by_id).
-
-The new framework also employs method_missing, but it does it only on classes
-that are part of RSpec, so there is no risk of conflict with other frameworks.
-
-Additionally, the simplicity of the new framework makes it very easy to
-maintain and extend.
-
-So, for a bit of short term pain, which we plan to try to ease for you as
-best we can, we get the long term benefit of a framework that is much easier
-to extend and much less likely to break down.
+<pre>
+script/generate rspec
+</pre>

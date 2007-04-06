@@ -1,0 +1,8 @@
+--colour
+--failures
+previous_spec_failures.txt
+--example
+previous_spec_failures.txt
+--loadby
+mtime
+--reverse

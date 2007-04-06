@@ -12,7 +12,7 @@ module Spec
         @mock.should_receive(:random_call).once.with("a", "b", "c")
         lambda do
           @mock.random_call("d", "e", "f")
-        end.should_raise(MockExpectationError)
+        end.should raise_error(MockExpectationError)
       end
 
       specify "once should fail when called twice" do
@@ -21,14 +21,14 @@ module Spec
         @mock.random_call
         lambda do
           @mock.__verify
-        end.should_raise(MockExpectationError)
+        end.should raise_error(MockExpectationError)
       end
       
       specify "once should fail when not called" do
         @mock.should_receive(:random_call).once
         lambda do
           @mock.__verify
-        end.should_raise(MockExpectationError)
+        end.should raise_error(MockExpectationError)
       end
 
       specify "once should pass when called once" do

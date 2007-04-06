@@ -1,12 +1,12 @@
 = RSpec Changelog
 
-== Trunk
+== 0.9 (in SVN)
 
-This release introduces #describe and #it as aliases for #context and #specify. This
-allows you to express specs like this:
+This release introduces #describe and #it (aliased as #context and #specify for
+backwards compatibility). This allows you to express specs like this:
 
-  describe SomeClass do
-    it "should do something" do
+  describe SomeClass do # Creates a Behaviour
+    it "should do something" do # Creates an Example
     end
   end
 
@@ -15,11 +15,49 @@ over the order in which specs are run. This can be used to verify that your spec
 independent (by running in opposite order with --reverse). It can also be used to cut 
 down feedback time by running the most recently modified specs first (--loadby mtime --reverse).
 
+There is now a simple configuration model. For Spec::Rails, you do something like this:
+
+  Spec::Runner.configure do |config|
+    config.use_transactional_fixtures = true
+    config.use_instantiated_fixtures  = false
+    config.fixture_path = RAILS_ROOT + '/spec/fixtures'
+  end
+
+You can now use mocha with RSpec if you prefer it to RSpec's own mock framework. Just
+put this in a file that is loaded before your specs:
+
+  Spec::Runner.configure do |config|
+    config.mock_with :mocha
+  end
+
+* Sugar FREE!
+* Applied [#9852] Patch for RSpec's Website using Webgen 0.4.2
+* Fixed [#6523] Run rspec on rails without a db
+* Fixed [#9295] rake spec should run anything in the spec directory (not just rspec's standard dirs)
+* Added [#9786] infer controller and helper names from the described type
+* Fixed [#7795] form_tag renders action='/view_spec' in view specs
+* Fixed [#9767] rspec_on_rails should not define rescue_action on controllers
+* Fixed [#9421] --line doesn't work with behaviours that use class names
+* Fixed [#9760] rspec generators incompatible with changes to edge rails
+* Added [#9786] infer controller and helper names from the described type
+* Applied a simplified version of [#9282] Change to allow running specs from textmate with rspec installed as a rails plugin (and no rspec gem installed)
+* Applied [#9700] Make Spec::DSL::Example#name public / Add a --timeout switch. A great way to prevent specs from getting slow.
+* In Rails, script/generate rspec will generate a spec.opts file that optimises faster/more efficient running of specs.
+* Added [#9522] support using rspec's expectations with test/unit
+* Moved rspec_on_rails up to the project root, simplifying the download url
+* Fixed [#8103] RSpec not installing spec script correctly.
+* The --spec option is replaced by the --example option.
+* The --loadby option no longer supports a file argument. Use --example file_name instead.
+* The --example option can now take a file name as an argument. The file should contain example names.
+* New --failures option which will write out a file that can later be used with --example.
+* Internal classes are named Behaviour/Example (rather than Context/Specification).
+* You can now use mocha by saying config.mock_with :mocha in a spec_helper
+* before_context_eval is replaced by before_eval.
 * Applied [#9509] allow spaced options in spec.opts
 * Applied [#9510] Added File for Ruby 1.8.6
 * Applied [#9511] Clarification to README file in spec/
 * Moved all of the Spec::Rails specs down to the plugins directory - now you can run the specs after you install.
-* Updated RSpec.tmbundle to the 0.8 syntax and replaced context/specify with describe/it.
+* Updated RSpec.tmbundle to the 0.9 syntax and replaced context/specify with describe/it.
 * Applied [#9232] ActionController::Base#render is sometimes protected (patch from Dan Manges)
 * Added --reverse option, allowing contexts/specs to be run in reverse order. 
 * Added --loadby option, allowing better control over load order for spec files. mtime and file.txt supported.
@@ -29,8 +67,8 @@ down feedback time by running the most recently modified specs first (--loadby m
 * Added [#9167] string.should have_tag
 * Changed script/rails_spec_server to script/spec_server and added script/spec (w/ path to vendor/plugins/rspec)
 * Fixed [#8897] Error when mixing controller spec with/without integrated views and using template system other than rhtml
-* Updated sample app specs to 0.8 syntax
-* Updated generated specs to 0.8 syntax
+* Updated sample app specs to 0.9 syntax
+* Updated generated specs to 0.9 syntax
 * Applied [#8994] trunk: generated names for be_ specs (Multiple patches from Yurii Rashkovskii)
 
 == Version 0.8.2
@@ -88,7 +126,7 @@ It also sports myriad new features, bug fixes, patches and general goodness:
 * Fixed [#7409] default fixtures do not appear to run.
 * Fixed [#7507] "render..and return" doesn't return
 * Fixed [#7509] rcov/rspec incorrectly includes boot.rb (Patch from Courtenay)
-* Fixed [#7506] unnecessary complex output on failure of response.should_be_redirect
+* Fixed [#7506] unnecessary complex output on failure of response.should be_redirect
 * Applied [#6098] Make scaffold_resource generator. Based on code from Pat Maddox.
 * The drbspec command is gone. Use spec --drb instead.
 * The drb option is gone from the Rake task. Pass --drb to spec_opts instead.
@@ -193,7 +231,7 @@ Bug fixes and a couple o' new features.
 * Fixed [#6555] should_have_tag does not match documentation
 * Fixed [#6567] SyntaxError should not stop entire run
 * Fixed [#6558] integrated views look for template even when redirected
-* Fixed [#6547] response.should_be_redirect broken in 0.7.0
+* Fixed [#6547] response.should be_redirect broken in 0.7.0
 * Applied [#6471] Easy way to spec routes
 * Applied [#6587] Rspec on Rails displays "Spec::Rails::ContextFactory" as context name
 * Applied [#6514] Document has trivial typos.
@@ -215,7 +253,7 @@ There are a few changes that will require that you change your existing specs.
 RSpec now handles equality exactly like ruby does:
 
 # actual.should_equal(expected) will pass if actual.equal?(expected) returns true
-# actual.should_eql(expected) will pass if actual.eql?(expected) returns true
+# actual.should eql(expected) will pass if actual.eql?(expected) returns true
 # actual.should == expected will pass if actual == expected) returns true
 
 At the high level, eql? implies equivalence, while equal? implies object identity. For more
@@ -239,7 +277,7 @@ Here's what you'll need to do to update your specs:
 # search for "should_equal" and replace with "should_eql"
 # run specs
 
-If any specs still fail, they are probably related to should_be(true) or should_be(false) using
+If any specs still fail, they are probably related to should be_true or should_be_false using
 non-boolean values. Those you'll just have to inspect manually and adjust appropriately (sorry!).
 
 --------------------------------------------------
@@ -340,7 +378,7 @@ Things that may break backwards compatibility:
 * Fixed [#4891] RCOV task failing on windows
 * Fixed [#4896] Shouldn't modify user's $LOAD_PATH (Tip from Gavin Sinclair)
 * Fixed [#5369] ruby -w: warnings in RSpec 0.5.16 (Tip from Suraj Kurapati)
-* Applied [#5141] SpecMatcher doesn't escape strings before matching (Patch from Nikolai Weibull).
+* Applied [#5141] ExampleMatcher doesn't escape strings before matching (Patch from Nikolai Weibull).
 * Fixed [#5224] Move 'require diff-lcs' from test_helper.rb to diff_test.rb (Tip from Chris Roos)
 * Applied [#5449] Rake stats for specs (Patch from Nick Sieger)
 * Applied [#5468, #5058] Fix spec runner to correctly run controller specs (Patch from Daniel Siemssen)
@@ -354,7 +392,7 @@ This release makes an official commitment to underscore_syntax (with no more sup
 * Converted ALL tests to use underscore syntax
 * Fixed all remaining problems with underscores revealed by converting all the tests to underscores
 * Enhanced sugar to support combinations of methods (i.e. once.and_return) 
-* Simplified helper structure taking advantage of dot/underscore combos (i.e. should.be.an_instance_of, which can be expressed as should_be_an_instance_of)
+* Simplified helper structure taking advantage of dot/underscore combos (i.e. should.be.an_instance_of, which can be expressed as should be_an_instance_of)
 * Added support for at_most in mocks
 * Added support for should_not_receive(:msg) (will be removing should_receive(:msg).never some time soon)
 * Added support for should_have_exactly(5).items_in_collection
@@ -380,7 +418,7 @@ a experimental support for faster rails specs.
 
 * Added proc methods for specifying differences (increments and decrements). See difference_test.rb
 * Methods can now be defined alongside specs. This obsoletes the need for defining methods in setup. (Patch #5002 from Brian Takita)
-* Sugar (underscores) now works correctly with should_be_a_kind_of and should_be_an_instance_of
+* Sugar (underscores) now works correctly with should be_a_kind_of and should be_an_instance_of
 * Added support for include and inherit in contexts. (Patch #4971 from Brian Takita)
 * Added rails_spec and rails_spec_server for faster specs on rails (still buggy - help needed)
 * Fixed bug that caused should_render to break if given a :symbol (in Rails)
@@ -597,7 +635,7 @@ This release adds some improvements to the mock API and minor syntax improvement
 
 This release adds some shoulds and improves error reporting
 
-* Added should_be_same_as and should_not_be_same_as.
+* Added should be_same_as and should_not be_same_as.
 * Improved error reporting for comparison expectations.
 
 == Version 0.1.0

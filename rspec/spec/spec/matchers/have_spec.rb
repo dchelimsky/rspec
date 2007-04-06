@@ -238,7 +238,7 @@ describe "have(n).items where target IS a collection" do
   end
 
   it "should reference the number of items IN the collection" do
-    lambda { [1,2,3].should have(7).items }.should_fail_with("expected 7 items, got 3")
+    lambda { [1,2,3].should have(7).items }.should fail_with("expected 7 items, got 3")
   end
 end
 
@@ -248,12 +248,12 @@ describe "have(n).characters where target IS a String" do
   end
 
   it "should fail if the length is incorrect" do
-    lambda { "this string".should have(12).characters }.should_fail_with("expected 12 characters, got 11")
+    lambda { "this string".should have(12).characters }.should fail_with("expected 12 characters, got 11")
   end
 end
 
 describe "have(n).things on an object which is not a collection nor contains one" do
   it "should fail" do
-    lambda { Object.new.should have(2).things }.should_raise(NoMethodError, /undefined method `things' for #<Object:/)
+    lambda { Object.new.should have(2).things }.should raise_error(NoMethodError, /undefined method `things' for #<Object:/)
   end
 end

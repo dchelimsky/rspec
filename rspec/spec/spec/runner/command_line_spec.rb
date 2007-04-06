@@ -7,7 +7,7 @@ context "CommandLine" do
     Spec::Runner::CommandLine.run([file], err, out, false, true)
     
     out.rewind
-    out.read.should =~ /60 specifications, 0 failures/n
+    out.read.should =~ /60 examples, 0 failures/n
   end
 
   specify "should run file" do
@@ -17,7 +17,7 @@ context "CommandLine" do
     Spec::Runner::CommandLine.run([file], err, out, false, true)
     
     out.rewind
-    out.read.should =~ /2 specifications, 0 failures/n
+    out.read.should =~ /2 examples, 0 failures/n
   end
 
   specify "should raise when file does not exist" do
@@ -27,6 +27,6 @@ context "CommandLine" do
 
     lambda {
       Spec::Runner::CommandLine.run([file], err, out, false, true)
-    }.should_raise
+    }.should raise_error
   end
 end

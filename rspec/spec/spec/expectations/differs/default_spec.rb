@@ -30,7 +30,7 @@ context "Diff" do
     actual="foo\nzap\nbar\nthis\nis\nsoo\nvery\nvery\nequal\ninsert\na\nanother\nline\n"
     expected_diff="\n\n@@ -1,6 +1,6 @@\n foo\n-bar\n zap\n+bar\n this\n is\n soo\n@@ -9,5 +9,6 @@\n equal\n insert\n a\n+another\n line\n"
     diff = @differ.diff_as_string(expected, actual)
-    diff.should_eql(expected_diff)
+    diff.should eql(expected_diff)
   end
 
   specify "should output unified diff message of two arrays" do
@@ -53,7 +53,7 @@ EOD
 
 
     diff = @differ.diff_as_object(expected,actual)
-    diff.should_eql expected_diff
+    diff.should == expected_diff
   end
 
   specify "should output unified diff message of two objects" do
@@ -71,7 +71,7 @@ EOD
 EOD
 
     diff = @differ.diff_as_object(expected,actual)
-    diff.should_eql expected_diff
+    diff.should == expected_diff
   end
 
 end
@@ -102,6 +102,6 @@ context "Diff in context format" do
 EOD
 
     diff = @differ.diff_as_object(expected,actual)
-    diff.should_eql expected_diff
+    diff.should == expected_diff
   end
 end

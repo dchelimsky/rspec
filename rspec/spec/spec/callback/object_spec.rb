@@ -22,7 +22,7 @@ context "An Object" do
       specify_registration_and_notification do |callback_key, expected_callback|
         @callback_object.register_callback(callback_key)
       end
-    end.should_raise(RuntimeError, "You must define the callback that accepts the call method.")
+    end.should raise_error(RuntimeError, "You must define the callback that accepts the call method.")
   end
 
   specify "should undefine a proc" do
@@ -36,7 +36,7 @@ context "An Object" do
       specify_unregistration do |callback_key, expected_callback|
         @callback_object.unregister_callback(callback_key, nil)
       end
-    end.should_raise(RuntimeError, "You may only undefine callbacks that use the call method.")
+    end.should raise_error(RuntimeError, "You may only undefine callbacks that use the call method.")
   end
   
   specify "should handle errors" do
@@ -53,7 +53,7 @@ context "An Object" do
       error_messages << e.message
     end
 
-    error_messages.should_eql ["First Error", "Second Error"]
+    error_messages.should == ["First Error", "Second Error"]
   end
 
   specify "should not fail with nothing to notify" do
@@ -69,11 +69,11 @@ context "An Object" do
     end
 
     returned_callback = yield(callback_key, expected_callback)
-    returned_callback.should_equal expected_callback
+    returned_callback.should equal(expected_callback)
 
     expected_argument = Object.new
     @callback_object.notify_callbacks(callback_key, expected_argument)
-    passed_callback_argument.should_equal expected_argument
+    passed_callback_argument.should equal(expected_argument)
   end
 
   def specify_unregistration
@@ -85,6 +85,6 @@ context "An Object" do
 
     yield(callback_key, callback)
     @callback_object.notify_callbacks(callback_key)
-    callback_called.should_equal false
+    callback_called.should be_false
   end
 end

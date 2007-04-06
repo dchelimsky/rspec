@@ -16,7 +16,7 @@ module Spec
         @mock.random_call
         lambda do
           @mock.__verify
-        end.should_raise(MockExpectationError)
+        end.should raise_error(MockExpectationError)
       end
 
       specify "should fail when at most once method is called twice" do
@@ -25,7 +25,7 @@ module Spec
         @mock.random_call
         lambda do
           @mock.__verify
-        end.should_raise(MockExpectationError)
+        end.should raise_error(MockExpectationError)
       end
 
       specify "should fail when at most twice method is called three times" do
@@ -35,7 +35,7 @@ module Spec
         @mock.random_call
         lambda do
           @mock.__verify
-        end.should_raise(MockExpectationError)
+        end.should raise_error(MockExpectationError)
       end
 
       specify "should pass when at most n times method is called exactly n times" do

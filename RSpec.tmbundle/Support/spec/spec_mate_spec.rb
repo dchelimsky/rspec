@@ -1,4 +1,3 @@
-require File.dirname(__FILE__) + '/../lib/spec_mate'
 require 'stringio'
 
 context "SpecMate" do
@@ -16,6 +15,7 @@ context "SpecMate" do
     ENV['TM_PROJECT_DIRECTORY'] = File.expand_path(File.dirname(__FILE__))
     ENV['TM_FILEPATH'] = nil
     ENV['TM_LINE_NUMBER'] = nil
+    require File.dirname(__FILE__) + '/../lib/spec_mate'
     @spec_mate = SpecMate.new
   end
 

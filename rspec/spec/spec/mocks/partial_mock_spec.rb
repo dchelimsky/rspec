@@ -12,11 +12,11 @@ module Spec
         @object.fuhbar
         lambda do
           @object.__verify
-        end.should_raise(Spec::Mocks::MockExpectationError)
+        end.should raise_error(Spec::Mocks::MockExpectationError)
       end
 
       specify "should_not_receive should return a negative message expectation" do
-        @object.should_not_receive(:foobar).should_be_kind_of(NegativeMessageExpectation)
+        @object.should_not_receive(:foobar).should be_kind_of(NegativeMessageExpectation)
       end
 
       specify "should_receive should mock out the method" do
@@ -36,7 +36,7 @@ module Spec
       end
 
       specify "should_receive should return a message expectation" do
-        @object.should_receive(:foobar).should_be_kind_of(MessageExpectation)
+        @object.should_receive(:foobar).should be_kind_of(MessageExpectation)
         @object.foobar
       end
 
@@ -44,7 +44,7 @@ module Spec
         @object.should_receive(:foobar).with(:test_param).and_return(1)
         lambda do
           @object.__verify
-        end.should_raise(Spec::Mocks::MockExpectationError)
+        end.should raise_error(Spec::Mocks::MockExpectationError)
       end
 
     end

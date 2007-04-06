@@ -16,7 +16,7 @@ module Spec
         lambda do
           @mock.should_receive(:something)
           @mock.__verify
-        end.should_raise(MockExpectationError)
+        end.should raise_error(MockExpectationError)
       end
 
       specify "should ignore unexpected methods" do
