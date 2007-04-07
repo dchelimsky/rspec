@@ -179,4 +179,13 @@ describe "should be >" do
   end
 end
 
+describe "should be(value)" do
+  it "should pass if actual.equal?(value)" do
+    5.should be(5)
+  end
+  it "should fail if !actual.equal?(value)" do
+    lambda { 5.should be(6) }.should fail_with("expected 6, got 5")
+  end
+end
+
 

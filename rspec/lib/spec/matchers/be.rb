@@ -2,8 +2,8 @@ module Spec
   module Matchers
     
     class Be #:nodoc:
-      def initialize(expected=nil, *args)
-        @expected = parse_expected(expected)
+      def initialize(*args)
+        @expected = parse_expected(args.shift)
         @args = args
         @comparison = ""
       end
@@ -57,6 +57,7 @@ module Spec
         return @actual <= @expected if @less_than_or_equal
         return @actual >= @expected if @greater_than_or_equal
         return @actual > @expected if @greater_than
+        return @actual.equal?(@expected)
       end
 
       def <(expected)
