@@ -16,7 +16,7 @@ class BootstrapRspec
       generate_rspec
       rake_sh "spec"
       rake_sh "spec:plugins"
-      rake_sh "rspec:destroy_purchase"
+      destroy_purchase
     ensure
       rm_rf 'vendor/plugins/rspec_on_rails'
     end
@@ -24,7 +24,7 @@ class BootstrapRspec
 
   def create_purchase
     generate_purchase
-    rake_sh 'rspec:migrate_up'
+    migrate_up
   end
 
   def install_plugin
@@ -97,12 +97,11 @@ class BootstrapRspec
   end
 
   def migrate_up
-    ENV['VERSION'] = '5'
-    rake_invoke "db:migrate"
+    rake_sh "db:migrate", 'VERSION' => 5
   end
 
   def destroy_purchase
-    rake_sh "rspec:migrate_down"
+    migrate_down
     rm_generated_purchase_files
   end
 
@@ -113,8 +112,7 @@ class BootstrapRspec
     #####################################################
     EOF
     puts notice.gsub(/^    /, '')
-    ENV['VERSION'] = '4'
-    rake_invoke "db:migrate"
+    rake_sh "db:migrate", 'VERSION' => 4
     output = silent_sh("svn revert config/routes.rb")
     raise "svn revert failed: #{output}" if error_code?
   end
@@ -144,8 +142,9 @@ class BootstrapRspec
     Rake::Task[task_name].invoke
   end
 
-  def rake_sh(task_name)
-    output = silent_sh("rake #{task_name} --trace") do |line|
+  def rake_sh(task_name, env_hash={})
+    env = env_hash.collect{|key, value| "#{key}=#{value}"}.join(' ')
+    output = silent_sh("rake #{task_name} #{env} --trace") do |line|
       puts line unless line =~ /^running against rails/ || line =~ /^\(in /
     end
     raise "ERROR while running rake: #{output}" if output =~ /ERROR/n || error_code?
