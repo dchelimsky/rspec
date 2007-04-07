@@ -80,32 +80,6 @@ namespace :rspec do
     run_pre_commit_task 'rspec:migrate_up', true
   end
 
-  def run_pre_commit_task(task_name, external_process=false)
-    if external_process
-      output = silent_sh("rake #{task_name} --trace") do |line|
-        puts line unless line =~ /^running against rails/ || line =~ /^\(in /
-      end
-      raise "ERROR while running rake: #{output}" if output =~ /ERROR/n || error_code?
-    else
-      Rake::Task[task_name].invoke
-    end
-  end
-
-  def silent_sh(cmd, &block)
-    output = nil
-    IO.popen(cmd) do |io|
-      io.each_line do |line|
-        block.call(line) if block
-      end
-      output = io.read
-    end
-    output
-  end
-
-  def error_code?
-    $? != 0
-  end
-
   def install_plugin
     rm_rf 'vendor/plugins/rspec_on_rails'
     puts "installing rspec_on_rails ..."
@@ -216,5 +190,31 @@ namespace :rspec do
       rm_rf file
     end
     puts "#####################################################"
+  end
+
+  def run_pre_commit_task(task_name, external_process=false)
+    if external_process
+      output = silent_sh("rake #{task_name} --trace") do |line|
+        puts line unless line =~ /^running against rails/ || line =~ /^\(in /
+      end
+      raise "ERROR while running rake: #{output}" if output =~ /ERROR/n || error_code?
+    else
+      Rake::Task[task_name].invoke
+    end
+  end
+
+  def silent_sh(cmd, &block)
+    output = nil
+    IO.popen(cmd) do |io|
+      io.each_line do |line|
+        block.call(line) if block
+      end
+      output = io.read
+    end
+    output
+  end
+
+  def error_code?
+    $? != 0
   end
 end
