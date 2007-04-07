@@ -71,25 +71,25 @@ namespace :rspec do
   def ensure_db_config
     config_path = 'config/database.yml'
     unless File.exists?(config_path)
-      message = <<EOF
-#####################################################
-Could not find #{config_path}
+      message = <<-EOF
+      #####################################################
+      Could not find #{config_path}
 
-You can get rake to generate this file for you using either of:
-  rake rspec:generate_mysql_config
-  rake rspec:generate_sqlite3_config
+      You can get rake to generate this file for you using either of:
+        rake rspec:generate_mysql_config
+        rake rspec:generate_sqlite3_config
 
-If you use mysql, you'll need to create dev and test
-databases and users for each. To do this, standing
-in rspec_on_rails, log into mysql as root and then...
-  mysql> source db/mysql_setup.sql;
+      If you use mysql, you'll need to create dev and test
+      databases and users for each. To do this, standing
+      in rspec_on_rails, log into mysql as root and then...
+        mysql> source db/mysql_setup.sql;
 
-There is also a teardown script that will remove
-the databases and users:
-  mysql> source db/mysql_teardown.sql;
-#####################################################
-EOF
-      raise message
+      There is also a teardown script that will remove
+      the databases and users:
+        mysql> source db/mysql_teardown.sql;
+      #####################################################
+      EOF
+      raise message.gsub(/^      /, '')
     end
   end
 
@@ -116,11 +116,12 @@ EOF
   desc "Generates temporary purchase files with rspec_resource"
   task :generate_purchase do
     generator = "ruby script/generate rspec_resource purchase order_id:integer created_at:datetime amount:decimal keyword:string description:text --force"
-    puts <<EOF
-#####################################################
-#{generator}
-#####################################################
-EOF
+    notice = <<-EOF
+    #####################################################
+    #{generator}
+    #####################################################
+    EOF
+    puts notice.gsub(/^    /, '')
     result = silent_sh(generator)
     raise "rspec_resource failed. #{result}" if error_code? || result =~ /not/
   end
@@ -134,15 +135,16 @@ EOF
   task :destroy_purchase => ['rspec:migrate_down', 'rspec:rm_generated_purchase_files']
 
   task :migrate_down do
-    puts <<EOF
-#####################################################
-Migrating down and reverting config/routes.rb
-#####################################################
-EOF
+    notice = <<-EOF
+    #####################################################
+    Migrating down and reverting config/routes.rb
+    #####################################################
+    EOF
+    puts notice.gsub(/^    /, '')
     ENV['VERSION'] = '4'
     Rake::Task["db:migrate"].invoke
-    silent_sh "svn revert config/routes.rb"
-    raise "svn revert failed" if error_code?
+    output = silent_sh("svn revert config/routes.rb")
+    raise "svn revert failed: #{output}" if error_code?
   end
   
   task :rm_generated_purchase_files do
