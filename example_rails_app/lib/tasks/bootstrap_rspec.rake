@@ -28,7 +28,7 @@ namespace :rspec do
 
   def run_pre_commit_task(task_name, external_process=false)
     if external_process
-      output = execute_process("rake #{task_name} --trace") do |line|
+      output = silent_sh("rake #{task_name} --trace") do |line|
         puts line unless line =~ /^running against rails/ || line =~ /^\(in /
       end
       raise "ERROR while running rake: #{output}" if output =~ /ERROR/n || $? != 0
@@ -37,7 +37,7 @@ namespace :rspec do
     end
   end
 
-  def execute_process(cmd, &block)
+  def silent_sh(cmd, &block)
     output = nil
     IO.popen(cmd) do |io|
       io.each_line do |line|
@@ -117,7 +117,7 @@ EOF
 #{generator}
 #####################################################
 EOF
-    result = execute_process(generator)
+    result = silent_sh(generator)
     raise "rspec_resource failed. #{result}" if $? != 0 || result =~ /not/
   end
 
