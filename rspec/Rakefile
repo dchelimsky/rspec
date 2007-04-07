@@ -40,7 +40,7 @@ Spec::Rake::SpecTask.new do |t|
     'mtime', 
     '--reverse',
     '--timeout',
-    '1',
+    '2',
     '--diff'
   ]
   t.rcov = true

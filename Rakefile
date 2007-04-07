@@ -14,7 +14,7 @@ desc "Makes sure the correct versions of gems are on the system"
 task :check_for_gem_dependencies do
   gem 'rake'
   gem 'rcov'
-  gem 'webgen', '= 0.3.8'
+  gem 'webgen', '>= 0.4.2'
   gem 'BlueCloth'
   gem 'RedCloth'
   gem 'syntax'

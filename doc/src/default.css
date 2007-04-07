@@ -114,6 +114,9 @@ acronym {
   border-color:#c00;
   border-style:solid;
   border-width:0 0 1px 0;
+}     
+#content h2 + pre {
+  margin-top: 2em;
 }
 #content .post_info {
   text-align:right;
