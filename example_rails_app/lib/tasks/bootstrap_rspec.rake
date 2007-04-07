@@ -6,7 +6,7 @@ namespace :rspec do
   task :pre_commit do
     begin
       rm_rf 'vendor/plugins/rspec_on_rails'
-      `svn export ../rspec_on_rails vendor/plugins/rspec_on_rails`
+      silent_sh "svn export ../rspec_on_rails vendor/plugins/rspec_on_rails"
 
       create_purchase unless ENV['RSPEC_RAILS_VERSION'] == '1.1.6'
       ensure_db_config
@@ -31,7 +31,7 @@ namespace :rspec do
       output = silent_sh("rake #{task_name} --trace") do |line|
         puts line unless line =~ /^running against rails/ || line =~ /^\(in /
       end
-      raise "ERROR while running rake: #{output}" if output =~ /ERROR/n || $? != 0
+      raise "ERROR while running rake: #{output}" if output =~ /ERROR/n || error_code?
     else
       Rake::Task[task_name].invoke
     end
@@ -47,12 +47,16 @@ namespace :rspec do
     end
     output
   end
+
+  def error_code?
+    $? != 0
+  end
   
   task :install_plugin do
     rm_rf 'vendor/plugins/rspec_on_rails'
     puts "installing rspec_on_rails ..."
-    result = `svn export ../rspec_on_rails vendor/plugins/rspec_on_rails`
-    raise "Failed to install plugin:\n#{result}" if $? != 0
+    result = silent_sh("svn export ../rspec_on_rails vendor/plugins/rspec_on_rails")
+    raise "Failed to install plugin:\n#{result}" if error_code?
   end
   
   task :uninstall_plugin do
@@ -60,8 +64,8 @@ namespace :rspec do
   end
 
   def generate_rspec
-    result = `ruby script/generate rspec --force`
-    raise "Failed to generate rspec environment:\n#{result}" if $? != 0 || result =~ /^Missing/
+    result = silent_sh("ruby script/generate rspec --force")
+    raise "Failed to generate rspec environment:\n#{result}" if error_code? || result =~ /^Missing/
   end
 
   def ensure_db_config
@@ -118,7 +122,7 @@ EOF
 #####################################################
 EOF
     result = silent_sh(generator)
-    raise "rspec_resource failed. #{result}" if $? != 0 || result =~ /not/
+    raise "rspec_resource failed. #{result}" if error_code? || result =~ /not/
   end
 
   task :migrate_up do
@@ -137,8 +141,8 @@ Migrating down and reverting config/routes.rb
 EOF
     ENV['VERSION'] = '4'
     Rake::Task["db:migrate"].invoke
-    `svn revert config/routes.rb`
-    raise "svn revert failed" if $? != 0
+    silent_sh "svn revert config/routes.rb"
+    raise "svn revert failed" if error_code?
   end
   
   task :rm_generated_purchase_files do
