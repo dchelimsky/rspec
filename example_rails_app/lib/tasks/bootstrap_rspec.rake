@@ -2,27 +2,50 @@
 $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + '/../../../rspec/lib'))
 require 'spec/rake/spectask'
 
-pre_commit_tasks = ["rspec:ensure_db_config", "rspec:clobber_sqlite_data", "db:migrate", "rspec:generate_rspec", "spec", "spec:plugins", "rspec:destroy_purchase"]
-pre_commit_tasks.unshift "rspec:create_purchase" unless ENV['RSPEC_RAILS_VERSION'] == '1.1.6'
-
 namespace :rspec do
   task :pre_commit do
     begin
       rm_rf 'vendor/plugins/rspec_on_rails'
       `svn export ../rspec_on_rails vendor/plugins/rspec_on_rails`
-      pre_commit_tasks.each do |t|
-        output = nil
-        IO.popen("rake #{t}") do |io|
-          io.each_line do |line|
-            puts line unless line =~ /^running against rails/ || line =~ /^\(in /
-          end
-          output = io.read
-        end
-        raise "ERROR while running rake: #{output}" if output =~ /ERROR/n || $? != 0
-      end
+
+      create_purchase unless ENV['RSPEC_RAILS_VERSION'] == '1.1.6'
+      ensure_db_config
+      run_pre_commit_task "rspec:clobber_sqlite_data"
+      run_pre_commit_task "db:migrate", true
+      generate_rspec
+      run_pre_commit_task "spec", true
+      run_pre_commit_task "spec:plugins", true
+      run_pre_commit_task "rspec:destroy_purchase", true
     ensure
       rm_rf 'vendor/plugins/rspec_on_rails'
     end
+  end
+
+  def create_purchase
+    run_pre_commit_task 'rspec:generate_purchase'
+    run_pre_commit_task 'rspec:migrate_up', true
+  end
+
+  def run_pre_commit_task(task_name, external_process=false)
+    if external_process
+      output = execute_process("rake #{task_name} --trace") do |line|
+        puts line unless line =~ /^running against rails/ || line =~ /^\(in /
+      end
+      raise "ERROR while running rake: #{output}" if output =~ /ERROR/n || $? != 0
+    else
+      Rake::Task[task_name].invoke
+    end
+  end
+
+  def execute_process(cmd, &block)
+    output = nil
+    IO.popen(cmd) do |io|
+      io.each_line do |line|
+        block.call(line) if block
+      end
+      output = io.read
+    end
+    output
   end
   
   task :install_plugin do
@@ -36,12 +59,12 @@ namespace :rspec do
     rm_rf 'vendor/plugins/rspec_on_rails'
   end
 
-  task :generate_rspec do
+  def generate_rspec
     result = `ruby script/generate rspec --force`
     raise "Failed to generate rspec environment:\n#{result}" if $? != 0 || result =~ /^Missing/
   end
 
-  task :ensure_db_config do
+  def ensure_db_config
     config_path = 'config/database.yml'
     unless File.exists?(config_path)
       message = <<EOF
@@ -86,8 +109,6 @@ EOF
     rm_rf 'db/*.db'
   end
     
-  task :create_purchase => ['rspec:generate_purchase', 'rspec:migrate_up']
-
   desc "Generates temporary purchase files with rspec_resource"
   task :generate_purchase do
     generator = "ruby script/generate rspec_resource purchase order_id:integer created_at:datetime amount:decimal keyword:string description:text --force"
@@ -96,8 +117,8 @@ EOF
 #{generator}
 #####################################################
 EOF
-    result = `#{generator}`
-    raise "rspec_resource failed" if $? != 0 || result =~ /not/
+    result = execute_process(generator)
+    raise "rspec_resource failed. #{result}" if $? != 0 || result =~ /not/
   end
 
   task :migrate_up do
