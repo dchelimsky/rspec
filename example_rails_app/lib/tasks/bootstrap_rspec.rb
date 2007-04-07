@@ -12,11 +12,11 @@ class BootstrapRspec
       create_purchase unless ENV['RSPEC_RAILS_VERSION'] == '1.1.6'
       ensure_db_config
       clobber_sqlite_data
-      run_pre_commit_task "db:migrate", true
+      rake_sh "db:migrate"
       generate_rspec
-      run_pre_commit_task "spec", true
-      run_pre_commit_task "spec:plugins", true
-      run_pre_commit_task "rspec:destroy_purchase", true
+      rake_sh "spec"
+      rake_sh "spec:plugins"
+      rake_sh "rspec:destroy_purchase"
     ensure
       rm_rf 'vendor/plugins/rspec_on_rails'
     end
@@ -24,7 +24,7 @@ class BootstrapRspec
 
   def create_purchase
     generate_purchase
-    run_pre_commit_task 'rspec:migrate_up', true
+    rake_sh 'rspec:migrate_up'
   end
 
   def install_plugin
@@ -98,11 +98,11 @@ class BootstrapRspec
 
   def migrate_up
     ENV['VERSION'] = '5'
-    Rake::Task["db:migrate"].invoke
+    rake_invoke "db:migrate"
   end
 
   def destroy_purchase
-    run_pre_commit_task "rspec:migrate_down", true
+    rake_sh "rspec:migrate_down"
     rm_generated_purchase_files
   end
 
@@ -114,7 +114,7 @@ class BootstrapRspec
     EOF
     puts notice.gsub(/^    /, '')
     ENV['VERSION'] = '4'
-    Rake::Task["db:migrate"].invoke
+    rake_invoke "db:migrate"
     output = silent_sh("svn revert config/routes.rb")
     raise "svn revert failed: #{output}" if error_code?
   end
@@ -139,18 +139,18 @@ class BootstrapRspec
     puts "#####################################################"
   end
 
-  def run_pre_commit_task(task_name, external_process=false)
-    if external_process
-      output = silent_sh("rake #{task_name} --trace") do |line|
-        puts line unless line =~ /^running against rails/ || line =~ /^\(in /
-      end
-      raise "ERROR while running rake: #{output}" if output =~ /ERROR/n || error_code?
-    else
-      Rake::Task[task_name].invoke
-    end
+  protected
+  def rake_invoke(task_name)
+    Rake::Task[task_name].invoke
   end
 
-  protected
+  def rake_sh(task_name)
+    output = silent_sh("rake #{task_name} --trace") do |line|
+      puts line unless line =~ /^running against rails/ || line =~ /^\(in /
+    end
+    raise "ERROR while running rake: #{output}" if output =~ /ERROR/n || error_code?
+  end
+
   def silent_sh(cmd, &block)
     output = nil
     IO.popen(cmd) do |io|
