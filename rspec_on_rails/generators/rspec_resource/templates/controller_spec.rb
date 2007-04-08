@@ -44,7 +44,7 @@ describe <%= controller_class_name %>Controller, " handling GET /<%= table_name 
     response.should be_success
   end
 
-  it "should render index.rhtml" do
+  it "should render index template" do
     do_get
     response.should render_template('index')
   end
@@ -105,7 +105,7 @@ describe <%= controller_class_name %>Controller, " handling GET /<%= table_name 
     response.should be_success
   end
   
-  it "should render show.rhtml" do
+  it "should render show template" do
     do_get
     response.should render_template('show')
   end
@@ -166,7 +166,7 @@ describe <%= controller_class_name %>Controller, " handling GET /<%= table_name 
     response.should be_success
   end
   
-  it "should render new.rhtml" do
+  it "should render new template" do
     do_get
     response.should render_template('new')
   end
@@ -203,7 +203,7 @@ describe <%= controller_class_name %>Controller, " handling GET /<%= table_name 
     response.should be_success
   end
   
-  it "should render edit.rhtml" do
+  it "should render edit template" do
     do_get
     response.should render_template('edit')
   end

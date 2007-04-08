@@ -90,6 +90,7 @@ In alphabetical order (by last name)
 ** Patch [#9510] Added html formatter spec file for Ruby 1.8.6
 ** Patch [#9511] Clarification to README file in spec/
 ** Patch [#9852] Patch for RSpec's Website using Webgen 0.4.2
+** Patch [#9925] Changed ".rhtml" to "template" in REST spec generator
 * Jonathan Tron
 ** Patch for Spec::Rails resource_generator
 ** Patch for RSpec.tmbundle to make it work with RSpec installed as a plugin
