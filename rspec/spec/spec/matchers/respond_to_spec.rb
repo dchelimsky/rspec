@@ -14,6 +14,31 @@ describe "should respond_to(:sym)" do
   
 end
 
+describe "should respond_to(message1, message2)" do
+  
+  it "should pass if target responds to both messages" do
+    Object.new.should respond_to('methods', 'inspect')
+  end
+  
+  it "should fail target does not respond to first message" do
+    lambda {
+      Object.new.should respond_to('method_one', 'inspect')
+    }.should fail_with('expected target to respond to "method_one"')
+  end
+  
+  it "should fail target does not respond to second message" do
+    lambda {
+      Object.new.should respond_to('inspect', 'method_one')
+    }.should fail_with('expected target to respond to "method_one"')
+  end
+  
+  it "should fail target does not respond to either message" do
+    lambda {
+      Object.new.should respond_to('method_one', 'method_two')
+    }.should fail_with('expected target to respond to "method_one", "method_two"')
+  end
+end
+
 describe "should_not respond_to(:sym)" do
   
   it "should pass if target does not respond to :sym" do
@@ -27,4 +52,3 @@ describe "should_not respond_to(:sym)" do
   end
   
 end
-
