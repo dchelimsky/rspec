@@ -79,6 +79,8 @@ In alphabetical order (by last name)
 * Luke Redpath
 ** TextMate bundle
 ** Readable HTML output!
+* Steve Ross
+** Patch [#9132] Rakefile spec:doc can fail without preparing database
 * Nick Sieger
 ** Spec::Rails patches for stats
 * Daniel Siemssen

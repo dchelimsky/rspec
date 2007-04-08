@@ -23,9 +23,15 @@ end
 
 namespace :spec do
   desc "Print Specdoc for all specs (excluding plugin specs)"
-  Spec::Rake::SpecTask.new('doc') do |t|
+  Spec::Rake::SpecTask.new(:doc => "db:test:prepare") do |t|
     t.spec_opts = ["--format", "specdoc", "--dry-run"]
     t.spec_files = FileList['spec/**/*_spec.rb']
+  end
+
+  desc "Print Specdoc for all plugin specs"
+  Spec::Rake::SpecTask.new(:plugin_doc => "db:test:prepare") do |t|
+    t.spec_opts = ["--format", "specdoc", "--dry-run"]
+    t.spec_files = FileList['vendor/plugins/**/spec/**/*_spec.rb']
   end
 
   [:models, :controllers, :views, :helpers].each do |sub|
