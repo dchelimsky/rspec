@@ -20,6 +20,9 @@ module PreCommit
 
     def rspec_pre_commit(rails_version=ENV['RSPEC_RAILS_VERSION'])
       begin
+        puts "#####################################################"
+        puts "running pre_commit against rails #{rails_version}"
+        puts "#####################################################"
         rm_rf 'vendor/plugins/rspec_on_rails'
         silent_sh "svn export ../rspec_on_rails vendor/plugins/rspec_on_rails"
 

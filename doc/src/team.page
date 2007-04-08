@@ -91,6 +91,7 @@ In alphabetical order (by last name)
 ** Patch [#9511] Clarification to README file in spec/
 ** Patch [#9852] Patch for RSpec's Website using Webgen 0.4.2
 ** Patch [#9925] Changed ".rhtml" to "template" in REST spec generator
+** Patch [#9926] Rakefile - RSPEC_DEPS constant as an Array of Hashes instead of an Array of Arrays
 * Jonathan Tron
 ** Patch for Spec::Rails resource_generator
 ** Patch for RSpec.tmbundle to make it work with RSpec installed as a plugin

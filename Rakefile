@@ -78,27 +78,59 @@ task :clobber do
   rm_rf 'doc/output'
 end
 
+ 
 RSPEC_DEPS = [
-  # checkout path,                      name,         url,                                                    tagged?
-  ["example_rails_app/vendor/rails/1.1.6", "rails 1.1.6", "http://dev.rubyonrails.org/svn/rails/tags/rel_1-1-6", true],
-  ["example_rails_app/vendor/rails/1.2.1", "rails 1.2.1", "http://dev.rubyonrails.org/svn/rails/tags/rel_1-2-1", true],
-  ["example_rails_app/vendor/rails/1.2.2", "rails 1.2.2", "http://dev.rubyonrails.org/svn/rails/tags/rel_1-2-2", true],
-  ["example_rails_app/vendor/rails/1.2.3", "rails 1.2.3", "http://dev.rubyonrails.org/svn/rails/tags/rel_1-2-3", true],
-  ["example_rails_app/vendor/rails/edge", "edge rails", "http://svn.rubyonrails.org/rails/trunk", false],
-  ["example_rails_app/vendor/plugins/assert_select", "assert_select", "http://labnotes.org/svn/public/ruby/rails_plugins/assert_select", false],
+  {
+    :checkout_path => "example_rails_app/vendor/rails/1.1.6",
+    :name =>  "rails 1.1.6",
+    :url => "http://dev.rubyonrails.org/svn/rails/tags/rel_1-1-6",
+    :tagged? => true    
+  },
+  {
+    :checkout_path => "example_rails_app/vendor/rails/1.2.1",
+    :name =>  "rails 1.2.1",
+    :url => "http://dev.rubyonrails.org/svn/rails/tags/rel_1-2-1",
+    :tagged? => true    
+  },
+  {
+    :checkout_path => "example_rails_app/vendor/rails/1.2.2",
+    :name =>  "rails 1.2.2",
+    :url => "http://dev.rubyonrails.org/svn/rails/tags/rel_1-2-2",
+    :tagged? => true    
+  },
+  {
+    :checkout_path => "example_rails_app/vendor/rails/1.2.3",
+    :name =>  "rails 1.2.3",
+    :url => "http://dev.rubyonrails.org/svn/rails/tags/rel_1-2-3",
+    :tagged? => true    
+  },
+  {
+    :checkout_path => "example_rails_app/vendor/rails/edge",
+    :name =>  "edge rails",
+    :url => "http://svn.rubyonrails.org/rails/trunk",
+    :tagged? => false    
+  },
+  # NOTE - assert_select is only necessary for 1.1.6 (it is bundled in >= 1.2.x). If
+  # discontinue support for 1.1.6, this can go.
+  {
+    :checkout_path => "example_rails_app/vendor/plugins/assert_select",
+    :name =>  "assert_select",
+    :url => "http://labnotes.org/svn/public/ruby/rails_plugins/assert_select",
+    :tagged? => false    
+  }
 ]
-
+                        
 desc "Installs dependencies for development environment"
 task :install_dependencies do
   Dir.chdir 'example_rails_app' do
     RSPEC_DEPS.each do |dep|
-      puts "\nChecking for #{dep[1]} ..."
-      dest = File.expand_path(File.join(File.dirname(__FILE__), dep[0]))
+      puts "\nChecking for #{dep[:name]} ..."
+      dest = File.expand_path(File.join(File.dirname(__FILE__), dep[:checkout_path]))
       if File.exists?(dest)
-        puts "#{dep[1]} already installed"
+        puts "#{dep[:name]} already installed"
       else
-        cmd = "svn co #{dep[2]} #{dest}"
-        puts "Installing #{dep[1]}"
+        cmd = "svn co #{dep[:url]} #{dest}"
+        puts "Installing #{dep[:name]}"
         puts "This may take a while."
         puts cmd
         system(cmd)
@@ -107,26 +139,27 @@ task :install_dependencies do
     end
     puts
   end
-end
+end          
+
 
 desc "Updates dependencies for development environment"
 task :update_dependencies do
   RSPEC_DEPS.each do |dep|
-    raise "There is no checkout of #{dep[0]}. Please run rake install_dependencies" unless File.exist?(dep[0])
+    raise "There is no checkout of #{dep[:checkout_path]}. Please run rake install_dependencies" unless File.exist?(dep[:checkout_path])
     # Verify that the current working copy is right
-    if `svn info #{dep[0]}` =~ /^URL: (.*)/
+    if `svn info #{dep[:checkout_path]}` =~ /^URL: (.*)/
       actual_url = $1
-      if actual_url != dep[2]
-        raise "Your working copy in #{dep[0]} points to \n#{actual_url}\nIt has moved to\n#{dep[2]}\nPlease delete the working copy and run rake install_dependencies"
+      if actual_url != dep[:url]        
+        raise "Your working copy in #{dep[:checkout_path]} points to \n#{actual_url}\nIt has moved to\n#{dep[:url]}\nPlease delete the working copy and run rake install_dependencies"
       end
     end
-    next if dep[3] #
-    puts "\nUpdating #{dep[1]} ..."
-    dest = File.expand_path(File.join(File.dirname(__FILE__), dep[0]))
+    next if dep[:tagged?] #
+    puts "\nUpdating #{dep[:name]} ..."
+    dest = File.expand_path(File.join(File.dirname(__FILE__), dep[:checkout_path]))
     system("svn cleanup #{dest}")
     cmd = "svn up #{dest}"
     puts cmd
     system(cmd)
-    puts "Done!"
+    puts "Done!"                        
   end
-end
+end                             
