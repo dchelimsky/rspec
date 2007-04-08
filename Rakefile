@@ -15,7 +15,7 @@ task :check_for_gem_dependencies do
   gem 'rake'
   gem 'rcov'
   gem 'webgen', '>= 0.4.2'
-  gem 'BlueCloth'
+#  gem 'BlueCloth'
   gem 'RedCloth'
   gem 'syntax'
   gem 'diff-lcs'
