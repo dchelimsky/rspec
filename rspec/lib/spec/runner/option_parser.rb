@@ -26,7 +26,11 @@ module Spec
         end
 
         unless options.generate
-          BehaviourRunner.new(options)  
+          if options.runner_type
+            options.runner_type.new(options)
+          else
+            BehaviourRunner.new(options)  
+          end
         end
       end
 
@@ -198,6 +202,16 @@ module Spec
             out.puts "\nOptions written to #{options_file}. You can now use these options with:"
             out.puts "spec --options #{options_file}"
             options.generate = true
+          end
+
+          opts.on("-U", "--runner RUNNER", "Use a custom BehaviourRunner") do |runner|
+            begin
+              options.runner_type = eval(runner)
+            rescue NameError
+              err.puts "Couldn't find behaviour runner class #{runner}"
+              err.puts "Make sure the --require option is specified."
+              exit if out == $stdout
+            end
           end
           
           opts.on("-X", "--drb", "Run examples via DRb. (For example against script/rails_spec_server)") do |options_file|

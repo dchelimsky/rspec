@@ -41,6 +41,7 @@ In alphabetical order (by last name)
 ** mock_model in Spec::Rails
 * Bob Cotton
 ** Support for context_setup and context_teardown
+** Patch [#9678] Custom runner command line switch, and multi-threaded runner
 * Lachie Cox
 ** Initial Rails support
 ** Diffing enhancements for Objects and custom formats

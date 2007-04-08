@@ -24,9 +24,7 @@ module Spec
         @options.reporter.start(number_of_examples)
         behaviours = @options.reverse ? @behaviours.reverse : @behaviours
         begin
-          behaviours.each do |behaviour|
-            behaviour.run(@options.reporter, @options.dry_run, @options.reverse, @options.timeout)
-          end
+          run_behaviours(behaviours)
         rescue Interrupt
         ensure
           @options.reporter.end
@@ -40,6 +38,12 @@ module Spec
           exit(exit_code)
         end
         failure_count
+      end
+
+      def run_behaviours(behaviours)
+        behaviours.each do |behaviour|
+          behaviour.run(@options.reporter, @options.dry_run, @options.reverse)
+        end
       end
     
       def number_of_examples

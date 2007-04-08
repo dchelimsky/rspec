@@ -302,4 +302,28 @@ context "OptionParser" do
     options = parse(["--failures", File.dirname(__FILE__) + '/../../../failures.txt'])
     options.failure_io.should_not be_nil
   end
+
+  it "should not use a runner by default" do
+    options = parse([])
+    options.runner_type.should be_nil
+  end
+
+  it "should use a custom runner when given" do
+    options = parse(["--runner", "Custom::BehaviourRunner"])
+    options.runner_type.should equal(Custom::BehaviourRunner)
+  end
+
+  it "should fail when custom runner not found" do
+    parse(["--runner", "whatever"])
+    @err.string.should match(/Couldn't find behaviour runner class/)
+  end
+
+  it "should return the correct default behaviour runner" do
+    @parser.create_behaviour_runner([], @err, @out, true).should be_instance_of(Spec::Runner::BehaviourRunner)
+  end
+
+  it "should return the correct default behaviour runner" do
+    @parser.create_behaviour_runner(["--runner", "Custom::BehaviourRunner"], @err, @out, true).should be_instance_of(Custom::BehaviourRunner)
+  end
+
 end

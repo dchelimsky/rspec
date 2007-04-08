@@ -98,5 +98,8 @@ end
 module Custom
   class Formatter
   end
+  class BehaviourRunner
+    def initialize(one); end
+  end
 end
 
