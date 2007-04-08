@@ -1,8 +1,9 @@
 # We have to make sure the rspec lib above gets loaded rather than the gem one (in case it's installed)
 dir = File.dirname(__FILE__)
+$LOAD_PATH.unshift(File.expand_path("#{dir}/../../../pre_commit/lib"))
 $LOAD_PATH.unshift(File.expand_path("#{dir}/../../../rspec/lib"))
+require "pre_commit"
 require 'spec/rake/spectask'
-require "#{dir}/bootstrap_rspec"
 
 namespace :rspec do
   task :pre_commit do
