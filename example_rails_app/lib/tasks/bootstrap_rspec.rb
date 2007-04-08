@@ -1,7 +1,7 @@
 class BootstrapRspec
-  attr_reader :rake
-  def initialize(rake)
-    @rake = rake
+  attr_reader :actor
+  def initialize(actor)
+    @actor = actor
   end
 
   def pre_commit
@@ -166,8 +166,8 @@ class BootstrapRspec
   end
 
   def method_missing(method_name, *args, &block)
-    if rake.respond_to?(method_name)
-      rake.send(method_name, *args, &block)
+    if actor.respond_to?(method_name)
+      actor.send(method_name, *args, &block)
     else
       super
     end
