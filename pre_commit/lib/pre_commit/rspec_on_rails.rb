@@ -13,9 +13,19 @@ module PreCommit
         rails_version = rails_dir[railses.length+1..-1]
         ENV['RSPEC_RAILS_VERSION'] = rails_version
         used_railses << rails_version
-        rspec_pre_commit(rails_version)
+        begin
+          rspec_pre_commit(rails_version)
+        rescue => e
+          if rails_version == 'edge'
+            used_railses.delete 'edge'
+            edge_errors = "Errors running pre_commit against edge\n#{e.backtrace.to_s}"
+          else
+            raise e
+          end
+        end
       end
-      puts "All specs passed against the following versions of Rails: #{used_railses.join(", ")}"
+      puts "All specs passed against the following released versions of Rails: #{used_railses.join(", ")}"
+      puts "There were errors running pre_commit against edge" unless used_railses.include?('edge')
     end
 
     def rspec_pre_commit(rails_version=ENV['RSPEC_RAILS_VERSION'])
