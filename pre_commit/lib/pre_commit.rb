@@ -1,1 +1,1 @@
-require "pre_commit/bootstrap_rspec"
+require "pre_commit/rspec_on_rails"
