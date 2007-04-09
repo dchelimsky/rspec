@@ -13,13 +13,18 @@ The easiest way to use RCov with RSpec is from a rake script (Rakefile), using R
 
 <ruby file="../rspec/rake_tasks/examples_with_rcov.rake"/>
 
-By adding rcov=true to the rake task, specs will be run with RCov
+By adding <code>rcov=true</code> to the rake task, specs will be run with RCov
 instead of the standard ruby interpreter, and a coverage report like 
 "this":../coverage/index.html will be generated with the following command line:
 
 <pre>
 rake examples_with_rcov
 </pre>
+
+Also, because you don't want your example files to be included in the coverage report (you just
+want them to run), don't forget to add <code>t.rcov_opts = ['--exclude', 'examples']</code>. You
+can use this to exclude any other files that must be required but should not be measured (just
+use a comma separated list).
 
 h3. Coverage threshold
 
