@@ -6,6 +6,10 @@ module Kernel
   end
   alias :context :describe
   
+  def respond_to(*names)
+    Spec::Matchers::RespondTo.new(*names)
+  end
+  
 private
 
   def behaviour_runner

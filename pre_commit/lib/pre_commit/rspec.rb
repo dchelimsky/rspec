@@ -12,7 +12,6 @@ class PreCommit::Rspec < PreCommit
     gem 'rake'
     gem 'rcov'
     gem 'webgen', '>= 0.4.2'
-  #  gem 'BlueCloth'
     gem 'RedCloth'
     gem 'syntax'
     gem 'diff-lcs'
