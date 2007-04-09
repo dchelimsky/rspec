@@ -1,14 +1,15 @@
-$LOAD_PATH.unshift(File.dirname(__FILE__) + '/../../../../../rspec/lib')
-$LOAD_PATH.unshift(File.dirname(__FILE__) + '/../spec_resources/controllers')
-$LOAD_PATH.unshift(File.dirname(__FILE__) + '/../spec_resources/helpers')
-require File.dirname(__FILE__) + '/../../../../spec/spec_helper'
-require File.dirname(__FILE__) + '/../spec_resources/controllers/render_spec_controller'
-require File.dirname(__FILE__) + '/../spec_resources/controllers/rjs_spec_controller'
-require File.dirname(__FILE__) + '/../spec_resources/controllers/redirect_spec_controller'
-require File.dirname(__FILE__) + '/../spec_resources/helpers/explicit_helper'
-require File.dirname(__FILE__) + '/../spec_resources/helpers/more_explicit_helper'
-require File.dirname(__FILE__) + '/../spec_resources/helpers/view_spec_helper'
-require File.dirname(__FILE__) + '/../spec_resources/helpers/plugin_application_helper'
+dir = File.dirname(__FILE__)
+$LOAD_PATH.unshift("#{dir}/../../../../../rspec/lib")
+$LOAD_PATH.unshift("#{dir}/../spec_resources/controllers")
+$LOAD_PATH.unshift("#{dir}/../spec_resources/helpers")
+require "#{dir}/../../../../spec/spec_helper"
+require "#{dir}/../spec_resources/controllers/render_spec_controller"
+require "#{dir}/../spec_resources/controllers/rjs_spec_controller"
+require "#{dir}/../spec_resources/controllers/redirect_spec_controller"
+require "#{dir}/../spec_resources/helpers/explicit_helper"
+require "#{dir}/../spec_resources/helpers/more_explicit_helper"
+require "#{dir}/../spec_resources/helpers/view_spec_helper"
+require "#{dir}/../spec_resources/helpers/plugin_application_helper"
 
 module Spec
   module Rails

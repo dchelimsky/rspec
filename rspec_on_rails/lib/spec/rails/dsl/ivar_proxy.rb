@@ -18,18 +18,36 @@ module Spec
         # Retrieves +ivar+ from the wrapped object.
 
         def [](ivar)
-          @object.instance_variable_get "@#{ivar}"
+          get_variable "@#{ivar}"
         end
 
         ##
         # Sets +ivar+ to +val+ on the wrapped object.
 
         def []=(ivar, val)
-          @object.instance_variable_set "@#{ivar}", val
+          set_variable "@#{ivar}", val
         end
 
+        def each
+          @object.instance_variables.each do |variable_full_name|
+            variable_name = variable_full_name[1...variable_full_name.length]
+            yield variable_name, get_variable(variable_full_name)
+          end
+        end
+
+        def delete(key)
+          @object.send(:remove_instance_variable, "@#{key}")
+        end
+
+        protected
+        def get_variable(name)
+          @object.instance_variable_get name
+        end
+
+        def set_variable(name, value)
+          @object.instance_variable_set name, value
+        end
       end
     end
   end
 end
-
