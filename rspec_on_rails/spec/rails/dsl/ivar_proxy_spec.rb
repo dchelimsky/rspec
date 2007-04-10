@@ -1,5 +1,11 @@
 dir = File.dirname(__FILE__)
-require "#{dir}/../../spec_helper"
+if $0 == __FILE__
+  require "rubygems"
+  require "spec"
+  require "#{dir}/../../../lib/spec/rails/dsl/ivar_proxy"
+else
+  require "#{dir}/../../spec_helper"
+end
 
 context "An Ivar Proxy" do
   setup do
@@ -33,5 +39,11 @@ context "An Ivar Proxy" do
     @proxy['foo'] = 'bar'
     @proxy.delete('foo').should == 'bar'
     @proxy['foo'].should be_nil
+  end
+
+  specify "has_key? detects the presence of a key" do
+    @proxy['foo'] = 'bar'
+    @proxy.has_key?('foo').should == true
+    @proxy.has_key?('bar').should == false
   end
 end

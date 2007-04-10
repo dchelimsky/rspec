@@ -39,6 +39,10 @@ module Spec
           @object.send(:remove_instance_variable, "@#{key}")
         end
 
+        def has_key?(key)
+          @object.instance_variables.include?("@#{key}")
+        end
+
         protected
         def get_variable(name)
           @object.instance_variable_get name
