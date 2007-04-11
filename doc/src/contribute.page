@@ -34,7 +34,7 @@ Please use the tracker for all RFEs.
 For Feature Requests, Patches and Bugs, please be sure to select the appropriate
 category (expectations, mocks, runner, rails plugin, or RSpec.tmbundle)
 
-"http://rubyforge.org/tracker/?group_id=797":http://rubyforge.org/tracker/?group_id=797
+"RubyForge tracker":http://rubyforge.org/tracker/?group_id=797
 
 Wherever feasible, please please please submit a complete spec we can run - something like:
 
@@ -64,6 +64,9 @@ Please submit a patch, but please follow these guidelines.
 * include specs!
 * include docs!
 * run "rake pre_commit" on your patched source
+* create a patch with "svn diff > something_rather_descriptive.diff"
+* create a new ticket in the "RubyForge tracker":http://rubyforge.org/tracker/?group_id=797
+* attach the diff file to the ticket (DON'T FORGET TO TICK THE CHECKBOX OR YOUR PATCH WILL GET LOST)
 
 h3. Bugs
 
