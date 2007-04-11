@@ -18,20 +18,20 @@ task :stats => "spec:statsetup"
 desc "Run all specs in spec directory (excluding plugin specs)"
 Spec::Rake::SpecTask.new(:spec => spec_prereq) do |t|
   t.spec_opts = ['--options', "\"#{RAILS_ROOT}/spec/spec.opts\""]
-  t.spec_files = FileList['spec/**/*_spec.rb'].exclude('spec/watir/**')
+  t.spec_files = FileList['spec/**/*_spec.rb']
 end  
 
 namespace :spec do
   desc "Print Specdoc for all specs (excluding plugin specs)"
-  Spec::Rake::SpecTask.new(:doc => "db:test:prepare") do |t|
+  Spec::Rake::SpecTask.new(:doc) do |t|
     t.spec_opts = ["--format", "specdoc", "--dry-run"]
     t.spec_files = FileList['spec/**/*_spec.rb']
   end
 
   desc "Print Specdoc for all plugin specs"
-  Spec::Rake::SpecTask.new(:plugin_doc => "db:test:prepare") do |t|
+  Spec::Rake::SpecTask.new(:plugin_doc) do |t|
     t.spec_opts = ["--format", "specdoc", "--dry-run"]
-    t.spec_files = FileList['vendor/plugins/**/spec/**/*_spec.rb']
+    t.spec_files = FileList['vendor/plugins/**/spec/**/*_spec.rb'].exclude('vendor/plugins/rspec/*')
   end
 
   [:models, :controllers, :views, :helpers].each do |sub|

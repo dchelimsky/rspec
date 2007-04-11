@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>RSpec results</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Expires" content="-1" />
+  <meta http-equiv="Pragma" content="no-cache" />
+
+  <script type="text/javascript">
+  function moveProgressBar(percentDone) {
+    document.getElementById("header").style.width = percentDone +"%";
+  }
+  function makeRed(element_id) {
+    document.getElementById(element_id).style.background = '#C40D0D';
+  }
+  </script>
+  <style type="text/css">
+  body {
+    margin: 0; padding: 0;
+    background: #fff;
+  }
+
+  #header {
+    background: #65C400; color: #fff;
+  }
+
+  h1 {
+    margin: 0 0 10px;
+    padding: 10px;
+    font: bold 18px "Lucida Grande", Helvetica, sans-serif;
+  }
+
+  #summary {
+    margin: 0; padding: 5px 10px;
+    font: bold 10px "Lucida Grande", Helvetica, sans-serif;
+    text-align: right;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+  }
+
+  #summary p {
+    margin: 0 0 2px;
+  }
+
+  #summary #totals {
+    font-size: 14px;
+  }
+
+  .context {
+    margin: 0 10px 5px;
+    background: #fff;
+  }
+
+  dl {
+    margin: 0; padding: 0 0 5px;
+    font: normal 11px "Lucida Grande", Helvetica, sans-serif;
+  }
+
+  dt {
+    padding: 3px;
+    background: #65C400;
+    color: #fff;
+    font-weight: bold;
+  }
+
+  dd {
+    margin: 5px 0 5px 5px;
+    padding: 3px 3px 3px 18px;
+  }
+
+  dd.spec.passed {
+    border-left: 5px solid #65C400;
+    border-bottom: 1px solid #65C400;
+    background: #DBFFB4; color: #3D7700;
+  }
+
+  dd.spec.failed {
+    border-left: 5px solid #C20000;
+    border-bottom: 1px solid #C20000;
+    color: #C20000; background: #FFFBD3;
+  }
+
+  div.backtrace {
+    color: #000;
+    font-size: 12px;
+  }
+
+  a {
+    color: #BE5C00;
+  }
+  </style>
+</head>
+<body>
+
+<div id="header">
+  <h1>RSpec Results</h1>
+
+  <div id="summary">
+    <p id="duration">&nbsp;</p>
+    <p id="totals">&nbsp;</p>
+  </div>
+</div>
+
+<div id="results">
+
+<div class="context">
+  <dl>
+  <dt id="context_1">Mocker</dt>
+    <script type="text/javascript">moveProgressBar('7.6');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should be able to call mock()</span></dd>
+    <script type="text/javascript">makeRed('header');</script>
+    <script type="text/javascript">makeRed('context_1');</script>
+    <script type="text/javascript">moveProgressBar('15.3');</script>
+    <dd class="spec failed">
+      <span class="failed_spec_name">should fail when expected message not received</span>
+      <div class="failure" id="failure_1">
+        <div class="message"><pre>Mock 'poke me' expected :poke with (any args) once, but received it 0 times</pre></div>
+        <div class="backtrace"><pre>./failing_examples/mocking_example.rb:13:
+./spec/spec/runner/formatter/html_formatter_spec.rb:22:
+./spec/spec/runner/formatter/html_formatter_spec.rb:36:
+./spec/spec/runner/formatter/html_formatter_spec.rb:37:</pre></div>
+      </div>
+    </dd>
+    <script type="text/javascript">makeRed('header');</script>
+    <script type="text/javascript">makeRed('context_1');</script>
+    <script type="text/javascript">moveProgressBar('23.0');</script>
+    <dd class="spec failed">
+      <span class="failed_spec_name">should fail when messages are received out of order</span>
+      <div class="failure" id="failure_2">
+        <div class="message"><pre>Mock 'one two three' received :three out of order</pre></div>
+        <div class="backtrace"><pre>./failing_examples/mocking_example.rb:22:
+./spec/spec/runner/formatter/html_formatter_spec.rb:22:
+./spec/spec/runner/formatter/html_formatter_spec.rb:36:
+./spec/spec/runner/formatter/html_formatter_spec.rb:37:</pre></div>
+      </div>
+    </dd>
+    <script type="text/javascript">makeRed('header');</script>
+    <script type="text/javascript">makeRed('context_1');</script>
+    <script type="text/javascript">moveProgressBar('30.7');</script>
+    <dd class="spec failed">
+      <span class="failed_spec_name">should get yelled at when sending unexpected messages</span>
+      <div class="failure" id="failure_3">
+        <div class="message"><pre>Mock 'don't talk to me' expected :any_message_at_all with (any args) 0 times, but received it once</pre></div>
+        <div class="backtrace"><pre>./failing_examples/mocking_example.rb:28:
+./spec/spec/runner/formatter/html_formatter_spec.rb:22:
+./spec/spec/runner/formatter/html_formatter_spec.rb:36:
+./spec/spec/runner/formatter/html_formatter_spec.rb:37:</pre></div>
+      </div>
+    </dd>
+  </dl>
+</div>
+<div class="context">
+  <dl>
+  <dt id="context_2">Running specs with --diff</dt>
+    <script type="text/javascript">makeRed('header');</script>
+    <script type="text/javascript">makeRed('context_2');</script>
+    <script type="text/javascript">moveProgressBar('38.4');</script>
+    <dd class="spec failed">
+      <span class="failed_spec_name">should print diff of different strings</span>
+      <div class="failure" id="failure_4">
+        <div class="message"><pre>expected &quot;RSpec is a\nbehaviour driven development\nframework for Ruby\n&quot;, got &quot;RSpec is a\nbehavior driven development\nframework for Ruby\n&quot; (using ==)
+Diff:
+@@ -1,4 +1,4 @@
+ RSpec is a
+-behavior driven development
++behaviour driven development
+ framework for Ruby
+</pre></div>
+        <div class="backtrace"><pre>./failing_examples/diffing_spec.rb:13:
+./spec/spec/runner/formatter/html_formatter_spec.rb:22:
+./spec/spec/runner/formatter/html_formatter_spec.rb:36:
+./spec/spec/runner/formatter/html_formatter_spec.rb:37:</pre></div>
+      </div>
+    </dd>
+    <script type="text/javascript">makeRed('header');</script>
+    <script type="text/javascript">makeRed('context_2');</script>
+    <script type="text/javascript">moveProgressBar('46.1');</script>
+    <dd class="spec failed">
+      <span class="failed_spec_name">should print diff of different objects' pretty representation</span>
+      <div class="failure" id="failure_5">
+        <div class="message"><pre>expected &lt;Animal
+name=bob,
+species=tortoise
+&gt;
+, got &lt;Animal
+name=bob,
+species=giraffe
+&gt;
+ (using .eql?)
+Diff:
+@@ -1,5 +1,5 @@
+ &lt;Animal
+ name=bob,
+-species=giraffe
++species=tortoise
+ &gt;
+</pre></div>
+        <div class="backtrace"><pre>./failing_examples/diffing_spec.rb:34:
+./spec/spec/runner/formatter/html_formatter_spec.rb:22:
+./spec/spec/runner/formatter/html_formatter_spec.rb:36:
+./spec/spec/runner/formatter/html_formatter_spec.rb:37:</pre></div>
+      </div>
+    </dd>
+  </dl>
+</div>
+<div class="context">
+  <dl>
+  <dt id="context_3">A consumer of a stub</dt>
+    <script type="text/javascript">moveProgressBar('53.8');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should be able to stub methods on any Object</span></dd>
+  </dl>
+</div>
+<div class="context">
+  <dl>
+  <dt id="context_4">A stubbed method on a class</dt>
+    <script type="text/javascript">moveProgressBar('61.5');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should return the stubbed value</span></dd>
+    <script type="text/javascript">moveProgressBar('69.2');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should revert to the original method after each spec</span></dd>
+    <script type="text/javascript">moveProgressBar('76.9');</script>
+    <dd class="spec passed"><span class="passed_spec_name">can stub! and mock the same message</span></dd>
+  </dl>
+</div>
+<div class="context">
+  <dl>
+  <dt id="context_5">A mock</dt>
+    <script type="text/javascript">moveProgressBar('84.6');</script>
+    <dd class="spec passed"><span class="passed_spec_name">can stub!</span></dd>
+    <script type="text/javascript">moveProgressBar('92.3');</script>
+    <dd class="spec passed"><span class="passed_spec_name">can stub! and mock</span></dd>
+    <script type="text/javascript">moveProgressBar('100.0');</script>
+    <dd class="spec passed"><span class="passed_spec_name">can stub! and mock the same message</span></dd>
+  </dl>
+</div>
+<script type="text/javascript">document.getElementById('duration').innerHTML = "Finished in <strong>x seconds</strong>";</script>
+<script type="text/javascript">document.getElementById('totals').innerHTML = "13 specifications, 5 failures";</script>
+</div>
+</body>
+</html>
