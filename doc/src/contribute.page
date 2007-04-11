@@ -60,7 +60,7 @@ h3. Patches
 Interested in a new feature that you've already written or want to write?
 Please submit a patch, but please follow these guidelines.
 
-* patch against the TRUNK (not a released gem)
+* patch against svn://rubyforge.org/var/svn/rspec/trunk (do not patch against a released gem)
 * include specs!
 * include docs!
 * run "rake pre_commit" on your patched source
