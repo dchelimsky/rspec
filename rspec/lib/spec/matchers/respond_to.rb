@@ -3,7 +3,6 @@ module Spec
     
     class RespondTo #:nodoc:
       def initialize(*names)
-        @sym = names[0]
         @names = names
         @names_not_responded_to = []
       end

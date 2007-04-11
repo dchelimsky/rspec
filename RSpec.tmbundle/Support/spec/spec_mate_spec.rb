@@ -15,7 +15,7 @@ context "SpecMate" do
     ENV['TM_PROJECT_DIRECTORY'] = File.expand_path(File.dirname(__FILE__))
     ENV['TM_FILEPATH'] = nil
     ENV['TM_LINE_NUMBER'] = nil
-    require File.dirname(__FILE__) + '/../lib/spec_mate'
+    load File.dirname(__FILE__) + '/../lib/spec_mate.rb'
     @spec_mate = SpecMate.new
   end
 
@@ -69,5 +69,13 @@ context "SpecMate" do
     html.should =~ @second_failing_spec
     html.should =~ /should pass/
     html.should =~ /should pass too/
+  end
+  
+  it "should raise exception when TM_RSPEC_HOME points to bad location" do
+    ENV['TM_PROJECT_DIRECTORY'] = __FILE__ # bad on purpose
+    ENV['TM_RSPEC_HOME'] = __FILE__ # bad on purpose
+    lambda do
+      load File.dirname(__FILE__) + '/../lib/spec_mate.rb'
+    end.should raise_error
   end
 end

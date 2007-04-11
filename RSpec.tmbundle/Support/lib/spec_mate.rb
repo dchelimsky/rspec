@@ -1,7 +1,14 @@
 require 'rubygems'
-$LOAD_PATH.unshift(File.join(ENV['TM_RSPEC_HOME'], 'lib')) unless ENV['TM_RSPEC_HOME'].nil?
+
 rspec_rails_plugin = File.join(ENV['TM_PROJECT_DIRECTORY'],'vendor','plugins','rspec','lib')
-$LOAD_PATH.unshift(rspec_rails_plugin) if File.exist?(rspec_rails_plugin)
+if File.directory?(rspec_rails_plugin)
+  $LOAD_PATH.unshift(rspec_rails_plugin)
+elsif ENV['TM_RSPEC_HOME']
+  rspec_lib = File.join(ENV['TM_RSPEC_HOME'], 'lib')
+  $LOAD_PATH.unshift(rspec_lib)
+  raise "TM_RSPEC_HOME points to a bad location: #{ENV['TM_RSPEC_HOME']}" unless File.directory?(rspec_lib)
+end
+
 require 'spec'
 require File.dirname(__FILE__) + '/text_mate_formatter'
 
