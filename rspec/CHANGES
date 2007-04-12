@@ -31,6 +31,7 @@ put this in a file that is loaded before your specs:
   end
 
 * Sugar FREE!
+* Spec::Rails controller specs will no longer let mock exception ripple through to the response.
 * Fixed [#9260] IvarProxy does not act like a hash.
 * Applied [#9458] The rspec_resource generator does not take into account class nesting (Patch from Steve Tendon)
 * Applied [#9132] Rakefile spec:doc can fail without preparing database (Patch from Steve Ross)

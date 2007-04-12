@@ -6,14 +6,17 @@ require "pre_commit"
 require 'spec/rake/spectask'
 
 namespace :rspec do
+  desc "runs precommit"
   task :pre_commit do
     pre_commit.rspec_pre_commit
   end
 
+  desc "installs the Spec::Rails plugin"
   task :install_plugin do
     pre_commit.install_plugin
   end
 
+  desc "uninstalls the Spec::Rails plugin"
   task :uninstall_plugin do
     pre_commit.uninstall_plugin
   end
