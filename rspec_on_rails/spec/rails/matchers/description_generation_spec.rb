@@ -9,7 +9,7 @@ class DescriptionGenerationSpecController < ActionController::Base
   end
 end
 
-context "Description generation", :context_type => :controller do
+describe "Description generation", :context_type => :controller do
   controller_name :description_generation_spec
   setup do
     @desc = nil
@@ -17,19 +17,19 @@ context "Description generation", :context_type => :controller do
     Spec::Matchers.description_generated(&@callback)
   end
   
-  specify "should generate description for render_template" do
+  it "should generate description for render_template" do
     get 'render_action'
     response.should render_template("render_action")
     @desc.should == "should render template \"render_action\""
   end
   
-  specify "should generate description for render_template with full path" do
+  it "should generate description for render_template with full path" do
     get 'render_action'
     response.should render_template("description_generation_spec/render_action")
     @desc.should == "should render template \"description_generation_spec/render_action\""
   end
   
-  specify "should generate description for redirect_to" do
+  it "should generate description for redirect_to" do
     get 'redirect_action'
     response.should redirect_to("http://test.host/description_generation_spec/render_action")
     @desc.should == "should redirect to \"http://test.host/description_generation_spec/render_action\""

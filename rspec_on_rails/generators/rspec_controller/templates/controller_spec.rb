@@ -14,7 +14,7 @@ describe <%= class_name %>Controller do
 <% unless actions.empty? -%>
 <% for action in actions -%>
 
-  specify "GET '<%= action %>' should be successful" do
+  it "GET '<%= action %>' should be successful" do
     get '<%= action %>'
     response.should be_success
   end

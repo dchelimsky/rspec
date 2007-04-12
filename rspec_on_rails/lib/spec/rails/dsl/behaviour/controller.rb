@@ -121,7 +121,7 @@ module Spec
           unless @controller.class.ancestors.include?(ActionController::Base)
             Spec::Expectations.fail_with <<-EOE
   You have to declare the controller name in controller specs. For example:
-    context "The ExampleController" do
+    describe "The ExampleController" do
       controller_name "example" #invokes the ExampleController
     end
   EOE

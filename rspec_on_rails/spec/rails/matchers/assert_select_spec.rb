@@ -80,12 +80,12 @@ unless defined?(SpecFailed)
   SpecFailed = Spec::Expectations::ExpectationNotMetError 
 end
 
-context "should have_tag", :context_type => :controller do
+describe "should have_tag", :context_type => :controller do
   include AssertSelectSpecHelpers
   controller_name :assert_select
   integrate_views
 
-  specify "should find specific numbers of elements" do
+  it "should find specific numbers of elements" do
     render_html %Q{<div id="1"></div><div id="2"></div>}
     response.should have_tag( "div" )
     response.should have_tag("div", 2)
@@ -95,20 +95,20 @@ context "should have_tag", :context_type => :controller do
     lambda { response.should have_tag("p") }.should raise_error(SpecFailed)
   end
 
-  specify "should expect to find elements when using true" do
+  it "should expect to find elements when using true" do
     render_html %Q{<div id="1"></div><div id="2"></div>}
     response.should have_tag( "div", true )
     lambda { response.should have_tag( "p", true )}.should raise_error(SpecFailed)
   end
 
-  specify "should expect to not find elements when using false" do
+  it "should expect to not find elements when using false" do
     render_html %Q{<div id="1"></div><div id="2"></div>}
     response.should have_tag( "p", false )
     lambda { response.should have_tag( "div", false )}.should raise_error(SpecFailed)
   end
 
 
-  specify "should match submitted text using text or regexp" do
+  it "should match submitted text using text or regexp" do
     render_html %Q{<div id="1">foo</div><div id="2">foo</div>}
     response.should have_tag("div", "foo")
     response.should have_tag("div", /(foo|bar)/)
@@ -124,14 +124,14 @@ context "should have_tag", :context_type => :controller do
     lambda { response.should have_tag("p", :text=>/foo/) }.should raise_error(SpecFailed)
   end
   
-  specify "should use submitted message" do
+  it "should use submitted message" do
     render_html %Q{nothing here}
     lambda {
       response.should have_tag("div", {}, "custom message")
     }.should raise_error(SpecFailed, /custom message/)
   end
 
-  specify "should match submitted html" do
+  it "should match submitted html" do
     render_html %Q{<p>\n<em>"This is <strong>not</strong> a big problem,"</em> he said.\n</p>}
     text = "\"This is not a big problem,\" he said."
     html = "<em>\"This is <strong>not</strong> a big problem,\"</em> he said."
@@ -150,7 +150,7 @@ context "should have_tag", :context_type => :controller do
     lambda { response.should have_tag("pre", :html=>text) }.should raise_error(SpecFailed)
   end
 
-  specify "should match number of instances" do
+  it "should match number of instances" do
     render_html %Q{<div id="1">foo</div><div id="2">foo</div>}
     response.should have_tag("div", 2)
     lambda { response.should have_tag("div", 3) }.should raise_error(SpecFailed)
@@ -168,7 +168,7 @@ context "should have_tag", :context_type => :controller do
     lambda { response.should have_tag("div", :minimum=>3, :maximum=>4) }.should raise_error(SpecFailed)
   end
 
-  specify "substitution values" do
+  it "substitution values" do
     render_html %Q{<div id="1">foo</div><div id="2">foo</div><span id="3"></span>}
     response.should have_tag("div#?", /\d+/) do |elements| #using do/end
       elements.size.should == 2
@@ -197,7 +197,7 @@ context "should have_tag", :context_type => :controller do
   end
   
   #added for RSpec
-  specify "nested tags in form" do
+  it "nested tags in form" do
     render_html %Q{
       <form action="test">
         <input type="text" name="email">
@@ -226,7 +226,7 @@ context "should have_tag", :context_type => :controller do
     }.should raise_error(SpecFailed)
   end
   
-  specify "beatles" do
+  it "beatles" do
     unless defined?(BEATLES)
       BEATLES = [
         ["John", "Guitar"],
@@ -263,7 +263,7 @@ context "should have_tag", :context_type => :controller do
     }
   end
 
-  specify "assert_select_text_match" do
+  it "assert_select_text_match" do
     render_html %Q{<div id="1"><span>foo</span></div><div id="2"><span>bar</span></div>}
     response.should have_tag("div") do |divs|
       with_tag("div", "foo")
@@ -280,7 +280,7 @@ context "should have_tag", :context_type => :controller do
   end
 
 
-  specify "assert_select_from_rjs with one item" do
+  it "assert_select_from_rjs with one item" do
     render_rjs do |page|
       page.replace_html "test", "<div id=\"1\">foo</div>\n<div id=\"2\">foo</div>"
     end
@@ -321,7 +321,7 @@ context "should have_tag", :context_type => :controller do
     }
   end
   
-  specify "assert_select_from_rjs with multiple items" do
+  it "assert_select_from_rjs with multiple items" do
     render_rjs do |page|
       page.replace_html "test", "<div id=\"1\">foo</div>"
       page.replace_html "test2", "<div id=\"2\">foo</div>"
@@ -341,19 +341,19 @@ context "should have_tag", :context_type => :controller do
   end
 end
 
-context "css_select", :context_type => :controller do
+describe "css_select", :context_type => :controller do
   include AssertSelectSpecHelpers
   controller_name :assert_select
   integrate_views
 
-  specify "can select tags from html" do
+  it "can select tags from html" do
     render_html %Q{<div id="1"></div><div id="2"></div>}
     css_select("div").size.should == 2
     css_select("p").size.should == 0
   end
 
 
-  specify "can select nested tags from html" do
+  it "can select nested tags from html" do
     render_html %Q{<div id="1">foo</div><div id="2">foo</div>}
     response.should have_tag("div#?", /\d+/) { |elements|
       css_select(elements[0], "div").should have(1).element
@@ -371,7 +371,7 @@ context "css_select", :context_type => :controller do
     }
   end
 
-  specify "can select nested tags from rjs (one result)" do
+  it "can select nested tags from rjs (one result)" do
     render_rjs do |page|
       page.replace_html "test", "<div id=\"1\">foo</div>\n<div id=\"2\">foo</div>"
     end
@@ -380,7 +380,7 @@ context "css_select", :context_type => :controller do
     css_select("#2").should have(1).element
   end
 
-  specify "can select nested tags from rjs (two results)" do
+  it "can select nested tags from rjs (two results)" do
     render_rjs do |page|
       page.replace_html "test", "<div id=\"1\">foo</div>"
       page.replace_html "test2", "<div id=\"2\">foo</div>"
@@ -392,7 +392,7 @@ context "css_select", :context_type => :controller do
   
 end
 
-context "have_rjs behaviour", :context_type => :controller do
+describe "have_rjs behaviour", :context_type => :controller do
   include AssertSelectSpecHelpers
   controller_name :assert_select
   integrate_views
@@ -407,11 +407,11 @@ context "have_rjs behaviour", :context_type => :controller do
     end
   end
   
-  specify "should pass if any rjs exists" do
+  it "should pass if any rjs exists" do
     response.should have_rjs
   end
   
-  specify "should fail if no rjs exists" do
+  it "should fail if no rjs exists" do
     render_rjs do |page|
     end
     lambda do
@@ -419,7 +419,7 @@ context "have_rjs behaviour", :context_type => :controller do
     end.should raise_error(SpecFailed)
   end
   
-  specify "should find all rjs from multiple statements" do
+  it "should find all rjs from multiple statements" do
     response.should have_rjs do
       with_tag("#1")
       with_tag("#2")
@@ -429,7 +429,7 @@ context "have_rjs behaviour", :context_type => :controller do
     end
   end
 
-  specify "should find by id" do
+  it "should find by id" do
     response.should have_rjs("test1") { |rjs|
       rjs.size.should == 1
       with_tag("div", 1)
@@ -462,7 +462,7 @@ context "have_rjs behaviour", :context_type => :controller do
   #   end.should raise_error(SpecFailed)
   # end
 
-  specify "should find rjs using :replace" do
+  it "should find rjs using :replace" do
     response.should have_rjs(:replace) { |rjs|
       with_tag("div", 1)
       with_tag("div#1", "foo")
@@ -480,7 +480,7 @@ context "have_rjs behaviour", :context_type => :controller do
     }.should raise_error(SpecFailed)
   end
 
-  specify "should find rjs using :replace_html" do
+  it "should find rjs using :replace_html" do
     response.should have_rjs(:replace_html) { |rjs|
       with_tag("div", 2)
       with_tag("div#2", "bar")
@@ -502,7 +502,7 @@ context "have_rjs behaviour", :context_type => :controller do
     }.should raise_error(SpecFailed)
   end
     
-  specify "should find rjs using :insert_html (non-positioned)" do
+  it "should find rjs using :insert_html (non-positioned)" do
     response.should have_rjs(:insert_html) { |rjs|
       with_tag("div", 1)
       with_tag("div#4", "loopy")
@@ -522,7 +522,7 @@ context "have_rjs behaviour", :context_type => :controller do
     }.should raise_error(SpecFailed)
   end
 
-  specify "should find rjs using :insert (positioned)" do
+  it "should find rjs using :insert (positioned)" do
     render_rjs do |page|
       page.insert_html :top, "test1", "<div id=\"1\">foo</div>"
       page.insert_html :bottom, "test2", "<div id=\"2\">bar</div>"
@@ -567,12 +567,12 @@ context "have_rjs behaviour", :context_type => :controller do
   end
 end
 
-context "be_feed behaviour", :context_type => :controller do
+describe "be_feed behaviour", :context_type => :controller do
   include AssertSelectSpecHelpers
   controller_name :assert_select
   integrate_views
 
-  specify "should support atom 1.0" do
+  it "should support atom 1.0" do
     # Atom 1.0.
     render_xml %Q{<feed xmlns="http://www.w3.org/2005/Atom"><title>test</title></feed>}
     response.should be_feed(:atom)
@@ -590,7 +590,7 @@ context "be_feed behaviour", :context_type => :controller do
     }.should raise_error(SpecFailed)
   end
   
-  specify "should support atom 0.3" do
+  it "should support atom 0.3" do
     render_xml %Q{<feed version="0.3"><title>test</title></feed>}
     response.should be_feed(:atom, 0.3)
     response.should be_feed(:atom, 0.3) { with_tag("feed>title", "test") }
@@ -600,7 +600,7 @@ context "be_feed behaviour", :context_type => :controller do
     lambda { response.should be_feed(:rss) }.should raise_error(SpecFailed)
   end
   
-  specify "should support rss 2.0" do
+  it "should support rss 2.0" do
     render_xml %Q{<rss version="2.0"><channel><title>test</title></channel></rss>}
     response.should be_feed(:rss)
     response.should be_feed(:rss, 2.0)
@@ -610,7 +610,7 @@ context "be_feed behaviour", :context_type => :controller do
     lambda { response.should be_feed(:atom) }.should raise_error(SpecFailed)
   end
   
-  specify "should support rss 0.92" do
+  it "should support rss 0.92" do
     render_xml %Q{<rss version="0.92"><channel><title>test</title></channel></rss>}
     response.should be_feed(:rss, 0.92)
     response.should be_feed(:rss, 0.92) { with_tag("rss>channel>title", "test") }
@@ -620,7 +620,7 @@ context "be_feed behaviour", :context_type => :controller do
     lambda { response.should be_feed(:atom) }.should raise_error(SpecFailed)
   end
 
-  specify "should support encoded feed items" do
+  it "should support encoded feed items" do
     render_xml <<-EOF
 <rss version="2.0">
   <channel>
@@ -687,7 +687,7 @@ EOF
   end
 end
 
-context "send_email behaviour", :context_type => :controller do
+describe "send_email behaviour", :context_type => :controller do
   include AssertSelectSpecHelpers
   controller_name :assert_select
   integrate_views
@@ -702,14 +702,14 @@ context "send_email behaviour", :context_type => :controller do
     ActionMailer::Base.deliveries.clear
   end
 
-  specify "should fail with nothing sent" do
+  it "should fail with nothing sent" do
     response.should_not send_email
     lambda {
       response.should send_email{}
     }.should raise_error(SpecFailed, /No e-mail in delivery list./)
   end
   
-  specify "should pass otherwise" do
+  it "should pass otherwise" do
     AssertSelectMailer.deliver_test "<div><p>foo</p><p>bar</p></div>"
     response.should send_email
     lambda {
@@ -780,30 +780,30 @@ end
 #   
 # end
 
-context "string.should have_tag", :context_type => :helper do
+describe "string.should have_tag", :context_type => :helper do
   include AssertSelectSpecHelpers
 
-  specify "should find root element" do
+  it "should find root element" do
     "<p>a paragraph</p>".should have_tag("p", "a paragraph")
   end
 
-  specify "should not find non-existent element" do
+  it "should not find non-existent element" do
     lambda do
       "<p>a paragraph</p>".should have_tag("p", "wrong text")
     end.should raise_error(SpecFailed)
   end
 
-  specify "should find child element" do
+  it "should find child element" do
     "<div><p>a paragraph</p></div>".should have_tag("p", "a paragraph")
   end
 
-  specify "should find nested element" do
+  it "should find nested element" do
     "<div><p>a paragraph</p></div>".should have_tag("div") do
       with_tag("p", "a paragraph")
     end
   end
 
-  specify "should not find wrong nested element" do
+  it "should not find wrong nested element" do
     lambda do
       "<div><p>a paragraph</p></div>".should have_tag("div") do
         with_tag("p", "wrong text")
