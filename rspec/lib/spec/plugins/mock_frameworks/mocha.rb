@@ -1,6 +1,3 @@
-# This should only get included if there is
-# a call to require 'mocha' somewhere up the
-# chain.
 require 'rubygems'
 gem 'mocha'
 require 'mocha/standalone'
