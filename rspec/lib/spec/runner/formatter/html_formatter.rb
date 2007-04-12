@@ -80,7 +80,7 @@ module Spec
         # could output links to images or other files produced during the specs.
         #
         def extra_failure_content(failure)
-          "    <pre><code>#{@snippet_extractor.snippet(failure.exception)}</code></pre>"
+          "    <pre class=\"ruby\"><code>#{@snippet_extractor.snippet(failure.exception)}</code></pre>"
         end
         
         def move_progress
@@ -207,6 +207,32 @@ EOF
   a {
     color: #BE5C00;
   }
+
+  /* Ruby code, style similar to vibrant ink */
+  pre.ruby {
+    font-size: 12px;
+    font-family: monospace;
+    background-color: black;
+  }
+
+  .keyword { color: #FF6600; }
+  .constant { color: #339999; }
+  .attribute { color: white; }
+  .global { color: white; }
+  .module { color: white; }
+  .class { color: white; }
+  .string { color: #66FF00; }
+  .ident { color: white; }
+  .method { color: #FFCC00; }
+  .number { color: white; }
+  .char { color: white; }
+  .comment { color: #9933CC; }
+  .symbol { color: white; }
+  .regex { color: #44B4CC; }
+  .punct { color: white; }
+  .escape { color: white; }
+  .interp { color: white; }
+  .expr { color: white; }
   </style>
 </head>
 <body>

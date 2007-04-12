@@ -92,6 +92,32 @@
   a {
     color: #BE5C00;
   }
+
+  /* Ruby code, style similar to vibrant ink */
+  pre.ruby {
+    font-size: 12px;
+    font-family: monospace;
+    background-color: black;
+  }
+
+  .keyword { color: #FF6600; }
+  .constant { color: #339999; }
+  .attribute { color: white; }
+  .global { color: white; }
+  .module { color: white; }
+  .class { color: white; }
+  .string { color: #66FF00; }
+  .ident { color: white; }
+  .method { color: #FFCC00; }
+  .number { color: white; }
+  .char { color: white; }
+  .comment { color: #9933CC; }
+  .symbol { color: white; }
+  .regex { color: #44B4CC; }
+  .punct { color: white; }
+  .escape { color: white; }
+  .interp { color: white; }
+  .expr { color: white; }
   </style>
 </head>
 <body>
@@ -122,11 +148,11 @@
 ./spec/spec/runner/formatter/html_formatter_spec.rb:16:
 ./spec/spec/runner/formatter/html_formatter_spec.rb:12:
 ./spec/spec/runner/formatter/html_formatter_spec.rb:11:</pre></div>
-    <pre><code>11:   it "should fail when expected message not received" do
-12:     mock = mock("poke me")
-13:     mock.should_receive(:poke)
-14:   end
-15:   </code></pre>
+    <pre class="ruby"><code><pre>  <span class="ident">it</span> <span class="punct">&quot;</span><span class="string">should fail when expected message not received</span><span class="punct">&quot;</span> <span class="keyword">do</span>
+    <span class="ident">mock</span> <span class="punct">=</span> <span class="ident">mock</span><span class="punct">(&quot;</span><span class="string">poke me</span><span class="punct">&quot;)</span>
+    <span class="ident">mock</span><span class="punct">.</span><span class="ident">should_receive</span><span class="punct">(</span><span class="symbol">:poke</span><span class="punct">)</span>
+  <span class="keyword">end</span>
+  </pre></code></pre>
       </div>
     </dd>
     <script type="text/javascript">makeRed('header');</script>
@@ -140,11 +166,11 @@
 ./spec/spec/runner/formatter/html_formatter_spec.rb:16:
 ./spec/spec/runner/formatter/html_formatter_spec.rb:12:
 ./spec/spec/runner/formatter/html_formatter_spec.rb:11:</pre></div>
-    <pre><code>20:     mock.should_receive(:three).ordered
-21:     mock.one
-22:     mock.three
-23:     mock.two
-24:   end</code></pre>
+    <pre class="ruby"><code><pre>    <span class="ident">mock</span><span class="punct">.</span><span class="ident">should_receive</span><span class="punct">(</span><span class="symbol">:three</span><span class="punct">).</span><span class="ident">ordered</span>
+    <span class="ident">mock</span><span class="punct">.</span><span class="ident">one</span>
+    <span class="ident">mock</span><span class="punct">.</span><span class="ident">three</span>
+    <span class="ident">mock</span><span class="punct">.</span><span class="ident">two</span>
+  <span class="keyword">end</span></pre></code></pre>
       </div>
     </dd>
     <script type="text/javascript">makeRed('header');</script>
@@ -158,11 +184,11 @@
 ./spec/spec/runner/formatter/html_formatter_spec.rb:16:
 ./spec/spec/runner/formatter/html_formatter_spec.rb:12:
 ./spec/spec/runner/formatter/html_formatter_spec.rb:11:</pre></div>
-    <pre><code>26:   it "should get yelled at when sending unexpected messages" do
-27:     mock = mock("don't talk to me")
-28:     mock.should_not_receive(:any_message_at_all)
-29:     mock.any_message_at_all
-30:   end</code></pre>
+    <pre class="ruby"><code><pre>  <span class="ident">it</span> <span class="punct">&quot;</span><span class="string">should get yelled at when sending unexpected messages</span><span class="punct">&quot;</span> <span class="keyword">do</span>
+    <span class="ident">mock</span> <span class="punct">=</span> <span class="ident">mock</span><span class="punct">(&quot;</span><span class="string">don't talk to me</span><span class="punct">&quot;)</span>
+    <span class="ident">mock</span><span class="punct">.</span><span class="ident">should_not_receive</span><span class="punct">(</span><span class="symbol">:any_message_at_all</span><span class="punct">)</span>
+    <span class="ident">mock</span><span class="punct">.</span><span class="ident">any_message_at_all</span>
+  <span class="keyword">end</span></pre></code></pre>
       </div>
     </dd>
   </dl>
@@ -188,11 +214,11 @@ Diff:
 ./spec/spec/runner/formatter/html_formatter_spec.rb:16:
 ./spec/spec/runner/formatter/html_formatter_spec.rb:12:
 ./spec/spec/runner/formatter/html_formatter_spec.rb:11:</pre></div>
-    <pre><code>11: framework for Ruby
-12: EOF
-13:     usa.should == uk
-14:   end
-15: </code></pre>
+    <pre class="ruby"><code><pre><span class="ident">framework</span> <span class="keyword">for</span> <span class="constant">Ruby</span>
+<span class="constant">EOF</span>
+    <span class="ident">usa</span><span class="punct">.</span><span class="ident">should</span> <span class="punct">==</span> <span class="ident">uk</span>
+  <span class="keyword">end</span>
+</pre></code></pre>
       </div>
     </dd>
     <script type="text/javascript">makeRed('header');</script>
@@ -222,11 +248,11 @@ Diff:
 ./spec/spec/runner/formatter/html_formatter_spec.rb:16:
 ./spec/spec/runner/formatter/html_formatter_spec.rb:12:
 ./spec/spec/runner/formatter/html_formatter_spec.rb:11:</pre></div>
-    <pre><code>32:     expected = Animal.new "bob", "giraffe"
-33:     actual   = Animal.new "bob", "tortoise"
-34:     expected.should eql(actual)
-35:   end
-36: end</code></pre>
+    <pre class="ruby"><code><pre>    <span class="ident">expected</span> <span class="punct">=</span> <span class="constant">Animal</span><span class="punct">.</span><span class="ident">new</span> <span class="punct">&quot;</span><span class="string">bob</span><span class="punct">&quot;,</span> <span class="punct">&quot;</span><span class="string">giraffe</span><span class="punct">&quot;</span>
+    <span class="ident">actual</span>   <span class="punct">=</span> <span class="constant">Animal</span><span class="punct">.</span><span class="ident">new</span> <span class="punct">&quot;</span><span class="string">bob</span><span class="punct">&quot;,</span> <span class="punct">&quot;</span><span class="string">tortoise</span><span class="punct">&quot;</span>
+    <span class="ident">expected</span><span class="punct">.</span><span class="ident">should</span> <span class="ident">eql</span><span class="punct">(</span><span class="ident">actual</span><span class="punct">)</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span></pre></code></pre>
       </div>
     </dd>
   </dl>
