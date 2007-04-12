@@ -7,6 +7,10 @@ require File.dirname(__FILE__) + '/../../spec_helper'
     if mode == 'integration'
       integrate_views
     end
+    
+    def on_edge?
+      !(['1.1.6', '1.2.1', '1.2.2', '1.2.3'].include?(Rails::VERSION::STRING))
+    end
 
     specify "should match a simple path" do
       post 'some_action'
@@ -25,14 +29,23 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 
     specify "should match an rjs template" do
       xhr :post, 'some_action'
-      response.should render_template('render_spec/some_action.rjs')
+      if on_edge?
+        response.should render_template('render_spec/some_action.js.rjs')
+      else
+        response.should render_template('render_spec/some_action.rjs')
+      end
     end
 
     specify "should fail on the wrong extension (given rjs)" do
       xhr :post, 'some_action'
+      if on_edge?
+        message = "expected \"render_spec/some_action\", got \"render_spec/some_action.js.rjs\""
+      else
+        message = "expected \"render_spec/some_action\", got \"render_spec/some_action.rjs\""
+      end
       lambda {
         response.should render_template('render_spec/some_action')
-      }.should fail_with("expected \"render_spec/some_action\", got \"render_spec/some_action.rjs\"")
+      }.should fail_with(message)
     end
 
     specify "should fail on the wrong extension (given rhtml)" do
