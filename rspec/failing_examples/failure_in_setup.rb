@@ -1,10 +1,10 @@
-context "This example" do
+describe "This example" do
   
   setup do
     NonExistentClass.new
   end
   
-  specify "should be listed as failing in setup" do
+  it "should be listed as failing in setup" do
   end
   
 end

@@ -32,7 +32,7 @@ module RandomHelperModule
   end
 end
 
-context "RSpec should integrate with Test::Unit::TestCase" do
+describe "RSpec should integrate with Test::Unit::TestCase" do
   inherit RSpecIntegrationTest
   include RandomHelperModule
   
@@ -42,17 +42,17 @@ context "RSpec should integrate with Test::Unit::TestCase" do
     @rspec_setup_called = true
   end
 
-  specify "TestCase#setup should be called." do
+  it "TestCase#setup should be called." do
     @test_case_setup_called.should be_true
     @rspec_setup_called.should be_true
   end
 
-  specify "RSpec should be able to access TestCase methods" do
+  it "RSpec should be able to access TestCase methods" do
     helper_method
     @helper_method_called.should be_true
   end
 
-  specify "RSpec should be able to accept included modules" do
+  it "RSpec should be able to accept included modules" do
     random_task
     @random_task_called.should be_true
   end

@@ -6,18 +6,18 @@ class MockableClass
   end
 end
 
-context "A partial mock" do
+describe "A partial mock" do
 
-  specify "should work at the class level" do
+  it "should work at the class level" do
     MockableClass.should_receive(:find).with(1).and_return {:stub_return}
     MockableClass.find(1).should equal(:stub_return)
   end
 
-  specify "should revert to the original after each spec" do
+  it "should revert to the original after each spec" do
     MockableClass.find(1).should equal(:original_return)
   end
 
-  specify "can be mocked w/ ordering" do
+  it "can be mocked w/ ordering" do
     MockableClass.should_receive(:msg_1).ordered
     MockableClass.should_receive(:msg_2).ordered
     MockableClass.should_receive(:msg_3).ordered

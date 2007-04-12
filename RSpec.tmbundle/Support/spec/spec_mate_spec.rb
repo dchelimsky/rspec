@@ -1,6 +1,6 @@
 require 'stringio'
 
-context "SpecMate" do
+describe "SpecMate" do
   setup do
     @first_failing_spec  = /fixtures\/example_failing_spec\.rb&line=3/n
     @second_failing_spec  = /fixtures\/example_failing_spec\.rb&line=7/n
@@ -19,7 +19,7 @@ context "SpecMate" do
     @spec_mate = SpecMate.new
   end
 
-  specify "should run whole file when only file specified" do
+  it "should run whole file when only file specified" do
     ENV['TM_FILEPATH'] = File.expand_path(File.dirname(__FILE__)) + '/fixtures/example_failing_spec.rb'
 
     out = StringIO.new
@@ -30,7 +30,7 @@ context "SpecMate" do
     html.should =~ @second_failing_spec
   end
 
-  specify "should run first spec when file and line 4 specified" do
+  it "should run first spec when file and line 4 specified" do
     ENV['TM_FILEPATH'] = File.expand_path(File.dirname(__FILE__)) + '/fixtures/example_failing_spec.rb'
     ENV['TM_LINE_NUMBER'] = '4'
 
@@ -42,7 +42,7 @@ context "SpecMate" do
     html.should_not =~ @second_failing_spec
   end
 
-  specify "should run first spec when file and line 8 specified" do
+  it "should run first spec when file and line 8 specified" do
     ENV['TM_FILEPATH'] = File.expand_path(File.dirname(__FILE__)) + '/fixtures/example_failing_spec.rb'
     ENV['TM_LINE_NUMBER'] = '8'
 
@@ -55,7 +55,7 @@ context "SpecMate" do
     html.should =~ @second_failing_spec
   end
 
-  specify "should run all selected files" do
+  it "should run all selected files" do
     ENV['TM_SELECTED_FILES'] = ['example_failing_spec.rb', 'example_passing_spec.rb'].map do |f|
       "'" + File.expand_path(File.dirname(__FILE__)) + "/fixtures/#{f}'"
     end.join(" ")

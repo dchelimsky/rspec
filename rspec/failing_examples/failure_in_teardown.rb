@@ -1,6 +1,6 @@
-context "This example" do
+describe "This example" do
   
-  specify "should be listed as failing in teardown" do
+  it "should be listed as failing in teardown" do
   end
   
   teardown do

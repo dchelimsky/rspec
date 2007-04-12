@@ -16,13 +16,13 @@ class Greeter
   end
 end
 
-context "Greeter" do
-  specify "should say Hi to person" do
+describe "Greeter" do
+  it "should say Hi to person" do
     greeter = Greeter.new("Kevin")
     greeter.greet.should == "Hi Kevin!"
   end
 
-  specify "should say Hi to nobody" do
+  it "should say Hi to nobody" do
     greeter = Greeter.new
     # Uncomment the next line to make Heckle happy
     #greeter.greet.should == "Hi there!"

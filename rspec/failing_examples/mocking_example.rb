@@ -1,19 +1,19 @@
 require File.dirname(__FILE__) + '/spec_helper'
 
-context "Mocker" do
+describe "Mocker" do
 
-  specify "should be able to call mock()" do
+  it "should be able to call mock()" do
     mock = mock("poke me")
     mock.should_receive(:poke)
     mock.poke
   end
 
-  specify "should fail when expected message not received" do
+  it "should fail when expected message not received" do
     mock = mock("poke me")
     mock.should_receive(:poke)
   end
   
-  specify "should fail when messages are received out of order" do
+  it "should fail when messages are received out of order" do
     mock = mock("one two three")
     mock.should_receive(:one).ordered
     mock.should_receive(:two).ordered
@@ -23,7 +23,7 @@ context "Mocker" do
     mock.two
   end
 
-  specify "should get yelled at when sending unexpected messages" do
+  it "should get yelled at when sending unexpected messages" do
     mock = mock("don't talk to me")
     mock.should_not_receive(:any_message_at_all)
     mock.any_message_at_all

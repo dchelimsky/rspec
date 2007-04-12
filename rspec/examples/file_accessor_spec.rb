@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/spec_helper'
 require File.dirname(__FILE__) + '/file_accessor'
 require 'stringio'
 
-context "A FileAccessor" do
+describe "A FileAccessor" do
   # This sequence diagram illustrates what this spec specifies.
   #
   #                  +--------------+     +----------+     +-------------+
@@ -20,7 +20,7 @@ context "A FileAccessor" do
   #                        | |<..................................| |
   #                         |                  |                  |
   #
-  specify "should open a file and pass it to the processor's process method" do
+  it "should open a file and pass it to the processor's process method" do
     # This is the primary actor
     accessor = FileAccessor.new
 

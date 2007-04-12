@@ -1,9 +1,9 @@
-context "An example failing spec" do
-  specify "should fail" do
-    true.should_be false
+describe "An example failing spec" do
+  it "should fail" do
+    true.should be_false
   end
 
-  specify "should also fail" do
-    false.should_be true
+  it "should also fail" do
+    false.should be_true
   end
 end

@@ -21,25 +21,25 @@ class Players
   end
 end
 
-context "A new team" do
+describe "A new team" do
   
   setup do
     @team = Team.new
   end
   
-  specify "should have 3 players (failing example)" do
+  it "should have 3 players (failing example)" do
     @team.should have(3).players
   end
   
-  specify "should include some player (failing example)" do
+  it "should include some player (failing example)" do
     @team.players.should include("Some Player")
   end
 
-  specify "should include 5 (failing example)" do
+  it "should include 5 (failing example)" do
     @team.players.should include(5)
   end
   
-  specify "should have no players" do
+  it "should have no players" do
     @team.should have(:no).players
   end
   

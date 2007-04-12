@@ -10,17 +10,17 @@ class BddFramework
   end
 end
 
-context "BDD framework" do
+describe "BDD framework" do
 
   setup do
     @bdd_framework = BddFramework.new
   end
 
-  specify "should be adopted quickly" do
+  it "should be adopted quickly" do
     @bdd_framework.should be_adopted_quickly
   end
   
-  specify "should be intuitive" do
+  it "should be intuitive" do
     @bdd_framework.should be_intuitive
   end
 

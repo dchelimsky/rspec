@@ -1,5 +1,5 @@
-context "Running specs with --diff" do
-  specify "should print diff of different strings" do
+describe "Running specs with --diff" do
+  it "should print diff of different strings" do
     uk = <<-EOF
 RSpec is a
 behaviour driven development
@@ -28,7 +28,7 @@ species=#{@species}
     end
   end
 
-  specify "should print diff of different objects' pretty representation" do
+  it "should print diff of different objects' pretty representation" do
     expected = Animal.new "bob", "giraffe"
     actual   = Animal.new "bob", "tortoise"
     expected.should eql(actual)

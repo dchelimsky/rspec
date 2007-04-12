@@ -19,7 +19,7 @@ describe "State created in before(:all)" do
     @isolated += 1
   end
 
-  specify "should not have sideffects" do
+  it "should not have sideffects" do
     @sideeffect.should == 1
     $global.should == 1
     @isolated.should == 1

@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/spec_helper'
 
-context "A consumer of a stub" do
-  specify "should be able to stub methods on any Object" do
+describe "A consumer of a stub" do
+  it "should be able to stub methods on any Object" do
     obj = Object.new
     obj.stub!(:foobar).and_return {:return_value}
     obj.foobar.should equal(:return_value)
@@ -14,17 +14,17 @@ class StubbableClass
   end
 end
 
-context "A stubbed method on a class" do
-  specify "should return the stubbed value" do
+describe "A stubbed method on a class" do
+  it "should return the stubbed value" do
     StubbableClass.stub!(:find).and_return(:stub_return)
     StubbableClass.find(1).should equal(:stub_return)
   end
   
-  specify "should revert to the original method after each spec" do
+  it "should revert to the original method after each spec" do
     StubbableClass.find(1).should equal(:original_return)
   end
 
-  specify "can stub! and mock the same message" do
+  it "can stub! and mock the same message" do
     StubbableClass.stub!(:msg).and_return(:stub_value)
     StubbableClass.should_receive(:msg).with(:arg).and_return(:mock_value)
 
@@ -37,14 +37,14 @@ context "A stubbed method on a class" do
   end
 end
 
-context "A mock" do
-  specify "can stub!" do
+describe "A mock" do
+  it "can stub!" do
     mock = mock("stubbing mock")
     mock.stub!(:msg).and_return(:value)
     (1..10).each {mock.msg.should equal(:value)}
   end
   
-  specify "can stub! and mock" do
+  it "can stub! and mock" do
     mock = mock("stubbing mock")
     mock.stub!(:stub_message).and_return(:stub_value)
     mock.should_receive(:mock_message).once.and_return(:mock_value)
@@ -53,7 +53,7 @@ context "A mock" do
     (1..10).each {mock.stub_message.should equal(:stub_value)}
   end
   
-  specify "can stub! and mock the same message" do
+  it "can stub! and mock the same message" do
     mock = mock("stubbing mock")
     mock.stub!(:msg).and_return(:stub_value)
     mock.should_receive(:msg).with(:arg).and_return(:mock_value)
