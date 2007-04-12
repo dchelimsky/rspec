@@ -36,6 +36,9 @@ module Spec
     def translate_line(line)
       return line if line =~ /(should_not|should)_receive/
       
+      line.gsub!(/(^\s*)context([\s*|\(]['|"|A-Z])/, '\1describe\2')
+      line.gsub!(/(^\s*)specify([\s*|\(]['|"|A-Z])/, '\1it\2')
+      
       if line =~ /(.*\.)(should_not|should)(?:_be)(?!_)(.*)/m
         pre = $1
         should = $2

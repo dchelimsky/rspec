@@ -26,23 +26,38 @@ FileUtils.touch(File.dirname(__FILE__) + '/failures.txt')
 
 task :default => [:verify_rcov]
 
+spec_opts = [
+  '--colour', 
+  '--backtrace', 
+  '--failures', 
+  'failures.txt', 
+  '--example', 
+  'failures.txt', 
+  '--loadby', 
+  'mtime', 
+  '--reverse',
+  '--timeout',
+  '2',
+  '--diff'
+]
+
 desc "Run all specs"
 Spec::Rake::SpecTask.new do |t|
   t.spec_files = FileList['spec/**/*_spec.rb', '../RSpec.tmbundle/Support/spec/*_spec.rb']
-  t.spec_opts = [
-    '--colour', 
-    '--backtrace', 
-    '--failures', 
-    'failures.txt', 
-    '--example', 
-    'failures.txt', 
-    '--loadby', 
-    'mtime', 
-    '--reverse',
-    '--timeout',
-    '2',
-    '--diff'
-  ]
+  t.spec_opts = spec_opts
+  t.rcov = true
+  t.rcov_dir = '../doc/output/coverage'
+  t.rcov_opts = ['--exclude', 'spec\/spec,bin\/spec,examples']
+end
+
+desc "Run all translated specs"
+Spec::Rake::SpecTask.new('translated_specs') do |t|
+  t.spec_files = FileList['translated_specs/**/*_spec.rb'].exclude( # These translate, but have other quirks
+    'translated_specs/spec/translator_spec.rb',
+    'translated_specs/spec/runner/formatter/html_formatter_spec.rb',
+    'translated_specs/spec/runner/option_parser_spec.rb'
+  )
+  t.spec_opts = spec_opts
   t.rcov = true
   t.rcov_dir = '../doc/output/coverage'
   t.rcov_opts = ['--exclude', 'spec\/spec,bin\/spec,examples']
@@ -162,7 +177,8 @@ desc "Run this task before you commit. You should see 'OK TO COMMIT'"
 task :pre_commit => [
   :website,
   :examples,
-  :failing_examples_with_html, 
+  :translated_specs,
+  :failing_examples_with_html
 ]
 
 desc "Build the website, but do not publish it"

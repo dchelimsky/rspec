@@ -11,6 +11,42 @@ context "Translator" do
     @t.translate_dir(from, to)
   end
   
+  specify "should translate context ' to describe '" do
+    @t.translate_line(
+      "context 'Translator' do\n"
+    ).should eql(
+      "describe 'Translator' do\n"
+    )
+  end
+
+  specify 'should translate context " to describe "' do
+    @t.translate_line(
+      'context "Translator"'
+    ).should eql(
+      'describe "Translator"'
+    )
+  end
+
+  specify 'should translate spaces then context " to describe "' do
+    @t.translate_line(
+      '  context "Translator"'
+    ).should eql(
+      '  describe "Translator"'
+    )
+  end
+  
+  specify "should not translate context=foo" do
+    @t.translate_line('  context=foo').should eql('  context=foo')
+  end
+
+  specify "should not translate context = foo" do
+    @t.translate_line('  context = foo').should eql('  context = foo')
+  end
+
+  specify "should not translate context  =  foo" do
+    @t.translate_line('  context  =  foo').should eql('  context  =  foo')
+  end
+  
   specify "should translate should_be_close" do
     @t.translate_line('5.0.should_be_close(5.0, 0.5)').should eql('5.0.should be_close(5.0, 0.5)')
   end
@@ -108,16 +144,20 @@ context "Translator" do
   # http://rubyforge.org/tracker/index.php?func=detail&aid=9882&group_id=797&atid=3149
   it "should support symbol arguments" do
     @t.translate_line(
-      "lambda { sequence.parse\n('bar') }.should_throw :ZeroWidthParseSuccess"
+      "lambda { sequence.parse('bar') }.should_throw :ZeroWidthParseSuccess\n"
     ).should eql(
-      "lambda { sequence.parse\n('bar') }.should throw_symbol(:ZeroWidthParseSuccess)"
+      "lambda { sequence.parse('bar') }.should throw_symbol(:ZeroWidthParseSuccess)\n"
     )
   end
 
   # [#9882] 0.9 Beta 1 - translator bugs
   # http://rubyforge.org/tracker/index.php?func=detail&aid=9882&group_id=797&atid=3149
   it "should support instance var arguments" do
-    @t.translate_line("a.should_eql @local").should eql("a.should eql(@local)")
+    @t.translate_line(
+      "a.should_eql @local"
+    ).should eql(
+      "a.should eql(@local)"
+    )
   end
 
   # [#9882] 0.9 Beta 1 - translator bugs
