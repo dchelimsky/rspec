@@ -72,6 +72,8 @@ In alphabetical order (by last name)
 ** Multiple return values for stubs
 ** Port of scaffold_resource to rspec_resource (Rails)
 ** Contexts should call Module::included when they include a module
+* James Mead
+** Modified mocha to allow for it's use outside of test/unit
 * Micah Martin
 ** Spec::Rails patches for partials
 * Yurii Rashkovskii
@@ -102,6 +104,9 @@ In alphabetical order (by last name)
 ** Patch for RSpec.tmbundle to make it work with RSpec installed as a plugin
 * Nikolai Weibull
 ** Core patches for spec names
+* Jim Weirich
+** Modified flexmock to allow for it's use outside of test/unit
+** Supplied plugin patch to support flexmock directly in rspec
 * Mike Williams
 ** Core patches for arbitrary comparisons like 5.should_be < 6
 * Chad Wooley
