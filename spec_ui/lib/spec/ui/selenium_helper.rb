@@ -1,5 +1,3 @@
-require File.dirname(__FILE__) + '/webapp_helper'
-
 module Selenium
   class SeleniumDriver
     def click_and_wait(locator, timeout="5000")

@@ -122,6 +122,11 @@
 ./spec/spec/runner/formatter/html_formatter_spec.rb:16:
 ./spec/spec/runner/formatter/html_formatter_spec.rb:12:
 ./spec/spec/runner/formatter/html_formatter_spec.rb:11:</pre></div>
+    <pre><code>11:   it "should fail when expected message not received" do
+12:     mock = mock("poke me")
+13:     mock.should_receive(:poke)
+14:   end
+15:   </code></pre>
       </div>
     </dd>
     <script type="text/javascript">makeRed('header');</script>
@@ -135,6 +140,11 @@
 ./spec/spec/runner/formatter/html_formatter_spec.rb:16:
 ./spec/spec/runner/formatter/html_formatter_spec.rb:12:
 ./spec/spec/runner/formatter/html_formatter_spec.rb:11:</pre></div>
+    <pre><code>20:     mock.should_receive(:three).ordered
+21:     mock.one
+22:     mock.three
+23:     mock.two
+24:   end</code></pre>
       </div>
     </dd>
     <script type="text/javascript">makeRed('header');</script>
@@ -148,6 +158,11 @@
 ./spec/spec/runner/formatter/html_formatter_spec.rb:16:
 ./spec/spec/runner/formatter/html_formatter_spec.rb:12:
 ./spec/spec/runner/formatter/html_formatter_spec.rb:11:</pre></div>
+    <pre><code>26:   it "should get yelled at when sending unexpected messages" do
+27:     mock = mock("don't talk to me")
+28:     mock.should_not_receive(:any_message_at_all)
+29:     mock.any_message_at_all
+30:   end</code></pre>
       </div>
     </dd>
   </dl>
@@ -173,6 +188,11 @@ Diff:
 ./spec/spec/runner/formatter/html_formatter_spec.rb:16:
 ./spec/spec/runner/formatter/html_formatter_spec.rb:12:
 ./spec/spec/runner/formatter/html_formatter_spec.rb:11:</pre></div>
+    <pre><code>11: framework for Ruby
+12: EOF
+13:     usa.should == uk
+14:   end
+15: </code></pre>
       </div>
     </dd>
     <script type="text/javascript">makeRed('header');</script>
@@ -202,6 +222,11 @@ Diff:
 ./spec/spec/runner/formatter/html_formatter_spec.rb:16:
 ./spec/spec/runner/formatter/html_formatter_spec.rb:12:
 ./spec/spec/runner/formatter/html_formatter_spec.rb:11:</pre></div>
+    <pre><code>32:     expected = Animal.new "bob", "giraffe"
+33:     actual   = Animal.new "bob", "tortoise"
+34:     expected.should eql(actual)
+35:   end
+36: end</code></pre>
       </div>
     </dd>
   </dl>
@@ -236,7 +261,7 @@ Diff:
   </dl>
 </div>
 <script type="text/javascript">document.getElementById('duration').innerHTML = "Finished in <strong>x seconds</strong>";</script>
-<script type="text/javascript">document.getElementById('totals').innerHTML = "13 specifications, 5 failures";</script>
+<script type="text/javascript">document.getElementById('totals').innerHTML = "13 examples, 5 failures";</script>
 </div>
 </body>
 </html>

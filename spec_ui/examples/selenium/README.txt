@@ -8,12 +8,22 @@ with spec/ui. Prerequisites:
 * Copy selenium-server.jar into the spec directory.
 * Copy selenium.rb into the spec directory.
 
-After this is installed, open two shells.
+After this is installed, open two shells in this directory.
 
 In the first one, run:
 
-  java -jar selenium-server.jar
+  java -jar spec/selenium-server.jar
 
 In the second one, run:
 
-  rake
+  rake spec:ui
+  
+= Note for OS X users =
+
+== Firefox 2.0.0.1 ==
+If you experience that the selenium server is just hanging, read this:
+http://forums.openqa.org/message.jspa?messageID=16541
+
+== Safari ==
+You may have to set up Safari's proxy settings manually:
+http://forums.openqa.org/thread.jspa?messageID=20570&#20570

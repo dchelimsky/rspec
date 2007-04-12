@@ -217,7 +217,6 @@ task :package_tmbundle => :pkg do
     `tar cvzf RSpec-#{PKG_VERSION}.tmbundle.tgz RSpec.tmbundle`
   end
 end
-task :package => :package_tmbundle
 
 desc "Publish gem+tgz+zip on RubyForge. You must make sure lib/version.rb is aligned with the CHANGELOG file"
 task :publish_packages => [:verify_user, :package] do

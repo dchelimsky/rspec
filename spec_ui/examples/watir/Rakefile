@@ -1,27 +1,2 @@
-begin
-  gem 'rspec', '>=0.8.3'
-rescue LoadError => e
-  rspec_svn = File.dirname(__FILE__) + '/../../../rspec/lib'
-  raise e unless File.directory?(rspec_svn)
-  $LOAD_PATH.unshift(rspec_svn)
-end
-require 'spec/rake/spectask'
-
-report_dir = File.expand_path(File.dirname(__FILE__) + '/report')
-
-desc "Run Watir"
-Spec::Rake::SpecTask.new('watir') do |t|
-  t.spec_files = FileList['spec/**/*.rb']
-  t.spec_opts = ['--require', 'spec/spec_helper', '--format', 'Spec::Ui::WebappFormatter']
-  t.out = "#{report_dir}/index.html"
-end
-
-task :clean_report do
-  img_dir = "#{report_dir}/images"
-  ENV['RSPEC_IMG_DIR'] = img_dir
-  FileUtils.rm_rf(report_dir) if File.exist?(report_dir)
-  FileUtils.mkdir_p(report_dir) unless File.exist?(report_dir)
-end
-
-task :watir => :clean_report
-task :default => :watir
+require File.dirname(__FILE__) + '/spec/spec_helper'
+Spec::Ui.create_tasks

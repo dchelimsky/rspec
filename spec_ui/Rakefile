@@ -11,9 +11,9 @@ require 'hoe'
 include FileUtils
 require File.join(File.dirname(__FILE__), 'lib', 'spec', 'ui', 'version')
 
-AUTHOR = "aslak_hellesoy"  # can also be an array of Authors
-EMAIL = "your contact email for bug fixes and info"
-DESCRIPTION = "description of gem"
+AUTHOR = "Aslak Hellesoy"  # can also be an array of Authors
+EMAIL = "rspec-user@rubyforge.org"
+DESCRIPTION = "Run UI RSpec examples with screenshot reports"
 GEM_NAME = "spec_ui" # what ppl will type to install your gem
 RUBYFORGE_PROJECT = "rspec" # The unix name for your project
 HOMEPATH = "http://#{RUBYFORGE_PROJECT}.rubyforge.org"
@@ -46,4 +46,3 @@ hoe = Hoe.new(GEM_NAME, VERS) do |p|
   #p.extra_deps     - An array of rubygem dependencies.
   #p.spec_extras    - A hash of extra values to set in the gemspec.
 end
-          

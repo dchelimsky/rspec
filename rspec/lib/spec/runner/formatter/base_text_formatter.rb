@@ -9,6 +9,7 @@ module Spec
           @output = output
           @dry_run = dry_run
           @colour = colour
+          @snippet_extractor = SnippetExtractor.new
           begin ; require 'Win32/Console/ANSI' if @colour && PLATFORM =~ /win32/ ; rescue LoadError ; raise "You must gem install win32console to use colour on Windows" ; end
 	      end
 

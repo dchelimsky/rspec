@@ -1,2 +1,5 @@
-= 0.0.1 (trunk)
+= 0.0.2
+* Made setup much easier
+
+= 0.0.1
 * Applied [#7685] spec_ui feedback and patch (Patch from Alvin Schur)

@@ -1,18 +1,11 @@
-# You don't need these lines of you've got RSpec and spec/ui installed from gems
-$LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + "/../../../../rspec/lib"))
-$LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + "/../../../lib"))
+# You don't need to tweak the $LOAD_PATH if you have RSpec and Spec::Ui installed as gems
+$LOAD_PATH.unshift(File.dirname(__FILE__) + '/../../../../rspec/lib')
+$LOAD_PATH.unshift(File.dirname(__FILE__) + '/../../../lib')
 
 require 'rubygems'
-require 'spec/ui/selenium_helper'
-require File.dirname(__FILE__) + '/selenium'
+require 'spec'
+require 'spec/ui'
 
-module Spec
-  module Runner
-    class Context
-      def before_context_eval #:nodoc:
-        include Spec::Ui::WebappHelper
-      end
-    end
-  end
+Spec::Runner.configure do |config|
+  config.spec_ui_report_dir = File.dirname(__FILE__) + '/report'
 end
-

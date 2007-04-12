@@ -7,12 +7,6 @@ with spec/ui. Prerequisites:
 * gem install watir -y # If you're on Windows
 * gem install safariwatir -y # If you're on OS X
 
-After this is installed, open two shells.
+After this is installed, run the watir specs:
 
-In the first one, run:
-
-  java -jar selenium-server.jar
-
-In the second one, run:
-
-  rake
+  rake spec:ui

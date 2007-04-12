@@ -2,16 +2,25 @@ module Spec
   module Runner
     module Formatter
       class HtmlFormatter < BaseTextFormatter
-        attr_reader :current_context_number
         
         def initialize(output, dry_run=false, colour=false)
           super
-          @current_spec_number = 0
-          @current_context_number = 0
+          @current_behaviour_number = 0
+          @current_example_number = 0
         end
 
-        def start(spec_count)
-          @spec_count = spec_count
+        # The number of the currently running behaviour
+        def current_behaviour_number
+          @current_behaviour_number
+        end
+        
+        # The number of the currently running example
+        def current_example_number
+          @current_example_number
+        end
+        
+        def start(example_count)
+          @example_count = example_count
 
           @output.puts HEADER_1
           @output.puts extra_header_content unless extra_header_content.nil?
@@ -20,14 +29,14 @@ module Spec
         end
 
         def add_behaviour(name)
-          @current_context_number += 1
-          unless @current_context_number == 1
+          @current_behaviour_number += 1
+          unless current_behaviour_number == 1
             @output.puts "  </dl>"
             @output.puts "</div>"
           end
           @output.puts "<div class=\"context\">"
           @output.puts "  <dl>"
-          @output.puts "  <dt id=\"context_#{@current_context_number}\">#{name}</dt>"
+          @output.puts "  <dt id=\"context_#{current_behaviour_number}\">#{name}</dt>"
           STDOUT.flush
         end
 
@@ -38,21 +47,25 @@ module Spec
         end
 
         def spec_passed(name)
+          @current_example_number += 1
           move_progress
           @output.puts "    <dd class=\"spec passed\"><span class=\"passed_spec_name\">#{escape(name)}</span></dd>"
           STDOUT.flush
         end
 
         def spec_failed(name, counter, failure)
+          extra = extra_failure_content(failure)
+          
+          @current_example_number += 1
           @output.puts "    <script type=\"text/javascript\">makeRed('header');</script>"
-          @output.puts "    <script type=\"text/javascript\">makeRed('context_#{@current_context_number}');</script>"
+          @output.puts "    <script type=\"text/javascript\">makeRed('context_#{current_behaviour_number}');</script>"
           move_progress
           @output.puts "    <dd class=\"spec failed\">"
           @output.puts "      <span class=\"failed_spec_name\">#{escape(name)}</span>"
           @output.puts "      <div class=\"failure\" id=\"failure_#{counter}\">"
           @output.puts "        <div class=\"message\"><pre>#{escape(failure.exception.message)}</pre></div>" unless failure.exception.nil?
           @output.puts "        <div class=\"backtrace\"><pre>#{format_backtrace(failure.exception.backtrace)}</pre></div>" unless failure.exception.nil?
-          @output.puts extra_failure_content unless extra_failure_content.nil?
+          @output.puts extra unless extra == ""
           @output.puts "      </div>"
           @output.puts "    </dd>"
           STDOUT.flush
@@ -66,12 +79,12 @@ module Spec
         # Override this method if you wish to output extra HTML for a failed spec. For example, you
         # could output links to images or other files produced during the specs.
         #
-        def extra_failure_content
+        def extra_failure_content(failure)
+          "    <pre><code>#{@snippet_extractor.snippet(failure.exception)}</code></pre>"
         end
         
         def move_progress
-          @current_spec_number += 1
-          percent_done = @spec_count == 0 ? 100.0 : (@current_spec_number.to_f / @spec_count.to_f * 1000).to_i / 10.0
+          percent_done = @example_count == 0 ? 100.0 : (current_example_number.to_f / @example_count.to_f * 1000).to_i / 10.0
           @output.puts "    <script type=\"text/javascript\">moveProgressBar('#{percent_done}');</script>"
         end
         
@@ -82,11 +95,11 @@ module Spec
         def dump_failure(counter, failure)
         end
 
-        def dump_summary(duration, spec_count, failure_count)
+        def dump_summary(duration, example_count, failure_count)
           if @dry_run
             totals = "This was a dry-run"
           else
-            totals = "#{spec_count} specification#{'s' unless spec_count == 1}, #{failure_count} failure#{'s' unless failure_count == 1}"
+            totals = "#{example_count} example#{'s' unless example_count == 1}, #{failure_count} failure#{'s' unless failure_count == 1}"
           end
           @output.puts "<script type=\"text/javascript\">document.getElementById('duration').innerHTML = \"Finished in <strong>#{duration} seconds</strong>\";</script>"
           @output.puts "<script type=\"text/javascript\">document.getElementById('totals').innerHTML = \"#{totals}\";</script>"

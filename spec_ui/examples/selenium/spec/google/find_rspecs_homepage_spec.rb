@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 context "Google's search page" do
   context_setup do
-    @browser = Selenium::SeleniumDriver.new("localhost", 4444, "*firefox", "http://www.google.no", 10000)
+    @browser = Selenium::SeleniumDriver.new("localhost", 4444, "*safari", "http://www.google.no", 10000)
     @browser.start
   end
     

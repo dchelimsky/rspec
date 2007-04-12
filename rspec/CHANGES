@@ -37,6 +37,8 @@ put this in a file that is loaded before your specs:
   end
 
 * Sugar FREE!
+* Made Spec::Ui *much* easier to install. It will be released separately. Check out trunk/spec_ui/examples
+* HTML reports now include a snippet of the source code where the spec failed (from first line of backtrace)
 * Added [#9735] support flexmock (thanks to Jim Weirich for his modifications to flexmock to support this)
 * Spec::Rails controller specs will no longer let mock exception ripple through to the response.
 * Fixed [#9260] IvarProxy does not act like a hash.
