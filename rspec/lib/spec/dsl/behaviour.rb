@@ -34,16 +34,16 @@ module Spec
         plugin_mock_framework
         reporter.add_behaviour(description)
         prepare_execution_context_class
-        errors = run_context_setup(reporter, dry_run)
+        errors = run_before_all(reporter, dry_run)
 
         specs = reverse ? examples.reverse : examples
         specs.each do |example|
           example_execution_context = execution_context(example)
-          example_execution_context.copy_instance_variables_from(@once_only_execution_context_instance, []) unless context_setup_block.nil?
+          example_execution_context.copy_instance_variables_from(@once_only_execution_context_instance, []) unless before_all_block.nil?
           example.run(reporter, setup_block, teardown_block, dry_run, example_execution_context, timeout)
         end unless errors.length > 0
         
-        run_context_teardown(reporter, dry_run)
+        run_after_all(reporter, dry_run)
       end
 
       def number_of_examples
@@ -75,8 +75,8 @@ module Spec
 
     protected
 
-      def_delegator :@eval_module, :context_setup_block
-      def_delegator :@eval_module, :context_teardown_block
+      def_delegator :@eval_module, :before_all_block
+      def_delegator :@eval_module, :after_all_block
       def_delegator :@eval_module, :examples
       def_delegator :@eval_module, :setup_block
       def_delegator :@eval_module, :teardown_block
@@ -111,28 +111,28 @@ module Spec
         execution_context_class.new(example)
       end
 
-      def run_context_setup(reporter, dry_run)
+      def run_before_all(reporter, dry_run)
         errors = []
         unless dry_run
           begin
             @once_only_execution_context_instance = execution_context(nil)
-            @once_only_execution_context_instance.instance_eval(&context_setup_block)
+            @once_only_execution_context_instance.instance_eval(&before_all_block)
           rescue => e
             errors << e
-            location = "context_setup"
+            location = "before(:all)"
             reporter.example_finished(location, e, location) if reporter
           end
         end
         errors
       end
       
-      def run_context_teardown(reporter, dry_run)
+      def run_after_all(reporter, dry_run)
         unless dry_run
           begin 
             @once_only_execution_context_instance ||= execution_context(nil) 
-            @once_only_execution_context_instance.instance_eval(&context_teardown_block) 
+            @once_only_execution_context_instance.instance_eval(&after_all_block) 
           rescue => e
-            location = "context_teardown"
+            location = "after(:all)"
             reporter.example_finished(location, e, location) if reporter
           end
         end

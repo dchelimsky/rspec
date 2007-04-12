@@ -35,78 +35,78 @@ module Spec
         $spec_ran.should be_false
       end
 
-      it "should not run context_setup or context_teardown on dry run" do
+      it "should not run before(:all) or after(:all) on dry run" do
         @formatter.should_receive(:add_behaviour).with :any_args
         @formatter.should_receive(:example_finished).with "test"
         
-        context_setup_ran = false
-        context_teardown_ran = false
-        @behaviour.context_setup { context_setup_ran = true }
-        @behaviour.context_teardown { context_teardown_ran = true }
+        before_all_ran = false
+        after_all_ran = false
+        @behaviour.before(:all) { before_all_ran = true }
+        @behaviour.after(:all) { after_all_ran = true }
         @behaviour.specify("test") {true}
         @behaviour.run(@formatter, true)
-        context_setup_ran.should be_false
-        context_teardown_ran.should be_false
+        before_all_ran.should be_false
+        after_all_ran.should be_false
       end
 
-      it "should not run context if context_setup fails" do
+      it "should not run context if before(:all) fails" do
         @formatter.should_receive(:add_behaviour).with :any_args
         @formatter.should_receive(:example_finished).with :any_args
         
         spec_ran = false
-        @behaviour.context_setup { raise "help" }
+        @behaviour.before(:all) { raise "help" }
         @behaviour.specify("test") {spec_ran = true}
         @behaviour.run(@formatter)
         spec_ran.should be_false
       end
 
-      it "should run context_teardown if any spec fails" do
+      it "should run after(:all) if any spec fails" do
         @formatter.should_receive(:add_behaviour).with :any_args
         @formatter.should_receive(:example_finished).with :any_args
         
-        context_teardown_ran = false
-        @behaviour.context_setup { raise "context_setup error" }
-        @behaviour.context_teardown { context_teardown_ran = true }
+        after_all_ran = false
+        @behaviour.before(:all) { raise "before all error" }
+        @behaviour.after(:all) { after_all_ran = true }
         @behaviour.run(@formatter)
-        context_teardown_ran.should be_true
+        after_all_ran.should be_true
       end
 
-      it "should run context_teardown if any context_setup fails" do
+      it "should run after(:all) if any before(:all) fails" do
         @formatter.should_receive(:add_behaviour).with :any_args
         @formatter.should_receive(:example_finished).with :any_args
         
-        context_teardown_ran = false
-        @behaviour.context_teardown { context_teardown_ran = true }
-        @behaviour.specify("test") {raise "spec error" }
+        after_all_ran = false
+        @behaviour.after(:all) { after_all_ran = true }
+        @behaviour.specify("test") { raise "spec error" }
         @behaviour.run(@formatter)
-        context_teardown_ran.should be_true
+        after_all_ran.should be_true
       end
 
 
-      it "should supply context_setup as spec name if failure in context_setup" do
+      it "should supply before(:all) as spec name if failure in before(:all)" do
         @formatter.should_receive(:add_behaviour).with :any_args
 
         @formatter.should_receive(:example_finished) do |name, error, location|
-          name.should eql("context_setup")
-          error.message.should eql("in context_setup")
-          location.should eql("context_setup")
+          name.should eql("before(:all)")
+          error.message.should eql("in before(:all)")
+          location.should eql("before(:all)")
         end
         
-        @behaviour.context_setup { raise "in context_setup" }
+        @behaviour.before(:all) { raise "in before(:all)" }
         @behaviour.specify("test") {true}
         @behaviour.run(@formatter)
       end
 
-      it "should provide context_teardown as spec name if failure in context_teardown" do
+      it "should provide after(:all) as spec name if failure in after(:all)" do
         @formatter.should_receive(:add_behaviour).with :any_args
 
         @formatter.should_receive(:example_finished) do |name, error, location|
-          name.should eql("context_teardown")
-          error.message.should eql("in context_teardown")
-          location.should eql("context_teardown")
+          name.should eql("after(:all)")
+          error.message.should eql("in after(:all)")
+          location.should eql("after(:all)")
         end
         
-        @behaviour.context_teardown { raise "in context_teardown" }
+        @behaviour.after(:all) { raise "in after(:all)" }
         @behaviour.run(@formatter)
       end
 
@@ -123,7 +123,7 @@ module Spec
         @behaviour.inherit(super_class)
 
         context_setup_run_count = 0
-        @behaviour.context_setup {context_setup_run_count += 1}
+        @behaviour.before(:all) {context_setup_run_count += 1}
         @behaviour.specify("test") {true}
         @behaviour.specify("test2") {true}
         @behaviour.run(@formatter)
@@ -151,7 +151,7 @@ module Spec
         setup_ran.should be_true
       end
 
-      it "should run superclass context_teardown method and context_teardown block only once" do
+      it "should run superclass context_teardown method and after(:all) block only once" do
         @formatter.should_receive(:add_behaviour).with :any_args
         @formatter.should_receive(:example_finished).twice.with :any_args
 
@@ -164,7 +164,7 @@ module Spec
         @behaviour.inherit super_class
 
         context_teardown_run_count = 0
-        @behaviour.context_teardown {context_teardown_run_count += 1}
+        @behaviour.after(:all) {context_teardown_run_count += 1}
         @behaviour.specify("test") {true}
         @behaviour.specify("test2") {true}
         @behaviour.run(@formatter)
@@ -173,32 +173,32 @@ module Spec
         @formatter.__verify
       end
 
-      it "context_teardown should have access to all instance variables defined in context_setup" do
+      it "after(:all) should have access to all instance variables defined in before(:all)" do
         @formatter.should_receive(:add_behaviour).with :any_args
         @formatter.should_receive(:example_finished).with :any_args
 
         context_instance_value_in = "Hello there"
         context_instance_value_out = ""
-        @behaviour.context_setup { @instance_var = context_instance_value_in }
-        @behaviour.context_teardown { context_instance_value_out = @instance_var }
+        @behaviour.before(:all) { @instance_var = context_instance_value_in }
+        @behaviour.after(:all) { context_instance_value_out = @instance_var }
         @behaviour.specify("test") {true}
         @behaviour.run(@formatter)
         context_instance_value_in.should == context_instance_value_out
       end
 
-      it "should copy instance variables from context_setup's execution context into spec's execution context" do
+      it "should copy instance variables from before(:all)'s execution context into spec's execution context" do
         @formatter.should_receive(:add_behaviour).with :any_args
         @formatter.should_receive(:example_finished).with :any_args
 
         context_instance_value_in = "Hello there"
         context_instance_value_out = ""
-        @behaviour.context_setup { @instance_var = context_instance_value_in }
+        @behaviour.before(:all) { @instance_var = context_instance_value_in }
         @behaviour.specify("test") {context_instance_value_out = @instance_var}
         @behaviour.run(@formatter)
         context_instance_value_in.should == context_instance_value_out
       end
 
-      it "should call context_setup before any setup" do
+      it "should call before(:all) before any setup" do
         @formatter.should_receive(:add_behaviour).with :any_args
         @formatter.should_receive(:example_finished).with :any_args
 
@@ -210,15 +210,15 @@ module Spec
         end
         @behaviour.inherit super_class
 
-        @behaviour.context_setup { fiddle << "context_setup" }
+        @behaviour.before(:all) { fiddle << "before(:all)" }
         @behaviour.setup { fiddle << "setup" }
         @behaviour.specify("test") {true}
         @behaviour.run(@formatter)
-        fiddle.first.should == "context_setup"
+        fiddle.first.should == "before(:all)"
         fiddle.last.should == "setup"
       end
 
-      it "should call context_teardown after any teardown" do
+      it "should call after(:all) after any teardown" do
         @formatter.should_receive(:add_behaviour).with :any_args
         @formatter.should_receive(:example_finished).with :any_args
 
@@ -230,16 +230,16 @@ module Spec
         end
         @behaviour.inherit super_class
 
-        @behaviour.context_teardown { fiddle << "context_teardown" }
+        @behaviour.after(:all) { fiddle << "after(:all)" }
         @behaviour.teardown { fiddle << "teardown" }
         @behaviour.specify("test") {true}
         @behaviour.run(@formatter)
         fiddle.first.should == "superclass teardown"
-        fiddle.last.should == "context_teardown"
+        fiddle.last.should == "after(:all)"
       end
 
 
-      it "should run superclass teardown method and teardown block" do
+      it "should run superclass teardown method and after block" do
         @formatter.should_receive(:add_behaviour).with :any_args
         @formatter.should_receive(:example_finished).with :any_args
 
@@ -252,7 +252,7 @@ module Spec
         @behaviour.inherit super_class
 
         teardown_ran = false
-        @behaviour.teardown {teardown_ran = true}
+        @behaviour.after {teardown_ran = true}
         @behaviour.specify("test") {true}
         @behaviour.run(@formatter)
         super_class_teardown_ran.should be_true
@@ -390,6 +390,14 @@ module Spec
         example.should_receive(:matches?).and_return(true)
         @behaviour.stub!(:examples).and_return([example])
         @behaviour.should be_matches(['jalla'])
+      end
+    
+      it "should support deprecated context_setup and context_teardown" do
+        formatter = mock("formatter", :null_object => true)
+        behaviour = Behaviour.new('example') do
+          context_setup {}
+          context_teardown {}
+        end.run(formatter)
       end
     end
     

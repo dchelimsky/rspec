@@ -12,20 +12,34 @@ module Spec
           mod.send :included, self
         end
         
+        def before(scope=:each, &block)
+          case scope
+          when :each; before_each_parts << block
+          when :all;  before_all_parts << block
+          end
+        end
+        
+        def after(scope=:each, &block)
+          case scope
+          when :each; after_each_parts << block
+          when :all;  after_all_parts << block
+          end
+        end
+
+        # Backwards compatibility - should we deprecate?
+        alias :setup :before
+
+        # Backwards compatibility - should we deprecate?
+        alias :teardown :after
+
+        # Deprecated - use "before(:all) { ... }"
         def context_setup(&block)
-          context_setup_parts << block
+          before(:all, &block)
         end
 
+        # Deprecated - use "after(:all) { ... }"
         def context_teardown(&block)
-          context_teardown_parts << block
-        end
-
-        def setup(&block)
-          setup_parts << block
-        end
-
-        def teardown(&block)
-          teardown_parts << block
+          after(:all, &block)
         end
 
         def it(description=:__generate_description, opts={}, &block)
@@ -50,26 +64,26 @@ module Spec
 
       private
 
-        def context_setup_block
-          parts = context_setup_parts.dup
+        def before_all_block
+          parts = before_all_parts.dup
           add_behaviour_superclass_method(:context_setup, parts)
           create_block_from_parts(parts)
         end
 
-        def context_teardown_block
-          parts = context_teardown_parts.dup
+        def after_all_block
+          parts = after_all_parts.dup
           add_behaviour_superclass_method(:context_teardown, parts)
           create_block_from_parts(parts)
         end
 
         def setup_block
-          parts = setup_parts.dup
+          parts = before_each_parts.dup
           add_behaviour_superclass_method(:setup, parts)
           create_block_from_parts(parts)
         end
         
         def teardown_block
-          parts = teardown_parts.dup
+          parts = after_each_parts.dup
           add_behaviour_superclass_method(:teardown, parts)
           create_block_from_parts(parts)
         end
@@ -94,20 +108,20 @@ module Spec
           @examples ||= []
         end
 
-        def context_setup_parts
-          @context_setup_parts ||= []
+        def before_all_parts
+          @before_all_parts ||= []
         end
 
-        def context_teardown_parts
-          @context_teardown_parts ||= []
+        def after_all_parts
+          @after_all_parts ||= []
         end
 
-        def setup_parts
-          @setup_parts ||= []
+        def before_each_parts
+          @before_each_parts ||= []
         end
 
-        def teardown_parts
-          @teardown_parts ||= []
+        def after_each_parts
+          @after_each_parts ||= []
         end
 
         def add_behaviour_superclass_method sym, parts

@@ -21,7 +21,7 @@ module Spec
   # 
   #   describe Account do
   # 
-  #     setup do
+  #     before do
   #       @account = Account.new
   #     end
   # 
@@ -31,7 +31,7 @@ module Spec
   # 
   #   end
   # 
-  # We use the setup block to set up the Behaviour (given), and then the #it method to
+  # We use the before block to set up the Behaviour (given), and then the #it method to
   # hold the example code that expresses the event (when) and the expected outcome (then).
   # 
   # == Helper Methods
@@ -46,14 +46,15 @@ module Spec
   # 
   # == Setup and Teardown
   # 
-  # You can use setup, teardown, context_setup and context_teardown within a context:
+  # You can use before and after within a Behaviour. Both methods take an optional
+  # scope argument so you can run the block before :each example or before :all examples
   # 
   #   describe "..." do
-  #     context_setup do
+  #     before :all do
   #       ...
   #     end
   # 
-  #     setup do
+  #     before :each do
   #       ...
   #     end
   # 
@@ -65,22 +66,22 @@ module Spec
   #       ...
   #     end
   # 
-  #     teardown do
+  #     after :each do
   #       ...
   #     end
   # 
-  #     context_teardown do
+  #     after :all do
   #       ...
   #     end
   # 
   #   end
   # 
-  # The <tt>setup</tt> block will run before each of the examples, once for each example. Likewise,
-  # the <tt>teardown</tt> block will run after each of the examples.
+  # The <tt>before :each</tt> block will run before each of the examples, once for each example. Likewise,
+  # the <tt>after :each</tt> block will run after each of the examples.
   # 
-  # It is also possible to specify a <tt>context_setup</tt> and <tt>context_teardown</tt>
-  # block that will run only once for each behaviour, respectively before the first <code>setup</code>
-  # and after the last <code>teardown</code>. The use of these is generally discouraged, because it
+  # It is also possible to specify a <tt>before :all</tt> and <tt>after :all</tt>
+  # block that will run only once for each behaviour, respectively before the first <code>before :each</code>
+  # and after the last <code>after :each</code>. The use of these is generally discouraged, because it
   # introduces dependencies between the examples. Still, it might prove useful for very expensive operations
   # if you know what you are doing.
   # 
@@ -88,9 +89,9 @@ module Spec
   # 
   # You can include local helper methods by simply expressing them within a context:
   # 
-  #   context "..." do
+  #   describe "..." do
   #   
-  #     specify "..." do
+  #     it "..." do
   #       helper_method
   #     end
   # 
@@ -113,7 +114,7 @@ module Spec
   # 
   #   describe "A new account" do
   #     include AccountExampleHelperMethods
-  #     setup do
+  #     before do
   #       @account = Account.new
   #     end
   # 

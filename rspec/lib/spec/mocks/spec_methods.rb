@@ -12,7 +12,7 @@ module Spec
       end
 
       # By default, mocks are auto_verifying - call this from within a specify block
-      # to disable auto_verification for that spec. Call it from setup or context_setup
+      # to disable auto_verification for that spec. Call it from setup or before(:all)
       # to disable it for the whole context.
       #
       # Really for internal use only - hence the :nodoc:
