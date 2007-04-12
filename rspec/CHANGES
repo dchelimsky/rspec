@@ -10,10 +10,16 @@ backwards compatibility). This allows you to express specs like this:
     end
   end
 
-The command line features two new options: --reverse and --loadby. They give you more control
-over the order in which specs are run. This can be used to verify that your specs are
+The command line features four new options that give you more control over what specs
+are being run and in what order. This can be used to verify that your specs are
 independent (by running in opposite order with --reverse). It can also be used to cut 
 down feedback time by running the most recently modified specs first (--loadby mtime --reverse).
+
+Further, --example replaces the old --spec option, and it can now take a file name of
+spec names as an alternative to just a spec name. The --failure option allows you to
+output an --example compatible file, which makes it possible to only rerun the specs
+that failed in the last run. Spec::Rails uses all of these four options by default
+to optimise your RSpec experience.
 
 There is now a simple configuration model. For Spec::Rails, you do something like this:
 
