@@ -1,9 +1,9 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 require 'ostruct'
 
-context "/people/show" do
+describe "/people/show" do
   
-  specify "should display the person's pets" do
+  it "should display the person's pets" do
     person = mock("person")
     person.should_receive(:pets).and_return([OpenStruct.new(:name => 'Hannibal'), OpenStruct.new(:name => 'Rufus')])
 

@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
-context "/people/list" do
+describe "/people/list" do
 
   setup do
     @smith = mock_model(Person)
@@ -10,7 +10,7 @@ context "/people/list" do
     assigns[:people] = [@smith, @jones]
   end
 
-  specify "should display the list of people" do
+  it "should display the list of people" do
     @smith.should_receive(:name).exactly(3).times.and_return("Smith")
     @jones.should_receive(:name).exactly(3).times.and_return("Jones")
 
@@ -22,12 +22,12 @@ context "/people/list" do
     end
   end
 
-  specify "should have a <div> tag with :id => 'a" do
+  it "should have a <div> tag with :id => 'a" do
     render "/people/list"
     response.should have_tag('div#a')
   end
 
-  specify "should have a <hr> tag with :id => 'spacer" do
+  it "should have a <hr> tag with :id => 'spacer" do
     render "/people/list"
     response.should have_tag('hr#spacer')
   end

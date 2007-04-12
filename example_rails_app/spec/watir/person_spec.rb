@@ -14,7 +14,7 @@ describe "Person Webpage" do
     @browser.goto("http://localhost:3000/people/create")
     @browser.text_field(:id, "person_name").set("Some name")
     @browser.button(:name, "commit").click
-    @browser.should_contain_text("Some names")
+    @browser.should be_contain_text("Some names")
   end
 end
 =end

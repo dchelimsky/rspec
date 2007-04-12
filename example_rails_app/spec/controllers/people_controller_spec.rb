@@ -14,7 +14,7 @@ describe PeopleController do
     Person.stub!(:new).and_return(@person)
   end
   
-  specify "should create a new, unsaved person on GET to create" do
+  it "should create a new, unsaved person on GET to create" do
     # Using should_receive here overrides the stub in setup. Even
     # though it is the same as the stub, using should_receive sets
     # an expectation that  will be verified. It also helps to
@@ -23,23 +23,23 @@ describe PeopleController do
     get 'create'
   end
   
-  specify "should assign new person to template on GET to create" do
+  it "should assign new person to template on GET to create" do
     get 'create'
     assigns[:person].should equal(@person)
   end
   
-  specify "should render 'people/create' on GET to create" do
+  it "should render 'people/create' on GET to create" do
     get 'create'
     response.should render_template(:create)
   end
   
-  specify "should tell the Person model to create a new person on POST to create" do
+  it "should tell the Person model to create a new person on POST to create" do
     Person.should_receive(:create).with({"name" => 'Aslak'}).and_return(@person)
     
     post 'create', {:person => {:name => 'Aslak'}}
   end
   
-  specify "with a valid person should redirect to index on successful POST to create" do
+  it "with a valid person should redirect to index on successful POST to create" do
     @person.should_receive(:new_record?).and_return(false)
     Person.should_receive(:create).with({"name" => 'Aslak'}).and_return(@person)
     
@@ -48,7 +48,7 @@ describe PeopleController do
     response.should redirect_to(:action => 'index')
   end
   
-  specify "with a valid person re-render 'people/create' on failed POST to create" do
+  it "with a valid person re-render 'people/create' on failed POST to create" do
     @person.should_receive(:new_record?).and_return(true)
     Person.should_receive(:create).with({"name" => 'Aslak'}).and_return(@person)
     
@@ -60,7 +60,7 @@ describe PeopleController do
   end
 end
 
-context "When requesting /people with controller isolated from views" do
+describe "When requesting /people with controller isolated from views" do
   # If you do not pass the controller to #describe, you need to declare the controller name
   controller_name :people
 
@@ -72,18 +72,18 @@ context "When requesting /people with controller isolated from views" do
     get 'index'
   end
 
-  specify "the response should render 'list'" do
+  it "the response should render 'list'" do
     response.should render_template(:list)
   end
 
-  specify "should find all people on GET to index" do
+  it "should find all people on GET to index" do
     get 'index'
     assigns[:people].should equal(@people)
   end
 
 end
 
-context "When requesting /people with views integrated" do
+describe "When requesting /people with views integrated" do
   controller_name :people
   integrate_views
 
@@ -95,22 +95,22 @@ context "When requesting /people with views integrated" do
     get 'index'
   end
   
-  specify "the response should render 'list'" do
+  it "the response should render 'list'" do
     response.should render_template(:list)
   end
 
-  specify "the response should not render 'index'" do
+  it "the response should not render 'index'" do
     lambda {
       response.should render_template(:index)
     }.should raise_error
   end
 
-  specify "should find all people on GET to index" do
+  it "should find all people on GET to index" do
     response.should be_success
     assigns[:people].should equal(@people)
   end
   
-  specify "should list pets on GET to show" do
+  it "should list pets on GET to show" do
     person = mock("person")
     person.should_receive(:pets).and_return([OpenStruct.new(:name => 'Hannibal'), OpenStruct.new(:name => 'Rufus')])
     Person.should_receive(:find).with('4').and_return(person)
@@ -121,14 +121,14 @@ context "When requesting /people with views integrated" do
   end
 end
 
-context "/people/show/3" do
+describe "/people/show/3" do
   controller_name :people
   
   setup do
     @person = mock("person")
   end
   
-  specify "should get person with id => 3 from model" do
+  it "should get person with id => 3 from model" do
     Person.should_receive(:find).with("3").and_return(@person)
     
     get 'show', :id => 3
@@ -137,19 +137,19 @@ context "/people/show/3" do
   end
 end
 
-context "Given an attempt to show a person that doesn't exist" do
+describe "Given an attempt to show a person that doesn't exist" do
   controller_name :people
   
   setup do
     Person.stub!(:find)
   end
 
-  specify "should not assign a person" do
+  it "should not assign a person" do
     get 'show', :id => 'broken'
     assigns[:person].should == nil
   end
 
-  specify "should render 404 file" do
+  it "should render 404 file" do
     get 'show', :id => 'broken'
     response.should render_template("#{RAILS_ROOT}/public/404.html")
     response.headers["Status"].should == "404 Not Found"

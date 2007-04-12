@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
-context "/people/create" do
+describe "/people/create" do
   include PeopleHelper
   
   setup do
@@ -8,7 +8,7 @@ context "/people/create" do
     assigns[:people] = [@person]
   end
 
-  specify "should display stuff from helper" do
+  it "should display stuff from helper" do
     render "/people/create"
     response.should have_tag('input#person_address')
   end
