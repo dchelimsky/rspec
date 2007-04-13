@@ -4,7 +4,7 @@ module Spec
       MAJOR  = 0
       MINOR  = 9
       TINY   = 0
-      RELEASE_CANDIDATE = "beta-1"
+      RELEASE_CANDIDATE = "beta-2"
       
       # RANDOM_TOKEN: 0.835280735158628
       REV = "$LastChangedRevision$".match(/LastChangedRevision: (\d+)/)[1]
