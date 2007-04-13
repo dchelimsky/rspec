@@ -210,13 +210,14 @@ task :publish_website => [:verify_user, :website] do
 end
 
 desc "Package the RSpec.tmbundle"
-task :pkg => :package_tmbundle do
+task :package_tmbundle do
   rm_rf 'pkg/RSpec.tmbundle'
   `svn export ../RSpec.tmbundle pkg/RSpec.tmbundle`
   Dir.chdir 'pkg' do
     `tar cvzf RSpec-#{PKG_VERSION}.tmbundle.tgz RSpec.tmbundle`
   end
 end
+task :pkg => :package_tmbundle
 
 desc "Publish gem+tgz+zip on RubyForge. You must make sure lib/version.rb is aligned with the CHANGELOG file"
 task :publish_packages => [:verify_user, :package] do
