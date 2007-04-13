@@ -233,6 +233,14 @@ EOF
   .escape { color: white; }
   .interp { color: white; }
   .expr { color: white; }
+
+  .offending { background-color: gray; }
+  .linenum {
+  	width: 75px;
+  	padding: 0.1em 1em 0.2em 0;
+  	color: #000000;
+  	background-color: #FFFBD3;
+  }
   </style>
 </head>
 <body>
