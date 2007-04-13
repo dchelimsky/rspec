@@ -3,9 +3,12 @@ module Spec
     module Formatter
       # This class extracts code snippets by looking at the backtrace of the passed error
       class SnippetExtractor #:nodoc:
+        class NullConverter; def convert(code); code; end; end #:nodoc:
+        begin; require 'rubygems'; require 'syntax/convertors/html'; @@converter = Syntax::Convertors::HTML.for_syntax "ruby"; rescue LoadError => e; @@converter = NullConverter.new; end
+        
         def snippet(error)
           code = snippet_for(error.backtrace[0])
-          syntax(code)
+          highlighted = @@converter.convert(code)
         end
         
         def snippet_for(error_line)
@@ -36,11 +39,6 @@ module Spec
           end
         end
         
-        def syntax(code)
-          require 'syntax/convertors/html'
-          @ruby2html ||= Syntax::Convertors::HTML.for_syntax "ruby"
-          @ruby2html.convert(code)
-        end
       end
     end
   end
