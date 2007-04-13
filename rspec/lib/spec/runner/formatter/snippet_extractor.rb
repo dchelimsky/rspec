@@ -7,9 +7,9 @@ module Spec
         begin; require 'rubygems'; require 'syntax/convertors/html'; @@converter = Syntax::Convertors::HTML.for_syntax "ruby"; rescue LoadError => e; @@converter = NullConverter.new; end
         
         def snippet(error)
-          code, line = snippet_for(error.backtrace[0])
-          highlighted = @@converter.convert(code, false)
-          highlighted == code ? code : post_process(highlighted, line)
+          raw_code, line = snippet_for(error.backtrace[0])
+          highlighted = @@converter.convert(raw_code, false)
+          post_process(highlighted, line)
         end
         
         def snippet_for(error_line)
@@ -35,9 +35,9 @@ module Spec
           end
         end
         
-        def post_process(html, offending_line)
+        def post_process(highlighted, offending_line)
           new_lines = []
-          html.split("\n").each_with_index do |line, i|
+          highlighted.split("\n").each_with_index do |line, i|
             new_line = "<span class=\"linenum\">#{offending_line+i-2}</span>#{line}"
             new_line = "<span class=\"offending\">#{new_line}</span>" if i == 2
             new_lines << new_line
