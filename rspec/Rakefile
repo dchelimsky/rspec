@@ -210,7 +210,7 @@ task :publish_website => [:verify_user, :website] do
 end
 
 desc "Package the RSpec.tmbundle"
-task :package_tmbundle => :pkg do
+task :pkg => :package_tmbundle do
   rm_rf 'pkg/RSpec.tmbundle'
   `svn export ../RSpec.tmbundle pkg/RSpec.tmbundle`
   Dir.chdir 'pkg' do
