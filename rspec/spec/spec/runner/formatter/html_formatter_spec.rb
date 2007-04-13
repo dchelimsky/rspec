@@ -27,7 +27,7 @@ context "HtmlFormatter" do
         if opt == '--diff'
           # Uncomment this line temporarily in order to overwrite the expected with actual.
           # Use with care!!!
-          File.open(expected_file, 'w') {|io| io.write(html)}
+          # File.open(expected_file, 'w') {|io| io.write(html)}
 
           html.should == expected_html
         else
