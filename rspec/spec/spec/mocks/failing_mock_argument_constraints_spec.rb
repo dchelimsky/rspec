@@ -3,10 +3,13 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 module Spec
   module Mocks
     context "FailingMockArgumentConstraints" do
-      setup do
-        disable_auto_verification_of_mocks
+      before do
         @mock = mock("test mock")
         @reporter = Mock.new("reporter", :null_object => true)
+      end
+      
+      after do
+        @mock.rspec_reset
       end
       
       specify "should reject goose when expecting a duck" do

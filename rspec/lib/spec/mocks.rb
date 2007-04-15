@@ -9,6 +9,8 @@ require 'spec/mocks/order_group'
 require 'spec/mocks/errors'
 require 'spec/mocks/error_generator'
 require 'spec/mocks/extensions/object'
+require 'spec/mocks/space'
+
 
 module Spec
   # == Mocks and Stubs

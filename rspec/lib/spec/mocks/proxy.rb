@@ -3,7 +3,6 @@ module Spec
     class Proxy
       DEFAULT_OPTIONS = {
         :null_object => false,
-        :auto_verify => true
       }
 
       def initialize(target, name, options={})
@@ -84,12 +83,10 @@ module Spec
         @error_generator.raise_unexpected_message_error sym, *args
       end
       
-      private
+    private
 
       def __add(expected_from, sym, block)
-        # TODO - this is the only reference in Spec::Mocks to Spec::Runner
-        current_spec = Spec::DSL:: Example.current
-        current_spec.after_teardown {verify} if current_spec && @options[:auto_verify]
+        $rspec_mocks.add(@target)
         define_expected_method(sym)
       end
       

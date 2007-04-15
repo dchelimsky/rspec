@@ -4,9 +4,12 @@ module Spec
   module Mocks
     context "a Mock expectation" do
 
-      setup do
-        disable_auto_verification_of_mocks
+      before do
         @mock = mock("test mock")
+      end
+      
+      after do
+        @mock.rspec_reset
       end
       
       specify "should report line number of expectation of unreceived message" do
@@ -18,7 +21,7 @@ module Spec
           @mock.rspec_verify
           violated
         rescue MockExpectationError => e
-          e.backtrace[0].should match(/mock_spec\.rb:13/)
+          e.backtrace[0].should match(/mock_spec\.rb:16/)
         end
     
       end
@@ -292,46 +295,11 @@ module Spec
       #   end
       # end
       
-      specify "should verify if auto verify is set to true" do
-        reporter = Spec::Mocks::Mock.new("reporter", :null_object => true)
-        reporter.should_receive(:example_finished) do |name, error, location|
-          error.to_s.should match(/expected :abcde with \(any args\) once, but received it 0 times/)
-        end
-        Spec::DSL:: Example.new("spec") do
-          mock = Spec::Mocks::Mock.new("mock", :auto_verify => true)
-          mock.should_receive(:abcde)
-        end.run(reporter, nil, nil, nil, nil)
-        reporter.rspec_verify
-      end
-
-      specify "should verify if auto verify not set explicitly" do
-        reporter = Spec::Mocks::Mock.new("reporter", :null_object => true)
-        reporter.should_receive(:example_finished) do |name, error, location|
-          error.to_s.should match(/expected :abcde with \(any args\) once, but received it 0 times/)
-        end
-        Spec::DSL:: Example.new("spec") do
-          mock = Spec::Mocks::Mock.new("mock")
-          mock.should_receive(:abcde)
-        end.run(reporter, nil, nil, nil, nil)
-        reporter.rspec_verify
-      end
-
-      specify "should not verify if auto verify is set to false" do
-        reporter = Spec::Mocks::Mock.new("reporter", :null_object => true)
-        reporter.should_receive(:example_finished) do |name, error, location|
-          error.should be_nil
-        end
-        Spec::DSL:: Example.new("spec") do
-          mock = Spec::Mocks::Mock.new("mock", :auto_verify => false)
-          mock.should_receive(:abcde)
-        end.run(reporter, nil, nil, nil, nil)
-        reporter.rspec_verify
-      end
-      
       specify "should restore objects to their original state on rspec_reset" do
         mock = mock("this is a mock")
         mock.should_receive(:blah)
         mock.rspec_reset
+        mock.rspec_verify #should throw if reset didn't work
       end
 
     end

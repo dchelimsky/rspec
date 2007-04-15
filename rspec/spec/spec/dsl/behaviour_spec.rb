@@ -3,12 +3,14 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 module Spec
   module DSL
     describe Behaviour do
-      setup do
+      before do
         @formatter = Spec::Mocks::Mock.new "formatter"
+        @formatter.stub!(:rspec_verify)
+        @formatter.stub!(:rspec_reset)
         @behaviour = Behaviour.new("context") {}
       end
 
-      teardown do
+      after do
         @formatter.rspec_verify
       end
 
@@ -84,8 +86,8 @@ module Spec
 
 
       it "should supply before(:all) as spec name if failure in before(:all)" do
-        @formatter.should_receive(:add_behaviour).with :any_args
-
+        @formatter.should_receive(:add_behaviour)
+        
         @formatter.should_receive(:example_finished) do |name, error, location|
           name.should eql("before(:all)")
           error.message.should eql("in before(:all)")
@@ -98,7 +100,7 @@ module Spec
       end
 
       it "should provide after(:all) as spec name if failure in after(:all)" do
-        @formatter.should_receive(:add_behaviour).with :any_args
+        @formatter.should_receive(:add_behaviour)
 
         @formatter.should_receive(:example_finished) do |name, error, location|
           name.should eql("after(:all)")
@@ -111,7 +113,7 @@ module Spec
       end
 
       it "should run superclass context_setup and context_setup block only once per context" do
-        @formatter.should_receive(:add_behaviour).with :any_args
+        @formatter.should_receive(:add_behaviour)
         @formatter.should_receive(:example_finished).twice.with :any_args
 
         super_class_context_setup_run_count = 0
@@ -132,8 +134,8 @@ module Spec
       end
       
       it "should run superclass setup method and setup block" do
-        @formatter.should_receive(:add_behaviour).with :any_args
-        @formatter.should_receive(:example_finished).with :any_args
+        @formatter.should_receive(:add_behaviour)
+        @formatter.should_receive(:example_finished)
 
         super_class_setup_ran = false
         super_class = Class.new do

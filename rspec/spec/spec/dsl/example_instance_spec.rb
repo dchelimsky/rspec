@@ -107,18 +107,6 @@ module Spec
         example.run(@reporter, nil, teardown, nil, nil)
       end
 
-      specify "should verify mocks after teardown" do
-        example=Example.new("example") do
-          mock=Spec::Mocks::Mock.new("a mock")
-          mock.should_receive(:poke)
-        end
-        @reporter.should_receive(:example_finished) do |example_name, error|
-          example_name.should eql("example")
-          error.message.should match(/expected :poke with \(any args\) once, but received it 0 times/)
-        end
-        example.run(@reporter, nil, nil, nil, Object.new)
-      end
-      
       specify "should accept an options hash following the example name" do
         example = Example.new("name", :key => 'value')
       end

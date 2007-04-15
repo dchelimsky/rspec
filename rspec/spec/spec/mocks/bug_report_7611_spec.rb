@@ -7,12 +7,12 @@ module Bug7611
   class Bar < Foo
   end
 
-  context "A Partial Mock" do
-    specify "should respect subclasses" do
+  describe "A Partial Mock" do
+    it "should respect subclasses" do
       Foo.stub!(:new).and_return(Object.new)
     end
 
-    specify "should" do
+    it "should" do
       Bar.new.class.should == Bar
     end 
   end

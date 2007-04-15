@@ -30,26 +30,28 @@ module Spec
       end
 
       specify "should dump even if Interrupt exception is occurred" do
-        context = Spec::DSL::Behaviour.new("context") do
+        behaviour = Spec::DSL::Behaviour.new("context") do
           specify "no error" do
           end
 
-          specify "should interrupt" do
+          it "should interrupt" do
             raise Interrupt
           end
         end
-
+        
         reporter = mock("reporter")
         reporter.should_receive(:start)
         reporter.should_receive(:add_behaviour).with("context")
         reporter.should_receive(:example_finished).twice
+        reporter.should_receive(:rspec_verify)
+        reporter.should_receive(:rspec_reset)
         reporter.should_receive(:end)
         reporter.should_receive(:dump)
 
         options = OpenStruct.new
         options.reporter = reporter
         runner = Spec::Runner::BehaviourRunner.new(options)
-        runner.add_behaviour(context)
+        runner.add_behaviour(behaviour)
         runner.run([], false)
       end
 

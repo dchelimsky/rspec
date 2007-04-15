@@ -5,9 +5,12 @@ module Spec
 
     context "Mock ordering" do
 
-      setup do
-        disable_auto_verification_of_mocks
+      before do
         @mock = mock("test mock")
+      end
+      
+      after do
+        @mock.rspec_reset
       end
 
       specify "should pass two calls in order" do

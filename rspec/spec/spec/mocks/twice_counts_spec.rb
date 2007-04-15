@@ -4,7 +4,6 @@ module Spec
   module Mocks
     context "TwiceCounts" do
       setup do
-        disable_auto_verification_of_mocks
         @mock = mock("test mock")
       end
 
@@ -31,6 +30,7 @@ module Spec
         lambda do
           @mock.random_call(1, "1")
         end.should raise_error(MockExpectationError)
+        @mock.rspec_reset
       end
       
       specify "twice should fail when called twice with wrong args on the second call" do
@@ -39,6 +39,7 @@ module Spec
         lambda do
           @mock.random_call(1, "1")
         end.should raise_error(MockExpectationError)
+        @mock.rspec_reset
       end
       
       specify "twice should pass when called twice" do

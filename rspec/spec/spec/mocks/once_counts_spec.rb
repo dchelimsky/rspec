@@ -4,7 +4,6 @@ module Spec
   module Mocks
     context "OnceCounts" do
       setup do
-        disable_auto_verification_of_mocks
         @mock = mock("test mock")
       end
 
@@ -13,6 +12,7 @@ module Spec
         lambda do
           @mock.random_call("d", "e", "f")
         end.should raise_error(MockExpectationError)
+        @mock.rspec_reset
       end
 
       specify "once should fail when called twice" do
