@@ -1,11 +1,4 @@
-dir = File.dirname(__FILE__)
-if $0 == __FILE__
-  require "rubygems"
-  require "spec"
-  require "#{dir}/../../../lib/spec/rails/dsl/ivar_proxy"
-else
-  require "#{dir}/../../spec_helper"
-end
+require File.dirname(__FILE__) + '/../../spec_helper'
 
 describe "An Ivar Proxy" do
   setup do
