@@ -11,7 +11,6 @@ module Spec
       
       setup do
         @reporter = stub("reporter", :example_finished => nil)
-        Example.send(:current=, nil)
       end
 
       specify "should report its name for dry run" do
@@ -109,18 +108,6 @@ module Spec
 
       specify "should accept an options hash following the example name" do
         example = Example.new("name", :key => 'value')
-      end
-
-      specify "should update Example.current" do
-        example = Example.new("example") do
-          Example.current.should == example
-        end
-
-        Example.current.should be_nil
-        setup = proc {Example.current.should == example}
-        teardown = proc {Example.current.should == example}
-        example.run(@reporter, setup, teardown, nil, Object.new)
-        Example.current.should be_nil
       end
 
       specify "should notify before_setup callbacks before setup" do

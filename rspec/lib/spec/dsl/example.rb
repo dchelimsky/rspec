@@ -5,9 +5,6 @@ module Spec
     class Example
 
       class << self
-        attr_accessor :current
-        protected :current=
-
         callback_events :before_setup, :after_teardown
       end
 
@@ -35,7 +32,6 @@ module Spec
         return reporter.example_finished(description) if dry_run
 
         errors = []
-        set_current
         location = nil
         Timeout.timeout(timeout) do
           setup_ok = setup_example(execution_context, errors, &setup_block)
@@ -43,7 +39,6 @@ module Spec
           teardown_ok = teardown_example(execution_context, errors, &teardown_block)
           location = failure_location(setup_ok, example_ok, teardown_ok)
         end
-        clear_current
 
         ExampleShouldRaiseHandler.new(@from, @options).handle(errors)
         reporter.example_finished(description, errors.first, location) if reporter
@@ -105,14 +100,6 @@ module Spec
       
       def append_errors(errors)
         proc {|error| errors << error}
-      end
-      
-      def set_current
-        self.class.send(:current=, self)
-      end
-
-      def clear_current
-        self.class.send(:current=, nil)
       end
       
       def failure_location(setup_ok, example_ok, teardown_ok)
