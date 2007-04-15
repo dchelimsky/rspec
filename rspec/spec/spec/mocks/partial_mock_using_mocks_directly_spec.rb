@@ -17,7 +17,7 @@ context "PartialMockUsingMocksDirectly" do
     specify "should clear expectations on verify" do
         @obj.should_receive(:msg)
         @obj.msg
-        @obj.__verify
+        @obj.rspec_verify
         lambda do
           @obj.msg
         end.should raise_error(NoMethodError)
@@ -26,7 +26,7 @@ context "PartialMockUsingMocksDirectly" do
     specify "should fail when expected message is not received" do
         @obj.should_receive(:msg)
         lambda do
-          @obj.__verify
+          @obj.rspec_verify
         end.should raise_error(MockExpectationError)
       
     end
@@ -41,20 +41,20 @@ context "PartialMockUsingMocksDirectly" do
     specify "should pass when expected message is received" do
         @obj.should_receive(:msg)
         @obj.msg
-        @obj.__verify
+        @obj.rspec_verify
       
     end
     specify "should pass when message is received with correct args" do
         @obj.should_receive(:msg).with(:correct_arg)
         @obj.msg(:correct_arg)
-        @obj.__verify
+        @obj.rspec_verify
       
     end
     specify "should revert to original method if existed" do
         @obj.existing_method.should equal(:original_value)
         @obj.should_receive(:existing_method).and_return(:mock_value)
         @obj.existing_method.should equal(:mock_value)
-        @obj.__verify
+        @obj.rspec_verify
         @obj.existing_method.should equal(:original_value)
       
     end

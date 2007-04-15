@@ -12,14 +12,14 @@ module Spec
         @mock.random_call
         @mock.random_call
         lambda do
-          @mock.__verify
+          @mock.rspec_verify
         end.should raise_error(MockExpectationError)
       end
 
       specify "should fail when exactly n times method is never called" do
         @mock.should_receive(:random_call).exactly(3).times
         lambda do
-          @mock.__verify
+          @mock.rspec_verify
         end.should raise_error(MockExpectationError)
       end
 
@@ -28,7 +28,7 @@ module Spec
         @mock.random_call
         @mock.random_call
         @mock.random_call
-        @mock.__verify
+        @mock.rspec_verify
       end
 
       specify "should pass multiple calls with different args and counts" do
@@ -37,7 +37,7 @@ module Spec
         @mock.random_call(1)
         @mock.random_call(2)
         @mock.random_call(1)
-        @mock.__verify
+        @mock.rspec_verify
       end
 
       specify "should pass mutiple calls with different args" do
@@ -45,7 +45,7 @@ module Spec
         @mock.should_receive(:random_call).once.with(2)
         @mock.random_call(1)
         @mock.random_call(2)
-        @mock.__verify
+        @mock.rspec_verify
       end
     end
   end

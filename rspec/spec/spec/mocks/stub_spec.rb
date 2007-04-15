@@ -23,7 +23,7 @@ module Spec
         mock.msg(:arg).should equal(:mock_value)
         mock.msg.should equal(:stub_value)
         mock.msg.should equal(:stub_value)
-        mock.__verify
+        mock.rspec_verify
       end
 
       specify "should allow for a mock expectation to temporarily replace a method stub on a non-mock" do
@@ -32,20 +32,20 @@ module Spec
         @obj.msg(:arg).should equal(:mock_value)
         @obj.msg.should equal(:stub_value)
         @obj.msg.should equal(:stub_value)
-        @obj.__verify
+        @obj.rspec_verify
       end
 
       specify "should ignore when expected message is not received" do
         @obj.stub!(:msg)
         lambda do
-          @obj.__verify
+          @obj.rspec_verify
         end.should_not raise_error
       end
       
-      specify "should clear itself on __verify" do
+      specify "should clear itself on rspec_verify" do
         @obj.stub!(:this_should_go).and_return(:blah)
         @obj.this_should_go.should == :blah
-        @obj.__verify
+        @obj.rspec_verify
         lambda do
           @obj.this_should_go
         end.should raise_error
@@ -54,13 +54,13 @@ module Spec
       specify "should ignore when expected message is received" do
         @obj.stub!(:msg)
         @obj.msg
-        @obj.__verify
+        @obj.rspec_verify
       end
 
       specify "should ignore when message is received with args" do
         @obj.stub!(:msg)
         @obj.msg(:an_arg)
-        @obj.__verify
+        @obj.rspec_verify
       end
 
       specify "should not support with" do
@@ -72,7 +72,7 @@ module Spec
       specify "should return expected value when expected message is received" do
         @obj.stub!(:msg).and_return(:return_value)
         @obj.msg.should equal(:return_value)
-        @obj.__verify
+        @obj.rspec_verify
       end
 
       specify "should return values in order to consecutive calls" do
@@ -97,7 +97,7 @@ module Spec
         @obj.existing_instance_method.should equal(:original_value)
         @obj.stub!(:existing_instance_method).and_return(:mock_value)
         @obj.existing_instance_method.should equal(:mock_value)
-        @obj.__verify
+        @obj.rspec_verify
         # TODO JRUBY: This causes JRuby to fail with:
         # NativeException in 'Stub should revert to original instance method if existed'
         # java.lang.ArrayIndexOutOfBoundsException: 0
@@ -122,14 +122,14 @@ module Spec
         @class.existing_class_method.should equal(:original_value)
         @class.stub!(:existing_class_method).and_return(:mock_value)
         @class.existing_class_method.should equal(:mock_value)
-        @class.__verify
+        @class.rspec_verify
         @class.existing_class_method.should equal(:original_value)
       end
 
-      specify "should clear itself on __verify" do
+      specify "should clear itself on rspec_verify" do
         @obj.stub!(:this_should_go).and_return(:blah)
         @obj.this_should_go.should == :blah
-        @obj.__verify
+        @obj.rspec_verify
         lambda do
           @obj.this_should_go
         end.should raise_error
@@ -140,7 +140,7 @@ module Spec
         current_value = :value_before
         @obj.method_that_yields {|val| current_value = val}
         current_value.should == :yielded_value
-        @obj.__verify
+        @obj.rspec_verify
       end
 
       specify "should throw when told to" do

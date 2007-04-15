@@ -10,7 +10,7 @@ module Spec
       specify "should fail if method is never called" do
         @mock.should_receive(:random_call).at_least(4).times
           lambda do
-        @mock.__verify
+        @mock.rspec_verify
         end.should raise_error(MockExpectationError)
       end
 
@@ -20,14 +20,14 @@ module Spec
         @mock.random_call
         @mock.random_call
         lambda do
-          @mock.__verify
+          @mock.rspec_verify
         end.should raise_error(MockExpectationError)
       end
 
       specify "should fail when at least once method is never called" do
         @mock.should_receive(:random_call).at_least(:once)
         lambda do
-          @mock.__verify
+          @mock.rspec_verify
         end.should raise_error(MockExpectationError)
       end
 
@@ -35,14 +35,14 @@ module Spec
         @mock.should_receive(:random_call).at_least(:twice)
         @mock.random_call
         lambda do
-          @mock.__verify
+          @mock.rspec_verify
         end.should raise_error(MockExpectationError)
       end
 
       specify "should fail when at least twice method is never called" do
         @mock.should_receive(:random_call).at_least(:twice)
         lambda do
-          @mock.__verify
+          @mock.rspec_verify
         end.should raise_error(MockExpectationError)
       end
 
@@ -52,7 +52,7 @@ module Spec
         @mock.random_call
         @mock.random_call
         @mock.random_call
-        @mock.__verify
+        @mock.rspec_verify
       end
 
       specify "should pass when at least n times method is called n plus 1 times" do
@@ -62,20 +62,20 @@ module Spec
         @mock.random_call
         @mock.random_call
         @mock.random_call
-        @mock.__verify
+        @mock.rspec_verify
       end
 
       specify "should pass when at least once method is called once" do
         @mock.should_receive(:random_call).at_least(:once)
         @mock.random_call
-        @mock.__verify
+        @mock.rspec_verify
       end
 
       specify "should pass when at least once method is called twice" do
         @mock.should_receive(:random_call).at_least(:once)
         @mock.random_call
         @mock.random_call
-        @mock.__verify
+        @mock.rspec_verify
       end
 
       specify "should pass when at least twice method is called three times" do
@@ -83,14 +83,14 @@ module Spec
         @mock.random_call
         @mock.random_call
         @mock.random_call
-        @mock.__verify
+        @mock.rspec_verify
       end
 
       specify "should pass when at least twice method is called twice" do
         @mock.should_receive(:random_call).at_least(:twice)
         @mock.random_call
         @mock.random_call
-        @mock.__verify
+        @mock.rspec_verify
       end
     end
   end

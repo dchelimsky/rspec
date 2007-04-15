@@ -20,33 +20,33 @@ module Spec
         @mock.random_call
         @mock.random_call
         lambda do
-          @mock.__verify
+          @mock.rspec_verify
         end.should raise_error(MockExpectationError)
       end
       
       specify "once should fail when not called" do
         @mock.should_receive(:random_call).once
         lambda do
-          @mock.__verify
+          @mock.rspec_verify
         end.should raise_error(MockExpectationError)
       end
 
       specify "once should pass when called once" do
         @mock.should_receive(:random_call).once
         @mock.random_call
-        @mock.__verify
+        @mock.rspec_verify
       end
 
       specify "once should pass when called once with specified args" do
         @mock.should_receive(:random_call).once.with("a", "b", "c")
         @mock.random_call("a", "b", "c")
-        @mock.__verify
+        @mock.rspec_verify
       end
 
       specify "once should pass when called once with unspecified args" do
         @mock.should_receive(:random_call).once
         @mock.random_call("a", "b", "c")
-        @mock.__verify
+        @mock.rspec_verify
       end
     end
   end

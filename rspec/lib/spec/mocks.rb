@@ -1,7 +1,7 @@
 require 'spec/mocks/methods'
 require 'spec/mocks/argument_constraint_matchers'
 require 'spec/mocks/spec_methods'
-require 'spec/mocks/mock_handler'
+require 'spec/mocks/proxy'
 require 'spec/mocks/mock'
 require 'spec/mocks/argument_expectation'
 require 'spec/mocks/message_expectation'

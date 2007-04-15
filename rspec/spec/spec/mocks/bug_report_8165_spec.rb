@@ -1,10 +1,10 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 context "An object where respond_to? is true and does not have method" do
-  # When should_receive(:sym) is sent to any object, the MockHandler sends
+  # When should_receive(:sym) is sent to any object, the Proxy sends
   # respond_to?(:sym) to that object to see if the method should be proxied.
   #
-  # If respond_to? itself is proxied, then when the MockHandler sends respond_to?
+  # If respond_to? itself is proxied, then when the Proxy sends respond_to?
   # to the object, the proxy is invoked and responds yes (if so set in the spec).
   # When the object does NOT actually respond to :sym, an exception is thrown
   # when trying to proxy it.

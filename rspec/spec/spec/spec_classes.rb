@@ -81,7 +81,7 @@ module Spec
           @return_val
         end
 
-        def __verify
+        def rspec_verify
           @funny_called.should be_true
         end
       end

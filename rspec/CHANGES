@@ -29,12 +29,20 @@ There is now a simple configuration model. For Spec::Rails, you do something lik
     config.fixture_path = RAILS_ROOT + '/spec/fixtures'
   end
 
-You can now use mocha with RSpec if you prefer it to RSpec's own mock framework. Just
-put this in a file that is loaded before your specs:
+You can now use mocha or flexmock with RSpec if you prefer either to
+RSpec's own mock framework. Just put this:
 
   Spec::Runner.configure do |config|
     config.mock_with :mocha
   end
+  
+or this:
+
+  Spec::Runner.configure do |config|
+    config.mock_with :flexmock
+  end
+  
+in a file that is loaded before your specs.
 
 * Sugar FREE!
 * Made Spec::Ui *much* easier to install. It will be released separately. Check out trunk/spec_ui/examples

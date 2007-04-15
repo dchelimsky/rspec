@@ -8,7 +8,7 @@ module Spec
       end
       
       teardown do
-        @mock.__verify
+        @mock.rspec_verify
       end
 
       specify "should accept true as boolean" do

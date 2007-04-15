@@ -15,13 +15,13 @@ module Spec
       specify "should fail verification when explicit exception not met" do
         lambda do
           @mock.should_receive(:something)
-          @mock.__verify
+          @mock.rspec_verify
         end.should raise_error(MockExpectationError)
       end
 
       specify "should ignore unexpected methods" do
         @mock.random_call("a", "d", "c")
-        @mock.__verify
+        @mock.rspec_verify
       end
 
       specify "should expected message with different args first" do

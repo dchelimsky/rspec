@@ -1,6 +1,6 @@
 module Spec
   module Mocks
-    class MockHandler
+    class Proxy
       DEFAULT_OPTIONS = {
         :null_object => false,
         :auto_verify => true
@@ -101,7 +101,7 @@ module Spec
 
         metaclass_eval(<<-EOF, __FILE__, __LINE__)
           def #{sym}(*args, &block)
-            __mock_handler.message_received :#{sym}, *args, &block
+            __mock_proxy.message_received :#{sym}, *args, &block
           end
         EOF
       end

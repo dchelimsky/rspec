@@ -9,7 +9,7 @@ module Spec
       end
 
       teardown do
-        @formatter.__verify
+        @formatter.rspec_verify
       end
 
       it "should add itself to formatter on run" do
@@ -170,7 +170,7 @@ module Spec
         @behaviour.run(@formatter)
         super_class_context_teardown_run_count.should == 1
         context_teardown_run_count.should == 1
-        @formatter.__verify
+        @formatter.rspec_verify
       end
 
       it "after(:all) should have access to all instance variables defined in before(:all)" do
@@ -257,7 +257,7 @@ module Spec
         @behaviour.run(@formatter)
         super_class_teardown_ran.should be_true
         teardown_ran.should be_true
-        @formatter.__verify
+        @formatter.rspec_verify
       end
 
       it "should have accessible methods from inherited superclass" do

@@ -15,7 +15,7 @@ module Spec
         #the above statement appears on line 12 of this file.
 
         begin
-          @mock.__verify
+          @mock.rspec_verify
           violated
         rescue MockExpectationError => e
           e.backtrace[0].should match(/mock_spec\.rb:13/)
@@ -25,21 +25,21 @@ module Spec
       
       specify "should pass when not receiving message specified as not to be received" do
         @mock.should_not_receive(:not_expected)
-        @mock.__verify
+        @mock.rspec_verify
       end
 
       specify "should pass when receiving message specified as not to be received with different args" do
         @mock.should_not_receive(:message).with("unwanted text")
         @mock.should_receive(:message).with("other text")
         @mock.message "other text"
-        @mock.__verify
+        @mock.rspec_verify
       end
 
       specify "should fail when receiving message specified as not to be received" do
         @mock.should_not_receive(:not_expected)
         @mock.not_expected
         begin
-          @mock.__verify
+          @mock.rspec_verify
           violated
         rescue MockExpectationError => e
           e.message.should == "Mock 'test mock' expected :not_expected with (any args) 0 times, but received it once"
@@ -50,7 +50,7 @@ module Spec
         @mock.should_not_receive(:not_expected).with("unexpected text")
         @mock.not_expected("unexpected text")
         begin
-          @mock.__verify
+          @mock.rspec_verify
           violated
         rescue MockExpectationError => e
           e.message.should == "Mock 'test mock' expected :not_expected with (\"unexpected text\") 0 times, but received it once"
@@ -60,25 +60,25 @@ module Spec
       specify "should pass when receiving message specified as not to be received with wrong args" do
         @mock.should_not_receive(:not_expected).with("unexpected text")
         @mock.not_expected "really unexpected text"
-        @mock.__verify
+        @mock.rspec_verify
       end
 
       specify "should allow block to calculate return values" do
         @mock.should_receive(:something).with("a","b","c").and_return { |a,b,c| c+b+a }
         @mock.something("a","b","c").should == "cba"
-        @mock.__verify
+        @mock.rspec_verify
       end
 
       specify "should allow parameter as return value" do
         @mock.should_receive(:something).with("a","b","c").and_return("booh")
         @mock.something("a","b","c").should == "booh"
-        @mock.__verify
+        @mock.rspec_verify
       end
 
       specify "should return nil if no return value set" do
         @mock.should_receive(:something).with("a","b","c")
         @mock.something("a","b","c").should be_nil
-        @mock.__verify
+        @mock.rspec_verify
       end
 
       specify "should raise exception if args dont match when method called" do
@@ -107,7 +107,7 @@ module Spec
           "booh"
         end
         @mock.something("a", "b").should == "booh"
-        @mock.__verify
+        @mock.rspec_verify
       end
   
       specify "should fail if expectation block fails" do
@@ -182,7 +182,7 @@ module Spec
         @mock.something 1
         @mock.something "a", 2
         @mock.something [], {}, "joe", 7
-        @mock.__verify
+        @mock.rspec_verify
       end
       
       specify "should fail on no args if any args received" do
@@ -208,7 +208,7 @@ module Spec
         a = nil
         @mock.yield_back {|*a|}
         a.should == []
-        @mock.__verify
+        @mock.rspec_verify
       end
 
       specify "should yield one arg to blocks that take a variable number of arguments" do
@@ -216,7 +216,7 @@ module Spec
         a = nil
         @mock.yield_back {|*a|}
         a.should == [99]
-        @mock.__verify
+        @mock.rspec_verify
       end
 
       specify "should yield many args to blocks that take a variable number of arguments" do
@@ -224,7 +224,7 @@ module Spec
         a = nil
         @mock.yield_back {|*a|}
         a.should == [99, 27, "go"]
-        @mock.__verify
+        @mock.rspec_verify
       end
 
       specify "should yield single value" do
@@ -232,7 +232,7 @@ module Spec
         a = nil
         @mock.yield_back {|a|}
         a.should == 99
-        @mock.__verify
+        @mock.rspec_verify
       end
 
       specify "should yield two values" do
@@ -241,7 +241,7 @@ module Spec
         @mock.yield_back {|a,b|}
         a.should == 'wha'
         b.should == 'zup'
-        @mock.__verify
+        @mock.rspec_verify
       end
 
       specify "should fail when calling yielding method with wrong arity" do
@@ -265,7 +265,7 @@ module Spec
       specify "should be able to mock send" do
         @mock.should_receive(:send).with(:any_args)
         @mock.send 'hi'
-        @mock.__verify
+        @mock.rspec_verify
       end
       
       specify "should be able to raise from method calling yielding mock" do
@@ -277,14 +277,14 @@ module Spec
           end
         end.should raise_error(StandardError)
 
-        @mock.__verify
+        @mock.rspec_verify
       end
       
       # TODO - this is failing, but not if you run the file w/ --reverse - weird!!!!!!
       # specify "should clear expectations after verify" do
       #   @mock.should_receive(:foobar)
       #   @mock.foobar
-      #   @mock.__verify
+      #   @mock.rspec_verify
       #   begin
       #     @mock.foobar
       #   rescue MockExpectationError => e
@@ -301,7 +301,7 @@ module Spec
           mock = Spec::Mocks::Mock.new("mock", :auto_verify => true)
           mock.should_receive(:abcde)
         end.run(reporter, nil, nil, nil, nil)
-        reporter.__verify
+        reporter.rspec_verify
       end
 
       specify "should verify if auto verify not set explicitly" do
@@ -313,7 +313,7 @@ module Spec
           mock = Spec::Mocks::Mock.new("mock")
           mock.should_receive(:abcde)
         end.run(reporter, nil, nil, nil, nil)
-        reporter.__verify
+        reporter.rspec_verify
       end
 
       specify "should not verify if auto verify is set to false" do
@@ -325,13 +325,13 @@ module Spec
           mock = Spec::Mocks::Mock.new("mock", :auto_verify => false)
           mock.should_receive(:abcde)
         end.run(reporter, nil, nil, nil, nil)
-        reporter.__verify
+        reporter.rspec_verify
       end
       
-      specify "should reset on __reset_mock_methods" do
+      specify "should restore objects to their original state on rspec_reset" do
         mock = mock("this is a mock")
         mock.should_receive(:blah)
-        mock.__reset_mock
+        mock.rspec_reset
       end
 
     end

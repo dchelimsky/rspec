@@ -198,7 +198,7 @@ context "OptionParser" do
 
     options = parse(["some file", "--line", "169"])
     options.examples.should eql(["some spec"])
-    File.__verify
+    File.rspec_verify
   end
 
   specify "should fail with error message if file is dir along with --line" do

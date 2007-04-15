@@ -11,7 +11,7 @@ module Spec
         @object.should_not_receive(:fuhbar)
         @object.fuhbar
         lambda do
-          @object.__verify
+          @object.rspec_verify
         end.should raise_error(Spec::Mocks::MockExpectationError)
       end
 
@@ -43,7 +43,7 @@ module Spec
       specify "should_receive should verify method was called" do
         @object.should_receive(:foobar).with(:test_param).and_return(1)
         lambda do
-          @object.__verify
+          @object.rspec_verify
         end.should raise_error(Spec::Mocks::MockExpectationError)
       end
 

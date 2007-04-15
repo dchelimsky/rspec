@@ -14,7 +14,7 @@ module Spec
         @mock.random_call
         @mock.random_call
         lambda do
-          @mock.__verify
+          @mock.rspec_verify
         end.should raise_error(MockExpectationError)
       end
       
@@ -22,7 +22,7 @@ module Spec
         @mock.should_receive(:random_call).twice
         @mock.random_call
         lambda do
-          @mock.__verify
+          @mock.rspec_verify
         end.should raise_error(MockExpectationError)
       end
       
@@ -45,21 +45,21 @@ module Spec
         @mock.should_receive(:random_call).twice
         @mock.random_call
         @mock.random_call
-        @mock.__verify
+        @mock.rspec_verify
       end
       
       specify "twice should pass when called twice with specified args" do
         @mock.should_receive(:random_call).twice.with("1", 1)
         @mock.random_call("1", 1)
         @mock.random_call("1", 1)
-        @mock.__verify
+        @mock.rspec_verify
       end
       
       specify "twice should pass when called twice with unspecified args" do
         @mock.should_receive(:random_call).twice
         @mock.random_call("1")
         @mock.random_call(1)
-        @mock.__verify
+        @mock.rspec_verify
       end
     end
   end

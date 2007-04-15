@@ -15,7 +15,7 @@ module Spec
         @mock.should_receive(:two).ordered
         @mock.one
         @mock.two
-        @mock.__verify
+        @mock.rspec_verify
       end
 
       specify "should pass three calls in order" do
@@ -25,7 +25,7 @@ module Spec
         @mock.one
         @mock.two
         @mock.three
-        @mock.__verify
+        @mock.rspec_verify
       end
 
       specify "should fail if second call comes first" do
@@ -73,7 +73,7 @@ module Spec
         @mock.ignored_2
         @mock.ordered_3
         @mock.ignored_1
-        @mock.__verify
+        @mock.rspec_verify
       end
             
     end
