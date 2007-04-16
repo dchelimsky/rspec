@@ -14,13 +14,13 @@ if ENV['RUN_FLEXMOCK_EXAMPLE']
   describe "Flexmocks" do
     it "should fail when the expected message is received with wrong arguments" do
       m = flexmock("now flex!")
-      m.should_receive(:msg).with("arg")
+      m.should_receive(:msg).with("arg").once
       m.msg("other arg")
     end
 
     it "should fail when the expected message is not received at all" do
       m = flexmock("now flex!")
-      m.should_receive(:msg).with("arg")
+      m.should_receive(:msg).with("arg").once
     end
   end
 end
