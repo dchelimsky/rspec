@@ -10,12 +10,17 @@ if ENV['RUN_FLEXMOCK_EXAMPLE']
   Spec::Runner.configure do |config|
     config.mock_with :flexmock
   end
-  class Thing; end
-  describe "Flexmock framework" do
-    it "should should be made available by saying config.mock_with :flexmock" do
+
+  describe "Flexmocks" do
+    it "should fail when the expected message is received with wrong arguments" do
       m = flexmock("now flex!")
       m.should_receive(:msg).with("arg")
       m.msg("other arg")
+    end
+
+    it "should fail when the expected message is not received at all" do
+      m = flexmock("now flex!")
+      m.should_receive(:msg).with("arg")
     end
   end
 end
