@@ -29,6 +29,7 @@ module Spec
       end
 
       def run(reporter, setup_block, teardown_block, dry_run, execution_context, timeout=nil)
+        reporter.example_started(description)
         return reporter.example_finished(description) if dry_run
 
         errors = []

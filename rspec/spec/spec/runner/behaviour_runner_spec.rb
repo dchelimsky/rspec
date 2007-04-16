@@ -42,6 +42,7 @@ module Spec
         reporter = mock("reporter")
         reporter.should_receive(:start)
         reporter.should_receive(:add_behaviour).with("context")
+        reporter.should_receive(:example_started).twice
         reporter.should_receive(:example_finished).twice
         reporter.should_receive(:rspec_verify)
         reporter.should_receive(:rspec_reset)

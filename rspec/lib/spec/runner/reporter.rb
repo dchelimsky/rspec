@@ -10,9 +10,12 @@ module Spec
       end
       
       def add_behaviour(name)
-        #TODO - @context_names.empty? tells the formatter whether this is the first context or not - that's a little slippery
-        @formatter.add_behaviour(name)#@context_names.empty?)
+        @formatter.add_behaviour(name)
         @context_names << name
+      end
+      
+      def example_started(name)
+        @formatter.spec_started(name)
       end
       
       def example_finished(name, error=nil, failure_location=nil)
@@ -42,7 +45,7 @@ module Spec
         @failures.length
       end
 
-      private
+    private
   
       def clear!
         @context_names = []

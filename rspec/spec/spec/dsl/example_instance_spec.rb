@@ -9,8 +9,14 @@ module Spec
         be_is_a(error)
       end
       
-      setup do
-        @reporter = stub("reporter", :example_finished => nil)
+      before do
+        @reporter = stub("reporter", :example_started => nil, :example_finished => nil)
+      end
+      
+      it "should send reporter example_started" do
+        example=Example.new("example") {}
+        @reporter.should_receive(:example_started).with("example")
+        example.run(@reporter, nil, nil, false, nil)
       end
 
       specify "should report its name for dry run" do

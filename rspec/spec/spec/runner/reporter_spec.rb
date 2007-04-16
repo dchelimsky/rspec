@@ -27,14 +27,18 @@ module Spec
 
       it "should handle multiple behaviours with same name" do
         @formatter.should_receive(:add_behaviour).exactly(3).times
+        @formatter.should_receive(:spec_started).exactly(3).times
         @formatter.should_receive(:spec_passed).exactly(3).times
         @formatter.should_receive(:start_dump)
         @formatter.should_receive(:dump_summary).with(:anything, 3, 0)
         @reporter.add_behaviour("behaviour")
+        @reporter.example_started("spec 1")
         @reporter.example_finished("spec 1")
         @reporter.add_behaviour("behaviour")
+        @reporter.example_started("spec 2")
         @reporter.example_finished("spec 2")
         @reporter.add_behaviour("behaviour")
+        @reporter.example_started("spec 3")
         @reporter.example_finished("spec 3")
         @reporter.dump
       end

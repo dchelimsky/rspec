@@ -5,6 +5,7 @@ module Spec
     describe Example, " declared with {:should_raise => " do
       setup do
         @reporter = mock("reporter")
+        @reporter.stub!(:example_started)
       end
   
       def verify_error(error, message=nil)

@@ -8,12 +8,11 @@ module Spec
         example.run(@reporter, nil, nil, nil, Object.new)
       end
 
-      setup do
-        @reporter = mock("reporter")
+      before do
+        @reporter = stub("reporter", :example_started => nil, :example_finished => nil)
         callback_container = Callback::CallbackContainer.new
         @example_class = Example.dup
         @example_class.stub!(:callbacks).and_return {callback_container}
-        @reporter.stub!(:example_finished)
       end
 
       it "should have a before_setup callback for all examples" do
