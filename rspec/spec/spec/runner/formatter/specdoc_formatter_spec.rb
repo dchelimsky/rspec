@@ -20,7 +20,7 @@ context "SpecdocFormatter" do
       
     end
     specify "should push failing spec name and failure number" do
-        @formatter.spec_failed("spec", 98, Reporter::Failure.new("c s", RuntimeError.new))
+        @formatter.example_failed("spec", 98, Reporter::Failure.new("c s", RuntimeError.new))
         @io.string.should eql("- spec (ERROR - 98)\n")
       
     end
@@ -35,7 +35,7 @@ context "SpecdocFormatter" do
       
     end
     specify "should push passing spec name" do
-        @formatter.spec_passed("spec")
+        @formatter.example_passed("spec")
         @io.string.should eql("- spec\n")
       
     end

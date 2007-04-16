@@ -20,12 +20,12 @@ module Spec
         end
 
         specify "should push F for failing spec" do
-          @formatter.spec_failed("spec", 98, Reporter::Failure.new("c s", RuntimeError.new))
+          @formatter.example_failed("spec", 98, Reporter::Failure.new("c s", RuntimeError.new))
           @io.string.should eql("F")
         end
 
         specify "should push dot for passing spec" do
-          @formatter.spec_passed("spec")
+          @formatter.example_passed("spec")
           @io.string.should eql(".")
         end
 

@@ -26,25 +26,25 @@ module Spec
         # +name+ is the name of the context and +first+ is true if it is the
         # first context - otherwise it's false.
         #
-        # The next method to be invoked after this is #spec_failed or #spec_finished
+        # The next method to be invoked after this is #example_failed or #spec_finished
         def add_behaviour(name)
         end
 
         # This method is invoked when a spec starts. +name+ is the name of the
         # specification.
-        def spec_started(name)
+        def example_started(name)
         end
 
         # This method is invoked when a spec passes. +name+ is the name of the
         # specification.
-        def spec_passed(name)
+        def example_passed(name)
         end
 
         # This method is invoked when a spec fails, i.e. an exception occurred
         # inside it (such as a failed should or other exception). +name+ is the name
         # of the specification. +counter+ is the sequence number of the failure
         # (starting at 1) and +failure+ is the associated Failure object.
-        def spec_failed(name, counter, failure)
+        def example_failed(name, counter, failure)
         end
 
         # This method is invoked after all of the specs have executed. The next method

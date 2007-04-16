@@ -8,12 +8,12 @@ module Spec
           STDOUT.flush
         end
       
-        def spec_failed(name, counter, failure)
+        def example_failed(name, counter, failure)
           @output.puts failure.expectation_not_met? ? red("- #{name} (FAILED - #{counter})") : magenta("- #{name} (ERROR - #{counter})")
           STDOUT.flush
         end
       
-        def spec_passed(name)
+        def example_passed(name)
           @output.print green("- #{name}\n")
           STDOUT.flush
         end

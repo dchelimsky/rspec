@@ -15,15 +15,15 @@ module Spec
       end
       
       def example_started(name)
-        @formatter.spec_started(name)
+        @formatter.example_started(name)
       end
       
       def example_finished(name, error=nil, failure_location=nil)
         @spec_names << name
         if error.nil?
-          spec_passed(name)
+          example_passed(name)
         else
-          spec_failed(name, error, failure_location)
+          example_failed(name, error, failure_location)
         end
       end
 
@@ -68,17 +68,17 @@ module Spec
         return "0.0"
       end
 
-      def spec_passed(name)
-        @formatter.spec_passed(name)
+      def example_passed(name)
+        @formatter.example_passed(name)
       end
 
-      def spec_failed(name, error, failure_location)
+      def example_failed(name, error, failure_location)
         @backtrace_tweaker.tweak_backtrace(error, failure_location)
         behaviour_example_name = "#{@context_names.last} #{name}"
         @failure_io.puts(behaviour_example_name) unless @failure_io.nil?
         failure = Failure.new(behaviour_example_name, error)
         @failures << failure
-        @formatter.spec_failed(name, @failures.length, failure)
+        @formatter.example_failed(name, @failures.length, failure)
       end
       
       class Failure

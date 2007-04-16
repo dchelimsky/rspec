@@ -7,12 +7,12 @@ module Spec
           STDOUT.flush
         end
   
-        def spec_passed(name)
+        def example_passed(name)
           @output.print "# * #{name}\n"
           STDOUT.flush
         end
 
-        def spec_failed(name, counter, failure)
+        def example_failed(name, counter, failure)
           @output.print "# * #{name} [#{counter} - FAILED]\n"
           STDOUT.flush
         end

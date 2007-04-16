@@ -27,8 +27,8 @@ module Spec
 
       it "should handle multiple behaviours with same name" do
         @formatter.should_receive(:add_behaviour).exactly(3).times
-        @formatter.should_receive(:spec_started).exactly(3).times
-        @formatter.should_receive(:spec_passed).exactly(3).times
+        @formatter.should_receive(:example_started).exactly(3).times
+        @formatter.should_receive(:example_passed).exactly(3).times
         @formatter.should_receive(:start_dump)
         @formatter.should_receive(:dump_summary).with(:anything, 3, 0)
         @reporter.add_behaviour("behaviour")
@@ -46,9 +46,9 @@ module Spec
       it "should handle multiple examples with the same name" do
         error=RuntimeError.new
         @formatter.should_receive(:add_behaviour).exactly(2).times
-        @formatter.should_receive(:spec_passed).with("example").exactly(2).times
-        @formatter.should_receive(:spec_failed).with("example", 1, failure)
-        @formatter.should_receive(:spec_failed).with("example", 2, failure)
+        @formatter.should_receive(:example_passed).with("example").exactly(2).times
+        @formatter.should_receive(:example_failed).with("example", 1, failure)
+        @formatter.should_receive(:example_failed).with("example", 2, failure)
         @formatter.should_receive(:dump_failure).exactly(2).times
         @formatter.should_receive(:start_dump)
         @formatter.should_receive(:dump_summary).with(:anything, 4, 2)
@@ -85,18 +85,18 @@ module Spec
       setup {setup}
 
       it "should tell formatter example passed" do
-        @formatter.should_receive(:spec_passed)
+        @formatter.should_receive(:example_passed)
         @reporter.example_finished("example")
       end
       
       it "should not delegate to backtrace tweaker" do
-        @formatter.should_receive(:spec_passed)
+        @formatter.should_receive(:example_passed)
         @backtrace_tweaker.should_not_receive(:tweak_backtrace)
         @reporter.example_finished("example")
       end
 
       it "should account for passing example in stats" do
-        @formatter.should_receive(:spec_passed)
+        @formatter.should_receive(:example_passed)
         @formatter.should_receive(:start_dump)
         @formatter.should_receive(:dump_summary).with(:anything, 1, 0)
         @reporter.example_finished("example")
@@ -109,19 +109,19 @@ module Spec
       setup {setup}
 
       it "should tell formatter that example failed" do
-        @formatter.should_receive(:spec_failed)
+        @formatter.should_receive(:example_failed)
         @reporter.example_finished("example", RuntimeError.new)
       end
       
       it "should delegate to backtrace tweaker" do
-        @formatter.should_receive(:spec_failed)
+        @formatter.should_receive(:example_failed)
         @backtrace_tweaker.should_receive(:tweak_backtrace)
         @reporter.example_finished("spec", RuntimeError.new)
       end
 
       it "should account for failing example in stats" do
         @formatter.should_receive(:add_behaviour)
-        @formatter.should_receive(:spec_failed).with("example", 1, failure)
+        @formatter.should_receive(:example_failed).with("example", 1, failure)
         @formatter.should_receive(:start_dump)
         @formatter.should_receive(:dump_failure).with(1, :anything)
         @formatter.should_receive(:dump_summary).with(:anything, 1, 1)

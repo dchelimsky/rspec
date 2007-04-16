@@ -25,12 +25,12 @@ context "RdocFormatter" do
       
     end
     specify "should push out failed spec" do
-        @formatter.spec_failed("spec", 98, nil)
+        @formatter.example_failed("spec", 98, nil)
         @io.string.should eql("# * spec [98 - FAILED]\n")
       
     end
     specify "should push out spec" do
-        @formatter.spec_passed("spec")
+        @formatter.example_passed("spec")
         @io.string.should eql("# * spec\n")
       
     end

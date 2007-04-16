@@ -46,14 +46,14 @@ module Spec
           STDOUT.flush
         end
 
-        def spec_passed(name)
+        def example_passed(name)
           @current_example_number += 1
           move_progress
           @output.puts "    <dd class=\"spec passed\"><span class=\"passed_spec_name\">#{escape(name)}</span></dd>"
           STDOUT.flush
         end
 
-        def spec_failed(name, counter, failure)
+        def example_failed(name, counter, failure)
           extra = extra_failure_content(failure)
           
           @current_example_number += 1
