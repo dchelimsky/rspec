@@ -3,7 +3,7 @@ module Spec
     module BehaviourEval
       module ModuleMethods
         def inherit(klass)
-          @context_superclass = klass
+          @behaviour_superclass = klass
           derive_execution_context_class_from_context_superclass
         end
 
@@ -97,7 +97,7 @@ module Spec
         end
 
         def context_superclass
-          @context_superclass ||= Object
+          @behaviour_superclass ||= Object
         end
 
         def context_modules

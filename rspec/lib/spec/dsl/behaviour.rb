@@ -13,7 +13,7 @@ module Spec
       def_delegator :@eval_module, :setup
       def_delegator :@eval_module, :teardown
       def_delegator :@eval_module, :context_teardown
-
+      
       alias :specify :it
 
       def initialize(description, &context_block)

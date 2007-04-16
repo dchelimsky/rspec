@@ -11,7 +11,7 @@ module Spec
       
       def add_behaviour(name)
         @formatter.add_behaviour(name)
-        @context_names << name
+        @behaviour_names << name
       end
       
       def example_started(name)
@@ -19,7 +19,7 @@ module Spec
       end
       
       def example_finished(name, error=nil, failure_location=nil)
-        @spec_names << name
+        @example_names << name
         if error.nil?
           example_passed(name)
         else
@@ -41,16 +41,16 @@ module Spec
       def dump
         @formatter.start_dump
         dump_failures
-        @formatter.dump_summary(duration, @spec_names.length, @failures.length)
+        @formatter.dump_summary(duration, @example_names.length, @failures.length)
         @failures.length
       end
 
     private
   
       def clear!
-        @context_names = []
+        @behaviour_names = []
         @failures = []
-        @spec_names = []
+        @example_names = []
         @start_time = nil
         @end_time = nil
       end
@@ -74,9 +74,9 @@ module Spec
 
       def example_failed(name, error, failure_location)
         @backtrace_tweaker.tweak_backtrace(error, failure_location)
-        behaviour_example_name = "#{@context_names.last} #{name}"
-        @failure_io.puts(behaviour_example_name) unless @failure_io.nil?
-        failure = Failure.new(behaviour_example_name, error)
+        example_name = "#{@behaviour_names.last} #{name}"
+        @failure_io.puts(example_name) unless @failure_io.nil?
+        failure = Failure.new(example_name, error)
         @failures << failure
         @formatter.example_failed(name, @failures.length, failure)
       end
@@ -84,16 +84,16 @@ module Spec
       class Failure
         attr_reader :exception
         
-        def initialize(behaviour_example_name, exception)
-          @behaviour_example_name = behaviour_example_name
+        def initialize(example_name, exception)
+          @example_name = example_name
           @exception = exception
         end
 
         def header
           if expectation_not_met?
-            "'#{@behaviour_example_name}' FAILED"
+            "'#{@example_name}' FAILED"
           else
-            "#{@exception.class.name} in '#{@behaviour_example_name}'"
+            "#{@exception.class.name} in '#{@example_name}'"
           end
         end
         
