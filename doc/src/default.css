@@ -148,15 +148,12 @@ acronym {
 }
 #content code {
     font-family:monospace;
-    color:#222;
     font-size:1.3em;
 }
 #content pre {
   padding:10px;
   margin:0 18px 0 18px;
-  color:#444;
   border:1px solid #444;
-  background-color:#ddd;
 }
 #content ul {
   margin-left:-8px;
@@ -191,17 +188,38 @@ acronym {
   color:#aaa;
 }
 
-/* Ruby code */
-pre {
+/* Ruby code, style similar to vibrant ink */
+pre.ruby {
   font-size: 12px;
+  font-family: monospace;
+  color: white;
+  background-color: black;
+  padding: 0.1em 0 0.2em 0;
 }
-.keyword { font-family: monospace; color: #8B0000; }
-.constant, .attribute, .global, .class, .module { font-family: monospace; color: black;}
-.string { font-family: monospace; color: #00008B; }
-.ident, .method { font-family: monospace; color: #006400; }
-.number, .char { font-family: monospace; color: #888800; }
-.comment { font-family: monospace; color: purple; }
-.symbol { font-family: monospace; color: #884400; }
-.regex { font-family: monospace; color: #808080; }
-.punct { font-family: monospace; color: black; }
-.escape, .interp, .expr { font-family: monospace; color: black; background-color: #dddddd; }
+
+.keyword { color: #FF6600; }
+.constant { color: #339999; }
+.attribute { color: white; }
+.global { color: white; }
+.module { color: white; }
+.class { color: white; }
+.string { color: #66FF00; }
+.ident { color: white; }
+.method { color: #FFCC00; }
+.number { color: white; }
+.char { color: white; }
+.comment { color: #9933CC; }
+.symbol { color: white; }
+.regex { color: #44B4CC; }
+.punct { color: white; }
+.escape { color: white; }
+.interp { color: white; }
+.expr { color: white; }
+
+.offending { background-color: gray; }
+.linenum {
+	width: 75px;
+	padding: 0.1em 1em 0.2em 0;
+	color: #000000;
+	background-color: #FFFBD3;
+}

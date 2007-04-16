@@ -16,7 +16,7 @@ module RSpec
       alias :inspect :to_s
           
       def to_html
-        RUBY2HTML.convert(self.content.to_s) 
+        '<pre class="ruby"><code>' + RUBY2HTML.convert(self.content.to_s, false) + '</code></pre>'
       end
       
       def to_redcloth
