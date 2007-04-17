@@ -298,11 +298,6 @@ context "OptionParser" do
     end
   end
 
-  it "should write failures on exit" do
-    options = parse(["--failures", File.dirname(__FILE__) + '/../../../failures.txt'])
-    options.failure_io.should_not be_nil
-  end
-
   it "should not use a runner by default" do
     options = parse([])
     options.runner_type.should be_nil

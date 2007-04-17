@@ -17,7 +17,7 @@ module Spec
         return nil unless options.is_a?(OpenStruct)
 
         formatter = options.formatter_type.new(options.out, options.dry_run, options.colour)
-        options.reporter = Reporter.new(formatter, options.backtrace_tweaker, options.failure_io) 
+        options.reporter = Reporter.new(formatter, options.backtrace_tweaker, options.failure_file) 
 
         # this doesn't really belong here.
         # it should, but the way things are coupled, it doesn't
@@ -100,14 +100,7 @@ module Spec
 
           opts.on("-F", "--failures FILE_NAME", "Write the name of all failing specs to FILE_NAME.",
                                                 "The written file can be used as an argument to --example") do |failure_file|
-            failure_io = StringIO.new
-            options.failure_io = failure_io
-            at_exit do
-              failure_io.rewind
-              File.open(failure_file, "w") do |io|
-                io.write(failure_io.read)
-              end
-            end
+            options.failure_file = failure_file
           end
 
           opts.on("-l", "--line LINE_NUMBER", Integer, "Execute behaviout or specification at given line.",
@@ -214,11 +207,11 @@ module Spec
             end
           end
           
-          opts.on("-X", "--drb", "Run examples via DRb. (For example against script/rails_spec_server)") do |options_file|
-            # Remove the --options option and the argument before writing to file
+          opts.on("-X", "--drb", "Run examples via DRb. (For example against script/spec_server)") do |options_file|
+            # Remove the --drb option
             index = args_copy.index("-X") || args_copy.index("--drb")
             args_copy.delete_at(index)
-
+            
             return DrbCommandLine.run(args_copy, err, out, true, warn_if_no_files)
           end
 

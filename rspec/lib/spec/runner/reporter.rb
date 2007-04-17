@@ -2,10 +2,11 @@ module Spec
   module Runner
     class Reporter
       
-      def initialize(formatter, backtrace_tweaker, failure_io=nil)
+      def initialize(formatter, backtrace_tweaker, failure_file=nil)
         @formatter = formatter
         @backtrace_tweaker = backtrace_tweaker
-        @failure_io = failure_io
+        @failure_file = failure_file
+        @failure_io = StringIO.new if @failure_file
         clear!
       end
       
@@ -35,6 +36,12 @@ module Spec
   
       def end
         @end_time = Time.new
+        if @failure_io
+          @failure_io.rewind
+          File.open(@failure_file, "w") do |io|
+            io.write(@failure_io.read)
+          end
+        end
       end
   
       # Dumps the summary and returns the total number of failures
