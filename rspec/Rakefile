@@ -212,6 +212,7 @@ end
 desc "Package the RSpec.tmbundle"
 task :package_tmbundle do
   rm_rf 'pkg/RSpec.tmbundle'
+  mkdir 'pkg'
   `svn export ../RSpec.tmbundle pkg/RSpec.tmbundle`
   Dir.chdir 'pkg' do
     `tar cvzf RSpec-#{PKG_VERSION}.tmbundle.tgz RSpec.tmbundle`
