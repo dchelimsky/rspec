@@ -129,6 +129,18 @@ module Spec
         @reporter.example_finished("example", RuntimeError.new)
         @reporter.dump
       end
+      
+      it "should write a failure file when given a filename" do
+        io = StringIO.new('')
+        File.should_receive(:open).with("some_file_name.txt", "w").and_yield(io)
+        @reporter = Reporter.new(@formatter, @backtrace_tweaker, 'some_file_name.txt')
+        @formatter.stub!(:add_behaviour)
+        @formatter.stub!(:example_failed)
+        @reporter.add_behaviour('behaviour')
+        @reporter.example_finished('example', Exception.new, 'setup')
+        @reporter.end
+        io.string.should match(/behaviour example/)
+      end
     end
   end
 end
