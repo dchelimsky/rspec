@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>lambda { $1 }.should raise_error${2:error})
+	<string>lambda { $1 }.should raise_error(${2:error})
 $0</string>
 	<key>name</key>
 	<string>should raise_error</string>
