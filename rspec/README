@@ -47,6 +47,19 @@ In order to run RSpec's full suite of specs (rake pre_commit) you must install t
 * meta_project  # Required in order to make releases at RubyForge
 * heckle        # Required if you use the --heckle switch
 
+Once those are all installed, you should be able to run the suite with the following steps:
+
+svn co svn://rubyforge.org/var/svn/rspec/trunk rspec
+cd rspec
+rake install_dependencies
+cd example_rails_app
+export RSPEC_RAILS_VERSION=1.2.3
+rake rspec:generate_mysql_config
+mysql -u root < db/mysql_setup.sql
+cd ..
+rake pre_commit
+
+
 Note that RSpec itself - once built - doesn't have any dependencies outside the Ruby core 
 and stdlib - with a few exceptions:
 
