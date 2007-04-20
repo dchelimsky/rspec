@@ -19,12 +19,18 @@ module Spec
         module ExampleMethods
           include ActionView::Helpers::ActiveRecordHelper
           include ActionView::Helpers::TagHelper
+          include ActionView::Helpers::TextHelper
           include ActionView::Helpers::FormTagHelper
           include ActionView::Helpers::FormOptionsHelper
           include ActionView::Helpers::FormHelper
           include ActionView::Helpers::UrlHelper
           include ActionView::Helpers::AssetTagHelper
           include ActionView::Helpers::PrototypeHelper rescue nil # Rails 1.0 only
+
+          def eval_erb(text)
+            ERB.new(text).result(binding)
+          end
+
         end
       end
 
