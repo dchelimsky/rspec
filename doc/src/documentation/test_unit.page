@@ -40,8 +40,7 @@ of you who are making a switch.
 
 Consider this example:
 
-<ruby>
-words = "the words"
+<ruby>words = "the words"
 assert_equals("the words", words) #passes
 assert_same("the words", words) #fails
 </ruby>
@@ -56,8 +55,7 @@ java, for example, we override <code>Object#equals(other)</code> to describe obj
 whereas we use <code>==</code> to describe object identity. In Ruby, we do just the opposite.
 In fact, Ruby provides us with four ways to express equality:
 
-<ruby>
-a == b
+<ruby>a == b
 a === b
 a.equal?(b)
 a.eql?(b)
@@ -68,8 +66,7 @@ order to minimize the translation required to understand what an example might b
 we chose to express these directly in RSpec. If you understand Ruby equality, then you
 can understand what RSpec examples are describing:
 
-<ruby>
-a.should == b      #passes if a == b
+<ruby>a.should == b      #passes if a == b
 a.should === b     #passes if a === b
 a.should equal(b)  #passes if a.equal?(b)
 a.should eql(b)    #passes if a.eql?(b)

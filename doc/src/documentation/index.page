@@ -16,8 +16,7 @@ Customer: It should have a balance of $0.
 
 Here's how we express that conversation in RSpec:
 
-<ruby>
-describe Account, " when first created" do
+<ruby>describe Account, " when first created" do
   it "should have a balance of $0" do
     ...
   end
@@ -38,15 +37,18 @@ h2. A Bit More Detail
 
 Here's how the example might look with some more code filled in:
 
-<ruby>
-describe "A new account" do
+<ruby>describe Account, " when first created" do
 
-  setup do
+  before do
     @account = Account.new
   end
 
   it "should have a balance of $0" do
-    @account.balance.should_eql Money.new(0, :dollars)
+    @account.balance.should eql(Money.new(0, :dollars))
+  end
+  
+  after do
+    @account = nil
   end
 
 end
@@ -59,55 +61,30 @@ is a metaphor for the context in which you will execute your example - a set of
 known objects in a known starting state.
 
 The <code>#it</code> method returns an <code>Example</code> object, which represents
-and example of the behaviour your are trying to describe.
+an example of the behaviour your are trying to describe.
 
-The <code>#setup</code> method is just like <code>#setup</code> in xUnit. You use it to
-set up the state in which each example will be executed.
+The <code>#before</code> and <code>#after</code> methods are just
+like <code>#setup</code> and <code>#teardown</code> in xUnit. You use them to
+set up the state _before_ each example is executed, and tear down any
+resources _after_ each example.
 
-For each <code>Example</code> within a <code>Behaviour</code>, RSpec creates a
-new object in which the <code>Example</code> is executed. In each case, RSpec
-runs <code>#setup</code> first, then the <code>Example</code>. This means that the
-examples have no runtime relationship to each other, as would be expected.
+h4. #before and #after
 
-h3. Helper Methods
+You can use <code>#before</code> and/or <code>#after</code> to define
+code that executes before and after each example or only once per Behaviour:
 
-A primary goal of RSpec is to keep the examples clear. We therefore prefer
-less indirection than you might see in well factored, DRY production code. We feel
-that duplication is OK if removing it makes it harder to understand an example without
-having to look elsewhere to understand its environment.
-
-That said, RSpec does support some level of encapsulating common code in helper
-methods that can exist within a Behavior or within an included module.
-
-<ruby>
-module MyHelperMethods
-  def help_me
-    ...
-  end
-end
-
-describe Thing do
-  include MyHelperMethods
-  
-  it "should do stuff" do
-    help_me
-    ...
-  end
-end
-</ruby>
-
-h4. Setup and Teardown
-
-You can use setup, teardown, context_setup and context_teardown within a Behavior:
-
-<ruby>
-describe Thing do
-  context_setup do
-    ...
+<ruby>describe Thing do
+  before(:all) do
+    # This is run once and only once, before all of the examples
+    # and before any before(:each) blocks.
   end
 
-  setup do
-    ...
+  before(:each) do
+    # This is run before each example.
+  end
+
+  before do
+    # :each is the default, so this is the same as before(:each)
   end
 
   it "should do stuff" do
@@ -118,32 +95,31 @@ describe Thing do
     ...
   end
 
-  teardown do
-    ...
+  after(:each) do
+    # this is before each example
+  end
+  
+  after do
+    # :each is the default, so this is the same as after(:each)
   end
 
-  context_teardown do
-    ...
+  after(:all) do
+    # this is run once and only once after all of the examples
+    # and after any after(:each) blocks
   end
   
 end
 </ruby>
 
-The <code>setup</code> block will run before each of the Examples, once for each Example. Likewise,
-the <code>teardown</code> block will run after each of the Examples.
-
-It is also possible to define a <code>context_setup</code> and <code>context_teardown</code>
-block that will run only once for each Behaviour. <code>context_setup</code runs before the
-first <code>setup</code> and <code>context_teardown</code> runs after the last <code>teardown</code>.
-The use of these is generally discouraged, because it introduces dependencies between the Examples.
+<b>Warning</b>: The use of <code>#before(:all)</code> and <code>#after(:all)</code> is
+generally discouraged because it introduces dependencies between the Examples.
 Still, it might prove useful for very expensive operations if you know what you are doing.
 
-h4. Local helper methods
+h4. Helper Methods
 
-You can include local helper methods by simply expressing them within a Behaviour:
+You can write helper methods directly within a Behaviour:
 
-<ruby>
-describe "..." do
+<ruby>describe "..." do
 
   specify "..." do
     helper_method
@@ -156,13 +132,12 @@ describe "..." do
 end
 </ruby>
 
-h4. Included helper methods
+h4. Reusable Helper Methods
 
 You can include helper methods in multiple Behaviours by expressing them within
 a module, and then including that module in your Behaviour:
 
-<ruby>
-module AccountExampleHelperMethods
+<ruby>module AccountExampleHelperMethods
   def helper_method
     ...
   end
