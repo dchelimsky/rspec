@@ -10,7 +10,7 @@ Imagine that you were talking to a customer requesting software for her bank.
 Part of that conversation might well look like this:
 
 <pre>
-You: Describe an account when it is first created.
+You:      Describe an account when it is first created.
 Customer: It should have a balance of $0.
 </pre>
 
