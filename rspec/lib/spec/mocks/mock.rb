@@ -21,6 +21,9 @@ module Spec
         end
       end
       
+      def inspect
+        "#<#{self.class}:#{sprintf '0x%x', self.object_id} @name=#{@name.inspect}>"
+      end
     end
   end
 end

@@ -35,6 +35,8 @@ In alphabetical order (by last name)
 * Chris Anderson
 ** Patch to return strings in response to :to_param (in generated controller/view specs)
 ** Patch to add --skip-migration option to rspec_resource generator
+* François Beausoleil
+** Patch [#10260] Spec::Mocks::Mock#inspect returns way too much data
 * Wilson Bilkovich
 ** lambda {...}.should_change(obj, :message)
 ** ar_subclass.should_have(n).errors_on(:attribute)
