@@ -1,21 +1,8 @@
-require 'forwardable'
-
 module Spec
   module DSL
     class EvalModule < Module; end
     class Behaviour
-      extend Forwardable
       
-      def_delegator :@eval_module, :include
-      def_delegator :@eval_module, :inherit
-      def_delegator :@eval_module, :it
-      def_delegator :@eval_module, :context_setup
-      def_delegator :@eval_module, :setup
-      def_delegator :@eval_module, :teardown
-      def_delegator :@eval_module, :context_teardown
-      
-      alias :specify :it
-
       def initialize(description, &context_block)
         @description = description
 
@@ -26,7 +13,6 @@ module Spec
         @eval_module.class_eval(&context_block)
       end
 
-      # TODO - shouldn't this just be a callback?
       def before_eval
       end
       
@@ -75,18 +61,8 @@ module Spec
 
     protected
 
-      def_delegator :@eval_module, :before_all_block
-      def_delegator :@eval_module, :after_all_block
-      def_delegator :@eval_module, :examples
-      def_delegator :@eval_module, :setup_block
-      def_delegator :@eval_module, :teardown_block
-      def_delegator :@eval_module, :context_modules
-      def_delegator :@eval_module, :execution_context_class
-
       # Messages that this class does not understand
-      # are passed directly to the @eval_module, which
-      # is the scope in which user-defined helper methods
-      # can be found.
+      # are passed directly to the @eval_module.
       def method_missing(sym, *args, &block)
         @eval_module.send(sym, *args, &block)
       end

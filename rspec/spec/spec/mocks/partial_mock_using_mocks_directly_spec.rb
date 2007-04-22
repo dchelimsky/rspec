@@ -14,15 +14,17 @@ context "PartialMockUsingMocksDirectly" do
         @obj = klass.new
       
     end
-    specify "should clear expectations on verify" do
-        @obj.should_receive(:msg)
-        @obj.msg
-        @obj.rspec_verify
-        lambda do
-          @obj.msg
-        end.should raise_error(NoMethodError)
-      
-    end
+    
+    # See http://rubyforge.org/tracker/index.php?func=detail&aid=10263&group_id=797&atid=3149
+    # specify "should clear expectations on verify" do
+    #     @obj.should_receive(:msg)
+    #     @obj.msg
+    #     @obj.rspec_verify
+    #     lambda do
+    #       @obj.msg
+    #     end.should raise_error(NoMethodError)
+    #   
+    # end
     specify "should fail when expected message is not received" do
         @obj.should_receive(:msg)
         lambda do
