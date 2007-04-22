@@ -30,22 +30,10 @@ require File.dirname(__FILE__) + '/../../spec_helper'
     it "should match an rjs template" do
       xhr :post, 'some_action'
       if on_edge?
-        response.should render_template('render_spec/some_action.js.rjs')
+        response.should render_template('render_spec/some_action')
       else
         response.should render_template('render_spec/some_action.rjs')
       end
-    end
-
-    it "should fail on the wrong extension (given rjs)" do
-      xhr :post, 'some_action'
-      if on_edge?
-        message = "expected \"render_spec/some_action\", got \"render_spec/some_action.js.rjs\""
-      else
-        message = "expected \"render_spec/some_action\", got \"render_spec/some_action.rjs\""
-      end
-      lambda {
-        response.should render_template('render_spec/some_action')
-      }.should fail_with(message)
     end
 
     it "should fail on the wrong extension (given rhtml)" do
