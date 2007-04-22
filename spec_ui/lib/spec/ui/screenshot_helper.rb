@@ -39,13 +39,11 @@ module Spec
             end
           end
         rescue Gem::LoadError => e
-          require 'fileutils'
           def save_screenshot(dir, spec_number)
             md(dir)
             FileUtils.cp(File.dirname(__FILE__) + '/wrong_win32screenshot.png', "#{dir}/#{spec_number}.png")
           end
         rescue LoadError => e
-          require 'fileutils'
           if(e.message =~ /win32screenshot/)
             def save_screenshot(dir, spec_number)
               md(dir)

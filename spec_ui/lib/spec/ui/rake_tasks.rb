@@ -20,7 +20,7 @@ EOF
       FileUtils.rm_rf(Spec::Runner.configuration.spec_ui_report_dir) if File.exist?(Spec::Runner.configuration.spec_ui_report_dir)
       FileUtils.mkdir_p(Spec::Runner.configuration.spec_ui_report_dir)
       
-      desc "Run Watir"
+      desc "Run UI Specs"
       Spec::Rake::SpecTask.new('spec:ui') do |t|
         t.spec_files = FileList['spec/**/*.rb']
         t.spec_opts = ['--require', 'spec/spec_helper', '--format', 'Spec::Ui::WebappFormatter']

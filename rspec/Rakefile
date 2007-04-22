@@ -211,8 +211,8 @@ end
 
 desc "Package the RSpec.tmbundle"
 task :package_tmbundle do
-  rm_rf 'pkg/RSpec.tmbundle'
-  mkdir 'pkg'
+  mkdir 'pkg' rescue nil
+  rm_rf 'pkg/RSpec.tmbundle' rescue nil
   `svn export ../RSpec.tmbundle pkg/RSpec.tmbundle`
   Dir.chdir 'pkg' do
     `tar cvzf RSpec-#{PKG_VERSION}.tmbundle.tgz RSpec.tmbundle`
@@ -220,13 +220,23 @@ task :package_tmbundle do
 end
 task :pkg => :package_tmbundle
 
+desc "Package the Spec::Ui gem"
+task :package_spec_ui do
+  Dir.chdir '../spec_ui' do
+    `rake clobber gem`
+  end
+end
+task :pkg => :package_spec_ui
+
 desc "Publish gem+tgz+zip on RubyForge. You must make sure lib/version.rb is aligned with the CHANGELOG file"
 task :publish_packages => [:verify_user, :package] do
+  require File.dirname(__FILE__) + '/../spec_ui/lib/spec/ui/version'
   release_files = FileList[
     "pkg/#{PKG_FILE_NAME}.gem",
     "pkg/#{PKG_FILE_NAME}.tgz",
     "pkg/#{PKG_FILE_NAME}.zip",
-    "pkg/RSpec-#{PKG_VERSION}.tmbundle.tgz"
+    "pkg/RSpec-#{PKG_VERSION}.tmbundle.tgz",
+    "../spec_ui/pkg/spec_ui-#{Spec::Ui::VERSION::STRING}.gem"
   ]
   unless Spec::VERSION::RELEASE_CANDIDATE
     require 'meta_project'
