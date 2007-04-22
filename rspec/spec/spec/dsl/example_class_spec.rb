@@ -14,7 +14,7 @@ module Spec
         @example_class = Example.dup
         @example_class.stub!(:callbacks).and_return {callback_container}
       end
-
+      
       it "should have a before_setup callback for all examples" do
         before_setup_called = false
         @example_class.before_setup {before_setup_called = true}

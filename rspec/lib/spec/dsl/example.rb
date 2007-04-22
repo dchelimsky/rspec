@@ -61,7 +61,7 @@ module Spec
       
       def setup_example(execution_context, errors, &setup_block)
         notify_before_setup(errors)
-        execution_context.setup_mocks_for_rspec if execution_context.respond_to?(:setup_mocks_for_rspec)
+        setup_mocks(execution_context)
         execution_context.instance_eval(&setup_block) if setup_block
         return errors.empty?
       rescue => e
@@ -81,14 +81,30 @@ module Spec
 
       def teardown_example(execution_context, errors, &teardown_block)
         execution_context.instance_eval(&teardown_block) if teardown_block
-        execution_context.teardown_mocks_for_rspec if execution_context.respond_to?(:teardown_mocks_for_rspec)
+        begin
+          verify_mocks(execution_context)
+        ensure
+          teardown_mocks(execution_context)
+        end
         notify_after_teardown(errors)
         return errors.empty?
       rescue => e
         errors << e
         return false
       end
-
+      
+      def setup_mocks(execution_context)
+        execution_context.setup_mocks_for_rspec if execution_context.respond_to?(:setup_mocks_for_rspec)
+      end
+      
+      def verify_mocks(execution_context)
+        execution_context.verify_mocks_for_rspec if execution_context.respond_to?(:verify_mocks_for_rspec)
+      end
+      
+      def teardown_mocks(execution_context)
+        execution_context.teardown_mocks_for_rspec if execution_context.respond_to?(:teardown_mocks_for_rspec)
+      end
+      
       def notify_before_setup(errors)
         notify_class_callbacks(:before_setup, self, &append_errors(errors))
         notify_callbacks(:before_setup, self, &append_errors(errors))

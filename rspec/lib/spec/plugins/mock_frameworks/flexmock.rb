@@ -16,12 +16,11 @@ module Spec
      def setup_mocks_for_rspec
        # No setup required
      end
+     def verify_mocks_for_rspec
+       flexmock_verify
+     end
      def teardown_mocks_for_rspec
-       begin
-         flexmock_verify
-       ensure
-         flexmock_close
-       end
+       flexmock_close
      end
    end
  end
