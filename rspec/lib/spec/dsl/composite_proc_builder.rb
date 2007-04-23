@@ -1,6 +1,7 @@
 module Spec
   module DSL
     class CompositeProcBuilder < Array
+      # TODO - is this necessary for anything other than a spec?
       attr_reader :parent
 
       def initialize(parent)

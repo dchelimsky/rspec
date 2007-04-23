@@ -28,16 +28,16 @@ module Spec
         end
       end
 
-      def run(reporter, setup_block, teardown_block, dry_run, execution_context, timeout=nil)
+      def run(reporter, before_each_block, after_each_block, dry_run, execution_context, timeout=nil)
         reporter.example_started(description)
         return reporter.example_finished(description) if dry_run
 
         errors = []
         location = nil
         Timeout.timeout(timeout) do
-          setup_ok = setup_example(execution_context, errors, &setup_block)
+          setup_ok = setup_example(execution_context, errors, &before_each_block)
           example_ok = run_example(execution_context, errors) if setup_ok
-          teardown_ok = teardown_example(execution_context, errors, &teardown_block)
+          teardown_ok = teardown_example(execution_context, errors, &after_each_block)
           location = failure_location(setup_ok, example_ok, teardown_ok)
         end
 
@@ -59,10 +59,10 @@ module Spec
         @generated_description || "NAME NOT GENERATED"
       end
       
-      def setup_example(execution_context, errors, &setup_block)
+      def setup_example(execution_context, errors, &before_each_block)
         notify_before_setup(errors)
         setup_mocks(execution_context)
-        execution_context.instance_eval(&setup_block) if setup_block
+        execution_context.instance_eval(&before_each_block) if before_each_block
         return errors.empty?
       rescue => e
         errors << e
@@ -79,8 +79,8 @@ module Spec
         end
       end
 
-      def teardown_example(execution_context, errors, &teardown_block)
-        execution_context.instance_eval(&teardown_block) if teardown_block
+      def teardown_example(execution_context, errors, &after_each_block)
+        execution_context.instance_eval(&after_each_block) if after_each_block
         begin
           verify_mocks(execution_context)
         ensure

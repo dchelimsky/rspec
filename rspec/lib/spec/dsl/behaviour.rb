@@ -23,12 +23,14 @@ module Spec
         errors = run_before_all(reporter, dry_run)
 
         specs = reverse ? examples.reverse : examples
+        example_execution_context = nil
         specs.each do |example|
           example_execution_context = execution_context(example)
-          example_execution_context.copy_instance_variables_from(@once_only_execution_context_instance, []) unless before_all_block.nil?
-          example.run(reporter, setup_block, teardown_block, dry_run, example_execution_context, timeout)
+          example_execution_context.copy_instance_variables_from(@before_and_after_all_context_instance) unless before_all_block.nil?
+          example.run(reporter, before_each_block, after_each_block, dry_run, example_execution_context, timeout)
         end unless errors.length > 0
         
+        @before_and_after_all_context_instance.copy_instance_variables_from(example_execution_context) unless after_all_block.nil?
         run_after_all(reporter, dry_run)
       end
 
@@ -91,8 +93,8 @@ module Spec
         errors = []
         unless dry_run
           begin
-            @once_only_execution_context_instance = execution_context(nil)
-            @once_only_execution_context_instance.instance_eval(&before_all_block)
+            @before_and_after_all_context_instance = execution_context(nil)
+            @before_and_after_all_context_instance.instance_eval(&before_all_block)
           rescue => e
             errors << e
             location = "before(:all)"
@@ -105,8 +107,8 @@ module Spec
       def run_after_all(reporter, dry_run)
         unless dry_run
           begin 
-            @once_only_execution_context_instance ||= execution_context(nil) 
-            @once_only_execution_context_instance.instance_eval(&after_all_block) 
+            @before_and_after_all_context_instance ||= execution_context(nil) 
+            @before_and_after_all_context_instance.instance_eval(&after_all_block) 
           rescue => e
             location = "after(:all)"
             reporter.example_finished(location, e, location) if reporter

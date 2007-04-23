@@ -42,8 +42,10 @@ module Spec
           #++
           def assigns(key = nil)
             if key.nil?
+              @controller.assigns
               _controller_ivar_proxy
             else
+              @controller.assigns[key]
               _controller_ivar_proxy[key]
             end
           end

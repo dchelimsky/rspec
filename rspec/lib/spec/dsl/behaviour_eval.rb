@@ -21,8 +21,8 @@ module Spec
 
         def after(scope=:each, &block)
           case scope
-          when :each; after_each_parts << block
-          when :all;  after_all_parts << block
+          when :each; after_each_parts.unshift(block)
+          when :all;  after_all_parts.unshift(block)
           end
         end
 
@@ -72,11 +72,11 @@ module Spec
           create_callback_proc :context_teardown, after_all_parts
         end
 
-        def setup_block
+        def before_each_block
           create_callback_proc :setup, before_each_parts
         end
 
-        def teardown_block
+        def after_each_block
           create_callback_proc :teardown, after_each_parts
         end
 
