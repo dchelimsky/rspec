@@ -19,21 +19,21 @@ module Spec
         @behaviour.run(@reporter)
         @reporter.added_behaviour.should == "example"
       end
-      
+
       it "should run example on run" do
         $example_ran = false
         @behaviour.it("should") {$example_ran = true}
         @behaviour.run(@reporter)
         $example_ran.should be_true
       end
-         
+
       it "should not run example on dry run" do
         $example_ran = false
         @behaviour.it("should") {$example_ran = true}
         @behaviour.run(@reporter, true)
         $example_ran.should be_false
       end
-    
+
       it "should not run before(:all) or after(:all) on dry run" do
         before_all_ran = false
         after_all_ran = false
@@ -44,7 +44,7 @@ module Spec
         before_all_ran.should be_false
         after_all_ran.should be_false
       end
-    
+
       it "should not run any example if before(:all) fails" do
         spec_ran = false
         @behaviour.before(:all) { raise "help" }
@@ -52,7 +52,7 @@ module Spec
         @behaviour.run(@reporter)
         spec_ran.should be_false
       end
-  
+
       it "should run after(:all) if before(:all) fails" do
         after_all_ran = false
         @behaviour.before(:all) { raise }
@@ -60,7 +60,7 @@ module Spec
         @behaviour.run(@reporter)
         after_all_ran.should be_true
       end
-  
+
       it "should run after(:all) if before(:each) fails" do
         after_all_ran = false
         @behaviour.before(:each) { raise }
@@ -83,7 +83,7 @@ module Spec
           error.message.should eql("in before(:all)")
           location.should eql("before(:all)")
         end
-        
+
         @behaviour.before(:all) { raise "in before(:all)" }
         @behaviour.specify("test") {true}
         @behaviour.run(@reporter)
@@ -95,7 +95,7 @@ module Spec
           error.message.should eql("in after(:all)")
           location.should eql("after(:all)")
         end
-        
+
         @behaviour.after(:all) { raise "in after(:all)" }
         @behaviour.run(@reporter)
       end
@@ -117,7 +117,7 @@ module Spec
         super_class_context_setup_run_count.should == 1
         context_setup_run_count.should == 1
       end
-      
+
       it "should run superclass setup method and setup block" do
         super_class_setup_ran = false
         super_class = Class.new do
@@ -153,7 +153,7 @@ module Spec
         context_teardown_run_count.should == 1
         @reporter.rspec_verify
       end
-    
+
       it "after(:all) should have access to all instance variables defined in before(:all)" do
         context_instance_value_in = "Hello there"
         context_instance_value_out = ""
@@ -297,7 +297,7 @@ module Spec
         mod1_method_called.should be_true
         mod2_method_called.should be_true
       end
-      
+
       it "should have accessible class methods from included module" do
         mod1_method_called = false
         mod1 = Module.new do
@@ -306,7 +306,7 @@ module Spec
                 mod1_method_called = true
               end
           end
-          
+
           metaclass.class_eval do
             define_method(:included) do |receiver|
               receiver.extend class_methods
@@ -321,7 +321,7 @@ module Spec
                 mod2_method_called = true
               end
           end
-          
+
           metaclass.class_eval do
             define_method(:included) do |receiver|
               receiver.extend class_methods
@@ -337,7 +337,7 @@ module Spec
         mod1_method_called.should be_true
         mod2_method_called.should be_true
       end
-      
+
       it "should count number of specs" do
         @behaviour.specify("one") {}
         @behaviour.specify("two") {}
@@ -345,7 +345,7 @@ module Spec
         @behaviour.specify("four") {}
         @behaviour.number_of_examples.should == 4
       end
-      
+
       it "should not match anything when there are no examples" do
         @behaviour.should_not be_matches(['context'])
       end
@@ -365,7 +365,7 @@ module Spec
         end.run(formatter)
       end
     end
-    
+
     class BehaviourSubclass < Behaviour
       public :described_type
     end

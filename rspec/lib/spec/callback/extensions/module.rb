@@ -10,11 +10,12 @@ module Callback
 
     private
     def define_callback_event(event_name)
-      module_eval <<-EOS
+      eval_text = <<-EOS
         def #{event_name}(&block)
           register_callback(:#{event_name}, &block)
         end
       EOS
+      module_eval eval_text, __FILE__, (__LINE__-6) 
     end
   end
 end

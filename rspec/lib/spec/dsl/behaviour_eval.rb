@@ -11,14 +11,14 @@ module Spec
           context_modules << mod
           mod.send :included, self
         end
-        
+
         def before(scope=:each, &block)
           case scope
           when :each; before_each_parts << block
           when :all;  before_all_parts << block
           end
         end
-        
+
         def after(scope=:each, &block)
           case scope
           when :each; after_each_parts << block
@@ -46,13 +46,13 @@ module Spec
           examples << Example.new(description, opts, &block)
         end
         alias :specify :it
-        
+
         def methods
           my_methods = super
           my_methods |= context_superclass.methods
           my_methods
         end
-      
+
       protected
 
         def method_missing(method_name, *args)
@@ -65,27 +65,31 @@ module Spec
       private
 
         def before_all_block
-          parts = before_all_parts.dup
-          add_behaviour_superclass_method(:context_setup, parts)
-          create_block_from_parts(parts)
+          parts = CompositeProcBuilder.new(self)
+          parts.add_instance_method_from(context_superclass, :context_setup)
+          parts.push(*before_all_parts)
+          parts.proc
         end
 
         def after_all_block
-          parts = after_all_parts.dup
-          add_behaviour_superclass_method(:context_teardown, parts)
-          create_block_from_parts(parts)
+          parts = CompositeProcBuilder.new(self)
+          parts.add_instance_method_from(context_superclass, :context_teardown)
+          parts.push(*after_all_parts)
+          parts.proc
         end
 
         def setup_block
-          parts = before_each_parts.dup
-          add_behaviour_superclass_method(:setup, parts)
-          create_block_from_parts(parts)
+          parts = CompositeProcBuilder.new(self)
+          parts.add_instance_method_from(context_superclass, :setup)
+          parts.push(*before_each_parts)
+          parts.proc
         end
-        
+
         def teardown_block
-          parts = after_each_parts.dup
-          add_behaviour_superclass_method(:teardown, parts)
-          create_block_from_parts(parts)
+          parts = CompositeProcBuilder.new(self)
+          parts.add_instance_method_from(context_superclass, :teardown)
+          parts.push(*after_each_parts)
+          parts.proc
         end
 
         def execution_context_class
@@ -103,7 +107,7 @@ module Spec
         def context_modules
           @context_modules ||= [::Spec::Matchers]
         end
-        
+
         def examples
           @examples ||= []
         end
@@ -123,27 +127,6 @@ module Spec
         def after_each_parts
           @after_each_parts ||= []
         end
-
-        def add_behaviour_superclass_method sym, parts
-          superclass_method = begin
-            context_superclass.instance_method(sym)
-          rescue
-            nil
-          end
-          parts.unshift superclass_method if superclass_method
-        end
-
-        def create_block_from_parts(parts)
-          proc do
-            parts.each do |part|
-              if part.is_a?(UnboundMethod)
-                part.bind(self).call
-              else
-                instance_eval(&part)
-              end
-            end
-          end
-        end
       end
 
       module InstanceMethods
@@ -151,12 +134,12 @@ module Spec
           # TODO - inheriting from TestUnit::TestCase fails without this
           # - let's figure out why and move this somewhere else
         end
-        
+
         def violated(message="")
           raise Spec::Expectations::ExpectationNotMetError.new(message)
         end
       end
-      
+
     end
   end
 end

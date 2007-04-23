@@ -103,28 +103,30 @@ module Spec
         end
         task @name do
           RakeFileUtils.verbose(@verbose) do
-            ruby_opts = @ruby_opts.clone
-            ruby_opts.push( "-I\"#{lib_path}\"" )
-            ruby_opts.push( "-S rcov" ) if @rcov
-            ruby_opts.push( "-w" ) if @warning
-
-            redirect = @out.nil? ? "" : " > \"#{@out}\""
-
             unless spec_file_list.empty?
               # ruby [ruby_opts] -Ilib -S rcov [rcov_opts] bin/spec -- [spec_opts] examples
               # or
               # ruby [ruby_opts] -Ilib bin/spec [spec_opts] examples
               begin
-                ruby(
-                  ruby_opts.join(" ") + " " + 
-                  rcov_option_list +
-                  (@rcov ? %[ -o "#{@rcov_dir}" ] : "") + 
-                  '"' + spec_script + '"' + " " +
-                  (@rcov ? "-- " : "") + 
-                  spec_file_list.collect { |fn| %["#{fn}"] }.join(' ') + " " + 
-                  spec_option_list + " " +
-                  redirect
-                )
+                cmd = "ruby "
+
+                ruby_opts = @ruby_opts.clone
+                ruby_opts << "-I\"#{lib_path}\""
+                ruby_opts << "-S rcov" if @rcov
+                ruby_opts << "-w" if @warning
+                cmd << ruby_opts.join(" ")
+                cmd << " "
+                cmd << rcov_option_list
+                cmd << %[ -o "#{@rcov_dir}" ] if @rcov
+                cmd << %Q|"#{spec_script}"|
+                cmd << " "
+                cmd << "-- " if @rcov
+                cmd << spec_file_list.collect { |fn| %["#{fn}"] }.join(' ')
+                cmd << " "
+                cmd << spec_option_list
+                cmd << " "
+                cmd << %Q| > "#{@out}"| if @out
+                system(cmd)
               rescue => e
                  puts @failure_message if @failure_message
                  raise e if @fail_on_error

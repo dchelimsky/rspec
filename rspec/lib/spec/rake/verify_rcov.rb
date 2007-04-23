@@ -32,6 +32,7 @@ module RCov
       desc "Verify that rcov coverage is at least #{threshold}%"
       task @name do
         total_coverage = nil
+
         File.open(index_html).each_line do |line|
           if line =~ /<tt.*>(\d+\.\d+)%<\/tt>&nbsp;<\/td>/
             total_coverage = eval($1)
