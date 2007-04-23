@@ -38,6 +38,10 @@ module Spec
       
       line.gsub!(/(^\s*)context([\s*|\(]['|"|A-Z])/, '\1describe\2')
       line.gsub!(/(^\s*)specify([\s*|\(]['|"|A-Z])/, '\1it\2')
+      line.gsub!(/(^\s*)context_setup(\s*[do|\{])/, '\1before(:all)\2')
+      line.gsub!(/(^\s*)context_teardown(\s*[do|\{])/, '\1after(:all)\2')
+      line.gsub!(/(^\s*)setup(\s*[do|\{])/, '\1before(:each)\2')
+      line.gsub!(/(^\s*)teardown(\s*[do|\{])/, '\1after(:each)\2')
       
       if line =~ /(.*\.)(should_not|should)(?:_be)(?!_)(.*)/m
         pre = $1

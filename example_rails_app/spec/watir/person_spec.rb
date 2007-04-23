@@ -5,7 +5,7 @@ require 'spec/ui/watir_helper'
 describe "Person Webpage" do
   # TODO: Get this to work with Fixtures
   
-  context_setup do
+  before(:all) do
     # This will be Watir::IE or Watir::Safari depending on your OS.
     @browser = Watir::Browser.new
   end

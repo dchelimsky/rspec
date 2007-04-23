@@ -10,6 +10,22 @@ context "Translator" do
     to = File.dirname(__FILE__) + '/../../translated_specs'
     @t.translate_dir(from, to)
   end
+
+  specify "should translate context_setup  do" do
+    @t.translate_line(
+      "context_setup  do\n"
+    ).should eql(
+      "before(:all)  do\n"
+    )
+  end
+
+  specify "should translate context_setup  {foo}" do
+    @t.translate_line(
+      "context_setup  {foo}\n"
+    ).should eql(
+      "before(:all)  {foo}\n"
+    )
+  end
   
   specify "should translate context ' to describe '" do
     @t.translate_line(
