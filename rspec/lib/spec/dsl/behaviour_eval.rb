@@ -65,31 +65,26 @@ module Spec
       private
 
         def before_all_block
-          parts = CompositeProcBuilder.new(self)
-          parts.add_instance_method_from(context_superclass, :context_setup)
-          parts.push(*before_all_parts)
-          parts.proc
+          create_callback_proc :context_setup, before_all_parts
         end
 
         def after_all_block
-          parts = CompositeProcBuilder.new(self)
-          parts.add_instance_method_from(context_superclass, :context_teardown)
-          parts.push(*after_all_parts)
-          parts.proc
+          create_callback_proc :context_teardown, after_all_parts
         end
 
         def setup_block
-          parts = CompositeProcBuilder.new(self)
-          parts.add_instance_method_from(context_superclass, :setup)
-          parts.push(*before_each_parts)
-          parts.proc
+          create_callback_proc :setup, before_each_parts
         end
 
         def teardown_block
-          parts = CompositeProcBuilder.new(self)
-          parts.add_instance_method_from(context_superclass, :teardown)
-          parts.push(*after_each_parts)
-          parts.proc
+          create_callback_proc :teardown, after_each_parts
+        end
+
+        def create_callback_proc(superclass_method_name, parts)
+          builder = CompositeProcBuilder.new(self)
+          builder.add_instance_method_from(context_superclass, superclass_method_name)
+          builder.push(*parts)
+          builder.proc
         end
 
         def execution_context_class
