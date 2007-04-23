@@ -54,6 +54,11 @@ require 'controller_spec_controller'
     it "routes should be speccable" do
       route_for(:controller => "controller_spec", :action => "some_action").should == "/controller_spec/some_action"
     end
+
+    it "exposes the assigns hash directly" do
+      get 'action_setting_the_assigns_hash'
+      assigns[:direct_assigns_key].should == :direct_assigns_key_value
+    end
   end
 
   describe "Given a controller spec for RedirectSpecController running in #{mode} mode", :context_type => :controller do

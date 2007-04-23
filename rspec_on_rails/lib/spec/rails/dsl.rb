@@ -1,6 +1,7 @@
 dir = File.dirname(__FILE__)
 
 require File.expand_path("#{dir}/dsl/ivar_proxy")
+require File.expand_path("#{dir}/dsl/assigns_hash_proxy")
 require File.expand_path("#{dir}/dsl/configuration")
 require File.expand_path("#{dir}/dsl/behaviour")
 require File.expand_path("#{dir}/dsl/behaviour_factory")

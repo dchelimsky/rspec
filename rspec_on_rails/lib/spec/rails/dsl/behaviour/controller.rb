@@ -138,6 +138,10 @@ module Spec
           @controller.integrate_views! if @integrate_views
           @controller.session = session rescue nil        end
 
+        protected
+          def _controller_ivar_proxy
+            @controller_ivar_proxy ||= AssignsHashProxy.new @controller
+          end
       
         private
           def ensure_that_routes_are_loaded

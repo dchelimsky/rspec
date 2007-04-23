@@ -107,29 +107,28 @@ module Spec
               # ruby [ruby_opts] -Ilib -S rcov [rcov_opts] bin/spec -- [spec_opts] examples
               # or
               # ruby [ruby_opts] -Ilib bin/spec [spec_opts] examples
-              begin
-                cmd = "ruby "
+              cmd = "ruby "
 
-                ruby_opts = @ruby_opts.clone
-                ruby_opts << "-I\"#{lib_path}\""
-                ruby_opts << "-S rcov" if @rcov
-                ruby_opts << "-w" if @warning
-                cmd << ruby_opts.join(" ")
-                cmd << " "
-                cmd << rcov_option_list
-                cmd << %[ -o "#{@rcov_dir}" ] if @rcov
-                cmd << %Q|"#{spec_script}"|
-                cmd << " "
-                cmd << "-- " if @rcov
-                cmd << spec_file_list.collect { |fn| %["#{fn}"] }.join(' ')
-                cmd << " "
-                cmd << spec_option_list
-                cmd << " "
-                cmd << %Q| > "#{@out}"| if @out
-                system(cmd)
-              rescue => e
-                 puts @failure_message if @failure_message
-                 raise e if @fail_on_error
+              ruby_opts = @ruby_opts.clone
+              ruby_opts << "-I\"#{lib_path}\""
+              ruby_opts << "-S rcov" if @rcov
+              ruby_opts << "-w" if @warning
+              cmd << ruby_opts.join(" ")
+              cmd << " "
+              cmd << rcov_option_list
+              cmd << %[ -o "#{@rcov_dir}" ] if @rcov
+              cmd << %Q|"#{spec_script}"|
+              cmd << " "
+              cmd << "-- " if @rcov
+              cmd << spec_file_list.collect { |fn| %["#{fn}"] }.join(' ')
+              cmd << " "
+              cmd << spec_option_list
+              cmd << " "
+              cmd << %Q| > "#{@out}"| if @out
+
+              unless system(cmd)
+               puts @failure_message if @failure_message
+               raise("Command #{cmd} failed") if @fail_on_error
               end
             end
           end

@@ -48,7 +48,7 @@ module Spec
             end
           end
 
-        private
+        protected
           def _controller_ivar_proxy
             @controller_ivar_proxy ||= IvarProxy.new @controller 
           end

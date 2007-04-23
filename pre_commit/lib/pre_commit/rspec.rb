@@ -99,7 +99,7 @@ class PreCommit::Rspec < PreCommit
 
         ############################################################
         EOF
-        raise message.gsub(/^        /)
+        raise message.gsub(/^        /, '')
       end
     end
   end

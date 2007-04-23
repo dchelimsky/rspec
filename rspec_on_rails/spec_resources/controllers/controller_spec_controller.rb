@@ -18,4 +18,8 @@ class ControllerSpecController < ActionController::Base
   def action_with_errors_in_template
     render :template => "controller_spec/action_with_errors_in_template"
   end
+
+  def action_setting_the_assigns_hash
+    assigns['direct_assigns_key'] = :direct_assigns_key_value
+  end
 end
