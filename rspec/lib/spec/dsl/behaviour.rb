@@ -17,7 +17,6 @@ module Spec
       end
       
       def run(reporter, dry_run=false, reverse=false, timeout=nil)
-        plugin_mock_framework
         reporter.add_behaviour(description)
         prepare_execution_context_class
         errors = run_before_all(reporter, dry_run)
@@ -70,6 +69,7 @@ module Spec
       end
 
       def prepare_execution_context_class
+        plugin_mock_framework
         weave_in_context_modules
         execution_context_class
       end
@@ -117,7 +117,7 @@ module Spec
       end
       
       def plugin_mock_framework
-        require File.expand_path(File.join(File.dirname(__FILE__), "..", "plugins","mock_framework.rb"))
+        require Spec::Runner.configuration.mock_framework
         include Spec::Plugins::MockMethods
       end
       

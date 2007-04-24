@@ -9,12 +9,27 @@ module Spec
       end
 
       it "should default mock framework to rspec" do
-        @config.mock_framework.should == :rspec
+        @config.mock_framework.should =~ /\/lib\/spec\/mocks\/plugin$/
       end
 
-      it "should let you set the mock framework" do
-        @config.mock_with(:other_framework)
-        @config.mock_framework.should == :other_framework
+      it "should let you set rspec explicitly" do
+        @config.mock_with(:rspec)
+        @config.mock_framework.should =~ /\/lib\/spec\/mocks\/plugin$/
+      end
+
+      it "should let you set mocha" do
+        @config.mock_with(:mocha)
+        @config.mock_framework.should =~ /\/plugins\/mock_frameworks\/mocha$/
+      end
+
+      it "should let you set flexmock" do
+        @config.mock_with(:flexmock)
+        @config.mock_framework.should =~ /\/plugins\/mock_frameworks\/flexmock$/
+      end
+      
+      it "should let you set an arbitrary path to a mock framework" do
+        @config.mock_with("arbitrary/path")
+        @config.mock_framework.should == "arbitrary/path"
       end
     end
   end

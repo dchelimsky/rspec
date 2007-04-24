@@ -364,8 +364,8 @@ module Spec
           context_teardown {}
         end.run(formatter)
       end
-    end
-
+    end      
+    
     class BehaviourSubclass < Behaviour
       public :described_type
     end

@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), "..", "..", "mocks"))
+require File.expand_path(File.join(File.dirname(__FILE__), "..", "mocks"))
 
 module Spec
   module Plugins
