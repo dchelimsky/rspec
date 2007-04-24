@@ -31,6 +31,15 @@ module Spec
         end
       end
 
+      specify "should remove mock_frameworks/rspec" do
+        element = "mock_frameworks/rspec"
+        @error.set_backtrace([element])
+        @tweaker.tweak_backtrace(@error, "spec name")
+        unless (@error.backtrace.empty?)
+          raise("Should have tweaked away '#{element}'")
+        end
+      end
+
       specify "should remove bin spec" do
         @error.set_backtrace(["bin/spec:"])
         @tweaker.tweak_backtrace(@error, "spec name")

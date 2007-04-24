@@ -9,12 +9,12 @@ module Spec
       end
 
       it "should default mock framework to rspec" do
-        @config.mock_framework.should =~ /\/lib\/spec\/mocks\/plugin$/
+        @config.mock_framework.should =~ /\/plugins\/mock_frameworks\/rspec$/
       end
 
       it "should let you set rspec explicitly" do
         @config.mock_with(:rspec)
-        @config.mock_framework.should =~ /\/lib\/spec\/mocks\/plugin$/
+        @config.mock_framework.should =~ /\/plugins\/mock_frameworks\/rspec$/
       end
 
       it "should let you set mocha" do

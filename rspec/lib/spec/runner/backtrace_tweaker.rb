@@ -32,7 +32,8 @@ module Spec
           # TextMate's Ruby and RSpec plugins
           /Ruby\.tmbundle\/Support\/tmruby.rb:/,
           /RSpec\.tmbundle\/Support\/lib/,
-          /temp_textmate\./
+          /temp_textmate\./,
+          /mock_frameworks\/rspec/
         ]
       end
       

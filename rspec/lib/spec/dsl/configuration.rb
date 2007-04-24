@@ -3,22 +3,17 @@ module Spec
     class Configuration
       
       def mock_with(mock_framework)
-        case mock_framework
-        when :rspec
-          @mock_framework = relative_path(["..", "mocks", "plugin"])
-        when Symbol
-          @mock_framework = relative_path(["..", "..", "plugins", "mock_frameworks", mock_framework.to_s])
-        else
-          @mock_framework = mock_framework
-        end
-      end
-      
-      def relative_path(*path_elements)
-        File.expand_path(File.join(File.dirname(__FILE__), *path_elements))
+        @mock_framework = Symbol === mock_framework ? mock_framework_path(mock_framework.to_s) : mock_framework
       end
       
       def mock_framework
-        @mock_framework ||= File.expand_path(File.join(File.dirname(__FILE__), "..", "mocks", "plugin"))
+        @mock_framework ||= mock_framework_path("rspec")
+      end
+      
+    private
+    
+      def mock_framework_path(framework_name)
+        File.expand_path(File.join(File.dirname(__FILE__), "..", "..", "..", "plugins", "mock_frameworks", framework_name))
       end
       
     end
