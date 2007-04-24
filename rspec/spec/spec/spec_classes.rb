@@ -96,7 +96,7 @@ module Spec
 end
 
 module Custom
-  class Formatter
+  class Formatter < Spec::Runner::Formatter::BaseTextFormatter
   end
   class BehaviourRunner
     def initialize(one); end

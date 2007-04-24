@@ -3,7 +3,7 @@ module Spec
     module Formatter
       class HtmlFormatter < BaseTextFormatter
         
-        def initialize(output, dry_run=false, colour=false)
+        def initialize(output)
           super
           @current_behaviour_number = 0
           @current_example_number = 0

@@ -22,7 +22,7 @@ context "OptionParser" do
 
   specify "should eval and use custom formatter when none of the builtins" do
     options = parse(["--format", "Custom::Formatter"])
-    options.formatter_type.should equal(Custom::Formatter)
+    options.formatters[0].class.should be(Custom::Formatter)
   end
 
   specify "should not be verbose by default" do
@@ -57,22 +57,10 @@ context "OptionParser" do
     @out.read.should match(/RSpec-\d+\.\d+\.\d+.*\(r\d+\) - BDD for Ruby\nhttp:\/\/rspec.rubyforge.org\/\n/n)
   end
   
-  specify "should accept -o option" do
-    options = parse(["-o", "#{File.expand_path(File.dirname(__FILE__))}/output_file.txt"])
-    options.out.should be_an_instance_of(File)
-    options.out.path.should == "#{File.expand_path(File.dirname(__FILE__))}/output_file.txt"
-    File.delete(options.out.path) rescue nil
-  end
-
   specify "should require file when require specified" do
     lambda do
       parse(["--require", "whatever"])
     end.should raise_error(LoadError)
-  end
-
-  specify "should select dry run for rdoc formatter" do
-    options = parse(["--format", "rdoc"])
-    options.dry_run.should be_true
   end
 
   specify "should support c option" do
@@ -109,12 +97,20 @@ context "OptionParser" do
 
   specify "should use html formatter when format is h" do
     options = parse(["--format", "h"])
-    options.formatter_type.should equal(Spec::Runner::Formatter::HtmlFormatter)
+    options.formatters[0].class.should equal(Spec::Runner::Formatter::HtmlFormatter)
   end
 
   specify "should use html formatter when format is html" do
     options = parse(["--format", "html"])
-    options.formatter_type.should equal(Spec::Runner::Formatter::HtmlFormatter)
+    options.formatters[0].class.should equal(Spec::Runner::Formatter::HtmlFormatter)
+  end
+
+  specify "should use html formatter with explicit output when format is html:test.html" do
+    FileUtils.rm 'test.html' if File.exist?('test.html')
+    options = parse(["--format", "html:test.html"])
+    File.should be_exist('test.html')
+    options.formatters[0].class.should equal(Spec::Runner::Formatter::HtmlFormatter)
+    FileUtils.rm 'test.html'
   end
 
   specify "should use noisy backtrace tweaker with b option" do
@@ -134,27 +130,27 @@ context "OptionParser" do
 
   specify "should use progress bar formatter by default" do
     options = parse([])
-    options.formatter_type.should equal(Spec::Runner::Formatter::ProgressBarFormatter)
+    options.formatters[0].class.should equal(Spec::Runner::Formatter::ProgressBarFormatter)
   end
 
   specify "should use rdoc formatter when format is r" do
     options = parse(["--format", "r"])
-    options.formatter_type.should equal(Spec::Runner::Formatter::RdocFormatter)
+    options.formatters[0].class.should equal(Spec::Runner::Formatter::RdocFormatter)
   end
 
   specify "should use rdoc formatter when format is rdoc" do
     options = parse(["--format", "rdoc"])
-    options.formatter_type.should equal(Spec::Runner::Formatter::RdocFormatter)
+    options.formatters[0].class.should equal(Spec::Runner::Formatter::RdocFormatter)
   end
 
   specify "should use specdoc formatter when format is s" do
     options = parse(["--format", "s"])
-    options.formatter_type.should equal(Spec::Runner::Formatter::SpecdocFormatter)
+    options.formatters[0].class.should equal(Spec::Runner::Formatter::SpecdocFormatter)
   end
 
   specify "should use specdoc formatter when format is specdoc" do
     options = parse(["--format", "specdoc"])
-    options.formatter_type.should equal(Spec::Runner::Formatter::SpecdocFormatter)
+    options.formatters[0].class.should equal(Spec::Runner::Formatter::SpecdocFormatter)
   end
 
   specify "should support diff option when format is not specified" do
@@ -272,10 +268,10 @@ context "OptionParser" do
   end
    
   specify "should save config to file when --generate-options is specified" do
-    FileUtils.rm 'spec.opts' rescue nil
-    options = parse(["--colour", "--generate-options", "spec.opts", "--diff"])
-    File.open('spec.opts').read.should == "--colour\n--diff\n"
-    FileUtils.rm 'spec.opts' rescue nil
+    FileUtils.rm 'test.spec.opts' rescue nil
+    options = parse(["--colour", "--generate-options", "test.spec.opts", "--diff"])
+    File.open('test.spec.opts').read.should == "--colour\n--diff\n"
+    FileUtils.rm 'test.spec.opts' rescue nil
   end
 
   specify "should call DrbCommandLine when --drb is specified" do

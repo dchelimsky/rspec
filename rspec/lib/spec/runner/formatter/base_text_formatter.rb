@@ -5,11 +5,17 @@ module Spec
       # non-text based ones too - just ignore the +output+ constructor
       # argument.
       class BaseTextFormatter
-        def initialize(output, dry_run=false, colour=false)
+        attr_writer :dry_run
+        
+        def initialize(output)
           @output = output
-          @dry_run = dry_run
-          @colour = colour
+          @colour = false
+          @dry_run = false
           @snippet_extractor = SnippetExtractor.new
+        end
+        
+        def colour=(colour)
+          @colour = colour
           begin ; require 'Win32/Console/ANSI' if @colour && PLATFORM =~ /win32/ ; rescue LoadError ; raise "You must gem install win32console to use colour on Windows" ; end
 	      end
 

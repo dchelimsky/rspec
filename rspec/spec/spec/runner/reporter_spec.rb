@@ -8,7 +8,7 @@ module Spec
         @io = StringIO.new
         @backtrace_tweaker = stub("backtrace tweaker", :tweak_backtrace => nil)
         @formatter = mock("formatter")
-        @reporter = Reporter.new(@formatter, @backtrace_tweaker)
+        @reporter = Reporter.new([@formatter], @backtrace_tweaker)
       end
 
       def failure
@@ -133,7 +133,7 @@ module Spec
       it "should write a failure file when given a filename" do
         io = StringIO.new('')
         File.should_receive(:open).with("some_file_name.txt", "w").and_yield(io)
-        @reporter = Reporter.new(@formatter, @backtrace_tweaker, 'some_file_name.txt')
+        @reporter = Reporter.new([@formatter], @backtrace_tweaker, 'some_file_name.txt')
         @formatter.stub!(:add_behaviour)
         @formatter.stub!(:example_failed)
         @reporter.add_behaviour('behaviour')

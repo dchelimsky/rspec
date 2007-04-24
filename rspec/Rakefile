@@ -22,29 +22,14 @@ PKG_FILES = FileList[
   'spec/**/*.rb', 
   'examples/**/*'
 ]
-FileUtils.touch(File.dirname(__FILE__) + '/failures.txt')
+FileUtils.touch(File.dirname(__FILE__) + '/previous_failures.txt')
 
 task :default => [:verify_rcov]
-
-spec_opts = [
-  '--colour', 
-  '--backtrace', 
-  '--failures', 
-  'failures.txt', 
-  '--example', 
-  'failures.txt', 
-  '--loadby', 
-  'mtime', 
-  '--reverse',
-  '--timeout',
-  '2',
-  '--diff'
-]
 
 desc "Run all specs"
 Spec::Rake::SpecTask.new do |t|
   t.spec_files = FileList['spec/**/*_spec.rb', '../RSpec.tmbundle/Support/spec/*_spec.rb']
-  t.spec_opts = spec_opts
+  t.spec_opts = ['--options', 'spec.opts']
   t.rcov = true
   t.rcov_dir = '../doc/output/coverage'
   t.rcov_opts = ['--exclude', 'spec\/spec,bin\/spec,examples']
@@ -57,7 +42,7 @@ Spec::Rake::SpecTask.new('translated_specs') do |t|
     'translated_specs/spec/runner/formatter/html_formatter_spec.rb',
     'translated_specs/spec/runner/option_parser_spec.rb'
   )
-  t.spec_opts = spec_opts
+  t.spec_opts = ['--options', 'spec.opts']
   t.rcov = true
   t.rcov_dir = '../doc/output/coverage'
   t.rcov_opts = ['--exclude', 'spec\/spec,bin\/spec,examples']
@@ -66,7 +51,7 @@ end
 desc "Run all specs and store html output in doc/output/report.html"
 Spec::Rake::SpecTask.new('spec_html') do |t|
   t.spec_files = FileList['spec/**/*_spec.rb', 'vendor/RSpec.tmbundle/Support/spec/*_spec.rb']
-  t.spec_opts = ['--format html','--backtrace','--out ../doc/output/report.html']
+  t.spec_opts = ['--format html:../doc/output/report.html','--backtrace']
 end
 
 desc "Run all failing examples"

@@ -2,8 +2,8 @@ module Spec
   module Runner
     class Reporter
       
-      def initialize(formatter, backtrace_tweaker, failure_file=nil)
-        @formatter = formatter
+      def initialize(formatters, backtrace_tweaker, failure_file=nil)
+        @formatters = formatters
         @backtrace_tweaker = backtrace_tweaker
         @failure_file = failure_file
         @failure_io = StringIO.new if @failure_file
@@ -11,12 +11,12 @@ module Spec
       end
       
       def add_behaviour(name)
-        @formatter.add_behaviour(name)
+        @formatters.each{|f| f.add_behaviour(name)}
         @behaviour_names << name
       end
       
       def example_started(name)
-        @formatter.example_started(name)
+        @formatters.each{|f| f.example_started(name)}
       end
       
       def example_finished(name, error=nil, failure_location=nil)
@@ -31,7 +31,7 @@ module Spec
       def start(number_of_examples)
         clear!
         @start_time = Time.new
-        @formatter.start(number_of_examples)
+        @formatters.each{|f| f.start(number_of_examples)}
       end
   
       def end
@@ -46,9 +46,9 @@ module Spec
   
       # Dumps the summary and returns the total number of failures
       def dump
-        @formatter.start_dump
+        @formatters.each{|f| f.start_dump}
         dump_failures
-        @formatter.dump_summary(duration, @example_names.length, @failures.length)
+        @formatters.each{|f| f.dump_summary(duration, @example_names.length, @failures.length)}
         @failures.length
       end
 
@@ -65,7 +65,7 @@ module Spec
       def dump_failures
         return if @failures.empty?
         @failures.inject(1) do |index, failure|
-          @formatter.dump_failure(index, failure)
+          @formatters.each{|f| f.dump_failure(index, failure)}
           index + 1
         end
       end
@@ -76,7 +76,7 @@ module Spec
       end
 
       def example_passed(name)
-        @formatter.example_passed(name)
+        @formatters.each{|f| f.example_passed(name)}
       end
 
       def example_failed(name, error, failure_location)
@@ -85,7 +85,7 @@ module Spec
         @failure_io.puts(example_name) unless @failure_io.nil?
         failure = Failure.new(example_name, error)
         @failures << failure
-        @formatter.example_failed(name, @failures.length, failure)
+        @formatters.each{|f| f.example_failed(name, @failures.length, failure)}
       end
       
       class Failure

@@ -6,7 +6,7 @@ module Spec
       context "ProgressBarFormatter failure dump with NoisyBacktraceTweaker" do
         setup do
           @io = StringIO.new
-          @reporter = Reporter.new(ProgressBarFormatter.new(@io), NoisyBacktraceTweaker.new)
+          @reporter = Reporter.new([ProgressBarFormatter.new(@io)], NoisyBacktraceTweaker.new)
           @reporter.add_behaviour("context")
         end
 

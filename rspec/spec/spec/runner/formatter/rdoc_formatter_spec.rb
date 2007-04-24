@@ -6,8 +6,8 @@ module Formatter
 context "RdocFormatter" do
     setup do
         @io = StringIO.new
-        @formatter = RdocFormatter.new(@io, true)
-      
+        @formatter = RdocFormatter.new(@io)
+        @formatter.dry_run = true
     end
     specify "should produce no summary" do
         @formatter.dump_summary(nil, nil, nil)

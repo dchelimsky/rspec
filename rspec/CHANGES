@@ -16,10 +16,10 @@ independent (by running in opposite order with --reverse). It can also be used t
 down feedback time by running the most recently modified specs first (--loadby mtime --reverse).
 
 Further, --example replaces the old --spec option, and it can now take a file name of
-spec names as an alternative to just a spec name. The --failure option allows you to
-output an --example compatible file, which makes it possible to only rerun the specs
-that failed in the last run. Spec::Rails uses all of these four options by default
-to optimise your RSpec experience.
+spec names as an alternative to just a spec name. The --format failing_examples:file.txt 
+option allows you to output an --example compatible file, which makes it possible to only 
+rerun the specs that failed in the last run. Spec::Rails uses all of these four options 
+by default to optimise your RSpec experience.
 
 There is now a simple configuration model. For Spec::Rails, you do something like this:
 
@@ -45,6 +45,11 @@ or this:
 in a file that is loaded before your specs.
 
 * Sugar FREE!
+* --format rdoc no longer causes a dry-run by default. --dry-run must be used explicitly.
+* It's possible to specify the output file in the --format option (See explanation in --help)
+* Several --format options may be specified to output several formats in one run.
+* The --out option is gone. Use --format html:path/to/my.html instead (or similar).
+* Spec::Runner::Formatter::BaseTextFormatter#initialize only takes one argument - an IO. dry_run and color are setters.
 * Made Spec::Ui *much* easier to install. It will be released separately. Check out trunk/spec_ui/examples
 * HTML reports now include a syntax highlighted snippet of the source code where the spec failed (needs the syntax gem)
 * Added [#10262] Better Helper testing of Erb evaluation block helpers
@@ -74,7 +79,6 @@ in a file that is loaded before your specs.
 * The --spec option is replaced by the --example option.
 * The --loadby option no longer supports a file argument. Use --example file_name instead.
 * The --example option can now take a file name as an argument. The file should contain example names.
-* New --failures option which will write out a file that can later be used with --example.
 * Internal classes are named Behaviour/Example (rather than Context/Specification).
 * You can now use mocha by saying config.mock_with :mocha in a spec_helper
 * before_context_eval is replaced by before_eval.
