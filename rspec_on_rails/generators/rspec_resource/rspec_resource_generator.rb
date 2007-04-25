@@ -28,8 +28,8 @@ class RspecResourceGenerator < Rails::Generator::NamedBase
       @controller_class_name = "#{@controller_class_nesting}::#{@controller_class_name_without_nesting}"
     end
     
-    # if ["1.1.6","1.2.1","1.2.2","1.2.3"].include?(Rails::VERSION::STRING)
-    if Spec::Runner.configuration.on_edge?
+    if ActionView::Base.const_defined?('DEFAULT_TEMPLATE_HANDLER_PREFERENCE') &&
+       ActionView::Base::DEFAULT_TEMPLATE_HANDLER_PREFERENCE.include?('erb') then
       @default_file_extension = "erb"
       @resource_edit_path = "/edit"
     else
