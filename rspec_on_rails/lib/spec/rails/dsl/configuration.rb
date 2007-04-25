@@ -18,6 +18,11 @@ module Spec
       def global_fixtures
         @global_fixtures ||= []
       end
+      
+      def on_edge?
+        ActionView::Base.const_defined?('DEFAULT_TEMPLATE_HANDLER_PREFERENCE') &&
+        ActionView::Base::DEFAULT_TEMPLATE_HANDLER_PREFERENCE.include?('erb')
+      end
     end
   end
 end

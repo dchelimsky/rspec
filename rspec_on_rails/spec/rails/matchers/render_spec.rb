@@ -8,10 +8,6 @@ require File.dirname(__FILE__) + '/../../spec_helper'
       integrate_views
     end
     
-    def on_edge?
-      !(['1.1.6', '1.2.1', '1.2.2', '1.2.3'].include?(Rails::VERSION::STRING))
-    end
-
     it "should match a simple path" do
       post 'some_action'
       response.should render_template('some_action')
@@ -29,7 +25,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 
     it "should match an rjs template" do
       xhr :post, 'some_action'
-      if on_edge?
+      if Spec::Runner.configuration.on_edge?
         response.should render_template('render_spec/some_action')
       else
         response.should render_template('render_spec/some_action.rjs')
