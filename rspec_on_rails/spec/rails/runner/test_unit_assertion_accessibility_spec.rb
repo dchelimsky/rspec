@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
 ['model','view','helper'].each do |context|
-  describe "A #{context} spec should be able to access 'test/unit' assertions", :context_type => context.to_sym do
+  describe "A #{context} spec should be able to access 'test/unit' assertions", :rails_component_type => context.to_sym do
 
     it "like assert_equal" do
       assert_equal 1, 1
@@ -14,7 +14,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 end
 
 ['integration', 'isolation'].each do |mode|
-  describe "A controller spec in #{mode} mode should be able to access 'test/unit' assertions", :context_type => :controller do
+  describe "A controller spec in #{mode} mode should be able to access 'test/unit' assertions", :rails_component_type => :controller do
     controller_name :controller_spec
     integrate_views if mode == 'integration'
 

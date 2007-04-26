@@ -80,7 +80,7 @@ unless defined?(SpecFailed)
   SpecFailed = Spec::Expectations::ExpectationNotMetError 
 end
 
-describe "should have_tag", :context_type => :controller do
+describe "should have_tag", :rails_component_type => :controller do
   include AssertSelectSpecHelpers
   controller_name :assert_select
   integrate_views
@@ -341,7 +341,7 @@ describe "should have_tag", :context_type => :controller do
   end
 end
 
-describe "css_select", :context_type => :controller do
+describe "css_select", :rails_component_type => :controller do
   include AssertSelectSpecHelpers
   controller_name :assert_select
   integrate_views
@@ -392,7 +392,7 @@ describe "css_select", :context_type => :controller do
   
 end
 
-describe "have_rjs behaviour", :context_type => :controller do
+describe "have_rjs behaviour", :rails_component_type => :controller do
   include AssertSelectSpecHelpers
   controller_name :assert_select
   integrate_views
@@ -567,7 +567,7 @@ describe "have_rjs behaviour", :context_type => :controller do
   end
 end
 
-describe "be_feed behaviour", :context_type => :controller do
+describe "be_feed behaviour", :rails_component_type => :controller do
   include AssertSelectSpecHelpers
   controller_name :assert_select
   integrate_views
@@ -687,7 +687,7 @@ EOF
   end
 end
 
-describe "send_email behaviour", :context_type => :controller do
+describe "send_email behaviour", :rails_component_type => :controller do
   include AssertSelectSpecHelpers
   controller_name :assert_select
   integrate_views
@@ -731,7 +731,7 @@ describe "send_email behaviour", :context_type => :controller do
 end
 
 # context "Given an rjs call to :visual_effect, a 'should have_rjs' spec with",
-#   :context_type => :view do
+#   :rails_component_type => :view do
 #     
 #   setup do
 #     render 'rjs_spec/visual_effect'
@@ -756,7 +756,7 @@ end
 # end
 #   
 # context "Given an rjs call to :visual_effect for a toggle, a 'should have_rjs' spec with",
-#   :context_type => :view do
+#   :rails_component_type => :view do
 #     
 #   setup do
 #     render 'rjs_spec/visual_toggle_effect'
@@ -780,7 +780,7 @@ end
 #   
 # end
 
-describe "string.should have_tag", :context_type => :helper do
+describe "string.should have_tag", :rails_component_type => :helper do
   include AssertSelectSpecHelpers
 
   it "should find root element" do

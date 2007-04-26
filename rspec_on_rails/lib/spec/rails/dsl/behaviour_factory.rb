@@ -4,8 +4,17 @@ module Spec
       class BehaviourFactory
 
         class << self
-          # Kernel#context calls this to create the appropriate extension of
-          # Spec::DSL::Behaviour for Model, View, Controller and Helper specs.
+
+          BEHAVIOUR_CLASSES = {
+            :view       => Spec::Rails::DSL::ViewBehaviour,
+            :helper     => Spec::Rails::DSL::HelperBehaviour,
+            :controller => Spec::Rails::DSL::ControllerBehaviour,
+            :model      => Spec::Rails::DSL::ModelBehaviour,
+            :default    => Spec::DSL::Behaviour
+          }
+
+          # Kernel#describe calls this to create the appropriate extension of
+          # Spec::DSL::Behaviour for Model, View, Controller and Helper behaviours.
           # In the spirit of Rails' convention
           # over configuration, putting the spec files in the right directory
           # will cause the BehaviourFactory to do the right thing:
@@ -18,27 +27,24 @@ module Spec
           # If you prefer or need configuration, you can use the options Hash submitted
           # to create as follows:
           # 
-          #   context "name", :context_type => :controller do ...
-          #   context "name", :context_type => :helper do ...
-          #   context "name", :context_type => :model do ...
-          #   context "name", :context_type => :view ...
+          #   describe "name", :rails_component_type => :controller do ...
+          #   describe "name", :rails_component_type => :helper do ...
+          #   describe "name", :rails_component_type => :model do ...
+          #   describe "name", :rails_component_type => :view ...
           def create(*args, &block)
             describable = Spec::DSL::Describable.new(*args)
-            spec_path = describable[:spec_path]
-            context_type = describable[:context_type]
-            if (spec_path =~ /spec(\/|\\)+views/) || (context_type == :view)
-              return Spec::Rails::DSL::ViewBehaviour.new(describable, &block)
-            elsif (spec_path =~ /spec(\/|\\)+helpers/) || (context_type == :helper)
-              return Spec::Rails::DSL::HelperBehaviour.new(describable, &block)
-            elsif (spec_path =~ /spec(\/|\\)+controllers/) || (context_type == :controller)
-              return Spec::Rails::DSL::ControllerBehaviour.new(describable, &block)
-            elsif (spec_path =~ /spec(\/|\\)+models/) || (context_type == :model)
-              return Spec::Rails::DSL::ModelBehaviour.new(describable, &block)
+            if describable[:rails_component_type]
+              key = describable[:rails_component_type]
+            elsif describable[:spec_path] =~ /spec(\/|\\)+(view|helper|controller|model)s/
+              key = $2.to_sym
             else
-              return Spec::DSL::Behaviour.new(describable, &block)
+              key = :default
             end
+            return BEHAVIOUR_CLASSES[key].new(describable, &block)
           end
+          
         end
+        
       end
     end
   end
