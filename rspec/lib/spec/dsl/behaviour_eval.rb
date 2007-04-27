@@ -2,16 +2,6 @@ module Spec
   module DSL
     module BehaviourEval
       module ModuleMethods
-        def inherit(klass)
-          @behaviour_superclass = klass
-          derive_execution_context_class_from_context_superclass
-        end
-
-        def include(mod)
-          context_modules << mod
-          mod.send :included, self
-        end
-
         def before(scope=:each, &block)
           case scope
           when :each; before_each_parts << block
@@ -24,6 +14,16 @@ module Spec
           when :each; after_each_parts.unshift(block)
           when :all;  after_all_parts.unshift(block)
           end
+        end        
+
+        def inherit(klass)
+          @behaviour_superclass = klass
+          derive_execution_context_class_from_context_superclass
+        end
+
+        def include(mod)
+          context_modules << mod
+          mod.send :included, self
         end
 
         # Backwards compatibility - should we deprecate?
@@ -62,30 +62,55 @@ module Spec
           super
         end
 
+        def before_all_proc(&error_handler)
+          parts = []
+          add_superclass_method(parts, 'context_setup')
+          parts.push(*before_all_parts)
+          CompositeProcBuilder.new(self, parts).proc(&error_handler)
+        end
+
+        def after_all_proc(&error_handler)
+          parts = []
+          add_superclass_method(parts, 'context_teardown')
+          parts.push(*after_all_parts)
+          CompositeProcBuilder.new(self, parts).proc(&error_handler)
+        end
+
+        def before_each_proc(&error_handler)
+          parts = []
+          add_superclass_method(parts, 'setup')
+          parts.push(*before_each_parts)
+          CompositeProcBuilder.new(self, parts).proc(&error_handler)
+        end
+
+        def after_each_proc(&error_handler)
+          parts = []
+          add_superclass_method(parts, 'teardown')
+          parts.push(*after_each_parts)
+          CompositeProcBuilder.new(self, parts).proc(&error_handler)
+        end
+
+        def add_superclass_method(parts, method_name)
+          parts << context_superclass.instance_method(method_name) if context_superclass.instance_methods.include?(method_name)
+        end        
+
+        def before_all_parts
+          @before_all_parts ||= []
+        end
+
+        def after_all_parts
+          @after_all_parts ||= []
+        end
+
+        def before_each_parts
+          @before_each_parts ||= []
+        end
+
+        def after_each_parts
+          @after_each_parts ||= []
+        end
+
       private
-
-        def before_all_block
-          create_callback_proc :context_setup, before_all_parts
-        end
-
-        def after_all_block
-          create_callback_proc :context_teardown, after_all_parts
-        end
-
-        def before_each_block
-          create_callback_proc :setup, before_each_parts
-        end
-
-        def after_each_block
-          create_callback_proc :teardown, after_each_parts
-        end
-
-        def create_callback_proc(superclass_method_name, parts)
-          builder = CompositeProcBuilder.new(self)
-          builder.add_instance_method_from(context_superclass, superclass_method_name)
-          builder.push(*parts)
-          builder.proc
-        end
 
         def execution_context_class
           @execution_context_class ||= derive_execution_context_class_from_context_superclass
@@ -105,22 +130,6 @@ module Spec
 
         def examples
           @examples ||= []
-        end
-
-        def before_all_parts
-          @before_all_parts ||= []
-        end
-
-        def after_all_parts
-          @after_all_parts ||= []
-        end
-
-        def before_each_parts
-          @before_each_parts ||= []
-        end
-
-        def after_each_parts
-          @after_each_parts ||= []
         end
       end
 

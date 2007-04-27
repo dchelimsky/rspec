@@ -10,23 +10,23 @@ module Spec
 
       before do
         @reporter = stub("reporter", :example_started => nil, :example_finished => nil)
-        callback_container = Callback::CallbackContainer.new
         @example_class = Example.dup
-        @example_class.stub!(:callbacks).and_return {callback_container}
+        @example_class.stub!(:before_callbacks).and_return([])
+        @example_class.stub!(:after_callbacks).and_return([])
       end
       
       it "should have a before_setup callback for all examples" do
-        before_setup_called = false
-        @example_class.before_setup {before_setup_called = true}
+        before_called = false
+        @example_class.before {before_called = true}
 
         run(@example_class.new("example") {})
-        
-        before_setup_called.should == true
+
+        before_called.should == true
       end
 
       it "should have before_setup callback report (but not raise) errors" do
         error=Exception.new
-        @example_class.before_setup {raise(error)}
+        @example_class.before {raise(error)}
 
         @reporter.should_receive(:example_finished).with("example", error, "setup")
 
@@ -41,17 +41,17 @@ module Spec
       end
 
       it "should have an after_teardown callback for all examples" do
-        after_teardown_called = false
-        @example_class.after_teardown {after_teardown_called = true}
+        after_called = false
+        @example_class.after {after_called = true}
 
         run(@example_class.new("example") {})
 
-        after_teardown_called.should == true
+        after_called.should == true
       end
 
       it "should have after_teardown callback add errors to example run" do
         error=Exception.new
-        @example_class.after_teardown {raise(error)}
+        @example_class.after {raise(error)}
 
         @reporter.should_receive(:example_finished).with("example", error, "teardown")
 

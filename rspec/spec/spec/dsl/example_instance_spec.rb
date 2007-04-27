@@ -116,36 +116,34 @@ module Spec
         example = Example.new("name", :key => 'value')
       end
 
-      specify "should notify before_setup callbacks before setup" do
+      specify "should notify before callbacks before setup" do
         example = Example.new("example")
 
-        mock = mock("setup mock")
-        mock.should_receive(:before_setup).ordered
-        mock.should_receive(:setup).ordered
-
-        example.before_setup {mock.before_setup}
-        setup = lambda {mock.setup}
+        call_order = []
+        example.before {call_order << :before}
+        setup = lambda {call_order << :setup}
         example.run(@reporter, setup, nil, nil, Object.new)
+
+        call_order.should == [:before, :setup]
       end
 
-      specify "should notify after_teardown callbacks after teardown" do
+      specify "should notify after callbacks after teardown" do
         example = Example.new("example")
 
-        mock = mock("teardown mock")
-        mock.should_receive(:teardown).ordered
-        mock.should_receive(:after_teardown).ordered
-
-        example.after_teardown {mock.after_teardown}
-        teardown = proc {mock.teardown}
+        call_order = []
+        example.after {call_order << :after}
+        teardown = proc {call_order << :teardown}
         example.run(@reporter, nil, teardown, nil, Object.new)
+
+        call_order.should == [:teardown, :after]
       end
-      
+
       specify "should report NAME NOT GENERATED when told to use generated description but none is generated" do
         example = Example.new(:__generate_description)
         @reporter.should_receive(:example_finished).with("NAME NOT GENERATED", :anything, :anything)
         example.run(@reporter, nil, nil, nil, Object.new)
       end
-      
+
       specify "should report generated description when told to and it is available" do
         example = Example.new(:__generate_description) {
           5.should == 5
@@ -153,7 +151,7 @@ module Spec
         @reporter.should_receive(:example_finished).with("should == 5", :anything, :anything)
         example.run(@reporter, nil, nil, nil, Object.new)
       end
-      
+
       specify "should unregister description_generated callback (lest a memory leak should build up)" do
         example = Example.new("something")
         Spec::Matchers.should_receive(:unregister_callback).with(:description_generated, is_a(Proc))

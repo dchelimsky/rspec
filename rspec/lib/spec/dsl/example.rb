@@ -3,12 +3,32 @@ require 'timeout'
 module Spec
   module DSL
     class Example
+      module ClassMethods
+        def before(&block)
+          before_callbacks << block
+        end
 
-      class << self
-        callback_events :before_setup, :after_teardown
+        def after(&block)
+          after_callbacks << block
+        end
+        protected
+        def before_callbacks
+          @before_callbacks ||= []
+        end
+
+        def after_callbacks
+          @after_callbacks ||= []
+        end        
+      end
+      extend ClassMethods
+
+      def before(&block)
+        before_callbacks << block
       end
 
-      callback_events :before_setup, :after_teardown
+      def after(&block)
+        after_callbacks.unshift block
+      end
 
       def initialize(description, options={}, &example_block)
         @from = caller(0)[3]
@@ -20,10 +40,10 @@ module Spec
       
       def setup_auto_generated_description
         description_generated = lambda { |desc| @generated_description = desc }
-        before_setup do
+        before do
           Spec::Matchers.register_callback(:description_generated, description_generated)
         end
-        after_teardown do
+        after do
           Spec::Matchers.unregister_callback(:description_generated, description_generated)
         end
       end
@@ -51,6 +71,22 @@ module Spec
       end
       
     private
+      def before_callbacks
+        @before_callbacks ||= []
+      end
+
+      def class_before_callbacks
+        self.class.send(:before_callbacks)
+      end
+
+      def after_callbacks
+        @after_callbacks ||= []
+      end
+
+      def class_after_callbacks
+        self.class.send(:after_callbacks)
+      end
+
       def description
         @description == :__generate_description ? generated_description : @description
       end
@@ -59,10 +95,16 @@ module Spec
         @generated_description || "NAME NOT GENERATED"
       end
       
-      def setup_example(execution_context, errors, &before_each_block)
-        notify_before_setup(errors)
+      def setup_example(execution_context, errors, &behaviour_before_block)
         setup_mocks(execution_context)
-        execution_context.instance_eval(&before_each_block) if before_each_block
+        
+        builder = CompositeProcBuilder.new(self)
+        builder.push(*class_before_callbacks)
+        builder.push(*before_callbacks)
+        before_proc = builder.proc(&append_errors(errors))
+        execution_context.instance_eval(&before_proc)
+        
+        execution_context.instance_eval(&behaviour_before_block) if behaviour_before_block
         return errors.empty?
       rescue => e
         errors << e
@@ -79,14 +121,21 @@ module Spec
         end
       end
 
-      def teardown_example(execution_context, errors, &after_each_block)
-        execution_context.instance_eval(&after_each_block) if after_each_block
+      def teardown_example(execution_context, errors, &behaviour_after_each)
+        execution_context.instance_eval(&behaviour_after_each) if behaviour_after_each
+
         begin
           verify_mocks(execution_context)
         ensure
           teardown_mocks(execution_context)
         end
-        notify_after_teardown(errors)
+
+        builder = CompositeProcBuilder.new(self)
+        builder.push(*after_callbacks)
+        builder.push(*class_after_callbacks)
+        after_proc = builder.proc(&append_errors(errors))
+        execution_context.instance_eval(&after_proc)
+
         return errors.empty?
       rescue => e
         errors << e
@@ -103,16 +152,6 @@ module Spec
       
       def teardown_mocks(execution_context)
         execution_context.teardown_mocks_for_rspec if execution_context.respond_to?(:teardown_mocks_for_rspec)
-      end
-      
-      def notify_before_setup(errors)
-        notify_class_callbacks(:before_setup, self, &append_errors(errors))
-        notify_callbacks(:before_setup, self, &append_errors(errors))
-      end
-      
-      def notify_after_teardown(errors)
-        notify_callbacks(:after_teardown, self, &append_errors(errors))
-        notify_class_callbacks(:after_teardown, self, &append_errors(errors))
       end
       
       def append_errors(errors)

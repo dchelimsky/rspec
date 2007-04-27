@@ -26,6 +26,21 @@ module Spec
         @builder.call.should == [:proc1, :proc2]
       end
 
+      it "calls block on exceptions" do
+        exception1 = Exception.new("Proc1 Error")
+        exception2 = Exception.new("Proc2 Error")
+        @builder << proc {raise exception1}
+        @builder << proc {raise exception2}
+        @builder << proc {:successful}
+
+        errors = []
+        @builder.call do |e|
+          errors << e
+        end.should == [exception1, exception2, :successful]
+
+        errors.should == [exception1, exception2]
+      end
+
       it "evals procs in the caller's instance" do
         the_proc = proc do
           @an_attribute = :the_value
