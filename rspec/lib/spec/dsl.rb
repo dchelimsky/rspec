@@ -1,5 +1,6 @@
 require 'spec/dsl/describable'
 require 'spec/dsl/configuration'
+require 'spec/dsl/behaviour_callbacks'
 require 'spec/dsl/behaviour'
 require 'spec/dsl/behaviour_eval'
 require 'spec/dsl/composite_proc_builder'
