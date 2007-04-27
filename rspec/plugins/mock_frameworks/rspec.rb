@@ -2,7 +2,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), "..", "..", "lib", "s
 
 module Spec
   module Plugins
-    module MockMethods
+    module MockFramework
       include Spec::Mocks::SpecMethods
       def setup_mocks_for_rspec
         $rspec_mocks ||= Spec::Mocks::Space.new

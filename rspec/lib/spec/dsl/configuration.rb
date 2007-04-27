@@ -3,7 +3,12 @@ module Spec
     class Configuration
       
       def mock_with(mock_framework)
-        @mock_framework = Symbol === mock_framework ? mock_framework_path(mock_framework.to_s) : mock_framework
+        @mock_framework = case mock_framework
+        when Symbol
+          mock_framework_path(mock_framework.to_s)
+        else
+          mock_framework
+        end
       end
       
       def mock_framework

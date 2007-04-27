@@ -27,9 +27,10 @@ module Spec
         @config.mock_framework.should =~ /\/plugins\/mock_frameworks\/flexmock$/
       end
       
-      it "should let you set an arbitrary path to a mock framework" do
-        @config.mock_with("arbitrary/path")
-        @config.mock_framework.should == "arbitrary/path"
+      it "should let you set an arbitrary adapter module" do
+        adapter = Module.new
+        @config.mock_with(adapter)
+        @config.mock_framework.should == adapter
       end
     end
   end

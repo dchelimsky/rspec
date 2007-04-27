@@ -117,8 +117,13 @@ module Spec
       end
       
       def plugin_mock_framework
-        require Spec::Runner.configuration.mock_framework
-        include Spec::Plugins::MockMethods
+        case mock_framework = Spec::Runner.configuration.mock_framework
+        when Module
+          include mock_framework
+        else
+          require Spec::Runner.configuration.mock_framework
+          include Spec::Plugins::MockFramework
+        end
       end
       
       def description
