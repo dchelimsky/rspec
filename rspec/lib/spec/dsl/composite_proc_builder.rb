@@ -5,14 +5,6 @@ module Spec
         push(*callbacks)
       end
 
-      def call(&error_handler)
-        proc(&error_handler).call
-      end
-
-      def add_instance_method_from(source, method_name)
-        push(source.instance_method(method_name)) if source.instance_methods.include?(method_name.to_s)
-      end
-
       def proc(&error_handler)
         parts = self
         Proc.new do
