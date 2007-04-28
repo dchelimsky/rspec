@@ -1,4 +1,3 @@
-require 'spec/callback'
 require 'spec/matchers/be'
 require 'spec/matchers/be_close'
 require 'spec/matchers/change'

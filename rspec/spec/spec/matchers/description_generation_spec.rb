@@ -154,6 +154,6 @@ context "Matchers should be able to generate their own descriptions" do
   end
   
   teardown do
-    Spec::Matchers.unregister_callback(:description_generated, @callback)
+    Spec::Matchers.unregister_description_generated(@callback)
   end
 end
