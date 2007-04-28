@@ -13,11 +13,7 @@ module Spec
         end
 
         @parent = @klass.new
-        @builder = CompositeProcBuilder.new(@parent) {}
-      end
-
-      it "has a link to parent" do
-        @builder.parent.should == @parent
+        @builder = CompositeProcBuilder.new {}
       end
 
       it "calls all of its child procs" do

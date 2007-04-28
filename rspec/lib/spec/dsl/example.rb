@@ -46,7 +46,7 @@ module Spec
         setup_mocks(execution_context)
         Spec::Matchers.register_callback(:description_generated, @description_generated_proc)
         
-        builder = CompositeProcBuilder.new(self)
+        builder = CompositeProcBuilder.new
         before_proc = builder.proc(&append_errors(errors))
         execution_context.instance_eval(&before_proc)
         
@@ -78,7 +78,7 @@ module Spec
 
         Spec::Matchers.unregister_callback(:description_generated, @description_generated_proc)
 
-        builder = CompositeProcBuilder.new(self)
+        builder = CompositeProcBuilder.new
         after_proc = builder.proc(&append_errors(errors))
         execution_context.instance_eval(&after_proc)
 

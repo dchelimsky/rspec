@@ -55,7 +55,7 @@ module Spec
           add_superclass_method(parts, 'context_setup')
           parts.push(*Behaviour.before_all_parts)
           parts.push(*before_all_parts)
-          CompositeProcBuilder.new(self, parts).proc(&error_handler)
+          CompositeProcBuilder.new(parts).proc(&error_handler)
         end
 
         def after_all_proc(&error_handler)
@@ -63,7 +63,7 @@ module Spec
           add_superclass_method(parts, 'context_teardown')
           parts.push(*after_all_parts)
           parts.push(*Behaviour.after_all_parts)
-          CompositeProcBuilder.new(self, parts).proc(&error_handler)
+          CompositeProcBuilder.new(parts).proc(&error_handler)
         end
 
         def before_each_proc(&error_handler)
@@ -71,7 +71,7 @@ module Spec
           add_superclass_method(parts, 'setup')
           parts.push(*Behaviour.before_each_parts)
           parts.push(*before_each_parts)
-          CompositeProcBuilder.new(self, parts).proc(&error_handler)
+          CompositeProcBuilder.new(parts).proc(&error_handler)
         end
 
         def after_each_proc(&error_handler)
@@ -79,7 +79,7 @@ module Spec
           add_superclass_method(parts, 'teardown')
           parts.push(*after_each_parts)
           parts.push(*Behaviour.after_each_parts)
-          CompositeProcBuilder.new(self, parts).proc(&error_handler)
+          CompositeProcBuilder.new(parts).proc(&error_handler)
         end
 
         def add_superclass_method(parts, method_name)
