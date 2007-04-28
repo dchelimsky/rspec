@@ -132,7 +132,7 @@ module Spec
 
       specify "should unregister description_generated callback (lest a memory leak should build up)" do
         example = Example.new("something")
-        Spec::Matchers.should_receive(:unregister_callback).with(:description_generated, is_a(Proc))
+        Spec::Matchers.should_receive(:unregister_description_generated).with(is_a(Proc))
         example.run(@reporter, nil, nil, nil, Object.new)
       end
     end

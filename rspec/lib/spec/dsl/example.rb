@@ -44,7 +44,7 @@ module Spec
       
       def setup_example(execution_context, errors, &behaviour_before_block)
         setup_mocks(execution_context)
-        Spec::Matchers.register_callback(:description_generated, @description_generated_proc)
+        Spec::Matchers.description_generated(&@description_generated_proc)
         
         builder = CompositeProcBuilder.new
         before_proc = builder.proc(&append_errors(errors))
@@ -76,7 +76,7 @@ module Spec
           teardown_mocks(execution_context)
         end
 
-        Spec::Matchers.unregister_callback(:description_generated, @description_generated_proc)
+        Spec::Matchers.unregister_description_generated(@description_generated_proc)
 
         builder = CompositeProcBuilder.new
         after_proc = builder.proc(&append_errors(errors))
