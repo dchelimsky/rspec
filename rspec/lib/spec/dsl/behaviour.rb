@@ -4,12 +4,17 @@ module Spec
     class Behaviour
       extend BehaviourCallbacks
       
-      def initialize(description, &context_block)
+      def initialize(description, options={}, &context_block)
         @description = description
+        @options = options
 
         @eval_module = EvalModule.new
         @eval_module.extend BehaviourEval::ModuleMethods
         @eval_module.include BehaviourEval::InstanceMethods
+        # TODO - necessary?
+        @eval_module.behaviour = self
+        @eval_module.description = description
+        # /TODO
         before_eval
         @eval_module.class_eval(&context_block)
       end
@@ -18,6 +23,7 @@ module Spec
       end
       
       def run(reporter, dry_run=false, reverse=false, timeout=nil)
+        return if shared?
         reporter.add_behaviour(description)
         prepare_execution_context_class
         errors = run_before_all(reporter, dry_run)
@@ -47,6 +53,10 @@ module Spec
         return false
       end
 
+      def shared?
+        @options[:shared]
+      end
+
       def retain_examples_matching!(specified_examples)
         return if specified_examples.index(description)
         matcher = ExampleMatcher.new(description)
@@ -59,6 +69,20 @@ module Spec
         my_methods = super
         my_methods |= @eval_module.methods
         my_methods
+      end
+
+      # for copying shared behaviours
+      def copy_to(eval_module)
+        @eval_module.copy_to(eval_module)
+      end
+
+      def self.add_shared_behaviour(behaviour)
+        raise ArgumentError.new("Shared Behaviour '#{behaviour.description}' already exists") if find_shared_behaviour(behaviour.description)
+        shared_behaviours << behaviour
+      end
+
+      def self.find_shared_behaviour(behaviour_description)
+        shared_behaviours.find { |b| b.description == behaviour_description }
       end
 
     protected
@@ -133,6 +157,10 @@ module Spec
       
       def described_type
         @description.respond_to?(:described_type) ? @description.described_type : nil
+      end
+
+      def self.shared_behaviours
+        @shared_behaviours ||= []
       end
 
     end

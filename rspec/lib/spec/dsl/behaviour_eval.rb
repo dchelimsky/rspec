@@ -4,7 +4,11 @@ module Spec
       module ModuleMethods
         include BehaviourCallbacks
 
+        attr_writer :behaviour
+        attr_accessor :description
+        
         def inherit(klass)
+          raise ArgumentError.new("Shared behaviours cannot inherit from classes") if @behaviour.shared?
           @behaviour_superclass = klass
           derive_execution_context_class_from_context_superclass
         end
@@ -12,6 +16,20 @@ module Spec
         def include(mod)
           context_modules << mod
           mod.send :included, self
+        end
+
+        def it_should_behave_like(behaviour_description)
+          behaviour = @behaviour.class.find_shared_behaviour(behaviour_description)
+          behaviour.copy_to(self)
+        end
+        
+        def copy_to(eval_module)
+          examples.each { |e| eval_module.examples << e; }
+          before_each_parts.each { |p| eval_module.before_each_parts << p }
+          after_each_parts.each { |p| eval_module.after_each_parts << p }
+          before_all_parts.each { |p| eval_module.before_all_parts << p }
+          after_all_parts.each { |p| eval_module.after_all_parts << p }
+          context_modules.each { |m| eval_module.include m }
         end
 
         # Backwards compatibility - should we deprecate?
@@ -100,6 +118,7 @@ module Spec
           @behaviour_superclass ||= Object
         end
 
+        protected
         def context_modules
           @context_modules ||= [::Spec::Matchers]
         end
@@ -118,6 +137,7 @@ module Spec
         def violated(message="")
           raise Spec::Expectations::ExpectationNotMetError.new(message)
         end
+
       end
 
     end

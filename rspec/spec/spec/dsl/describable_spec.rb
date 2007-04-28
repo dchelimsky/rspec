@@ -41,6 +41,5 @@ module Spec
         @describable[:a].should == "b"
       end
     end
-    
   end
 end

@@ -155,3 +155,53 @@ describe "A new account" do
   end
 end
 </ruby>
+
+h3. Shared behaviors
+
+You can create shared behaviors and include those behaviors into other behaviors.
+
+Suppose you have some behavior that applies to all editions of your product, both large and small. 
+
+First, factor out the "shared" behavior:
+
+<ruby>
+describe "AllEditions", :shared => true do
+  it "should behave like all editions" do
+  end
+end
+</ruby>
+
+then when you need define the behavior for the Large and Small editions, 
+reference the shared behavior using the 'behaves_as' method.
+
+<ruby>
+describe "SmallEdition" do
+  behaves_as "AllEditions"
+
+  it "should also behave like a small edition" do
+  end
+end
+
+describe "LargeEdition" do
+  behaves_as "AllEditions"
+
+  it "should also behave like a large edition" do
+  end
+end
+
+</ruby>
+
+behaves_as will search for a Behavior by its description string, in this case, "AllEditions"
+
+All of the following are included from a shared behavior:
+
+* setup
+* teardown
+* context_setup
+* context_teardown
+* any included modules
+
+Shared behaviors may not extend classes.
+Multiple shared behaviors may be referenced.
+
+

@@ -1,5 +1,6 @@
 module Kernel
   def describe(*args, &block)
+    raise ArgumentError if args.empty?
     behaviour_runner.add_behaviour(
       Spec::DSL::Behaviour.new(Spec::DSL::Describable.new(*args), &block)
     )
