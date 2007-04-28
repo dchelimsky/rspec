@@ -2,6 +2,7 @@ module Spec
   module DSL
     class EvalModule < Module; end
     class Behaviour
+      extend BehaviourCallbacks
       
       def initialize(description, &context_block)
         @description = description

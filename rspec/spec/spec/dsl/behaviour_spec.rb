@@ -2,14 +2,94 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 
 module Spec
   module DSL
-    describe Behaviour do
-      class FakeReporter < Spec::Runner::Reporter
-        attr_reader :added_behaviour
-        def add_behaviour(description)
-          @added_behaviour = description
-        end
+    class FakeReporter < Spec::Runner::Reporter
+      attr_reader :added_behaviour
+      def add_behaviour(description)
+        @added_behaviour = description
       end
-      
+    end
+
+    describe Behaviour, "class methods" do
+      before :each do
+        @reporter = FakeReporter.new(mock("formatter", :null_object => true), mock("backtrace_tweaker", :null_object => true))
+        @behaviour = Behaviour.new("example") {}
+      end
+
+      after :each do
+        Behaviour.before_all_parts.clear
+        Behaviour.after_all_parts.clear
+        Behaviour.before_each_parts.clear
+        Behaviour.after_each_parts.clear
+      end
+
+      it "should not run before(:all) or after(:all) on dry run" do
+        before_all_ran = false
+        after_all_ran = false
+        Behaviour.before(:all) { before_all_ran = true }
+        Behaviour.after(:all) { after_all_ran = true }
+        @behaviour.it("should") {}
+        @behaviour.run(@reporter, true)
+        before_all_ran.should be_false
+        after_all_ran.should be_false
+      end
+
+      it "should not run any example if before(:all) fails" do
+        spec_ran = false
+        Behaviour.before(:all) { raise "help" }
+        @behaviour.specify("test") {spec_ran = true}
+        @behaviour.run(@reporter)
+        spec_ran.should be_false
+      end
+
+      it "should run after(:all) if before(:all) fails" do
+        after_all_ran = false
+        Behaviour.before(:all) { raise }
+        Behaviour.after(:all) { after_all_ran = true }
+        @behaviour.run(@reporter)
+        after_all_ran.should be_true
+      end
+
+      it "should run after(:all) if before(:each) fails" do
+        after_all_ran = false
+        Behaviour.before(:each) { raise }
+        Behaviour.after(:all) { after_all_ran = true }
+        @behaviour.run(@reporter)
+        after_all_ran.should be_true
+      end
+
+      it "should run after(:all) if any example fails" do
+        after_all_ran = false
+        @behaviour.it("should") { raise "before all error" }
+        Behaviour.after(:all) { after_all_ran = true }
+        @behaviour.run(@reporter)
+        after_all_ran.should be_true
+      end
+
+      it "should supply before(:all) as description if failure in before(:all)" do
+        @reporter.should_receive(:example_finished) do |name, error, location|
+          name.should eql("before(:all)")
+          error.message.should eql("in before(:all)")
+          location.should eql("before(:all)")
+        end
+
+        Behaviour.before(:all) { raise "in before(:all)" }
+        @behaviour.specify("test") {true}
+        @behaviour.run(@reporter)
+      end
+
+      it "should provide after(:all) as description if failure in after(:all)" do
+        @reporter.should_receive(:example_finished) do |name, error, location|
+          name.should eql("after(:all)")
+          error.message.should eql("in after(:all)")
+          location.should eql("after(:all)")
+        end
+
+        Behaviour.after(:all) { raise "in after(:all)" }
+        @behaviour.run(@reporter)
+      end
+    end
+
+    describe Behaviour do
       before :each do
         @reporter = FakeReporter.new(mock("formatter", :null_object => true), mock("backtrace_tweaker", :null_object => true))
         @behaviour = Behaviour.new("example") {}
@@ -21,17 +101,17 @@ module Spec
       end
 
       it "should run example on run" do
-        $example_ran = false
-        @behaviour.it("should") {$example_ran = true}
+        example_ran = false
+        @behaviour.it("should") {example_ran = true}
         @behaviour.run(@reporter)
-        $example_ran.should be_true
+        example_ran.should be_true
       end
 
       it "should not run example on dry run" do
-        $example_ran = false
-        @behaviour.it("should") {$example_ran = true}
+        example_ran = false
+        @behaviour.it("should") {example_ran = true}
         @behaviour.run(@reporter, true)
-        $example_ran.should be_false
+        example_ran.should be_false
       end
 
       it "should not run before(:all) or after(:all) on dry run" do
@@ -68,7 +148,7 @@ module Spec
         @behaviour.run(@reporter)
         after_all_ran.should be_true
       end
-  
+
       it "should run after(:all) if any example fails" do
         after_all_ran = false
         @behaviour.it("should") { raise "before all error" }
@@ -88,7 +168,7 @@ module Spec
         @behaviour.specify("test") {true}
         @behaviour.run(@reporter)
       end
-    
+
       it "should provide after(:all) as description if failure in after(:all)" do
         @reporter.should_receive(:example_finished) do |name, error, location|
           name.should eql("after(:all)")
@@ -99,7 +179,7 @@ module Spec
         @behaviour.after(:all) { raise "in after(:all)" }
         @behaviour.run(@reporter)
       end
-    
+
       it "should run superclass context_setup and context_setup block only once per context" do
         super_class_context_setup_run_count = 0
         super_class = Class.new do

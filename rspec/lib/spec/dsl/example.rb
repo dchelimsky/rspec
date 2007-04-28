@@ -3,25 +3,6 @@ require 'timeout'
 module Spec
   module DSL
     class Example
-      module ClassMethods
-        def before(&block)
-          before_callbacks << block
-        end
-
-        def after(&block)
-          after_callbacks << block
-        end
-        protected
-        def before_callbacks
-          @before_callbacks ||= []
-        end
-
-        def after_callbacks
-          @after_callbacks ||= []
-        end        
-      end
-      extend ClassMethods
-
       def before(&block)
         before_callbacks << block
       end
@@ -75,16 +56,8 @@ module Spec
         @before_callbacks ||= []
       end
 
-      def class_before_callbacks
-        self.class.send(:before_callbacks)
-      end
-
       def after_callbacks
         @after_callbacks ||= []
-      end
-
-      def class_after_callbacks
-        self.class.send(:after_callbacks)
       end
 
       def description
@@ -99,7 +72,6 @@ module Spec
         setup_mocks(execution_context)
         
         builder = CompositeProcBuilder.new(self)
-        builder.push(*class_before_callbacks)
         builder.push(*before_callbacks)
         before_proc = builder.proc(&append_errors(errors))
         execution_context.instance_eval(&before_proc)
@@ -132,7 +104,6 @@ module Spec
 
         builder = CompositeProcBuilder.new(self)
         builder.push(*after_callbacks)
-        builder.push(*class_after_callbacks)
         after_proc = builder.proc(&append_errors(errors))
         execution_context.instance_eval(&after_proc)
 
