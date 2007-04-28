@@ -20,7 +20,8 @@ PKG_FILES = FileList[
   '[A-Z]*',
   'lib/**/*.rb', 
   'spec/**/*.rb', 
-  'examples/**/*'
+  'examples/**/*',
+  'plugins/**/*'
 ]
 FileUtils.touch(File.dirname(__FILE__) + '/previous_failures.txt')
 
