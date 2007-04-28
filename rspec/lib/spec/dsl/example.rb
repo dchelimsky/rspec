@@ -3,32 +3,14 @@ require 'timeout'
 module Spec
   module DSL
     class Example
-      def before(&block)
-        before_callbacks << block
-      end
-
-      def after(&block)
-        after_callbacks.unshift block
-      end
-
       def initialize(description, options={}, &example_block)
         @from = caller(0)[3]
         @options = options
         @example_block = example_block
         @description = description
-        setup_auto_generated_description
+        @description_generated_proc = lambda { |desc| @generated_description = desc }
       end
       
-      def setup_auto_generated_description
-        description_generated = lambda { |desc| @generated_description = desc }
-        before do
-          Spec::Matchers.register_callback(:description_generated, description_generated)
-        end
-        after do
-          Spec::Matchers.unregister_callback(:description_generated, description_generated)
-        end
-      end
-
       def run(reporter, before_each_block, after_each_block, dry_run, execution_context, timeout=nil)
         reporter.example_started(description)
         return reporter.example_finished(description) if dry_run
@@ -52,14 +34,6 @@ module Spec
       end
       
     private
-      def before_callbacks
-        @before_callbacks ||= []
-      end
-
-      def after_callbacks
-        @after_callbacks ||= []
-      end
-
       def description
         @description == :__generate_description ? generated_description : @description
       end
@@ -70,9 +44,9 @@ module Spec
       
       def setup_example(execution_context, errors, &behaviour_before_block)
         setup_mocks(execution_context)
+        Spec::Matchers.register_callback(:description_generated, @description_generated_proc)
         
         builder = CompositeProcBuilder.new(self)
-        builder.push(*before_callbacks)
         before_proc = builder.proc(&append_errors(errors))
         execution_context.instance_eval(&before_proc)
         
@@ -102,8 +76,9 @@ module Spec
           teardown_mocks(execution_context)
         end
 
+        Spec::Matchers.unregister_callback(:description_generated, @description_generated_proc)
+
         builder = CompositeProcBuilder.new(self)
-        builder.push(*after_callbacks)
         after_proc = builder.proc(&append_errors(errors))
         execution_context.instance_eval(&after_proc)
 

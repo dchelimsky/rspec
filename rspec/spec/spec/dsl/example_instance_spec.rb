@@ -116,28 +116,6 @@ module Spec
         example = Example.new("name", :key => 'value')
       end
 
-      specify "should notify before callbacks before setup" do
-        example = Example.new("example")
-
-        call_order = []
-        example.before {call_order << :before}
-        setup = lambda {call_order << :setup}
-        example.run(@reporter, setup, nil, nil, Object.new)
-
-        call_order.should == [:before, :setup]
-      end
-
-      specify "should notify after callbacks after teardown" do
-        example = Example.new("example")
-
-        call_order = []
-        example.after {call_order << :after}
-        teardown = proc {call_order << :teardown}
-        example.run(@reporter, nil, teardown, nil, Object.new)
-
-        call_order.should == [:teardown, :after]
-      end
-
       specify "should report NAME NOT GENERATED when told to use generated description but none is generated" do
         example = Example.new(:__generate_description)
         @reporter.should_receive(:example_finished).with("NAME NOT GENERATED", :anything, :anything)
