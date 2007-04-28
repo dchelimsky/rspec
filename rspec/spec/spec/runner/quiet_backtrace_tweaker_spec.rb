@@ -21,7 +21,7 @@ module Spec
       end
 
       specify "should remove anything in lib spec dir" do
-        ["expectations", "mocks", "runner", "callback"].each do |child|
+        ["expectations", "mocks", "runner"].each do |child|
           element="/lib/spec/#{child}/anything.rb"
           @error.set_backtrace([element])
           @tweaker.tweak_backtrace(@error, "spec name")

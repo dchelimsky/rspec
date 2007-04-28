@@ -17,6 +17,13 @@ module Spec
       def []=(key, value)
         @options[key] = value
       end
+      
+      def to_s; @description; end
+      
+      def ==(value)
+        @description == value
+      end
+
     end
   end
 end

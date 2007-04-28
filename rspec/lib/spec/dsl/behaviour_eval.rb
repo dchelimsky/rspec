@@ -14,6 +14,7 @@ module Spec
         end
 
         def include(mod)
+          # TODO - rename this to included_modules
           context_modules << mod
           mod.send :included, self
         end

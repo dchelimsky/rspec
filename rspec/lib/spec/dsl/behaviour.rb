@@ -5,8 +5,7 @@ module Spec
       extend BehaviourCallbacks
       
       def initialize(description, options={}, &context_block)
-        @description = description
-        @options = options
+        @description = String === description ? Describable.new(description, options) : description
 
         @eval_module = EvalModule.new
         @eval_module.extend BehaviourEval::ModuleMethods
@@ -54,7 +53,7 @@ module Spec
       end
 
       def shared?
-        @options[:shared]
+        @description[:shared]
       end
 
       def retain_examples_matching!(specified_examples)
@@ -152,11 +151,11 @@ module Spec
       end
       
       def description
-        @description.respond_to?(:description) ? @description.description : @description
+        @description.to_s
       end
       
       def described_type
-        @description.respond_to?(:described_type) ? @description.described_type : nil
+        @description.described_type
       end
 
       def self.shared_behaviours

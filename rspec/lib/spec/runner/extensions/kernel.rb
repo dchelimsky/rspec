@@ -1,9 +1,12 @@
 module Kernel
   def describe(*args, &block)
     raise ArgumentError if args.empty?
-    behaviour_runner.add_behaviour(
-      Spec::DSL::Behaviour.new(Spec::DSL::Describable.new(*args), &block)
-    )
+    behaviour = Spec::DSL::Behaviour.new(Spec::DSL::Describable.new(*args), &block)
+    if behaviour.shared?
+      Spec::DSL::Behaviour.add_shared_behaviour(behaviour)
+    else
+      behaviour_runner.add_behaviour(behaviour)
+    end
   end
   alias :context :describe
   
