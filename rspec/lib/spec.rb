@@ -1,5 +1,4 @@
 require 'spec/version'
-require 'spec/callback'
 require 'spec/matchers'
 require 'spec/expectations'
 require 'spec/translator'
