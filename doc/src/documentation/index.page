@@ -164,8 +164,7 @@ Suppose you have some behavior that applies to all editions of your product, bot
 
 First, factor out the "shared" behavior:
 
-<ruby>
-describe "AllEditions", :shared => true do
+<ruby>describe "AllEditions", :shared => true do
   it "should behave like all editions" do
   end
 end
@@ -174,8 +173,7 @@ end
 then when you need define the behavior for the Large and Small editions, 
 reference the shared behavior using the 'behaves_as' method.
 
-<ruby>
-describe "SmallEdition" do
+<ruby>describe "SmallEdition" do
   behaves_as "AllEditions"
 
   it "should also behave like a small edition" do
@@ -188,20 +186,56 @@ describe "LargeEdition" do
   it "should also behave like a large edition" do
   end
 end
-
 </ruby>
 
 behaves_as will search for a Behavior by its description string, in this case, "AllEditions"
 
 All of the following are included from a shared behavior:
 
-* setup
-* teardown
-* context_setup
-* context_teardown
+* before(:all)
+* before(:each)
+* after(:each)
+* after(:all)
 * any included modules
 
 Shared behaviors may not extend classes.
-Multiple shared behaviors may be referenced.
+
+Multiple shared behaviors may be referenced in one (non-shared) behaviour.
+
+Shared behaviours may be included in other shared behaviours:
+
+<ruby>describe "All Employees", :shared => true do
+  it "should be payable" do
+    @employee.should respond_to(:calculate_pay)
+  end
+end
+
+describe "All Managers", :shared => true do
+  it_should_behave_like "All Employees"
+  it "should be bonusable" do
+    @employee.should respond_to(:apply_bonus)
+  end
+end
+
+describe Officer do
+  before(:each) do
+    @employee = Officer.new
+  new
+  it_should_behave_like "All Managers"
+  
+  it "should be optionable" do
+    @employee.should respond_to(:grant_options)
+  end
+end
+
+$ spec officer_spec.rb
+
+Officer
+- should be payable
+- should be bonusable
+- should be optionable
+</ruby>
+
+
 
 
