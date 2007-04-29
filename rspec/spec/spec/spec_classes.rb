@@ -97,7 +97,13 @@ end
 
 module Custom
   class Formatter < Spec::Runner::Formatter::BaseTextFormatter
+    attr_reader :where
+    
+    def initialize(where)
+      @where = where
+    end
   end
+
   class BehaviourRunner
     def initialize(one); end
   end

@@ -1,3 +1,4 @@
+# This is based on Florian Weber's TDDMate
 require 'rubygems'
 
 rspec_rails_plugin = File.join(ENV['TM_PROJECT_DIRECTORY'],'vendor','plugins','rspec','lib')

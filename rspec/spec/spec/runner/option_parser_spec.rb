@@ -24,6 +24,19 @@ context "OptionParser" do
     options = parse(["--format", "Custom::Formatter"])
     options.formatters[0].class.should be(Custom::Formatter)
   end
+  
+  it "should support formatters with relative and absolute paths, even on windows" do
+    options = parse([
+      "--format", "Custom::Formatter:C:\\foo\\bar",
+      "--format", "Custom::Formatter:foo/bar",
+      "--format", "Custom::Formatter:foo\\bar",
+      "--format", "Custom::Formatter:/foo/bar"
+    ])
+    options.formatters[0].where.should eql("C:\\foo\\bar")
+    options.formatters[1].where.should eql("foo/bar")
+    options.formatters[2].where.should eql("foo\\bar")
+    options.formatters[3].where.should eql("/foo/bar")
+  end
 
   specify "should not be verbose by default" do
     options = parse([])
