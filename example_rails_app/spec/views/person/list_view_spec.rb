@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 
 describe "/people/list" do
 
-  setup do
+  before(:each) do
     @smith = mock_model(Person)
     @jones = mock_model(Person)
     @smith.stub!(:name).and_return("Joe")

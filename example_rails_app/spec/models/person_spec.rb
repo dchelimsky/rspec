@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe "The Person model with fixtures loaded" do
   fixtures :people, :animals
 
-  setup do
+  before(:each) do
     # fixtures are setup before this
   end
 
@@ -30,7 +30,7 @@ describe "The Person model with fixtures loaded" do
     people(:lachie).animals.should_not include(Animal.new(:name=>'monkey'))
   end
 
-  teardown do
+  after(:each) do
     # fixtures are torn down after this
   end
 end
@@ -38,7 +38,7 @@ end
 describe "A new Person with a name" do
   fixtures :people
   
-  setup do
+  before(:each) do
     @person = Person.new(:name => "CheliDaveSlak and the Fabulous Baker Boy")
   end
 
@@ -53,7 +53,7 @@ describe "A new Person with a name" do
 end
 
 describe "A person with 2 animals" do
-  setup do
+  before(:each) do
     @fluff = Animal.new(:name => "fluff", :age => 7)
     @binki = Animal.new(:name => "binki", :age => 0.5)
     @person = Person.new(:name => "David")

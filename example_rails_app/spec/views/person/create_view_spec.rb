@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 describe "/people/create" do
   include PeopleHelper
   
-  setup do
+  before(:each) do
     @person = mock_model(Person)
     assigns[:people] = [@person]
   end

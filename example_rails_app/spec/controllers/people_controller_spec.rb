@@ -6,7 +6,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe PeopleController do
   # If you pass the controller to #describe, you don't need to declare the controller name
   
-  setup do
+  before(:each) do
     @person = mock("person")
     
     # Generally, prefer stub! over should_receive in setup.
@@ -18,7 +18,7 @@ describe PeopleController do
     # Using should_receive here overrides the stub in setup. Even
     # though it is the same as the stub, using should_receive sets
     # an expectation that  will be verified. It also helps to
-    # better express the intent of this spec block.
+    # better express the intent of this example.
     Person.should_receive(:new).and_return(@person)
     get 'create'
   end
@@ -48,7 +48,7 @@ describe PeopleController do
     response.should redirect_to(:action => 'index')
   end
   
-  it "with a valid person re-render 'people/create' on failed POST to create" do
+  it "with a valid person should re-render 'people/create' on failed POST to create" do
     @person.should_receive(:new_record?).and_return(true)
     Person.should_receive(:create).with({"name" => 'Aslak'}).and_return(@person)
     
@@ -64,7 +64,7 @@ describe "When requesting /people with controller isolated from views" do
   # If you do not pass the controller to #describe, you need to declare the controller name
   controller_name :people
 
-  setup do
+  before(:each) do
     @mock_person = mock("person")
     @mock_person.stub!(:name).and_return("Joe")
     @people = [@mock_person]
@@ -77,7 +77,6 @@ describe "When requesting /people with controller isolated from views" do
   end
 
   it "should find all people on GET to index" do
-    get 'index'
     assigns[:people].should equal(@people)
   end
 
@@ -87,7 +86,7 @@ describe "When requesting /people with views integrated" do
   controller_name :people
   integrate_views
 
-  setup do
+  before(:each) do
     @mock_person = mock("person")
     @mock_person.stub!(:name).and_return("Joe")
     @people = [@mock_person]
@@ -124,7 +123,7 @@ end
 describe "/people/show/3" do
   controller_name :people
   
-  setup do
+  before(:each) do
     @person = mock("person")
   end
   
@@ -140,17 +139,16 @@ end
 describe "Given an attempt to show a person that doesn't exist" do
   controller_name :people
   
-  setup do
+  before(:each) do
     Person.stub!(:find)
+    get 'show', :id => 'broken'
   end
 
   it "should not assign a person" do
-    get 'show', :id => 'broken'
     assigns[:person].should == nil
   end
 
   it "should render 404 file" do
-    get 'show', :id => 'broken'
     response.should render_template("#{RAILS_ROOT}/public/404.html")
     response.headers["Status"].should == "404 Not Found"
   end
