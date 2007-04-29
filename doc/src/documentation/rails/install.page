@@ -11,6 +11,13 @@ ruby script/plugin install svn://rubyforge.org/var/svn/rspec/tags/REL_0_9_0/rspe
 ruby script/plugin install svn://rubyforge.org/var/svn/rspec/tags/REL_0_9_0/rspec_on_rails
 </pre>
 
+If you're using svn for your project, install with -x.
+
+<pre>
+ruby script/plugin install -x svn://rubyforge.org/var/svn/rspec/tags/REL_0_9_0/rspec
+ruby script/plugin install -x svn://rubyforge.org/var/svn/rspec/tags/REL_0_9_0/rspec_on_rails
+</pre>
+
 h4. Bootstrap
 
 Once the plugin is installed, you must bootstrap your Rails app with RSpec. Stand in the root of your Rails app and run:
