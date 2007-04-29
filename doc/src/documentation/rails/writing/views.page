@@ -16,6 +16,8 @@ but they could hide bugs that exist in the interaction between a controller and 
 view. We strongly recommend combining these isolated view specs with some sort of
 high level "integration":integration.html testing.
 
+Here are some of the methods available to you, but see "Spec::Rails::Expectations":../../../rdoc-rails/index.html for more detail.
+
 h2. Conveniences
 
 h3. assigns
@@ -47,53 +49,24 @@ h2. Expectations
 Spec::Rails' View Specs support the following custom expectations, all of which
 are also available in "controller":controller.html specs when run in "integrate_views" mode.
 
-h3. response.should_have_tag
+h3. response.should have_tag
 
-%{color:red;font-weight:bold;font-size:1.2em}DEPRECATED. See "Spec::Rails::Expectations":../../../rdoc-rails/index.html% 
-
-This is similar to assert_tag in rails testing:
+This is built on assert_tag in rails testing:
 
 <ruby>
-response.should_have_tag :div #passes if any div tags appear
-response.should_have_tag :div, :attributes => {:id => "interesting_div"}
-response.should_have_tag :div, :content => "expected content"
-response.should_have_tag :div, :content => /regexp matching expected content/
+response.should have_tag('div') #passes if any div tags appear
+response.should have_tag('div#interesting_div')
+response.should have_tag('div', 'expected content')
+response.should have_tag('div', /regexp matching expected content/)
+response.should have_tag('ul') do
+  with_tag('li', 'list item 1')
+  with_tag('li', 'list item 2')
+  with_tag('li', 'list item 3')
+end
 </ruby>
 
 Note that any of the hash values can be either Strings or Regexps and will be
 evaluated accordingly.
-
-h3. response.should_have_rjs
-
-%{color:red;font-weight:bold;font-size:1.2em}DEPRECATED. See "Spec::Rails::Expectations":../../../rdoc-rails/index.html% 
-
-Thanks to Jake Howerton's port (for RSpec) of "Kevin Clark's ARTS library":http://glu.ttono.us/articles/2006/05/29/guide-test-driven-rjs-with-arts (for test/unit), you can specify
-calls made in your rjs templates.
-
-<ruby>
-response.should_have_rjs :replace_html, 'mydiv', 'replacement text'
-response.should_have_rjs :replace_html, 'mydiv', /replace/
-response.should_have_rjs :insert_html, 'mydiv', 'replacement text'
-response.should_have_rjs :insert_html, 'mydiv', /place ex/
-response.should_have_rjs :replace, 'mydiv', '<div>replacement text</div>'
-response.should_have_rjs :replace, 'mydiv', /placement/
-response.should_have_rjs :hide, 'mydiv'
-</ruby>
-
-It also supports the page['element'] format as follows:
-
-<ruby>
-response.should_have_rjs :page, 'mydiv', :replace_html, 'replacement text'
-response.should_have_rjs :page, 'mydiv', :replace_html, /replace/
-response.should_have_rjs :page, 'mydiv', :insert_html, 'replacement text'
-response.should_have_rjs :page, 'mydiv', :insert_html, /place ex/
-response.should_have_rjs :page, 'mydiv', :replace, '<div>replacement text</div>'
-response.should_have_rjs :page, 'mydiv', :replace, /placement/
-response.should_have_rjs :page, 'mydiv', :hide
-</ruby>
-
-Note that text being inserted or replacing other text can be matched against
-Strings or Regexps.
 
 h2. Example View Specs
 
