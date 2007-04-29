@@ -111,6 +111,8 @@ In alphabetical order (by last name)
 * Jonathan Tron
 ** Patch for Spec::Rails resource_generator
 ** Patch for RSpec.tmbundle to make it work with RSpec installed as a plugin
+* Florian Weber
+** RSpec's spec_server is based on Florian's TDDMate
 * Nikolai Weibull
 ** Core patches for spec names
 * Jim Weirich

@@ -6,6 +6,8 @@ require 'drb/drb'
 require 'rbconfig'
 require 'spec'
 
+# This is based on Florian Weber's TDDMate
+
 module Spec
   module Runner
     class RailsSpecServer
