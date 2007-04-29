@@ -7,8 +7,15 @@ module Spec
       class BaseTextFormatter
         attr_writer :dry_run
         
-        def initialize(output)
-          @output = output
+        # Creates a new instance that will write to +where+. If +where+ is a
+        # String, output will be written to the File with that name, otherwise
+        # +where+ is exected to be an IO (or an object that responds to #puts and #write).
+        def initialize(where)
+          if where.is_a?(String)
+            @output = File.open(where, 'w')
+          else
+            @output = where
+          end
           @colour = false
           @dry_run = false
           @snippet_extractor = SnippetExtractor.new

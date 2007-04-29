@@ -18,10 +18,10 @@ module Spec
         errors = []
         location = nil
         Timeout.timeout(timeout) do
-          setup_ok = setup_example(execution_context, errors, &before_each_block)
-          example_ok = run_example(execution_context, errors) if setup_ok
-          teardown_ok = teardown_example(execution_context, errors, &after_each_block)
-          location = failure_location(setup_ok, example_ok, teardown_ok)
+          before_each_ok = setup_example(execution_context, errors, &before_each_block)
+          example_ok = run_example(execution_context, errors) if before_each_ok
+          after_each_ok = teardown_example(execution_context, errors, &after_each_block)
+          location = failure_location(before_each_ok, example_ok, after_each_ok)
         end
 
         ExampleShouldRaiseHandler.new(@from, @options).handle(errors)
@@ -104,10 +104,10 @@ module Spec
         proc {|error| errors << error}
       end
       
-      def failure_location(setup_ok, example_ok, teardown_ok)
-        return 'setup' unless setup_ok
+      def failure_location(before_each_ok, example_ok, after_each_ok)
+        return 'before(:each)' unless before_each_ok
         return description unless example_ok
-        return 'teardown' unless teardown_ok
+        return 'after(:each)' unless after_each_ok
       end
     end
   end

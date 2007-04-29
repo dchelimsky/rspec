@@ -31,6 +31,7 @@ unless defined?(Rails::Initializer)
     $LOAD_PATH.unshift "#{version_root}/actionmailer/lib/"
     $LOAD_PATH.unshift "#{version_root}/actionwebservice/lib/"
     $LOAD_PATH.unshift "#{version_root}/activerecord/lib/"
+    $LOAD_PATH.unshift "#{version_root}/activeresource/lib/"
     $LOAD_PATH.unshift "#{version_root}/activesupport/lib/"
     $LOAD_PATH.unshift "#{version_root}/railties/lib/"
     require "#{version_root}/railties/lib/initializer"

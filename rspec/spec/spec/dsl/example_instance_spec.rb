@@ -58,58 +58,58 @@ module Spec
         example.run(@reporter, nil, nil, nil, scope_class.new)
       end
 
-      specify "should not run example block if setup fails" do
+      specify "should not run example block if before_each fails" do
         example_ran = false
         example=Example.new("should pass") {example_ran = true}
-        setup = lambda {raise "Setup error"}
-        example.run(@reporter, setup, nil, nil, Object.new)
+        before_each = lambda {raise "Setup error"}
+        example.run(@reporter, before_each, nil, nil, Object.new)
         example_ran.should == false
       end
 
-      specify "should run teardown block if setup fails" do
-        teardown_ran = false
+      specify "should run after_each block if before_each fails" do
+        after_each_ran = false
         example=Example.new("should pass") {}
-        setup = lambda {raise "Setup error"}
-        teardown = lambda {teardown_ran = true}
-        example.run(@reporter, setup, teardown, nil, Object.new)
-        teardown_ran.should == true
+        before_each = lambda {raise "Setup error"}
+        after_each = lambda {after_each_ran = true}
+        example.run(@reporter, before_each, after_each, nil, Object.new)
+        after_each_ran.should == true
       end
 
-      specify "should run teardown block when example fails" do
+      specify "should run after_each block when example fails" do
         example=Example.new("example") do
           raise("in body")
         end
-        teardown=lambda do
-          raise("in teardown")
+        after_each=lambda do
+          raise("in after_each")
         end
         @reporter.should_receive(:example_finished) do |example, error, location|
           example.should eql("example")
           location.should eql("example")
           error.message.should eql("in body")
         end
-        example.run(@reporter, nil, teardown, nil, nil)
+        example.run(@reporter, nil, after_each, nil, nil)
       end
 
-      specify "should report failure location when in setup" do
+      specify "should report failure location when in before_each" do
         example=Example.new("example") {}
-        setup=lambda { raise("in setup") }
+        before_each=lambda { raise("in before_each") }
         @reporter.should_receive(:example_finished) do |name, error, location|
           name.should eql("example")
-          error.message.should eql("in setup")
-          location.should eql("setup")
+          error.message.should eql("in before_each")
+          location.should eql("before(:each)")
         end
-        example.run(@reporter, setup, nil, nil, nil)
+        example.run(@reporter, before_each, nil, nil, nil)
       end
 
-      specify "should report failure location when in teardown" do
+      specify "should report failure location when in after_each" do
         example = Example.new("example") {}
-        teardown = lambda { raise("in teardown") }
+        after_each = lambda { raise("in after_each") }
         @reporter.should_receive(:example_finished) do |name, error, location|
           name.should eql("example")
-          error.message.should eql("in teardown")
-          location.should eql("teardown")
+          error.message.should eql("in after_each")
+          location.should eql("after(:each)")
         end
-        example.run(@reporter, nil, teardown, nil, nil)
+        example.run(@reporter, nil, after_each, nil, nil)
       end
 
       specify "should accept an options hash following the example name" do

@@ -10,6 +10,12 @@ module Spec
           @output.puts "#{@behaviour_name} #{name}"
           STDOUT.flush
         end
+
+        def dump_failure(counter, failure)
+        end
+
+        def dump_summary(duration, example_count, failure_count)
+        end
       end
     end
   end

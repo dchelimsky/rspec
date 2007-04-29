@@ -118,25 +118,27 @@ module Spec
             options.line_number = line_number.to_i
           end
 
-          opts.on("-f", "--format FORMAT[:FILE_NAME]",  "Specifies what format to use for output. The output is written",
-                                                        "to standard out unless FILE_NAME is specified. The --format option",
-                                                        "may be specified several times if you want several outputs",
-                                                        " ",
-                                                        "Builtin formats: ",
-                                                        "progress|p         : Text progress", 
-                                                        "specdoc|s          : Behaviour doc as text", 
-                                                        "rdoc|r             : Behaviour doc as RDoc", 
-                                                        "html|h             : A nice HTML report", 
-                                                        "failing_examples|e : Create input for --example", 
-                                                        " ",
-                                                        "FORMAT can also be the name of a custom formatter class",
-                                                        "(in which case you should also specify --require)") do |format|
+          opts.on("-f", "--format FORMAT[:WHERE]",  "Specifies what format to use for output. Specify WHERE to tell", 
+                                                    "the formatter where to write the output. All built-in formats", 
+                                                    "expect WHERE to be a file name, and will write to STDOUT if it's",
+                                                    "not specified. The --format option may be specified several times",
+                                                    "if you want several outputs",
+                                                    " ",
+                                                    "Builtin formats: ",
+                                                    "progress|p         : Text progress", 
+                                                    "specdoc|s          : Behaviour doc as text", 
+                                                    "rdoc|r             : Behaviour doc as RDoc", 
+                                                    "html|h             : A nice HTML report", 
+                                                    "failing_examples|e : Create input for --example", 
+                                                    " ",
+                                                    "FORMAT can also be the name of a custom formatter class",
+                                                    "(in which case you should also specify --require to load it)") do |format|
             
-            format_out = out
+            where = out
             # This funky regexp checks whether we have a FILE_NAME or not
             if (format =~ /([a-zA-Z_]+(?:::[a-zA-Z_]+)*):?(.*)/) && ($2 != '')
               format = $1
-              format_out = File.open($2, 'w')
+              where = $2
             else
               raise "When using several --format options only one of them can be without a file" if @out_used
               @out_used = true
@@ -144,7 +146,7 @@ module Spec
 
             begin
               formatter_type = BUILT_IN_FORMATTERS[format] || eval(format)
-              options.formatters << formatter_type.new(format_out)
+              options.formatters << formatter_type.new(where)
             rescue NameError
               err.puts "Couldn't find formatter class #{format}"
               err.puts "Make sure the --require option is specified *before* --format"
@@ -153,7 +155,7 @@ module Spec
           end
 
           opts.on("-r", "--require FILE", "Require FILE before running specs",
-                                          "Useful for loading custom formatters or other extensions",
+                                          "Useful for loading custom formatters or other extensions.",
                                           "If this option is used it must come before the others") do |req|
             req.split(",").each{|file| require file}
           end
@@ -178,16 +180,18 @@ module Spec
             options.timeout = timeout.to_f
           end
 
-          opts.on("-H", "--heckle CODE", "If all examples pass, this will run your examples many times, mutating",
-                                         "the specced code a little each time. The intent is that examples",
-                                         "*should* fail, and RSpec will tell you if they don't.",
-                                         "CODE should be either Some::Module, Some::Class or Some::Fabulous#method}") do |heckle|
+          opts.on("-H", "--heckle CODE", "If all examples pass, this will mutate the classes and methods", 
+                                         "identified by CODE little by little and run all the examples again",
+                                         "for each mutation. The intent is that for each mutation, at least",
+                                         "one example *should* fail, and RSpec will tell you if this is not the",
+                                         "case. CODE should be either Some::Module, Some::Class or",
+                                         "Some::Fabulous#method}") do |heckle|
             heckle_runner = PLATFORM == 'i386-mswin32' ? 'spec/runner/heckle_runner_win' : 'spec/runner/heckle_runner'
             require heckle_runner
             options.heckle_runner = HeckleRunner.new(heckle)
           end
           
-          opts.on("-d", "--dry-run", "Don't execute examples") do
+          opts.on("-d", "--dry-run", "Invokes formatters without executing the examples.") do
             options.dry_run = true
           end
           
@@ -215,7 +219,7 @@ module Spec
             options.generate = true
           end
 
-          opts.on("-U", "--runner RUNNER", "Use a custom BehaviourRunner") do |runner|
+          opts.on("-U", "--runner RUNNER", "Use a custom BehaviourRunner.") do |runner|
             begin
               options.runner_type = eval(runner)
             rescue NameError
