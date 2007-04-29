@@ -16,6 +16,12 @@ module Spec
         @describable[:key] = :value
         @describable[:key].should == :value
       end
+      it "should return for == when value matches description" do
+        @describable.should == "abc"
+      end
+      it "should return for == when value is other describable that matches description" do
+        @describable.should == Describable.new("abc")
+      end
     end
     
     describe Describable, " constructed with a Type" do setup {@describable = Describable.new(Behaviour)}

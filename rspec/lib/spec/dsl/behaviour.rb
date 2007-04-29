@@ -4,23 +4,51 @@ module Spec
     class Behaviour
       extend BehaviourCallbacks
       
-      def initialize(description, options={}, &context_block)
-        @description = String === description ? Describable.new(description, options) : description
+      class << self
+        def add_shared_behaviour(behaviour)
+          raise ArgumentError.new("Shared Behaviour '#{behaviour.description}' already exists") if find_shared_behaviour(behaviour.description)
+          shared_behaviours << behaviour
+        end
 
+        def find_shared_behaviour(behaviour_description)
+          shared_behaviours.find { |b| b.description == behaviour_description }
+        end
+
+        def shared_behaviours
+          @shared_behaviours ||= []
+        end
+      end
+
+      def initialize(description, options={}, &behaviour_block)
+        init_description(description, options)
+        init_eval_module
+        before_eval
+        eval_behaviour(&behaviour_block)
+      end
+      
+    private
+
+      def init_description(description, options)
+        @description = String === description ? Describable.new(description, options) : description
+      end
+      
+      def init_eval_module
         @eval_module = EvalModule.new
         @eval_module.extend BehaviourEval::ModuleMethods
         @eval_module.include BehaviourEval::InstanceMethods
-        # TODO - necessary?
         @eval_module.behaviour = self
-        @eval_module.description = description
-        # /TODO
-        before_eval
-        @eval_module.class_eval(&context_block)
+        @eval_module.description = @description
       end
 
       def before_eval
       end
       
+      def eval_behaviour(&behaviour_block)
+        @eval_module.class_eval(&behaviour_block)
+      end
+      
+    public
+
       def run(reporter, dry_run=false, reverse=false, timeout=nil)
         return if shared?
         reporter.add_behaviour(description)
@@ -70,20 +98,6 @@ module Spec
         my_methods
       end
 
-      # for copying shared behaviours
-      def copy_to(eval_module)
-        @eval_module.copy_to(eval_module)
-      end
-
-      def self.add_shared_behaviour(behaviour)
-        raise ArgumentError.new("Shared Behaviour '#{behaviour.description}' already exists") if find_shared_behaviour(behaviour.description)
-        shared_behaviours << behaviour
-      end
-
-      def self.find_shared_behaviour(behaviour_description)
-        shared_behaviours.find { |b| b.description == behaviour_description }
-      end
-
     protected
 
       # Messages that this class does not understand
@@ -94,12 +108,12 @@ module Spec
 
       def prepare_execution_context_class
         plugin_mock_framework
-        weave_in_context_modules
+        weave_in_included_modules
         execution_context_class
       end
 
-      def weave_in_context_modules
-        mods = context_modules
+      def weave_in_included_modules
+        mods = included_modules
         eval_module = @eval_module
         execution_context_class.class_eval do
           include eval_module
@@ -156,10 +170,6 @@ module Spec
       
       def described_type
         @description.described_type
-      end
-
-      def self.shared_behaviours
-        @shared_behaviours ||= []
       end
 
     end

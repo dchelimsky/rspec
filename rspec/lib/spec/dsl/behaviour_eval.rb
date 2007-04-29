@@ -10,12 +10,11 @@ module Spec
         def inherit(klass)
           raise ArgumentError.new("Shared behaviours cannot inherit from classes") if @behaviour.shared?
           @behaviour_superclass = klass
-          derive_execution_context_class_from_context_superclass
+          derive_execution_context_class_from_behaviour_superclass
         end
 
         def include(mod)
-          # TODO - rename this to included_modules
-          context_modules << mod
+          included_modules << mod
           mod.send :included, self
         end
 
@@ -25,18 +24,18 @@ module Spec
         end
         
         def copy_to(eval_module)
-          examples.each { |e| eval_module.examples << e; }
+          examples.each          { |e| eval_module.examples << e; }
           before_each_parts.each { |p| eval_module.before_each_parts << p }
-          after_each_parts.each { |p| eval_module.after_each_parts << p }
-          before_all_parts.each { |p| eval_module.before_all_parts << p }
-          after_all_parts.each { |p| eval_module.after_all_parts << p }
-          context_modules.each { |m| eval_module.include m }
+          after_each_parts.each  { |p| eval_module.after_each_parts << p }
+          before_all_parts.each  { |p| eval_module.before_all_parts << p }
+          after_all_parts.each   { |p| eval_module.after_all_parts << p }
+          included_modules.each  { |m| eval_module.included_modules << m }
         end
 
-        # Backwards compatibility - should we deprecate?
+        # Deprecated - use "before(:each) { ... }"
         alias :setup :before
 
-        # Backwards compatibility - should we deprecate?
+        # Deprecated - use "after(:each) { ... }"
         alias :teardown :after
 
         # Deprecated - use "before(:all) { ... }"
@@ -56,14 +55,14 @@ module Spec
 
         def methods
           my_methods = super
-          my_methods |= context_superclass.methods
+          my_methods |= behaviour_superclass.methods
           my_methods
         end
 
       protected
 
         def method_missing(method_name, *args)
-          if context_superclass.respond_to?(method_name)
+          if behaviour_superclass.respond_to?(method_name)
             return execution_context_class.send(method_name, *args)
           end
           super
@@ -102,26 +101,26 @@ module Spec
         end
 
         def add_superclass_method(parts, method_name)
-          parts << context_superclass.instance_method(method_name) if context_superclass.instance_methods.include?(method_name)
+          parts << behaviour_superclass.instance_method(method_name) if behaviour_superclass.instance_methods.include?(method_name)
         end        
 
       private
 
         def execution_context_class
-          @execution_context_class ||= derive_execution_context_class_from_context_superclass
+          @execution_context_class ||= derive_execution_context_class_from_behaviour_superclass
         end
 
-        def derive_execution_context_class_from_context_superclass
-          @execution_context_class = Class.new(context_superclass)
+        def derive_execution_context_class_from_behaviour_superclass
+          @execution_context_class = Class.new(behaviour_superclass)
         end
 
-        def context_superclass
+        def behaviour_superclass
           @behaviour_superclass ||= Object
         end
 
         protected
-        def context_modules
-          @context_modules ||= [::Spec::Matchers]
+        def included_modules
+          @included_modules ||= [::Spec::Matchers]
         end
 
         def examples

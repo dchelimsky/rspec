@@ -21,7 +21,12 @@ module Spec
       def to_s; @description; end
       
       def ==(value)
-        @description == value
+        case value
+        when Describable
+          @description == value.description
+        else
+          @description == value
+        end
       end
 
     end
