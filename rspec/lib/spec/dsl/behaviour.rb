@@ -40,11 +40,13 @@ module Spec
         @eval_module.description = @description
       end
 
-      def before_eval
-      end
-      
       def eval_behaviour(&behaviour_block)
         @eval_module.class_eval(&behaviour_block)
+      end
+      
+    protected
+    
+      def before_eval
       end
       
     public
