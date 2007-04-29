@@ -37,8 +37,8 @@ class PreCommit::RspecOnRails < PreCommit
       generate_rspec
       rake_sh "spec"
       rake_sh "spec:plugins"
-      destroy_purchase
     ensure
+      destroy_purchase
       rm_rf 'vendor/plugins/rspec_on_rails'
     end
   end

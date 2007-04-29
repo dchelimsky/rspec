@@ -20,10 +20,10 @@ class PreCommit
   def silent_sh(cmd, &block)
     output = nil
     IO.popen(cmd) do |io|
-      io.each_line do |line|
+      output = io.read
+      output.each_line do |line|
         block.call(line) if block
       end
-      output = io.read
     end
     output
   end

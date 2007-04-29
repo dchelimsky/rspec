@@ -45,6 +45,7 @@ or this:
 in a file that is loaded before your specs.
 
 * Sugar FREE!
+* Applied [#10315] Patch to fix pre_commit bug 10313 - pre_commit_rails: doesn't always build correctly (Patch from Antii Tarvainen)
 * Applied [#10245] Patch to HTML escape the behavior name when using HTML Formatter (Patch from Josh Knowles)
 * Applied [#10410] redirect_to does not behave consistently with regards to query string parameter ordering (Patch from Nicholas Evans)
 * Applied [#9605] Patch for ER 9472, shared behaviour (Patch by Bob Cotton)

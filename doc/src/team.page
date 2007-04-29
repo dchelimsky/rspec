@@ -63,12 +63,12 @@ In alphabetical order (by last name)
 ** Assorted Rails patches
 * Erik Kastner
 ** Patch to rename file_list to spec_file_list in spectask.rake (to avoid conflicts w/ other tools)
-* Michal Kwiatkowski
-** Patch to get RSpec to work w/ Heckle +/- 1.2
 * Rich Kilmer
 ** Underscore syntactic sugar
 * Josh Knowles
 ** Patch [#10245] Patch to HTML escape the behavior name when using HTML Formatter
+* Michal Kwiatkowski
+** Patch to get RSpec to work w/ Heckle +/- 1.2
 * Riley Lynch
 ** Patches for the rake task
 * Dan Manges
@@ -97,6 +97,8 @@ In alphabetical order (by last name)
 * Kouhei Sutou
 ** Patches for Emacs
 ** Handling of Interrupt
+* Antii Tarvainen
+** Patch [#10315] to fix pre_commit bug 10313 - pre_commit_rails: doesn't always build correctly
 * Scott Taylor
 ** Patch [#9509] allow spaced options in spec.opts
 ** Patch [#9510] Added html formatter spec file for Ruby 1.8.6
