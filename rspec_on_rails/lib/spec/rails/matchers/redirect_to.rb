@@ -14,11 +14,46 @@ module Spec
         def matches?(response)
           @redirected = response.redirect?
           @actual = response.redirect_url
-          return @actual == expected_url if @redirected
-          return false
+          return false unless @redirected
+          if @expected.instance_of? Hash
+            return false unless @actual =~ %r{^\w+://test.host}
+            return false unless actual_redirect_to_valid_route
+            return actual_hash == expected_hash
+          else
+            return @actual == expected_url
+          end
         end
-      
-        def expected_url
+
+        def actual_hash
+          hash_from_url @actual
+        end
+
+        def expected_hash
+          hash_from_url expected_url
+        end
+
+        def actual_redirect_to_valid_route
+          actual_hash
+        rescue
+          false
+        end
+
+        def hash_from_url(url)
+          query_hash(url).merge(path_hash(url)).with_indifferent_access
+        end
+
+        def path_hash(url)
+          path = url.sub(%r{^\w+://test.host}, "").split("?", 2)[0]
+          path = path.split("/")[1..-1] if ::Rails::VERSION::MINOR < 2
+          ActionController::Routing::Routes.recognize_path path
+        end
+
+        def query_hash(url)
+          query = url.split("?", 2)[1] || ""
+          CGIMethods.parse_query_parameters(query)
+        end
+
+       def expected_url
           case @expected
             when Hash
               return ActionController::UrlRewriter.new(@request, {}).rewrite(@expected)
@@ -30,15 +65,19 @@ module Spec
               return 'http://test.host' + (@expected.split('')[0] == '/' ? '' : '/') + @expected
           end
         end
-      
+
         def failure_message
           if @redirected
-            return %Q{expected redirect to #{@expected.inspect}, got redirect to #{@actual.inspect}}
+            if @expected.instance_of?(Hash) && ! actual_redirect_to_valid_route
+              return %Q{expected redirect to #{@expected.inspect}, got redirect to #{@actual.inspect}, which cannot be routed within this application (spec using the URL string if the redirection is to an external address)}
+            else
+              return %Q{expected redirect to #{@expected.inspect}, got redirect to #{@actual.inspect}}
+            end
           else
             return %Q{expected redirect to #{@expected.inspect}, got no redirect}
           end
         end
-        
+
         def description
           "redirect to #{@actual.inspect}"
         end

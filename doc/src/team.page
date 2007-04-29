@@ -52,6 +52,8 @@ In alphabetical order (by last name)
 ** Documentation for rake task
 * Lindsay Evans
 ** Patch for Spec::Rails on Windows
+* Nicholas Evans
+** Patch [#10410] redirect_to does not behave consistently with regards to query string parameter ordering
 * David Goodlad
 ** Patch for allowing non-Strings as partial_paths in view/specs
 * Jake Howerton

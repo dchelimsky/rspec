@@ -45,6 +45,7 @@ or this:
 in a file that is loaded before your specs.
 
 * Sugar FREE!
+* Applied [#10410] redirect_to does not behave consistently with regards to query string parameter ordering (Patch from Nicholas Evans)
 * Applied [#9605] Patch for ER 9472, shared behaviour (Patch by Bob Cotton)
 * --format rdoc no longer causes a dry-run by default. --dry-run must be used explicitly.
 * It's possible to specify the output file in the --format option (See explanation in --help)

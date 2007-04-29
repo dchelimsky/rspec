@@ -14,7 +14,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
     
     it "redirected to another controller and action" do
       get 'action_with_redirect_to_other_somewhere'
-      response.should redirect_to(:controller => 'other', :action => 'somewhere')
+      response.should redirect_to(:controller => 'render_spec', :action => 'text_action')
     end
     
     it "redirected to another action (with 'and return')" do
@@ -58,6 +58,29 @@ require File.dirname(__FILE__) + '/../../spec_helper'
       get 'action_with_redirect_in_respond_to'
       response.should redirect_to('redirect_spec/somewhere')
     end
+
+    params_as_hash = {:action => "somewhere", :id => 1111, :param1 => "value1", :param2 => "value2"}
+
+    it "redirected to an internal URL containing a query string" do
+      get "action_with_redirect_which_creates_query_string"
+      response.should redirect_to(params_as_hash)
+    end
+
+    it "redirected to an internal URL containing a query string, one way it might be generated" do
+      get "action_with_redirect_with_query_string_order1"
+      response.should redirect_to(params_as_hash)
+    end
+
+    it "redirected to an internal URL containing a query string, another way it might be generated" do
+      get "action_with_redirect_with_query_string_order2"
+      response.should redirect_to(params_as_hash)
+    end
+
+    it "redirected to an internal URL which is unroutable but matched via a string" do
+      get "action_with_redirect_to_unroutable_url_inside_app"
+      response.should redirect_to("http://test.host/nonexistant/none")
+    end
+
   end
   
   describe "Given a controller spec in #{mode} mode", :rails_component_type => :controller do
@@ -133,5 +156,12 @@ require File.dirname(__FILE__) + '/../../spec_helper'
       }.should fail_with("expected redirect to {:action=>\"nowhere\"}, got no redirect")
     end
   
+    it "redirected to an internal URL which is unroutable and matched via a hash" do
+      get "action_with_redirect_to_unroutable_url_inside_app"
+      lambda {
+        response.should redirect_to(:controller => "nonexistant", :action => "none")
+      }.should fail_with('expected redirect to {:action=>"none", :controller=>"nonexistant"}, got redirect to "http://test.host/nonexistant/none", which cannot be routed within this application (spec using the URL string if the redirection is to an external address)')
+    end
+
   end
 end

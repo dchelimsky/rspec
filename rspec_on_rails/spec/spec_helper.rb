@@ -11,6 +11,10 @@ require "#{dir}/../spec_resources/helpers/more_explicit_helper"
 require "#{dir}/../spec_resources/helpers/view_spec_helper"
 require "#{dir}/../spec_resources/helpers/plugin_application_helper"
 
+if Rails::VERSION::MINOR >= 2
+  ActionController::Routing.controller_paths << "#{dir}/../spec_resources/controllers"
+end
+
 module Spec
   module Rails
     module DSL
@@ -28,7 +32,6 @@ end
 def fail_with(message)
   raise_error(Spec::Expectations::ExpectationNotMetError,message)
 end
-  
 
 class Proc
   def should_pass
