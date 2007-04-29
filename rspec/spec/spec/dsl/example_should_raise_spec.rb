@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 module Spec
   module DSL
-    describe Example, " declared with {:should_raise => " do
+    describe Example, " declared with {:should_raise => ...}" do
       setup do
         @reporter = mock("reporter")
         @reporter.stub!(:example_started)

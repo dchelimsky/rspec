@@ -36,7 +36,7 @@ module Spec
           end
           @output.puts "<div class=\"context\">"
           @output.puts "  <dl>"
-          @output.puts "  <dt id=\"context_#{current_behaviour_number}\">#{name}</dt>"
+          @output.puts "  <dt id=\"context_#{current_behaviour_number}\">#{escape(name)}</dt>"
           STDOUT.flush
         end
 
