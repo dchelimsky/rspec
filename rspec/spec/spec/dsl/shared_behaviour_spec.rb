@@ -12,6 +12,7 @@ module Spec
       after do
         @formatter.rspec_verify
         @behaviour_class = nil
+        $shared_behaviours.clear
       end
 
       def behaviour_class
@@ -170,6 +171,15 @@ module Spec
         shared_behaviour = make_shared_behaviour("shared behaviour", :shared => true) {}
         shared_behaviour.it("shared example") { shared_example_ran = true }
         lambda { shared_behaviour.inherit Object }.should raise_error(ArgumentError)
+      end
+      
+      it "should raise when named shared behaviour can not be found" do
+        begin
+          @behaviour.it_should_behave_like("non-existent shared behaviour")
+          violated
+        rescue => e
+          e.message.should == "Shared Behaviour 'non-existent shared behaviour' can not be found"
+        end
       end
     end
   end

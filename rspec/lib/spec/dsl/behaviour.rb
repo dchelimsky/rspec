@@ -3,7 +3,7 @@ module Spec
     class EvalModule < Module; end
     class Behaviour
       extend BehaviourCallbacks
-      
+
       class << self
         def add_shared_behaviour(behaviour)
           raise ArgumentError.new("Shared Behaviour '#{behaviour.description}' already exists") if find_shared_behaviour(behaviour.description)
@@ -15,7 +15,7 @@ module Spec
         end
 
         def shared_behaviours
-          @shared_behaviours ||= []
+          $shared_behaviours ||= []
         end
       end
 

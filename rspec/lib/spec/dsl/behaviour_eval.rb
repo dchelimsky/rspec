@@ -20,6 +20,9 @@ module Spec
 
         def it_should_behave_like(behaviour_description)
           behaviour = @behaviour.class.find_shared_behaviour(behaviour_description)
+          if behaviour.nil?
+            raise RuntimeError.new("Shared Behaviour '#{behaviour_description}' can not be found")
+          end
           behaviour.copy_to(self)
         end
 
