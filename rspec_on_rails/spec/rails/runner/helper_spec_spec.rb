@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
 
-describe "HelperBehaviour", :rails_component_type => :helper do
+describe "HelperBehaviour", :behaviour_type => :helper do
   helper_name :explicit
   
   it "should have direct access to methods defined in helpers" do
@@ -10,7 +10,7 @@ describe "HelperBehaviour", :rails_component_type => :helper do
 end
 
 
-describe "HelperBehaviour#eval_erb", :rails_component_type => :helper do
+describe "HelperBehaviour#eval_erb", :behaviour_type => :helper do
   helper_name :explicit
   
   it "should support methods that accept blocks" do
@@ -18,7 +18,7 @@ describe "HelperBehaviour#eval_erb", :rails_component_type => :helper do
   end
 end
 
-describe ExplicitHelper, :rails_component_type => :helper do
+describe ExplicitHelper, :behaviour_type => :helper do
   it "should not require naming the helper if describe is passed a type" do
     method_in_explicit_helper.should match(/text from a method/)
   end

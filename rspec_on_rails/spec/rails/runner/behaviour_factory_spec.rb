@@ -1,8 +1,8 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
 describe "the BehaviourFactory" do
-  it "should return a ModelBehaviour when given :rails_component_type => :model" do
-    Spec::Rails::Runner::BehaviourFactory.create("name", :rails_component_type => :model) {
+  it "should return a ModelBehaviour when given :behaviour_type => :model" do
+    Spec::Rails::Runner::BehaviourFactory.create("name", :behaviour_type => :model) {
     }.should be_an_instance_of(Spec::Rails::DSL::ModelBehaviour)
   end
   
@@ -16,8 +16,8 @@ describe "the BehaviourFactory" do
     }.should be_an_instance_of(Spec::Rails::DSL::ModelBehaviour)
   end
   
-  it "should return a ViewBehaviour when given :rails_component_type => :model" do
-    Spec::Rails::Runner::BehaviourFactory.create("name", :rails_component_type => :view) {
+  it "should return a ViewBehaviour when given :behaviour_type => :model" do
+    Spec::Rails::Runner::BehaviourFactory.create("name", :behaviour_type => :view) {
     }.should be_an_instance_of(Spec::Rails::DSL::ViewBehaviour)
   end
   
@@ -31,8 +31,8 @@ describe "the BehaviourFactory" do
     }.should be_an_instance_of(Spec::Rails::DSL::ViewBehaviour)
   end
   
-  it "should return a HelperBehaviour when given :rails_component_type => :helper" do
-    Spec::Rails::Runner::BehaviourFactory.create("name", :rails_component_type => :helper) {
+  it "should return a HelperBehaviour when given :behaviour_type => :helper" do
+    Spec::Rails::Runner::BehaviourFactory.create("name", :behaviour_type => :helper) {
     }.should be_an_instance_of(Spec::Rails::DSL::HelperBehaviour)
   end
   
@@ -46,8 +46,8 @@ describe "the BehaviourFactory" do
     }.should be_an_instance_of(Spec::Rails::DSL::HelperBehaviour)
   end
   
-  it "should return a ControllerBehaviour when given :rails_component_type => :controller" do
-    Spec::Rails::Runner::BehaviourFactory.create("name", :rails_component_type => :controller) {
+  it "should return a ControllerBehaviour when given :behaviour_type => :controller" do
+    Spec::Rails::Runner::BehaviourFactory.create("name", :behaviour_type => :controller) {
     }.should be_an_instance_of(Spec::Rails::DSL::ControllerBehaviour)
   end
   
@@ -61,8 +61,8 @@ describe "the BehaviourFactory" do
     }.should be_an_instance_of(Spec::Rails::DSL::ControllerBehaviour)
   end
   
-  it "should favor the :rails_component_type over the :spec_path" do
-    Spec::Rails::Runner::BehaviourFactory.create("name", :spec_path => '/blah/spec/models/blah.rb', :rails_component_type => :controller) {
+  it "should favor the :behaviour_type over the :spec_path" do
+    Spec::Rails::Runner::BehaviourFactory.create("name", :spec_path => '/blah/spec/models/blah.rb', :behaviour_type => :controller) {
     }.should be_an_instance_of(Spec::Rails::DSL::ControllerBehaviour)
   end
 end

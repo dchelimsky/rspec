@@ -9,7 +9,7 @@ class DescriptionGenerationSpecController < ActionController::Base
   end
 end
 
-describe "Description generation", :rails_component_type => :controller do
+describe "Description generation", :behaviour_type => :controller do
   controller_name :description_generation_spec
   setup do
     @desc = nil
