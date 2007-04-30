@@ -75,6 +75,10 @@ module Spec
         def it(description=:__generate_description, opts={}, &block)
           examples << Example.new(description, opts, &block)
         end
+        
+        def specify(description, opts={}, &block)
+          it(description, opts, &block)
+        end
 
         def methods
           my_methods = super

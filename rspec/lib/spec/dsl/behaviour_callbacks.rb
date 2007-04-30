@@ -15,6 +15,14 @@ module Spec
         end
       end
 
+      def setup(&block)
+        before(:each, &block)
+      end
+
+      def teardown(&block)
+        after(:each, &block)
+      end
+
       def before_all_parts
         @before_all_parts ||= []
       end

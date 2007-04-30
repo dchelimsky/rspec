@@ -3,7 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>describe "Requesting ${1:/some/path} using ${2:GET|POST|PUT|DELETE}${3: with some parameters}" do
+	<string>require File.dirname(__FILE__) + '/../spec_helper'
+
+describe "Requesting ${1:/some/path} using ${2:GET|POST|PUT|DELETE}${3: with some parameters}" do
   controller_name :${4:controller}
 
   $0

@@ -9,7 +9,7 @@
   end
 end</string>
 	<key>name</key>
-	<string>Describe (type)</string>
+	<string>describe (type)</string>
 	<key>scope</key>
 	<string>source.ruby</string>
 	<key>tabTrigger</key>
