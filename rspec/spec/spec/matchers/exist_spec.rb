@@ -1,5 +1,8 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
+# NOTE - this was initially handled by an explicit matcher, but is now
+# handled by a default set of predicate_matchers.
+
 class Substance
   def initialize exists, description
     @exists = exists
@@ -25,7 +28,7 @@ describe "should exist" do
   
   it "should fail if target does not exist" do
     lambda { @imaginary.should exist }.
-      should fail_with("expected something imaginary to exist, but it doesn't.")
+      should fail
   end
 end
 
@@ -39,7 +42,7 @@ describe "should_not exist" do
   end
   it "should fail if target does exist" do
     lambda { @real.should_not exist }.
-      should fail_with("expected something real to not exist, but it does.")
+      should fail
   end
 end
     

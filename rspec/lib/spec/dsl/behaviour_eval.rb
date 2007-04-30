@@ -34,6 +34,18 @@ module Spec
           after_all_parts.each   { |p| eval_module.after_all_parts << p }
           included_modules.each  { |m| eval_module.included_modules << m }
         end
+        
+        def predicate_matchers
+          @predicate_matchers ||= {:exist? => :exist}
+        end
+        
+        def define_predicate_matchers
+          predicate_matchers.each_pair do |method_on_object, matcher_method|
+            define_method matcher_method do |*args|
+              eval("be_#{method_on_object.to_s.gsub('?','')}(*args)")
+            end
+          end
+        end
 
         # Deprecated - use "before(:each) { ... }"
         alias :setup :before

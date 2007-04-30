@@ -117,6 +117,7 @@ module Spec
       def prepare_execution_context_class
         plugin_mock_framework
         weave_in_included_modules
+        define_predicate_matchers #this is in behaviour_eval
         execution_context_class
       end
 
