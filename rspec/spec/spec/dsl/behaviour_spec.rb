@@ -284,10 +284,10 @@ module Spec
 
         Behaviour.before(:all) { fiddle << "Behaviour.before(:all)" }
         @behaviour.before(:all) { fiddle << "before(:all)" }
-        @behaviour.setup { fiddle << "setup" }
+        @behaviour.before(:each) { fiddle << "before(:each)" }
         @behaviour.specify("test") {true}
         @behaviour.run(@reporter)
-        fiddle.should == ['Behaviour.before(:all)', 'superclass context_setup', 'before(:all)', 'superclass setup', 'setup']
+        fiddle.should == ['Behaviour.before(:all)', 'superclass context_setup', 'before(:all)', 'superclass setup', 'before(:each)']
       end
 
       it "after callbacks are ordered from local to global" do
@@ -307,10 +307,10 @@ module Spec
 
         @behaviour.after(:all) { fiddle << "after(:all)" }
         Behaviour.after(:all) { fiddle << "Behaviour.after(:all)" }
-        @behaviour.teardown { fiddle << "teardown" }
+        @behaviour.teardown { fiddle << "after(:each)" }
         @behaviour.specify("test") {true}
         @behaviour.run(@reporter)
-        fiddle.should == ['teardown', 'superclass teardown', 'after(:all)', 'superclass context_teardown', 'Behaviour.after(:all)']
+        fiddle.should == ['after(:each)', 'superclass teardown', 'after(:all)', 'superclass context_teardown', 'Behaviour.after(:all)']
       end
     
       it "should run superclass teardown method and after block" do
