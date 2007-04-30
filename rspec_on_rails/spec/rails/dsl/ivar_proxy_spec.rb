@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
 describe "An Ivar Proxy" do
-  setup do
+  before(:each) do
     @object = Object.new
     @proxy = Spec::Rails::DSL::IvarProxy.new(@object)
   end

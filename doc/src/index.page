@@ -49,7 +49,7 @@ Aslak joined in and the three rewrote the higher level syntax and the core, rewo
 <ruby>
 describe "Behaviour Definition Framework" do
 
-  setup do
+  before do
     @bd_framework = BehaviourDefinitionFramework.new
   end
 

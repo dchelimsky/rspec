@@ -67,16 +67,9 @@ module Spec
           end
         end
 
-        # Deprecated - use "before(:each) { ... }"
-        alias :setup :before
-
-        # Deprecated - use "after(:each) { ... }"
-        alias :teardown :after
-
         def it(description=:__generate_description, opts={}, &block)
           examples << Example.new(description, opts, &block)
         end
-        alias :specify :it
 
         def methods
           my_methods = super

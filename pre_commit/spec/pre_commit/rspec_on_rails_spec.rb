@@ -8,7 +8,7 @@ include FileUtils
 # This is not a complete specification of PreCommit.RSpecOnRails, but 
 # just a collection of bug fix regression tests.
 describe "RSpecOnRails pre_commit" do
-  setup do
+  before do
     @original_dir = File.expand_path(FileUtils.pwd)
     @rails_app_dir = File.expand_path(File.dirname(__FILE__) + "/../../../example_rails_app/")
 
@@ -19,7 +19,7 @@ describe "RSpecOnRails pre_commit" do
     @pre_commit = PreCommit::RspecOnRails.new(nil)
   end
 
-  teardown do
+  after do
     rm('db/migrate/888_create_purchases.rb', :force => true)
     @pre_commit.destroy_purchase
     Dir.chdir(@original_dir)

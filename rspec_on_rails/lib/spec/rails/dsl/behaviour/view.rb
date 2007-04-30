@@ -147,12 +147,12 @@ module Spec
       #
       # == Example
       #
-      #   context "login/login" do
-      #     setup do
+      #   describe "login/login" do
+      #     before do
       #       render 'login/login'
       #     end
       # 
-      #     specify "should display login form" do
+      #     it "should display login form" do
       #       response.should have_tag("form[action=/login]") do
       #         with_tag("input[type=text][name=email]")
       #         with_tag("input[type=password][name=password]")

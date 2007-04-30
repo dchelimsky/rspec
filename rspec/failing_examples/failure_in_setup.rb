@@ -1,6 +1,6 @@
 describe "This example" do
   
-  setup do
+  before(:each) do
     NonExistentClass.new
   end
   

@@ -397,7 +397,7 @@ describe "have_rjs behaviour", :behaviour_type => :controller do
   controller_name :assert_select
   integrate_views
 
-  setup do
+  before(:each) do
     render_rjs do |page|
       page.replace "test1", "<div id=\"1\">foo</div>"
       page.replace_html "test2", "<div id=\"2\">bar</div><div id=\"3\">none</div>"
@@ -692,13 +692,13 @@ describe "send_email behaviour", :behaviour_type => :controller do
   controller_name :assert_select
   integrate_views
 
-  setup do
+  before(:each) do
     ActionMailer::Base.delivery_method = :test
     ActionMailer::Base.perform_deliveries = true
     ActionMailer::Base.deliveries = []
   end
 
-  teardown do
+  after(:each) do
     ActionMailer::Base.deliveries.clear
   end
 
@@ -730,24 +730,24 @@ describe "send_email behaviour", :behaviour_type => :controller do
 
 end
 
-# context "Given an rjs call to :visual_effect, a 'should have_rjs' spec with",
+# describe "An rjs call to :visual_effect, a 'should have_rjs' spec with",
 #   :behaviour_type => :view do
 #     
-#   setup do
+#   before do
 #     render 'rjs_spec/visual_effect'
 #   end
 # 
-#   specify "the correct element name should pass" do
+#   it "should pass with the correct element name" do
 #     response.should have_rjs(:effect, :fade, 'mydiv')
 #   end
 #   
-#   specify "the wrong element name should fail" do
+#   it "should fail the wrong element name" do
 #     lambda {
 #       response.should have_rjs(:effect, :fade, 'wrongname')
 #     }.should raise_error(SpecFailed)
 #   end
 #   
-#   specify "the correct element but the wrong command should fail" do
+#   it "should fail with the correct element but the wrong command" do
 #     lambda {
 #       response.should have_rjs(:effect, :puff, 'mydiv')
 #     }.should raise_error(SpecFailed)
@@ -755,24 +755,24 @@ end
 #   
 # end
 #   
-# context "Given an rjs call to :visual_effect for a toggle, a 'should have_rjs' spec with",
+# describe "An rjs call to :visual_effect for a toggle, a 'should have_rjs' spec with",
 #   :behaviour_type => :view do
 #     
-#   setup do
+#   before do
 #     render 'rjs_spec/visual_toggle_effect'
 #   end
 #   
-#   specify "the correct element name should pass" do
+#   it "should pass with the correct element name" do
 #     response.should have_rjs(:effect, :toggle_blind, 'mydiv')
 #   end
 #   
-#   specify "the wrong element name should fail" do
+#   it "should fail with the wrong element name" do
 #     lambda {
 #       response.should have_rjs(:effect, :toggle_blind, 'wrongname')
 #     }.should raise_error(SpecFailed)
 #   end
 #   
-#   specify "the correct element but the wrong command should fail" do
+#   it "should fail the correct element but the wrong command" do
 #     lambda {
 #       response.should have_rjs(:effect, :puff, 'mydiv')
 #     }.should raise_error(SpecFailed)

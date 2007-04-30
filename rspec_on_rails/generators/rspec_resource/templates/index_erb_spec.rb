@@ -3,9 +3,8 @@ require File.dirname(__FILE__) + '<%= '/..' * class_nesting_depth %>/../../spec_
 describe "/<%= table_name %>/index.<%= default_file_extension %>" do
   include <%= controller_class_name %>Helper
   
-  setup do<% [98,99].each do |id| -%>
-    <%= file_name %>_<%= id %> = mock("<%= file_name %>_<%= id %>")
-    <%= file_name %>_<%= id %>.stub!(:to_param).and_return("<%= id %>")<% for attribute in attributes -%>
+  before do<% [98,99].each do |id| -%>
+    <%= file_name %>_<%= id %> = mock_model(<%= class_name %>)<% for attribute in attributes -%>
     <%= file_name %>_<%= id %>.should_receive(:<%= attribute.name %>).and_return(<%= attribute.default_value %>)<% end -%>
 <% end %>
     assigns[:<%= table_name %>] = [<%= file_name %>_98, <%= file_name %>_99]

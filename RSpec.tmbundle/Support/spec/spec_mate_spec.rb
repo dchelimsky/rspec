@@ -1,7 +1,7 @@
 require 'stringio'
 
 describe "SpecMate" do
-  setup do
+  before(:each) do
     @first_failing_spec  = /fixtures\/example_failing_spec\.rb&line=3/n
     @second_failing_spec  = /fixtures\/example_failing_spec\.rb&line=7/n
     

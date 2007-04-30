@@ -13,7 +13,7 @@ end
 
 describe "BDD framework" do
 
-  setup do
+  before(:each) do
     @bdd_framework = BddFramework.new
   end
 

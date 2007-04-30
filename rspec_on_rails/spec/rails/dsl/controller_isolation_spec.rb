@@ -26,7 +26,7 @@ describe "a controller spec running in integration mode", :behaviour_type => :co
   controller_name :controller_spec
   integrate_views
   
-  setup do
+  before(:each) do
     controller.class.send(:define_method, :rescue_action) { |e| raise e }
   end
 

@@ -3,10 +3,8 @@ require File.dirname(__FILE__) + '<%= '/..' * class_nesting_depth %>/../../spec_
 describe "/<%= table_name %>/show.<%= default_file_extension %>" do
   include <%= controller_class_name %>Helper
   
-  setup do
-    @<%= file_name %> = mock("<%= file_name %>")
-    @<%= file_name %>.stub!(:to_param).and_return("99")
-    @<%= file_name %>.stub!(:errors).and_return(@errors)<% for attribute in attributes -%>
+  before do
+    @<%= file_name %> = mock("<%= class_name %>")<% for attribute in attributes -%>
     @<%= file_name %>.stub!(:<%= attribute.name %>).and_return(<%= attribute.default_value %>)<% end -%>
 
     assigns[:<%= file_name %>] = @<%= file_name %>

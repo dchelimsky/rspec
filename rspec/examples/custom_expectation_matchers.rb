@@ -38,7 +38,7 @@ module Animals
 
   describe Mouse do
     include AnimalSpecHelper
-    setup do
+    before(:each) do
       @mouse = Animals::Mouse.new
     end
   

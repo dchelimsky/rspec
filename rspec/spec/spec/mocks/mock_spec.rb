@@ -314,7 +314,7 @@ module Spec
         @calls = @calls + 1
       end
       
-      specify "should call the block after #should_receive" do
+      it "should call the block after #should_receive" do
         @mock.should_receive(:foo) { add_call }
 
         @mock.foo

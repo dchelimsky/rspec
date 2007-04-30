@@ -145,7 +145,7 @@ end
 
 describe "A new account" do
   include AccountExampleHelperMethods
-  setup do
+  before do
     @account = Account.new
   end
 

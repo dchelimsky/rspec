@@ -41,7 +41,7 @@ module Spec
       it "should not run any example if before(:all) fails" do
         spec_ran = false
         Behaviour.before(:all) { raise "help" }
-        @behaviour.specify("test") {spec_ran = true}
+        @behaviour.it("test") {spec_ran = true}
         @behaviour.run(@reporter)
         spec_ran.should be_false
       end
@@ -78,7 +78,7 @@ module Spec
         end
 
         Behaviour.before(:all) { raise "in before(:all)" }
-        @behaviour.specify("test") {true}
+        @behaviour.it("test") {true}
         @behaviour.run(@reporter)
       end
 
@@ -145,7 +145,7 @@ module Spec
       it "should not run any example if before(:all) fails" do
         spec_ran = false
         @behaviour.before(:all) { raise "help" }
-        @behaviour.specify("test") {spec_ran = true}
+        @behaviour.it("test") {spec_ran = true}
         @behaviour.run(@reporter)
         spec_ran.should be_false
       end
@@ -182,7 +182,7 @@ module Spec
         end
 
         @behaviour.before(:all) { raise "in before(:all)" }
-        @behaviour.specify("test") {true}
+        @behaviour.it("test") {true}
         @behaviour.run(@reporter)
       end
 
@@ -200,34 +200,34 @@ module Spec
       it "should run before(:all) block only once" do
         before_all_run_count_run_count = 0
         @behaviour.before(:all) {before_all_run_count_run_count += 1}
-        @behaviour.specify("test") {true}
-        @behaviour.specify("test2") {true}
+        @behaviour.it("test") {true}
+        @behaviour.it("test2") {true}
         @behaviour.run(@reporter)
         before_all_run_count_run_count.should == 1
       end
 
-      it "should run superclass setup method and setup block" do
-        super_class_setup_ran = false
+      it "should run superclass setup method and before block" do
+        super_class_before_ran = false
         super_class = Class.new do
           define_method :setup do
-            super_class_setup_ran = true
+            super_class_before_ran = true
           end
         end
         @behaviour.inherit super_class
     
-        setup_ran = false
-        @behaviour.setup {setup_ran = true}
-        @behaviour.specify("test") {true}
+        before_ran = false
+        @behaviour.before {before_ran = true}
+        @behaviour.it("test") {true}
         @behaviour.run(@reporter)
-        super_class_setup_ran.should be_true
-        setup_ran.should be_true
+        super_class_before_ran.should be_true
+        before_ran.should be_true
       end
     
       it "should run after(:all) block only once" do
         after_all_run_count = 0
         @behaviour.after(:all) {after_all_run_count += 1}
-        @behaviour.specify("test") {true}
-        @behaviour.specify("test2") {true}
+        @behaviour.it("test") {true}
+        @behaviour.it("test2") {true}
         @behaviour.run(@reporter)
         after_all_run_count.should == 1
         @reporter.rspec_verify
@@ -238,7 +238,7 @@ module Spec
         context_instance_value_out = ""
         @behaviour.before(:all) { @instance_var = context_instance_value_in }
         @behaviour.after(:all) { context_instance_value_out = @instance_var }
-        @behaviour.specify("test") {true}
+        @behaviour.it("test") {true}
         @behaviour.run(@reporter)
         context_instance_value_in.should == context_instance_value_out
       end
@@ -247,7 +247,7 @@ module Spec
         context_instance_value_in = "Hello there"
         context_instance_value_out = ""
         @behaviour.before(:all) { @instance_var = context_instance_value_in }
-        @behaviour.specify("test") {context_instance_value_out = @instance_var}
+        @behaviour.it("test") {context_instance_value_out = @instance_var}
         @behaviour.run(@reporter)
         context_instance_value_in.should == context_instance_value_out
       end
@@ -264,7 +264,7 @@ module Spec
         Behaviour.before(:all) { fiddle << "Behaviour.before(:all)" }
         @behaviour.before(:all) { fiddle << "before(:all)" }
         @behaviour.before(:each) { fiddle << "before(:each)" }
-        @behaviour.specify("test") {true}
+        @behaviour.it("test") {true}
         @behaviour.run(@reporter)
         fiddle.should == ['Behaviour.before(:all)', 'before(:all)', 'superclass setup', 'before(:each)']
       end
@@ -283,8 +283,8 @@ module Spec
 
         @behaviour.after(:all) { fiddle << "after(:all)" }
         Behaviour.after(:all) { fiddle << "Behaviour.after(:all)" }
-        @behaviour.teardown { fiddle << "after(:each)" }
-        @behaviour.specify("test") {true}
+        @behaviour.after(:each) { fiddle << "after(:each)" }
+        @behaviour.it("test") {true}
         @behaviour.run(@reporter)
         fiddle.should == ['after(:each)', 'superclass teardown', 'after(:all)', 'Behaviour.after(:all)']
       end
@@ -300,7 +300,7 @@ module Spec
     
         teardown_ran = false
         @behaviour.after {teardown_ran = true}
-        @behaviour.specify("test") {true}
+        @behaviour.it("test") {true}
         @behaviour.run(@reporter)
         super_class_teardown_ran.should be_true
         teardown_ran.should be_true
@@ -316,7 +316,7 @@ module Spec
         end
         @behaviour.inherit super_class
     
-        @behaviour.specify("test") {helper_method}
+        @behaviour.it("test") {helper_method}
         @behaviour.run(@reporter)
         helper_method_ran.should be_true
       end
@@ -368,7 +368,7 @@ module Spec
         @behaviour.include mod1
         @behaviour.include mod2
     
-        @behaviour.specify("test") do
+        @behaviour.it("test") do
           mod1_method
           mod2_method
         end
@@ -418,10 +418,10 @@ module Spec
       end
 
       it "should count number of specs" do
-        @behaviour.specify("one") {}
-        @behaviour.specify("two") {}
-        @behaviour.specify("three") {}
-        @behaviour.specify("four") {}
+        @behaviour.it("one") {}
+        @behaviour.it("two") {}
+        @behaviour.it("three") {}
+        @behaviour.it("four") {}
         @behaviour.number_of_examples.should == 4
       end
 

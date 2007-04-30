@@ -38,7 +38,7 @@ describe "RSpec should integrate with Test::Unit::TestCase" do
   
   fixtures :some_table
 
-  setup do
+  before(:each) do
     @rspec_setup_called = true
   end
 
@@ -57,7 +57,7 @@ describe "RSpec should integrate with Test::Unit::TestCase" do
     @random_task_called.should be_true
   end
   
-  teardown do
+  after(:each) do
     RSpecIntegrationTest.verify_class_method
   end
 end

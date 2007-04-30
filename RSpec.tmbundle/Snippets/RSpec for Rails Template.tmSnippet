@@ -6,7 +6,7 @@
 	<string>require File.dirname(__FILE__) + '/../spec_helper'
 
 describe "${1:description}" do
-  setup do
+  before do
     $w
   end
 

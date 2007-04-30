@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
 describe "An AssignsHashProxy" do
-  setup do
+  before(:each) do
     @object = Object.new
     @assigns = Hash.new
     @object.stub!(:assigns).and_return(@assigns)

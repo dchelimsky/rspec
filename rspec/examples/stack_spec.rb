@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + "/stack"
 
 describe "non-empty Stack", :shared => true do
   # NOTE that this one auto-generates the description "should not be empty"
-  specify { @stack.should_not be_empty }
+  it { @stack.should_not be_empty }
   
   it "should return the top item when sent #peek" do
     @stack.peek.should == @last_item_added
@@ -28,7 +28,7 @@ end
 
 describe "non-full Stack", :shared => true do
   # NOTE that this one auto-generates the description "should not be full"
-  specify { @stack.should_not be_full }
+  it { @stack.should_not be_full }
 
   it "should add to the top when sent #push" do
     @stack.push "newly added top item"
@@ -42,7 +42,7 @@ describe Stack, " (empty)" do
   end
   
   # NOTE that this one auto-generates the description "should be empty"
-  specify { @stack.should be_empty }
+  it { @stack.should be_empty }
   
   it_should_behave_like "non-full Stack"
   
@@ -86,7 +86,7 @@ describe Stack, " (full)" do
   end
 
   # NOTE that this one auto-generates the description "should be full"
-  specify { @stack.should be_full }  
+  it { @stack.should be_full }  
 
   it_should_behave_like "non-empty Stack"
 

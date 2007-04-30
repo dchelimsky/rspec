@@ -23,7 +23,7 @@ end
 
 describe "A new team" do
   
-  setup do
+  before(:each) do
     @team = Team.new
   end
   

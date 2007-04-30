@@ -100,8 +100,8 @@ module Spec
         shared_setup_ran = false
         shared_teardown_ran = false
         shared_behaviour = make_shared_behaviour("shared behaviour", :shared => true) {}
-        shared_behaviour.setup { shared_setup_ran = true }
-        shared_behaviour.teardown { shared_teardown_ran = true }
+        shared_behaviour.before { shared_setup_ran = true }
+        shared_behaviour.after { shared_teardown_ran = true }
         shared_behaviour.it("shared example") { shared_example_ran = true }
 
         example_ran = false

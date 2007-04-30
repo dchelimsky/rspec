@@ -11,7 +11,7 @@ end
 
 describe "Description generation", :behaviour_type => :controller do
   controller_name :description_generation_spec
-  setup do
+  before(:each) do
     @desc = nil
     @callback = lambda { |desc| @desc = desc }
     Spec::Matchers.description_generated(&@callback)

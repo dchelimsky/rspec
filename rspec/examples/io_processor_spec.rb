@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/io_processor'
 require 'stringio'
 
 describe "An IoProcessor" do
-  setup do
+  before(:each) do
     @processor = IoProcessor.new
   end
 
