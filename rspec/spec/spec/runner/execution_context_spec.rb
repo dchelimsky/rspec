@@ -1,28 +1,28 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
-context "ExecutionContext" do
+describe "ExecutionContext" do
   
-  specify "should provide duck_type()" do
+  it "should provide duck_type()" do
     dt = duck_type(:length)
     dt.should be_an_instance_of(Spec::Mocks::DuckTypeArgConstraint)
     dt.matches?([]).should be_true
   end
 
-  specify "should violate when violated()" do
+  it "should violate when violated()" do
     lambda do
       violated
     end.should raise_error(Spec::Expectations::ExpectationNotMetError)
   end
 
-  specify "should provide mock()" do
+  it "should provide mock()" do
     mock("thing").should be_an_instance_of(Spec::Mocks::Mock)
   end
 
-  specify "should provide stub()" do
+  it "should provide stub()" do
     thing_stub = stub("thing").should be_an_instance_of(Spec::Mocks::Mock)
   end
   
-  specify "should add method stubs to stub()" do
+  it "should add method stubs to stub()" do
     thing_stub = stub("thing", :a => "A", :b => "B")
     thing_stub.a.should == "A"
     thing_stub.b.should == "B"

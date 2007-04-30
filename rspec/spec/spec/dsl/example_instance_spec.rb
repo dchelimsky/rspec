@@ -19,19 +19,19 @@ module Spec
         example.run(@reporter, nil, nil, false, nil)
       end
 
-      specify "should report its name for dry run" do
+      it "should report its name for dry run" do
         example=Example.new("example") {}
         @reporter.should_receive(:example_finished).with("example")
         example.run(@reporter, nil, nil, true, nil) #4th arg indicates dry run
       end
 
-      specify "should report success" do
+      it "should report success" do
         example=Example.new("example") {}
         @reporter.should_receive(:example_finished).with("example", nil, nil)
         example.run(@reporter, nil, nil, nil, nil)
       end
 
-      specify "should report failure due to failure" do
+      it "should report failure due to failure" do
         example=Example.new("example") do
           (2+2).should == 5
         end
@@ -39,7 +39,7 @@ module Spec
         example.run(@reporter, nil, nil, nil, nil)
       end
 
-      specify "should report failure due to error" do
+      it "should report failure due to error" do
         error=RuntimeError.new
         example=Example.new("example") do
           raise(error)
@@ -48,7 +48,7 @@ module Spec
         example.run(@reporter, nil, nil, nil, nil)
       end
 
-      specify "should run example in scope of supplied object" do
+      it "should run example in scope of supplied object" do
         scope_class = Class.new
         example=Example.new("should pass") do
           self.instance_of?(Example).should == false
@@ -58,7 +58,7 @@ module Spec
         example.run(@reporter, nil, nil, nil, scope_class.new)
       end
 
-      specify "should not run example block if before_each fails" do
+      it "should not run example block if before_each fails" do
         example_ran = false
         example=Example.new("should pass") {example_ran = true}
         before_each = lambda {raise "Setup error"}
@@ -66,7 +66,7 @@ module Spec
         example_ran.should == false
       end
 
-      specify "should run after_each block if before_each fails" do
+      it "should run after_each block if before_each fails" do
         after_each_ran = false
         example=Example.new("should pass") {}
         before_each = lambda {raise "Setup error"}
@@ -75,7 +75,7 @@ module Spec
         after_each_ran.should == true
       end
 
-      specify "should run after_each block when example fails" do
+      it "should run after_each block when example fails" do
         example=Example.new("example") do
           raise("in body")
         end
@@ -90,7 +90,7 @@ module Spec
         example.run(@reporter, nil, after_each, nil, nil)
       end
 
-      specify "should report failure location when in before_each" do
+      it "should report failure location when in before_each" do
         example=Example.new("example") {}
         before_each=lambda { raise("in before_each") }
         @reporter.should_receive(:example_finished) do |name, error, location|
@@ -101,7 +101,7 @@ module Spec
         example.run(@reporter, before_each, nil, nil, nil)
       end
 
-      specify "should report failure location when in after_each" do
+      it "should report failure location when in after_each" do
         example = Example.new("example") {}
         after_each = lambda { raise("in after_each") }
         @reporter.should_receive(:example_finished) do |name, error, location|
@@ -112,17 +112,17 @@ module Spec
         example.run(@reporter, nil, after_each, nil, nil)
       end
 
-      specify "should accept an options hash following the example name" do
+      it "should accept an options hash following the example name" do
         example = Example.new("name", :key => 'value')
       end
 
-      specify "should report NAME NOT GENERATED when told to use generated description but none is generated" do
+      it "should report NAME NOT GENERATED when told to use generated description but none is generated" do
         example = Example.new(:__generate_description)
         @reporter.should_receive(:example_finished).with("NAME NOT GENERATED", :anything, :anything)
         example.run(@reporter, nil, nil, nil, Object.new)
       end
 
-      specify "should report generated description when told to and it is available" do
+      it "should report generated description when told to and it is available" do
         example = Example.new(:__generate_description) {
           5.should == 5
         }
@@ -130,7 +130,7 @@ module Spec
         example.run(@reporter, nil, nil, nil, Object.new)
       end
 
-      specify "should unregister description_generated callback (lest a memory leak should build up)" do
+      it "should unregister description_generated callback (lest a memory leak should build up)" do
         example = Example.new("something")
         Spec::Matchers.should_receive(:unregister_description_generated).with(is_a(Proc))
         example.run(@reporter, nil, nil, nil, Object.new)

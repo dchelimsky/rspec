@@ -2,12 +2,12 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 module Spec
   module Mocks
-    context "PreciseCounts" do
-      setup do
+    describe "PreciseCounts" do
+      before(:each) do
         @mock = mock("test mock")
       end
 
-      specify "should fail when exactly n times method is called less than n times" do
+      it "should fail when exactly n times method is called less than n times" do
         @mock.should_receive(:random_call).exactly(3).times
         @mock.random_call
         @mock.random_call
@@ -16,14 +16,14 @@ module Spec
         end.should raise_error(MockExpectationError)
       end
 
-      specify "should fail when exactly n times method is never called" do
+      it "should fail when exactly n times method is never called" do
         @mock.should_receive(:random_call).exactly(3).times
         lambda do
           @mock.rspec_verify
         end.should raise_error(MockExpectationError)
       end
 
-      specify "should pass if exactly n times method is called exactly n times" do
+      it "should pass if exactly n times method is called exactly n times" do
         @mock.should_receive(:random_call).exactly(3).times
         @mock.random_call
         @mock.random_call
@@ -31,7 +31,7 @@ module Spec
         @mock.rspec_verify
       end
 
-      specify "should pass multiple calls with different args and counts" do
+      it "should pass multiple calls with different args and counts" do
         @mock.should_receive(:random_call).twice.with(1)
         @mock.should_receive(:random_call).once.with(2)
         @mock.random_call(1)
@@ -40,7 +40,7 @@ module Spec
         @mock.rspec_verify
       end
 
-      specify "should pass mutiple calls with different args" do
+      it "should pass mutiple calls with different args" do
         @mock.should_receive(:random_call).once.with(1)
         @mock.should_receive(:random_call).once.with(2)
         @mock.random_call(1)

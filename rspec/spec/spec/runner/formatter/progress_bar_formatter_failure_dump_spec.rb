@@ -3,14 +3,14 @@ require File.dirname(__FILE__) + '/../../../spec_helper.rb'
 module Spec
   module Runner
     module Formatter
-      context "ProgressBarFormatter failure dump with NoisyBacktraceTweaker" do
-        setup do
+      describe "ProgressBarFormatter failure dump with NoisyBacktraceTweaker" do
+        before(:each) do
           @io = StringIO.new
           @reporter = Reporter.new([ProgressBarFormatter.new(@io)], NoisyBacktraceTweaker.new)
           @reporter.add_behaviour("context")
         end
 
-        specify "should end with line break" do
+        it "should end with line break" do
           error=Spec::Expectations::ExpectationNotMetError.new("message")
           set_backtrace(error)
           @reporter.example_finished("spec", error, "spec")
@@ -18,7 +18,7 @@ module Spec
           @io.string.should match(/\n\z/)
         end
 
-        specify "should include context and spec name in backtrace if error in spec" do
+        it "should include context and spec name in backtrace if error in spec" do
           error=RuntimeError.new("message")
           set_backtrace(error)
           @reporter.example_finished("spec", error, "spec")

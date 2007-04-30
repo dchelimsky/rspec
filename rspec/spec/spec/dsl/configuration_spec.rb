@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 module Spec
   module DSL
     describe Configuration do
-      setup do
+      before(:each) do
         @config = Configuration.new
         @behaviour = mock("behaviour")
       end

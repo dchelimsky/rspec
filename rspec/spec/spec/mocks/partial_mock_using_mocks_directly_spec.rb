@@ -2,8 +2,8 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 module Spec
 module Mocks
-context "PartialMockUsingMocksDirectly" do
-    setup do
+describe "PartialMockUsingMocksDirectly" do
+    before(:each) do
       
         klass=Class.new
         klass.class_eval do
@@ -25,14 +25,14 @@ context "PartialMockUsingMocksDirectly" do
     #     end.should raise_error(NoMethodError)
     #   
     # end
-    specify "should fail when expected message is not received" do
+    it "should fail when expected message is not received" do
         @obj.should_receive(:msg)
         lambda do
           @obj.rspec_verify
         end.should raise_error(MockExpectationError)
       
     end
-    specify "should fail when message is received with incorrect args" do
+    it "should fail when message is received with incorrect args" do
         @obj.should_receive(:msg).with(:correct_arg)
         lambda do
           @obj.msg(:incorrect_arg)
@@ -40,19 +40,19 @@ context "PartialMockUsingMocksDirectly" do
         @obj.msg(:correct_arg)
       
     end
-    specify "should pass when expected message is received" do
+    it "should pass when expected message is received" do
         @obj.should_receive(:msg)
         @obj.msg
         @obj.rspec_verify
       
     end
-    specify "should pass when message is received with correct args" do
+    it "should pass when message is received with correct args" do
         @obj.should_receive(:msg).with(:correct_arg)
         @obj.msg(:correct_arg)
         @obj.rspec_verify
       
     end
-    specify "should revert to original method if existed" do
+    it "should revert to original method if existed" do
         @obj.existing_method.should equal(:original_value)
         @obj.should_receive(:existing_method).and_return(:mock_value)
         @obj.existing_method.should equal(:mock_value)

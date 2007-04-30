@@ -2,8 +2,8 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 module Spec
   module Mocks
-    context "using a Partial Mock," do
-      setup do
+    describe "using a Partial Mock," do
+      before(:each) do
         @object = Object.new
       end
       

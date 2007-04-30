@@ -1,11 +1,11 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
-context "c" do
+describe "c" do
 
-  specify "1" do
+  it "1" do
   end
 
-  specify "2" do
+  it "2" do
   end
 
 end
@@ -38,7 +38,7 @@ describe SpecParserSubject, " described" do
 end
 
 describe "SpecParser" do
-  setup do
+  before(:each) do
     @p = Spec::Runner::SpecParser.new
   end
 

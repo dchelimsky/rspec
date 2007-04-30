@@ -14,7 +14,7 @@ class Substance
 end
   
 describe "should exist" do
-  setup do
+  before(:each) do
     @real = Substance.new true, 'something real'
     @imaginary = Substance.new false, 'something imaginary'
   end
@@ -30,7 +30,7 @@ describe "should exist" do
 end
 
 describe "should_not exist" do  
-  setup do
+  before(:each) do
     @real = Substance.new true, 'something real'
     @imaginary = Substance.new false, 'something imaginary'
   end

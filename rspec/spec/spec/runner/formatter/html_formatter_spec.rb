@@ -1,8 +1,8 @@
 require File.dirname(__FILE__) + '/../../../spec_helper.rb'
 require 'stringio'
-context "HtmlFormatter" do
+describe "HtmlFormatter" do
   ['--diff', '--dry-run'].each do |opt|
-    specify "should produce HTML identical to the one we designed manually with #{opt}" do
+    it "should produce HTML identical to the one we designed manually with #{opt}" do
       root = File.expand_path(File.dirname(__FILE__) + '/../../../..')
       suffix = PLATFORM == 'java' ? '-jruby' : ''
       expected_file = File.dirname(__FILE__) + "/html_formatted-#{VERSION}#{suffix}.html"

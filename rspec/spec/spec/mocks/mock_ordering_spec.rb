@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 module Spec
   module Mocks
 
-    context "Mock ordering" do
+    describe "Mock ordering" do
 
       before do
         @mock = mock("test mock")
@@ -13,7 +13,7 @@ module Spec
         @mock.rspec_reset
       end
 
-      specify "should pass two calls in order" do
+      it "should pass two calls in order" do
         @mock.should_receive(:one).ordered
         @mock.should_receive(:two).ordered
         @mock.one
@@ -21,7 +21,7 @@ module Spec
         @mock.rspec_verify
       end
 
-      specify "should pass three calls in order" do
+      it "should pass three calls in order" do
         @mock.should_receive(:one).ordered
         @mock.should_receive(:two).ordered
         @mock.should_receive(:three).ordered
@@ -31,7 +31,7 @@ module Spec
         @mock.rspec_verify
       end
 
-      specify "should fail if second call comes first" do
+      it "should fail if second call comes first" do
         @mock.should_receive(:one).ordered
         @mock.should_receive(:two).ordered
         lambda do
@@ -39,7 +39,7 @@ module Spec
         end.should raise_error(MockExpectationError, "Mock 'test mock' received :two out of order")
       end
 
-      specify "should fail if third call comes first" do
+      it "should fail if third call comes first" do
         @mock.should_receive(:one).ordered
         @mock.should_receive(:two).ordered
         @mock.should_receive(:three).ordered
@@ -49,7 +49,7 @@ module Spec
         end.should raise_error(MockExpectationError, "Mock 'test mock' received :three out of order")
       end
       
-      specify "should fail if third call comes second" do
+      it "should fail if third call comes second" do
         @mock.should_receive(:one).ordered
         @mock.should_receive(:two).ordered
         @mock.should_receive(:three).ordered
@@ -59,7 +59,7 @@ module Spec
         end.should raise_error(MockExpectationError, "Mock 'test mock' received :three out of order")
       end
 
-      specify "should ignore order of non ordered calls" do
+      it "should ignore order of non ordered calls" do
         @mock.should_receive(:ignored_0)
         @mock.should_receive(:ordered_1).ordered
         @mock.should_receive(:ignored_1)

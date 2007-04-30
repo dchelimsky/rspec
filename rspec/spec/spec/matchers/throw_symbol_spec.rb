@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 module Spec
   module Matchers
     describe ThrowSymbol, "(constructed with no Symbol)" do
-      setup { @matcher = ThrowSymbol.new }
+      before(:each) { @matcher = ThrowSymbol.new }
 
       it "should match if any Symbol is thrown" do
         @matcher.matches?(lambda{ throw :sym }).should be_true
@@ -22,7 +22,7 @@ module Spec
     end
     
     describe ThrowSymbol, "(constructed with a Symbol)" do
-      setup { @matcher = ThrowSymbol.new(:sym) }
+      before(:each) { @matcher = ThrowSymbol.new(:sym) }
       
       it "should match if correct Symbol is thrown" do
         @matcher.matches?(lambda{ throw :sym }).should be_true

@@ -9,14 +9,14 @@ module Bug8302
     end
   end
 
-  context "Bug report 8302:" do
-    specify "class method is not restored correctly when proxied" do
+  describe "Bug report 8302:" do
+    it "class method is not restored correctly when proxied" do
       Foo.should_not_receive(:class_method).with(Array.new)
       Foo.rspec_verify
       Foo.class_method(Array.new)
     end
 
-    specify "instance method is not restored correctly when proxied" do
+    it "instance method is not restored correctly when proxied" do
       foo = Foo.new
       foo.should_not_receive(:instance_bar).with(Array.new)
       foo.rspec_verify

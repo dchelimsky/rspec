@@ -19,7 +19,7 @@ describe Kernel, " when creating behaviours with describe" do
 end
 
 describe Kernel, "#respond_to" do
-  setup do
+  before(:each) do
     @kernel_impersonator = Class.new do
       include Kernel
     end.new

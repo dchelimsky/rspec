@@ -18,7 +18,7 @@ module Spec
     
     describe Reporter do
       include ReporterSpecHelper
-      setup {setup}
+      before(:each) {setup}
       
       it "should tell formatter when behaviour is added" do
         @formatter.should_receive(:add_behaviour).with("behaviour")
@@ -82,7 +82,7 @@ module Spec
     
     describe Reporter, " reporting one passing example" do
       include ReporterSpecHelper
-      setup {setup}
+      before(:each) {setup}
 
       it "should tell formatter example passed" do
         @formatter.should_receive(:example_passed)
@@ -106,7 +106,7 @@ module Spec
 
     describe Reporter, " reporting one failing example" do
       include ReporterSpecHelper
-      setup {setup}
+      before(:each) {setup}
 
       it "should tell formatter that example failed" do
         @formatter.should_receive(:example_failed)

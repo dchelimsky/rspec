@@ -6,7 +6,7 @@ class SomethingExpected
 end
 
 describe "should change(actual, message)" do
-  setup do
+  before(:each) do
     @instance = SomethingExpected.new
     @instance.some_value = 5
   end
@@ -23,7 +23,7 @@ describe "should change(actual, message)" do
 end
 
 describe "should_not change(actual, message)" do
-  setup do
+  before(:each) do
     @instance = SomethingExpected.new
     @instance.some_value = 5
   end
@@ -40,7 +40,7 @@ describe "should_not change(actual, message)" do
 end
 
 describe "should change { block }" do
-  setup do
+  before(:each) do
     @instance = SomethingExpected.new
     @instance.some_value = 5
   end
@@ -64,7 +64,7 @@ describe "should change { block }" do
 end
 
 describe "should_not change { block }" do
-  setup do
+  before(:each) do
     @instance = SomethingExpected.new
     @instance.some_value = 5
   end
@@ -88,7 +88,7 @@ describe "should_not change { block }" do
 end
 
 describe "should change(actual, message).by(expected)" do
-  setup do
+  before(:each) do
     @instance = SomethingExpected.new
     @instance.some_value = 5
   end
@@ -111,7 +111,7 @@ describe "should change(actual, message).by(expected)" do
 end
 
 describe "should change{ block }.by(expected)" do
-  setup do
+  before(:each) do
     @instance = SomethingExpected.new
     @instance.some_value = 5
   end
@@ -134,7 +134,7 @@ describe "should change{ block }.by(expected)" do
 end
 
 describe "should change(actual, message).from(old)" do
-  setup do
+  before(:each) do
     @instance = SomethingExpected.new
     @instance.some_value = 'string'
   end
@@ -151,7 +151,7 @@ describe "should change(actual, message).from(old)" do
 end
 
 describe "should change{ block }.from(old)" do
-  setup do
+  before(:each) do
     @instance = SomethingExpected.new
     @instance.some_value = 'string'
   end
@@ -168,7 +168,7 @@ describe "should change{ block }.from(old)" do
 end
 
 describe "should change(actual, message).to(new)" do
-  setup do
+  before(:each) do
     @instance = SomethingExpected.new
     @instance.some_value = 'string'
   end
@@ -185,7 +185,7 @@ describe "should change(actual, message).to(new)" do
 end
 
 describe "should change{ block }.to(new)" do
-  setup do
+  before(:each) do
     @instance = SomethingExpected.new
     @instance.some_value = 'string'
   end
@@ -202,7 +202,7 @@ describe "should change{ block }.to(new)" do
 end
 
 describe "should change(actual, message).from(old).to(new)" do
-  setup do
+  before(:each) do
     @instance = SomethingExpected.new
     @instance.some_value = 'string'
   end
@@ -217,7 +217,7 @@ describe "should change(actual, message).from(old).to(new)" do
 end
 
 describe "should change{ block }.from(old).to(new)" do
-  setup do
+  before(:each) do
     @instance = SomethingExpected.new
     @instance.some_value = 'string'
   end

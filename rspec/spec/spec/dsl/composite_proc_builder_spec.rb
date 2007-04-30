@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 module Spec
   module DSL
     describe CompositeProcBuilder do
-      setup do
+      before(:each) do
         @klass = Class.new do
           attr_reader :an_attribute
 

@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
-context "OptionParser" do
-  setup do
+describe "OptionParser" do
+  before(:each) do
     @out = StringIO.new
     @err = StringIO.new
     @parser = Spec::Runner::OptionParser.new
@@ -15,12 +15,12 @@ context "OptionParser" do
     @parser.create_behaviour_runner(args, @err, @out, true)
   end
 
-  specify "should accept dry run option" do
+  it "should accept dry run option" do
     options = parse(["--dry-run"])
     options.dry_run.should be_true
   end
 
-  specify "should eval and use custom formatter when none of the builtins" do
+  it "should eval and use custom formatter when none of the builtins" do
     options = parse(["--format", "Custom::Formatter"])
     options.formatters[0].class.should be(Custom::Formatter)
   end
@@ -38,87 +38,87 @@ context "OptionParser" do
     options.formatters[3].where.should eql("/foo/bar")
   end
 
-  specify "should not be verbose by default" do
+  it "should not be verbose by default" do
     options = parse([])
     options.verbose.should be_nil
   end
 
-  specify "should not use colour by default" do
+  it "should not use colour by default" do
     options = parse([])
     options.colour.should be_nil
   end
 
-  specify "should print help to stdout" do
+  it "should print help to stdout" do
     options = parse(["--help"])
     @out.rewind
     @out.read.should match(/Usage: spec \(FILE\|DIRECTORY\|GLOB\)\+ \[options\]/m)
   end
 
-  specify "should print instructions about how to fix bad formatter" do
+  it "should print instructions about how to fix bad formatter" do
     options = parse(["--format", "Custom::BadFormatter"])
     @err.string.should match(/Couldn't find formatter class Custom::BadFormatter/n)
   end
 
-  specify "should print usage to err if no dir specified" do
+  it "should print usage to err if no dir specified" do
     options = parse([])
     @err.string.should match(/Usage: spec/)
   end
 
-  specify "should print version to stdout" do
+  it "should print version to stdout" do
     options = parse(["--version"])
     @out.rewind
     @out.read.should match(/RSpec-\d+\.\d+\.\d+.*\(r\d+\) - BDD for Ruby\nhttp:\/\/rspec.rubyforge.org\/\n/n)
   end
   
-  specify "should require file when require specified" do
+  it "should require file when require specified" do
     lambda do
       parse(["--require", "whatever"])
     end.should raise_error(LoadError)
   end
 
-  specify "should support c option" do
+  it "should support c option" do
     options = parse(["-c"])
     options.colour.should be_true
   end
 
-  specify "should support queens colour option" do
+  it "should support queens colour option" do
     options = parse(["--colour"])
     options.colour.should be_true
   end
 
-  specify "should support us color option" do
+  it "should support us color option" do
     options = parse(["--color"])
     options.colour.should be_true
   end
 
-  specify "should support single example with -e option" do
+  it "should support single example with -e option" do
     options = parse(["-e", "something or other"])
     options.examples.should eql(["something or other"])
   end
 
-  specify "should support single example with --example option" do
+  it "should support single example with --example option" do
     options = parse(["--example", "something or other"])
     options.examples.should eql(["something or other"])
   end
 
-  specify "should read several example names from file if --example is given an existing file name" do
+  it "should read several example names from file if --example is given an existing file name" do
     options = parse(["--example", File.dirname(__FILE__) + '/examples.txt'])
     options.examples.should eql([
       "Sir, if you were my husband, I would poison your drink.", 
       "Madam, if you were my wife, I would drink it."])
   end
 
-  specify "should use html formatter when format is h" do
+  it "should use html formatter when format is h" do
     options = parse(["--format", "h"])
     options.formatters[0].class.should equal(Spec::Runner::Formatter::HtmlFormatter)
   end
 
-  specify "should use html formatter when format is html" do
+  it "should use html formatter when format is html" do
     options = parse(["--format", "html"])
     options.formatters[0].class.should equal(Spec::Runner::Formatter::HtmlFormatter)
   end
 
-  specify "should use html formatter with explicit output when format is html:test.html" do
+  it "should use html formatter with explicit output when format is html:test.html" do
     FileUtils.rm 'test.html' if File.exist?('test.html')
     options = parse(["--format", "html:test.html"])
     File.should be_exist('test.html')
@@ -126,75 +126,75 @@ context "OptionParser" do
     FileUtils.rm 'test.html'
   end
 
-  specify "should use noisy backtrace tweaker with b option" do
+  it "should use noisy backtrace tweaker with b option" do
     options = parse(["-b"])
     options.backtrace_tweaker.should be_instance_of(Spec::Runner::NoisyBacktraceTweaker)
   end
 
-  specify "should use noisy backtrace tweaker with backtrace option" do
+  it "should use noisy backtrace tweaker with backtrace option" do
     options = parse(["--backtrace"])
     options.backtrace_tweaker.should be_instance_of(Spec::Runner::NoisyBacktraceTweaker)
   end
 
-  specify "should use quiet backtrace tweaker by default" do
+  it "should use quiet backtrace tweaker by default" do
     options = parse([])
     options.backtrace_tweaker.should be_instance_of(Spec::Runner::QuietBacktraceTweaker)
   end
 
-  specify "should use progress bar formatter by default" do
+  it "should use progress bar formatter by default" do
     options = parse([])
     options.formatters[0].class.should equal(Spec::Runner::Formatter::ProgressBarFormatter)
   end
 
-  specify "should use rdoc formatter when format is r" do
+  it "should use rdoc formatter when format is r" do
     options = parse(["--format", "r"])
     options.formatters[0].class.should equal(Spec::Runner::Formatter::RdocFormatter)
   end
 
-  specify "should use rdoc formatter when format is rdoc" do
+  it "should use rdoc formatter when format is rdoc" do
     options = parse(["--format", "rdoc"])
     options.formatters[0].class.should equal(Spec::Runner::Formatter::RdocFormatter)
   end
 
-  specify "should use specdoc formatter when format is s" do
+  it "should use specdoc formatter when format is s" do
     options = parse(["--format", "s"])
     options.formatters[0].class.should equal(Spec::Runner::Formatter::SpecdocFormatter)
   end
 
-  specify "should use specdoc formatter when format is specdoc" do
+  it "should use specdoc formatter when format is specdoc" do
     options = parse(["--format", "specdoc"])
     options.formatters[0].class.should equal(Spec::Runner::Formatter::SpecdocFormatter)
   end
 
-  specify "should support diff option when format is not specified" do
+  it "should support diff option when format is not specified" do
     options = parse(["--diff"])
     options.diff_format.should == :unified
   end
 
-  specify "should use unified diff format option when format is unified" do
+  it "should use unified diff format option when format is unified" do
     options = parse(["--diff", "unified"])
     options.diff_format.should == :unified
     options.differ_class.should equal(Spec::Expectations::Differs::Default)
   end
 
-  specify "should use context diff format option when format is context" do
+  it "should use context diff format option when format is context" do
     options = parse(["--diff", "context"])
     options.diff_format.should == :context
     options.differ_class.should == Spec::Expectations::Differs::Default
   end
 
-  specify "should use custom diff format option when format is a custom format" do
+  it "should use custom diff format option when format is a custom format" do
     options = parse(["--diff", "Custom::Formatter"])
     options.diff_format.should == :custom
     options.differ_class.should == Custom::Formatter
   end
 
-  specify "should print instructions about how to fix bad differ" do
+  it "should print instructions about how to fix bad differ" do
     options = parse(["--diff", "Custom::BadFormatter"])
     @err.string.should match(/Couldn't find differ class Custom::BadFormatter/n)
   end
 
-  specify "should support --line to identify spec" do
+  it "should support --line to identify spec" do
     spec_parser = mock("spec_parser")
     @parser.instance_variable_set('@spec_parser', spec_parser)
 
@@ -210,7 +210,7 @@ context "OptionParser" do
     File.rspec_verify
   end
 
-  specify "should fail with error message if file is dir along with --line" do
+  it "should fail with error message if file is dir along with --line" do
     spec_parser = mock("spec_parser")
     @parser.instance_variable_set('@spec_parser', spec_parser)
 
@@ -223,7 +223,7 @@ context "OptionParser" do
     @err.string.should match(/You must specify one file, not a directory when using the --line option/n)
   end
 
-  specify "should fail with error message if file is dir along with --line" do
+  it "should fail with error message if file is dir along with --line" do
     spec_parser = mock("spec_parser")
     @parser.instance_variable_set('@spec_parser', spec_parser)
 
@@ -236,7 +236,7 @@ context "OptionParser" do
     @err.string.should match(/some file does not exist/n)
   end
 
-  specify "should fail with error message if more than one files are specified along with --line" do
+  it "should fail with error message if more than one files are specified along with --line" do
     spec_parser = mock("spec_parser")
     @parser.instance_variable_set('@spec_parser', spec_parser)
 
@@ -244,7 +244,7 @@ context "OptionParser" do
     @err.string.should match(/Only one file can be specified when using the --line option/n)
   end
 
-  specify "should fail with error message if --example and --line are used simultaneously" do
+  it "should fail with error message if --example and --line are used simultaneously" do
     spec_parser = mock("spec_parser")
     @parser.instance_variable_set('@spec_parser', spec_parser)
 
@@ -253,50 +253,50 @@ context "OptionParser" do
   end
 
   if(PLATFORM != "i386-mswin32")
-    specify "should heckle when --heckle is specified (and platform is not windows)" do
+    it "should heckle when --heckle is specified (and platform is not windows)" do
       options = parse(["--heckle", "Spec"])
       options.heckle_runner.should be_instance_of(Spec::Runner::HeckleRunner)
     end
   else
-    specify "should barf when --heckle is specified (and platform is windows)" do
+    it "should barf when --heckle is specified (and platform is windows)" do
       lambda do
         options = parse(["--heckle", "Spec"])
       end.should raise_error(StandardError, "Heckle not supported on Windows")
     end
   end
 
-  specify "should read options from file when --options is specified" do
+  it "should read options from file when --options is specified" do
     Spec::Runner::CommandLine.should_receive(:run).with(["--diff", "--colour"], @err, @out, true, true)
     options = parse(["--options", File.dirname(__FILE__) + "/spec.opts"])
   end
 
-  specify "should append options from file when --options is specified" do
+  it "should append options from file when --options is specified" do
     Spec::Runner::CommandLine.should_receive(:run).with(["some/spec.rb", "--diff", "--colour"], @err, @out, true, true)
     options = parse(["some/spec.rb", "--options", File.dirname(__FILE__) + "/spec.opts"])
   end
   
-  specify "should read spaced and multi-line options from file when --options is specified" do
+  it "should read spaced and multi-line options from file when --options is specified" do
     Spec::Runner::CommandLine.should_receive(:run).with(["--diff", "--colour", "--format", "s"], @err, @out, true, true)
     options = parse(["--options", File.dirname(__FILE__) + "/spec_spaced.opts"])
   end
    
-  specify "should save config to file when --generate-options is specified" do
+  it "should save config to file when --generate-options is specified" do
     FileUtils.rm 'test.spec.opts' rescue nil
     options = parse(["--colour", "--generate-options", "test.spec.opts", "--diff"])
     File.open('test.spec.opts').read.should == "--colour\n--diff\n"
     FileUtils.rm 'test.spec.opts' rescue nil
   end
 
-  specify "should call DrbCommandLine when --drb is specified" do
+  it "should call DrbCommandLine when --drb is specified" do
     Spec::Runner::DrbCommandLine.should_receive(:run).with(["some/spec.rb", "--diff", "--colour"], @err, @out, true, true)
     options = parse(["some/spec.rb", "--diff", "--drb", "--colour"])
   end
   
-  specify "should reverse spec order when --reverse is specified" do
+  it "should reverse spec order when --reverse is specified" do
     options = parse(["some/spec.rb", "--reverse"])
   end
 
-  specify "should set an mtime comparator when --loadby mtime" do
+  it "should set an mtime comparator when --loadby mtime" do
     behaviour_runner = behaviour_runner(["--loadby", 'mtime'])
     Dir.chdir(File.dirname(__FILE__)) do
       FileUtils.touch "most_recent_spec.rb"

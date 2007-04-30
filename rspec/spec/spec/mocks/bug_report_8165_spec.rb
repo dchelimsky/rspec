@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
-context "An object where respond_to? is true and does not have method" do
+describe "An object where respond_to? is true and does not have method" do
   # When should_receive(:sym) is sent to any object, the Proxy sends
   # respond_to?(:sym) to that object to see if the method should be proxied.
   #
@@ -12,7 +12,7 @@ context "An object where respond_to? is true and does not have method" do
   # The fix was to keep track of whether :respond_to? had been proxied and, if
   # so, call the munged copy of :respond_to? on the object.
 
-  specify "should not raise an exception" do
+  it "should not raise an exception" do
     obj = Object.new
     obj.should_receive(:respond_to?).with(:foobar).and_return(true)
     obj.should_receive(:foobar).and_return(:baz)
@@ -20,7 +20,7 @@ context "An object where respond_to? is true and does not have method" do
     obj.foobar.should == :baz
   end
 
-  specify "should not raise an exception" do
+  it "should not raise an exception" do
     obj = mock("obj")
     obj.should_receive(:respond_to?).with(:foobar).and_return(true)
     obj.should_receive(:foobar).and_return(:baz)

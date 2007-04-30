@@ -20,12 +20,12 @@ module Spec
   end
 end
 
-context "Diff" do
-  setup do
+describe "Diff" do
+  before(:each) do
     @differ = Spec::Expectations::Differs::Default.new
   end
 
-  specify "should output unified diff of two strings" do
+  it "should output unified diff of two strings" do
     expected="foo\nbar\nzap\nthis\nis\nsoo\nvery\nvery\nequal\ninsert\na\nline\n"
     actual="foo\nzap\nbar\nthis\nis\nsoo\nvery\nvery\nequal\ninsert\na\nanother\nline\n"
     expected_diff="\n\n@@ -1,6 +1,6 @@\n foo\n-bar\n zap\n+bar\n this\n is\n soo\n@@ -9,5 +9,6 @@\n equal\n insert\n a\n+another\n line\n"
@@ -33,7 +33,7 @@ context "Diff" do
     diff.should eql(expected_diff)
   end
 
-  specify "should output unified diff message of two arrays" do
+  it "should output unified diff message of two arrays" do
     expected = [ :foo, 'bar', :baz, 'quux', :metasyntactic, 'variable', :delta, 'charlie', :width, 'quite wide' ]
     actual   = [ :foo, 'bar', :baz, 'quux', :metasyntactic, 'variable', :delta, 'tango'  , :width, 'very wide'  ]
 
@@ -56,7 +56,7 @@ EOD
     diff.should == expected_diff
   end
 
-  specify "should output unified diff message of two objects" do
+  it "should output unified diff message of two objects" do
     expected = Spec::Fixtures::Animal.new "bob", "giraffe"
     actual   = Spec::Fixtures::Animal.new "bob", "tortoise"
 
@@ -77,12 +77,12 @@ EOD
 end
 
 
-context "Diff in context format" do
-  setup do
+describe "Diff in context format" do
+  before(:each) do
     @differ = Spec::Expectations::Differs::Default.new(:context)
   end
 
-  specify "should output unified diff message of two objects" do
+  it "should output unified diff message of two objects" do
     expected = Spec::Fixtures::Animal.new "bob", "giraffe"
     actual   = Spec::Fixtures::Animal.new "bob", "tortoise"
 
