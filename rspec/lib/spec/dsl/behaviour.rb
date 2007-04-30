@@ -19,8 +19,8 @@ module Spec
         end
       end
 
-      def initialize(description, options={}, &behaviour_block)
-        init_description(description, options)
+      def initialize(*args, &behaviour_block)
+        init_description(*args)
         init_eval_module
         before_eval
         eval_behaviour(&behaviour_block)
@@ -28,8 +28,8 @@ module Spec
       
     private
 
-      def init_description(description, options)
-        @description = String === description ? Describable.new(description, options) : description
+      def init_description(*args)
+        @description = Description.new(*args)
       end
       
       def init_eval_module

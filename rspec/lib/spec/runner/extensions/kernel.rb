@@ -1,7 +1,7 @@
 module Kernel
   def describe(*args, &block)
     raise ArgumentError if args.empty?
-    behaviour = Spec::DSL::Behaviour.new(Spec::DSL::Describable.new(*args), &block)
+    behaviour = Spec::DSL::Behaviour.new(*args, &block)
     if behaviour.shared?
       Spec::DSL::Behaviour.add_shared_behaviour(behaviour)
     else

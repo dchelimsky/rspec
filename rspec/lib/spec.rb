@@ -1,3 +1,4 @@
+require 'spec/extensions'
 require 'spec/version'
 require 'spec/matchers'
 require 'spec/expectations'

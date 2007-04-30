@@ -475,7 +475,7 @@ module Spec
     
     describe Behaviour, " subclass" do
       it "should have access to the described_type" do
-        BehaviourSubclass.new(Describable.new(Example)){}.described_type.should == Example
+        BehaviourSubclass.new(Example){}.described_type.should == Example
       end
     end
   end

@@ -32,15 +32,15 @@ module Spec
           #   describe "name", :rails_component_type => :model do ...
           #   describe "name", :rails_component_type => :view ...
           def create(*args, &block)
-            describable = Spec::DSL::Describable.new(*args)
-            if describable[:rails_component_type]
-              key = describable[:rails_component_type]
-            elsif describable[:spec_path] =~ /spec(\/|\\)+(view|helper|controller|model)s/
+            opts = Hash === args.last ? args.last : {}
+            if opts[:rails_component_type]
+              key = opts[:rails_component_type]
+            elsif opts[:spec_path] =~ /spec(\/|\\)+(view|helper|controller|model)s/
               key = $2.to_sym
             else
               key = :default
             end
-            return BEHAVIOUR_CLASSES[key].new(describable, &block)
+            return BEHAVIOUR_CLASSES[key].new(*args, &block)
           end
           
         end
