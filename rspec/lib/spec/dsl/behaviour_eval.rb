@@ -41,16 +41,6 @@ module Spec
         # Deprecated - use "after(:each) { ... }"
         alias :teardown :after
 
-        # Deprecated - use "before(:all) { ... }"
-        def context_setup(&block)
-          before(:all, &block)
-        end
-
-        # Deprecated - use "after(:all) { ... }"
-        def context_teardown(&block)
-          after(:all, &block)
-        end
-
         def it(description=:__generate_description, opts={}, &block)
           examples << Example.new(description, opts, &block)
         end
@@ -74,7 +64,6 @@ module Spec
         def before_all_proc(&error_handler)
           parts = []
           parts.push(*Behaviour.before_all_parts)
-          add_superclass_method(parts, 'context_setup')
           parts.push(*before_all_parts)
           CompositeProcBuilder.new(parts).proc(&error_handler)
         end
@@ -82,7 +71,6 @@ module Spec
         def after_all_proc(&error_handler)
           parts = []
           parts.push(*after_all_parts)
-          add_superclass_method(parts, 'context_teardown')
           parts.push(*Behaviour.after_all_parts)
           CompositeProcBuilder.new(parts).proc(&error_handler)
         end

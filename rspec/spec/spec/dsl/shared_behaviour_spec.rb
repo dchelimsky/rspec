@@ -114,12 +114,12 @@ module Spec
         shared_teardown_ran.should be_true
       end
 
-      it "should run context_setup and context_teardown only once from shared behaviour" do
-        shared_context_setup_run_count = 0
-        shared_context_teardown_run_count = 0
+      it "should run before(:all) and after(:all) only once from shared behaviour" do
+        shared_before_all_run_count = 0
+        shared_after_all_run_count = 0
         shared_behaviour = make_shared_behaviour("shared behaviour", :shared => true) {}
-        shared_behaviour.context_setup { shared_context_setup_run_count += 1}
-        shared_behaviour.context_teardown { shared_context_teardown_run_count += 1}
+        shared_behaviour.before(:all) { shared_before_all_run_count += 1}
+        shared_behaviour.after(:all) { shared_after_all_run_count += 1}
         shared_behaviour.it("shared example") { shared_example_ran = true }
 
         example_ran = false
@@ -128,8 +128,8 @@ module Spec
         @behaviour.it("example") {example_ran = true}
         @behaviour.run(@formatter)
         example_ran.should be_true
-        shared_context_setup_run_count.should == 1
-        shared_context_teardown_run_count.should == 1
+        shared_before_all_run_count.should == 1
+        shared_after_all_run_count.should == 1
       end
 
       it "should include modules, included into shared behaviour, into current behaviour" do

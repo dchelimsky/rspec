@@ -62,11 +62,14 @@ module Spec
 
         specs = reverse ? examples.reverse : examples
         example_execution_context = nil
-        specs.each do |example|
-          example_execution_context = execution_context(example)
-          example_execution_context.copy_instance_variables_from(@before_and_after_all_context_instance) unless before_all_proc.nil?
-          example.run(reporter, before_each_proc, after_each_proc, dry_run, example_execution_context, timeout)
-        end unless errors.length > 0
+         
+        if errors.empty?
+          specs.each do |example|
+            example_execution_context = execution_context(example)
+            example_execution_context.copy_instance_variables_from(@before_and_after_all_context_instance) unless before_all_proc.nil?
+            example.run(reporter, before_each_proc, after_each_proc, dry_run, example_execution_context, timeout)
+          end
+        end
         
         @before_and_after_all_context_instance.copy_instance_variables_from(example_execution_context) unless after_all_proc.nil?
         run_after_all(reporter, dry_run)

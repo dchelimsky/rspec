@@ -197,22 +197,13 @@ module Spec
         @behaviour.run(@reporter)
       end
 
-      it "should run superclass context_setup and context_setup block only once per context" do
-        super_class_context_setup_run_count = 0
-        super_class = Class.new do
-          define_method :context_setup do
-            super_class_context_setup_run_count += 1
-          end
-        end
-        @behaviour.inherit(super_class)
-    
-        context_setup_run_count = 0
-        @behaviour.before(:all) {context_setup_run_count += 1}
+      it "should run before(:all) block only once" do
+        before_all_run_count_run_count = 0
+        @behaviour.before(:all) {before_all_run_count_run_count += 1}
         @behaviour.specify("test") {true}
         @behaviour.specify("test2") {true}
         @behaviour.run(@reporter)
-        super_class_context_setup_run_count.should == 1
-        context_setup_run_count.should == 1
+        before_all_run_count_run_count.should == 1
       end
 
       it "should run superclass setup method and setup block" do
@@ -232,22 +223,13 @@ module Spec
         setup_ran.should be_true
       end
     
-      it "should run superclass context_teardown method and after(:all) block only once" do
-        super_class_context_teardown_run_count = 0
-        super_class = Class.new do
-          define_method :context_teardown do
-            super_class_context_teardown_run_count += 1
-          end
-        end
-        @behaviour.inherit super_class
-    
-        context_teardown_run_count = 0
-        @behaviour.after(:all) {context_teardown_run_count += 1}
+      it "should run after(:all) block only once" do
+        after_all_run_count = 0
+        @behaviour.after(:all) {after_all_run_count += 1}
         @behaviour.specify("test") {true}
         @behaviour.specify("test2") {true}
         @behaviour.run(@reporter)
-        super_class_context_teardown_run_count.should == 1
-        context_teardown_run_count.should == 1
+        after_all_run_count.should == 1
         @reporter.rspec_verify
       end
 
@@ -273,9 +255,6 @@ module Spec
       it "before callbacks are ordered from global to local" do
         fiddle = []
         super_class = Class.new do
-          define_method :context_setup do
-            fiddle << "superclass context_setup"
-          end
           define_method :setup do
             fiddle << "superclass setup"
           end
@@ -287,7 +266,7 @@ module Spec
         @behaviour.before(:each) { fiddle << "before(:each)" }
         @behaviour.specify("test") {true}
         @behaviour.run(@reporter)
-        fiddle.should == ['Behaviour.before(:all)', 'superclass context_setup', 'before(:all)', 'superclass setup', 'before(:each)']
+        fiddle.should == ['Behaviour.before(:all)', 'before(:all)', 'superclass setup', 'before(:each)']
       end
 
       it "after callbacks are ordered from local to global" do
@@ -296,9 +275,6 @@ module Spec
 
         fiddle = []
         super_class = Class.new do
-          define_method :context_teardown do
-            fiddle << "superclass context_teardown"
-          end
           define_method :teardown do
             fiddle << "superclass teardown"
           end
@@ -310,7 +286,7 @@ module Spec
         @behaviour.teardown { fiddle << "after(:each)" }
         @behaviour.specify("test") {true}
         @behaviour.run(@reporter)
-        fiddle.should == ['after(:each)', 'superclass teardown', 'after(:all)', 'superclass context_teardown', 'Behaviour.after(:all)']
+        fiddle.should == ['after(:each)', 'superclass teardown', 'after(:all)', 'Behaviour.after(:all)']
       end
     
       it "should run superclass teardown method and after block" do
@@ -458,14 +434,6 @@ module Spec
         example.should_receive(:matches?).and_return(true)
         @behaviour.stub!(:examples).and_return([example])
         @behaviour.should be_matches(['jalla'])
-      end
-    
-      it "should support deprecated context_setup and context_teardown" do
-        formatter = mock("formatter", :null_object => true)
-        Behaviour.new('example') do
-          context_setup {}
-          context_teardown {}
-        end.run(formatter)
       end
       
       it "should include any modules included using configuration" do

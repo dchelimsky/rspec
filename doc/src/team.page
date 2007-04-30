@@ -42,7 +42,7 @@ In alphabetical order (by last name)
 ** ar_subclass.should_have(n).errors_on(:attribute)
 ** mock_model in Spec::Rails
 * Bob Cotton
-** Support for context_setup and context_teardown
+** Support for context_setup and context_teardown (now before(:all) and after(:all))
 ** Patch [#9678] Custom runner command line switch, and multi-threaded runner
 ** Patch [#9605] Patch for ER 9472, shared behaviour
 * Lachie Cox
