@@ -3,22 +3,21 @@ module Spec
     module Formatter
       class ProgressBarFormatter < BaseTextFormatter
         def add_behaviour(name)
-          STDOUT.flush
         end
       
         def example_failed(name, counter, failure)
           @output.print failure.expectation_not_met? ? red('F') : magenta('F')
-          STDOUT.flush
+          @output.flush
         end
 
         def example_passed(name)
           @output.print green('.')
-          STDOUT.flush
+          @output.flush
         end
       
         def start_dump
           @output.puts
-          STDOUT.flush
+          @output.flush
         end
       end
     end

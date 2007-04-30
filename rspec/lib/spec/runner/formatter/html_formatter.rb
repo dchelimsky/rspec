@@ -25,7 +25,7 @@ module Spec
           @output.puts HEADER_1
           @output.puts extra_header_content unless extra_header_content.nil?
           @output.puts HEADER_2
-          STDOUT.flush
+          @output.flush
         end
 
         def add_behaviour(name)
@@ -37,20 +37,20 @@ module Spec
           @output.puts "<div class=\"context\">"
           @output.puts "  <dl>"
           @output.puts "  <dt id=\"context_#{current_behaviour_number}\">#{escape(name)}</dt>"
-          STDOUT.flush
+          @output.flush
         end
 
         def start_dump
           @output.puts "  </dl>"
           @output.puts "</div>"
-          STDOUT.flush
+          @output.flush
         end
 
         def example_passed(name)
           @current_example_number += 1
           move_progress
           @output.puts "    <dd class=\"spec passed\"><span class=\"passed_spec_name\">#{escape(name)}</span></dd>"
-          STDOUT.flush
+          @output.flush
         end
 
         def example_failed(name, counter, failure)
@@ -68,7 +68,7 @@ module Spec
           @output.puts extra unless extra == ""
           @output.puts "      </div>"
           @output.puts "    </dd>"
-          STDOUT.flush
+          @output.flush
         end
         
         # Override this method if you wish to output extra HTML in the header
@@ -106,7 +106,7 @@ module Spec
           @output.puts "</div>"
           @output.puts "</body>"
           @output.puts "</html>"
-          STDOUT.flush
+          @output.flush
         end
 
         HEADER_1 = <<-EOF

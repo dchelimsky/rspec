@@ -5,17 +5,17 @@ module Spec
         def add_behaviour(name)
           @output.puts
           @output.puts name
-          STDOUT.flush
+          @output.flush
         end
       
         def example_failed(name, counter, failure)
           @output.puts failure.expectation_not_met? ? red("- #{name} (FAILED - #{counter})") : magenta("- #{name} (ERROR - #{counter})")
-          STDOUT.flush
+          @output.flush
         end
       
         def example_passed(name)
           @output.print green("- #{name}\n")
-          STDOUT.flush
+          @output.flush
         end
       end
     end

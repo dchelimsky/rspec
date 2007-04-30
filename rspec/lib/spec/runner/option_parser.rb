@@ -14,7 +14,9 @@ module Spec
         'progress' => Formatter::ProgressBarFormatter,
         'p'        => Formatter::ProgressBarFormatter,
         'failing_examples' => Formatter::FailingExamplesFormatter,
-        'e'        => Formatter::FailingExamplesFormatter
+        'e'        => Formatter::FailingExamplesFormatter,
+        'failing_behaviours' => Formatter::FailingBehavioursFormatter,
+        'b'        => Formatter::FailingBehavioursFormatter
       }
 
       def initialize
@@ -29,10 +31,10 @@ module Spec
         return nil unless options.is_a?(Options)
 
         options.formatters.each do |formatter|
-          formatter.colour = options.colour
-          formatter.dry_run = options.dry_run
+          formatter.colour = options.colour if formatter.respond_to?(:colour=)
+          formatter.dry_run = options.dry_run if formatter.respond_to?(:dry_run=)
         end
-        options.reporter = Reporter.new(options.formatters, options.backtrace_tweaker, options.failure_file) 
+        options.reporter = Reporter.new(options.formatters, options.backtrace_tweaker) 
 
         # this doesn't really belong here.
         # it should, but the way things are coupled, it doesn't
@@ -124,11 +126,12 @@ module Spec
                                                     "if you want several outputs",
                                                     " ",
                                                     "Builtin formats: ",
-                                                    "progress|p         : Text progress", 
-                                                    "specdoc|s          : Behaviour doc as text", 
-                                                    "rdoc|r             : Behaviour doc as RDoc", 
-                                                    "html|h             : A nice HTML report", 
-                                                    "failing_examples|e : Create input for --example", 
+                                                    "progress|p           : Text progress", 
+                                                    "specdoc|s            : Behaviour doc as text", 
+                                                    "rdoc|r               : Behaviour doc as RDoc", 
+                                                    "html|h               : A nice HTML report", 
+                                                    "failing_examples|e   : Write all failing examples - input for --example", 
+                                                    "failing_behaviours|b : Write all failing behaviours - input for --example", 
                                                     " ",
                                                     "FORMAT can also be the name of a custom formatter class",
                                                     "(in which case you should also specify --require to load it)") do |format|

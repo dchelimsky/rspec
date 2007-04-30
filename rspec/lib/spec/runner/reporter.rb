@@ -2,21 +2,21 @@ module Spec
   module Runner
     class Reporter
       
-      def initialize(formatters, backtrace_tweaker, failure_file=nil)
+      def initialize(formatters, backtrace_tweaker)
         @formatters = formatters
         @backtrace_tweaker = backtrace_tweaker
-        @failure_file = failure_file
-        @failure_io = StringIO.new if @failure_file
         clear!
       end
       
       def add_behaviour(name)
         @formatters.each{|f| f.add_behaviour(name)}
         @behaviour_names << name
+        STDOUT.flush
       end
       
       def example_started(name)
         @formatters.each{|f| f.example_started(name)}
+        STDOUT.flush
       end
       
       def example_finished(name, error=nil, failure_location=nil)
@@ -26,22 +26,18 @@ module Spec
         else
           example_failed(name, error, failure_location)
         end
+        STDOUT.flush
       end
 
       def start(number_of_examples)
         clear!
         @start_time = Time.new
         @formatters.each{|f| f.start(number_of_examples)}
+        STDOUT.flush
       end
   
       def end
         @end_time = Time.new
-        if @failure_io
-          @failure_io.rewind
-          File.open(@failure_file, "w") do |io|
-            io.write(@failure_io.read)
-          end
-        end
       end
   
       # Dumps the summary and returns the total number of failures
@@ -49,6 +45,7 @@ module Spec
         @formatters.each{|f| f.start_dump}
         dump_failures
         @formatters.each{|f| f.dump_summary(duration, @example_names.length, @failures.length)}
+        STDOUT.flush
         @failures.length
       end
 
@@ -86,6 +83,7 @@ module Spec
         failure = Failure.new(example_name, error)
         @failures << failure
         @formatters.each{|f| f.example_failed(name, @failures.length, failure)}
+        STDOUT.flush
       end
       
       class Failure
