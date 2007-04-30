@@ -53,7 +53,7 @@ configure included modules and predicate_matchers:
   See Spec::DSL::Behaviour for more on predicate_matchers
 
 * Sugar FREE!
-* Added support for declaring arbitrary predicate_matchers
+* Fixed [#10133] custom predicate matchers
 * Applied [#10473] Add should exist (new matcher) - Patch from Bret Pettichord
 * Added another formatter: failing_behaviours. Writes the names of the failing behaviours for use with --example.
 * Applied [#10315] Patch to fix pre_commit bug 10313 - pre_commit_rails: doesn't always build correctly (Patch from Antii Tarvainen)
