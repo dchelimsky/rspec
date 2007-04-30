@@ -83,6 +83,8 @@ In alphabetical order (by last name)
 ** Modified mocha to allow for it's use outside of test/unit
 * Micah Martin
 ** Spec::Rails patches for partials
+* Bret Pettichord
+** Patch [#10473] obj.should exist (new matcher)
 * Yurii Rashkovskii
 ** Patch to improve generated descriptions for the "be" matcher
 * Luke Redpath
