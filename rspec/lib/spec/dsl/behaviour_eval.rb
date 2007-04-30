@@ -59,14 +59,19 @@ module Spec
           @predicate_matchers ||= {:exist? => :exist}
         end
         
-        def define_predicate_matchers # :nodoc:
-          predicate_matchers.each_pair do |method_on_object, matcher_method|
-            define_method matcher_method do |*args|
-              eval("be_#{method_on_object.to_s.gsub('?','')}(*args)")
+        def define_predicate_matchers(hash=nil) # :nodoc:
+          if hash.nil?
+            define_predicate_matchers(predicate_matchers)
+            define_predicate_matchers(Spec::Runner.configuration.predicate_matchers)
+          else
+            hash.each_pair do |method_on_object, matcher_method|
+              define_method matcher_method do |*args|
+                eval("be_#{method_on_object.to_s.gsub('?','')}(*args)")
+              end
             end
           end
         end
-
+        
         def it(description=:__generate_description, opts={}, &block)
           examples << Example.new(description, opts, &block)
         end

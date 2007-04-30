@@ -168,6 +168,15 @@ module Spec
       #   Spec::Runner.configure do |config|
       #     config.mock_with MyMockFrameworkAdapter
       #   end
+      #
+      # You can also configure the following items:
+      #
+      #   # include SomeModule in every Behaviour
+      #   config.include SomeModule
+      #
+      #   # generate a do_something predicate_matcher for every Behaviour
+      #   # - See Spec::DSL::Behaviour#predicate_matchers
+      #   config.predicate_matchers[:does_something?] = :do_something
       def configure
         yield configuration
       end

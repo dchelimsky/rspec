@@ -457,6 +457,40 @@ module Spec
           Spec::Runner.configuration.included_modules.delete(mod)
         end
       end
+      
+      it "should include any predicate_matchers included using configuration" do
+        $included_predicate_matcher_found = false
+        Spec::Runner.configuration.predicate_matchers[:does_something?] = :do_something
+        Behaviour.new('example') do
+          it "should respond to do_something" do
+            $included_predicate_matcher_found = respond_to?(:do_something)
+          end
+        end.run(@reporter)
+        $included_predicate_matcher_found.should be(true)
+      end
+      
+      it "should use a mock framework set up in config" do
+        mod = Module.new do
+          class << self
+            def included(mod)
+              $included_module = mod
+            end
+          end
+        end
+
+        begin
+          $included_module = nil
+          Spec::Runner.configuration.mock_with mod
+
+          behaviour = Behaviour.new('example') do
+          end.run(@reporter)
+        
+          $included_module.should_not be_nil
+        ensure
+          Spec::Runner.configuration.mock_with :rspec
+        end
+      end
+
     end      
     
     class BehaviourSubclass < Behaviour

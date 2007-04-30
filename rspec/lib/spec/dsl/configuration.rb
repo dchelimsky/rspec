@@ -23,6 +23,10 @@ module Spec
         @included_modules ||= []
       end
       
+      def predicate_matchers
+        @predicate_matchers ||= {}
+      end
+      
     private
     
       def mock_framework_path(framework_name)
