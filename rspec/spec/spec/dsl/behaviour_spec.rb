@@ -11,15 +11,20 @@ module Spec
 
     describe Behaviour, "class methods" do
       before :each do
+        @original_before_all_parts = Behaviour.before_all_parts.dup
+        @original_after_all_parts = Behaviour.after_all_parts.dup
+        @original_before_each_parts = Behaviour.before_each_parts.dup
+        @original_after_each_parts = Behaviour.after_each_parts.dup
+
         @reporter = FakeReporter.new(mock("formatter", :null_object => true), mock("backtrace_tweaker", :null_object => true))
         @behaviour = Behaviour.new("example") {}
       end
 
       after :each do
-        Behaviour.before_all_parts.clear
-        Behaviour.after_all_parts.clear
-        Behaviour.before_each_parts.clear
-        Behaviour.after_each_parts.clear
+        Behaviour.instance_variable_set(:@before_all_parts, @original_before_all_parts)
+        Behaviour.instance_variable_set(:@after_all_parts, @original_after_all_parts)
+        Behaviour.instance_variable_set(:@before_each_parts, @original_before_each_parts)
+        Behaviour.instance_variable_set(:@after_each_parts, @original_after_each_parts)
       end
 
       it "should not run before(:all) or after(:all) on dry run" do
@@ -91,8 +96,20 @@ module Spec
 
     describe Behaviour do
       before :each do
+        @original_before_all_parts = Behaviour.before_all_parts.dup
+        @original_after_all_parts = Behaviour.after_all_parts.dup
+        @original_before_each_parts = Behaviour.before_each_parts.dup
+        @original_after_each_parts = Behaviour.after_each_parts.dup
+
         @reporter = FakeReporter.new(mock("formatter", :null_object => true), mock("backtrace_tweaker", :null_object => true))
         @behaviour = Behaviour.new("example") {}
+      end
+
+      after :each do
+        Behaviour.instance_variable_set(:@before_all_parts, @original_before_all_parts)
+        Behaviour.instance_variable_set(:@after_all_parts, @original_after_all_parts)
+        Behaviour.instance_variable_set(:@before_each_parts, @original_before_each_parts)
+        Behaviour.instance_variable_set(:@after_each_parts, @original_after_each_parts)
       end
 
       it "should send reporter add_behaviour" do
@@ -253,41 +270,47 @@ module Spec
         context_instance_value_in.should == context_instance_value_out
       end
     
-      it "should call before(:all) before any setup" do
+      it "before callbacks are ordered from global to local" do
         fiddle = []
         super_class = Class.new do
+          define_method :context_setup do
+            fiddle << "superclass context_setup"
+          end
           define_method :setup do
             fiddle << "superclass setup"
           end
         end
         @behaviour.inherit super_class
-    
+
+        Behaviour.before(:all) { fiddle << "Behaviour.before(:all)" }
         @behaviour.before(:all) { fiddle << "before(:all)" }
         @behaviour.setup { fiddle << "setup" }
         @behaviour.specify("test") {true}
         @behaviour.run(@reporter)
-        fiddle.first.should == "before(:all)"
-        fiddle.last.should == "setup"
+        fiddle.should == ['Behaviour.before(:all)', 'superclass context_setup', 'before(:all)', 'superclass setup', 'setup']
       end
-    
-      it "should call after(:all) after any teardown" do
+
+      it "after callbacks are ordered from local to global" do
         @reporter.should_receive(:add_behaviour).with :any_args
         @reporter.should_receive(:example_finished).with :any_args
-    
+
         fiddle = []
         super_class = Class.new do
+          define_method :context_teardown do
+            fiddle << "superclass context_teardown"
+          end
           define_method :teardown do
             fiddle << "superclass teardown"
           end
         end
         @behaviour.inherit super_class
-    
+
         @behaviour.after(:all) { fiddle << "after(:all)" }
+        Behaviour.after(:all) { fiddle << "Behaviour.after(:all)" }
         @behaviour.teardown { fiddle << "teardown" }
         @behaviour.specify("test") {true}
         @behaviour.run(@reporter)
-        fiddle.first.should == "superclass teardown"
-        fiddle.last.should == "after(:all)"
+        fiddle.should == ['teardown', 'superclass teardown', 'after(:all)', 'superclass context_teardown', 'Behaviour.after(:all)']
       end
     
       it "should run superclass teardown method and after block" do

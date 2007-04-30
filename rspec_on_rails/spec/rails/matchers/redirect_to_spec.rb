@@ -158,9 +158,10 @@ require File.dirname(__FILE__) + '/../../spec_helper'
   
     it "redirected to an internal URL which is unroutable and matched via a hash" do
       get "action_with_redirect_to_unroutable_url_inside_app"
+      route = {:controller => "nonexistant", :action => "none"}
       lambda {
-        response.should redirect_to(:controller => "nonexistant", :action => "none")
-      }.should fail_with('expected redirect to {:action=>"none", :controller=>"nonexistant"}, got redirect to "http://test.host/nonexistant/none", which cannot be routed within this application (spec using the URL string if the redirection is to an external address)')
+        response.should redirect_to(route)
+      }.should fail_with(%Q|expected redirect to #{route.inspect}, got redirect to "http://test.host/nonexistant/none", which cannot be routed within this application (spec using the URL string if the redirection is to an external address)|)
     end
 
   end

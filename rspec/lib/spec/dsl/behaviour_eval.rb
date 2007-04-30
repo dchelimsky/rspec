@@ -6,7 +6,7 @@ module Spec
 
         attr_writer :behaviour
         attr_accessor :description
-        
+
         def inherit(klass)
           raise ArgumentError.new("Shared behaviours cannot inherit from classes") if @behaviour.shared?
           @behaviour_superclass = klass
@@ -22,7 +22,7 @@ module Spec
           behaviour = @behaviour.class.find_shared_behaviour(behaviour_description)
           behaviour.copy_to(self)
         end
-        
+
         def copy_to(eval_module)
           examples.each          { |e| eval_module.examples << e; }
           before_each_parts.each { |p| eval_module.before_each_parts << p }
@@ -70,16 +70,16 @@ module Spec
 
         def before_all_proc(&error_handler)
           parts = []
-          add_superclass_method(parts, 'context_setup')
           parts.push(*Behaviour.before_all_parts)
+          add_superclass_method(parts, 'context_setup')
           parts.push(*before_all_parts)
           CompositeProcBuilder.new(parts).proc(&error_handler)
         end
 
         def after_all_proc(&error_handler)
           parts = []
-          add_superclass_method(parts, 'context_teardown')
           parts.push(*after_all_parts)
+          add_superclass_method(parts, 'context_teardown')
           parts.push(*Behaviour.after_all_parts)
           CompositeProcBuilder.new(parts).proc(&error_handler)
         end
@@ -94,15 +94,15 @@ module Spec
 
         def after_each_proc(&error_handler)
           parts = []
-          add_superclass_method(parts, 'teardown')
           parts.push(*after_each_parts)
+          add_superclass_method(parts, 'teardown')
           parts.push(*Behaviour.after_each_parts)
           CompositeProcBuilder.new(parts).proc(&error_handler)
         end
 
         def add_superclass_method(parts, method_name)
           parts << behaviour_superclass.instance_method(method_name) if behaviour_superclass.instance_methods.include?(method_name)
-        end        
+        end
 
       private
 
