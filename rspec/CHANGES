@@ -41,10 +41,19 @@ or this:
   Spec::Runner.configure do |config|
     config.mock_with :flexmock
   end
-  
-in a file that is loaded before your specs.
+
+in a file that is loaded before your specs. You can also
+configure included modules and predicate_matchers:
+
+  Spec::Runner.configure do |config|
+    config.include SomeModule
+    config.predicate_matchers[:does_something?] = :do_something
+  end
+
+  See Spec::DSL::Behaviour for more on predicate_matchers
 
 * Sugar FREE!
+* Added support for declaring arbitrary predicate_matchers
 * Applied [#10473] Add should exist (new matcher) - Patch from Bret Pettichord
 * Added another formatter: failing_behaviours. Writes the names of the failing behaviours for use with --example.
 * Applied [#10315] Patch to fix pre_commit bug 10313 - pre_commit_rails: doesn't always build correctly (Patch from Antii Tarvainen)
