@@ -3,15 +3,15 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>setup do
+	<string>before(${1::each}) do
   $0
 end</string>
 	<key>name</key>
-	<string>Setup</string>
+	<string>before</string>
 	<key>scope</key>
 	<string>source.ruby</string>
 	<key>tabTrigger</key>
-	<string>dset</string>
+	<string>b4</string>
 	<key>uuid</key>
 	<string>7D960FC5-4859-4328-A06B-73A3CF6763E0</string>
 </dict>

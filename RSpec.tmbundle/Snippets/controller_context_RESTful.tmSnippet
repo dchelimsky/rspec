@@ -9,7 +9,7 @@
   $0
 end</string>
 	<key>name</key>
-	<string>Controller Describe (RESTful style)</string>
+	<string>describe (RESTful Controller)</string>
 	<key>scope</key>
 	<string>source.ruby</string>
 	<key>tabTrigger</key>

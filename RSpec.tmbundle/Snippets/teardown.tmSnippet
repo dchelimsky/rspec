@@ -3,15 +3,15 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>teardown do
+	<string>after(${1::each}) do
   $0
 end</string>
 	<key>name</key>
-	<string>Teardown</string>
+	<string>after</string>
 	<key>scope</key>
 	<string>source.ruby</string>
 	<key>tabTrigger</key>
-	<string>dtear</string>
+	<string>a4</string>
 	<key>uuid</key>
 	<string>1201777F-3AC4-4B2A-9A46-C215F891B07A</string>
 </dict>

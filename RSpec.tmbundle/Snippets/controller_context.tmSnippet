@@ -9,7 +9,7 @@
   $0
 end</string>
 	<key>name</key>
-	<string>Controller Describe (Generic)</string>
+	<string>describe (Generic Controller)</string>
 	<key>scope</key>
 	<string>source.ruby</string>
 	<key>tabTrigger</key>
