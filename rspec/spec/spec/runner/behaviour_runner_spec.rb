@@ -16,7 +16,7 @@ module Spec
         other_context.should_receive(:number_of_examples).and_return(0)
 
         reporter = mock("reporter")
-        options = OpenStruct.new
+        options = Options.new
         options.reporter = reporter
         options.examples = ["desired context legal spec"]
 
@@ -49,7 +49,7 @@ module Spec
         reporter.should_receive(:end)
         reporter.should_receive(:dump)
 
-        options = OpenStruct.new
+        options = Options.new
         options.reporter = reporter
         runner = Spec::Runner::BehaviourRunner.new(options)
         runner.add_behaviour(behaviour)
@@ -69,7 +69,7 @@ module Spec
         heckle_runner = mock("heckle_runner")
         heckle_runner.should_receive(:heckle_with)
 
-        options = OpenStruct.new
+        options = Options.new
         options.reporter = reporter
         options.heckle_runner = heckle_runner
 
@@ -79,7 +79,7 @@ module Spec
       end
 
       specify "should run specs backward if options.reverse is true" do
-        options = OpenStruct.new
+        options = Options.new
         options.reverse = true
 
         reporter = mock("reporter")

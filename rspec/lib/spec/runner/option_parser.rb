@@ -1,4 +1,3 @@
-require 'ostruct'
 require 'optparse'
 require 'stringio'
 
@@ -27,7 +26,7 @@ module Spec
         options = parse(args, err, out, warn_if_no_files)
         # Some exit points in parse (--generate-options, --drb) don't return the options, 
         # but hand over control. In that case we don't want to continue.
-        return nil unless options.is_a?(OpenStruct)
+        return nil unless options.is_a?(Options)
 
         options.formatters.each do |formatter|
           formatter.colour = options.colour
@@ -53,7 +52,7 @@ module Spec
       def parse(args, err, out, warn_if_no_files)
         options_file = nil
         args_copy = args.dup
-        options = OpenStruct.new
+        options = Options.new
         options.formatters = []
         options.backtrace_tweaker = QuietBacktraceTweaker.new
         options.examples = []
