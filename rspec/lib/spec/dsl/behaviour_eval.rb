@@ -35,11 +35,31 @@ module Spec
           included_modules.each  { |m| eval_module.included_modules << m }
         end
         
+        # :call-seq:
+        #   predicate_matchers[method_on_object] = matcher_name
+        #
+        # Dynamically generates a custom matcher that will match
+        # a predicate on your class.
+        #
+        # == Example
+        #
+        #   class Fish
+        #     def can_swim?
+        #       true
+        #     end
+        #   end
+        #
+        #   describe Fish do
+        #     predicate_matchers[:can_swim?] = :swim
+        #     it "should swim" do
+        #       Fish.new.should swim
+        #     end
+        #   end
         def predicate_matchers
           @predicate_matchers ||= {:exist? => :exist}
         end
         
-        def define_predicate_matchers
+        def define_predicate_matchers # :nodoc:
           predicate_matchers.each_pair do |method_on_object, matcher_method|
             define_method matcher_method do |*args|
               eval("be_#{method_on_object.to_s.gsub('?','')}(*args)")
