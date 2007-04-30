@@ -15,6 +15,9 @@ module Spec
         end
 
         def shared_behaviours
+          # TODO - this needs to be global, or at least accessible from
+          # from subclasses of Behaviour in a centralized place. I'm not loving
+          # this as a solution, but it works for now.
           $shared_behaviours ||= []
         end
       end
@@ -119,6 +122,9 @@ module Spec
         eval_module = @eval_module
         execution_context_class.class_eval do
           include eval_module
+          Spec::Runner.configuration.included_modules.each do |mod|
+            include mod
+          end
           mods.each do |mod|
             include mod
           end

@@ -15,6 +15,14 @@ module Spec
         @mock_framework ||= mock_framework_path("rspec")
       end
       
+      def include(mod)
+        included_modules << mod
+      end
+      
+      def included_modules
+        @included_modules ||= []
+      end
+      
     private
     
       def mock_framework_path(framework_name)

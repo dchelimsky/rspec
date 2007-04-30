@@ -32,6 +32,12 @@ module Spec
         @config.mock_with(adapter)
         @config.mock_framework.should == adapter
       end
+      
+      it "should let you define modules to be included" do
+        mod = Module.new
+        @config.include mod
+        @config.included_modules.should include(mod)
+      end
     end
   end
 end

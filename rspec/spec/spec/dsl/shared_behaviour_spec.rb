@@ -12,7 +12,7 @@ module Spec
       after do
         @formatter.rspec_verify
         @behaviour_class = nil
-        $shared_behaviours.clear
+        $shared_behaviours.clear unless $shared_behaviours.nil?
       end
 
       def behaviour_class

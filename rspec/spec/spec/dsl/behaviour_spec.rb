@@ -462,10 +462,32 @@ module Spec
     
       it "should support deprecated context_setup and context_teardown" do
         formatter = mock("formatter", :null_object => true)
-        behaviour = Behaviour.new('example') do
+        Behaviour.new('example') do
           context_setup {}
           context_teardown {}
         end.run(formatter)
+      end
+      
+      it "should include any modules included using configuration" do
+        mod = Module.new do
+          class << self
+            def included(mod)
+              $included_module = mod
+            end
+          end
+        end
+
+        begin
+          $included_module = nil
+          Spec::Runner.configuration.include(mod)
+
+          behaviour = Behaviour.new('example') do
+          end.run(@reporter)
+        
+          $included_module.should_not be_nil
+        ensure
+          Spec::Runner.configuration.included_modules.delete(mod)
+        end
       end
     end      
     
@@ -477,6 +499,8 @@ module Spec
       it "should have access to the described_type" do
         BehaviourSubclass.new(Example){}.described_type.should == Example
       end
+      
+      # TODO - add an example about shared behaviours
     end
   end
 end
