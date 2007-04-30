@@ -2,6 +2,7 @@
 # They are not an endorsement of comments in your spec!
 
 require File.dirname(__FILE__) + '/../spec_helper'
+require 'ostruct'
 
 describe PeopleController do
   # If you pass the controller to #describe, you don't need to declare the controller name

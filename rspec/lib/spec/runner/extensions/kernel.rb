@@ -1,12 +1,7 @@
 module Kernel
   def describe(*args, &block)
     raise ArgumentError if args.empty?
-    behaviour = Spec::DSL::BehaviourFactory.create(*args, &block)
-    if behaviour.shared?
-      Spec::DSL::Behaviour.add_shared_behaviour(behaviour)
-    else
-      behaviour_runner.add_behaviour(behaviour)
-    end
+    register_behaviour(Spec::DSL::BehaviourFactory.create(*args, &block))
   end
   alias :context :describe
   
@@ -15,6 +10,14 @@ module Kernel
   end
   
 private
+
+  def register_behaviour(behaviour)
+    if behaviour.shared?
+      Spec::DSL::Behaviour.add_shared_behaviour(behaviour)
+    else
+      behaviour_runner.add_behaviour(behaviour)
+    end
+  end
 
   def behaviour_runner
     # TODO: Figure out a better way to get this considered "covered" and keep this statement on multiple lines 

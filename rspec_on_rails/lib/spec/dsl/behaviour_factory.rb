@@ -31,7 +31,9 @@ module Spec
         #   describe "name", :behaviour_type => :view ...
         def create(*args, &block)
           opts = Hash === args.last ? args.last : {}
-          if opts[:behaviour_type]
+          if opts[:shared]
+            key = :default
+          elsif opts[:behaviour_type]
             key = opts[:behaviour_type]
           elsif opts[:spec_path] =~ /spec(\/|\\)+(view|helper|controller|model)s/
             key = $2.to_sym

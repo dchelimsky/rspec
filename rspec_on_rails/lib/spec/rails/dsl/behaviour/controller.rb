@@ -187,7 +187,7 @@ module Spec
       # See Spec::Rails::DSL::ControllerEvalContext for information
       # about methods you can use in your Controller Specs
       class ControllerBehaviour < Spec::DSL::Behaviour
-
+        
         def execution_context(example=nil) # :nodoc:
           instance = execution_context_class.new(example)
           if controller_class_name.nil? && !described_type.nil?

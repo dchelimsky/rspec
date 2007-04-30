@@ -65,4 +65,9 @@ describe "the BehaviourFactory" do
     Spec::DSL::BehaviourFactory.create("name", :spec_path => '/blah/spec/models/blah.rb', :behaviour_type => :controller) {
     }.should be_an_instance_of(Spec::Rails::DSL::ControllerBehaviour)
   end
+  
+  it "should create a Spec::DSL::Behaviour if :shared => true" do
+    Spec::DSL::BehaviourFactory.create("name", :spec_path => '/blah/spec/models/blah.rb', :behaviour_type => :controller, :shared => true) {
+    }.should be_an_instance_of(Spec::DSL::Behaviour)
+  end
 end
