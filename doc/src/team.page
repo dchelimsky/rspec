@@ -56,6 +56,8 @@ In alphabetical order (by last name)
 ** Patch [#10410] redirect_to does not behave consistently with regards to query string parameter ordering
 * David Goodlad
 ** Patch for allowing non-Strings as partial_paths in view/specs
+* Chris Hoffman
+** Patch for spec:translate task in Spec::Rails
 * Jake Howerton
 ** Port of Kevin Clark's ARTS to RSpec
 * KAKUTANI Shintaro

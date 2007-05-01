@@ -1,12 +1,10 @@
 # In rails 1.2, plugins aren't available in the path until they're loaded.
 # Check to see if the rspec plugin is installed first and require
 # it if it is.  If not, use the gem version.
-rspec_base = File.expand_path(File.dirname(__FILE__) + '/../../rspec')
-if File.exist?(rspec_base)
-  require rspec_base + '/lib/spec/rake/spectask'
-else
-  require 'spec/rake/spectask'
-end
+rspec_base = File.expand_path(File.dirname(__FILE__) + '/../../rspec/lib')
+$LOAD_PATH.unshift(rspec_base) if File.exist?(rspec_base)
+require 'spec/rake/spectask'
+require 'spec/translator'
 
 spec_prereq = File.exist?(File.join(RAILS_ROOT, 'config', 'database.yml')) ? "db:test:prepare" : :noop
 task :noop do
@@ -46,6 +44,13 @@ namespace :spec do
   Spec::Rake::SpecTask.new(:plugins => spec_prereq) do |t|
     t.spec_opts = ['--options', "\"#{RAILS_ROOT}/spec/spec.opts\""]
     t.spec_files = FileList['vendor/plugins/**/spec/**/*_spec.rb'].exclude('vendor/plugins/rspec/*')
+  end
+
+  desc "Translate specs from pre-0.9 to 0.9 style"
+  task :translate do
+    translator = ::Spec::Translator.new
+    dir = RAILS_ROOT + '/spec'
+    translator.translate(dir, dir)
   end
 
   # Setup specs for stats

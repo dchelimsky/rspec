@@ -32,3 +32,9 @@ To do so, execute the following command:
 <pre>
 script/generate rspec
 </pre>
+
+For convenience, we have also made the translator available as a Rake task:
+
+<pre>
+rake spec:translate
+</pre>
