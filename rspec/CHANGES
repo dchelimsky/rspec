@@ -1,6 +1,6 @@
 = RSpec Changelog
 
-== 0.9
+== Version 0.9
 
 This release introduces #describe and #it (aliased as #context and #specify for
 backwards compatibility). This allows you to express specs like this:
@@ -50,7 +50,7 @@ configure included modules and predicate_matchers:
     config.predicate_matchers[:does_something?] = :do_something
   end
 
-  See Spec::DSL::Behaviour for more on predicate_matchers
+See Spec::DSL::Behaviour for more on predicate_matchers
 
 * Sugar FREE!
 * Added [10434 ] Please Make -s synonymous with -e for autotest compat. This is temporary until autotest uses -e instead of -s.
