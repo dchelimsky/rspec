@@ -1,6 +1,6 @@
 = RSpec Changelog
 
-== 0.9 (in SVN)
+== 0.9
 
 This release introduces #describe and #it (aliased as #context and #specify for
 backwards compatibility). This allows you to express specs like this:

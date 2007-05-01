@@ -19,8 +19,7 @@ If you prefer to integrate views (a la rails functional testing) you can by incl
 the keyword/commmand "integrate_views".
 
 <ruby>
-describe "Given a list of articles" do
-  controller_name :articles
+describe ArticlesController do
   integrate_views
   ...
 end
@@ -55,148 +54,55 @@ Account.stub!(:find).and_return(account)
 See "Mocks and Stubs":../../mocks/index.html for more information about the
 built in mocking/stubbing framework.
 
-h2. Controller and Response Expectations
+h2. Response Expectations
 
-These expectations will work whether in isolation or integration mode.
+These expectations will work whether in isolation or integration mode. See "Spec::Rails::Expectations":../../../rdoc-rails/index.html for details.
 
-h3. controller.should_render / response.should_render
+h3. response.should be_success
 
-%{color:red;font-weight:bold;font-size:1.2em}DEPRECATED. See "Spec::Rails::Expectations":../../../rdoc-rails/index.html% 
+Passes if a status of 200 was returned. NOTE that in isolation mode, this will
+always return true, so it's not that useful - but at least your specs won't break.
 
 <ruby>
-controller.should_render :template => "path/to/template/for/action"
+response.should be_success
+</ruby>
+
+h3. response.should be_redirect
+
+Passes if a status of 300-399 was returned.
+
+<ruby>
+response.should be_redirect
+</ruby>
+
+h3. response.should render_template
+
+<ruby>
 get 'some_action'
+response.should render_template("path/to/template/for/action")
 </ruby>
 
-OR
+h3. response.should render_text
 
 <ruby>
 get 'some_action'
-controller.should_render :template => "path/to/template/for/action"
+response.should render_text("expected text")
 </ruby>
 
-OR
+h3. response.should redirect_to
 
 <ruby>
 get 'some_action'
-response.should_render :template => "path/to/template/for/action"
-</ruby>
-
-You can specify :template, :text, or :action.
-
-<ruby>
-controller.should_render :action_name #i.e. 'list', 'new', etc
-controller.should_render :template => "path/to/template/for/action"
-controller.should_render :text => "expected text"
-controller.should_render :action => "expected_action"
-
-response.should_render :action_name #i.e. 'list', 'new', etc
-response.should_render :template => "path/to/template/for/action"
-response.should_render :text => "expected text"
-response.should_render :action => "expected_action"
-</ruby>
-
-You can specify <code>:template</code>, <code>:text</code> or <code>:action</code>, depending on how the
-rendering was supposed to happen in your code. So, for example, if
-you planned to render something as text, you would use:
-
-<ruby>
-controller.should_render :text => "it's a bird, it's a plane, nope, it's a bird alright."
-</ruby>
-
-If your controller is expected to render by action (and only by
-action), then then use <code>:action</code>. Here is some controller code:
-
-<ruby>
-def index
-  list
-  render :action => 'list'
-end
-</ruby>
-
-and the spec for that:
-
-<ruby>
-specify "should render using the list *action*" do
-  controller.should_render :action => 'list'
-end
-</ruby>
-
-Note that while the above example works properly, the following
-fails, even though you knew the exact correct template name:
-
-<ruby>
-specify "should render using the list template" do
-  controller.should_render :template => 'users/list'
-end
-</ruby>
-
-h3. controller.should_render_rjs
-
-%{color:red;font-weight:bold;font-size:1.2em}DEPRECATED. See "Spec::Rails::Expectations":../../../rdoc-rails/index.html% 
-
-Thanks to Jake Howerton's port (for RSpec) of "Kevin Clark's ARTS library":http://glu.ttono.us/articles/2006/05/29/guide-test-driven-rjs-with-arts (for test/unit), you can specify
-calls made in your rjs templates.
-
-Use these to set rjs expectations in advance of the action:
-
-<ruby>
-controller.should_render_rjs :replace_html, 'mydiv', 'replacement text'
-get 'some_action'
+response.should redirect_to(:action => 'other_action')
 </ruby>
 
 The following forms are supported:
 
 <ruby>
-controller.should_render_rjs :replace_html, 'mydiv', 'replacement text'
-controller.should_render_rjs :replace_html, 'mydiv', /replace/
-controller.should_render_rjs :insert_html, 'mydiv', 'replacement text'
-controller.should_render_rjs :insert_html, 'mydiv', /place ex/
-controller.should_render_rjs :replace, 'mydiv', '<div>replacement text</div>'
-controller.should_render_rjs :replace, 'mydiv', /placement/
-controller.should_render_rjs :hide, 'mydiv'
-</ruby>
-
-It also supports the page['element'] format as follows:
-
-<ruby>
-controller.should_render_rjs :page, 'mydiv', :replace_html, 'replacement text'
-controller.should_render_rjs :page, 'mydiv', :replace_html, /replace/
-controller.should_render_rjs :page, 'mydiv', :insert_html, 'replacement text'
-controller.should_render_rjs :page, 'mydiv', :insert_html, /place ex/
-controller.should_render_rjs :page, 'mydiv', :replace, '<div>replacement text</div>'
-controller.should_render_rjs :page, 'mydiv', :replace, /placement/
-controller.should_render_rjs :page, 'mydiv', :hide
-</ruby>
-
-Partials are also supported as follows:
-
-<ruby>
-controller.should_render_rjs :replace_html, :partial => 'path/to/partial'
-</ruby>
-
-For partials, you could just use the String and Regexp forms above. Doing so
-bypasses the isolation feature so that the spec will fail if the template for
-the partial does not exist.
-
-h3. controller.should_redirect_to
-
-%{color:red;font-weight:bold;font-size:1.2em}DEPRECATED. See "Spec::Rails::Expectations":../../../rdoc-rails/index.html% 
-
-Use these to set redirect expectations in advance of the action:
-
-<ruby>
-controller.should_redirect_to :action => 'other_action'
-get 'some_action'
-</ruby>
-
-The following forms are supported:
-
-<ruby>
-controller.should_redirect_to :action => 'other_action'
-controller.should_redirect_to 'path/to/local/redirect'
-controller.should_redirect_to 'http://test.host/some_controller/some_action'
-controller.should_redirect_to 'http://some.other.domain.com'
+response.should redirect_to(:action => 'other_action')
+response.should redirect_to('path/to/local/redirect')
+response.should redirect_to('http://test.host/some_controller/some_action')
+response.should redirect_to('http://some.other.domain.com')
 </ruby>
 
 h3. assigns, flash and session
@@ -209,47 +115,12 @@ flash[:key]
 session[:key]
 </ruby>
 
-h2. Response Expectations
-
-These work in isolation and integration modes.
-
-h3. response.should_be_success
-
-%{color:red;font-weight:bold;font-size:1.2em}DEPRECATED. See "Spec::Rails::Expectations":../../../rdoc-rails/index.html% 
-
-Passes if a status of 200 was returned. NOTE that in isolation mode, this will
-always return true, so it's not that useful - but at least your specs won't break.
-
-<ruby>
-response.should_be_success
-</ruby>
-
-h3. response.should_be_redirect
-
-%{color:red;font-weight:bold;font-size:1.2em}DEPRECATED. See "Spec::Rails::Expectations":../../../rdoc-rails/index.html% 
-
-Passes if a status of 300-399 was returned.
-
-<ruby>
-response.should_be_redirect
-</ruby>
-
-h3. response.should_redirect_to
-
-%{color:red;font-weight:bold;font-size:1.2em}DEPRECATED. See "Spec::Rails::Expectations":../../../rdoc-rails/index.html% 
-
-Passes if response.redirect? and response.redirect_url == argument
-
-<ruby>
-response.should_redirect_to "http://test.host/some/path"
-</ruby>
-
 h2. Routing Expectations
 
 Specify the paths generated by custom routes.
 
 <ruby>
-routing(:controller => "hello", :action => "world").should_eql "/hello/world"
+route_for(:controller => "hello", :action => "world").should == "/hello/world"
 </ruby>
 
 h2. Example Controller Specs
