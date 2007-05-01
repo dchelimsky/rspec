@@ -96,6 +96,11 @@ describe "OptionParser" do
     options.examples.should eql(["something or other"])
   end
 
+  it "should support single example with -s option (will be removed when autotest supports -e)" do
+    options = parse(["-s", "something or other"])
+    options.examples.should eql(["something or other"])
+  end
+
   it "should support single example with --example option" do
     options = parse(["--example", "something or other"])
     options.examples.should eql(["something or other"])

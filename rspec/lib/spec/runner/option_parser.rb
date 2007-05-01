@@ -114,6 +114,14 @@ module Spec
             end
           end
 
+          opts.on("-s", "--specification [NAME]", "DEPRECATED - use -e instead", "(This will be removed when autotest works with -e)") do |example|
+            if(File.file?(example))
+              options.examples = File.open(example).read.split("\n")
+            else
+              options.examples = [example]
+            end
+          end
+
           opts.on("-l", "--line LINE_NUMBER", Integer, "Execute behaviout or specification at given line.",
                                                        "(does not work for dynamically generated specs)") do |line_number|
             options.line_number = line_number.to_i
