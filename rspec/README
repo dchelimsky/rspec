@@ -34,7 +34,7 @@ do the following:
   rake gem
   gem install pkg/rspec-0.x.x.gem (you may have to sudo)
 
-== Running the specs ==
+== Running RSpec's specs
 In order to run RSpec's full suite of specs (rake pre_commit) you must install the following gems:
 
 * rake          # Runs the build script
