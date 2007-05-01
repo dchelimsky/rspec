@@ -1,0 +1,128 @@
+---
+title: Team
+inMenu: true
+---
+
+h2. The Core Team
+
+* Dave Astels
+* Steve Baker
+* David Chelimsky
+* Aslak Hellesoy
+* Brian Takita
+
+<notextile>
+<table>
+  <tr>
+    <td><img src="images/Whats_That_Dude.jpg" /></td>
+    <td><img src="http://static.flickr.com/1/127260733_84714abc76_o_d.png" /></td>
+  </tr>
+  <tr>
+    <td align="center">David and Aslak</td>
+    <td align="center">Dave Astels</td>
+  </tr>
+</table>
+</notextile>
+
+h2. Contributors
+
+<img src="images/ali_westside.jpg" />
+
+h3. RSpec!
+
+In alphabetical order (by last name)
+
+* Chris Anderson
+** Patch to return strings in response to :to_param (in generated controller/view specs)
+** Patch to add --skip-migration option to rspec_resource generator
+* François Beausoleil
+** Patch [#10260] Spec::Mocks::Mock#inspect returns way too much data
+* Wilson Bilkovich
+** lambda {...}.should_change(obj, :message)
+** ar_subclass.should_have(n).errors_on(:attribute)
+** mock_model in Spec::Rails
+* Bob Cotton
+** Support for context_setup and context_teardown (now before(:all) and after(:all))
+** Patch [#9678] Custom runner command line switch, and multi-threaded runner
+** Patch [#9605] Patch for ER 9472, shared behaviour
+* Lachie Cox
+** Initial Rails support
+** Diffing enhancements for Objects and custom formats
+* Steven Duncan
+** Documentation for rake task
+* Lindsay Evans
+** Patch for Spec::Rails on Windows
+* Nicholas Evans
+** Patch [#10410] redirect_to does not behave consistently with regards to query string parameter ordering
+* David Goodlad
+** Patch for allowing non-Strings as partial_paths in view/specs
+* Jake Howerton
+** Port of Kevin Clark's ARTS to RSpec
+* KAKUTANI Shintaro
+** Patches for coloured progress<br>
+** Assorted Rails patches
+* Erik Kastner
+** Patch to rename file_list to spec_file_list in spectask.rake (to avoid conflicts w/ other tools)
+* Rich Kilmer
+** Underscore syntactic sugar
+* Josh Knowles
+** Patch [#10245] Patch to HTML escape the behavior name when using HTML Formatter
+* Michal Kwiatkowski
+** Patch to get RSpec to work w/ Heckle +/- 1.2
+* Riley Lynch
+** Patches for the rake task
+* Dan Manges
+** Fixed visibility problem for ActionController::Base#render in Spec::Rails
+* Pat Maddox
+** Spec'ing routes (Rails)
+** Accepting xhr requests (Rails)
+** Multiple return values for stubs
+** Port of scaffold_resource to rspec_resource (Rails)
+** Contexts should call Module::included when they include a module
+* James Mead
+** Modified mocha to allow for it's use outside of test/unit
+* Micah Martin
+** Spec::Rails patches for partials
+* Bret Pettichord
+** Patch [#10473] obj.should exist (new matcher)
+* Yurii Rashkovskii
+** Patch to improve generated descriptions for the "be" matcher
+* Luke Redpath
+** TextMate bundle
+** Readable HTML output!
+* Steve Ross
+** Patch [#9132] Rakefile spec:doc can fail without preparing database
+* Nick Sieger
+** Spec::Rails patches for stats
+* Daniel Siemssen
+** Spec::Rails patches for rails_spec_server
+* Kouhei Sutou
+** Patches for Emacs
+** Handling of Interrupt
+* Antii Tarvainen
+** Patch [#10315] to fix pre_commit bug 10313 - pre_commit_rails: doesn't always build correctly
+* Scott Taylor
+** Patch [#9509] allow spaced options in spec.opts
+** Patch [#9510] Added html formatter spec file for Ruby 1.8.6
+** Patch [#9511] Clarification to README file in spec/
+** Patch [#9852] Patch for RSpec's Website using Webgen 0.4.2
+** Patch [#9925] Changed ".rhtml" to "template" in REST spec generator
+** Patch [#9926] Rakefile - RSPEC_DEPS constant as an Array of Hashes instead of an Array of Arrays
+* Steve Tendon
+** Patch [#9458] The rspec_resource generator does not take into account class nesting
+* Jonathan Tron
+** Patch for Spec::Rails resource_generator
+** Patch for RSpec.tmbundle to make it work with RSpec installed as a plugin
+* Florian Weber
+** RSpec's spec_server is based on Florian's TDDMate
+* Nikolai Weibull
+** Core patches for spec names
+* Jim Weirich
+** Modified flexmock to allow for it's use outside of test/unit
+** Supplied plugin patch to support flexmock directly in rspec
+* Mike Williams
+** Core patches for arbitrary comparisons like 5.should_be < 6
+* Chad Wooley
+** Patch to mocks to make it possible to specify raised exception instance
+
+If you think your name ought to be here, please contact the RSpec team.

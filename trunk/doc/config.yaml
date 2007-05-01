@@ -1,0 +1,5 @@
+# Configuration file for webgen
+# Used to set the parameters of the plugins
+File/PageHandler:
+  defaultMetaInfo:
+    blocks: [[content, rspec]]

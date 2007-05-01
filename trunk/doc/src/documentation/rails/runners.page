@@ -1,0 +1,65 @@
+---
+title: Runners 
+inMenu: true
+---
+h2. Spec::Rails - Runners
+
+h3. Standard spec command
+
+<pre>
+spec path/to/directory/with/specs
+spec path/to/individual_spec.rb
+</pre>
+
+h3. Run specs fast with &minus;&minus;drb (recommended)
+
+Loading the entire Rails environment every time a spec is executed is quite slow.
+To speed things up, Spec::Rails installs a daemon script that loads the local Rails app
+and listens for incoming connections via DRb.
+
+Open up a separate shell and start the spec server:
+
+<pre>
+script/rails_spec_server
+</pre>
+
+Now you can run specs with the <tt>&minus;&minus;drb</tt> flag. 
+If you're using Rake you should add <tt>&minus;&minus;drb</tt> to the <tt>spec/spec.opts</tt> file.
+
+h3. Running specs with Rake
+
+Note that the rake tasks don't use the fast rails_spec command - it uses the
+standard spec. Also note that it is pre-configured to run any file that ends
+in "_spec", so you'll have to follow that convention.
+
+Note that you can configure the options passed to RSpec by editing the <tt>spec/spec.opts</tt> file.
+
+All specs (excluding plugins) can be run with...
+
+<pre>
+rake spec
+rake spec:app
+</pre>
+
+All specs including plugins can be run with...
+
+<pre>
+rake spec:all
+</pre>
+
+You can also isolate Model, Controller, View, Helper or Plugin specs with...
+
+<pre>
+rake spec:models
+rake spec:controllers
+rake spec:views
+rake spec:helpers
+rake spec:plugins
+</pre>
+
+To see all the RSpec related tasks, run
+
+<pre>
+rake --tasks spec
+</pre>
+
