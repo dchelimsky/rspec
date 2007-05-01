@@ -53,6 +53,7 @@ configure included modules and predicate_matchers:
   See Spec::DSL::Behaviour for more on predicate_matchers
 
 * Sugar FREE!
+* Added [10434 ] Please Make -s synonymous with -e for autotest compat. This is temporary until autotest uses -e instead of -s.
 * Fixed [#10133] custom predicate matchers
 * Applied [#10473] Add should exist (new matcher) - Patch from Bret Pettichord
 * Added another formatter: failing_behaviours. Writes the names of the failing behaviours for use with --example.
