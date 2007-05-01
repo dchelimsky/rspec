@@ -1,7 +1,0 @@
-require File.dirname(__FILE__) + '/ui/configuration'
-require File.dirname(__FILE__) + '/ui/behaviour'
-require File.dirname(__FILE__) + '/ui/webapp_helper'
-require File.dirname(__FILE__) + '/ui/watir_helper'
-require File.dirname(__FILE__) + '/ui/selenium_helper'
-require File.dirname(__FILE__) + '/ui/screenshot_helper'
-require File.dirname(__FILE__) + '/ui/rake_tasks'
