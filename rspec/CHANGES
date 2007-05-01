@@ -1,6 +1,6 @@
 = RSpec Changelog
 
-== Version 0.9
+== Version 0.9.0
 
 This release introduces #describe and #it (aliased as #context and #specify for
 backwards compatibility). This allows you to express specs like this:
@@ -61,7 +61,7 @@ See Spec::DSL::Behaviour for more on predicate_matchers
 * Applied [#10245] Patch to HTML escape the behavior name when using HTML Formatter (Patch from Josh Knowles)
 * Applied [#10410] redirect_to does not behave consistently with regards to query string parameter ordering (Patch from Nicholas Evans)
 * Applied [#9605] Patch for ER 9472, shared behaviour (Patch by Bob Cotton)
-* --format rdoc no longer causes a dry-run by default. --dry-run must be used explicitly.
+* The '--format rdoc' option no longer causes a dry-run by default. --dry-run must be used explicitly.
 * It's possible to specify the output file in the --format option (See explanation in --help)
 * Several --format options may be specified to output several formats in one run.
 * The --out option is gone. Use --format html:path/to/my.html instead (or similar).
