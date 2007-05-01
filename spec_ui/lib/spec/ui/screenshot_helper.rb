@@ -18,7 +18,7 @@ module Spec
         begin
           require 'rubygems'
           require 'RMagick'
-          gem 'win32screenshot', '>=0.0.3'
+          gem 'win32screenshot', '>=0.0.2'
           require 'win32screenshot'
           def save_screenshot(dir, spec_number)
             md(dir)
