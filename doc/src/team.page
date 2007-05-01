@@ -114,11 +114,11 @@ In alphabetical order (by last name)
 ** Patch for Spec::Rails resource_generator
 ** Patch for RSpec.tmbundle to make it work with RSpec installed as a plugin
 * Florian Weber
-** RSpec's spec_server is based on Florian's TDDMate
+** RSpec.tmbundle and the spec_server that comes with Spec::Rails are based on Florian's TDDMate
 * Nikolai Weibull
 ** Core patches for spec names
 * Jim Weirich
-** Modified flexmock to allow for it's use outside of test/unit
+** Modified flexmock to allow for its use outside of test/unit
 ** Supplied plugin patch to support flexmock directly in rspec
 * Mike Williams
 ** Core patches for arbitrary comparisons like 5.should_be < 6

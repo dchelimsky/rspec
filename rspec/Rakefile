@@ -153,9 +153,11 @@ end
 desc "Creates a tag in svn"
 task :tag do
   from = `svn info #{File.dirname(__FILE__)}`.match(/URL: (.*)\/rspec/n)[1]
-  to = from.gsub(/(.*rubyforge.org\/var\/svn\/rspec)(.*)/, "\\1/tags/#{Spec::VERSION::TAG}")
+  to = from.gsub(/trunk/, "tags/#{Spec::VERSION::TAG}")
+  tag_cmd = "svn cp #{from} #{to} -m \"Tag release #{Spec::VERSION::FULL_VERSION}\""
+  raise "Can't tag to the same place: #{tag_cmd}" if to == from
   puts "Creating tag in SVN"
-  `svn cp #{from} #{to} -m "Tag release #{Spec::VERSION::FULL_VERSION}"`
+  `#{tag_cmd}`
   raise "Tagging failed" unless $? == 0
 end
 

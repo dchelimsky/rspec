@@ -41,6 +41,7 @@ module Spec
       attr_accessor :spec_opts
 
       # Where RSpec's output is written. Defaults to STDOUT.
+      # DEPRECATED. Use --format FORMAT:WHERE in spec_opts.
       attr_accessor :out
 
       # Whether or not to use RCov (default is false)
