@@ -6,15 +6,15 @@ h2. Spec::Rails - Installation - Quick Start
 h4. Install
 
 <pre>
-ruby script/plugin install svn://rubyforge.org/var/svn/rspec/tags/REL_0_9_0/rspec
-ruby script/plugin install svn://rubyforge.org/var/svn/rspec/tags/REL_0_9_0/rspec_on_rails
+ruby script/plugin install svn://rubyforge.org/var/svn/rspec/tags/{svn_tag: }/rspec
+ruby script/plugin install svn://rubyforge.org/var/svn/rspec/tags/{svn_tag: }/rspec_on_rails
 </pre>
 
 If you're using svn for your project, install with -x.
 
 <pre>
-ruby script/plugin install -x svn://rubyforge.org/var/svn/rspec/tags/REL_0_9_0/rspec
-ruby script/plugin install -x svn://rubyforge.org/var/svn/rspec/tags/REL_0_9_0/rspec_on_rails
+ruby script/plugin install -x svn://rubyforge.org/var/svn/rspec/tags/{svn_tag: }/rspec
+ruby script/plugin install -x svn://rubyforge.org/var/svn/rspec/tags/{svn_tag: }/rspec_on_rails
 </pre>
 
 h4. Bootstrap
