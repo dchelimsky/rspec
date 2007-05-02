@@ -45,7 +45,7 @@ describe "OptionParser" do
 
   it "should not use colour by default" do
     options = parse([])
-    options.colour.should be_nil
+    options.colour.should == false
   end
 
   it "should print help to stdout" do
