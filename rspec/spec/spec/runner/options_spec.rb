@@ -74,6 +74,36 @@ module Spec
           "Madam, if you were my wife, I would drink it."
         ])
       end
-    end    
+    end
+
+    describe "Options", "receiving create_behaviour_runner" do
+      before do
+        @options = Options.new
+      end
+
+      it "returns nil when generate is set to true" do
+        @options.generate = true
+        @options.create_behaviour_runner.should == nil
+      end
+
+      it "returns a BehaviourRunner by default" do
+        runner = @options.create_behaviour_runner
+        runner.class.should == BehaviourRunner
+      end
+
+      it "returns a custom runner when set" do
+        runner_type = Class.new do
+          attr_reader :options
+          def initialize(options)
+            @options = options
+          end
+        end
+        @options.runner_type = runner_type
+
+        runner = @options.create_behaviour_runner
+        runner.class.should == runner_type
+        runner.options.should === @options
+      end
+    end
   end
 end

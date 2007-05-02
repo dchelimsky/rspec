@@ -58,12 +58,12 @@ module Spec
           Spec::Expectations.differ = @differ_class.new(@diff_format, @context_lines, @colour)
         end
 
-        unless @generate
-          if @runner_type
-            @runner_type.new(self)
-          else
-            BehaviourRunner.new(self)
-          end
+        return nil if @generate
+
+        if @runner_type
+          @runner_type.new(self)
+        else
+          BehaviourRunner.new(self)
         end
       end
 
