@@ -4,18 +4,24 @@
   <head>
     <title>{title: }</title>
     <link href="{relocatable: default.css}" rel="stylesheet" type="text/css" media="screen"/>
+    <link href="{relocatable: breadcrumbs.css}" rel="stylesheet" type="text/css" media="screen"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <style><!--
+    div.breadcrumbs ul li {
+    	background-image: url({relocatable: images/arrow.gif});
+    }
+    --></style>
   </head>
 <body>
 
 <div id="container">
   <div id="header">
-        <h2>Behaviour Driven Development for <strong>Ruby</strong></h2>
+    <h2>Behaviour Driven Development for <strong>Ruby</strong></h2>
     <h1>RSpec {version: }</h1>
   </div>
 
-  <div id="navigation">
-      {menu: {menuStyle: horizontal}}
+	<div class="breadcrumb-menu">
+    {menu: {menuStyle: breadcrumbs}}
   </div>
 
   <div id="content">
