@@ -89,26 +89,7 @@ module Spec
         # Some exit points in parse (--generate-options, --drb) don't return the options, 
         # but hand over control. In that case we don't want to continue.
         return nil unless options.is_a?(Options)
-
-        options.formatters.each do |formatter|
-          formatter.colour = options.colour if formatter.respond_to?(:colour=)
-          formatter.dry_run = options.dry_run if formatter.respond_to?(:dry_run=)
-        end
-        options.reporter = Reporter.new(options.formatters, options.backtrace_tweaker) 
-
-        # this doesn't really belong here.
-        # it should, but the way things are coupled, it doesn't
-        if options.differ_class
-          Spec::Expectations.differ = options.differ_class.new(options.diff_format, options.context_lines, options.colour)
-        end
-
-        unless options.generate
-          if options.runner_type
-            options.runner_type.new(options)
-          else
-            BehaviourRunner.new(options)  
-          end
-        end
+        options.create_behaviour_runner
       end
 
       def parse(args, err, out, warn_if_no_files)

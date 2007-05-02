@@ -18,7 +18,11 @@ module Spec
         @options.backtrace_tweaker.class.should == QuietBacktraceTweaker
       end
 
-      it "diff= sets context_lines" do
+      it "defaults to no dry_run" do
+        @options.dry_run.should == false
+      end
+
+      it "parse_diff sets context_lines" do
         @options.parse_diff nil, @out_stream, @error_stream
         @options.context_lines.should == 3
       end

@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + "/rspec_content"
 
 class RSpecContentConverter < ContentConverters::DefaultContentConverter
-  include RSpec::SyntaxConverter
+  include ::RSpec::SyntaxConverter
   
   infos(:name => "ContentConverter/Rspec", 
         :author => "Rspec / Scott Taylor", 
