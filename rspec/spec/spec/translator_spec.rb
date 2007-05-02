@@ -205,4 +205,12 @@ describe "Translator" do
   #     "lambda { @instance.foo = foo }.should raise_error(NoMethodError) # no writer defined"
   #   )
   # end
+
+  it "should translate redirects" do
+    @t.translate_line(
+      "controller.should_redirect_to 'http://not_existing_domain_for_novalis.test.host/404.html'"
+    ).should eql(
+      "controller.should redirect_to('http://not_existing_domain_for_novalis.test.host/404.html')"
+    )
+  end
 end

@@ -66,6 +66,7 @@ module Spec
         
         # Add parenthesis
         post.gsub!(/^(\w+)\s+([\w|\.|\,|\(.*\)|\'|\"|\:|@| ]+)(\})/, '\1(\2)\3') # inside a block
+        post.gsub!(/^(redirect_to)\s+(.*)/, '\1(\2)') # redirect_to, which often has http:
         post.gsub!(/^(\w+)\s+([\w|\.|\,|\(.*\)|\{.*\}|\'|\"|\:|@| ]+)/, '\1(\2)')
         post.gsub!(/(\s+\))/, ')')
         post.gsub!(/\)\}/, ') }')
@@ -89,6 +90,7 @@ module Spec
         /^match/, 
         /^raise_error/, 
         /^respond_to/, 
+        /^redirect_to/, 
         /^satisfy/, 
         /^throw_symbol/,
         # Extra ones that we use in spec_helper

@@ -4,6 +4,7 @@
 Blurb
 
 * Added a spec:translate Rake task to make 0.9 translation easier with Spec:Rails
+* Better translation of should_redirect_to
 
 == Version 0.9.1
 

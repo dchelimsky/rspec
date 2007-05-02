@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../../rspec/lib/spec/version'
 
-class VersionTag < Tags::DefaultTag
+class SvnTagTag < Tags::DefaultTag
   infos(:name => "CustomTag/SvnTagTag",
         :summary => "Puts the svn tag URL on the page")
         
