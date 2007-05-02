@@ -120,49 +120,53 @@ module Spec
           opts.banner = "Usage: spec (FILE|DIRECTORY|GLOB)+ [options]"
           opts.separator ""
 
-          opts.on(*COMMAND_LINE[:diff]) {|diff| options.parse_diff(diff, out, err)}
+          def opts.rspec_on(name, &block)
+            on(*COMMAND_LINE[name], &block)
+          end
 
-          opts.on(*COMMAND_LINE[:colour]) {options.colour = true}
+          opts.rspec_on(:diff) {|diff| options.parse_diff(diff, out, err)}
 
-          opts.on(*COMMAND_LINE[:example]) {|example| options.parse_example(example)}
+          opts.rspec_on(:colour) {options.colour = true}
 
-          opts.on(*COMMAND_LINE[:specification]) {|example| options.parse_example(example)}
+          opts.rspec_on(:example) {|example| options.parse_example(example)}
 
-          opts.on(*COMMAND_LINE[:line]) {|line_number| options.line_number = line_number.to_i}
+          opts.rspec_on(:specification) {|example| options.parse_example(example)}
 
-          opts.on(*COMMAND_LINE[:format]) {|format| options.parse_format(format, out, err)}
+          opts.rspec_on(:line) {|line_number| options.line_number = line_number.to_i}
 
-          opts.on(*COMMAND_LINE[:require]) {|req| options.parse_require(req)}
+          opts.rspec_on(:format) {|format| options.parse_format(format, out, err)}
 
-          opts.on(*COMMAND_LINE[:backtrace]) {options.backtrace_tweaker = NoisyBacktraceTweaker.new}
+          opts.rspec_on(:require) {|req| options.parse_require(req)}
 
-          opts.on(*COMMAND_LINE[:loadby]) {|loadby| options.loadby = loadby}
+          opts.rspec_on(:backtrace) {options.backtrace_tweaker = NoisyBacktraceTweaker.new}
 
-          opts.on(*COMMAND_LINE[:reverse]) {options.reverse = true}
+          opts.rspec_on(:loadby) {|loadby| options.loadby = loadby}
 
-          opts.on(*COMMAND_LINE[:timeout]) {|timeout| options.timeout = timeout.to_f}
+          opts.rspec_on(:reverse) {options.reverse = true}
 
-          opts.on(*COMMAND_LINE[:heckle]) {|heckle| options.parse_heckle(heckle)}
+          opts.rspec_on(:timeout) {|timeout| options.timeout = timeout.to_f}
+
+          opts.rspec_on(:heckle) {|heckle| options.parse_heckle(heckle)}
           
-          opts.on(*COMMAND_LINE[:dry_run]) {options.dry_run = true}
+          opts.rspec_on(:dry_run) {options.dry_run = true}
 
-          opts.on(*COMMAND_LINE[:options_file]) do |options_file|
+          opts.rspec_on(:options_file) do |options_file|
             return parse_options_file(options_file, out, err, args_copy, warn_if_no_files)
           end
 
-          opts.on(*COMMAND_LINE[:generate_options]) do |options_file|
+          opts.rspec_on(:generate_options) do |options_file|
             options.parse_generate_options(options_file, args_copy, out)
           end
 
-          opts.on(*COMMAND_LINE[:runner]) do |runner|
+          opts.rspec_on(:runner) do |runner|
             options.parse_runner(runner, out, err)
           end
 
-          opts.on(*COMMAND_LINE[:drb]) do
+          opts.rspec_on(:drb) do
             parse_drb args_copy, out, err, warn_if_no_files
           end
 
-          opts.on(*COMMAND_LINE[:version]) {parse_version(out)}
+          opts.rspec_on(:version) {parse_version(out)}
 
           opts.on_tail(*COMMAND_LINE[:help]) {parse_help(opts, out)}
         end
