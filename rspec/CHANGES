@@ -1,8 +1,9 @@
 = RSpec Changelog
 
 == Version 0.9.2
-Blurb
+This is a quick maintenance release. 
 
+* Added some website love
 * Fixed [#10542] reverse predicate matcher syntax
 * Added a spec:translate Rake task to make 0.9 translation easier with Spec:Rails
 * Better translation of should_redirect_to

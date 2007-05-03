@@ -38,7 +38,7 @@ end
   Run the example and watch it fail.
 </p>
 <pre style="color:red;">$ spec game_spec.rb 
-./game_spec.rb:3:
+./game_spec.rb:4:
   uninitialized constant Game
 </pre>
     </td>
