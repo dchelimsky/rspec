@@ -171,24 +171,24 @@ end
 </ruby>
 
 then when you need define the behavior for the Large and Small editions, 
-reference the shared behavior using the 'behaves_as' method.
+reference the shared behavior using the 'it_should_behave_like' method.
 
 <ruby>describe "SmallEdition" do
-  behaves_as "AllEditions"
+  it_should_behave_like "AllEditions"
 
   it "should also behave like a small edition" do
   end
 end
 
 describe "LargeEdition" do
-  behaves_as "AllEditions"
+  is_should_behave_like "AllEditions"
 
   it "should also behave like a large edition" do
   end
 end
 </ruby>
 
-behaves_as will search for a Behavior by its description string, in this case, "AllEditions"
+it_should_behave_like will search for a Behavior by its description string, in this case, "AllEditions"
 
 All of the following are included from a shared behavior:
 
