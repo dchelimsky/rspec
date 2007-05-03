@@ -6,8 +6,8 @@ h2. Overview
 
 RSpec is a framework that provides programmers with a Domain Specific
 Language to describe the behaviour of Ruby code with readable,
-executable examples that guide you in the
-design process and serve well as both documentation as tests.
+executable examples that guide you in the design process and
+serve well as both documentation and tests.
 
 h2. Here is how you do it
 
@@ -15,41 +15,46 @@ h2. Here is how you do it
 <table>
   <tr>
     <td>
-      Start with a very simple spec that expresses
-      some basic desired behaviour.
+      <p>
+        Start with a very simple spec that expresses
+        some basic desired behaviour.
+      </p>
     </td>
     <td>
-      Run the spec to see it fail, then write
-      just enough code to make it pass. Don't rush
-      ahead with more code, instead add another
-      spec and let it guide you in what you have
-      to do next. Take time every now and then
-      to refactor your code when it gets messy.
+      <p>
+        Run the spec to see it fail, then write
+        just enough code to make it pass. Don't rush
+        ahead with more code, instead add another
+        spec and let it guide you in what you have
+        to do next. Take time every now and then
+        to refactor your code when it gets messy.
+      </p>
     </td>
     <td>
-      Here is all you need to get started
-      right away!
+      <p>
+        Here is all you need to get started
+        right away!
+      </p>
     </td>
   </tr>
   <tr>
-  <td>
-  <ruby>
+  <td><ruby>
 # bowling_spec.rb
 require 'bowling'
 
-describe Bowling do
-  before do
-    @game = Bowling.new
+describe Game do
+  before(:each) do
+    @game = Game.new
   end
 
   it "should score 0 for gutter game" do
-    1.upto(10) { @game.hit(0) }
+    1.upto(20) { @game.hit(0) }
     @game.score.should == 0
   end
 
-  it "should score 300 for perfect game" do
-    1.upto(10) { @game.hit(10) }
-    @game.score.should == 300
+  it "should score 20 for all ones" do
+    1.upto(20) { @game.hit(1) }
+    @game.score.should == 20
   end
 end
 </ruby>
@@ -57,13 +62,17 @@ end
   <td>
   <ruby>
 # bowling.rb
-class Bowling
-  def hit(pins)
-    @all_gutter = (pins == 0)
+class Game
+  def initialize
+    @score = 0
   end
-
+  
+  def hit(pins)
+    @score += pins
+  end
+  
   def score
-    @all_gutter ? 0 : 300
+    @score
   end
 end
 </ruby>
@@ -81,7 +90,7 @@ Finished in 0.007468 seconds
 
 Bowling
 - should score 0 for gutter game
-- should score 300 for perfect game
+- should score 20 for all ones game
 
 Finished in 0.007686 seconds
 
