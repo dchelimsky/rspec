@@ -261,12 +261,23 @@ module Spec
         end
         @behaviour.inherit super_class
 
+        Behaviour.prepend_before(:all) { fiddle << "Behaviour.prepend_before(:all)" }
         Behaviour.before(:all) { fiddle << "Behaviour.before(:all)" }
+        @behaviour.prepend_before(:all) { fiddle << "prepend_before(:all)" }
         @behaviour.before(:all) { fiddle << "before(:all)" }
+        @behaviour.prepend_before(:each) { fiddle << "prepend_before(:each)" }
         @behaviour.before(:each) { fiddle << "before(:each)" }
         @behaviour.it("test") {true}
         @behaviour.run(@reporter)
-        fiddle.should == ['Behaviour.before(:all)', 'before(:all)', 'superclass setup', 'before(:each)']
+        fiddle.should == [
+          'Behaviour.prepend_before(:all)',
+          'Behaviour.before(:all)',
+          'prepend_before(:all)',
+          'before(:all)',
+          'superclass setup',
+          'prepend_before(:each)',
+          'before(:each)'
+        ]
       end
 
       it "after callbacks are ordered from local to global" do
@@ -281,12 +292,23 @@ module Spec
         end
         @behaviour.inherit super_class
 
-        @behaviour.after(:all) { fiddle << "after(:all)" }
-        Behaviour.after(:all) { fiddle << "Behaviour.after(:all)" }
         @behaviour.after(:each) { fiddle << "after(:each)" }
+        @behaviour.append_after(:each) { fiddle << "append_after(:each)" }
+        @behaviour.after(:all) { fiddle << "after(:all)" }
+        @behaviour.append_after(:all) { fiddle << "append_after(:all)" }
+        Behaviour.after(:all) { fiddle << "Behaviour.after(:all)" }
+        Behaviour.append_after(:all) { fiddle << "Behaviour.append_after(:all)" }
         @behaviour.it("test") {true}
         @behaviour.run(@reporter)
-        fiddle.should == ['after(:each)', 'superclass teardown', 'after(:all)', 'Behaviour.after(:all)']
+        fiddle.should == [
+          'after(:each)',
+          'append_after(:each)',
+          'superclass teardown',
+          'after(:all)',
+          'append_after(:all)',
+          'Behaviour.after(:all)',
+          'Behaviour.append_after(:all)'
+        ]
       end
     
       it "should run superclass teardown method and after block" do
