@@ -11,7 +11,8 @@ class PreCommit
 
   def rake_sh(task_name, env_hash={})
     env = env_hash.collect{|key, value| "#{key}=#{value}"}.join(' ')
-    output = silent_sh("rake #{task_name} #{env} --trace") do |line|
+    rake = (PLATFORM == "i386-mswin32") ? "rake.bat" : "rake"
+    output = silent_sh("#{rake} #{task_name} #{env} --trace") do |line|
       puts line unless line =~ /^running against rails/ || line =~ /^\(in /
     end
     raise "ERROR while running rake: #{output}" if output =~ /ERROR/n || error_code?

@@ -19,7 +19,7 @@
     <h1>RSpec {version: }</h1>
   </div>
 
-	<div class="breadcrumb-menu">
+  <div class="breadcrumb-menu">
     {menu: {menuStyle: breadcrumbs}}
   </div>
 

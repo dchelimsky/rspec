@@ -15,7 +15,7 @@ class PreCommit::Rspec < PreCommit
     gem 'RedCloth'
     gem 'syntax'
     gem 'diff-lcs'
-    gem 'heckle'    
+    gem 'heckle' unless PLATFORM == "i386-mswin32"
   end
   
   def touch_revision_storing_files
@@ -37,7 +37,7 @@ class PreCommit::Rspec < PreCommit
   
   def pre_commit_core
     Dir.chdir 'rspec' do
-      rake = (PLATFORM == "i386-mswin32") ? "rake.cmd" : "rake"
+      rake = (PLATFORM == "i386-mswin32") ? "rake.bat" : "rake"
       system("#{rake} pre_commit --verbose --trace")
       raise "RSpec Core pre_commit failed" if error_code?
     end    

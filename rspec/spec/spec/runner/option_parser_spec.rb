@@ -128,7 +128,7 @@ describe "OptionParser" do
     options = parse(["--format", "html:test.html"])
     File.should be_exist('test.html')
     options.formatters[0].class.should equal(Spec::Runner::Formatter::HtmlFormatter)
-    FileUtils.rm 'test.html'
+    FileUtils.rm 'test.html' rescue nil # Help windows
   end
 
   it "should use noisy backtrace tweaker with b option" do
