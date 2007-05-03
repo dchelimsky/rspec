@@ -81,7 +81,7 @@ module Spec
         @options = Options.new
       end
 
-      it "returns nil when generate is set to true" do
+      it "returns nil when generate is true" do
         @options.generate = true
         @options.create_behaviour_runner.should == nil
       end
@@ -91,7 +91,7 @@ module Spec
         runner.class.should == BehaviourRunner
       end
 
-      it "returns a custom runner when set" do
+      it "returns a custom runner when runner_type is set" do
         runner_type = Class.new do
           attr_reader :options
           def initialize(options)
@@ -103,6 +103,39 @@ module Spec
         runner = @options.create_behaviour_runner
         runner.class.should == runner_type
         runner.options.should === @options
+      end
+
+      it "does not set Expectations differ when differ_class is not set" do
+        @options.differ_class = nil
+        Spec::Expectations.should_not_receive(:differ=)
+        @options.create_behaviour_runner
+      end
+
+      it "sets Expectations differ when differ_class is set" do
+        @options.differ_class = Spec::Expectations::Differs::Default
+        Spec::Expectations.should_receive(:differ=).with(:anything).and_return do |arg|
+          arg.class.should == Spec::Expectations::Differs::Default
+        end
+        @options.create_behaviour_runner
+      end
+
+      it "creates a Reporter" do
+        formatter = ::Spec::Runner::Formatter::BaseFormatter.new('here')
+        @options.formatters << formatter
+        reporter = Reporter.new(@formatters, @backtrace_tweaker)
+        Reporter.should_receive(:new).with(@options.formatters, @options.backtrace_tweaker).and_return(reporter)
+        @options.create_behaviour_runner
+        @options.reporter.should === reporter
+      end
+
+      it "sets colour and dry_run on the formatters" do
+        @options.colour = true
+        @options.dry_run = true
+        formatter = ::Spec::Runner::Formatter::BaseTextFormatter.new('here')
+        formatter.should_receive(:colour=).with(true)
+        formatter.should_receive(:dry_run=).with(true)
+        @options.formatters << formatter
+        @options.create_behaviour_runner
       end
     end
   end
