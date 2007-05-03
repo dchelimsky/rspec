@@ -8,6 +8,10 @@ body {
   margin:0;
   padding:0;
 }
+td {
+  vertical-align: top;
+}
+
 pre {
   font-size: 12px;
   color: #333;
@@ -155,8 +159,8 @@ acronym {
     font-size:1.3em;
 }
 #content pre {
-  padding:10px;
-  margin:0 18px 0 18px;
+  padding:4px;
+  margin:18px;
   border:1px solid #444;
 }
 #content ul {
@@ -194,7 +198,7 @@ acronym {
 
 /* Ruby code, style similar to vibrant ink */
 pre.ruby {
-  font-size: 12px;
+  font-size: 10px;
   font-family: monospace;
   color: white;
   background-color: black;

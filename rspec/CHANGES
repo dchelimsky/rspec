@@ -5,6 +5,7 @@ Blurb
 
 * Added a spec:translate Rake task to make 0.9 translation easier with Spec:Rails
 * Better translation of should_redirect_to
+* Fixed --colour support for Windows. This is a regression that was introduced in 0.9.1
 
 == Version 0.9.1
 

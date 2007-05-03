@@ -9,7 +9,6 @@ module Spec
         def example_failed(name, counter, failure)
           unless @behaviour_name.nil?
             @output.puts @behaviour_name 
-            @output.flush
             @behaviour_name = nil
           end
         end

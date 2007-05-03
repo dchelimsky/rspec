@@ -2,72 +2,91 @@
 title: RSpec Home 
 --- 
 
-h2. Behaviour Driven Development
+h2. Overview
 
-Test Driven Development (TDD) has you define the behaviour of your system by
-writing small tests that precisely define some small piece of your system's
-behaviour. Then you implement that behaviour. Then you clean up & improve your
-design.
+RSpec is a framework that provides programmers with a Domain Specific
+Language to describe the behaviour of Ruby code with readable,
+executable examples that guide you in the
+design process and serve well as both documentation as tests.
 
-At least that's how you're supposed to do it.
+h2. Here is how you do it
 
-This focus on behaviour is the real value in TDD, and marks the genuinely
-experienced TDD practitioner.
+<notextile>
+<table>
+  <tr>
+    <td>
+      Start with a very simple spec that expresses
+      some basic desired behaviour.
+    </td>
+    <td>
+      Run the spec to see it fail, then write
+      just enough code to make it pass. Don't rush
+      ahead with more code, instead add another
+      spec and let it guide you in what you have
+      to do next. Take time every now and then
+      to refactor your code when it gets messy.
+    </td>
+    <td>
+      Here is all you need to get started
+      right away!
+    </td>
+  </tr>
+  <tr>
+  <td>
+  <ruby>
+# bowling_spec.rb
+require 'bowling'
 
-However, with the ubiquity of testing related terminology in TDD and its
-supporting frameworks, it is no surprise that it takes beginners some time to
-get to the understanding that TDD isn't about testing at all... if they ever
-do.
-
-The aim of BDD is to address this shortcoming and, by using terminology
-focused on the behavioural aspects of the system rather than testing, attempt
-to help direct developers towards a focus on the real value to be found in TDD
-at its most successful, or BDD as we call it.
-
-(paraphrased from "behaviour-driven.org":http://behaviour-driven.org)
-
-Dan North, who was the first to coin the term BDD, and who has been actively 
-refining it since, started promoting BDD in 2003. "JBehave":http://jbehave.codehaus.org/ 
-was the first BDD framework to support this new thinking.
-
-h2. RSpec
-
-RSpec is a __Behaviour Definition Framework__ well suited for practicing __Behaviour Driven Development__ (BDD) in Ruby.
-
-It all started with a blogpost 
-("A New Look at Test Driven Development":http://blog.daveastels.com/articles/2005/07/05/a-new-look-at-test-driven-development) 
-of Dave's where he talked about his ideas for BDD and a BDD framework. One thing he mentioned was that his ideas
-would be easily implemented in Smalltalk, and probably Ruby.
-
-Steven Baker wrote the first version of the rspec core.  Dave added mock support (initially inspired from Schmock by 
-Ben Griffiths). Dave and David had met & talked about BDD at Agile'05 just after Dave's blog
-post (above). David started thinking about a BDD framework in C#. As fate, or
-the gods, would have it Dave & David ended up working at the same client in
-the greater Chicago area, allowing them to explore some ideas resulting in the totally rewriting of the expectation mechanism. 
-Aslak joined in and the three rewrote the higher level syntax and the core, reworking RSpec into what you see now:
-
-<ruby>
-describe "Behaviour Definition Framework" do
-
+describe Bowling do
   before do
-    @bd_framework = BehaviourDefinitionFramework.new
+    @game = Bowling.new
   end
 
-  it "should be adopted quickly" do
-    @bd_framework.should be_adopted_quickly
-  end
-  
-  it "should be intuitive" do
-    @bd_framework.should be_intuitive
+  it "should score 0 for gutter game" do
+    1.upto(10) { @game.hit(0) }
+    @game.score.should == 0
   end
 
+  it "should score 300 for perfect game" do
+    1.upto(10) { @game.hit(10) }
+    @game.score.should == 300
+  end
 end
 </ruby>
+  </td>
+  <td>
+  <ruby>
+# bowling.rb
+class Bowling
+  def hit(pins)
+    @all_gutter = (pins == 0)
+  end
 
-RSpec provides a framework for writing what we call __executable
-examples of program behaviour__. Since that's rather wordy, we usually
-just call them __examples__. We used to call them __specs__, but have since
-been "enlightened":http://www.testing.com/cgi-bin/blog/2006/04/12#spec-vs-example.
+  def score
+    @all_gutter ? 0 : 300
+  end
+end
+</ruby>
+  </td>
+  <td>
+  <pre>$ gem install rspec</pre>
+  <pre>
+$ spec bowling.rb     
+..
 
-On this site you will find examples, documentation, and tutorials as well as
-links to download and community resources.
+Finished in 0.007468 seconds
+
+2 examples, 0 failures</pre>
+<pre>$ spec bowling.rb --format specdoc
+
+Bowling
+- should score 0 for gutter game
+- should score 300 for perfect game
+
+Finished in 0.007686 seconds
+
+2 examples, 0 failures</pre>
+  </td>
+  </tr>
+</table>
+</notextile>

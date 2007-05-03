@@ -65,6 +65,7 @@ module Spec
           @formatters.each{|f| f.dump_failure(index, failure)}
           index + 1
         end
+        STDOUT.flush
       end
 
       def duration
@@ -74,12 +75,12 @@ module Spec
 
       def example_passed(name)
         @formatters.each{|f| f.example_passed(name)}
+        STDOUT.flush
       end
 
       def example_failed(name, error, failure_location)
         @backtrace_tweaker.tweak_backtrace(error, failure_location)
         example_name = "#{@behaviour_names.last} #{name}"
-        @failure_io.puts(example_name) unless @failure_io.nil?
         failure = Failure.new(example_name, error)
         @failures << failure
         @formatters.each{|f| f.example_failed(name, @failures.length, failure)}

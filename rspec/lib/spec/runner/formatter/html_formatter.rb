@@ -7,6 +7,7 @@ module Spec
           super
           @current_behaviour_number = 0
           @current_example_number = 0
+          @html_header = true
         end
 
         # The number of the currently running behaviour
@@ -22,10 +23,10 @@ module Spec
         def start(example_count)
           @example_count = example_count
 
-          @output.puts HEADER_1
-          @output.puts extra_header_content unless extra_header_content.nil?
-          @output.puts HEADER_2
-          @output.flush
+          if(@html_header)
+            @output.puts HTML_HEADER
+          end
+          @output.puts REPORT_HEADER
         end
 
         def add_behaviour(name)
@@ -34,31 +35,28 @@ module Spec
             @output.puts "  </dl>"
             @output.puts "</div>"
           end
-          @output.puts "<div class=\"context\">"
+          @output.puts "<div class=\"behaviour\">"
           @output.puts "  <dl>"
-          @output.puts "  <dt id=\"context_#{current_behaviour_number}\">#{escape(name)}</dt>"
-          @output.flush
+          @output.puts "  <dt id=\"behaviour_#{current_behaviour_number}\">#{escape(name)}</dt>"
         end
 
         def start_dump
           @output.puts "  </dl>"
           @output.puts "</div>"
-          @output.flush
         end
 
         def example_passed(name)
           @current_example_number += 1
           move_progress
           @output.puts "    <dd class=\"spec passed\"><span class=\"passed_spec_name\">#{escape(name)}</span></dd>"
-          @output.flush
         end
 
         def example_failed(name, counter, failure)
           extra = extra_failure_content(failure)
           
           @current_example_number += 1
-          @output.puts "    <script type=\"text/javascript\">makeRed('header');</script>"
-          @output.puts "    <script type=\"text/javascript\">makeRed('context_#{current_behaviour_number}');</script>"
+          @output.puts "    <script type=\"text/javascript\">makeRed('rspec-header');</script>"
+          @output.puts "    <script type=\"text/javascript\">makeRed('behaviour_#{current_behaviour_number}');</script>"
           move_progress
           @output.puts "    <dd class=\"spec failed\">"
           @output.puts "      <span class=\"failed_spec_name\">#{escape(name)}</span>"
@@ -68,12 +66,6 @@ module Spec
           @output.puts extra unless extra == ""
           @output.puts "      </div>"
           @output.puts "    </dd>"
-          @output.flush
-        end
-        
-        # Override this method if you wish to output extra HTML in the header
-        #
-        def extra_header_content
         end
 
         # Override this method if you wish to output extra HTML for a failed spec. For example, you
@@ -104,12 +96,14 @@ module Spec
           @output.puts "<script type=\"text/javascript\">document.getElementById('duration').innerHTML = \"Finished in <strong>#{duration} seconds</strong>\";</script>"
           @output.puts "<script type=\"text/javascript\">document.getElementById('totals').innerHTML = \"#{totals}\";</script>"
           @output.puts "</div>"
-          @output.puts "</body>"
-          @output.puts "</html>"
-          @output.flush
+          @output.puts "</div>"
+          if(@html_header)
+            @output.puts "</body>"
+            @output.puts "</html>"
+          end
         end
 
-        HEADER_1 = <<-EOF
+        HTML_HEADER = <<-EOF
 <?xml version="1.0" encoding="iso-8859-1"?>
 <!DOCTYPE html
      PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
@@ -121,28 +115,32 @@ module Spec
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
   <meta http-equiv="Expires" content="-1" />
   <meta http-equiv="Pragma" content="no-cache" />
+  <style type="text/css">
+  body {
+    margin: 0; padding: 0;
+    background: #fff;
+  }
+  </style>
+</head>
+<body>
 EOF
 
-        HEADER_2 = <<-EOF
+        REPORT_HEADER = <<-EOF
+<div class="rspec-report">
   <script type="text/javascript">
   function moveProgressBar(percentDone) {
-    document.getElementById("header").style.width = percentDone +"%";
+    document.getElementById("rspec-header").style.width = percentDone +"%";
   }
   function makeRed(element_id) {
     document.getElementById(element_id).style.background = '#C40D0D';
   }
   </script>
   <style type="text/css">
-  body {
-    margin: 0; padding: 0;
-    background: #fff;
-  }
-
-  #header {
+  #rspec-header {
     background: #65C400; color: #fff;
   }
 
-  h1 {
+  div.rspec-report h1 {
     margin: 0 0 10px;
     padding: 10px;
     font: bold 18px "Lucida Grande", Helvetica, sans-serif;
@@ -165,7 +163,7 @@ EOF
     font-size: 14px;
   }
 
-  .context {
+  .behaviour {
     margin: 0 10px 5px;
     background: #fff;
   }
@@ -217,37 +215,35 @@ EOF
     padding: 0.1em 0 0.2em 0;
   }
 
-  .keyword { color: #FF6600; }
-  .constant { color: #339999; }
-  .attribute { color: white; }
-  .global { color: white; }
-  .module { color: white; }
-  .class { color: white; }
-  .string { color: #66FF00; }
-  .ident { color: white; }
-  .method { color: #FFCC00; }
-  .number { color: white; }
-  .char { color: white; }
-  .comment { color: #9933CC; }
-  .symbol { color: white; }
-  .regex { color: #44B4CC; }
-  .punct { color: white; }
-  .escape { color: white; }
-  .interp { color: white; }
-  .expr { color: white; }
+  pre.ruby .keyword { color: #FF6600; }
+  pre.ruby .constant { color: #339999; }
+  pre.ruby .attribute { color: white; }
+  pre.ruby .global { color: white; }
+  pre.ruby .module { color: white; }
+  pre.ruby .class { color: white; }
+  pre.ruby .string { color: #66FF00; }
+  pre.ruby .ident { color: white; }
+  pre.ruby .method { color: #FFCC00; }
+  pre.ruby .number { color: white; }
+  pre.ruby .char { color: white; }
+  pre.ruby .comment { color: #9933CC; }
+  pre.ruby .symbol { color: white; }
+  pre.ruby .regex { color: #44B4CC; }
+  pre.ruby .punct { color: white; }
+  pre.ruby .escape { color: white; }
+  pre.ruby .interp { color: white; }
+  pre.ruby .expr { color: white; }
 
-  .offending { background-color: gray; }
-  .linenum {
+  pre.ruby .offending { background-color: gray; }
+  pre.ruby .linenum {
   	width: 75px;
   	padding: 0.1em 1em 0.2em 0;
   	color: #000000;
   	background-color: #FFFBD3;
   }
   </style>
-</head>
-<body>
 
-<div id="header">
+<div id="rspec-header">
   <h1>RSpec Results</h1>
 
   <div id="summary">
@@ -256,7 +252,7 @@ EOF
   </div>
 </div>
 
-<div id="results">
+<div class="results">
 EOF
       end
     end

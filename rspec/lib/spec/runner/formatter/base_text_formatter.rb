@@ -14,6 +14,8 @@ module Spec
           super(where)
           if where.is_a?(String)
             @output = File.open(where, 'w')
+          elsif where == STDOUT
+            @output = Kernel
           else
             @output = where
           end
@@ -38,7 +40,6 @@ module Spec
             @output.puts magenta(failure.exception.message)
           end
           @output.puts format_backtrace(failure.exception.backtrace)
-          @output.flush
         end
       
         def dump_summary(duration, example_count, failure_count)

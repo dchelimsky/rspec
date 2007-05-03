@@ -811,3 +811,28 @@ describe "string.should have_tag", :behaviour_type => :helper do
     end.should raise_error(SpecFailed)
   end
 end
+
+describe "have_tag", :behaviour_type => :controller do
+  include AssertSelectSpecHelpers
+  controller_name :assert_select
+  integrate_views
+
+  it "should work exactly the same as assert_select" do
+    render_html %Q{
+      <div id="wrapper">foo
+        <div class="piece">
+          <h3>Text</h3>
+        </div>
+        <div class="piece">
+          <h3>Another</h3>
+        </div>      
+      </div>
+    }
+
+    assert_select "#wrapper .piece h3", :text => "Text"
+    assert_select "#wrapper .piece h3", :text => "Another"
+
+    response.should have_tag("#wrapper .piece h3", :text => "Text")
+    response.should have_tag("#wrapper .piece h3", :text => "Another")
+  end
+end

@@ -25,7 +25,7 @@ module RSpec
     
     private     
       def remove_ruby_tags(content_with_tags)
-        content_with_tags.gsub!(/<ruby>/, "")
+        content_with_tags.gsub!(/<ruby>\s*/n, "")
         content_with_tags.gsub!(/<\/ruby>/, "")
       end  
     end                   
