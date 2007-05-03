@@ -16,7 +16,6 @@
 
 <div id="container">
   <div id="header">
-    <h2>Behaviour Driven Development for <strong>Ruby</strong></h2>
     <h1>RSpec {version: }</h1>
   </div>
 

@@ -12,35 +12,16 @@ serve well as both documentation and tests.
 h2. Here is how you do it
 
 <notextile>
-<table>
+<table width="100%" cellpadding="0" cellspacing="0">
   <tr>
-    <td>
-      <p>
-        Start with a very simple spec that expresses
-        some basic desired behaviour.
-      </p>
-    </td>
-    <td>
-      <p>
-        Run the spec to see it fail, then write
-        just enough code to make it pass. Don't rush
-        ahead with more code, instead add another
-        spec and let it guide you in what you have
-        to do next. Take time every now and then
-        to refactor your code when it gets messy.
-      </p>
-    </td>
-    <td>
-      <p>
-        Here is all you need to get started
-        right away!
-      </p>
-    </td>
-  </tr>
-  <tr>
-  <td><ruby>
-# bowling_spec.rb
-require 'bowling'
+    <td width="50%">
+<p>
+  Start with a very simple example that expresses
+  some basic desired behaviour.
+</p>
+<ruby>
+# game_spec.rb
+require 'game'
 
 describe Game do
   before(:each) do
@@ -51,51 +32,60 @@ describe Game do
     1.upto(20) { @game.hit(0) }
     @game.score.should == 0
   end
-
-  it "should score 20 for all ones" do
-    1.upto(20) { @game.hit(1) }
-    @game.score.should == 20
-  end
 end
 </ruby>
-  </td>
-  <td>
-  <ruby>
-# bowling.rb
+<p>
+  Run the example and watch it fail.
+</p>
+<pre style="color:red;">$ spec game_spec.rb 
+./game_spec.rb:3:
+  uninitialized constant Game
+</pre>
+    </td>
+    <td width="50%">
+<p>
+  Now write
+  just enough code to make it pass.
+</p>
+<ruby>
+# game.rb
 class Game
-  def initialize
-    @score = 0
-  end
-  
   def hit(pins)
-    @score += pins
   end
-  
+
   def score
-    @score
+    0
   end
 end
 </ruby>
-  </td>
-  <td>
-  <pre>$ gem install rspec</pre>
-  <pre>
-$ spec bowling.rb     
-..
+<p>
+Run the example and bask in the joy that is green.
+</p>
 
-Finished in 0.007468 seconds
+<pre style="color:green;">$ spec game_spec.rb --format specdoc
 
-2 examples, 0 failures</pre>
-<pre>$ spec bowling.rb --format specdoc
-
-Bowling
+Game
 - should score 0 for gutter game
-- should score 20 for all ones game
 
-Finished in 0.007686 seconds
+Finished in 0.007534 seconds
 
-2 examples, 0 failures</pre>
-  </td>
+1 example, 0 failures
+</pre>
+    </td>
   </tr>
 </table>
 </notextile>
+
+h2. Take very small steps
+
+Don't rush ahead with more code. Instead, add another
+example and let it guide you to what you have
+to do next. And don't forget to take time
+to refactor your code before it gets messy. You should keep
+your code clean at every step of the way.
+
+h2. Take the first step now!
+
+<pre>$ gem install rspec</pre>
+
+
