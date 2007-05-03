@@ -10,6 +10,7 @@ This is a quick maintenance release.
 * Added a spec:translate Rake task to make 0.9 translation easier with Spec:Rails
 * Better translation of should_redirect_to
 * Fixed --colour support for Windows. This is a regression that was introduced in 0.9.1
+* Applied [#10460] Make SpecRunner easier to instantiate without using commandline args
 
 == Version 0.9.1
 
@@ -126,6 +127,7 @@ See Spec::DSL::Behaviour for more on predicate_matchers
 * Updated sample app specs to 0.9 syntax
 * Updated generated specs to 0.9 syntax
 * Applied [#8994] trunk: generated names for be_ specs (Multiple patches from Yurii Rashkovskii)
+* Applied [#9983]: Allow before and after to be called in BehaviourEval. This is useful for shared examples.
 
 == Version 0.8.2
 
