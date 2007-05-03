@@ -460,7 +460,7 @@ module Spec
       
       it "should include any predicate_matchers included using configuration" do
         $included_predicate_matcher_found = false
-        Spec::Runner.configuration.predicate_matchers[:does_something?] = :do_something
+        Spec::Runner.configuration.predicate_matchers[:do_something] = :does_something?
         Behaviour.new('example') do
           it "should respond to do_something" do
             $included_predicate_matcher_found = respond_to?(:do_something)

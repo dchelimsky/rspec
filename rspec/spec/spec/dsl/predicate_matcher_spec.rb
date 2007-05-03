@@ -9,7 +9,7 @@ module Spec
     end
     
     describe "predicate_matcher[method_on_object] = matcher_method" do
-      predicate_matchers[:can_swim?] = :swim
+      predicate_matchers[:swim] = :can_swim?
       it "should match matcher_method if method_on_object returns true" do
         swim(100).matches?(Fish.new).should be_true
       end
