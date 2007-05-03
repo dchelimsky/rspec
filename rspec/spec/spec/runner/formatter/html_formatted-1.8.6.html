@@ -9,25 +9,29 @@
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
   <meta http-equiv="Expires" content="-1" />
   <meta http-equiv="Pragma" content="no-cache" />
+  <style type="text/css">
+  body {
+    margin: 0; padding: 0;
+    background: #fff;
+  }
+  </style>
+</head>
+<body>
+<div class="rspec-report">
   <script type="text/javascript">
   function moveProgressBar(percentDone) {
-    document.getElementById("header").style.width = percentDone +"%";
+    document.getElementById("rspec-header").style.width = percentDone +"%";
   }
   function makeRed(element_id) {
     document.getElementById(element_id).style.background = '#C40D0D';
   }
   </script>
   <style type="text/css">
-  body {
-    margin: 0; padding: 0;
-    background: #fff;
-  }
-
-  #header {
+  #rspec-header {
     background: #65C400; color: #fff;
   }
 
-  h1 {
+  div.rspec-report h1 {
     margin: 0 0 10px;
     padding: 10px;
     font: bold 18px "Lucida Grande", Helvetica, sans-serif;
@@ -50,7 +54,7 @@
     font-size: 14px;
   }
 
-  .context {
+  .behaviour {
     margin: 0 10px 5px;
     background: #fff;
   }
@@ -102,37 +106,35 @@
     padding: 0.1em 0 0.2em 0;
   }
 
-  .keyword { color: #FF6600; }
-  .constant { color: #339999; }
-  .attribute { color: white; }
-  .global { color: white; }
-  .module { color: white; }
-  .class { color: white; }
-  .string { color: #66FF00; }
-  .ident { color: white; }
-  .method { color: #FFCC00; }
-  .number { color: white; }
-  .char { color: white; }
-  .comment { color: #9933CC; }
-  .symbol { color: white; }
-  .regex { color: #44B4CC; }
-  .punct { color: white; }
-  .escape { color: white; }
-  .interp { color: white; }
-  .expr { color: white; }
+  pre.ruby .keyword { color: #FF6600; }
+  pre.ruby .constant { color: #339999; }
+  pre.ruby .attribute { color: white; }
+  pre.ruby .global { color: white; }
+  pre.ruby .module { color: white; }
+  pre.ruby .class { color: white; }
+  pre.ruby .string { color: #66FF00; }
+  pre.ruby .ident { color: white; }
+  pre.ruby .method { color: #FFCC00; }
+  pre.ruby .number { color: white; }
+  pre.ruby .char { color: white; }
+  pre.ruby .comment { color: #9933CC; }
+  pre.ruby .symbol { color: white; }
+  pre.ruby .regex { color: #44B4CC; }
+  pre.ruby .punct { color: white; }
+  pre.ruby .escape { color: white; }
+  pre.ruby .interp { color: white; }
+  pre.ruby .expr { color: white; }
 
-  .offending { background-color: gray; }
-  .linenum {
+  pre.ruby .offending { background-color: gray; }
+  pre.ruby .linenum {
   	width: 75px;
   	padding: 0.1em 1em 0.2em 0;
   	color: #000000;
   	background-color: #FFFBD3;
   }
   </style>
-</head>
-<body>
 
-<div id="header">
+<div id="rspec-header">
   <h1>RSpec Results</h1>
 
   <div id="summary">
@@ -141,14 +143,14 @@
   </div>
 </div>
 
-<div id="results">
-<div class="context">
+<div class="results">
+<div class="behaviour">
   <dl>
-  <dt id="context_1">Mocker</dt>
+  <dt id="behaviour_1">Mocker</dt>
     <script type="text/javascript">moveProgressBar('7.6');</script>
     <dd class="spec passed"><span class="passed_spec_name">should be able to call mock()</span></dd>
-    <script type="text/javascript">makeRed('header');</script>
-    <script type="text/javascript">makeRed('context_1');</script>
+    <script type="text/javascript">makeRed('rspec-header');</script>
+    <script type="text/javascript">makeRed('behaviour_1');</script>
     <script type="text/javascript">moveProgressBar('15.3');</script>
     <dd class="spec failed">
       <span class="failed_spec_name">should fail when expected message not received</span>
@@ -165,8 +167,8 @@
 <span class="linenum">15</span>  </code></pre>
       </div>
     </dd>
-    <script type="text/javascript">makeRed('header');</script>
-    <script type="text/javascript">makeRed('context_1');</script>
+    <script type="text/javascript">makeRed('rspec-header');</script>
+    <script type="text/javascript">makeRed('behaviour_1');</script>
     <script type="text/javascript">moveProgressBar('23.0');</script>
     <dd class="spec failed">
       <span class="failed_spec_name">should fail when messages are received out of order</span>
@@ -183,8 +185,8 @@
 <span class="linenum">24</span>  <span class="keyword">end</span></code></pre>
       </div>
     </dd>
-    <script type="text/javascript">makeRed('header');</script>
-    <script type="text/javascript">makeRed('context_1');</script>
+    <script type="text/javascript">makeRed('rspec-header');</script>
+    <script type="text/javascript">makeRed('behaviour_1');</script>
     <script type="text/javascript">moveProgressBar('30.7');</script>
     <dd class="spec failed">
       <span class="failed_spec_name">should get yelled at when sending unexpected messages</span>
@@ -203,11 +205,11 @@
     </dd>
   </dl>
 </div>
-<div class="context">
+<div class="behaviour">
   <dl>
-  <dt id="context_2">Running specs with --diff</dt>
-    <script type="text/javascript">makeRed('header');</script>
-    <script type="text/javascript">makeRed('context_2');</script>
+  <dt id="behaviour_2">Running specs with --diff</dt>
+    <script type="text/javascript">makeRed('rspec-header');</script>
+    <script type="text/javascript">makeRed('behaviour_2');</script>
     <script type="text/javascript">moveProgressBar('38.4');</script>
     <dd class="spec failed">
       <span class="failed_spec_name">should print diff of different strings</span>
@@ -230,8 +232,8 @@ Diff:
 <span class="linenum">14</span>  <span class="keyword">end</span></code></pre>
       </div>
     </dd>
-    <script type="text/javascript">makeRed('header');</script>
-    <script type="text/javascript">makeRed('context_2');</script>
+    <script type="text/javascript">makeRed('rspec-header');</script>
+    <script type="text/javascript">makeRed('behaviour_2');</script>
     <script type="text/javascript">moveProgressBar('46.1');</script>
     <dd class="spec failed">
       <span class="failed_spec_name">should print diff of different objects' pretty representation</span>
@@ -266,16 +268,16 @@ Diff:
     </dd>
   </dl>
 </div>
-<div class="context">
+<div class="behaviour">
   <dl>
-  <dt id="context_3">A consumer of a stub</dt>
+  <dt id="behaviour_3">A consumer of a stub</dt>
     <script type="text/javascript">moveProgressBar('53.8');</script>
     <dd class="spec passed"><span class="passed_spec_name">should be able to stub methods on any Object</span></dd>
   </dl>
 </div>
-<div class="context">
+<div class="behaviour">
   <dl>
-  <dt id="context_4">A stubbed method on a class</dt>
+  <dt id="behaviour_4">A stubbed method on a class</dt>
     <script type="text/javascript">moveProgressBar('61.5');</script>
     <dd class="spec passed"><span class="passed_spec_name">should return the stubbed value</span></dd>
     <script type="text/javascript">moveProgressBar('69.2');</script>
@@ -284,9 +286,9 @@ Diff:
     <dd class="spec passed"><span class="passed_spec_name">can stub! and mock the same message</span></dd>
   </dl>
 </div>
-<div class="context">
+<div class="behaviour">
   <dl>
-  <dt id="context_5">A mock</dt>
+  <dt id="behaviour_5">A mock</dt>
     <script type="text/javascript">moveProgressBar('84.6');</script>
     <dd class="spec passed"><span class="passed_spec_name">can stub!</span></dd>
     <script type="text/javascript">moveProgressBar('92.3');</script>
@@ -297,6 +299,7 @@ Diff:
 </div>
 <script type="text/javascript">document.getElementById('duration').innerHTML = "Finished in <strong>x seconds</strong>";</script>
 <script type="text/javascript">document.getElementById('totals').innerHTML = "13 examples, 5 failures";</script>
+</div>
 </div>
 </body>
 </html>
