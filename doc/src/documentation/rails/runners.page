@@ -6,8 +6,8 @@ h2. Spec::Rails - Runners
 h3. Standard spec command
 
 <pre>
-spec path/to/directory/with/specs
-spec path/to/individual_spec.rb
+script/spec path/to/directory/with/specs
+script/spec path/to/individual_spec.rb
 </pre>
 
 h3. Run specs fast with &minus;&minus;drb (recommended)

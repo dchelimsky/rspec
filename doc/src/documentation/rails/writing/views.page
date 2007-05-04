@@ -26,7 +26,7 @@ you exploit the mock framework here rather than providing real model objects
 in order to keep the view specs isolated from changes to your models.
 
 <ruby>
-article = mock("article")
+article = mock_model(Article)
 article.should_receive(:author).and_return("Joe")
 article.should_receive(:text).and_return("this is the text of the article")
 assigns[:article] = article

@@ -7,14 +7,15 @@ A Rails plugin that brings RSpec to Rails.
 
 h3. Features
 
-* Use RSpec to independently specify models, views, controllers and helpers
-* Integrated fixture loading
+* Use RSpec to independently specify models, views, controllers and helpers.
+* Integrated fixture loading.
 * Special generators for models and controllers that generate specs instead of tests.
+* Special RSpec matchers for even more readable specs.
 
 h3. Vision
 
-For people for whom TDD is a brand new concept, the testing support built into rails is a huge
-leap forward. The fact that it's built right in is fantastic, and rails
+For people for whom TDD is a brand new concept, the testing support built into Rails is a huge
+leap forward. The fact that it's built right in is fantastic, and Rails
 apps are generally much easier to maintain than they would have been without such support.
 
 For those of us coming from a history with TDD, and now BDD, the existing support
@@ -26,7 +27,7 @@ and stubbing support in order to break dependencies across these different conce
 
 h2. Different Contexts for different Contexts
 
-'spec/rails' supports different Context subclasses for the following types of specs:
+Spec::Rails supports different Context subclasses for the following types of specs:
 
 h3. Model Specs
 

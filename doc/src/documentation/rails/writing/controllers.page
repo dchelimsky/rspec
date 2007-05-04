@@ -7,7 +7,7 @@ Controller Specs live in $RAILS_ROOT/spec/controllers/.
 
 h2. Isolation from views
 
-Spec::Rails 0.7 introduces the ability to specify your controllers in complete
+Spec::Rails has the ability to specify your controllers in complete
 isolation from their related views. This allows you to spec your controllers
 before the views even exist, and will keep the specs from failing when there
 are errors in your views.
@@ -34,19 +34,19 @@ We strongly recommend that you use RSpec's "mocking/stubbing framework":../../mo
 to intercept class level calls like <code>:find</code>, <code>:create</code> and
 even <code>:new</code> to introduce mock instances instead of real active_record instances.
 
-This allows you focus your specs on the things that the controller does and not
-worry about complex validations and relationships that should be spec'd in
+This allows you to focus your specs on the things that the controller does and not
+worry about complex validations and relationships that should be described in
 detail in the "Model Specs":models.html
 
 <ruby>
-account = mock("account")
+account = mock_model(Account)
 Account.should_receive(:find).with("37").and_return(account)
 </ruby>
 
 or
 
 <ruby>
-account = mock("account")
+account = mock_model(Account)
 Account.stub!(:find).and_return(account)
 </ruby>
 

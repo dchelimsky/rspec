@@ -9,7 +9,7 @@ Writing specs for your helpers is a snap. Just tell the context the name of the
 helper ...
 
 <ruby>
-context RegistrationHelper do
+describe RegistrationHelper do
   helper_name :registration #tells rspec to include the RegistrationHelper
   ...
 </ruby>

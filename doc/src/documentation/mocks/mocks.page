@@ -3,7 +3,7 @@ title: Mock Objects
 ---
 h2. Mock Objects
 
-RSpec contains a tightly integrated Mock Object framework.
+This page describes RSpec's built-in mocking API.
 
 h3. Creating a mock
 
@@ -298,16 +298,16 @@ Likewise, calls to order-independent methods can be made in any order, even inte
 calls to order-dependent methods.  For example:
 
 <ruby>
-  my_mock.should_receive(:zero)
-  my_mock.should_receive(:one).ordered
-  my_mock.should_receive(:two).ordered
-  my_mock.should_receive(:one_and_a_half)
+my_mock.should_receive(:zero)
+my_mock.should_receive(:one).ordered
+my_mock.should_receive(:two).ordered
+my_mock.should_receive(:one_and_a_half)
 
-  # This will pass:
-  my_mock.one
-  my_mock.one_and_a_half
-  my_mock.zero
-  my_mock.two
+# This will pass:
+my_mock.one
+my_mock.one_and_a_half
+my_mock.zero
+my_mock.two
 </ruby>
 
 h3. Arbitrary Handling of Received Messages
