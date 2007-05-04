@@ -2,6 +2,7 @@
 
 == Version 0.9.3
 * Applied [#10566] prepend_before and prepend_after callbacks
+* Applied [#10567] Call setup and teardown using before and after callbacks
 
 == Version 0.9.2
 This is a quick maintenance release. 

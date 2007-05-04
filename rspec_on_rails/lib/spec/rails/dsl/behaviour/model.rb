@@ -9,6 +9,8 @@ module Spec
       class ModelBehaviour < Spec::DSL::Behaviour
         def before_eval # :nodoc:
           inherit Spec::Rails::DSL::EvalContext
+          prepend_before {setup}
+          append_after {teardown}
           configure
         end
       end

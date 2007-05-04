@@ -38,6 +38,8 @@ describe "RSpec should integrate with Test::Unit::TestCase" do
   
   fixtures :some_table
 
+  prepend_before(:each) {setup}
+
   before(:each) do
     @rspec_setup_called = true
   end

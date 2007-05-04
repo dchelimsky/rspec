@@ -111,7 +111,6 @@ module Spec
 
         def before_each_proc(&error_handler)
           parts = []
-          add_superclass_method(parts, 'setup')
           parts.push(*Behaviour.before_each_parts)
           parts.push(*before_each_parts)
           CompositeProcBuilder.new(parts).proc(&error_handler)
@@ -120,7 +119,6 @@ module Spec
         def after_each_proc(&error_handler)
           parts = []
           parts.push(*after_each_parts)
-          add_superclass_method(parts, 'teardown')
           parts.push(*Behaviour.after_each_parts)
           CompositeProcBuilder.new(parts).proc(&error_handler)
         end
@@ -137,6 +135,8 @@ module Spec
 
         def derive_execution_context_class_from_behaviour_superclass
           @execution_context_class = Class.new(behaviour_superclass)
+          behaviour_superclass.spec_inherited(self) if behaviour_superclass.respond_to?(:spec_inherited)
+          @execution_context_class
         end
 
         def behaviour_superclass

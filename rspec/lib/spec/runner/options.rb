@@ -99,10 +99,6 @@ module Spec
         end
       end
 
-      def parse_line(line_number)
-        @line_number = line_number.to_i
-      end
-
       def parse_format(format, out_stream, error_stream)
         where = out_stream
         # This funky regexp checks whether we have a FILE_NAME or not

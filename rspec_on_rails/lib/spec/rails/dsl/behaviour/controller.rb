@@ -205,6 +205,8 @@ module Spec
 
         def before_eval # :nodoc:
           inherit Spec::Rails::DSL::ControllerEvalContext
+          prepend_before {setup}
+          append_after {teardown}
           configure
         end
 

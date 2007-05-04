@@ -206,9 +206,13 @@ module Spec
         before_all_run_count_run_count.should == 1
       end
 
-      it "should run superclass setup method and before block" do
+      it "calls spec_inherited class method" do
         super_class_before_ran = false
         super_class = Class.new do
+          def self.spec_inherited(mod)
+            mod.before {setup}
+          end
+
           define_method :setup do
             super_class_before_ran = true
           end
@@ -274,7 +278,6 @@ module Spec
           'Behaviour.before(:all)',
           'prepend_before(:all)',
           'before(:all)',
-          'superclass setup',
           'prepend_before(:each)',
           'before(:each)'
         ]
@@ -303,7 +306,6 @@ module Spec
         fiddle.should == [
           'after(:each)',
           'append_after(:each)',
-          'superclass teardown',
           'after(:all)',
           'append_after(:all)',
           'Behaviour.after(:all)',
@@ -324,7 +326,7 @@ module Spec
         @behaviour.after {teardown_ran = true}
         @behaviour.it("test") {true}
         @behaviour.run(@reporter)
-        super_class_teardown_ran.should be_true
+        super_class_teardown_ran.should be_false
         teardown_ran.should be_true
         @reporter.rspec_verify
       end
