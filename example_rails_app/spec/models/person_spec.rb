@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe "The Person model with fixtures loaded" do
+describe Person, "with fixtures loaded" do
   fixtures :people, :animals
 
   before(:each) do
@@ -35,7 +35,7 @@ describe "The Person model with fixtures loaded" do
   end
 end
 
-describe "A new Person with a name" do
+describe Person, "with a name" do
   fixtures :people
   
   before(:each) do
@@ -52,7 +52,7 @@ describe "A new Person with a name" do
   end
 end
 
-describe "A person with 2 animals" do
+describe Person, "with 2 animals" do
   before(:each) do
     @fluff = Animal.new(:name => "fluff", :age => 7)
     @binki = Animal.new(:name => "binki", :age => 0.5)

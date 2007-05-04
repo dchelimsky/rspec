@@ -7,7 +7,11 @@ module Spec
         args, @options = args_and_options(*args)
         @described_type = args.first unless args.first.is_a?(String)
         @description = args.shift.to_s
-        @description << args.shift.to_s unless args.empty?
+        unless args.empty?
+          suffix = args.shift.to_s 
+          @description << " " unless suffix =~ /^\s/
+          @description << suffix
+        end
       end
   
       def [](key)

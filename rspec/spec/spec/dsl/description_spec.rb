@@ -2,7 +2,9 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 
 module Spec
   module DSL
-    describe Description, " constructed with a single String" do before(:each) {@description = Description.new("abc")}
+    describe Description, " constructed with a single String" do 
+      before(:each) {@description = Description.new("abc")}
+      
       it "should provide that string as its name" do
         @description.description.should == "abc"
       end
@@ -24,7 +26,9 @@ module Spec
       end
     end
     
-    describe Description, " constructed with a Type" do before(:each) {@description = Description.new(Behaviour)}
+    describe Description, " constructed with a Type" do 
+      before(:each) {@description = Description.new(Behaviour)}
+
       it "should provide a String representation of that type (fully qualified) as its name" do
         @description.description.should == "Spec::DSL::Behaviour"
       end
@@ -33,12 +37,22 @@ module Spec
       end
     end
     
-    describe Description, " constructed with a Type and a String" do before(:each) {@description = Description.new(Behaviour, " behaving")}
+    describe Description, " constructed with a Type and a String" do 
+      before(:each) {@description = Description.new(Behaviour, " behaving")}
+      
       it "should include the type and second String in its name" do
         @description.description.should == "Spec::DSL::Behaviour behaving"
       end
       it "should provide that type (fully qualified) as its type" do
         @description.described_type.should == Spec::DSL::Behaviour
+      end
+    end
+
+    describe Description, "constructed with a Type and a String not starting with a space" do 
+      before(:each) {@description = Description.new(Behaviour, "behaving")}
+
+      it "should include the type and second String with a space in its name" do
+        @description.description.should == "Spec::DSL::Behaviour behaving"
       end
     end
 

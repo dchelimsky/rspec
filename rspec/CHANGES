@@ -1,6 +1,7 @@
 = RSpec Changelog
 
 == Version 0.9.3
+* describe(SomeType, "message") will have a decription with a space: "SomeType message"
 * Applied [#10566] prepend_before and prepend_after callbacks
 * Applied [#10567] Call setup and teardown using before and after callbacks
 
