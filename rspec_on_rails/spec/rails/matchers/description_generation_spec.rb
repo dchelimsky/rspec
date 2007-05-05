@@ -14,7 +14,11 @@ describe "Description generation", :behaviour_type => :controller do
   before(:each) do
     @desc = nil
     @callback = lambda { |desc| @desc = desc }
-    Spec::Matchers.description_generated(&@callback)
+    Spec::Matchers.description_generated(@callback)
+  end
+  
+  after(:each) do
+    Spec::Matchers.unregister_description_generated(@callback)
   end
   
   it "should generate description for render_template" do

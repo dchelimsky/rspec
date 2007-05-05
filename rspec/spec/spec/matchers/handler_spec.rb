@@ -3,8 +3,8 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 module ExampleExpectations
   
   class ArbitraryMatcher
-    def initialize(*args,&block)
-      if args.last.is_a?Hash
+    def initialize(*args, &block)
+      if args.last.is_a? Hash
         @expected = args.last[:expected]
       end
       if block_given?

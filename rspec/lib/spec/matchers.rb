@@ -118,13 +118,13 @@ module Spec
   #     end
   #   end
   #
-  #   context "Player behaviour" do
+  #   describe "Player behaviour" do
   #     include CustomGameMatchers
   #     ...
   #   end
   module Matchers
     module ModuleMethods
-      def description_generated(&callback)
+      def description_generated(callback)
         description_generated_callbacks << callback
       end
 

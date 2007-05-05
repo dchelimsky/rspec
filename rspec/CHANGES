@@ -1,4 +1,5 @@
 = RSpec Changelog
+wazup
 
 == Version 0.9.3
 * describe(SomeType, "message") will have a decription with a space: "SomeType message"

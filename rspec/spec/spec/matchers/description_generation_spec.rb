@@ -4,7 +4,7 @@ describe "Matchers should be able to generate their own descriptions" do
   before(:each) do
     @desc = nil
     @callback = lambda { |desc| @desc = desc }
-    Spec::Matchers.description_generated(&@callback)
+    Spec::Matchers.description_generated(@callback)
   end
   
   it "should == expected" do
