@@ -116,9 +116,31 @@ module Spec
         example = Example.new("name", :key => 'value')
       end
 
-      it "should report NAME NOT GENERATED when told to use generated description but none is generated" do
-        example = Example.new(:__generate_description)
-        @reporter.should_receive(:example_finished).with("NAME NOT GENERATED", :anything, :anything)
+      it "should report NO NAME when told to use generated description with --dry-run" do
+        example = Example.new(:__generate_description) {
+          5.should == 5
+        }
+        @reporter.should_receive(:example_finished) do |desc, error, location|
+          desc.should == "NO NAME (Because of --dry-run)"
+        end
+        example.run(@reporter, lambda{}, lambda{}, true, Object.new)
+      end
+
+      it "should report NO NAME when told to use generated description with no expectations" do
+        example = Example.new(:__generate_description) {}
+        @reporter.should_receive(:example_finished) do |desc, error, location|
+          desc.should == "NO NAME (Because there were no expectations)"
+        end
+        example.run(@reporter, lambda{}, lambda{}, false, Object.new)
+      end
+
+      it "should report NO NAME when told to use generated description and matcher fails" do
+        example = Example.new(:__generate_description) do
+          5.should "" # Has no matches? method..
+        end
+        @reporter.should_receive(:example_finished) do |desc, error, location|
+          desc.should == "NO NAME (Because of Error raised in matcher)"
+        end
         example.run(@reporter, nil, nil, nil, Object.new)
       end
 

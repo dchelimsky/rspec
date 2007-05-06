@@ -12,6 +12,7 @@ module Spec
       end
       
       def run(reporter, before_each_block, after_each_block, dry_run, execution_context, timeout=nil)
+        @dry_run = dry_run
         reporter.example_started(description)
         return reporter.example_finished(description) if dry_run
 
@@ -39,7 +40,16 @@ module Spec
       end
       
       def generated_description
-        @generated_description || "NAME NOT GENERATED"
+        return @generated_description if @generated_description
+        if @dry_run
+          "NO NAME (Because of --dry-run)"
+        else
+          if @failed
+            "NO NAME (Because of Error raised in matcher)"
+          else
+            "NO NAME (Because there were no expectations)"
+          end
+        end
       end
       
       def setup_example(execution_context, errors, &behaviour_before_block)
@@ -53,6 +63,7 @@ module Spec
         execution_context.instance_eval(&behaviour_before_block) if behaviour_before_block
         return errors.empty?
       rescue => e
+        @failed = true
         errors << e
         return false
       end
@@ -62,6 +73,7 @@ module Spec
           execution_context.instance_eval(&@example_block)
           return true
         rescue Exception => e
+          @failed = true
           errors << e
           return false
         end
@@ -84,6 +96,7 @@ module Spec
 
         return errors.empty?
       rescue => e
+        @failed = true
         errors << e
         return false
       end
