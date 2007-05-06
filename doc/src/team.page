@@ -81,7 +81,7 @@ In alphabetical order (by last name)
 ** Port of scaffold_resource to rspec_resource (Rails)
 ** Contexts should call Module::included when they include a module
 * James Mead
-** Modified mocha to allow for it's use outside of test/unit
+** Modified mocha to allow for its use outside of test/unit
 * Micah Martin
 ** Spec::Rails patches for partials
 * Bret Pettichord

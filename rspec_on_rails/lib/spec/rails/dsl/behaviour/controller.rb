@@ -14,7 +14,7 @@ module Spec
           
           # Use this to instruct RSpec to render views in your controller examples (Integration Mode).
           # 
-          #   context "ThingController" do
+          #   describe ThingController do
           #     integrate_views
           #     ...
           #
@@ -94,13 +94,13 @@ module Spec
       #
       # The Public Class Methods are to be used within the +context+ block:
       #
-      #   context "ThingController" do
+      #   describe ThingController do
       #     # public class methods go here
       #
       # The Public Instance Methods are to be used within the +specify+ block:
       #
-      #   context "ThingController" do
-      #     specify "should do stuff" do
+      #   describe ThingController do
+      #     it "should do stuff" do
       #       # public instance methods go here
       #
       # See Spec::Rails::DSL::ControllerBehaviour for more general information
@@ -172,7 +172,7 @@ module Spec
       # To run in this mode, include the +integrate_views+ declaration
       # in your controller context:
       # 
-      #   context "ThingController" do
+      #   describe ThingController do
       #     integrate_views
       #     ...
       # 

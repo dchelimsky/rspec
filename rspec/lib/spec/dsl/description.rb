@@ -9,7 +9,7 @@ module Spec
         @description = args.shift.to_s
         unless args.empty?
           suffix = args.shift.to_s 
-          @description << " " unless suffix =~ /^\s/
+            @description << " " unless suffix =~ /^\s|\.|#/
           @description << suffix
         end
       end

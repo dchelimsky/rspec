@@ -56,6 +56,22 @@ module Spec
       end
     end
 
+    describe Description, "constructed with a Type and a String starting with a ." do 
+      before(:each) {@description = Description.new(Behaviour, ".behaving")}
+
+      it "should include the type and second String with a space in its name" do
+        @description.description.should == "Spec::DSL::Behaviour.behaving"
+      end
+    end
+
+    describe Description, "constructed with a Type and a String starting with a #" do 
+      before(:each) {@description = Description.new(Behaviour, "#behaving")}
+
+      it "should include the type and second String with a space in its name" do
+        @description.description.should == "Spec::DSL::Behaviour#behaving"
+      end
+    end
+
     describe Description, " constructed with options" do before(:each) {@description = Description.new(Behaviour, :a => "b")}
       it "should provide its options" do
         @description[:a].should == "b"
