@@ -3,13 +3,16 @@ module Spec
 
     class Include #:nodoc:
       
-      def initialize(expected)
-        @expected = expected
+      def initialize(*expecteds)
+        @expecteds = expecteds
       end
       
       def matches?(actual)
         @actual = actual
-        actual.include?(@expected)
+        @expecteds.each do |expected|
+          return false unless actual.include?(expected)
+        end
+        true
       end
       
       def failure_message
@@ -21,12 +24,26 @@ module Spec
       end
       
       def description
-        "include #{@expected.inspect}"
+        "include #{_pretty_print(@expecteds)}"
       end
       
       private
         def _message(maybe_not="")
-          "expected #{@actual.inspect} #{maybe_not}to include #{@expected.inspect}"
+          "expected #{@actual.inspect} #{maybe_not}to include #{_pretty_print(@expecteds)}"
+        end
+        
+        def _pretty_print(array)
+          result = ""
+          array.each_with_index do |item, index|
+            if index < (array.length - 2)
+              result << "#{item.inspect}, "
+            elsif index < (array.length - 1)
+              result << "#{item.inspect} and "
+            else
+              result << "#{item.inspect}"
+            end
+          end
+          result
         end
     end
 
@@ -43,8 +60,8 @@ module Spec
     #   [1,2,3].should_not include(4)
     #   "spread".should include("read")
     #   "spread".should_not include("red")
-    def include(expected)
-      Matchers::Include.new(expected)
+    def include(*expected)
+      Matchers::Include.new(*expected)
     end
   end
 end

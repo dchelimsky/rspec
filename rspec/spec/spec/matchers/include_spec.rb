@@ -16,6 +16,18 @@ describe "should include(expected)" do
   end
 end
 
+describe "should include(with, multiple, args)" do
+  it "should pass if target includes all items" do
+    [1,2,3].should include(1,2,3)
+  end
+
+  it "should fail if target does not include any one of the items" do
+    lambda {
+      [1,2,3].should include(1,2,4)
+    }.should fail_with("expected [1, 2, 3] to include 1, 2 and 4")
+  end
+end
+
 describe "should_not include(expected)" do
   it "should pass if target does not include expected" do
     [1,2,3].should_not include(4)
