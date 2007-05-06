@@ -82,6 +82,21 @@ require File.dirname(__FILE__) + '/../../spec_helper'
     end
 
   end
+
+  describe "redirect_to with a controller spec in #{mode} mode and a custom request.host", :behaviour_type => :controller do
+    if mode == 'integration'
+      integrate_views
+    end
+    controller_name :redirect_spec
+    before do
+      request.host = "some.custom.host"
+    end
+  
+    it "should pass when redirected to another action" do
+      get 'action_with_redirect_to_somewhere'
+      response.should redirect_to(:action => 'somewhere')
+    end
+  end
   
   describe "Given a controller spec in #{mode} mode", :behaviour_type => :controller do
     if mode == 'integration'

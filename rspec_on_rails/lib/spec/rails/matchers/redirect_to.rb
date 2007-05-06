@@ -16,7 +16,7 @@ module Spec
           @actual = response.redirect_url
           return false unless @redirected
           if @expected.instance_of? Hash
-            return false unless @actual =~ %r{^\w+://test.host}
+            return false unless @actual =~ %r{^\w+://#{@request.host}}
             return false unless actual_redirect_to_valid_route
             return actual_hash == expected_hash
           else
@@ -43,7 +43,7 @@ module Spec
         end
 
         def path_hash(url)
-          path = url.sub(%r{^\w+://test.host}, "").split("?", 2)[0]
+          path = url.sub(%r{^\w+://#{@request.host}}, "").split("?", 2)[0]
           path = path.split("/")[1..-1] if ::Rails::VERSION::MINOR < 2
           ActionController::Routing::Routes.recognize_path path
         end
@@ -62,7 +62,7 @@ module Spec
             when %r{^\w+://.*}
               return @expected
             else
-              return 'http://test.host' + (@expected.split('')[0] == '/' ? '' : '/') + @expected
+              return "http://#{@request.host}" + (@expected.split('')[0] == '/' ? '' : '/') + @expected
           end
         end
 

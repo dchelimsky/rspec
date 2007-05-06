@@ -1,6 +1,7 @@
 = RSpec Changelog
 
 == Version 0.9.4
+* Applied [#10631] redirect_to matcher doesn't respect request.host (Patch from Tim Lucas)
 
 == Version 0.9.3
 This is a bugfix release.
