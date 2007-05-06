@@ -30,7 +30,7 @@ class RspecResourceGenerator < Rails::Generator::NamedBase
     
     if ActionView::Base.const_defined?('DEFAULT_TEMPLATE_HANDLER_PREFERENCE') &&
        ActionView::Base::DEFAULT_TEMPLATE_HANDLER_PREFERENCE.include?('erb') then
-      @default_file_extension = "erb"
+      @default_file_extension = "html.erb"
       @resource_edit_path = "/edit"
     else
       @default_file_extension = "rhtml"
