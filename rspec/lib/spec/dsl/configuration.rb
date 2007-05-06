@@ -15,8 +15,9 @@ module Spec
         @mock_framework ||= mock_framework_path("rspec")
       end
       
-      def include(mod)
-        included_modules << mod
+      def include(*mods)
+        # mods.each {|mod|included_modules << mod}
+        included_modules.push(*mods)
       end
       
       def included_modules

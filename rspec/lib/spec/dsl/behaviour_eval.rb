@@ -13,9 +13,11 @@ module Spec
           derive_execution_context_class_from_behaviour_superclass
         end
 
-        def include(mod)
-          included_modules << mod
-          mod.send :included, self
+        def include(*mods)
+          mods.each do |mod|
+            included_modules << mod
+            mod.send :included, self
+          end
         end
 
         def it_should_behave_like(behaviour_description)

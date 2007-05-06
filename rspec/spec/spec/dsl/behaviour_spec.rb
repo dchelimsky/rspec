@@ -389,8 +389,7 @@ module Spec
           end
         end
     
-        @behaviour.include mod1
-        @behaviour.include mod2
+        @behaviour.include mod1, mod2
     
         @behaviour.it("test") do
           mod1_method
@@ -432,8 +431,7 @@ module Spec
           end
         end
     
-        @behaviour.include mod1
-        @behaviour.include mod2
+        @behaviour.include mod1, mod2
     
         @behaviour.mod1_method
         @behaviour.mod2_method
@@ -461,24 +459,34 @@ module Spec
       end
       
       it "should include any modules included using configuration" do
-        mod = Module.new do
+        mod1 = Module.new do
           class << self
             def included(mod)
-              $included_module = mod
+              $included_modules << self
+            end
+          end
+        end
+
+        mod2 = Module.new do
+          class << self
+            def included(mod)
+              $included_modules << self
             end
           end
         end
 
         begin
-          $included_module = nil
-          Spec::Runner.configuration.include(mod)
+          $included_modules = []
+          Spec::Runner.configuration.include(mod1, mod2)
 
           behaviour = Behaviour.new('example') do
           end.run(@reporter)
         
-          $included_module.should_not be_nil
+          $included_modules.should include(mod1)
+          $included_modules.should include(mod2)
         ensure
-          Spec::Runner.configuration.included_modules.delete(mod)
+          Spec::Runner.configuration.included_modules.delete(mod1)
+          Spec::Runner.configuration.included_modules.delete(mod2)
         end
       end
       

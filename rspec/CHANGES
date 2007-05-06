@@ -1,6 +1,7 @@
 = RSpec Changelog
 
 == Version 0.9.4
+* Added [#10516] should_include should be able to accept multiple items
 * Applied [#10631] redirect_to matcher doesn't respect request.host (Patch from Tim Lucas)
 
 == Version 0.9.3
