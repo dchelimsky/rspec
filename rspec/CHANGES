@@ -1,7 +1,8 @@
 = RSpec Changelog
-This is a bugfix release.
 
 == Version 0.9.3
+This is a bugfix release.
+
 * Fixed [#10594] Failing Custom Matcher show NAME NOT GENERATED description
 * describe(SomeType, "#message") will not add a space: "SomeType#message" (likewise for '.')
 * describe(SomeType, "message") will have a decription with a space: "SomeType message"
