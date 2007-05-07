@@ -112,6 +112,11 @@ describe "OptionParser" do
       "Sir, if you were my husband, I would poison your drink.", 
       "Madam, if you were my wife, I would drink it."])
   end
+  
+  it "should read no examples if given an empty file" do
+    options = parse(["--example", File.dirname(__FILE__) + '/empty_file.txt'])
+    options.examples.should eql([])
+  end
 
   it "should use html formatter when format is h" do
     options = parse(["--format", "h"])

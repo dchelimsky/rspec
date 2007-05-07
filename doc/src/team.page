@@ -111,6 +111,7 @@ In alphabetical order (by last name)
 ** Patch [#9852] Patch for RSpec's Website using Webgen 0.4.2
 ** Patch [#9925] Changed ".rhtml" to "template" in REST spec generator
 ** Patch [#9926] Rakefile - RSPEC_DEPS constant as an Array of Hashes instead of an Array of Arrays
+** Patch [#10636] Added spec for OptionParser in Runner (Patch from Scott Taylor)
 * Steve Tendon
 ** Patch [#9458] The rspec_resource generator does not take into account class nesting
 * Jonathan Tron
