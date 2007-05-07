@@ -11,12 +11,10 @@ module Spec
       def add_behaviour(name)
         @formatters.each{|f| f.add_behaviour(name)}
         @behaviour_names << name
-        STDOUT.flush
       end
       
       def example_started(name)
         @formatters.each{|f| f.example_started(name)}
-        STDOUT.flush
       end
       
       def example_finished(name, error=nil, failure_location=nil)
@@ -26,14 +24,12 @@ module Spec
         else
           example_failed(name, error, failure_location)
         end
-        STDOUT.flush
       end
 
       def start(number_of_examples)
         clear!
         @start_time = Time.new
         @formatters.each{|f| f.start(number_of_examples)}
-        STDOUT.flush
       end
   
       def end
@@ -45,7 +41,6 @@ module Spec
         @formatters.each{|f| f.start_dump}
         dump_failures
         @formatters.each{|f| f.dump_summary(duration, @example_names.length, @failures.length)}
-        STDOUT.flush
         @failures.length
       end
 
@@ -65,7 +60,6 @@ module Spec
           @formatters.each{|f| f.dump_failure(index, failure)}
           index + 1
         end
-        STDOUT.flush
       end
 
       def duration
@@ -75,7 +69,6 @@ module Spec
 
       def example_passed(name)
         @formatters.each{|f| f.example_passed(name)}
-        STDOUT.flush
       end
 
       def example_failed(name, error, failure_location)
@@ -84,7 +77,6 @@ module Spec
         failure = Failure.new(example_name, error)
         @failures << failure
         @formatters.each{|f| f.example_failed(name, @failures.length, failure)}
-        STDOUT.flush
       end
       
       class Failure

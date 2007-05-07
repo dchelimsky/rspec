@@ -27,6 +27,7 @@ module Spec
             @output.puts HTML_HEADER
           end
           @output.puts REPORT_HEADER
+          @output.flush
         end
 
         def add_behaviour(name)
@@ -38,17 +39,20 @@ module Spec
           @output.puts "<div class=\"behaviour\">"
           @output.puts "  <dl>"
           @output.puts "  <dt id=\"behaviour_#{current_behaviour_number}\">#{escape(name)}</dt>"
+          @output.flush
         end
 
         def start_dump
           @output.puts "  </dl>"
           @output.puts "</div>"
+          @output.flush
         end
 
         def example_passed(name)
           @current_example_number += 1
           move_progress
           @output.puts "    <dd class=\"spec passed\"><span class=\"passed_spec_name\">#{escape(name)}</span></dd>"
+          @output.flush
         end
 
         def example_failed(name, counter, failure)
@@ -66,6 +70,7 @@ module Spec
           @output.puts extra unless extra == ""
           @output.puts "      </div>"
           @output.puts "    </dd>"
+          @output.flush
         end
 
         # Override this method if you wish to output extra HTML for a failed spec. For example, you
@@ -78,6 +83,7 @@ module Spec
         def move_progress
           percent_done = @example_count == 0 ? 100.0 : (current_example_number.to_f / @example_count.to_f * 1000).to_i / 10.0
           @output.puts "    <script type=\"text/javascript\">moveProgressBar('#{percent_done}');</script>"
+          @output.flush
         end
         
         def escape(string)
@@ -101,6 +107,7 @@ module Spec
             @output.puts "</body>"
             @output.puts "</html>"
           end
+          @output.flush
         end
 
         HTML_HEADER = <<-EOF

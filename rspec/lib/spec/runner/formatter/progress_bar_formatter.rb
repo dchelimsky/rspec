@@ -7,14 +7,17 @@ module Spec
       
         def example_failed(name, counter, failure)
           @output.print failure.expectation_not_met? ? red('F') : magenta('F')
+          @output.flush
         end
 
         def example_passed(name)
           @output.print green('.')
+          @output.flush
         end
       
         def start_dump
           @output.puts
+          @output.flush
         end
       end
     end

@@ -16,6 +16,9 @@ module Spec
             @output = File.open(where, 'w')
           elsif where == STDOUT
             @output = Kernel
+            def @output.flush
+              STDOUT.flush
+            end
           else
             @output = where
           end
@@ -40,6 +43,7 @@ module Spec
             @output.puts magenta(failure.exception.message)
           end
           @output.puts format_backtrace(failure.exception.backtrace)
+          @output.flush
         end
       
         def dump_summary(duration, example_count, failure_count)
@@ -53,6 +57,7 @@ module Spec
           else
             @output.puts red(summary)
           end
+          @output.flush
         end
 
         def format_backtrace(backtrace)

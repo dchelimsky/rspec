@@ -10,6 +10,7 @@ module Spec
           unless @behaviour_name.nil?
             @output.puts @behaviour_name 
             @behaviour_name = nil
+            @output.flush
           end
         end
 

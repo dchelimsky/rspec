@@ -3,15 +3,16 @@ module Spec
     module Formatter
       class RdocFormatter < BaseTextFormatter
         def add_behaviour(name)
-          @output.print "# #{name}\n"
+          @output.puts "# #{name}"
         end
   
         def example_passed(name)
-          @output.print "# * #{name}\n"
+          @output.puts "# * #{name}"
+          @output.flush
         end
 
         def example_failed(name, counter, failure)
-          @output.print "# * #{name} [#{counter} - FAILED]\n"
+          @output.puts "# * #{name} [#{counter} - FAILED]"
         end
       end
     end
