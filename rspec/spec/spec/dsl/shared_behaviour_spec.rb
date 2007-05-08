@@ -52,11 +52,11 @@ module Spec
         @behaviour.should_not be_shared
       end
 
-      it "should not run when shared" do
+      it "should raise if run when shared" do
         behaviour = make_shared_behaviour("context", :shared => true) {}
         $spec_ran = false
         behaviour.it("test") {$spec_ran = true}
-        behaviour.run(@formatter)
+        lambda { behaviour.run(@formatter) }.should raise_error
         $spec_ran.should be_false
       end
 

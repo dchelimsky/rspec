@@ -9,6 +9,7 @@ module Spec
         desired_context.should_receive(:run)
         desired_context.should_receive(:retain_examples_matching!)
         desired_context.should_receive(:number_of_examples).twice.and_return(1)
+        desired_context.should_receive(:shared?).and_return(false)
 
         other_context = mock("other context")
         other_context.should_receive(:run).never
@@ -60,6 +61,7 @@ module Spec
         context = mock("context", :null_object => true)
         context.should_receive(:number_of_examples).twice.and_return(1)
         context.should_receive(:run).and_return(0)
+        context.should_receive(:shared?).and_return(false)
 
         reporter = mock("reporter")
         reporter.should_receive(:start).with(1)
@@ -91,9 +93,11 @@ module Spec
         runner = Spec::Runner::BehaviourRunner.new(options)
         c1 = mock("c1")
         c1.should_receive(:number_of_examples).twice.and_return(1)
+        c1.should_receive(:shared?).and_return(false)
 
         c2 = mock("c2")
         c2.should_receive(:number_of_examples).twice.and_return(2)
+        c2.should_receive(:shared?).and_return(false)
         c2.should_receive(:run) do
           c1.should_receive(:run)
         end
