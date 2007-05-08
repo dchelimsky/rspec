@@ -5,4 +5,5 @@ module Kernel
     args.last[:spec_path] = caller(0)[1]
     original_describe(*args, &block)
   end
+  alias :context :describe
 end

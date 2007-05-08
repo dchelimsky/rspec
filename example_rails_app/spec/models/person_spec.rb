@@ -52,7 +52,10 @@ describe Person, "with a name" do
   end
 end
 
-describe Person, "with 2 animals" do
+# Using context here for 2 reasons:
+#   - to provide an example where it makes sense
+#   - as a spec to prove that you can use context
+context Person, "with 2 animals" do
   before(:each) do
     @fluff = Animal.new(:name => "fluff", :age => 7)
     @binki = Animal.new(:name => "binki", :age => 0.5)
@@ -69,4 +72,3 @@ describe Person, "with 2 animals" do
     @person.animals.adults.should == [@fluff]
   end
 end
-    
