@@ -1,18 +1,22 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
-describe "An Ivar Proxy" do
-  before(:each) do
+describe "IvarProxy setup", :shared => true do
+  before do
     @object = Object.new
     @proxy = Spec::Rails::DSL::IvarProxy.new(@object)
-  end
+  end  
+end
 
+describe "IvarProxy" do
+  it_should_behave_like "IvarProxy setup"
+  
   it "has [] accessor" do
     @proxy['foo'] = 'bar'
     @object.instance_variable_get(:@foo).should == 'bar'
     @proxy['foo'].should == 'bar'
   end
 
-  it "each method iterates through each element like a Hash" do
+  it "iterates through each element like a Hash" do
     values = {
       'foo' => 1,
       'bar' => 2,
@@ -28,15 +32,33 @@ describe "An Ivar Proxy" do
     end
   end
 
-  it "delete method deletes the element of passed in key" do
+  it "detects the presence of a key" do
+    @proxy['foo'] = 'bar'
+    @proxy.has_key?('foo').should == true
+    @proxy.has_key?('bar').should == false
+  end
+end
+
+describe "IvarProxy", "#delete" do
+  it_should_behave_like "IvarProxy setup"
+  
+  it "deletes the element with key" do
     @proxy['foo'] = 'bar'
     @proxy.delete('foo').should == 'bar'
     @proxy['foo'].should be_nil
   end
 
-  it "has_key? detects the presence of a key" do
-    @proxy['foo'] = 'bar'
-    @proxy.has_key?('foo').should == true
-    @proxy.has_key?('bar').should == false
+  it "deletes nil instance variables" do
+    @proxy['foo'] = nil
+    @object.instance_variables.should include("@foo")
+    @proxy.delete('foo').should == nil
+    @proxy['foo'].should be_nil
+    @object.instance_variables.should_not include("@foo")
+  end
+
+  it "returns nil when key does not exist" do
+    @proxy['foo'].should be_nil
+    @proxy.delete('foo').should == nil
+    @proxy['foo'].should be_nil
   end
 end

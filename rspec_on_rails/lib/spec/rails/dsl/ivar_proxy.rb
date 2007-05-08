@@ -36,7 +36,12 @@ module Spec
         end
 
         def delete(key)
-          @object.send(:remove_instance_variable, "@#{key}")
+          var_name = "@#{key}"
+          if @object.instance_variables.include?(var_name)
+            @object.send(:remove_instance_variable, var_name)
+          else
+            return nil
+          end
         end
 
         def has_key?(key)
