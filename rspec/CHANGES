@@ -1,6 +1,7 @@
 = RSpec Changelog
 
 == Version 0.9.4
+* Reactivated --timeout, which had mysteriously been deactivated in a recent release.
 * Fixed [#10669] Kernel#describe override does not cover Kernel#context
 * Applied [#10636] Added spec for OptionParser in Runner (Patch from Scott Taylor)
 * Added [#10516] should_include should be able to accept multiple items

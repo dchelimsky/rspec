@@ -5,7 +5,3 @@ $LOAD_PATH.unshift(File.dirname(__FILE__) + '/../../../lib')
 require 'rubygems'
 require 'spec'
 require 'spec/ui'
-
-Spec::Runner.configure do |config|
-  config.spec_ui_report_dir = File.dirname(__FILE__) + '/report'
-end

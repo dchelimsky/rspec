@@ -28,7 +28,7 @@ describe "Google's search page" do
   end
 
   after(:each) do
-    save_screenshot_and_source(@browser)
+    Spec::Ui::ScreenshotFormatter.browser = @browser
   end
 
   after(:all) do

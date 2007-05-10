@@ -4,15 +4,12 @@ README.txt
 Rakefile
 lib/spec/ui.rb
 lib/spec/ui/behaviour.rb
-lib/spec/ui/configuration.rb
 lib/spec/ui/formatter.rb
-lib/spec/ui/rake_tasks.rb
 lib/spec/ui/rmagick_not_installed.png
-lib/spec/ui/screenshot_helper.rb
+lib/spec/ui/screenshot_saver.rb
 lib/spec/ui/selenium_helper.rb
 lib/spec/ui/version.rb
 lib/spec/ui/watir_helper.rb
-lib/spec/ui/webapp_helper.rb
 lib/spec/ui/win32screenshot_not_installed.png
 lib/spec/ui/wrong_win32screenshot.png
 examples/selenium/Rakefile

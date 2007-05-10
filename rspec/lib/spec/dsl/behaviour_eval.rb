@@ -125,10 +125,6 @@ module Spec
           CompositeProcBuilder.new(parts).proc(&error_handler)
         end
 
-        def add_superclass_method(parts, method_name)
-          parts << behaviour_superclass.instance_method(method_name) if behaviour_superclass.instance_methods.include?(method_name)
-        end
-
       private
 
         def execution_context_class

@@ -1,4 +1,3 @@
-require File.dirname(__FILE__) + '/webapp_helper'
 require 'rubygems'
 
 if RUBY_PLATFORM =~ /darwin/

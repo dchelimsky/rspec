@@ -42,7 +42,7 @@ module Spec
 
       def run_behaviours(behaviours)
         behaviours.each do |behaviour|
-          behaviour.run(@options.reporter, @options.dry_run, @options.reverse)
+          behaviour.run(@options.reporter, @options.dry_run, @options.reverse, @options.timeout)
         end
       end
     
