@@ -10,6 +10,7 @@ module Spec
         end
       else # Win32
         begin
+          # TODO: Move all this code to win32screenshot
           require 'rubygems'
           require 'RMagick'
           gem 'win32screenshot', '>=0.0.2'
@@ -30,16 +31,16 @@ module Spec
           end
         rescue Gem::LoadError => e
           def save_screenshot(png_path)
-            FileUtils.cp(File.dirname(__FILE__) + '/wrong_win32screenshot.png', png_path)
+            FileUtils.cp(File.dirname(__FILE__) + '/images/wrong_win32screenshot.png', png_path)
           end
         rescue LoadError => e
           if(e.message =~ /win32screenshot/)
             def save_screenshot(png_path)
-              FileUtils.cp(File.dirname(__FILE__) + '/win32screenshot_not_installed.png', png_path)
+              FileUtils.cp(File.dirname(__FILE__) + '/images/win32screenshot_not_installed.png', png_path)
             end
           else
             def save_screenshot(png_path)
-              FileUtils.cp(File.dirname(__FILE__) + '/rmagick_not_installed.png', png_path)
+              FileUtils.cp(File.dirname(__FILE__) + '/images/rmagick_not_installed.png', png_path)
             end
           end
         end

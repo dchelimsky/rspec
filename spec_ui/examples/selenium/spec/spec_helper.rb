@@ -5,3 +5,4 @@ $LOAD_PATH.unshift(File.dirname(__FILE__) + '/../../../lib')
 require 'rubygems'
 require 'spec'
 require 'spec/ui'
+require 'spec/ui/selenium'

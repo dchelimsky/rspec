@@ -6,7 +6,7 @@ Spec::Rake::SpecTask.new('spec:ui') do |t|
   t.spec_files = FileList['spec/**/*.rb']
   t.spec_opts = [
     '--require', 'spec/spec_helper', 
-    '--format', 'Spec::Ui::ScreenshotFormatter:spec/report/index.html',
+    '--format', 'Spec::Ui::ScreenshotFormatter:spec_report.html',
     '--format', 'progress',
   ]
 end
