@@ -144,7 +144,7 @@ module Spec
           end
 
           opts.rspec_on(:drb) do
-            parse_drb args_copy, out, err, warn_if_no_files
+            return parse_drb(args_copy, out, err, warn_if_no_files)
           end
 
           opts.rspec_on(:version) {parse_version(out)}

@@ -302,6 +302,11 @@ describe "OptionParser" do
     options = parse(["some/spec.rb", "--diff", "--drb", "--colour"])
   end
   
+  it "should not return an Options object when --drb is specified" do
+    Spec::Runner::DrbCommandLine.stub!(:run)
+    parse(["some/spec.rb", "--drb"]).should be_nil
+  end
+
   it "should reverse spec order when --reverse is specified" do
     options = parse(["some/spec.rb", "--reverse"])
   end
