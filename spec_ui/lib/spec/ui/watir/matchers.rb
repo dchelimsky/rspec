@@ -1,77 +1,55 @@
 # Matchers for Watir::IE/Watir::Safari instances
 module Spec::Matchers::Watir
-  class HaveText # :nodoc
-    def initialize(text_or_regexp)
-      @text_or_regexp = text_or_regexp
+  class ContentMatcher # :nodoc
+    def initialize(kind, text_or_regexp)
+      @kind, @text_or_regexp = kind, text_or_regexp
     end
     
-    def matches?(browser)
-      @browser = browser
+    def matches?(container)
+      @container = container
+      @content = container.__send__(@kind)
       if @text_or_regexp.is_a?(Regexp)
-        !!browser.text =~ @text_or_regexp
+        !!@content =~ @text_or_regexp
       else
-        !!browser.text.index(@text_or_regexp.to_s)
+        !!@content.index(@text_or_regexp.to_s)
       end
     end
     
     def failure_message
-      "Expected browser to have text matching #{@text_or_regexp}, but it was not found in:\n#{@browser.text}"
+      "Expected #{@container.class} to have #{@kind} matching #{@text_or_regexp}, but it was not found in:\n#{@content}"
     end
 
     def negative_failure_message
-      "Expected browser to not have text matching #{@text_or_regexp}, but it was found in:\n#{@browser.text}"
+      "Expected #{@container.class} to not have #{@kind} matching #{@text_or_regexp}, but it was found in:\n#{@content}"
     end
   end
 
-  # RSpec matcher that passes if @browser#text matches +text+ (String or Regexp) 
-  def have_text(text)
-    HaveText.new(text)
+  # RSpec matcher that passes if @container#text matches +text_or_regexp+ (String or Regexp) 
+  def have_text(text_or_regexp)
+    ContentMatcher.new(:text, text_or_regexp)
   end
 
-  class HaveHtml # :nodoc
-    def initialize(text_or_regexp)
-      @text_or_regexp = text_or_regexp
+  # RSpec matcher that passes if @container#html matches +text_or_regexp+ (String or Regexp) 
+  def have_html(text_or_regexp)
+    ContentMatcher.new(:html, text_or_regexp)
+  end
+
+  class ElementMatcher # :nodoc
+    def initialize(kind, *args)
+      @kind, @args = kind, args
     end
     
-    def matches?(browser)
-      @browser = browser
-      if @text_or_regexp.is_a?(Regexp)
-        !!browser.html =~ @text_or_regexp
-      else
-        !!browser.html.index(@text_or_regexp.to_s)
-      end
-    end
-    
-    def failure_message
-      "Expected browser to have HTML matching #{@text_or_regexp}, but it was not found in:\n#{@browser.html}"
-    end
-
-    def negative_failure_message
-      "Expected browser to not have HTML matching #{@text_or_regexp}, but it was found in:\n#{@browser.html}"
-    end
-  end
-
-  # RSpec matcher that passes if @browser#html matches +text+ (String or Regexp) 
-  def have_html(text)
-    HaveHtml.new(text)
-  end
-
-  class HaveLink # :nodoc
-    def initialize(how, what)
-      @how, @what = how, what
-    end
-    
-    def matches?(browser)
-      @browser = browser
+    def matches?(container)
+      @container = container
       begin
-        link = @browser.link(@how, @what)
-        if link.respond_to?(:assert_exists)
+        element = @container.__send__(@kind, *@args)
+        if element.respond_to?(:assert_exists)
           # IE
-          link.assert_exists
+          element.assert_exists
           true
         else
           # Safari
-          link.exists?
+          element.exists?
         end
       rescue ::Watir::Exception::UnknownObjectException => e
         false
@@ -79,47 +57,41 @@ module Spec::Matchers::Watir
     end
     
     def failure_message
-      "Expected browser to have link(#{@how}, #{@what}), but it was not found"
+      "Expected #{@container.class} to have #{@kind}(#{arg_string}), but it was not found"
     end
 
     def negative_failure_message
-      "Expected browser not to have link(#{@how}, #{@what}), but it was found"
-    end
-  end
-
-  # RSpec matcher that passes if @browser#link(+how+,+what+) returns an existing link.
-  def have_link(how, what)
-    HaveLink.new(how, what)
-  end
-
-  class HaveTextField # :nodoc
-    def initialize(how, what)
-      @how, @what = how, what
+      "Expected #{@container.class} to not have #{@kind}(#{arg_string}), but it was found"
     end
     
-    def matches?(browser)
-      @browser = browser
-      begin
-        text_field = @browser.text_field(@how, @what)
-        text_field.assert_exists
-        true
-      rescue ::Watir::Exception::UnknownObjectException => e
-        false
-      end
-    end
-    
-    def failure_message
-      "Expected browser to have text_field(#{@how}, #{@what}), but it was not found"
-    end
-
-    def negative_failure_message
-      "Expected browser not to have text_field(#{@how}, #{@what}), but it was found"
+    def arg_string
+      @args.map{|a| a.inspect}.join(", ")
     end
   end
 
-  # RSpec matcher that passes if @browser#text_field(+how+,+what+) returns an existing text field.
-  def have_text_field(how, what)
-    HaveTextField.new(how, what)
+  # All the xxx(what, how) methods in Watir
+  [
+    :button, 
+    :cell, 
+    :checkbox, 
+    :div, 
+    :file_field, 
+    :form, 
+    :hidden, 
+    :image, 
+    :label,
+    :link,
+    :p, 
+    :radio, 
+    :row, 
+    :select_list,
+    :span,
+    :table,
+    :text_field
+  ].each do |kind|
+    # RSpec matcher that passes if container##{kind}(*args) returns an existing #{kind} element.
+    define_method("have_#{kind}".to_sym) do |*args|
+      ElementMatcher.new(kind, *args)
+    end
   end
-
 end

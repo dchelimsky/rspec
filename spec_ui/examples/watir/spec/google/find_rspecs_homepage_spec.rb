@@ -26,7 +26,7 @@ describe "Google's search page" do
     @browser.button(:name, "btnG").click
     @browser.should_not have_text("Ali G")
   end
-
+  
   after(:each) do
     Spec::Ui::ScreenshotFormatter.browser = @browser
   end

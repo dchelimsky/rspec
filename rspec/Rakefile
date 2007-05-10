@@ -29,7 +29,12 @@ task :default => [:verify_rcov]
 
 desc "Run all specs"
 Spec::Rake::SpecTask.new do |t|
-  t.spec_files = FileList['spec/**/*_spec.rb', '../RSpec.tmbundle/Support/spec/*_spec.rb']
+  t.spec_files = FileList[
+    'spec/**/*_spec.rb', 
+    '../RSpec.tmbundle/Support/spec/*_spec.rb'
+    # TODO: get these in too - need to fix coverage
+    # '../spec_ui/spec/**/*_spec.rb'
+  ]
   t.spec_opts = ['--options', 'spec.opts']
   t.rcov = true
   t.rcov_dir = '../doc/output/coverage'
