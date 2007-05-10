@@ -7,8 +7,6 @@ require 'spec'
 require 'spec/ui'
 require 'spec/ui/watir'
 
-class Spec::DSL::Behaviour
-  def before_eval #:nodoc:
-    include Spec::Matchers::Watir # This gives us Watir matchers
-  end
+Spec::Runner.configure do |config|
+  config.include Spec::Matchers::Watir # This gives us Watir matchers
 end

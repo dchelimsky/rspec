@@ -1,5 +1,7 @@
 = RSpec Changelog
 
+== Version 0.9.5
+
 == Version 0.9.4
 This release introduces massive improvements to Spec::Ui - the user interface functional testing
 extension to RSpec. There are also some minor bug fixes to the RSpec core.
