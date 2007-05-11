@@ -14,6 +14,10 @@ module SharedBehaviourExample
   end
   
   describe "All Things", :shared => true do
+    def helper_method
+      "helper method"
+    end
+    
     it "should do what things do" do
       @thing.what_things_do.should == "stuff"
     end
@@ -22,6 +26,10 @@ module SharedBehaviourExample
   describe OneThing do
     it_should_behave_like "All Things"
     before(:each) { @thing = OneThing.new }
+    
+    it "should have access to helper methods defined in the shared behaviour" do
+      helper_method.should == "helper method"
+    end
   end
 
   describe AnotherThing do

@@ -6,7 +6,7 @@ module Spec
       
       before do
         @formatter = Spec::Mocks::Mock.new("formatter", :null_object => true)
-        @behaviour = behaviour_class.new("context") {}
+        @behaviour = behaviour_class.new("behaviour") {}
       end
 
       after do
@@ -171,6 +171,22 @@ module Spec
         @behaviour.run(@formatter)
         mod1_method_called.should be_true
         mod2_method_called.should be_true
+      end
+      
+      it "should make methods defined in the shared behaviour available in consuming behaviour" do
+        shared_behaviour = make_shared_behaviour("shared behaviour xyz", :shared => true) do
+          def a_shared_helper_method
+            "this got defined in a shared behaviour"
+          end
+        end
+        @behaviour.it_should_behave_like("shared behaviour xyz")
+        success = false
+        @behaviour.it("should access a_shared_helper_method") do
+          a_shared_helper_method
+          success = true
+        end
+        @behaviour.run(@formatter)
+        success.should be_true
       end
 
       it "should error if told to inherit from a class" do

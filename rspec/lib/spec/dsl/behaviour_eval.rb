@@ -35,6 +35,7 @@ module Spec
           before_all_parts.each  { |p| eval_module.before_all_parts << p }
           after_all_parts.each   { |p| eval_module.after_all_parts << p }
           included_modules.each  { |m| eval_module.included_modules << m }
+          eval_module.included_modules << self
         end
         
         # :call-seq:
