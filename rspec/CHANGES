@@ -2,6 +2,7 @@
 
 == Version 0.9.5
 
+* Applied [#10770] Finer grained include.
 * Fixed [#10748] Shared descriptions in separate files causes 'already exists' error
 * Applied [#10698] Running with --drb executes specs twice (patch from Ruy Asan)
 
