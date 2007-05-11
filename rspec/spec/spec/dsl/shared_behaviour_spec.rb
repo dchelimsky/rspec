@@ -66,9 +66,15 @@ module Spec
         shared_behaviour.number_of_examples.should == 1
       end
 
-      it "should complain when adding a shared behaviour with the same description" do
+      it "should complain when adding a second shared behaviour with the same description" do
         make_shared_behaviour("shared behaviour", :shared => true) {}
         lambda { make_shared_behaviour("shared behaviour", :shared => true) {} }.should raise_error(ArgumentError)
+      end
+
+      it "should NOT complain when adding a the same shared behaviour again (i.e. file gets reloaded)" do
+        behaviour = behaviour_class.new("shared behaviour", :shared => true) {}
+        behaviour_class.add_shared_behaviour(behaviour)
+        behaviour_class.add_shared_behaviour(behaviour)
       end
 
       it "should add examples to current behaviour when calling it_should_behave_like" do

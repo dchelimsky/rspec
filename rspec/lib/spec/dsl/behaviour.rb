@@ -6,7 +6,8 @@ module Spec
 
       class << self
         def add_shared_behaviour(behaviour)
-          raise ArgumentError.new("Shared Behaviour '#{behaviour.description}' already exists") if find_shared_behaviour(behaviour.description)
+          return if behaviour.equal?(found_behaviour = find_shared_behaviour(behaviour.description))
+          raise ArgumentError.new("Shared Behaviour '#{behaviour.description}' already exists") if found_behaviour
           shared_behaviours << behaviour
         end
 
