@@ -399,14 +399,50 @@ module Spec
         mod1_method_called.should be_true
         mod2_method_called.should be_true
       end
+      
+      it "should not include untargeted modules" do
+        special_method_called = false
+        special_mod = Module.new do
+          define_method :special_method do
+            special_method_called = true
+          end
+        end
+
+        behaviour = Behaviour.new("I'm not special", :behaviour_type => :not_special) {}
+        behaviour.include special_mod, :behaviour_type => :special
+        behaviour.it "test" do
+          special_method
+        end
+        behaviour.run(@reporter)
+
+        special_method_called.should be_false
+      end
+
+      it "should include targeted modules" do
+        special_method_called = false
+        special_mod = Module.new do
+          define_method :special_method do
+            special_method_called = true
+          end
+        end
+
+        behaviour = Behaviour.new("I'm not special", :behaviour_type => :special) {}
+        behaviour.include special_mod, :behaviour_type => :special
+        behaviour.it "test" do
+          special_method
+        end
+        behaviour.run(@reporter)
+
+        special_method_called.should be_true
+      end
 
       it "should have accessible class methods from included module" do
         mod1_method_called = false
         mod1 = Module.new do
           class_methods = Module.new do
-              define_method :mod1_method do
-                mod1_method_called = true
-              end
+            define_method :mod1_method do
+              mod1_method_called = true
+            end
           end
 
           metaclass.class_eval do
@@ -419,9 +455,9 @@ module Spec
         mod2_method_called = false
         mod2 = Module.new do
           class_methods = Module.new do
-              define_method :mod2_method do
-                mod2_method_called = true
-              end
+            define_method :mod2_method do
+              mod2_method_called = true
+            end
           end
 
           metaclass.class_eval do

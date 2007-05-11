@@ -107,6 +107,17 @@ module Spec
         my_methods
       end
 
+      # Includes modules in the Behaviour (the <tt>describe</tt> block).
+      def include(*args)
+        args << {} unless Hash === args.last
+        modules, options = args_and_options(*args)
+        required_behaviour_type = options[:behaviour_type]
+        behaviour_type = @description[:behaviour_type]
+        if required_behaviour_type.nil? || required_behaviour_type.to_sym == behaviour_type.to_sym
+          @eval_module.include(*modules)
+        end
+      end
+
     protected
 
       # Messages that this class does not understand
