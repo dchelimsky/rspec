@@ -15,9 +15,27 @@ module Spec
         @mock_framework ||= mock_framework_path("rspec")
       end
       
-      def include(*mods)
-        # mods.each {|mod|included_modules << mod}
-        included_modules.push(*mods)
+      # Declares modules to be included in all behaviours (<tt>describe</tt> blocks).
+      #
+      #   config.include(My::Bottle, My::Cup)
+      #
+      # If you want to restrict the inclusion to a subset of all the behaviours then
+      # specify this in a Hash as the last argument:
+      #
+      #   config.include(My::Pony, My::Horse, :behaviour_type => :farm)
+      #
+      # Only behaviours that have that type will get the modules included:
+      #
+      #   describe "Downtown", :behaviour_type => :city do
+      #     # Will *not* get My::Pony and My::Horse included
+      #   end
+      #
+      #   describe "Old Mac Donald", :behaviour_type => :farm do
+      #     # *Will* get My::Pony and My::Horse included
+      #   end
+      #
+      def include(*args)
+        included_modules.push(*args)
       end
       
       def included_modules
