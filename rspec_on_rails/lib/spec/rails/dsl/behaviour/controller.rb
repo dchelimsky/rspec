@@ -184,6 +184,23 @@ module Spec
       # we encourage you to explore using the isolation mode and revel
       # in its benefits.
       #
+      # == Expecting Errors
+      #
+      # By default, Rails will swallow errors that are raised in controller
+      # actions and return an error code in the header. If you want to
+      # specify that an action should raise an error, you can either
+      # override rescue_action in your controller ...
+      #
+      #   before(:each) do
+      #     controller.class.send(:define_method, :rescue_action) { |e| raise e }
+      #   end
+      #
+      # ... or you can expect error codes in headers:
+      #
+      #   it "should return a 500" do
+      #     response.should be_error
+      #   end
+      #
       # See Spec::Rails::DSL::ControllerEvalContext for information
       # about methods you can use in your Controller Specs
       class ControllerBehaviour < Spec::DSL::Behaviour
