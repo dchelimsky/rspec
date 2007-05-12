@@ -2,6 +2,7 @@
 
 == Version 0.9.5
 
+* Added rdocs explaining how to deal with errors in Rails' controller actions
 * Applied [#10770] Finer grained include.
 * Fixed [#10747] Helper methods defined in shared specs are not visible when shared spec is used
 * Fixed [#10748] Shared descriptions in separate files causes 'already exists' error
