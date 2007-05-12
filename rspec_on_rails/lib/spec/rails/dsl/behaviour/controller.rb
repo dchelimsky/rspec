@@ -195,10 +195,18 @@ module Spec
       #     controller.class.send(:define_method, :rescue_action) { |e| raise e }
       #   end
       #
-      # ... or you can expect error codes in headers:
+      # ... or you can expect error codes in headers ...
       #
       #   it "should return an error in the header" do
       #     response.should be_error
+      #   end
+      #
+      #   it "should return a 501" do
+      #     response.response_code.should == 501
+      #   end
+      #
+      #   it "should return a 501" do
+      #     response.code.should == "501"
       #   end
       #
       # See Spec::Rails::DSL::ControllerEvalContext for information
