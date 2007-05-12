@@ -197,7 +197,7 @@ module Spec
       #
       # ... or you can expect error codes in headers:
       #
-      #   it "should return a 500" do
+      #   it "should return an error in the header" do
       #     response.should be_error
       #   end
       #
