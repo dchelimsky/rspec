@@ -1,31 +1,38 @@
 module Spec
   module DSL
     module BehaviourCallbacks
-      def prepend_before(scope=:each, &block)
-        case scope
-        when :each; before_each_parts.unshift(block)
-        when :all;  before_all_parts.unshift(block)
-        end
+      def prepend_before(*args, &block)
+        scope, options = scope_and_options(*args)
+        add(scope, options, :before, :unshift, &block)
       end
-      def append_before(scope=:each, &block)
-        case scope
-        when :each; before_each_parts << block
-        when :all;  before_all_parts << block
-        end
+      def append_before(*args, &block)
+        scope, options = scope_and_options(*args)
+        add(scope, options, :before, :<<, &block)
       end
       alias_method :before, :append_before
 
-      def prepend_after(scope=:each, &block)
-        case scope
-        when :each; after_each_parts.unshift(block)
-        when :all;  after_all_parts.unshift(block)
-        end
+      def prepend_after(*args, &block)
+        scope, options = scope_and_options(*args)
+        add(scope, options, :after, :unshift, &block)
       end
       alias_method :after, :prepend_after
-      def append_after(scope=:each, &block)
+      def append_after(*args, &block)
+        scope, options = scope_and_options(*args)
+        add(scope, options, :after, :<<, &block)
+      end
+      
+      def scope_and_options(*args)
+        args, options = args_and_options(*args)
+        scope = (args[0] || :each), options
+      end
+      
+      def add(scope, options, where, how, &block)
+        scope ||= :each
+        options ||= {}
+        behaviour_type = options[:behaviour_type]
         case scope
-        when :each; after_each_parts << block
-        when :all;  after_all_parts << block
+          when :each; self.__send__("#{where}_each_parts", behaviour_type).__send__(how, block)
+          when :all;  self.__send__("#{where}_all_parts", behaviour_type).__send__(how, block)
         end
       end
 
@@ -39,20 +46,31 @@ module Spec
         after(:each, &block)
       end
 
-      def before_all_parts # :nodoc:
-        @before_all_parts ||= []
+      def before_all_parts(behaviour_type=nil) # :nodoc:
+        @before_all_parts ||= {}
+        @before_all_parts[behaviour_type] ||= []
       end
 
-      def after_all_parts # :nodoc:
-        @after_all_parts ||= []
+      def after_all_parts(behaviour_type=nil) # :nodoc:
+        @after_all_parts ||= {}
+        @after_all_parts[behaviour_type] ||= []
       end
 
-      def before_each_parts # :nodoc:
-        @before_each_parts ||= []
+      def before_each_parts(behaviour_type=nil) # :nodoc:
+        @before_each_parts ||= {}
+        @before_each_parts[behaviour_type] ||= []
       end
 
-      def after_each_parts # :nodoc:
-        @after_each_parts ||= []
+      def after_each_parts(behaviour_type=nil) # :nodoc:
+        @after_each_parts ||= {}
+        @after_each_parts[behaviour_type] ||= []
+      end
+
+      def clear_before_and_after! # :nodoc:
+        @before_all_parts = nil
+        @after_all_parts = nil
+        @before_each_parts = nil
+        @after_each_parts = nil
       end
     end
   end

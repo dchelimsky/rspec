@@ -1,12 +1,9 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe "Google's search page" do
-  before(:all) do
-    @browser = Selenium::SeleniumDriver.new("localhost", 4444, "*safari", "http://www.google.no", 10000)
-    @browser.start
-  end
-    
+
   before(:each) do
+    # The @browser is initialised in spec_helper.rb
     @browser.open('http://www.google.no')
   end
 
@@ -28,11 +25,4 @@ describe "Google's search page" do
     @browser.is_text_present("Ali G").should be_false
   end
 
-  after(:each) do
-    Spec::Ui::WebappFormatter.browser = @browser
-  end
-
-  after(:all) do
-    @browser.kill! rescue nil
-  end
 end

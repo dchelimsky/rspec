@@ -2,8 +2,13 @@
 
 == Version 0.9.5
 
+* Fixed [#10753] Global before and after
+* Fixed [#10774] Allow before and after to be specified in config II
+* Refactored Spec::Ui examples to use new global before and after blocks.
+* Added instructions about how to get Selenium working with Spec::Ui (spec_ui/examples/selenium/README.txt)
+* Fixed [#10805] selenium.rb missing from gem?
 * Added rdocs explaining how to deal with errors in Rails' controller actions
-* Applied [#10770] Finer grained include.
+* Applied [#10770] Finer grained includes.
 * Fixed [#10747] Helper methods defined in shared specs are not visible when shared spec is used
 * Fixed [#10748] Shared descriptions in separate files causes 'already exists' error
 * Applied [#10698] Running with --drb executes specs twice (patch from Ruy Asan)

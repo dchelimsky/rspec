@@ -12,7 +12,7 @@ module Spec
         @config.mock_framework.should =~ /\/plugins\/mock_frameworks\/rspec$/
       end
 
-      it "should let you set rspec explicitly" do
+      it "should let you set rspec mocking explicitly" do
         @config.mock_with(:rspec)
         @config.mock_framework.should =~ /\/plugins\/mock_frameworks\/rspec$/
       end
@@ -37,6 +37,13 @@ module Spec
         mod = Module.new
         @config.include mod
         @config.included_modules.should include(mod)
+      end
+      
+      [:prepend_before, :append_before, :prepend_after, :append_after].each do |m|
+        it "should delegate ##{m} to Behaviour class" do
+          Behaviour.should_receive(m).with(:whatever)
+          @config.__send__(m, :whatever)
+        end
       end
     end
   end

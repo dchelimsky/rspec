@@ -11,20 +11,12 @@ module Spec
 
     describe Behaviour, "class methods" do
       before :each do
-        @original_before_all_parts = Behaviour.before_all_parts.dup
-        @original_after_all_parts = Behaviour.after_all_parts.dup
-        @original_before_each_parts = Behaviour.before_each_parts.dup
-        @original_after_each_parts = Behaviour.after_each_parts.dup
-
         @reporter = FakeReporter.new(mock("formatter", :null_object => true), mock("backtrace_tweaker", :null_object => true))
         @behaviour = Behaviour.new("example") {}
       end
 
       after :each do
-        Behaviour.instance_variable_set(:@before_all_parts, @original_before_all_parts)
-        Behaviour.instance_variable_set(:@after_all_parts, @original_after_all_parts)
-        Behaviour.instance_variable_set(:@before_each_parts, @original_before_each_parts)
-        Behaviour.instance_variable_set(:@after_each_parts, @original_after_each_parts)
+        Behaviour.clear_before_and_after!
       end
 
       it "should not run before(:all) or after(:all) on dry run" do
@@ -96,20 +88,12 @@ module Spec
 
     describe Behaviour do
       before :each do
-        @original_before_all_parts = Behaviour.before_all_parts.dup
-        @original_after_all_parts = Behaviour.after_all_parts.dup
-        @original_before_each_parts = Behaviour.before_each_parts.dup
-        @original_after_each_parts = Behaviour.after_each_parts.dup
-
         @reporter = FakeReporter.new(mock("formatter", :null_object => true), mock("backtrace_tweaker", :null_object => true))
         @behaviour = Behaviour.new("example") {}
       end
 
       after :each do
-        Behaviour.instance_variable_set(:@before_all_parts, @original_before_all_parts)
-        Behaviour.instance_variable_set(:@after_all_parts, @original_after_all_parts)
-        Behaviour.instance_variable_set(:@before_each_parts, @original_before_each_parts)
-        Behaviour.instance_variable_set(:@after_each_parts, @original_after_each_parts)
+        Behaviour.clear_before_and_after!
       end
 
       it "should send reporter add_behaviour" do
@@ -254,6 +238,50 @@ module Spec
         @behaviour.it("test") {context_instance_value_out = @instance_var}
         @behaviour.run(@reporter)
         context_instance_value_in.should == context_instance_value_out
+      end
+
+      it "should not add global before callbacks for untargetted behaviours" do
+        fiddle = []
+
+        Behaviour.before(:all) { fiddle << "Behaviour.before(:all)" }
+        Behaviour.prepend_before(:all) { fiddle << "Behaviour.prepend_before(:all)" }
+        Behaviour.before(:each, :behaviour_type => :special) { fiddle << "Behaviour.before(:each, :behaviour_type => :special)" }
+        Behaviour.prepend_before(:each, :behaviour_type => :special) { fiddle << "Behaviour.prepend_before(:each, :behaviour_type => :special)" }
+        Behaviour.before(:all, :behaviour_type => :special) { fiddle << "Behaviour.before(:all, :behaviour_type => :special)" }
+        Behaviour.prepend_before(:all, :behaviour_type => :special) { fiddle << "Behaviour.prepend_before(:all, :behaviour_type => :special)" }
+
+        behaviour = Behaviour.new("I'm not special", :behaviour_type => :not_special) {}
+        behaviour.run(@reporter)
+        fiddle.should == [
+          'Behaviour.prepend_before(:all)',
+          'Behaviour.before(:all)',
+        ]
+      end
+    
+      it "should add global before callbacks for targetted behaviours" do
+        fiddle = []
+
+        Behaviour.before(:all) { fiddle << "Behaviour.before(:all)" }
+        Behaviour.prepend_before(:all) { fiddle << "Behaviour.prepend_before(:all)" }
+        Behaviour.before(:each, :behaviour_type => :special) { fiddle << "Behaviour.before(:each, :behaviour_type => :special)" }
+        Behaviour.prepend_before(:each, :behaviour_type => :special) { fiddle << "Behaviour.prepend_before(:each, :behaviour_type => :special)" }
+        Behaviour.before(:all, :behaviour_type => :special) { fiddle << "Behaviour.before(:all, :behaviour_type => :special)" }
+        Behaviour.prepend_before(:all, :behaviour_type => :special) { fiddle << "Behaviour.prepend_before(:all, :behaviour_type => :special)" }
+
+        Behaviour.append_before(:behaviour_type => :special) { fiddle << "Behaviour.append_before(:each, :behaviour_type => :special)" }
+
+        behaviour = Behaviour.new("I'm not special", :behaviour_type => :special) {}
+        behaviour.it("test") {true}
+        behaviour.run(@reporter)
+        fiddle.should == [
+          'Behaviour.prepend_before(:all)',
+          'Behaviour.before(:all)',
+          'Behaviour.prepend_before(:all, :behaviour_type => :special)',
+          'Behaviour.before(:all, :behaviour_type => :special)',
+          'Behaviour.prepend_before(:each, :behaviour_type => :special)',
+          'Behaviour.before(:each, :behaviour_type => :special)',
+          'Behaviour.append_before(:each, :behaviour_type => :special)',
+        ]
       end
     
       it "before callbacks are ordered from global to local" do

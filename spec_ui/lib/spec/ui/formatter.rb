@@ -27,7 +27,7 @@ module Spec
         end
         
         def png_path
-          raise "Screenshot not taken. You must call #{self.class}#screenshot! or #{self.class}#browser=(@browser) from after(:each)" if @png_path.nil?
+          raise "Screenshot not taken. You must call #{self.name}.screenshot! or #{self.name}.browser = @browser from after(:each)" if @png_path.nil?
           @png_path
         end
         

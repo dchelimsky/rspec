@@ -9,4 +9,4 @@ with spec/ui. Prerequisites:
 
 After this is installed, run the watir specs:
 
-  rake spec:ui
+  rake spec:watir

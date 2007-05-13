@@ -67,12 +67,12 @@ module Spec
         if errors.empty?
           specs.each do |example|
             example_execution_context = execution_context(example)
-            example_execution_context.copy_instance_variables_from(@before_and_after_all_context_instance) unless before_all_proc.nil?
-            example.run(reporter, before_each_proc, after_each_proc, dry_run, example_execution_context, timeout)
+            example_execution_context.copy_instance_variables_from(@before_and_after_all_context_instance) unless before_all_proc(behaviour_type).nil?
+            example.run(reporter, before_each_proc(behaviour_type), after_each_proc(behaviour_type), dry_run, example_execution_context, timeout)
           end
         end
         
-        @before_and_after_all_context_instance.copy_instance_variables_from(example_execution_context) unless after_all_proc.nil?
+        @before_and_after_all_context_instance.copy_instance_variables_from(example_execution_context) unless after_all_proc(behaviour_type).nil?
         run_after_all(reporter, dry_run)
       end
 
@@ -112,13 +112,16 @@ module Spec
         args << {} unless Hash === args.last
         modules, options = args_and_options(*args)
         required_behaviour_type = options[:behaviour_type]
-        behaviour_type = @description[:behaviour_type]
         if required_behaviour_type.nil? || required_behaviour_type.to_sym == behaviour_type.to_sym
           @eval_module.include(*modules)
         end
       end
 
     protected
+
+      def behaviour_type #:nodoc:
+        @description[:behaviour_type]
+      end
 
       # Messages that this class does not understand
       # are passed directly to the @eval_module.
@@ -156,7 +159,7 @@ module Spec
         unless dry_run
           begin
             @before_and_after_all_context_instance = execution_context(nil)
-            @before_and_after_all_context_instance.instance_eval(&before_all_proc)
+            @before_and_after_all_context_instance.instance_eval(&before_all_proc(behaviour_type))
           rescue => e
             errors << e
             location = "before(:all)"
@@ -170,7 +173,7 @@ module Spec
         unless dry_run
           begin 
             @before_and_after_all_context_instance ||= execution_context(nil) 
-            @before_and_after_all_context_instance.instance_eval(&after_all_proc) 
+            @before_and_after_all_context_instance.instance_eval(&after_all_proc(behaviour_type)) 
           rescue => e
             location = "after(:all)"
             reporter.example_finished(location, e, location) if reporter

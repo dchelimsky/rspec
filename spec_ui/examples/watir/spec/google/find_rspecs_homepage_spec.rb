@@ -1,11 +1,9 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe "Google's search page" do
-  before(:all) do
-    @browser = Watir::Browser.new
-  end
   
   before(:each) do
+    # The @browser is initialised in spec_helper.rb
     @browser.goto('http://www.google.com')
   end
 
@@ -25,13 +23,5 @@ describe "Google's search page" do
     @browser.text_field(:name, "q").set("respec")
     @browser.button(:name, "btnG").click
     @browser.should_not have_text("Ali G")
-  end
-  
-  after(:each) do
-    Spec::Ui::ScreenshotFormatter.browser = @browser
-  end
-
-  after(:all) do
-    @browser.kill! rescue nil
   end
 end

@@ -8,7 +8,7 @@ lib/spec/ui/images/rmagick_not_installed.png
 lib/spec/ui/images/win32screenshot_not_installed.png
 lib/spec/ui/images/wrong_win32screenshot.png
 lib/spec/ui/screenshot_saver.rb
-lib/spec/ui/selenium
+lib/spec/ui/selenium.rb
 lib/spec/ui/selenium/driver_ext.rb
 lib/spec/ui/version.rb
 lib/spec/ui/watir.rb

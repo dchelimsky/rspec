@@ -147,38 +147,18 @@ module Spec
       end
       
       # Use this to configure various configurable aspects of
-      # RSpec. For example, to choose a mock framework from
-      # RSpec, mocha and flexmock, you can do this:
+      # RSpec:
       #
-      #   Spec::Runner.configure do |config|
-      #     config.mock_with :rspec #or :mocha, or :flexmock
+      #   Spec::Runner.configure do |configuration|
+      #     # Configure RSpec here
       #   end
       #
-      # To use any other mock framework, you'll have to provide
-      # your own adapter. This is simply a module that responds to
-      # setup_mocks_for_rspec, verify_mocks_for_rspec and teardown_mocks_for_rspec.
-      # These are your hooks into the lifecycle of a given example. RSpec will
-      # call setup_mocks_for_rspec before running anything else in each Example.
-      # After executing the #after methods, RSpec will then call verify_mocks_for_rspec
-      # and teardown_mocks_for_rspec (this is guaranteed to run even if there are
-      # failures in verify_mocks_for_rspec).
+      # The yielded <tt>configuration</tt> object is a
+      # Spec::DSL::Configuration instance. See its RDoc
+      # for details about what you can do with it.
       #
-      # Once you've defined this module, you can pass that to mock_with:
-      #
-      #   Spec::Runner.configure do |config|
-      #     config.mock_with MyMockFrameworkAdapter
-      #   end
-      #
-      # You can also configure the following items:
-      #
-      #   # include SomeModule in every Behaviour
-      #   config.include SomeModule
-      #
-      #   # generate a do_something predicate_matcher for every Behaviour
-      #   # - See Spec::DSL::Behaviour#predicate_matchers
-      #   config.predicate_matchers[:does_something?] = :do_something
       def configure
-        yield configuration
+        yield configuration if @configuration.nil?
       end
     end
   end
