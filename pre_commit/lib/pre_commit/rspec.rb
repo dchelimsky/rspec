@@ -79,7 +79,7 @@ class PreCommit::Rspec < PreCommit
       system("svn cleanup #{dest}")
       cmd = "svn up #{dest}"
       puts cmd
-      system(cmd)
+#      system(cmd)
       puts "Done!"
     end
   end

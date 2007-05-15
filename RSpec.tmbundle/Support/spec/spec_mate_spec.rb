@@ -11,6 +11,7 @@ describe "SpecMate" do
     ENV['TM_PROJECT_DIRECTORY'] = File.expand_path(File.dirname(__FILE__))
     ENV['TM_FILEPATH'] = nil
     ENV['TM_LINE_NUMBER'] = nil
+    ENV['TM_RSPEC_HOME'] = nil
     load File.dirname(__FILE__) + '/../lib/spec_mate.rb'
     @spec_mate = SpecMate.new
   end

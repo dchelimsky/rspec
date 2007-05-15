@@ -6,27 +6,37 @@ module Spec
 
         BEHAVIOUR_CLASSES = {:default => Spec::DSL::Behaviour}
         
-        def add_behaviour_class(key, value)
-          BEHAVIOUR_CLASSES[key] = value
+        # Registers a behaviour class +klass+ with the symbol
+        # +behaviour_type+. For example:
+        #
+        #   Spec::DSL::BehaviourFactory.add_behaviour_class(:farm, Spec::Farm::DSL::FarmBehaviour)
+        #
+        # This will cause Kernel#describe from a file living in 
+        # <tt>spec/farm</tt> to create behaviour instances of type
+        # Spec::Farm::DSL::FarmBehaviour.
+        def add_behaviour_class(behaviour_type, klass)
+          BEHAVIOUR_CLASSES[behaviour_type] = klass
         end
 
-        def remove_behaviour_class(key)
-          BEHAVIOUR_CLASSES.delete(key)
+        def remove_behaviour_class(behaviour_type)
+          BEHAVIOUR_CLASSES.delete(behaviour_type)
         end
 
         def create(*args, &block)
-          return BEHAVIOUR_CLASSES[behaviour_type(*args)].new(*args, &block)
-        end
-        
-      private
-      
-        def behaviour_type(*args)
           opts = Hash === args.last ? args.last : {}
-          opts[:behaviour_type] ? opts[:behaviour_type] : :default
+          if opts[:shared]
+            behaviour_type = :default
+          elsif opts[:behaviour_type]
+            behaviour_type = opts[:behaviour_type]
+          elsif opts[:spec_path] =~ /spec\/(#{BEHAVIOUR_CLASSES.keys.join('|')})/
+            behaviour_type = $1.to_sym
+          else
+            behaviour_type = :default
+          end
+          return BEHAVIOUR_CLASSES[behaviour_type].new(*args, &block)
         end
-        
+
       end
-      
     end
   end
 end

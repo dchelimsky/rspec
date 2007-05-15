@@ -1,4 +1,22 @@
 module Kernel
+  # Creates and registers an instance of a Spec::DSL::Behaviour (or a subclass).
+  # The instantiated behaviour class depends on the directory of the file
+  # calling this method. For example, Spec::Rails will use different
+  # classes for specs living in <tt>spec/models</tt>, <tt>spec/helpers</tt>, 
+  # <tt>spec/views</tt> and <tt>spec/controllers</tt>.
+  #
+  # It is also possible to override autodiscovery of the behaviour class 
+  # with an options Hash as the last argument:
+  #
+  #   describe "name", :behaviour_type => :something_special do ...
+  #
+  # The reason for using different behaviour classes is to have
+  # different matcher methods available from within the <tt>describe</tt>
+  # block.
+  #
+  # See Spec::DSL::BehaviourFactory#add_behaviour_class for details about 
+  # how to register special Spec::DSL::Behaviour implementations.
+  #
   def describe(*args, &block)
     raise ArgumentError if args.empty?
     register_behaviour(Spec::DSL::BehaviourFactory.create(*args, &block))

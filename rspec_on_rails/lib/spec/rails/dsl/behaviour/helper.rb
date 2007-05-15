@@ -72,9 +72,9 @@ module Spec
       #     end
       #   end
       #
-      #   context "ThingHelper behaviour" do
+      #   describe "ThingHelper behaviour" do
       #     include ThingHelper
-      #     specify "should tell you the number of things" do
+      #     it "should tell you the number of things" do
       #       Thing.should_receive(:count).and_return(37)
       #       number_of_things.should == 37
       #     end
