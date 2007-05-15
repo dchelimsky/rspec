@@ -5,13 +5,9 @@ describe "SpecMate" do
     @first_failing_spec  = /fixtures\/example_failing_spec\.rb&line=3/n
     @second_failing_spec  = /fixtures\/example_failing_spec\.rb&line=7/n
     
-    root = File.expand_path(File.dirname(__FILE__) + '/../../../..')
-    if File.exist?("#{root}/bin/spec")
-      @spec_cmd = "ruby -I\"#{root}/lib\" \"#{root}/bin/spec\""
-    else
-      @spec_cmd = "spec"
-    end
-    ENV['TM_SPEC'] = @spec_command
+    root = File.expand_path(File.dirname(__FILE__) + '/../../../rspec')
+    ENV['TM_SPEC'] = "ruby -I\"#{root}/lib\" \"#{root}/bin/spec\""
+    ENV['TM_RSPEC_HOME'] = "#{root}"
     ENV['TM_PROJECT_DIRECTORY'] = File.expand_path(File.dirname(__FILE__))
     ENV['TM_FILEPATH'] = nil
     ENV['TM_LINE_NUMBER'] = nil
