@@ -2,6 +2,7 @@
 
 == Version 0.9.5
 
+* Fixed [#10814] Runner loads shared code, test cases require them again
 * Fixed [#10753] Global before and after
 * Fixed [#10774] Allow before and after to be specified in config II
 * Refactored Spec::Ui examples to use new global before and after blocks.
