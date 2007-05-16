@@ -102,7 +102,7 @@ module Spec
         Behaviour.prepend_after(*args, &proc)
       end
       alias_method :after, :prepend_after
-      # Appends a global <tt>afyer</tt> block to all behaviours.
+      # Appends a global <tt>after</tt> block to all behaviours.
       # See #append_before for filtering semantics.
       def append_after(*args, &proc)
         Behaviour.append_after(*args, &proc)
