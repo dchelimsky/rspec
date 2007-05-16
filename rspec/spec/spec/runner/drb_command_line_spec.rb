@@ -18,14 +18,22 @@ end
 describe "DrbCommandLine with local server" do
 
   unless Config::CONFIG['ruby_install_name'] == 'jruby'  
-    before :all do
-      create_dummy_spec_file
+    before(:all) do
       DRb.start_service("druby://localhost:8989", Spec::Runner::CommandLine)
+      $drb_example_file_counter = 0
     end
     
-    after :all do
-      DRb.stop_service      
+    before(:each) do
+      create_dummy_spec_file
+      $drb_example_file_counter = $drb_example_file_counter + 1
+    end
+    
+    after(:each) do
       File.delete(@dummy_spec_filename)
+    end
+    
+    after(:all) do
+      DRb.stop_service      
     end
 
     it "should run against local server" do
@@ -44,7 +52,7 @@ describe "DrbCommandLine with local server" do
     end
 
     def create_dummy_spec_file
-      @dummy_spec_filename = File.expand_path(File.dirname(__FILE__)) + '/_dummy_spec.rb'
+      @dummy_spec_filename = File.expand_path(File.dirname(__FILE__)) + "/_dummy_spec#{$drb_example_file_counter}.rb"
       File.open(@dummy_spec_filename, 'w') do |f|
         f.write %{
 describe "DUMMY CONTEXT for 'DrbCommandLine with -c option'" do
@@ -53,7 +61,7 @@ describe "DUMMY CONTEXT for 'DrbCommandLine with -c option'" do
   end
 
   it "should be output with red bar" do
-    violated("I wan to see a red bar!")
+    violated("I want to see a red bar!")
   end
 end
 }

@@ -11,13 +11,13 @@ describe "CommandLine" do
   end
 
   it "should run file" do
-    file = File.dirname(__FILE__) + '/../../../examples/io_processor_spec.rb'
+    file = File.dirname(__FILE__) + '/../../../failing_examples/predicate_example.rb'
     err = StringIO.new
     out = StringIO.new
     Spec::Runner::CommandLine.run([file], err, out, false, true)
     
     out.rewind
-    out.read.should =~ /2 examples, 0 failures/n
+    out.read.should =~ /2 examples, 1 failure/n
   end
 
   it "should raise when file does not exist" do

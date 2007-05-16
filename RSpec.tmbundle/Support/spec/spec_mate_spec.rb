@@ -1,6 +1,8 @@
 require 'stringio'
+require File.expand_path(File.join(File.dirname(__FILE__), "..", "..", "..", "rspec", "spec", "spec_helper"))
 
 describe "SpecMate" do
+  it_should_behave_like "Examples that have to load files"  
   before(:each) do
     @first_failing_spec  = /fixtures\/example_failing_spec\.rb&line=3/n
     @second_failing_spec  = /fixtures\/example_failing_spec\.rb&line=7/n
