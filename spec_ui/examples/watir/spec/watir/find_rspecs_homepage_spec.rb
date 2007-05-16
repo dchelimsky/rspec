@@ -1,7 +1,6 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe "Google's search page" do
-  
   before(:each) do
     # The @browser is initialised in spec_helper.rb
     @browser.goto('http://www.google.com')

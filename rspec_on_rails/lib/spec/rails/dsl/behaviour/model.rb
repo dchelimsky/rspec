@@ -13,6 +13,8 @@ module Spec
           append_after {teardown}
           configure
         end
+
+        Spec::DSL::BehaviourFactory.add_behaviour_class(:model, self)
       end
     end
   end

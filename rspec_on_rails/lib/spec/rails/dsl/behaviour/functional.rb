@@ -13,7 +13,7 @@ module Spec
           # You MUST provide a controller_name within the context of
           # your controller specs:
           #
-          #   context "ThingController" do
+          #   describe "ThingController" do
           #     controller_name :thing
           #     ...
           def controller_name(name=nil)

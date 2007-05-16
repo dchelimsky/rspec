@@ -8,8 +8,6 @@ require 'spec/ui'
 require 'spec/ui/watir'
 
 Spec::Runner.configure do |config|
-  config.include(Spec::Matchers::Watir) # This gives us Watir matchers
-  
   config.before(:all) do
     @browser = Watir::Browser.new
   end

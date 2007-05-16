@@ -86,6 +86,8 @@ module Spec
           append_after {teardown}
           include described_type if described_type
         end
+
+        Spec::DSL::BehaviourFactory.add_behaviour_class(:helper, self)
       end
     end
   end

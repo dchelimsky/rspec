@@ -235,6 +235,7 @@ module Spec
           configure
         end
 
+        Spec::DSL::BehaviourFactory.add_behaviour_class(:controller, self)
       end
     end
   end

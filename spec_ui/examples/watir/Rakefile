@@ -6,7 +6,7 @@ require 'spec/rake/spectask'
 
 desc "Run Watir Specs"
 Spec::Rake::SpecTask.new('spec:watir') do |t|
-  t.spec_files = FileList['spec/google/**/*.rb']
+  t.spec_files = FileList['spec/watir/**/*.rb']
   # This line is not necessary if you have RSpec and Spec::Ui installed as gems
   t.ruby_opts = ["-I#{File.dirname(__FILE__) + '/../../lib'}"]
   t.spec_opts = [
