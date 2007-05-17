@@ -120,8 +120,10 @@ module Spec
   <meta http-equiv="Pragma" content="no-cache" />
   <style type="text/css">
   body {
-    margin: 0; padding: 0;
+    margin: 0; 
+    padding: 0;
     background: #fff;
+    font-size: 80%;
   }
   </style>
 </head>
@@ -171,15 +173,16 @@ EOF
   background: #65C400; color: #fff;
 }
 
-div.rspec-report h1 {
+.rspec-report h1 {
   margin: 0px 10px 0px 10px;
   padding: 10px;
-  font: bold 18px "Lucida Grande", Helvetica, sans-serif;
+  font-family: "Lucida Grande", Helvetica, sans-serif;
+  font-size: 1.8em;
 }
 
 #summary {
   margin: 0; padding: 5px 10px;
-  font: bold 10px "Lucida Grande", Helvetica, sans-serif;
+  font-family: "Lucida Grande", Helvetica, sans-serif;
   text-align: right;
   position: absolute;
   top: 0px;
@@ -187,11 +190,11 @@ div.rspec-report h1 {
 }
 
 #summary p {
-  margin: 0 0 2px;
+  margin: 0 0 0 2px;
 }
 
 #summary #totals {
-  font-size: 14px;
+  font-size: 1.2em;
 }
 
 .behaviour {
@@ -228,7 +231,7 @@ dd.spec.failed {
   color: #C20000; background: #FFFBD3;
 }
 
-div.backtrace {
+.backtrace {
   color: #000;
   font-size: 12px;
 }
@@ -238,7 +241,7 @@ a {
 }
 
 /* Ruby code, style similar to vibrant ink */
-pre.ruby {
+.ruby {
   font-size: 12px;
   font-family: monospace;
   color: white;
@@ -246,27 +249,27 @@ pre.ruby {
   padding: 0.1em 0 0.2em 0;
 }
 
-pre.ruby .keyword { color: #FF6600; }
-pre.ruby .constant { color: #339999; }
-pre.ruby .attribute { color: white; }
-pre.ruby .global { color: white; }
-pre.ruby .module { color: white; }
-pre.ruby .class { color: white; }
-pre.ruby .string { color: #66FF00; }
-pre.ruby .ident { color: white; }
-pre.ruby .method { color: #FFCC00; }
-pre.ruby .number { color: white; }
-pre.ruby .char { color: white; }
-pre.ruby .comment { color: #9933CC; }
-pre.ruby .symbol { color: white; }
-pre.ruby .regex { color: #44B4CC; }
-pre.ruby .punct { color: white; }
-pre.ruby .escape { color: white; }
-pre.ruby .interp { color: white; }
-pre.ruby .expr { color: white; }
+.ruby .keyword { color: #FF6600; }
+.ruby .constant { color: #339999; }
+.ruby .attribute { color: white; }
+.ruby .global { color: white; }
+.ruby .module { color: white; }
+.ruby .class { color: white; }
+.ruby .string { color: #66FF00; }
+.ruby .ident { color: white; }
+.ruby .method { color: #FFCC00; }
+.ruby .number { color: white; }
+.ruby .char { color: white; }
+.ruby .comment { color: #9933CC; }
+.ruby .symbol { color: white; }
+.ruby .regex { color: #44B4CC; }
+.ruby .punct { color: white; }
+.ruby .escape { color: white; }
+.ruby .interp { color: white; }
+.ruby .expr { color: white; }
 
-pre.ruby .offending { background-color: gray; }
-pre.ruby .linenum {
+.ruby .offending { background-color: gray; }
+.ruby .linenum {
 	width: 75px;
 	padding: 0.1em 1em 0.2em 0;
 	color: #000000;

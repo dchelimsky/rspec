@@ -86,15 +86,15 @@ module Spec
   #     def initialize(expected)
   #       @expected = expected
   #     end
-  #     def matches?(actual)
-  #       @actual = actual
-  #       bob.current_zone.eql?(Zone.new(@expected))
+  #     def matches?(target)
+  #       @target = target
+  #       @target.current_zone.eql?(Zone.new(@expected))
   #     end
   #     def failure_message
-  #       "expected #{@actual.inspect} to be in Zone #{@expected}"
+  #       "expected #{@target.inspect} to be in Zone #{@expected}"
   #     end
   #     def negative_failure_message
-  #       "expected #{@actual.inspect} not to be in Zone #{@expected}"
+  #       "expected #{@target.inspect} not to be in Zone #{@expected}"
   #     end
   #   end
   #

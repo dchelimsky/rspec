@@ -67,6 +67,15 @@ end
 Note that any of the hash values can be either Strings or Regexps and will be
 evaluated accordingly.
 
+h2. Mocking and stubbing helpers
+
+If you wish to mock or stub helper methods, this must be done on the 
+<tt>@controller.template</tt> object:
+
+<ruby>
+@controller.template.should_receive(:current_user).and_return(mock("user"))
+</ruby>
+
 h2. Example View Specs
 
 <ruby file="../example_rails_app/spec/views/person/list_view_spec.rb"/>
