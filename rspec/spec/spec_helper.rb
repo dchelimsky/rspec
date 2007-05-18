@@ -1,7 +1,14 @@
 require 'stringio'
-$LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
+require 'rbconfig'
+
+dir = File.dirname(__FILE__)
+lib_path = File.expand_path("#{dir}/../lib")
+$LOAD_PATH.unshift lib_path unless $LOAD_PATH.include?(lib_path)
+
 require 'spec'
-require File.dirname(__FILE__) + '/../spec/spec/spec_classes'
+require 'hpricot'
+spec_classes_path = File.expand_path("#{dir}/../spec/spec/spec_classes")
+require spec_classes_path unless $LOAD_PATH.include?(spec_classes_path)
 
 module Spec
   module Matchers

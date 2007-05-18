@@ -11,8 +11,10 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <style type="text/css">
   body {
-    margin: 0; padding: 0;
+    margin: 0; 
+    padding: 0;
     background: #fff;
+    font-size: 80%;
   }
   </style>
 </head>
@@ -34,15 +36,16 @@ function makeRed(element_id) {
   background: #65C400; color: #fff;
 }
 
-div.rspec-report h1 {
+.rspec-report h1 {
   margin: 0px 10px 0px 10px;
   padding: 10px;
-  font: bold 18px "Lucida Grande", Helvetica, sans-serif;
+  font-family: "Lucida Grande", Helvetica, sans-serif;
+  font-size: 1.8em;
 }
 
 #summary {
   margin: 0; padding: 5px 10px;
-  font: bold 10px "Lucida Grande", Helvetica, sans-serif;
+  font-family: "Lucida Grande", Helvetica, sans-serif;
   text-align: right;
   position: absolute;
   top: 0px;
@@ -50,11 +53,11 @@ div.rspec-report h1 {
 }
 
 #summary p {
-  margin: 0 0 2px;
+  margin: 0 0 0 2px;
 }
 
 #summary #totals {
-  font-size: 14px;
+  font-size: 1.2em;
 }
 
 .behaviour {
@@ -91,7 +94,7 @@ dd.spec.failed {
   color: #C20000; background: #FFFBD3;
 }
 
-div.backtrace {
+.backtrace {
   color: #000;
   font-size: 12px;
 }
@@ -101,7 +104,7 @@ a {
 }
 
 /* Ruby code, style similar to vibrant ink */
-pre.ruby {
+.ruby {
   font-size: 12px;
   font-family: monospace;
   color: white;
@@ -109,27 +112,27 @@ pre.ruby {
   padding: 0.1em 0 0.2em 0;
 }
 
-pre.ruby .keyword { color: #FF6600; }
-pre.ruby .constant { color: #339999; }
-pre.ruby .attribute { color: white; }
-pre.ruby .global { color: white; }
-pre.ruby .module { color: white; }
-pre.ruby .class { color: white; }
-pre.ruby .string { color: #66FF00; }
-pre.ruby .ident { color: white; }
-pre.ruby .method { color: #FFCC00; }
-pre.ruby .number { color: white; }
-pre.ruby .char { color: white; }
-pre.ruby .comment { color: #9933CC; }
-pre.ruby .symbol { color: white; }
-pre.ruby .regex { color: #44B4CC; }
-pre.ruby .punct { color: white; }
-pre.ruby .escape { color: white; }
-pre.ruby .interp { color: white; }
-pre.ruby .expr { color: white; }
+.ruby .keyword { color: #FF6600; }
+.ruby .constant { color: #339999; }
+.ruby .attribute { color: white; }
+.ruby .global { color: white; }
+.ruby .module { color: white; }
+.ruby .class { color: white; }
+.ruby .string { color: #66FF00; }
+.ruby .ident { color: white; }
+.ruby .method { color: #FFCC00; }
+.ruby .number { color: white; }
+.ruby .char { color: white; }
+.ruby .comment { color: #9933CC; }
+.ruby .symbol { color: white; }
+.ruby .regex { color: #44B4CC; }
+.ruby .punct { color: white; }
+.ruby .escape { color: white; }
+.ruby .interp { color: white; }
+.ruby .expr { color: white; }
 
-pre.ruby .offending { background-color: gray; }
-pre.ruby .linenum {
+.ruby .offending { background-color: gray; }
+.ruby .linenum {
 	width: 75px;
 	padding: 0.1em 1em 0.2em 0;
 	color: #000000;
@@ -161,9 +164,8 @@ pre.ruby .linenum {
       <div class="failure" id="failure_1">
         <div class="message"><pre>Mock 'poke me' expected :poke with (any args) once, but received it 0 times</pre></div>
         <div class="backtrace"><pre>./failing_examples/mocking_example.rb:13:
-./spec/spec/runner/formatter/html_formatter_spec.rb:17:
-./spec/spec/runner/formatter/html_formatter_spec.rb:13:in `chdir'
-./spec/spec/runner/formatter/html_formatter_spec.rb:13:</pre></div>
+./spec/spec/runner/formatter/html_formatter_spec.rb:19:
+./spec/spec/runner/formatter/html_formatter_spec.rb:15:</pre></div>
     <pre class="ruby"><code><span class="linenum">11</span>  <span class="ident">it</span> <span class="punct">&quot;</span><span class="string">should fail when expected message not received</span><span class="punct">&quot;</span> <span class="keyword">do</span>
 <span class="linenum">12</span>    <span class="ident">mock</span> <span class="punct">=</span> <span class="ident">mock</span><span class="punct">(&quot;</span><span class="string">poke me</span><span class="punct">&quot;)</span>
 <span class="offending"><span class="linenum">13</span>    <span class="ident">mock</span><span class="punct">.</span><span class="ident">should_receive</span><span class="punct">(</span><span class="symbol">:poke</span><span class="punct">)</span></span>
@@ -179,9 +181,8 @@ pre.ruby .linenum {
       <div class="failure" id="failure_2">
         <div class="message"><pre>Mock 'one two three' received :three out of order</pre></div>
         <div class="backtrace"><pre>./failing_examples/mocking_example.rb:22:
-./spec/spec/runner/formatter/html_formatter_spec.rb:17:
-./spec/spec/runner/formatter/html_formatter_spec.rb:13:in `chdir'
-./spec/spec/runner/formatter/html_formatter_spec.rb:13:</pre></div>
+./spec/spec/runner/formatter/html_formatter_spec.rb:19:
+./spec/spec/runner/formatter/html_formatter_spec.rb:15:</pre></div>
     <pre class="ruby"><code><span class="linenum">20</span>    <span class="ident">mock</span><span class="punct">.</span><span class="ident">should_receive</span><span class="punct">(</span><span class="symbol">:three</span><span class="punct">).</span><span class="ident">ordered</span>
 <span class="linenum">21</span>    <span class="ident">mock</span><span class="punct">.</span><span class="ident">one</span>
 <span class="offending"><span class="linenum">22</span>    <span class="ident">mock</span><span class="punct">.</span><span class="ident">three</span></span>
@@ -197,9 +198,8 @@ pre.ruby .linenum {
       <div class="failure" id="failure_3">
         <div class="message"><pre>Mock 'don't talk to me' expected :any_message_at_all with (any args) 0 times, but received it once</pre></div>
         <div class="backtrace"><pre>./failing_examples/mocking_example.rb:28:
-./spec/spec/runner/formatter/html_formatter_spec.rb:17:
-./spec/spec/runner/formatter/html_formatter_spec.rb:13:in `chdir'
-./spec/spec/runner/formatter/html_formatter_spec.rb:13:</pre></div>
+./spec/spec/runner/formatter/html_formatter_spec.rb:19:
+./spec/spec/runner/formatter/html_formatter_spec.rb:15:</pre></div>
     <pre class="ruby"><code><span class="linenum">26</span>  <span class="ident">it</span> <span class="punct">&quot;</span><span class="string">should get yelled at when sending unexpected messages</span><span class="punct">&quot;</span> <span class="keyword">do</span>
 <span class="linenum">27</span>    <span class="ident">mock</span> <span class="punct">=</span> <span class="ident">mock</span><span class="punct">(&quot;</span><span class="string">don't talk to me</span><span class="punct">&quot;)</span>
 <span class="offending"><span class="linenum">28</span>    <span class="ident">mock</span><span class="punct">.</span><span class="ident">should_not_receive</span><span class="punct">(</span><span class="symbol">:any_message_at_all</span><span class="punct">)</span></span>
@@ -227,9 +227,8 @@ Diff:
  framework for Ruby
 </pre></div>
         <div class="backtrace"><pre>./failing_examples/diffing_spec.rb:13:
-./spec/spec/runner/formatter/html_formatter_spec.rb:17:
-./spec/spec/runner/formatter/html_formatter_spec.rb:13:in `chdir'
-./spec/spec/runner/formatter/html_formatter_spec.rb:13:</pre></div>
+./spec/spec/runner/formatter/html_formatter_spec.rb:19:
+./spec/spec/runner/formatter/html_formatter_spec.rb:15:</pre></div>
     <pre class="ruby"><code><span class="linenum">11</span><span class="ident">framework</span> <span class="keyword">for</span> <span class="constant">Ruby</span>
 <span class="linenum">12</span><span class="constant">EOF</span>
 <span class="offending"><span class="linenum">13</span>    <span class="ident">usa</span><span class="punct">.</span><span class="ident">should</span> <span class="punct">==</span> <span class="ident">uk</span></span>
@@ -260,9 +259,8 @@ Diff:
  &gt;
 </pre></div>
         <div class="backtrace"><pre>./failing_examples/diffing_spec.rb:34:
-./spec/spec/runner/formatter/html_formatter_spec.rb:17:
-./spec/spec/runner/formatter/html_formatter_spec.rb:13:in `chdir'
-./spec/spec/runner/formatter/html_formatter_spec.rb:13:</pre></div>
+./spec/spec/runner/formatter/html_formatter_spec.rb:19:
+./spec/spec/runner/formatter/html_formatter_spec.rb:15:</pre></div>
     <pre class="ruby"><code><span class="linenum">32</span>    <span class="ident">expected</span> <span class="punct">=</span> <span class="constant">Animal</span><span class="punct">.</span><span class="ident">new</span> <span class="punct">&quot;</span><span class="string">bob</span><span class="punct">&quot;,</span> <span class="punct">&quot;</span><span class="string">giraffe</span><span class="punct">&quot;</span>
 <span class="linenum">33</span>    <span class="ident">actual</span>   <span class="punct">=</span> <span class="constant">Animal</span><span class="punct">.</span><span class="ident">new</span> <span class="punct">&quot;</span><span class="string">bob</span><span class="punct">&quot;,</span> <span class="punct">&quot;</span><span class="string">tortoise</span><span class="punct">&quot;</span>
 <span class="offending"><span class="linenum">34</span>    <span class="ident">expected</span><span class="punct">.</span><span class="ident">should</span> <span class="ident">eql</span><span class="punct">(</span><span class="ident">actual</span><span class="punct">)</span></span>

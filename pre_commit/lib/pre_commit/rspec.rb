@@ -16,6 +16,7 @@ class PreCommit::Rspec < PreCommit
     gem 'syntax'
     gem 'diff-lcs'
     gem 'heckle' unless PLATFORM == "i386-mswin32"
+    gem 'hpricot'
   end
   
   def touch_revision_storing_files

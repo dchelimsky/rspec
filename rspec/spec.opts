@@ -9,5 +9,5 @@ previous_failures.txt
 mtime
 --reverse
 --timeout
-2
+10
 --diff

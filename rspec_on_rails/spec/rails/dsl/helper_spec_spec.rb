@@ -18,6 +18,16 @@ describe "HelperBehaviour#eval_erb", :behaviour_type => :helper do
   end
 end
 
+describe "HelperBehaviour.fixtures", :behaviour_type => :helper do
+  helper_name :explicit
+  fixtures :animals
+
+  it "loads fixtures" do
+    pig = animals(:pig)
+    pig.class.should == Animal
+  end
+end
+
 describe ExplicitHelper, :behaviour_type => :helper do
   it "should not require naming the helper if describe is passed a type" do
     method_in_explicit_helper.should match(/text from a method/)

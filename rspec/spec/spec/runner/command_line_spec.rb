@@ -1,4 +1,5 @@
-require 'stringio'
+require File.dirname(__FILE__) + '/../../spec_helper.rb'
+
 describe "CommandLine" do
   it "should run directory" do
     file = File.dirname(__FILE__) + '/../../../examples'

@@ -1,5 +1,4 @@
-require 'stringio'
-require 'rbconfig'
+require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 describe "DrbCommandLine without running local server" do
   

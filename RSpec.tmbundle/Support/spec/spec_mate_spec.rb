@@ -1,4 +1,4 @@
-require 'stringio'
+require "#{File.dirname(__FILE__)}/spec_helper"
 require File.expand_path(File.join(File.dirname(__FILE__), "..", "..", "..", "rspec", "spec", "spec_helper"))
 
 describe "SpecMate" do
