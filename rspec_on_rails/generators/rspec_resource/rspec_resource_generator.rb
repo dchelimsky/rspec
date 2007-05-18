@@ -79,13 +79,13 @@ class RspecResourceGenerator < Rails::Generator::NamedBase
 
       # View specs
       m.template "rspec_resource:edit_erb_spec.rb",
-        File.join('spec/views', controller_class_path, controller_file_name, "edit_#{default_file_extension}_spec.rb")
+        File.join('spec/views', controller_class_path, controller_file_name, "edit.#{default_file_extension}_spec.rb")
       m.template "rspec_resource:index_erb_spec.rb",
-        File.join('spec/views', controller_class_path, controller_file_name, "index_#{default_file_extension}_spec.rb")
+        File.join('spec/views', controller_class_path, controller_file_name, "index.#{default_file_extension}_spec.rb")
       m.template "rspec_resource:new_erb_spec.rb",
-        File.join('spec/views', controller_class_path, controller_file_name, "new_#{default_file_extension}_spec.rb")
+        File.join('spec/views', controller_class_path, controller_file_name, "new.#{default_file_extension}_spec.rb")
       m.template "rspec_resource:show_erb_spec.rb",
-        File.join('spec/views', controller_class_path, controller_file_name, "show_#{default_file_extension}_spec.rb")
+        File.join('spec/views', controller_class_path, controller_file_name, "show.#{default_file_extension}_spec.rb")
 
       unless options[:skip_migration]
         m.migration_template(
