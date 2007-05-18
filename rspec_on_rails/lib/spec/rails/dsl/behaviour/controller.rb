@@ -36,11 +36,7 @@ module Spec
           #     => '/registrations/1;edit'
           def route_for(options)
             ensure_that_routes_are_loaded
-            routes = ActionController::Routing::Routes.generate(options)
-            # Rails 1.1.6
-            return routes[0] if routes.is_a?(Array)
-            # Rails 1.2
-            return routes if routes.is_a?(String)
+            ActionController::Routing::Routes.generate(options)
           end
 
           #backwards compatibility to RSpec 0.7.0-0.7.3
@@ -127,11 +123,8 @@ module Spec
   EOE
           end
           @controller.metaclass.class_eval do
-            # Rails 1.1.6 doesn't have controller_path, but >= 1.2.0 does
-            unless instance_methods.include?("controller_path")
-              def controller_path #:nodoc:
-                self.class.name.underscore.gsub('_controller','')
-              end
+            def controller_path #:nodoc:
+              self.class.name.underscore.gsub('_controller','')
             end
             include ControllerInstanceMethods
           end

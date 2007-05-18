@@ -135,11 +135,9 @@ describe "A view", :behaviour_type => :view do
   end
 end
 
-unless Rails::VERSION::STRING == "1.1.6" #1.1.6 did not have form_tag
-  describe "A view with a form_tag", :behaviour_type => :view do
-    it "should render the right action" do
-      render "view_spec/entry_form"
-      response.should have_tag("form[action=?]","/view_spec/entry_form")
-    end
+describe "A view with a form_tag", :behaviour_type => :view do
+  it "should render the right action" do
+    render "view_spec/entry_form"
+    response.should have_tag("form[action=?]","/view_spec/entry_form")
   end
 end

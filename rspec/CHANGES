@@ -2,6 +2,7 @@
 
 == Version 0.9.5
 
+* Yanked support for Rails 1.1.6 in Spec::Rails
 * RSpec.tmbundle uses CMD-SHIFT-R to run focused examples now.
 * Spec::Rails now bundles a spec:rcov task by default (suggestion from Kurt Schrader)
 * Fixed [#10814] Runner loads shared code, test cases require them again

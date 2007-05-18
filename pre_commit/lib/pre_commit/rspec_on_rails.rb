@@ -30,7 +30,7 @@ class PreCommit::RspecOnRails < PreCommit
       rm_rf 'vendor/plugins/rspec_on_rails'
       silent_sh "svn export ../rspec_on_rails vendor/plugins/rspec_on_rails"
 
-      create_purchase unless rails_version == '1.1.6'
+      create_purchase
       ensure_db_config
       clobber_sqlite_data
       rake_sh "db:migrate"

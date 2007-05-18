@@ -112,12 +112,6 @@ class PreCommit::Rspec < PreCommit
   protected
   RSPEC_DEPS = [
     {
-      :checkout_path => "example_rails_app/vendor/rails/1.1.6",
-      :name =>  "rails 1.1.6",
-      :url => "http://dev.rubyonrails.org/svn/rails/tags/rel_1-1-6",
-      :tagged? => true
-    },
-    {
       :checkout_path => "example_rails_app/vendor/rails/1.2.1",
       :name =>  "rails 1.2.1",
       :url => "http://dev.rubyonrails.org/svn/rails/tags/rel_1-2-1",
@@ -139,14 +133,6 @@ class PreCommit::Rspec < PreCommit
       :checkout_path => "example_rails_app/vendor/rails/edge",
       :name =>  "edge rails",
       :url => "http://svn.rubyonrails.org/rails/trunk",
-      :tagged? => false
-    },
-    # NOTE - assert_select is only necessary for 1.1.6 (it is bundled in >= 1.2.x). If
-    # discontinue support for 1.1.6, this can go.
-    {
-      :checkout_path => "example_rails_app/vendor/plugins/assert_select",
-      :name =>  "assert_select",
-      :url => "http://labnotes.org/svn/public/ruby/rails_plugins/assert_select",
       :tagged? => false
     }
   ]  
