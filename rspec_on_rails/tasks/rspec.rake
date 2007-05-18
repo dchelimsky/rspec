@@ -17,9 +17,17 @@ desc "Run all specs in spec directory (excluding plugin specs)"
 Spec::Rake::SpecTask.new(:spec => spec_prereq) do |t|
   t.spec_opts = ['--options', "\"#{RAILS_ROOT}/spec/spec.opts\""]
   t.spec_files = FileList['spec/**/*_spec.rb']
-end  
+end
 
 namespace :spec do
+  desc "Run all specs in spec directory with RCov (excluding plugin specs)"
+  Spec::Rake::SpecTask.new(:rcov) do |t|
+    t.spec_opts = ['--options', "\"#{RAILS_ROOT}/spec/spec.opts\""]
+    t.spec_files = FileList['spec/**/*_spec.rb']
+    t.rcov = true
+    t.rcov_opts = ['--exclude', 'spec', '--rails']
+  end
+  
   desc "Print Specdoc for all specs (excluding plugin specs)"
   Spec::Rake::SpecTask.new(:doc) do |t|
     t.spec_opts = ["--format", "specdoc", "--dry-run"]

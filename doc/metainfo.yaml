@@ -73,11 +73,9 @@ license.page:
   orderInfo: 11
 changes.page:
   orderInfo: 12
+download.page:
+  orderInfo: 213
 ---
-download.html:
-  title: Download
-  url: http://rubyforge.org/frs/?group_id=797
-  orderInfo: 7
 rubyforge.html:
   title: Rubyforge
   url: http://rubyforge.org/projects/rspec

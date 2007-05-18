@@ -191,6 +191,16 @@ task :publish_website => [:verify_user, :website] do
   end
 end
 
+desc "Upload Website archive to RubyForge"
+task :archive_website => [:verify_user, :website] do
+  publisher = Rake::SshDirPublisher.new(
+    "rspec-website@rubyforge.org",
+    "/var/www/gforge-projects/#{PKG_NAME}/#{Spec::VERSION::TAG}",
+    "../doc/output"
+  )
+  publisher.upload
+end
+
 desc "Package the RSpec.tmbundle"
 task :package_tmbundle do
   mkdir 'pkg' rescue nil

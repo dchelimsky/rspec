@@ -24,7 +24,7 @@ module Spec
                 @raised_other = true
               end
             else
-              if @actual_error.message == @expected_message
+              if @expected_message == @actual_error.message
                 @raised_expected_error = true
               else
                 @raised_other = true
