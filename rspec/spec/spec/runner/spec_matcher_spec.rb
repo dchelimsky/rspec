@@ -24,7 +24,7 @@ module Spec
         MatchDescription.new(description)
       end
     end
-        
+
     describe ExampleMatcher do
       include ExampleMatcherSpecHelper
       

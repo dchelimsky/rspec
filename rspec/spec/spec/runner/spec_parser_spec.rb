@@ -30,7 +30,7 @@ describe SpecParserSubject do
   
 end
 
-describe SpecParserSubject, " described" do
+describe SpecParserSubject, "described" do
   
   it "6" do
   end

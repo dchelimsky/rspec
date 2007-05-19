@@ -1,17 +1,25 @@
 module Spec
   module DSL
     class Description
+      module ClassMethods
+        def generate_description(*args)
+          description = args.shift.to_s
+          unless args.empty?
+            suffix = args.shift.to_s
+            description << " " unless suffix =~ /^\s|\.|#/
+            description << suffix
+          end
+          description
+        end
+      end
+      extend ClassMethods
+
       attr_reader :description, :described_type
       
       def initialize(*args)
         args, @options = args_and_options(*args)
         @described_type = args.first unless args.first.is_a?(String)
-        @description = args.shift.to_s
-        unless args.empty?
-          suffix = args.shift.to_s 
-            @description << " " unless suffix =~ /^\s|\.|#/
-          @description << suffix
-        end
+        @description = self.class.generate_description(*args)
       end
   
       def [](key)
