@@ -2,8 +2,11 @@
 
 == Version 1.0
 
+The stake in the ground release. This represents a commitment to the API as it is. No significant
+backwards compatibility changes in the API are expected after this release.
+
 * Fixed [#10923] have_text matcher does not support should_not
-* Fixed [#10673] should &amp;gt; and should &amp;gt;= broken
+* Fixed [#10673] should > and should >= broken
 * Applied [#10921] Allow verify_rcov to accept greater than threshold coverage %'s via configuration
 * Applied [#10920] Added support for not implemented examples (Patch from Chad Humphries)
 * Patch to allow not implemented examples.  This works by not providing a block to the example. (Patch from Chad Humphries, Ken Barker)
