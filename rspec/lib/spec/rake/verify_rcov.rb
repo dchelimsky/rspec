@@ -19,10 +19,14 @@ module RCov
     # exception. 
     attr_accessor :threshold
     
+    # Require the threshold value be met exactly.  This is the default.
+    attr_accessor :require_exact_threshold
+    
     def initialize(name=:verify_rcov)
       @name = name
       @index_html = 'coverage/index.html'
       @verbose = true
+      @require_exact_threshold = true
       yield self if block_given?
       raise "Threshold must be set" if @threshold.nil?
       define
@@ -41,7 +45,7 @@ module RCov
         end
         puts "Coverage: #{total_coverage}% (threshold: #{threshold}%)" if verbose
         raise "Coverage must be at least #{threshold}% but was #{total_coverage}%" if total_coverage < threshold
-        raise "Coverage has increased above the threshold of #{threshold}% to #{total_coverage}%. You should update your threshold value." if total_coverage > threshold
+        raise "Coverage has increased above the threshold of #{threshold}% to #{total_coverage}%. You should update your threshold value." if (total_coverage > threshold) and require_exact_threshold
       end
     end
   end

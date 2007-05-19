@@ -36,6 +36,9 @@ In alphabetical order (by last name)
 ** Patch to add --skip-migration option to rspec_resource generator
 * Ruy Asan
 ** Patch [#10698] Running with --drb executes specs twice (fix included)
+* Ken Barker
+** Patch [#10921] Allow verify_rcov to accept greater than threshold coverage %'s via configuration
+** Patch [#10920] Added support for not implemented examples
 * François Beausoleil
 ** Patch [#10260] Spec::Mocks::Mock#inspect returns way too much data
 * Wilson Bilkovich
@@ -59,6 +62,9 @@ In alphabetical order (by last name)
 ** Patch for allowing non-Strings as partial_paths in view/specs
 * Chris Hoffman
 ** Patch for spec:translate task in Spec::Rails
+* Chad Humphries
+** Patch [#10921] Allow verify_rcov to accept greater than threshold coverage %'s via configuration
+** Patch [#10920] Added support for not implemented examples
 * Jake Howerton
 ** Port of Kevin Clark's ARTS to RSpec
 * KAKUTANI Shintaro
