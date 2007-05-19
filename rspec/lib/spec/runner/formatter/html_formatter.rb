@@ -72,6 +72,8 @@ module Spec
 
         def example_not_implemented(name)
           @current_example_number += 1
+          @output.puts "    <script type=\"text/javascript\">makeYellow('rspec-header');</script>"
+          @output.puts "    <script type=\"text/javascript\">makeYellow('behaviour_#{current_behaviour_number}');</script>"
           move_progress
           @output.puts "    <dd class=\"spec not_implemented\"><span class=\"not_implemented_spec_name\">#{escape(name)}</span></dd>"
           @output.flush
@@ -171,6 +173,10 @@ function moveProgressBar(percentDone) {
 function makeRed(element_id) {
   document.getElementById(element_id).style.background = '#C40D0D';
 }
+function makeYellow(element_id) {
+  document.getElementById(element_id).style.background = '#FAF834';
+  document.getElementById(element_id).style.color = '#000000';
+}
 EOF
         end
         
@@ -239,9 +245,9 @@ dd.spec.failed {
 }
 
 dd.spec.not_implemented {
-  border-left: 5px solid #65C400;
-  border-bottom: 1px solid #65C400;
-  background: #FAF834; color: #131313;
+  border-left: 5px solid #FAF834;
+  border-bottom: 1px solid #FAF834;
+  background: #FCFB98; color: #131313;
 }
 
 .backtrace {

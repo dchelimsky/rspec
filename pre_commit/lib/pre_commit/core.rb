@@ -30,7 +30,7 @@ class PreCommit::Core < PreCommit
       end
       raise "ERROR while running webgen: #{output}" if output =~ /ERROR/n || $? != 0
     end
-    spec_page = File.expand_path(File.dirname(__FILE__) + '/../../../doc/output/tools/spec.html')
+    spec_page = File.expand_path(File.dirname(__FILE__) + '/../../../doc/output/documentation/tools/spec.html')
     spec_page_content = File.open(spec_page).read
     raise "#{'!'*400}\nIt seems like the output in the generated documentation is broken (no dots: ......)\n. Look in #{spec_page}" unless spec_page_content =~/\.\.\.\.\.\.\.\.\.\.\.\.\.\.\.\.\.\.\.\./m    
   end

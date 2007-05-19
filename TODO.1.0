@@ -1,10 +1,11 @@
 OK google analytics
 OK metatags
 OK write rake task to archive old docs
-archive old docs (run the rake task for older versions)
 OK downloads page
 OK file to --example bug
 OK fix resource generator
 OK remove support for 1.1.6
 OK links to blogs
 OK get the 1971 rev
+
+archive old docs (run the rake task for older versions)

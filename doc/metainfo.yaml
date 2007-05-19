@@ -82,6 +82,10 @@ community/rubyforge.html:
   title: Rubyforge
   url: http://rubyforge.org/projects/rspec
   orderInfo: 12  
+documentation/rcov.html:
+  title: RCov
+  url: ../coverage/index.html
+  orderInfo: 54
 documentation/report.html:
   title: RSpec Report
   url: ../report.html
@@ -90,10 +94,6 @@ documentation/rdoc.html:
   title: RDoc
   url: ../rdoc/index.html
   orderInfo: 60
-documentation/rcov.html:
-  title: RCov
-  url: ../coverage/index.html
-  orderInfo: 70  
 documentation/rails/rdoc.html:
   title: RDoc
   url: ../../rdoc-rails/index.html
