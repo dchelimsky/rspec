@@ -4,7 +4,7 @@ title: RSpec Home
 
 h2. Overview
 
-RSpec is a framework that provides programmers with a Domain Specific
+RSpec is a framework which provides programmers with a Domain Specific
 Language to describe the behaviour of Ruby code with readable,
 executable examples that guide you in the design process and
 serve well as both documentation and tests.
