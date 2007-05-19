@@ -14,7 +14,7 @@ The easiest way to use RCov with RSpec is from a rake script (Rakefile), using R
 
 By adding <code>rcov=true</code> to the rake task, specs will be run with RCov
 instead of the standard ruby interpreter, and a coverage report like 
-"this":../coverage/index.html will be generated with the following command line:
+"this":../../coverage/index.html will be generated with the following command line:
 
 <pre>
 rake examples_with_rcov
@@ -43,4 +43,4 @@ This might seem a bit counterintuitive, but this is when you should go and raise
 threshold in your Rakefile. This way you won't miss temporary coverage increases. Crank it up!
 This is how we got to 100% coverage for RSpec.
 
-See "RCov::VerifyTask":../rdoc/classes/RCov/VerifyTask.html for details.
+See "RCov::VerifyTask":../../rdoc/classes/RCov/VerifyTask.html for details.

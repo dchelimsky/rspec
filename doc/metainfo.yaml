@@ -43,27 +43,27 @@ documentation/rails/runners.page:
   orderInfo: 125
 documentation/test_unit.page:
   orderInfo: 80
-tools/:
-  orderInfo: 8
-tools/index.page:
+documentation/tools/:
+  orderInfo: 800
+documentation/tools/index.page:
+  orderInfo: 810
+documentation/tools/spec.page:
+  orderInfo: 811
+documentation/tools/rake.page:
+  orderInfo: 812
+documentation/tools/rcov.page:
+  orderInfo: 813
+documentation/tools/heckle.page:
+  orderInfo: 814
+documentation/tools/extensions/:
+  orderInfo: 815
+documentation/tools/extensions/index.page:
+  orderInfo: 810
+documentation/tools/extensions/editors/:
+  orderInfo: 820
+documentation/tools/extensions/editors/index.page:
   orderInfo: 10
-tools/spec.page:
-  orderInfo: 11
-tools/rake.page:
-  orderInfo: 12
-tools/rcov.page:
-  orderInfo: 13
-tools/heckle.page:
-  orderInfo: 14
-tools/extensions/:
-  orderInfo: 15
-tools/extensions/index.page:
-  orderInfo: 10
-tools/extensions/editors/:
-  orderInfo: 20
-tools/extensions/editors/index.page:
-  orderInfo: 10
-tools/extensions/editors/textmate.page:
+documentation/tools/extensions/editors/textmate.page:
   orderInfo: 20
 license.page:
   orderInfo: 11

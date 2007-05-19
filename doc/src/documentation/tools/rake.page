@@ -4,7 +4,7 @@ title: Rake Task
 h2. Rake Task
 
 RSpec comes with a "Rake":http://rake.rubyforge.org/ task for executing specs.
-See "Spec::Rake::SpecTask":../rdoc/classes/Spec/Rake/SpecTask.html API for details.
+See "Spec::Rake::SpecTask":../../rdoc/classes/Spec/Rake/SpecTask.html API for details.
 
 h3. Rake task example
 
@@ -25,7 +25,7 @@ h3. Generate specdocs in RDoc format
 <ruby file="../rspec/rake_tasks/examples_specdoc.rake"/>
 
 This will write the specdocs to a file, which can be included in your RDoc. 
-Just like "this":../rdoc/files/EXAMPLES_rd.html.
+Just like "this":../../rdoc/files/EXAMPLES_rd.html.
 
 h3. Generate HTML report
 
