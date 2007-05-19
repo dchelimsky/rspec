@@ -96,4 +96,18 @@ require File.dirname(__FILE__) + '/../../spec_helper'
       }.should fail_with(/expected \"this is the text for this action\", got .*/)
     end
   end
+
+  describe "response.should_not have_text (in #{mode} mode)",
+    :behaviour_type => :controller do
+    controller_name :render_spec
+    if mode == 'integration'
+      integrate_views
+    end
+
+    it "should pass with exactly matching text" do
+      post 'text_action'
+      response.should_not have_text("the accordian guy")
+    end
+  end
+
 end

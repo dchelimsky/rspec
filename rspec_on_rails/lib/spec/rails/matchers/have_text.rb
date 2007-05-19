@@ -18,6 +18,10 @@ module Spec
           "expected #{expected.inspect}, got #{actual.inspect}"
         end
         
+        def negative_failure_message
+          "expected not to have text #{expected.inspect}"
+        end
+        
         def to_s
           "have text #{expected.inspect}"
         end
