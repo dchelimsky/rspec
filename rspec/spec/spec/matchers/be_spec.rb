@@ -179,6 +179,26 @@ describe "should be >" do
   end
 end
 
+describe "should be ==" do
+  it "should pass when == operator returns true" do
+    5.should be == 5
+  end
+
+  it "should fail when == operator returns false" do
+    lambda { 3.should be == 4 }.should fail_with("expected == 4, got 3")
+  end
+end
+
+describe "should be ===" do
+  it "should pass when === operator returns true" do
+    Hash.should be === Hash.new
+  end
+
+  it "should fail when === operator returns false" do
+    lambda { Hash.should be === "not a hash" }.should fail_with(%[expected === "not a hash", got Hash])
+  end
+end
+
 describe "should be(value)" do
   it "should pass if actual.equal?(value)" do
     5.should be(5)
@@ -187,5 +207,3 @@ describe "should be(value)" do
     lambda { 5.should be(6) }.should fail_with("expected 6, got 5")
   end
 end
-
-

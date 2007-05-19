@@ -57,7 +57,23 @@ module Spec
         return @actual <= @expected if @less_than_or_equal
         return @actual >= @expected if @greater_than_or_equal
         return @actual > @expected if @greater_than
+        return @actual == @expected if @double_equal
+        return @actual === @expected if @triple_equal
         return @actual.equal?(@expected)
+      end
+      
+      def ==(expected)
+        @double_equal = true
+        @comparison = "== "
+        @expected = expected
+        self
+      end
+
+      def ===(expected)
+        @triple_equal = true
+        @comparison = "=== "
+        @expected = expected
+        self
       end
 
       def <(expected)

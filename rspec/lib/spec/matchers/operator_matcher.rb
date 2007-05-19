@@ -21,6 +21,26 @@ module Spec
         __delegate_method_missing_to_target("=~", expected)
       end
 
+      def >(expected)
+        @expected = expected
+        __delegate_method_missing_to_target(">", expected)
+      end
+
+      def >=(expected)
+        @expected = expected
+        __delegate_method_missing_to_target(">=", expected)
+      end
+
+      def <(expected)
+        @expected = expected
+        __delegate_method_missing_to_target("<", expected)
+      end
+
+      def <=(expected)
+        @expected = expected
+        __delegate_method_missing_to_target("<=", expected)
+      end
+
       def fail_with_message(message)
         Spec::Expectations.fail_with(message, @expected, @target)
       end
@@ -33,7 +53,7 @@ module Spec
         ::Spec::Matchers.generated_description = "should #{operator} #{expected.inspect}"
         return if @target.send(operator, expected)
         return fail_with_message("expected #{expected.inspect}, got #{@target.inspect} (using #{operator})") if ['==','==='].include?(operator)
-        return fail_with_message("expected =~ #{expected.inspect}, got #{@target.inspect}")
+        return fail_with_message("expected #{operator} #{expected.inspect}, got #{@target.inspect}")
       end
 
     end
