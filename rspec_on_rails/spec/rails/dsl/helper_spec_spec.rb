@@ -1,5 +1,5 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
-
+Spec::Runner.configuration.global_fixtures = :people
 
 describe "HelperBehaviour", :behaviour_type => :helper do
   helper_name :explicit
@@ -26,6 +26,11 @@ describe "HelperBehaviour.fixtures", :behaviour_type => :helper do
     pig = animals(:pig)
     pig.class.should == Animal
   end
+
+  it "loads global fixtures" do
+    lachie = people(:lachie)
+    lachie.class.should == Person
+  end  
 end
 
 describe ExplicitHelper, :behaviour_type => :helper do
