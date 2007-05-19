@@ -56,7 +56,11 @@ module Spec
           summary << ", #{not_implemented_count} not implemented" if not_implemented_count > 0  
 
           if failure_count == 0
-            @output.puts green(summary)
+            if not_implemented_count > 0
+              @output.puts yellow(summary)
+            else
+              @output.puts green(summary)
+            end
           else
             @output.puts red(summary)
           end

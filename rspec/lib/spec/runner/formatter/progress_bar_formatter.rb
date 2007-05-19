@@ -16,7 +16,7 @@ module Spec
         end
       
         def example_not_implemented(name)
-          @output.print yellow('.')
+          @output.print yellow('*')
           @output.flush
         end
         
