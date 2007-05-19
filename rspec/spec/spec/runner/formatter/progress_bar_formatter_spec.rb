@@ -14,9 +14,14 @@ module Spec
           @io.string.should eql("\n")
         end
 
-        it "should produce standard summary" do
-          @formatter.dump_summary(3, 2, 1)
+        it "should produce standard summary without not implemented when not implemented has a 0 count" do
+          @formatter.dump_summary(3, 2, 1, 0)
           @io.string.should eql("\nFinished in 3 seconds\n\n2 examples, 1 failure\n")
+        end
+        
+        it "should produce standard summary" do
+          @formatter.dump_summary(3, 2, 1, 4)
+          @io.string.should eql("\nFinished in 3 seconds\n\n2 examples, 1 failure, 4 not implemented\n")
         end
 
         it "should push F for failing spec" do

@@ -15,6 +15,11 @@ module Spec
           @output.flush
         end
       
+        def example_not_implemented(name)
+          @output.print yellow('.')
+          @output.flush
+        end
+        
         def start_dump
           @output.puts
           @output.flush

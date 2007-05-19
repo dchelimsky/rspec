@@ -93,4 +93,5 @@ describe Stack, " (full)" do
   it "should complain on #push" do
     lambda { @stack.push Object.new }.should raise_error(StackOverflowError)
   end
+  
 end

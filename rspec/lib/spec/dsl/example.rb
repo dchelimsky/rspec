@@ -26,7 +26,7 @@ module Spec
         end
 
         ExampleShouldRaiseHandler.new(@from, @options).handle(errors)
-        reporter.example_finished(description, errors.first, location) if reporter
+        reporter.example_finished(description, errors.first, location, @example_block.nil?) if reporter
       end
       
       def matches?(matcher, specified_examples)
@@ -70,7 +70,7 @@ module Spec
 
       def run_example(execution_context, errors)
         begin
-          execution_context.instance_eval(&@example_block)
+          execution_context.instance_eval(&@example_block) if @example_block
           return true
         rescue Exception => e
           @failed = true

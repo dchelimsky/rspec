@@ -17,6 +17,11 @@ module Spec
           @output.puts green("- #{name}")
           @output.flush
         end
+        
+        def example_not_implemented(name)
+          @output.puts yellow("- #{name} (NOT IMPLEMENTED)")
+          @output.flush
+        end
       end
     end
   end

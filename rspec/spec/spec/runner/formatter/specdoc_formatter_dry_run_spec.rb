@@ -10,7 +10,7 @@ describe "SpecdocFormatterDryRun" do
         @formatter.dry_run = true
     end
     it "should not produce summary on dry run" do
-        @formatter.dump_summary(3, 2, 1)
+        @formatter.dump_summary(3, 2, 1, 0)
         @io.string.should eql("")
       
     end

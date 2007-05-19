@@ -2,20 +2,27 @@ require "#{File.dirname(__FILE__)}/spec_helper"
 require File.expand_path(File.join(File.dirname(__FILE__), "..", "..", "..", "rspec", "spec", "spec_helper"))
 
 describe "SpecMate" do
-  it_should_behave_like "Examples that have to load files"  
-  before(:each) do
-    @first_failing_spec  = /fixtures\/example_failing_spec\.rb&line=3/n
-    @second_failing_spec  = /fixtures\/example_failing_spec\.rb&line=7/n
-    
+  def set_env
     root = File.expand_path(File.dirname(__FILE__) + '/../../../rspec')
     ENV['TM_SPEC'] = "ruby -I\"#{root}/lib\" \"#{root}/bin/spec\""
     ENV['TM_RSPEC_HOME'] = "#{root}"
     ENV['TM_PROJECT_DIRECTORY'] = File.expand_path(File.dirname(__FILE__))
     ENV['TM_FILEPATH'] = nil
     ENV['TM_LINE_NUMBER'] = nil
-    ENV['TM_RSPEC_HOME'] = nil
+  end
+  
+  it_should_behave_like "Examples that have to load files"  
+  before(:each) do
+    @first_failing_spec  = /fixtures\/example_failing_spec\.rb&line=3/n
+    @second_failing_spec  = /fixtures\/example_failing_spec\.rb&line=7/n
+    
+    set_env
     load File.dirname(__FILE__) + '/../lib/spec_mate.rb'
     @spec_mate = SpecMate.new
+  end
+  
+  after(:each) do
+    set_env
   end
 
   it "should run whole file when only file specified" do
@@ -68,6 +75,13 @@ describe "SpecMate" do
     html.should =~ @second_failing_spec
     html.should =~ /should pass/
     html.should =~ /should pass too/
+  end
+  
+  it "should raise exception when TM_RSPEC_HOME points to bad location" do
+    ENV['TM_PROJECT_DIRECTORY'] = __FILE__ # bad on purpose
+    lambda do
+      load File.dirname(__FILE__) + '/../lib/spec_mate.rb'
+    end.should_not raise_error
   end
   
   it "should raise exception when TM_RSPEC_HOME points to bad location" do

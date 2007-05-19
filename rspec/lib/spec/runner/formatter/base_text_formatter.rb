@@ -46,12 +46,15 @@ module Spec
           @output.flush
         end
       
-        def dump_summary(duration, example_count, failure_count)
+        def dump_summary(duration, example_count, failure_count, not_implemented_count)
           return if @dry_run
           @output.puts
           @output.puts "Finished in #{duration} seconds"
           @output.puts
+
           summary = "#{example_count} example#{'s' unless example_count == 1}, #{failure_count} failure#{'s' unless failure_count == 1}"
+          summary << ", #{not_implemented_count} not implemented" if not_implemented_count > 0  
+
           if failure_count == 0
             @output.puts green(summary)
           else
@@ -87,6 +90,7 @@ module Spec
         def red(text); colour(text, "\e[31m"); end
         def green(text); colour(text, "\e[32m"); end
         def magenta(text); colour(text, "\e[35m"); end
+        def yellow(text); colour(text, "\e[33m"); end
         
       end
     end

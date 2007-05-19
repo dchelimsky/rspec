@@ -10,7 +10,7 @@ describe "RdocFormatter" do
         @formatter.dry_run = true
     end
     it "should produce no summary" do
-        @formatter.dump_summary(nil, nil, nil)
+        @formatter.dump_summary(nil, nil, nil, nil)
         @io.string.should be_empty
       
     end
@@ -33,6 +33,11 @@ describe "RdocFormatter" do
         @formatter.example_passed("spec")
         @io.string.should eql("# * spec\n")
       
+    end
+
+    it "should push out not implemented spec" do
+        @formatter.example_not_implemented("spec")
+        @io.string.should eql("# * spec [NOT IMPLEMENTED]\n")      
     end
   
 end

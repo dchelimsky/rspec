@@ -1,7 +1,9 @@
 = RSpec Changelog
 
-== Version 0.9.5
+== Version 1.0
 
+* Applied [#10920] Added support for not implemented examples (Patch from Chad Humphries)
+* Patch to allow not implemented examples.  This works by not providing a block to the example. (Patch from Chad Humphries, Ken Barker)
 * Yanked support for Rails 1.1.6 in Spec::Rails
 * RSpec.tmbundle uses CMD-SHIFT-R to run focused examples now.
 * Spec::Rails now bundles a spec:rcov task by default (suggestion from Kurt Schrader)

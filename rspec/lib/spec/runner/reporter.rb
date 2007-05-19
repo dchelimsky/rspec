@@ -17,9 +17,12 @@ module Spec
         @formatters.each{|f| f.example_started(name)}
       end
       
-      def example_finished(name, error=nil, failure_location=nil)
+      def example_finished(name, error=nil, failure_location=nil, not_implemented = false)
         @example_names << name
-        if error.nil?
+        
+        if not_implemented
+          example_not_implemented(name)
+        elsif error.nil?
           example_passed(name)
         else
           example_failed(name, error, failure_location)
@@ -40,7 +43,7 @@ module Spec
       def dump
         @formatters.each{|f| f.start_dump}
         dump_failures
-        @formatters.each{|f| f.dump_summary(duration, @example_names.length, @failures.length)}
+        @formatters.each{|f| f.dump_summary(duration, @example_names.length, @failures.length, @not_implemented_count)}
         @failures.length
       end
 
@@ -49,6 +52,7 @@ module Spec
       def clear!
         @behaviour_names = []
         @failures = []
+        @not_implemented_count = 0
         @example_names = []
         @start_time = nil
         @end_time = nil
@@ -66,7 +70,7 @@ module Spec
         return @end_time - @start_time unless (@end_time.nil? or @start_time.nil?)
         return "0.0"
       end
-
+      
       def example_passed(name)
         @formatters.each{|f| f.example_passed(name)}
       end
@@ -77,6 +81,11 @@ module Spec
         failure = Failure.new(example_name, error)
         @failures << failure
         @formatters.each{|f| f.example_failed(name, @failures.length, failure)}
+      end
+      
+      def example_not_implemented(name)
+        @not_implemented_count += 1
+        @formatters.each{|f| f.example_not_implemented(name)}
       end
       
       class Failure

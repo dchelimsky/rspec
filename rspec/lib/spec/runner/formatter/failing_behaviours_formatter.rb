@@ -17,7 +17,7 @@ module Spec
         def dump_failure(counter, failure)
         end
 
-        def dump_summary(duration, example_count, failure_count)
+        def dump_summary(duration, example_count, failure_count, not_implemented_count)
         end
       end
     end

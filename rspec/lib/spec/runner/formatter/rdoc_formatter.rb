@@ -14,6 +14,10 @@ module Spec
         def example_failed(name, counter, failure)
           @output.puts "# * #{name} [#{counter} - FAILED]"
         end
+        
+        def example_not_implemented(name)
+          @output.puts "# * #{name} [NOT IMPLEMENTED]"
+        end
       end
     end
   end

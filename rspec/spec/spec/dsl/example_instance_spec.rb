@@ -27,7 +27,7 @@ module Spec
 
       it "should report success" do
         example=Example.new("example") {}
-        @reporter.should_receive(:example_finished).with("example", nil, nil)
+        @reporter.should_receive(:example_finished).with("example", nil, nil, false)
         example.run(@reporter, nil, nil, nil, nil)
       end
 
@@ -35,7 +35,7 @@ module Spec
         example=Example.new("example") do
           (2+2).should == 5
         end
-        @reporter.should_receive(:example_finished).with("example", is_a(Spec::Expectations::ExpectationNotMetError), "example")
+        @reporter.should_receive(:example_finished).with("example", is_a(Spec::Expectations::ExpectationNotMetError), "example", false)
         example.run(@reporter, nil, nil, nil, nil)
       end
 
@@ -44,7 +44,7 @@ module Spec
         example=Example.new("example") do
           raise(error)
         end
-        @reporter.should_receive(:example_finished).with("example", error, "example")
+        @reporter.should_receive(:example_finished).with("example", error, "example", false)
         example.run(@reporter, nil, nil, nil, nil)
       end
 
@@ -54,7 +54,7 @@ module Spec
           self.instance_of?(Example).should == false
           self.instance_of?(scope_class).should == true
         end
-        @reporter.should_receive(:example_finished).with("should pass", nil, nil)
+        @reporter.should_receive(:example_finished).with("should pass", nil, nil, false)
         example.run(@reporter, nil, nil, nil, scope_class.new)
       end
 
@@ -148,7 +148,7 @@ module Spec
         example = Example.new(:__generate_description) {
           5.should == 5
         }
-        @reporter.should_receive(:example_finished).with("should == 5", :anything, :anything)
+        @reporter.should_receive(:example_finished).with("should == 5", :anything, :anything, false)
         example.run(@reporter, nil, nil, nil, Object.new)
       end
 
