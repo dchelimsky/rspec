@@ -20,7 +20,7 @@ examples/selenium/spec/google/find_rspecs_homepage_spec.rb
 examples/selenium/spec/spec_helper.rb
 examples/watir/Rakefile
 examples/watir/README.txt
-examples/watir/spec/google/find_rspecs_homepage_spec.rb
+examples/watir/spec/watir/find_rspecs_homepage_spec.rb
 examples/watir/spec/spec_helper.rb
 spec/spec_helper.rb
 spec/spec/ui/watir/matchers_spec.rb
