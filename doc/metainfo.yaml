@@ -65,18 +65,20 @@ tools/extensions/editors/index.page:
   orderInfo: 10
 tools/extensions/editors/textmate.page:
   orderInfo: 20
-team.page:
-  orderInfo: 9
-contribute.page:
-  orderInfo: 10
 license.page:
   orderInfo: 11
 changes.page:
   orderInfo: 12
 download.page:
   orderInfo: 213
+community/:
+  orderInfo: 30
+community/index.page:
+  orderInfo: 31
+community/contribute.page:
+  orderInfo: 32
 ---
-rubyforge.html:
+community/rubyforge.html:
   title: Rubyforge
   url: http://rubyforge.org/projects/rspec
   orderInfo: 12  

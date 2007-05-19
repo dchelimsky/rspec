@@ -1,19 +1,19 @@
 ---
-title: Team
+title: Community
 ---
 
 h2. The Core Team
 
-* Dave Astels
-* Steve Baker
-* David Chelimsky
-* Aslak Hellesoy
-* Brian Takita
+* "Dave Astels":http://daveastels.com/
+* "Steven Baker":http://blog.lavalamp.ca/
+* "David Chelimsky":http://blog.davidchelimsky.net/
+* "Aslak Hellesøy":http://blog.aslakhellesoy.com/
+* "Brian Takita":http://www.pivotalblabs.com/
 
 <notextile>
 <table>
   <tr>
-    <td><img src="images/Whats_That_Dude.jpg" /></td>
+    <td><img src="../images/Whats_That_Dude.jpg" /></td>
     <td><img src="http://static.flickr.com/1/127260733_84714abc76_o_d.png" /></td>
   </tr>
   <tr>
@@ -25,7 +25,7 @@ h2. The Core Team
 
 h2. Contributors
 
-<img src="images/ali_westside.jpg" />
+<img src="../images/ali_westside.jpg" />
 
 h3. RSpec!
 
