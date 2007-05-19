@@ -1,7 +1,6 @@
 = RSpec Changelog
 
 == Version 1.0
-
 The stake in the ground release. This represents a commitment to the API as it is. No significant
 backwards compatibility changes in the API are expected after this release.
 
