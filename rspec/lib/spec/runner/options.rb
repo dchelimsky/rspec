@@ -125,7 +125,7 @@ module Spec
       end
 
       def parse_heckle(heckle)
-        heckle_require = PLATFORM == 'i386-mswin32' ? 'spec/runner/heckle_runner_win' : 'spec/runner/heckle_runner'
+        heckle_require = [/mswin/, /java/].detect{|p| p =~ RUBY_PLATFORM} ? 'spec/runner/heckle_runner_unsupported' : 'spec/runner/heckle_runner'
         require heckle_require
         @heckle_runner = HeckleRunner.new(heckle)
       end

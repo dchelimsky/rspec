@@ -262,16 +262,16 @@ describe "OptionParser" do
     @err.string.should match(/You cannot use both --line and --example/n)
   end
 
-  if(PLATFORM != "i386-mswin32")
-    it "should heckle when --heckle is specified (and platform is not windows)" do
-      options = parse(["--heckle", "Spec"])
-      options.heckle_runner.should be_instance_of(Spec::Runner::HeckleRunner)
-    end
-  else
+  if [/mswin/, /java/].detect{|p| p =~ RUBY_PLATFORM}
     it "should barf when --heckle is specified (and platform is windows)" do
       lambda do
         options = parse(["--heckle", "Spec"])
       end.should raise_error(StandardError, "Heckle not supported on Windows")
+    end
+  else
+    it "should heckle when --heckle is specified (and platform is not windows)" do
+      options = parse(["--heckle", "Spec"])
+      options.heckle_runner.should be_instance_of(Spec::Runner::HeckleRunner)
     end
   end
 

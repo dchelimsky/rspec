@@ -14,20 +14,20 @@ module Spec
         # This method calls #screenshot! so that method should not be called
         # when this method is used.
         # This method *must* be called in an after(:each) block.
-        def browser=(browser)
-          screenshot!
+        def take_screenshot_of(browser)
+          screenshot
           @html = browser.html
         end
 
         # Takes a screenshot of the current window. Use this method when
         # you don't have a browser object.
-        def screenshot!
+        def screenshot
           @png_path = Tempfile.new("spec:ui").path
           save_screenshot(png_path)
         end
         
         def png_path
-          raise "Screenshot not taken. You must call #{self.name}.screenshot! or #{self.name}.browser = @browser from after(:each)" if @png_path.nil?
+          raise "Screenshot not taken. You must call #{self.name}.screenshot or #{self.name}.take_screenshot_of(@browser) from after(:each)" if @png_path.nil?
           @png_path
         end
         

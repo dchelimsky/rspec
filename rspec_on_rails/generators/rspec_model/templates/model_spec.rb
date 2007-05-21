@@ -2,10 +2,10 @@ require File.dirname(__FILE__) + '<%= '/..' * class_nesting_depth %>/../spec_hel
 
 describe <%= class_name %> do
   before(:each) do
-    @<%= table_name %> = <%= class_name %>.new
+    @<%= file_name %> = <%= class_name %>.new
   end
 
   it "should be valid" do
-     @<%= table_name %>.should be_valid
+     @<%= file_name %>.should be_valid
   end
 end

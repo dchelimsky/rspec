@@ -46,8 +46,8 @@ module Spec
           @expected.nil? ? "a Symbol" : @expected.inspect
         end
       
-        def extract_sym_from_name_error(error)
-          return "#{error.message.split("`").last.split("'").first}".to_sym
+        def extract_sym_from_name_error(name_error)
+          return name_error.name.to_sym
         end
     end
  

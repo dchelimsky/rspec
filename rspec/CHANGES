@@ -3,6 +3,7 @@
 == Version 1.0.1
 
 * Improved integration with autotest (Patches from Ryan Davis and David Goodlad)
+* Some small fixes to make all specs run on JRuby.
 
 == Version 1.0.0
 The stake in the ground release. This represents a commitment to the API as it is. No significant

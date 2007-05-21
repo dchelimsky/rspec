@@ -23,4 +23,6 @@ describe "Google's search page" do
     @browser.button(:name, "btnG").click
     @browser.should_not have_text("Ali G")
   end
+  
+  it "should do something we haven't done yet"
 end

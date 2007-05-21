@@ -88,4 +88,5 @@ h2. Take the first step now!
 
 <pre>$ gem install rspec</pre>
 
+(See special instructions for "Spec::Rails":documentation/rails/install.html)
 

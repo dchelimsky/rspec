@@ -19,7 +19,7 @@ module Spec
             width, height, bmp = ::Win32::Screenshot.foreground
             begin
               img = Magick::Image.from_blob(bmp)[0]
-              img.write(img_path)
+              img.write(png_path)
               nil
             rescue Magick::ImageMagickError => e
               if e.message =~ /Insufficient image data in file/
