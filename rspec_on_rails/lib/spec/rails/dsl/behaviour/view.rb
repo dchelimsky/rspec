@@ -61,6 +61,21 @@ module Spec
             # Rails 1.1
             @controller.send :process_cleanup rescue nil
           end
+          
+          # This provides the template. Use this to set mock
+          # expectations for dealing with partials
+          #
+          # == Example
+          #
+          #   describe "/person/new" do
+          #     it "should use the form partial" do
+          #       template.should_receive(:render).with(:partial => 'form')
+          #       render "/person/new"
+          #     end
+          #   end
+          def template
+            @controller.template
+          end
         end
       end
 

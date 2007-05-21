@@ -52,6 +52,8 @@ In alphabetical order (by last name)
 * Lachie Cox
 ** Initial Rails support
 ** Diffing enhancements for Objects and custom formats
+* Ryan Davis
+** Patch for integration with autotest
 * Steven Duncan
 ** Documentation for rake task
 * Lindsay Evans
@@ -60,6 +62,7 @@ In alphabetical order (by last name)
 ** Patch [#10410] redirect_to does not behave consistently with regards to query string parameter ordering
 * David Goodlad
 ** Patch for allowing non-Strings as partial_paths in view/specs
+** Patch for integration with autotest
 * Chris Hoffman
 ** Patch for spec:translate task in Spec::Rails
 * Chad Humphries
