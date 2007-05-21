@@ -2,6 +2,7 @@
 
 == Version 1.0.1
 
+* Header in HTML report will be yellow instead of red if there is one failed example
 * Applied [#10951] Odd instance variable name in rspec_model template (patch from Kyle Hargraves)
 * Improved integration with autotest (Patches from Ryan Davis and David Goodland)
 * Some small fixes to make all specs run on JRuby.

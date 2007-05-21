@@ -56,7 +56,8 @@ module Spec
           extra = extra_failure_content(failure)
           
           @current_example_number += 1
-          @output.puts "    <script type=\"text/javascript\">makeRed('rspec-header');</script>"
+          @output.puts "    <script type=\"text/javascript\">makeRed('rspec-header');</script>" unless @red
+          @red = true
           @output.puts "    <script type=\"text/javascript\">makeRed('behaviour_#{current_behaviour_number}');</script>"
           move_progress
           @output.puts "    <dd class=\"spec failed\">"
@@ -72,7 +73,7 @@ module Spec
 
         def example_not_implemented(name)
           @current_example_number += 1
-          @output.puts "    <script type=\"text/javascript\">makeYellow('rspec-header');</script>"
+          @output.puts "    <script type=\"text/javascript\">makeYellow('rspec-header');</script>" unless @red
           @output.puts "    <script type=\"text/javascript\">makeYellow('behaviour_#{current_behaviour_number}');</script>"
           move_progress
           @output.puts "    <dd class=\"spec not_implemented\"><span class=\"not_implemented_spec_name\">#{escape(name)}</span></dd>"
@@ -156,8 +157,8 @@ EOF
   <h1>RSpec Results</h1>
 
   <div id="summary">
-    <p id="duration">&nbsp;</p>
     <p id="totals">&nbsp;</p>
+    <p id="duration">&nbsp;</p>
   </div>
 </div>
 
