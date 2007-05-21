@@ -10,7 +10,7 @@ module Spec
         begin
           proc.call
         rescue NameError => e
-          @actual = extract_sym_from_name_error(e)
+          @actual = e.name.to_sym
         ensure
           if @expected.nil?
             return @actual.nil? ? false : true
@@ -46,9 +46,6 @@ module Spec
           @expected.nil? ? "a Symbol" : @expected.inspect
         end
       
-        def extract_sym_from_name_error(name_error)
-          return name_error.name.to_sym
-        end
     end
  
     # :call-seq:
