@@ -2,7 +2,8 @@
 
 == Version 1.0.1
 
-* Improved integration with autotest (Patches from Ryan Davis and David Goodlad)
+* Applied [#10951] Odd instance variable name in rspec_model template (patch from Kyle Hargraves)
+* Improved integration with autotest (Patches from Ryan Davis and David Goodland)
 * Some small fixes to make all specs run on JRuby.
 
 == Version 1.0.0
