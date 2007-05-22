@@ -29,6 +29,7 @@ class PreCommit::RspecOnRails < PreCommit
       puts "#####################################################"
       rm_rf 'vendor/plugins/rspec_on_rails'
       silent_sh "svn export ../rspec_on_rails vendor/plugins/rspec_on_rails"
+      silent_sh "svn export ../rspec vendor/plugins/rspec"
 
       create_purchase
       ensure_db_config
@@ -40,6 +41,7 @@ class PreCommit::RspecOnRails < PreCommit
     ensure
       destroy_purchase
       rm_rf 'vendor/plugins/rspec_on_rails'
+      rm_rf 'vendor/plugins/rspec'
     end
   end
 
@@ -50,13 +52,16 @@ class PreCommit::RspecOnRails < PreCommit
 
   def install_plugin
     rm_rf 'vendor/plugins/rspec_on_rails'
+    rm_rf 'vendor/plugins/rspec'
     puts "installing rspec_on_rails ..."
     result = silent_sh("svn export ../rspec_on_rails vendor/plugins/rspec_on_rails")
+    result = silent_sh("svn export ../rspec vendor/plugins/rspec")
     raise "Failed to install plugin:\n#{result}" if error_code?
   end
 
   def uninstall_plugin
     rm_rf 'vendor/plugins/rspec_on_rails'
+    rm_rf 'vendor/plugins/rspec'
   end
 
   def generate_rspec

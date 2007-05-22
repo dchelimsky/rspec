@@ -10,12 +10,12 @@ helper ...
 
 <ruby>
 describe RegistrationHelper do
-  helper_name :registration #tells rspec to include the RegistrationHelper
   ...
+end
 </ruby>
 
 ... and then you can reference the methods directly because they are actually included
-in the context!
+in the specs!
 
 
 h2. Example Helpers Specs

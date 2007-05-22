@@ -45,6 +45,7 @@ module Spec
             m.stub!(:id).and_return(id)
             m.stub!(:to_param).and_return(id.to_s)
             m.stub!(:new_record?).and_return(false)
+            m.stub!(:errors).and_return(stub("errors", :count => 0))
             m.send(:__mock_proxy).instance_eval <<-CODE
               def @target.is_a?(other)
                 other == #{model_class}

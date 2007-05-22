@@ -4,7 +4,7 @@ describe "/<%= table_name %>/show.<%= default_file_extension %>" do
   include <%= controller_class_name %>Helper
   
   before do
-    @<%= file_name %> = mock("<%= class_name %>")<% for attribute in attributes -%>
+    @<%= file_name %> = mock_model(<%= class_name %>)<% for attribute in attributes -%>
     @<%= file_name %>.stub!(:<%= attribute.name %>).and_return(<%= attribute.default_value %>)<% end -%>
 
     assigns[:<%= file_name %>] = @<%= file_name %>

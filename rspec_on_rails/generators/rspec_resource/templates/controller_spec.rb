@@ -187,7 +187,7 @@ describe <%= controller_class_name %>Controller, " handling GET /<%= table_name 
   end
 end
 
-describe <%= controller_class_name %>Controller, " handling GET /<%= table_name %>/1;edit" do
+describe <%= controller_class_name %>Controller, " handling GET /<%= table_name %>/1/edit" do
 
   before do
     @<%= file_name %> = mock_model(<%= class_name %>)
@@ -224,14 +224,15 @@ describe <%= controller_class_name %>Controller, " handling POST /<%= table_name
   before do
     @<%= file_name %> = mock_model(<%= class_name %>, :to_param => "1", :save => true)
     <%= class_name %>.stub!(:new).and_return(@<%= file_name %>)
+    @params = {}
   end
   
   def do_post
-    post :create, :<%= file_name %> => {:name => '<%= class_name %>'}
+    post :create, :<%= file_name %> => @params
   end
   
   it "should create a new <%= file_name %>" do
-    <%= class_name %>.should_receive(:new).with({'name' => '<%= class_name %>'}).and_return(@<%= file_name %>)
+    <%= class_name %>.should_receive(:new).with(@params).and_return(@<%= file_name %>)
     do_post
   end
 

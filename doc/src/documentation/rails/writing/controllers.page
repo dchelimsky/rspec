@@ -81,11 +81,11 @@ get 'some_action'
 response.should render_template("path/to/template/for/action")
 </ruby>
 
-h3. response.should render_text
+h3. response.should have_text
 
 <ruby>
 get 'some_action'
-response.should render_text("expected text")
+response.should have_text("expected text")
 </ruby>
 
 h3. response.should redirect_to
