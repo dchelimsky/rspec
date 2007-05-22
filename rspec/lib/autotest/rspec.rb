@@ -4,7 +4,7 @@ class Autotest::Rspec < Autotest
 
   def initialize # :nodoc:
     super
-    @spec_command = "spec "
+    @spec_command = "spec"
     @test_mappings = {
       %r%^spec/.*rb$% => proc { |filename, _|
         filename
@@ -43,26 +43,26 @@ class Autotest::Rspec < Autotest
     return filters
   end
 
-  def make_test_command(files_to_test)
-    "script/spec -O spec/spec.opts"
+  def make_test_cmd(files_to_test)
+    cmds = []
+    full, partial = files_to_test.partition { |k,v| v.empty? }
+  
+    unless full.empty? then
+      files = full.map {|k,v| k}.flatten.join(' ')
+      cmds << "#{@spec_command} #{add_options_if_present}#{files}"
+    end
+  
+    partial.each do |f, methods|
+      cmds.push(*methods.map { |meth|
+        "#{@spec_command} #{add_options_if_present} #{f}"
+      })
+    end
+  
+    return cmds.join('; ')
+  end
+  
+  def add_options_if_present
+    File.exist?("spec/spec.opts") ? "-O spec/spec.opts " : ""
   end
 
-  # def make_test_cmd(files_to_test)
-  #   ""
-  #   cmds = []
-  #   full, partial = files_to_test.partition { |k,v| v.empty? }
-  # 
-  #   unless full.empty? then
-  #     classes = full.map {|k,v| k}.flatten.join(' ')
-  #     cmds << "#{@spec_command} #{classes}"
-  #   end
-  # 
-  #   partial.each do |klass, methods|
-  #     cmds.push(*methods.map { |meth|
-  #       "#{@spec_command} -e #{meth.inspect} #{klass}"
-  #     })
-  #   end
-  # 
-  #   return cmds.join('; ')
-  # end
 end

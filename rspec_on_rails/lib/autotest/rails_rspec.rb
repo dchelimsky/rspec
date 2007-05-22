@@ -20,13 +20,14 @@
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-require 'rspec_autotest'
 require 'active_support'
+require 'autotest/rspec'
 
-class Autotest::RspecRails < Autotest::Rspec
+class Autotest::RailsRspec < Autotest::Rspec
 
   def initialize # :nodoc:
     super
+    @spec_command = "script/spec"
     @exceptions = %r%^\./(?:coverage|db|doc|log|public|script|vendor\/rails)%
     @test_mappings = {
       %r%^(test|spec)/fixtures/(.*).yml% => proc { |_, m|
@@ -52,7 +53,7 @@ class Autotest::RspecRails < Autotest::Rspec
       # index.rhtml    => index_rhtml_spec.rb
       # index.html.erb => index_html_spec.rb
       %r%^app/views/([^.]*)\.([^.]*)(\..*)?$% => proc { |_, m|
-        files_matching %r%^spec/views/#{m[1]}_#{m[2]}_spec.rb$%
+        files_matching %r%^spec/views/#{m[1]}(_|\.)#{m[2]}_spec.rb$%
       },
       %r%^app/controllers/application.rb$% => proc { |_, m|
         files_matching %r%^spec/controllers/.*_spec\.rb$%
@@ -71,5 +72,5 @@ class Autotest::RspecRails < Autotest::Rspec
       },
     }    
   end
-  
+    
 end
