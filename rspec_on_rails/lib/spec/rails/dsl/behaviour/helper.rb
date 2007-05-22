@@ -84,7 +84,6 @@ module Spec
           inherit Spec::Rails::DSL::HelperEvalContext
           prepend_before {setup}
           append_after {teardown}
-          include described_type if described_type
           configure
         end
 

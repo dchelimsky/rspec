@@ -40,6 +40,7 @@ module Spec
         @eval_module = EvalModule.new
         @eval_module.extend BehaviourEval::ModuleMethods
         @eval_module.include BehaviourEval::InstanceMethods
+        @eval_module.include described_type if described_type.class == Module
         @eval_module.behaviour = self
         @eval_module.description = @description
       end
