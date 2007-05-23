@@ -112,7 +112,7 @@ class PreCommit::RspecOnRails < PreCommit
   end
 
   def generate_purchase
-    generator = "ruby script/generate rspec_resource purchase order_id:integer created_at:datetime amount:decimal keyword:string description:text --force"
+    generator = "ruby script/generate rspec_scaffold purchase order_id:integer created_at:datetime amount:decimal keyword:string description:text --force"
     notice = <<-EOF
     #####################################################
     #{generator}
@@ -120,7 +120,7 @@ class PreCommit::RspecOnRails < PreCommit
     EOF
     puts notice.gsub(/^    /, '')
     result = silent_sh(generator)
-    raise "rspec_resource failed. #{result}" if error_code? || result =~ /not/
+    raise "rspec_scaffold failed. #{result}" if error_code? || result =~ /not/
   end
 
   def migrate_up

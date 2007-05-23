@@ -33,7 +33,7 @@ In alphabetical order (by last name)
 
 * Chris Anderson
 ** Patch to return strings in response to :to_param (in generated controller/view specs)
-** Patch to add --skip-migration option to rspec_resource generator
+** Patch to add --skip-migration option to rspec_scaffold generator
 * Ruy Asan
 ** Patch [#10698] Running with --drb executes specs twice (fix included)
 * Ken Barker
@@ -95,7 +95,7 @@ In alphabetical order (by last name)
 ** Spec'ing routes (Rails)
 ** Accepting xhr requests (Rails)
 ** Multiple return values for stubs
-** Port of scaffold_resource to rspec_resource (Rails)
+** Port of scaffold_resource to rspec_scaffold (Rails)
 ** Contexts should call Module::included when they include a module
 * James Mead
 ** Modified mocha to allow for its use outside of test/unit
@@ -128,7 +128,7 @@ In alphabetical order (by last name)
 ** Patch [#9926] Rakefile - RSPEC_DEPS constant as an Array of Hashes instead of an Array of Arrays
 ** Patch [#10636] Added spec for OptionParser in Runner (Patch from Scott Taylor)
 * Steve Tendon
-** Patch [#9458] The rspec_resource generator does not take into account class nesting
+** Patch [#9458] The rspec_scaffold generator does not take into account class nesting
 * Jonathan Tron
 ** Patch for Spec::Rails resource_generator
 ** Patch for RSpec.tmbundle to make it work with RSpec installed as a plugin

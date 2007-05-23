@@ -2,6 +2,7 @@
 
 == Version 1.0.1
 
+* Renamed Spec::Rails' rspec_resource generator to rspec_scaffold.
 * Removed Spec::Rails' be_feed matcher since it's based on assert_select_feed which is not part of Rails (despite that docs for assert_select_encoded says it is).
 * describe(SomeModule) will include that module in the examples. Like for Spec::Rails helpers, but now also in core.
 * Header in HTML report will be yellow instead of red if there is one failed example
@@ -137,7 +138,7 @@ See Spec::DSL::Behaviour for more on predicate_matchers
 * Added [#9735] support flexmock (thanks to Jim Weirich for his modifications to flexmock to support this)
 * Spec::Rails controller specs will no longer let mock exception ripple through to the response.
 * Fixed [#9260] IvarProxy does not act like a hash.
-* Applied [#9458] The rspec_resource generator does not take into account class nesting (Patch from Steve Tendon)
+* Applied [#9458] The rspec_scaffold generator does not take into account class nesting (Patch from Steve Tendon)
 * Applied [#9132] Rakefile spec:doc can fail without preparing database (Patch from Steve Ross)
 * Applied [#9678] Custom runner command line switch, and multi-threaded runner (Patch from Bob Cotton)
 * Applied [#9926] Rakefile - RSPEC_DEPS constant as an Array of Hashes instead of an Array of Arrays (Patch from Scott Taylor)
@@ -173,7 +174,7 @@ See Spec::DSL::Behaviour for more on predicate_matchers
 * Added --loadby option, allowing better control over load order for spec files. mtime and file.txt supported.
 * Implemented [#8696] --order option (see --reverse and --loadby)
 * Added describe/it as aliases for context/specify - suggestion from Dan North.
-* Applied [#7637] [PATCH] add skip-migration option to rspec_resource generator
+* Applied [#7637] [PATCH] add skip-migration option to rspec_scaffold generator
 * Added [#9167] string.should have_tag
 * Changed script/rails_spec_server to script/spec_server and added script/spec (w/ path to vendor/plugins/rspec)
 * Fixed [#8897] Error when mixing controller spec with/without integrated views and using template system other than rhtml
@@ -228,7 +229,7 @@ It also sports myriad new features, bug fixes, patches and general goodness:
 * Fixed [#7754] Command-R fails to run spec in TextMate (added instruction from Luke Redpath to the website)
 * Fixed [#7826] RSpect.tmbundle web page out of date.
 * RSpec on Rails specs are now running against RoR 1.2.1 and 1.2.2
-* rspec_resource now generates specs for views
+* rspec_scaffold now generates specs for views
 * In a Rails app, RSpec core is only loaded when RAILS_ENV==test (init.rb)
 * Added support for target.should arbitrary_expectation_handler and target.should_not arbitrary_expectation_handler
 * Fixed [#7533] Spec suite fails and the process exits with a code 0
@@ -269,7 +270,7 @@ There are also several bug fixes to the RSpec core and the RSpec on Rails plugin
 * Added [#7250] stubs should support throwing
 * Added [#7249] stubs should support yielding
 * Fixed [#6760] fatal error when accessing nested finders in rspec
-* Fixed [#7179] script/generate rspec_resource generates incorrect helper name
+* Fixed [#7179] script/generate rspec_scaffold generates incorrect helper name
 * Added preliminary support for assert_select (response.should_have)
 * Fixed [#6971] and_yield does not work when the arity is -1
 * Fixed [#6898] Can we separate rspec from the plugins?

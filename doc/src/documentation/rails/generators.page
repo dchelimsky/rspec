@@ -8,7 +8,7 @@ in a similar fashion to Rails' builtin generators. The only difference is that t
 of tests and fixtures will be put under the spec folder. Example:
 
 <pre>
-ruby script/generate rspec_resource purchase order_id:integer created_at:datetime amount:decimal
+ruby script/generate rspec_scaffold purchase order_id:integer created_at:datetime amount:decimal
 </pre>
 
 or

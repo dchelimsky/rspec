@@ -59,13 +59,13 @@ class RspecResourceGenerator < Rails::Generator::NamedBase
       m.directory File.join('spec/views', controller_class_path, controller_file_name)
       
       # Controller spec, class, and helper.
-      m.template 'rspec_resource:controller_spec.rb',
+      m.template 'rspec_scaffold:controller_spec.rb',
         File.join('spec/controllers', controller_class_path, "#{controller_file_name}_controller_spec.rb")
 
       m.template "#{@resource_generator}:controller.rb",
         File.join('app/controllers', controller_class_path, "#{controller_file_name}_controller.rb")
 
-      m.template 'rspec_resource:helper_spec.rb',
+      m.template 'rspec_scaffold:helper_spec.rb',
         File.join('spec/helpers', class_path, "#{controller_file_name}_helper_spec.rb")
 
       m.template "#{@resource_generator}:helper.rb",
@@ -84,13 +84,13 @@ class RspecResourceGenerator < Rails::Generator::NamedBase
       m.template 'rspec_model:model_spec.rb',       File.join('spec/models', class_path, "#{file_name}_spec.rb")
 
       # View specs
-      m.template "rspec_resource:edit_erb_spec.rb",
+      m.template "rspec_scaffold:edit_erb_spec.rb",
         File.join('spec/views', controller_class_path, controller_file_name, "edit.#{default_file_extension}_spec.rb")
-      m.template "rspec_resource:index_erb_spec.rb",
+      m.template "rspec_scaffold:index_erb_spec.rb",
         File.join('spec/views', controller_class_path, controller_file_name, "index.#{default_file_extension}_spec.rb")
-      m.template "rspec_resource:new_erb_spec.rb",
+      m.template "rspec_scaffold:new_erb_spec.rb",
         File.join('spec/views', controller_class_path, controller_file_name, "new.#{default_file_extension}_spec.rb")
-      m.template "rspec_resource:show_erb_spec.rb",
+      m.template "rspec_scaffold:show_erb_spec.rb",
         File.join('spec/views', controller_class_path, controller_file_name, "show.#{default_file_extension}_spec.rb")
 
       unless options[:skip_migration]
@@ -112,7 +112,7 @@ class RspecResourceGenerator < Rails::Generator::NamedBase
   protected
     # Override with your own usage banner.
     def banner
-      "Usage: #{$0} rspec_resource ModelName [field:type field:type]"
+      "Usage: #{$0} rspec_scaffold ModelName [field:type field:type]"
     end
 
     def add_options!(opt)
