@@ -30,9 +30,11 @@ class RspecResourceGenerator < Rails::Generator::NamedBase
     
     if ActionView::Base.const_defined?('DEFAULT_TEMPLATE_HANDLER_PREFERENCE') &&
        ActionView::Base::DEFAULT_TEMPLATE_HANDLER_PREFERENCE.include?('erb') then
+      @rails_resource = "resource"
       @default_file_extension = "html.erb"
       @resource_edit_path = "/edit"
     else
+      @rails_resource = "scaffold_resource"
       @default_file_extension = "rhtml"
       @resource_edit_path = ";edit"
     end
@@ -59,15 +61,15 @@ class RspecResourceGenerator < Rails::Generator::NamedBase
       m.template 'rspec_resource:controller_spec.rb',
         File.join('spec/controllers', controller_class_path, "#{controller_file_name}_controller_spec.rb")
 
-      m.template 'scaffold_resource:controller.rb',
+      m.template "#{@rails_resource}:controller.rb",
         File.join('app/controllers', controller_class_path, "#{controller_file_name}_controller.rb")
 
-      m.template 'scaffold_resource:helper.rb',
+        m.template "#{@rails_resource}:helper.rb",
         File.join('app/helpers', controller_class_path, "#{controller_file_name}_helper.rb")
 
       for action in scaffold_views
         m.template(
-          "scaffold_resource:view_#{action}.#{@default_file_extension}",
+          "#{@rails_resource}:view_#{action}.#{@default_file_extension}",
           File.join('app/views', controller_class_path, controller_file_name, "#{action}.#{default_file_extension}")
         )
       end
