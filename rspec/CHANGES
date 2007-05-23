@@ -2,6 +2,7 @@
 
 == Version 1.0.1
 
+* Removed Spec::Rails' be_feed matcher since it's based on assert_select_feed which is not part of Rails (despite that docs for assert_select_encoded says it is).
 * describe(SomeModule) will include that module in the examples. Like for Spec::Rails helpers, but now also in core.
 * Header in HTML report will be yellow instead of red if there is one failed example
 * Applied [#10951] Odd instance variable name in rspec_model template (patch from Kyle Hargraves)

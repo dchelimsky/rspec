@@ -29,6 +29,7 @@ class PreCommit::RspecOnRails < PreCommit
       puts "#####################################################"
       rm_rf 'vendor/plugins/rspec_on_rails'
       silent_sh "svn export ../rspec_on_rails vendor/plugins/rspec_on_rails"
+      rm_rf 'vendor/plugins/rspec'
       silent_sh "svn export ../rspec vendor/plugins/rspec"
 
       create_purchase
@@ -153,6 +154,7 @@ class PreCommit::RspecOnRails < PreCommit
       app/views/purchases
       db/migrate/005_create_purchases.rb
       spec/models/purchase_spec.rb
+      spec/helpers/purchases_helper_spec.rb
       spec/controllers/purchases_controller_spec.rb
       spec/fixtures/purchases.yml
       spec/views/purchases

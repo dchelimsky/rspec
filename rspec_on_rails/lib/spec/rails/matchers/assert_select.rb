@@ -107,18 +107,6 @@ module Spec # :nodoc:
       end
       
       # :call-seq:
-      #   response.should be_feed(*args, &block)
-      #
-      # wrapper for assert_select_feed
-      #
-      # see documentation for assert_select_feed at http://api.rubyonrails.org/
-      def be_feed(*args, &block)
-        args.unshift(self)
-        args.unshift(:assert_select_feed)
-        AssertSelect.new(*args, &block)
-      end
-      
-      # :call-seq:
       #   response.should send_email(*args, &block)
       #
       # wrapper for assert_select_email
