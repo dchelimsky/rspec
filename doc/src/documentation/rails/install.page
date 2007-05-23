@@ -58,7 +58,7 @@ ruby script/plugin install -x svn://rubyforge.org/var/svn/rspec/trunk/rspec
 ruby script/plugin install -x svn://rubyforge.org/var/svn/rspec/trunk/rspec_on_rails
 </pre>
 
-h2. Releases 0.7.5 to 0.8.x (not really recommended at this point)
+h2. Releases 0.7.5 to 0.9.x (not really recommended at this point)
 
 <pre>
 ruby script/plugin install svn://rubyforge.org/var/svn/rspec/tags/REL_X_Y_Z/rspec

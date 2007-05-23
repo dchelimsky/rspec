@@ -10,7 +10,7 @@ an RSpec plugin for your editor.
 The RSpec team maintains a TextMate bundle which does exactly this. You may want to look at its source if
 you're about to write a plugin for a new editor.
 
-We'd be happy to accept more editor plugins into RSpec. Please see "Contribute":../contribute.html for
+We'd be happy to accept more editor plugins into RSpec. Please see "Contribute":../../../../community/contribute.html for
 details. Or, if you're a developer of an editor, perhaps you want to bundle it with the editor.
 
 h3. Launch RSpec from the IDE

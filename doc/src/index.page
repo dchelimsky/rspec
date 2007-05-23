@@ -20,26 +20,26 @@ h2. Here is how you do it
   some basic desired behaviour.
 </p>
 <ruby>
-# game_spec.rb
-require 'game'
+# bowling_spec.rb
+require 'bowling'
 
-describe Game do
+describe Bowling do
   before(:each) do
-    @game = Game.new
+    @bowling = Bowling.new
   end
 
   it "should score 0 for gutter game" do
-    1.upto(20) { @game.hit(0) }
-    @game.score.should == 0
+    20.times { @bowling.hit(0) }
+    @bowling.score.should == 0
   end
 end
 </ruby>
 <p>
   Run the example and watch it fail.
 </p>
-<pre style="color:red;">$ spec game_spec.rb 
-./game_spec.rb:4:
-  uninitialized constant Game
+<pre style="color:red;">$ spec bowling_spec.rb 
+./bowling_spec.rb:4:
+  uninitialized constant Bowling
 </pre>
     </td>
     <td width="50%">
@@ -48,8 +48,8 @@ end
   just enough code to make it pass.
 </p>
 <ruby>
-# game.rb
-class Game
+# bowling.rb
+class Bowling
   def hit(pins)
   end
 
@@ -62,9 +62,9 @@ end
 Run the example and bask in the joy that is green.
 </p>
 
-<pre style="color:green;">$ spec game_spec.rb --format specdoc
+<pre style="color:green;">$ spec bowling_spec.rb --format specdoc
 
-Game
+Bowling
 - should score 0 for gutter game
 
 Finished in 0.007534 seconds
@@ -88,5 +88,5 @@ h2. Take the first step now!
 
 <pre>$ gem install rspec</pre>
 
-(See special instructions for "Spec::Rails":documentation/rails/install.html)
+(See special installation instructions for "Spec::Rails":documentation/rails/install.html)
 
