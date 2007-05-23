@@ -170,6 +170,10 @@ module Spec
           raise Spec::Expectations::ExpectationNotMetError.new(message)
         end
 
+        def inspect
+          "[Dynamically generated class for RSpec example]"
+        end
+
       end
 
     end

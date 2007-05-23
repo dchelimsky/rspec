@@ -600,5 +600,21 @@ module Spec
       
       # TODO - add an example about shared behaviours
     end
+    
+    describe Enumerable do
+      def each(&block)
+        ["4", "2", "1"].each(&block)
+      end
+      
+      it "should be included in examples because it is a module" do
+        map{|e| e.to_i}.should == [4,2,1]
+      end
+    end
+    
+    describe String do
+      it "should not be included in examples because it is not a module" do
+        lambda{self.map}.should raise_error(NoMethodError, /undefined method `map' for \[Dynamically generated class for RSpec example\]/)
+      end
+    end
   end
 end

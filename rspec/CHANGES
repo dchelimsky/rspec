@@ -1,6 +1,7 @@
 = RSpec Changelog
 
 == Version 1.0.1
+This is a maintenance release with no major changes, just cleaning things up a bit.
 
 * Renamed Spec::Rails' rspec_resource generator to rspec_scaffold.
 * Removed Spec::Rails' be_feed matcher since it's based on assert_select_feed which is not part of Rails (despite that docs for assert_select_encoded says it is).
