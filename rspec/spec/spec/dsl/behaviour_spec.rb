@@ -613,7 +613,7 @@ module Spec
     
     describe String do
       it "should not be included in examples because it is not a module" do
-        lambda{self.map}.should raise_error(NoMethodError, /undefined method `map' for \[Dynamically generated class for RSpec example\]/)
+        lambda{self.map}.should raise_error(NoMethodError, /undefined method `map' for/)
       end
     end
   end

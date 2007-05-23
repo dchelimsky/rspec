@@ -28,6 +28,8 @@ module Spec
         end
 
         def add_behaviour(name)
+          @behaviour_red = false
+          @behaviour_red = false
           @current_behaviour_number += 1
           unless current_behaviour_number == 1
             @output.puts "  </dl>"
@@ -56,9 +58,10 @@ module Spec
           extra = extra_failure_content(failure)
           
           @current_example_number += 1
-          @output.puts "    <script type=\"text/javascript\">makeRed('rspec-header');</script>" unless @red
-          @red = true
-          @output.puts "    <script type=\"text/javascript\">makeRed('behaviour_#{current_behaviour_number}');</script>"
+          @output.puts "    <script type=\"text/javascript\">makeRed('rspec-header');</script>" unless @header_red
+          @header_red = true
+          @output.puts "    <script type=\"text/javascript\">makeRed('behaviour_#{current_behaviour_number}');</script>" unless @behaviour_red
+          @behaviour_red = true
           move_progress
           @output.puts "    <dd class=\"spec failed\">"
           @output.puts "      <span class=\"failed_spec_name\">#{escape(name)}</span>"
@@ -73,8 +76,8 @@ module Spec
 
         def example_not_implemented(name)
           @current_example_number += 1
-          @output.puts "    <script type=\"text/javascript\">makeYellow('rspec-header');</script>" unless @red
-          @output.puts "    <script type=\"text/javascript\">makeYellow('behaviour_#{current_behaviour_number}');</script>"
+          @output.puts "    <script type=\"text/javascript\">makeYellow('rspec-header');</script>" unless @header_red
+          @output.puts "    <script type=\"text/javascript\">makeYellow('behaviour_#{current_behaviour_number}');</script>" unless @behaviour_red
           move_progress
           @output.puts "    <dd class=\"spec not_implemented\"><span class=\"not_implemented_spec_name\">#{escape(name)}</span></dd>"
           @output.flush

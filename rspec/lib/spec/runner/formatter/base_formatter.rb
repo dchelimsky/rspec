@@ -16,9 +16,9 @@ module Spec
         def start(example_count)
         end
 
-        # This method is invoked at the beginning of the execution of each context.
-        # +name+ is the name of the context and +first+ is true if it is the
-        # first context - otherwise it's false.
+        # This method is invoked at the beginning of the execution of each behaviour.
+        # +name+ is the name of the behaviour and +first+ is true if it is the
+        # first behaviour - otherwise it's false.
         #
         # The next method to be invoked after this is #example_failed or #example_finished
         def add_behaviour(name)
