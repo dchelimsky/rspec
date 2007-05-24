@@ -15,6 +15,10 @@ and after(:each) example.
   end
   
   after(:each) do
+    # this is here as an example, but is not really
+    # necessary. Since each example is run in its
+    # own object, instance variables go out of scope
+    # between each example.
     @account = nil
   end
 end
@@ -52,3 +56,6 @@ that the examples become bound together, which is an absolute no-no in testing. 
 should really only ever use before(:all) to set up things that are global collaborators
 but not the things that you are describing in the examples.
 
+The most common cases of abuse are database access and/or fixture setup. Every example
+that accesses the database should start with a clean slate, otherwise the examples become
+brittle and start to lose their value with false negatives and, worse, false positives.

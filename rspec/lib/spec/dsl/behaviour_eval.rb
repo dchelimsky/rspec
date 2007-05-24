@@ -7,12 +7,38 @@ module Spec
         attr_writer :behaviour
         attr_accessor :description
 
+        # RSpec runs every example in a new instance of Object, mixing in
+        # the behaviour necessary to run examples. Because this behaviour gets
+        # mixed in, it can get mixed in to an instance of any class at all.
+        #
+        # This is something that you would hardly ever use, but there is one
+        # common use case for it - inheriting from Test::Unit::TestCase. RSpec's
+        # Rails plugin uses this feature to provide access to all of the features
+        # that are available for Test::Unit within RSpec examples.
         def inherit(klass)
           raise ArgumentError.new("Shared behaviours cannot inherit from classes") if @behaviour.shared?
           @behaviour_superclass = klass
           derive_execution_context_class_from_behaviour_superclass
         end
 
+        # You can pass this one or many modules. Each module will subsequently
+        # be included in the each object in which an example is run. Use this
+        # to provide global helper methods to your examples.
+        #
+        # == Example
+        #
+        #   module HelperMethods
+        #     def helper_method
+        #       ...
+        #     end
+        #   end
+        #
+        #   describe Thing do
+        #     include HelperMethods
+        #     it "should do stuff" do
+        #       helper_method
+        #     end
+        #   end
         def include(*mods)
           mods.each do |mod|
             included_modules << mod
@@ -20,6 +46,8 @@ module Spec
           end
         end
 
+        # Use this to pull in examples from shared behaviours.
+        # See Spec::Runner for information about shared behaviours.
         def it_should_behave_like(behaviour_description)
           behaviour = @behaviour.class.find_shared_behaviour(behaviour_description)
           if behaviour.nil?
@@ -28,7 +56,7 @@ module Spec
           behaviour.copy_to(self)
         end
 
-        def copy_to(eval_module)
+        def copy_to(eval_module) # :nodoc:
           examples.each          { |e| eval_module.examples << e; }
           before_each_parts.each { |p| eval_module.before_each_parts << p }
           after_each_parts.each  { |p| eval_module.after_each_parts << p }
@@ -39,10 +67,12 @@ module Spec
         end
         
         # :call-seq:
-        #   predicate_matchers[method_on_object] = matcher_name
+        #   predicate_matchers[matcher_name] = method_on_object
+        #   predicate_matchers[matcher_name] = [method1_on_object, method2_on_object]
         #
         # Dynamically generates a custom matcher that will match
-        # a predicate on your class.
+        # a predicate on your class. RSpec uses this itself to allow you
+        # to say File.should exist("path/to/file").
         #
         # == Example
         #
@@ -75,15 +105,18 @@ module Spec
           end
         end
         
+        # Creates an instance of Spec::DSL::Example and adds
+        # it to a collection of examples of the current behaviour.
         def it(description=:__generate_description, opts={}, &block)
           examples << Example.new(description, opts, &block)
         end
         
+        # Alias for it.
         def specify(description, opts={}, &block)
           it(description, opts, &block)
         end
 
-        def methods
+        def methods # :nodoc:
           my_methods = super
           my_methods |= behaviour_superclass.methods
           my_methods
