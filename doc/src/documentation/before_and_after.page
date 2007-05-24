@@ -1,0 +1,54 @@
+h2. Before and After
+
+h3. before(:each) and after(:each)
+
+RSpec provides methods that let you set up and tear down state before(:each)
+and after(:each) example.
+
+<ruby>describe Account do
+  before(:each) do
+    @account = Account.new
+  end
+
+  it "should have a balance of $0" do
+    @account.balance.should == Money.new(0)
+  end
+  
+  after(:each) do
+    @account = nil
+  end
+end
+</ruby>
+
+Note that after(:each) is rarely needed, and should only really be used when concerned
+that some state might be leaking into your other examples.
+
+h3. before(:all) and after(:all)
+
+For expensive operations, like opening browsers using Spec::Ui, RSpec also allows
+you to set up and tear down state before(:all) and after(:all) examples in any
+given behaviour.
+
+<ruby>describe "Search page" do
+  before(:all) do
+    @browser = Watir::Browser.new
+  end
+
+  it "should find all contacts" do
+    ...
+  end
+  
+  after(:all) do
+    @browser.kill! rescue nil
+  end
+end
+</ruby>
+
+h3. %{font-weight:bold; color:red}WARNING ABOUT before(:all) and after(:all)%
+
+It is very tempting to use before(:all) and after(:all) for situations in which it
+is not appropriate. before(:all) shares some (not all) state across multiple examples. This means
+that the examples become bound together, which is an absolute no-no in testing. You
+should really only ever use before(:all) to set up things that are global collaborators
+but not the things that you are describing in the examples.
+

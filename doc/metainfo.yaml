@@ -19,6 +19,9 @@ documentation/mocks/partial_mocks.page:
   orderInfo: 103
 documentation/mocks/stubs.page:
   orderInfo: 104
+documentation/before_and_after.page:
+  title: Before and After
+  orderInfo: 22
 documentation/rails/:
   orderInfo: 50
 documentation/rails/index.page:
