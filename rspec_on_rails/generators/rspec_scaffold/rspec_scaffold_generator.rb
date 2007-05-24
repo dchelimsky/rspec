@@ -1,4 +1,4 @@
-class RspecResourceGenerator < Rails::Generator::NamedBase
+class RspecScaffoldGenerator < Rails::Generator::NamedBase
   default_options :skip_migration => false
   
   attr_reader   :controller_name,
