@@ -132,7 +132,8 @@ module Spec
             include ControllerInstanceMethods
           end
           @controller.integrate_views! if @integrate_views
-          @controller.session = session rescue nil        end
+          @controller.session = session
+        end
 
         protected
           def _controller_ivar_proxy
