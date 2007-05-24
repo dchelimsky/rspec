@@ -11,7 +11,7 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <style type="text/css">
   body {
-    margin: 0; 
+    margin: 0;
     padding: 0;
     background: #fff;
     font-size: 80%;
@@ -27,10 +27,20 @@ function moveProgressBar(percentDone) {
 }
 function makeRed(element_id) {
   document.getElementById(element_id).style.background = '#C40D0D';
+  document.getElementById(element_id).style.color = '#FFFFFF';
 }
+
 function makeYellow(element_id) {
-  document.getElementById(element_id).style.background = '#FAF834';
-  document.getElementById(element_id).style.color = '#000000';
+  if (element_id == "rspec-header" && document.getElementById(element_id).style.background != '#C40D0D')
+  {
+    document.getElementById(element_id).style.background = '#FAF834';
+    document.getElementById(element_id).style.color = '#000000';
+  }
+  else
+  {
+    document.getElementById(element_id).style.background = '#FAF834';
+    document.getElementById(element_id).style.color = '#000000';
+  }
 }
 
     // ]]>
@@ -155,8 +165,8 @@ a {
   <h1>RSpec Results</h1>
 
   <div id="summary">
-    <p id="duration">&nbsp;</p>
     <p id="totals">&nbsp;</p>
+    <p id="duration">&nbsp;</p>
   </div>
 </div>
 
@@ -164,11 +174,11 @@ a {
 <div class="behaviour">
   <dl>
   <dt id="behaviour_1">Mocker</dt>
-    <script type="text/javascript">moveProgressBar('6.6');</script>
+    <script type="text/javascript">moveProgressBar('6.2');</script>
     <dd class="spec passed"><span class="passed_spec_name">should be able to call mock()</span></dd>
     <script type="text/javascript">makeRed('rspec-header');</script>
     <script type="text/javascript">makeRed('behaviour_1');</script>
-    <script type="text/javascript">moveProgressBar('13.3');</script>
+    <script type="text/javascript">moveProgressBar('12.5');</script>
     <dd class="spec failed">
       <span class="failed_spec_name">should fail when expected message not received</span>
       <div class="failure" id="failure_1">
@@ -184,9 +194,7 @@ a {
 <span class="linenum">15</span>  </code></pre>
       </div>
     </dd>
-    <script type="text/javascript">makeRed('rspec-header');</script>
-    <script type="text/javascript">makeRed('behaviour_1');</script>
-    <script type="text/javascript">moveProgressBar('20.0');</script>
+    <script type="text/javascript">moveProgressBar('18.7');</script>
     <dd class="spec failed">
       <span class="failed_spec_name">should fail when messages are received out of order</span>
       <div class="failure" id="failure_2">
@@ -202,9 +210,7 @@ a {
 <span class="linenum">24</span>  <span class="keyword">end</span></code></pre>
       </div>
     </dd>
-    <script type="text/javascript">makeRed('rspec-header');</script>
-    <script type="text/javascript">makeRed('behaviour_1');</script>
-    <script type="text/javascript">moveProgressBar('26.6');</script>
+    <script type="text/javascript">moveProgressBar('25.0');</script>
     <dd class="spec failed">
       <span class="failed_spec_name">should get yelled at when sending unexpected messages</span>
       <div class="failure" id="failure_3">
@@ -220,14 +226,15 @@ a {
 <span class="linenum">30</span>  <span class="keyword">end</span></code></pre>
       </div>
     </dd>
+    <script type="text/javascript">moveProgressBar('31.2');</script>
+    <dd class="spec not_implemented"><span class="not_implemented_spec_name">should mage eggs and bacon</span></dd>
   </dl>
 </div>
 <div class="behaviour">
   <dl>
   <dt id="behaviour_2">Running specs with --diff</dt>
-    <script type="text/javascript">makeRed('rspec-header');</script>
     <script type="text/javascript">makeRed('behaviour_2');</script>
-    <script type="text/javascript">moveProgressBar('33.3');</script>
+    <script type="text/javascript">moveProgressBar('37.5');</script>
     <dd class="spec failed">
       <span class="failed_spec_name">should print diff of different strings</span>
       <div class="failure" id="failure_4">
@@ -249,9 +256,7 @@ Diff:
 <span class="linenum">14</span>  <span class="keyword">end</span></code></pre>
       </div>
     </dd>
-    <script type="text/javascript">makeRed('rspec-header');</script>
-    <script type="text/javascript">makeRed('behaviour_2');</script>
-    <script type="text/javascript">moveProgressBar('40.0');</script>
+    <script type="text/javascript">moveProgressBar('43.7');</script>
     <dd class="spec failed">
       <span class="failed_spec_name">should print diff of different objects' pretty representation</span>
       <div class="failure" id="failure_5">
@@ -288,47 +293,45 @@ Diff:
 <div class="behaviour">
   <dl>
   <dt id="behaviour_3">A consumer of a stub</dt>
-    <script type="text/javascript">moveProgressBar('46.6');</script>
+    <script type="text/javascript">moveProgressBar('50.0');</script>
     <dd class="spec passed"><span class="passed_spec_name">should be able to stub methods on any Object</span></dd>
   </dl>
 </div>
 <div class="behaviour">
   <dl>
   <dt id="behaviour_4">A stubbed method on a class</dt>
-    <script type="text/javascript">moveProgressBar('53.3');</script>
+    <script type="text/javascript">moveProgressBar('56.2');</script>
     <dd class="spec passed"><span class="passed_spec_name">should return the stubbed value</span></dd>
-    <script type="text/javascript">moveProgressBar('60.0');</script>
+    <script type="text/javascript">moveProgressBar('62.5');</script>
     <dd class="spec passed"><span class="passed_spec_name">should revert to the original method after each spec</span></dd>
-    <script type="text/javascript">moveProgressBar('66.6');</script>
+    <script type="text/javascript">moveProgressBar('68.7');</script>
     <dd class="spec passed"><span class="passed_spec_name">can stub! and mock the same message</span></dd>
   </dl>
 </div>
 <div class="behaviour">
   <dl>
   <dt id="behaviour_5">A mock</dt>
-    <script type="text/javascript">moveProgressBar('73.3');</script>
+    <script type="text/javascript">moveProgressBar('75.0');</script>
     <dd class="spec passed"><span class="passed_spec_name">can stub!</span></dd>
-    <script type="text/javascript">moveProgressBar('80.0');</script>
+    <script type="text/javascript">moveProgressBar('81.2');</script>
     <dd class="spec passed"><span class="passed_spec_name">can stub! and mock</span></dd>
-    <script type="text/javascript">moveProgressBar('86.6');</script>
+    <script type="text/javascript">moveProgressBar('87.5');</script>
     <dd class="spec passed"><span class="passed_spec_name">can stub! and mock the same message</span></dd>
   </dl>
 </div>
 <div class="behaviour">
   <dl>
   <dt id="behaviour_6">Stack (not implemented features)</dt>
-    <script type="text/javascript">makeYellow('rspec-header');</script>
     <script type="text/javascript">makeYellow('behaviour_6');</script>
-    <script type="text/javascript">moveProgressBar('93.3');</script>
+    <script type="text/javascript">moveProgressBar('93.7');</script>
     <dd class="spec not_implemented"><span class="not_implemented_spec_name">should transform to xml using #to_xml</span></dd>
-    <script type="text/javascript">makeYellow('rspec-header');</script>
     <script type="text/javascript">makeYellow('behaviour_6');</script>
     <script type="text/javascript">moveProgressBar('100.0');</script>
     <dd class="spec not_implemented"><span class="not_implemented_spec_name">should convert from xml using #from_xml</span></dd>
   </dl>
 </div>
 <script type="text/javascript">document.getElementById('duration').innerHTML = "Finished in <strong>x seconds</strong>";</script>
-<script type="text/javascript">document.getElementById('totals').innerHTML = "15 examples, 5 failures, 2 not implemented";</script>
+<script type="text/javascript">document.getElementById('totals').innerHTML = "16 examples, 5 failures, 3 not implemented";</script>
 </div>
 </div>
 </body>

@@ -133,7 +133,7 @@ module Spec
   <meta http-equiv="Pragma" content="no-cache" />
   <style type="text/css">
   body {
-    margin: 0; 
+    margin: 0;
     padding: 0;
     background: #fff;
     font-size: 80%;
@@ -176,21 +176,21 @@ function moveProgressBar(percentDone) {
 }
 function makeRed(element_id) {
   document.getElementById(element_id).style.background = '#C40D0D';
-    document.getElementById(element_id).style.color = '#FFFFFF'; 
+  document.getElementById(element_id).style.color = '#FFFFFF';
+}
+
+function makeYellow(element_id) {
+  if (element_id == "rspec-header" && document.getElementById(element_id).style.background != '#C40D0D')
+  {
+    document.getElementById(element_id).style.background = '#FAF834';
+    document.getElementById(element_id).style.color = '#000000';
   }
-    
-  function makeYellow(element_id) {
-    if (element_id == "rspec-header" && document.getElementById(element_id).style.background != '#C40D0D')
-    {
-      document.getElementById(element_id).style.background = '#FAF834';
-      document.getElementById(element_id).style.color = '#000000'; 
-    }
-    else
-    {
-      document.getElementById(element_id).style.background = '#FAF834';
-      document.getElementById(element_id).style.color = '#000000';
-    }
+  else
+  {
+    document.getElementById(element_id).style.background = '#FAF834';
+    document.getElementById(element_id).style.color = '#000000';
   }
+}
 EOF
         end
         

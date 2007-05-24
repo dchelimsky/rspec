@@ -8,7 +8,7 @@ module Spec
       end
     
       def add_behaviour(behaviour)
-        unless specified_examples.nil? || specified_examples.empty? #|| behaviour.matches?(specified_examples)
+        if !specified_examples.nil? && !specified_examples.empty? #&& behaviour.matches?(specified_examples)
           behaviour.retain_examples_matching!(specified_examples) #if behaviour.matches?(specified_examples)
         end
         @behaviours << behaviour if behaviour.number_of_examples != 0 && !behaviour.shared?

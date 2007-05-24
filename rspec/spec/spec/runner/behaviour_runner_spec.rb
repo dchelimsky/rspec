@@ -2,6 +2,94 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 module Spec
   module Runner
+    describe BehaviourRunner, "#add_behaviour affecting passed in behaviour" do
+      before do
+        @options = Options.new
+        @runner = BehaviourRunner.new(@options)
+        class << @runner
+          attr_reader :behaviours
+        end
+
+        @behaviour = ::Spec::DSL::Behaviour.new("A Behaviour") do
+          it "runs 1" do
+          end
+          it "runs 2" do
+          end
+        end
+      end
+      
+      it "removes examples not selected from Behaviour when options.examples is set" do
+        @options.examples << "A Behaviour runs 1"
+
+        @behaviour.number_of_examples.should == 2
+
+        @runner.add_behaviour @behaviour
+        @behaviour.number_of_examples.should == 1
+        @behaviour.examples.first.send(:description).should == "runs 1"
+      end
+
+      it "keeps all examples when options.examples is nil" do
+        @options.examples = nil
+        @behaviour.number_of_examples.should == 2
+
+        @runner.add_behaviour @behaviour
+        @behaviour.number_of_examples.should == 2
+        @behaviour.examples.collect {|example| example.send(:description) }.should == ['runs 1', 'runs 2']
+      end
+
+      it "keeps all examples when options.examples is empty" do
+        @options.examples = []
+        @behaviour.number_of_examples.should == 2
+
+        @runner.add_behaviour @behaviour
+        @behaviour.number_of_examples.should == 2
+        @behaviour.examples.collect {|example| example.send(:description) }.should == ['runs 1', 'runs 2']
+      end
+    end
+
+    describe BehaviourRunner, "#add_behaviour affecting behaviours" do
+      before do
+        @options = Options.new
+        @runner = BehaviourRunner.new(@options)
+        class << @runner
+          attr_reader :behaviours
+        end
+      end
+
+      it "adds behaviour when behaviour has examples and is not shared" do
+        @behaviour = ::Spec::DSL::Behaviour.new("A Behaviour") do
+          it "uses this behaviour" do
+          end
+        end
+
+        @behaviour.should_not be_shared
+        @behaviour.number_of_examples.should be > 0
+        @runner.add_behaviour @behaviour
+
+        @runner.behaviours.length.should == 1
+      end
+
+      it "does not add the behaviour when number_of_examples is 0" do
+        @behaviour = ::Spec::DSL::Behaviour.new("A Behaviour") do
+        end
+        @behaviour.number_of_examples.should == 0
+        @runner.add_behaviour @behaviour
+
+        @runner.behaviours.should be_empty
+      end
+
+      it "does not add the behaviour when behaviour is shared" do
+        @behaviour = ::Spec::DSL::Behaviour.new("A Behaviour", :shared => true) do
+          it "does not use this behaviour" do
+          end
+        end
+        @behaviour.should be_shared
+        @runner.add_behaviour @behaviour
+
+        @runner.behaviours.should be_empty
+      end
+    end
+
     describe BehaviourRunner do
 
       it "should only run behaviours with at least one example" do

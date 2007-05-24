@@ -69,14 +69,14 @@ module Spec
       #   matcher.should match_description("with ([#]) an example")
       #   matcher.should match_description("a context with ([#]) an example")
       # end
-      # 
+      #
       # it "should match with regexp reserved (characters) in the context" do
       #   matcher=ExampleMatcher.new("with an example", "a ([#]) context")
       #   matcher.should match_description("a ([#]) context with an example")
       #   matcher.should match_description("a ([#]) context with an example")
       #   matcher.should match_description("a ([#]) context with an example")
       # end
-      
+
       # it "should not match wrong example only" do
       #   matcher=ExampleMatcher.new("with another example", "a context")
       #   matcher.should_not match_description("with an example")
@@ -98,5 +98,30 @@ module Spec
       # end
       
     end
+
+    describe ExampleMatcher, "normal case" do
+      it "matches when passed in example matches" do
+        @matcher = ExampleMatcher.new("Foo", "bar")
+        @matcher.matches?(["no match", "Foo bar"]).should == true
+      end
+
+      it "does not match when no passed in examples match" do
+        @matcher = ExampleMatcher.new("Foo", "bar")
+        @matcher.matches?(["no match1", "no match2"]).should == false
+      end
+    end
+
+    describe ExampleMatcher, "where description has '::' in it" do
+      it "matches when passed in example matches" do
+        @matcher = ExampleMatcher.new("Foo::Bar", "baz")
+        @matcher.matches?(["no match", "Foo::Bar baz"]).should == true
+      end
+
+      it "does not match when no passed in examples match" do
+        @matcher = ExampleMatcher.new("Foo::Bar", "baz")
+        @matcher.matches?(["no match1", "no match2"]).should == false
+      end
+    end
+
   end
 end

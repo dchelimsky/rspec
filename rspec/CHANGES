@@ -1,4 +1,5 @@
 = RSpec Changelog
+* [#10959] Focused Examples do not work for Behaviour defined with constant with modules
 
 == Version 1.0.2
 This is just to align the version numbers in rspec and rspec_on_rails.
@@ -38,6 +39,7 @@ backwards compatibility changes in the API are expected after this release.
 * Fixed [#10747] Helper methods defined in shared specs are not visible when shared spec is used
 * Fixed [#10748] Shared descriptions in separate files causes 'already exists' error
 * Applied [#10698] Running with --drb executes specs twice (patch from Ruy Asan)
+* Fixed [#10871] 0.9.4 - Focussed spec runner fails to run specs in descriptions with type and string when there is no leading space in the string
 
 == Version 0.9.4
 This release introduces massive improvements to Spec::Ui - the user interface functional testing
