@@ -1,6 +1,7 @@
 == Version 1.0.3
 Bug fixes.
 
+* Applied [#11101] StringHelpers.starts_with?(prefix) assumes a string parameter for _prefix_
 * Removed 'rescue nil' which was hiding errors in controller examples.
 * Fixed [#11075] controller specs fail when using mocha without integrated_views
 * Fixed problem with redirect_to failing incorrectly against edge rails.

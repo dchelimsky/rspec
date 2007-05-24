@@ -36,6 +36,8 @@ In alphabetical order (by last name)
 ** Patch to add --skip-migration option to rspec_scaffold generator
 * Ruy Asan
 ** Patch [#10698] Running with --drb executes specs twice (fix included)
+* Sinclair Bain
+** Patch [#11101] StringHelpers.starts_with?(prefix) assumes a string parameter for _prefix_
 * Ken Barker
 ** Patch [#10921] Allow verify_rcov to accept greater than threshold coverage %'s via configuration
 ** Patch [#10920] Added support for not implemented examples
