@@ -1,6 +1,7 @@
 == Version 1.0.3
 Bug fixes.
 
+* Fixed [#11104] Website uses old specify notation
 * Applied [#11101] StringHelpers.starts_with?(prefix) assumes a string parameter for _prefix_
 * Removed 'rescue nil' which was hiding errors in controller examples.
 * Fixed [#11075] controller specs fail when using mocha without integrated_views

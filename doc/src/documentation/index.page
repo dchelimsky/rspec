@@ -121,7 +121,7 @@ You can write helper methods directly within a Behaviour:
 
 <ruby>describe "..." do
 
-  specify "..." do
+  it "..." do
     helper_method
   end
   
