@@ -1,5 +1,8 @@
 = RSpec Changelog
 
+== Version 1.0.2
+This is just to align the version numbers in rspec and rspec_on_rails.
+
 == Version 1.0.1
 This is a maintenance release with mostly cleaning up, and one minor enhancement -
 Modules are automatically included when described directly.
