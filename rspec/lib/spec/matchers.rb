@@ -61,9 +61,9 @@ module Spec
   # You can use this feature to invoke any predicate that begins with "has_", whether it is
   # part of the Ruby libraries (like +Hash#has_key?+) or a method you wrote on your own class.
   #
-  # == Custom Expression Matchers
+  # == Custom Expectation Matchers
   #
-  # When you find that none of the stock Expression Matchers provide a natural
+  # When you find that none of the stock Expectation Matchers provide a natural
   # feeling expectation, you can very easily write your own.
   #
   # For example, imagine that you are writing a game in which players can
@@ -122,6 +122,14 @@ module Spec
   #     include CustomGameMatchers
   #     ...
   #   end
+  #
+  # or you can include in globally in a spec_helper.rb file <tt>require</tt>d
+  # from your spec file(s):
+  #
+  #   Spec::Runner.configure do |config|
+  #     config.include(CustomGameMatchers)
+  #   end
+  #
   module Matchers
     module ModuleMethods
       def description_generated(callback)
