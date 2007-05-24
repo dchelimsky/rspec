@@ -176,7 +176,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
       route = {:controller => "nonexistant", :action => "none"}
       lambda {
         response.should redirect_to(route)
-      }.should fail_with(%Q|expected redirect to #{route.inspect}, got redirect to "http://test.host/nonexistant/none", which cannot be routed within this application (spec using the URL string if the redirection is to an external address)|)
+      }.should raise_error(ActionController::RoutingError, %q|no route found to match "/nonexistant/none" with {}|)
     end
 
   end

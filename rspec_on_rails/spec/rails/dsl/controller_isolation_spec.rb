@@ -15,11 +15,6 @@ describe "a controller spec running in isolation mode", :behaviour_type => :cont
     response.should be_success
     response.should render_template("action_with_errors_in_template")
   end
-
-  it "should not create any templates" do
-    get 'some_action'
-    response.body.should =~ /template\/that\/does\/not\/actually\/exist/
-  end
 end
 
 describe "a controller spec running in integration mode", :behaviour_type => :controller do
@@ -37,7 +32,7 @@ describe "a controller spec running in integration mode", :behaviour_type => :co
   end
 
   it "should choke if the template doesn't exist" do
-    lambda { get 'some_action' }.should raise_error(ActionController::MissingTemplate, /template\/that\/does\/not\/actually\/exist/)
+    lambda { get 'some_action' }.should raise_error(ActionController::MissingTemplate)
     response.should_not be_success
   end
 

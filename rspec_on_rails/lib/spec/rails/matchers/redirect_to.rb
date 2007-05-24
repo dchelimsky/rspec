@@ -34,8 +34,6 @@ module Spec
 
         def actual_redirect_to_valid_route
           actual_hash
-        rescue
-          false
         end
 
         def hash_from_url(url)
@@ -50,7 +48,11 @@ module Spec
 
         def query_hash(url)
           query = url.split("?", 2)[1] || ""
-          CGIMethods.parse_query_parameters(query)
+          if defined?(CGIMethods)
+            CGIMethods.parse_query_parameters(query)
+          else
+            ActionController::AbstractRequest.parse_query_parameters(query)
+          end
         end
 
        def expected_url
@@ -68,11 +70,7 @@ module Spec
 
         def failure_message
           if @redirected
-            if @expected.instance_of?(Hash) && ! actual_redirect_to_valid_route
-              return %Q{expected redirect to #{@expected.inspect}, got redirect to #{@actual.inspect}, which cannot be routed within this application (spec using the URL string if the redirection is to an external address)}
-            else
-              return %Q{expected redirect to #{@expected.inspect}, got redirect to #{@actual.inspect}}
-            end
+            return %Q{expected redirect to #{@expected.inspect}, got redirect to #{@actual.inspect}}
           else
             return %Q{expected redirect to #{@expected.inspect}, got no redirect}
           end
