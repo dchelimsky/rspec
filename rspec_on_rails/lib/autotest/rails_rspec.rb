@@ -33,7 +33,7 @@ class Autotest::RailsRspec < Autotest::Rspec
       %r%^(test|spec)/fixtures/(.*).yml% => proc { |_, m|
         ["spec/models/#{m[2].singularize}_spec.rb"] + files_matching(%r%^spec\/views\/#{m[2]}/.*_spec\.rb$%)
       },
-      %r%^spec/(models|controllers|views|helpers)/.*rb$% => proc { |filename, _|
+      %r%^spec/(models|controllers|views|helpers|lib)/.*rb$% => proc { |filename, _|
         filename
       },
       %r%^app/models/(.*)\.rb$% => proc { |_, m|
@@ -69,6 +69,9 @@ class Autotest::RailsRspec < Autotest::Rspec
       },
       %r%^spec/spec_helper.rb|config/((boot|environment(s/test)?).rb)% => proc {
         files_matching %r%^spec/(models|controllers|views|helpers)/.*_spec\.rb$%
+      },
+      %r%^lib/(.*)\.rb$% => proc { |_, m|
+        ["spec/lib/#{m[1]}_spec.rb"]
       },
     }    
   end
