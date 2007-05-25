@@ -156,10 +156,19 @@ desc "Creates a tag in svn"
 task :tag do
   from = `svn info #{File.dirname(__FILE__)}`.match(/URL: (.*)\/rspec/n)[1]
   to = from.gsub(/trunk/, "tags/#{Spec::VERSION::TAG}")
+  current = from.gsub(/trunk/, "tags/CURRENT")
   tag_cmd = "svn cp #{from} #{to} -m \"Tag release #{Spec::VERSION::FULL_VERSION}\""
+  remove_current_cmd = "svn rm #{current}"
+  commit_current_cmd = "svn ci #{current} -m \"Remove tags/CURRENT\""
+  create_current_cmd = "svn cp #{to} #{current} -m \"Copy #{Spec::VERSION::TAG} to tags/CURRENT\""
   raise "Can't tag to the same place: #{tag_cmd}" if to == from
   puts "Creating tag in SVN"
   `#{tag_cmd}`
+  puts "Removing CURRENT"
+  `#{remove_current_cmd}`
+  `#{commit_current_cmd}`
+  puts "Re-Creating CURRENT"
+  `#{create_current_cmd}`
   raise "Tagging failed" unless $? == 0
 end
 
