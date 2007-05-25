@@ -39,8 +39,6 @@ module Spec
             ActionController::Routing::Routes.generate(options)
           end
 
-          #backwards compatibility to RSpec 0.7.0-0.7.3
-          alias_method :routing, :route_for
         end
       end
 
@@ -71,8 +69,7 @@ module Spec
         end
       
         def response(&block)
-          #NOTE - we're setting @update for the assert_select_spec - kinda weird, huh?
-          # Should be_gone('after 0.9')
+          # NOTE - we're setting @update for the assert_select_spec - kinda weird, huh?
           @update = block
           @_response || @response
         end
