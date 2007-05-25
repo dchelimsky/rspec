@@ -181,7 +181,7 @@ reference the shared behavior using the 'it_should_behave_like' method.
 end
 
 describe "LargeEdition" do
-  is_should_behave_like "AllEditions"
+  it_should_behave_like "AllEditions"
 
   it "should also behave like a large edition" do
   end
