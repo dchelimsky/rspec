@@ -3,12 +3,10 @@ title: Upgrade
 inMenu: true
 ---
 
-h2. Upgrading to RSpec 0.9 or later
+h2. Upgrading from 0.8 specs
 
-RSpec 0.9 removes all of the features that were deprecated in 0.8.
-
-In order to ease the transition from 0.8 to 0.9, we have included a
-tool to translate your 0.8 style specs to 0.9 style. 
+In order to ease the transition from 0.8 style specs to the current style (introduced
+in 0.9), we have included a translator to automate this translation. 
 
 The translator is not perfect, but we feel it's "good enough". It will
 translate roughly 95% or more of your specs correctly, and you should
