@@ -8,12 +8,30 @@ h4. Install
 We strongly recommend you install RSpec and Spec::Rails as plugins (as opposed to relying on an RSpec gem).
 See special instructions below if you want to install the HEAD of the trunk, or an older version.
 
+h4. Installing the CURRENT release
+
+Each release is mirrored in tags/CURRENT, so you can simply point at this to get the latest release.
+
+<pre>
+ruby script/plugin install svn://rubyforge.org/var/svn/rspec/tags/CURRENT/rspec
+ruby script/plugin install svn://rubyforge.org/var/svn/rspec/tags/CURRENT/rspec_on_rails
+</pre>
+
+If you're using svn for your project, install with -x.
+
+<pre>
+ruby script/plugin install -x svn://rubyforge.org/var/svn/rspec/tags/CURRENT/rspec
+ruby script/plugin install -x svn://rubyforge.org/var/svn/rspec/tags/CURRENT/rspec_on_rails
+</pre>
+
+h4. Installing a specific release
+
 <pre>
 ruby script/plugin install svn://rubyforge.org/var/svn/rspec/tags/{svn_tag: }/rspec
 ruby script/plugin install svn://rubyforge.org/var/svn/rspec/tags/{svn_tag: }/rspec_on_rails
 </pre>
 
-If you're using svn for your project, install with -x.
+... or (using svn externals) ...
 
 <pre>
 ruby script/plugin install -x svn://rubyforge.org/var/svn/rspec/tags/{svn_tag: }/rspec
