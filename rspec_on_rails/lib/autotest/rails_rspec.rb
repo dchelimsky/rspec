@@ -28,7 +28,7 @@ class Autotest::RailsRspec < Autotest::Rspec
   def initialize # :nodoc:
     super
     @spec_command = "script/spec"
-    @exceptions = %r%^\./(?:coverage|db|doc|log|public|script|vendor\/rails)%
+    @exceptions = %r%^\./(?:coverage|db|doc|log|public|script|vendor\/rails|previous_failures.txt)%
     @test_mappings = {
       %r%^(test|spec)/fixtures/(.*).yml% => proc { |_, m|
         ["spec/models/#{m[2].singularize}_spec.rb"] + files_matching(%r%^spec\/views\/#{m[2]}/.*_spec\.rb$%)

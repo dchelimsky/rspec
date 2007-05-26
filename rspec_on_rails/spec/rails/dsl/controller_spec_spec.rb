@@ -41,6 +41,16 @@ require 'controller_spec_controller'
       get 'action_with_template'
       flash[:flash_key].should == "flash value"
     end
+    
+    it "spec should have access to flash values set after a session reset" do
+      get 'action_setting_flash_after_session_reset'
+      flash[:after_reset].should == "available"
+    end
+    
+    it "spec should not have access to flash values set before a session reset" do
+      get 'action_setting_flash_before_session_reset'
+      flash[:before_reset].should_not == "available"
+    end
 
     it "spec should have access to session" do
       get 'action_with_template'

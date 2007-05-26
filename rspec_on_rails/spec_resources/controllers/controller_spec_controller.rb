@@ -22,4 +22,15 @@ class ControllerSpecController < ActionController::Base
   def action_setting_the_assigns_hash
     assigns['direct_assigns_key'] = :direct_assigns_key_value
   end
+
+  def action_setting_flash_after_session_reset
+    reset_session
+    flash[:after_reset] = "available"
+  end
+  
+  def action_setting_flash_before_session_reset
+    flash[:before_reset] = 'available'
+    reset_session
+  end
 end
+

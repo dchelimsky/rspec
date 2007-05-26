@@ -59,8 +59,7 @@ module Spec
 
       class FunctionalEvalContext < Spec::Rails::DSL::EvalContext
         include Spec::Rails::DSL::FunctionalBehaviourHelpers
-        attr_reader :session, :flash, :request, :response, :params
-        
+        attr_reader :request, :response, :params
         
         def setup #:nodoc:
 
@@ -69,16 +68,19 @@ module Spec
 
           @controller = @controller_class.new
         
-          @session = ActionController::TestSession.new
-          @flash = ActionController::Flash::FlashHash.new
           @request = ActionController::TestRequest.new
           @response = ActionController::TestResponse.new
           @params = Hash.new
-
-          @session['flash'] = @flash
-          @request.session = @session
-        end      
-
+        end
+        
+        def flash
+          response.flash
+        end
+        
+        def session
+          request.session
+        end
+        
       end
     end
   end
