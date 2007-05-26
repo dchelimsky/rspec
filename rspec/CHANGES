@@ -1,3 +1,7 @@
+== Version 1.0.4 (in SVN)
+
+* Fixed [#11143] Views code for ActionController::Base#render broke between 1.0.0 and 1.0.3 on Rails Edge r6731
+
 == Version 1.0.3
 Bug fixes.
 

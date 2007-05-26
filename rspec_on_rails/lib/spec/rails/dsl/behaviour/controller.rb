@@ -39,6 +39,18 @@ module Spec
             ActionController::Routing::Routes.generate(options)
           end
 
+          # TODO - TEST ME
+          # Also - this is somewhat experimental at the moment and may be changed
+          # or removed without explanation or apology!
+          def raise_controller_errors
+            unless @controller_class_name.blank?
+              @controller_class_name.constantize.class_eval do
+                define_method :rescue_action do |e|
+                  raise e
+                end
+              end
+            end
+          end
         end
       end
 
@@ -60,6 +72,9 @@ module Spec
                   @first_render ||= args[2]
                   true
                 end
+                define_method :render_file do |*args|
+                  @first_render ||= args[0]
+                end
               end
             end
           end
@@ -67,7 +82,7 @@ module Spec
           
           super unless performed?
         end
-      
+        
         def response(&block)
           # NOTE - we're setting @update for the assert_select_spec - kinda weird, huh?
           @update = block
