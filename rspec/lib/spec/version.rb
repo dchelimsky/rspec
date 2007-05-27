@@ -3,7 +3,7 @@ module Spec
     unless defined? MAJOR
       MAJOR  = 1
       MINOR  = 0
-      TINY   = 3
+      TINY   = 4
       RELEASE_CANDIDATE = nil
 
       # RANDOM_TOKEN: 0.95274674087956
