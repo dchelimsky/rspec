@@ -131,11 +131,10 @@ module Spec
   #
   #   my_mock.should_receive(:sym).with(:no_args)
   #   my_mock.should_receive(:sym).with(:any_args)
-  #   my_mock.should_receive(:sym).with(1, :numeric, "b") #2nd argument can any type of Numeric
-  #   my_mock.should_receive(:sym).with(1, :boolean, "b") #2nd argument can true or false
-  #   my_mock.should_receive(:sym).with(1, :string, "b") #2nd argument can be any String
+  #   my_mock.should_receive(:sym).with(1, an_instance_of(Numeric), "b") #2nd argument can any type of Numeric
+  #   my_mock.should_receive(:sym).with(1, boolean(), "b") #2nd argument can true or false
   #   my_mock.should_receive(:sym).with(1, /abc/, "b") #2nd argument can be any String matching the submitted Regexp
-  #   my_mock.should_receive(:sym).with(1, :anything, "b") #2nd argument can be anything at all
+  #   my_mock.should_receive(:sym).with(1, anything(), "b") #2nd argument can be anything at all
   #   my_mock.should_receive(:sym).with(1, ducktype(:abs, :div), "b")
   #                            #2nd argument can be object that responds to #abs and #div
   #                                                                       
