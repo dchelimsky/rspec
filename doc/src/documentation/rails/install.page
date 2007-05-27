@@ -92,14 +92,20 @@ ruby script/plugin install -x svn://rubyforge.org/var/svn/rspec/trunk/rspec
 ruby script/plugin install -x svn://rubyforge.org/var/svn/rspec/trunk/rspec_on_rails
 </pre>
 
-h2. Releases 0.7.5 to 0.9.x (not really recommended at this point)
+One note about using 'edge spec'. If you're choosing to do this, you probably
+like to use edge rails as well. If you do this, you have chosen to work with two moving targets,
+which is nuts. We do it too, so you're not alone. But please don't expect that edge spec is
+always going to support the latest changes in edge rails. And when it doesn't, a patch
+would be just lovely!
+
+h2. Releases 0.8.x to 0.9.x (not really recommended at this point)
 
 <pre>
 ruby script/plugin install svn://rubyforge.org/var/svn/rspec/tags/REL_X_Y_Z/rspec
 ruby script/plugin install svn://rubyforge.org/var/svn/rspec/tags/REL_X_Y_Z/rspec_on_rails/vendor/plugins/rspec_on_rails
 </pre>
 
-h2. Releases < 0.7.5 (really not recommended at this point)
+h2. Releases < 0.7.5 (REALLY NOT recommended at this point)
 
 <pre>
 ruby script/plugin install svn://rubyforge.org/var/svn/rspec/tags/REL_X_Y_Z/rspec

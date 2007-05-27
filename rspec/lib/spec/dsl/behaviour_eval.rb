@@ -71,10 +71,16 @@ module Spec
         #   predicate_matchers[matcher_name] = [method1_on_object, method2_on_object]
         #
         # Dynamically generates a custom matcher that will match
-        # a predicate on your class. RSpec uses this itself to allow you
-        # to say File.should exist("path/to/file").
+        # a predicate on your class. RSpec provides a couple of these
+        # out of the box:
         #
-        # == Example
+        #   exist (or state expectations)
+        #     File.should exist("path/to/file")
+        #
+        #   an_instance_of (for mock argument constraints)
+        #     mock.should_receive(:message).with(an_instance_of(String))
+        #
+        # == Examples
         #
         #   class Fish
         #     def can_swim?
@@ -89,7 +95,7 @@ module Spec
         #     end
         #   end
         def predicate_matchers
-          @predicate_matchers ||= {:exist => :exist?}
+          @predicate_matchers ||= {:exist => :exist?, :an_instance_of => :is_a?}
         end
         
         def define_predicate_matchers(hash=nil) # :nodoc:
@@ -112,7 +118,7 @@ module Spec
         end
         
         # Alias for it.
-        def specify(description, opts={}, &block)
+        def specify(description=:__generate_description, opts={}, &block)
           it(description, opts, &block)
         end
 

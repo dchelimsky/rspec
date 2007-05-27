@@ -70,9 +70,9 @@ Please submit a patch, but please follow these guidelines.
 h3. Bugs
 
 We LOVE to hear about bugs that you find, but we can't address them
-if we can't reproduce them. If you find a bug, please submit a Bug
-report. Be sure to include:
+if we can't reproduce them. If you submit a Bug report, be sure to include:
 
 * rspec version (either a versioned release or svn revision number)
+* rails version (if you're using the rspec_on_rails plugin)
+* any other relevant versions, OSes, etc
 * a failing spec AND code - we need to be able to reproduce the failure. While code snippets are better than nothing, what we really prefer is modifications to RSpec's own specs, as a unified diff file.
-

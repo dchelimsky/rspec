@@ -107,7 +107,20 @@ module Spec
       end
       
       def convert_constraint(constraint)
-        return @@constraint_classes[constraint].new(constraint) if constraint.is_a?(Symbol)
+        if [:anything, :numeric, :boolean, :string].include?(constraint)
+          case constraint
+          when :anything
+            instead = "anything()"
+          when :numeric
+            instead = "an_instance_of(Numeric)"
+          when :boolean
+            instead = "boolean()"
+          when :string
+            instead = "an_instance_of(String)"
+          end
+          STDERR.puts "The #{constraint.inspect} constraint is deprecated. Use #{instead} instead."
+          return @@constraint_classes[constraint].new(constraint)
+        end
         return MatcherConstraint.new(constraint) if is_matcher?(constraint)
         return RegexpArgConstraint.new(constraint) if constraint.is_a?(Regexp)
         return LiteralArgConstraint.new(constraint)
