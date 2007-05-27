@@ -24,6 +24,22 @@ ruby script/plugin install -x svn://rubyforge.org/var/svn/rspec/tags/CURRENT/rsp
 ruby script/plugin install -x svn://rubyforge.org/var/svn/rspec/tags/CURRENT/rspec_on_rails
 </pre>
 
+h4. No SVN?
+
+For those of you working behind a firewall that prohibits svn access:
+
+Go to http://rubyforge.org/frs/?group_id=797, download the latest tarballs 
+and unpack them in vendor/plugins. The directories will have
+the version numbers in their names, so you'll need to remove them.
+
+<pre>
+#in vendor/plugins
+tar zxvf rspec-{version: }.tgz
+tar zxvf rspec_on_rails-{version: }.tgz
+mv rspec-{version: } rspec
+mv rspec_on_rails-{version: } rspec_on_rails
+</pre>
+
 h4. Installing a specific release
 
 <pre>

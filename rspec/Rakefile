@@ -209,6 +209,17 @@ task :archive_website => [:verify_user, :website] do
   publisher.upload
 end
 
+desc "Package the Rails plugin"
+task :package_rspec_on_rails do
+  mkdir 'pkg' rescue nil
+  rm_rf 'pkg/rspec_on_rails' rescue nil
+  `svn export ../rspec_on_rails pkg/rspec_on_rails-#{PKG_VERSION}`
+  Dir.chdir 'pkg' do
+    `tar cvzf rspec_on_rails-#{PKG_VERSION}.tgz rspec_on_rails-#{PKG_VERSION}`
+  end
+end
+task :pkg => :package_rspec_on_rails
+
 desc "Package the RSpec.tmbundle"
 task :package_tmbundle do
   mkdir 'pkg' rescue nil
