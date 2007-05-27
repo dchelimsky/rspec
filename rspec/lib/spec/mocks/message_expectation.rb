@@ -13,7 +13,7 @@ module Spec
         @return_block = lambda {}
         @received_count = 0
         @expected_received_count = expected_received_count
-        @args_expectation = ArgumentExpectation.new([:any_args])
+        @args_expectation = ArgumentExpectation.new([AnyArgsConstraint.new])
         @consecutive = false
         @exception_to_raise = nil
         @symbol_to_throw = nil

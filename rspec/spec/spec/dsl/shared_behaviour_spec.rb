@@ -139,8 +139,8 @@ module Spec
       end
 
       it "should include modules, included into shared behaviour, into current behaviour" do
-        @formatter.should_receive(:add_behaviour).with :any_args
-        @formatter.should_receive(:example_finished).twice.with :any_args
+        @formatter.should_receive(:add_behaviour).with(any_args)
+        @formatter.should_receive(:example_finished).twice.with(any_args)
 
         shared_behaviour = make_shared_behaviour("shared behaviour", :shared => true) {}
         shared_behaviour.it("shared example") { shared_example_ran = true }

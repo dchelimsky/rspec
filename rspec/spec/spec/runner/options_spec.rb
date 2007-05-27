@@ -113,7 +113,7 @@ module Spec
 
       it "sets Expectations differ when differ_class is set" do
         @options.differ_class = Spec::Expectations::Differs::Default
-        Spec::Expectations.should_receive(:differ=).with(:anything).and_return do |arg|
+        Spec::Expectations.should_receive(:differ=).with(anything()).and_return do |arg|
           arg.class.should == Spec::Expectations::Differs::Default
         end
         @options.create_behaviour_runner

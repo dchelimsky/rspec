@@ -180,7 +180,7 @@ module Spec
       end
       
       it "should ignore args on any args" do
-        @mock.should_receive(:something).at_least(:once).with(:any_args)
+        @mock.should_receive(:something).at_least(:once).with(any_args)
         @mock.something
         @mock.something 1
         @mock.something "a", 2
@@ -189,7 +189,7 @@ module Spec
       end
       
       it "should fail on no args if any args received" do
-        @mock.should_receive(:something).with(:no_args)
+        @mock.should_receive(:something).with(no_args())
         begin
           @mock.something 1
         rescue MockExpectationError => e
@@ -207,7 +207,7 @@ module Spec
       end
 
       it "should yield 0 args to blocks that take a variable number of arguments" do
-        @mock.should_receive(:yield_back).with(:no_args).once.and_yield
+        @mock.should_receive(:yield_back).with(no_args()).once.and_yield
         a = nil
         @mock.yield_back {|*a|}
         a.should == []
@@ -215,7 +215,7 @@ module Spec
       end
 
       it "should yield one arg to blocks that take a variable number of arguments" do
-        @mock.should_receive(:yield_back).with(:no_args).once.and_yield(99)
+        @mock.should_receive(:yield_back).with(no_args()).once.and_yield(99)
         a = nil
         @mock.yield_back {|*a|}
         a.should == [99]
@@ -223,7 +223,7 @@ module Spec
       end
 
       it "should yield many args to blocks that take a variable number of arguments" do
-        @mock.should_receive(:yield_back).with(:no_args).once.and_yield(99, 27, "go")
+        @mock.should_receive(:yield_back).with(no_args()).once.and_yield(99, 27, "go")
         a = nil
         @mock.yield_back {|*a|}
         a.should == [99, 27, "go"]
@@ -231,7 +231,7 @@ module Spec
       end
 
       it "should yield single value" do
-        @mock.should_receive(:yield_back).with(:no_args).once.and_yield(99)
+        @mock.should_receive(:yield_back).with(no_args()).once.and_yield(99)
         a = nil
         @mock.yield_back {|a|}
         a.should == 99
@@ -239,7 +239,7 @@ module Spec
       end
 
       it "should yield two values" do
-        @mock.should_receive(:yield_back).with(:no_args).once.and_yield('wha', 'zup')
+        @mock.should_receive(:yield_back).with(no_args()).once.and_yield('wha', 'zup')
         a, b = nil
         @mock.yield_back {|a,b|}
         a.should == 'wha'
@@ -248,7 +248,7 @@ module Spec
       end
 
       it "should fail when calling yielding method with wrong arity" do
-        @mock.should_receive(:yield_back).with(:no_args).once.and_yield('wha', 'zup')
+        @mock.should_receive(:yield_back).with(no_args()).once.and_yield('wha', 'zup')
           begin
           @mock.yield_back {|a|}
         rescue MockExpectationError => e
@@ -257,7 +257,7 @@ module Spec
       end
 
       it "should fail when calling yielding method without block" do
-        @mock.should_receive(:yield_back).with(:no_args).once.and_yield('wha', 'zup')
+        @mock.should_receive(:yield_back).with(no_args()).once.and_yield('wha', 'zup')
         begin
           @mock.yield_back
         rescue MockExpectationError => e
@@ -266,7 +266,7 @@ module Spec
       end
       
       it "should be able to mock send" do
-        @mock.should_receive(:send).with(:any_args)
+        @mock.should_receive(:send).with(any_args)
         @mock.send 'hi'
         @mock.rspec_verify
       end

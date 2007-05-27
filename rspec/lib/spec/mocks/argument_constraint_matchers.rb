@@ -4,9 +4,24 @@ module Spec
 
       # Shortcut for creating an instance of Spec::Mocks::DuckTypeArgConstraint
       def duck_type(*args)
-        return Spec::Mocks::DuckTypeArgConstraint.new(*args)
+        DuckTypeArgConstraint.new(*args)
       end
 
+      def any_args
+        AnyArgsConstraint.new
+      end
+      
+      def anything
+        AnyArgConstraint.new(nil)
+      end
+      
+      def boolean
+        BooleanArgConstraint.new(nil)
+      end
+      
+      def no_args
+        NoArgsConstraint.new
+      end
     end
   end
 end

@@ -1,7 +1,8 @@
 == Version 1.0.4 (in SVN)
 
 * added mock argument constraint matchers (anything(), boolean(), an_instance_of(Type)) which work with rspec or mocha
-* deprecated rspec's symbol mock argument constraint matchers (:anything, :boolean, :numeric, :string)
+* added mock argument constraint matchers (any_args(), no_args()) which only work with rspec
+* deprecated rspec's symbol mock argument constraint matchers (:any_args, :no_args, :anything, :boolean, :numeric, :string)
 * Added tarball of rspec_on_rails to the release build to support folks working behind a firewall that blocks svn access.
 * Fixed [#11137] rspec incorrectly handles flash after resetting the session
 * Fixed [#11143] Views code for ActionController::Base#render broke between 1.0.0 and 1.0.3 on Rails Edge r6731

@@ -36,8 +36,29 @@ module Spec
       def initialize(ignore)
       end
       
+      def ==(other)
+        true
+      end
+      
+      # TODO - need this?
       def matches?(value)
         true
+      end
+    end
+    
+    class AnyArgsConstraint
+      def description
+        "any args"
+      end
+    end
+    
+    class NoArgsConstraint
+      def description
+        "no args"
+      end
+      
+      def ==(args)
+        args == []
       end
     end
     
@@ -52,6 +73,10 @@ module Spec
     
     class BooleanArgConstraint
       def initialize(ignore)
+      end
+      
+      def ==(value)
+        matches?(value)
       end
       
       def matches?(value)
@@ -94,8 +119,14 @@ module Spec
       
       def initialize(args)
         @args = args
-        if [:any_args] == args then @expected_params = nil
-        elsif [:no_args] == args then @expected_params = []
+        if [:any_args] == args
+          @expected_params = nil
+          warn_deprecated(:any_args.inspect, "any_args()")
+        elsif args.length == 1 && args[0].is_a?(AnyArgsConstraint) then @expected_params = nil
+        elsif [:no_args] == args
+          @expected_params = []
+          warn_deprecated(:no_args.inspect, "no_args()")
+        elsif args.length == 1 && args[0].is_a?(NoArgsConstraint) then @expected_params = []
         else @expected_params = process_arg_constraints(args)
         end
       end
@@ -106,19 +137,23 @@ module Spec
         end
       end
       
+      def warn_deprecated(deprecated_method, instead)
+        STDERR.puts "The #{deprecated_method} constraint is deprecated. Use #{instead} instead."
+      end
+      
       def convert_constraint(constraint)
         if [:anything, :numeric, :boolean, :string].include?(constraint)
           case constraint
           when :anything
             instead = "anything()"
-          when :numeric
-            instead = "an_instance_of(Numeric)"
           when :boolean
             instead = "boolean()"
+          when :numeric
+            instead = "an_instance_of(Numeric)"
           when :string
             instead = "an_instance_of(String)"
           end
-          STDERR.puts "The #{constraint.inspect} constraint is deprecated. Use #{instead} instead."
+          warn_deprecated(constraint.inspect, instead)
           return @@constraint_classes[constraint].new(constraint)
         end
         return MatcherConstraint.new(constraint) if is_matcher?(constraint)

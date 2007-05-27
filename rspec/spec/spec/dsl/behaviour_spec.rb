@@ -312,8 +312,8 @@ module Spec
       end
 
       it "after callbacks are ordered from local to global" do
-        @reporter.should_receive(:add_behaviour).with :any_args
-        @reporter.should_receive(:example_finished).with :any_args
+        @reporter.should_receive(:add_behaviour).with any_args()
+        @reporter.should_receive(:example_finished).with any_args()
 
         fiddle = []
         super_class = Class.new do
@@ -400,8 +400,8 @@ module Spec
       end
     
       it "should have accessible instance methods from included module" do
-        @reporter.should_receive(:add_behaviour).with :any_args
-        @reporter.should_receive(:example_finished).with :any_args
+        @reporter.should_receive(:add_behaviour).with any_args()
+        @reporter.should_receive(:example_finished).with any_args()
     
         mod1_method_called = false
         mod1 = Module.new do

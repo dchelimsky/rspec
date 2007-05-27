@@ -148,7 +148,7 @@ module Spec
         example = Example.new(:__generate_description) {
           5.should == 5
         }
-        @reporter.should_receive(:example_finished).with("should == 5", :anything, :anything, false)
+        @reporter.should_receive(:example_finished).with("should == 5", anything(), anything(), false)
         example.run(@reporter, nil, nil, nil, Object.new)
       end
 

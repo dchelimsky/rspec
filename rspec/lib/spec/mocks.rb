@@ -129,8 +129,8 @@ module Spec
   # In addition, Spec::Mocks adds some keyword Symbols that you can use to
   # specify certain kinds of arguments:
   #
-  #   my_mock.should_receive(:sym).with(:no_args)
-  #   my_mock.should_receive(:sym).with(:any_args)
+  #   my_mock.should_receive(:sym).with(no_args())
+  #   my_mock.should_receive(:sym).with(any_args())
   #   my_mock.should_receive(:sym).with(1, an_instance_of(Numeric), "b") #2nd argument can any type of Numeric
   #   my_mock.should_receive(:sym).with(1, boolean(), "b") #2nd argument can true or false
   #   my_mock.should_receive(:sym).with(1, /abc/, "b") #2nd argument can be any String matching the submitted Regexp
