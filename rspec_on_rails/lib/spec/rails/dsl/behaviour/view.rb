@@ -48,18 +48,9 @@ module Spec
               end
             }
 
-            # Rails 1.0
-            @controller.send :assign_names rescue nil
-            @controller.send :fire_flash rescue nil
-
-            # Rails 1.1
-            @controller.send :forget_variables_added_to_assigns rescue nil
-
-            # Do the render
+            @controller.send :forget_variables_added_to_assigns
             @controller.send :render, options
-
-            # Rails 1.1
-            @controller.send :process_cleanup rescue nil
+            @controller.send :process_cleanup
           end
           
           # This provides the template. Use this to set mock
