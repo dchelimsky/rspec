@@ -110,3 +110,15 @@ describe ControllerSpecController, :behaviour_type => :controller do
   end
 end
 
+module Spec
+  module Rails
+    module DSL
+      describe ControllerBehaviour do
+        it "should tell you its behaviour_type is :controller" do
+          behaviour = ControllerBehaviour.new("") {}
+          behaviour.behaviour_type.should == :controller
+        end
+      end
+    end
+  end
+end

@@ -38,3 +38,16 @@ describe ExplicitHelper, :behaviour_type => :helper do
     method_in_explicit_helper.should match(/text from a method/)
   end
 end
+
+module Spec
+  module Rails
+    module DSL
+      describe HelperBehaviour do
+        it "should tell you its behaviour_type is :helper" do
+          behaviour = HelperBehaviour.new("") {}
+          behaviour.behaviour_type.should == :helper
+        end
+      end
+    end
+  end
+end

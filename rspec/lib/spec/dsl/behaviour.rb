@@ -31,7 +31,7 @@ module Spec
       end
       
     private
-
+    
       def init_description(*args)
         @description = Description.new(*args)
       end
@@ -118,11 +118,11 @@ module Spec
         end
       end
 
-    protected
-
       def behaviour_type #:nodoc:
         @description[:behaviour_type]
       end
+
+    protected
 
       # Messages that this class does not understand
       # are passed directly to the @eval_module.

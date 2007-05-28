@@ -14,7 +14,8 @@ describe NaughtyController do
   end
 
   it "should print all other errors to the response" do
-    get 'raises_regular_error'
-    response.body.should =~ /Naughty!/
+    lambda do
+      get 'raises_regular_error'
+    end.should raise_error(RuntimeError, "Naughty!")
   end
 end

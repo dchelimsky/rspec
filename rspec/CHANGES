@@ -1,5 +1,6 @@
 == Version 1.0.4 (in SVN)
 
+* Fixed [#11181] behaviour_type scoping of config.before(:each) is not working
 * added mock argument constraint matchers (anything(), boolean(), an_instance_of(Type)) which work with rspec or mocha
 * added mock argument constraint matchers (any_args(), no_args()) which only work with rspec
 * deprecated rspec's symbol mock argument constraint matchers (:any_args, :no_args, :anything, :boolean, :numeric, :string)

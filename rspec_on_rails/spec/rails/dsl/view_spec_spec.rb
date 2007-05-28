@@ -149,3 +149,16 @@ describe "A view with a form_tag", :behaviour_type => :view do
     response.should have_tag("form[action=?]","/view_spec/entry_form")
   end
 end
+
+module Spec
+  module Rails
+    module DSL
+      describe ViewBehaviour do
+        it "should tell you its behaviour_type is :view" do
+          behaviour = ViewBehaviour.new("") {}
+          behaviour.behaviour_type.should == :view
+        end
+      end
+    end
+  end
+end
