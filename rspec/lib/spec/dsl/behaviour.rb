@@ -33,6 +33,10 @@ module Spec
     private
     
       def init_description(*args)
+        unless self.class == Behaviour
+          args << {} unless Hash === args.last
+          args.last[:behaviour_class] = self.class
+        end
         @description = Description.new(*args)
       end
       

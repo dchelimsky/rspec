@@ -233,7 +233,6 @@ module Spec
         end
 
         def before_eval # :nodoc:
-          @description[:behaviour_type] = :controller
           inherit Spec::Rails::DSL::ControllerEvalContext
           prepend_before {setup}
           append_after {teardown}

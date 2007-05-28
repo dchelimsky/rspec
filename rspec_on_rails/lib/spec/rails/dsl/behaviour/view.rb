@@ -173,7 +173,6 @@ module Spec
           instance
         end
         def before_eval # :nodoc:
-          @description[:behaviour_type] = :view
           inherit Spec::Rails::DSL::ViewEvalContext
           prepend_before {setup}
           append_after {teardown}

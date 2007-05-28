@@ -80,7 +80,6 @@ module Spec
       #   end
       class HelperBehaviour < Spec::DSL::Behaviour
         def before_eval #:nodoc:
-          @description[:behaviour_type] = :helper
           inherit Spec::Rails::DSL::HelperEvalContext
           prepend_before {setup}
           append_after {teardown}

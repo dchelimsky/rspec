@@ -1,24 +1,14 @@
 = Running specs on JRuby =
 
-= Prereqs =
-1) build JRuby from trunk and set JRUBY_HOME
-2) $JRUBY_HOME/bin/gem install rake --no-rdoc --no-ri
-2) $JRUBY_HOME/bin/gem install diff-lcs --no-rdoc --no-ri
-
-= Running with Rake =
-$JRUBY_HOME/bin/rake specs
-
-THIS DOES NOT WORK YET
-
-= Running without Rake =
-jruby -Ilib bin/spec spec
-
-If this fails (it does as of this writing), you may want to run specs individually.
-
-== Problematic ==
-jruby -Ilib bin/spec spec/spec/runner/formatter/html_formatter_spec.rb --diff # Fails because of different backtraces
-jruby -Ilib bin/spec spec/spec/runner/specification_class_spec.rb # Does nothing!
-jruby -Ilib bin/spec spec/spec/runner # Somehow loads Test::Unit and exits without RSpec summary
-jruby -Ilib bin/spec spec/spec/callback # Lots of protected method errors
-jruby -Ilib bin/spec spec/spec/expectations # Fails because of diffing clumsiness
-jruby -Ilib bin/spec spec/spec/mocks/mock_spec.rb # Fails because of different backtraces
+svn co http://svn.codehaus.org/jruby/trunk jruby
+cd jruby/jruby
+ant clean
+ant
+# put JRuby's bin dir on your PATH
+jruby -S gem install rake --no-ri --no-rdoc
+jruby -S gem install diff-lcs
+cd ../testsuites/rspec
+mkdir target
+jruby -S rake checkout_code
+cd target/rspec
+jruby bin/spec spec -c

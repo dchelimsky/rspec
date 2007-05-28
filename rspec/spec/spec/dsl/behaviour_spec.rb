@@ -598,6 +598,10 @@ module Spec
         BehaviourSubclass.new(Example){}.described_type.should == Example
       end
       
+      it "should figure out its behaviour_type based on its name ()" do
+        BehaviourSubclass.new(Object){}.behaviour_type.should == :subclass
+      end
+      
       # TODO - add an example about shared behaviours
     end
     

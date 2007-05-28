@@ -8,7 +8,6 @@ module Spec
       # to ActiveRecord::Base.
       class ModelBehaviour < Spec::DSL::Behaviour
         def before_eval # :nodoc:
-          @description[:behaviour_type] = :model
           inherit Spec::Rails::DSL::EvalContext
           prepend_before {setup}
           append_after {teardown}
