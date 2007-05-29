@@ -176,7 +176,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
       route = {:controller => "nonexistant", :action => "none"}
       lambda {
         response.should redirect_to(route)
-      }.should raise_error(ActionController::RoutingError, %q|no route found to match "/nonexistant/none" with {}|)
+      }.should raise_error(ActionController::RoutingError, /(no route found to match|No route matches) \"\/nonexistant\/none\" with \{\}/)
     end
 
   end
