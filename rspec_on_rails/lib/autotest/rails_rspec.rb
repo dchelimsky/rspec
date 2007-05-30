@@ -20,6 +20,9 @@
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+$:.push(*Dir["vendor/rails/*/lib"])
+
+require 'active_support'
 require 'autotest/rspec'
 
 class Autotest::RailsRspec < Autotest::Rspec
