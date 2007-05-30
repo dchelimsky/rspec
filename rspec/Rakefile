@@ -245,6 +245,7 @@ task :publish_packages => [:verify_user, :package] do
   release_files = FileList[
     "pkg/#{PKG_FILE_NAME}.gem",
     "pkg/#{PKG_FILE_NAME}.tgz",
+    "pkg/rspec_on_rails-#{PKG_VERSION}.tgz",
     "pkg/#{PKG_FILE_NAME}.zip",
     "pkg/RSpec-#{PKG_VERSION}.tmbundle.tgz",
     "../spec_ui/pkg/spec_ui-#{Spec::Ui::VERSION::STRING}.gem"
