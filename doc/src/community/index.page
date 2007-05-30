@@ -85,6 +85,7 @@ In alphabetical order (by last name)
 ** Underscore syntactic sugar
 * Josh Knowles
 ** Patch [#10245] Patch to HTML escape the behavior name when using HTML Formatter
+** Patch [#11221] Autotest support does not work w/o Rails Gem installed
 * Michal Kwiatkowski
 ** Patch to get RSpec to work w/ Heckle +/- 1.2
 * Tim Lucas

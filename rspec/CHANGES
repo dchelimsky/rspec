@@ -1,4 +1,5 @@
 == Version 1.0.5 (in SVN)
+* Applied [#11221] Autotest support does not work w/o Rails Gem installed (Patch from Josh Knowles)
 
 == Version 1.0.4
 The getting ready for JRuby release.

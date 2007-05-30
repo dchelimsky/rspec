@@ -20,7 +20,6 @@
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-require 'active_support'
 require 'autotest/rspec'
 
 class Autotest::RailsRspec < Autotest::Rspec
