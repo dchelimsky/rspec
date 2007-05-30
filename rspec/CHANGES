@@ -1,4 +1,5 @@
-== Version 1.0.4 (in SVN)
+== Version 1.0.4
+The getting ready for JRuby release.
 
 * Fixed [#11181] behaviour_type scoping of config.before(:each) is not working
 * added mock argument constraint matchers (anything(), boolean(), an_instance_of(Type)) which work with rspec or mocha
