@@ -6,11 +6,14 @@ class Autotest::Rspec < Autotest
     super
     @spec_command = "spec"
     @test_mappings = {
-      %r%^spec/.*rb$% => proc { |filename, _|
+      %r%^spec/.*\.rb$% => proc { |filename, _|
         filename
       },
       %r%^lib/(.*)\.rb$% => proc { |_, m|
         ["spec/#{m[1]}_spec.rb"]
+      },
+      %r%^spec/(spec_helper|shared/.*)\.rb$% => proc {
+        files_matching %r%^spec/.*_spec\.rb$%
       },
     }
   end

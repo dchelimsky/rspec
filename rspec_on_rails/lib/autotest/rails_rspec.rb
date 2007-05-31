@@ -32,7 +32,7 @@ class Autotest::RailsRspec < Autotest::Rspec
     @spec_command = "script/spec"
     @exceptions = %r%^\./(?:coverage|db|doc|log|public|script|vendor\/rails|previous_failures.txt)%
     @test_mappings = {
-      %r%^(test|spec)/fixtures/(.*).yml% => proc { |_, m|
+      %r%^(test|spec)/fixtures/(.*).yml$% => proc { |_, m|
         ["spec/models/#{m[2].singularize}_spec.rb"] + files_matching(%r%^spec\/views\/#{m[2]}/.*_spec\.rb$%)
       },
       %r%^spec/(models|controllers|views|helpers|lib)/.*rb$% => proc { |filename, _|
@@ -41,10 +41,10 @@ class Autotest::RailsRspec < Autotest::Rspec
       %r%^app/models/(.*)\.rb$% => proc { |_, m|
         ["spec/models/#{m[1]}_spec.rb"]
       },
-      %r%^app/helpers/application_helper.rb% => proc {
+      %r%^app/helpers/application_helper\.rb$% => proc {
         files_matching %r%^spec/(views|helpers)/.*_spec\.rb$%
       },
-      %r%^app/helpers/(.*)_helper.rb% => proc { |_, m|
+      %r%^app/helpers/(.*)_helper\.rb$% => proc { |_, m|
         if m[1] == "application" then
           files_matching(%r%^spec/(views|helpers)/.*_spec\.rb$%)
         else
@@ -57,19 +57,19 @@ class Autotest::RailsRspec < Autotest::Rspec
       %r%^app/views/([^.]*)\.([^.]*)(\..*)?$% => proc { |_, m|
         files_matching %r%^spec/views/#{m[1]}(_|\.)#{m[2]}_spec.rb$%
       },
-      %r%^app/controllers/application.rb$% => proc { |_, m|
+      %r%^app/controllers/application\.rb$% => proc { |_, m|
         files_matching %r%^spec/controllers/.*_spec\.rb$%
       },
       %r%^app/controllers/(.*)\.rb$% => proc { |_, m|
         ["spec/controllers/#{m[1]}_spec.rb"]
       },
-      %r%^config/routes.rb$% => proc { # FIX:
+      %r%^config/routes\.rb$% => proc { # FIX:
         files_matching %r%^spec/(controllers|views|helpers)/.*_spec\.rb$%
       },
-      %r%^config/database.yml% => proc { |_, m|
+      %r%^config/database\.yml$% => proc { |_, m|
         files_matching %r%^spec/models/.*_spec\.rb$%
       },
-      %r%^spec/spec_helper.rb|config/((boot|environment(s/test)?).rb)% => proc {
+      %r%^(spec/(spec_helper|shared/.*)|config/(boot|environment(s/test)?))\.rb$% => proc {
         files_matching %r%^spec/(models|controllers|views|helpers)/.*_spec\.rb$%
       },
       %r%^lib/(.*)\.rb$% => proc { |_, m|
