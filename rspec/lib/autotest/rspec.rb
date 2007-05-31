@@ -52,12 +52,12 @@ class Autotest::Rspec < Autotest
   
     unless full.empty? then
       files = full.map {|k,v| k}.flatten.join(' ')
-      cmds << "#{@spec_command} #{add_options_if_present}#{files}"
+      cmds << "#{ruby} #{@spec_command} #{add_options_if_present}#{files}"
     end
   
     partial.each do |f, methods|
       cmds.push(*methods.map { |meth|
-        "#{@spec_command} #{add_options_if_present} #{f}"
+        "#{ruby} #{@spec_command} #{add_options_if_present} #{f}"
       })
     end
   

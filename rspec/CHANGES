@@ -1,5 +1,6 @@
 == Version 1.0.5 (in SVN)
 
+* Fixed [#11258] windows: autotest won't run
 * Applied [#11253] Tweaks to autotest file mappings (Patch from Wincent Colaiuta)
 * Applied [#11252] Should be able to re-load file containing shared behaviours without raising an exception (Patch from Wincent Colaiuta)
 * Fixed [#11247] standalone autotest doesn't work because of unneeded autotest.rb
