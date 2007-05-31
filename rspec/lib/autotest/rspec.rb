@@ -52,12 +52,12 @@ class Autotest::Rspec < Autotest
   
     unless full.empty? then
       files = full.map {|k,v| k}.flatten.join(' ')
-      cmds << "#{ruby} #{@spec_command} #{add_options_if_present}#{files}"
+      cmds << "#{ruby} -S #{@spec_command} #{add_options_if_present}#{files}"
     end
   
     partial.each do |f, methods|
       cmds.push(*methods.map { |meth|
-        "#{ruby} #{@spec_command} #{add_options_if_present} #{f}"
+        "#{ruby} -S #{@spec_command} #{add_options_if_present} #{f}"
       })
     end
   
@@ -66,6 +66,16 @@ class Autotest::Rspec < Autotest
   
   def add_options_if_present
     File.exist?("spec/spec.opts") ? "-O spec/spec.opts " : ""
+  end
+
+  def spec_command
+    spec = File.join(Config::CONFIG['bindir'], 'spec')
+
+    unless File::ALT_SEPARATOR.nil? then
+      spec.gsub! File::SEPARATOR, File::ALT_SEPARATOR
+    end
+
+    return spec
   end
 
 end
