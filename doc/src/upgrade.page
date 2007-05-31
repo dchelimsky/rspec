@@ -3,7 +3,29 @@ title: Upgrade
 inMenu: true
 ---
 
-h2. Upgrading from 0.8 specs
+h2. Upgrading the RSpec gem
+
+<pre>
+gem install rspec
+</pre>
+
+h2. Upgrading Spec::Rails
+
+If you're upgrading Spec::Rails in an existing application, you should do the following.
+Note that the last step will try to replace spec/spec.opts and spec/spec_helper.rb. If you
+have modified those files you'll want to save them aside in advance and then merge in
+your modifications.
+
+<pre>
+# from the root of your rails project
+rm -rf vendor/plugins/rspec
+rm -rf vendor/plugins/rspec_on_rails
+ruby script/plugin install svn://rubyforge.org/var/svn/rspec/tags/CURRENT/rspec
+ruby script/plugin install svn://rubyforge.org/var/svn/rspec/tags/CURRENT/rspec_on_rails
+ruby script/generate rspec
+</pre>
+
+h2. Upgrading from RSpec 0.8.x or earlier
 
 In order to ease the transition from 0.8 style specs to the current style (introduced
 in 0.9), we have included a translator to automate this translation. 
@@ -28,17 +50,9 @@ spec_translator path_to_my_spec_dir path_to_my_spec_dir
 
 (This will translate your specs in-place)
 
-h2. Spec::Rails
-
-Rails users must update spec_helper.rb and assorted commands in the scripts directory.
-To do so, execute the following command:
-
-<pre>
-script/generate rspec
-</pre>
-
-For convenience, we have also made the translator available as a Rake task:
+For convenience, we have also made the translator available as a Rake task in Spec::Rails
 
 <pre>
 rake spec:translate
 </pre>
+
