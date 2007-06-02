@@ -30,11 +30,16 @@ module Spec
         else
           collection_owner.send(collection_name, *@args, &@block)
         end
-        @actual = collection.length if collection.respond_to?(:length)
         @actual = collection.size if collection.respond_to?(:size)
+        @actual = collection.length if collection.respond_to?(:length)
+        raise not_a_collection if @actual.nil?
         return @actual >= @expected if @relativity == :at_least
         return @actual <= @expected if @relativity == :at_most
         return @actual == @expected
+      end
+      
+      def not_a_collection
+        "expected #{@collection_name} to be a collection but it does not respond to #length or #size"
       end
     
       def failure_message

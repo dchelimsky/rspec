@@ -47,6 +47,19 @@ describe "should have(n).items" do
   end
 end
 
+describe "should have(n).items where result responds to items but returns something other than a collection" do
+  it "should provide a meaningful error" do
+    owner = Class.new do
+      def items
+        Object.new
+      end
+    end.new
+    lambda do
+      owner.should have(3).items
+    end.should raise_error(RuntimeError, "expected items to be a collection but it does not respond to #length or #size")
+  end
+end
+
 describe "should_not have(n).items" do
   include HaveSpecHelper
 
