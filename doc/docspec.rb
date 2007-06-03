@@ -3,3 +3,4 @@
 Dir.chdir(File.dirname(__FILE__) + '/../rspec') do
   puts `ruby bin/spec #{ARGV.join(" ")}`
 end
+nil

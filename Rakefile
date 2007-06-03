@@ -51,3 +51,17 @@ end
 def pre_commit
   PreCommit::Rspec.new(self)
 end
+
+desc "Fix line endings"
+task :fix_cr_lf do
+  files = FileList['**/*.rb'].exclude('example_rails_app/vendor/**').exclude('rspec/translated_specs/**')
+  $\="\n"
+  files.each do |f|
+    code = File.open(f).read
+    File.open(f, "w") do |io|
+      code.each_line do |l|
+        io.print l.chomp
+      end
+    end
+  end
+end
