@@ -6,6 +6,6 @@ describe <%= class_name %> do
   end
 
   it "should be valid" do
-     @<%= file_name %>.should be_valid
+    @<%= file_name %>.should be_valid
   end
 end

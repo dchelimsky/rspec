@@ -76,8 +76,10 @@ module Spec
       it "should complain when adding a second shared behaviour with the same description" do
         describe "shared behaviour", :shared => true do
         end
-        lambda { describe "shared behaviour", :shared => true do
-          end }.should raise_error(ArgumentError)
+        lambda do
+          describe "shared behaviour", :shared => true do
+          end
+        end.should raise_error(ArgumentError)
       end
 
       it "should NOT complain when adding the same shared behaviour instance again" do
@@ -87,8 +89,12 @@ module Spec
       end
 
       it "should NOT complain when adding the same shared behaviour again (i.e. file gets reloaded)" do
-        lambda { 2.times { describe "shared behaviour which gets loaded twice", :shared => true do
-          end } }.should_not raise_error(ArgumentError)
+        lambda do 
+          2.times do 
+            describe "shared behaviour which gets loaded twice", :shared => true do
+            end 
+          end
+        end.should_not raise_error(ArgumentError)
       end
         
       it "should add examples to current behaviour when calling it_should_behave_like" do

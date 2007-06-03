@@ -28,7 +28,7 @@ describe <%= controller_class_name %>Controller, "#route_for" do
   
 end
 
-describe <%= controller_class_name %>Controller, " handling GET /<%= table_name %>" do
+describe <%= controller_class_name %>Controller, "handling GET /<%= table_name %>" do
 
   before do
     @<%= file_name %> = mock_model(<%= class_name %>)
@@ -60,7 +60,7 @@ describe <%= controller_class_name %>Controller, " handling GET /<%= table_name 
   end
 end
 
-describe <%= controller_class_name %>Controller, " handling GET /<%= table_name %>.xml" do
+describe <%= controller_class_name %>Controller, "handling GET /<%= table_name %>.xml" do
 
   before do
     @<%= file_name %> = mock_model(<%= class_name %>, :to_xml => "XML")
@@ -89,7 +89,7 @@ describe <%= controller_class_name %>Controller, " handling GET /<%= table_name 
   end
 end
 
-describe <%= controller_class_name %>Controller, " handling GET /<%= table_name %>/1" do
+describe <%= controller_class_name %>Controller, "handling GET /<%= table_name %>/1" do
 
   before do
     @<%= file_name %> = mock_model(<%= class_name %>)
@@ -121,7 +121,7 @@ describe <%= controller_class_name %>Controller, " handling GET /<%= table_name 
   end
 end
 
-describe <%= controller_class_name %>Controller, " handling GET /<%= table_name %>/1.xml" do
+describe <%= controller_class_name %>Controller, "handling GET /<%= table_name %>/1.xml" do
 
   before do
     @<%= file_name %> = mock_model(<%= class_name %>, :to_xml => "XML")
@@ -150,7 +150,7 @@ describe <%= controller_class_name %>Controller, " handling GET /<%= table_name 
   end
 end
 
-describe <%= controller_class_name %>Controller, " handling GET /<%= table_name %>/new" do
+describe <%= controller_class_name %>Controller, "handling GET /<%= table_name %>/new" do
 
   before do
     @<%= file_name %> = mock_model(<%= class_name %>)
@@ -187,7 +187,7 @@ describe <%= controller_class_name %>Controller, " handling GET /<%= table_name 
   end
 end
 
-describe <%= controller_class_name %>Controller, " handling GET /<%= table_name %>/1/edit" do
+describe <%= controller_class_name %>Controller, "handling GET /<%= table_name %>/1/edit" do
 
   before do
     @<%= file_name %> = mock_model(<%= class_name %>)
@@ -219,7 +219,7 @@ describe <%= controller_class_name %>Controller, " handling GET /<%= table_name 
   end
 end
 
-describe <%= controller_class_name %>Controller, " handling POST /<%= table_name %>" do
+describe <%= controller_class_name %>Controller, "handling POST /<%= table_name %>" do
 
   before do
     @<%= file_name %> = mock_model(<%= class_name %>, :to_param => "1", :save => true)
@@ -242,7 +242,7 @@ describe <%= controller_class_name %>Controller, " handling POST /<%= table_name
   end
 end
 
-describe <%= controller_class_name %>Controller, " handling PUT /<%= table_name %>/1" do
+describe <%= controller_class_name %>Controller, "handling PUT /<%= table_name %>/1" do
 
   before do
     @<%= file_name %> = mock_model(<%= class_name %>, :to_param => "1", :update_attributes => true)
@@ -275,7 +275,7 @@ describe <%= controller_class_name %>Controller, " handling PUT /<%= table_name 
   end
 end
 
-describe <%= controller_class_name %>Controller, " handling DELETE /<%= table_name %>/1" do
+describe <%= controller_class_name %>Controller, "handling DELETE /<%= table_name %>/1" do
 
   before do
     @<%= file_name %> = mock_model(<%= class_name %>, :destroy => true)
