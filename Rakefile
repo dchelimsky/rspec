@@ -5,7 +5,7 @@ require "pre_commit"
 task :default => :pre_commit
 
 desc "Runs pre_commit_core and pre_commit_rails"
-task :pre_commit do
+task :pre_commit => :fix_cr_lf do
   pre_commit.pre_commit
 end
 
