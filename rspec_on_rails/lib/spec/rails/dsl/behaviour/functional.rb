@@ -59,7 +59,7 @@ module Spec
 
       class FunctionalEvalContext < Spec::Rails::DSL::EvalContext
         include Spec::Rails::DSL::FunctionalBehaviourHelpers
-        attr_reader :request, :response, :params
+        attr_reader :request, :response
         
         def setup #:nodoc:
 
@@ -70,7 +70,10 @@ module Spec
         
           @request = ActionController::TestRequest.new
           @response = ActionController::TestResponse.new
-          @params = Hash.new
+        end
+        
+        def params
+          request.parameters
         end
         
         def flash

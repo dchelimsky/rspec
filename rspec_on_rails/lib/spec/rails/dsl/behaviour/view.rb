@@ -37,9 +37,8 @@ module Spec
             defaults = { :layout => false }
             options = defaults.merge options
 
-            @request.parameters.merge(@params)
-
             @controller.instance_variable_set :@params, @request.parameters
+            
             @controller.send :initialize_current_url
 
             @controller.class.instance_eval %{

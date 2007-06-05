@@ -134,9 +134,10 @@ describe "A view", :behaviour_type => :view do
     response.should have_tag("div#session", "session")
   end
 
-  # specify "should have access to params data" do
-  #   response.should have_tag("div#params", "params")
-  # end
+  specify "should have access to params data" do
+    puts response.body
+    response.should have_tag("div#params", "params")
+  end
 
   it "should have access to flash data" do
     response.should have_tag("div#flash", "flash")

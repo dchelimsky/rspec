@@ -21,27 +21,39 @@ h2. Conveniences
 
 h3. assigns
 
-Use assigns[:key] to set values to be used in the spec. We highly recommend that
-you exploit the mock framework here rather than providing real model objects
-in order to keep the view specs isolated from changes to your models.
+Use assigns[:key] to set instance variables to be used in the view. We highly recommend that
+you exploit the mock framework here rather than providing real model objects in order to
+keep the view specs isolated from changes to your models.
 
 <ruby>
+# example
 article = mock_model(Article)
 article.should_receive(:author).and_return("Joe")
 article.should_receive(:text).and_return("this is the text of the article")
 assigns[:article] = article
 assigns[:articles] = [article]
+
+# template
+<% for article in @articles -%>
+<!-- etc -->
 </ruby>
 
-h3. flash
+h3. flash, params and session
 
-Use flash[:key] to set values to be used in the spec.
+Use flash[:key], params[:key] and session[:key] to set values in the example that can
+be accessed by the view.
 
 <ruby>
-flash[:notice] = "Press the button!"
-</ruby>
+# example
+flash[:notice] = "Message in flash"
+params[:account_id] = "1234"
+session[:user_id] = "5678"
 
-Your specs can now check that your view renders the flash message appropriately.
+# template
+<%= flash[:notice] %>
+<%= params[:account_id] %>
+<%= session[:user_id] %>
+</ruby>
 
 h2. Expectations
 
