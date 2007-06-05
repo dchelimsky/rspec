@@ -82,7 +82,7 @@ module Spec
       
       def load_specs(paths)
         paths.each do |path|
-          require path
+          load path
         end
       end
       

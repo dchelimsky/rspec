@@ -1,8 +1,6 @@
 require File.dirname(__FILE__) + '/../../../spec_helper.rb'
 
 describe "HtmlFormatter" do
-  it_should_behave_like "Examples that have to load files"  
-
   ['--diff', '--dry-run'].each do |opt|
     it "should produce HTML identical to the one we designed manually with #{opt}" do
       root = File.expand_path(File.dirname(__FILE__) + '/../../../..')

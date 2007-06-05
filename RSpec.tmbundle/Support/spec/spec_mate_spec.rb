@@ -11,7 +11,6 @@ describe "SpecMate" do
     ENV['TM_LINE_NUMBER'] = nil
   end
   
-  it_should_behave_like "Examples that have to load files"  
   before(:each) do
     @first_failing_spec  = /fixtures\/example_failing_spec\.rb&line=3/n
     @second_failing_spec  = /fixtures\/example_failing_spec\.rb&line=7/n
