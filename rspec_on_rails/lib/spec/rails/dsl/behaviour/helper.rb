@@ -48,8 +48,15 @@ module Spec
           super
           @controller.request = @request
           @controller.url = ActionController::UrlRewriter.new @request, {} # url_for
+          
+          @flash = ActionController::Flash::FlashHash.new
+          session['flash'] = @flash
 
           ActionView::Helpers::AssetTagHelper::reset_javascript_include_default
+        end
+        
+        def flash
+          @flash
         end
       
       end

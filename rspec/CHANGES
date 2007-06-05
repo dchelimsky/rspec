@@ -1,5 +1,6 @@
 == Version 1.0.5 (in SVN)
 
+* Fixed [#11223] Unable to access flash from rails helper specs
 * Fixed [#11337] autotest runs specs redundantly
 * Fixed [#11258] windows: autotest won't run
 * Applied [#11253] Tweaks to autotest file mappings (Patch from Wincent Colaiuta)

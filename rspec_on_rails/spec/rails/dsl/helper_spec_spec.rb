@@ -51,3 +51,12 @@ module Spec
     end
   end
 end
+
+module Bug11223
+  # see http://rubyforge.org/tracker/index.php?func=detail&aid=11223&group_id=797&atid=3149
+  describe 'Accessing flash from helper spec', :behaviour_type => :helper do
+    it 'should not raise an error' do
+      lambda { flash['test'] }.should_not raise_error
+    end
+  end
+end
