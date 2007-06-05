@@ -1,4 +1,5 @@
-== Version 1.0.5 (in SVN)
+== Version 1.0.5
+Bug fixes. Autotest plugin tweaks.
 
 * Fixed [#11378] fix to 10814 broke drb
 * Fixed [#11223] Unable to access flash from rails helper specs
