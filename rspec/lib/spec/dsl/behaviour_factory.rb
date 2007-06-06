@@ -28,8 +28,8 @@ module Spec
             behaviour_type = :default
           elsif opts[:behaviour_type]
             behaviour_type = opts[:behaviour_type]
-          elsif opts[:spec_path] =~ /spec\/(#{BEHAVIOUR_CLASSES.keys.join('|')})/
-            behaviour_type = $1.to_sym
+          elsif opts[:spec_path] =~ /spec(\\|\/)(#{BEHAVIOUR_CLASSES.keys.join('|')})/
+            behaviour_type = $2.to_sym
           else
             behaviour_type = :default
           end

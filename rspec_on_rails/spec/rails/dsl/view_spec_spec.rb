@@ -135,7 +135,6 @@ describe "A view", :behaviour_type => :view do
   end
 
   specify "should have access to params data" do
-    puts response.body
     response.should have_tag("div#params", "params")
   end
 
