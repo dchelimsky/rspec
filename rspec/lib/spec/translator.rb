@@ -34,6 +34,14 @@ module Spec
     end
 
     def translate_line(line)
+      # Translate deprecated mock constraints
+      line.gsub!(/:any_args/, 'any_args')
+      line.gsub!(/:anything/, 'anything')
+      line.gsub!(/:boolean/, 'boolean')
+      line.gsub!(/:no_args/, 'no_args')
+      line.gsub!(/:numeric/, 'an_instance_of(Numeric)')
+      line.gsub!(/:string/, 'an_instance_of(String)')
+
       return line if line =~ /(should_not|should)_receive/
       
       line.gsub!(/(^\s*)context([\s*|\(]['|"|A-Z])/, '\1describe\2')

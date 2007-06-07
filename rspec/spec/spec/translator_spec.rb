@@ -213,4 +213,52 @@ describe "Translator" do
       "controller.should redirect_to('http://not_existing_domain_for_novalis.test.host/404.html')"
     )
   end
+
+  it "should translate :any_args" do
+    @t.translate_line(
+      "mock.should_receive(:foo).with(:any_args)"
+    ).should eql(
+      "mock.should_receive(:foo).with(any_args)"
+    )
+  end
+
+  it "should translate :anything" do
+    @t.translate_line(
+      "mock.should_receive(:foo).with(:anything)"
+    ).should eql(
+      "mock.should_receive(:foo).with(anything)"
+    )
+  end
+
+  it "should translate :boolean" do
+    @t.translate_line(
+      "mock.should_receive(:foo).with(:boolean)"
+    ).should eql(
+      "mock.should_receive(:foo).with(boolean)"
+    )
+  end
+
+  it "should translate :no_args" do
+    @t.translate_line(
+      "mock.should_receive(:foo).with(:no_args)"
+    ).should eql(
+      "mock.should_receive(:foo).with(no_args)"
+    )
+  end
+
+  it "should translate :numeric" do
+    @t.translate_line(
+      "mock.should_receive(:foo).with(:numeric)"
+    ).should eql(
+      "mock.should_receive(:foo).with(an_instance_of(Numeric))"
+    )
+  end
+
+  it "should translate :string" do
+    @t.translate_line(
+      "mock.should_receive(:foo).with(:string)"
+    ).should eql(
+      "mock.should_receive(:foo).with(an_instance_of(String))"
+    )
+  end
 end

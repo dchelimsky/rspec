@@ -14,9 +14,9 @@ SpecMate.new.run_file STDOUT</string>
 	<key>input</key>
 	<string>document</string>
 	<key>keyEquivalent</key>
-	<string>@r</string>
+	<string>@d</string>
 	<key>name</key>
-	<string>Run Specifications</string>
+	<string>Run Behaviour Description</string>
 	<key>output</key>
 	<string>showAsHTML</string>
 	<key>scope</key>
