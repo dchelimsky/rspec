@@ -21,6 +21,26 @@ module Spec
     #
     #   rake spec
     #
+    # If rake is invoked with a "SPEC=filename" command line option,
+    # then the list of spec files will be overridden to include only the
+    # filename specified on the command line.  This provides an easy way
+    # to run just one spec.
+    #
+    # If rake is invoked with a "SPEC_OPTS=options" command line option,
+    # then the given options will override the value of the +spec_opts+
+    # attribute.
+    #
+    # If rake is invoked with a "RCOV_OPTS=options" command line option,
+    # then the given options will override the value of the +rcov_opts+
+    # attribute.
+    #
+    # Examples:
+    #
+    #   rake spec                                      # run specs normally
+    #   rake spec SPEC=just_one_file.rb                # run just one spec file.
+    #   rake spec SPEC_OPTS="--diff"                   # enable diffing
+    #   rake spec RCOV_OPTS="--aggregate myfile.txt"   # see rcov --help for details
+    #
     class SpecTask < ::Rake::TaskLib
 
       # Name of spec task. (default is :spec)
@@ -35,14 +55,12 @@ module Spec
       attr_accessor :warning
 
       # Glob pattern to match spec files. (default is 'spec/**/*_spec.rb')
+      # Setting the SPEC environment variable overrides this.
       attr_accessor :pattern
 
       # Array of commandline options to pass to RSpec. Defaults to [].
+      # Setting the SPEC_OPTS environment variable overrides this.
       attr_accessor :spec_opts
-
-      # Where RSpec's output is written. Defaults to STDOUT.
-      # DEPRECATED. Use --format FORMAT:WHERE in spec_opts.
-      attr_accessor :out
 
       # Whether or not to use RCov (default is false)
       # See http://eigenclass.org/hiki.rb?rcov
@@ -50,6 +68,7 @@ module Spec
       
       # Array of commandline options to pass to RCov. Defaults to ['--exclude', 'lib\/spec,bin\/spec'].
       # Ignored if rcov=false
+      # Setting the RCOV_OPTS environment variable overrides this.
       attr_accessor :rcov_opts
 
       # Directory where the RCov report is written. Defaults to "coverage"
@@ -63,13 +82,18 @@ module Spec
       # Defaults to true.
       attr_accessor :fail_on_error
 
-      # A message to print to stdout when there are failures.
+      # A message to print to stderr when there are failures.
       attr_accessor :failure_message
+
+      # Where RSpec's output is written. Defaults to STDOUT.
+      # DEPRECATED. Use --format FORMAT:WHERE in spec_opts.
+      attr_accessor :out
 
       # Explicitly define the list of spec files to be included in a
       # spec.  +list+ is expected to be an array of file names (a
       # FileList is acceptable).  If both +pattern+ and +spec_files+ are
       # used, then the list of spec files is the union of the two.
+      # Setting the SPEC environment variable overrides this.
       def spec_files=(list)
         @spec_files = list
       end
@@ -83,7 +107,6 @@ module Spec
         @spec_opts = []
         @warning = false
         @ruby_opts = []
-        @out = nil
         @fail_on_error = true
         @rcov = false
         @rcov_opts = ['--exclude', 'lib\/spec,bin\/spec,config\/boot.rb']
@@ -100,7 +123,7 @@ module Spec
         lib_path = @libs.join(File::PATH_SEPARATOR)
         actual_name = Hash === name ? name.keys.first : name
         unless ::Rake.application.last_comment
-          desc "Run RSpec for #{actual_name}" + (@rcov ? " using RCov" : "")
+          desc "Run specs" + (@rcov ? " using RCov" : "")
         end
         task @name do
           RakeFileUtils.verbose(@verbose) do
@@ -124,12 +147,14 @@ module Spec
               cmd << spec_file_list.collect { |fn| %["#{fn}"] }.join(' ')
               cmd << " "
               cmd << spec_option_list
-              cmd << " "
-              cmd << %Q| > "#{@out}"| if @out
-
+              if @out
+                cmd << " "
+                cmd << %Q| > "#{@out}"|
+                STDERR.puts "The Spec::Rake::SpecTask#out attribute is DEPRECATED and will be removed in a future version. Use --format FORMAT:WHERE instead."
+              end
               unless system(cmd)
-               puts @failure_message if @failure_message
-               raise("Command #{cmd} failed") if @fail_on_error
+                STDERR.puts @failure_message if @failure_message
+                raise("Command #{cmd} failed") if @fail_on_error
               end
             end
           end
@@ -151,11 +176,11 @@ module Spec
 
       def rcov_option_list # :nodoc:
         return "" unless @rcov
-        ENV['RCOVOPTS'] || @rcov_opts.join(" ") || ""
+        ENV['RCOV_OPTS'] || @rcov_opts.join(" ") || ""
       end
 
       def spec_option_list # :nodoc:
-        ENV['RSPECOPTS'] || @spec_opts.join(" ") || ""
+        ENV['SPEC_OPTS'] || @spec_opts.join(" ") || ""
       end
 
       def spec_file_list # :nodoc:
