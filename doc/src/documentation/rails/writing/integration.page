@@ -3,7 +3,7 @@ title: Integration
 ---
 h2. Spec::Rails - Specifying Applications at the Integration Level
 
-Although it is part of our plan for a 1.0 release,
+Although it is part of our plan for a future release,
 RSpec does not currently support integration spec'ing/testing.
 
 For the time being we recommend that you use either rails integration
