@@ -5,8 +5,7 @@
 	<key>content</key>
 	<string>require File.dirname(__FILE__) + '/../spec_helper'
 
-describe "${1:description}" do
-  controller_name :${2:controller}
+describe ${1:controller} do
 
   $0
 end</string>

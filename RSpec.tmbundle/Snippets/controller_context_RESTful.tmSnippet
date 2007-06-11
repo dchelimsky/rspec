@@ -5,8 +5,7 @@
 	<key>content</key>
 	<string>require File.dirname(__FILE__) + '/../spec_helper'
 
-describe "Requesting ${1:/some/path} using ${2:GET|POST|PUT|DELETE}${3: with some parameters}" do
-  controller_name :${4:controller}
+describe ${1:controller}, "Requesting ${2:/some/path} using ${3:GET|POST|PUT|DELETE}${4: with some parameters}" do
 
   $0
 end</string>
