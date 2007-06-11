@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>${1:mock}.should_receive(:${2:message})${4:.once}.with(:no_args)
+	<string>${1:mock}.should_receive(:${2:message})${4:.once}.with(no_args)
 $0
 </string>
 	<key>name</key>
