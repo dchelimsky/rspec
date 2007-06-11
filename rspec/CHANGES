@@ -1,5 +1,6 @@
 == Version 1.0.6 (in SVN)
 
+* Improved generated RESTful controller examples to cover both successful and unsuccessful POST and PUT
 * Changed TextMate snippets for controllers to pass controller class names to #describe rather than controller_name.
 * Changed TextMate snippets for mocks to use no_args() and any_args() instead of the deprecated Symbols.
 * Applied [#11500] Documentation: no rails integration specs in 1.0
