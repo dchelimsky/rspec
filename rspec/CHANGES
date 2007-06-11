@@ -5,7 +5,7 @@
 * Applied [#11500] Documentation: no rails integration specs in 1.0
 * Renamed SpecMate's shortcuts for running all examples and focused examples to avoid conflicts (CMD-d and CMD-i)
 * Added a TextMate snippet for custom matchers, lifted from Geoffrey Grosenbach's RSpec peepcode show.
-* The translator translates mock constraints to the new matchers that waere introduced in 1.0.4
+* The translator translates mock constraints to the new matchers that were introduced in 1.0.4
 * Documented environment variables for Spec::Rake::SpecTask. Renamed SPECOPTS and RCOVOPTS to SPEC_OPTS and RCOV_OPTS.
 * Fixed [#10534] Windows: undefined method 'controller_name'
 
