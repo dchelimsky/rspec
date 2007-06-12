@@ -4,7 +4,7 @@ module Spec
       attr_writer :use_transactional_fixtures, :use_instantiated_fixtures, :fixture_path, :global_fixtures
       
       def use_transactional_fixtures
-        @use_transactional_fixtures ||= true
+        @use_transactional_fixtures.nil? ? @use_transactional_fixtures = true : @use_transactional_fixtures
       end
       
       def use_instantiated_fixtures

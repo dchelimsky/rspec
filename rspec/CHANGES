@@ -1,5 +1,6 @@
 == Version 1.0.6 (in SVN)
 
+* Fixed [#11514] configuration.use_transactional_fixtures is ALWAYS true, regardless of assignment
 * Improved generated RESTful controller examples to cover both successful and unsuccessful POST and PUT
 * Changed TextMate snippets for controllers to pass controller class names to #describe rather than controller_name.
 * Changed TextMate snippets for mocks to use no_args() and any_args() instead of the deprecated Symbols.
