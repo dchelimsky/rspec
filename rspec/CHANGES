@@ -1,5 +1,6 @@
 == Version 1.0.6 (in SVN)
 
+* Fixed [#11545] Rspec doesn't handle should_receive on ActiveRecord associations (Patch from Ian White)
 * Fixed [#11514] configuration.use_transactional_fixtures is ALWAYS true, regardless of assignment
 * Improved generated RESTful controller examples to cover both successful and unsuccessful POST and PUT
 * Changed TextMate snippets for controllers to pass controller class names to #describe rather than controller_name.

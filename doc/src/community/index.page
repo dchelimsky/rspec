@@ -146,6 +146,8 @@ In alphabetical order (by last name)
 * Jim Weirich
 ** Modified flexmock to allow for its use outside of test/unit
 ** Supplied plugin patch to support flexmock directly in rspec
+* Ian White
+** Patch for [#11545] Rspec doesn't handle should_receive on ActiveRecord associations
 * Mike Williams
 ** Core patches for arbitrary comparisons like 5.should_be < 6
 * Chad Wooley
