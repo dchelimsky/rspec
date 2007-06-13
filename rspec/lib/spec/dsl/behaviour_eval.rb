@@ -210,7 +210,7 @@ module Spec
         end
 
         def inspect
-          "[Dynamically generated class for RSpec example]"
+          "[RSpec example]"
         end
 
       end
