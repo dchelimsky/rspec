@@ -92,8 +92,14 @@ module Spec
       
       def define_expected_method(sym)
         if target_responds_to?(sym) && !@proxied_methods.include?(sym)
-          @proxied_methods << sym
-          metaclass.__send__(:alias_method, munge(sym), sym)
+          begin
+            metaclass.__send__(:alias_method, munge(sym), sym)
+            @proxied_methods << sym
+          rescue NameError
+            rcov_needs_there_to_be_a_statement_here_or_it_will_not_record_this_brance_as_covered_even_when_it_is = true
+            # @target will eventually respond_to?(sym), but it's not implemented yet
+            # so we can't proxy it
+          end
         end
 
         metaclass_eval(<<-EOF, __FILE__, __LINE__)
