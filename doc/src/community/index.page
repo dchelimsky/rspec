@@ -109,6 +109,8 @@ In alphabetical order (by last name)
 ** Spec::Rails patches for partials
 * Bret Pettichord
 ** Patch [#10473] obj.should exist (new matcher)
+* Jay Phillips
+** Patch [#11615] Partial mock methods give ambiguous failures when given a method name as a String
 * Yurii Rashkovskii
 ** Patch to improve generated descriptions for the "be" matcher
 * Luke Redpath

@@ -47,6 +47,18 @@ module Spec
         end.should raise_error(Spec::Mocks::MockExpectationError)
       end
 
+      it "should_receive should also take a String argument" do
+        @object.should_receive('foobar')
+        @object.foobar
+      end
+      
+      it "should_not_receive should also take a String argument" do
+        @object.should_not_receive('foobar')
+        @object.foobar
+        lambda do
+          @object.rspec_verify
+        end.should raise_error(Spec::Mocks::MockExpectationError)
+      end
     end
   end
 end
