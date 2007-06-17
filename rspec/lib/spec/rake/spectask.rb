@@ -128,9 +128,9 @@ module Spec
         task @name do
           RakeFileUtils.verbose(@verbose) do
             unless spec_file_list.empty?
-              # ruby [ruby_opts] -Ilib -S rcov [rcov_opts] bin/spec -- [spec_opts] examples
+              # ruby [ruby_opts] -Ilib -S rcov [rcov_opts] bin/spec -- examples [spec_opts]
               # or
-              # ruby [ruby_opts] -Ilib bin/spec [spec_opts] examples
+              # ruby [ruby_opts] -Ilib bin/spec examples [spec_opts]
               cmd = "ruby "
 
               ruby_opts = @ruby_opts.clone
@@ -180,7 +180,8 @@ module Spec
       end
 
       def spec_option_list # :nodoc:
-        ENV['SPEC_OPTS'] || @spec_opts.join(" ") || ""
+        STDERR.puts "RSPECOPTS is DEPRECATED and will be removed in a future version. Use SPEC_OPTS instead." if ENV['RSPECOPTS']
+        ENV['SPEC_OPTS'] || ENV['RSPECOPTS'] || @spec_opts.join(" ") || ""
       end
 
       def spec_file_list # :nodoc:
