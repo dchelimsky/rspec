@@ -72,9 +72,17 @@ module Spec
       end
     end
 
-    describe Description, " constructed with options" do before(:each) {@description = Description.new(Behaviour, :a => "b")}
+    describe Description, " constructed with options" do
+      before(:each) do
+        @description = Description.new(Behaviour, :a => "b", :spec_path => "blah")
+      end
+
       it "should provide its options" do
         @description[:a].should == "b"
+      end
+      
+      it "should wrap spec path using File.expand_path" do
+        @description[:spec_path].should == File.expand_path("blah")
       end
     end
   end

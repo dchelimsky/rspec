@@ -19,6 +19,7 @@ module Spec
       def initialize(*args)
         args, @options = args_and_options(*args)
         init_behaviour_type(@options)
+        init_spec_path(@options)
         init_described_type(args)
         init_description(*args)
       end
@@ -49,6 +50,12 @@ module Spec
         #   read, simply: "if options[:behaviour_class]", which passed against ruby, but failed against jruby
         if options[:behaviour_class] && options[:behaviour_class].ancestors.include?(Behaviour)
           options[:behaviour_type] = parse_behaviour_type(@options[:behaviour_class])
+        end
+      end
+      
+      def init_spec_path(options)
+        if options.has_key?(:spec_path)
+          options[:spec_path] = File.expand_path(@options[:spec_path])
         end
       end
       
