@@ -48,13 +48,13 @@ module Spec
             m.stub!(:errors).and_return(stub("errors", :count => 0))
             m.send(:__mock_proxy).instance_eval <<-CODE
               def @target.is_a?(other)
-                other == #{model_class}
-              end
-              def @target.instance_of?(other)
-                other == #{model_class}
+                #{model_class}.ancestors.include?(other)
               end
               def @target.kind_of?(other)
                 #{model_class}.ancestors.include?(other)
+              end
+              def @target.instance_of?(other)
+                other == #{model_class}
               end
               def @target.class
                 #{model_class}
