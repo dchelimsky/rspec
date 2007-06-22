@@ -50,6 +50,12 @@ module Spec
               def @target.is_a?(other)
                 other == #{model_class}
               end
+              def @target.instance_of?(other)
+                other == #{model_class}
+              end
+              def @target.kind_of?(other)
+                #{model_class}.ancestors.include?(other)
+              end
               def @target.class
                 #{model_class}
               end
