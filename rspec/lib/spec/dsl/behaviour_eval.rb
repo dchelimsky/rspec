@@ -212,9 +212,11 @@ module Spec
         def inspect
           "[RSpec example]"
         end
-
+        
+        def pending(message)
+          raise Spec::DSL::ExamplePendingError.new(message)
+        end
       end
-
     end
   end
 end

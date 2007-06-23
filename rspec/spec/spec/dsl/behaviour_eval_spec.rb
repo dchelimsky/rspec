@@ -45,5 +45,13 @@ module Spec
         count.should == 8
       end
     end
+    
+    describe BehaviourEval, "instance methods" do
+      it "should support pending" do
+        lambda {
+          pending("something")
+        }.should raise_error(Spec::DSL::ExamplePendingError, "something")
+      end
+    end
   end
 end

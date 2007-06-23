@@ -19,7 +19,7 @@ module Spec
         end
         
         def example_pending(name)
-          @output.puts yellow("- #{name} (Pending: NOT IMPLEMENTED)")
+          @output.puts yellow("- #{name} (PENDING: Not Yet Implemented)")
           @output.flush
         end
       end

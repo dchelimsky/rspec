@@ -46,7 +46,7 @@ module Spec
 
         it "should push pending spec name" do
           @formatter.example_pending('spec')
-          @io.string.should eql("- spec (Pending: NOT IMPLEMENTED)\n")
+          @io.string.should eql("- spec (PENDING: Not Yet Implemented)\n")
         end
 
       end

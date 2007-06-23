@@ -1,11 +1,12 @@
 == Version 1.0.6 (in SVN)
-TextMate Bundle improvements and bug fixes.
+Improvements and bug fixes.
 
-Spec::Rails users: In fixing 11508, we've removed the raise_controller_errors method. As long as you
+Warning: Spec::Rails users: In fixing 11508, we've removed the raise_controller_errors method. As long as you
 follow the upgrade instructions and run 'script/generate rspec' you'll be fine, but if you skip this
 step you need to manually go into spec_helper.rb and remove the call to that method (if present - it
 might not be if you haven't upgraded in a while).
 
+* Added pending(message) method
 * Fixed [#11777] should render_template doesn't check paths correctly
 * Fixed [#11749] Use of 'rescue => e' does not catch all exceptions
 * Fixed [#11793] should raise_error('with a message') does not work correctly

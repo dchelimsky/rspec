@@ -16,7 +16,7 @@ module Spec
         end
         
         def example_pending(name)
-          @output.puts "# * #{name} [Pending: NOT IMPLEMENTED]"
+          @output.puts "# * #{name} [PENDING: Not Yet Implemented]"
         end
       end
     end
