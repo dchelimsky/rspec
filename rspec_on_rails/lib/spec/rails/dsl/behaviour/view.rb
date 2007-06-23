@@ -66,6 +66,10 @@ module Spec
           def template
             @controller.template
           end
+          
+          # experimental
+          def expect_partial(name) #:nodoc:
+          end
         end
       end
 

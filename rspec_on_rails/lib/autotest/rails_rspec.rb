@@ -41,8 +41,11 @@ class Autotest::RailsRspec < Autotest::Rspec
       %r%^app/models/(.*)\.rb$% => proc { |_, m|
         ["spec/models/#{m[1]}_spec.rb"]
       },
-      %r%^app/helpers/application_helper\.rb$% => proc {
-        files_matching %r%^spec/(views|helpers)/.*_spec\.rb$%
+      %r%^app/views/(.*)$% => proc { |_, m|
+        files_matching %r%^spec/views/#{m[1]}_spec.rb$%
+      },
+      %r%^app/controllers/(.*)\.rb$% => proc { |_, m|
+        ["spec/controllers/#{m[1]}_spec.rb"]
       },
       %r%^app/helpers/(.*)_helper\.rb$% => proc { |_, m|
         if m[1] == "application" then
@@ -51,19 +54,13 @@ class Autotest::RailsRspec < Autotest::Rspec
           ["spec/helpers/#{m[1]}_helper_spec.rb"] + files_matching(%r%^spec\/views\/#{m[1]}/.*_spec\.rb$%)
         end
       },
-      # Handles both the old .rhtml and new .html.erb extensions
-      # index.rhtml    => index_rhtml_spec.rb
-      # index.html.erb => index_html_spec.rb
-      %r%^app/views/([^.]*)\.([^.]*)(\..*)?$% => proc { |_, m|
-        files_matching %r%^spec/views/#{m[1]}(_|\.)#{m[2]}_spec.rb$%
+      %r%^app/helpers/application_helper\.rb$% => proc {
+        files_matching %r%^spec/(views|helpers)/.*_spec\.rb$%
       },
       %r%^app/controllers/application\.rb$% => proc { |_, m|
         files_matching %r%^spec/controllers/.*_spec\.rb$%
       },
-      %r%^app/controllers/(.*)\.rb$% => proc { |_, m|
-        ["spec/controllers/#{m[1]}_spec.rb"]
-      },
-      %r%^config/routes\.rb$% => proc { # FIX:
+      %r%^config/routes\.rb$% => proc {
         files_matching %r%^spec/(controllers|views|helpers)/.*_spec\.rb$%
       },
       %r%^config/database\.yml$% => proc { |_, m|

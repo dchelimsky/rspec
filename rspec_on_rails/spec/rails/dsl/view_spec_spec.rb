@@ -67,6 +67,27 @@ describe "A view that includes a partial", :behaviour_type => :view do
     template.should_receive(:render).with(:partial => 'included_partial')
     render!
   end
+  
+  it "should pass expect_partial with the right partial" do
+    pending("need expect_partial")
+    expect_partial('included_partial')
+    render!
+  end
+  
+  it "should fail expect_partial with the wrong partial", :should_raise => true do
+    pending("need expect_partial")
+    expect_partial('non_existent')
+    render!
+  end
+end
+
+describe "A partial that includes a partial", :behaviour_type => :view do
+  it "should support expect_partial with args" do
+    pending("need expect_partial")
+    thing = Object.new
+    expect_partial('sub_thing').with(:locals => {:thing => thing})
+    render :partial => "view_spec/thing", :object => thing
+  end
 end
 
 describe "A view that includes a partial using :collection and :spacer_template", :behaviour_type => :view  do
