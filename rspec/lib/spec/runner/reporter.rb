@@ -25,7 +25,7 @@ module Spec
         elsif error.nil?
           example_passed(name)
         elsif Spec::DSL::ExamplePendingError === error
-          example_pending(name)
+          example_pending(name, error.message)
         else
           example_failed(name, error, failure_location)
         end
@@ -85,9 +85,9 @@ module Spec
         @formatters.each{|f| f.example_failed(name, @failures.length, failure)}
       end
       
-      def example_pending(name)
+      def example_pending(name, message="NOT YET IMPLEMENTED")
         @not_implemented_count += 1
-        @formatters.each{|f| f.example_pending(name)}
+        @formatters.each{|f| f.example_pending(name, message)}
       end
       
       class Failure

@@ -41,9 +41,12 @@ module Spec
         def example_failed(name, counter, failure)
         end
         
-        # This method is invoked when an example is not yet implemented (i.e. has not been provided a block). 
+        # This method is invoked when an example is not yet implemented (i.e. has not
+        # been provided a block), or when an ExamplePendingError is raised.
         # +name+ is the name of the example.
-        def example_pending(name)
+        # +message+ is the message from the ExamplePendingError, if it exists, or the
+        # default value of "NOT YET IMPLEMENTED"
+        def example_pending(name, message)
         end
 
         # This method is invoked after all of the examples have executed. The next method

@@ -74,7 +74,7 @@ module Spec
           @output.flush
         end
 
-        def example_pending(name)
+        def example_pending(name, message)
           @current_example_number += 1
           @output.puts "    <script type=\"text/javascript\">makeYellow('rspec-header');</script>" unless @header_red
           @output.puts "    <script type=\"text/javascript\">makeYellow('behaviour_#{current_behaviour_number}');</script>" unless @behaviour_red

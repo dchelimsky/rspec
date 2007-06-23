@@ -35,9 +35,9 @@ module Spec
           @io.string.should eql("# * spec\n")
         end
 
-        it "should push out not implemented spec" do
-          @formatter.example_pending("spec")
-          @io.string.should eql("# * spec [PENDING: Not Yet Implemented]\n")      
+        it "should push out not pending example" do
+          @formatter.example_pending("example", "reason")
+          @io.string.should eql("# * example [PENDING: reason]\n")      
         end
 
       end

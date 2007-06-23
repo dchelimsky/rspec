@@ -132,20 +132,38 @@ module Spec
       
     end
     
-    describe Reporter, " reporting one not implemented example" do
+    describe Reporter, " reporting one pending example (NOT YET IMPLEMENTED)" do
       include ReporterSpecHelper
       before(:each) {setup}
 
-      it "should tell formatter example passed" do
-        @formatter.should_receive(:example_pending)
+      it "should tell formatter example is pending" do
+        @formatter.should_receive(:example_pending).with("example", "NOT YET IMPLEMENTED")
         @reporter.example_finished("example", nil, nil, true)
       end
 
-      it "should account for not implemented example in stats" do
-        @formatter.should_receive(:example_pending)
+      it "should account for pending example in stats" do
+        @formatter.should_receive(:example_pending).with("example", "NOT YET IMPLEMENTED")
         @formatter.should_receive(:start_dump)
         @formatter.should_receive(:dump_summary).with(anything(), 1, 0, 1)
         @reporter.example_finished("example", nil, nil, true)
+        @reporter.dump
+      end
+    end
+
+    describe Reporter, " reporting one pending example (ExamplePendingError)" do
+      include ReporterSpecHelper
+      before(:each) {setup}
+
+      it "should tell formatter example is pending" do
+        @formatter.should_receive(:example_pending).with("example", "reason")
+        @reporter.example_finished("example", Spec::DSL::ExamplePendingError.new("reason"), nil, false)
+      end
+
+      it "should account for pending example in stats" do
+        @formatter.should_receive(:example_pending).with("example", "reason")
+        @formatter.should_receive(:start_dump)
+        @formatter.should_receive(:dump_summary).with(anything(), 1, 0, 1)
+        @reporter.example_finished("example", Spec::DSL::ExamplePendingError.new("reason"), nil, false)
         @reporter.dump
       end
     end

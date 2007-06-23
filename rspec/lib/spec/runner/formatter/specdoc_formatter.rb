@@ -18,8 +18,8 @@ module Spec
           @output.flush
         end
         
-        def example_pending(name)
-          @output.puts yellow("- #{name} (PENDING: Not Yet Implemented)")
+        def example_pending(name, message)
+          @output.puts yellow("- #{name} (PENDING: #{message})")
           @output.flush
         end
       end

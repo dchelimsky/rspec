@@ -15,7 +15,7 @@ module Spec
           @output.flush
         end
       
-        def example_pending(name)
+        def example_pending(name, message)
           @output.print yellow('*')
           @output.flush
         end
