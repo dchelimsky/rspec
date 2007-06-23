@@ -85,7 +85,7 @@ module Spec
         @formatters.each{|f| f.example_failed(name, @failures.length, failure)}
       end
       
-      def example_pending(name, message="NOT YET IMPLEMENTED")
+      def example_pending(name, message="Not Yet Implemented")
         @not_implemented_count += 1
         @formatters.each{|f| f.example_pending(name, message)}
       end

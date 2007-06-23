@@ -45,7 +45,7 @@ module Spec
         # been provided a block), or when an ExamplePendingError is raised.
         # +name+ is the name of the example.
         # +message+ is the message from the ExamplePendingError, if it exists, or the
-        # default value of "NOT YET IMPLEMENTED"
+        # default value of "Not Yet Implemented"
         def example_pending(name, message)
         end
 

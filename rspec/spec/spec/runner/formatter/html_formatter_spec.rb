@@ -11,7 +11,7 @@ describe "HtmlFormatter" do
       raise "There should be no absolute paths in html_formatted.html!!" if (expected_html =~ /\/Users/n || expected_html =~ /\/home/n)
 
       Dir.chdir(root) do
-        args = ['failing_examples/mocking_example.rb', 'failing_examples/diffing_spec.rb', 'examples/stubbing_example.rb',  'examples/not_yet_implemented_spec.rb', '--format', 'html', opt]
+        args = ['failing_examples/mocking_example.rb', 'failing_examples/diffing_spec.rb', 'examples/stubbing_example.rb',  'examples/pending_example.rb', '--format', 'html', opt]
         err = StringIO.new
         out = StringIO.new
         Spec::Runner::CommandLine.run(

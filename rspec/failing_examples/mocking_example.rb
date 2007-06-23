@@ -29,5 +29,5 @@ describe "Mocker" do
     mock.any_message_at_all
   end
 
-  it "should mage eggs and bacon"
+  it "should make eggs and bacon"
 end

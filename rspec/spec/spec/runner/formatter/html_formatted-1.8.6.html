@@ -184,9 +184,9 @@ a {
       <div class="failure" id="failure_1">
         <div class="message"><pre>Mock 'poke me' expected :poke with (any args) once, but received it 0 times</pre></div>
         <div class="backtrace"><pre>./failing_examples/mocking_example.rb:13:
-./spec/spec/runner/formatter/html_formatter_spec.rb:19:
-./spec/spec/runner/formatter/html_formatter_spec.rb:15:in `chdir'
-./spec/spec/runner/formatter/html_formatter_spec.rb:15:</pre></div>
+./spec/spec/runner/formatter/html_formatter_spec.rb:17:
+./spec/spec/runner/formatter/html_formatter_spec.rb:13:in `chdir'
+./spec/spec/runner/formatter/html_formatter_spec.rb:13:</pre></div>
     <pre class="ruby"><code><span class="linenum">11</span>  <span class="ident">it</span> <span class="punct">&quot;</span><span class="string">should fail when expected message not received</span><span class="punct">&quot;</span> <span class="keyword">do</span>
 <span class="linenum">12</span>    <span class="ident">mock</span> <span class="punct">=</span> <span class="ident">mock</span><span class="punct">(&quot;</span><span class="string">poke me</span><span class="punct">&quot;)</span>
 <span class="offending"><span class="linenum">13</span>    <span class="ident">mock</span><span class="punct">.</span><span class="ident">should_receive</span><span class="punct">(</span><span class="symbol">:poke</span><span class="punct">)</span></span>
@@ -200,9 +200,9 @@ a {
       <div class="failure" id="failure_2">
         <div class="message"><pre>Mock 'one two three' received :three out of order</pre></div>
         <div class="backtrace"><pre>./failing_examples/mocking_example.rb:22:
-./spec/spec/runner/formatter/html_formatter_spec.rb:19:
-./spec/spec/runner/formatter/html_formatter_spec.rb:15:in `chdir'
-./spec/spec/runner/formatter/html_formatter_spec.rb:15:</pre></div>
+./spec/spec/runner/formatter/html_formatter_spec.rb:17:
+./spec/spec/runner/formatter/html_formatter_spec.rb:13:in `chdir'
+./spec/spec/runner/formatter/html_formatter_spec.rb:13:</pre></div>
     <pre class="ruby"><code><span class="linenum">20</span>    <span class="ident">mock</span><span class="punct">.</span><span class="ident">should_receive</span><span class="punct">(</span><span class="symbol">:three</span><span class="punct">).</span><span class="ident">ordered</span>
 <span class="linenum">21</span>    <span class="ident">mock</span><span class="punct">.</span><span class="ident">one</span>
 <span class="offending"><span class="linenum">22</span>    <span class="ident">mock</span><span class="punct">.</span><span class="ident">three</span></span>
@@ -216,9 +216,9 @@ a {
       <div class="failure" id="failure_3">
         <div class="message"><pre>Mock 'don't talk to me' expected :any_message_at_all with (any args) 0 times, but received it once</pre></div>
         <div class="backtrace"><pre>./failing_examples/mocking_example.rb:28:
-./spec/spec/runner/formatter/html_formatter_spec.rb:19:
-./spec/spec/runner/formatter/html_formatter_spec.rb:15:in `chdir'
-./spec/spec/runner/formatter/html_formatter_spec.rb:15:</pre></div>
+./spec/spec/runner/formatter/html_formatter_spec.rb:17:
+./spec/spec/runner/formatter/html_formatter_spec.rb:13:in `chdir'
+./spec/spec/runner/formatter/html_formatter_spec.rb:13:</pre></div>
     <pre class="ruby"><code><span class="linenum">26</span>  <span class="ident">it</span> <span class="punct">&quot;</span><span class="string">should get yelled at when sending unexpected messages</span><span class="punct">&quot;</span> <span class="keyword">do</span>
 <span class="linenum">27</span>    <span class="ident">mock</span> <span class="punct">=</span> <span class="ident">mock</span><span class="punct">(&quot;</span><span class="string">don't talk to me</span><span class="punct">&quot;)</span>
 <span class="offending"><span class="linenum">28</span>    <span class="ident">mock</span><span class="punct">.</span><span class="ident">should_not_receive</span><span class="punct">(</span><span class="symbol">:any_message_at_all</span><span class="punct">)</span></span>
@@ -227,7 +227,7 @@ a {
       </div>
     </dd>
     <script type="text/javascript">moveProgressBar('31.2');</script>
-    <dd class="spec not_implemented"><span class="not_implemented_spec_name">should mage eggs and bacon</span></dd>
+    <dd class="spec not_implemented"><span class="not_implemented_spec_name">should make eggs and bacon</span></dd>
   </dl>
 </div>
 <div class="behaviour">
@@ -247,9 +247,9 @@ Diff:
  framework for Ruby
 </pre></div>
         <div class="backtrace"><pre>./failing_examples/diffing_spec.rb:13:
-./spec/spec/runner/formatter/html_formatter_spec.rb:19:
-./spec/spec/runner/formatter/html_formatter_spec.rb:15:in `chdir'
-./spec/spec/runner/formatter/html_formatter_spec.rb:15:</pre></div>
+./spec/spec/runner/formatter/html_formatter_spec.rb:17:
+./spec/spec/runner/formatter/html_formatter_spec.rb:13:in `chdir'
+./spec/spec/runner/formatter/html_formatter_spec.rb:13:</pre></div>
     <pre class="ruby"><code><span class="linenum">11</span><span class="ident">framework</span> <span class="keyword">for</span> <span class="constant">Ruby</span>
 <span class="linenum">12</span><span class="constant">EOF</span>
 <span class="offending"><span class="linenum">13</span>    <span class="ident">usa</span><span class="punct">.</span><span class="ident">should</span> <span class="punct">==</span> <span class="ident">uk</span></span>
@@ -278,9 +278,9 @@ Diff:
  &gt;
 </pre></div>
         <div class="backtrace"><pre>./failing_examples/diffing_spec.rb:34:
-./spec/spec/runner/formatter/html_formatter_spec.rb:19:
-./spec/spec/runner/formatter/html_formatter_spec.rb:15:in `chdir'
-./spec/spec/runner/formatter/html_formatter_spec.rb:15:</pre></div>
+./spec/spec/runner/formatter/html_formatter_spec.rb:17:
+./spec/spec/runner/formatter/html_formatter_spec.rb:13:in `chdir'
+./spec/spec/runner/formatter/html_formatter_spec.rb:13:</pre></div>
     <pre class="ruby"><code><span class="linenum">32</span>    <span class="ident">expected</span> <span class="punct">=</span> <span class="constant">Animal</span><span class="punct">.</span><span class="ident">new</span> <span class="punct">&quot;</span><span class="string">bob</span><span class="punct">&quot;,</span> <span class="punct">&quot;</span><span class="string">giraffe</span><span class="punct">&quot;</span>
 <span class="linenum">33</span>    <span class="ident">actual</span>   <span class="punct">=</span> <span class="constant">Animal</span><span class="punct">.</span><span class="ident">new</span> <span class="punct">&quot;</span><span class="string">bob</span><span class="punct">&quot;,</span> <span class="punct">&quot;</span><span class="string">tortoise</span><span class="punct">&quot;</span>
 <span class="offending"><span class="linenum">34</span>    <span class="ident">expected</span><span class="punct">.</span><span class="ident">should</span> <span class="ident">eql</span><span class="punct">(</span><span class="ident">actual</span><span class="punct">)</span></span>
@@ -321,13 +321,18 @@ Diff:
 </div>
 <div class="behaviour">
   <dl>
-  <dt id="behaviour_6">Stack (not implemented features)</dt>
+  <dt id="behaviour_6">pending example (using pending method)</dt>
     <script type="text/javascript">makeYellow('behaviour_6');</script>
     <script type="text/javascript">moveProgressBar('93.7');</script>
-    <dd class="spec not_implemented"><span class="not_implemented_spec_name">should transform to xml using #to_xml</span></dd>
-    <script type="text/javascript">makeYellow('behaviour_6');</script>
+    <dd class="spec not_implemented"><span class="not_implemented_spec_name">should be reported as &quot;PENDING: for some reason&quot;</span></dd>
+  </dl>
+</div>
+<div class="behaviour">
+  <dl>
+  <dt id="behaviour_7">pending example (with no block)</dt>
+    <script type="text/javascript">makeYellow('behaviour_7');</script>
     <script type="text/javascript">moveProgressBar('100.0');</script>
-    <dd class="spec not_implemented"><span class="not_implemented_spec_name">should convert from xml using #from_xml</span></dd>
+    <dd class="spec not_implemented"><span class="not_implemented_spec_name">should be reported as &quot;PENDING: Not Yet Implemented&quot;</span></dd>
   </dl>
 </div>
 <script type="text/javascript">document.getElementById('duration').innerHTML = "Finished in <strong>x seconds</strong>";</script>

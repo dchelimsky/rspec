@@ -1,7 +1,11 @@
 require File.dirname(__FILE__) + '/spec_helper'
 
-describe "pending" do
-  it "should be pending" do
-    pending("insert reason here")
+describe "pending example (using pending method)" do
+  it %Q|should be reported as "PENDING: for some reason"| do
+    pending("for some reason")
   end
+end
+
+describe "pending example (with no block)" do
+  it %Q|should be reported as "PENDING: Not Yet Implemented"|
 end
