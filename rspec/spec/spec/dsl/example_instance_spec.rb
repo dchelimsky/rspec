@@ -3,13 +3,9 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 module Spec
   module DSL
     describe Example, " instance" do
-      # TODO - this should be
-      #   predicate_matchers :is_a
-      def is_a(error)
-        be_is_a(error)
-      end
+      predicate_matchers[:is_a] = [:is_a?]
       
-      before do
+      before(:each) do
         @reporter = stub("reporter", :example_started => nil, :example_finished => nil)
       end
       
@@ -40,7 +36,7 @@ module Spec
       end
 
       it "should report failure due to error" do
-        error=RuntimeError.new
+        error=NonStandardError.new
         example=Example.new("example") do
           raise(error)
         end
@@ -61,7 +57,7 @@ module Spec
       it "should not run example block if before_each fails" do
         example_ran = false
         example=Example.new("should pass") {example_ran = true}
-        before_each = lambda {raise "Setup error"}
+        before_each = lambda {raise NonStandardError}
         example.run(@reporter, before_each, nil, nil, Object.new)
         example_ran.should == false
       end
@@ -69,7 +65,7 @@ module Spec
       it "should run after_each block if before_each fails" do
         after_each_ran = false
         example=Example.new("should pass") {}
-        before_each = lambda {raise "Setup error"}
+        before_each = lambda {raise NonStandardError}
         after_each = lambda {after_each_ran = true}
         example.run(@reporter, before_each, after_each, nil, Object.new)
         after_each_ran.should == true
@@ -77,7 +73,7 @@ module Spec
 
       it "should run after_each block when example fails" do
         example=Example.new("example") do
-          raise("in body")
+          raise(NonStandardError.new("in body"))
         end
         after_each=lambda do
           raise("in after_each")
@@ -92,7 +88,7 @@ module Spec
 
       it "should report failure location when in before_each" do
         example=Example.new("example") {}
-        before_each=lambda { raise("in before_each") }
+        before_each=lambda { raise(NonStandardError.new("in before_each")) }
         @reporter.should_receive(:example_finished) do |name, error, location|
           name.should eql("example")
           error.message.should eql("in before_each")
@@ -103,7 +99,7 @@ module Spec
 
       it "should report failure location when in after_each" do
         example = Example.new("example") {}
-        after_each = lambda { raise("in after_each") }
+        after_each = lambda { raise(NonStandardError.new("in after_each")) }
         @reporter.should_receive(:example_finished) do |name, error, location|
           name.should eql("example")
           error.message.should eql("in after_each")

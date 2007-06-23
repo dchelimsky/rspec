@@ -26,7 +26,7 @@ module Spec
         begin
           proc.call
           true
-        rescue => @error
+        rescue Exception => @error
           false
         end
       end
@@ -41,3 +41,5 @@ module Spec
     end
   end
 end
+
+class NonStandardError < Exception; end

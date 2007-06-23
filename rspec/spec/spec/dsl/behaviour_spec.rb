@@ -8,7 +8,7 @@ module Spec
         @added_behaviour = description
       end
     end
-
+    
     describe Behaviour, "class methods" do
       before :each do
         @reporter = FakeReporter.new(mock("formatter", :null_object => true), mock("backtrace_tweaker", :null_object => true))
@@ -32,7 +32,7 @@ module Spec
 
       it "should not run any example if before(:all) fails" do
         spec_ran = false
-        Behaviour.before(:all) { raise "help" }
+        Behaviour.before(:all) { raise NonStandardError }
         @behaviour.it("test") {spec_ran = true}
         @behaviour.run(@reporter)
         spec_ran.should be_false
@@ -40,7 +40,7 @@ module Spec
 
       it "should run after(:all) if before(:all) fails" do
         after_all_ran = false
-        Behaviour.before(:all) { raise }
+        Behaviour.before(:all) { raise NonStandardError }
         Behaviour.after(:all) { after_all_ran = true }
         @behaviour.run(@reporter)
         after_all_ran.should be_true
@@ -48,7 +48,7 @@ module Spec
 
       it "should run after(:all) if before(:each) fails" do
         after_all_ran = false
-        Behaviour.before(:each) { raise }
+        Behaviour.before(:each) { raise NonStandardError }
         Behaviour.after(:all) { after_all_ran = true }
         @behaviour.run(@reporter)
         after_all_ran.should be_true
@@ -56,7 +56,7 @@ module Spec
 
       it "should run after(:all) if any example fails" do
         after_all_ran = false
-        @behaviour.it("should") { raise "before all error" }
+        @behaviour.it("should") { raise NonStandardError }
         Behaviour.after(:all) { after_all_ran = true }
         @behaviour.run(@reporter)
         after_all_ran.should be_true
@@ -69,7 +69,7 @@ module Spec
           location.should eql("before(:all)")
         end
 
-        Behaviour.before(:all) { raise "in before(:all)" }
+        Behaviour.before(:all) { raise NonStandardError.new("in before(:all)") }
         @behaviour.it("test") {true}
         @behaviour.run(@reporter)
       end
@@ -81,7 +81,7 @@ module Spec
           location.should eql("after(:all)")
         end
 
-        Behaviour.after(:all) { raise "in after(:all)" }
+        Behaviour.after(:all) { raise NonStandardError.new("in after(:all)") }
         @behaviour.run(@reporter)
       end
     end

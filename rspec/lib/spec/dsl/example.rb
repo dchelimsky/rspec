@@ -62,7 +62,7 @@ module Spec
         
         execution_context.instance_eval(&behaviour_before_block) if behaviour_before_block
         return errors.empty?
-      rescue => e
+      rescue Exception => e
         @failed = true
         errors << e
         return false
@@ -95,7 +95,7 @@ module Spec
         execution_context.instance_eval(&after_proc)
 
         return errors.empty?
-      rescue => e
+      rescue Exception => e
         @failed = true
         errors << e
         return false

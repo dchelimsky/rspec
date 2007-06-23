@@ -166,7 +166,7 @@ module Spec
           begin
             @before_and_after_all_context_instance = execution_context(nil)
             @before_and_after_all_context_instance.instance_eval(&before_all_proc(behaviour_type))
-          rescue => e
+          rescue Exception => e
             errors << e
             location = "before(:all)"
             reporter.example_finished(location, e, location) if reporter
@@ -180,7 +180,7 @@ module Spec
           begin 
             @before_and_after_all_context_instance ||= execution_context(nil) 
             @before_and_after_all_context_instance.instance_eval(&after_all_proc(behaviour_type)) 
-          rescue => e
+          rescue Exception => e
             location = "after(:all)"
             reporter.example_finished(location, e, location) if reporter
           end

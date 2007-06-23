@@ -1,5 +1,6 @@
 == Version 1.0.6 (in SVN)
 
+* Fixed [#11749] Use of 'rescue => e' does not catch all exceptions
 * Fixed [#11793] should raise_error('with a message') does not work correctly
 * Fixed [#11774] Mocks should respond to :kind_of? in the same way they respond to :is_a?
 * Fixed [#11508] Exceptions are not raised for Controller Specs
