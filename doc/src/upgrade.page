@@ -25,6 +25,11 @@ ruby script/plugin install svn://rubyforge.org/var/svn/rspec/tags/CURRENT/rspec_
 ruby script/generate rspec
 </pre>
 
+%{font-weight:bold; color:red}WARNING%: Depending on the last time you upgraded, there may be a call to an experimental method
+named raise_controller_errors in spec_helper.rb. As long as you follow the upgrade instructions
+above, this will be removed, however if you skip the last step (ruby script/generate rspec), then
+you'll need to manually remove this from spec_helper.rb.
+
 h2. Upgrading from RSpec 0.8.x or earlier
 
 In order to ease the transition from 0.8 style specs to the current style (introduced
