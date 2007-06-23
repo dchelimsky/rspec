@@ -74,7 +74,7 @@ module Spec
           @output.flush
         end
 
-        def example_not_implemented(name)
+        def example_pending(name)
           @current_example_number += 1
           @output.puts "    <script type=\"text/javascript\">makeYellow('rspec-header');</script>" unless @header_red
           @output.puts "    <script type=\"text/javascript\">makeYellow('behaviour_#{current_behaviour_number}');</script>" unless @behaviour_red
@@ -107,7 +107,7 @@ module Spec
             totals = "This was a dry-run"
           else
             totals = "#{example_count} example#{'s' unless example_count == 1}, #{failure_count} failure#{'s' unless failure_count == 1}"
-            totals << ", #{not_implemented_count} not implemented" if not_implemented_count > 0  
+            totals << ", #{not_implemented_count} pending" if not_implemented_count > 0  
           end
           @output.puts "<script type=\"text/javascript\">document.getElementById('duration').innerHTML = \"Finished in <strong>#{duration} seconds</strong>\";</script>"
           @output.puts "<script type=\"text/javascript\">document.getElementById('totals').innerHTML = \"#{totals}\";</script>"

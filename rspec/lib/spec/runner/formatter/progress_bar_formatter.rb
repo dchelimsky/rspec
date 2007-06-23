@@ -15,7 +15,7 @@ module Spec
           @output.flush
         end
       
-        def example_not_implemented(name)
+        def example_pending(name)
           @output.print yellow('*')
           @output.flush
         end

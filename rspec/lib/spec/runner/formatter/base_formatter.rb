@@ -43,7 +43,7 @@ module Spec
         
         # This method is invoked when an example is not yet implemented (i.e. has not been provided a block). 
         # +name+ is the name of the example.
-        def example_not_implemented(name)
+        def example_pending(name)
         end
 
         # This method is invoked after all of the examples have executed. The next method

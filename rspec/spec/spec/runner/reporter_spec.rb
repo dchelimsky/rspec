@@ -137,12 +137,12 @@ module Spec
       before(:each) {setup}
 
       it "should tell formatter example passed" do
-        @formatter.should_receive(:example_not_implemented)
+        @formatter.should_receive(:example_pending)
         @reporter.example_finished("example", nil, nil, true)
       end
 
       it "should account for not implemented example in stats" do
-        @formatter.should_receive(:example_not_implemented)
+        @formatter.should_receive(:example_pending)
         @formatter.should_receive(:start_dump)
         @formatter.should_receive(:dump_summary).with(anything(), 1, 0, 1)
         @reporter.example_finished("example", nil, nil, true)

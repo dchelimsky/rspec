@@ -18,8 +18,8 @@ module Spec
           @output.flush
         end
         
-        def example_not_implemented(name)
-          @output.puts yellow("- #{name} (NOT IMPLEMENTED)")
+        def example_pending(name)
+          @output.puts yellow("- #{name} (Pending: NOT IMPLEMENTED)")
           @output.flush
         end
       end

@@ -21,7 +21,7 @@ module Spec
         
         it "should produce standard summary" do
           @formatter.dump_summary(3, 2, 1, 4)
-          @io.string.should eql("\nFinished in 3 seconds\n\n2 examples, 1 failure, 4 not implemented\n")
+          @io.string.should eql("\nFinished in 3 seconds\n\n2 examples, 1 failure, 4 pending\n")
         end
 
         it "should push F for failing spec" do

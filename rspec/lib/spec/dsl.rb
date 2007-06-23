@@ -1,4 +1,5 @@
 require 'spec/dsl/description'
+require 'spec/dsl/errors'
 require 'spec/dsl/configuration'
 require 'spec/dsl/behaviour_callbacks'
 require 'spec/dsl/behaviour'

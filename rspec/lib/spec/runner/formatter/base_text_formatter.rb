@@ -53,7 +53,7 @@ module Spec
           @output.puts
 
           summary = "#{example_count} example#{'s' unless example_count == 1}, #{failure_count} failure#{'s' unless failure_count == 1}"
-          summary << ", #{not_implemented_count} not implemented" if not_implemented_count > 0  
+          summary << ", #{not_implemented_count} pending" if not_implemented_count > 0  
 
           if failure_count == 0
             if not_implemented_count > 0
