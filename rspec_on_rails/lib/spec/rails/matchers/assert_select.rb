@@ -80,7 +80,7 @@ module Spec # :nodoc:
       #
       # see documentation for assert_select at http://api.rubyonrails.org/
       def with_tag(*args, &block)
-        response.should have_tag(*args, &block)
+        should have_tag(*args, &block)
       end
     
       # wrapper for a nested assert_select with false
