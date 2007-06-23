@@ -226,21 +226,21 @@ describe "should have_tag", :behaviour_type => :controller do
     }.should raise_error(SpecFailed)
   end
   
-  it "should should report the correct line number for a nested failure"
-  # do
-  #   render_html %Q{
-  #     <form action="test">
-  #       <input type="text" name="email">
-  #     </form>
-  #   }
-  #   begin
-  #     response.should have_tag("form[action=test]") {
-  #       with_tag("input[type=text][name=other_input]")
-  #     }
-  #   rescue => e
-  #     e.backtrace[3].to_s.should =~ /assert_select_spec.rb:237/
-  #   end
-  # end
+  it "should should report the correct line number for a nested failure" do
+    pending("bug report: http://rubyforge.org/tracker/index.php?func=detail&aid=11602&group_id=797&atid=3149")
+    render_html %Q{
+      <form action="test">
+        <input type="text" name="email">
+      </form>
+    }
+    begin
+      response.should have_tag("form[action=test]") {
+        with_tag("input[type=text][name=other_input]")
+      }
+    rescue => e
+      e.backtrace[3].to_s.should =~ /assert_select_spec.rb:237/
+    end
+  end
   
   it "beatles" do
     unless defined?(BEATLES)
