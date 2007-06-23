@@ -8,6 +8,10 @@ class RenderSpecController < ApplicationController
     end
   end
   
+  def action_which_renders_template_from_other_controller
+    render :template => 'controller_spec/action_with_template'
+  end
+  
   def text_action
     render :text => "this is the text for this action"
   end

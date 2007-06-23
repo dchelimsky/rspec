@@ -4,26 +4,29 @@ module Spec
     
       class RenderTemplate #:nodoc:
     
-        def initialize(expected)
+        def initialize(expected, controller)
+          @controller = controller
           @expected = expected
         end
       
         def matches?(response)
-          @actual = response.rendered_file(!expected.include?('/'))
-          actual == expected
+          @actual = response.rendered_file
+          full_path(@actual) == full_path(@expected)
         end
 
         def failure_message
-          "expected #{expected.inspect}, got #{actual.inspect}"
+          "expected #{@expected.inspect}, got #{@actual.inspect}"
         end
         
         def description
-          "render template #{actual.inspect}"
+          "render template #{@expected.inspect}"
         end
       
         private
-          attr_reader :expected
-          attr_reader :actual
+          def full_path(path)
+            return nil if path.nil?
+            path.include?('/') ? path : "#{@controller.class.to_s.underscore.gsub('_controller','')}/#{path}"
+          end
         
       end
 
@@ -55,7 +58,7 @@ module Spec
       #   response.should render_template('same_controller/_a_partial')
       #   response.should render_template('other_controller/_a_partial')
       def render_template(path)
-        RenderTemplate.new(path.to_s)
+        RenderTemplate.new(path.to_s, @controller)
       end
 
     end
