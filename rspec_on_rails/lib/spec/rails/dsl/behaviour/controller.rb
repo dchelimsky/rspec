@@ -38,19 +38,6 @@ module Spec
             ensure_that_routes_are_loaded
             ActionController::Routing::Routes.generate(options)
           end
-
-          # TODO - TEST ME
-          # Also - this is somewhat experimental at the moment and may be changed
-          # or removed without explanation or apology!
-          def raise_controller_errors
-            unless @controller_class_name.blank?
-              @controller_class_name.constantize.class_eval do
-                define_method :rescue_action do |e|
-                  raise e
-                end
-              end
-            end
-          end
         end
       end
 
