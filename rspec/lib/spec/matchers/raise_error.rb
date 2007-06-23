@@ -2,9 +2,14 @@ module Spec
   module Matchers
     
     class RaiseError #:nodoc:
-      def initialize(exception=Exception, message=nil)
-        @expected_error = exception
-        @expected_message = message
+      def initialize(error_or_message=Exception, message=nil)
+        if String === error_or_message
+          @expected_error = Exception
+          @expected_message = error_or_message
+        else
+          @expected_error = error_or_message
+          @expected_message = message
+        end
       end
       
       def matches?(proc)

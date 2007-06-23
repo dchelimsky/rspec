@@ -24,6 +24,44 @@ describe "should_not raise_error" do
   end
 end
 
+describe "should raise_error(message)" do
+  it "should pass if RuntimeError is raised with the right message" do
+    lambda {raise 'blah'}.should raise_error('blah')
+  end
+  it "should pass if any other error is raised with the right message" do
+    lambda {raise NameError.new('blah')}.should raise_error('blah')
+  end
+  it "should fail if RuntimeError error is raised with the wrong message" do
+    lambda do
+      lambda {raise 'blarg'}.should raise_error('blah')
+    end.should fail_with("expected Exception with \"blah\", got #<RuntimeError: blarg>")
+  end
+  it "should fail if any other error is raised with the wrong message" do
+    lambda do
+      lambda {raise NameError.new('blarg')}.should raise_error('blah')
+    end.should fail_with("expected Exception with \"blah\", got #<NameError: blarg>")
+  end
+end
+
+describe "should_not raise_error(message)" do
+  it "should pass if RuntimeError error is raised with the different message" do
+    lambda {raise 'blarg'}.should_not raise_error('blah')
+  end
+  it "should pass if any other error is raised with the wrong message" do
+    lambda {raise NameError.new('blarg')}.should_not raise_error('blah')
+  end
+  it "should fail if RuntimeError is raised with message" do
+    lambda do
+      lambda {raise 'blah'}.should_not raise_error('blah')
+    end.should fail_with(%Q|expected no Exception with "blah", got #<RuntimeError: blah>|)
+  end
+  it "should fail if any other error is raised with message" do
+    lambda do
+      lambda {raise NameError.new('blah')}.should_not raise_error('blah')
+    end.should fail_with(%Q|expected no Exception with "blah", got #<NameError: blah>|)
+  end
+end
+
 describe "should raise_error(NamedError)" do
   it "should pass if named error is raised" do
     lambda { non_existent_method }.should raise_error(NameError)

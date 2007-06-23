@@ -56,7 +56,7 @@ describe "should have(n).items where result responds to items but returns someth
     end.new
     lambda do
       owner.should have(3).items
-    end.should raise_error(RuntimeError, "expected items to be a collection but it does not respond to #length or #size")
+    end.should raise_error("expected items to be a collection but it does not respond to #length or #size")
   end
 end
 
