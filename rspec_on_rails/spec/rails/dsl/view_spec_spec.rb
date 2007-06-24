@@ -69,15 +69,15 @@ describe "A view that includes a partial", :behaviour_type => :view do
   end
   
   it "should pass expect_partial with the right partial" do
-    pending("need expect_partial")
     expect_partial('included_partial')
     render!
+    template.verify_expected_partials
   end
   
-  it "should fail expect_partial with the wrong partial", :should_raise => true do
-    pending("need expect_partial")
+  it "should fail expect_partial with the wrong partial" do
     expect_partial('non_existent')
     render!
+    lambda {template.verify_expected_partials}.should fail
   end
 end
 

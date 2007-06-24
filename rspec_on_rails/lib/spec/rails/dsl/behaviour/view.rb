@@ -67,9 +67,37 @@ module Spec
             @controller.template
           end
           
-          # experimental
-          def expect_partial(name) #:nodoc:
+          # unofficial and in progress - use at your own risk
+          def expect_partial(name)
+            template.expect_partial(name)
           end
+        end
+      end
+      
+      class ActionView::Base
+        # unofficial and in progress - use at your own risk
+        def expect_partial(name)
+          @expected_partial = name
+        end
+        
+        # unofficial and in progress - use at your own risk
+        def verify_expected_partials
+          unless @expected_partial.nil?
+            unless @expected_partial == @received_partial
+              raise Spec::Expectations::ExpectationNotMetError.new(%Q{expected render :partial => '#{@expected_partial}' but it was never received})
+            end
+          end
+        end
+        
+        alias_method :orig_render, :render
+        def render(options = {}, old_local_assigns = {}, &block)
+          if (Hash === options &&
+              options.has_key?(:partial) && 
+              options[:partial] == @expected_partial)
+            @received_partial = @expected_partial
+            return
+          end
+          orig_render(options, old_local_assigns, &block)
         end
       end
 
@@ -178,7 +206,9 @@ module Spec
         def before_eval # :nodoc:
           inherit Spec::Rails::DSL::ViewEvalContext
           prepend_before {setup}
-          append_after {teardown}
+          append_after do
+            teardown
+          end
           configure
         end
 
