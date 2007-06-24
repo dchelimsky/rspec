@@ -77,7 +77,13 @@ describe "A view that includes a partial", :behaviour_type => :view do
   it "should fail expect_partial with the wrong partial" do
     expect_partial('non_existent')
     render!
-    lambda {template.verify_expected_partials}.should fail
+    lambda {template.verify_expected_partials}.should raise_error(Spec::Mocks::MockExpectationError)
+  end
+  
+  it "should fail expect_partial with the right partial but wrong options" do
+    expect_partial('included_partial').with(:locals => {:thing => Object.new})
+    render!
+    lambda {template.verify_expected_partials}.should raise_error(Spec::Mocks::MockExpectationError)
   end
 end
 

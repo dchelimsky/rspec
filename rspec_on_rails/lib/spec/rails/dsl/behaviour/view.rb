@@ -77,27 +77,32 @@ module Spec
       class ActionView::Base
         # unofficial and in progress - use at your own risk
         def expect_partial(name)
-          @expected_partial = name
+          expect_partial_mock_proxy.should_receive(:render).with(:partial => name)
         end
         
         # unofficial and in progress - use at your own risk
         def verify_expected_partials
-          unless @expected_partial.nil?
-            unless @expected_partial == @received_partial
-              raise Spec::Expectations::ExpectationNotMetError.new(%Q{expected render :partial => '#{@expected_partial}' but it was never received})
-            end
-          end
+          expect_partial_mock_proxy.rspec_verify
+        end
+        
+        require 'spec/mocks/proxy'
+        # unofficial and in progress - use at your own risk
+        def expect_partial_mock_proxy
+          @expect_partial_mock_proxy ||= lambda do
+            Spec::Mocks::Proxy.new(proxy = Object.new, "expect_partial_mock_proxy")
+            proxy.stub!(:render)
+            proxy
+          end.call
         end
         
         alias_method :orig_render, :render
         def render(options = {}, old_local_assigns = {}, &block)
-          if (Hash === options &&
-              options.has_key?(:partial) && 
-              options[:partial] == @expected_partial)
-            @received_partial = @expected_partial
-            return
+          if (Hash === options)
+            expect_partial_mock_proxy.render(options)
           end
-          orig_render(options, old_local_assigns, &block)
+          unless expect_partial_mock_proxy.send(:__mock_proxy).send(:find_matching_expectation, :render, options)
+            orig_render(options, old_local_assigns, &block)
+          end
         end
       end
 

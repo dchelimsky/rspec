@@ -11,6 +11,6 @@ describe ActionView::Base, "with RSpec extensions", :behaviour_type => :view do
     lambda do
       template.expect_partial("name")
       template.verify_expected_partials
-    end.should fail_with("expected render :partial => 'name' but it was never received")
+    end.should raise_error(Spec::Mocks::MockExpectationError)
   end
 end
