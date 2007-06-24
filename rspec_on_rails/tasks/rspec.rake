@@ -54,7 +54,7 @@ namespace :spec do
     t.spec_files = FileList['vendor/plugins/**/spec/**/*_spec.rb'].exclude('vendor/plugins/rspec/*')
   end
 
-  desc "Translate specs from pre-0.9 to 0.9 style"
+  desc "Translate/upgrade specs using the built-in translator"
   task :translate do
     translator = ::Spec::Translator.new
     dir = RAILS_ROOT + '/spec'

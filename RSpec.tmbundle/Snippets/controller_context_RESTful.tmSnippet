@@ -6,7 +6,6 @@
 	<string>require File.dirname(__FILE__) + '/../spec_helper'
 
 describe ${1:controller}, "Requesting ${2:/some/path} using ${3:GET|POST|PUT|DELETE}${4: with some parameters}" do
-
   $0
 end</string>
 	<key>name</key>
