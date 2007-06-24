@@ -45,8 +45,15 @@ module Spec
         end
 
         it "should push pending example name and message" do
-          @formatter.example_pending('example','reason')
+          @formatter.example_pending('behaviour', 'example','reason')
           @io.string.should eql("- example (PENDING: reason)\n")
+        end
+
+        it "should dump pending" do
+          @formatter.example_pending('behaviour', 'example','reason')
+          @io.rewind
+          @formatter.dump_pending
+          @io.string.should =~ /Pending\:\nbehaviour example \(reason\)\n/
         end
 
       end

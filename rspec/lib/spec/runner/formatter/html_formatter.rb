@@ -74,12 +74,12 @@ module Spec
           @output.flush
         end
 
-        def example_pending(name, message)
+        def example_pending(behaviour_name, example_name, message)
           @current_example_number += 1
           @output.puts "    <script type=\"text/javascript\">makeYellow('rspec-header');</script>" unless @header_red
           @output.puts "    <script type=\"text/javascript\">makeYellow('behaviour_#{current_behaviour_number}');</script>" unless @behaviour_red
           move_progress
-          @output.puts "    <dd class=\"spec not_implemented\"><span class=\"not_implemented_spec_name\">#{escape(name)}</span></dd>"
+          @output.puts "    <dd class=\"spec not_implemented\"><span class=\"not_implemented_spec_name\">#{escape(example_name)}</span></dd>"
           @output.flush
         end
         # Override this method if you wish to output extra HTML for a failed spec. For example, you
@@ -102,12 +102,12 @@ module Spec
         def dump_failure(counter, failure)
         end
 
-        def dump_summary(duration, example_count, failure_count, not_implemented_count)
+        def dump_summary(duration, example_count, failure_count, pending_count)
           if @dry_run
             totals = "This was a dry-run"
           else
             totals = "#{example_count} example#{'s' unless example_count == 1}, #{failure_count} failure#{'s' unless failure_count == 1}"
-            totals << ", #{not_implemented_count} pending" if not_implemented_count > 0  
+            totals << ", #{pending_count} pending" if pending_count > 0  
           end
           @output.puts "<script type=\"text/javascript\">document.getElementById('duration').innerHTML = \"Finished in <strong>#{duration} seconds</strong>\";</script>"
           @output.puts "<script type=\"text/javascript\">document.getElementById('totals').innerHTML = \"#{totals}\";</script>"

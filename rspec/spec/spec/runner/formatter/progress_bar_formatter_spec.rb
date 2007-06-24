@@ -14,14 +14,23 @@ module Spec
           @io.string.should eql("\n")
         end
 
-        it "should produce standard summary without not implemented when not implemented has a 0 count" do
+        it "should produce standard summary without pending when pending has a 0 count" do
           @formatter.dump_summary(3, 2, 1, 0)
           @io.string.should eql("\nFinished in 3 seconds\n\n2 examples, 1 failure\n")
         end
         
         it "should produce standard summary" do
-          @formatter.dump_summary(3, 2, 1, 4)
-          @io.string.should eql("\nFinished in 3 seconds\n\n2 examples, 1 failure, 4 pending\n")
+          @formatter.example_pending("behaviour", "example", "message")  
+          @io.rewind
+          @formatter.dump_summary(3, 2, 1, 1)
+          @io.string.should eql(%Q|
+Finished in 3 seconds
+
+2 examples, 1 failure, 1 pending
+
+Pending:
+behaviour example (message)
+|)
         end
 
         it "should push F for failing spec" do
@@ -53,6 +62,12 @@ EOE
 /tmp/x.rb:2:
 /tmp/x.rb:3:
 EOE
+        end
+        
+        it "should dump pending" do
+          @formatter.example_pending("behaviour", "example", "message")
+          @formatter.dump_pending
+          @io.string.should =~ /Pending\:\nbehaviour example \(message\)\n/
         end
       end
       

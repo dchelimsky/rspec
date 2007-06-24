@@ -34,10 +34,10 @@ namespace :spec do
     t.spec_files = FileList['spec/**/*_spec.rb']
   end
 
-  desc "Print Specdoc for all plugin specs (except RSpec's own)"
+  desc "Print Specdoc for all plugin specs"
   Spec::Rake::SpecTask.new(:plugin_doc) do |t|
     t.spec_opts = ["--format", "specdoc", "--dry-run"]
-    t.spec_files = FileList['vendor/plugins/**/spec/**/*_spec.rb'].exclude('vendor/plugins/{rspec,rspec_on_rails}/*')
+    t.spec_files = FileList['vendor/plugins/**/spec/**/*_spec.rb'].exclude('vendor/plugins/rspec/*')
   end
 
   [:models, :controllers, :views, :helpers].each do |sub|
@@ -51,7 +51,7 @@ namespace :spec do
   desc "Run the specs under vendor/plugins (except RSpec's own)"
   Spec::Rake::SpecTask.new(:plugins => spec_prereq) do |t|
     t.spec_opts = ['--options', "\"#{RAILS_ROOT}/spec/spec.opts\""]
-    t.spec_files = FileList['vendor/plugins/**/spec/**/*_spec.rb'].exclude('vendor/plugins/{rspec,rspec_on_rails}/*')
+    t.spec_files = FileList['vendor/plugins/**/spec/**/*_spec.rb'].exclude('vendor/plugins/rspec/*')
   end
 
   desc "Translate specs from pre-0.9 to 0.9 style"

@@ -21,11 +21,11 @@ module Spec
         @example_names << name
         
         if not_implemented
-          example_pending(name)
+          example_pending(@behaviour_names.last, name)
         elsif error.nil?
           example_passed(name)
         elsif Spec::DSL::ExamplePendingError === error
-          example_pending(name, error.message)
+          example_pending(@behaviour_names.last, name, error.message)
         else
           example_failed(name, error, failure_location)
         end
@@ -45,7 +45,7 @@ module Spec
       def dump
         @formatters.each{|f| f.start_dump}
         dump_failures
-        @formatters.each{|f| f.dump_summary(duration, @example_names.length, @failures.length, @not_implemented_count)}
+        @formatters.each{|f| f.dump_summary(duration, @example_names.length, @failures.length, @pending_count)}
         @failures.length
       end
 
@@ -54,7 +54,7 @@ module Spec
       def clear!
         @behaviour_names = []
         @failures = []
-        @not_implemented_count = 0
+        @pending_count = 0
         @example_names = []
         @start_time = nil
         @end_time = nil
@@ -85,9 +85,9 @@ module Spec
         @formatters.each{|f| f.example_failed(name, @failures.length, failure)}
       end
       
-      def example_pending(name, message="Not Yet Implemented")
-        @not_implemented_count += 1
-        @formatters.each{|f| f.example_pending(name, message)}
+      def example_pending(behaviour_name, example_name, message="Not Yet Implemented")
+        @pending_count += 1
+        @formatters.each{|f| f.example_pending(behaviour_name, example_name, message)}
       end
       
       class Failure

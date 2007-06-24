@@ -46,7 +46,7 @@ module Spec
         # +name+ is the name of the example.
         # +message+ is the message from the ExamplePendingError, if it exists, or the
         # default value of "Not Yet Implemented"
-        def example_pending(name, message)
+        def example_pending(behaviour_name, example_name, message)
         end
 
         # This method is invoked after all of the examples have executed. The next method
@@ -62,7 +62,11 @@ module Spec
         end
       
         # This method is invoked at the very end.
-        def dump_summary(duration, example_count, failure_count, not_implemented_count)
+        def dump_summary(duration, example_count, failure_count, pending_count)
+        end
+        
+        # This gets invoked after the summary if option is set to do so.
+        def dump_pending
         end
 
       end

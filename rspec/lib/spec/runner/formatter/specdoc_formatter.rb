@@ -18,8 +18,9 @@ module Spec
           @output.flush
         end
         
-        def example_pending(name, message)
-          @output.puts yellow("- #{name} (PENDING: #{message})")
+        def example_pending(behaviour_name, example_name, message)
+          super
+          @output.puts yellow("- #{example_name} (PENDING: #{message})")
           @output.flush
         end
       end

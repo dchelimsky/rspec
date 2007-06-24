@@ -25,6 +25,11 @@ module Spec
           @colour = false
           @dry_run = false
           @snippet_extractor = SnippetExtractor.new
+          @pending_examples = []
+        end
+        
+        def example_pending(behaviour_name, example_name, message)
+          @pending_examples << ["#{behaviour_name} #{example_name}", message]
         end
         
         def colour=(colour)
@@ -46,23 +51,35 @@ module Spec
           @output.flush
         end
       
-        def dump_summary(duration, example_count, failure_count, not_implemented_count)
+        def dump_summary(duration, example_count, failure_count, pending_count)
           return if @dry_run
           @output.puts
           @output.puts "Finished in #{duration} seconds"
           @output.puts
 
           summary = "#{example_count} example#{'s' unless example_count == 1}, #{failure_count} failure#{'s' unless failure_count == 1}"
-          summary << ", #{not_implemented_count} pending" if not_implemented_count > 0  
+          summary << ", #{pending_count} pending" if pending_count > 0  
 
           if failure_count == 0
-            if not_implemented_count > 0
+            if pending_count > 0
               @output.puts yellow(summary)
             else
               @output.puts green(summary)
             end
           else
             @output.puts red(summary)
+          end
+          @output.flush
+          dump_pending
+        end
+        
+        def dump_pending
+          unless @pending_examples.empty?
+            @output.puts
+            @output.puts "Pending:"
+            @pending_examples.each do |pending_example|
+              @output.puts "#{pending_example[0]} (#{pending_example[1]})" 
+            end
           end
           @output.flush
         end

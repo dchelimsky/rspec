@@ -125,16 +125,22 @@ module Spec
         include Spec::Rails::DSL::ViewBehaviourHelpers
         def setup #:nodoc:
           super
-          # these go here so that flash and session work as they should.
+          ensure_that_flash_and_session_work_properly
+        end
+        
+        def ensure_that_flash_and_session_work_properly #:nodoc:
           @controller.send :initialize_template_class, @response
           @controller.send :assign_shortcuts, @request, @response
           @session = @controller.session
-          @controller.class.send :public, :flash # make flash accessible to the spec
+          @controller.class.send :public, :flash
         end
       
         def teardown #:nodoc:
           super
-          #necessary to ensure that base_view_path is not set across contexts
+          ensure_that_base_view_path_is_not_set_across_behaviours
+        end
+        
+        def ensure_that_base_view_path_is_not_set_across_behaviours #:nodoc:
           ActionView::Base.base_view_path = nil
         end
 
@@ -172,7 +178,6 @@ module Spec
           options[:helpers].each { |helper| @controller.add_helper(helper) } if options[:helpers]
         end
 
-
       end
 
       # View Specs live in $RAILS_ROOT/spec/views/.
@@ -206,9 +211,7 @@ module Spec
         def before_eval # :nodoc:
           inherit Spec::Rails::DSL::ViewEvalContext
           prepend_before {setup}
-          append_after do
-            teardown
-          end
+          append_after {teardown}
           configure
         end
 
