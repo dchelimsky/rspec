@@ -72,6 +72,7 @@ In alphabetical order (by last name)
 ** Patch for file mappings for rspec/autotest integration
 * Kyle Hargraves
 ** Patch [#10951] Odd instance variable name in rspec_model template
+** Patch [#11608] Exclude rspec_on_rails from plugin spec runs
 * Chris Hoffman
 ** Patch for spec:translate task in Spec::Rails
 * Chad Humphries
@@ -131,6 +132,7 @@ In alphabetical order (by last name)
 ** Patch [#10315] to fix pre_commit bug 10313 - pre_commit_rails: doesn't always build correctly
 ** Patch [#11500] Documentation: no rails integration specs in 1.0
 * Scott Taylor
+** Patch [#11509] Documentation - RSpec requires hpricot
 ** Patch [#9509] allow spaced options in spec.opts
 ** Patch [#9510] Added html formatter spec file for Ruby 1.8.6
 ** Patch [#9511] Clarification to README file in spec/

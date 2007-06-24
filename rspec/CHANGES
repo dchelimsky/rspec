@@ -6,6 +6,8 @@ follow the upgrade instructions and run 'script/generate rspec' you'll be fine, 
 step you need to manually go into spec_helper.rb and remove the call to that method (if present - it
 might not be if you haven't upgraded in a while).
 
+* Applied [#11509] Documentation - RSpec requires hpricot
+* Applied [#11608] Exclude rspec_on_rails from plugin spec runs (Patch from Kyle Hargraves)
 * Applied [#11807] Daemonize spec_server and rake tasks to manage them. (patch from Kyosuke MOROHASHI)
 * Added pending(message) method
 * Fixed [#11777] should render_template doesn't check paths correctly
