@@ -88,11 +88,9 @@ describe "A view that includes a partial", :behaviour_type => :view do
 end
 
 describe "A partial that includes a partial", :behaviour_type => :view do
-  it "should support expect_partial with args" do
-    pending("need expect_partial")
-    thing = Object.new
-    expect_partial('sub_thing').with(:locals => {:thing => thing})
-    render :partial => "view_spec/thing", :object => thing
+  it "should support expect_partial with nested partial" do
+    expect_partial('included_partial')
+    render :partial => "view_spec/partial_with_sub_partial"
   end
 end
 
