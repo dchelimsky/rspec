@@ -6,6 +6,7 @@ follow the upgrade instructions and run 'script/generate rspec' you'll be fine, 
 step you need to manually go into spec_helper.rb and remove the call to that method (if present - it
 might not be if you haven't upgraded in a while).
 
+* Fixed [#11843] watir_behaviour missing from spec_ui gem
 * Added 'switch between source and spec file' command in Spec::Mate (based on code from Ruy Asan)
 * Applied [#11509] Documentation - RSpec requires hpricot
 * Applied [#11807] Daemonize spec_server and rake tasks to manage them. (patch from Kyosuke MOROHASHI)

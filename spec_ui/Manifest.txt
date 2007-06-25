@@ -14,6 +14,7 @@ lib/spec/ui/version.rb
 lib/spec/ui/watir.rb
 lib/spec/ui/watir/browser.rb
 lib/spec/ui/watir/matchers.rb
+lib/spec/ui/watir/watir_behaviour.rb
 examples/selenium/Rakefile
 examples/selenium/README.txt
 examples/selenium/spec/google/find_rspecs_homepage_spec.rb
