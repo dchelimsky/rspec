@@ -175,16 +175,17 @@ module Spec
       #
       # == Expecting Errors
       #
-      # By default, Rails will swallow errors that are raised in controller
-      # actions and return an error code in the header. If you want to
-      # specify that an action should raise an error, you can either
-      # override rescue_action in your controller ...
+      # Rspec on Rails will raise errors that occur in controller actions.
+      # In contrast, Rails will swallow errors that are raised in controller
+      # actions and return an error code in the header. If you wish to override
+      # Rspec and have Rail's default behaviour,tell the controller to use
+      # rails error handling ...
       #
       #   before(:each) do
-      #     controller.class.send(:define_method, :rescue_action) { |e| raise e }
+      #     controller.use_rails_error_handling!
       #   end
       #
-      # ... or you can expect error codes in headers ...
+      # When using Rail's error handling, you can expect error codes in headers ...
       #
       #   it "should return an error in the header" do
       #     response.should be_error
