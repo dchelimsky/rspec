@@ -8,8 +8,8 @@ describe ActionView::Base, "with RSpec extensions", :behaviour_type => :view do
   end
   
   it "should raise when partial has been received" do
+    template.expect_partial("name")
     lambda do
-      template.expect_partial("name")
       template.verify_expected_partials
     end.should raise_error(Spec::Mocks::MockExpectationError)
   end
