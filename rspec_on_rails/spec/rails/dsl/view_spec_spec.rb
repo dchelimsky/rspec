@@ -1,8 +1,8 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
-describe "A view with an implicit helper", :behaviour_type => :view do
+describe "A template with an implicit helper", :behaviour_type => :view do
   before(:each) do
-    render "view_spec/show"
+    render "view_spec/implicit_helper"
   end
 
   it "should include the helper" do
@@ -14,7 +14,7 @@ describe "A view with an implicit helper", :behaviour_type => :view do
   end
 end
 
-describe "A view requiring an explicit helper", :behaviour_type => :view do
+describe "A template requiring an explicit helper", :behaviour_type => :view do
   before(:each) do
     render "view_spec/explicit_helper", :helper => 'explicit'
   end
@@ -28,12 +28,12 @@ describe "A view requiring an explicit helper", :behaviour_type => :view do
   end
 end
 
-describe "A view requiring multiple explicit helpers", :behaviour_type => :view do
+describe "A template requiring multiple explicit helpers", :behaviour_type => :view do
   before(:each) do
     render "view_spec/multiple_helpers", :helpers => ['explicit', 'more_explicit']
   end
 
-  it "should included all specified helpers" do
+  it "should include all specified helpers" do
     response.should have_tag('div', :content => "This is text from a method in the ExplicitHelper")
     response.should have_tag('div', :content => "This is text from a method in the MoreExplicitHelper")
   end
@@ -43,19 +43,19 @@ describe "A view requiring multiple explicit helpers", :behaviour_type => :view 
   end
 end
 
-describe "A view that includes a partial", :behaviour_type => :view do
+describe "A template that includes a partial", :behaviour_type => :view do
   def render!
-    render "view_spec/partial_including_template"
+    render "view_spec/template_with_partial"
   end
 
   it "should render the enclosing template" do
     render!
-    response.should have_tag('div', "method_in_included_partial in ViewSpecHelper")
+    response.should have_tag('div', "method_in_partial in ViewSpecHelper")
   end
 
   it "should render the partial" do
     render!
-    response.should have_tag('div', "method_in_partial_including_template in ViewSpecHelper")
+    response.should have_tag('div', "method_in_template_with_partial in ViewSpecHelper")
   end
 
   it "should include the application helper" do
@@ -63,13 +63,8 @@ describe "A view that includes a partial", :behaviour_type => :view do
     response.should have_tag('div', "This is text from a method in the ApplicationHelper")
   end
   
-  it "should support mocking the render call" do
-    template.should_receive(:render).with(:partial => 'included_partial')
-    render!
-  end
-  
   it "should pass expect_partial with the right partial" do
-    expect_partial('included_partial')
+    expect_partial('partial')
     render!
     template.verify_expected_partials
   end
@@ -81,7 +76,7 @@ describe "A view that includes a partial", :behaviour_type => :view do
   end
   
   it "should fail expect_partial with the right partial but wrong options" do
-    expect_partial('included_partial').with(:locals => {:thing => Object.new})
+    expect_partial('partial').with(:locals => {:thing => Object.new})
     render!
     lambda {template.verify_expected_partials}.should raise_error(Spec::Mocks::MockExpectationError)
   end
@@ -89,14 +84,14 @@ end
 
 describe "A partial that includes a partial", :behaviour_type => :view do
   it "should support expect_partial with nested partial" do
-    expect_partial('included_partial')
+    expect_partial('partial')
     render :partial => "view_spec/partial_with_sub_partial"
   end
 end
 
 describe "A view that includes a partial using :collection and :spacer_template", :behaviour_type => :view  do
   before(:each) do
-    render "view_spec/partial_collection_including_template"
+    render "view_spec/template_with_partial_using_collection"
   end
 
   it "should render the partial w/ spacer_tamplate" do
@@ -110,7 +105,7 @@ end
 describe "A view that includes a partial using an array as partial_path", :behaviour_type => :view do
   before(:each) do
     module ActionView::Partials
-      def render_partial_with_array_support(partial_path, local_assigns = nil, deprecated_local_assigns = nil)
+      def render_template_with_partial_with_array_support(partial_path, local_assigns = nil, deprecated_local_assigns = nil)
         if partial_path.is_a?(Array)
           "Array Partial"
         else
@@ -119,7 +114,7 @@ describe "A view that includes a partial using an array as partial_path", :behav
       end
 
       alias :render_partial_without_array_support :render_partial
-      alias :render_partial :render_partial_with_array_support
+      alias :render_partial :render_template_with_partial_with_array_support
     end
 
     @array = ['Alice', 'Bob']
@@ -128,14 +123,14 @@ describe "A view that includes a partial using an array as partial_path", :behav
 
   after(:each) do
     module ActionView::Partials
-      alias :render_partial_with_array_support :render_partial
+      alias :render_template_with_partial_with_array_support :render_partial
       alias :render_partial :render_partial_without_array_support
-      undef render_partial_with_array_support
+      undef render_template_with_partial_with_array_support
     end
   end
 
   it "should render have the array passed through to render_partial without modification" do
-    render "view_spec/partial_with_array" 
+    render "view_spec/template_with_partial_with_array" 
     response.body.should match(/^Array Partial$/)
   end
 end
