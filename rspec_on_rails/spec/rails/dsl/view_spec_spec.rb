@@ -90,11 +90,8 @@ describe "A partial that includes a partial", :behaviour_type => :view do
 end
 
 describe "A view that includes a partial using :collection and :spacer_template", :behaviour_type => :view  do
-  before(:each) do
-    render "view_spec/template_with_partial_using_collection"
-  end
-
   it "should render the partial w/ spacer_tamplate" do
+    render "view_spec/template_with_partial_using_collection"
     response.should have_tag('div', :content => 'Alice')
     response.should have_tag('hr', :attributes =>{:id => "spacer"})
     response.should have_tag('div', :content => 'Bob')
