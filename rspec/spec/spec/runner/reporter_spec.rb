@@ -80,7 +80,7 @@ module Spec
       end
     end
     
-    describe Reporter, " reporting one passing example" do
+    describe Reporter, "reporting one passing example" do
       include ReporterSpecHelper
       before(:each) {setup}
 
@@ -104,7 +104,7 @@ module Spec
       end
     end
 
-    describe Reporter, " reporting one failing example" do
+    describe Reporter, "reporting one failing example" do
       include ReporterSpecHelper
       before(:each) {setup}
 
@@ -132,7 +132,7 @@ module Spec
       
     end
     
-    describe Reporter, " reporting one pending example (Not Yet Implemented)" do
+    describe Reporter, "reporting one pending example (Not Yet Implemented)" do
       include ReporterSpecHelper
       before(:each) {setup}
 
@@ -154,7 +154,7 @@ module Spec
       end
     end
 
-    describe Reporter, " reporting one pending example (ExamplePendingError)" do
+    describe Reporter, "reporting one pending example (ExamplePendingError)" do
       include ReporterSpecHelper
       before(:each) {setup}
 
@@ -173,6 +173,20 @@ module Spec
         @reporter.add_behaviour('behaviour')
         @reporter.example_finished("example", Spec::DSL::ExamplePendingError.new("reason"), nil, false)
         @reporter.dump
+      end
+    end
+
+    describe Reporter, "reporting one pending example (PendingFixedError)" do
+      include ReporterSpecHelper
+      before(:each) {setup}
+
+      it "should tell formatter pending example is fixed" do
+        @formatter.should_receive(:example_failed) do |name, counter, failure|
+          failure.header.should == "'behaviour example' FIXED"
+        end
+        @formatter.should_receive(:add_behaviour).with("behaviour")
+        @reporter.add_behaviour('behaviour')
+        @reporter.example_finished("example", Spec::DSL::PendingFixedError.new("reason"), nil, false)
       end
     end
   end

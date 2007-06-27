@@ -39,8 +39,6 @@ describe "A new team" do
     @team.players.should include(5)
   end
   
-  it "should have no players" do
-    @team.should have(:no).players
-  end
+  it "should have no players"
   
 end

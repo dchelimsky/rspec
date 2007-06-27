@@ -29,5 +29,12 @@ describe "Mocker" do
     mock.any_message_at_all
   end
 
-  it "should make eggs and bacon"
+  it "has a bug we need to fix" do
+    pending "here is the bug" do
+      # Actually, no. It's fixed. This will fail because it passes :-)
+      mock = mock("Bug")
+      mock.should_receive(:hello)
+      mock.hello
+    end
+  end
 end

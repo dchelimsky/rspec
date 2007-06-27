@@ -56,14 +56,14 @@ module Spec
 
         def example_failed(name, counter, failure)
           extra = extra_failure_content(failure)
-          
+          failure_style = failure.pending_fixed? ? 'pending_fixed' : 'failed'
           @current_example_number += 1
           @output.puts "    <script type=\"text/javascript\">makeRed('rspec-header');</script>" unless @header_red
           @header_red = true
           @output.puts "    <script type=\"text/javascript\">makeRed('behaviour_#{current_behaviour_number}');</script>" unless @behaviour_red
           @behaviour_red = true
           move_progress
-          @output.puts "    <dd class=\"spec failed\">"
+          @output.puts "    <dd class=\"spec #{failure_style}\">"
           @output.puts "      <span class=\"failed_spec_name\">#{escape(name)}</span>"
           @output.puts "      <div class=\"failure\" id=\"failure_#{counter}\">"
           @output.puts "        <div class=\"message\"><pre>#{escape(failure.exception.message)}</pre></div>" unless failure.exception.nil?
@@ -262,6 +262,12 @@ dd.spec.not_implemented {
   border-left: 5px solid #FAF834;
   border-bottom: 1px solid #FAF834;
   background: #FCFB98; color: #131313;
+}
+
+dd.spec.pending_fixed {
+  border-left: 5px solid #0000C2;
+  border-bottom: 1px solid #0000C2;
+  color: #0000C2; background: #D3FBFF;
 }
 
 .backtrace {

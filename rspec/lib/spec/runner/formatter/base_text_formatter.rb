@@ -43,6 +43,9 @@ module Spec
           if(failure.expectation_not_met?)
             @output.puts red(failure.header)
             @output.puts red(failure.exception.message)
+          elsif(failure.pending_fixed?)
+            @output.puts blue(failure.header)
+            @output.puts blue(failure.exception.message)
           else
             @output.puts magenta(failure.header)
             @output.puts magenta(failure.exception.message)
@@ -108,10 +111,11 @@ module Spec
           end
         end
         
-        def red(text); colour(text, "\e[31m"); end
         def green(text); colour(text, "\e[32m"); end
+        def red(text); colour(text, "\e[31m"); end
         def magenta(text); colour(text, "\e[35m"); end
         def yellow(text); colour(text, "\e[33m"); end
+        def blue(text); colour(text, "\e[34m"); end
         
       end
     end

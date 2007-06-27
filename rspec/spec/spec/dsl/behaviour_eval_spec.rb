@@ -64,13 +64,13 @@ module Spec
         block_ran.should == true
       end
 
-      it "should have #pending raise Spec::Expectations::ExpectationNotMetError when its block does not fail" do
+      it "should have #pending raise Spec::DSL::PendingFixedError when its block does not fail" do
         block_ran = false
         lambda {
           pending("something") do
             block_ran = true
           end
-        }.should raise_error(Spec::Expectations::ExpectationNotMetError, "Expecting pending 'something' to fail. No Error was raised.")
+        }.should raise_error(Spec::DSL::PendingFixedError, "Expecting pending 'something' to fail. No Error was raised.")
         block_ran.should == true
       end
 

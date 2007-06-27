@@ -17,7 +17,7 @@ module Spec
       
         def example_pending(behaviour_name, example_name, message)
           super
-          @output.print yellow('*')
+          @output.print yellow('P')
           @output.flush
         end
         

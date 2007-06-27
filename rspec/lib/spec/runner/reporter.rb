@@ -101,11 +101,17 @@ module Spec
         def header
           if expectation_not_met?
             "'#{@example_name}' FAILED"
+          elsif pending_fixed?
+            "'#{@example_name}' FIXED"
           else
             "#{@exception.class.name} in '#{@example_name}'"
           end
         end
         
+        def pending_fixed?
+          @exception.is_a?(Spec::DSL::PendingFixedError)
+        end
+
         def expectation_not_met?
           @exception.is_a?(Spec::Expectations::ExpectationNotMetError)
         end
