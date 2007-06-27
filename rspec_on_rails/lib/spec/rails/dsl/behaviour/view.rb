@@ -67,10 +67,6 @@ module Spec
             @controller.template
           end
           
-          # unofficial and in progress - use at your own risk
-          def expect_partial(name)
-            template.expect_partial(name)
-          end
         end
       end
       

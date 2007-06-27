@@ -63,28 +63,34 @@ describe "A template that includes a partial", :behaviour_type => :view do
     response.should have_tag('div', "This is text from a method in the ApplicationHelper")
   end
   
-  it "should pass expect_partial with the right partial" do
-    expect_partial('partial')
+  it "should pass expect_render with the right partial" do
+    template.expect_render(:partial => 'partial')
     render!
-    template.verify_expected_partials
+    template.verify_rendered
   end
   
-  it "should fail expect_partial with the wrong partial" do
-    expect_partial('non_existent')
+  it "should fail expect_render with the wrong partial" do
+    template.expect_render(:partial => 'non_existent')
     render!
-    lambda {template.verify_expected_partials}.should raise_error(Spec::Mocks::MockExpectationError)
+    begin
+      template.verify_rendered
+    rescue Spec::Mocks::MockExpectationError => e
+    ensure
+      e.backtrace.find{|line| line =~ /view_spec_spec\.rb\:73/}.should_not be_nil
+    end
   end
   
-  it "should fail expect_partial with the right partial but wrong options" do
-    expect_partial('partial').with(:locals => {:thing => Object.new})
+  it "should fail expect_render with the right partial but wrong options" do
+    template.expect_render(:partial => 'partial', :locals => {:thing => Object.new})
     render!
-    lambda {template.verify_expected_partials}.should raise_error(Spec::Mocks::MockExpectationError)
+    lambda {template.verify_rendered}.should raise_error(Spec::Mocks::MockExpectationError)
   end
 end
 
 describe "A partial that includes a partial", :behaviour_type => :view do
-  it "should support expect_partial with nested partial" do
-    expect_partial('partial')
+  it "should support expect_render with nested partial" do
+    assigns[:partial] = obj = Object.new
+    template.expect_render(:partial => 'partial', :object => obj)
     render :partial => "view_spec/partial_with_sub_partial"
   end
 end
@@ -95,6 +101,13 @@ describe "A view that includes a partial using :collection and :spacer_template"
     response.should have_tag('div', :content => 'Alice')
     response.should have_tag('hr', :attributes =>{:id => "spacer"})
     response.should have_tag('div', :content => 'Bob')
+  end
+
+  it "should render the partial w/ spacer_tamplate" do
+    template.expect_render(:partial => 'partial',
+               :collection => ['Alice', 'Bob'],
+               :spacer_template => 'spacer')
+    render "view_spec/template_with_partial_using_collection"
   end
 
 end

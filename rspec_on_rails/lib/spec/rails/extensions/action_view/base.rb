@@ -15,19 +15,19 @@ module ActionView #:nodoc:
     end
     
     # unofficial and in progress - use at your own risk
-    def expect_partial(name)
-      expect_partial_mock_proxy.should_receive(:render).with(:partial => name)
+    def expect_render(opts={})
+      expect_render_mock_proxy.should_receive(:render, :expected_from => caller(1)[0]).with(opts)
     end
 
     # unofficial and in progress - use at your own risk
-    def verify_expected_partials
-      expect_partial_mock_proxy.rspec_verify
+    def verify_rendered
+      expect_render_mock_proxy.rspec_verify
     end
-
+    
     # unofficial and in progress - use at your own risk
-    def expect_partial_mock_proxy
-      @expect_partial_mock_proxy ||= lambda do
-        Spec::Mocks::Proxy.new(proxy = Object.new, "expect_partial_mock_proxy")
+    def expect_render_mock_proxy
+      @expect_render_mock_proxy ||= lambda do
+        Spec::Mocks::Proxy.new(proxy = Object.new, "expect_render_mock_proxy")
         proxy.stub!(:render)
         proxy
       end.call
@@ -36,9 +36,9 @@ module ActionView #:nodoc:
     alias_method :orig_render, :render
     def render(options = {}, old_local_assigns = {}, &block)
       if (Hash === options)
-        expect_partial_mock_proxy.render(options)
+        expect_render_mock_proxy.render(options)
       end
-      unless expect_partial_mock_proxy.send(:__mock_proxy).send(:find_matching_expectation, :render, options)
+      unless expect_render_mock_proxy.send(:__mock_proxy).send(:find_matching_expectation, :render, options)
         orig_render(options, old_local_assigns, &block)
       end
     end
