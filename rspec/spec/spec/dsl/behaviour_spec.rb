@@ -76,6 +76,24 @@ module Spec
         @behaviour.run(@reporter)
         after_all_ran.should be_false
       end
+      
+      it "should run all global after(:each) block even if a specific one fails" do
+        @behaviour.it("example") {}
+        global_after_ran = false
+        Behaviour.after(:each) do
+          global_after_ran = true
+          raise "global"
+        end
+        specific_after_ran = false
+        @behaviour.after(:each) do
+          specific_after_ran = true
+          raise "specific"
+        end
+
+        @behaviour.run(@reporter)
+        global_after_ran.should be_true
+        specific_after_ran.should be_true
+      end
 
       it "should supply before(:all) as description if failure in before(:all)" do
         @reporter.should_receive(:example_finished) do |name, error, location|

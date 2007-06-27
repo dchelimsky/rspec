@@ -104,6 +104,14 @@ module Custom
     end
   end
 
+  class BadFormatter < Spec::Runner::Formatter::BaseTextFormatter
+    attr_reader :where
+    
+    def initialize(where)
+      bad_method
+    end
+  end
+
   class BehaviourRunner
     def initialize(one); end
   end

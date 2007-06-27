@@ -80,14 +80,8 @@ module Spec
           require 'spec/expectations/differs/default'
           @differ_class = Spec::Expectations::Differs::Default
         else
-          begin
-            @diff_format  = :custom
-            @differ_class = eval(format)
-          rescue NameError
-            error_stream.puts "Couldn't find differ class #{format}"
-            error_stream.puts "Make sure the --require option is specified *before* --diff"
-            exit if out_stream == $stdout
-          end
+          @diff_format  = :custom
+          @differ_class = load_class(format, error_stream, 'differ', '--diff')
         end
       end
 
@@ -110,14 +104,8 @@ module Spec
           @out_used = true
         end
 
-        begin
-          formatter_type = BUILT_IN_FORMATTERS[format] || eval(format)
-          @formatters << formatter_type.new(where)
-        rescue NameError
-          error_stream.puts "Couldn't find formatter class #{format}"
-          error_stream.puts "Make sure the --require option is specified *before* --format"
-          exit if out_stream == $stdout
-        end
+        formatter_type = BUILT_IN_FORMATTERS[format] || load_class(format, error_stream, 'formatter', '--format')
+        @formatters << formatter_type.new(where)
       end
 
       def parse_require(req)
@@ -150,8 +138,22 @@ module Spec
         rescue NameError
           error_stream.puts "Couldn't find behaviour runner class #{runner}"
           error_stream.puts "Make sure the --require option is specified."
-          exit if out_stream == $stdout
+          exit2(1)
         end
+      end
+      
+      def load_class(name, error_stream, kind, option)
+        begin
+          eval(name)
+        rescue NameError => e
+          error_stream.puts "Couldn't find #{kind} class #{name}"
+          error_stream.puts "Make sure the --require option is specified *before* #{option}"
+          exit2(1)
+        end
+      end
+      
+      def exit2(code)
+        exit(code) unless $_spec_spec
       end
     end
   end

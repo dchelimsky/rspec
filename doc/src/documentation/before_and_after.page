@@ -5,7 +5,8 @@ h3. before(:each) and after(:each)
 RSpec provides methods that let you set up and tear down state before(:each)
 and after(:each) example.
 
-<ruby>describe Account do
+<ruby>
+describe Account do
   before(:each) do
     @account = Account.new
   end
@@ -33,7 +34,8 @@ For expensive operations, like opening browsers using Spec::Ui, RSpec also allow
 you to set up and tear down state before(:all) and after(:all) examples in any
 given behaviour.
 
-<ruby>describe "Search page" do
+<ruby>
+describe "Search page" do
   before(:all) do
     @browser = Watir::Browser.new
   end
@@ -47,6 +49,39 @@ given behaviour.
   end
 end
 </ruby>
+
+h3. Global after and before blocks
+
+Sometimes you have some generic code you want to run before or after every single one of your
+examples. Such global before and after blocks can be defined in the RSpec configuration, which
+typically lives in a spec_helper.rb file that is required from other spec files. Example: 
+
+<ruby>
+Spec::Runner.configure do |config|
+  config.before(:all) {}
+  config.before(:each) {}
+  config.after(:all) {}
+  config.after(:each) {}
+end
+</ruby>
+
+Global before blocks get run before local ones. Global after blocks get run after local ones.
+
+You can also specify that a before or after block should only be weaved into certain behaviours,
+in a similar way to how global includes are declared:
+
+<ruby>
+Spec::Runner.configure do |config|
+  config.before(:each, :behaviour_type => :controller) do
+    login_aslak
+  end
+end
+</ruby>
+
+h3. When before and after raise errors
+
+If a before block raises an error, none of the following before blocks (if any) or the example itself will get run.
+If an after block raises an error, the remaining ones will still be run.
 
 h3. %{font-weight:bold; color:red}WARNING ABOUT before(:all) and after(:all)%
 

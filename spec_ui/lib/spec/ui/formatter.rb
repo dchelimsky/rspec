@@ -8,6 +8,8 @@ module Spec
     class ScreenshotFormatter < Spec::Runner::Formatter::HtmlFormatter
       class << self
         include ScreenshotSaver
+
+        attr_accessor :root # Root directory for report
         attr_reader :html
 
         # Takes screenshot and snapshot of the +browser+'s html.
@@ -22,22 +24,41 @@ module Spec
         # Takes a screenshot of the current window. Use this method when
         # you don't have a browser object.
         def screenshot
-          @png_path = Tempfile.new("spec:ui").path
+          new_relative_png_path!
+
+          png_path = File.join(root, relative_png_path)
+          dir = File.dirname(png_path)
+          FileUtils.mkdir_p(dir) unless File.directory?(dir)
           save_screenshot(png_path)
         end
         
-        def png_path
-          raise "Screenshot not taken. You must call #{self.name}.screenshot or #{self.name}.take_screenshot_of(@browser) from after(:each)" if @png_path.nil?
-          @png_path
+        def relative_png_path
+          raise "Screenshot not taken. You must call #{self.name}.screenshot or #{self.name}.take_screenshot_of(@browser) from after(:each)" if @relative_png_path.nil?
+          @relative_png_path
         end
         
+        def new_relative_png_path!
+          @image_index ||= 0
+          @relative_png_path = "images/#{@image_index}.png"
+          @image_index += 1
+        end
+
         # Resets the screenshot and html. Do not call this method from your specs.
         def reset!
-          @png_path = nil
+          @relative_png_path = nil
           @html = nil
         end
       end
 
+      def initialize(where)
+        super(where)
+        if where.is_a?(String)
+          self.class.root = File.dirname(where)
+        else
+          raise "#{self.class} must write to a file, so that we know where to store screenshots"
+        end
+      end
+      
       def global_scripts
         super + <<-EOF
 function showImage(e) {
@@ -96,9 +117,7 @@ EOF
 
       def extra_failure_content(failure)
         result = super(failure)
-        # Add embedded image to the report.
-        img_data = Base64.encode64(File.open(self.class.png_path, "rb").read)
-        result += "        <div><a href=\"#\" onclick=\"showImage(this)\"><img width=\"25%\" height=\"25%\" src=\"data:image/png;base64,#{img_data}\" /></a></div>\n"
+        result += img_div
         if self.class.html
           escaped_html = CGI::escapeHTML(self.class.html)
           source_id = "#{current_example_number}_source"
@@ -107,6 +126,10 @@ EOF
         end
         self.class.reset!
         result
+      end
+ 
+      def img_div
+        "        <div><a href=\"#{self.class.relative_png_path}\"><img width=\"25%\" height=\"25%\" src=\"#{self.class.relative_png_path}\" /></a></div>\n"
       end
     end
   end

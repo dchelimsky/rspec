@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 module Spec
   module Runner
-    describe "Options" do
+    describe Options do
       before do
         @error_stream = StringIO.new('')
         @out_stream = StringIO.new('')
@@ -50,9 +50,15 @@ module Spec
         @options.differ_class.should == Custom::Formatter
       end
 
-      it "should print instructions about how to fix bad differ" do
-        @options.parse_diff "Custom::BadFormatter", @out_stream, @error_stream
-        @error_stream.string.should match(/Couldn't find differ class Custom::BadFormatter/n)
+      it "should print instructions about how to fix missing differ" do
+        @options.parse_diff "Custom::MissingDiffer", @out_stream, @error_stream
+        @error_stream.string.should match(/Couldn't find differ class Custom::MissingDiffer/n)
+      end      
+
+      it "should print instructions about how to fix bad formatter" do
+        lambda do
+          @options.parse_format "Custom::BadFormatter", @out_stream, @error_stream
+        end.should raise_error(NameError, /undefined local variable or method `bad_method'/)
       end      
 
       it "parse_example sets single example when argument not a file" do
@@ -76,7 +82,7 @@ module Spec
       end
     end
 
-    describe "Options", "receiving create_behaviour_runner" do
+    describe Options, "receiving create_behaviour_runner" do
       before do
         @options = Options.new
       end

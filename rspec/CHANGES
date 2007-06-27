@@ -6,6 +6,8 @@ follow the upgrade instructions and run 'script/generate rspec' you'll be fine, 
 step you need to manually go into spec_helper.rb and remove the call to that method (if present - it
 might not be if you haven't upgraded in a while).
 
+* New behaviour for after: If an after block raises an error, the other ones will still run instead of bailing at the first. 
+* Made it possible to run spec from RSpec.tmbundle with --drb against a Rails spec_server.
 * Applied [#11868] Add ability for pending to optionally hold a failing block and to fail when it passes (Patch from Bob Cotton)
 * Fixed [#11843] watir_behaviour missing from spec_ui gem
 * Added 'switch between source and spec file' command in Spec::Mate (based on code from Ruy Asan)

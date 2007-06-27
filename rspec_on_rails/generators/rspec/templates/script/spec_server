@@ -5,7 +5,12 @@ require 'rubygems'
 require 'drb/drb'
 require 'rbconfig'
 require 'spec'
-require "optparse"
+require 'optparse'
+specmate = ENV['HOME'] + "/Library/Application\ Support/TextMate/Bundles/RSpec.tmbundle/Support/lib"
+if File.directory?(specmate)
+  $LOAD_PATH.unshift(specmate) 
+  require 'text_mate_formatter'
+end
 
 # This is based on Florian Weber's TDDMate
 

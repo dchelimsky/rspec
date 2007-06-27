@@ -33,7 +33,8 @@ module Spec
           /Ruby\.tmbundle\/Support\/tmruby.rb:/,
           /RSpec\.tmbundle\/Support\/lib/,
           /temp_textmate\./,
-          /mock_frameworks\/rspec/
+          /mock_frameworks\/rspec/,
+          /spec_server/
         ]
       end
       
