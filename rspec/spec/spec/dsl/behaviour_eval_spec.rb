@@ -70,7 +70,7 @@ module Spec
           pending("something") do
             block_ran = true
           end
-        }.should raise_error(Spec::DSL::PendingFixedError, "Expecting pending 'something' to fail. No Error was raised.")
+        }.should raise_error(Spec::DSL::PendingFixedError, "Expected pending 'something' to fail. No Error was raised.")
         block_ran.should == true
       end
 
