@@ -36,6 +36,10 @@ module Spec
           when :all;  self.__send__("#{where}_all_parts", behaviour_type).__send__(how, block)
         end
       end
+      
+      def remove_after(scope, &block)
+        after_each_parts.delete(block)
+      end
 
       # Deprecated. Use before(:each)
       def setup(&block)

@@ -62,6 +62,21 @@ module Spec
         after_all_ran.should be_true
       end
 
+      
+      it "should unregister a given after(:each) block" do
+        after_all_ran = false
+        @behaviour.it("example") {}
+        proc = Proc.new { after_all_ran = true }
+        Behaviour.after(:each, &proc)
+        @behaviour.run(@reporter)
+        after_all_ran.should be_true
+        
+        after_all_ran = false
+        Behaviour.remove_after(:each, &proc)
+        @behaviour.run(@reporter)
+        after_all_ran.should be_false
+      end
+
       it "should supply before(:all) as description if failure in before(:all)" do
         @reporter.should_receive(:example_finished) do |name, error, location|
           name.should eql("before(:all)")
