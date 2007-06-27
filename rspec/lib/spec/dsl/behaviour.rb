@@ -75,7 +75,7 @@ module Spec
             example_execution_context = execution_context(example)
             example_execution_context.copy_instance_variables_from(@before_and_after_all_context_instance) unless before_all_proc(behaviour_type).nil?
             
-            befores = before_each_proc(behaviour_type)
+            befores = before_each_proc(behaviour_type) {|e| raise e}
             afters = after_each_proc(behaviour_type)
             example.run(reporter, befores, afters, dry_run, example_execution_context, timeout)
           end

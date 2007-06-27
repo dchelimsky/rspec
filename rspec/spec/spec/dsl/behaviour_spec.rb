@@ -77,28 +77,52 @@ module Spec
         after_all_ran.should be_false
       end
       
-      it "should run global after(:each) block even if a specific one fails" do
+      it "should run second after(:each) block even if the first one fails" do
         @behaviour.it("example") {}
-        global_after_ran = false
-        Behaviour.after(:each) do
-          global_after_ran = true
-          raise "global"
-        end
-        specific_after_ran = false
+        second_after_ran = false
         @behaviour.after(:each) do
-          specific_after_ran = true
-          raise "specific"
+          second_after_ran = true
+          raise "second"
+        end
+        first_after_ran = false
+        @behaviour.after(:each) do
+          first_after_ran = true
+          raise "first"
         end
 
         @reporter.should_receive(:example_finished) do |name, error, location, example_not_implemented|
           name.should eql("example")
-          error.message.should eql("specific")
+          error.message.should eql("first")
           location.should eql("after(:each)")
           example_not_implemented.should be_false
         end
         @behaviour.run(@reporter)
-        global_after_ran.should be_true
-        specific_after_ran.should be_true
+        first_after_ran.should be_true
+        second_after_ran.should be_true
+      end
+
+      it "should not run second before(:each) if the first one fails" do
+        @behaviour.it("example") {}
+        first_before_ran = false
+        @behaviour.before(:each) do
+          first_before_ran = true
+          raise "first"
+        end
+        second_before_ran = false
+        @behaviour.before(:each) do
+          second_before_ran = true
+          raise "second"
+        end
+
+        @reporter.should_receive(:example_finished) do |name, error, location, example_not_implemented|
+          name.should eql("example")
+          error.message.should eql("first")
+          location.should eql("before(:each)")
+          example_not_implemented.should be_false
+        end
+        @behaviour.run(@reporter)
+        first_before_ran.should be_true
+        second_before_ran.should be_false
       end
 
       it "should supply before(:all) as description if failure in before(:all)" do
