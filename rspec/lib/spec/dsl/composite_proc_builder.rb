@@ -7,8 +7,9 @@ module Spec
 
       def proc(&error_handler)
         parts = self
+        errors = []
         Proc.new do
-          parts.collect do |part|
+          result = parts.collect do |part|
             begin
               if part.is_a?(UnboundMethod)
                 part.bind(self).call
@@ -16,11 +17,15 @@ module Spec
                 instance_eval(&part)
               end
             rescue Exception => e
-              raise e unless error_handler
-              error_handler.call(e)
-              e
+              if error_handler
+                error_handler.call(e)
+              else
+                errors << e
+              end
             end
           end
+          raise errors.first unless errors.empty?
+          result
         end
       end
     end

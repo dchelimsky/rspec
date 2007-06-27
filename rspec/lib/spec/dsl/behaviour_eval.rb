@@ -137,24 +137,6 @@ module Spec
           super
         end
 
-        def before_all_proc(behaviour_type, &error_handler)
-          parts = []
-          parts.push(*Behaviour.before_all_parts(nil))
-          parts.push(*Behaviour.before_all_parts(behaviour_type)) unless behaviour_type.nil?
-          parts.push(*before_all_parts(nil))
-          parts.push(*before_all_parts(behaviour_type)) unless behaviour_type.nil?
-          CompositeProcBuilder.new(parts).proc(&error_handler)
-        end
-
-        def after_all_proc(behaviour_type, &error_handler)
-          parts = []
-          parts.push(*after_all_parts(behaviour_type)) unless behaviour_type.nil?
-          parts.push(*after_all_parts(nil))
-          parts.push(*Behaviour.after_all_parts(behaviour_type)) unless behaviour_type.nil?
-          parts.push(*Behaviour.after_all_parts(nil))
-          CompositeProcBuilder.new(parts).proc(&error_handler)
-        end
-
         def before_each_proc(behaviour_type, &error_handler)
           parts = []
           parts.push(*Behaviour.before_each_parts(nil))
@@ -164,13 +146,31 @@ module Spec
           CompositeProcBuilder.new(parts).proc(&error_handler)
         end
 
-        def after_each_proc(behaviour_type, &error_handler)
+        def before_all_proc(behaviour_type, &error_handler)
+          parts = []
+          parts.push(*Behaviour.before_all_parts(nil))
+          parts.push(*Behaviour.before_all_parts(behaviour_type)) unless behaviour_type.nil?
+          parts.push(*before_all_parts(nil))
+          parts.push(*before_all_parts(behaviour_type)) unless behaviour_type.nil?
+          CompositeProcBuilder.new(parts).proc(&error_handler)
+        end
+
+        def after_all_proc(behaviour_type)
+          parts = []
+          parts.push(*after_all_parts(behaviour_type)) unless behaviour_type.nil?
+          parts.push(*after_all_parts(nil))
+          parts.push(*Behaviour.after_all_parts(behaviour_type)) unless behaviour_type.nil?
+          parts.push(*Behaviour.after_all_parts(nil))
+          CompositeProcBuilder.new(parts).proc
+        end
+
+        def after_each_proc(behaviour_type)
           parts = []
           parts.push(*after_each_parts(behaviour_type)) unless behaviour_type.nil?
           parts.push(*after_each_parts(nil))
           parts.push(*Behaviour.after_each_parts(behaviour_type)) unless behaviour_type.nil?
           parts.push(*Behaviour.after_each_parts(nil))
-          CompositeProcBuilder.new(parts).proc(&error_handler)
+          CompositeProcBuilder.new(parts).proc
         end
 
       private

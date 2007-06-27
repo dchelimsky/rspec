@@ -65,19 +65,19 @@ module Spec
         raise "shared behaviours should never run" if shared?
         reporter.add_behaviour(description)
         prepare_execution_context_class
-        errors = run_before_all(reporter, dry_run)
+        before_all_errors = run_before_all(reporter, dry_run)
 
         specs = reverse ? examples.reverse : examples
         example_execution_context = nil
          
-        if errors.empty?
+        if before_all_errors.empty?
           specs.each do |example|
             example_execution_context = execution_context(example)
             example_execution_context.copy_instance_variables_from(@before_and_after_all_context_instance) unless before_all_proc(behaviour_type).nil?
-            afters = after_each_proc(behaviour_type) do |error|
-              errors << error
-            end
-            example.run(reporter, before_each_proc(behaviour_type), afters, dry_run, example_execution_context, timeout)
+            
+            befores = before_each_proc(behaviour_type)
+            afters = after_each_proc(behaviour_type)
+            example.run(reporter, befores, afters, dry_run, example_execution_context, timeout)
           end
         end
         

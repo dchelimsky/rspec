@@ -19,9 +19,9 @@ module Spec
         errors = []
         location = nil
         Timeout.timeout(timeout) do
-          before_each_ok = setup_example(execution_context, errors, &before_each_block)
+          before_each_ok = before_example(execution_context, errors, &before_each_block)
           example_ok = run_example(execution_context, errors) if before_each_ok
-          after_each_ok = teardown_example(execution_context, errors, &after_each_block)
+          after_each_ok = after_example(execution_context, errors, &after_each_block)
           location = failure_location(before_each_ok, example_ok, after_each_ok)
         end
 
@@ -52,7 +52,7 @@ module Spec
         end
       end
       
-      def setup_example(execution_context, errors, &behaviour_before_block)
+      def before_example(execution_context, errors, &behaviour_before_block)
         setup_mocks(execution_context)
         Spec::Matchers.description_generated(@description_generated_proc)
         
@@ -79,7 +79,7 @@ module Spec
         end
       end
 
-      def teardown_example(execution_context, errors, &behaviour_after_each)
+      def after_example(execution_context, errors, &behaviour_after_each)
         execution_context.instance_eval(&behaviour_after_each) if behaviour_after_each
 
         begin

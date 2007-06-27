@@ -77,7 +77,7 @@ module Spec
         after_all_ran.should be_false
       end
       
-      it "should run all global after(:each) block even if a specific one fails" do
+      it "should run global after(:each) block even if a specific one fails" do
         @behaviour.it("example") {}
         global_after_ran = false
         Behaviour.after(:each) do
@@ -90,6 +90,12 @@ module Spec
           raise "specific"
         end
 
+        @reporter.should_receive(:example_finished) do |name, error, location, example_not_implemented|
+          name.should eql("example")
+          error.message.should eql("specific")
+          location.should eql("after(:each)")
+          example_not_implemented.should be_false
+        end
         @behaviour.run(@reporter)
         global_after_ran.should be_true
         specific_after_ran.should be_true
