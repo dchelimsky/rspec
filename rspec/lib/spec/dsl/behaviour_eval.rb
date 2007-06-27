@@ -214,7 +214,16 @@ module Spec
         end
         
         def pending(message)
-          raise Spec::DSL::ExamplePendingError.new(message)
+          if block_given?
+            begin
+              yield
+            rescue Exception => e
+              raise Spec::DSL::ExamplePendingError.new(message)
+            end
+            raise Spec::Expectations::ExpectationNotMetError.new("Expecting pending '#{message}' to fail. No Error was raised.")
+          else
+            raise Spec::DSL::ExamplePendingError.new(message)
+          end
         end
       end
     end

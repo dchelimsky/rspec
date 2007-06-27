@@ -234,5 +234,47 @@ Officer
 </ruby>
 
 
+h3. Pending Examples
 
+Beginning with rSpec-1.0, you may omit the block on an an example:
+
+<ruby>
+it "should do something"
+</ruby>
+
+the summary report lists that example as not implemented.
+
+<ruby>
+37 examples, 0 failures, 1 not implemented
+</ruby>
+
+However, if you wish to have a body for your example, but still have
+the example be marked as pending, use the #pending method:
+
+<ruby>
+it "should do something" do
+   pending("for some reason")
+   true.should == true
+end
+</ruby>
+
+Additionally, suppose you have a behaviour that exposes a known bug in
+the system. For reasons beyond your control this bug will not be fixed
+immediately, but you don't want it failing your build. However, you
+would like to be notified when the bug has been fixed.
+
+For this scenario, #pending optionally accepts a block. 
+
+<ruby>
+it "should do something" do
+   pending("for obvious reasons") do
+     true.should == false
+   end
+end
+</ruby>
+
+If this block throws any exception, the example is still treated as
+pending. However, if the block does not throw any exceptions, #pending
+will raise a Spec::Expectations::ExpectationNotMetError alerting you
+to the fact that something has changed.
 

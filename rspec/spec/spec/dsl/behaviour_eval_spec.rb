@@ -52,6 +52,28 @@ module Spec
           pending("something")
         }.should raise_error(Spec::DSL::ExamplePendingError, "something")
       end
+
+      it "should have #pending raise a Pending error when its block fails" do
+        block_ran = false
+        lambda {
+          pending("something") do
+            block_ran = true
+            raise "something wrong with my example"
+          end
+        }.should raise_error(Spec::DSL::ExamplePendingError, "something")
+        block_ran.should == true
+      end
+
+      it "should have #pending raise Spec::Expectations::ExpectationNotMetError when its block does not fail" do
+        block_ran = false
+        lambda {
+          pending("something") do
+            block_ran = true
+          end
+        }.should raise_error(Spec::Expectations::ExpectationNotMetError, "Expecting pending 'something' to fail. No Error was raised.")
+        block_ran.should == true
+      end
+
     end
   end
 end
