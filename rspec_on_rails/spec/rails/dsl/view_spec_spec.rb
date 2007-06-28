@@ -89,9 +89,9 @@ end
 
 describe "A partial that includes a partial", :behaviour_type => :view do
   it "should support expects_render with nested partial" do
-    assigns[:partial] = obj = Object.new
+    obj = Object.new
     template.expects_render(:partial => 'partial', :object => obj)
-    render :partial => "view_spec/partial_with_sub_partial"
+    render :partial => "view_spec/partial_with_sub_partial", :locals => { :partial => obj }
   end
 end
 
