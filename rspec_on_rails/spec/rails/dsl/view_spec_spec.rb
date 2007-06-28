@@ -63,14 +63,14 @@ describe "A template that includes a partial", :behaviour_type => :view do
     response.should have_tag('div', "This is text from a method in the ApplicationHelper")
   end
   
-  it "should pass expect_render with the right partial" do
-    template.expect_render(:partial => 'partial')
+  it "should pass expects_render with the right partial" do
+    template.expects_render(:partial => 'partial')
     render!
     template.verify_rendered
   end
   
-  it "should fail expect_render with the wrong partial" do
-    template.expect_render(:partial => 'non_existent')
+  it "should fail expects_render with the wrong partial" do
+    template.expects_render(:partial => 'non_existent')
     render!
     begin
       template.verify_rendered
@@ -80,17 +80,17 @@ describe "A template that includes a partial", :behaviour_type => :view do
     end
   end
   
-  it "should fail expect_render with the right partial but wrong options" do
-    template.expect_render(:partial => 'partial', :locals => {:thing => Object.new})
+  it "should fail expects_render with the right partial but wrong options" do
+    template.expects_render(:partial => 'partial', :locals => {:thing => Object.new})
     render!
     lambda {template.verify_rendered}.should raise_error(Spec::Mocks::MockExpectationError)
   end
 end
 
 describe "A partial that includes a partial", :behaviour_type => :view do
-  it "should support expect_render with nested partial" do
+  it "should support expects_render with nested partial" do
     assigns[:partial] = obj = Object.new
-    template.expect_render(:partial => 'partial', :object => obj)
+    template.expects_render(:partial => 'partial', :object => obj)
     render :partial => "view_spec/partial_with_sub_partial"
   end
 end
@@ -104,7 +104,7 @@ describe "A view that includes a partial using :collection and :spacer_template"
   end
 
   it "should render the partial w/ spacer_tamplate" do
-    template.expect_render(:partial => 'partial',
+    template.expects_render(:partial => 'partial',
                :collection => ['Alice', 'Bob'],
                :spacer_template => 'spacer')
     render "view_spec/template_with_partial_using_collection"

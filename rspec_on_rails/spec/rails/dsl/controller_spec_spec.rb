@@ -32,18 +32,18 @@ require 'controller_spec_controller'
       response.should render_template("_partial")
     end
     
-    it "specifying a partial should work with with expect_render" do
-      controller.expect_render(:partial => "controller_spec/partial")
+    it "specifying a partial should work with with expects_render" do
+      controller.expects_render(:partial => "controller_spec/partial")
       get 'action_with_partial'
     end
     
-    it "specifying a partial should work with with expect_render with object" do
-      controller.expect_render(:partial => "controller_spec/partial", :object => "something")
+    it "specifying a partial should work with with expects_render with object" do
+      controller.expects_render(:partial => "controller_spec/partial", :object => "something")
       get 'action_with_partial_with_object', :thing => "something"
     end
     
-    it "specifying a partial should work with expect_render with locals" do
-      controller.expect_render(:partial => "controller_spec/partial", :locals => {:thing => "something"})
+    it "specifying a partial should work with expects_render with locals" do
+      controller.expects_render(:partial => "controller_spec/partial", :locals => {:thing => "something"})
       get 'action_with_partial_with_locals', :thing => "something"
     end
     
