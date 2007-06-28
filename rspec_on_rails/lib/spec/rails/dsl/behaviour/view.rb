@@ -71,6 +71,7 @@ module Spec
       end
       
       class ViewExampleController < ActionController::Base #:nodoc:
+        include Spec::Rails::DSL::RenderObserver
         attr_reader :template
 
         def add_helper_for(template_path)
@@ -149,7 +150,7 @@ module Spec
 
       end
 
-      # View Specs live in $RAILS_ROOT/spec/views/.
+      # View Examples live in $RAILS_ROOT/spec/views/.
       #
       # View Specs use Spec::Rails::DSL::ViewBehaviour,
       # which provides access to views without invoking any of your controllers.

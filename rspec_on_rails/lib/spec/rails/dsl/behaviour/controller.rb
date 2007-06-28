@@ -42,12 +42,12 @@ module Spec
       end
 
       module ControllerInstanceMethods #:nodoc:
-        include RenderObserver
+        include Spec::Rails::DSL::RenderObserver
 
         # === render(options = nil, deprecated_status = nil, &block)
         #
         # This gets added to the controller's singleton meta class,
-        # allowing Controller Specs to run in two modes, freely switching
+        # allowing Controller Examples to run in two modes, freely switching
         # from context to context.
         def render(options=nil, deprecated_status=nil, &block)
           unless block_given?
@@ -89,7 +89,7 @@ module Spec
       end
     
       # The methods provided by Spec::Rails::DSL::ControllerEvalContext
-      # are available to you in Controller Specs.
+      # are available to you in Controller Examples.
       #
       # The Public Class Methods are to be used within the +context+ block:
       #
@@ -103,7 +103,7 @@ module Spec
       #       # public instance methods go here
       #
       # See Spec::Rails::DSL::ControllerBehaviour for more general information
-      # on Controller Specs
+      # on Controller Examples
       class ControllerEvalContext < Spec::Rails::DSL::FunctionalEvalContext
         include Spec::Rails::DSL::ControllerBehaviourHelpers
         attr_reader :response, :request, :controller
@@ -146,9 +146,9 @@ module Spec
           end
       end
 
-      # Controller Specs live in $RAILS_ROOT/spec/controllers/.
+      # Controller Examples live in $RAILS_ROOT/spec/controllers/.
       #
-      # Controller Specs use Spec::Rails::DSL::ControllerBehaviour, which supports running specs for
+      # Controller Examples use Spec::Rails::DSL::ControllerBehaviour, which supports running specs for
       # Controllers in two modes, which represent the tension between the more granular
       # testing common in TDD and the more high level testing built into
       # rails. BDD sits somewhere in between: we want to a balance between
@@ -208,7 +208,7 @@ module Spec
       #   end
       #
       # See Spec::Rails::DSL::ControllerEvalContext for information
-      # about methods you can use in your Controller Specs
+      # about methods you can use in your Controller Examples
       class ControllerBehaviour < Spec::DSL::Behaviour
         def execution_context(example=nil) # :nodoc:
           instance = execution_context_class.new(example)
