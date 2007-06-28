@@ -12,7 +12,15 @@ class ControllerSpecController < ActionController::Base
   end
   
   def action_with_partial
-    render :partial => "controller_spec/a_partial"
+    render :partial => "controller_spec/partial"
+  end
+  
+  def action_with_partial_with_object
+    render :partial => "controller_spec/partial", :object => params[:thing]
+  end
+  
+  def action_with_partial_with_locals
+    render :partial => "controller_spec/partial", :locals => {:thing => params[:thing]}
   end
   
   def action_with_errors_in_template

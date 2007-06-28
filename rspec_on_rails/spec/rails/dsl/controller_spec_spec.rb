@@ -29,12 +29,27 @@ require 'controller_spec_controller'
     
     it "specifying a partial should work with partial name only" do
       get 'action_with_partial'
-      response.should render_template("_a_partial")
+      response.should render_template("_partial")
+    end
+    
+    it "specifying a partial should work with with expect_render" do
+      controller.expect_render(:partial => "controller_spec/partial")
+      get 'action_with_partial'
+    end
+    
+    it "specifying a partial should work with with expect_render with object" do
+      controller.expect_render(:partial => "controller_spec/partial", :object => "something")
+      get 'action_with_partial_with_object', :thing => "something"
+    end
+    
+    it "specifying a partial should work with expect_render with locals" do
+      controller.expect_render(:partial => "controller_spec/partial", :locals => {:thing => "something"})
+      get 'action_with_partial_with_locals', :thing => "something"
     end
     
     it "specifying a partial should work with path relative to RAILS_ROOT/app/views/" do
       get 'action_with_partial'
-      response.should render_template("controller_spec/_a_partial")
+      response.should render_template("controller_spec/_partial")
     end
     
     it "spec should have access to flash" do

@@ -42,6 +42,7 @@ module Spec
       end
 
       module ControllerInstanceMethods #:nodoc:
+        include RenderObserver
 
         # === render(options = nil, deprecated_status = nil, &block)
         #
@@ -60,7 +61,14 @@ module Spec
             end
           end
           
-          super
+          if (Hash === options)
+            expect_render_mock_proxy.render(options)
+          end
+          if expect_render_mock_proxy.send(:__mock_proxy).send(:find_matching_expectation, :render, options)
+            @performed_render = true
+          else
+            super(options, deprecated_status, &block)
+          end
         end
         
         def response(&block)
