@@ -43,6 +43,13 @@ behaviour example (message)
           @io.string.should eql(".")
         end
 
+        it "should push blue F for fixed pending spec" do
+          @io.should_receive(:tty?).and_return(true)
+          @formatter.colour = true
+          @formatter.example_failed("spec", 98, Reporter::Failure.new("c s", Spec::DSL::PendingFixedError.new))
+          @io.string.should eql("\e[35mF\e[0m")
+        end
+
         it "should push nothing on start" do
           @formatter.start(4)
           @io.string.should eql("")

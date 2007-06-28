@@ -115,6 +115,12 @@ dd.spec.not_implemented {
   background: #FCFB98; color: #131313;
 }
 
+dd.spec.pending_fixed {
+  border-left: 5px solid #0000C2;
+  border-bottom: 1px solid #0000C2;
+  color: #0000C2; background: #D3FBFF;
+}
+
 .backtrace {
   color: #000;
   font-size: 12px;
@@ -186,8 +192,8 @@ a {
       <div class="failure" id="failure_1">
         <div class="message"><pre>Mock 'poke me' expected :poke with (any args) once, but received it 0 times</pre></div>
         <div class="backtrace"><pre>./failing_examples/mocking_example.rb:13:
-./spec/spec/runner/formatter/html_formatter_spec.rb:23:
-./spec/spec/runner/formatter/html_formatter_spec.rb:52:</pre></div>
+./spec/spec/runner/formatter/html_formatter_spec.rb:17:
+./spec/spec/runner/formatter/html_formatter_spec.rb:13:</pre></div>
     <pre class="ruby"><code><span class="linenum">11</span>  it "should fail when expected message not received" do
 <span class="linenum">12</span>    mock = mock("poke me")
 <span class="offending"><span class="linenum">13</span>    mock.should_receive(:poke)</span>
@@ -202,8 +208,8 @@ a {
       <div class="failure" id="failure_2">
         <div class="message"><pre>Mock 'one two three' received :three out of order</pre></div>
         <div class="backtrace"><pre>./failing_examples/mocking_example.rb:22:
-./spec/spec/runner/formatter/html_formatter_spec.rb:23:
-./spec/spec/runner/formatter/html_formatter_spec.rb:52:</pre></div>
+./spec/spec/runner/formatter/html_formatter_spec.rb:17:
+./spec/spec/runner/formatter/html_formatter_spec.rb:13:</pre></div>
     <pre class="ruby"><code><span class="linenum">20</span>    mock.should_receive(:three).ordered
 <span class="linenum">21</span>    mock.one
 <span class="offending"><span class="linenum">22</span>    mock.three</span>
@@ -218,8 +224,8 @@ a {
       <div class="failure" id="failure_3">
         <div class="message"><pre>Mock 'don't talk to me' expected :any_message_at_all with (any args) 0 times, but received it once</pre></div>
         <div class="backtrace"><pre>./failing_examples/mocking_example.rb:28:
-./spec/spec/runner/formatter/html_formatter_spec.rb:23:
-./spec/spec/runner/formatter/html_formatter_spec.rb:52:</pre></div>
+./spec/spec/runner/formatter/html_formatter_spec.rb:17:
+./spec/spec/runner/formatter/html_formatter_spec.rb:13:</pre></div>
     <pre class="ruby"><code><span class="linenum">26</span>  it "should get yelled at when sending unexpected messages" do
 <span class="linenum">27</span>    mock = mock("don't talk to me")
 <span class="offending"><span class="linenum">28</span>    mock.should_not_receive(:any_message_at_all)</span>
@@ -229,7 +235,21 @@ a {
       </div>
     </dd>
     <script type="text/javascript">moveProgressBar('29.4');</script>
-    <dd class="spec not_implemented"><span class="not_implemented_spec_name">should make eggs and bacon</span></dd>
+    <dd class="spec pending_fixed">
+      <span class="failed_spec_name">has a bug we need to fix</span>
+      <div class="failure" id="failure_4">
+        <div class="message"><pre>Expected pending 'here is the bug' to fail. No Error was raised.</pre></div>
+        <div class="backtrace"><pre>./failing_examples/mocking_example.rb:33:
+./spec/spec/runner/formatter/html_formatter_spec.rb:17:
+./spec/spec/runner/formatter/html_formatter_spec.rb:13:</pre></div>
+    <pre class="ruby"><code><span class="linenum">31</span>
+<span class="linenum">32</span>  it "has a bug we need to fix" do
+<span class="offending"><span class="linenum">33</span>    pending "here is the bug" do</span>
+<span class="linenum">34</span>      # Actually, no. It's fixed. This will fail because it passes :-)
+<span class="linenum">35</span>      mock = mock("Bug")
+<span class="linenum">36</span><span class="comment"># gem install syntax to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
   </dl>
 </div>
 <div class="behaviour">
@@ -239,7 +259,7 @@ a {
     <script type="text/javascript">moveProgressBar('35.2');</script>
     <dd class="spec failed">
       <span class="failed_spec_name">should print diff of different strings</span>
-      <div class="failure" id="failure_4">
+      <div class="failure" id="failure_5">
         <div class="message"><pre>expected &quot;RSpec is a\nbehaviour driven development\nframework for Ruby\n&quot;, got &quot;RSpec is a\nbehavior driven development\nframework for Ruby\n&quot; (using ==)
 Diff:
 @@ -1,4 +1,4 @@
@@ -249,8 +269,8 @@ Diff:
  framework for Ruby
 </pre></div>
         <div class="backtrace"><pre>./failing_examples/diffing_spec.rb:13:
-./spec/spec/runner/formatter/html_formatter_spec.rb:23:
-./spec/spec/runner/formatter/html_formatter_spec.rb:52:</pre></div>
+./spec/spec/runner/formatter/html_formatter_spec.rb:17:
+./spec/spec/runner/formatter/html_formatter_spec.rb:13:</pre></div>
     <pre class="ruby"><code><span class="linenum">11</span>framework for Ruby
 <span class="linenum">12</span>EOF
 <span class="offending"><span class="linenum">13</span>    usa.should == uk</span>
@@ -262,7 +282,7 @@ Diff:
     <script type="text/javascript">moveProgressBar('41.1');</script>
     <dd class="spec failed">
       <span class="failed_spec_name">should print diff of different objects' pretty representation</span>
-      <div class="failure" id="failure_5">
+      <div class="failure" id="failure_6">
         <div class="message"><pre>expected &lt;Animal
 name=bob,
 species=tortoise
@@ -281,8 +301,8 @@ Diff:
  &gt;
 </pre></div>
         <div class="backtrace"><pre>./failing_examples/diffing_spec.rb:34:
-./spec/spec/runner/formatter/html_formatter_spec.rb:23:
-./spec/spec/runner/formatter/html_formatter_spec.rb:52:</pre></div>
+./spec/spec/runner/formatter/html_formatter_spec.rb:17:
+./spec/spec/runner/formatter/html_formatter_spec.rb:13:</pre></div>
     <pre class="ruby"><code><span class="linenum">32</span>    expected = Animal.new "bob", "giraffe"
 <span class="linenum">33</span>    actual   = Animal.new "bob", "tortoise"
 <span class="offending"><span class="linenum">34</span>    expected.should eql(actual)</span>
@@ -347,7 +367,7 @@ Diff:
   </dl>
 </div>
 <script type="text/javascript">document.getElementById('duration').innerHTML = "Finished in <strong>x seconds</strong>";</script>
-<script type="text/javascript">document.getElementById('totals').innerHTML = "17 examples, 5 failures, 4 pending";</script>
+<script type="text/javascript">document.getElementById('totals').innerHTML = "17 examples, 6 failures, 3 pending";</script>
 </div>
 </div>
 </body>

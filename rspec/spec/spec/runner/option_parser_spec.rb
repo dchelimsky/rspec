@@ -55,7 +55,7 @@ describe "OptionParser" do
   end
 
   it "should print instructions about how to require missing formatter" do
-    options = parse(["--format", "Custom::MissingFormatter"])
+    lambda { options = parse(["--format", "Custom::MissingFormatter"]) }.should raise_error(NameError)
     @err.string.should match(/Couldn't find formatter class Custom::MissingFormatter/n)
   end
 
@@ -200,7 +200,7 @@ describe "OptionParser" do
   end
 
   it "should print instructions about how to fix missing differ" do
-    options = parse(["--diff", "Custom::MissingFormatter"])
+    lambda { parse(["--diff", "Custom::MissingFormatter"]) }.should raise_error(NameError)
     @err.string.should match(/Couldn't find differ class Custom::MissingFormatter/n)
   end
 
@@ -333,7 +333,7 @@ describe "OptionParser" do
   end
 
   it "should fail when custom runner not found" do
-    parse(["--runner", "whatever"])
+    lambda { parse(["--runner", "whatever"]) }.should raise_error(NameError)
     @err.string.should match(/Couldn't find behaviour runner class/)
   end
 

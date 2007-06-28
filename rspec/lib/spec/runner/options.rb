@@ -133,27 +133,17 @@ module Spec
       end
 
       def parse_runner(runner, out_stream, error_stream)
-        begin
-          @runner_type = eval(runner)
-        rescue NameError
-          error_stream.puts "Couldn't find behaviour runner class #{runner}"
-          error_stream.puts "Make sure the --require option is specified."
-          exit2(1)
-        end
+        @runner_type = load_class(runner, error_stream, 'behaviour runner', '--runner')
       end
       
       def load_class(name, error_stream, kind, option)
         begin
-          eval(name)
+          eval(name, binding, __FILE__, __LINE__)
         rescue NameError => e
           error_stream.puts "Couldn't find #{kind} class #{name}"
           error_stream.puts "Make sure the --require option is specified *before* #{option}"
-          exit2(1)
+          if $_spec_spec ; raise e ; else exit(1) ; end
         end
-      end
-      
-      def exit2(code)
-        exit(code) unless $_spec_spec
       end
     end
   end

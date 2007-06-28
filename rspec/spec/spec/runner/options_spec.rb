@@ -51,7 +51,7 @@ module Spec
       end
 
       it "should print instructions about how to fix missing differ" do
-        @options.parse_diff "Custom::MissingDiffer", @out_stream, @error_stream
+        lambda { @options.parse_diff "Custom::MissingDiffer", @out_stream, @error_stream }.should raise_error(NameError)
         @error_stream.string.should match(/Couldn't find differ class Custom::MissingDiffer/n)
       end      
 
