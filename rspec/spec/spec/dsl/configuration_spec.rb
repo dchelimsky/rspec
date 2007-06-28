@@ -36,7 +36,7 @@ module Spec
       it "should let you define modules to be included" do
         mod = Module.new
         @config.include mod
-        @config.included_modules.should include(mod)
+        @config.modules_for(nil).should include(mod)
       end
       
       [:prepend_before, :append_before, :prepend_after, :append_after].each do |m|

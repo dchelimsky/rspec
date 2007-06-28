@@ -6,7 +6,8 @@ follow the upgrade instructions and run 'script/generate rspec' you'll be fine, 
 step you need to manually go into spec_helper.rb and remove the call to that method (if present - it
 might not be if you haven't upgraded in a while).
 
-* examples without blocks and pending is now reported with a P instead of a *
+* Fixed [#11903] config.include with behaviour_type 'hash' does not work
+* Examples without blocks and pending is now reported with a P instead of a *
 * Pending blocks that now pass are rendered blue
 * New behaviour for after: If an after block raises an error, the other ones will still run instead of bailing at the first. 
 * Made it possible to run spec from RSpec.tmbundle with --drb against a Rails spec_server.

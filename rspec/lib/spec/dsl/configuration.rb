@@ -56,11 +56,27 @@ module Spec
       #   end
       #
       def include(*args)
-        included_modules.push(*args)
+        args << {} unless Hash === args.last
+        modules, options = args_and_options(*args)
+        required_behaviour_type = options[:behaviour_type]
+        required_behaviour_type = required_behaviour_type.to_sym unless required_behaviour_type.nil?
+        @modules ||= {}
+        @modules[required_behaviour_type] ||= []
+        @modules[required_behaviour_type] += modules
+      end
+
+      def modules_for(required_behaviour_type) #:nodoc:
+        @modules ||= {}
+        modules = @modules[nil] || [] # general ones
+        modules << @modules[required_behaviour_type.to_sym] unless required_behaviour_type.nil?
+        modules.uniq.compact
       end
       
-      def included_modules # :nodoc:
-        @included_modules ||= []
+      # This is just for cleanup in RSpec's own examples
+      def exclude(*modules) #:nodoc:
+        @modules.each do |behaviour_type, mods|
+          modules.each{|m| mods.delete(m)}
+        end
       end
       
       # Defines global predicate matchers. Example:

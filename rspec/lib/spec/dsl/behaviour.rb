@@ -118,7 +118,7 @@ module Spec
 
       # Includes modules in the Behaviour (the <tt>describe</tt> block).
       def include(*args)
-        @eval_module.include(*models_to_include(*args))
+        @eval_module.include(*args)
       end
 
       def behaviour_type #:nodoc:
@@ -127,17 +127,6 @@ module Spec
 
     protected
     
-      def models_to_include(*args)
-        args << {} unless Hash === args.last
-        modules, options = args_and_options(*args)
-        required_behaviour_type = options[:behaviour_type]
-        if required_behaviour_type.nil? || (required_behaviour_type.to_sym == behaviour_type.to_sym)
-          modules
-        else
-          []
-        end
-      end
-
       # Messages that this class does not understand
       # are passed directly to the @eval_module.
       def method_missing(sym, *args, &block)
@@ -155,10 +144,10 @@ module Spec
         mods = included_modules
         eval_module = @eval_module
         
-        global_includes = models_to_include(*Spec::Runner.configuration.included_modules)
+        global_modules = Spec::Runner.configuration.modules_for(behaviour_type)
         execution_context_class.class_eval do
           include eval_module
-          include(*global_includes) unless global_includes.nil?
+          include(*global_modules) unless global_modules.nil?
           mods.each do |mod|
             include mod
           end

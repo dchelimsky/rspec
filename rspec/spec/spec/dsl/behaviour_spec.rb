@@ -490,42 +490,6 @@ module Spec
         mod1_method_called.should be_true
         mod2_method_called.should be_true
       end
-      
-      it "should not include untargeted modules" do
-        special_method_called = false
-        special_mod = Module.new do
-          define_method :special_method do
-            special_method_called = true
-          end
-        end
-
-        behaviour = Behaviour.new("I'm not special", :behaviour_type => :not_special) {}
-        behaviour.include special_mod, :behaviour_type => :special
-        behaviour.it "test" do
-          special_method
-        end
-        behaviour.run(@reporter)
-
-        special_method_called.should be_false
-      end
-
-      it "should include targeted modules" do
-        special_method_called = false
-        special_mod = Module.new do
-          define_method :special_method do
-            special_method_called = true
-          end
-        end
-
-        behaviour = Behaviour.new("I'm special", :behaviour_type => :special) {}
-        behaviour.include special_mod, :behaviour_type => :special
-        behaviour.it "test" do
-          special_method
-        end
-        behaviour.run(@reporter)
-
-        special_method_called.should be_true
-      end
 
       it "should have accessible class methods from included module" do
         mod1_method_called = false
@@ -586,7 +550,8 @@ module Spec
       end
       
       it "should include targetted modules included using configuration" do
-      pending "doesn't pass because configuration.include keeps everything in one array. we need one array for each invocation" do
+        $included_modules = []
+        
         mod1 = Module.new do
           class << self
             def included(mod)
@@ -612,7 +577,6 @@ module Spec
         end
 
         begin
-          $included_modules = []
           Spec::Runner.configuration.include(mod1, mod2)
           Spec::Runner.configuration.include(mod3, :behaviour_type => :cat)
 
@@ -623,11 +587,8 @@ module Spec
           $included_modules.should include(mod2)
           $included_modules.should_not include(mod3)
         ensure
-          Spec::Runner.configuration.included_modules.delete(mod1)
-          Spec::Runner.configuration.included_modules.delete(mod2)
-          Spec::Runner.configuration.included_modules.delete(mod3)
+          Spec::Runner.configuration.exclude(mod1, mod2, mod3)
         end
-      end
       end
 
       it "should include any predicate_matchers included using configuration" do
