@@ -118,12 +118,7 @@ module Spec
 
       # Includes modules in the Behaviour (the <tt>describe</tt> block).
       def include(*args)
-        args << {} unless Hash === args.last
-        modules, options = args_and_options(*args)
-        required_behaviour_type = options[:behaviour_type]
-        if required_behaviour_type.nil? || required_behaviour_type.to_sym == behaviour_type.to_sym
-          @eval_module.include(*modules)
-        end
+        @eval_module.include(*models_to_include(*args))
       end
 
       def behaviour_type #:nodoc:
@@ -131,6 +126,17 @@ module Spec
       end
 
     protected
+    
+      def models_to_include(*args)
+        args << {} unless Hash === args.last
+        modules, options = args_and_options(*args)
+        required_behaviour_type = options[:behaviour_type]
+        if required_behaviour_type.nil? || (required_behaviour_type.to_sym == behaviour_type.to_sym)
+          modules
+        else
+          []
+        end
+      end
 
       # Messages that this class does not understand
       # are passed directly to the @eval_module.
@@ -148,11 +154,11 @@ module Spec
       def weave_in_included_modules
         mods = included_modules
         eval_module = @eval_module
+        
+        global_includes = models_to_include(*Spec::Runner.configuration.included_modules)
         execution_context_class.class_eval do
           include eval_module
-          Spec::Runner.configuration.included_modules.each do |mod|
-            include mod
-          end
+          include(*global_includes) unless global_includes.nil?
           mods.each do |mod|
             include mod
           end

@@ -517,7 +517,7 @@ module Spec
           end
         end
 
-        behaviour = Behaviour.new("I'm not special", :behaviour_type => :special) {}
+        behaviour = Behaviour.new("I'm special", :behaviour_type => :special) {}
         behaviour.include special_mod, :behaviour_type => :special
         behaviour.it "test" do
           special_method
@@ -585,7 +585,8 @@ module Spec
         @behaviour.should be_matches(['jalla'])
       end
       
-      it "should include any modules included using configuration" do
+      it "should include targetted modules included using configuration" do
+      pending "doesn't pass because configuration.include keeps everything in one array. we need one array for each invocation" do
         mod1 = Module.new do
           class << self
             def included(mod)
@@ -602,21 +603,33 @@ module Spec
           end
         end
 
+        mod3 = Module.new do
+          class << self
+            def included(mod)
+              $included_modules << self
+            end
+          end
+        end
+
         begin
           $included_modules = []
           Spec::Runner.configuration.include(mod1, mod2)
+          Spec::Runner.configuration.include(mod3, :behaviour_type => :cat)
 
-          behaviour = Behaviour.new('example') do
+          behaviour = Behaviour.new("I'm special", :behaviour_type => :dog) do
           end.run(@reporter)
         
           $included_modules.should include(mod1)
           $included_modules.should include(mod2)
+          $included_modules.should_not include(mod3)
         ensure
           Spec::Runner.configuration.included_modules.delete(mod1)
           Spec::Runner.configuration.included_modules.delete(mod2)
+          Spec::Runner.configuration.included_modules.delete(mod3)
         end
       end
-      
+      end
+
       it "should include any predicate_matchers included using configuration" do
         $included_predicate_matcher_found = false
         Spec::Runner.configuration.predicate_matchers[:do_something] = :does_something?
