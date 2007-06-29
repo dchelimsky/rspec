@@ -180,6 +180,20 @@ describe "A view with a form_tag", :behaviour_type => :view do
   end
 end
 
+describe "An instantiated ViewExampleController", :behaviour_type => :view do
+  before do
+    render "view_spec/foo/show"
+  end
+  
+  it "should return the name of the real controller that it replaces" do
+    @controller.controller_name.should == 'foo'
+  end
+  
+  it "should return the path of the real controller that it replaces" do
+    @controller.controller_path.should == 'view_spec/foo'
+  end
+end
+
 module Spec
   module Rails
     module DSL

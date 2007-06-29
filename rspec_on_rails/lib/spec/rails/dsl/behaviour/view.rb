@@ -45,6 +45,10 @@ module Spec
               def controller_path
                 "#{derived_controller_name(options)}"
               end
+              
+              def controller_name
+                "#{derived_controller_name(options).split('/').last}"
+              end
             }
 
             @controller.send :forget_variables_added_to_assigns
