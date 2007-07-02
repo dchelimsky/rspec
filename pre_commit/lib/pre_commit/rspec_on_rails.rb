@@ -33,6 +33,7 @@ class PreCommit::RspecOnRails < PreCommit
       silent_sh "svn export ../rspec vendor/plugins/rspec"
 
       create_purchase
+      generate_login_controller
       ensure_db_config
       clobber_sqlite_data
       rake_sh "db:migrate"
@@ -40,6 +41,7 @@ class PreCommit::RspecOnRails < PreCommit
       rake_sh "spec"
       rake_sh "spec:plugins"
     ensure
+      rm_generated_login_controller_files
       destroy_purchase
       rm_rf 'vendor/plugins/rspec_on_rails'
       rm_rf 'vendor/plugins/rspec'
@@ -158,6 +160,35 @@ class PreCommit::RspecOnRails < PreCommit
       spec/controllers/purchases_controller_spec.rb
       spec/fixtures/purchases.yml
       spec/views/purchases
+    }
+    generated_files.each do |file|
+      rm_rf file
+    end
+    puts "#####################################################"
+  end
+  
+  def generate_login_controller
+    generator = "ruby script/generate rspec_controller login signup login logout --force"
+    notice = <<-EOF
+    #####################################################
+    #{generator}
+    #####################################################
+    EOF
+    puts notice.gsub(/^    /, '')
+    result = silent_sh(generator)
+    raise "rspec_scaffold failed. #{result}" if error_code? || result =~ /not/
+  end
+
+  def rm_generated_login_controller_files
+    puts "#####################################################"
+    puts "Removing generated files:"
+    generated_files = %W{
+      app/helpers/login_helper.rb
+      app/controllers/login_controller.rb
+      app/views/login
+      spec/helpers/login_helper_spec.rb
+      spec/controllers/login_controller_spec.rb
+      spec/views/login
     }
     generated_files.each do |file|
       rm_rf file

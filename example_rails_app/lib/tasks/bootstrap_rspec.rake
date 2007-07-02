@@ -62,6 +62,14 @@ namespace :rspec do
   task :rm_generated_purchase_files do
     pre_commit.rm_generated_purchase_files
   end
+  
+  task :generate_login_controller do
+    pre_commit.generate_login_controller
+  end
+
+  task :rm_generated_login_controller_files do
+    pre_commit.rm_generated_login_controller_files
+  end
 
   def pre_commit
     PreCommit::RspecOnRails.new(self)

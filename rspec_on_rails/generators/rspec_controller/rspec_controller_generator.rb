@@ -14,6 +14,13 @@ class RspecControllerGenerator < ControllerGenerator
       m.directory File.join('spec/helpers', class_path)
       m.directory File.join('spec/views', class_path, file_name)
 
+      if ActionView::Base.const_defined?('DEFAULT_TEMPLATE_HANDLER_PREFERENCE') &&
+         ActionView::Base::DEFAULT_TEMPLATE_HANDLER_PREFERENCE.include?(:erb) then
+        @default_file_extension = "html.erb"
+      else
+        @default_file_extension = "rhtml"
+      end
+
       # Controller spec, class, and helper.
       m.template 'controller_spec.rb',
         File.join('spec/controllers', class_path, "#{file_name}_controller_spec.rb")
@@ -30,10 +37,10 @@ class RspecControllerGenerator < ControllerGenerator
       # Spec and view template for each action.
       actions.each do |action|
         m.template 'view_spec.rb',
-          File.join('spec/views', class_path, file_name, "#{action}_view_spec.rb"),
+          File.join('spec/views', class_path, file_name, "#{action}.#{@default_file_extension}_spec.rb"),
           :assigns => { :action => action, :model => file_name }
-        path = File.join('app/views', class_path, file_name, "#{action}.rhtml")
-        m.template 'controller:view.rhtml',
+        path = File.join('app/views', class_path, file_name, "#{action}.#{@default_file_extension}")
+        m.template "controller:view.#{@default_file_extension}",
           path,
           :assigns => { :action => action, :path => path }
       end

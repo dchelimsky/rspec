@@ -7,6 +7,6 @@ describe "/<%= class_name.underscore %>/<%= action %>" do
   
   #Delete this example and add some real ones or delete this file
   it "should tell you where to find the file" do
-    response.should have_tag('p', 'Find me in app/views/<%= class_name.underscore %>/<%= action %>.rhtml')
+    response.should have_tag('p', /Find me in app\/views\/<%= class_name.underscore %>\/<%= action %>/)
   end
 end
