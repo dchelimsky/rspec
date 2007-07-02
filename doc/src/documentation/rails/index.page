@@ -29,31 +29,31 @@ h2. Different Contexts for different Contexts
 
 Spec::Rails supports different Context subclasses for the following types of specs:
 
-h3. Model Specs
+h3. Model Examples
 
 These are the equivalent of unit tests in Rails'' built in testing. Ironically
 (for the traditional TDD'er) these are the only specs that we feel should actually interact
 with the database. "Learn more...":writing/models.html.
 
-h3. Controller Specs
+h3. Controller Examples
 
 These align somewhat with functional tests in rails, except
 that they do not actually render views (though you can force rendering of views
 if you prefer). Instead of setting expectations about what goes on a page, you
 set expectations about what templates get rendered. "Learn more...":writing/controllers.html.
 
-h3. View Specs
+h3. View Examples
 
 This is the other half of Rails'' functional testing. View specs allow
 you to set up assigns (thanks to ZenTest). "Learn more...":writing/views.html.
 
-h3. Helper Specs
+h3. Helper Examples
 
 ... let you specify directly methods that live in your helpers. "Learn more...":writing/helpers.html.
 
-h3. Integration Specs
+h3. Integration Examples
 
-We also plan to support "Integration Specs":writing/integration.html in the future.
+We also plan to support "Integration Examples":writing/integration.html in the future.
 
 For the time being we recommend that you use either
 "rails integration testing":http://weblog.jamisbuck.org/2006/3/9/integration-testing-in-rails-1-1

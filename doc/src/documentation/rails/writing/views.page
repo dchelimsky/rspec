@@ -3,7 +3,7 @@ title: Views
 ---
 h2. Spec::Rails - Specifying Views
 
-View Specs live in $RAILS_ROOT/spec/views/.
+View Examples live in $RAILS_ROOT/spec/views/.
 
 Spec::Rails supports the specification of views in complete isolation from their controllers.
 This allows you to spec and write your views even before their controllers exist,
@@ -57,12 +57,31 @@ session[:user_id] = "5678"
 
 h2. Expectations
 
-Spec::Rails' View Specs support the following custom expectations, all of which
-are also available in "controller":controller.html specs when run in "integrate_views" mode.
+Spec::Rails' View Examples support the following custom expectations.
+
+h3. template.expects_render/stubs_render
+
+This is a custom mock-like expectation that allows you to set expectations about partials and included
+files that will be rendered, intercepting those calls to the #render method, while ignoring other calls
+and passing them on to ActionView::Base. <code>expects_render</code> is verified at the end of the
+example, while <code>stubs_render</code> is not.
+
+%{color:red;font-weight:bold}WARNING%: expects_render and stubs_render, while very useful, act
+differently from standard Message Expectations (a.k.a. mock expectations), which would never pass calls
+through to the real object. This can be very confusing when there are failures if you're not aware of this
+fact, because some calls will be passed through while others will not. This is especially confusing when
+you use <code>stubs_render</code> because, as with all Method Stubs, you will get very little feedback
+about what is going on.
+
+<ruby>
+template.expects_render(:partial => 'person', :object => @person) #auto-verified
+template.stubs_render(:partial => 'person', :object => @person)   #not verified
+</ruby>
+
 
 h3. response.should have_tag
 
-This is built on assert_tag in rails testing:
+This wraps assert_select and is available in both View Examples and Controller Examples run in integration mode.
 
 <ruby>
 response.should have_tag('div') #passes if any div tags appear
@@ -81,13 +100,15 @@ evaluated accordingly.
 
 h2. Mocking and stubbing helpers
 
-If you wish to mock or stub helper methods, this must be done on the 
-<tt>@controller.template</tt> object:
+If you wish to mock or stub helper methods, this must be done on the <tt>template</tt> object:
 
 <ruby>
-@controller.template.should_receive(:current_user).and_return(mock("user"))
+template.should_receive(:current_user).and_return(mock("user"))
 </ruby>
 
-h2. Example View Specs
+%{color:red;font-weight:bold}WARNING:% Do NOT use mocks on the template object for expecting partials.
+Instead, use expects_render or stubs_render, described above.
+
+h2. Sample View Examples
 
 <ruby file="../example_rails_app/spec/views/person/list_view_spec.rb"/>

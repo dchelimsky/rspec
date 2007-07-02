@@ -43,6 +43,20 @@ describe "A template requiring multiple explicit helpers", :behaviour_type => :v
   end
 end
 
+describe "Message Expectations on helper methods", :behaviour_type => :view do
+  it "should work" do
+    template.should_receive(:method_in_plugin_application_helper).and_return('alternate message 1')
+    render "view_spec/implicit_helper"
+    response.body.should =~ /alternate message 1/
+  end
+
+  it "should work twice" do
+    template.should_receive(:method_in_plugin_application_helper).and_return('alternate message 2')
+    render "view_spec/implicit_helper"
+    response.body.should =~ /alternate message 2/
+  end
+end
+
 describe "A template that includes a partial", :behaviour_type => :view do
   def render!
     render "view_spec/template_with_partial"
@@ -76,7 +90,7 @@ describe "A template that includes a partial", :behaviour_type => :view do
       template.verify_rendered
     rescue Spec::Mocks::MockExpectationError => e
     ensure
-      e.backtrace.find{|line| line =~ /view_spec_spec\.rb\:73/}.should_not be_nil
+      e.backtrace.find{|line| line =~ /view_spec_spec\.rb\:87/}.should_not be_nil
     end
   end
   

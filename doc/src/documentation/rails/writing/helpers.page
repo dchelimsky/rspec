@@ -3,7 +3,7 @@ title: Helpers
 ---
 h2. Spec::Rails - Specifying Helpers
 
-Helper Specs live in $RAILS_ROOT/spec/helpers/.
+Helper Examples live in $RAILS_ROOT/spec/helpers/.
 
 Writing specs for your helpers is a snap. Just tell the context the name of the
 helper ...
@@ -18,6 +18,6 @@ end
 in the specs!
 
 
-h2. Example Helpers Specs
+h2. Sample Helpers Examples
 
 <ruby file="../example_rails_app/spec/helpers/people_helper_spec.rb"/>

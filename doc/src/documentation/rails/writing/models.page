@@ -3,11 +3,11 @@ title: Models
 ---
 h2. Spec::Rails - Specifying Models
 
-Model Specs live in $RAILS_ROOT/spec/models/ and provide access to fixtures.
+Model Examples live in $RAILS_ROOT/spec/models/ and provide access to fixtures.
 
 h2. Expectations
 
-Model Specs support the following custom expectations.
+Model Examples support the following custom expectations.
 See "Spec::Rails::Expectations":../../../rdoc-rails/index.html for more detail.
 
 h3. Records
@@ -28,6 +28,6 @@ model.should have(1).error_on(:attribute)
 model.should have(3).errors_on(:attribute)
 </ruby>
 
-h2. Example Model Specs
+h2. Sample Model Examples
 
 <ruby file="../example_rails_app/spec/models/person_spec.rb"/>
