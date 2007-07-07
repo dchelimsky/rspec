@@ -77,6 +77,7 @@ In alphabetical order (by last name)
 * Kyle Hargraves
 ** Patch [#10951] Odd instance variable name in rspec_model template
 ** Patch [#11608] Exclude rspec_on_rails from plugin spec runs
+** Patch [#12066] Docfix for mocks/mocks.page
 * Chris Hoffman
 ** Patch for spec:translate task in Spec::Rails
 * Chad Humphries

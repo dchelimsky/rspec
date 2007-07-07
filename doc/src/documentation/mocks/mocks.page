@@ -318,8 +318,8 @@ the return value of the block. For example:
 
 <ruby>
 my_mock.should_receive(:msg) { |a, b| 
-  a.should_be true
-  b.should_not_contain('mice')
+  a.should be_true
+  b.should_not include('mice')
   "Chunky bacon!"
 }
 </ruby>
