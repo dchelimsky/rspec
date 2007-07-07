@@ -107,19 +107,19 @@ response.should redirect_to('http://some.other.domain.com')
 h2. Rendering Expectations
 
 In addition to response.should render_template, described above, you can state more explicit rendering
-expectations using controller.expects_render and controller.stubs_render. If you have an action that
+expectations using controller.expect_render and controller.stub_render. If you have an action that
 renders a partial, for example:
 
 <ruby>
-controller.expects_render(:partial => 'person', :object => @person) #auto-verified
-controller.stubs_render(:partial => 'person', :object => @person)   #not verified
+controller.expect_render(:partial => 'person', :object => @person) #auto-verified
+controller.stub_render(:partial => 'person', :object => @person)   #not verified
 </ruby>
 
-%{color:red;font-weight:bold}WARNING%: expects_render and stubs_render, while very useful, act
+%{color:red;font-weight:bold}WARNING%: expect_render and stub_render, while very useful, act
 differently from standard Message Expectations (a.k.a. mock expectations), which would never pass calls
 through to the real object. This can be very confusing when there are failures if you're not aware of this
 fact, because some calls will be passed through while others will not. This is especially confusing when
-you use <code>stubs_render</code> because, as with all Method Stubs, you will get very little feedback
+you use <code>stub_render</code> because, as with all Method Stubs, you will get very little feedback
 about what is going on.
 
 h3. assigns, flash and session

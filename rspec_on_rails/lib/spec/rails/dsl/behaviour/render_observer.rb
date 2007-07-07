@@ -18,40 +18,40 @@ module Spec
         # request. This approach makes it impossible to use a normal mock object, which
         # is designed to observe all incoming messages with a given name.
         #
-        # +expects_render+ is auto-verifying, so failures will be reported without
+        # +expect_render+ is auto-verifying, so failures will be reported without
         # requiring you to explicitly request verification.
         #
-        # Also, +expects_render+ uses parts of RSpec's mock expectation framework. Because
+        # Also, +expect_render+ uses parts of RSpec's mock expectation framework. Because
         # it wraps only a subset of the framework, using this will create no conflict with
         # other mock frameworks if you choose to use them. Additionally, the object returned
-        # by expects_render is an RSpec mock object, which means that you can call any of the
+        # by expect_render is an RSpec mock object, which means that you can call any of the
         # chained methods available in RSpec's mocks.
         #
         # == Controller Examples
         #
-        #   controller.expects_render(:partial => 'thing', :object => thing)
-        #   controller.expects_render(:partial => 'thing', :collection => things).once
+        #   controller.expect_render(:partial => 'thing', :object => thing)
+        #   controller.expect_render(:partial => 'thing', :collection => things).once
         #
-        #   controller.stubs_render(:partial => 'thing', :object => thing)
-        #   controller.stubs_render(:partial => 'thing', :collection => things).twice
+        #   controller.stub_render(:partial => 'thing', :object => thing)
+        #   controller.stub_render(:partial => 'thing', :collection => things).twice
         #
         # == View Examples
         #
-        #   template.expects_render(:partial => 'thing', :object => thing)
-        #   template.expects_render(:partial => 'thing', :collection => things)
+        #   template.expect_render(:partial => 'thing', :object => thing)
+        #   template.expect_render(:partial => 'thing', :collection => things)
         #
-        #   template.stubs_render(:partial => 'thing', :object => thing)
-        #   template.stubs_render(:partial => 'thing', :collection => things)
+        #   template.stub_render(:partial => 'thing', :object => thing)
+        #   template.stub_render(:partial => 'thing', :collection => things)
         #
-        def expects_render(opts={})
+        def expect_render(opts={})
           expect_render_mock_proxy.should_receive(:render, :expected_from => caller(1)[0]).with(opts)
           register_verify_after_each
         end
 
-        # This is exactly like expects_render, with the exception that the call to render will not
+        # This is exactly like expect_render, with the exception that the call to render will not
         # be verified. Use this if you are trying to isolate your example from a complicated render
         # operation but don't care whether it is called or not.
-        def stubs_render(opts={})
+        def stub_render(opts={})
           expect_render_mock_proxy.should_receive(:render, :expected_from => caller(1)[0]).with(opts).any_number_of_times
         end
   
