@@ -6,6 +6,7 @@ follow the upgrade instructions and run 'script/generate rspec' you'll be fine, 
 step you need to manually go into spec_helper.rb and remove the call to that method (if present - it
 might not be if you haven't upgraded in a while).
 
+* Fixed [#12079] auto-generated example name incomplete: should have 1 error on ....]
 * Applied [#12066] Docfix for mocks/mocks.page (Patch from Kyle Hargraves)
 * Fixed [#11891] script/generate rspec_controller fails to create appropriate views (from templates) on edge rails
 * Applied [#11921] Adds the correct controller_name from derived_controller_name() to the ViewExampleController (Patch from Eloy Duran)
