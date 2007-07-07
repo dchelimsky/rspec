@@ -1,4 +1,4 @@
-require 'spec/mocks/proxy'
+require 'spec/mocks'
 
 module Spec
   module Rails
@@ -81,7 +81,7 @@ module Spec
   
         def expect_render_mock_proxy #:nodoc:
           @expect_render_mock_proxy ||= lambda do
-            Spec::Mocks::Proxy.new(proxy = Object.new, "expect_render_mock_proxy")
+            proxy = Spec::Mocks::Mock.new("expect_render_mock_proxy")
             proxy.stub!(:render)
             proxy
           end.call

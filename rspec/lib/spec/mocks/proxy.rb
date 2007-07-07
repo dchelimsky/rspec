@@ -86,7 +86,7 @@ module Spec
     private
 
       def __add(sym, block)
-        $rspec_mocks.add(@target)
+        $rspec_mocks.add(@target) unless $rspec_mocks.nil?
         define_expected_method(sym)
       end
       
