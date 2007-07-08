@@ -59,6 +59,13 @@ module Spec
           @object.rspec_verify
         end.should raise_error(Spec::Mocks::MockExpectationError)
       end
+      
+      it "should use report nil in the error message" do
+        @this_will_resolve_to_nil.should_receive(:foobar)
+        lambda do
+          @this_will_resolve_to_nil.rspec_verify
+        end.should raise_error(Spec::Mocks::MockExpectationError, /nil expected :foobar with/)
+      end
     end
   end
 end
