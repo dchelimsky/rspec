@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../../../spec_helper.rb'
 
-describe "Object#should" do
+describe Object, "#should" do
   before(:each) do
     @target = "target"
     @matcher = mock("matcher")
@@ -23,7 +23,7 @@ describe "Object#should" do
   end
 end
 
-describe "Object#should_not" do
+describe Object, "#should_not" do
   before(:each) do
     @target = "target"
     @matcher = mock("matcher")

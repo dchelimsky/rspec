@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
-describe "Spec::Expectations.fail_with with no diff" do
+describe Spec::Expectations, "#fail_with with no diff" do
   before(:each) do
     @old_differ = Spec::Expectations.differ
     Spec::Expectations.differ = nil
@@ -23,7 +23,7 @@ describe "Spec::Expectations.fail_with with no diff" do
   end
 end
 
-describe "Spec::Expectations.fail_with with diff" do
+describe Spec::Expectations, "#fail_with with diff" do
   before(:each) do
     @old_differ = Spec::Expectations.differ
     @differ = mock("differ")

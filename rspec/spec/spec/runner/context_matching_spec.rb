@@ -2,24 +2,24 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 module Spec
   module DSL
-    describe "ContextMatching" do
+    describe Behaviour do
 
       before(:each) do
         @formatter = Spec::Mocks::Mock.new("formatter")
-        @behaviour = Behaviour.new("context") {}
+        @behaviour = Behaviour.new("behaviour") {}
       end
 
-      it "run all specs when spec is not specified" do
-        @behaviour.it("spec1") {}
-        @behaviour.it("spec2") {}
-        @behaviour.retain_examples_matching!(["context"])
+      it "should retain examples that don't match" do
+        @behaviour.it("example1") {}
+        @behaviour.it("example2") {}
+        @behaviour.retain_examples_matching!(["behaviour"])
         @behaviour.number_of_examples.should == 2
       end
 
-      it "should only run specified examples when specified" do
-        @behaviour.it("spec1") {}
-        @behaviour.it("spec2") {}
-        @behaviour.retain_examples_matching!(["context spec1"])
+      it "should remove examples that match" do
+        @behaviour.it("example1") {}
+        @behaviour.it("example2") {}
+        @behaviour.retain_examples_matching!(["behaviour example1"])
         @behaviour.number_of_examples.should == 1
       end
     end

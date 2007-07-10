@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 module Spec
   module Mocks
-    describe "AtMost" do
+    describe "at_most" do
       before(:each) do
         @mock = Mock.new("test mock")
       end
