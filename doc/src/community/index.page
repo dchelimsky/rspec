@@ -100,6 +100,8 @@ In alphabetical order (by last name)
 ** Patch [#11221] Autotest support does not work w/o Rails Gem installed
 * Michal Kwiatkowski
 ** Patch to get RSpec to work w/ Heckle +/- 1.2
+* Ian Leitch
+** Patch [#11888] rspec_on_rails spews out warnings when assert_select is used with an XML response
 * Tim Lucas
 ** Patch [#10631] redirect_to matcher doesn't respect request.host
 * Riley Lynch

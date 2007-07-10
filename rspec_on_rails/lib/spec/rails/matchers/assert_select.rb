@@ -14,7 +14,13 @@ module Spec # :nodoc:
         end
         
         def matches?(response_or_text, &block)
-          @args.unshift(HTML::Document.new(response_or_text).root) if String === response_or_text
+          if ActionController::TestResponse === response_or_text and
+                   response_or_text.headers.key?('Content-Type') and
+                   response_or_text.headers['Content-Type'].to_sym == :xml
+            @args.unshift(HTML::Document.new(response_or_text.body, false, true).root)           
+          elsif String === response_or_text
+            @args.unshift(HTML::Document.new(response_or_text).root)
+          end
           @block = block if block
           begin
             @spec_scope.send(@assertion, *@args, &@block)
