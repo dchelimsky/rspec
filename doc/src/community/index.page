@@ -53,7 +53,7 @@ In alphabetical order (by last name)
 ** Paired with Aslak to iron out minor JRuby issues.
 * Wincent Colaiuta
 ** Patch [#11252] Should be able to re-load file containing shared behaviours without raising an exception
-** Patch [#11253] Tweaks to autotest file mappings
+** Patch [#12010] Nicer failure message formatting
 * Bob Cotton
 ** Support for context_setup and context_teardown (now before(:all) and after(:all))
 ** Patch [#9678] Custom runner command line switch, and multi-threaded runner

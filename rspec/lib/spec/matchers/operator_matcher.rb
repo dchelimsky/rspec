@@ -52,8 +52,8 @@ module Spec
       def __delegate_method_missing_to_target(operator, expected)
         ::Spec::Matchers.generated_description = "should #{operator} #{expected.inspect}"
         return if @target.send(operator, expected)
-        return fail_with_message("expected #{expected.inspect}, got #{@target.inspect} (using #{operator})") if ['==','==='].include?(operator)
-        return fail_with_message("expected #{operator} #{expected.inspect}, got #{@target.inspect}")
+        return fail_with_message("expected: #{expected.inspect},\n     got: #{@target.inspect} (using #{operator})") if ['==','===', '=~'].include?(operator)
+        return fail_with_message("expected: #{operator} #{expected.inspect},\n     got: #{operator.gsub(/./, ' ')} #{@target.inspect}")
       end
 
     end
@@ -63,7 +63,7 @@ module Spec
       def __delegate_method_missing_to_target(operator, expected)
         ::Spec::Matchers.generated_description = "should not #{operator} #{expected.inspect}"
         return unless @target.send(operator, expected)
-        return fail_with_message("expected not #{operator} #{expected.inspect}, got #{@target.inspect}")
+        return fail_with_message("expected not: #{operator} #{expected.inspect},\n         got: #{operator.gsub(/./, ' ')} #{@target.inspect}")
       end
 
     end

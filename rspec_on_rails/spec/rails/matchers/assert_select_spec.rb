@@ -180,13 +180,13 @@ describe "should have_tag", :behaviour_type => :controller do
       response.should have_tag("div#?", /\d+/) do |elements|
         elements.size.should == 3
       end
-    }.should raise_error(SpecFailed, "expected 3, got 2 (using ==)")
+    }.should raise_error(SpecFailed, "expected: 3,\n     got: 2 (using ==)")
     
     lambda {
       response.should have_tag("div#?", /\d+/) { |elements|
         elements.size.should == 3
       }
-    }.should raise_error(SpecFailed, "expected 3, got 2 (using ==)")
+    }.should raise_error(SpecFailed, "expected: 3,\n     got: 2 (using ==)")
 
     response.should have_tag("div#?", /\d+/) do |elements|
       elements.size.should == 2

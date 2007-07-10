@@ -12,7 +12,7 @@ describe "should ==" do
   
   it "should fail when target.==(actual) returns false" do
     subject = "apple"
-    Spec::Expectations.should_receive(:fail_with).with(%[expected "orange", got "apple" (using ==)], "orange", "apple")
+    Spec::Expectations.should_receive(:fail_with).with(%[expected: "orange",\n     got: "apple" (using ==)], "orange", "apple")
     subject.should == "orange"
   end
 
@@ -28,7 +28,7 @@ describe "should_not ==" do
   
   it "should fail when target.==(actual) returns false" do
     subject = "apple"
-    Spec::Expectations.should_receive(:fail_with).with(%[expected not == "apple", got "apple"], "apple", "apple")
+    Spec::Expectations.should_receive(:fail_with).with(%[expected not: == "apple",\n         got:    "apple"], "apple", "apple")
     subject.should_not == "apple"
   end
 
@@ -45,7 +45,7 @@ describe "should ===" do
   it "should fail when target.===(actual) returns false" do
     subject = "apple"
     subject.should_receive(:===).with("orange").and_return(false)
-    Spec::Expectations.should_receive(:fail_with).with(%[expected "orange", got "apple" (using ===)], "orange", "apple")
+    Spec::Expectations.should_receive(:fail_with).with(%[expected: "orange",\n     got: "apple" (using ===)], "orange", "apple")
     subject.should === "orange"
   end
 
@@ -62,7 +62,7 @@ describe "should_not ===" do
   it "should fail when target.===(actual) returns false" do
     subject = "apple"
     subject.should_receive(:===).with("apple").and_return(true)
-    Spec::Expectations.should_receive(:fail_with).with(%[expected not === "apple", got "apple"], "apple", "apple")
+    Spec::Expectations.should_receive(:fail_with).with(%[expected not: === "apple",\n         got:     "apple"], "apple", "apple")
     subject.should_not === "apple"
   end
 
@@ -79,7 +79,7 @@ describe "should =~" do
   it "should fail when target.=~(actual) returns false" do
     subject = "fu"
     subject.should_receive(:=~).with(/oo/).and_return(false)
-    Spec::Expectations.should_receive(:fail_with).with(%[expected =~ /oo/, got "fu"], /oo/, "fu")
+    Spec::Expectations.should_receive(:fail_with).with(%[expected: /oo/,\n     got: "fu" (using =~)], /oo/, "fu")
     subject.should =~ /oo/
   end
 
@@ -96,7 +96,7 @@ describe "should_not =~" do
   it "should fail when target.=~(actual) returns false" do
     subject = "foo"
     subject.should_receive(:=~).with(/oo/).and_return(true)
-    Spec::Expectations.should_receive(:fail_with).with(%[expected not =~ /oo/, got "foo"], /oo/, "foo")
+    Spec::Expectations.should_receive(:fail_with).with(%[expected not: =~ /oo/,\n         got:    "foo"], /oo/, "foo")
     subject.should_not =~ /oo/
   end
 
@@ -109,7 +109,7 @@ describe "should >" do
   end
 
   it "should fail if > fails" do
-    Spec::Expectations.should_receive(:fail_with).with(%[expected > 5, got 4], 5, 4)
+    Spec::Expectations.should_receive(:fail_with).with(%[expected: > 5,\n     got:   4], 5, 4)
     4.should > 5
   end
 
@@ -123,7 +123,7 @@ describe "should >=" do
   end
 
   it "should fail if > fails" do
-    Spec::Expectations.should_receive(:fail_with).with(%[expected >= 5, got 4], 5, 4)
+    Spec::Expectations.should_receive(:fail_with).with(%[expected: >= 5,\n     got:    4], 5, 4)
     4.should >= 5
   end
 
@@ -136,7 +136,7 @@ describe "should <" do
   end
 
   it "should fail if > fails" do
-    Spec::Expectations.should_receive(:fail_with).with(%[expected < 3, got 4], 3, 4)
+    Spec::Expectations.should_receive(:fail_with).with(%[expected: < 3,\n     got:   4], 3, 4)
     4.should < 3
   end
 
@@ -150,7 +150,7 @@ describe "should <=" do
   end
 
   it "should fail if > fails" do
-    Spec::Expectations.should_receive(:fail_with).with(%[expected <= 3, got 4], 3, 4)
+    Spec::Expectations.should_receive(:fail_with).with(%[expected: <= 3,\n     got:    4], 3, 4)
     4.should <= 3
   end
 
