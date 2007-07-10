@@ -117,7 +117,7 @@ EOF
 
       def extra_failure_content(failure)
         result = super(failure)
-        result += img_div
+        result += img_div if failure.expectation_not_met?
         if self.class.html
           escaped_html = CGI::escapeHTML(self.class.html)
           source_id = "#{current_example_number}_source"

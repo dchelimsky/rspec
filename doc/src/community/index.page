@@ -64,6 +64,8 @@ In alphabetical order (by last name)
 ** Diffing enhancements for Objects and custom formats
 * Ryan Davis
 ** Patch for integration with autotest
+* Ian Dees
+** Patch [#11917] Cleaner Spec::Ui error for failed Selenium connection
 * Steven Duncan
 ** Documentation for rake task
 * Eloy Duran
