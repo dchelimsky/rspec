@@ -6,7 +6,7 @@ module Spec
       def go_to_twin(project_directory, filepath)
         other = twin(filepath)
         if File.file?(other)
-          `mate #{other}`
+          %x{ "$TM_SUPPORT_PATH/bin/mate" "#{other}" }
         else
           relative = other[project_directory.length+1..-1]
           file_type = file_type(other)
