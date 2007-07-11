@@ -4,7 +4,9 @@ module Spec
   module Runner
     describe BehaviourRunner, "#add_behaviour affecting passed in behaviour" do
       before do
-        @options = Options.new
+        @err = StringIO.new('')
+        @out = StringIO.new('')
+        @options = Options.new(@err,@out)
         @runner = BehaviourRunner.new(@options)
         class << @runner
           attr_reader :behaviours
@@ -49,7 +51,9 @@ module Spec
 
     describe BehaviourRunner, "#add_behaviour affecting behaviours" do
       before do
-        @options = Options.new
+        @err = StringIO.new('')
+        @out = StringIO.new('')
+        @options = Options.new(@err,@out)
         @runner = BehaviourRunner.new(@options)
         class << @runner
           attr_reader :behaviours
@@ -91,6 +95,11 @@ module Spec
     end
 
     describe BehaviourRunner do
+      before do
+        @err = StringIO.new('')
+        @out = StringIO.new('')
+        @options = Options.new(@err,@out)
+      end
 
       it "should only run behaviours with at least one example" do
         desired_context = mock("desired context")
@@ -105,11 +114,10 @@ module Spec
         other_context.should_receive(:number_of_examples).and_return(0)
 
         reporter = mock("reporter")
-        options = Options.new
-        options.reporter = reporter
-        options.examples = ["desired context legal spec"]
+        @options.reporter = reporter
+        @options.examples = ["desired context legal spec"]
 
-        runner = Spec::Runner::BehaviourRunner.new(options)
+        runner = Spec::Runner::BehaviourRunner.new(@options)
         runner.add_behaviour(desired_context)
         runner.add_behaviour(other_context)
         reporter.should_receive(:start)
@@ -138,9 +146,8 @@ module Spec
         reporter.should_receive(:end)
         reporter.should_receive(:dump)
 
-        options = Options.new
-        options.reporter = reporter
-        runner = Spec::Runner::BehaviourRunner.new(options)
+        @options.reporter = reporter
+        runner = Spec::Runner::BehaviourRunner.new(@options)
         runner.add_behaviour(behaviour)
         runner.run([], false)
       end
@@ -159,26 +166,24 @@ module Spec
         heckle_runner = mock("heckle_runner")
         heckle_runner.should_receive(:heckle_with)
 
-        options = Options.new
-        options.reporter = reporter
-        options.heckle_runner = heckle_runner
+        @options.reporter = reporter
+        @options.heckle_runner = heckle_runner
 
-        runner = Spec::Runner::BehaviourRunner.new(options)
+        runner = Spec::Runner::BehaviourRunner.new(@options)
         runner.add_behaviour(context)
         runner.run([], false)
       end
 
       it "should run specs backward if options.reverse is true" do
-        options = Options.new
-        options.reverse = true
+        @options.reverse = true
 
         reporter = mock("reporter")
         reporter.should_receive(:start).with(3)
         reporter.should_receive(:end)
         reporter.should_receive(:dump).and_return(0)
-        options.reporter = reporter
+        @options.reporter = reporter
 
-        runner = Spec::Runner::BehaviourRunner.new(options)
+        runner = Spec::Runner::BehaviourRunner.new(@options)
         c1 = mock("c1")
         c1.should_receive(:number_of_examples).twice.and_return(1)
         c1.should_receive(:shared?).and_return(false)

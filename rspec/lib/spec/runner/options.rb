@@ -32,12 +32,14 @@ module Spec
         :loadby,
         :reporter,
         :reverse,
-        :runner_type,
         :timeout,
-        :verbose
+        :verbose,
+        :runner_arg,
+        :behaviour_runner
       )
 
-      def initialize
+      def initialize(err, out)
+        @err, @out = err, out
         @backtrace_tweaker = QuietBacktraceTweaker.new
         @examples = []
         @formatters = []
@@ -45,29 +47,42 @@ module Spec
         @dry_run = false
       end
 
+      def configure
+        configure_formatters
+        create_reporter
+        configure_differ
+        create_behaviour_runner
+      end
+
       def create_behaviour_runner
-        @formatters.each do |formatter|
-          formatter.colour = @colour if formatter.respond_to?(:colour=)
-          formatter.dry_run = @dry_run if formatter.respond_to?(:dry_run=)
-        end
-        @reporter = Reporter.new(@formatters, @backtrace_tweaker)
-
-        # this doesn't really belong here.
-        # it should, but the way things are coupled, it doesn't
-        if @differ_class
-          Spec::Expectations.differ = @differ_class.new(@diff_format, @context_lines, @colour)
-        end
-
         return nil if @generate
-
-        if @runner_type
-          @runner_type.new(self)
+        @behaviour_runner = if @runner_arg
+          klass_name, arg = split_at_colon(@runner_arg)
+          runner_type = load_class(klass_name, 'behaviour runner', '--runner')
+          runner_type.new(self, arg)
         else
           BehaviourRunner.new(self)
         end
       end
 
-      def parse_diff(format, out_stream, error_stream)
+      def configure_formatters
+        @formatters.each do |formatter|
+          formatter.colour = @colour if formatter.respond_to?(:colour=)
+          formatter.dry_run = @dry_run if formatter.respond_to?(:dry_run=)
+        end
+      end
+
+      def create_reporter
+        @reporter = Reporter.new(@formatters, @backtrace_tweaker)
+      end
+
+      def configure_differ
+        if @differ_class
+          Spec::Expectations.differ = @differ_class.new(@diff_format, @context_lines, @colour)
+        end
+      end
+
+      def parse_diff(format)
         @context_lines = 3
         case format
           when :context, 'context', 'c'
@@ -81,7 +96,7 @@ module Spec
           @differ_class = Spec::Expectations::Differs::Default
         else
           @diff_format  = :custom
-          @differ_class = load_class(format, error_stream, 'differ', '--diff')
+          @differ_class = load_class(format, 'differ', '--diff')
         end
       end
 
@@ -93,18 +108,16 @@ module Spec
         end
       end
 
-      def parse_format(format, out_stream, error_stream)
-        where = out_stream
+      def parse_format(format_arg)
+        format, where = split_at_colon(format_arg)
         # This funky regexp checks whether we have a FILE_NAME or not
-        if (format =~ /([a-zA-Z_]+(?:::[a-zA-Z_]+)*):?(.*)/) && ($2 != '')
-          format = $1
-          where = $2
-        else
+        if where.nil?
           raise "When using several --format options only one of them can be without a file" if @out_used
+          where = @out
           @out_used = true
         end
 
-        formatter_type = BUILT_IN_FORMATTERS[format] || load_class(format, error_stream, 'formatter', '--format')
+        formatter_type = BUILT_IN_FORMATTERS[format] || load_class(format, 'formatter', '--format')
         @formatters << formatter_type.new(where)
       end
 
@@ -132,16 +145,29 @@ module Spec
         @generate = true
       end
 
-      def parse_runner(runner, out_stream, error_stream)
-        @runner_type = load_class(runner, error_stream, 'behaviour runner', '--runner')
+      def split_at_colon(s)
+        if s =~ /([a-zA-Z_]+(?:::[a-zA-Z_]+)*):?(.*)/
+          arg = $2 == "" ? nil : $2
+          [$1, arg]
+        else
+          raise "Couldn't parse #{s.inspect}"
+        end
       end
       
-      def load_class(name, error_stream, kind, option)
+      def load_class(name, kind, option)
+        if name =~ /\A(?:::)?([A-Z]\w*(?:::[A-Z]\w*)*)\z/
+          arg = $2 == "" ? nil : $2
+          [$1, arg]
+        else
+          m = "#{name.inspect} is not a valid class name"
+          @err.puts m
+          raise m
+        end
         begin
           eval(name, binding, __FILE__, __LINE__)
         rescue NameError => e
-          error_stream.puts "Couldn't find #{kind} class #{name}"
-          error_stream.puts "Make sure the --require option is specified *before* #{option}"
+          @err.puts "Couldn't find #{kind} class #{name}"
+          @err.puts "Make sure the --require option is specified *before* #{option}"
           if $_spec_spec ; raise e ; else exit(1) ; end
         end
       end

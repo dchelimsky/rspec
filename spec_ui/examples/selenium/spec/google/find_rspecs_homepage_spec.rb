@@ -10,7 +10,7 @@ describe "Google's search page" do
   it "should find rspec's home page when I search for rspec" do
     @browser.type "name=q", "rspec"
     @browser.click_and_wait "name=btnG"
-    @browser.is_text_present("rspec.rubyforge.org").should be_true
+    @browser.is_text_present("http://rspec.rubyforge.org/index.html").should be_true
   end
 
   it "should find rspec's home page when I search for 'better than fudge' (will probably fail)" do

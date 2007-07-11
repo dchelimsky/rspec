@@ -16,7 +16,7 @@ Spec::Runner.configure do |config|
   end
   
   config.after(:each) do
-    Spec::Ui::ScreenshotFormatter.take_screenshot_of(@browser)
+    Spec::Ui::ScreenshotFormatter.instance.take_screenshot_of(@browser)
   end
 
   config.after(:all) do

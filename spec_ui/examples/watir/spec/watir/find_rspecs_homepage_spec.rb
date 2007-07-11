@@ -9,7 +9,7 @@ describe "Google's search page" do
   it "should find rspec's home page when I search for rspec" do
     @browser.text_field(:name, "q").set("rspec")
     @browser.button(:name, "btnG").click
-    @browser.should have_link(:url, "http://rspec.rubyforge.org/")
+    @browser.should have_link(:url, "http://rspec.rubyforge.org/index.html")
   end
 
   it "should find rspec's home page when I search for 'better than fudge' (this is supposed to fail)" do

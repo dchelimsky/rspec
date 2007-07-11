@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../../../spec_helper.rb'
 module Spec
   module Runner
     module Formatter
-      describe "ProgressBarFormatter" do
+      describe ProgressBarFormatter do
         before(:each) do
           @io = StringIO.new
           @formatter = ProgressBarFormatter.new(@io)
@@ -33,21 +33,32 @@ behaviour example (message)
 |)
         end
 
-        it "should push F for failing spec" do
-          @formatter.example_failed("spec", 98, Reporter::Failure.new("c s", RuntimeError.new))
-          @io.string.should eql("F")
+        it "should push green dot for passing spec" do
+          @io.should_receive(:tty?).and_return(true)
+          @formatter.colour = true
+          @formatter.example_passed("spec")
+          @io.string.should == "\e[32m.\e[0m"
         end
 
-        it "should push dot for passing spec" do
-          @formatter.example_passed("spec")
-          @io.string.should eql(".")
+        it "should push red F for failure spec" do
+          @io.should_receive(:tty?).and_return(true)
+          @formatter.colour = true
+          @formatter.example_failed("spec", 98, Reporter::Failure.new("c s", Spec::Expectations::ExpectationNotMetError.new))
+          @io.string.should eql("\e[31mF\e[0m")
+        end
+
+        it "should push magenta F for error spec" do
+          @io.should_receive(:tty?).and_return(true)
+          @formatter.colour = true
+          @formatter.example_failed("spec", 98, Reporter::Failure.new("c s", RuntimeError.new))
+          @io.string.should eql("\e[35mF\e[0m")
         end
 
         it "should push blue F for fixed pending spec" do
           @io.should_receive(:tty?).and_return(true)
           @formatter.colour = true
           @formatter.example_failed("spec", 98, Reporter::Failure.new("c s", Spec::DSL::PendingFixedError.new))
-          @io.string.should eql("\e[35mF\e[0m")
+          @io.string.should eql("\e[34mF\e[0m")
         end
 
         it "should push nothing on start" do

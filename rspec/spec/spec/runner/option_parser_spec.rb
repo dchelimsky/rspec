@@ -322,19 +322,19 @@ describe "OptionParser" do
     end
   end
 
-  it "should not use a runner by default" do
+  it "should use the standard runner by default" do
     options = parse([])
-    options.runner_type.should be_nil
+    options.create_behaviour_runner.class.should equal(Spec::Runner::BehaviourRunner)
   end
 
   it "should use a custom runner when given" do
     options = parse(["--runner", "Custom::BehaviourRunner"])
-    options.runner_type.should equal(Custom::BehaviourRunner)
+    options.create_behaviour_runner.class.should equal(Custom::BehaviourRunner)
   end
 
-  it "should fail when custom runner not found" do
-    lambda { parse(["--runner", "whatever"]) }.should raise_error(NameError)
-    @err.string.should match(/Couldn't find behaviour runner class/)
+  it "should use a custom runner with extra options" do
+    options = parse(["--runner", "Custom::BehaviourRunner:something"])
+    options.create_behaviour_runner.class.should equal(Custom::BehaviourRunner)
   end
 
   it "should return the correct default behaviour runner" do

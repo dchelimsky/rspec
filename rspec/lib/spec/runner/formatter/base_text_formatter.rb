@@ -40,18 +40,19 @@ module Spec
         def dump_failure(counter, failure)
           @output.puts
           @output.puts "#{counter.to_s})"
-          if(failure.expectation_not_met?)
-            @output.puts red(failure.header)
-            @output.puts red(failure.exception.message)
-          elsif(failure.pending_fixed?)
-            @output.puts blue(failure.header)
-            @output.puts blue(failure.exception.message)
-          else
-            @output.puts magenta(failure.header)
-            @output.puts magenta(failure.exception.message)
-          end
+          @output.puts colourise("#{failure.header}\n#{failure.exception.message}", failure)
           @output.puts format_backtrace(failure.exception.backtrace)
           @output.flush
+        end
+        
+        def colourise(s, failure)
+          if(failure.expectation_not_met?)
+            red(s)
+          elsif(failure.pending_fixed?)
+            blue(s)
+          else
+            magenta(s)
+          end
         end
       
         def dump_summary(duration, example_count, failure_count, pending_count)

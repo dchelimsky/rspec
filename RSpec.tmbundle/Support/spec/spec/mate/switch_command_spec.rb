@@ -105,7 +105,7 @@ EOF
         SwitchCommand.new.content_for('file', "some/other/path/lib/foo/zap.rb").should == file
       end
     end
-    
+
     describe SwitchCommand, "in a Rails app" do
       include Spec::Mate
       def twin(expected)

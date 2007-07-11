@@ -6,7 +6,7 @@ module Spec
         end
       
         def example_failed(name, counter, failure)
-          @output.print failure.expectation_not_met? ? red('F') : magenta('F')
+          @output.print colourise('F', failure)
           @output.flush
         end
 

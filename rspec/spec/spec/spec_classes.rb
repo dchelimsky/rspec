@@ -113,7 +113,7 @@ module Custom
   end
 
   class BehaviourRunner
-    def initialize(one); end
+    def initialize(options, arg=nil); end
   end
 end
 

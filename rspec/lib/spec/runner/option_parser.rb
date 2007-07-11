@@ -89,13 +89,14 @@ module Spec
         # Some exit points in parse (--generate-options, --drb) don't return the options, 
         # but hand over control. In that case we don't want to continue.
         return nil unless options.is_a?(Options)
-        options.create_behaviour_runner
+        options.configure
+        options.behaviour_runner
       end
 
       def parse(args, err, out, warn_if_no_files)
         options_file = nil
         args_copy = args.dup
-        options = Options.new
+        options = Options.new(err, out)
 
         opts = ::OptionParser.new do |opts|
           opts.banner = "Usage: spec (FILE|DIRECTORY|GLOB)+ [options]"
@@ -105,7 +106,7 @@ module Spec
             on(*COMMAND_LINE[name], &block)
           end
 
-          opts.rspec_on(:diff) {|diff| options.parse_diff(diff, out, err)}
+          opts.rspec_on(:diff) {|diff| options.parse_diff(diff)}
 
           opts.rspec_on(:colour) {options.colour = true}
 
@@ -115,7 +116,7 @@ module Spec
 
           opts.rspec_on(:line) {|line_number| options.line_number = line_number.to_i}
 
-          opts.rspec_on(:format) {|format| options.parse_format(format, out, err)}
+          opts.rspec_on(:format) {|format| options.parse_format(format)}
 
           opts.rspec_on(:require) {|req| options.parse_require(req)}
 
@@ -140,7 +141,7 @@ module Spec
           end
 
           opts.rspec_on(:runner) do |runner|
-            options.parse_runner(runner, out, err)
+            options.runner_arg = runner
           end
 
           opts.rspec_on(:drb) do

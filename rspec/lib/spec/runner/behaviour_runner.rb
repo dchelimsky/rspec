@@ -2,34 +2,28 @@ module Spec
   module Runner
     class BehaviourRunner
       
-      def initialize(options)
+      def initialize(options, arg=nil)
         @behaviours = []
         @options = options
       end
     
       def add_behaviour(behaviour)
-        if !specified_examples.nil? && !specified_examples.empty? #&& behaviour.matches?(specified_examples)
-          behaviour.retain_examples_matching!(specified_examples) #if behaviour.matches?(specified_examples)
+        if !specified_examples.nil? && !specified_examples.empty?
+          behaviour.retain_examples_matching!(specified_examples)
         end
         @behaviours << behaviour if behaviour.number_of_examples != 0 && !behaviour.shared?
       end
       
-      # Runs all contexts and returns the number of failures.
+      # Runs all behaviours and returns the number of failures.
       def run(paths, exit_when_done)
-        unless paths.nil? # It's nil when running single specs with ruby
-          paths = find_paths(paths)
-          sorted_paths = sort_paths(paths)
-          load_specs(sorted_paths) 
-        end
-        @options.reporter.start(number_of_examples)
-        behaviours = @options.reverse ? @behaviours.reverse : @behaviours
+        prepare!(paths)
         begin
-          run_behaviours(behaviours)
+          run_behaviours
         rescue Interrupt
         ensure
-          @options.reporter.end
+          report_end
         end
-        failure_count = @options.reporter.dump
+        failure_count = report_dump
         
         heckle if(failure_count == 0 && !@options.heckle_runner.nil?)
         
@@ -39,9 +33,27 @@ module Spec
         end
         failure_count
       end
+      
+      def report_end
+        @options.reporter.end
+      end
+      
+      def report_dump
+        @options.reporter.dump
+      end
+      
+      def prepare!(paths)
+        unless paths.nil? # It's nil when running single specs with ruby
+          paths = find_paths(paths)
+          sorted_paths = sort_paths(paths)
+          load_specs(sorted_paths) # This will populate @behaviours via callbacks to add_behaviour
+        end
+        @options.reporter.start(number_of_examples)
+        @behaviours.reverse! if @options.reverse
+      end
 
-      def run_behaviours(behaviours)
-        behaviours.each do |behaviour|
+      def run_behaviours
+        @behaviours.each do |behaviour|
           behaviour.run(@options.reporter, @options.dry_run, @options.reverse, @options.timeout)
         end
       end

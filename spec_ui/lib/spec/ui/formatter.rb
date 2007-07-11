@@ -1,64 +1,64 @@
-require 'tempfile'
-require 'base64'
-require 'cgi'
 require 'spec/ui/screenshot_saver'
 
 module Spec
   module Ui
     class ScreenshotFormatter < Spec::Runner::Formatter::HtmlFormatter
       class << self
-        include ScreenshotSaver
-
-        attr_accessor :root # Root directory for report
-        attr_reader :html
-
-        # Takes screenshot and snapshot of the +browser+'s html.
-        # This method calls #screenshot! so that method should not be called
-        # when this method is used.
-        # This method *must* be called in an after(:each) block.
-        def take_screenshot_of(browser)
-          screenshot
-          @html = browser.html
-        end
-
-        # Takes a screenshot of the current window. Use this method when
-        # you don't have a browser object.
-        def screenshot
-          new_relative_png_path!
-
-          png_path = File.join(root, relative_png_path)
-          dir = File.dirname(png_path)
-          FileUtils.mkdir_p(dir) unless File.directory?(dir)
-          save_screenshot(png_path)
-        end
-        
-        def relative_png_path
-          raise "Screenshot not taken. You must call #{self.name}.screenshot or #{self.name}.take_screenshot_of(@browser) from after(:each)" if @relative_png_path.nil?
-          @relative_png_path
-        end
-        
-        def new_relative_png_path!
-          @image_index ||= 0
-          @relative_png_path = "images/#{@image_index}.png"
-          @image_index += 1
-        end
-
-        # Resets the screenshot and html. Do not call this method from your specs.
-        def reset!
-          @relative_png_path = nil
-          @html = nil
-        end
+        attr_accessor :instance
       end
+
+      include ScreenshotSaver
 
       def initialize(where)
         super(where)
         if where.is_a?(String)
-          self.class.root = File.dirname(where)
+          @root = File.dirname(where)
         else
           raise "#{self.class} must write to a file, so that we know where to store screenshots"
         end
+        raise "Only one instance of #{self.class} is allowed" unless self.class.instance.nil?
+        self.class.instance = self
       end
       
+      # Takes screenshot and snapshot of the +browser+'s html.
+      # This method calls #screenshot! so that method should not be called
+      # when this method is used.
+      # This method *must* be called in an after(:each) block.
+      def take_screenshot_of(browser)
+        screenshot
+        save_html(browser)
+      end
+      
+      # Takes a screenshot of the current window. Use this method when
+      # you don't have a browser object.
+      def screenshot
+        png_path = File.join(@root, relative_png_path)
+        ensure_dir(png_path)
+        save_screenshot(png_path)
+      end
+      
+      def save_html(browser)
+        ensure_dir(absolute_html_path)
+        File.open(absolute_html_path, "w") {|io| io.write(browser.html)}
+      end
+      
+      def ensure_dir(file)
+        dir = File.dirname(file)
+        FileUtils.mkdir_p(dir) unless File.directory?(dir)
+      end
+
+      def relative_png_path
+        "images/#{current_example_number}.png"
+      end
+
+      def absolute_html_path
+        File.join(@root, relative_html_path)
+      end
+
+      def relative_html_path
+        "html/#{current_example_number}.html"
+      end
+
       def global_scripts
         super + <<-EOF
 function showImage(e) {
@@ -87,12 +87,12 @@ function toggleSource( id ) {
   if( elem.style.display == "block" )
   {
     elem.style.display = "none"
-    link.innerHTML = "show source"
+    link.innerHTML = "show snapshot"
   }
   else
   {
     elem.style.display = "block"
-    link.innerHTML = "hide source"
+    link.innerHTML = "hide snapshot"
   }
 }
 EOF
@@ -117,19 +117,19 @@ EOF
 
       def extra_failure_content(failure)
         result = super(failure)
-        result += img_div if failure.expectation_not_met?
-        if self.class.html
-          escaped_html = CGI::escapeHTML(self.class.html)
-          source_id = "#{current_example_number}_source"
-          result += "        <div>[<a id=\"l_#{source_id}\" href=\"javascript:toggleSource('#{source_id}')\">show source</a>]</div>\n"
-          result += "        <div id=\"#{source_id}\" class=\"dyn-source\"><textarea rows=\"20\">#{escaped_html}</textarea></div>\n"
+        if failure.expectation_not_met?
+          result += img_div 
         end
-        self.class.reset!
+        if File.exist?(absolute_html_path)
+          source_id = "#{current_example_number}_source"
+          result += "        <div>[<a id=\"l_#{source_id}\" href=\"javascript:toggleSource('#{source_id}')\">show snapshot</a>]</div>\n"
+          result += "        <div id=\"#{source_id}\" class=\"dyn-source\"><iframe src=\"#{relative_html_path}\" width=\"100%\" height=\"300px\"></iframe></div>\n"
+        end
         result
       end
  
       def img_div
-        "        <div><a href=\"#{self.class.relative_png_path}\"><img width=\"25%\" height=\"25%\" src=\"#{self.class.relative_png_path}\" /></a></div>\n"
+        "        <div><a href=\"#{relative_png_path}\"><img width=\"25%\" height=\"25%\" src=\"#{relative_png_path}\" /></a></div>\n"
       end
     end
   end

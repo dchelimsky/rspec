@@ -4,9 +4,9 @@ module Spec
   module Runner
     describe Options do
       before do
-        @error_stream = StringIO.new('')
-        @out_stream = StringIO.new('')
-        @options = Options.new
+        @err = StringIO.new('')
+        @out = StringIO.new('')
+        @options = Options.new(@err, @out)
       end
 
       it "instantiates empty arrays" do
@@ -23,41 +23,41 @@ module Spec
       end
 
       it "parse_diff sets context_lines" do
-        @options.parse_diff nil, @out_stream, @error_stream
+        @options.parse_diff nil
         @options.context_lines.should == 3
       end
 
       it "defaults diff to unified" do
-        @options.parse_diff nil, @out_stream, @error_stream
+        @options.parse_diff nil
         @options.diff_format.should == :unified
       end
 
       it "should use unified diff format option when format is unified" do
-        @options.parse_diff 'unified', @out_stream, @error_stream
+        @options.parse_diff 'unified'
         @options.diff_format.should == :unified
         @options.differ_class.should equal(Spec::Expectations::Differs::Default)
       end
 
       it "should use context diff format option when format is context" do
-        @options.parse_diff 'context', @out_stream, @error_stream
+        @options.parse_diff 'context'
         @options.diff_format.should == :context
         @options.differ_class.should == Spec::Expectations::Differs::Default
       end
 
       it "should use custom diff format option when format is a custom format" do
-        @options.parse_diff "Custom::Formatter", @out_stream, @error_stream
+        @options.parse_diff "Custom::Formatter"
         @options.diff_format.should == :custom
         @options.differ_class.should == Custom::Formatter
       end
 
       it "should print instructions about how to fix missing differ" do
-        lambda { @options.parse_diff "Custom::MissingDiffer", @out_stream, @error_stream }.should raise_error(NameError)
-        @error_stream.string.should match(/Couldn't find differ class Custom::MissingDiffer/n)
+        lambda { @options.parse_diff "Custom::MissingDiffer" }.should raise_error(NameError)
+        @err.string.should match(/Couldn't find differ class Custom::MissingDiffer/n)
       end      
 
       it "should print instructions about how to fix bad formatter" do
         lambda do
-          @options.parse_format "Custom::BadFormatter", @out_stream, @error_stream
+          @options.parse_format "Custom::BadFormatter"
         end.should raise_error(NameError, /undefined local variable or method `bad_method'/)
       end      
 
@@ -82,9 +82,50 @@ module Spec
       end
     end
 
+    describe Options, "splitting class names and args" do
+      before do
+        @err = StringIO.new('')
+        @out = StringIO.new('')
+        @options = Options.new(@err, @out)
+      end
+      
+      it "should split class names with args" do
+        @options.split_at_colon('Foo').should == ['Foo', nil]
+        @options.split_at_colon('Foo:arg').should == ['Foo', 'arg']
+        @options.split_at_colon('Foo::Bar::Zap:arg').should == ['Foo::Bar::Zap', 'arg']
+        @options.split_at_colon('Foo:arg1,arg2').should == ['Foo', 'arg1,arg2']
+        @options.split_at_colon('Foo::Bar::Zap:arg1,arg2').should == ['Foo::Bar::Zap', 'arg1,arg2']
+        @options.split_at_colon('Foo::Bar::Zap:drb://foo,drb://bar').should == ['Foo::Bar::Zap', 'drb://foo,drb://bar']
+      end
+
+      it "should raise error when splitting something starting with a number" do
+        lambda { @options.split_at_colon('') }.should raise_error("Couldn't parse \"\"")
+      end
+
+      it "should raise error when not class name" do
+        lambda do
+          @options.load_class('foo', 'fruit', '--food')
+        end.should raise_error('"foo" is not a valid class name')
+      end
+    end
+
     describe Options, "receiving create_behaviour_runner" do
       before do
-        @options = Options.new
+        @err = StringIO.new
+        @out = StringIO.new
+        @options = Options.new(@err, @out)
+      end
+
+      it "should fail when custom runner not found" do
+        @options.runner_arg = "Whatever"
+        lambda { @options.create_behaviour_runner }.should raise_error(NameError)
+        @err.string.should match(/Couldn't find behaviour runner class/)
+      end
+
+      it "should fail when custom runner not valid class name" do
+        @options.runner_arg = "whatever"
+        lambda { @options.create_behaviour_runner }.should raise_error('"whatever" is not a valid class name')
+        @err.string.should match(/"whatever" is not a valid class name/)
       end
 
       it "returns nil when generate is true" do
@@ -95,20 +136,6 @@ module Spec
       it "returns a BehaviourRunner by default" do
         runner = @options.create_behaviour_runner
         runner.class.should == BehaviourRunner
-      end
-
-      it "returns a custom runner when runner_type is set" do
-        runner_type = Class.new do
-          attr_reader :options
-          def initialize(options)
-            @options = options
-          end
-        end
-        @options.runner_type = runner_type
-
-        runner = @options.create_behaviour_runner
-        runner.class.should == runner_type
-        runner.options.should === @options
       end
 
       it "does not set Expectations differ when differ_class is not set" do
@@ -122,7 +149,7 @@ module Spec
         Spec::Expectations.should_receive(:differ=).with(anything()).and_return do |arg|
           arg.class.should == Spec::Expectations::Differs::Default
         end
-        @options.create_behaviour_runner
+        @options.configure
       end
 
       it "creates a Reporter" do
@@ -130,7 +157,7 @@ module Spec
         @options.formatters << formatter
         reporter = Reporter.new(@formatters, @backtrace_tweaker)
         Reporter.should_receive(:new).with(@options.formatters, @options.backtrace_tweaker).and_return(reporter)
-        @options.create_behaviour_runner
+        @options.configure
         @options.reporter.should === reporter
       end
 
@@ -141,7 +168,7 @@ module Spec
         formatter.should_receive(:colour=).with(true)
         formatter.should_receive(:dry_run=).with(true)
         @options.formatters << formatter
-        @options.create_behaviour_runner
+        @options.configure
       end
     end
   end

@@ -6,6 +6,7 @@ follow the upgrade instructions and run 'script/generate rspec' you'll be fine, 
 step you need to manually go into spec_helper.rb and remove the call to that method (if present - it
 might not be if you haven't upgraded in a while).
 
+* Applied [#12174] mishandling of paths with spaces in spec_mate switch_command (Patch from Carl Porth)
 * Implemented [#8315] File "Go to..." functionality
 * Applied [#11917] Cleaner Spec::Ui error for failed Selenium connection (Patch from Ian Dees)
 * Applied [#11888] rspec_on_rails spews out warnings when assert_select is used with an XML response (Patch from Ian Leitch)

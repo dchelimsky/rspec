@@ -107,10 +107,10 @@ SPEC
       end
       
       def write_and_open(path, content)
-        `mkdir -p #{File.dirname(path)}`
-        `touch #{path}`
+        `mkdir -p "#{File.dirname(path)}"`
+        `touch "#{path}"`
         `osascript &>/dev/null -e 'tell app "SystemUIServer" to activate' -e 'tell app "TextMate" to activate'`
-        `mate #{path}`
+        `mate "#{path}"`
         escaped_content = content.gsub("\n","\\n").gsub('$','\\$').gsub('"','\\\\\\\\\\\\"')
         `osascript &>/dev/null -e "tell app \\"TextMate\\" to insert \\"#{escaped_content}\\" as snippet true"`      
       end
