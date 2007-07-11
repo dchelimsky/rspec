@@ -1,0 +1,13 @@
+Rakefile
+README.txt
+CHANGELOG.txt
+Manifest.txt
+setup.rb
+lib/spec/distributed/master_runner.rb
+lib/spec/distributed/slave_runner.rb
+lib/spec/distributed/version.rb
+lib/spec/distributed.rb
+examples/first_spec.rb
+examples/second_spec.rb
+examples/third_spec.rb
+examples/fourth_spec.rb

@@ -1,4 +1,5 @@
 require 'spec/ui/screenshot_saver'
+require 'stringio'
 
 module Spec
   module Ui
@@ -11,13 +12,17 @@ module Spec
 
       def initialize(where)
         super(where)
+        init(where)
+      end
+      
+      def init(where) #:nodoc:
         if where.is_a?(String)
           @root = File.dirname(where)
         else
           raise "#{self.class} must write to a file, so that we know where to store screenshots"
         end
         raise "Only one instance of #{self.class} is allowed" unless self.class.instance.nil?
-        self.class.instance = self
+        ScreenshotFormatter.instance = self
       end
       
       # Takes screenshot and snapshot of the +browser+'s html.
@@ -29,14 +34,15 @@ module Spec
         save_html(browser)
       end
       
-      # Takes a screenshot of the current window. Use this method when
-      # you don't have a browser object.
+      # Takes a screenshot of the current window and saves it to disk. 
+      # Use this method when you don't have a browser object.
       def screenshot
         png_path = File.join(@root, relative_png_path)
         ensure_dir(png_path)
         save_screenshot(png_path)
       end
       
+      # Writes the HTML from +browser+ to disk
       def save_html(browser)
         ensure_dir(absolute_html_path)
         File.open(absolute_html_path, "w") {|io| io.write(browser.html)}
@@ -130,6 +136,27 @@ EOF
  
       def img_div
         "        <div><a href=\"#{relative_png_path}\"><img width=\"25%\" height=\"25%\" src=\"#{relative_png_path}\" /></a></div>\n"
+      end
+    end
+    
+    # This formatter produces the same HTML as ScreenshotFormatter, except that
+    # it doesn't save screenshot PNGs and browser snapshot HTML source to disk. 
+    # It is meant to be used from a Spec::Distributed master
+    class MasterScreenshotFormatter < ScreenshotFormatter
+      def screenshot
+      end
+      
+      def save_html(browser)
+      end
+    end
+    
+    # This formatter writes PNG and browser snapshot HTML to disk, just like its superclass,
+    # but it doesn't write the HTML report itself.
+    # It is meant to be used from Spec::Distributed slaves
+    class SlaveScreenshotFormatter < ScreenshotFormatter
+      def initialize(where)
+        super(StringIO.new)
+        init(where)
       end
     end
   end
