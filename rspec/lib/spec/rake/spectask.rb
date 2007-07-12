@@ -41,7 +41,18 @@ module Spec
     #   rake spec SPEC_OPTS="--diff"                   # enable diffing
     #   rake spec RCOV_OPTS="--aggregate myfile.txt"   # see rcov --help for details
     #
+    # Each attribute of this task may be a proc. This allows for lazy evaluation,
+    # which is sometimes handy if you want to defer the evaluation of an attribute value
+    # until the task is run (as opposed to when it is defined).
     class SpecTask < ::Rake::TaskLib
+      class << self
+        def attr_accessor(*names)
+          super(*names)
+          names.each do |name|
+            module_eval "def #{name}() evaluate(@#{name}) end" # Allows use of procs
+          end
+        end
+      end
 
       # Name of spec task. (default is :spec)
       attr_accessor :name
@@ -94,9 +105,7 @@ module Spec
       # FileList is acceptable).  If both +pattern+ and +spec_files+ are
       # used, then the list of spec files is the union of the two.
       # Setting the SPEC environment variable overrides this.
-      def spec_files=(list)
-        @spec_files = list
-      end
+      attr_accessor :spec_files
 
       # Create a specing task.
       def initialize(name=:spec)
@@ -113,57 +122,57 @@ module Spec
         @rcov_dir = "coverage"
 
         yield self if block_given?
-        @pattern = 'spec/**/*_spec.rb' if @pattern.nil? && @spec_files.nil?
+        @pattern = 'spec/**/*_spec.rb' if pattern.nil? && spec_files.nil?
         define
       end
 
       def define
         spec_script = File.expand_path(File.dirname(__FILE__) + '/../../../bin/spec')
 
-        lib_path = @libs.join(File::PATH_SEPARATOR)
+        lib_path = libs.join(File::PATH_SEPARATOR)
         actual_name = Hash === name ? name.keys.first : name
         unless ::Rake.application.last_comment
-          desc "Run specs" + (@rcov ? " using RCov" : "")
+          desc "Run specs" + (rcov ? " using RCov" : "")
         end
-        task @name do
-          RakeFileUtils.verbose(@verbose) do
+        task name do
+          RakeFileUtils.verbose(verbose) do
             unless spec_file_list.empty?
               # ruby [ruby_opts] -Ilib -S rcov [rcov_opts] bin/spec -- examples [spec_opts]
               # or
               # ruby [ruby_opts] -Ilib bin/spec examples [spec_opts]
               cmd = "ruby "
 
-              ruby_opts = @ruby_opts.clone
-              ruby_opts << "-I\"#{lib_path}\""
-              ruby_opts << "-S rcov" if @rcov
-              ruby_opts << "-w" if @warning
-              cmd << ruby_opts.join(" ")
+              rb_opts = ruby_opts.clone
+              rb_opts << "-I\"#{lib_path}\""
+              rb_opts << "-S rcov" if rcov
+              rb_opts << "-w" if warning
+              cmd << rb_opts.join(" ")
               cmd << " "
               cmd << rcov_option_list
-              cmd << %[ -o "#{@rcov_dir}" ] if @rcov
+              cmd << %[ -o "#{rcov_dir}" ] if rcov
               cmd << %Q|"#{spec_script}"|
               cmd << " "
-              cmd << "-- " if @rcov
+              cmd << "-- " if rcov
               cmd << spec_file_list.collect { |fn| %["#{fn}"] }.join(' ')
               cmd << " "
               cmd << spec_option_list
-              if @out
+              if out
                 cmd << " "
-                cmd << %Q| > "#{@out}"|
+                cmd << %Q| > "#{out}"|
                 STDERR.puts "The Spec::Rake::SpecTask#out attribute is DEPRECATED and will be removed in a future version. Use --format FORMAT:WHERE instead."
               end
               unless system(cmd)
-                STDERR.puts @failure_message if @failure_message
-                raise("Command #{cmd} failed") if @fail_on_error
+                STDERR.puts failure_message if failure_message
+                raise("Command #{cmd} failed") if fail_on_error
               end
             end
           end
         end
 
-        if @rcov
+        if rcov
           desc "Remove rcov products for #{actual_name}"
           task paste("clobber_", actual_name) do
-            rm_r @rcov_dir rescue nil
+            rm_r rcov_dir rescue nil
           end
 
           clobber_task = paste("clobber_", actual_name)
@@ -175,13 +184,20 @@ module Spec
       end
 
       def rcov_option_list # :nodoc:
-        return "" unless @rcov
-        ENV['RCOV_OPTS'] || @rcov_opts.join(" ") || ""
+        return "" unless rcov
+        ENV['RCOV_OPTS'] || rcov_opts.join(" ") || ""
       end
 
       def spec_option_list # :nodoc:
         STDERR.puts "RSPECOPTS is DEPRECATED and will be removed in a future version. Use SPEC_OPTS instead." if ENV['RSPECOPTS']
-        ENV['SPEC_OPTS'] || ENV['RSPECOPTS'] || @spec_opts.join(" ") || ""
+        ENV['SPEC_OPTS'] || ENV['RSPECOPTS'] || spec_opts.join(" ") || ""
+      end
+      
+      def evaluate(o)
+        case o
+          when Proc then o.call
+          else o
+        end
       end
 
       def spec_file_list # :nodoc:
@@ -189,8 +205,8 @@ module Spec
           FileList[ ENV['SPEC'] ]
         else
           result = []
-          result += @spec_files.to_a if @spec_files
-          result += FileList[ @pattern ].to_a if @pattern
+          result += spec_files.to_a if spec_files
+          result += FileList[ pattern ].to_a if pattern
           FileList[result]
         end
       end

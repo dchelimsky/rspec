@@ -11,12 +11,12 @@ Spec::Runner.configure do |config|
   config.before(:all) do
     @browser = Watir::Browser.new
   end
-  
+
   config.after(:each) do
     Spec::Ui::ScreenshotFormatter.instance.take_screenshot_of(@browser)
   end
 
   config.after(:all) do
-    @browser.kill! rescue nil
+    @browser.kill! unless RUBY_PLATFORM =~ /darwin/ # SafariWatir doesn't like closing and opening
   end
 end

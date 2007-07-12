@@ -1,5 +1,5 @@
-# You don't need to tweak the $LOAD_PATH if you have RSpec and Spec::Ui installed as gems
-$LOAD_PATH.unshift(File.dirname(__FILE__) + '/../../../rspec/lib')
+# You don't need to tweak the $LOAD_PATH if you have RSpec installed as a gem
+$LOAD_PATH.unshift('../../../rspec/lib')
 
 require 'rubygems'
 require 'spec/rake/spectask'
@@ -7,11 +7,51 @@ require 'spec/rake/spectask'
 desc "Run Watir Specs"
 Spec::Rake::SpecTask.new('spec:watir') do |t|
   t.spec_files = FileList['spec/watir/**/*.rb']
-  # This line is not necessary if you have RSpec and Spec::Ui installed as gems
-  t.ruby_opts = ["-I#{File.dirname(__FILE__) + '/../../lib'}"]
+  # This line is not necessary if you have Spec::Ui installed as a gem
+  t.ruby_opts = ["-I../../lib"]
   t.spec_opts = [
+    '--color', '--diff',
     '--require', 'rubygems,spec/ui', 
     '--format', 'Spec::Ui::ScreenshotFormatter:spec_report.html',
     '--format', 'progress'
   ]
+end
+
+# IMPORTANT: If you use the master/slave mode you really ought to
+# run everything on different machines.
+
+desc "Run Watir Specs as Spec::Distributed slave"
+Spec::Rake::SpecTask.new('spec:watir:slave') do |t|
+  t.spec_files = FileList['spec/watir/**/*.rb']
+  # This line is not necessary if you have Spec::Ui and Spec::Distributed installed as gems
+  t.ruby_opts = ["-I../../lib", "-I../../../spec_distributed/lib"]
+  t.spec_opts = lambda do
+    url = ENV['DRB_URL']
+    raise "You must pass DRB_URL=druby://localhost:8991 (for example) on the command line" if url.nil?
+    [
+    '--color', '--diff',
+    '--require', 'rubygems,spec/ui,spec/distributed', 
+    '--format', 'Spec::Ui::SlaveScreenshotFormatter:spec_report.html',
+    '--format', 'progress',
+    '--runner', "Spec::Distributed::SlaveRunner:#{url}"
+    ]
+  end
+end
+
+desc "Run Watir Specs as Spec::Distributed master"
+Spec::Rake::SpecTask.new('spec:watir:master') do |t|
+  t.spec_files = FileList['spec/watir/**/*.rb']
+  # This line is not necessary if you have Spec::Ui and Spec::Distributed installed as gems
+  t.ruby_opts = ["-I../../lib", "-I../../../spec_distributed/lib"]
+  t.spec_opts = lambda do
+    urls = ENV['DRB_URLS']
+    raise "You must pass DRB_URLS=druby://localhost:8991,druby://localhost:8991 (for example) on the command line" if urls.nil?
+    [
+    '--color', '--diff',
+    '--require', 'rubygems,spec/ui,spec/distributed', 
+    '--format', 'Spec::Ui::MasterScreenshotFormatter:spec_report.html',
+    '--format', 'progress',
+    '--runner', "Spec::Distributed::MasterRunner:#{urls}"
+    ]
+  end
 end

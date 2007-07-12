@@ -20,13 +20,16 @@ end
 
 class Watir::Browser
   def kill!
+    puts "killing"
     close
+    puts "killed"
   end
   
   alias _old_goto goto
   # Redefinition of Watir's original goto, which gives a better
   # exception message (the URL is in the message)
   def goto(url)
+    puts "GOTO #{url}"
     begin
       _old_goto(url)
     rescue => e

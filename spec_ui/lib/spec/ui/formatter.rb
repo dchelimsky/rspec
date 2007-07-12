@@ -10,12 +10,8 @@ module Spec
 
       include ScreenshotSaver
 
-      def initialize(where)
-        super(where)
-        init(where)
-      end
-      
-      def init(where) #:nodoc:
+      def initialize(where, out=where)
+        super(out)
         if where.is_a?(String)
           @root = File.dirname(where)
         else
@@ -155,8 +151,7 @@ EOF
     # It is meant to be used from Spec::Distributed slaves
     class SlaveScreenshotFormatter < ScreenshotFormatter
       def initialize(where)
-        super(StringIO.new)
-        init(where)
+        super(where, StringIO.new)
       end
     end
   end

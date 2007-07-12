@@ -8,14 +8,10 @@ module Spec
       end
 
       def run(paths, exit_when_done)
-        if @started
-          puts "WHAT THE FUCJ"
-          super(paths, exit_when_done)
-        else
-          @started = true
-          DRb.start_service(@url, self)
-          DRb.thread.join
-        end
+        @started = true
+        puts "Whip me on #{@url}"
+        DRb.start_service(@url, self)
+        DRb.thread.join
       end
 
       # This is called by the master over DRb.

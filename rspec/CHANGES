@@ -6,6 +6,7 @@ follow the upgrade instructions and run 'script/generate rspec' you'll be fine, 
 step you need to manually go into spec_helper.rb and remove the call to that method (if present - it
 might not be if you haven't upgraded in a while).
 
+* All Spec::Rake::SpecTask attributes can now be procs, which allows for lazy evaluation.
 * Changed the Spec::Ui interfaces slightly. See examples.
 * Applied [#12174] mishandling of paths with spaces in spec_mate switch_command (Patch from Carl Porth)
 * Implemented [#8315] File "Go to..." functionality
