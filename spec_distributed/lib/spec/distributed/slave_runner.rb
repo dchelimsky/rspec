@@ -26,7 +26,7 @@ module Spec
 
         # We'll report locally, but also record what happened so we can send
         # that back to the master
-        recorder = Recorder.new
+        recorder = Recorder.new(@url)
         reporter = Dispatcher.new(recorder, @options.reporter)
 
         behaviour.run(reporter, dry_run, reverse, timeout)
@@ -62,11 +62,16 @@ module Spec
     # sent back to the master and all the invocations are replayed there on the master's
     # *real* reporter. Nifty, eh?
     class Recorder
-      def initialize
+      def initialize(watermark)
+        @watermark = watermark
         @invocations = []
       end
 
       def method_missing(method, *args)
+        if method.to_s == 'add_behaviour'
+          # Watermark each behaviour name so the final report says where it ran
+          args[0] += " (#{@watermark})" 
+        end
         @invocations << [method, *args]
       end
       

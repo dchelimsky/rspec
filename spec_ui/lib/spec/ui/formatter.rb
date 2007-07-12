@@ -49,6 +49,10 @@ module Spec
         FileUtils.mkdir_p(dir) unless File.directory?(dir)
       end
 
+      def absolute_png_path
+        File.join(@root, relative_png_path)
+      end
+
       def relative_png_path
         "images/#{current_example_number}.png"
       end
@@ -119,7 +123,7 @@ EOF
 
       def extra_failure_content(failure)
         result = super(failure)
-        if failure.expectation_not_met?
+        if File.exist?(absolute_png_path)
           result += img_div 
         end
         if File.exist?(absolute_html_path)
