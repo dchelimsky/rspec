@@ -7,7 +7,7 @@ module Spec
       def initialize(options, args=nil)
         super(options)
         @slave_urls = args.split(",")
-        raise "You must pass the DRb URLs and svn rev: --runner #{self.class}:drb://host1:port1,drb://host2:port2,452" if @slave_urls.empty?
+        raise "You must pass the DRb URLs: --runner #{self.class}:druby://host1:port1,drb://host2:port2" if @slave_urls.empty?
       end
       
       def run(paths, exit_when_done)

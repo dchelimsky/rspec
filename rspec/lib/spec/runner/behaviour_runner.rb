@@ -50,6 +50,7 @@ module Spec
         end
         @options.reporter.start(number_of_examples)
         @behaviours.reverse! if @options.reverse
+        set_sequence_numbers
       end
 
       def run_behaviours
@@ -77,6 +78,14 @@ module Spec
       end
 
     private
+      
+      # Sets the #number on each Example
+      def set_sequence_numbers
+        number = 0
+        @behaviours.each do |behaviour|
+          number = behaviour.set_sequence_numbers(number, @options.reverse)
+        end
+      end
       
       def find_paths(paths)
         result = []

@@ -101,13 +101,13 @@ module Spec
       attr_accessor :out
 
       # Explicitly define the list of spec files to be included in a
-      # spec.  +list+ is expected to be an array of file names (a
+      # spec.  +spec_files+ is expected to be an array of file names (a
       # FileList is acceptable).  If both +pattern+ and +spec_files+ are
       # used, then the list of spec files is the union of the two.
       # Setting the SPEC environment variable overrides this.
       attr_accessor :spec_files
 
-      # Create a specing task.
+      # Defines a new task, using the name +name+.
       def initialize(name=:spec)
         @name = name
         @libs = [File.expand_path(File.dirname(__FILE__) + '/../../../lib')]
@@ -126,7 +126,7 @@ module Spec
         define
       end
 
-      def define
+      def define # :nodoc:
         spec_script = File.expand_path(File.dirname(__FILE__) + '/../../../bin/spec')
 
         lib_path = libs.join(File::PATH_SEPARATOR)
@@ -193,7 +193,7 @@ module Spec
         ENV['SPEC_OPTS'] || ENV['RSPECOPTS'] || spec_opts.join(" ") || ""
       end
       
-      def evaluate(o)
+      def evaluate(o) # :nodoc:
         case o
           when Proc then o.call
           else o

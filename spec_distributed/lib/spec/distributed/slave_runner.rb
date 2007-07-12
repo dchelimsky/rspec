@@ -4,7 +4,7 @@ module Spec
       def initialize(options, url=nil)
         super(options)
         @url = url
-        raise "You must pass the DRb URL: --runner #{self.class}:drb://host1:port1" if @url.nil?
+        raise "You must pass the DRb URL: --runner #{self.class}:druby://host1:port1" if @url.nil?
       end
 
       def run(paths, exit_when_done)
@@ -16,21 +16,33 @@ module Spec
 
       # This is called by the master over DRb.
       def prepare_run(master_paths, master_svn_rev)
-        update_wc(master_svn_rev)
-        prepare!(master_paths)
+        begin
+          update_wc(master_svn_rev)
+          prepare!(master_paths)
+        rescue => e
+          STDERR.puts e.message
+          STDERR.puts e.backtrace.join("\n")
+          exit(1)
+        end
       end
 
       # This is called by the master over DRb.
       def run_behaviour_at(behaviour_index, dry_run, reverse, timeout)
-        behaviour = @behaviours[behaviour_index]
+        begin
+          behaviour = @behaviours[behaviour_index]
 
-        # We'll report locally, but also record what happened so we can send
-        # that back to the master
-        recorder = Recorder.new(@url)
-        reporter = Dispatcher.new(recorder, @options.reporter)
+          # We'll report locally, but also record what happened so we can send
+          # that back to the master
+          recorder = Recorder.new(@url)
+          reporter = Dispatcher.new(recorder, @options.reporter)
 
-        behaviour.run(reporter, dry_run, reverse, timeout)
-        recorder
+          behaviour.run(reporter, dry_run, reverse, timeout)
+          recorder
+        rescue => e
+          STDERR.puts e.message
+          STDERR.puts e.backtrace.join("\n")
+          exit(1)
+        end
       end
       
       # This is called by the master over DRb.

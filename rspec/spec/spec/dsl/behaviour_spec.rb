@@ -78,7 +78,7 @@ module Spec
       end
       
       it "should run second after(:each) block even if the first one fails" do
-        @behaviour.it("example") {}
+        example = @behaviour.it("example") {}
         second_after_ran = false
         @behaviour.after(:each) do
           second_after_ran = true
@@ -90,8 +90,8 @@ module Spec
           raise "first"
         end
 
-        @reporter.should_receive(:example_finished) do |name, error, location, example_not_implemented|
-          name.should eql("example")
+        @reporter.should_receive(:example_finished) do |example, error, location, example_not_implemented|
+          example.should equal(example)
           error.message.should eql("first")
           location.should eql("after(:each)")
           example_not_implemented.should be_false
@@ -126,9 +126,9 @@ module Spec
       end
 
       it "should supply before(:all) as description if failure in before(:all)" do
-        @reporter.should_receive(:example_finished) do |name, error, location|
-          name.should eql("before(:all)")
-          error.message.should eql("in before(:all)")
+        @reporter.should_receive(:example_finished) do |example, error, location|
+          example.description.should eql("before(:all)")
+          error.message.should == "in before(:all)"
           location.should eql("before(:all)")
         end
 
@@ -138,8 +138,8 @@ module Spec
       end
 
       it "should provide after(:all) as description if failure in after(:all)" do
-        @reporter.should_receive(:example_finished) do |name, error, location|
-          name.should eql("after(:all)")
+        @reporter.should_receive(:example_finished) do |example, error, location|
+          example.description.should eql("after(:all)")
           error.message.should eql("in after(:all)")
           location.should eql("after(:all)")
         end
@@ -222,8 +222,8 @@ module Spec
       end
 
       it "should supply before(:all) as description if failure in before(:all)" do
-        @reporter.should_receive(:example_finished) do |name, error, location|
-          name.should eql("before(:all)")
+        @reporter.should_receive(:example_finished) do |example, error, location|
+          example.description.should eql("before(:all)")
           error.message.should eql("in before(:all)")
           location.should eql("before(:all)")
         end
@@ -234,8 +234,8 @@ module Spec
       end
 
       it "should provide after(:all) as description if failure in after(:all)" do
-        @reporter.should_receive(:example_finished) do |name, error, location|
-          name.should eql("after(:all)")
+        @reporter.should_receive(:example_finished) do |example, error, location|
+          example.description.should eql("after(:all)")
           error.message.should eql("in after(:all)")
           location.should eql("after(:all)")
         end

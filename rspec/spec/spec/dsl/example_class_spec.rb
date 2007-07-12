@@ -15,9 +15,9 @@ module Spec
       
       it "should report errors in example" do
         error = Exception.new
-        @reporter.should_receive(:example_finished).with("example", error, "example", false)
-
-        run(@example_class.new("example") {raise(error)})
+        example = @example_class.new("example") {raise(error)}
+        @reporter.should_receive(:example_finished).with(equal(example), error, "example", false)
+        run(example)
       end
     end
   end

@@ -102,24 +102,25 @@ module Spec
       end
 
       it "should only run behaviours with at least one example" do
-        desired_context = mock("desired context")
-        desired_context.should_receive(:run)
-        desired_context.should_receive(:retain_examples_matching!)
-        desired_context.should_receive(:number_of_examples).twice.and_return(1)
-        desired_context.should_receive(:shared?).and_return(false)
+        desired_behaviour = mock("desired behaviour")
+        desired_behaviour.should_receive(:run)
+        desired_behaviour.should_receive(:retain_examples_matching!)
+        desired_behaviour.should_receive(:number_of_examples).twice.and_return(1)
+        desired_behaviour.should_receive(:shared?).and_return(false)
+        desired_behaviour.should_receive(:set_sequence_numbers).with(0, anything)
 
-        other_context = mock("other context")
-        other_context.should_receive(:run).never
-        other_context.should_receive(:retain_examples_matching!)
-        other_context.should_receive(:number_of_examples).and_return(0)
+        other_behaviour = mock("other behaviour")
+        other_behaviour.should_receive(:run).never
+        other_behaviour.should_receive(:retain_examples_matching!)
+        other_behaviour.should_receive(:number_of_examples).and_return(0)
 
         reporter = mock("reporter")
         @options.reporter = reporter
-        @options.examples = ["desired context legal spec"]
+        @options.examples = ["desired behaviour legal spec"]
 
         runner = Spec::Runner::BehaviourRunner.new(@options)
-        runner.add_behaviour(desired_context)
-        runner.add_behaviour(other_context)
+        runner.add_behaviour(desired_behaviour)
+        runner.add_behaviour(other_behaviour)
         reporter.should_receive(:start)
         reporter.should_receive(:end)
         reporter.should_receive(:dump)
@@ -127,7 +128,7 @@ module Spec
       end
 
       it "should dump even if Interrupt exception is occurred" do
-        behaviour = Spec::DSL::Behaviour.new("context") do
+        behaviour = Spec::DSL::Behaviour.new("behaviour") do
           it "no error" do
           end
 
@@ -138,7 +139,7 @@ module Spec
         
         reporter = mock("reporter")
         reporter.should_receive(:start)
-        reporter.should_receive(:add_behaviour).with("context")
+        reporter.should_receive(:add_behaviour).with("behaviour")
         reporter.should_receive(:example_started).twice
         reporter.should_receive(:example_finished).twice
         reporter.should_receive(:rspec_verify)
@@ -153,10 +154,10 @@ module Spec
       end
 
       it "should heckle when options have heckle_runner" do
-        context = mock("context", :null_object => true)
-        context.should_receive(:number_of_examples).twice.and_return(1)
-        context.should_receive(:run).and_return(0)
-        context.should_receive(:shared?).and_return(false)
+        behaviour = mock("behaviour", :null_object => true)
+        behaviour.should_receive(:number_of_examples).twice.and_return(1)
+        behaviour.should_receive(:run).and_return(0)
+        behaviour.should_receive(:shared?).and_return(false)
 
         reporter = mock("reporter")
         reporter.should_receive(:start).with(1)
@@ -170,11 +171,11 @@ module Spec
         @options.heckle_runner = heckle_runner
 
         runner = Spec::Runner::BehaviourRunner.new(@options)
-        runner.add_behaviour(context)
+        runner.add_behaviour(behaviour)
         runner.run([], false)
       end
 
-      it "should run specs backward if options.reverse is true" do
+      it "should run examples backwards if options.reverse is true" do
         @options.reverse = true
 
         reporter = mock("reporter")
@@ -184,19 +185,21 @@ module Spec
         @options.reporter = reporter
 
         runner = Spec::Runner::BehaviourRunner.new(@options)
-        c1 = mock("c1")
-        c1.should_receive(:number_of_examples).twice.and_return(1)
-        c1.should_receive(:shared?).and_return(false)
+        b1 = mock("b1")
+        b1.should_receive(:number_of_examples).twice.and_return(1)
+        b1.should_receive(:shared?).and_return(false)
+        b1.should_receive(:set_sequence_numbers).with(12, true).and_return(18)
 
-        c2 = mock("c2")
-        c2.should_receive(:number_of_examples).twice.and_return(2)
-        c2.should_receive(:shared?).and_return(false)
-        c2.should_receive(:run) do
-          c1.should_receive(:run)
+        b2 = mock("b2")
+        b2.should_receive(:number_of_examples).twice.and_return(2)
+        b2.should_receive(:shared?).and_return(false)
+        b2.should_receive(:set_sequence_numbers).with(0, true).and_return(12)
+        b2.should_receive(:run) do
+          b1.should_receive(:run)
         end
 
-        runner.add_behaviour(c1)
-        runner.add_behaviour(c2)
+        runner.add_behaviour(b1)
+        runner.add_behaviour(b2)
     
         runner.run([], false)
       end

@@ -6,13 +6,13 @@ module Spec
           @output.puts "# #{name}"
         end
   
-        def example_passed(name)
-          @output.puts "# * #{name}"
+        def example_passed(example)
+          @output.puts "# * #{example.description}"
           @output.flush
         end
 
-        def example_failed(name, counter, failure)
-          @output.puts "# * #{name} [#{counter} - FAILED]"
+        def example_failed(example, counter, failure)
+          @output.puts "# * #{example.description} [#{counter} - FAILED]"
         end
         
         def example_pending(behaviour_name, example_name, message)

@@ -110,7 +110,7 @@ SPEC
         `mkdir -p "#{File.dirname(path)}"`
         `touch "#{path}"`
         `osascript &>/dev/null -e 'tell app "SystemUIServer" to activate' -e 'tell app "TextMate" to activate'`
-        `mate "#{path}"`
+        `"$TM_SUPPORT_PATH/bin/mate" "#{path}"`
         escaped_content = content.gsub("\n","\\n").gsub('$','\\$').gsub('"','\\\\\\\\\\\\"')
         `osascript &>/dev/null -e "tell app \\"TextMate\\" to insert \\"#{escaped_content}\\" as snippet true"`      
       end

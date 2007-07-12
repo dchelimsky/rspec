@@ -6,7 +6,7 @@ module Spec
           @behaviour_name = behaviour_name
         end
       
-        def example_failed(name, counter, failure)
+        def example_failed(example, counter, failure)
           unless @behaviour_name.nil?
             @output.puts @behaviour_name 
             @behaviour_name = nil

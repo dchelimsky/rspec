@@ -8,13 +8,13 @@ module Spec
           @output.flush
         end
       
-        def example_failed(name, counter, failure)
-          @output.puts failure.expectation_not_met? ? red("- #{name} (FAILED - #{counter})") : magenta("- #{name} (ERROR - #{counter})")
+        def example_failed(example, counter, failure)
+          @output.puts failure.expectation_not_met? ? red("- #{example.description} (FAILED - #{counter})") : magenta("- #{example.description} (ERROR - #{counter})")
           @output.flush
         end
       
-        def example_passed(name)
-          @output.puts green("- #{name}")
+        def example_passed(example)
+          @output.puts green("- #{example.description}")
           @output.flush
         end
         

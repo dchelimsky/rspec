@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe "Google's search page" do
+describe "Google's search page I" do
 
   before(:each) do
     # The @browser is initialised in spec_helper.rb
@@ -11,6 +11,15 @@ describe "Google's search page" do
     @browser.type "name=q", "rspec"
     @browser.click_and_wait "name=btnG"
     @browser.is_text_present("rspec.rubyforge.org").should be_true
+  end
+
+end
+
+describe "Google's search page II" do
+
+  before(:each) do
+    # The @browser is initialised in spec_helper.rb
+    @browser.open('http://www.google.no')
   end
 
   it "should find rspec's home page when I search for 'better than fudge' (will probably fail)" do

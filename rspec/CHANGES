@@ -6,6 +6,15 @@ follow the upgrade instructions and run 'script/generate rspec' you'll be fine, 
 step you need to manually go into spec_helper.rb and remove the call to that method (if present - it
 might not be if you haven't upgraded in a while).
 
+Warning: Implementors of custom formatters. Formatters will now be sent an Example object instead of just a 
+String for #example_started, #example_passed and #example_failed. In certain scenarios 
+(Spec::Ui with Spec::Distributed), the formatter must ask the Example for its sequence number instead of
+keeping track of a sequence number internal to the formatter. Most of you shouldn't need to upgrade
+your formatters though - the Example#to_s method returns the example name/description, so you should be
+able to use the passed Example instance as if it were a String.
+
+* Applied [#12237] (tiny) added full path to mate in switch_command (Patch from Carl Porth)
+* Formatters will now be sent an Example object instead of just a String for certain methods
 * All Spec::Rake::SpecTask attributes can now be procs, which allows for lazy evaluation.
 * Changed the Spec::Ui interfaces slightly. See examples.
 * Applied [#12174] mishandling of paths with spaces in spec_mate switch_command (Patch from Carl Porth)

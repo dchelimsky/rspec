@@ -26,12 +26,12 @@ module Spec
         end
 
         it "should push out failed spec" do
-          @formatter.example_failed("spec", 98, nil)
+          @formatter.example_failed(DSL::Example.new("spec"), 98, nil)
           @io.string.should eql("# * spec [98 - FAILED]\n")
         end
 
         it "should push out spec" do
-          @formatter.example_passed("spec")
+          @formatter.example_passed(DSL::Example.new("spec"))
           @io.string.should eql("# * spec\n")
         end
 

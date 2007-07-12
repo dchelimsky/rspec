@@ -24,21 +24,19 @@ module Spec
         def add_behaviour(name)
         end
 
-        # This method is invoked when an example starts. +name+ is the name of the
-        # example.
-        def example_started(name)
+        # This method is invoked when an +example+ starts.
+        def example_started(example)
         end
 
-        # This method is invoked when an example passes. +name+ is the name of the
-        # example.
-        def example_passed(name)
+        # This method is invoked when an +example+ passes.
+        def example_passed(example)
         end
 
-        # This method is invoked when an example fails, i.e. an exception occurred
-        # inside it (such as a failed should or other exception). +name+ is the name
-        # of the example. +counter+ is the sequence number of the failure
-        # (starting at 1) and +failure+ is the associated Failure object.
-        def example_failed(name, counter, failure)
+        # This method is invoked when an +example+ fails, i.e. an exception occurred
+        # inside it (such as a failed should or other exception). +counter+ is the 
+        # sequence number of the failure (starting at 1) and +failure+ is the associated 
+        # Failure object.
+        def example_failed(example, counter, failure)
         end
         
         # This method is invoked when an example is not yet implemented (i.e. has not

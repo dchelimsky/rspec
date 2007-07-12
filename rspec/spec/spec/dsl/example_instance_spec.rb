@@ -11,19 +11,19 @@ module Spec
       
       it "should send reporter example_started" do
         example=Example.new("example") {}
-        @reporter.should_receive(:example_started).with("example")
+        @reporter.should_receive(:example_started).with(equal(example))
         example.run(@reporter, nil, nil, false, nil)
       end
 
       it "should report its name for dry run" do
         example=Example.new("example") {}
-        @reporter.should_receive(:example_finished).with("example")
+        @reporter.should_receive(:example_finished).with(equal(example))
         example.run(@reporter, nil, nil, true, nil) #4th arg indicates dry run
       end
 
       it "should report success" do
         example=Example.new("example") {}
-        @reporter.should_receive(:example_finished).with("example", nil, nil, false)
+        @reporter.should_receive(:example_finished).with(equal(example), nil, nil, false)
         example.run(@reporter, nil, nil, nil, nil)
       end
 
@@ -31,7 +31,7 @@ module Spec
         example=Example.new("example") do
           (2+2).should == 5
         end
-        @reporter.should_receive(:example_finished).with("example", is_a(Spec::Expectations::ExpectationNotMetError), "example", false)
+        @reporter.should_receive(:example_finished).with(equal(example), is_a(Spec::Expectations::ExpectationNotMetError), "example", false)
         example.run(@reporter, nil, nil, nil, nil)
       end
 
@@ -40,7 +40,7 @@ module Spec
         example=Example.new("example") do
           raise(error)
         end
-        @reporter.should_receive(:example_finished).with("example", error, "example", false)
+        @reporter.should_receive(:example_finished).with(equal(example), error, "example", false)
         example.run(@reporter, nil, nil, nil, nil)
       end
 
@@ -50,7 +50,7 @@ module Spec
           self.instance_of?(Example).should == false
           self.instance_of?(scope_class).should == true
         end
-        @reporter.should_receive(:example_finished).with("should pass", nil, nil, false)
+        @reporter.should_receive(:example_finished).with(equal(example), nil, nil, false)
         example.run(@reporter, nil, nil, nil, scope_class.new)
       end
 
@@ -79,7 +79,7 @@ module Spec
           raise("in after_each")
         end
         @reporter.should_receive(:example_finished) do |example, error, location|
-          example.should eql("example")
+          example.should equal(example)
           location.should eql("example")
           error.message.should eql("in body")
         end
@@ -90,7 +90,7 @@ module Spec
         example=Example.new("example") {}
         before_each=lambda { raise(NonStandardError.new("in before_each")) }
         @reporter.should_receive(:example_finished) do |name, error, location|
-          name.should eql("example")
+          name.should equal(example)
           error.message.should eql("in before_each")
           location.should eql("before(:each)")
         end
@@ -101,7 +101,7 @@ module Spec
         example = Example.new("example") {}
         after_each = lambda { raise(NonStandardError.new("in after_each")) }
         @reporter.should_receive(:example_finished) do |name, error, location|
-          name.should eql("example")
+          name.should equal(example)
           error.message.should eql("in after_each")
           location.should eql("after(:each)")
         end
@@ -116,16 +116,16 @@ module Spec
         example = Example.new(:__generate_description) {
           5.should == 5
         }
-        @reporter.should_receive(:example_finished) do |desc, error, location|
-          desc.should == "NO NAME (Because of --dry-run)"
+        @reporter.should_receive(:example_finished) do |example, error, location|
+          example.description.should == "NO NAME (Because of --dry-run)"
         end
         example.run(@reporter, lambda{}, lambda{}, true, Object.new)
       end
 
       it "should report NO NAME when told to use generated description with no expectations" do
         example = Example.new(:__generate_description) {}
-        @reporter.should_receive(:example_finished) do |desc, error, location|
-          desc.should == "NO NAME (Because there were no expectations)"
+        @reporter.should_receive(:example_finished) do |example, error, location|
+          example.description.should == "NO NAME (Because there were no expectations)"
         end
         example.run(@reporter, lambda{}, lambda{}, false, Object.new)
       end
@@ -134,8 +134,8 @@ module Spec
         example = Example.new(:__generate_description) do
           5.should "" # Has no matches? method..
         end
-        @reporter.should_receive(:example_finished) do |desc, error, location|
-          desc.should == "NO NAME (Because of Error raised in matcher)"
+        @reporter.should_receive(:example_finished) do |example, error, location|
+          example.description.should == "NO NAME (Because of Error raised in matcher)"
         end
         example.run(@reporter, nil, nil, nil, Object.new)
       end
@@ -144,7 +144,9 @@ module Spec
         example = Example.new(:__generate_description) {
           5.should == 5
         }
-        @reporter.should_receive(:example_finished).with("should == 5", anything(), anything(), false)
+        @reporter.should_receive(:example_finished) do |example, error, location|
+          example.description.should == "should == 5"
+        end
         example.run(@reporter, nil, nil, nil, Object.new)
       end
 

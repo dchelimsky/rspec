@@ -3,6 +3,9 @@ require 'timeout'
 module Spec
   module DSL
     class Example
+      # The global sequence number of this example
+      attr_accessor :number
+      
       def initialize(description, options={}, &example_block)
         @from = caller(0)[3]
         @options = options
@@ -13,8 +16,8 @@ module Spec
       
       def run(reporter, before_each_block, after_each_block, dry_run, execution_context, timeout=nil)
         @dry_run = dry_run
-        reporter.example_started(description)
-        return reporter.example_finished(description) if dry_run
+        reporter.example_started(self)
+        return reporter.example_finished(self) if dry_run
 
         errors = []
         location = nil
@@ -26,7 +29,7 @@ module Spec
         end
 
         ExampleShouldRaiseHandler.new(@from, @options).handle(errors)
-        reporter.example_finished(description, errors.first, location, @example_block.nil?) if reporter
+        reporter.example_finished(self, errors.first, location, @example_block.nil?) if reporter
       end
       
       def matches?(matcher, specified_examples)
@@ -34,10 +37,15 @@ module Spec
         matcher.matches?(specified_examples)
       end
       
-    private
       def description
         @description == :__generate_description ? generated_description : @description
       end
+      
+      def to_s
+        description
+      end
+
+    private
       
       def generated_description
         return @generated_description if @generated_description

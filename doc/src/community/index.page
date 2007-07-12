@@ -126,6 +126,7 @@ In alphabetical order (by last name)
 ** Patch [#10473] obj.should exist (new matcher)
 * Carl Porth
 ** Patch [#12174] mishandling of paths with spaces in spec_mate switch_command
+** Patch [#12237] (tiny) added full path to mate in switch_command
 * Jay Phillips
 ** Patch [#11615] Partial mock methods give ambiguous failures when given a method name as a String
 * Yurii Rashkovskii

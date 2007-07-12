@@ -17,6 +17,6 @@ Spec::Runner.configure do |config|
   end
 
   config.after(:all) do
-    @browser.kill! unless RUBY_PLATFORM =~ /darwin/ # SafariWatir doesn't like closing and opening
+    @browser.kill!
   end
 end

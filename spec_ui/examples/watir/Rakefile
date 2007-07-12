@@ -8,7 +8,7 @@ desc "Run Watir Specs"
 Spec::Rake::SpecTask.new('spec:watir') do |t|
   t.spec_files = FileList['spec/watir/**/*.rb']
   # This line is not necessary if you have Spec::Ui installed as a gem
-  t.ruby_opts = ["-I../../lib"]
+  t.libs = ["../../lib"]
   t.spec_opts = [
     '--color', '--diff',
     '--require', 'rubygems,spec/ui', 
@@ -24,7 +24,7 @@ desc "Run Watir Specs as Spec::Distributed slave"
 Spec::Rake::SpecTask.new('spec:watir:slave') do |t|
   t.spec_files = FileList['spec/watir/**/*.rb']
   # This line is not necessary if you have Spec::Ui and Spec::Distributed installed as gems
-  t.ruby_opts = ["-I../../lib", "-I../../../spec_distributed/lib"]
+  t.libs = ["../../lib", "../../../spec_distributed/lib"]
   t.spec_opts = lambda do
     url = ENV['DRB_URL']
     raise "You must pass DRB_URL=druby://localhost:8991 (for example) on the command line" if url.nil?
@@ -42,7 +42,7 @@ desc "Run Watir Specs as Spec::Distributed master"
 Spec::Rake::SpecTask.new('spec:watir:master') do |t|
   t.spec_files = FileList['spec/watir/**/*.rb']
   # This line is not necessary if you have Spec::Ui and Spec::Distributed installed as gems
-  t.ruby_opts = ["-I../../lib", "-I../../../spec_distributed/lib"]
+  t.libs = ["../../lib", "../../../spec_distributed/lib"]
   t.spec_opts = lambda do
     urls = ENV['DRB_URLS']
     raise "You must pass DRB_URLS=druby://localhost:8991,druby://localhost:8991 (for example) on the command line" if urls.nil?

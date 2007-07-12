@@ -50,24 +50,26 @@ module Spec
           @output.flush
         end
 
-        def example_passed(name)
-          @current_example_number += 1
+        def example_started(example)
+          @current_example_number = example.number
+        end
+
+        def example_passed(example)
           move_progress
-          @output.puts "    <dd class=\"spec passed\"><span class=\"passed_spec_name\">#{h(name)}</span></dd>"
+          @output.puts "    <dd class=\"spec passed\"><span class=\"passed_spec_name\">#{h(example.description)}</span></dd>"
           @output.flush
         end
 
-        def example_failed(name, counter, failure)
+        def example_failed(example, counter, failure)
           extra = extra_failure_content(failure)
           failure_style = failure.pending_fixed? ? 'pending_fixed' : 'failed'
-          @current_example_number += 1
           @output.puts "    <script type=\"text/javascript\">makeRed('rspec-header');</script>" unless @header_red
           @header_red = true
           @output.puts "    <script type=\"text/javascript\">makeRed('behaviour_#{current_behaviour_number}');</script>" unless @behaviour_red
           @behaviour_red = true
           move_progress
           @output.puts "    <dd class=\"spec #{failure_style}\">"
-          @output.puts "      <span class=\"failed_spec_name\">#{h(name)}</span>"
+          @output.puts "      <span class=\"failed_spec_name\">#{h(example.description)}</span>"
           @output.puts "      <div class=\"failure\" id=\"failure_#{counter}\">"
           @output.puts "        <div class=\"message\"><pre>#{h(failure.exception.message)}</pre></div>" unless failure.exception.nil?
           @output.puts "        <div class=\"backtrace\"><pre>#{format_backtrace(failure.exception.backtrace)}</pre></div>" unless failure.exception.nil?
@@ -78,13 +80,13 @@ module Spec
         end
 
         def example_pending(behaviour_name, example_name, message)
-          @current_example_number += 1
           @output.puts "    <script type=\"text/javascript\">makeYellow('rspec-header');</script>" unless @header_red
           @output.puts "    <script type=\"text/javascript\">makeYellow('behaviour_#{current_behaviour_number}');</script>" unless @behaviour_red
           move_progress
           @output.puts "    <dd class=\"spec not_implemented\"><span class=\"not_implemented_spec_name\">#{h(example_name)}</span></dd>"
           @output.flush
         end
+
         # Override this method if you wish to output extra HTML for a failed spec. For example, you
         # could output links to images or other files produced during the specs.
         #
@@ -93,7 +95,7 @@ module Spec
         end
         
         def move_progress
-          percent_done = @example_count == 0 ? 100.0 : (current_example_number.to_f / @example_count.to_f * 1000).to_i / 10.0
+          percent_done = @example_count == 0 ? 100.0 : ((current_example_number + 1).to_f / @example_count.to_f * 1000).to_i / 10.0
           @output.puts "    <script type=\"text/javascript\">moveProgressBar('#{percent_done}');</script>"
           @output.flush
         end
