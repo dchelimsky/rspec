@@ -17,7 +17,7 @@ lib/spec/ui/watir/matchers.rb
 lib/spec/ui/watir/watir_behaviour.rb
 examples/selenium/Rakefile
 examples/selenium/README.txt
-examples/selenium/spec/google/find_rspecs_homepage_spec.rb
+examples/selenium/spec/selenium/find_rspecs_homepage_spec.rb
 examples/selenium/spec/spec_helper.rb
 examples/watir/Rakefile
 examples/watir/README.txt
