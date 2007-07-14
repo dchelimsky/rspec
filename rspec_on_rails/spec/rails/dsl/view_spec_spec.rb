@@ -94,6 +94,23 @@ describe "A template that includes a partial", :behaviour_type => :view do
     end
   end
   
+  it "should pass expect_render when a partial is expected twice and happens twice" do
+    template.expect_render(:partial => 'partial_used_twice').twice
+    render!
+    template.verify_rendered
+  end
+  
+  it "should pass expect_render when a partial is expected once and happens twice" do
+    template.expect_render(:partial => 'partial_used_twice')
+    render!
+    begin
+      template.verify_rendered
+    rescue Spec::Mocks::MockExpectationError => e
+    ensure
+      e.backtrace.find{|line| line =~ /view_spec_spec\.rb\:104/}.should_not be_nil
+    end
+  end
+  
   it "should fail expect_render with the right partial but wrong options" do
     template.expect_render(:partial => 'partial', :locals => {:thing => Object.new})
     render!

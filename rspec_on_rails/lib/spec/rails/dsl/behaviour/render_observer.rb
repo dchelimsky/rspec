@@ -44,8 +44,9 @@ module Spec
         #   template.stub_render(:partial => 'thing', :collection => things)
         #
         def expect_render(opts={})
-          expect_render_mock_proxy.should_receive(:render, :expected_from => caller(1)[0]).with(opts)
+          expectation = expect_render_mock_proxy.should_receive(:render, :expected_from => caller(1)[0]).with(opts)
           register_verify_after_each
+          expectation
         end
 
         # This is exactly like expect_render, with the exception that the call to render will not
