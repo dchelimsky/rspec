@@ -26,6 +26,11 @@ module Spec
         @config.mock_with(:flexmock)
         @config.mock_framework.should =~ /\/plugins\/mock_frameworks\/flexmock$/
       end
+
+      it "should let you set rr" do
+        @config.mock_with(:rr)
+        @config.mock_framework.should =~ /\/plugins\/mock_frameworks\/rr$/
+      end
       
       it "should let you set an arbitrary adapter module" do
         adapter = Module.new

@@ -5,7 +5,7 @@ module Spec
       # Chooses what mock framework to use. Example:
       #
       #   Spec::Runner.configure do |config|
-      #     config.mock_with :rspec # or :mocha, or :flexmock
+      #     config.mock_with :rspec, :mocha, :flexmock, or :rr
       #   end
       #
       # To use any other mock framework, you'll have to provide
