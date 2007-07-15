@@ -13,6 +13,8 @@ keeping track of a sequence number internal to the formatter. Most of you should
 your formatters though - the Example#to_s method returns the example name/description, so you should be
 able to use the passed Example instance as if it were a String.
 
+* Applied [#12300] rr integration (patch from Kyle Hargraves)
+* Implemented [#12284] mock_with :rr (integration with RR mock framework: http://rubyforge.org/projects/pivotalrb/)
 * Applied [#12237] (tiny) added full path to mate in switch_command (Patch from Carl Porth)
 * Formatters will now be sent an Example object instead of just a String for certain methods
 * All Spec::Rake::SpecTask attributes can now be procs, which allows for lazy evaluation.

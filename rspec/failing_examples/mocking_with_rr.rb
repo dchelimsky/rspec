@@ -8,7 +8,7 @@
 
 if ENV['RUN_RR_EXAMPLE']
   Spec::Runner.configure do |config|
-    config.mock_with :mocha
+    config.mock_with :rr
   end
   describe "RR framework" do
     it "should should be made available by saying config.mock_with :rr" do

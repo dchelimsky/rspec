@@ -1,12 +1,12 @@
 require 'rubygems'
-gem 'rr'
+require 'rr'
 
 patterns = ::Spec::Runner::QuietBacktraceTweaker::IGNORE_PATTERNS
 patterns.push(RR::Errors::BACKTRACE_IDENTIFIER)
 
-module RR
-  module Adapters
-    module Rspec
+module Spec
+  module Plugins
+    module MockFramework
       include RR::Extensions::DoubleMethods
       def setup_mocks_for_rspec
         RR::Space.instance.reset
