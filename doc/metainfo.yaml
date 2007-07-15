@@ -19,6 +19,8 @@ documentation/mocks/partial_mocks.page:
   orderInfo: 103
 documentation/mocks/stubs.page:
   orderInfo: 104
+documentation/mocks/other_frameworks.page:
+  orderInfo: 105
 documentation/before_and_after.page:
   title: Before and After
   orderInfo: 22
