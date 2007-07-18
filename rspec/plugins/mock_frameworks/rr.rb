@@ -7,7 +7,7 @@ patterns.push(RR::Errors::BACKTRACE_IDENTIFIER)
 module Spec
   module Plugins
     module MockFramework
-      include RR::Extensions::DoubleMethods
+      include RR::Extensions::InstanceMethods
       def setup_mocks_for_rspec
         RR::Space.instance.reset
       end
