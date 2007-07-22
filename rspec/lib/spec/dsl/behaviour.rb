@@ -151,16 +151,15 @@ module Spec
       end
 
       def weave_in_included_modules
-        mods = included_modules
-        eval_module = @eval_module
-        
-        global_modules = Spec::Runner.configuration.modules_for(behaviour_type)
+        mods = [@eval_module]
+        mods << included_modules.dup
+        mods << Spec::Runner.configuration.modules_for(behaviour_type)
         execution_context_class.class_eval do
-          include eval_module
-          include(*global_modules) unless global_modules.nil?
-          mods.each do |mod|
-            include mod
-          end
+          # WARNING - the following can be executed in the context of any
+          # class, and should never pass more than one module to include
+          # even though we redefine include in this class. This is NOT
+          # tested anywhere, hence this comment.
+          mods.flatten.each {|mod| include mod}
         end
       end
 
