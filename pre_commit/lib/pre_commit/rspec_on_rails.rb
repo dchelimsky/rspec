@@ -39,7 +39,7 @@ class PreCommit::RspecOnRails < PreCommit
       rake_sh "db:migrate"
       generate_rspec
       rake_sh "spec"
-      rake_sh "spec:plugins"
+      rake_sh "spec:plugins:rspec_on_rails"
     ensure
       rm_generated_login_controller_files
       destroy_purchase
