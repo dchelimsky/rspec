@@ -13,6 +13,7 @@ keeping track of a sequence number internal to the formatter. Most of you should
 your formatters though - the Example#to_s method returns the example name/description, so you should be
 able to use the passed Example instance as if it were a String.
 
+* Applied [#12484] Allow a Behaviour's Description to flow through to the Formatter (Patch from Bob Cotton)
 * Fixed [#12448] The spec:plugins rake task from rspec_on_rails should ignore specs from the rspec_on_rails plugin
 * Applied [#12300] rr integration (patch from Kyle Hargraves)
 * Implemented [#12284] mock_with :rr (integration with RR mock framework: http://rubyforge.org/projects/pivotalrb/)

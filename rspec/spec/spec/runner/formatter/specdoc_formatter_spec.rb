@@ -20,7 +20,7 @@ module Spec
         end
 
         it "should push context name" do
-          @formatter.add_behaviour("context")
+          @formatter.add_behaviour(Spec::DSL::Description.new("context"))
           @io.string.should eql("\ncontext\n")
         end
 

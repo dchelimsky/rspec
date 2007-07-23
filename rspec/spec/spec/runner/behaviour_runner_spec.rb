@@ -139,7 +139,7 @@ module Spec
         
         reporter = mock("reporter")
         reporter.should_receive(:start)
-        reporter.should_receive(:add_behaviour).with("behaviour")
+        reporter.should_receive(:add_behaviour)
         reporter.should_receive(:example_started).twice
         reporter.should_receive(:example_finished).twice
         reporter.should_receive(:rspec_verify)
@@ -208,6 +208,21 @@ module Spec
         Spec::Runner.configure do |config|
           config.should equal(Spec::Runner.configuration)
         end
+      end
+
+      it "should pass its Description to the reporter" do
+        behaviour = Spec::DSL::Behaviour.new("behaviour") do
+          it "should" do
+          end
+        end
+        
+        reporter = mock("reporter", :null_object => true)
+        reporter.should_receive(:add_behaviour).with(an_instance_of(Spec::DSL::Description))
+
+        @options.reporter = reporter
+        runner = Spec::Runner::BehaviourRunner.new(@options)
+        runner.add_behaviour(behaviour)
+        runner.run([], false)
       end
     end
   end

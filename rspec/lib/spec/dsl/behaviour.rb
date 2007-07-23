@@ -63,7 +63,8 @@ module Spec
 
       def run(reporter, dry_run=false, reverse=false, timeout=nil)
         raise "shared behaviours should never run" if shared?
-        reporter.add_behaviour(description)
+        # TODO - change add_behaviour to add_description ??????
+        reporter.add_behaviour(@description)
         prepare_execution_context_class
         before_all_errors = run_before_all(reporter, dry_run)
 

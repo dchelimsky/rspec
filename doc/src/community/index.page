@@ -59,6 +59,7 @@ In alphabetical order (by last name)
 ** Patch [#9678] Custom runner command line switch, and multi-threaded runner
 ** Patch [#9605] Patch for ER 9472, shared behaviour
 ** Patch [#11868] Add ability for pending to optionally hold a failing block and to fail when it passes
+** Patch [#12484] Allow a Behaviour's Description to flow through to the Formatter
 * Lachie Cox
 ** Initial Rails support
 ** Diffing enhancements for Objects and custom formats
