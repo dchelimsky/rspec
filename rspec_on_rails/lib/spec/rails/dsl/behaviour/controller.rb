@@ -71,6 +71,36 @@ module Spec
           end
         end
         
+        if self.respond_to?(:should_receive) && self.respond_to?(:stub!)
+          self.metaclass.send :alias_method, :orig_should_receive, :should_receive
+          self.metaclass.send :alias_method, :orig_stub!, :stub!
+          def raise_with_disable_message(old_method, new_method)
+            raise %Q|
+  controller.#{old_method}(:render) has been disabled because it
+  can often produce unexpected results. Instead, you should
+  use the following (before the action):
+
+    controller.#{new_method}(*args)
+
+  See the rdoc for #{new_method} for more information.
+            |
+          end
+          def should_receive(*args)
+            if args[0] == :render
+              raise_with_disable_message("should_receive", "expect_render")
+            else
+              orig_should_receive(*args)
+            end
+          end
+          def stub!(*args)
+            if args[0] == :render
+              raise_with_disable_message("stub!", "stub_render")
+            else
+              orig_stub!(*args)
+            end
+          end
+        end
+
         def response(&block)
           # NOTE - we're setting @update for the assert_select_spec - kinda weird, huh?
           @update = block

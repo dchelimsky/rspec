@@ -1,5 +1,4 @@
 == Version 1.0.6 (in SVN)
-Improvements and bug fixes.
 
 Warning: Spec::Rails users: In fixing 11508, we've removed the raise_controller_errors method. As long as you
 follow the upgrade instructions and run 'script/generate rspec' you'll be fine, but if you skip this
@@ -13,6 +12,8 @@ keeping track of a sequence number internal to the formatter. Most of you should
 your formatters though - the Example#to_s method returns the example name/description, so you should be
 able to use the passed Example instance as if it were a String.
 
+
+* Disabled controller.should_receive(:render) and controller.stub!(:render). Use expect_render or stub_render instead.
 * Applied [#12484] Allow a Behaviour's Description to flow through to the Formatter (Patch from Bob Cotton)
 * Fixed [#12448] The spec:plugins rake task from rspec_on_rails should ignore specs from the rspec_on_rails plugin
 * Applied [#12300] rr integration (patch from Kyle Hargraves)
