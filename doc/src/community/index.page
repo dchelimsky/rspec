@@ -135,6 +135,7 @@ In alphabetical order (by last name)
 ** Patch [#11615] Partial mock methods give ambiguous failures when given a method name as a String
 * Yurii Rashkovskii
 ** Patch to improve generated descriptions for the "be" matcher
+** Patch [#12611] should_not redirect_to implementation
 * Luke Redpath
 ** TextMate bundle
 ** Readable HTML output!

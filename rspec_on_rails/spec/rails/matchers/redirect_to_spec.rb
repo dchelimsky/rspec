@@ -83,6 +83,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 
   end
 
+  
   describe "redirect_to with a controller spec in #{mode} mode and a custom request.host", :behaviour_type => :controller do
     if mode == 'integration'
       integrate_views
@@ -107,6 +108,25 @@ require File.dirname(__FILE__) + '/../../spec_helper'
     it "an action that redirects should not result in an error if no should redirect_to expectation is called" do
       get 'action_with_redirect_to_somewhere'
     end
+    
+    it "an action that redirects should not result in an error if should_not redirect_to expectation was called, but not to that action" do
+      get 'action_with_redirect_to_somewhere'
+      response.should_not redirect_to(:action => 'another_destination')
+    end
+
+    it "an action that redirects should result in an error if should_not redirect_to expectation was called to that action" do
+      get 'action_with_redirect_to_somewhere'
+      lambda {
+        response.should_not redirect_to(:action => 'somewhere')
+      }.should fail_with("expected not to be redirected to {:action=>\"somewhere\"}, but was")
+    end
+
+    it "an action that does not redirects should not result in an error if should_not redirect_to expectation was called" do
+      get 'action_with_no_redirect'
+      response.should_not redirect_to(:action => 'any_destination')
+    end
+
+    
   end
   
   describe "Given a controller spec in #{mode} mode, should redirect_to should fail when", :behaviour_type => :controller do

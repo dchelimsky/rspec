@@ -12,6 +12,7 @@ keeping track of a sequence number internal to the formatter. Most of you should
 your formatters though - the Example#to_s method returns the example name/description, so you should be
 able to use the passed Example instance as if it were a String.
 
+* Applied [#12611] should_not redirect_to implementation (Patch from Yurii Rashkovskii)
 * Applied [#12682] Not correctly aliasing original 'stub!' and 'should_receive' methods for ApplicationController (Patch from Matthijs Langenberg)
 * Disabled controller.should_receive(:render) and controller.stub!(:render). Use expect_render or stub_render instead.
 * Applied [#12484] Allow a Behaviour's Description to flow through to the Formatter (Patch from Bob Cotton)
