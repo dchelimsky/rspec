@@ -96,6 +96,13 @@ require 'controller_spec_controller'
         controller.stub!(:render)
       }.should raise_error(RuntimeError, /stub!\(:render\) has been disabled/)
     end
+    
+    it "should NOT complain when calling should_receive with arguments other than :render" do
+      controller.should_receive(:anything_besides_render)
+      lambda {
+        controller.rspec_verify
+      }.should raise_error(Exception, /expected :anything_besides_render/)
+    end
   end
 
   describe "Given a controller spec for RedirectSpecController running in #{mode} mode", :behaviour_type => :controller do

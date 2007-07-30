@@ -72,8 +72,8 @@ module Spec
         end
         
         if self.respond_to?(:should_receive) && self.respond_to?(:stub!)
-          self.metaclass.send :alias_method, :orig_should_receive, :should_receive
-          self.metaclass.send :alias_method, :orig_stub!, :stub!
+          self.send :alias_method, :orig_should_receive, :should_receive
+          self.send :alias_method, :orig_stub!, :stub!
           def raise_with_disable_message(old_method, new_method)
             raise %Q|
   controller.#{old_method}(:render) has been disabled because it

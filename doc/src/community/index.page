@@ -104,6 +104,8 @@ In alphabetical order (by last name)
 ** Patch [#11221] Autotest support does not work w/o Rails Gem installed
 * Michal Kwiatkowski
 ** Patch to get RSpec to work w/ Heckle +/- 1.2
+* Matthijs Langenberg
+** Patch [#12682] Not correctly aliasing original 'stub!' and 'should_receive' methods for ApplicationController
 * Ian Leitch
 ** Patch [#11888] rspec_on_rails spews out warnings when assert_select is used with an XML response
 * Tim Lucas
