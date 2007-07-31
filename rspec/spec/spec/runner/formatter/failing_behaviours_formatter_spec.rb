@@ -25,6 +25,15 @@ b 2
 EOF
 )
         end
+
+        it "should remove druby url, which is used by Spec::Distributed" do
+          @formatter.add_behaviour("something something (druby://99.99.99.99:99)")
+          @formatter.example_failed("e 1", nil, Reporter::Failure.new(nil, RuntimeError.new))
+          @io.string.should eql(<<-EOF
+something something
+EOF
+)
+        end
       end
     end
   end
