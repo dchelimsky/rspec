@@ -33,6 +33,35 @@ describe "HelperBehaviour.fixtures", :behaviour_type => :helper do
   end  
 end
 
+describe "HelperBehaviour included modules", :behaviour_type => :helper do
+  [
+    ActionView::Helpers::ActiveRecordHelper,
+    ActionView::Helpers::AssetTagHelper,
+    ActionView::Helpers::BenchmarkHelper,
+    ActionView::Helpers::CacheHelper,
+    ActionView::Helpers::CaptureHelper,
+    ActionView::Helpers::DateHelper,
+    ActionView::Helpers::DebugHelper,
+    ActionView::Helpers::FormHelper,
+    ActionView::Helpers::FormOptionsHelper,
+    ActionView::Helpers::FormTagHelper,
+    ActionView::Helpers::JavaScriptHelper,
+    ActionView::Helpers::JavaScriptMacrosHelper,
+    ActionView::Helpers::NumberHelper,
+    ActionView::Helpers::PaginationHelper,
+    ActionView::Helpers::PrototypeHelper,
+    ActionView::Helpers::PrototypeHelper::JavaScriptGenerator::GeneratorMethods,
+    ActionView::Helpers::ScriptaculousHelper,
+    ActionView::Helpers::TagHelper,
+    ActionView::Helpers::TextHelper,
+    ActionView::Helpers::UrlHelper
+  ].each do |helper_module|
+    it "should include #{helper_module}" do
+      self.class.ancestors.should include(helper_module)
+    end
+  end
+end
+
 describe ExplicitHelper, :behaviour_type => :helper do
   it "should not require naming the helper if describe is passed a type" do
     method_in_explicit_helper.should match(/text from a method/)
