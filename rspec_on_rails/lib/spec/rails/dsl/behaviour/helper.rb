@@ -30,7 +30,7 @@ module Spec
           include ActionView::Helpers::JavaScriptHelper
           include ActionView::Helpers::JavaScriptMacrosHelper
           include ActionView::Helpers::NumberHelper
-          include ActionView::Helpers::PaginationHelper rescue nil #excluded in edge
+          include ActionView::Helpers::PaginationHelper rescue nil #removed after 1.2.3
           include ActionView::Helpers::PrototypeHelper
           include ActionView::Helpers::PrototypeHelper::JavaScriptGenerator::GeneratorMethods
           include ActionView::Helpers::ScriptaculousHelper
