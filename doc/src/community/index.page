@@ -106,6 +106,7 @@ In alphabetical order (by last name)
 ** Patch to get RSpec to work w/ Heckle +/- 1.2
 * Matthijs Langenberg
 ** Patch [#12682] Not correctly aliasing original 'stub!' and 'should_receive' methods for ApplicationController
+** Patch [#12719] rspec_on_rails should not include pagination helper
 * Ian Leitch
 ** Patch [#11888] rspec_on_rails spews out warnings when assert_select is used with an XML response
 * Tim Lucas

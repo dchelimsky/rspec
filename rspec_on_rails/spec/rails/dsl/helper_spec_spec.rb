@@ -34,7 +34,7 @@ describe "HelperBehaviour.fixtures", :behaviour_type => :helper do
 end
 
 describe "HelperBehaviour included modules", :behaviour_type => :helper do
-  [
+  helpers = [
     ActionView::Helpers::ActiveRecordHelper,
     ActionView::Helpers::AssetTagHelper,
     ActionView::Helpers::BenchmarkHelper,
@@ -48,14 +48,15 @@ describe "HelperBehaviour included modules", :behaviour_type => :helper do
     ActionView::Helpers::JavaScriptHelper,
     ActionView::Helpers::JavaScriptMacrosHelper,
     ActionView::Helpers::NumberHelper,
-    ActionView::Helpers::PaginationHelper,
     ActionView::Helpers::PrototypeHelper,
     ActionView::Helpers::PrototypeHelper::JavaScriptGenerator::GeneratorMethods,
     ActionView::Helpers::ScriptaculousHelper,
     ActionView::Helpers::TagHelper,
     ActionView::Helpers::TextHelper,
     ActionView::Helpers::UrlHelper
-  ].each do |helper_module|
+  ]
+  helpers << ActionView::Helpers::PaginationHelper unless ENV['RSPEC_RAILS_VERSION'] == 'edge'
+  helpers.each do |helper_module|
     it "should include #{helper_module}" do
       self.class.ancestors.should include(helper_module)
     end
