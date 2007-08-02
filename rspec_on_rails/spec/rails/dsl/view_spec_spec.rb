@@ -129,9 +129,10 @@ end
 describe "A view that includes a partial using :collection and :spacer_template", :behaviour_type => :view  do
   it "should render the partial w/ spacer_tamplate" do
     render "view_spec/template_with_partial_using_collection"
-    response.should have_tag('div', :content => 'Alice')
-    response.should have_tag('hr', :attributes =>{:id => "spacer"})
-    response.should have_tag('div', :content => 'Bob')
+    response.should have_tag('div',/method_in_partial/)
+    response.should have_tag('div',/ApplicationHelper/)
+    response.should have_tag('div',/ViewSpecHelper/)
+    response.should have_tag('hr#spacer')
   end
 
   it "should render the partial w/ spacer_tamplate" do
