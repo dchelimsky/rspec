@@ -7,7 +7,7 @@ module Spec
       class << self
         def add_shared_behaviour(behaviour)
           return if behaviour.equal?(found_behaviour = find_shared_behaviour(behaviour.description))
-          return if found_behaviour and behaviour.description[:spec_path] == found_behaviour.description[:spec_path]
+          return if found_behaviour and File.basename(behaviour.description[:spec_path]) == File.basename(found_behaviour.description[:spec_path])
           raise ArgumentError.new("Shared Behaviour '#{behaviour.description}' already exists") if found_behaviour
           shared_behaviours << behaviour
         end

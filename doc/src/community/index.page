@@ -109,6 +109,7 @@ In alphabetical order (by last name)
 ** Patch [#12719] rspec_on_rails should not include pagination helper
 * Ian Leitch
 ** Patch [#11888] rspec_on_rails spews out warnings when assert_select is used with an XML response
+** Patch [#12817] Cannot include same shared behaviour when required with absolute paths.
 * Tim Lucas
 ** Patch [#10631] redirect_to matcher doesn't respect request.host
 * Riley Lynch
