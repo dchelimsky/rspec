@@ -102,6 +102,8 @@ In alphabetical order (by last name)
 * Josh Knowles
 ** Patch [#10245] Patch to HTML escape the behavior name when using HTML Formatter
 ** Patch [#11221] Autotest support does not work w/o Rails Gem installed
+* Jens Krämer
+** Patch [#12701] Allow checking of content captured with content_for in view specs
 * Michal Kwiatkowski
 ** Patch to get RSpec to work w/ Heckle +/- 1.2
 * Matthijs Langenberg

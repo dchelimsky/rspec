@@ -12,6 +12,7 @@ keeping track of a sequence number internal to the formatter. Most of you should
 your formatters though - the Example#to_s method returns the example name/description, so you should be
 able to use the passed Example instance as if it were a String.
 
+* Applied [#12701] Allow checking of content captured with content_for in view specs (Patch from Jens Krämer)
 * Applied [#12817] Cannot include same shared behaviour when required with absolute paths (Patch from Ian Leitch)
 * Applied [#12719] rspec_on_rails should not include pagination helper (Patch from Matthijs Langenberg)
 * Fixed [#12714] helper spec not finding rails core helpers
