@@ -27,14 +27,25 @@ module Spec
           slave_runner = DRbObject.new_with_uri(slave_url)
           Thread.new do
             slave_runner.prepare_run(@master_paths, @svn_rev)
+            drb_error = nil
             while !index_queue.empty?
-              i = index_queue.pop
-              behaviour = @behaviours[i]
-              behaviour_report = slave_runner.run_behaviour_at(i, @options.dry_run, @options.reverse, @options.timeout)
-              behaviour_reports << behaviour_report
+              begin
+                i = index_queue.pop
+                behaviour = @behaviours[i]
+                behaviour_report = slave_runner.run_behaviour_at(i, @options.dry_run, @options.reverse, @options.timeout)
+                behaviour_reports << behaviour_report
+              rescue DRb::DRbConnError => e
+                # Maybe the slave is down. Put the index back and die
+                index_queue << i
+                drb_error = e
+                break
+              end
             end
-            slave_runner.report_end
-            slave_runner.report_dump
+            
+            unless drb_error
+              slave_runner.report_end
+              slave_runner.report_dump
+            end
           end
         end
         
@@ -45,7 +56,9 @@ module Spec
           end
         end
 
-        @threads.each {|t| t.join}
+        @threads.each do |t| 
+          t.join
+        end
       end
     end
   end

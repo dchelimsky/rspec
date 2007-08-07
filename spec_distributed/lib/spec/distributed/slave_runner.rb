@@ -52,11 +52,26 @@ module Spec
       end
       
       def update_wc(master_svn_rev)
-        local_rev = `svn info`.match(/Revision: (\d+)/m)[1] rescue nil
-        raise "This is not a svn working copy, but the master is (r#{master_svn_rev})" if master_svn_rev && local_rev.nil?
-        if(local_rev != master_svn_rev)
-          system("svn up -r#{master_svn_rev}")
+        Dir.chdir(top_svn_dir) do
+          local_rev = `svn info`.match(/^Revision: (\d+)$/n)[1] rescue nil
+          raise "This is not a svn working copy, but the master is (r#{master_svn_rev})" if master_svn_rev && local_rev.nil?
+          if(local_rev.to_i != master_svn_rev.to_i)
+            system("svn up -r#{master_svn_rev}")
+          end
         end
+      end
+
+      def top_svn_dir
+        dir = '.'
+        loop do
+          up = File.join(dir, '..')
+          if File.directory?(File.join(up, '.svn'))
+            dir = up
+          else
+            break
+          end
+        end
+        dir
       end
     end
     
