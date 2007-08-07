@@ -6,7 +6,20 @@ module Spec
       before(:each) do
         @object = Object.new
       end
-      
+
+      it "should name the class in the failure message" do
+        @object.should_receive(:foo)
+        lambda do
+          @object.rspec_verify
+        end.should raise_error(Spec::Mocks::MockExpectationError, /Object/)
+      end
+
+      it "should not conflict with @options in the object" do
+        @object.instance_eval { @options = Object.new }
+        @object.should_receive(:blah)
+        @object.blah
+      end
+            
       it "should_not_receive should mock out the method" do
         @object.should_not_receive(:fuhbar)
         @object.fuhbar
@@ -64,7 +77,7 @@ module Spec
         @this_will_resolve_to_nil.should_receive(:foobar)
         lambda do
           @this_will_resolve_to_nil.rspec_verify
-        end.should raise_error(Spec::Mocks::MockExpectationError, /nil expected :foobar with/)
+        end.should raise_error(Spec::Mocks::MockExpectationError, /NilClass.*expected :foobar with/)
       end
     end
   end

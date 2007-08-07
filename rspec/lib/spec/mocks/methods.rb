@@ -28,7 +28,11 @@ module Spec
     private
 
       def __mock_proxy
-        @mock_proxy ||= Proxy.new(self, @name, @options)
+        if Mock === self
+          @mock_proxy ||= Proxy.new(self, @name, @options)
+        else
+          @mock_proxy ||= Proxy.new(self, self.class.name)
+        end
       end
     end
   end
