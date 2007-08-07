@@ -60,6 +60,7 @@ task :fix_cr_lf do
     code = File.open(f).read
     File.open(f, "w") do |io|
       code.each_line do |l|
+        l = l.gsub(/\t/, '  ')
         io.print l.chomp
       end
     end

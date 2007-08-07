@@ -35,7 +35,7 @@ module Spec
 
       def lines_above_reversed(source, line_number)
         lines = source.split("\n")
-      	lines[0...line_number].reverse
+        lines[0...line_number].reverse
       end
       
       def parse_description(str)

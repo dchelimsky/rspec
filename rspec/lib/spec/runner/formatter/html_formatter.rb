@@ -310,10 +310,10 @@ a {
 
 .ruby .offending { background-color: gray; }
 .ruby .linenum {
-	width: 75px;
-	padding: 0.1em 1em 0.2em 0;
-	color: #000000;
-	background-color: #FFFBD3;
+  width: 75px;
+  padding: 0.1em 1em 0.2em 0;
+  color: #000000;
+  background-color: #FFFBD3;
 }
 EOF
         end

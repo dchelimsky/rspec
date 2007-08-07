@@ -80,11 +80,27 @@ module Spec
       end
 
       def method_missing(method, *args)
+        marshallable_args = args.map {|arg| marshallable_dup(arg)}
+
         if method.to_s == 'add_behaviour'
           # Watermark each behaviour name so the final report says where it ran
-          args[0] += " (#{@watermark})" 
+          marshallable_args[0] += " (#{@watermark})" 
         end
-        @invocations << [method, *args]
+        @invocations << [method, *marshallable_args]
+      end
+    
+      def marshallable_dup(o)
+        begin
+          dupe = o.dup
+          dupe.instance_variables.each do |ivar|
+            if Proc === dupe.instance_variable_get(ivar)
+              dupe.__send__(:remove_instance_variable, ivar)
+            end
+          end
+          dupe
+        rescue TypeError # Some objects like nil and false cannot be duped, and there is no easy way to check for all cases
+          o
+        end
       end
       
       def replay(target)
