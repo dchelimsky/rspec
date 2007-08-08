@@ -4,7 +4,7 @@ class Autotest::Rspec < Autotest
 
   def initialize # :nodoc:
     super
-    @spec_command = "spec"
+    @spec_command = File.exist?("bin/spec") ? "bin/spec" : "spec"
     @test_mappings = {
       %r%^spec/.*\.rb$% => proc { |filename, _|
         filename
