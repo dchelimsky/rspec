@@ -136,7 +136,6 @@ module Spec
         index = args_copy.index("-G") || args_copy.index("--generate-options")
         args_copy.delete_at(index)
         args_copy.delete_at(index)
-
         File.open(options_file, 'w') do |io|
           io.puts args_copy.join("\n")
         end

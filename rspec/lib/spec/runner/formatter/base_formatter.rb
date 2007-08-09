@@ -59,7 +59,7 @@ module Spec
         def dump_failure(counter, failure)
         end
       
-        # This method is invoked at the very end.
+        # This method is invoked after the dumping of examples and failures.
         def dump_summary(duration, example_count, failure_count, pending_count)
         end
         
@@ -67,6 +67,9 @@ module Spec
         def dump_pending
         end
 
+        # This method is invoked at the very end. Allows the formatter to clean up, like closing open streams.
+        def close
+        end
       end
     end
   end

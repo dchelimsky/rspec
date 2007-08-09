@@ -12,9 +12,11 @@ keeping track of a sequence number internal to the formatter. Most of you should
 your formatters though - the Example#to_s method returns the example name/description, so you should be
 able to use the passed Example instance as if it were a String.
 
+* Added a #close method to formatters, which allows them to gracefully close streams.
+* Applied [#12935] Remove requirement that mocha must be installed as a gem when used as mocking framework. (Patch from Ryan Kinderman).
 * Fixed [#12893] RSpec's Autotest should work with rspec's trunk
 * Fixed [#12865] Partial mock error when object has an @options instance var
-* Applied [#12701] Allow checking of content captured with content_for in view specs (Patch from Jens Kr√§mer)
+* Applied [#12701] Allow checking of content captured with content_for in view specs (Patch from Jens Kr‰mer)
 * Applied [#12817] Cannot include same shared behaviour when required with absolute paths (Patch from Ian Leitch)
 * Applied [#12719] rspec_on_rails should not include pagination helper (Patch from Matthijs Langenberg)
 * Fixed [#12714] helper spec not finding rails core helpers

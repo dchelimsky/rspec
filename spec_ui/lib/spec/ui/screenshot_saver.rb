@@ -23,8 +23,16 @@ module Spec
               nil
             rescue Magick::ImageMagickError => e
               if e.message =~ /Insufficient image data in file/
-                e.message << "\nTry this:\n1) Open your app (e.g. Internet Explorer)\n2) Resize the app to be bigger (without maximizing).\n3) close it so Windows remembers its size.\n" +
-                "This *may* make this error go away."
+                e.message << <<-EOM
+This is a bug in win32screenshot - it fails to take screenshots of "small" windows. Try this workaround:
+
+1) Close all instances of the app you're trying to take a screenshot of (e.g. Internet Explorer)
+2) Open the app
+3) Resize the window so it occupies the entire screen (without maximizing it!)
+4) Exit the app. Windows will now remember its size the next time it starts.
+
+This *may* make this error go away
+EOM
               end
               raise e
             end

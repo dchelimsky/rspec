@@ -99,6 +99,8 @@ In alphabetical order (by last name)
 ** Patch to rename file_list to spec_file_list in spectask.rake (to avoid conflicts w/ other tools)
 * Rich Kilmer
 ** Underscore syntactic sugar
+* Ryan Kinderman
+** Patch [#12935] Remove requirement that mocha must be installed as a gem when used as mocking framework.
 * Josh Knowles
 ** Patch [#10245] Patch to HTML escape the behavior name when using HTML Formatter
 ** Patch [#11221] Autotest support does not work w/o Rails Gem installed

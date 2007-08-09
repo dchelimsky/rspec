@@ -58,7 +58,7 @@ task :fix_cr_lf do
   $\="\n"
   files.each do |f|
     code = File.open(f).read
-    File.open(f, "w") do |io|
+    File.open(f, "wb") do |io| # We need the 'b' flag on Windows, in order to get non-PC file format
       code.each_line do |l|
         l = l.gsub(/\t/, '  ')
         io.print l.chomp

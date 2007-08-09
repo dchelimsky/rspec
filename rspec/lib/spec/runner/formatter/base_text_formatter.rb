@@ -76,7 +76,7 @@ module Spec
           @output.flush
           dump_pending
         end
-        
+
         def dump_pending
           unless @pending_examples.empty?
             @output.puts
@@ -87,7 +87,13 @@ module Spec
           end
           @output.flush
         end
-
+        
+        def close
+          if IO === @output
+            @output.close 
+          end
+        end
+        
         def format_backtrace(backtrace)
           return "" if backtrace.nil?
           backtrace.map { |line| backtrace_line(line) }.join("\n")

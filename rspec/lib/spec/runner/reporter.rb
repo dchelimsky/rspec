@@ -45,7 +45,10 @@ module Spec
       def dump
         @formatters.each{|f| f.start_dump}
         dump_failures
-        @formatters.each{|f| f.dump_summary(duration, @example_names.length, @failures.length, @pending_count)}
+        @formatters.each do |f| 
+          f.dump_summary(duration, @example_names.length, @failures.length, @pending_count)
+          f.close
+        end
         @failures.length
       end
 
