@@ -1,30 +1,42 @@
 require 'autotest'
 
-class Autotest::Rspec < Autotest
+class RspecCommandError < StandardError; end
 
-  def initialize # :nodoc:
-    super
-    @spec_command = File.exist?("bin/spec") ? "bin/spec" : "spec"
+class Autotest::Rspec < Autotest
+  
+  def initialize(kernel=Kernel, separator=File::SEPARATOR, alt_separator=File::ALT_SEPARATOR) # :nodoc:
+    super()
+    @kernel, @separator, @alt_separator = kernel, separator, alt_separator
+    @spec_command = spec_command
+
+    # watch out: Ruby bug (1.8.6):
+    # %r(/) != /\//
+    # since Ruby compares the REGEXP source, not the resulting pattern
     @test_mappings = {
-      %r%^spec/.*\.rb$% => proc { |filename, _|
-        filename
+      %r%^spec/.*\.rb$% => kernel.proc { |filename, _| 
+        filename 
       },
-      %r%^lib/(.*)\.rb$% => proc { |_, m|
-        ["spec/#{m[1]}_spec.rb"]
+      %r%^lib/(.*)\.rb$% => kernel.proc { |_, m| 
+        ["spec/#{m[1]}_spec.rb"] 
       },
-      %r%^spec/(spec_helper|shared/.*)\.rb$% => proc {
-        files_matching %r%^spec/.*_spec\.rb$%
-      },
+      %r%^spec/(spec_helper|shared/.*)\.rb$% => kernel.proc { 
+        files_matching %r%^spec/.*_spec\.rb$% 
+      }
     }
   end
   
   def tests_for_file(filename)
     super.select { |f| @files.has_key? f }
   end
+  
+  alias :specs_for_file :tests_for_file
+  
+  def failed_results(results)
+    results.scan(/^\d+\)\n(?:\e\[\d*m)?(?:.*?Error in )?'([^\n]*)'(?: FAILED)?(?:\e\[\d*m)?\n(.*?)\n\n/m)
+  end
 
   def handle_results(results)
-    failed = results.scan(/^\d+\)\n(?:\e\[\d*m)?(?:.*?Error in )?'([^\n]*)'(?: FAILED)?(?:\e\[\d*m)?\n(.*?)\n\n/m)
-    @files_to_test = consolidate_failures failed
+    @files_to_test = consolidate_failures failed_results(results)
     unless @files_to_test.empty? then
       hook :red
     else
@@ -54,14 +66,30 @@ class Autotest::Rspec < Autotest
     File.exist?("spec/spec.opts") ? "-O spec/spec.opts " : ""
   end
 
+  # Finds the proper spec command to use.  Precendence
+  # is set in the lazily-evaluated method spec_commands.  Alias + Override
+  # that in ~/.autotest to provide a different spec command
+  # then the default paths provided.
   def spec_command
-    spec = File.join(Config::CONFIG['bindir'], 'spec')
-
-    unless File::ALT_SEPARATOR.nil? then
-      spec.gsub! File::SEPARATOR, File::ALT_SEPARATOR
+    spec_commands.each do |command|
+      if File.exists?(command)
+        return @alt_separator ? (command.gsub @separator, @alt_separator) : command
+      end
     end
-
-    return spec
+    
+    raise RspecCommandError, "No spec command could be found!"
+  end
+  
+  # Autotest will look for spec commands in the following
+  # locations, in this order:
+  #
+  #   * bin/spec
+  #   * default spec bin/loader installed in Rubygems
+  def spec_commands
+    [
+      File.join('bin', 'spec'),
+      File.join(Config::CONFIG['bindir'], 'spec')
+    ]
   end
 
 end

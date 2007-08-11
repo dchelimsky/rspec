@@ -158,6 +158,7 @@ In alphabetical order (by last name)
 ** Patch [#10315] to fix pre_commit bug 10313 - pre_commit_rails: doesn't always build correctly
 ** Patch [#11500] Documentation: no rails integration specs in 1.0
 * Scott Taylor
+** Patch [#12986] Autotest Specs + Refactoring
 ** Patch [#11509] Documentation - RSpec requires hpricot
 ** Patch [#9509] allow spaced options in spec.opts
 ** Patch [#9510] Added html formatter spec file for Ruby 1.8.6

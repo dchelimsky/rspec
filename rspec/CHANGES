@@ -12,6 +12,7 @@ keeping track of a sequence number internal to the formatter. Most of you should
 your formatters though - the Example#to_s method returns the example name/description, so you should be
 able to use the passed Example instance as if it were a String.
 
+* Applied [#12986] Autotest Specs + Refactoring (Patch from Scott Tayler)
 * Added a #close method to formatters, which allows them to gracefully close streams.
 * Applied [#12935] Remove requirement that mocha must be installed as a gem when used as mocking framework. (Patch from Ryan Kinderman).
 * Fixed [#12893] RSpec's Autotest should work with rspec's trunk
