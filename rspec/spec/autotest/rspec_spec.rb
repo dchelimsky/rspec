@@ -59,10 +59,11 @@ HERE
     end
 
     it "should otherwise select the default spec command in gem_dir/bin/spec" do
-      @rspec_autotest.stub!(:spec_commands).and_return ["/opt/local/bin/spec"]
-      Config::CONFIG.stub!(:[]).and_return "/opt/local/bin"
+      @rspec_autotest.stub!(:spec_commands).and_return ["/foo/spec"]
+      Config::CONFIG.stub!(:[]).and_return "/foo"
+      File.should_receive(:exists?).with("/foo/spec").and_return(true)
 
-      @rspec_autotest.spec_command.should == "#{Config::CONFIG['bindir']}/spec"
+      @rspec_autotest.spec_command.should == "/foo/spec"
     end
     
     it "should raise an error if no spec command is found at all" do

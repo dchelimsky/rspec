@@ -29,7 +29,6 @@ class Autotest::RailsRspec < Autotest::Rspec
 
   def initialize # :nodoc:
     super
-    @spec_command = "script/spec"
     @exceptions = %r%^\./(?:coverage|db|doc|log|public|script|vendor\/rails|previous_failures.txt)%
     @test_mappings = {
       %r%^(test|spec)/fixtures/(.*).yml$% => proc { |_, m|
@@ -73,6 +72,10 @@ class Autotest::RailsRspec < Autotest::Rspec
         ["spec/lib/#{m[1]}_spec.rb"]
       },
     }    
+  end
+  
+  def spec_command
+    "script/spec"
   end
     
 end

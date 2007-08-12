@@ -1,3 +1,7 @@
+== Version 1.0.7
+
+* Fixed [#13015] autotest gives failure in 'spec_command' after upgrade 1.0.5 to 1.0.6
+
 == Version 1.0.6
 
 The "holy cow, batman, it's been a long time since we released and there are a ton of bug
