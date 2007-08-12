@@ -2,8 +2,8 @@ module Spec
   module VERSION
     unless defined? MAJOR
       MAJOR  = 1
-      MINOR  = 1
-      TINY   = 0
+      MINOR  = 0
+      TINY   = 7
       RELEASE_CANDIDATE = nil
 
       # RANDOM_TOKEN: 0.73022701840968
