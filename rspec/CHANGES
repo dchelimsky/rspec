@@ -1,4 +1,7 @@
-== Version 1.0.6 (in SVN)
+== Version 1.0.6
+
+The "holy cow, batman, it's been a long time since we released and there are a ton of bug
+fixes, patches and even new features" release.
 
 Warning: Spec::Rails users: In fixing 11508, we've removed the raise_controller_errors method. As long as you
 follow the upgrade instructions and run 'script/generate rspec' you'll be fine, but if you skip this
