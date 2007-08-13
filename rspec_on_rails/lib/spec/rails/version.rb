@@ -24,3 +24,4 @@ See http://rspec.rubyforge.org/documentation/rails/install.html for details.
 ############################################################################
 EOF
 end
+
