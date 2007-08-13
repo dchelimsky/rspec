@@ -1,3 +1,7 @@
+== Version 1.0.8
+
+Another bugfix release - this time to resolve the version mismatch
+
 == Version 1.0.7
 
 Quick bugfix release to ensure that you don't have to have the rspec gem installed
