@@ -1,3 +1,9 @@
+== Version 1.0.9
+
+Release notes here
+
+* Changed documentation to point at the new http svn URL, which is more accessible.
+
 == Version 1.0.8
 
 Another bugfix release - this time to resolve the version mismatch
