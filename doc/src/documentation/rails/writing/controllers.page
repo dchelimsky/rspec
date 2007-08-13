@@ -5,6 +5,11 @@ h2. Spec::Rails - Specifying Controllers
 
 Controller Examples live in $RAILS_ROOT/spec/controllers/.
 
+In contrast to Test::Unit, where the controller is initialized in the <code>setup</code> method,
+with Spec::Raiks you don't. Instead, pass the controller class to the describe method.
+Spec::Rails automatically instantiates a controller for you, which you can access
+from the examples (it blocks) using the <code>controller</code> method.
+
 h2. Isolation from views
 
 Spec::Rails has the ability to specify your controllers in complete
