@@ -2,6 +2,7 @@
 
 Release notes here
 
+* Added (back) the verbose attribute in Spec::Rake::SpecTask
 * Changed documentation to point at the new http svn URL, which is more accessible.
 
 == Version 1.0.8

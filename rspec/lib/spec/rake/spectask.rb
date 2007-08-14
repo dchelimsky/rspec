@@ -106,6 +106,10 @@ module Spec
       # used, then the list of spec files is the union of the two.
       # Setting the SPEC environment variable overrides this.
       attr_accessor :spec_files
+      
+      # Use verbose output. If this is set to true, the task will print
+      # the executed spec command to stdout. Defaults to false.
+      attr_accessor :verbose
 
       # Defines a new task, using the name +name+.
       def initialize(name=:spec)
@@ -160,6 +164,9 @@ module Spec
                 cmd << " "
                 cmd << %Q| > "#{out}"|
                 STDERR.puts "The Spec::Rake::SpecTask#out attribute is DEPRECATED and will be removed in a future version. Use --format FORMAT:WHERE instead."
+              end
+              if verbose
+                puts cmd
               end
               unless system(cmd)
                 STDERR.puts failure_message if failure_message
