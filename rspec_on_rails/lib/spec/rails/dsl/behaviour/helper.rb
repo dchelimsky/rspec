@@ -37,7 +37,8 @@ module Spec
           include ActionView::Helpers::TagHelper
           include ActionView::Helpers::TextHelper
           include ActionView::Helpers::UrlHelper
-
+          ActionController::Routing::Routes.named_routes.install(self)
+          
           def eval_erb(text)
             ERB.new(text).result(binding)
           end

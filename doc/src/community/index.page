@@ -67,6 +67,8 @@ In alphabetical order (by last name)
 ** Patch for integration with autotest
 * Ian Dees
 ** Patch [#11917] Cleaner Spec::Ui error for failed Selenium connection
+* James Deville
+** Patch for [#13065] Named routes throw a NoMethodError in Helper specs
 * Steven Duncan
 ** Documentation for rake task
 * Eloy Duran
@@ -120,6 +122,8 @@ In alphabetical order (by last name)
 ** Patches for the rake task
 * Dan Manges
 ** Fixed visibility problem for ActionController::Base#render in Spec::Rails
+* Mike Mangino
+** Patch for [#13065] Named routes throw a NoMethodError in Helper specs
 * Pat Maddox
 ** Spec'ing routes (Rails)
 ** Accepting xhr requests (Rails)

@@ -2,6 +2,7 @@
 
 Release notes here
 
+* Fixed [#13065] Named routes throw a NoMethodError in Helper specs (Patches from James Deville and Mike Mangino)
 * Added (back) the verbose attribute in Spec::Rake::SpecTask
 * Changed documentation to point at the new http svn URL, which is more accessible.
 

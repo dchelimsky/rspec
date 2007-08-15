@@ -7,6 +7,14 @@ describe "HelperBehaviour", :behaviour_type => :helper do
   it "should have direct access to methods defined in helpers" do
     method_in_explicit_helper.should =~ /text from a method/
   end
+  
+  it "should have access to named_routes" do
+    ActionController::Routing::Routes.draw do |map|
+      map.resources :things
+    end
+    things_url.should == "http://test.host/things"
+    things_path.should == "/things"
+  end
 end
 
 
@@ -67,6 +75,8 @@ describe ExplicitHelper, :behaviour_type => :helper do
   it "should not require naming the helper if describe is passed a type" do
     method_in_explicit_helper.should match(/text from a method/)
   end
+  
+  
 end
 
 module Spec
