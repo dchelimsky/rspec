@@ -113,6 +113,8 @@ In alphabetical order (by last name)
 * Matthijs Langenberg
 ** Patch [#12682] Not correctly aliasing original 'stub!' and 'should_receive' methods for ApplicationController
 ** Patch [#12719] rspec_on_rails should not include pagination helper
+* Jay Levitt
+** Patch [#13016] [DOC] Point out that view specs render, well, a view
 * Ian Leitch
 ** Patch [#11888] rspec_on_rails spews out warnings when assert_select is used with an XML response
 ** Patch [#12817] Cannot include same shared behaviour when required with absolute paths.

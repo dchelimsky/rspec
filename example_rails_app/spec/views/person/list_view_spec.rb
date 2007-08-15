@@ -14,6 +14,7 @@ describe "/people/list" do
     @smith.should_receive(:name).exactly(3).times.and_return("Smith")
     @jones.should_receive(:name).exactly(3).times.and_return("Jones")
 
+    # Careful - this renders 'app/views/people/list.html.erb', not 'http://localhost/people/list'
     render "/people/list"
 
     response.should have_tag('ul') do
