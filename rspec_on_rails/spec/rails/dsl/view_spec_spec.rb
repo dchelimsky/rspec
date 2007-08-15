@@ -12,6 +12,11 @@ describe "A template with an implicit helper", :behaviour_type => :view do
   it "should include the application helper" do
     response.should have_tag('div', :content => "This is text from a method in the ApplicationHelper")
   end
+
+  it "should have access to named routes" do
+    rspec_on_rails_specs_url.should == "http://test.host/rspec_on_rails_specs"
+    rspec_on_rails_specs_path.should == "/rspec_on_rails_specs"
+  end
 end
 
 describe "A template requiring an explicit helper", :behaviour_type => :view do
@@ -90,7 +95,7 @@ describe "A template that includes a partial", :behaviour_type => :view do
       template.verify_rendered
     rescue Spec::Mocks::MockExpectationError => e
     ensure
-      e.backtrace.find{|line| line =~ /view_spec_spec\.rb\:87/}.should_not be_nil
+      e.backtrace.find{|line| line =~ /view_spec_spec\.rb\:92/}.should_not be_nil
     end
   end
   
@@ -107,7 +112,7 @@ describe "A template that includes a partial", :behaviour_type => :view do
       template.verify_rendered
     rescue Spec::Mocks::MockExpectationError => e
     ensure
-      e.backtrace.find{|line| line =~ /view_spec_spec\.rb\:104/}.should_not be_nil
+      e.backtrace.find{|line| line =~ /view_spec_spec\.rb\:109/}.should_not be_nil
     end
   end
   

@@ -8,12 +8,9 @@ describe "HelperBehaviour", :behaviour_type => :helper do
     method_in_explicit_helper.should =~ /text from a method/
   end
   
-  it "should have access to named_routes" do
-    ActionController::Routing::Routes.draw do |map|
-      map.resources :things
-    end
-    things_url.should == "http://test.host/things"
-    things_path.should == "/things"
+  it "should have access to named routes" do
+    rspec_on_rails_specs_url.should == "http://test.host/rspec_on_rails_specs"
+    rspec_on_rails_specs_path.should == "/rspec_on_rails_specs"
   end
 end
 
