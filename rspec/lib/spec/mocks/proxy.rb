@@ -35,7 +35,7 @@ module Spec
 
       def add_stub(expected_from, sym)
         __add sym, nil
-        @stubs.unshift MethodStub.new(@error_generator, @expectation_ordering, expected_from, sym, nil)
+        @stubs.unshift MessageExpectation.new(@error_generator, @expectation_ordering, expected_from, sym, nil, :any)
         @stubs.first
       end
 
@@ -66,7 +66,7 @@ module Spec
       def message_received(sym, *args, &block)
         if expectation = find_matching_expectation(sym, *args)
           expectation.invoke(args, block)
-        elsif stub = find_matching_method_stub(sym)
+        elsif stub = find_matching_method_stub(sym, *args)
           stub.invoke([], block)
         elsif expectation = find_almost_matching_expectation(sym, *args)
           raise_unexpected_message_args_error(expectation, *args) unless has_negative_expectation?(sym) unless null_object?
@@ -158,8 +158,8 @@ module Spec
         @expectations.find {|expectation| expectation.matches_name_but_not_args(sym, args)}
       end
 
-      def find_matching_method_stub(sym)
-        @stubs.find {|stub| stub.matches(sym, [])}
+      def find_matching_method_stub(sym, *args)
+        @stubs.find {|stub| stub.matches(sym, args)}
       end
 
     end

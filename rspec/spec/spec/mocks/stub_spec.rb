@@ -63,18 +63,12 @@ module Spec
         @obj.rspec_verify
       end
 
-      it "should not support with" do
-        lambda do
-          Spec::Mocks::Mock.new("a mock").stub!(:msg).with(:arg)
-        end.should raise_error(NoMethodError)
-      end
-      
       it "should return expected value when expected message is received" do
         @obj.stub!(:msg).and_return(:return_value)
         @obj.msg.should equal(:return_value)
         @obj.rspec_verify
       end
-
+      
       it "should return values in order to consecutive calls" do
         return_values = ["1",2,Object.new]
         @obj.stub!(:msg).and_return(return_values[0],return_values[1],return_values[2])
@@ -154,6 +148,56 @@ module Spec
         @stub.stub!(:existing_instance_method).and_return(:updated_stub_value)
         @stub.existing_instance_method.should == :updated_stub_value
       end
+      
+      it "should support stub with" do
+        @stub.stub!(:foo).with("bar")
+        @stub.should_receive(:foo).with("baz")
+        @stub.foo("bar")
+        @stub.foo("baz")
+      end
     end
+    
+    describe "A method stub with args" do
+      before(:each) do
+        @stub = Object.new
+        @stub.stub!(:foo).with("bar")
+      end
+
+      it "should not complain if not called" do
+      end
+
+      it "should not complain if called with arg" do
+        @stub.foo("bar")
+      end
+
+      it "should complain if called with no arg" do
+        lambda do
+          @stub.foo
+        end.should raise_error
+      end
+
+      it "should complain if called with other arg" do
+        lambda do
+          @stub.foo("other")
+        end.should raise_error
+      end
+
+      it "should not complain if also mocked w/ different args" do
+        @stub.should_receive(:foo).with("baz")
+        @stub.foo("bar")
+        @stub.foo("baz")
+      end
+
+      it "should complain if also mocked w/ different args AND called w/ a 3rd set of args" do
+        @stub.should_receive(:foo).with("baz")
+        @stub.foo("bar")
+        @stub.foo("baz")
+        lambda do
+          @stub.foo("other")
+        end.should raise_error
+      end
+      
+    end
+
   end
 end

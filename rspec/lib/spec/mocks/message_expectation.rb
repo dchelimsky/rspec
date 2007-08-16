@@ -232,11 +232,5 @@ module Spec
       end
     end
     
-    class MethodStub < BaseExpectation
-      def initialize(message, expectation_ordering, expected_from, sym, method_block)
-        super(message, expectation_ordering, expected_from, sym, method_block, 0)
-        @expected_received_count = :any
-      end
-    end
   end
 end
