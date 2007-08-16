@@ -72,7 +72,15 @@ module Spec
       end
     end
 
-    describe Description, " constructed with options" do
+    describe Description, "constructed with String, Type, String" do 
+      before(:each) {@description = Description.new("A", Hash, "with one entry")}
+
+      it "should include create a description with all arguments" do
+        @description.description.should == "A Hash with one entry"
+      end
+    end
+
+    describe Description, "constructed with options" do
       before(:each) do
         @description = Description.new(Behaviour, :a => "b", :spec_path => "blah")
       end

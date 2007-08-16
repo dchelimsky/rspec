@@ -55,6 +55,7 @@ In alphabetical order (by last name)
 ** Patch [#11252] Should be able to re-load file containing shared behaviours without raising an exception
 ** Patch [#12010] Nicer failure message formatting
 * Bob Cotton
+** Patch [#13118] Rinda support for Spec::Distributed
 ** Support for context_setup and context_teardown (now before(:all) and after(:all))
 ** Patch [#9678] Custom runner command line switch, and multi-threaded runner
 ** Patch [#9605] Patch for ER 9472, shared behaviour

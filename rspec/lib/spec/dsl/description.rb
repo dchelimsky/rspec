@@ -4,7 +4,7 @@ module Spec
       module ClassMethods
         def generate_description(*args)
           description = args.shift.to_s
-          unless args.empty?
+          until args.empty?
             suffix = args.shift.to_s
             description << " " unless suffix =~ /^\s|\.|#/
             description << suffix
@@ -64,7 +64,7 @@ module Spec
       end
       
       def init_described_type(args)
-        @described_type = args.first unless args.first.is_a?(String)
+        @described_type = args.find{|arg| Module === arg}
       end
     
       def parse_behaviour_type(behaviour_class)

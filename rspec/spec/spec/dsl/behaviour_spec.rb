@@ -651,6 +651,16 @@ module Spec
         map{|e| e.to_i}.should == [4,2,1]
       end
     end
+
+    describe "An", Enumerable, "as a second argument" do
+      def each(&block)
+        ["4", "2", "1"].each(&block)
+      end
+      
+      it "should be included in examples because it is a module" do
+        map{|e| e.to_i}.should == [4,2,1]
+      end
+    end
     
     describe String do
       it "should not be included in examples because it is not a module" do

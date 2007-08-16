@@ -2,6 +2,7 @@
 
 Release notes here
 
+* describe("A", Hash, "with one element") will generate description "A Hash with one element" (Tip from Ola Bini)
 * Applied [#13016] [DOC] Point out that view specs render, well, a view (Patch from Jay Levitt)
 * Applied [#13078] Develop rspec with autotest (Patch from Scott Taylor)
 * Fixed [#13065] Named routes throw a NoMethodError in Helper specs (Patches from James Deville and Mike Mangino)
