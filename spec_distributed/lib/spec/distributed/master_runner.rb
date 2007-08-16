@@ -6,6 +6,10 @@ module Spec
     class MasterRunner < ::Spec::Runner::BehaviourRunner
       def initialize(options, args=nil)
         super(options)
+        process_args(args)
+      end
+
+      def process_args(args)
         @slave_urls = args.split(",")
         raise "You must pass the DRb URLs: --runner #{self.class}:druby://host1:port1,drb://host2:port2" if @slave_urls.empty?
       end
@@ -23,8 +27,7 @@ module Spec
         index_queue = Queue.new
         @behaviours.length.times {|index| index_queue << index}
 
-        @threads = @slave_urls.map do |slave_url|
-          slave_runner = DRbObject.new_with_uri(slave_url)
+        @threads = slave_runners.map do |slave_runner|
           Thread.new do
             slave_runner.prepare_run(@master_paths, @svn_rev)
             drb_error = nil
@@ -48,6 +51,8 @@ module Spec
             end
           end
         end
+
+        return unless @threads.length > 0
         
         # Add a last thread for the reporter
         @threads << Thread.new do
@@ -59,6 +64,10 @@ module Spec
         @threads.each do |t| 
           t.join
         end
+      end
+
+      def slave_runners
+        @slave_urls.map { |slave_url| DRbObject.new_with_uri(slave_url) }
       end
     end
   end

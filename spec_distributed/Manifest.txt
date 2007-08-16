@@ -5,6 +5,9 @@ Manifest.txt
 setup.rb
 lib/spec/distributed/master_runner.rb
 lib/spec/distributed/slave_runner.rb
+lib/spec/distributed/rinda_master_runner.rb
+lib/spec/distributed/rinda_slave_runner.rb
+lib/spec/distributed/tuple_args.rb
 lib/spec/distributed/version.rb
 lib/spec/distributed.rb
 examples/first_spec.rb

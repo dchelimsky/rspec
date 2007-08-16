@@ -1,15 +1,19 @@
 module Spec
   module Distributed
     class SlaveRunner < ::Spec::Runner::BehaviourRunner
-      def initialize(options, url=nil)
+      def initialize(options, args=nil)
         super(options)
-        @url = url
+        process_args(args)
+      end
+
+      def process_args(args)
+        @url = args
         raise "You must pass the DRb URL: --runner #{self.class}:druby://host1:port1" if @url.nil?
       end
 
       def run(paths, exit_when_done)
         @started = true
-        puts "Whip me on #{@url}"
+        puts "Whip me on #{slave_watermark}"
         DRb.start_service(@url, self)
         DRb.thread.join
       end
@@ -33,7 +37,7 @@ module Spec
 
           # We'll report locally, but also record what happened so we can send
           # that back to the master
-          recorder = Recorder.new(@url)
+          recorder = Recorder.new(slave_watermark)
           reporter = Dispatcher.new(recorder, @options.reporter)
 
           behaviour.run(reporter, dry_run, reverse, timeout)
@@ -74,6 +78,10 @@ module Spec
         dir
       end
     end
+
+    def slave_watermark
+      @url
+    end
     
     class Dispatcher
       def initialize(*children)
@@ -99,7 +107,7 @@ module Spec
 
         if method.to_s == 'add_behaviour'
           # Watermark each behaviour name so the final report says where it ran
-          marshallable_args[0] += " (#{@watermark})" 
+          marshallable_args[0] = "#{marshallable_args[0].to_s} (#{@watermark})" 
         end
         @invocations << [method, *marshallable_args]
       end

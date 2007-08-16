@@ -1,3 +1,6 @@
 require 'spec/distributed/version'
 require 'spec/distributed/master_runner'
 require 'spec/distributed/slave_runner'
+require 'spec/distributed/tuple_args'
+require 'spec/distributed/rinda_master_runner'
+require 'spec/distributed/rinda_slave_runner'
