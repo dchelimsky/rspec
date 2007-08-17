@@ -2,6 +2,7 @@
 
 Release notes here
 
+* You can now stub!(:msg).with(specific args)
 * describe("A", Hash, "with one element") will generate description "A Hash with one element" (Tip from Ola Bini)
 * Applied [#13016] [DOC] Point out that view specs render, well, a view (Patch from Jay Levitt)
 * Applied [#13078] Develop rspec with autotest (Patch from Scott Taylor)
