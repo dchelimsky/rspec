@@ -25,7 +25,7 @@ class PreCommit::Rspec < PreCommit
             exclude('rspec/translated_specs/**')
     $\="\n"
     files.each do |f|
-      raw_content = File.open(f).read
+      raw_content = File.read(f)
       fixed_content = ""
       raw_content.each_line do |line|
         fixed_content << line
