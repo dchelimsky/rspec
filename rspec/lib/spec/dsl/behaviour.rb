@@ -81,11 +81,6 @@ module Spec
       end
       alias_method :specify, :it
 
-      def xit(description=:__generate_description, opts={}, &block)
-        examples << create_example(description, opts)
-      end
-      alias_method :xspecify, :xit
-
       def shared?
         description[:shared]
       end

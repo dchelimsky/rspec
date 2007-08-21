@@ -18,6 +18,10 @@ module Spec
       after :each do
         Behaviour.clear_before_and_after!
       end
+      
+      it "should return the same description instance for each call" do
+        @behaviour.description.should eql(@behaviour.description)
+      end
 
       it "should not run before(:all) or after(:all) on dry run" do
         before_all_ran = false
@@ -146,18 +150,6 @@ module Spec
 
         Behaviour.after(:all) { raise NonStandardError.new("in after(:all)") }
         @behaviour.run(@reporter)
-      end
-    end
-
-    describe "Behaviour", ".xit" do
-      before :each do
-        @behaviour = Behaviour.new("example") {}
-      end
-
-      it "should create a not implemented Example" do
-        @behaviour.examples.should be_empty
-        @behaviour.xit("description") {}
-        @behaviour.examples[0].should be_not_implemented
       end
     end
 

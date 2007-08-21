@@ -2,6 +2,8 @@
 
 Release notes here
 
+* Applied [#13129] Fix failing specs in spec_distributed (Patch from Bob Cotton)
+* Applied [#13118] Rinda support for Spec::Distributed (Patch from Bob Cotton)
 * Removed BehaviourEval
 * Behaviour subclasses Module
 * Removed Behaviour#inherit
