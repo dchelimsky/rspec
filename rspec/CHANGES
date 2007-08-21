@@ -1,5 +1,6 @@
 * Removed BehaviourEval
 * Behaviour subclasses Module
+* Removed Behaviour#inherit
 * Moved implementation of install_dependencies to example_rails_app
 * Renamed RSPEC_DEPS to VENDOR_DEPS
 * Added Behaviour.xit and Behaviour.xspecify
