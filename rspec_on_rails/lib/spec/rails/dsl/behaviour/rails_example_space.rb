@@ -2,6 +2,7 @@ module Spec
   module Rails
     module DSL
       class RailsExampleSpace < ::Spec::DSL::ExampleSpace
+        extend Forwardable
         include Spec::Rails::Matchers
         
         def initialize(behaviour, example) #:nodoc:
