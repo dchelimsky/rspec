@@ -45,10 +45,6 @@ module Spec
         description
       end
 
-      def not_implemented?
-        (@example_block) ? false : true
-      end
-
     private
 
       def generated_description

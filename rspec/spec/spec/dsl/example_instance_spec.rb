@@ -157,21 +157,5 @@ module Spec
         example.run(@reporter, nil, nil, nil, Object.new)
       end
     end
-
-    describe Example, "#not_implemented?" do
-      before do
-        @behaviour = Behaviour.new("My Behaviour") {}
-      end
-      
-      it "should return true when no block passed in" do
-        example = @behaviour.create_example("The Example")
-        example.should be_not_implemented
-      end
-
-      it "should return false when block passed in" do
-        example = @behaviour.create_example("The Example") {}
-        example.should_not be_not_implemented
-      end
-    end
   end
 end
