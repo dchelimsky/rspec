@@ -12,10 +12,12 @@ class PreCommit
   def rake_sh(task_name, env_hash={})
     env = env_hash.collect{|key, value| "#{key}=#{value}"}.join(' ')
     rake = (PLATFORM == "i386-mswin32") ? "rake.bat" : "rake"
-    output = silent_sh("#{rake} #{task_name} #{env} --trace ") do |line|
-      puts line unless line =~ /^running against rails/ || line =~ /^\(in /
+    cmd = "#{rake} #{task_name} #{env} --trace"
+    output = silent_sh(cmd)
+    puts output
+    if shell_error?(output)
+      raise "ERROR while running rake: #{cmd}"
     end
-    raise "ERROR while running rake: #{output}" if output =~ /ERROR/n || error_code?
   end
 
   def silent_sh(cmd, &block)
@@ -29,8 +31,12 @@ class PreCommit
     output
   end
 
+  def shell_error?(output)
+    output =~ /ERROR/n || error_code?
+  end
+
   def error_code?
-    $? != 0
+    $?.exitstatus != 0
   end
 
   def root_dir

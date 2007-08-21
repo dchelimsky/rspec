@@ -22,7 +22,7 @@ Also see the "RCov":rcov.html page for info about how to generate a coverage rep
 
 h3. Generate specdocs in RDoc format
 
-<ruby file="../rspec/rake_tasks/examples_specdoc.rake"/>
+<ruby file="../rspec/rake_tasks/examples_rdoc.rake"/>
 
 This will write the specdocs to a file, which can be included in your RDoc. 
 Just like "this":../../rdoc/files/EXAMPLES_rd.html.

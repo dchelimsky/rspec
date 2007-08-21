@@ -9,7 +9,7 @@ module Spec
       end
     end
     
-    describe Behaviour, "class methods" do
+    describe "Behaviour", "class methods" do
       before :each do
         @reporter = FakeReporter.new(mock("formatter", :null_object => true), mock("backtrace_tweaker", :null_object => true))
         @behaviour = Behaviour.new("example") {}
@@ -149,7 +149,19 @@ module Spec
       end
     end
 
-    describe Behaviour do
+    describe "Behaviour", ".xit" do
+      before :each do
+        @behaviour = Behaviour.new("example") {}
+      end
+
+      it "should create a not implemented Example" do
+        @behaviour.examples.should be_empty
+        @behaviour.xit("description") {}
+        @behaviour.examples[0].should be_not_implemented
+      end
+    end
+
+    describe "Behaviour" do
       before :each do
         @reporter = FakeReporter.new(mock("formatter", :null_object => true), mock("backtrace_tweaker", :null_object => true))
         @behaviour = Behaviour.new("example") {}
@@ -253,27 +265,6 @@ module Spec
         before_all_run_count_run_count.should == 1
       end
 
-      it "calls spec_inherited class method" do
-        super_class_before_ran = false
-        super_class = Class.new do
-          def self.spec_inherited(mod)
-            mod.before {setup}
-          end
-
-          define_method :setup do
-            super_class_before_ran = true
-          end
-        end
-        @behaviour.inherit super_class
-    
-        before_ran = false
-        @behaviour.before {before_ran = true}
-        @behaviour.it("test") {true}
-        @behaviour.run(@reporter)
-        super_class_before_ran.should be_true
-        before_ran.should be_true
-      end
-    
       it "should run after(:all) block only once" do
         after_all_run_count = 0
         @behaviour.after(:all) {after_all_run_count += 1}
@@ -346,16 +337,9 @@ module Spec
           'Behaviour.append_before(:each, :behaviour_type => :special)',
         ]
       end
-    
+
       it "before callbacks are ordered from global to local" do
         fiddle = []
-        super_class = Class.new do
-          define_method :setup do
-            fiddle << "superclass setup"
-          end
-        end
-        @behaviour.inherit super_class
-
         Behaviour.prepend_before(:all) { fiddle << "Behaviour.prepend_before(:all)" }
         Behaviour.before(:all) { fiddle << "Behaviour.before(:all)" }
         @behaviour.prepend_before(:all) { fiddle << "prepend_before(:all)" }
@@ -379,13 +363,6 @@ module Spec
         @reporter.should_receive(:example_finished).with any_args()
 
         fiddle = []
-        super_class = Class.new do
-          define_method :teardown do
-            fiddle << "superclass teardown"
-          end
-        end
-        @behaviour.inherit super_class
-
         @behaviour.after(:each) { fiddle << "after(:each)" }
         @behaviour.append_after(:each) { fiddle << "append_after(:each)" }
         @behaviour.after(:all) { fiddle << "after(:all)" }
@@ -402,64 +379,6 @@ module Spec
           'Behaviour.after(:all)',
           'Behaviour.append_after(:all)'
         ]
-      end
-    
-      it "should run superclass teardown method and after block" do
-        super_class_teardown_ran = false
-        super_class = Class.new do
-          define_method :teardown do
-            super_class_teardown_ran = true
-          end
-        end
-        @behaviour.inherit super_class
-    
-        teardown_ran = false
-        @behaviour.after {teardown_ran = true}
-        @behaviour.it("test") {true}
-        @behaviour.run(@reporter)
-        super_class_teardown_ran.should be_false
-        teardown_ran.should be_true
-        @reporter.rspec_verify
-      end
-    
-      it "should have accessible methods from inherited superclass" do
-        helper_method_ran = false
-        super_class = Class.new do
-          define_method :helper_method do
-            helper_method_ran = true
-          end
-        end
-        @behaviour.inherit super_class
-    
-        @behaviour.it("test") {helper_method}
-        @behaviour.run(@reporter)
-        helper_method_ran.should be_true
-      end
-    
-      it "should have accessible class methods from inherited superclass" do
-        class_method_ran = false
-        super_class = Class.new
-        (class << super_class; self; end).class_eval do
-          define_method :class_method do
-            class_method_ran = true
-          end
-        end
-        @behaviour.inherit super_class
-        @behaviour.class_method
-        class_method_ran.should be_true
-    
-        lambda {@behaviour.foobar}.should raise_error(NoMethodError)
-      end
-    
-      it "should include inherited class methods" do
-        class_method_ran = false
-        super_class = Class.new
-        class << super_class
-          def super_class_class_method; end
-        end
-        @behaviour.inherit super_class
-    
-        @behaviour.methods.should include("super_class_class_method")
       end
     
       it "should have accessible instance methods from included module" do
@@ -624,19 +543,148 @@ module Spec
         end
       end
 
-    end      
-    
-    class BehaviourSubclass < Behaviour
-      public :described_type
+      it "should allow constants to be defined" do
+        behaviour = Behaviour.new('example') do
+          FOO = 1
+          it "should reference FOO" do
+            FOO.should == 1
+          end
+        end.run(@reporter)
+        Object.const_defined?(:FOO).should == false
+      end
+
+      it "should understand module scoping" do
+        pending "Behaviour.new needs to create a class that is evaled"
+        module Foo
+          module Bar
+            def self.loaded?
+              true
+            end
+          end
+        end
+
+        Behaviour.new('example') do
+          include Foo
+          it "should allow module scoping" do
+            Bar.should be_loaded
+          end
+        end.run(@reporter)
+        @reporter.instance_variable_get(:@failures).should == []
+        @reporter.dump.should == 0
+      end
+
+      it "should allow class variables to be defined" do
+        pending "class_eval cannot be used. Only the class definition can be used. This may not be possible."
+        Behaviour.new('example') do
+          @@foo = 1
+          it "should reference @@foo" do
+            @@foo.should == 1
+          end
+        end.run(@reporter)
+
+        Behaviour.new('example2') do
+          it "should not have access to other class variables" do
+            proc do
+              @@foo
+            end.should raise_error
+          end
+        end.run(@reporter)
+        @reporter.dump.should == 0
+      end
     end
-    
-    describe Behaviour, " subclass" do
+
+    describe Behaviour do
+      def count
+        @count ||= 0
+        @count = @count + 1
+        @count
+      end
+
+      before(:all) do
+        count.should == 1
+      end
+
+      before(:all) do
+        count.should == 2
+      end
+
+      before(:each) do
+        count.should == 3
+      end
+
+      before(:each) do
+        count.should == 4
+      end
+
+      it "should run before(:all), before(:each), example, after(:each), after(:all) in order" do
+        count.should == 5
+      end
+
+      after(:each) do
+        count.should == 7
+      end
+
+      after(:each) do
+        count.should == 6
+      end
+
+      after(:all) do
+        count.should == 9
+      end
+
+      after(:all) do
+        count.should == 8
+      end
+    end
+
+    describe Behaviour, "#initialize" do
+      the_behaviour = self
+      it "should have copy of behaviour" do
+        the_behaviour.should be_instance_of(Behaviour)
+      end
+    end
+
+    describe Behaviour, "#pending" do
+      it "should support pending" do
+        lambda {
+          pending("something")
+        }.should raise_error(Spec::DSL::ExamplePendingError, "something")
+      end
+
+      it "should raise a Pending error when its block fails" do
+        block_ran = false
+        lambda {
+          pending("something") do
+            block_ran = true
+            raise "something wrong with my example"
+          end
+        }.should raise_error(Spec::DSL::ExamplePendingError, "something")
+        block_ran.should == true
+      end
+
+      it "should raise Spec::DSL::PendingFixedError when its block does not fail" do
+        block_ran = false
+        lambda {
+          pending("something") do
+            block_ran = true
+          end
+        }.should raise_error(Spec::DSL::PendingFixedError, "Expected pending 'something' to fail. No Error was raised.")
+        block_ran.should == true
+      end
+    end
+
+    class BehaviourSubclass < Behaviour
+    end
+
+    describe "Behaviour", " subclass" do
       it "should have access to the described_type" do
-        BehaviourSubclass.new(Example){}.described_type.should == Example
+        behaviour = BehaviourSubclass.new(Example){}
+        behaviour.send(:described_type).should == Example
       end
       
       it "should figure out its behaviour_type based on its name ()" do
-        BehaviourSubclass.new(Object){}.behaviour_type.should == :subclass
+        behaviour = BehaviourSubclass.new(Example){}
+        behaviour.send(:behaviour_type).should == :subclass
       end
       
       # TODO - add an example about shared behaviours

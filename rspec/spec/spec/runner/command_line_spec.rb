@@ -8,7 +8,7 @@ describe "CommandLine" do
     Spec::Runner::CommandLine.run([file], err, out, false, true)
     
     out.rewind
-    out.read.should =~ /78 examples, 0 failures, 3 pending/n
+    out.read.should =~ /75 examples, 0 failures, 3 pending/n
   end
 
   it "should run file" do

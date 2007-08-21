@@ -1,51 +1,58 @@
 class PreCommit::RspecOnRails < PreCommit
   def pre_commit
-    dir = File.dirname(__FILE__)
-    railses = File.expand_path("#{dir}/../../../example_rails_app/vendor/rails")
+    check_dependencies
+    railses = File.expand_path("vendor/rails")
     used_railses = []
     Dir["#{railses}/*"].reverse.each do |rails_dir|
-      rails_version = rails_dir[railses.length+1..-1]
-      ENV['RSPEC_RAILS_VERSION'] = rails_version
-      used_railses << rails_version
+      rails_version = rails_version_from_dir(rails_dir)
       begin
         rspec_pre_commit(rails_version)
+        used_railses << rails_version
       rescue => e
-        if rails_version == 'edge'
-          used_railses.delete 'edge'
-          edge_errors = "Errors running pre_commit against edge\n#{e.backtrace.to_s}"
-        else
+        unless rails_version == 'edge'
           raise e
         end
       end
     end
     puts "All specs passed against the following released versions of Rails: #{used_railses.join(", ")}"
-    puts "There were errors running pre_commit against edge" unless used_railses.include?('edge')
+    unless used_railses.include?('edge')
+      puts "There were errors running pre_commit against edge"
+    end
+  end
+
+  def rails_version_from_dir(rails_dir)
+    File.basename(rails_dir)
   end
 
   def rspec_pre_commit(rails_version=ENV['RSPEC_RAILS_VERSION'])
-    begin
-      puts "#####################################################"
-      puts "running pre_commit against rails #{rails_version}"
-      puts "#####################################################"
-      rm_rf 'vendor/plugins/rspec_on_rails'
-      silent_sh "svn export ../rspec_on_rails vendor/plugins/rspec_on_rails"
-      rm_rf 'vendor/plugins/rspec'
-      silent_sh "svn export ../rspec vendor/plugins/rspec"
+    puts "#####################################################"
+    puts "running pre_commit against rails #{rails_version}"
+    puts "#####################################################"
+    ENV['RSPEC_RAILS_VERSION'] = rails_version
+    cleanup
+    install_plugins
+    create_purchase
+    generate_login_controller
+    ensure_db_config
+    clobber_sqlite_data
+    rake_sh "db:migrate"
+    generate_rspec
 
-      create_purchase
-      generate_login_controller
-      ensure_db_config
-      clobber_sqlite_data
-      rake_sh "db:migrate"
-      generate_rspec
-      rake_sh "spec"
-      rake_sh "spec:plugins:rspec_on_rails"
-    ensure
-      rm_generated_login_controller_files
-      destroy_purchase
-      rm_rf 'vendor/plugins/rspec_on_rails'
-      rm_rf 'vendor/plugins/rspec'
-    end
+    rake_sh "spec"
+    rake_sh "spec:plugins:rspec_on_rails"
+    cleanup
+  end
+
+  def cleanup
+    revert_routes
+    rm_generated_login_controller_files
+    destroy_purchase
+    uninstall_plugins
+  end
+
+  def revert_routes
+    output = silent_sh("svn revert config/routes.rb")
+    raise "Error reverting routes.rb" if shell_error?(output)
   end
 
   def create_purchase
@@ -53,23 +60,31 @@ class PreCommit::RspecOnRails < PreCommit
     migrate_up
   end
 
-  def install_plugin
-    rm_rf 'vendor/plugins/rspec_on_rails'
-    rm_rf 'vendor/plugins/rspec'
-    puts "installing rspec_on_rails ..."
-    result = silent_sh("svn export ../rspec_on_rails vendor/plugins/rspec_on_rails")
-    result = silent_sh("svn export ../rspec vendor/plugins/rspec")
-    raise "Failed to install plugin:\n#{result}" if error_code?
+  def install_plugins
+    install_rspec_on_rails_plugin
+    install_rspec_plugin
   end
 
-  def uninstall_plugin
+  def install_rspec_on_rails_plugin
+    output = silent_sh("svn export ../rspec_on_rails vendor/plugins/rspec_on_rails")
+    raise "Error installing rspec_on_rails" if shell_error?(output)
+  end
+
+  def install_rspec_plugin
+    output = silent_sh("svn export ../rspec vendor/plugins/rspec")
+    raise "Error installing rspec" if shell_error?(output)
+  end
+
+  def uninstall_plugins
     rm_rf 'vendor/plugins/rspec_on_rails'
     rm_rf 'vendor/plugins/rspec'
   end
 
   def generate_rspec
     result = silent_sh("ruby script/generate rspec --force")
-    raise "Failed to generate rspec environment:\n#{result}" if error_code? || result =~ /^Missing/
+    if error_code? || result =~ /^Missing/
+      raise "Failed to generate rspec environment:\n#{result}"
+    end
   end
 
   def ensure_db_config
@@ -122,7 +137,9 @@ class PreCommit::RspecOnRails < PreCommit
     EOF
     puts notice.gsub(/^    /, '')
     result = silent_sh(generator)
-    raise "rspec_scaffold failed. #{result}" if error_code? || result =~ /not/
+    if error_code? || result =~ /not/
+      raise "rspec_scaffold failed. #{result}"
+    end
   end
 
   def migrate_up
@@ -176,7 +193,9 @@ class PreCommit::RspecOnRails < PreCommit
     EOF
     puts notice.gsub(/^    /, '')
     result = silent_sh(generator)
-    raise "rspec_scaffold failed. #{result}" if error_code? || result =~ /not/
+    if error_code? || result =~ /not/
+      raise "rspec_scaffold failed. #{result}"
+    end
   end
 
   def rm_generated_login_controller_files
@@ -195,4 +214,78 @@ class PreCommit::RspecOnRails < PreCommit
     end
     puts "#####################################################"
   end
+
+  def install_dependencies
+    VENDOR_DEPS.each do |dep|
+      puts "\nChecking for #{dep[:name]} ..."
+      dest = dep[:checkout_path]
+      if File.exists?(dest)
+        puts "#{dep[:name]} already installed"
+      else
+        cmd = "svn co #{dep[:url]} #{dest}"
+        puts "Installing #{dep[:name]}"
+        puts "This may take a while."
+        puts cmd
+        system(cmd)
+        puts "Done!"
+      end
+    end
+    puts
+  end
+
+  def check_dependencies
+    VENDOR_DEPS.each do |dep|
+      unless File.exist?(dep[:checkout_path])
+        raise "There is no checkout of #{dep[:checkout_path]}. Please run rake install_dependencies"
+      end
+      # Verify that the current working copy is right
+      if `svn info #{dep[:checkout_path]}` =~ /^URL: (.*)/
+        actual_url = $1
+        if actual_url != dep[:url]
+          raise "Your working copy in #{dep[:checkout_path]} points to \n#{actual_url}\nIt has moved to\n#{dep[:url]}\nPlease delete the working copy and run rake install_dependencies"
+        end
+      end
+    end
+  end
+  
+  def update_dependencies
+    check_dependencies
+    VENDOR_DEPS.each do |dep|
+      next if dep[:tagged?] #
+      puts "\nUpdating #{dep[:name]} ..."
+      dest = dep[:checkout_path]
+      system("svn cleanup #{dest}")
+      cmd = "svn up #{dest}"
+      puts cmd
+      system(cmd)
+      puts "Done!"
+    end
+  end
+
+  VENDOR_DEPS = [
+    {
+      :checkout_path => "vendor/rails/1.2.1",
+      :name =>  "rails 1.2.1",
+      :url => "http://dev.rubyonrails.org/svn/rails/tags/rel_1-2-1",
+      :tagged? => true
+    },
+    {
+      :checkout_path => "vendor/rails/1.2.2",
+      :name =>  "rails 1.2.2",
+      :url => "http://dev.rubyonrails.org/svn/rails/tags/rel_1-2-2",
+      :tagged? => true
+    },
+    {
+      :checkout_path => "vendor/rails/1.2.3",
+      :name =>  "rails 1.2.3",
+      :url => "http://dev.rubyonrails.org/svn/rails/tags/rel_1-2-3",
+      :tagged? => true
+    },
+    {
+      :checkout_path => "vendor/rails/edge",
+      :name =>  "edge rails",
+      :url => "http://svn.rubyonrails.org/rails/trunk",
+      :tagged? => false
+    }
+  ]
 end

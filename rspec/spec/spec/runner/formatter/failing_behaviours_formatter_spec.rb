@@ -10,7 +10,7 @@ module Spec
         end
         
         def description(s)
-          Spec::DSL::Description.new(s)
+          Spec::DSL::BehaviourDescription.new(s)
         end
 
         it "should add example name for each failure" do

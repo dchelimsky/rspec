@@ -5,7 +5,7 @@ require "pre_commit"
 task :default => :pre_commit
 
 desc "Runs pre_commit_core and pre_commit_rails"
-task :pre_commit => :fix_cr_lf do
+task :pre_commit do
   pre_commit.pre_commit
 end
 
@@ -53,16 +53,4 @@ def pre_commit
 end
 
 desc "Fix line endings"
-task :fix_cr_lf do
-  files = FileList['**/*.rb'].exclude('example_rails_app/vendor/**').exclude('rspec/translated_specs/**')
-  $\="\n"
-  files.each do |f|
-    code = File.open(f).read
-    File.open(f, "wb") do |io| # We need the 'b' flag on Windows, in order to get non-PC file format
-      code.each_line do |l|
-        l = l.gsub(/\t/, '  ')
-        io.print l.chomp
-      end
-    end
-  end
-end
+task(:fix_cr_lf) {pre_commit.fix_cr_lf}

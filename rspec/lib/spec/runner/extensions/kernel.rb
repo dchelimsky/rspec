@@ -24,7 +24,7 @@ module Kernel
     register_behaviour(Spec::DSL::BehaviourFactory.create(*args, &block))
   end
   alias :context :describe
-  
+
   def respond_to(*names)
     Spec::Matchers::RespondTo.new(*names)
   end
@@ -33,7 +33,7 @@ private
 
   def register_behaviour(behaviour)
     if behaviour.shared?
-      Spec::DSL::Behaviour.add_shared_behaviour(behaviour)
+      Spec::DSL::SharedBehaviour.add_shared_behaviour(behaviour)
     else
       behaviour_runner.add_behaviour(behaviour)
     end

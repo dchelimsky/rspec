@@ -2,8 +2,8 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 
 module Spec
   module DSL
-    describe Description, " constructed with a single String" do 
-      before(:each) {@description = Description.new("abc")}
+    describe BehaviourDescription, " constructed with a single String" do
+      before(:each) {@description = BehaviourDescription.new("abc")}
       
       it "should provide that string as its name" do
         @description.description.should == "abc"
@@ -22,12 +22,12 @@ module Spec
         @description.should == "abc"
       end
       it "should return for == when value is other description that matches description" do
-        @description.should == Description.new("abc")
+        @description.should == BehaviourDescription.new("abc")
       end
     end
     
-    describe Description, " constructed with a Type" do 
-      before(:each) {@description = Description.new(Behaviour)}
+    describe BehaviourDescription, " constructed with a Type" do
+      before(:each) {@description = BehaviourDescription.new(Behaviour)}
 
       it "should provide a String representation of that type (fully qualified) as its name" do
         @description.description.should == "Spec::DSL::Behaviour"
@@ -37,8 +37,8 @@ module Spec
       end
     end
     
-    describe Description, " constructed with a Type and a String" do 
-      before(:each) {@description = Description.new(Behaviour, " behaving")}
+    describe BehaviourDescription, " constructed with a Type and a String" do
+      before(:each) {@description = BehaviourDescription.new(Behaviour, " behaving")}
       
       it "should include the type and second String in its name" do
         @description.description.should == "Spec::DSL::Behaviour behaving"
@@ -48,41 +48,41 @@ module Spec
       end
     end
 
-    describe Description, "constructed with a Type and a String not starting with a space" do 
-      before(:each) {@description = Description.new(Behaviour, "behaving")}
+    describe BehaviourDescription, "constructed with a Type and a String not starting with a space" do
+      before(:each) {@description = BehaviourDescription.new(Behaviour, "behaving")}
 
       it "should include the type and second String with a space in its name" do
         @description.description.should == "Spec::DSL::Behaviour behaving"
       end
     end
 
-    describe Description, "constructed with a Type and a String starting with a ." do 
-      before(:each) {@description = Description.new(Behaviour, ".behaving")}
+    describe BehaviourDescription, "constructed with a Type and a String starting with a ." do
+      before(:each) {@description = BehaviourDescription.new(Behaviour, ".behaving")}
 
       it "should include the type and second String with a space in its name" do
         @description.description.should == "Spec::DSL::Behaviour.behaving"
       end
     end
 
-    describe Description, "constructed with a Type and a String starting with a #" do 
-      before(:each) {@description = Description.new(Behaviour, "#behaving")}
+    describe BehaviourDescription, "constructed with a Type and a String starting with a #" do
+      before(:each) {@description = BehaviourDescription.new(Behaviour, "#behaving")}
 
       it "should include the type and second String with a space in its name" do
         @description.description.should == "Spec::DSL::Behaviour#behaving"
       end
     end
 
-    describe Description, "constructed with String, Type, String" do 
-      before(:each) {@description = Description.new("A", Hash, "with one entry")}
+    describe BehaviourDescription, "constructed with String, Type, String" do
+      before(:each) {@description = BehaviourDescription.new("A", Hash, "with one entry")}
 
       it "should include create a description with all arguments" do
         @description.description.should == "A Hash with one entry"
       end
     end
-
-    describe Description, "constructed with options" do
+    
+    describe BehaviourDescription, " constructed with options" do
       before(:each) do
-        @description = Description.new(Behaviour, :a => "b", :spec_path => "blah")
+        @description = BehaviourDescription.new(Behaviour, :a => "b", :spec_path => "blah")
       end
 
       it "should provide its options" do

@@ -11,7 +11,9 @@ module Spec
         if !specified_examples.nil? && !specified_examples.empty?
           behaviour.retain_examples_matching!(specified_examples)
         end
-        @behaviours << behaviour if behaviour.number_of_examples != 0 && !behaviour.shared?
+        if behaviour.number_of_examples != 0 && !behaviour.shared?
+          @behaviours << behaviour
+        end
       end
       
       # Runs all behaviours and returns the number of failures.

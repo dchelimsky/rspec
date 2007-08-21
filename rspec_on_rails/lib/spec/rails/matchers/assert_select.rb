@@ -3,12 +3,12 @@
 module Spec # :nodoc:
   module Rails
     module Matchers
-      
+
       class AssertSelect #:nodoc:
-        
-        def initialize(*args, &block)
-          @assertion = args.shift
-          @spec_scope = args.shift
+
+        def initialize(assertion, spec_scope, *args, &block)
+          @assertion = assertion
+          @spec_scope = spec_scope
           @args = args
           @block = block
         end
@@ -26,19 +26,20 @@ module Spec # :nodoc:
             @spec_scope.send(@assertion, *@args, &@block)
           rescue Exception => @error
           end
+          
           @error.nil?
         end
-        
+
         def failure_message; @error.message; end
         def negative_failure_message; "should not #{description}, but did"; end
-        
+
         def description
           {
             :assert_select => "have tag#{format_args(*@args)}",
             :assert_select_email => "send email#{format_args(*@args)}",
           }[@assertion]
         end
-        
+
       private
 
         def format_args(*args)
@@ -73,9 +74,7 @@ module Spec # :nodoc:
       #
       # see documentation for assert_select at http://api.rubyonrails.org/
       def have_tag(*args, &block)
-        args.unshift(self)
-        args.unshift(:assert_select)
-        AssertSelect.new(*args, &block)
+        AssertSelect.new(:assert_select, self, *args, &block)
       end
     
       # wrapper for a nested assert_select
@@ -107,9 +106,7 @@ module Spec # :nodoc:
       #
       # see documentation for assert_select_rjs at http://api.rubyonrails.org/
       def have_rjs(*args, &block)
-        args.unshift(self)
-        args.unshift(:assert_select_rjs)
-        AssertSelect.new(*args, &block)
+        AssertSelect.new(:assert_select_rjs, self, *args, &block)
       end
       
       # :call-seq:
@@ -119,18 +116,14 @@ module Spec # :nodoc:
       #
       # see documentation for assert_select_email at http://api.rubyonrails.org/
       def send_email(*args, &block)
-        args.unshift(self)
-        args.unshift(:assert_select_email)
-        AssertSelect.new(*args, &block)
+        AssertSelect.new(:assert_select_email, self, *args, &block)
       end
       
       # wrapper for assert_select_encoded
       #
       # see documentation for assert_select_encoded at http://api.rubyonrails.org/
       def with_encoded(*args, &block)
-        args.unshift(self)
-        args.unshift(:assert_select_encoded)
-        should AssertSelect.new(*args, &block)
+        should AssertSelect.new(:assert_select_encoded, self, *args, &block)
       end
     end
   end

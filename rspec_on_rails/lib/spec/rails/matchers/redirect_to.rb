@@ -1,5 +1,3 @@
-require 'action_controller/url_rewriter'
-
 module Spec
   module Rails
     module Matchers

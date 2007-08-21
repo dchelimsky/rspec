@@ -1,6 +1,6 @@
 module Spec
   module DSL
-    class Description
+    class BehaviourDescription
       module ClassMethods
         def generate_description(*args)
           description = args.shift.to_s
@@ -36,7 +36,7 @@ module Spec
       
       def ==(value)
         case value
-        when Description
+        when BehaviourDescription
           @description == value.description
         else
           @description == value
@@ -70,7 +70,6 @@ module Spec
       def parse_behaviour_type(behaviour_class)
         behaviour_class.to_s.split("::").reverse[0].gsub!('Behaviour', '').downcase.to_sym
       end
-
     end
   end
 end

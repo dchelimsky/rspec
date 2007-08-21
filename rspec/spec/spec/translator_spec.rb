@@ -7,7 +7,7 @@ describe "Translator" do
   
   it "should translate files" do
     from = File.dirname(__FILE__) + '/..'
-    to = File.dirname(__FILE__) + '/../../translated_specs'
+    to = "#{Dir.tmpdir}/translated_specs"
     @t.translate_dir(from, to)
   end
 

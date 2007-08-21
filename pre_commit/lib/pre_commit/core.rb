@@ -1,9 +1,7 @@
 class PreCommit::Core < PreCommit
   def pre_commit
-    website
     rake_invoke :examples
-    rake_invoke :translated_specs
-    rake_invoke :failing_examples_with_html
+    website
   end
 
   def website
@@ -12,9 +10,8 @@ class PreCommit::Core < PreCommit
     rake_invoke :spec_html
     webgen
     rake_invoke :failing_examples_with_html
-    rake_invoke :examples_specdoc
-    rake_invoke :rdoc
-    rake_invoke :rdoc_rails
+    rdoc
+    rdoc_rails
   end
 
   def clobber
@@ -24,19 +21,21 @@ class PreCommit::Core < PreCommit
 
   def webgen
     Dir.chdir '../doc' do
-      output = nil
-      IO.popen('webgen 2>&1') do |io|
-        output = io.read
+      output = silent_sh('webgen 2>&1')
+      if shell_error?(output)
+        raise "ERROR while running webgen: #{output}"
       end
-      raise "ERROR while running webgen: #{output}" if output =~ /ERROR/n || $? != 0
+
+      spec_page = File.expand_path('output/documentation/tools/spec.html')
+      spec_page_content = File.open(spec_page).read
+      unless spec_page_content =~/\.\.\.\.\.\.\.\.\.\.\.\.\.\.\.\.\.\.\.\./m
+        raise "#{'!'*400}\nIt seems like the output in the generated documentation is broken (no dots: ......)\n. Look in #{spec_page}"
+      end
     end
-    spec_page = File.expand_path(File.dirname(__FILE__) + '/../../../doc/output/documentation/tools/spec.html')
-    spec_page_content = File.open(spec_page).read
-    raise "#{'!'*400}\nIt seems like the output in the generated documentation is broken (no dots: ......)\n. Look in #{spec_page}" unless spec_page_content =~/\.\.\.\.\.\.\.\.\.\.\.\.\.\.\.\.\.\.\.\./m    
   end
 
   def rdoc
-    rake_invoke :examples_specdoc
+    rake_invoke :examples_rdoc
   end
 
   def rdoc_rails

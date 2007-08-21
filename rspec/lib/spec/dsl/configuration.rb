@@ -68,7 +68,9 @@ module Spec
       def modules_for(required_behaviour_type) #:nodoc:
         @modules ||= {}
         modules = @modules[nil] || [] # general ones
-        modules << @modules[required_behaviour_type.to_sym] unless required_behaviour_type.nil?
+        if required_behaviour_type
+          modules << @modules[required_behaviour_type.to_sym]
+        end
         modules.uniq.compact
       end
       

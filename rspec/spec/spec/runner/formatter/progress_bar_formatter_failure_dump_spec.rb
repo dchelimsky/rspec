@@ -7,7 +7,7 @@ module Spec
         before(:each) do
           @io = StringIO.new
           @reporter = Reporter.new([ProgressBarFormatter.new(@io)], NoisyBacktraceTweaker.new)
-          @reporter.add_behaviour(Spec::DSL::Description.new("context"))
+          @reporter.add_behaviour(Spec::DSL::BehaviourDescription.new("context"))
         end
 
         it "should end with line break" do

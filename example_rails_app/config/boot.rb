@@ -10,17 +10,7 @@ unless defined?(RAILS_ROOT)
   RAILS_ROOT = root_path
 end
 
-if ENV['RSPEC_RAILS_VERSION'].nil?
-  raise <<-EOM
-The RSPEC_RAILS_VERSION environment variable is not set. 
-Either set it in your shell to one of the dir names under vendor/rails,
-or run Rake via the Multirails.rake script, which will iterate over
-all available Rails versions:
-
-  rake -f Multirails.rake pre_commit
-EOM
-end
-
+ENV['RSPEC_RAILS_VERSION'] ||= "edge"
 puts "running against rails #{ENV['RSPEC_RAILS_VERSION']}"
 
 unless defined?(Rails::Initializer)

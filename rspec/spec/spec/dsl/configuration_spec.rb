@@ -31,19 +31,19 @@ module Spec
         @config.mock_with(:rr)
         @config.mock_framework.should =~ /\/plugins\/mock_frameworks\/rr$/
       end
-      
+
       it "should let you set an arbitrary adapter module" do
         adapter = Module.new
         @config.mock_with(adapter)
         @config.mock_framework.should == adapter
       end
-      
+
       it "should let you define modules to be included" do
         mod = Module.new
         @config.include mod
         @config.modules_for(nil).should include(mod)
       end
-      
+
       [:prepend_before, :append_before, :prepend_after, :append_after].each do |m|
         it "should delegate ##{m} to Behaviour class" do
           Behaviour.should_receive(m).with(:whatever)
