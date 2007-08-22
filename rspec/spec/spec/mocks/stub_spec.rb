@@ -197,6 +197,9 @@ module Spec
         end.should raise_error
       end
       
+      it "should support options" do
+        @stub.stub!(:foo, :expected_from => "bar")
+      end
     end
 
   end

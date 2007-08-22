@@ -12,13 +12,13 @@ namespace :rspec do
   end
 
   desc "installs the Spec::Rails plugin"
-  task :install_plugin do
-    pre_commit.install_plugin
+  task :install_plugins do
+    pre_commit.install_plugins
   end
 
   desc "uninstalls the Spec::Rails plugin"
-  task :uninstall_plugin do
-    pre_commit.uninstall_plugin
+  task :uninstall_plugins do
+    pre_commit.uninstall_plugins
   end
 
   desc "configures config/database.yml for mysql"

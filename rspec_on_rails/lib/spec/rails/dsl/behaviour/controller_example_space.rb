@@ -24,13 +24,13 @@ module Spec
               end
             end
 
-            if (Hash === options)
-              expect_render_mock_proxy.render(options)
-            end
             if expect_render_mock_proxy.send(:__mock_proxy).send(:find_matching_expectation, :render, options)
+              expect_render_mock_proxy.render(options)
               @performed_render = true
             else
-              super(options, deprecated_status, &block)
+              unless expect_render_mock_proxy.send(:__mock_proxy).send(:find_matching_method_stub, :render, options)
+                super(options, deprecated_status, &block)
+              end
             end
           end
 

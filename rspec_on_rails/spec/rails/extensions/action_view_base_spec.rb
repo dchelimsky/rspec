@@ -21,6 +21,14 @@ describe ActionView::Base, "with RSpec extensions", :behaviour_type => :view do
   end
   
   it "should not raise when stubbing and render has been received with different options" do
-    template.stub_render(:partial => "different_name")
+    template.stub_render(:partial => "name")
+    template.render :partial => "view_spec/spacer"
   end
+
+  it "should not raise when stubbing and expecting and render has been received" do
+    template.stub_render(:partial => "name")
+    template.expect_render(:partial => "name")
+    template.render(:partial => "name")
+  end
+  
 end

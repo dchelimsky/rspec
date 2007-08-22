@@ -33,9 +33,9 @@ module Spec
         @expectations.last
       end
 
-      def add_stub(expected_from, sym)
+      def add_stub(expected_from, sym, opts={})
         __add sym, nil
-        @stubs.unshift MessageExpectation.new(@error_generator, @expectation_ordering, expected_from, sym, nil, :any)
+        @stubs.unshift MessageExpectation.new(@error_generator, @expectation_ordering, expected_from, sym, nil, :any, opts)
         @stubs.first
       end
 

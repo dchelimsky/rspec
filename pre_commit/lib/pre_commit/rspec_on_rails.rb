@@ -66,11 +66,13 @@ class PreCommit::RspecOnRails < PreCommit
   end
 
   def install_rspec_on_rails_plugin
+    rm_rf 'vendor/plugins/rspec_on_rails'
     output = silent_sh("svn export ../rspec_on_rails vendor/plugins/rspec_on_rails")
     raise "Error installing rspec_on_rails" if shell_error?(output)
   end
 
   def install_rspec_plugin
+    rm_rf 'vendor/plugins/rspec'
     output = silent_sh("svn export ../rspec vendor/plugins/rspec")
     raise "Error installing rspec" if shell_error?(output)
   end
