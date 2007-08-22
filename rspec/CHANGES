@@ -9,7 +9,6 @@ Release notes here
 * Removed Behaviour#inherit
 * Moved implementation of install_dependencies to example_rails_app
 * Renamed RSPEC_DEPS to VENDOR_DEPS
-* Added Behaviour.xit and Behaviour.xspecify
 * Added Example#not_implemented?
 * You can now stub!(:msg).with(specific args)
 * describe("A", Hash, "with one element") will generate description "A Hash with one element" (Tip from Ola Bini)
