@@ -1,4 +1,5 @@
-require File.dirname(__FILE__) + '/../../../spec_helper.rb'
+require File.dirname(__FILE__) + '/../../../spec_helper'
+require 'hpricot' # Needed to compare generated with wanted HTML
 
 describe "HtmlFormatter" do
   ['--diff', '--dry-run'].each do |opt|

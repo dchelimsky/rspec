@@ -33,7 +33,7 @@ module ExampleExpectations
   end
   
   class PositiveOnlyMatcher < ArbitraryMatcher
-    undef negative_failure_message
+    undef negative_failure_message rescue nil
   end
   
   def arbitrary_matcher(*args, &block)
