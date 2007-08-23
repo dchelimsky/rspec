@@ -15,7 +15,7 @@ module Spec
         end
 
         def example_space_superclass
-          ModelExampleSpace
+          ModelExample
         end
 
         Spec::DSL::BehaviourFactory.add_behaviour_class(:model, self)

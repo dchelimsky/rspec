@@ -1,6 +1,6 @@
 module Spec
   module DSL
-    class ExampleSpace
+    class Example
       class << self
         def plugin_mock_framework
           case mock_framework = Spec::Runner.configuration.mock_framework

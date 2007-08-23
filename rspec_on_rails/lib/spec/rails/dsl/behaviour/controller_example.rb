@@ -1,7 +1,7 @@
 module Spec
   module Rails
     module DSL
-      class ControllerExampleSpace < FunctionalExampleSpace
+      class ControllerExample < FunctionalExample
         module ControllerInstanceMethods #:nodoc:
           include Spec::Rails::DSL::RenderObserver
 

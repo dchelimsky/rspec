@@ -35,7 +35,7 @@ module Spec
         end
 
         def example_space_superclass
-          RailsExampleSpace
+          RailsExample
         end
 
         # You MUST provide a controller_name within the context of

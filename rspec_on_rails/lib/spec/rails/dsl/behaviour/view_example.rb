@@ -1,7 +1,7 @@
 module Spec
   module Rails
     module DSL
-      class ViewExampleSpace < FunctionalExampleSpace
+      class ViewExample < FunctionalExample
         def initialize(behaviour, example) #:nodoc:
           super
           @controller_class_name = "Spec::Rails::DSL::ViewExampleController"

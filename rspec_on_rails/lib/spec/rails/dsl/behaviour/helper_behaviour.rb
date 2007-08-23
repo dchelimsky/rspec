@@ -41,7 +41,7 @@ module Spec
         end
 
         def example_space_superclass #:nodoc:
-          HelperExampleSpace
+          HelperExample
         end
       end
     end

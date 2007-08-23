@@ -87,7 +87,7 @@ module Spec
         end
 
         def example_space_superclass # :nodoc:
-          ControllerExampleSpace
+          ControllerExample
         end
       end
     end

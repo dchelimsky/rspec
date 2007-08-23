@@ -1,7 +1,7 @@
 module Spec
   module Rails
     module DSL
-      class HelperExampleSpace < FunctionalExampleSpace
+      class HelperExample < FunctionalExample
         include ActionView::Helpers::ActiveRecordHelper
         include ActionView::Helpers::AssetTagHelper
         include ActionView::Helpers::BenchmarkHelper

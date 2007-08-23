@@ -1,7 +1,7 @@
 module Spec
   module Rails
     module DSL
-      class RailsExampleSpace < ::Spec::DSL::ExampleSpace
+      class RailsExample < ::Spec::DSL::Example
         extend Forwardable
         include Spec::Rails::Matchers
         

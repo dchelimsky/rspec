@@ -256,7 +256,7 @@ module Spec
       end
 
       def example_space_superclass
-        ExampleSpace
+        Example
       end
     end
   end

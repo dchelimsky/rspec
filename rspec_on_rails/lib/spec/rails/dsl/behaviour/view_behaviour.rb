@@ -32,7 +32,7 @@ module Spec
         end
 
         def example_space_superclass #:nodoc:
-          ViewExampleSpace
+          ViewExample
         end
 
         Spec::DSL::BehaviourFactory.add_behaviour_class(:view, self)

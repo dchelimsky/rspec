@@ -1,7 +1,7 @@
 module Spec
   module Rails
     module DSL
-      class ModelExampleSpace < RailsExampleSpace
+      class ModelExample < RailsExample
       end
     end
   end
