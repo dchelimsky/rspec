@@ -2,7 +2,7 @@ require 'timeout'
 
 module Spec
   module DSL
-    class Example
+    class ExampleRunner
       # The global sequence number of this example
       attr_accessor :number
 

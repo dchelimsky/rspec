@@ -670,12 +670,12 @@ module Spec
 
     describe "Behaviour", " subclass" do
       it "should have access to the described_type" do
-        behaviour = BehaviourSubclass.new(Example){}
-        behaviour.send(:described_type).should == Example
+        behaviour = BehaviourSubclass.new(ExampleRunner){}
+        behaviour.send(:described_type).should == ExampleRunner
       end
       
       it "should figure out its behaviour_type based on its name ()" do
-        behaviour = BehaviourSubclass.new(Example){}
+        behaviour = BehaviourSubclass.new(ExampleRunner){}
         behaviour.send(:behaviour_type).should == :subclass
       end
       

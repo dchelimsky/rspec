@@ -27,12 +27,12 @@ module Spec
         end
 
         it "should push out failed spec" do
-          @formatter.example_failed(@behaviour.create_example("spec"), 98, nil)
+          @formatter.example_failed(@behaviour.create_example_runner("spec"), 98, nil)
           @io.string.should eql("# * spec [98 - FAILED]\n")
         end
 
         it "should push out spec" do
-          @formatter.example_passed(@behaviour.create_example("spec"))
+          @formatter.example_passed(@behaviour.create_example_runner("spec"))
           @io.string.should eql("# * spec\n")
         end
 

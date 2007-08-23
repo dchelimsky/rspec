@@ -74,10 +74,10 @@ module Spec
         end
       end
 
-      # Creates an instance of Spec::DSL::Example and adds
+      # Creates an instance of Spec::DSL::ExampleRunner and adds
       # it to a collection of examples of the current behaviour.
       def it(description=:__generate_description, opts={}, &block)
-        examples << create_example(description, opts, &block)
+        examples << create_example_runner(description, opts, &block)
       end
       alias_method :specify, :it
 
@@ -196,7 +196,7 @@ module Spec
         end
       end
 
-      # Sets the #number on each Example and returns the next number
+      # Sets the #number on each ExampleRunner and returns the next number
       def set_sequence_numbers(number, reverse) #:nodoc:
         exs = reverse ? examples.reverse : examples
         exs.each do |example|
@@ -206,8 +206,8 @@ module Spec
         number
       end
 
-      def create_example(description, options={}, &block)
-        Example.new(description, options, &block)
+      def create_example_runner(description, options={}, &block)
+        ExampleRunner.new(description, options, &block)
       end
 
       protected
@@ -225,9 +225,9 @@ module Spec
           rescue Exception => e
             errors << e
             location = "before(:all)"
-            # The easiest is to report this as an example failure. We don't have an Example
+            # The easiest is to report this as an example failure. We don't have an ExampleRunner
             # at this point, so we'll just create a placeholder.
-            reporter.example_finished(create_example(location), e, location) if reporter
+            reporter.example_finished(create_example_runner(location), e, location) if reporter
           end
         end
         errors
@@ -240,7 +240,7 @@ module Spec
             @before_and_after_all_example_space.instance_eval(&after_all_proc(behaviour_type))
           rescue Exception => e
             location = "after(:all)"
-            reporter.example_finished(create_example(location), e, location) if reporter
+            reporter.example_finished(create_example_runner(location), e, location) if reporter
           end
         end
       end

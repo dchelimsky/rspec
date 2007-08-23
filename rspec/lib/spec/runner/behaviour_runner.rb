@@ -81,7 +81,7 @@ module Spec
 
     private
       
-      # Sets the #number on each Example
+      # Sets the #number on each ExampleRunner
       def set_sequence_numbers
         number = 0
         @behaviours.each do |behaviour|
