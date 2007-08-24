@@ -31,6 +31,7 @@ h3. RSpec!
 
 In alphabetical order (by last name)
 
+
 * Chris Anderson
 ** Patch to return strings in response to :to_param (in generated controller/view specs)
 ** Patch to add --skip-migration option to rspec_scaffold generator
@@ -114,11 +115,13 @@ In alphabetical order (by last name)
 * Matthijs Langenberg
 ** Patch [#12682] Not correctly aliasing original 'stub!' and 'should_receive' methods for ApplicationController
 ** Patch [#12719] rspec_on_rails should not include pagination helper
-* Jay Levitt
-** Patch [#13016] [DOC] Point out that view specs render, well, a view
+* Will Leinweber
+** Patch [#13339] Add the ability for spec_parser to parse describes with :behaviour_type set (with Dav Yaginuma)
 * Ian Leitch
 ** Patch [#11888] rspec_on_rails spews out warnings when assert_select is used with an XML response
 ** Patch [#12817] Cannot include same shared behaviour when required with absolute paths.
+* Jay Levitt
+** Patch [#13016] [DOC] Point out that view specs render, well, a view
 * Tim Lucas
 ** Patch [#10631] redirect_to matcher doesn't respect request.host
 * Riley Lynch
@@ -193,5 +196,8 @@ In alphabetical order (by last name)
 ** Core patches for arbitrary comparisons like 5.should_be < 6
 * Chad Wooley
 ** Patch to mocks to make it possible to specify raised exception instance
+* Dav Yaginuma
+** Patch [#13339] Add the ability for spec_parser to parse describes with :behaviour_type set (with Will Leinweber)
+
 
 If you think your name ought to be here, please contact the RSpec team.

@@ -2,6 +2,7 @@
 
 Release notes here
 
+* Applied [#13339] Add the ability for spec_parser to parse describes with :behaviour_type set (Patch from Will Leinweber and Dav Yaginuma)
 * Fixed [#13271] incorrect behaviour with expect_render and stub_render
 * Applied [#13129] Fix failing specs in spec_distributed (Patch from Bob Cotton)
 * Applied [#13118] Rinda support for Spec::Distributed (Patch from Bob Cotton)

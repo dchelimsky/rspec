@@ -40,7 +40,10 @@ module Spec
       
       def parse_description(str)
         return str[1..-2] if str =~ /^['"].*['"]$/
-        if matches = /^(.*)\s*,\s*['"](.*)['"]$/.match(str)
+        if matches = /^['"](.*)['"](,.*)?$/.match(str)
+          return ::Spec::DSL::BehaviourDescription.generate_description(matches[1])
+        end
+        if matches = /^(.*)\s*,\s*['"](.*)['"](,.*)?$/.match(str)
           return ::Spec::DSL::BehaviourDescription.generate_description(matches[1], matches[2])
         end
         return str

@@ -37,6 +37,21 @@ describe SpecParserSubject, "described" do
   
 end
 
+describe SpecParserSubject, "described", :something => :something_else do
+   
+   it "7" do
+   end
+
+end
+
+describe "described", :something => :something_else do
+  
+  it "8" do
+  end
+  
+end
+   
+
 describe "SpecParser" do
   before(:each) do
     @p = Spec::Runner::SpecParser.new
@@ -88,6 +103,22 @@ describe "SpecParser" do
   
   it "should find context and description and example for type" do
     @p.spec_name_for(File.open(__FILE__), 36).should == "SpecParserSubject described 6"
+  end
+
+  it "should find context and description for type with modifications" do
+    @p.spec_name_for(File.open(__FILE__), 40).should == "SpecParserSubject described"
+  end
+  
+  it "should find context and described and example for type with modifications" do
+    @p.spec_name_for(File.open(__FILE__), 43).should == "SpecParserSubject described 7"
+  end
+  
+  it "should find context and described for type with modifications" do
+    @p.spec_name_for(File.open(__FILE__), 47).should == "described"
+  end
+  
+  it "should find context and described for type with modifications" do
+    @p.spec_name_for(File.open(__FILE__), 50).should == "described 8"
   end
   
 end
