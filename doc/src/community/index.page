@@ -136,10 +136,12 @@ In alphabetical order (by last name)
 ** Multiple return values for stubs
 ** Port of scaffold_resource to rspec_scaffold (Rails)
 ** Contexts should call Module::included when they include a module
-* James Mead
-** Modified mocha to allow for its use outside of test/unit
 * Micah Martin
 ** Spec::Rails patches for partials
+* James Mead
+** Modified mocha to allow for its use outside of test/unit
+* Curtis Miller
+** [#13336] Helper directory incorrect for rake stats in statsetup task
 * Kyosuke MOROHASHI
 ** Patch [#11807] Daemonize spec_server and rake tasks to manage them.
 * Bret Pettichord

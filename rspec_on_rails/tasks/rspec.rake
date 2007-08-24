@@ -75,7 +75,7 @@ namespace :spec do
     ::STATS_DIRECTORIES << %w(Model\ specs spec/models)
     ::STATS_DIRECTORIES << %w(View\ specs spec/views)
     ::STATS_DIRECTORIES << %w(Controller\ specs spec/controllers)
-    ::STATS_DIRECTORIES << %w(Helper\ specs spec/views)
+    ::STATS_DIRECTORIES << %w(Helper\ specs spec/helpers)
     ::CodeStatistics::TEST_TYPES << "Model specs"
     ::CodeStatistics::TEST_TYPES << "View specs"
     ::CodeStatistics::TEST_TYPES << "Controller specs"
