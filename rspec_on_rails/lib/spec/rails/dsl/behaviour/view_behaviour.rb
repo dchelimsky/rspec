@@ -31,7 +31,7 @@ module Spec
           configure
         end
 
-        def example_space_superclass #:nodoc:
+        def example_superclass #:nodoc:
           ViewExample
         end
 

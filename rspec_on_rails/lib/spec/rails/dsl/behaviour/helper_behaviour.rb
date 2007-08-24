@@ -40,7 +40,7 @@ module Spec
           send :include, "#{name}_helper".camelize.constantize
         end
 
-        def example_space_superclass #:nodoc:
+        def example_superclass #:nodoc:
           HelperExample
         end
       end

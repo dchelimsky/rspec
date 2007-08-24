@@ -34,7 +34,7 @@ module Spec
           @test_case_class = Class.new(Spec::Rails::DSL::RailsTestCase)
         end
 
-        def example_space_superclass
+        def example_superclass
           RailsExample
         end
 

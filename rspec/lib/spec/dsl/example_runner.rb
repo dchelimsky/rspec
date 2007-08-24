@@ -14,7 +14,7 @@ module Spec
         @description_generated_proc = lambda { |desc| @generated_description = desc }
       end
 
-      def run(reporter, before_each_block, after_each_block, dry_run, example_space, timeout=nil)
+      def run(reporter, before_each_block, after_each_block, dry_run, example, timeout=nil)
         @dry_run = dry_run
         reporter.example_started(self)
         return reporter.example_finished(self) if dry_run
@@ -22,9 +22,9 @@ module Spec
         errors = []
         location = nil
         Timeout.timeout(timeout) do
-          before_each_ok = before_example(example_space, errors, &before_each_block)
-          example_ok = run_example(example_space, errors) if before_each_ok
-          after_each_ok = after_example(example_space, errors, &after_each_block)
+          before_each_ok = before_example(example, errors, &before_each_block)
+          example_ok = run_example(example, errors) if before_each_ok
+          after_each_ok = after_example(example, errors, &after_each_block)
           location = failure_location(before_each_ok, example_ok, after_each_ok)
         end
 
@@ -60,11 +60,11 @@ module Spec
         end
       end
 
-      def before_example(example_space, errors, &behaviour_before_block)
-        setup_mocks(example_space)
+      def before_example(example, errors, &behaviour_before_block)
+        setup_mocks(example)
         Spec::Matchers.description_generated(@description_generated_proc)
 
-        example_space.instance_eval(&behaviour_before_block) if behaviour_before_block
+        example.instance_eval(&behaviour_before_block) if behaviour_before_block
         return errors.empty?
       rescue Exception => e
         @failed = true
@@ -72,9 +72,9 @@ module Spec
         return false
       end
 
-      def run_example(example_space, errors)
+      def run_example(example, errors)
         begin
-          example_space.instance_eval(&@example_block) if @example_block
+          example.instance_eval(&@example_block) if @example_block
           return true
         rescue Exception => e
           @failed = true
@@ -83,13 +83,13 @@ module Spec
         end
       end
 
-      def after_example(example_space, errors, &behaviour_after_each)
-        example_space.instance_eval(&behaviour_after_each) if behaviour_after_each
+      def after_example(example, errors, &behaviour_after_each)
+        example.instance_eval(&behaviour_after_each) if behaviour_after_each
 
         begin
-          verify_mocks(example_space)
+          verify_mocks(example)
         ensure
-          teardown_mocks(example_space)
+          teardown_mocks(example)
         end
 
         Spec::Matchers.unregister_description_generated(@description_generated_proc)
@@ -101,21 +101,21 @@ module Spec
         return false
       end
 
-      def setup_mocks(example_space)
-        if example_space.respond_to?(:setup_mocks_for_rspec)
-          example_space.setup_mocks_for_rspec
+      def setup_mocks(example)
+        if example.respond_to?(:setup_mocks_for_rspec)
+          example.setup_mocks_for_rspec
         end
       end
 
-      def verify_mocks(example_space)
-        if example_space.respond_to?(:verify_mocks_for_rspec)
-          example_space.verify_mocks_for_rspec
+      def verify_mocks(example)
+        if example.respond_to?(:verify_mocks_for_rspec)
+          example.verify_mocks_for_rspec
         end
       end
 
-      def teardown_mocks(example_space)
-        if example_space.respond_to?(:teardown_mocks_for_rspec)
-          example_space.teardown_mocks_for_rspec
+      def teardown_mocks(example)
+        if example.respond_to?(:teardown_mocks_for_rspec)
+          example.teardown_mocks_for_rspec
         end
       end
 

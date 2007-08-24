@@ -163,17 +163,17 @@ module Spec
         before_all_errors = run_before_all(reporter, dry_run)
 
         if before_all_errors.empty?
-          example_space = nil
+          example = nil
           exs = reverse ? examples.reverse : examples
-          exs.each do |example|
-            example_space = create_example_space(example)
-            example_space.copy_instance_variables_from(@before_and_after_all_example_space)
+          exs.each do |example_runner|
+            example = create_example(example_runner)
+            example.copy_instance_variables_from(@before_and_after_all_example)
 
             befores = before_each_proc(behaviour_type) {|e| raise e}
             afters = after_each_proc(behaviour_type)
-            example.run(reporter, befores, afters, dry_run, example_space, timeout)
+            example_runner.run(reporter, befores, afters, dry_run, example, timeout)
           end
-          @before_and_after_all_example_space.copy_instance_variables_from(example_space)
+          @before_and_after_all_example.copy_instance_variables_from(example)
         end
 
         run_after_all(reporter, dry_run)
@@ -212,16 +212,16 @@ module Spec
 
       protected
 
-      def create_example_space(example)
-        example_space_class.new(self, example)
+      def create_example(example)
+        example_class.new(self, example)
       end
 
       def run_before_all(reporter, dry_run)
         errors = []
         unless dry_run
           begin
-            @before_and_after_all_example_space = create_example_space(nil)
-            @before_and_after_all_example_space.instance_eval(&before_all_proc(behaviour_type))
+            @before_and_after_all_example = create_example(nil)
+            @before_and_after_all_example.instance_eval(&before_all_proc(behaviour_type))
           rescue Exception => e
             errors << e
             location = "before(:all)"
@@ -236,8 +236,8 @@ module Spec
       def run_after_all(reporter, dry_run)
         unless dry_run
           begin
-            @before_and_after_all_example_space ||= create_example_space(nil)
-            @before_and_after_all_example_space.instance_eval(&after_all_proc(behaviour_type))
+            @before_and_after_all_example ||= create_example(nil)
+            @before_and_after_all_example.instance_eval(&after_all_proc(behaviour_type))
           rescue Exception => e
             location = "after(:all)"
             reporter.example_finished(create_example_runner(location), e, location) if reporter
@@ -245,17 +245,17 @@ module Spec
         end
       end
 
-      def example_space_class
-        return @example_space_class if @example_space_class
-        @example_space_class = Class.new(example_space_superclass)
-        @example_space_class.plugin_mock_framework
-        @example_space_class.include_example_modules(self, behaviour_type)
+      def example_class
+        return @example_class if @example_class
+        @example_class = Class.new(example_superclass)
+        @example_class.plugin_mock_framework
+        @example_class.include_example_modules(self, behaviour_type)
         define_predicate_matchers(predicate_matchers)
         define_predicate_matchers(Spec::Runner.configuration.predicate_matchers)
-        @example_space_class
+        @example_class
       end
 
-      def example_space_superclass
+      def example_superclass
         Example
       end
     end

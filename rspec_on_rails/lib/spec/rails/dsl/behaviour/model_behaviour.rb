@@ -14,7 +14,7 @@ module Spec
           configure
         end
 
-        def example_space_superclass
+        def example_superclass
           ModelExample
         end
 
