@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 module Spec
   module DSL
-    describe ExampleRunner, " declared with {:should_raise => ...}" do
+    describe ExampleDefinition, " declared with {:should_raise => ...}" do
       before(:each) do
         @reporter = mock("reporter")
         @reporter.stub!(:example_started)
@@ -18,7 +18,7 @@ module Spec
       end
 
       it "true} should pass when there is an ExpectationNotMetError" do
-        example = @behaviour.create_example_runner("example", :should_raise => true) do
+        example = @behaviour.create_example_definition("example", :should_raise => true) do
           raise Spec::Expectations::ExpectationNotMetError
         end
         @reporter.should_receive(:example_finished) do |description, error|
@@ -28,7 +28,7 @@ module Spec
       end
 
       it "true} should fail if nothing is raised" do
-        example = @behaviour.create_example_runner("example", :should_raise => true) {}
+        example = @behaviour.create_example_definition("example", :should_raise => true) {}
         @reporter.should_receive(:example_finished) do |example_name, error|
           verify_error(error, /example block expected Exception but nothing was raised/)
         end
@@ -36,7 +36,7 @@ module Spec
       end
 
       it "NameError} should pass when there is a NameError" do
-        example = @behaviour.create_example_runner("example", :should_raise => NameError) do
+        example = @behaviour.create_example_definition("example", :should_raise => NameError) do
           raise NameError
         end
         @reporter.should_receive(:example_finished) do |example_name, error|
@@ -46,7 +46,7 @@ module Spec
       end
 
       it "NameError} should fail when there is no error" do
-        example = @behaviour.create_example_runner("example", :should_raise => NameError) do
+        example = @behaviour.create_example_definition("example", :should_raise => NameError) do
           #do nothing
         end
         @reporter.should_receive(:example_finished) do |example_name, error|
@@ -56,7 +56,7 @@ module Spec
       end
 
       it "NameError} should fail when there is the wrong error" do
-        example = @behaviour.create_example_runner("example", :should_raise => NameError) do
+        example = @behaviour.create_example_definition("example", :should_raise => NameError) do
           raise RuntimeError
         end
         @reporter.should_receive(:example_finished) do |example_name, error|
@@ -66,7 +66,7 @@ module Spec
       end
 
       it "[NameError]} should pass when there is a NameError" do
-        example = @behaviour.create_example_runner("spec", :should_raise => [NameError]) do
+        example = @behaviour.create_example_definition("spec", :should_raise => [NameError]) do
           raise NameError
         end
         @reporter.should_receive(:example_finished) do |description, error|
@@ -76,7 +76,7 @@ module Spec
       end
 
       it "[NameError]} should fail when there is no error" do
-        example = @behaviour.create_example_runner("spec", :should_raise => [NameError]) do
+        example = @behaviour.create_example_definition("spec", :should_raise => [NameError]) do
         end
         @reporter.should_receive(:example_finished) do |description, error|
           verify_error(error, /example block expected NameError but nothing was raised/)
@@ -85,7 +85,7 @@ module Spec
       end
 
       it "[NameError]} should fail when there is the wrong error" do
-        example = @behaviour.create_example_runner("spec", :should_raise => [NameError]) do
+        example = @behaviour.create_example_definition("spec", :should_raise => [NameError]) do
           raise RuntimeError
         end
         @reporter.should_receive(:example_finished) do |description, error|
@@ -95,7 +95,7 @@ module Spec
       end
 
       it "[NameError, 'message'} should pass when there is a NameError with the right message" do
-        example = @behaviour.create_example_runner("spec", :should_raise => [NameError, 'expected']) do
+        example = @behaviour.create_example_definition("spec", :should_raise => [NameError, 'expected']) do
           raise NameError, 'expected'
         end
         @reporter.should_receive(:example_finished) do |description, error|
@@ -105,7 +105,7 @@ module Spec
       end
 
       it "[NameError, 'message'} should pass when there is a NameError with a message matching a regex" do
-        example = @behaviour.create_example_runner("spec", :should_raise => [NameError, /xpec/]) do
+        example = @behaviour.create_example_definition("spec", :should_raise => [NameError, /xpec/]) do
           raise NameError, 'expected'
         end
         @reporter.should_receive(:example_finished) do |description, error|
@@ -115,7 +115,7 @@ module Spec
       end
 
       it "[NameError, 'message'} should fail when there is a NameError with the wrong message" do
-        example = @behaviour.create_example_runner("spec", :should_raise => [NameError, 'expected']) do
+        example = @behaviour.create_example_definition("spec", :should_raise => [NameError, 'expected']) do
           raise NameError, 'wrong message'
         end
         @reporter.should_receive(:example_finished) do |description, error|
@@ -125,7 +125,7 @@ module Spec
       end
 
       it "[NameError, 'message'} should fail when there is a NameError with a message not matching regexp" do
-        example = @behaviour.create_example_runner("spec", :should_raise => [NameError, /exp/]) do
+        example = @behaviour.create_example_definition("spec", :should_raise => [NameError, /exp/]) do
           raise NameError, 'wrong message'
         end
         @reporter.should_receive(:example_finished) do |description, error|

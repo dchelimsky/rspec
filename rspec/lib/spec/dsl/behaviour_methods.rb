@@ -63,10 +63,10 @@ module Spec
         @predicate_matchers ||= {:exist => :exist?, :an_instance_of => :is_a?}
       end
 
-      # Creates an instance of Spec::DSL::ExampleRunner and adds
+      # Creates an instance of Spec::DSL::ExampleDefinition and adds
       # it to a collection of examples of the current behaviour.
       def it(description=:__generate_description, opts={}, &block)
-        examples << create_example_runner(description, opts, &block)
+        examples << create_example_definition(description, opts, &block)
       end
       alias_method :specify, :it
 
@@ -115,8 +115,8 @@ module Spec
         return false
       end
 
-      def create_example_runner(description, options={}, &block)
-        ExampleRunner.new(description, options, &block)
+      def create_example_definition(description, options={}, &block)
+        ExampleDefinition.new(description, options, &block)
       end
     end
   end

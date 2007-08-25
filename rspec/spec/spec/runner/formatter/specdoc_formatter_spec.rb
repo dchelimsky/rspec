@@ -26,7 +26,7 @@ module Spec
         end
 
         it "should push failing spec name and failure number" do
-          @formatter.example_failed(@behaviour.create_example_runner("spec"), 98, Reporter::Failure.new("c s", RuntimeError.new))
+          @formatter.example_failed(@behaviour.create_example_definition("spec"), 98, Reporter::Failure.new("c s", RuntimeError.new))
           @io.string.should eql("- spec (ERROR - 98)\n")
         end
 
@@ -41,7 +41,7 @@ module Spec
         end
 
         it "should push passing spec name" do
-          @formatter.example_passed(@behaviour.create_example_runner("spec"))
+          @formatter.example_passed(@behaviour.create_example_definition("spec"))
           @io.string.should eql("- spec\n")
         end
 

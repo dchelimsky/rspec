@@ -12,10 +12,10 @@ module Spec
 
         it "should add example name for each failure" do
           @formatter.add_behaviour("b 1")
-          @formatter.example_failed(@behaviour.create_example_runner("e 1"), nil, Reporter::Failure.new(nil, RuntimeError.new))
+          @formatter.example_failed(@behaviour.create_example_definition("e 1"), nil, Reporter::Failure.new(nil, RuntimeError.new))
           @formatter.add_behaviour("b 2")
-          @formatter.example_failed(@behaviour.create_example_runner("e 2"), nil, Reporter::Failure.new(nil, RuntimeError.new))
-          @formatter.example_failed(@behaviour.create_example_runner("e 3"), nil, Reporter::Failure.new(nil, RuntimeError.new))
+          @formatter.example_failed(@behaviour.create_example_definition("e 2"), nil, Reporter::Failure.new(nil, RuntimeError.new))
+          @formatter.example_failed(@behaviour.create_example_definition("e 3"), nil, Reporter::Failure.new(nil, RuntimeError.new))
           @io.string.should eql(<<-EOF
 b 1 e 1
 b 2 e 2

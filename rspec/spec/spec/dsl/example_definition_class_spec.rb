@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 module Spec
   module DSL
-    describe ExampleRunner, " class" do
+    describe ExampleDefinition, " class" do
 
       def run(example)
         example.run(@reporter, nil, nil, nil, Object.new)
@@ -10,7 +10,7 @@ module Spec
 
       before do
         @reporter = stub("reporter", :example_started => nil, :example_finished => nil)
-        @example_runner_class = ExampleRunner.dup
+        @example_runner_class = ExampleDefinition.dup
       end
       
       it "should report errors in example" do
