@@ -14,8 +14,7 @@ module Spec
           end
         end
 
-        def include_example_modules(eval_module, behaviour_type)
-          include eval_module
+        def include_example_modules(behaviour_type)
           Spec::Runner.configuration.modules_for(behaviour_type).each do |mod|
             include mod
           end
@@ -28,7 +27,11 @@ module Spec
       alias_method :example_definition, :rspec_example_definition
 
       def initialize(behaviour, example_definition) #:nodoc:
-        self.class.plugin_mock_framework
+        (class << self; self; end).class_eval do
+          plugin_mock_framework
+          include behaviour
+          include_example_modules behaviour.behaviour_type
+        end
         @rspec_behaviour = behaviour
         @rspec_example_definition = example_definition
       end
