@@ -63,7 +63,7 @@ module Spec
             location = "before(:all)"
             # The easiest is to report this as an example failure. We don't have an ExampleDefinition
             # at this point, so we'll just create a placeholder.
-            reporter.example_finished(create_example_definition(location), e, location) if reporter
+            reporter.example_finished(create_example_definition(location), e, location)
           end
         end
         errors
@@ -76,7 +76,7 @@ module Spec
             @before_and_after_all_example.instance_eval(&after_all_proc(behaviour_type))
           rescue Exception => e
             location = "after(:all)"
-            reporter.example_finished(create_example_definition(location), e, location) if reporter
+            reporter.example_finished(create_example_definition(location), e, location)
           end
         end
       end
