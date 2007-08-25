@@ -126,11 +126,6 @@ module Spec
       end
 
       def example_class
-        return @example_class if @example_class
-        @example_class = Class.new(example_superclass)
-      end
-
-      def example_superclass
         Example
       end
     end

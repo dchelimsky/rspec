@@ -86,7 +86,7 @@ module Spec
           @integrate_views
         end
 
-        def example_superclass # :nodoc:
+        def example_class # :nodoc:
           ControllerExample
         end
       end

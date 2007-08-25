@@ -2,7 +2,7 @@ module Spec
   module Rails
     module DSL
       class FunctionalBehaviour < RailsBehaviour
-        def example_superclass # :nodoc:
+        def example_class # :nodoc:
           FunctionalExample
         end
       end
