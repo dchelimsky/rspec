@@ -22,6 +22,8 @@ module Spec
       include ::Spec::Matchers
 
       attr_reader :rspec_behaviour, :rspec_example
+      alias_method :behaviour, :rspec_behaviour
+      alias_method :example, :rspec_example
 
       def initialize(behaviour, example) #:nodoc:
         @rspec_behaviour = behaviour
