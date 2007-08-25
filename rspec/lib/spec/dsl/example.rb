@@ -2,8 +2,6 @@ module Spec
   module DSL
     class Example
       class << self
-        attr_accessor :description
-
         def plugin_mock_framework
           case mock_framework = Spec::Runner.configuration.mock_framework
           when Module
