@@ -28,6 +28,7 @@ module Spec
       alias_method :example_definition, :rspec_example_definition
 
       def initialize(behaviour, example_definition) #:nodoc:
+        self.class.plugin_mock_framework
         @rspec_behaviour = behaviour
         @rspec_example_definition = example_definition
       end

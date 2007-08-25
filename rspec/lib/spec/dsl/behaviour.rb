@@ -128,7 +128,6 @@ module Spec
       def example_class
         return @example_class if @example_class
         @example_class = Class.new(example_superclass)
-        @example_class.plugin_mock_framework
         @example_class.include_example_modules(self, behaviour_type)
         define_predicate_matchers(predicate_matchers)
         define_predicate_matchers(Spec::Runner.configuration.predicate_matchers)
