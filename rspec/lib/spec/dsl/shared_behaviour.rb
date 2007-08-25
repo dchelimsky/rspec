@@ -1,6 +1,6 @@
 module Spec
   module DSL
-    class SharedBehaviour
+    class SharedBehaviour < Module
       class << self
         def add_shared_behaviour(behaviour)
           found_behaviour = find_shared_behaviour(behaviour.description)
@@ -28,6 +28,8 @@ module Spec
           $shared_behaviours ||= []
         end
       end
+      include BehaviourMethods
+      public :include
     end
   end
 end

@@ -3,8 +3,10 @@ module Spec
     class BehaviourFactory
 
       class << self
-
-        BEHAVIOUR_CLASSES = {:default => Spec::DSL::Behaviour}
+        BEHAVIOUR_CLASSES = {
+          :default => Spec::DSL::Behaviour,
+          :shared => Spec::DSL::SharedBehaviour
+        }
         
         # Registers a behaviour class +klass+ with the symbol
         # +behaviour_type+. For example:
@@ -25,7 +27,7 @@ module Spec
         def create(*args, &block)
           opts = Hash === args.last ? args.last : {}
           if opts[:shared]
-            behaviour_type = :default
+            behaviour_type = :shared
           elsif opts[:behaviour_type]
             behaviour_type = opts[:behaviour_type]
           elsif opts[:spec_path] =~ /spec(\\|\/)(#{BEHAVIOUR_CLASSES.keys.join('|')})/
