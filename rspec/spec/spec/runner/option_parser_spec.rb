@@ -317,7 +317,7 @@ describe "OptionParser" do
     Dir.chdir(File.dirname(__FILE__)) do
       FileUtils.touch "most_recent_spec.rb"
       all_files = ['command_line_spec.rb', 'most_recent_spec.rb']
-      sorted_files = behaviour_runner.sort_paths(all_files)
+        sorted_files = behaviour_runner.__send__(:sort_paths, all_files)
       sorted_files.should == ["most_recent_spec.rb", "command_line_spec.rb"]
       FileUtils.rm "most_recent_spec.rb"
     end

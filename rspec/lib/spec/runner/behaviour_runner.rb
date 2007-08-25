@@ -1,6 +1,9 @@
 module Spec
   module Runner
     class BehaviourRunner
+      FILE_SORTERS = {
+        'mtime' => lambda {|file_a, file_b| File.mtime(file_b) <=> File.mtime(file_a)}
+      }
       
       def initialize(options, arg=nil)
         @behaviours = []
@@ -19,7 +22,7 @@ module Spec
       
       # Runs all behaviours and returns the number of failures.
       def run(paths, exit_when_done)
-        prepare!(paths)
+        prepare(paths)
         begin
           run_behaviours
         rescue Interrupt
@@ -37,15 +40,9 @@ module Spec
         failure_count
       end
       
-      def report_end
-        @options.reporter.end
-      end
-      
-      def report_dump
-        @options.reporter.dump
-      end
-      
-      def prepare!(paths)
+    protected
+
+      def prepare(paths)
         unless paths.nil? # It's nil when running single specs with ruby
           paths = find_paths(paths)
           sorted_paths = sort_paths(paths)
@@ -56,31 +53,33 @@ module Spec
         set_sequence_numbers
       end
 
-      def run_behaviours
-        @behaviours.each do |behaviour|
-          behaviour.run(@options.reporter, @options.dry_run, @options.reverse, @options.timeout)
-        end
-      end
-    
-      def number_of_examples
-        @behaviours.inject(0) {|sum, behaviour| sum + behaviour.number_of_examples}
-      end
-      
-      FILE_SORTERS = {
-        'mtime' => lambda {|file_a, file_b| File.mtime(file_b) <=> File.mtime(file_a)}
-      }
-      
       def sorter(paths)
         FILE_SORTERS[@options.loadby]
       end
-      
+
       def sort_paths(paths)
         sorter = sorter(paths)
         paths = paths.sort(&sorter) unless sorter.nil?
         paths
       end
 
-    private
+      def number_of_examples
+        @behaviours.inject(0) {|sum, behaviour| sum + behaviour.number_of_examples}
+      end
+
+      def run_behaviours
+        @behaviours.each do |behaviour|
+          behaviour.run(@options.reporter, @options.dry_run, @options.reverse, @options.timeout)
+        end
+      end
+
+      def report_end
+        @options.reporter.end
+      end
+
+      def report_dump
+        @options.reporter.dump
+      end
       
       # Sets the #number on each ExampleDefinition
       def set_sequence_numbers
