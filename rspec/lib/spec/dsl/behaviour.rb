@@ -58,7 +58,7 @@ module Spec
         end
       end
 
-      def retain_examples_matching!(specified_examples)
+      def retain_examples_matching(specified_examples)
         return if specified_examples.index(description.to_s)
         matcher = ExampleMatcher.new(description.to_s)
         example_definitions.reject! do |example|

@@ -9,7 +9,7 @@ module Spec
     
       def add_behaviour(behaviour)
         if specified_examples && !specified_examples.empty?
-          behaviour.retain_examples_matching!(specified_examples)
+          behaviour.retain_examples_matching(specified_examples)
         end
         unless behaviour.shared?
           @behaviours << behaviour
