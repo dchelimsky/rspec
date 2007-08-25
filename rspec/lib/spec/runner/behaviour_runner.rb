@@ -11,9 +11,10 @@ module Spec
         unless specified_examples.empty?
           behaviour.retain_examples_matching(specified_examples)
         end
-        unless behaviour.shared?
-          @behaviours << behaviour
+        if behaviour.shared?
+          raise ArgumentError, "Cannot add Shared Behaviour to the BehaviourRunner"
         end
+        @behaviours << behaviour
       end
       
       # Runs all behaviours and returns the number of failures.
@@ -27,7 +28,7 @@ module Spec
         end
         failure_count = report_dump
         
-        heckle if(failure_count == 0 && !@options.heckle_runner.nil?)
+        heckle if(failure_count == 0 && @options.heckle_runner)
         
         if(exit_when_done)
           exit_code = (failure_count == 0) ? 0 : 1
