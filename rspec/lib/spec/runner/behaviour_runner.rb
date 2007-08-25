@@ -8,7 +8,7 @@ module Spec
       end
     
       def add_behaviour(behaviour)
-        if specified_examples && !specified_examples.empty?
+        unless specified_examples.empty?
           behaviour.retain_examples_matching(specified_examples)
         end
         unless behaviour.shared?
@@ -110,7 +110,7 @@ module Spec
       end
       
       def specified_examples
-        @options.examples
+        @options.examples || []
       end
       
       def heckle
