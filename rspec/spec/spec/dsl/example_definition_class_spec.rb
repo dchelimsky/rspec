@@ -10,12 +10,12 @@ module Spec
 
       before do
         @reporter = stub("reporter", :example_started => nil, :example_finished => nil)
-        @example_runner_class = ExampleDefinition.dup
+        @example_definition_class = ExampleDefinition.dup
       end
       
       it "should report errors in example" do
         error = Exception.new
-        example = @example_runner_class.new("example") {raise(error)}
+        example = @example_definition_class.new("example") {raise(error)}
         @reporter.should_receive(:example_finished).with(equal(example), error, "example", false)
         run(example)
       end

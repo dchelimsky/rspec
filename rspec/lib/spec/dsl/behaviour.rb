@@ -7,7 +7,6 @@ module Spec
       public :include
 
       def run(reporter, dry_run=false, reverse=false, timeout=nil)
-        raise "shared behaviours should never run" if shared?
         return if example_definitions.empty?
         reporter.add_behaviour(description)
         before_all_errors = run_before_all(reporter, dry_run)
@@ -15,15 +14,15 @@ module Spec
         if before_all_errors.empty?
           example = nil
           exs = reverse ? example_definitions.reverse : example_definitions
-          exs.each do |example_runner|
-            example = create_example(example_runner)
+          exs.each do |example_definition|
+            example = create_example(example_definition)
             example.copy_instance_variables_from(@before_and_after_all_example)
 
-            unless example_runner.pending?
+            unless example_definition.pending?
               befores = before_each_proc(behaviour_type) {|e| raise e}
               afters = after_each_proc(behaviour_type)
             end
-            example_runner.run(reporter, befores, afters, dry_run, example, timeout)
+            example_definition.run(reporter, befores, afters, dry_run, example, timeout)
           end
           @before_and_after_all_example.copy_instance_variables_from(example)
         end
@@ -120,8 +119,8 @@ module Spec
         CompositeProcBuilder.new(parts).proc
       end
 
-      def create_example(example_runner)
-        example_class.new(self, example_runner)
+      def create_example(example_definition)
+        example_class.new(self, example_definition)
       end
 
       def example_class
