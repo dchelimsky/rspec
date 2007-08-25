@@ -30,6 +30,10 @@ module Spec
       end
       include BehaviourMethods
       public :include
+
+      def shared?
+        true
+      end
     end
   end
 end

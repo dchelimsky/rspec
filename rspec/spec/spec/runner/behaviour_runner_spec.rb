@@ -74,7 +74,7 @@ module Spec
       end
 
       it "does not add the behaviour when behaviour is shared" do
-        @behaviour = ::Spec::DSL::Behaviour.new("A Behaviour", :shared => true) do
+        @behaviour = ::Spec::DSL::SharedBehaviour.new("A Behaviour", :shared => true) do
           it "does not use this behaviour" do
           end
         end
