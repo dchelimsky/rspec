@@ -13,8 +13,7 @@ module Spec
 
         if before_all_errors.empty?
           example = nil
-          exs = reverse ? example_definitions.reverse : example_definitions
-          exs.each do |example_definition|
+          ordered_example_definitions(reverse).each do |example_definition|
             example = create_example(example_definition)
             example.copy_instance_variables_from(@before_and_after_all_example)
 
@@ -69,8 +68,7 @@ module Spec
 
       # Sets the #number on each ExampleDefinition and returns the next number
       def set_sequence_numbers(number, reverse) #:nodoc:
-        exs = reverse ? example_definitions.reverse : example_definitions
-        exs.each do |example|
+        ordered_example_definitions(reverse).each do |example|
           example.number = number
           number += 1
         end
@@ -82,6 +80,10 @@ module Spec
       end
 
       protected
+
+      def ordered_example_definitions(reverse)
+        reverse ? example_definitions.reverse : example_definitions
+      end
 
       def before_each_proc(behaviour_type, &error_handler)
         parts = []
