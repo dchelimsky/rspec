@@ -29,6 +29,29 @@ module Spec
         run_after_all(reporter, dry_run)
       end
 
+      def retain_examples_matching(specified_examples)
+        return if specified_examples.index(description.to_s)
+        matcher = ExampleMatcher.new(description.to_s)
+        example_definitions.reject! do |example|
+          !example.matches?(matcher, specified_examples)
+        end
+      end
+
+      # Sets the #number on each ExampleDefinition and returns the next number
+      def set_sequence_numbers(number, reverse) #:nodoc:
+        ordered_example_definitions(reverse).each do |example|
+          example.number = number
+          number += 1
+        end
+        number
+      end
+
+      def shared?
+        false
+      end
+
+      protected
+
       def run_before_all(reporter, dry_run)
         errors = []
         unless dry_run
@@ -57,29 +80,6 @@ module Spec
           end
         end
       end
-
-      def retain_examples_matching(specified_examples)
-        return if specified_examples.index(description.to_s)
-        matcher = ExampleMatcher.new(description.to_s)
-        example_definitions.reject! do |example|
-          !example.matches?(matcher, specified_examples)
-        end
-      end
-
-      # Sets the #number on each ExampleDefinition and returns the next number
-      def set_sequence_numbers(number, reverse) #:nodoc:
-        ordered_example_definitions(reverse).each do |example|
-          example.number = number
-          number += 1
-        end
-        number
-      end
-
-      def shared?
-        false
-      end
-
-      protected
 
       def ordered_example_definitions(reverse)
         reverse ? example_definitions.reverse : example_definitions
