@@ -12,7 +12,7 @@ module Spec
 
       def included(mod) # :nodoc:
         if mod.is_a?(Behaviour)
-          examples.each          { |e| mod.examples << e; }
+          example_definitions.each          { |e| mod.example_definitions << e; }
           before_each_parts.each { |p| mod.before_each_parts << p }
           after_each_parts.each  { |p| mod.after_each_parts << p }
           before_all_parts.each  { |p| mod.before_all_parts << p }
@@ -21,7 +21,7 @@ module Spec
         end
       end
 
-      # Use this to pull in examples from shared behaviours.
+      # Use this to pull in example_definitions from shared behaviours.
       # See Spec::Runner for information about shared behaviours.
       def it_should_behave_like(behaviour_description)
         behaviour = SharedBehaviour.find_shared_behaviour(behaviour_description)
@@ -64,9 +64,9 @@ module Spec
       end
 
       # Creates an instance of Spec::DSL::ExampleDefinition and adds
-      # it to a collection of examples of the current behaviour.
+      # it to a collection of example_definitions of the current behaviour.
       def it(description=:__generate_description, opts={}, &block)
-        examples << create_example_definition(description, opts, &block)
+        example_definitions << create_example_definition(description, opts, &block)
       end
       alias_method :specify, :it
 
@@ -78,12 +78,12 @@ module Spec
         description.described_type
       end
 
-      def examples
-        @examples ||= []
+      def example_definitions
+        @example_definitions ||= []
       end
 
       def number_of_examples
-        examples.length
+        example_definitions.length
       end
 
       private
@@ -109,7 +109,7 @@ module Spec
       def matches?(specified_examples)
         matcher ||= ExampleMatcher.new(description.to_s)
 
-        examples.each do |example|
+        example_definitions.each do |example|
           return true if example.matches?(matcher, specified_examples)
         end
         return false

@@ -8,13 +8,13 @@ module Spec
 
       def run(reporter, dry_run=false, reverse=false, timeout=nil)
         raise "shared behaviours should never run" if shared?
-        return if examples.empty?
+        return if example_definitions.empty?
         reporter.add_behaviour(description)
         before_all_errors = run_before_all(reporter, dry_run)
 
         if before_all_errors.empty?
           example = nil
-          exs = reverse ? examples.reverse : examples
+          exs = reverse ? example_definitions.reverse : example_definitions
           exs.each do |example_runner|
             example = create_example(example_runner)
             example.copy_instance_variables_from(@before_and_after_all_example)
@@ -63,14 +63,14 @@ module Spec
       def retain_examples_matching!(specified_examples)
         return if specified_examples.index(description.to_s)
         matcher = ExampleMatcher.new(description.to_s)
-        examples.reject! do |example|
+        example_definitions.reject! do |example|
           !example.matches?(matcher, specified_examples)
         end
       end
 
       # Sets the #number on each ExampleDefinition and returns the next number
       def set_sequence_numbers(number, reverse) #:nodoc:
-        exs = reverse ? examples.reverse : examples
+        exs = reverse ? example_definitions.reverse : example_definitions
         exs.each do |example|
           example.number = number
           number += 1

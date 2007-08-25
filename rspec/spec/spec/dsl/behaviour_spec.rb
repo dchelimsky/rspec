@@ -448,7 +448,7 @@ module Spec
       end
 
       it "should count number of specs" do
-        @behaviour.examples.clear
+        @behaviour.example_definitions.clear
         @behaviour.it("one") {}
         @behaviour.it("two") {}
         @behaviour.it("three") {}
@@ -456,14 +456,14 @@ module Spec
         @behaviour.number_of_examples.should == 4
       end
 
-      it "should not match anything when there are no examples" do
+      it "should not match anything when there are no example_definitions" do
         @behaviour.should_not be_matches(['context'])
       end
     
-      it "should match when one of the examples match" do
+      it "should match when one of the example_definitions match" do
         example = mock('my example')
         example.should_receive(:matches?).and_return(true)
-        @behaviour.stub!(:examples).and_return([example])
+        @behaviour.stub!(:example_definitions).and_return([example])
         @behaviour.should be_matches(['jalla'])
       end
       
@@ -675,9 +675,9 @@ module Spec
     end
 
     describe Behaviour, "#run" do
-      it "should not run when there are no examples" do
+      it "should not run when there are no example_definitions" do
         behaviour = Behaviour.new("Foobar") {}
-        behaviour.examples.should be_empty
+        behaviour.example_definitions.should be_empty
 
         reporter = mock("Reporter")
         reporter.should_not_receive(:add_behaviour)
@@ -707,7 +707,7 @@ module Spec
         ["4", "2", "1"].each(&block)
       end
       
-      it "should be included in examples because it is a module" do
+      it "should be included in example_definitions because it is a module" do
         map{|e| e.to_i}.should == [4,2,1]
       end
     end
@@ -717,13 +717,13 @@ module Spec
         ["4", "2", "1"].each(&block)
       end
       
-      it "should be included in examples because it is a module" do
+      it "should be included in example_definitions because it is a module" do
         map{|e| e.to_i}.should == [4,2,1]
       end
     end
     
     describe String do
-      it "should not be included in examples because it is not a module" do
+      it "should not be included in example_definitions because it is not a module" do
         lambda{self.map}.should raise_error(NoMethodError, /undefined method `map' for/)
       end
     end

@@ -20,32 +20,32 @@ module Spec
         end
       end
 
-      it "removes examples not selected from Behaviour when options.examples is set" do
+      it "removes example_definitions not selected from Behaviour when options.examples is set" do
         @options.examples << "A Behaviour runs 1"
 
         @behaviour.number_of_examples.should == 2
 
         @runner.add_behaviour @behaviour
         @behaviour.number_of_examples.should == 1
-        @behaviour.examples.first.send(:description).should == "runs 1"
+        @behaviour.example_definitions.first.send(:description).should == "runs 1"
       end
 
-      it "keeps all examples when options.examples is nil" do
+      it "keeps all example_definitions when options.examples is nil" do
         @options.examples = nil
         @behaviour.number_of_examples.should == 2
 
         @runner.add_behaviour @behaviour
         @behaviour.number_of_examples.should == 2
-        @behaviour.examples.collect {|example| example.send(:description) }.should == ['runs 1', 'runs 2']
+        @behaviour.example_definitions.collect {|example| example.send(:description) }.should == ['runs 1', 'runs 2']
       end
 
-      it "keeps all examples when options.examples is empty" do
+      it "keeps all example_definitions when options.examples is empty" do
         @options.examples = []
         @behaviour.number_of_examples.should == 2
 
         @runner.add_behaviour @behaviour
         @behaviour.number_of_examples.should == 2
-        @behaviour.examples.collect {|example| example.send(:description) }.should == ['runs 1', 'runs 2']
+        @behaviour.example_definitions.collect {|example| example.send(:description) }.should == ['runs 1', 'runs 2']
       end
     end
 
@@ -60,7 +60,7 @@ module Spec
         end
       end
 
-      it "adds behaviour when behaviour has examples and is not shared" do
+      it "adds behaviour when behaviour has example_definitions and is not shared" do
         @behaviour = ::Spec::DSL::Behaviour.new("A Behaviour") do
           it "uses this behaviour" do
           end

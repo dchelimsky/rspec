@@ -77,14 +77,12 @@ module Spec
       end
 
       def run_example(example, errors)
-        begin
-          example.instance_eval(&@example_block) if @example_block
-          return true
-        rescue Exception => e
-          @failed = true
-          errors << e
-          return false
-        end
+        example.instance_eval(&@example_block) if @example_block
+        return true
+      rescue Exception => e
+        @failed = true
+        errors << e
+        return false
       end
 
       def after_example(example, errors, &behaviour_after_each)
