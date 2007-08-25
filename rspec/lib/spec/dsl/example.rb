@@ -21,13 +21,13 @@ module Spec
       end
       include ::Spec::Matchers
 
-      attr_reader :rspec_behaviour, :rspec_example
+      attr_reader :rspec_behaviour, :rspec_example_runner
       alias_method :behaviour, :rspec_behaviour
-      alias_method :example, :rspec_example
+      alias_method :example, :rspec_example_runner
 
-      def initialize(behaviour, example) #:nodoc:
+      def initialize(behaviour, example_runner) #:nodoc:
         @rspec_behaviour = behaviour
-        @rspec_example = example
+        @rspec_example_runner = example_runner
       end
 
       def violated(message="")

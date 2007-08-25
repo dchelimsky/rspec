@@ -212,8 +212,8 @@ module Spec
 
       protected
 
-      def create_example(example)
-        example_class.new(self, example)
+      def create_example(example_runner)
+        example_class.new(self, example_runner)
       end
 
       def run_before_all(reporter, dry_run)
