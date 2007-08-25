@@ -159,6 +159,7 @@ module Spec
 
       def run(reporter, dry_run=false, reverse=false, timeout=nil)
         raise "shared behaviours should never run" if shared?
+        return if examples.empty?
         reporter.add_behaviour(description)
         before_all_errors = run_before_all(reporter, dry_run)
 
@@ -169,8 +170,10 @@ module Spec
             example = create_example(example_runner)
             example.copy_instance_variables_from(@before_and_after_all_example)
 
-            befores = before_each_proc(behaviour_type) {|e| raise e}
-            afters = after_each_proc(behaviour_type)
+            unless example_runner.pending?
+              befores = before_each_proc(behaviour_type) {|e| raise e}
+              afters = after_each_proc(behaviour_type)
+            end
             example_runner.run(reporter, befores, afters, dry_run, example, timeout)
           end
           @before_and_after_all_example.copy_instance_variables_from(example)

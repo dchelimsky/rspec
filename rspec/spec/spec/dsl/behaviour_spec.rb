@@ -12,7 +12,9 @@ module Spec
     describe "Behaviour", "class methods" do
       before :each do
         @reporter = FakeReporter.new(mock("formatter", :null_object => true), mock("backtrace_tweaker", :null_object => true))
-        @behaviour = Behaviour.new("example") {}
+        @behaviour = Behaviour.new("example") do
+          it "does nothing"
+        end
       end
 
       after :each do
@@ -156,7 +158,9 @@ module Spec
     describe "Behaviour" do
       before :each do
         @reporter = FakeReporter.new(mock("formatter", :null_object => true), mock("backtrace_tweaker", :null_object => true))
-        @behaviour = Behaviour.new("example") {}
+        @behaviour = Behaviour.new("example") do
+          it "does nothing"
+        end
       end
 
       after :each do
@@ -296,7 +300,9 @@ module Spec
         Behaviour.before(:all, :behaviour_type => :special) { fiddle << "Behaviour.before(:all, :behaviour_type => :special)" }
         Behaviour.prepend_before(:all, :behaviour_type => :special) { fiddle << "Behaviour.prepend_before(:all, :behaviour_type => :special)" }
 
-        behaviour = Behaviour.new("I'm not special", :behaviour_type => :not_special) {}
+        behaviour = Behaviour.new("I'm not special", :behaviour_type => :not_special) do
+          it "does nothing"
+        end
         behaviour.run(@reporter)
         fiddle.should == [
           'Behaviour.prepend_before(:all)',
@@ -442,6 +448,7 @@ module Spec
       end
 
       it "should count number of specs" do
+        @behaviour.examples.clear
         @behaviour.it("one") {}
         @behaviour.it("two") {}
         @behaviour.it("three") {}
@@ -492,6 +499,7 @@ module Spec
           Spec::Runner.configuration.include(mod3, :behaviour_type => :cat)
 
           behaviour = Behaviour.new("I'm special", :behaviour_type => :dog) do
+            it "does nothing"
           end.run(@reporter)
         
           $included_modules.should include(mod1)
@@ -527,6 +535,7 @@ module Spec
           Spec::Runner.configuration.mock_with mod
 
           behaviour = Behaviour.new('example') do
+            it "does nothing"
           end.run(@reporter)
         
           $included_module.should_not be_nil
@@ -664,6 +673,17 @@ module Spec
         block_ran.should == true
       end
     end
+
+    describe Behaviour, "#run" do
+      it "should not run when there are no examples" do
+        behaviour = Behaviour.new("Foobar") {}
+        behaviour.examples.should be_empty
+
+        reporter = mock("Reporter")
+        reporter.should_not_receive(:add_behaviour)
+        behaviour.run(reporter)
+      end
+    end    
 
     class BehaviourSubclass < Behaviour
     end

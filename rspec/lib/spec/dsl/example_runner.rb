@@ -29,7 +29,7 @@ module Spec
         end
 
         ExampleShouldRaiseHandler.new(@from, @options).handle(errors)
-        reporter.example_finished(self, errors.first, location, @example_block.nil?) if reporter
+        reporter.example_finished(self, errors.first, location, pending?) if reporter
       end
 
       def matches?(matcher, specified_examples)
@@ -43,6 +43,10 @@ module Spec
 
       def to_s
         description
+      end
+
+      def pending?
+        @example_block.nil?
       end
 
     private
