@@ -128,18 +128,7 @@ module Spec
       def example_class
         return @example_class if @example_class
         @example_class = Class.new(example_superclass)
-        define_predicate_matchers(predicate_matchers)
-        define_predicate_matchers(Spec::Runner.configuration.predicate_matchers)
-        @example_class
       end
-
-      def define_predicate_matchers(hash) # :nodoc:
-        hash.each_pair do |matcher_method, method_on_object|
-          define_method matcher_method do |*args|
-            eval("be_#{method_on_object.to_s.gsub('?','')}(*args)")
-          end
-        end
-      end      
 
       def example_superclass
         Example

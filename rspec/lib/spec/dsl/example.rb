@@ -19,6 +19,14 @@ module Spec
             include mod
           end
         end
+
+        def define_predicate_matchers(definitions) # :nodoc:
+          definitions.each_pair do |matcher_method, method_on_object|
+            define_method matcher_method do |*args|
+              eval("be_#{method_on_object.to_s.gsub('?','')}(*args)")
+            end
+          end
+        end
       end
       include ::Spec::Matchers
 
@@ -31,6 +39,8 @@ module Spec
           plugin_mock_framework
           include behaviour
           include_example_modules behaviour.behaviour_type
+          define_predicate_matchers(behaviour.predicate_matchers)
+          define_predicate_matchers(Spec::Runner.configuration.predicate_matchers)
         end
         @rspec_behaviour = behaviour
         @rspec_example_definition = example_definition
