@@ -2,6 +2,8 @@ module Spec
   module DSL
     class Example
       class << self
+        attr_accessor :description
+
         def plugin_mock_framework
           case mock_framework = Spec::Runner.configuration.mock_framework
           when Module
@@ -23,7 +25,7 @@ module Spec
 
       attr_reader :rspec_behaviour, :rspec_example_runner
       alias_method :behaviour, :rspec_behaviour
-      alias_method :example, :rspec_example_runner
+      alias_method :example_runner, :rspec_example_runner
 
       def initialize(behaviour, example_runner) #:nodoc:
         @rspec_behaviour = behaviour
