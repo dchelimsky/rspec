@@ -3,7 +3,7 @@ module Spec
     class Behaviour < Module
       extend Forwardable
       extend BehaviourCallbacks
-      include BehaviourMethods
+      include BehaviourApi
       public :include
 
       def run(reporter, dry_run=false, reverse=false, timeout=nil)

@@ -1,6 +1,6 @@
 module Spec
   module DSL
-    module BehaviourMethods
+    module BehaviourApi
       include BehaviourCallbacks
       attr_accessor :description
 

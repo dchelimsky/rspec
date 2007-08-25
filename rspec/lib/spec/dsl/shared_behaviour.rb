@@ -28,7 +28,7 @@ module Spec
           $shared_behaviours ||= []
         end
       end
-      include BehaviourMethods
+      include BehaviourApi
       public :include
 
       def shared?
