@@ -54,6 +54,14 @@ module Spec
         create_behaviour_runner
       end
 
+      def behaviour_runner_params
+        {
+          :dry_run => dry_run,
+          :reverse => reverse,
+          :timeout => timeout,
+        }
+      end
+
       def create_behaviour_runner
         return nil if @generate
         @behaviour_runner = if @runner_arg

@@ -69,7 +69,7 @@ module Spec
           unless specified_examples.empty?
             behaviour.retain_examples_matching(specified_examples)
           end
-          behaviour.run(@options.reporter, @options.dry_run, @options.reverse, @options.timeout)
+          behaviour.run(@options.reporter, @options.behaviour_runner_params)
         end
       end
 
@@ -112,7 +112,7 @@ module Spec
       def specified_examples
         @options.examples || []
       end
-      
+
       def heckle
         heckle_runner = @options.heckle_runner
         @options.heckle_runner = nil

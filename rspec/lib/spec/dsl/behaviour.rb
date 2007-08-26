@@ -6,7 +6,15 @@ module Spec
       include BehaviourApi
       public :include
 
-      def run(reporter, dry_run=false, reverse=false, timeout=nil)
+      def run(reporter, params={})
+        params = {
+          :dry_run => false,
+          :reverse => false,
+          :timeout => nil
+        }.merge(params)
+        dry_run = params[:dry_run]
+        reverse = params[:reverse]
+        timeout = params[:timeout]
         return if example_definitions.empty?
         reporter.add_behaviour(description)
         before_all_errors = run_before_all(reporter, dry_run)

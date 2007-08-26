@@ -31,7 +31,7 @@ module Spec
         Behaviour.before(:all) { before_all_ran = true }
         Behaviour.after(:all) { after_all_ran = true }
         @behaviour.it("should") {}
-        @behaviour.run(@reporter, true)
+        @behaviour.run(@reporter, :dry_run => true)
         before_all_ran.should be_false
         after_all_ran.should be_false
       end
@@ -182,7 +182,7 @@ module Spec
       it "should not run example on dry run" do
         example_ran = false
         @behaviour.it("should") {example_ran = true}
-        @behaviour.run(@reporter, true)
+        @behaviour.run(@reporter, :dry_run => true)
         example_ran.should be_false
       end
 
@@ -192,7 +192,7 @@ module Spec
         @behaviour.before(:all) { before_all_ran = true }
         @behaviour.after(:all) { after_all_ran = true }
         @behaviour.it("should") {}
-        @behaviour.run(@reporter, true)
+        @behaviour.run(@reporter, :dry_run => true)
         before_all_ran.should be_false
         after_all_ran.should be_false
       end
