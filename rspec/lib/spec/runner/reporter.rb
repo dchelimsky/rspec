@@ -5,7 +5,7 @@ module Spec
       def initialize(formatters, backtrace_tweaker)
         @formatters = formatters
         @backtrace_tweaker = backtrace_tweaker
-        clear!
+        clear
       end
       
       def add_behaviour(name)
@@ -32,7 +32,7 @@ module Spec
       end
 
       def start(number_of_examples)
-        clear!
+        clear
         @start_time = Time.new
         @formatters.each{|f| f.start(number_of_examples)}
       end
@@ -54,7 +54,7 @@ module Spec
 
     private
   
-      def clear!
+      def clear
         @behaviour_names = []
         @failures = []
         @pending_count = 0
