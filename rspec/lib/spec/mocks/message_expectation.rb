@@ -11,7 +11,7 @@ module Spec
         @sym = sym
         @method_block = method_block
         @return_block = lambda {}
-        @received_count = 0
+        @actual_received_count = 0
         @expected_received_count = expected_received_count
         @args_expectation = ArgumentExpectation.new([AnyArgsConstraint.new])
         @consecutive = false
@@ -36,7 +36,7 @@ module Spec
         else
           value = values
           @consecutive = true
-          @expected_received_count = values.size if @expected_received_count != :any &&
+          @expected_received_count = values.size if !ignoring_args? &&
                                                     @expected_received_count < values.size
         end
         @return_block = block_given? ? return_block : lambda { value }
@@ -91,7 +91,7 @@ module Spec
             return invoke_return_block(args, block)
           end
         ensure
-          @received_count += 1
+          @actual_received_count += 1
         end
       end
       
@@ -119,7 +119,7 @@ module Spec
         args << block unless block.nil?
         value = @return_block.call(*args)
         
-        index = [@received_count, value.size-1].min
+        index = [@actual_received_count, value.size-1].min
         value[index]
       end
       
@@ -138,17 +138,33 @@ module Spec
       end
        
       def verify_messages_received        
-        return if @expected_received_count == :any
-        return if (@at_least) && (@received_count >= @expected_received_count)
-        return if (@at_most) && (@received_count <= @expected_received_count)
-        return if @expected_received_count == @received_count
+        return if ignoring_args? || matches_exact_count? ||
+           matches_at_least_count? || matches_at_most_count?
     
-        begin
-          @error_generator.raise_expectation_error(@sym, @expected_received_count, @received_count, *@args_expectation.args)
-        rescue => error
-          error.backtrace.insert(0, @expected_from)
-          Kernel::raise error
-        end
+        generate_error
+      rescue Spec::Mocks::MockExpectationError => error
+        error.backtrace.insert(0, @expected_from)
+        Kernel::raise error
+      end
+      
+      def ignoring_args?
+        @expected_received_count == :any
+      end
+      
+      def matches_at_least_count?
+        @at_least && @actual_received_count >= @expected_received_count
+      end
+      
+      def matches_at_most_count?
+        @at_most && @actual_received_count <= @expected_received_count
+      end
+      
+      def matches_exact_count?
+        @expected_received_count == @actual_received_count
+      end
+      
+      def generate_error
+        @error_generator.raise_expectation_error(@sym, @expected_received_count, @actual_received_count, *@args_expectation.args)
       end
 
       def with(*args, &block)
@@ -215,9 +231,14 @@ module Spec
         def set_expected_received_count(relativity, n)
           @at_least = (relativity == :at_least)
           @at_most = (relativity == :at_most)
-          @expected_received_count = 1 if n == :once
-          @expected_received_count = 2 if n == :twice
-          @expected_received_count = n if n.kind_of? Numeric
+          @expected_received_count = case n
+            when Numeric
+              n
+            when :once
+              1
+            when :twice
+              2
+          end
         end
       
     end
