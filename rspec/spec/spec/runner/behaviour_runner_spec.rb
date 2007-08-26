@@ -20,16 +20,6 @@ module Spec
         end
       end
 
-      it "removes example_definitions not selected from Behaviour when options.examples is set" do
-        @options.examples << "A Behaviour runs 1"
-
-        @behaviour.number_of_examples.should == 2
-
-        @runner.add_behaviour @behaviour
-        @behaviour.number_of_examples.should == 1
-        @behaviour.example_definitions.first.send(:description).should == "runs 1"
-      end
-
       it "keeps all example_definitions when options.examples is nil" do
         @options.examples = nil
         @behaviour.number_of_examples.should == 2
@@ -90,7 +80,7 @@ module Spec
       end
     end
 
-    describe BehaviourRunner do
+    describe BehaviourRunner, "#run" do
       before do
         @err = StringIO.new('')
         @out = StringIO.new('')
@@ -174,12 +164,6 @@ module Spec
         runner.run([], false)
       end
 
-      it "should yield global configuration" do
-        Spec::Runner.configure do |config|
-          config.should equal(Spec::Runner.configuration)
-        end
-      end
-
       it "should pass its Description to the reporter" do
         behaviour = Spec::DSL::Behaviour.new("behaviour") do
           it "should" do
@@ -193,6 +177,27 @@ module Spec
         runner = Spec::Runner::BehaviourRunner.new(@options)
         runner.add_behaviour(behaviour)
         runner.run([], false)
+      end
+
+      it "removes example_definitions not selected from Behaviour when options.examples is set" do
+        @options.examples << "behaviour should"
+        behaviour = Spec::DSL::Behaviour.new("behaviour") do
+          it "should" do
+          end
+          it "should not" do
+          end
+        end
+
+        reporter = mock("reporter", :null_object => true)
+        reporter.should_receive(:add_behaviour).with(an_instance_of(Spec::DSL::BehaviourDescription))
+        @options.reporter = reporter
+
+        behaviour.number_of_examples.should == 2
+        runner = Spec::Runner::BehaviourRunner.new(@options)
+        runner.add_behaviour behaviour
+        runner.run([], false)
+
+        behaviour.number_of_examples.should == 1
       end
     end
   end

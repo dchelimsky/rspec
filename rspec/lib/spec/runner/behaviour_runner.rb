@@ -5,15 +5,12 @@ module Spec
         'mtime' => lambda {|file_a, file_b| File.mtime(file_b) <=> File.mtime(file_a)}
       }
       
-      def initialize(options, arg=nil)
+      def initialize(options)
         @behaviours = []
         @options = options
       end
     
       def add_behaviour(behaviour)
-        unless specified_examples.empty?
-          behaviour.retain_examples_matching(specified_examples)
-        end
         if behaviour.shared?
           raise ArgumentError, "Cannot add Shared Behaviour to the BehaviourRunner"
         end
@@ -69,6 +66,9 @@ module Spec
 
       def run_behaviours
         @behaviours.each do |behaviour|
+          unless specified_examples.empty?
+            behaviour.retain_examples_matching(specified_examples)
+          end
           behaviour.run(@options.reporter, @options.dry_run, @options.reverse, @options.timeout)
         end
       end
