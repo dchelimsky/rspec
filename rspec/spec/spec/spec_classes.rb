@@ -112,7 +112,7 @@ module Custom
     end
   end
 
-  class BehaviourSuite
+  class BehaviourRunner
     def initialize(options, arg=nil); end
   end
 end

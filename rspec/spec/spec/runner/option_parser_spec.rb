@@ -325,25 +325,25 @@ describe "OptionParser" do
 
   it "should use the standard runner by default" do
     options = parse([])
-    options.create_behaviour_runner.class.should equal(Spec::Runner::BehaviourSuite)
+    options.create_behaviour_runner.class.should equal(Spec::Runner::BehaviourRunner)
   end
 
   it "should use a custom runner when given" do
-    options = parse(["--runner", "Custom::BehaviourSuite"])
-    options.create_behaviour_runner.class.should equal(Custom::BehaviourSuite)
+    options = parse(["--runner", "Custom::BehaviourRunner"])
+    options.create_behaviour_runner.class.should equal(Custom::BehaviourRunner)
   end
 
   it "should use a custom runner with extra options" do
-    options = parse(["--runner", "Custom::BehaviourSuite:something"])
-    options.create_behaviour_runner.class.should equal(Custom::BehaviourSuite)
+    options = parse(["--runner", "Custom::BehaviourRunner:something"])
+    options.create_behaviour_runner.class.should equal(Custom::BehaviourRunner)
   end
 
   it "should return the correct default behaviour runner" do
-    @parser.create_behaviour_runner([], @err, @out, true).should be_instance_of(Spec::Runner::BehaviourSuite)
+    @parser.create_behaviour_runner([], @err, @out, true).should be_instance_of(Spec::Runner::BehaviourRunner)
   end
 
   it "should return the correct default behaviour runner" do
-    @parser.create_behaviour_runner(["--runner", "Custom::BehaviourSuite"], @err, @out, true).should be_instance_of(Custom::BehaviourSuite)
+    @parser.create_behaviour_runner(["--runner", "Custom::BehaviourRunner"], @err, @out, true).should be_instance_of(Custom::BehaviourRunner)
   end
 
 end

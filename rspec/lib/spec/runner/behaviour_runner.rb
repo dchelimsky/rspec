@@ -1,6 +1,6 @@
 module Spec
   module Runner
-    class BehaviourSuite
+    class BehaviourRunner
       FILE_SORTERS = {
         'mtime' => lambda {|file_a, file_b| File.mtime(file_b) <=> File.mtime(file_a)}
       }
@@ -12,7 +12,7 @@ module Spec
     
       def add_behaviour(behaviour)
         if behaviour.shared?
-          raise ArgumentError, "Cannot add Shared Behaviour to the BehaviourSuite"
+          raise ArgumentError, "Cannot add Shared Behaviour to the BehaviourRunner"
         end
         @behaviours << behaviour
       end

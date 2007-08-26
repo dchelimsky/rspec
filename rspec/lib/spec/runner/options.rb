@@ -70,7 +70,7 @@ module Spec
           runner_type = load_class(klass_name, 'behaviour runner', '--runner')
           runner_type.new(self, arg)
         else
-          BehaviourSuite.new(self)
+          BehaviourRunner.new(self)
         end
       end
 
