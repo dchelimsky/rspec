@@ -66,9 +66,6 @@ module Spec
 
       def run_behaviours
         @behaviours.each do |behaviour|
-          unless specified_examples.empty?
-            behaviour.retain_examples_matching(specified_examples)
-          end
           behaviour.run(@options.reporter, @options.behaviour_runner_params)
         end
       end
@@ -109,10 +106,6 @@ module Spec
         end
       end
       
-      def specified_examples
-        @options.examples || []
-      end
-
       def heckle
         heckle_runner = @options.heckle_runner
         @options.heckle_runner = nil

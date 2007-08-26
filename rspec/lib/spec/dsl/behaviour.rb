@@ -10,12 +10,18 @@ module Spec
         params = {
           :dry_run => false,
           :reverse => false,
-          :timeout => nil
+          :timeout => nil,
+          :examples => []
         }.merge(params)
         dry_run = params[:dry_run]
         reverse = params[:reverse]
         timeout = params[:timeout]
+        specified_examples = params[:examples]
+        unless specified_examples.empty?
+          retain_examples_matching(specified_examples)
+        end
         return if example_definitions.empty?
+        
         reporter.add_behaviour(description)
         before_all_errors = run_before_all(reporter, dry_run)
 

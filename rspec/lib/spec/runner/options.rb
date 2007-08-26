@@ -59,6 +59,7 @@ module Spec
           :dry_run => dry_run,
           :reverse => reverse,
           :timeout => timeout,
+          :examples => examples,
         }
       end
 
