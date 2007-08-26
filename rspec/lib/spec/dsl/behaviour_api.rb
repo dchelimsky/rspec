@@ -4,12 +4,6 @@ module Spec
       include BehaviourCallbacks
       attr_accessor :description
 
-      def initialize(*args, &behaviour_block)
-        init_description(*args)
-        before_eval
-        module_eval(&behaviour_block)
-      end
-
       # Use this to pull in example_definitions from shared behaviours.
       # See Spec::Runner for information about shared behaviours.
       def it_should_behave_like(behaviour_description)
@@ -75,26 +69,6 @@ module Spec
         example_definitions.length
       end
 
-      private
-
-      def init_description(*args)
-        unless self.class == Behaviour
-          args << {} unless Hash === args.last
-          args.last[:behaviour_class] = self.class
-        end
-        self.description = BehaviourDescription.new(*args)
-        if described_type.class == Module
-          include described_type
-        end
-      end
-
-      protected
-
-      def before_eval
-      end
-
-      public
-
       def matches?(specified_examples)
         matcher ||= ExampleMatcher.new(description.to_s)
 
@@ -106,6 +80,28 @@ module Spec
 
       def create_example_definition(description, options={}, &block)
         ExampleDefinition.new(description, options, &block)
+      end
+      
+      protected
+
+      def before_eval
+      end
+
+      def initialize_behaviour(*args, &behaviour_block)
+        init_description(*args)
+        before_eval
+        module_eval(&behaviour_block)
+      end
+
+      def init_description(*args)
+        unless self.class == Behaviour
+          args << {} unless Hash === args.last
+          args.last[:behaviour_class] = self.class
+        end
+        self.description = BehaviourDescription.new(*args)
+        if described_type.class == Module
+          include described_type
+        end
       end
     end
   end

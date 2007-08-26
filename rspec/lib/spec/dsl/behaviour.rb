@@ -7,6 +7,10 @@ module Spec
       public :include
       attr_reader :dry_run, :reverse, :timeout, :specified_examples
 
+      def initialize(*args, &behaviour_block)
+        initialize_behaviour(*args, &behaviour_block)
+      end
+
       def run(reporter, params={})
         initialize_run_state(params)
         return if example_definitions.empty?

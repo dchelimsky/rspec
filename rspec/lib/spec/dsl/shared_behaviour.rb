@@ -31,6 +31,10 @@ module Spec
       include BehaviourApi
       public :include
 
+      def initialize(*args, &behaviour_block)
+        initialize_behaviour(*args, &behaviour_block)
+      end
+
       def shared?
         true
       end
