@@ -133,9 +133,9 @@ module Spec
         @options.create_behaviour_runner.should == nil
       end
 
-      it "returns a BehaviourRunner by default" do
+      it "returns a BehaviourSuite by default" do
         runner = @options.create_behaviour_runner
-        runner.class.should == BehaviourRunner
+        runner.class.should == BehaviourSuite
       end
 
       it "does not set Expectations differ when differ_class is not set" do

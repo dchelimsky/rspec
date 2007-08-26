@@ -73,7 +73,7 @@ module Spec
         :dry_run => ["-d", "--dry-run", "Invokes formatters without executing the examples."],
         :options_file => ["-O", "--options PATH", "Read options from a file"],
         :generate_options => ["-G", "--generate-options PATH", "Generate an options file for --options"],
-        :runner => ["-U", "--runner RUNNER", "Use a custom BehaviourRunner."],
+        :runner => ["-U", "--runner RUNNER", "Use a custom BehaviourSuite."],
         :drb => ["-X", "--drb", "Run examples via DRb. (For example against script/spec_server)"],
         :version => ["-v", "--version", "Show version"],
         :help => ["-h", "--help", "You're looking at it"]

@@ -1,5 +1,5 @@
 
-class MultiThreadedBehaviourRunner < Spec::Runner::BehaviourRunner
+class MultiThreadedBehaviourSuite < Spec::Runner::BehaviourSuite
   def initialize(options)
     super
     # configure these

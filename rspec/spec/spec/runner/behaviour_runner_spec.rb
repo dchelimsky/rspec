@@ -2,12 +2,12 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 module Spec
   module Runner
-    describe BehaviourRunner, "#add_behaviour affecting passed in behaviour" do
+    describe BehaviourSuite, "#add_behaviour affecting passed in behaviour" do
       before do
         @err = StringIO.new('')
         @out = StringIO.new('')
         @options = Options.new(@err,@out)
-        @runner = BehaviourRunner.new(@options)
+        @runner = BehaviourSuite.new(@options)
         class << @runner
           attr_reader :behaviours
         end
@@ -39,12 +39,12 @@ module Spec
       end
     end
 
-    describe BehaviourRunner, "#add_behaviour affecting behaviours" do
+    describe BehaviourSuite, "#add_behaviour affecting behaviours" do
       before do
         @err = StringIO.new('')
         @out = StringIO.new('')
         @options = Options.new(@err,@out)
-        @runner = BehaviourRunner.new(@options)
+        @runner = BehaviourSuite.new(@options)
         class << @runner
           attr_reader :behaviours
         end
@@ -73,14 +73,14 @@ module Spec
           @runner.add_behaviour @behaviour
         end.should raise_error(
           ArgumentError,
-          "Cannot add Shared Behaviour to the BehaviourRunner"
+          "Cannot add Shared Behaviour to the BehaviourSuite"
         )
 
         @runner.behaviours.should be_empty
       end
     end
 
-    describe BehaviourRunner, "#run" do
+    describe BehaviourSuite, "#run" do
       before do
         @err = StringIO.new('')
         @out = StringIO.new('')
@@ -108,7 +108,7 @@ module Spec
         reporter.should_receive(:dump)
 
         @options.reporter = reporter
-        runner = Spec::Runner::BehaviourRunner.new(@options)
+        runner = Spec::Runner::BehaviourSuite.new(@options)
         runner.add_behaviour(behaviour)
         runner.run([], false)
       end
@@ -130,7 +130,7 @@ module Spec
         @options.reporter = reporter
         @options.heckle_runner = heckle_runner
 
-        runner = Spec::Runner::BehaviourRunner.new(@options)
+        runner = Spec::Runner::BehaviourSuite.new(@options)
         runner.add_behaviour(behaviour)
         runner.run([], false)
       end
@@ -144,7 +144,7 @@ module Spec
         reporter.should_receive(:dump).and_return(0)
         @options.reporter = reporter
 
-        runner = Spec::Runner::BehaviourRunner.new(@options)
+        runner = Spec::Runner::BehaviourSuite.new(@options)
         b1 = mock("b1")
         b1.should_receive(:number_of_examples).and_return(1)
         b1.should_receive(:shared?).and_return(false)
@@ -174,7 +174,7 @@ module Spec
         reporter.should_receive(:add_behaviour).with(an_instance_of(Spec::DSL::BehaviourDescription))
 
         @options.reporter = reporter
-        runner = Spec::Runner::BehaviourRunner.new(@options)
+        runner = Spec::Runner::BehaviourSuite.new(@options)
         runner.add_behaviour(behaviour)
         runner.run([], false)
       end
@@ -193,7 +193,7 @@ module Spec
         @options.reporter = reporter
 
         behaviour.number_of_examples.should == 2
-        runner = Spec::Runner::BehaviourRunner.new(@options)
+        runner = Spec::Runner::BehaviourSuite.new(@options)
         runner.add_behaviour behaviour
         runner.run([], false)
 

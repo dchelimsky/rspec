@@ -1,5 +1,5 @@
 require 'spec/runner/formatter'
-require 'spec/runner/behaviour_runner'
+require 'spec/runner/behaviour_suite'
 require 'spec/runner/options'
 require 'spec/runner/option_parser'
 require 'spec/runner/command_line'
