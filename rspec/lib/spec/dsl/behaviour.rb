@@ -5,21 +5,10 @@ module Spec
       extend BehaviourCallbacks
       include BehaviourApi
       public :include
+      attr_reader :dry_run, :reverse, :timeout, :specified_examples
 
       def run(reporter, params={})
-        params = {
-          :dry_run => false,
-          :reverse => false,
-          :timeout => nil,
-          :examples => []
-        }.merge(params)
-        dry_run = params[:dry_run]
-        reverse = params[:reverse]
-        timeout = params[:timeout]
-        specified_examples = params[:examples]
-        unless specified_examples.empty?
-          retain_examples_matching(specified_examples)
-        end
+        initialize_run_state(params)
         return if example_definitions.empty?
         
         reporter.add_behaviour(description)
@@ -65,6 +54,22 @@ module Spec
       end
 
       protected
+
+      def initialize_run_state(params)
+        params = {
+          :dry_run => false,
+          :reverse => false,
+          :timeout => nil,
+          :examples => []
+        }.merge(params)
+        @dry_run = params[:dry_run]
+        @reverse = params[:reverse]
+        @timeout = params[:timeout]
+        @specified_examples = params[:examples]
+        unless specified_examples.empty?
+          retain_examples_matching(specified_examples)
+        end
+      end
 
       def run_before_all(reporter, dry_run)
         errors = []
