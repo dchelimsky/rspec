@@ -34,6 +34,15 @@ module Spec
       def shared?
         true
       end
+
+      def included(mod) # :nodoc:
+        example_definitions.each { |e| mod.example_definitions << e; }
+        before_each_parts.each   { |p| mod.before_each_parts << p }
+        after_each_parts.each    { |p| mod.after_each_parts << p }
+        before_all_parts.each    { |p| mod.before_all_parts << p }
+        after_all_parts.each     { |p| mod.after_all_parts << p }
+        included_modules.each    { |m| mod.include m }
+      end
     end
   end
 end

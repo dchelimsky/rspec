@@ -10,17 +10,6 @@ module Spec
         module_eval(&behaviour_block)
       end
 
-      def included(mod) # :nodoc:
-        if mod.is_a?(Behaviour)
-          example_definitions.each          { |e| mod.example_definitions << e; }
-          before_each_parts.each { |p| mod.before_each_parts << p }
-          after_each_parts.each  { |p| mod.after_each_parts << p }
-          before_all_parts.each  { |p| mod.before_all_parts << p }
-          after_all_parts.each   { |p| mod.after_all_parts << p }
-          included_modules.each  { |m| mod.include m }
-        end
-      end
-
       # Use this to pull in example_definitions from shared behaviours.
       # See Spec::Runner for information about shared behaviours.
       def it_should_behave_like(behaviour_description)
