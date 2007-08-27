@@ -29,10 +29,9 @@ module Spec
 
       def and_return(*values, &return_block)
         Kernel::raise AmbiguousReturnError unless @method_block.nil?
-        if values.size == 0
-          value = nil
-        elsif values.size == 1
-          value = values[0]
+        case values.size
+          when 0 then value = nil
+          when 1 then value = values[0]
         else
           value = values
           @consecutive = true

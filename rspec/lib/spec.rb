@@ -7,6 +7,7 @@ require 'spec/expectations'
 require 'spec/translator'
 require 'spec/dsl'
 require 'spec/runner'
+require 'spec/story'
 
 class Object
   def metaclass

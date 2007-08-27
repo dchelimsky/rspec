@@ -2,6 +2,7 @@
 
 Release notes here
 
+* Added story runner framework based on rbehave [#12628]
 * Applied [#13336] Helper directory incorrect for rake stats in statsetup task (Patch from Curtis Miller)
 * Applied [#13339] Add the ability for spec_parser to parse describes with :behaviour_type set (Patch from Will Leinweber and Dav Yaginuma)
 * Fixed [#13271] incorrect behaviour with expect_render and stub_render
