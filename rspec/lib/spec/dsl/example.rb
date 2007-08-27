@@ -28,11 +28,11 @@ module Spec
       end
       include ::Spec::Matchers
 
-      attr_reader :rspec_behaviour, :rspec_example_definition
+      attr_reader :rspec_behaviour, :rspec_definition
       alias_method :behaviour, :rspec_behaviour
-      alias_method :example_definition, :rspec_example_definition
+      alias_method :definition, :rspec_definition
 
-      def initialize(behaviour, example_definition) #:nodoc:
+      def initialize(behaviour, definition) #:nodoc:
         (class << self; self; end).class_eval do
           plugin_mock_framework
           include behaviour
@@ -41,7 +41,7 @@ module Spec
           define_predicate_matchers(Spec::Runner.configuration.predicate_matchers)
         end
         @rspec_behaviour = behaviour
-        @rspec_example_definition = example_definition
+        @rspec_definition = definition
       end
 
       def violated(message="")
