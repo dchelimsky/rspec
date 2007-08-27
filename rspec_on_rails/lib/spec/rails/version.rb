@@ -2,7 +2,7 @@ module Spec
   module Rails
     module VERSION #:nodoc:
       unless defined?(REV)
-        # RANDOM_TOKEN: 0.661843319316047
+        # RANDOM_TOKEN: 0.0752313677573743
         REV = "$LastChangedRevision$".match(/LastChangedRevision: (\d+)/)[1]
       end
     end
@@ -10,7 +10,7 @@ module Spec
 end
 
 # Verifies that the plugin has the same revision as RSpec
-if false && Spec::VERSION::REV != Spec::Rails::VERSION::REV # [dn] commented out for checkin
+if Spec::VERSION::REV != Spec::Rails::VERSION::REV
   raise <<-EOF
 
 ############################################################################
