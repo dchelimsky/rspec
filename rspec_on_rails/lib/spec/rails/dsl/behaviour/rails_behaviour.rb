@@ -4,6 +4,7 @@ module Spec
   module Rails
     module DSL
       class RailsBehaviour < Spec::DSL::Behaviour
+        extend Forwardable
         attr_reader :test_case_class
 
         def configure
@@ -29,12 +30,12 @@ module Spec
           :global_fixtures=
         )
 
-        def before_eval
+        def before_eval #:nodoc:
           super
           @test_case_class = Class.new(Spec::Rails::DSL::RailsTestCase)
         end
 
-        def example_class
+        def example_class #:nodoc:
           RailsExample
         end
 

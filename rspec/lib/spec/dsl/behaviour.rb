@@ -1,7 +1,6 @@
 module Spec
   module DSL
     class Behaviour < Module
-      extend Forwardable
       extend BehaviourCallbacks
       include BehaviourApi
       public :include
