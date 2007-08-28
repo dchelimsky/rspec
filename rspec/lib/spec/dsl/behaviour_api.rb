@@ -60,10 +60,6 @@ module Spec
       end
       alias_method :specify, :it
 
-      def xit(description=:__generate_description, opts={})
-        warn "#{(self.description.description + " " + description).inspect} is deactivated"
-      end
-
       def behaviour_type #:nodoc:
         description[:behaviour_type]
       end
