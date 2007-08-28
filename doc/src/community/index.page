@@ -152,6 +152,7 @@ In alphabetical order (by last name)
 ** Patch [#12722] the alternate file command does not work in rails views due to scope
 * Jay Phillips
 ** Patch [#11615] Partial mock methods give ambiguous failures when given a method name as a String
+** Patch [#13274] ThrowSymbol recognized a NameError triggered by Kernel#method_missing as a thrown Symbol
 * Yurii Rashkovskii
 ** Patch to improve generated descriptions for the "be" matcher
 ** Patch [#12611] should_not redirect_to implementation

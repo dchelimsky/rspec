@@ -10,6 +10,7 @@ module Spec
         begin
           proc.call
         rescue NameError => e
+          raise e unless e.message =~ /uncaught throw/
           @actual = e.name.to_sym
         ensure
           if @expected.nil?
