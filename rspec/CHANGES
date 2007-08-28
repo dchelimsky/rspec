@@ -2,6 +2,7 @@
 
 Release notes here
 
+* Applied [#12722] the alternate file command does not work in rails views due to scope (Patch from Carl Porth)
 * Moved instance method of Behaviour to Class methods
 * Instances of Behaviour are now executed as the spec
 * Renamed Example to ExampleDefinition

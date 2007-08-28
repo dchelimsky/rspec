@@ -18,7 +18,7 @@ Spec::Mate::SwitchCommand.new.go_to_twin(ENV['TM_PROJECT_DIRECTORY'], ENV['TM_FI
 	<key>output</key>
 	<string>showAsTooltip</string>
 	<key>scope</key>
-	<string>source.ruby</string>
+	<string>source.ruby, text.html.ruby</string>
 	<key>uuid</key>
 	<string>0C96C910-0A83-4AFE-AEF7-1F4882A00232</string>
 </dict>
