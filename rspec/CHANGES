@@ -2,6 +2,10 @@
 
 Release notes here
 
+* Moved instance method of Behaviour to Class methods
+* Instances of Behaviour are now executed as the spec
+* Renamed Example to ExampleDefinition
+* Added ExampleDefinition
 * Added story runner framework based on rbehave [#12628]
 * Applied [#13336] Helper directory incorrect for rake stats in statsetup task (Patch from Curtis Miller)
 * Applied [#13339] Add the ability for spec_parser to parse describes with :behaviour_type set (Patch from Will Leinweber and Dav Yaginuma)
@@ -9,7 +13,6 @@ Release notes here
 * Applied [#13129] Fix failing specs in spec_distributed (Patch from Bob Cotton)
 * Applied [#13118] Rinda support for Spec::Distributed (Patch from Bob Cotton)
 * Removed BehaviourEval
-* Behaviour subclasses Module
 * Removed Behaviour#inherit
 * Moved implementation of install_dependencies to example_rails_app
 * Renamed RSPEC_DEPS to VENDOR_DEPS

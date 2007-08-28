@@ -6,7 +6,7 @@ module Spec
 
       before(:each) do
         @formatter = Spec::Mocks::Mock.new("formatter")
-        @behaviour = Behaviour.new("behaviour") {}
+        @behaviour = Class.new(Behaviour).describe("behaviour")
       end
 
       it "should retain examples that don't match" do

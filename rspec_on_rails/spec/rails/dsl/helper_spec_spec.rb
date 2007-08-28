@@ -81,7 +81,7 @@ module Spec
     module DSL
       describe HelperBehaviour do
         it "should tell you its behaviour_type is :helper" do
-          behaviour = HelperBehaviour.new("") {}
+          behaviour = Class.new(HelperBehaviour).describe("")
           behaviour.behaviour_type.should == :helper
         end
       end

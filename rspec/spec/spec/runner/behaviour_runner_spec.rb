@@ -12,7 +12,7 @@ module Spec
           attr_reader :behaviours
         end
 
-        @behaviour = ::Spec::DSL::Behaviour.new("A Behaviour") do
+        @behaviour = Class.new(::Spec::DSL::Behaviour).describe("A Behaviour") do
           it "runs 1" do
           end
           it "runs 2" do
@@ -51,7 +51,7 @@ module Spec
       end
 
       it "adds behaviour when behaviour has example_definitions and is not shared" do
-        @behaviour = ::Spec::DSL::Behaviour.new("A Behaviour") do
+        @behaviour = Class.new(::Spec::DSL::Behaviour).describe("A Behaviour") do
           it "uses this behaviour" do
           end
         end
@@ -88,7 +88,7 @@ module Spec
       end
 
       it "should dump even if Interrupt exception is occurred" do
-        behaviour = Spec::DSL::Behaviour.new("behaviour") do
+        behaviour = Class.new(::Spec::DSL::Behaviour).describe("behaviour") do
           it "no error" do
           end
 
@@ -165,7 +165,7 @@ module Spec
       end
 
       it "should pass its Description to the reporter" do
-        behaviour = Spec::DSL::Behaviour.new("behaviour") do
+        behaviour = Class.new(::Spec::DSL::Behaviour).describe("behaviour") do
           it "should" do
           end
         end
@@ -181,7 +181,7 @@ module Spec
 
       it "removes example_definitions not selected from Behaviour when options.examples is set" do
         @options.examples << "behaviour should"
-        behaviour = Spec::DSL::Behaviour.new("behaviour") do
+        behaviour = Class.new(::Spec::DSL::Behaviour).describe("behaviour") do
           it "should" do
           end
           it "should not" do

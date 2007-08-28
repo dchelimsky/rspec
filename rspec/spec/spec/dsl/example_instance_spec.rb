@@ -7,7 +7,7 @@ module Spec
       
       before(:each) do
         @reporter = stub("reporter", :example_started => nil, :example_finished => nil)
-        @behaviour = Behaviour.new("My Behaviour") {}
+        @behaviour = Class.new(Behaviour).describe("My Behaviour") {}
       end
       
       it "should send reporter example_started" do

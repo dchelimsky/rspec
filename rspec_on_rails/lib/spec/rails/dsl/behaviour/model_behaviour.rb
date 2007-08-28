@@ -7,17 +7,14 @@ module Spec
       # provides support for fixtures and some custom expectations via extensions
       # to ActiveRecord::Base.
       class ModelBehaviour < RailsBehaviour
-        def before_eval # :nodoc:
-          super
-          prepend_before {@test_case.setup}
-          append_after {@test_case.teardown}
-          configure
+        class << self
+          def before_eval # :nodoc:
+            super
+            prepend_before {@test_case.setup}
+            append_after {@test_case.teardown}
+            configure
+          end          
         end
-
-        def example_class
-          ModelExample
-        end
-
         Spec::DSL::BehaviourFactory.add_behaviour_class(:model, self)
       end
     end

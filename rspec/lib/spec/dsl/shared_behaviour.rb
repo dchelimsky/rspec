@@ -32,7 +32,7 @@ module Spec
       public :include
 
       def initialize(*args, &behaviour_block)
-        initialize_behaviour(*args, &behaviour_block)
+        describe(*args, &behaviour_block)
       end
 
       def shared?

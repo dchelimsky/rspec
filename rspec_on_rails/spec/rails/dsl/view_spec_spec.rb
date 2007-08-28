@@ -236,7 +236,7 @@ module Spec
     module DSL
       describe ViewBehaviour do
         it "should tell you its behaviour_type is :view" do
-          behaviour = ViewBehaviour.new("") {}
+          behaviour = Class.new(ViewBehaviour).describe("")
           behaviour.behaviour_type.should == :view
         end
       end

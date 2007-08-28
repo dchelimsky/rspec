@@ -19,6 +19,7 @@ module Kernel
   #
   def describe(*args, &block)
     raise ArgumentError if args.empty?
+    raise ArgumentError unless block
     args << {} unless Hash === args.last
     args.last[:spec_path] = caller(0)[1]
     register_behaviour(Spec::DSL::BehaviourFactory.create(*args, &block))

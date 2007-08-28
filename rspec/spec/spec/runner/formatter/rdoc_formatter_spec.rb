@@ -8,7 +8,7 @@ module Spec
           @io = StringIO.new
           @formatter = RdocFormatter.new(@io)
           @formatter.dry_run = true
-          @behaviour = ::Spec::DSL::Behaviour.new("My Behaviour") {}
+          @behaviour = Class.new(::Spec::DSL::Behaviour).describe("My Behaviour")
         end
 
         it "should produce no summary" do

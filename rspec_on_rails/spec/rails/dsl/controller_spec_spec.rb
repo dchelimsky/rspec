@@ -149,7 +149,7 @@ module Spec
     module DSL
       describe ControllerBehaviour do
         it "should tell you its behaviour_type is :controller" do
-          behaviour = ControllerBehaviour.new("") {}
+          behaviour = Class.new(ControllerBehaviour).describe("")
           behaviour.behaviour_type.should == :controller
         end
       end

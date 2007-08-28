@@ -5,7 +5,7 @@ module Spec
     module DSL
       describe ModelBehaviour do
         it "should tell you its behaviour_type is :model" do
-          behaviour = ModelBehaviour.new("") {}
+          behaviour = Class.new(ModelBehaviour).describe("")
           behaviour.behaviour_type.should == :model
         end
       end

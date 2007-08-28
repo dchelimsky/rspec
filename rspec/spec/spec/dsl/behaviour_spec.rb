@@ -12,7 +12,7 @@ module Spec
     describe "Behaviour", "class methods" do
       before :each do
         @reporter = FakeReporter.new(mock("formatter", :null_object => true), mock("backtrace_tweaker", :null_object => true))
-        @behaviour = Behaviour.new("example") do
+        @behaviour = Class.new(Behaviour).describe("example") do
           it "does nothing"
         end
       end
@@ -20,7 +20,7 @@ module Spec
       after :each do
         Behaviour.clear_before_and_after!
       end
-      
+
       it "should return the same description instance for each call" do
         @behaviour.description.should eql(@behaviour.description)
       end
@@ -68,7 +68,7 @@ module Spec
         after_all_ran.should be_true
       end
 
-      
+
       it "should unregister a given after(:each) block" do
         after_all_ran = false
         @behaviour.it("example") {}
@@ -76,13 +76,13 @@ module Spec
         Behaviour.after(:each, &proc)
         @behaviour.run(@reporter)
         after_all_ran.should be_true
-        
+
         after_all_ran = false
         Behaviour.remove_after(:each, &proc)
         @behaviour.run(@reporter)
         after_all_ran.should be_false
       end
-      
+
       it "should run second after(:each) block even if the first one fails" do
         example = @behaviour.it("example") {}
         second_after_ran = false
@@ -158,7 +158,7 @@ module Spec
     describe "Behaviour" do
       before :each do
         @reporter = FakeReporter.new(mock("formatter", :null_object => true), mock("backtrace_tweaker", :null_object => true))
-        @behaviour = Behaviour.new("example") do
+        @behaviour = Class.new(Behaviour).describe("example") do
           it "does nothing"
         end
       end
@@ -280,7 +280,7 @@ module Spec
         @behaviour.run(@reporter)
         context_instance_value_in.should == context_instance_value_out
       end
-    
+
       it "should copy instance variables from before(:all)'s execution context into spec's execution context" do
         context_instance_value_in = "Hello there"
         context_instance_value_out = ""
@@ -300,7 +300,7 @@ module Spec
         Behaviour.before(:all, :behaviour_type => :special) { fiddle << "Behaviour.before(:all, :behaviour_type => :special)" }
         Behaviour.prepend_before(:all, :behaviour_type => :special) { fiddle << "Behaviour.prepend_before(:all, :behaviour_type => :special)" }
 
-        behaviour = Behaviour.new("I'm not special", :behaviour_type => :not_special) do
+        behaviour = Class.new(Behaviour).describe("I'm not special", :behaviour_type => :not_special) do
           it "does nothing"
         end
         behaviour.run(@reporter)
@@ -309,7 +309,7 @@ module Spec
           'Behaviour.before(:all)',
         ]
       end
-    
+
       it "should add global before callbacks for targetted behaviours" do
         fiddle = []
 
@@ -321,8 +321,7 @@ module Spec
         Behaviour.prepend_before(:all, :behaviour_type => :special) { fiddle << "Behaviour.prepend_before(:all, :behaviour_type => :special)" }
 
         Behaviour.append_before(:behaviour_type => :special) { fiddle << "Behaviour.append_before(:each, :behaviour_type => :special)" }
-
-        behaviour = Behaviour.new("I'm not special", :behaviour_type => :special) {}
+        behaviour = Class.new(Behaviour).describe("I'm not special", :behaviour_type => :special) {}
         behaviour.it("test") {true}
         behaviour.run(@reporter)
         fiddle.should == [
@@ -378,27 +377,27 @@ module Spec
           'Behaviour.append_after(:all)'
         ]
       end
-    
+
       it "should have accessible instance methods from included module" do
         @reporter.should_receive(:add_behaviour).with any_args()
         @reporter.should_receive(:example_finished).with any_args()
-    
+
         mod1_method_called = false
         mod1 = Module.new do
           define_method :mod1_method do
             mod1_method_called = true
           end
         end
-    
+
         mod2_method_called = false
         mod2 = Module.new do
           define_method :mod2_method do
             mod2_method_called = true
           end
         end
-    
+
         @behaviour.include mod1, mod2
-    
+
         @behaviour.it("test") do
           mod1_method
           mod2_method
@@ -423,7 +422,7 @@ module Spec
             end
           end
         end
-    
+
         mod2_method_called = false
         mod2 = Module.new do
           class_methods = Module.new do
@@ -438,9 +437,9 @@ module Spec
             end
           end
         end
-    
+
         @behaviour.include mod1, mod2
-    
+
         @behaviour.mod1_method
         @behaviour.mod2_method
         mod1_method_called.should be_true
@@ -459,17 +458,17 @@ module Spec
       it "should not match anything when there are no example_definitions" do
         @behaviour.should_not be_matches(['context'])
       end
-    
+
       it "should match when one of the example_definitions match" do
         example = mock('my example')
         example.should_receive(:matches?).and_return(true)
         @behaviour.stub!(:example_definitions).and_return([example])
         @behaviour.should be_matches(['jalla'])
       end
-      
+
       it "should include targetted modules included using configuration" do
         $included_modules = []
-        
+
         mod1 = Module.new do
           class << self
             def included(mod)
@@ -498,10 +497,10 @@ module Spec
           Spec::Runner.configuration.include(mod1, mod2)
           Spec::Runner.configuration.include(mod3, :behaviour_type => :cat)
 
-          behaviour = Behaviour.new("I'm special", :behaviour_type => :dog) do
+          behaviour = Class.new(Behaviour).describe("I'm special", :behaviour_type => :dog) do
             it "does nothing"
           end.run(@reporter)
-        
+
           $included_modules.should include(mod1)
           $included_modules.should include(mod2)
           $included_modules.should_not include(mod3)
@@ -513,14 +512,14 @@ module Spec
       it "should include any predicate_matchers included using configuration" do
         $included_predicate_matcher_found = false
         Spec::Runner.configuration.predicate_matchers[:do_something] = :does_something?
-        Behaviour.new('example') do
+        Class.new(Behaviour).describe('example') do
           it "should respond to do_something" do
             $included_predicate_matcher_found = respond_to?(:do_something)
           end
         end.run(@reporter)
         $included_predicate_matcher_found.should be(true)
       end
-      
+
       it "should use a mock framework set up in config" do
         mod = Module.new do
           class << self
@@ -534,10 +533,10 @@ module Spec
           $included_module = nil
           Spec::Runner.configuration.mock_with mod
 
-          behaviour = Behaviour.new('example') do
+          behaviour = Class.new(Behaviour).describe('example') do
             it "does nothing"
           end.run(@reporter)
-        
+
           $included_module.should_not be_nil
         ensure
           Spec::Runner.configuration.mock_with :rspec
@@ -545,7 +544,7 @@ module Spec
       end
 
       it "should allow constants to be defined" do
-        behaviour = Behaviour.new('example') do
+        behaviour = Class.new(Behaviour).describe('example') do
           FOO = 1
           it "should reference FOO" do
             FOO.should == 1
@@ -641,7 +640,7 @@ module Spec
     describe Behaviour, "#initialize" do
       the_behaviour = self
       it "should have copy of behaviour" do
-        the_behaviour.should be_instance_of(Behaviour)
+        the_behaviour.superclass.should == Behaviour
       end
     end
 
@@ -676,37 +675,37 @@ module Spec
 
     describe Behaviour, "#run" do
       it "should not run when there are no example_definitions" do
-        behaviour = Behaviour.new("Foobar") {}
+        behaviour = Class.new(Behaviour).describe("Foobar") {}
         behaviour.example_definitions.should be_empty
 
         reporter = mock("Reporter")
         reporter.should_not_receive(:add_behaviour)
         behaviour.run(reporter)
       end
-    end    
+    end
 
     class BehaviourSubclass < Behaviour
     end
 
     describe "Behaviour", " subclass" do
       it "should have access to the described_type" do
-        behaviour = BehaviourSubclass.new(ExampleDefinition){}
+        behaviour = Class.new(BehaviourSubclass).describe(ExampleDefinition){}
         behaviour.send(:described_type).should == ExampleDefinition
       end
-      
+
       it "should figure out its behaviour_type based on its name ()" do
-        behaviour = BehaviourSubclass.new(ExampleDefinition){}
+        behaviour = Class.new(BehaviourSubclass).describe(ExampleDefinition){}
         behaviour.send(:behaviour_type).should == :subclass
       end
-      
+
       # TODO - add an example about shared behaviours
     end
-    
+
     describe Enumerable do
       def each(&block)
         ["4", "2", "1"].each(&block)
       end
-      
+
       it "should be included in example_definitions because it is a module" do
         map{|e| e.to_i}.should == [4,2,1]
       end
@@ -716,12 +715,12 @@ module Spec
       def each(&block)
         ["4", "2", "1"].each(&block)
       end
-      
+
       it "should be included in example_definitions because it is a module" do
         map{|e| e.to_i}.should == [4,2,1]
       end
     end
-    
+
     describe String do
       it "should not be included in example_definitions because it is not a module" do
         lambda{self.map}.should raise_error(NoMethodError, /undefined method `map' for/)

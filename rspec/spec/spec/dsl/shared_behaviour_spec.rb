@@ -5,7 +5,7 @@ module Spec
     describe Behaviour, ", with :shared => true" do
       before(:each) do
         @formatter = Spec::Mocks::Mock.new("formatter", :null_object => true)
-        @behaviour = Behaviour.new("behaviour") {}
+        @behaviour = Class.new(Behaviour).describe("behaviour")
       end
 
       after(:each) do
@@ -21,12 +21,12 @@ module Spec
       end
 
       def non_shared_behaviour()
-        @non_shared_behaviour ||= Behaviour.new("behaviour") {}
+        @non_shared_behaviour ||= Class.new(Behaviour).describe("behaviour")
       end
 
       it "should accept an optional options hash" do
-        lambda { Behaviour.new("context") {} }.should_not raise_error(Exception)
-        lambda { Behaviour.new("context", :shared => true) {} }.should_not raise_error(Exception)
+        lambda { Class.new(Behaviour).describe("context") }.should_not raise_error(Exception)
+        lambda { Class.new(Behaviour).describe("context", :shared => true) }.should_not raise_error(Exception)
       end
 
       it "should return all shared behaviours" do
@@ -73,7 +73,7 @@ module Spec
       end
 
       it "should NOT complain when adding the same shared behaviour instance again" do
-        shared_behaviour = Behaviour.new("shared behaviour", :shared => true) {}
+        shared_behaviour = Class.new(Behaviour).describe("shared behaviour", :shared => true)
         SharedBehaviour.add_shared_behaviour(shared_behaviour)
         SharedBehaviour.add_shared_behaviour(shared_behaviour)
       end
@@ -88,8 +88,8 @@ module Spec
       end
 
       it "should NOT complain when adding the same shared behaviour in same file with different absolute path" do
-        shared_behaviour_1 = Behaviour.new("shared behaviour", :shared => true) {}
-        shared_behaviour_2 = Behaviour.new("shared behaviour", :shared => true) {}
+        shared_behaviour_1 = Class.new(Behaviour).describe("shared behaviour", :shared => true)
+        shared_behaviour_2 = Class.new(Behaviour).describe("shared behaviour", :shared => true)
 
         shared_behaviour_1.description[:spec_path] = "/my/spec/a/../shared.rb"
         shared_behaviour_2.description[:spec_path] = "/my/spec/b/../shared.rb"
@@ -99,8 +99,8 @@ module Spec
       end
 
       it "should complain when adding a different shared behaviour with the same name in a different file with the same basename" do
-        shared_behaviour_1 = Behaviour.new("shared behaviour", :shared => true) {}
-        shared_behaviour_2 = Behaviour.new("shared behaviour", :shared => true) {}
+        shared_behaviour_1 = Class.new(Behaviour).describe("shared behaviour", :shared => true)
+        shared_behaviour_2 = Class.new(Behaviour).describe("shared behaviour", :shared => true)
 
         shared_behaviour_1.description[:spec_path] = "/my/spec/a/shared.rb"
         shared_behaviour_2.description[:spec_path] = "/my/spec/b/shared.rb"

@@ -49,7 +49,7 @@ module Spec
         #   this line is as it is to satisfy JRuby - the original version
         #   read, simply: "if options[:behaviour_class]", which passed against ruby, but failed against jruby
         if options[:behaviour_class] && options[:behaviour_class].ancestors.include?(Behaviour)
-          options[:behaviour_type] = parse_behaviour_type(@options[:behaviour_class])
+          options[:behaviour_type] ||= parse_behaviour_type(@options[:behaviour_class])
         end
       end
       
@@ -68,7 +68,17 @@ module Spec
       end
     
       def parse_behaviour_type(behaviour_class)
-        behaviour_class.to_s.split("::").reverse[0].gsub!('Behaviour', '').downcase.to_sym
+        class_name = get_class_name(behaviour_class)
+        parsed_class_name = class_name.split("::").reverse[0].gsub('Behaviour', '')
+        return nil if parsed_class_name.empty?
+        parsed_class_name.downcase.to_sym
+      end
+
+      def get_class_name(behaviour_class)
+        unless behaviour_class.name.empty?
+          return behaviour_class.name
+        end
+        get_class_name(behaviour_class.superclass)
       end
     end
   end

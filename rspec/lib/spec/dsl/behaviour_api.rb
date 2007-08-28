@@ -4,6 +4,13 @@ module Spec
       include BehaviourCallbacks
       attr_accessor :description
 
+      def describe(*args, &behaviour_block)
+        set_description(*args)
+        before_eval
+        module_eval(&behaviour_block) if behaviour_block
+        self
+      end
+
       # Use this to pull in example_definitions from shared behaviours.
       # See Spec::Runner for information about shared behaviours.
       def it_should_behave_like(behaviour_description)
@@ -53,6 +60,10 @@ module Spec
       end
       alias_method :specify, :it
 
+      def xit(description=:__generate_description, opts={})
+        warn "#{(self.description.description + " " + description).inspect} is deactivated"
+      end
+
       def behaviour_type #:nodoc:
         description[:behaviour_type]
       end
@@ -87,16 +98,10 @@ module Spec
       def before_eval
       end
 
-      def initialize_behaviour(*args, &behaviour_block)
-        init_description(*args)
-        before_eval
-        module_eval(&behaviour_block)
-      end
-
-      def init_description(*args)
+      def set_description(*args)
         unless self.class == Behaviour
           args << {} unless Hash === args.last
-          args.last[:behaviour_class] = self.class
+          args.last[:behaviour_class] = self
         end
         self.description = BehaviourDescription.new(*args)
         if described_type.class == Module
