@@ -14,7 +14,7 @@ class Game
   
   def self.from_string(dots)
     grid = Grid.from_string(dots)
-    game = Game.new(grid.rows, grid.columns)
+    game = new(grid.rows, grid.columns)
     game.instance_eval do
       @grid = grid
     end

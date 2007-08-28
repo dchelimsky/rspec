@@ -29,7 +29,7 @@ class Grid
   
   def self.from_string(str)
     row_strings = str.split(' ')
-    grid = Grid.new(row_strings.size, row_strings[0].size)
+    grid = new(row_strings.size, row_strings[0].size)
     
     row_strings.each_with_index do |row, row_index|
       row_chars = row.split(//)
