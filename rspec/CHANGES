@@ -2,6 +2,7 @@
 
 Release notes here
 
+* Applied [#13451] Add a null_object option to mock_model (Patch from James Deville)
 * Applied [#11919] Making non-implemented specs easy in textmate (Patch from Scott Taylor)
 * Applied [#13274] ThrowSymbol recognized a NameError triggered by Kernel#method_missing as a thrown Symbol
 * Applied [#12722] the alternate file command does not work in rails views due to scope (Patch from Carl Porth)

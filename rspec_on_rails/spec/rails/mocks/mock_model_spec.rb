@@ -29,3 +29,16 @@ describe "mock_model", :behaviour_type => :view do
     @model.instance_of?(MockableModel).should be(false)
   end
 end
+
+describe "mock_model with null_object", :behaviour_type => :view do
+  before(:each) do
+    @model = mock_model(MockableModel, :null_object => true, :mocked_method => "mocked")
+  end
+  
+  it "should be able to mock methods" do
+    @model.mocked_method.should == "mocked"
+  end
+  it "should return itself to unmocked methods" do
+    @model.unmocked_method.should == @model
+  end
+end

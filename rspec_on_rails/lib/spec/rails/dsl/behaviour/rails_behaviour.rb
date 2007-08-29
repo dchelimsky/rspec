@@ -70,10 +70,12 @@ module Spec
         # Creates a mock object instance for a +model_class+ with common
         # methods stubbed out.
         # Additional methods may be easily stubbed (via add_stubs) if +stubs+ is passed.
-        def mock_model(model_class, stubs = {})
+        def mock_model(model_class, options_and_stubs = {})
+          null = options_and_stubs.delete(:null_object)
+          stubs = options_and_stubs
           id = @@model_id
           @@model_id += 1
-          m = mock("#{model_class.name}_#{id}")
+          m = mock("#{model_class.name}_#{id}", :null_object => null)
           m.stub!(:id).and_return(id)
           m.stub!(:to_param).and_return(id.to_s)
           m.stub!(:new_record?).and_return(false)
