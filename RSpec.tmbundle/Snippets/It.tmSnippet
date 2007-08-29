@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>it "${2:should ${1:description}}" do
+	<string>it "${2:should ${1:description}}" ${3:do
   $0
-end</string>
+end}</string>
 	<key>name</key>
 	<string>it</string>
 	<key>scope</key>
