@@ -34,18 +34,10 @@ module Spec
           def before_eval #:nodoc:
             super
             @test_case_class = Class.new(Spec::Rails::DSL::RailsTestCase)
-          end
-
-          # You MUST provide a controller_name within the context of
-          # your controller specs:
-          #
-          #   describe "ThingController" do
-          #     controller_name :thing
-          #     ...
-          def controller_name(name)
-            @controller_class_name = "#{name}_controller".camelize
-          end
-          attr_accessor :controller_class_name # :nodoc:          
+            prepend_before {@test_case.setup}
+            append_after {@test_case.teardown}
+            configure
+          end          
         end
 
         extend Forwardable
@@ -110,6 +102,7 @@ module Spec
           stubs.each {|k,v| m.stub!(k).and_return(v)}
           m
         end
+        Spec::DSL::BehaviourFactory.add_behaviour_class(:default, self)
       end
     end
   end

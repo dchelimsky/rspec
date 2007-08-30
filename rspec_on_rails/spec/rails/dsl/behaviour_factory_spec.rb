@@ -16,6 +16,16 @@ describe "the BehaviourFactory" do
     behaviour.superclass.should == Spec::Rails::DSL::ModelBehaviour
   end
 
+  it "should return a RailsBehaviour when given :spec_path => '/blah/spec/foo/' (anything other than controllers, views and helpers)" do
+    behaviour = Spec::DSL::BehaviourFactory.create("name", :spec_path => '/blah/spec/foo/blah.rb')
+    behaviour.superclass.should == Spec::Rails::DSL::RailsBehaviour
+  end
+
+  it "should return a RailsBehaviour when given :spec_path => '\\blah\\spec\\foo\\' (windows format)  (anything other than controllers, views and helpers)" do
+    behaviour = Spec::DSL::BehaviourFactory.create("name", :spec_path => '\\blah\\spec\\foo\\blah.rb')
+    behaviour.superclass.should == Spec::Rails::DSL::RailsBehaviour
+  end
+
   it "should return a ViewBehaviour when given :behaviour_type => :model" do
     behaviour = Spec::DSL::BehaviourFactory.create("name", :behaviour_type => :view)
     behaviour.superclass.should == Spec::Rails::DSL::ViewBehaviour

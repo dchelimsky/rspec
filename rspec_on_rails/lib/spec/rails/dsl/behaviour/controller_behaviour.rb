@@ -83,7 +83,18 @@ module Spec
           end
           def integrate_views? # :nodoc:
             @integrate_views
-          end          
+          end
+          
+          # You MUST provide a controller_name within the context of
+          # your controller specs:
+          #
+          #   describe "ThingController" do
+          #     controller_name :thing
+          #     ...
+          def controller_name(name)
+            @controller_class_name = "#{name}_controller".camelize
+          end
+          attr_accessor :controller_class_name # :nodoc:          
         end
 
         attr_reader :response, :request, :controller
