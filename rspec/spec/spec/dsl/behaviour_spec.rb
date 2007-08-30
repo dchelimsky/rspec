@@ -8,8 +8,8 @@ module Spec
         @added_behaviour = description
       end
     end
-    
-    describe "Behaviour", "class methods" do
+
+    describe Behaviour, :shared => true do
       before :each do
         @reporter = FakeReporter.new(mock("formatter", :null_object => true), mock("backtrace_tweaker", :null_object => true))
         @behaviour = Class.new(Behaviour).describe("example") do
@@ -20,11 +20,19 @@ module Spec
       after :each do
         Behaviour.clear_before_and_after!
       end
-
+    end
+    
+    describe "Behaviour", ".description" do
+      it_should_behave_like "Spec::DSL::Behaviour"
+      
       it "should return the same description instance for each call" do
         @behaviour.description.should eql(@behaviour.description)
       end
+    end
 
+    describe "Behaviour", ".run" do
+      it_should_behave_like "Spec::DSL::Behaviour"
+      
       it "should not run before(:all) or after(:all) on dry run" do
         before_all_ran = false
         after_all_ran = false
@@ -66,21 +74,6 @@ module Spec
         Behaviour.after(:all) { after_all_ran = true }
         @behaviour.run(@reporter)
         after_all_ran.should be_true
-      end
-
-
-      it "should unregister a given after(:each) block" do
-        after_all_ran = false
-        @behaviour.it("example") {}
-        proc = Proc.new { after_all_ran = true }
-        Behaviour.after(:each, &proc)
-        @behaviour.run(@reporter)
-        after_all_ran.should be_true
-
-        after_all_ran = false
-        Behaviour.remove_after(:each, &proc)
-        @behaviour.run(@reporter)
-        after_all_ran.should be_false
       end
 
       it "should run second after(:each) block even if the first one fails" do
@@ -152,19 +145,6 @@ module Spec
 
         Behaviour.after(:all) { raise NonStandardError.new("in after(:all)") }
         @behaviour.run(@reporter)
-      end
-    end
-
-    describe "Behaviour" do
-      before :each do
-        @reporter = FakeReporter.new(mock("formatter", :null_object => true), mock("backtrace_tweaker", :null_object => true))
-        @behaviour = Class.new(Behaviour).describe("example") do
-          it "does nothing"
-        end
-      end
-
-      after :each do
-        Behaviour.clear_before_and_after!
       end
 
       it "should send reporter add_behaviour" do
@@ -407,65 +387,6 @@ module Spec
         mod2_method_called.should be_true
       end
 
-      it "should have accessible class methods from included module" do
-        mod1_method_called = false
-        mod1 = Module.new do
-          class_methods = Module.new do
-            define_method :mod1_method do
-              mod1_method_called = true
-            end
-          end
-
-          metaclass.class_eval do
-            define_method(:included) do |receiver|
-              receiver.extend class_methods
-            end
-          end
-        end
-
-        mod2_method_called = false
-        mod2 = Module.new do
-          class_methods = Module.new do
-            define_method :mod2_method do
-              mod2_method_called = true
-            end
-          end
-
-          metaclass.class_eval do
-            define_method(:included) do |receiver|
-              receiver.extend class_methods
-            end
-          end
-        end
-
-        @behaviour.include mod1, mod2
-
-        @behaviour.mod1_method
-        @behaviour.mod2_method
-        mod1_method_called.should be_true
-        mod2_method_called.should be_true
-      end
-
-      it "should count number of specs" do
-        @behaviour.example_definitions.clear
-        @behaviour.it("one") {}
-        @behaviour.it("two") {}
-        @behaviour.it("three") {}
-        @behaviour.it("four") {}
-        @behaviour.number_of_examples.should == 4
-      end
-
-      it "should not match anything when there are no example_definitions" do
-        @behaviour.should_not be_matches(['context'])
-      end
-
-      it "should match when one of the example_definitions match" do
-        example = mock('my example')
-        example.should_receive(:matches?).and_return(true)
-        @behaviour.stub!(:example_definitions).and_return([example])
-        @behaviour.should be_matches(['jalla'])
-      end
-
       it "should include targetted modules included using configuration" do
         $included_modules = []
 
@@ -542,6 +463,99 @@ module Spec
           Spec::Runner.configuration.mock_with :rspec
         end
       end
+    end
+
+    describe "Behaviour", ".remove_after" do
+      it_should_behave_like "Spec::DSL::Behaviour"
+      
+      it "should unregister a given after(:each) block" do
+        after_all_ran = false
+        @behaviour.it("example") {}
+        proc = Proc.new { after_all_ran = true }
+        Behaviour.after(:each, &proc)
+        @behaviour.run(@reporter)
+        after_all_ran.should be_true
+
+        after_all_ran = false
+        Behaviour.remove_after(:each, &proc)
+        @behaviour.run(@reporter)
+        after_all_ran.should be_false
+      end
+    end
+
+    describe "Behaviour", ".include" do
+      it_should_behave_like "Spec::DSL::Behaviour"
+
+      it "should have accessible class methods from included module" do
+        mod1_method_called = false
+        mod1 = Module.new do
+          class_methods = Module.new do
+            define_method :mod1_method do
+              mod1_method_called = true
+            end
+          end
+
+          metaclass.class_eval do
+            define_method(:included) do |receiver|
+              receiver.extend class_methods
+            end
+          end
+        end
+
+        mod2_method_called = false
+        mod2 = Module.new do
+          class_methods = Module.new do
+            define_method :mod2_method do
+              mod2_method_called = true
+            end
+          end
+
+          metaclass.class_eval do
+            define_method(:included) do |receiver|
+              receiver.extend class_methods
+            end
+          end
+        end
+
+        @behaviour.include mod1, mod2
+
+        @behaviour.mod1_method
+        @behaviour.mod2_method
+        mod1_method_called.should be_true
+        mod2_method_called.should be_true
+      end
+    end
+
+    describe "Behaviour", ".number_of_examples" do
+      it_should_behave_like "Spec::DSL::Behaviour"
+
+      it "should count number of specs" do
+        @behaviour.example_definitions.clear
+        @behaviour.it("one") {}
+        @behaviour.it("two") {}
+        @behaviour.it("three") {}
+        @behaviour.it("four") {}
+        @behaviour.number_of_examples.should == 4
+      end      
+    end
+
+    describe "Behaviour", ".matches?" do
+      it_should_behave_like "Spec::DSL::Behaviour"
+
+      it "should not match anything when there are no example_definitions" do
+        @behaviour.should_not be_matches(['context'])
+      end
+
+      it "should match when one of the example_definitions match" do
+        example = mock('my example')
+        example.should_receive(:matches?).and_return(true)
+        @behaviour.stub!(:example_definitions).and_return([example])
+        @behaviour.should be_matches(['jalla'])
+      end      
+    end
+
+    describe "Behaviour", ".class_eval" do
+      it_should_behave_like "Spec::DSL::Behaviour"
 
       it "should allow constants to be defined" do
         behaviour = Class.new(Behaviour).describe('example') do
@@ -590,10 +604,10 @@ module Spec
           end
         end.run(@reporter)
         @reporter.dump.should == 0
-      end
+      end      
     end
 
-    describe Behaviour do
+    describe Behaviour, '.run functional example' do
       def count
         @count ||= 0
         @count = @count + 1
