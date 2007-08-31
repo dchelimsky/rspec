@@ -20,14 +20,24 @@ module Spec
         # given
         step_mother = StepMother.new
         
-        # when
-        ex = exception_from do
+        # then
+        lambda do
+          # when
           step_mother.find(:given, "doesn't exist")
-        end
+        end.should raise_error(UnknownStepException, /given doesn't exist/)
+      end
+      
+      it 'should clear itself' do
+        # given
+        step_mother = StepMother.new
+        step = SimpleStep.new("a given") do end
+        step_mother.store(:given, "a given", step)
+
+        # when
+        step_mother.clear
         
         # then
-        ensure_that ex, is_an(UnknownStepException)
-        ensure_that ex.message, is("doesn't exist")
+        step_mother.should be_empty
       end
     end
   end

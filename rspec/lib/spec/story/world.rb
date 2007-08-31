@@ -61,18 +61,26 @@ module Spec
       
       def GivenScenario(name)
         World.run_with_suspended_listeners(self, :'given scenario', name, GivenScenario.new(name))
+        @__previous_step = :given
       end
       
       def Given(name, *args, &block)
         World.store_and_call self, :given, name, *args, &block
+        @__previous_step = :given
       end
       
       def When(name, *args, &block)
         World.store_and_call self, :when, name, *args, &block
+        @__previous_step = :when
       end
       
       def Then(name, *args, &block)
         World.store_and_call self, :then, name, *args, &block
+        @__previous_step = :then
+      end
+      
+      def And(name, *args, &block)
+        World.store_and_call self, @__previous_step, name, *args, &block
       end
     end
   end

@@ -11,6 +11,7 @@ module Spec
       
       after :each do
         World.listeners.clear
+        World.step_mother.clear
       end
       
       it 'should create an object that mixes in a World' do
@@ -75,6 +76,69 @@ module Spec
           end
         end
       end
+      
+      it 'should interpret Given... And... as multiple givens' do
+        # given
+        world = World.create
+        $steps = []
+        
+        # when
+        world.instance_eval do
+          Given 'step 1' do
+            $steps << 1
+          end
+          And 'step 2' do
+            $steps << 2
+          end
+        end
+        
+        # then
+        $steps.should == [1,2]
+        World.step_mother.find(:given, 'step 1').should_not be_nil
+        World.step_mother.find(:given, 'step 2').should_not be_nil
+      end
+      
+      it 'should interpret When... And... as multiple events' do
+        # given
+        world = World.create
+        $steps = []
+        
+        # when
+        world.instance_eval do
+          When 'step 1' do
+            $steps << 1
+          end
+          And 'step 2' do
+            $steps << 2
+          end
+        end
+        
+        # then
+        $steps.should == [1,2]
+        World.step_mother.find(:when, 'step 1').should_not be_nil
+        World.step_mother.find(:when, 'step 2').should_not be_nil
+      end
+      
+      it 'should interpret Then... And... as multiple outcomes' do
+        # given
+        world = World.create
+        $steps = []
+        
+        # when
+        world.instance_eval do
+          Then 'step 1' do
+            $steps << 1
+          end
+          And 'step 2' do
+            $steps << 2
+          end
+        end
+        
+        # then
+        $steps.should == [1,2]
+        World.step_mother.find(:then, 'step 1').should_not be_nil
+        World.step_mother.find(:then, 'step 2').should_not be_nil
+      end      
       
       it 'should reuse a given across scenarios' do
         # given
@@ -284,13 +348,12 @@ module Spec
         end
         
         given_scenario = GivenScenario.new('a scenario')
+        Runner::StoryRunner.should_receive(:scenario_from_current_story).
+          with('a scenario').and_return(scenario)
         
         world = World.create
         listener = mock('listener')
-        World.add_listener(listener)
-        
-        Runner::StoryRunner.should_receive(:scenario_from_current_story).
-          with('a scenario').and_return(scenario)
+        World.add_listener(listener)        
         
         # expect
         listener.should_receive(:found_step).with(:'given scenario', 'a scenario')
@@ -305,8 +368,31 @@ module Spec
         # TODO verify_all
         $scenario_ran.should be_true
       end
+      it 'should interpret GivenScenario... And... as multiple givens' do
+        # given
+        world = World.create
+        $steps = []
+
+        scenario = ScenarioBuilder.new.name('a scenario').to_scenario do
+          $steps << 1
+        end
+        Runner::StoryRunner.should_receive(:scenario_from_current_story).
+          with('a scenario').and_return(scenario)
+        
+        # when
+        world.instance_eval do
+          GivenScenario 'a scenario'
+          And 'step 2' do
+            $steps << 2
+          end
+        end
+        
+        # then
+        $steps.should == [1,2]
+        World.step_mother.find(:given, 'step 2').should_not be_nil
+      end
       
-      it 'should include rspec matchers' do
+      it 'should provide rspec matchers' do
         # given
         world = World.create
         

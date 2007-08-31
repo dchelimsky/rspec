@@ -14,13 +14,13 @@ Story "Add Person", %{
       post "/people/create", :person => {:name => name}
     end
     
-    Then "viewer should see", "/people/list" do
+    Then "viewer should see", "/people/list" do |template|
       follow_redirect!
-      response.should render_template("people/list")
+      response.should render_template(template)
     end
     
-    Then "list should include", "Dan" do
-      response.should have_text(/Dan/)
+    Then "list should include", "Dan" do |name|
+      response.should have_text(/#{name}/)
     end
   end
   
@@ -30,15 +30,16 @@ Story "Add Person", %{
     end
     
     When "creating a new person with no name" do
-      post "/people/create", :person => {:name => nil}
+#      post "/people/create", :person => {:name => nil}
+      When "creating a new person named", nil
     end
     
-    Then "viewer should see", "/people/create" do
-      assert_template "people/create"
+    Then "viewer should see", "/people/create" do |template|
+      assert_template template
     end
     
-    Then "list should not include", "Dan" do
-      response.should_not have_text(/Dan/)
+    Then "list should not include", "Dan" do |name|
+      response.should_not have_text(/#{name}/)
     end
   end
 end
