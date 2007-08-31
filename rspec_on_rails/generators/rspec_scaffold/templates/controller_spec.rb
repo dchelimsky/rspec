@@ -28,6 +28,38 @@ describe <%= controller_class_name %>Controller, "#route_for" do
   
 end
 
+describe <%= controller_class_name %>Controller, "#params_from" do
+
+  it "should generate params { :controller => '<%= table_name %>', action => 'index' } from GET /<%= table_name %>" do
+    params_from(:get, "/<%= table_name %>").should == {:controller => "<%= table_name %>", :action => "index"}
+  end
+  
+  it "should generate params { :controller => '<%= table_name %>', action => 'new' } from GET /<%= table_name %>/new" do
+    params_from(:get, "/<%= table_name %>/new").should == {:controller => "<%= table_name %>", :action => "new"}
+  end
+  
+  it "should generate params { :controller => '<%= table_name %>', action => 'create' } from POST /<%= table_name %>" do
+    params_from(:post, "/<%= table_name %>").should == {:controller => "<%= table_name %>", :action => "create"}
+  end
+  
+  it "should generate params { :controller => '<%= table_name %>', action => 'show', id => '1' } from GET /<%= table_name %>/1" do
+    params_from(:get, "/<%= table_name %>/1").should == {:controller => "<%= table_name %>", :action => "show", :id => "1"}
+  end
+  
+  it "should generate params { :controller => '<%= table_name %>', action => 'edit', id => '1' } from GET /<%= table_name %>/1;edit" do
+    params_from(:get, "/<%= table_name %>/1<%= resource_edit_path %>").should == {:controller => "<%= table_name %>", :action => "edit", :id => "1"}
+  end
+  
+  it "should generate params { :controller => '<%= table_name %>', action => 'update', id => '1' } from PUT /<%= table_name %>/1" do
+    params_from(:put, "/<%= table_name %>/1").should == {:controller => "<%= table_name %>", :action => "update", :id => "1"}
+  end
+  
+  it "should generate params { :controller => '<%= table_name %>', action => 'destroy', id => '1' } from DELETE /<%= table_name %>/1" do
+    params_from(:delete, "/<%= table_name %>/1").should == {:controller => "<%= table_name %>", :action => "destroy", :id => "1"}
+  end
+  
+end
+
 describe <%= controller_class_name %>Controller, "handling GET /<%= table_name %>" do
 
   before do

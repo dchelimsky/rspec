@@ -80,6 +80,16 @@ require 'controller_spec_controller'
       route_for(:controller => "controller_spec", :action => "some_action").should == "/controller_spec/some_action"
     end
 
+    it "should generate params for custom routes" do
+      pending "someone who knows how the routes are gnerated for the specs can work out why this fails" do
+        params_from(:get, '/custom_route_spec/custom_route').should == {:controller => "custom_route_spec", :action => "custom_route"}
+      end
+    end
+    
+    it "should generate params for existing routes" do
+      params_from(:get, '/controller_spec/some_action').should == {:controller => "controller_spec", :action => "some_action"}
+    end
+    
     it "should expose the assigns hash directly" do
       get 'action_setting_the_assigns_hash'
       assigns[:direct_assigns_key].should == :direct_assigns_key_value

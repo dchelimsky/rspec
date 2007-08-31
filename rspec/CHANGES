@@ -2,6 +2,7 @@
 
 Release notes here
 
+* Applied [#13559] reverse version of route_for (Patch from Rupert Voelcker)
 * Added [#13532] /lib specs should get base EvalContext
 * Applied [#13451] Add a null_object option to mock_model (Patch from James Deville)
 * Applied [#11919] Making non-implemented specs easy in textmate (Patch from Scott Taylor)

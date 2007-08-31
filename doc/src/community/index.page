@@ -189,6 +189,8 @@ In alphabetical order (by last name)
 * Jonathan Tron
 ** Patch for Spec::Rails resource_generator
 ** Patch for RSpec.tmbundle to make it work with RSpec installed as a plugin
+* Rupert Voelcker
+** Patch [#13559] reverse version of route_for
 * Florian Weber
 ** RSpec.tmbundle and the spec_server that comes with Spec::Rails are based on Florian's TDDMate
 * Nikolai Weibull
