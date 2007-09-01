@@ -2,6 +2,7 @@
 
 Release notes here
 
+* Applied [#13143] ActionView::Helpers::RecordIdentificationHelper should be included if present (Patch from Jay Levitt)
 * Applied [#13567] patch to allow stubs to yield consecutive values (Patch from Rupert Voelcker)
 * Applied [#13559] reverse version of route_for (Patch from Rupert Voelcker)
 * Added [#13532] /lib specs should get base EvalContext

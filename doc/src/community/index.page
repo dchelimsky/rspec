@@ -122,6 +122,7 @@ In alphabetical order (by last name)
 ** Patch [#11888] rspec_on_rails spews out warnings when assert_select is used with an XML response
 ** Patch [#12817] Cannot include same shared behaviour when required with absolute paths.
 * Jay Levitt
+** Patch [#13143] ActionView::Helpers::RecordIdentificationHelper should be included if present
 ** Patch [#13016] [DOC] Point out that view specs render, well, a view
 * Tim Lucas
 ** Patch [#10631] redirect_to matcher doesn't respect request.host

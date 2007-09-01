@@ -56,6 +56,7 @@ module Spec
         include ActionView::Helpers::PaginationHelper rescue nil #removed after 1.2.3
         include ActionView::Helpers::PrototypeHelper
         include ActionView::Helpers::PrototypeHelper::JavaScriptGenerator::GeneratorMethods
+        include ActionView::Helpers::RecordIdentificationHelper rescue nil
         include ActionView::Helpers::ScriptaculousHelper
         include ActionView::Helpers::TagHelper
         include ActionView::Helpers::TextHelper
