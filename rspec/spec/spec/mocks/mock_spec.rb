@@ -214,11 +214,32 @@ module Spec
         @mock.rspec_verify
       end
       
+      it "should yield 0 args multiple times to blocks that take a variable number of arguments" do
+        @mock.should_receive(:yield_back).once.with(no_args()).once.and_yield.
+                                                                    and_yield
+        a = nil
+        b = []
+        @mock.yield_back {|*a| b << a}
+        b.should == [ [], [] ]
+        @mock.rspec_verify
+      end
+      
       it "should yield one arg to blocks that take a variable number of arguments" do
         @mock.should_receive(:yield_back).with(no_args()).once.and_yield(99)
         a = nil
         @mock.yield_back {|*a|}
         a.should == [99]
+        @mock.rspec_verify
+      end
+      
+      it "should yield one arg 3 times consecutively to blocks that take a variable number of arguments" do
+        @mock.should_receive(:yield_back).once.with(no_args()).once.and_yield(99).
+                                                                    and_yield(43).
+                                                                    and_yield("something fruity")
+        a = nil
+        b = []
+        @mock.yield_back {|*a| b << a}
+        b.should == [[99], [43], ["something fruity"]]
         @mock.rspec_verify
       end
       
@@ -229,12 +250,34 @@ module Spec
         a.should == [99, 27, "go"]
         @mock.rspec_verify
       end
+
+      it "should yield many args 3 times consecutively to blocks that take a variable number of arguments" do
+        @mock.should_receive(:yield_back).once.with(no_args()).once.and_yield(99, :green, "go").
+                                                                    and_yield("wait", :amber).
+                                                                    and_yield("stop", 12, :red)
+        a = nil
+        b = []
+        @mock.yield_back {|*a| b << a}
+        b.should == [[99, :green, "go"], ["wait", :amber], ["stop", 12, :red]]
+        @mock.rspec_verify
+      end
       
       it "should yield single value" do
         @mock.should_receive(:yield_back).with(no_args()).once.and_yield(99)
         a = nil
         @mock.yield_back {|a|}
         a.should == 99
+        @mock.rspec_verify
+      end
+      
+      it "should yield single value 3 times consecutively" do
+        @mock.should_receive(:yield_back).once.with(no_args()).once.and_yield(99).
+                                                                    and_yield(43).
+                                                                    and_yield("something fruity")
+        a = nil
+        b = []
+        @mock.yield_back {|a| b << a}
+        b.should == [99, 43, "something fruity"]
         @mock.rspec_verify
       end
       
@@ -247,6 +290,17 @@ module Spec
         @mock.rspec_verify
       end
       
+      it "should yield two values 3 times consecutively" do
+        @mock.should_receive(:yield_back).once.with(no_args()).once.and_yield('wha', 'zup').
+                                                                    and_yield('not', 'down').
+                                                                    and_yield(14, 65)
+        a, b = nil
+        c = []
+        @mock.yield_back {|a,b| c << [a, b]}
+        c.should == [['wha', 'zup'], ['not', 'down'], [14, 65]]
+        @mock.rspec_verify
+      end
+      
       it "should fail when calling yielding method with wrong arity" do
         @mock.should_receive(:yield_back).with(no_args()).once.and_yield('wha', 'zup')
           begin
@@ -256,12 +310,25 @@ module Spec
         end
       end
       
+      it "should fail when calling yielding method consecutively with wrong arity" do
+        @mock.should_receive(:yield_back).once.with(no_args()).once.and_yield('wha', 'zup').
+                                                                    and_yield('down').
+                                                                    and_yield(14, 65)
+          begin
+          a, b = nil
+          c = []
+          @mock.yield_back {|a,b| c << [a, b]}
+        rescue MockExpectationError => e
+          e.message.should == "Mock 'test mock' yielded |\"down\"| to block with arity of 2"
+        end
+      end
+      
       it "should fail when calling yielding method without block" do
         @mock.should_receive(:yield_back).with(no_args()).once.and_yield('wha', 'zup')
         begin
           @mock.yield_back
         rescue MockExpectationError => e
-          e.message.should == "Mock 'test mock' asked to yield |\"wha\", \"zup\"| but no block was passed"
+          e.message.should == "Mock 'test mock' asked to yield |[\"wha\", \"zup\"]| but no block was passed"
         end
       end
       

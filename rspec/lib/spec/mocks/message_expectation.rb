@@ -20,7 +20,7 @@ module Spec
         @order_group = expectation_ordering
         @at_least = nil
         @at_most = nil
-        @args_to_yield = nil
+        @args_to_yield = []
       end
       
       def expected_args
@@ -61,7 +61,8 @@ module Spec
       end
       
       def and_yield(*args)
-        @args_to_yield = args
+        @args_to_yield << args
+        self
       end
   
       def matches(sym, args)
@@ -82,7 +83,7 @@ module Spec
 
           if !@method_block.nil?
             return invoke_method_block(args)
-          elsif !@args_to_yield.nil?
+          elsif @args_to_yield.size > 0
             return invoke_with_yield(block)
           elsif @consecutive
             return invoke_consecutive_return_block(args, block)
@@ -108,10 +109,12 @@ module Spec
         if block.nil?
           @error_generator.raise_missing_block_error @args_to_yield
         end
-        if block.arity > -1 && @args_to_yield.length != block.arity
-          @error_generator.raise_wrong_arity_error @args_to_yield, block.arity
+        @args_to_yield.each do |args_to_yield_this_time|
+          if block.arity > -1 && args_to_yield_this_time.length != block.arity
+            @error_generator.raise_wrong_arity_error args_to_yield_this_time, block.arity
+          end
+          block.call(*args_to_yield_this_time)
         end
-        block.call(*@args_to_yield)
       end
       
       def invoke_consecutive_return_block(args, block)

@@ -263,10 +263,18 @@ Tells the mock to throw a symbol instead of returning a value.
 h3. Yielding
 
 <ruby>
-my_mock.should_receive(:msg).once.and_yield([<value-1>, <value-2>, ..., <value-n>])
+my_mock.should_receive(:msg).once.and_yield(<value-1>, <value-2>, ..., <value-n>)
 </ruby>
 
 When the expected message is received, the mock will yield the values to the passed block.
+
+To mock a method which yields values multiple times, and_yield can be chained.
+
+<ruby>
+my_mock.should_receive(:msg).once.and_yield(<value-0-1>, <value-0-2>, ..., <value-0-n>).
+                                  and_yield(<value-1-1>, <value-1-2>, ..., <value-1-n>).
+                                  and_yield(<value-2-1>, <value-2-2>, ..., <value-2-n>)
+</ruby>
 
 h3. Ordering
 

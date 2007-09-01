@@ -137,6 +137,15 @@ module Spec
         @obj.rspec_verify
       end
 
+      it "should support yielding multiple times" do
+        @obj.stub!(:method_that_yields_multiple_times).and_yield(:yielded_value).
+                                                       and_yield(:another_value)
+        current_value = []
+        @obj.method_that_yields_multiple_times {|val| current_value << val}
+        current_value.should == [:yielded_value, :another_value]
+        @obj.rspec_verify
+      end
+
       it "should throw when told to" do
         @mock.stub!(:something).and_throw(:blech)
         lambda do
