@@ -4,6 +4,7 @@ module Spec
       class PlainTextDocumenter
         def initialize(out)
           @out = out
+          @previous_type = nil
         end
         
         def story_started(title, narrative)
@@ -18,9 +19,15 @@ module Spec
           @out << "\nScenario: #{scenario_name}\n"
         end
         
-        def found_step(name, description, *args)
+        def found_step(type, description, *args)
           args_txt = args.empty? ? "" : " #{args.join ','}"
-          @out << "  #{name.to_s.capitalize} #{description}#{args_txt}\n"
+          type = :and if type == @previous_type
+          @out << "  #{type.to_s.capitalize} #{description}#{args_txt}\n"
+          if type == :'given scenario'
+            @previous_type = :given
+          else
+            @previous_type = type
+          end
         end
         
         def method_missing(meth, *args, &block)

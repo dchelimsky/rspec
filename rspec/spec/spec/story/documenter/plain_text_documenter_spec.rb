@@ -36,6 +36,42 @@ module Spec
           @out.should contain("  Given a context\n  When an event\n  Then an outcome\n")
         end
         
+        it 'should document additional givens using And' do
+          # when
+          @documenter.found_step :given, 'a context'
+          @documenter.found_step :given, 'another context'
+          
+          # then
+          @out.should contain("  Given a context\n  And another context")
+        end
+        
+        it 'should document additional events using And' do
+          # when
+          @documenter.found_step :when, 'an event'
+          @documenter.found_step :when, 'another event'
+          
+          # then
+          @out.should contain("  When an event\n  And another event")
+        end
+        
+        it 'should document additional outcomes using And' do
+          # when
+          @documenter.found_step :then, 'an outcome'
+          @documenter.found_step :then, 'another outcome'
+          
+          # then
+          @out.should contain("  Then an outcome\n  And another outcome")
+        end
+        
+        it 'should document a GivenScenario followed by a Given using And' do
+          # when
+          @documenter.found_step :'given scenario', 'a scenario'
+          @documenter.found_step :given, 'a context'
+          
+          # then
+          @out.should contain("  Given scenario a scenario\n  And a context")
+        end
+        
         it 'should print some white space after each story' do
           # when
           @documenter.story_ended 'title', 'narrative'
