@@ -53,6 +53,7 @@ In alphabetical order (by last name)
 * Ola Bini
 ** Paired with Aslak to iron out minor JRuby issues.
 * Wincent Colaiuta
+** Patch [#11254] RSpec syntax coloring and function pop-up integration in TextMate
 ** Patch [#11252] Should be able to re-load file containing shared behaviours without raising an exception
 ** Patch [#12010] Nicer failure message formatting
 * Bob Cotton
