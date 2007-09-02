@@ -19,6 +19,10 @@ class RspecGenerator < Rails::Generator::Base
       m.file      'previous_failures.txt',         'previous_failures.txt'
       m.file      'script/spec_server',            'script/spec_server', script_options
       m.file      'script/spec',                   'script/spec',        script_options
+
+      m.directory 'stories'
+      m.file      'all_stories.rb',                'stories/all.rb'
+      m.file      'stories_helper.rb',             'stories/helper.rb'
     end
   end
 

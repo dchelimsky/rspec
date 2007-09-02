@@ -89,9 +89,9 @@ module Spec
       def find_paths(paths)
         result = []
         paths.each do |path|
-          if File.directory?(path)
-            result += Dir["#{path}/**/*.rb"]
-          elsif File.file?(path)
+          if test ?d, path
+            result += Dir[File.expand_path("#{path}/**/*.rb")]
+          elsif test ?f, path
             result << path
           else
             raise "File or directory not found: #{path}"
