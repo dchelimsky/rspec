@@ -21,8 +21,12 @@ module Spec
         
         def found_step(type, description, *args)
           args_txt = args.empty? ? "" : " #{args.join ','}"
-          type = :and if type == @previous_type
-          @out << "  #{type.to_s.capitalize} #{description}#{args_txt}\n"
+          if type == @previous_type
+            @out << "  And "
+          else
+            @out << "\n" << "  #{type.to_s.capitalize} "
+          end
+          @out << "#{description}#{args_txt}" << "\n"
           if type == :'given scenario'
             @previous_type = :given
           else

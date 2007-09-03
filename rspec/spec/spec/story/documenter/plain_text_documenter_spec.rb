@@ -33,34 +33,37 @@ module Spec
           @documenter.found_step :then, 'an outcome'
           
           # then
-          @out.should contain("  Given a context\n  When an event\n  Then an outcome\n")
+          @out.should contain("  Given a context\n\n  When an event\n\n  Then an outcome\n")
         end
         
         it 'should document additional givens using And' do
           # when
-          @documenter.found_step :given, 'a context'
-          @documenter.found_step :given, 'another context'
+          @documenter.found_step :given, 'step 1'
+          @documenter.found_step :given, 'step 2'
+          @documenter.found_step :given, 'step 3'
           
           # then
-          @out.should contain("  Given a context\n  And another context")
+          @out.should contain("  Given step 1\n  And step 2\n  And step 3")
         end
         
         it 'should document additional events using And' do
           # when
-          @documenter.found_step :when, 'an event'
-          @documenter.found_step :when, 'another event'
+          @documenter.found_step :when, 'step 1'
+          @documenter.found_step :when, 'step 2'
+          @documenter.found_step :when, 'step 3'
           
           # then
-          @out.should contain("  When an event\n  And another event")
+          @out.should contain("  When step 1\n  And step 2\n  And step 3")
         end
         
         it 'should document additional outcomes using And' do
           # when
-          @documenter.found_step :then, 'an outcome'
-          @documenter.found_step :then, 'another outcome'
+          @documenter.found_step :then, 'step 1'
+          @documenter.found_step :then, 'step 2'
+          @documenter.found_step :then, 'step 3'
           
           # then
-          @out.should contain("  Then an outcome\n  And another outcome")
+          @out.should contain("  Then step 1\n  And step 2\n  And step 3")
         end
         
         it 'should document a GivenScenario followed by a Given using And' do
