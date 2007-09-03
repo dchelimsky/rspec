@@ -143,9 +143,13 @@ class PreCommit::RspecOnRails < PreCommit
       raise "rspec_scaffold failed. #{result}"
     end
   end
+  
+  def purchase_migration_version
+    "006"
+  end
 
   def migrate_up
-    rake_sh "db:migrate", 'VERSION' => 5
+    rake_sh "db:migrate"
   end
 
   def destroy_purchase
@@ -160,7 +164,7 @@ class PreCommit::RspecOnRails < PreCommit
     #####################################################
     EOF
     puts notice.gsub(/^    /, '')
-    rake_sh "db:migrate", 'VERSION' => 4
+    rake_sh "db:migrate", 'VERSION' => (purchase_migration_version.to_i - 1)
     output = silent_sh("svn revert config/routes.rb")
     raise "svn revert failed: #{output}" if error_code?
   end
@@ -173,7 +177,7 @@ class PreCommit::RspecOnRails < PreCommit
       app/models/purchase.rb
       app/controllers/purchases_controller.rb
       app/views/purchases
-      db/migrate/005_create_purchases.rb
+      db/migrate/#{purchase_migration_version}_create_purchases.rb
       spec/models/purchase_spec.rb
       spec/helpers/purchases_helper_spec.rb
       spec/controllers/purchases_controller_spec.rb
