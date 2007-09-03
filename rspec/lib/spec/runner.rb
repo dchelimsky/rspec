@@ -16,7 +16,7 @@ module Spec
   # Rather than expressing examples in classes, RSpec uses a custom domain specific language to 
   # describe Behaviours and Examples of those behaviours.
   # 
-  # A Behaviour is the equivalent of a fixture in xUnit-speak. It is a metaphor for the context
+  # A Example is the equivalent of a fixture in xUnit-speak. It is a metaphor for the context
   # in which you will run your executable example - a set of known objects in a known starting state.
   # We begin be describing
   # 
@@ -32,7 +32,7 @@ module Spec
   # 
   #   end
   # 
-  # We use the before block to set up the Behaviour (given), and then the #it method to
+  # We use the before block to set up the Example (given), and then the #it method to
   # hold the example code that expresses the event (when) and the expected outcome (then).
   # 
   # == Helper Methods
@@ -47,7 +47,7 @@ module Spec
   # 
   # == Setup and Teardown
   # 
-  # You can use before and after within a Behaviour. Both methods take an optional
+  # You can use before and after within a Example. Both methods take an optional
   # scope argument so you can run the block before :each example or before :all examples
   # 
   #   describe "..." do

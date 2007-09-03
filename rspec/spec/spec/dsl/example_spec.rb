@@ -9,47 +9,47 @@ module Spec
       end
     end
 
-    describe Behaviour, :shared => true do
+    describe Example, :shared => true do
       before :each do
         @reporter = FakeReporter.new(mock("formatter", :null_object => true), mock("backtrace_tweaker", :null_object => true))
-        @behaviour = Class.new(Behaviour).describe("example") do
+        @behaviour = Class.new(Example).describe("example") do
           it "does nothing"
         end
       end
 
       after :each do
-        Behaviour.clear_before_and_after!
+        Example.clear_before_and_after!
       end
     end
 
-    describe "Behaviour", ".suite" do
-      it_should_behave_like "Spec::DSL::Behaviour"
+    describe "Example", ".suite" do
+      it_should_behave_like "Spec::DSL::Example"
 
       it "returns an empty TestSuite when there is no description" do
-        Behaviour.description.should be_nil
-        Behaviour.suite.should be_instance_of(::Test::Unit::TestSuite)
-        Behaviour.suite.tests.should be_empty
+        Example.description.should be_nil
+        Example.suite.should be_instance_of(::Test::Unit::TestSuite)
+        Example.suite.tests.should be_empty
       end
 
       it "returns a TestSuite with Examples"
     end
 
-    describe "Behaviour", ".description" do
-      it_should_behave_like "Spec::DSL::Behaviour"
+    describe "Example", ".description" do
+      it_should_behave_like "Spec::DSL::Example"
 
       it "should return the same description instance for each call" do
         @behaviour.description.should eql(@behaviour.description)
       end
     end
 
-    describe "Behaviour", ".run" do
-      it_should_behave_like "Spec::DSL::Behaviour"
+    describe "Example", ".run" do
+      it_should_behave_like "Spec::DSL::Example"
 
       it "should not run before(:all) or after(:all) on dry run" do
         before_all_ran = false
         after_all_ran = false
-        Behaviour.before(:all) { before_all_ran = true }
-        Behaviour.after(:all) { after_all_ran = true }
+        Example.before(:all) { before_all_ran = true }
+        Example.after(:all) { after_all_ran = true }
         @behaviour.it("should") {}
         @behaviour.run(@reporter, :dry_run => true)
         before_all_ran.should be_false
@@ -58,7 +58,7 @@ module Spec
 
       it "should not run any example if before(:all) fails" do
         spec_ran = false
-        Behaviour.before(:all) { raise NonStandardError }
+        Example.before(:all) { raise NonStandardError }
         @behaviour.it("test") {spec_ran = true}
         @behaviour.run(@reporter)
         spec_ran.should be_false
@@ -66,16 +66,16 @@ module Spec
 
       it "should run after(:all) if before(:all) fails" do
         after_all_ran = false
-        Behaviour.before(:all) { raise NonStandardError }
-        Behaviour.after(:all) { after_all_ran = true }
+        Example.before(:all) { raise NonStandardError }
+        Example.after(:all) { after_all_ran = true }
         @behaviour.run(@reporter)
         after_all_ran.should be_true
       end
 
       it "should run after(:all) if before(:each) fails" do
         after_all_ran = false
-        Behaviour.before(:each) { raise NonStandardError }
-        Behaviour.after(:all) { after_all_ran = true }
+        Example.before(:each) { raise NonStandardError }
+        Example.after(:all) { after_all_ran = true }
         @behaviour.run(@reporter)
         after_all_ran.should be_true
       end
@@ -83,7 +83,7 @@ module Spec
       it "should run after(:all) if any example fails" do
         after_all_ran = false
         @behaviour.it("should") { raise NonStandardError }
-        Behaviour.after(:all) { after_all_ran = true }
+        Example.after(:all) { after_all_ran = true }
         @behaviour.run(@reporter)
         after_all_ran.should be_true
       end
@@ -143,7 +143,7 @@ module Spec
           location.should eql("before(:all)")
         end
 
-        Behaviour.before(:all) { raise NonStandardError.new("in before(:all)") }
+        Example.before(:all) { raise NonStandardError.new("in before(:all)") }
         @behaviour.it("test") {true}
         @behaviour.run(@reporter)
       end
@@ -155,7 +155,7 @@ module Spec
           location.should eql("after(:all)")
         end
 
-        Behaviour.after(:all) { raise NonStandardError.new("in after(:all)") }
+        Example.after(:all) { raise NonStandardError.new("in after(:all)") }
         @behaviour.run(@reporter)
       end
 
@@ -285,52 +285,52 @@ module Spec
       it "should not add global before callbacks for untargetted behaviours" do
         fiddle = []
 
-        Behaviour.before(:all) { fiddle << "Behaviour.before(:all)" }
-        Behaviour.prepend_before(:all) { fiddle << "Behaviour.prepend_before(:all)" }
-        Behaviour.before(:each, :behaviour_type => :special) { fiddle << "Behaviour.before(:each, :behaviour_type => :special)" }
-        Behaviour.prepend_before(:each, :behaviour_type => :special) { fiddle << "Behaviour.prepend_before(:each, :behaviour_type => :special)" }
-        Behaviour.before(:all, :behaviour_type => :special) { fiddle << "Behaviour.before(:all, :behaviour_type => :special)" }
-        Behaviour.prepend_before(:all, :behaviour_type => :special) { fiddle << "Behaviour.prepend_before(:all, :behaviour_type => :special)" }
+        Example.before(:all) { fiddle << "Example.before(:all)" }
+        Example.prepend_before(:all) { fiddle << "Example.prepend_before(:all)" }
+        Example.before(:each, :behaviour_type => :special) { fiddle << "Example.before(:each, :behaviour_type => :special)" }
+        Example.prepend_before(:each, :behaviour_type => :special) { fiddle << "Example.prepend_before(:each, :behaviour_type => :special)" }
+        Example.before(:all, :behaviour_type => :special) { fiddle << "Example.before(:all, :behaviour_type => :special)" }
+        Example.prepend_before(:all, :behaviour_type => :special) { fiddle << "Example.prepend_before(:all, :behaviour_type => :special)" }
 
-        behaviour = Class.new(Behaviour).describe("I'm not special", :behaviour_type => :not_special) do
+        behaviour = Class.new(Example).describe("I'm not special", :behaviour_type => :not_special) do
           it "does nothing"
         end
         behaviour.run(@reporter)
         fiddle.should == [
-          'Behaviour.prepend_before(:all)',
-          'Behaviour.before(:all)',
+          'Example.prepend_before(:all)',
+          'Example.before(:all)',
         ]
       end
 
       it "should add global before callbacks for targetted behaviours" do
         fiddle = []
 
-        Behaviour.before(:all) { fiddle << "Behaviour.before(:all)" }
-        Behaviour.prepend_before(:all) { fiddle << "Behaviour.prepend_before(:all)" }
-        Behaviour.before(:each, :behaviour_type => :special) { fiddle << "Behaviour.before(:each, :behaviour_type => :special)" }
-        Behaviour.prepend_before(:each, :behaviour_type => :special) { fiddle << "Behaviour.prepend_before(:each, :behaviour_type => :special)" }
-        Behaviour.before(:all, :behaviour_type => :special) { fiddle << "Behaviour.before(:all, :behaviour_type => :special)" }
-        Behaviour.prepend_before(:all, :behaviour_type => :special) { fiddle << "Behaviour.prepend_before(:all, :behaviour_type => :special)" }
+        Example.before(:all) { fiddle << "Example.before(:all)" }
+        Example.prepend_before(:all) { fiddle << "Example.prepend_before(:all)" }
+        Example.before(:each, :behaviour_type => :special) { fiddle << "Example.before(:each, :behaviour_type => :special)" }
+        Example.prepend_before(:each, :behaviour_type => :special) { fiddle << "Example.prepend_before(:each, :behaviour_type => :special)" }
+        Example.before(:all, :behaviour_type => :special) { fiddle << "Example.before(:all, :behaviour_type => :special)" }
+        Example.prepend_before(:all, :behaviour_type => :special) { fiddle << "Example.prepend_before(:all, :behaviour_type => :special)" }
 
-        Behaviour.append_before(:behaviour_type => :special) { fiddle << "Behaviour.append_before(:each, :behaviour_type => :special)" }
-        behaviour = Class.new(Behaviour).describe("I'm not special", :behaviour_type => :special) {}
+        Example.append_before(:behaviour_type => :special) { fiddle << "Example.append_before(:each, :behaviour_type => :special)" }
+        behaviour = Class.new(Example).describe("I'm not special", :behaviour_type => :special) {}
         behaviour.it("test") {true}
         behaviour.run(@reporter)
         fiddle.should == [
-          'Behaviour.prepend_before(:all)',
-          'Behaviour.before(:all)',
-          'Behaviour.prepend_before(:all, :behaviour_type => :special)',
-          'Behaviour.before(:all, :behaviour_type => :special)',
-          'Behaviour.prepend_before(:each, :behaviour_type => :special)',
-          'Behaviour.before(:each, :behaviour_type => :special)',
-          'Behaviour.append_before(:each, :behaviour_type => :special)',
+          'Example.prepend_before(:all)',
+          'Example.before(:all)',
+          'Example.prepend_before(:all, :behaviour_type => :special)',
+          'Example.before(:all, :behaviour_type => :special)',
+          'Example.prepend_before(:each, :behaviour_type => :special)',
+          'Example.before(:each, :behaviour_type => :special)',
+          'Example.append_before(:each, :behaviour_type => :special)',
         ]
       end
 
       it "before callbacks are ordered from global to local" do
         fiddle = []
-        Behaviour.prepend_before(:all) { fiddle << "Behaviour.prepend_before(:all)" }
-        Behaviour.before(:all) { fiddle << "Behaviour.before(:all)" }
+        Example.prepend_before(:all) { fiddle << "Example.prepend_before(:all)" }
+        Example.before(:all) { fiddle << "Example.before(:all)" }
         @behaviour.prepend_before(:all) { fiddle << "prepend_before(:all)" }
         @behaviour.before(:all) { fiddle << "before(:all)" }
         @behaviour.prepend_before(:each) { fiddle << "prepend_before(:each)" }
@@ -338,8 +338,8 @@ module Spec
         @behaviour.it("test") {true}
         @behaviour.run(@reporter)
         fiddle.should == [
-          'Behaviour.prepend_before(:all)',
-          'Behaviour.before(:all)',
+          'Example.prepend_before(:all)',
+          'Example.before(:all)',
           'prepend_before(:all)',
           'before(:all)',
           'prepend_before(:each)',
@@ -356,8 +356,8 @@ module Spec
         @behaviour.append_after(:each) { fiddle << "append_after(:each)" }
         @behaviour.after(:all) { fiddle << "after(:all)" }
         @behaviour.append_after(:all) { fiddle << "append_after(:all)" }
-        Behaviour.after(:all) { fiddle << "Behaviour.after(:all)" }
-        Behaviour.append_after(:all) { fiddle << "Behaviour.append_after(:all)" }
+        Example.after(:all) { fiddle << "Example.after(:all)" }
+        Example.append_after(:all) { fiddle << "Example.append_after(:all)" }
         @behaviour.it("test") {true}
         @behaviour.run(@reporter)
         fiddle.should == [
@@ -365,8 +365,8 @@ module Spec
           'append_after(:each)',
           'after(:all)',
           'append_after(:all)',
-          'Behaviour.after(:all)',
-          'Behaviour.append_after(:all)'
+          'Example.after(:all)',
+          'Example.append_after(:all)'
         ]
       end
 
@@ -430,7 +430,7 @@ module Spec
           Spec::Runner.configuration.include(mod1, mod2)
           Spec::Runner.configuration.include(mod3, :behaviour_type => :cat)
 
-          behaviour = Class.new(Behaviour).describe("I'm special", :behaviour_type => :dog) do
+          behaviour = Class.new(Example).describe("I'm special", :behaviour_type => :dog) do
             it "does nothing"
           end.run(@reporter)
 
@@ -445,7 +445,7 @@ module Spec
       it "should include any predicate_matchers included using configuration" do
         $included_predicate_matcher_found = false
         Spec::Runner.configuration.predicate_matchers[:do_something] = :does_something?
-        Class.new(Behaviour).describe('example') do
+        Class.new(Example).describe('example') do
           it "should respond to do_something" do
             $included_predicate_matcher_found = respond_to?(:do_something)
           end
@@ -466,7 +466,7 @@ module Spec
           $included_module = nil
           Spec::Runner.configuration.mock_with mod
 
-          behaviour = Class.new(Behaviour).describe('example') do
+          behaviour = Class.new(Example).describe('example') do
             it "does nothing"
           end.run(@reporter)
 
@@ -477,26 +477,26 @@ module Spec
       end
     end
 
-    describe "Behaviour", ".remove_after" do
-      it_should_behave_like "Spec::DSL::Behaviour"
+    describe "Example", ".remove_after" do
+      it_should_behave_like "Spec::DSL::Example"
 
       it "should unregister a given after(:each) block" do
         after_all_ran = false
         @behaviour.it("example") {}
         proc = Proc.new { after_all_ran = true }
-        Behaviour.after(:each, &proc)
+        Example.after(:each, &proc)
         @behaviour.run(@reporter)
         after_all_ran.should be_true
 
         after_all_ran = false
-        Behaviour.remove_after(:each, &proc)
+        Example.remove_after(:each, &proc)
         @behaviour.run(@reporter)
         after_all_ran.should be_false
       end
     end
 
-    describe "Behaviour", ".include" do
-      it_should_behave_like "Spec::DSL::Behaviour"
+    describe "Example", ".include" do
+      it_should_behave_like "Spec::DSL::Example"
 
       it "should have accessible class methods from included module" do
         mod1_method_called = false
@@ -538,8 +538,8 @@ module Spec
       end
     end
 
-    describe "Behaviour", ".number_of_examples" do
-      it_should_behave_like "Spec::DSL::Behaviour"
+    describe "Example", ".number_of_examples" do
+      it_should_behave_like "Spec::DSL::Example"
 
       it "should count number of specs" do
         @behaviour.example_definitions.clear
@@ -551,8 +551,8 @@ module Spec
       end
     end
 
-    describe "Behaviour", ".matches?" do
-      it_should_behave_like "Spec::DSL::Behaviour"
+    describe "Example", ".matches?" do
+      it_should_behave_like "Spec::DSL::Example"
 
       it "should not match anything when there are no example_definitions" do
         @behaviour.should_not be_matches(['context'])
@@ -566,11 +566,11 @@ module Spec
       end
     end
 
-    describe "Behaviour", ".class_eval" do
-      it_should_behave_like "Spec::DSL::Behaviour"
+    describe "Example", ".class_eval" do
+      it_should_behave_like "Spec::DSL::Example"
 
       it "should allow constants to be defined" do
-        behaviour = Class.new(Behaviour).describe('example') do
+        behaviour = Class.new(Example).describe('example') do
           FOO = 1
           it "should reference FOO" do
             FOO.should == 1
@@ -580,7 +580,7 @@ module Spec
       end
 
       it "should understand module scoping" do
-        pending "Behaviour.new needs to create a class that is evaled"
+        pending "Example.new needs to create a class that is evaled"
         module Foo
           module Bar
             def self.loaded?
@@ -589,7 +589,7 @@ module Spec
           end
         end
 
-        Behaviour.new('example') do
+        Example.new('example') do
           include Foo
           it "should allow module scoping" do
             Bar.should be_loaded
@@ -601,14 +601,14 @@ module Spec
 
       it "should allow class variables to be defined" do
         pending "class_eval cannot be used. Only the class definition can be used. This may not be possible."
-        Behaviour.new('example') do
+        Example.new('example') do
           @@foo = 1
           it "should reference @@foo" do
             @@foo.should == 1
           end
         end.run(@reporter)
 
-        Behaviour.new('example2') do
+        Example.new('example2') do
           it "should not have access to other class variables" do
             proc do
               @@foo
@@ -619,7 +619,7 @@ module Spec
       end
     end
 
-    describe Behaviour, '.run functional example' do
+    describe Example, '.run functional example' do
       def count
         @count ||= 0
         @count = @count + 1
@@ -663,14 +663,14 @@ module Spec
       end
     end
 
-    describe Behaviour, "#initialize" do
+    describe Example, "#initialize" do
       the_behaviour = self
       it "should have copy of behaviour" do
-        the_behaviour.superclass.should == Behaviour
+        the_behaviour.superclass.should == Example
       end
     end
 
-    describe Behaviour, "#pending" do
+    describe Example, "#pending" do
       it "should support pending" do
         lambda {
           pending("something")
@@ -699,9 +699,9 @@ module Spec
       end
     end
 
-    describe Behaviour, "#run" do
+    describe Example, "#run" do
       it "should not run when there are no example_definitions" do
-        behaviour = Class.new(Behaviour).describe("Foobar") {}
+        behaviour = Class.new(Example).describe("Foobar") {}
         behaviour.example_definitions.should be_empty
 
         reporter = mock("Reporter")
@@ -710,17 +710,17 @@ module Spec
       end
     end
 
-    class BehaviourSubclass < Behaviour
+    class ExampleSubclass < Example
     end
 
-    describe "Behaviour", " subclass" do
+    describe "Example", " subclass" do
       it "should have access to the described_type" do
-        behaviour = Class.new(BehaviourSubclass).describe(ExampleDefinition){}
+        behaviour = Class.new(ExampleSubclass).describe(ExampleDefinition){}
         behaviour.send(:described_type).should == ExampleDefinition
       end
 
       it "should figure out its behaviour_type based on its name ()" do
-        behaviour = Class.new(BehaviourSubclass).describe(ExampleDefinition){}
+        behaviour = Class.new(ExampleSubclass).describe(ExampleDefinition){}
         behaviour.send(:behaviour_type).should == :subclass
       end
 

@@ -16,7 +16,7 @@ module Spec
       def it_should_behave_like(behaviour_description)
         behaviour = SharedBehaviour.find_shared_behaviour(behaviour_description)
         unless behaviour
-          raise RuntimeError.new("Shared Behaviour '#{behaviour_description}' can not be found")
+          raise RuntimeError.new("Shared Example '#{behaviour_description}' can not be found")
         end
         include(behaviour)
       end
@@ -95,7 +95,7 @@ module Spec
       end
 
       def set_description(*args)
-        unless self.class == Behaviour
+        unless self.class == Example
           args << {} unless Hash === args.last
           args.last[:behaviour_class] = self
         end

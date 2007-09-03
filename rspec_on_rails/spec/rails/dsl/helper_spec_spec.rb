@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 Spec::Runner.configuration.global_fixtures = :people
 
-describe "HelperBehaviour", :behaviour_type => :helper do
+describe "HelperExample", :behaviour_type => :helper do
   helper_name :explicit
   
   it "should have direct access to methods defined in helpers" do
@@ -15,7 +15,7 @@ describe "HelperBehaviour", :behaviour_type => :helper do
 end
 
 
-describe "HelperBehaviour#eval_erb", :behaviour_type => :helper do
+describe "HelperExample#eval_erb", :behaviour_type => :helper do
   helper_name :explicit
   
   it "should support methods that accept blocks" do
@@ -23,7 +23,7 @@ describe "HelperBehaviour#eval_erb", :behaviour_type => :helper do
   end
 end
 
-describe "HelperBehaviour.fixtures", :behaviour_type => :helper do
+describe "HelperExample.fixtures", :behaviour_type => :helper do
   helper_name :explicit
   fixtures :animals
 
@@ -38,7 +38,7 @@ describe "HelperBehaviour.fixtures", :behaviour_type => :helper do
   end  
 end
 
-describe "HelperBehaviour included modules", :behaviour_type => :helper do
+describe "HelperExample included modules", :behaviour_type => :helper do
   helpers = [
     ActionView::Helpers::ActiveRecordHelper,
     ActionView::Helpers::AssetTagHelper,
@@ -79,9 +79,9 @@ end
 module Spec
   module Rails
     module DSL
-      describe HelperBehaviour do
+      describe HelperExample do
         it "should tell you its behaviour_type is :helper" do
-          behaviour = Class.new(HelperBehaviour).describe("")
+          behaviour = Class.new(HelperExample).describe("")
           behaviour.behaviour_type.should == :helper
         end
       end

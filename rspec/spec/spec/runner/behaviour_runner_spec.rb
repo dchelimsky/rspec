@@ -12,7 +12,7 @@ module Spec
           attr_reader :behaviours
         end
 
-        @behaviour = Class.new(::Spec::DSL::Behaviour).describe("A Behaviour") do
+        @behaviour = Class.new(::Spec::DSL::Example).describe("A Behaviour") do
           it "runs 1" do
           end
           it "runs 2" do
@@ -51,7 +51,7 @@ module Spec
       end
 
       it "adds behaviour when behaviour has example_definitions and is not shared" do
-        @behaviour = Class.new(::Spec::DSL::Behaviour).describe("A Behaviour") do
+        @behaviour = Class.new(::Spec::DSL::Example).describe("A Behaviour") do
           it "uses this behaviour" do
           end
         end
@@ -64,7 +64,7 @@ module Spec
       end
 
       it "raises error when trying to add shared behaviour" do
-        @behaviour = ::Spec::DSL::SharedBehaviour.new("A Behaviour", :shared => true) do
+        @behaviour = ::Spec::DSL::SharedBehaviour.new("A Example", :shared => true) do
           it "does not use this behaviour" do
           end
         end
@@ -73,7 +73,7 @@ module Spec
           @runner.add_behaviour @behaviour
         end.should raise_error(
           ArgumentError,
-          "Cannot add Shared Behaviour to the BehaviourRunner"
+          "Cannot add Shared Example to the BehaviourRunner"
         )
 
         @runner.behaviours.should be_empty
@@ -88,7 +88,7 @@ module Spec
       end
 
       it "should dump even if Interrupt exception is occurred" do
-        behaviour = Class.new(::Spec::DSL::Behaviour).describe("behaviour") do
+        behaviour = Class.new(::Spec::DSL::Example).describe("behaviour") do
           it "no error" do
           end
 
@@ -165,7 +165,7 @@ module Spec
       end
 
       it "should pass its Description to the reporter" do
-        behaviour = Class.new(::Spec::DSL::Behaviour).describe("behaviour") do
+        behaviour = Class.new(::Spec::DSL::Example).describe("behaviour") do
           it "should" do
           end
         end
@@ -179,9 +179,9 @@ module Spec
         runner.run([], false)
       end
 
-      it "removes example_definitions not selected from Behaviour when options.examples is set" do
+      it "removes example_definitions not selected from Example when options.examples is set" do
         @options.examples << "behaviour should"
-        behaviour = Class.new(::Spec::DSL::Behaviour).describe("behaviour") do
+        behaviour = Class.new(::Spec::DSL::Example).describe("behaviour") do
           it "should" do
           end
           it "should not" do

@@ -4,7 +4,7 @@ module Spec
   module Mocks
     describe "calling :should_receive with an options hash" do
       before do
-        @behaviour = Class.new(::Spec::DSL::Behaviour).describe("My Behaviour")
+        @behaviour = Class.new(::Spec::DSL::Example).describe("My Behaviour")
       end
 
       it "should report the file and line submitted with :expected_from" do

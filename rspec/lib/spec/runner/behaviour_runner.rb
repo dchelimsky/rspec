@@ -12,7 +12,7 @@ module Spec
     
       def add_behaviour(behaviour)
         if behaviour.shared?
-          raise ArgumentError, "Cannot add Shared Behaviour to the BehaviourRunner"
+          raise ArgumentError, "Cannot add Shared Example to the BehaviourRunner"
         end
         @behaviours << behaviour
       end

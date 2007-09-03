@@ -3,7 +3,7 @@ module Spec
     module DSL
       # View Examples live in $RAILS_ROOT/spec/views/.
       #
-      # View Specs use Spec::Rails::DSL::ViewBehaviour,
+      # View Specs use Spec::Rails::DSL::ViewExample,
       # which provides access to views without invoking any of your controllers.
       # See Spec::Rails::Expectations::Matchers for information about specific
       # expectations that you can set on views.
@@ -23,7 +23,7 @@ module Spec
       #       end
       #     end
       #   end
-      class ViewBehaviour < FunctionalBehaviour
+      class ViewExample < FunctionalExample
         class << self
           def before_eval # :nodoc:
             super
@@ -103,7 +103,7 @@ module Spec
         #   render('/people/list', :helpers => [MyHelper, MyOtherHelper])
         #   render(:partial => '/people/_address')
         #
-        # See Spec::Rails::DSL::ViewBehaviour for more information.
+        # See Spec::Rails::DSL::ViewExample for more information.
         def render(*args)
           options = Hash === args.last ? args.pop : {}
           options[:template] = args.first.to_s unless args.empty?

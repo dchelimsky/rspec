@@ -6,7 +6,7 @@ module Spec
       before(:each) do
         @reporter = mock("reporter")
         @reporter.stub!(:example_started)
-        @behaviour = Class.new(Behaviour).describe("My Behaviour")
+        @behaviour = Class.new(Example).describe("My Behaviour")
       end
   
       def verify_error(error, message=nil)

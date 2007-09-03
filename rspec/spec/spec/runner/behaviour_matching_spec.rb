@@ -2,11 +2,11 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 module Spec
   module DSL
-    describe Behaviour do
+    describe Example do
 
       before(:each) do
         @formatter = Spec::Mocks::Mock.new("formatter")
-        @behaviour = Class.new(Behaviour).describe("behaviour")
+        @behaviour = Class.new(Example).describe("behaviour")
       end
 
       it "should retain examples that don't match" do

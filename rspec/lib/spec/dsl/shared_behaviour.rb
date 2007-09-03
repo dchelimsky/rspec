@@ -12,7 +12,7 @@ module Spec
             return
           end
           if found_behaviour
-            raise ArgumentError.new("Shared Behaviour '#{behaviour.description}' already exists")
+            raise ArgumentError.new("Shared Example '#{behaviour.description}' already exists")
           end
           shared_behaviours << behaviour
         end
@@ -23,7 +23,7 @@ module Spec
 
         def shared_behaviours
           # TODO - this needs to be global, or at least accessible from
-          # from subclasses of Behaviour in a centralized place. I'm not loving
+          # from subclasses of Example in a centralized place. I'm not loving
           # this as a solution, but it works for now.
           $shared_behaviours ||= []
         end

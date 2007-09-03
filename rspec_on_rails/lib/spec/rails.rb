@@ -23,7 +23,7 @@ module Spec
   # = Spec::Rails
   #
   # Spec::Rails (a.k.a. RSpec on Rails) is a Ruby on Rails plugin that allows you to drive the development
-  # of your RoR application using RSpec, a framework that aims to enable Behaviour Driven Development
+  # of your RoR application using RSpec, a framework that aims to enable Example Driven Development
   # in Ruby.
   # 
   # == Features

@@ -7,7 +7,7 @@ module Spec
         before(:each) do
           @io = StringIO.new
           @formatter = FailingExamplesFormatter.new(@io)
-          @behaviour = Class.new(::Spec::DSL::Behaviour).describe("My Behaviour")
+          @behaviour = Class.new(::Spec::DSL::Example).describe("My Behaviour")
         end
 
         it "should add example name for each failure" do

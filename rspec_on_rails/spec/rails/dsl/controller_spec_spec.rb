@@ -157,9 +157,9 @@ end
 module Spec
   module Rails
     module DSL
-      describe ControllerBehaviour do
+      describe ControllerExample do
         it "should tell you its behaviour_type is :controller" do
-          behaviour = Class.new(ControllerBehaviour).describe("")
+          behaviour = Class.new(ControllerExample).describe("")
           behaviour.behaviour_type.should == :controller
         end
       end

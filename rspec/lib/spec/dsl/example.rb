@@ -1,6 +1,6 @@
 module Spec
   module DSL
-    class Behaviour < ::Test::Unit::TestCase
+    class Example < ::Test::Unit::TestCase
       class << self
         extend BehaviourCallbacks
         include BehaviourApi
@@ -112,8 +112,8 @@ module Spec
 
         def before_each_proc(behaviour_type, &error_handler)
           parts = []
-          parts.push(*Behaviour.before_each_parts(nil))
-          parts.push(*Behaviour.before_each_parts(behaviour_type)) if behaviour_type
+          parts.push(*Example.before_each_parts(nil))
+          parts.push(*Example.before_each_parts(behaviour_type)) if behaviour_type
           parts.push(*before_each_parts(nil))
           parts.push(*before_each_parts(behaviour_type)) if behaviour_type
           CompositeProcBuilder.new(parts).proc(&error_handler)
@@ -121,8 +121,8 @@ module Spec
 
         def before_all_proc(behaviour_type, &error_handler)
           parts = []
-          parts.push(*Behaviour.before_all_parts(nil))
-          parts.push(*Behaviour.before_all_parts(behaviour_type)) if behaviour_type
+          parts.push(*Example.before_all_parts(nil))
+          parts.push(*Example.before_all_parts(behaviour_type)) if behaviour_type
           parts.push(*before_all_parts(nil))
           parts.push(*before_all_parts(behaviour_type)) if behaviour_type
           CompositeProcBuilder.new(parts).proc(&error_handler)
@@ -132,8 +132,8 @@ module Spec
           parts = []
           parts.push(*after_all_parts(behaviour_type)) if behaviour_type
           parts.push(*after_all_parts(nil))
-          parts.push(*Behaviour.after_all_parts(behaviour_type)) if behaviour_type
-          parts.push(*Behaviour.after_all_parts(nil))
+          parts.push(*Example.after_all_parts(behaviour_type)) if behaviour_type
+          parts.push(*Example.after_all_parts(nil))
           CompositeProcBuilder.new(parts).proc
         end
 
@@ -141,8 +141,8 @@ module Spec
           parts = []
           parts.push(*after_each_parts(behaviour_type)) if behaviour_type
           parts.push(*after_each_parts(nil))
-          parts.push(*Behaviour.after_each_parts(behaviour_type)) if behaviour_type
-          parts.push(*Behaviour.after_each_parts(nil))
+          parts.push(*Example.after_each_parts(behaviour_type)) if behaviour_type
+          parts.push(*Example.after_each_parts(nil))
           CompositeProcBuilder.new(parts).proc
         end
 

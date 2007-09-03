@@ -3,11 +3,11 @@ module Spec
     module DSL
       # Helper Specs live in $RAILS_ROOT/spec/helpers/.
       #
-      # Helper Specs use Spec::Rails::DSL::HelperBehaviour, which allows you to
+      # Helper Specs use Spec::Rails::DSL::HelperExample, which allows you to
       # include your Helper directly in the context and write specs directly
       # against its methods.
       #
-      # HelperBehaviour also includes the standard lot of ActionView::Helpers in case your
+      # HelperExample also includes the standard lot of ActionView::Helpers in case your
       # helpers rely on any of those.
       #
       # == Example
@@ -25,7 +25,7 @@ module Spec
       #       number_of_things.should == 37
       #     end
       #   end
-      class HelperBehaviour < FunctionalBehaviour
+      class HelperExample < FunctionalExample
         class << self
           def before_eval #:nodoc:
             super

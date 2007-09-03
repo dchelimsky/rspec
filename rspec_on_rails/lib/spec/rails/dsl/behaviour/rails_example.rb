@@ -3,7 +3,7 @@ ActionView::Base.cache_template_extensions = false
 module Spec
   module Rails
     module DSL
-      class RailsBehaviour < Spec::DSL::Behaviour
+      class RailsExample < Spec::DSL::Example
         class << self
           extend Forwardable
           attr_reader :test_case_class

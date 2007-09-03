@@ -96,7 +96,7 @@ module Spec
       # Prepends a global <tt>before</tt> block to all behaviours.
       # See #append_before for filtering semantics.
       def prepend_before(*args, &proc)
-        Behaviour.prepend_before(*args, &proc)
+        Example.prepend_before(*args, &proc)
       end
       # Appends a global <tt>before</tt> block to all behaviours.
       #
@@ -110,20 +110,20 @@ module Spec
       #   config.prepend_before(:behaviour_type => :farm)
       #
       def append_before(*args, &proc)
-        Behaviour.append_before(*args, &proc)
+        Example.append_before(*args, &proc)
       end
       alias_method :before, :append_before
 
       # Prepends a global <tt>after</tt> block to all behaviours.
       # See #append_before for filtering semantics.
       def prepend_after(*args, &proc)
-        Behaviour.prepend_after(*args, &proc)
+        Example.prepend_after(*args, &proc)
       end
       alias_method :after, :prepend_after
       # Appends a global <tt>after</tt> block to all behaviours.
       # See #append_before for filtering semantics.
       def append_after(*args, &proc)
-        Behaviour.append_after(*args, &proc)
+        Example.append_after(*args, &proc)
       end
 
     private

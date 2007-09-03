@@ -4,7 +4,7 @@ module Spec
 
       class << self
         BEHAVIOUR_CLASSES = {
-          :default => Spec::DSL::Behaviour,
+          :default => Spec::DSL::Example,
           :shared => Spec::DSL::SharedBehaviour
         }
         

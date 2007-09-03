@@ -1,7 +1,7 @@
 module Spec
   module Rails
     module DSL
-      class FunctionalBehaviour < RailsBehaviour
+      class FunctionalExample < RailsExample
         include ActionController::TestProcess
         include ActionController::Assertions
 

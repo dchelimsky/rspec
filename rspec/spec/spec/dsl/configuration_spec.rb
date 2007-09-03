@@ -45,8 +45,8 @@ module Spec
       end
 
       [:prepend_before, :append_before, :prepend_after, :append_after].each do |m|
-        it "should delegate ##{m} to Behaviour class" do
-          Behaviour.should_receive(m).with(:whatever)
+        it "should delegate ##{m} to Example class" do
+          Example.should_receive(m).with(:whatever)
           @config.__send__(m, :whatever)
         end
       end

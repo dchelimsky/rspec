@@ -1,5 +1,5 @@
 module Kernel
-  # Creates and registers an instance of a Spec::DSL::Behaviour (or a subclass).
+  # Creates and registers an instance of a Spec::DSL::Example (or a subclass).
   # The instantiated behaviour class depends on the directory of the file
   # calling this method. For example, Spec::Rails will use different
   # classes for specs living in <tt>spec/models</tt>, <tt>spec/helpers</tt>, 
@@ -15,7 +15,7 @@ module Kernel
   # block.
   #
   # See Spec::DSL::BehaviourFactory#add_behaviour_class for details about 
-  # how to register special Spec::DSL::Behaviour implementations.
+  # how to register special Spec::DSL::Example implementations.
   #
   def describe(*args, &block)
     raise ArgumentError if args.empty?
