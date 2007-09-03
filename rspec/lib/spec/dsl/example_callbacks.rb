@@ -1,7 +1,7 @@
 module Spec
   module DSL
     # See http://rspec.rubyforge.org/documentation/before_and_after.html
-    module BehaviourCallbacks
+    module ExampleCallbacks
       def prepend_before(*args, &block)
         scope, options = scope_and_options(*args)
         add(scope, options, :before, :unshift, &block)

@@ -2,7 +2,7 @@ module Spec
   module DSL
     class Example < ::Test::Unit::TestCase
       class << self
-        extend BehaviourCallbacks
+        extend ExampleCallbacks
         include BehaviourApi
         public :include
         attr_reader :dry_run, :reverse, :timeout, :specified_examples

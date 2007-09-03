@@ -1,7 +1,7 @@
 module Spec
   module DSL
     module BehaviourApi
-      include BehaviourCallbacks
+      include ExampleCallbacks
       attr_accessor :description
 
       def describe(*args, &behaviour_block)
