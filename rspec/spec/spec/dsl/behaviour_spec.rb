@@ -21,10 +21,22 @@ module Spec
         Behaviour.clear_before_and_after!
       end
     end
-    
+
+    describe "Behaviour", ".suite" do
+      it_should_behave_like "Spec::DSL::Behaviour"
+
+      it "returns an empty TestSuite when there is no description" do
+        Behaviour.description.should be_nil
+        Behaviour.suite.should be_instance_of(::Test::Unit::TestSuite)
+        Behaviour.suite.tests.should be_empty
+      end
+
+      it "returns a TestSuite with Examples"
+    end
+
     describe "Behaviour", ".description" do
       it_should_behave_like "Spec::DSL::Behaviour"
-      
+
       it "should return the same description instance for each call" do
         @behaviour.description.should eql(@behaviour.description)
       end
@@ -32,7 +44,7 @@ module Spec
 
     describe "Behaviour", ".run" do
       it_should_behave_like "Spec::DSL::Behaviour"
-      
+
       it "should not run before(:all) or after(:all) on dry run" do
         before_all_ran = false
         after_all_ran = false
@@ -467,7 +479,7 @@ module Spec
 
     describe "Behaviour", ".remove_after" do
       it_should_behave_like "Spec::DSL::Behaviour"
-      
+
       it "should unregister a given after(:each) block" do
         after_all_ran = false
         @behaviour.it("example") {}
@@ -536,7 +548,7 @@ module Spec
         @behaviour.it("three") {}
         @behaviour.it("four") {}
         @behaviour.number_of_examples.should == 4
-      end      
+      end
     end
 
     describe "Behaviour", ".matches?" do
@@ -551,7 +563,7 @@ module Spec
         example.should_receive(:matches?).and_return(true)
         @behaviour.stub!(:example_definitions).and_return([example])
         @behaviour.should be_matches(['jalla'])
-      end      
+      end
     end
 
     describe "Behaviour", ".class_eval" do
@@ -604,7 +616,7 @@ module Spec
           end
         end.run(@reporter)
         @reporter.dump.should == 0
-      end      
+      end
     end
 
     describe Behaviour, '.run functional example' do

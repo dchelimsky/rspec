@@ -1,4 +1,7 @@
 require "forwardable"
+require "test/unit"
+require "test/unit/testresult"
+Test::Unit.run = true
 
 require 'spec/extensions'
 require 'spec/version'

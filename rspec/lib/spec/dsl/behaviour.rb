@@ -1,11 +1,17 @@
 module Spec
   module DSL
-    class Behaviour
+    class Behaviour < ::Test::Unit::TestCase
       class << self
         extend BehaviourCallbacks
         include BehaviourApi
         public :include
         attr_reader :dry_run, :reverse, :timeout, :specified_examples
+
+        def suite
+          return ::Test::Unit::TestSuite.new("Rspec Description Suite") unless description
+          suite = ::Test::Unit::TestSuite.new(description.description)
+          suite
+        end
 
         def run(reporter, params={})
           initialize_run_state(params)
@@ -183,6 +189,7 @@ module Spec
         end
         @rspec_behaviour = behaviour
         @rspec_definition = definition
+        @_result = Test::Unit::TestResult.new
       end
 
       def violated(message="")
