@@ -3,7 +3,7 @@ require 'spec/ui/watir/matchers'
 module Spec
   module Ui
     module Watir
-      class WatirBehaviour < Spec::DSL::Example
+      class WatirExample < Spec::DSL::Example
         def before_eval # :nodoc:
           include Spec::Matchers::Watir
           begin
