@@ -25,6 +25,13 @@ module Spec
         object_stub
       end
       
+      # Shortcut for creating a mock object that will return itself in response
+      # to any message it receives that it hasn't been explicitly instructed
+      # to respond to.
+      def stub_everything(name = 'stub')
+        mock(name, :null_object => true)
+      end
+
     end
   end
 end
