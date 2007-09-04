@@ -4,11 +4,19 @@ module Spec
   module Rails
     module DSL
       class RailsExample < Spec::DSL::Example
+        cattr_accessor(
+          :fixture_path,
+          :use_transactional_fixtures,
+          :use_instantiated_fixtures,
+          :global_fixtures
+        )
+        
         class << self
           extend Forwardable
-          attr_reader :test_case_class
 
           def configure
+            self.fixture_table_names = []
+            self.fixture_class_names = {}
             self.use_transactional_fixtures = Spec::Runner.configuration.use_transactional_fixtures
             self.use_instantiated_fixtures = Spec::Runner.configuration.use_instantiated_fixtures
             self.fixture_path = Spec::Runner.configuration.fixture_path
@@ -16,26 +24,10 @@ module Spec
             self.fixtures(self.global_fixtures) if self.global_fixtures
           end
 
-          def_delegators(
-            :@test_case_class,
-            :use_transactional_fixtures,
-            :use_transactional_fixtures=,
-            :use_instantiated_fixtures,
-            :use_instantiated_fixtures=,
-            :fixture_path,
-            :fixture_path=,
-            :global_path,
-            :global_path=,
-            :fixtures,
-            :global_fixtures,
-            :global_fixtures=
-          )
-
           def before_eval #:nodoc:
             super
-            @test_case_class = Class.new(Spec::Rails::DSL::RailsTestCase)
-            prepend_before {@test_case.setup}
-            append_after {@test_case.teardown}
+            prepend_before {setup}
+            append_after {teardown}
             configure
           end          
         end
@@ -46,7 +38,6 @@ module Spec
 
         def initialize(behaviour, example) #:nodoc:
           super
-          @test_case = test_case_class.new
           def self.method_missing(method_name, *args, &block)
             return ::Spec::Matchers::Be.new(method_name, *args) if method_name.starts_with?("be_")
             return ::Spec::Matchers::Has.new(method_name, *args) if method_name.starts_with?("have_")
@@ -54,9 +45,6 @@ module Spec
             super
           end
         end
-
-        def_delegators  :@rspec_behaviour,
-                        :test_case_class
 
         @@model_id = 1000
         # Creates a mock object instance for a +model_class+ with common

@@ -28,9 +28,8 @@ module Spec
       class HelperExample < FunctionalExample
         class << self
           def before_eval #:nodoc:
-            super
             prepend_before {helper_setup}
-            append_after {@test_case.teardown}
+            append_after {teardown}
             configure
           end
 

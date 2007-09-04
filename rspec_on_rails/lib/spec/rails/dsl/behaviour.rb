@@ -1,7 +1,6 @@
 dir = File.expand_path(File.join(File.dirname(__FILE__), '/behaviour'))
 
 require "#{dir}/render_observer"
-require "#{dir}/rails_test_case"
 
 require "#{dir}/rails_example"
 require "#{dir}/model_example"

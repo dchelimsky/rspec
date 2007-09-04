@@ -26,9 +26,8 @@ module Spec
       class ViewExample < FunctionalExample
         class << self
           def before_eval # :nodoc:
-            super
             prepend_before {view_setup}
-            append_after {@test_case.teardown}
+            append_after {teardown}
             configure
           end          
         end

@@ -7,7 +7,7 @@ module Spec
 
         attr_reader :request, :response
         def functional_setup #:nodoc:
-          @test_case.setup
+          setup
           @controller_class = Object.path2class @controller_class_name
           raise "Can't determine controller class for #{@controller_class_name}" if @controller_class.nil?
 

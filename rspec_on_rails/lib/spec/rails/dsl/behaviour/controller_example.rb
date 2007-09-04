@@ -64,9 +64,8 @@ module Spec
       class ControllerExample < FunctionalExample
         class << self
           def before_eval # :nodoc:
-            super
             prepend_before {controller_setup}
-            append_after {@test_case.teardown}
+            append_after {teardown}
             configure
           end
 

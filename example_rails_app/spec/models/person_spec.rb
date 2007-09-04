@@ -37,7 +37,7 @@ end
 
 describe Person, "with a name" do
   fixtures :people
-  
+
   before(:each) do
     @person = Person.new(:name => "CheliDaveSlak and the Fabulous Baker Boy")
   end
