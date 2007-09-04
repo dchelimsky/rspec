@@ -88,7 +88,7 @@ module Spec
         options = parse(args, err, out, warn_if_no_files)
         # Some exit points in parse (--generate-options, --drb) don't return the options, 
         # but hand over control. In that case we don't want to continue.
-        return nil unless options.is_a?(Options)
+        return unless options
         options.configure
         options.behaviour_runner
       end
@@ -133,7 +133,8 @@ module Spec
           opts.rspec_on(:dry_run) {options.dry_run = true}
 
           opts.rspec_on(:options_file) do |options_file|
-            return parse_options_file(options_file, out, err, args_copy, warn_if_no_files)
+            parse_options_file(options_file, out, err, args_copy, warn_if_no_files)
+            return nil
           end
 
           opts.rspec_on(:generate_options) do |options_file|
@@ -145,7 +146,8 @@ module Spec
           end
 
           opts.rspec_on(:drb) do
-            return parse_drb(args_copy, out, err, warn_if_no_files)
+            parse_drb(args_copy, out, err, warn_if_no_files)
+            return nil
           end
 
           opts.rspec_on(:version) {parse_version(out)}
