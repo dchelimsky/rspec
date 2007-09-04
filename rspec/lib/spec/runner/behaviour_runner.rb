@@ -66,7 +66,9 @@ module Spec
 
       def run_behaviours
         @behaviours.each do |behaviour|
-          behaviour.run(@options.reporter, @options.behaviour_runner_params)
+          suite = behaviour.suite
+          suite.behaviour_runner_params = @options.behaviour_runner_params
+          suite.run(@options.reporter)
         end
       end
 

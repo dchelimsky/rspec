@@ -145,12 +145,12 @@ module Spec
         @options.reporter = reporter
 
         runner = Spec::Runner::BehaviourRunner.new(@options)
-        b1 = mock("b1")
+        b1 = Class.new(Spec::DSL::Example)
         b1.should_receive(:number_of_examples).and_return(1)
         b1.should_receive(:shared?).and_return(false)
         b1.should_receive(:set_sequence_numbers).with(12, true).and_return(18)
 
-        b2 = mock("b2")
+        b2 = Class.new(Spec::DSL::Example)
         b2.should_receive(:number_of_examples).and_return(2)
         b2.should_receive(:shared?).and_return(false)
         b2.should_receive(:set_sequence_numbers).with(0, true).and_return(12)
