@@ -8,8 +8,8 @@ module Spec
         attr_reader :dry_run, :reverse, :timeout, :specified_examples
 
         def suite
-          return ::Test::Unit::TestSuite.new("Rspec Description Suite") unless description
-          suite = ::Test::Unit::TestSuite.new(description.description)
+          return ExampleSuite.new("Rspec Description Suite") unless description
+          suite = ExampleSuite.new(description.description)
           suite
         end
 

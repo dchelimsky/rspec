@@ -25,13 +25,13 @@ module Spec
     describe "Example", ".suite" do
       it_should_behave_like "Spec::DSL::Example"
 
-      it "returns an empty TestSuite when there is no description" do
+      it "returns an empty ExampleSuite when there is no description" do
         Example.description.should be_nil
-        Example.suite.should be_instance_of(::Test::Unit::TestSuite)
+        Example.suite.should be_instance_of(ExampleSuite)
         Example.suite.tests.should be_empty
       end
 
-      it "returns a TestSuite with Examples"
+      it "returns an ExampleSuite with Examples"
     end
 
     describe "Example", ".description" do
