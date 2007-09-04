@@ -1,16 +1,16 @@
 module Spec
   module DSL
     class ExampleSuite < ::Test::Unit::TestSuite
-      attr_accessor :behaviour_runner_params
+      attr_accessor :runner_options
 
       def initialize(name, behaviour)
         super name
         @behaviour = behaviour
-        @behaviour_runner_params = {}
+        @runner_options = nil
       end
 
       def run(result, &progress_block)
-        @behaviour.run(result, behaviour_runner_params)
+        @behaviour.run(runner_options.reporter, runner_options.behaviour_runner_params)
       end
     end
   end
