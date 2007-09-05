@@ -18,7 +18,6 @@ module Spec
       
       attr_accessor(
         :backtrace_tweaker,
-        :colour,
         :context_lines,
         :diff_format,
         :differ_class,
@@ -37,6 +36,7 @@ module Spec
         :runner_arg,
         :behaviour_runner
       )
+      attr_reader :colour
 
       def initialize(error_stream, output_stream)
         @error_stream = error_stream
@@ -46,6 +46,15 @@ module Spec
         @formatters = []
         @colour = false
         @dry_run = false
+      end
+      
+      def colour=(colour)
+        @colour = colour
+        begin; \
+          require 'Win32/Console/ANSI' if @colour && PLATFORM =~ /win32/; \
+        rescue LoadError ; \
+          raise "You must gem install win32console to use colour on Windows" ; \
+        end
       end
 
       def behaviour_runner_params
@@ -73,7 +82,6 @@ module Spec
 
       def configure_formatters
         @formatters.each do |formatter|
-          formatter.colour = @colour if formatter.respond_to?(:colour=)
           formatter.dry_run = @dry_run if formatter.respond_to?(:dry_run=)
         end
       end

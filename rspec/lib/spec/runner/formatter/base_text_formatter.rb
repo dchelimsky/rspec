@@ -22,7 +22,6 @@ module Spec
           else
             @output = where
           end
-          @colour = false
           @dry_run = false
           @snippet_extractor = SnippetExtractor.new
           @pending_examples = []
@@ -32,15 +31,6 @@ module Spec
           @pending_examples << ["#{behaviour_name} #{example_name}", message]
         end
         
-        def colour=(colour)
-          @colour = colour
-          begin; \
-            require 'Win32/Console/ANSI' if @colour && PLATFORM =~ /win32/; \
-          rescue LoadError ; \
-            raise "You must gem install win32console to use colour on Windows" ; \
-          end
-        end
-
         def dump_failure(counter, failure)
           @output.puts
           @output.puts "#{counter.to_s})"
@@ -110,7 +100,7 @@ module Spec
         end
 
         def colour(text, colour_code)
-          return text unless @colour && output_to_tty?
+          return text unless @options.colour && output_to_tty?
           "#{colour_code}#{text}\e[0m"
         end
 

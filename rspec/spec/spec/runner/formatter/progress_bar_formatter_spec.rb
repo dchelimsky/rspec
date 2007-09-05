@@ -36,28 +36,28 @@ behaviour example (message)
 
         it "should push green dot for passing spec" do
           @io.should_receive(:tty?).and_return(true)
-          @formatter.colour = true
+          @options.colour = true
           @formatter.example_passed("spec")
           @io.string.should == "\e[32m.\e[0m"
         end
 
         it "should push red F for failure spec" do
           @io.should_receive(:tty?).and_return(true)
-          @formatter.colour = true
+          @options.colour = true
           @formatter.example_failed("spec", 98, Reporter::Failure.new("c s", Spec::Expectations::ExpectationNotMetError.new))
           @io.string.should eql("\e[31mF\e[0m")
         end
 
         it "should push magenta F for error spec" do
           @io.should_receive(:tty?).and_return(true)
-          @formatter.colour = true
+          @options.colour = true
           @formatter.example_failed("spec", 98, Reporter::Failure.new("c s", RuntimeError.new))
           @io.string.should eql("\e[35mF\e[0m")
         end
 
         it "should push blue F for fixed pending spec" do
           @io.should_receive(:tty?).and_return(true)
-          @formatter.colour = true
+          @options.colour = true
           @formatter.example_failed("spec", 98, Reporter::Failure.new("c s", Spec::DSL::PendingFixedError.new))
           @io.string.should eql("\e[34mF\e[0m")
         end
