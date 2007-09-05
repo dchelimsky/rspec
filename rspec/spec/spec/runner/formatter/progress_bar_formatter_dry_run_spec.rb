@@ -6,7 +6,8 @@ module Spec
       describe ProgressBarFormatter, "dry run" do
         before(:each) do
           @io = StringIO.new
-          @formatter = ProgressBarFormatter.new(@io)
+          @options = Options.new(StringIO.new, @io)
+          @formatter = @options.create_formatter(ProgressBarFormatter)
           @formatter.dry_run = true
         end
       

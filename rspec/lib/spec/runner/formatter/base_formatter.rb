@@ -3,7 +3,8 @@ module Spec
     module Formatter
       # Baseclass for formatters that implements all required methods as no-ops. 
       class BaseFormatter
-        def initialize(where)
+        def initialize(options, where)
+          @options = options
           @where = where
         end
         

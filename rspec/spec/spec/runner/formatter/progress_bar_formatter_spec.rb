@@ -5,8 +5,9 @@ module Spec
     module Formatter
       describe ProgressBarFormatter do
         before(:each) do
+          @options = Options.new(StringIO.new, StringIO.new)
           @io = StringIO.new
-          @formatter = ProgressBarFormatter.new(@io)
+          @formatter = ProgressBarFormatter.new(@options, @io)
         end
 
         it "should produce line break on start dump" do
@@ -91,9 +92,10 @@ EOE
       
       describe "ProgressBarFormatter outputting to custom out" do
         before(:each) do
+          @options = Options.new(StringIO.new, StringIO.new)
           @out = mock("out")
           @out.stub!(:puts)
-          @formatter = ProgressBarFormatter.new(@out)
+          @formatter = ProgressBarFormatter.new(@options, @out)
           @formatter.class.send :public, :output_to_tty?
         end
 

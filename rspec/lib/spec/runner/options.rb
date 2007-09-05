@@ -114,6 +114,12 @@ module Spec
         end
       end
 
+      def create_formatter(formatter_type, where=@output_stream)
+        formatter = formatter_type.new(self, where)
+        @formatters << formatter
+        formatter
+      end
+
       def parse_format(format_arg)
         format, where = split_at_colon(format_arg)
         # This funky regexp checks whether we have a FILE_NAME or not
@@ -124,7 +130,7 @@ module Spec
         end
 
         formatter_type = BUILT_IN_FORMATTERS[format] || load_class(format, 'formatter', '--format')
-        @formatters << formatter_type.new(where)
+        create_formatter(formatter_type, where)
       end
 
       def parse_require(req)

@@ -10,8 +10,8 @@ module Spec
         # Creates a new instance that will write to +where+. If +where+ is a
         # String, output will be written to the File with that name, otherwise
         # +where+ is exected to be an IO (or an object that responds to #puts and #write).
-        def initialize(where)
-          super(where)
+        def initialize(options, where)
+          super
           if where.is_a?(String)
             @output = File.open(where, 'w')
           elsif where == STDOUT

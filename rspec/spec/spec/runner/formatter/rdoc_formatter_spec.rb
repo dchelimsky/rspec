@@ -6,7 +6,8 @@ module Spec
       describe "RdocFormatter" do
         before(:each) do
           @io = StringIO.new
-          @formatter = RdocFormatter.new(@io)
+          @options = Options.new(StringIO.new, @io)
+          @formatter = @options.create_formatter(RdocFormatter)
           @formatter.dry_run = true
           @behaviour = Class.new(::Spec::DSL::Example).describe("My Behaviour")
         end

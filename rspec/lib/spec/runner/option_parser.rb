@@ -155,7 +155,7 @@ module Spec
         end
 
         if @options.formatters.empty?
-          @options.formatters << Formatter::ProgressBarFormatter.new(@out_stream)
+          @options.create_formatter(Formatter::ProgressBarFormatter)
         end
 
         @options

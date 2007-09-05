@@ -6,7 +6,7 @@ module Spec
       class HtmlFormatter < BaseTextFormatter
         include ERB::Util # for the #h method
         
-        def initialize(output)
+        def initialize(options, output)
           super
           @current_behaviour_number = 0
           @current_example_number = 0
