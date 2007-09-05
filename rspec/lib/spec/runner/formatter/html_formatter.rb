@@ -104,7 +104,7 @@ module Spec
         end
 
         def dump_summary(duration, example_count, failure_count, pending_count)
-          if @dry_run
+          if dry_run?
             totals = "This was a dry-run"
           else
             totals = "#{example_count} example#{'s' unless example_count == 1}, #{failure_count} failure#{'s' unless failure_count == 1}"

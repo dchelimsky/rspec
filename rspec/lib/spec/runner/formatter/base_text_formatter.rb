@@ -5,8 +5,6 @@ module Spec
       # non-text based ones too - just ignore the +output+ constructor
       # argument.
       class BaseTextFormatter < BaseFormatter
-        attr_writer :dry_run
-        
         # Creates a new instance that will write to +where+. If +where+ is a
         # String, output will be written to the File with that name, otherwise
         # +where+ is exected to be an IO (or an object that responds to #puts and #write).
@@ -22,7 +20,6 @@ module Spec
           else
             @output = where
           end
-          @dry_run = false
           @snippet_extractor = SnippetExtractor.new
           @pending_examples = []
         end
@@ -50,7 +47,7 @@ module Spec
         end
       
         def dump_summary(duration, example_count, failure_count, pending_count)
-          return if @dry_run
+          return if dry_run?
           @output.puts
           @output.puts "Finished in #{duration} seconds"
           @output.puts
@@ -94,13 +91,21 @@ module Spec
         end
       
       protected
+
+        def colour?
+          @options.colour ? true : false
+        end
+
+        def dry_run?
+          @options.dry_run ? true : false
+        end
       
         def backtrace_line(line)
           line.sub(/\A([^:]+:\d+)$/, '\\1:')
         end
 
         def colour(text, colour_code)
-          return text unless @options.colour && output_to_tty?
+          return text unless colour? && output_to_tty?
           "#{colour_code}#{text}\e[0m"
         end
 

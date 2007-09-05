@@ -8,7 +8,7 @@ module Spec
           @io = StringIO.new
           @options = Options.new(StringIO.new, @io)
           @formatter = @options.create_formatter(RdocFormatter)
-          @formatter.dry_run = true
+          @options.dry_run = true
           @behaviour = Class.new(::Spec::DSL::Example).describe("My Behaviour")
         end
 

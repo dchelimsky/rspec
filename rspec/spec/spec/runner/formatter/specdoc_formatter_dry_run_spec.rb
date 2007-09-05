@@ -8,8 +8,9 @@ describe "SpecdocFormatterDryRun" do
       @io = StringIO.new
       @options = Options.new(StringIO.new, @io)
       @formatter = @options.create_formatter(SpecdocFormatter)
-      @formatter.dry_run = true
+      @options.dry_run = true
     end
+    
     it "should not produce summary on dry run" do
       @formatter.dump_summary(3, 2, 1, 0)
       @io.string.should eql("")

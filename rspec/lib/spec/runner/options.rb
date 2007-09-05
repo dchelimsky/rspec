@@ -67,7 +67,6 @@ module Spec
       end
 
       def create_behaviour_runner
-        configure_formatters
         create_reporter
         configure_differ        
         return nil if @generate
@@ -77,12 +76,6 @@ module Spec
           runner_type.new(self, arg)
         else
           BehaviourRunner.new(self)
-        end
-      end
-
-      def configure_formatters
-        @formatters.each do |formatter|
-          formatter.dry_run = @dry_run if formatter.respond_to?(:dry_run=)
         end
       end
 

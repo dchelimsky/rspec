@@ -159,14 +159,6 @@ module Spec
         @options.create_behaviour_runner
         @options.reporter.should === reporter
       end
-
-      it "sets dry_run on the formatters" do
-        @options.colour = true
-        @options.dry_run = true
-        formatter = @options.create_formatter(::Spec::Runner::Formatter::BaseTextFormatter)
-        formatter.should_receive(:dry_run=).with(true)
-        @options.create_behaviour_runner
-      end
     end
   end
 end

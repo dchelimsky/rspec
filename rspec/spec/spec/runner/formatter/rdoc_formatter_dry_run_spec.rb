@@ -8,7 +8,7 @@ describe "RdocFormatterDryRun" do
       @io = StringIO.new
       @options = Options.new(StringIO.new, @io)
       @formatter = @options.create_formatter(RdocFormatter)
-      @formatter.dry_run = true
+      @options.dry_run = true
     end
 
     it "should not produce summary on dry run" do
