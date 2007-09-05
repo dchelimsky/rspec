@@ -4,15 +4,15 @@ describe "OptionParser" do
   before(:each) do
     @out = StringIO.new
     @err = StringIO.new
-    @parser = Spec::Runner::OptionParser.new
+    @parser = Spec::Runner::OptionParser.new(@err, @out, true)
   end
 
   def parse(args)
-    @parser.parse(args, @err, @out, true)
+    @parser.parse(args)
   end
 
   def behaviour_runner(args)
-    @parser.create_behaviour_runner(args, @err, @out, true)
+    Spec::Runner::OptionParser.create_behaviour_runner(args, @err, @out, true)
   end
 
   it "should accept dry run option" do
@@ -339,11 +339,11 @@ describe "OptionParser" do
   end
 
   it "should return the correct default behaviour runner" do
-    @parser.create_behaviour_runner([], @err, @out, true).should be_instance_of(Spec::Runner::BehaviourRunner)
+    Spec::Runner::OptionParser.create_behaviour_runner([], @err, @out, true).should be_instance_of(Spec::Runner::BehaviourRunner)
   end
 
   it "should return the correct default behaviour runner" do
-    @parser.create_behaviour_runner(["--runner", "Custom::BehaviourRunner"], @err, @out, true).should be_instance_of(Custom::BehaviourRunner)
+    Spec::Runner::OptionParser.create_behaviour_runner(["--runner", "Custom::BehaviourRunner"], @err, @out, true).should be_instance_of(Custom::BehaviourRunner)
   end
 
 end

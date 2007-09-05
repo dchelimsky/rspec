@@ -11,7 +11,7 @@ module Spec
       # should be printed to +err+ in case no files are specified.
       def self.run(argv, err, out, exit=true, warn_if_no_files=true)
         old_behaviour_runner = defined?($behaviour_runner) ? $behaviour_runner : nil
-        $behaviour_runner = OptionParser.new.create_behaviour_runner(argv, err, out, warn_if_no_files)
+        $behaviour_runner = OptionParser.create_behaviour_runner(argv, err, out, warn_if_no_files)
         return if $behaviour_runner.nil? # This is the case if we use --drb
 
         $behaviour_runner.run(argv, exit)

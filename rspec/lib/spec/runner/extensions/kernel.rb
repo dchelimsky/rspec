@@ -43,7 +43,7 @@ private
   def behaviour_runner
     # TODO: Figure out a better way to get this considered "covered" and keep this statement on multiple lines 
     unless $behaviour_runner; \
-      $behaviour_runner = ::Spec::Runner::OptionParser.new.create_behaviour_runner(ARGV.dup, STDERR, STDOUT, false); \
+      $behaviour_runner = ::Spec::Runner::OptionParser.create_behaviour_runner(ARGV.dup, STDERR, STDOUT, false); \
       at_exit { $behaviour_runner.run(nil, false) }; \
     end
     $behaviour_runner

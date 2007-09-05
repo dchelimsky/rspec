@@ -7,7 +7,7 @@ module Spec
     module Runner
       class << self
         def run_options
-          @run_options ||= ::Spec::Runner::OptionParser.new.parse(Array.new(ARGV), $stderr, $stdout, false)
+          @run_options ||= ::Spec::Runner::OptionParser.parse(Array.new(ARGV), $stderr, $stdout, false)
         end
         
         def story_runner
