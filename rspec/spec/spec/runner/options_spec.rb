@@ -152,12 +152,9 @@ module Spec
         @options.create_behaviour_runner
       end
 
-      it "creates a Reporter" do
-        formatter = @options.create_formatter(::Spec::Runner::Formatter::BaseFormatter)
-        reporter = Reporter.new(@formatters, @backtrace_tweaker)
-        Reporter.should_receive(:new).with(@options.formatters, @options.backtrace_tweaker).and_return(reporter)
-        @options.create_behaviour_runner
-        @options.reporter.should === reporter
+      it "has a Reporter" do
+        @options.reporter.should be_instance_of(Reporter)
+        @options.reporter.options.should === @options
       end
     end
   end

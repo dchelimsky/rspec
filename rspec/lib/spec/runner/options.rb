@@ -46,6 +46,7 @@ module Spec
         @formatters = []
         @colour = false
         @dry_run = false
+        @reporter = Reporter.new(self)
       end
       
       def colour=(colour)
@@ -67,7 +68,6 @@ module Spec
       end
 
       def create_behaviour_runner
-        create_reporter
         configure_differ        
         return nil if @generate
         @behaviour_runner = if @runner_arg
@@ -77,10 +77,6 @@ module Spec
         else
           BehaviourRunner.new(self)
         end
-      end
-
-      def create_reporter
-        @reporter = Reporter.new(@formatters, @backtrace_tweaker)
       end
 
       def configure_differ

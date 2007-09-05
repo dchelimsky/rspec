@@ -11,7 +11,10 @@ module Spec
 
     describe Example, :shared => true do
       before :each do
-        @reporter = FakeReporter.new(mock("formatter", :null_object => true), mock("backtrace_tweaker", :null_object => true))
+        @options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
+        @options.formatters << mock("formatter", :null_object => true)
+        @options.backtrace_tweaker = mock("backtrace_tweaker", :null_object => true)
+        @reporter = FakeReporter.new(@options)
         @behaviour = Class.new(Example).describe("example") do
           it "does nothing"
         end
