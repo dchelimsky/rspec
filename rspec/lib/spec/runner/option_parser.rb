@@ -14,8 +14,7 @@ module Spec
           # Some exit points in parse (--generate-options, --drb) don't return the options,
           # but hand over control. In that case we don't want to continue.
           return unless options
-          options.configure
-          options.behaviour_runner
+          options.create_behaviour_runner
         end
       end
 

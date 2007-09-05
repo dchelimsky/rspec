@@ -149,7 +149,7 @@ module Spec
         Spec::Expectations.should_receive(:differ=).with(anything()).and_return do |arg|
           arg.class.should == Spec::Expectations::Differs::Default
         end
-        @options.configure
+        @options.create_behaviour_runner
       end
 
       it "creates a Reporter" do
@@ -157,7 +157,7 @@ module Spec
         @options.formatters << formatter
         reporter = Reporter.new(@formatters, @backtrace_tweaker)
         Reporter.should_receive(:new).with(@options.formatters, @options.backtrace_tweaker).and_return(reporter)
-        @options.configure
+        @options.create_behaviour_runner
         @options.reporter.should === reporter
       end
 
@@ -168,7 +168,7 @@ module Spec
         formatter.should_receive(:colour=).with(true)
         formatter.should_receive(:dry_run=).with(true)
         @options.formatters << formatter
-        @options.configure
+        @options.create_behaviour_runner
       end
     end
   end

@@ -48,13 +48,6 @@ module Spec
         @dry_run = false
       end
 
-      def configure
-        configure_formatters
-        create_reporter
-        configure_differ
-        create_behaviour_runner
-      end
-
       def behaviour_runner_params
         {
           :dry_run => dry_run,
@@ -65,6 +58,9 @@ module Spec
       end
 
       def create_behaviour_runner
+        configure_formatters
+        create_reporter
+        configure_differ        
         return nil if @generate
         @behaviour_runner = if @runner_arg
           klass_name, arg = split_at_colon(@runner_arg)
