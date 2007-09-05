@@ -153,8 +153,7 @@ module Spec
       end
 
       it "creates a Reporter" do
-        formatter = ::Spec::Runner::Formatter::BaseFormatter.new(@options, :somewhere)
-        @options.formatters << formatter
+        formatter = @options.create_formatter(::Spec::Runner::Formatter::BaseFormatter)
         reporter = Reporter.new(@formatters, @backtrace_tweaker)
         Reporter.should_receive(:new).with(@options.formatters, @options.backtrace_tweaker).and_return(reporter)
         @options.create_behaviour_runner
@@ -164,10 +163,9 @@ module Spec
       it "sets colour and dry_run on the formatters" do
         @options.colour = true
         @options.dry_run = true
-        formatter = ::Spec::Runner::Formatter::BaseTextFormatter.new(@options, :somewhere)
+        formatter = @options.create_formatter(::Spec::Runner::Formatter::BaseTextFormatter)
         formatter.should_receive(:colour=).with(true)
         formatter.should_receive(:dry_run=).with(true)
-        @options.formatters << formatter
         @options.create_behaviour_runner
       end
     end

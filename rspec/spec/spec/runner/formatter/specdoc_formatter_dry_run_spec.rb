@@ -5,9 +5,9 @@ module Runner
 module Formatter
 describe "SpecdocFormatterDryRun" do
     before(:each) do
-      @options = Options.new(StringIO.new, StringIO.new)
       @io = StringIO.new
-      @formatter = SpecdocFormatter.new(@options, @io)
+      @options = Options.new(StringIO.new, @io)
+      @formatter = @options.create_formatter(SpecdocFormatter)
       @formatter.dry_run = true
     end
     it "should not produce summary on dry run" do
