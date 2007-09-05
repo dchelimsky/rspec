@@ -59,9 +59,9 @@ module Spec
         example_definitions << create_example_definition(description, opts, &block)
       end
       alias_method :specify, :it
-      def xit(description=:__generate_description, opts={}, &block)
-        warn("Example #{description} is disabled")
-      end
+#      def xit(description=:__generate_description, opts={}, &block)
+#        warn("Example #{description} is disabled")
+#      end
 
       def behaviour_type #:nodoc:
         description[:behaviour_type]

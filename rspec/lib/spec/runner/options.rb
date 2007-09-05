@@ -38,8 +38,9 @@ module Spec
         :behaviour_runner
       )
 
-      def initialize(err, out)
-        @err, @out = err, out
+      def initialize(error_stream, output_stream)
+        @error_stream = error_stream
+        @output_stream = output_stream
         @backtrace_tweaker = QuietBacktraceTweaker.new
         @examples = []
         @formatters = []
@@ -122,7 +123,7 @@ module Spec
         # This funky regexp checks whether we have a FILE_NAME or not
         if where.nil?
           raise "When using several --format options only one of them can be without a file" if @out_used
-          where = @out
+          where = @output_stream
           @out_used = true
         end
 
@@ -168,14 +169,14 @@ module Spec
           [$1, arg]
         else
           m = "#{name.inspect} is not a valid class name"
-          @err.puts m
+          @error_stream.puts m
           raise m
         end
         begin
           eval(name, binding, __FILE__, __LINE__)
         rescue NameError => e
-          @err.puts "Couldn't find #{kind} class #{name}"
-          @err.puts "Make sure the --require option is specified *before* #{option}"
+          @error_stream.puts "Couldn't find #{kind} class #{name}"
+          @error_stream.puts "Make sure the --require option is specified *before* #{option}"
           if $_spec_spec ; raise e ; else exit(1) ; end
         end
       end
