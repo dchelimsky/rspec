@@ -34,7 +34,11 @@ module Spec
         
         def colour=(colour)
           @colour = colour
-          begin ; require 'Win32/Console/ANSI' if @colour && PLATFORM =~ /win32/ ; rescue LoadError ; raise "You must gem install win32console to use colour on Windows" ; end
+          begin; \
+            require 'Win32/Console/ANSI' if @colour && PLATFORM =~ /win32/; \
+          rescue LoadError ; \
+            raise "You must gem install win32console to use colour on Windows" ; \
+          end
         end
 
         def dump_failure(counter, failure)
