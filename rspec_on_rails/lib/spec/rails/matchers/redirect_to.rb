@@ -46,7 +46,7 @@ module Spec
 
         def query_hash(url)
           query = url.split("?", 2)[1] || ""
-          QueryParameterParser.parse_query_parameters(query)
+          QueryParameterParser.parse_query_parameters(query, @request)
         end
 
        def expected_url
@@ -79,12 +79,12 @@ module Spec
         end
 
         class QueryParameterParser
-          if defined?(CGIMethods)
-            def self.parse_query_parameters(query)
+          def self.parse_query_parameters(query, request)
+            if defined?(CGIMethods)
               CGIMethods.parse_query_parameters(query)
+            else
+              request.class.parse_query_parameters(query)
             end
-          else
-            include ActionController::CgiExt::Parameters
           end
         end
       end
