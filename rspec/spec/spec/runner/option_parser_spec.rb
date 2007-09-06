@@ -195,9 +195,13 @@ describe "OptionParser" do
   end
 
   it "should use custom diff format option when format is a custom format" do
-    options = parse(["--diff", "Custom::Formatter"])
+    Spec::Expectations.differ.should_not be_instance_of(Custom::Differ)
+
+    options = parse(["--diff", "Custom::Differ"])
+    options.parse_diff "Custom::Differ"
     options.diff_format.should == :custom
-    options.differ_class.should == Custom::Formatter
+    options.differ_class.should == Custom::Differ
+    Spec::Expectations.differ.should be_instance_of(Custom::Differ)
   end
 
   it "should print instructions about how to fix missing differ" do

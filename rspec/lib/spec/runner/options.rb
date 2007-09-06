@@ -20,7 +20,6 @@ module Spec
         :backtrace_tweaker,
         :context_lines,
         :diff_format,
-        :differ_class,
         :dry_run,
         :examples,
         :failure_file,
@@ -36,7 +35,7 @@ module Spec
         :runner_arg,
         :behaviour_runner
       )
-      attr_reader :colour
+      attr_reader :colour, :differ_class
 
       def initialize(error_stream, output_stream)
         @error_stream = error_stream
@@ -60,17 +59,7 @@ module Spec
         end
       end
 
-      def behaviour_runner_params
-        {
-          :dry_run => dry_run,
-          :reverse => reverse,
-          :timeout => timeout,
-          :examples => examples,
-        }
-      end
-
       def create_behaviour_runner
-        configure_differ        
         return nil if @generate
         @behaviour_runner = if @runner_arg
           klass_name, arg = split_at_colon(@runner_arg)
@@ -81,10 +70,19 @@ module Spec
         end
       end
 
-      def configure_differ
-        if @differ_class
-          Spec::Expectations.differ = @differ_class.new(self)
-        end
+      def differ_class=(klass)
+        return unless klass
+        @differ_class = klass
+        Spec::Expectations.differ = self.differ_class.new(self)
+      end
+
+      def behaviour_runner_params
+        {
+          :dry_run => dry_run,
+          :reverse => reverse,
+          :timeout => timeout,
+          :examples => examples,
+        }
       end
 
       def parse_diff(format)
@@ -97,7 +95,7 @@ module Spec
           default_differ
         else
           @diff_format  = :custom
-          @differ_class = load_class(format, 'differ', '--diff')
+          self.differ_class = load_class(format, 'differ', '--diff')
         end
       end
 
@@ -181,7 +179,7 @@ module Spec
       protected
       def default_differ
         require 'spec/expectations/differs/default'
-        @differ_class = Spec::Expectations::Differs::Default
+        self.differ_class = Spec::Expectations::Differs::Default
       end      
     end
   end

@@ -45,9 +45,12 @@ module Spec
       end
 
       it "should use custom diff format option when format is a custom format" do
-        @options.parse_diff "Custom::Formatter"
+        Spec::Expectations.differ.should_not be_instance_of(Custom::Differ)
+        
+        @options.parse_diff "Custom::Differ"
         @options.diff_format.should == :custom
-        @options.differ_class.should == Custom::Formatter
+        @options.differ_class.should == Custom::Differ
+        Spec::Expectations.differ.should be_instance_of(Custom::Differ)
       end
 
       it "should print instructions about how to fix missing differ" do
@@ -139,17 +142,15 @@ module Spec
       end
 
       it "does not set Expectations differ when differ_class is not set" do
-        @options.differ_class = nil
         Spec::Expectations.should_not_receive(:differ=)
-        @options.create_behaviour_runner
+        @options.differ_class = nil
       end
 
       it "sets Expectations differ when differ_class is set" do
-        @options.differ_class = Spec::Expectations::Differs::Default
         Spec::Expectations.should_receive(:differ=).with(anything()).and_return do |arg|
           arg.class.should == Spec::Expectations::Differs::Default
         end
-        @options.create_behaviour_runner
+        @options.differ_class = Spec::Expectations::Differs::Default
       end
 
       it "has a Reporter" do
