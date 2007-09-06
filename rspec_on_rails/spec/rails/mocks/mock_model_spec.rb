@@ -50,7 +50,7 @@ end
 
 describe "mock_model as association", :behaviour_type => :view do
   before(:each) do
-    pending %{
+    @pending_message = %{
       mock == association_proxy fails but reports odd messages like this one:
         Mock 'Book_1027' expected :store_with_privacy? with (#<Clip:0x1a9139c @name="Clip_1025">)
         but received it with (#<Clip:0x1a9139c @name="Clip_1025">)
@@ -65,10 +65,14 @@ describe "mock_model as association", :behaviour_type => :view do
   end
   
   it "should pass associated_model == mock" do
-    @associated_mock_model.should == @real.associated_model
+    pending @pending_message do
+      @associated_mock_model.should == @real.associated_model
+    end
   end
 
   it "should pass mock == associated_model" do
-    @real.associated_model.should == @associated_mock_model
+    pending @pending_message do
+      @real.associated_model.should == @associated_mock_model
+    end
   end
 end
