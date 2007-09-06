@@ -61,12 +61,12 @@ module Spec
 
       def create_behaviour_runner
         return nil if @generate
-        @behaviour_runner = if @runner_arg
+        if @runner_arg
           klass_name, arg = split_at_colon(@runner_arg)
           runner_type = load_class(klass_name, 'behaviour runner', '--runner')
-          runner_type.new(self, arg)
+          @behaviour_runner = runner_type.new(self, arg)
         else
-          BehaviourRunner.new(self)
+          @behaviour_runner = BehaviourRunner.new(self)
         end
       end
 
