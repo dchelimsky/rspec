@@ -12,7 +12,8 @@ describe "OptionParser" do
   end
 
   def behaviour_runner(args)
-    Spec::Runner::OptionParser.create_behaviour_runner(args, @err, @out, true)
+    options = Spec::Runner::OptionParser.parse(args, @err, @out, true)
+    options.create_behaviour_runner
   end
 
   it "should accept dry run option" do
@@ -343,11 +344,13 @@ describe "OptionParser" do
   end
 
   it "should return the correct default behaviour runner" do
-    Spec::Runner::OptionParser.create_behaviour_runner([], @err, @out, true).should be_instance_of(Spec::Runner::BehaviourRunner)
+    options = Spec::Runner::OptionParser.parse([], @err, @out, true)
+    options.create_behaviour_runner.should be_instance_of(Spec::Runner::BehaviourRunner)
   end
 
   it "should return the correct default behaviour runner" do
-    Spec::Runner::OptionParser.create_behaviour_runner(["--runner", "Custom::BehaviourRunner"], @err, @out, true).should be_instance_of(Custom::BehaviourRunner)
+   options = Spec::Runner::OptionParser.parse(["--runner", "Custom::BehaviourRunner"], @err, @out, true)
+    options.create_behaviour_runner.should be_instance_of(Custom::BehaviourRunner)
   end
 
 end
