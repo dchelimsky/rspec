@@ -61,7 +61,8 @@ describe "mock_model as association", :behaviour_type => :view do
       We should try to figure out a way to get this to report the truth.
     }
     @real = MockableModel.create!
-    @real.associated_model = @associated_mock_model = mock_model(AssociatedModel)
+    # @real.associated_model = 
+    @associated_mock_model = mock_model(AssociatedModel)
   end
   
   it "should pass associated_model == mock" do
