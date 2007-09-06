@@ -12,6 +12,10 @@ describe "HelperExample", :behaviour_type => :helper do
     rspec_on_rails_specs_url.should == "http://test.host/rspec_on_rails_specs"
     rspec_on_rails_specs_path.should == "/rspec_on_rails_specs"
   end
+
+  it "should fail if the helper method deson't exist" do
+    lambda { non_existant_helper_method }.should raise_error(NameError)
+  end
 end
 
 
