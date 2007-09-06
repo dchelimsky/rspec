@@ -15,6 +15,7 @@ module Spec
           raise ArgumentError, "Cannot add Shared Example to the BehaviourRunner"
         end
         @behaviours << behaviour
+        behaviour.rspec_options = @options
       end
       
       # Runs all behaviours and returns the number of failures.

@@ -76,15 +76,6 @@ module Spec
         Spec::Expectations.differ = self.differ_class.new(self)
       end
 
-      def behaviour_runner_params
-        {
-          :dry_run => dry_run,
-          :reverse => reverse,
-          :timeout => timeout,
-          :examples => examples,
-        }
-      end
-
       def parse_diff(format)
         case format
         when :context, 'context', 'c'

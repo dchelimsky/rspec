@@ -6,7 +6,7 @@ module Spec
         extend ExampleCallbacks
         include BehaviourApi
         public :include
-        attr_reader :dry_run, :reverse, :timeout, :specified_examples
+        attr_accessor :rspec_options
 
         def suite
           return ExampleSuite.new("Rspec Description Suite", self) unless description
@@ -14,8 +14,8 @@ module Spec
           suite
         end
 
-        def run(reporter, params={})
-          initialize_run_state(params)
+        def run
+          retain_specified_examples
           return if example_definitions.empty?
 
           reporter.add_behaviour(description)
@@ -39,14 +39,6 @@ module Spec
           run_after_all(reporter, dry_run)
         end
 
-        def retain_examples_matching(specified_examples)
-          return if specified_examples.index(description.to_s)
-          matcher = ExampleMatcher.new(description.to_s)
-          example_definitions.reject! do |example|
-            !example.matches?(matcher, specified_examples)
-          end
-        end
-
         # Sets the #number on each ExampleDefinition and returns the next number
         def set_sequence_numbers(number, reverse) #:nodoc:
           ordered_example_definitions(reverse).each do |example|
@@ -62,20 +54,33 @@ module Spec
 
         protected
 
-        def initialize_run_state(params)
-          params = {
-            :dry_run => false,
-            :reverse => false,
-            :timeout => nil,
-            :examples => []
-          }.merge(params)
-          @dry_run = params[:dry_run]
-          @reverse = params[:reverse]
-          @timeout = params[:timeout]
-          @specified_examples = params[:examples]
-          unless specified_examples.empty?
-            retain_examples_matching(specified_examples)
+        def retain_specified_examples
+          return if specified_examples.empty?
+          return if specified_examples.index(description.to_s)
+          matcher = ExampleMatcher.new(description.to_s)
+          example_definitions.reject! do |example|
+            !example.matches?(matcher, specified_examples)
           end
+        end
+
+        def reporter
+          rspec_options.reporter
+        end
+
+        def dry_run
+          rspec_options.dry_run
+        end
+
+        def reverse
+          rspec_options.reverse
+        end
+
+        def timeout
+          rspec_options.timeout
+        end
+
+        def specified_examples
+          rspec_options.examples
         end
 
         def run_before_all(reporter, dry_run)

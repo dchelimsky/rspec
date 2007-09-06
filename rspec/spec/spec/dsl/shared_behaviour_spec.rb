@@ -4,8 +4,11 @@ module Spec
   module DSL
     describe Example, ", with :shared => true" do
       before(:each) do
+        @options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
         @formatter = Spec::Mocks::Mock.new("formatter", :null_object => true)
+        @options.formatters << @formatter
         @behaviour = Class.new(Example).describe("behaviour")
+        @behaviour.rspec_options = @options
       end
 
       after(:each) do
@@ -131,7 +134,7 @@ module Spec
 
         @behaviour.it_should_behave_like("shared behaviour")
         @behaviour.it("example") {example_ran = true}
-        @behaviour.run(@formatter)
+        @behaviour.run
         example_ran.should be_true
         shared_example_ran.should be_true
       end
@@ -148,7 +151,7 @@ module Spec
 
         @behaviour.it_should_behave_like("shared behaviour")
         @behaviour.it("example") {example_ran = true}
-        @behaviour.run(@formatter)
+        @behaviour.run
         example_ran.should be_true
         shared_setup_ran.should be_true
         shared_teardown_ran.should be_true
@@ -166,7 +169,7 @@ module Spec
 
         @behaviour.it_should_behave_like("shared behaviour")
         @behaviour.it("example") {example_ran = true}
-        @behaviour.run(@formatter)
+        @behaviour.run
         example_ran.should be_true
         shared_before_all_run_count.should == 1
         shared_after_all_run_count.should == 1
@@ -202,7 +205,7 @@ module Spec
           mod1_method
           mod2_method
         end
-        @behaviour.run(@formatter)
+        @behaviour.run
         mod1_method_called.should be_true
         mod2_method_called.should be_true
       end
@@ -219,7 +222,7 @@ module Spec
           a_shared_helper_method
           success = true
         end
-        @behaviour.run(@formatter)
+        @behaviour.run
         success.should be_true
       end
 

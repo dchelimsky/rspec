@@ -10,7 +10,7 @@ module Spec
       end
 
       def run(result, &progress_block)
-        @behaviour.run(rspec_options.reporter, rspec_options.behaviour_runner_params)
+        @behaviour.run
       end
 
       def size

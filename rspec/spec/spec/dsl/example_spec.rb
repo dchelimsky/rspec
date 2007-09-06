@@ -15,9 +15,11 @@ module Spec
         @options.formatters << mock("formatter", :null_object => true)
         @options.backtrace_tweaker = mock("backtrace_tweaker", :null_object => true)
         @reporter = FakeReporter.new(@options)
+        @options.reporter = @reporter
         @behaviour = Class.new(Example).describe("example") do
           it "does nothing"
         end
+        @behaviour.rspec_options = @options
       end
 
       after :each do
@@ -49,12 +51,13 @@ module Spec
       it_should_behave_like "Spec::DSL::Example"
 
       it "should not run before(:all) or after(:all) on dry run" do
+        @options.dry_run = true
         before_all_ran = false
         after_all_ran = false
         Example.before(:all) { before_all_ran = true }
         Example.after(:all) { after_all_ran = true }
         @behaviour.it("should") {}
-        @behaviour.run(@reporter, :dry_run => true)
+        @behaviour.run
         before_all_ran.should be_false
         after_all_ran.should be_false
       end
@@ -63,7 +66,7 @@ module Spec
         spec_ran = false
         Example.before(:all) { raise NonStandardError }
         @behaviour.it("test") {spec_ran = true}
-        @behaviour.run(@reporter)
+        @behaviour.run
         spec_ran.should be_false
       end
 
@@ -71,7 +74,7 @@ module Spec
         after_all_ran = false
         Example.before(:all) { raise NonStandardError }
         Example.after(:all) { after_all_ran = true }
-        @behaviour.run(@reporter)
+        @behaviour.run
         after_all_ran.should be_true
       end
 
@@ -79,7 +82,7 @@ module Spec
         after_all_ran = false
         Example.before(:each) { raise NonStandardError }
         Example.after(:all) { after_all_ran = true }
-        @behaviour.run(@reporter)
+        @behaviour.run
         after_all_ran.should be_true
       end
 
@@ -87,7 +90,7 @@ module Spec
         after_all_ran = false
         @behaviour.it("should") { raise NonStandardError }
         Example.after(:all) { after_all_ran = true }
-        @behaviour.run(@reporter)
+        @behaviour.run
         after_all_ran.should be_true
       end
 
@@ -110,7 +113,7 @@ module Spec
           location.should eql("after(:each)")
           example_not_implemented.should be_false
         end
-        @behaviour.run(@reporter)
+        @behaviour.run
         first_after_ran.should be_true
         second_after_ran.should be_true
       end
@@ -134,7 +137,7 @@ module Spec
           location.should eql("before(:each)")
           example_not_implemented.should be_false
         end
-        @behaviour.run(@reporter)
+        @behaviour.run
         first_before_ran.should be_true
         second_before_ran.should be_false
       end
@@ -148,7 +151,7 @@ module Spec
 
         Example.before(:all) { raise NonStandardError.new("in before(:all)") }
         @behaviour.it("test") {true}
-        @behaviour.run(@reporter)
+        @behaviour.run
       end
 
       it "should provide after(:all) as description if failure in after(:all)" do
@@ -159,35 +162,37 @@ module Spec
         end
 
         Example.after(:all) { raise NonStandardError.new("in after(:all)") }
-        @behaviour.run(@reporter)
+        @behaviour.run
       end
 
       it "should send reporter add_behaviour" do
-        @behaviour.run(@reporter)
+        @behaviour.run
         @reporter.added_behaviour.should == "example"
       end
 
       it "should run example on run" do
         example_ran = false
         @behaviour.it("should") {example_ran = true}
-        @behaviour.run(@reporter)
+        @behaviour.run
         example_ran.should be_true
       end
 
       it "should not run example on dry run" do
         example_ran = false
+        @options.dry_run = true
         @behaviour.it("should") {example_ran = true}
-        @behaviour.run(@reporter, :dry_run => true)
+        @behaviour.run
         example_ran.should be_false
       end
 
       it "should not run before(:all) or after(:all) on dry run" do
+        @options.dry_run = true
         before_all_ran = false
         after_all_ran = false
         @behaviour.before(:all) { before_all_ran = true }
         @behaviour.after(:all) { after_all_ran = true }
         @behaviour.it("should") {}
-        @behaviour.run(@reporter, :dry_run => true)
+        @behaviour.run
         before_all_ran.should be_false
         after_all_ran.should be_false
       end
@@ -196,7 +201,7 @@ module Spec
         spec_ran = false
         @behaviour.before(:all) { raise "help" }
         @behaviour.it("test") {spec_ran = true}
-        @behaviour.run(@reporter)
+        @behaviour.run
         spec_ran.should be_false
       end
 
@@ -204,7 +209,7 @@ module Spec
         after_all_ran = false
         @behaviour.before(:all) { raise }
         @behaviour.after(:all) { after_all_ran = true }
-        @behaviour.run(@reporter)
+        @behaviour.run
         after_all_ran.should be_true
       end
 
@@ -212,7 +217,7 @@ module Spec
         after_all_ran = false
         @behaviour.before(:each) { raise }
         @behaviour.after(:all) { after_all_ran = true }
-        @behaviour.run(@reporter)
+        @behaviour.run
         after_all_ran.should be_true
       end
 
@@ -220,7 +225,7 @@ module Spec
         after_all_ran = false
         @behaviour.it("should") { raise "before all error" }
         @behaviour.after(:all) { after_all_ran = true }
-        @behaviour.run(@reporter)
+        @behaviour.run
         after_all_ran.should be_true
       end
 
@@ -233,7 +238,7 @@ module Spec
 
         @behaviour.before(:all) { raise "in before(:all)" }
         @behaviour.it("test") {true}
-        @behaviour.run(@reporter)
+        @behaviour.run
       end
 
       it "should provide after(:all) as description if failure in after(:all)" do
@@ -244,7 +249,7 @@ module Spec
         end
 
         @behaviour.after(:all) { raise "in after(:all)" }
-        @behaviour.run(@reporter)
+        @behaviour.run
       end
 
       it "should run before(:all) block only once" do
@@ -252,7 +257,7 @@ module Spec
         @behaviour.before(:all) {before_all_run_count_run_count += 1}
         @behaviour.it("test") {true}
         @behaviour.it("test2") {true}
-        @behaviour.run(@reporter)
+        @behaviour.run
         before_all_run_count_run_count.should == 1
       end
 
@@ -261,7 +266,7 @@ module Spec
         @behaviour.after(:all) {after_all_run_count += 1}
         @behaviour.it("test") {true}
         @behaviour.it("test2") {true}
-        @behaviour.run(@reporter)
+        @behaviour.run
         after_all_run_count.should == 1
         @reporter.rspec_verify
       end
@@ -272,7 +277,7 @@ module Spec
         @behaviour.before(:all) { @instance_var = context_instance_value_in }
         @behaviour.after(:all) { context_instance_value_out = @instance_var }
         @behaviour.it("test") {true}
-        @behaviour.run(@reporter)
+        @behaviour.run
         context_instance_value_in.should == context_instance_value_out
       end
 
@@ -281,7 +286,7 @@ module Spec
         context_instance_value_out = ""
         @behaviour.before(:all) { @instance_var = context_instance_value_in }
         @behaviour.it("test") {context_instance_value_out = @instance_var}
-        @behaviour.run(@reporter)
+        @behaviour.run
         context_instance_value_in.should == context_instance_value_out
       end
 
@@ -298,7 +303,8 @@ module Spec
         behaviour = Class.new(Example).describe("I'm not special", :behaviour_type => :not_special) do
           it "does nothing"
         end
-        behaviour.run(@reporter)
+        behaviour.rspec_options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
+        behaviour.run
         fiddle.should == [
           'Example.prepend_before(:all)',
           'Example.before(:all)',
@@ -317,8 +323,9 @@ module Spec
 
         Example.append_before(:behaviour_type => :special) { fiddle << "Example.append_before(:each, :behaviour_type => :special)" }
         behaviour = Class.new(Example).describe("I'm not special", :behaviour_type => :special) {}
+        behaviour.rspec_options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
         behaviour.it("test") {true}
-        behaviour.run(@reporter)
+        behaviour.run
         fiddle.should == [
           'Example.prepend_before(:all)',
           'Example.before(:all)',
@@ -339,7 +346,7 @@ module Spec
         @behaviour.prepend_before(:each) { fiddle << "prepend_before(:each)" }
         @behaviour.before(:each) { fiddle << "before(:each)" }
         @behaviour.it("test") {true}
-        @behaviour.run(@reporter)
+        @behaviour.run
         fiddle.should == [
           'Example.prepend_before(:all)',
           'Example.before(:all)',
@@ -362,7 +369,7 @@ module Spec
         Example.after(:all) { fiddle << "Example.after(:all)" }
         Example.append_after(:all) { fiddle << "Example.append_after(:all)" }
         @behaviour.it("test") {true}
-        @behaviour.run(@reporter)
+        @behaviour.run
         fiddle.should == [
           'after(:each)',
           'append_after(:each)',
@@ -397,7 +404,7 @@ module Spec
           mod1_method
           mod2_method
         end
-        @behaviour.run(@reporter)
+        @behaviour.run
         mod1_method_called.should be_true
         mod2_method_called.should be_true
       end
@@ -435,7 +442,9 @@ module Spec
 
           behaviour = Class.new(Example).describe("I'm special", :behaviour_type => :dog) do
             it "does nothing"
-          end.run(@reporter)
+          end
+          behaviour.rspec_options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
+          behaviour.run
 
           $included_modules.should include(mod1)
           $included_modules.should include(mod2)
@@ -448,11 +457,13 @@ module Spec
       it "should include any predicate_matchers included using configuration" do
         $included_predicate_matcher_found = false
         Spec::Runner.configuration.predicate_matchers[:do_something] = :does_something?
-        Class.new(Example).describe('example') do
+        behaviour = Class.new(Example).describe('example') do
           it "should respond to do_something" do
             $included_predicate_matcher_found = respond_to?(:do_something)
           end
-        end.run(@reporter)
+        end
+        behaviour.rspec_options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
+        behaviour.run
         $included_predicate_matcher_found.should be(true)
       end
 
@@ -471,7 +482,9 @@ module Spec
 
           behaviour = Class.new(Example).describe('example') do
             it "does nothing"
-          end.run(@reporter)
+          end
+          behaviour.rspec_options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
+          behaviour.run
 
           $included_module.should_not be_nil
         ensure
@@ -488,12 +501,12 @@ module Spec
         @behaviour.it("example") {}
         proc = Proc.new { after_all_ran = true }
         Example.after(:each, &proc)
-        @behaviour.run(@reporter)
+        @behaviour.run
         after_all_ran.should be_true
 
         after_all_ran = false
         Example.remove_after(:each, &proc)
-        @behaviour.run(@reporter)
+        @behaviour.run
         after_all_ran.should be_false
       end
     end
@@ -578,7 +591,9 @@ module Spec
           it "should reference FOO" do
             FOO.should == 1
           end
-        end.run(@reporter)
+        end
+        behaviour.rspec_options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
+        behaviour.run
         Object.const_defined?(:FOO).should == false
       end
 
@@ -597,7 +612,7 @@ module Spec
           it "should allow module scoping" do
             Bar.should be_loaded
           end
-        end.run(@reporter)
+        end.run
         @reporter.instance_variable_get(:@failures).should == []
         @reporter.dump.should == 0
       end
@@ -609,7 +624,7 @@ module Spec
           it "should reference @@foo" do
             @@foo.should == 1
           end
-        end.run(@reporter)
+        end.run
 
         Example.new('example2') do
           it "should not have access to other class variables" do
@@ -617,7 +632,7 @@ module Spec
               @@foo
             end.should raise_error
           end
-        end.run(@reporter)
+        end.run
         @reporter.dump.should == 0
       end
     end
@@ -706,10 +721,11 @@ module Spec
       it "should not run when there are no example_definitions" do
         behaviour = Class.new(Example).describe("Foobar") {}
         behaviour.example_definitions.should be_empty
+        behaviour.rspec_options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
 
         reporter = mock("Reporter")
         reporter.should_not_receive(:add_behaviour)
-        behaviour.run(reporter)
+        behaviour.run
       end
     end
 
