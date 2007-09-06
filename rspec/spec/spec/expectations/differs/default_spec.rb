@@ -22,7 +22,8 @@ end
 
 describe "Diff" do
   before(:each) do
-    @differ = Spec::Expectations::Differs::Default.new
+    @options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
+    @differ = Spec::Expectations::Differs::Default.new(@options)
   end
 
   it "should output unified diff of two strings" do
@@ -79,7 +80,9 @@ end
 
 describe "Diff in context format" do
   before(:each) do
-    @differ = Spec::Expectations::Differs::Default.new(:context)
+    @options = Spec::Runner::Options.new(StringIO.new, StringIO.new)
+    @options.diff_format = :context
+    @differ = Spec::Expectations::Differs::Default.new(@options)
   end
 
   it "should output unified diff message of two objects" do

@@ -32,7 +32,12 @@ module Spec
         example = @behaviour.create_example_definition("example") do
           (2+2).should == 5
         end
-        @reporter.should_receive(:example_finished).with(equal(example), is_a(Spec::Expectations::ExpectationNotMetError), "example", false)
+        @reporter.should_receive(:example_finished).with(
+          equal(example),
+          is_a(Spec::Expectations::ExpectationNotMetError),
+          "example",
+          false
+        )
         example.run(@reporter, nil, nil, nil, nil)
       end
 

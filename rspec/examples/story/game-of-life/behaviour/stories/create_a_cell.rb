@@ -1,5 +1,3 @@
-require 'life'
-
 Story "I can create a cell",
   %(As a game producer
     I want to create a cell

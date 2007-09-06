@@ -47,6 +47,8 @@ module Spec
         @colour = false
         @dry_run = false
         @reporter = Reporter.new(self)
+        @context_lines = 3
+        @diff_format  = :unified
       end
       
       def colour=(colour)
@@ -81,22 +83,18 @@ module Spec
 
       def configure_differ
         if @differ_class
-          Spec::Expectations.differ = @differ_class.new(@diff_format, @context_lines, @colour)
+          Spec::Expectations.differ = @differ_class.new(self)
         end
       end
 
       def parse_diff(format)
-        @context_lines = 3
         case format
-          when :context, 'context', 'c'
-            @diff_format  = :context
-          when :unified, 'unified', 'u', '', nil
-            @diff_format  = :unified
-        end
-
-        if [:context,:unified].include? @diff_format
-          require 'spec/expectations/differs/default'
-          @differ_class = Spec::Expectations::Differs::Default
+        when :context, 'context', 'c'
+          @diff_format  = :context
+          default_differ
+        when :unified, 'unified', 'u', '', nil
+          @diff_format  = :unified
+          default_differ
         else
           @diff_format  = :custom
           @differ_class = load_class(format, 'differ', '--diff')
@@ -179,6 +177,12 @@ module Spec
           if $_spec_spec ; raise e ; else exit(1) ; end
         end
       end
+
+      protected
+      def default_differ
+        require 'spec/expectations/differs/default'
+        @differ_class = Spec::Expectations::Differs::Default
+      end      
     end
   end
 end
