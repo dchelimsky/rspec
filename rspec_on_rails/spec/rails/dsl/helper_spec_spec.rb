@@ -54,7 +54,6 @@ describe "HelperExample included modules", :behaviour_type => :helper do
     ActionView::Helpers::JavaScriptMacrosHelper,
     ActionView::Helpers::NumberHelper,
     ActionView::Helpers::PrototypeHelper,
-    ActionView::Helpers::PrototypeHelper::JavaScriptGenerator::GeneratorMethods,
     ActionView::Helpers::ScriptaculousHelper,
     ActionView::Helpers::TagHelper,
     ActionView::Helpers::TextHelper,
