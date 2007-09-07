@@ -1,30 +1,27 @@
 module Spec
   module DSL
     class ExampleShouldRaiseHandler
-      def initialize(file_and_line_number, options)
+      def initialize(file_and_line_number, should_raise=nil)
         @file_and_line_number = file_and_line_number
-        @options = options
+        @should_raise = should_raise
         @expected_error_class = determine_error_class
         @expected_error_message = determine_error_message
       end
   
       def determine_error_class
-        if candidate = @options[:should_raise]
-          if candidate.is_a?(Class)
-            return candidate
-          elsif candidate.is_a?(Array)
-            return candidate[0]
-          else
-            return Exception
-          end
+        return unless @should_raise
+        if @should_raise.is_a?(Class)
+          return @should_raise
+        elsif @should_raise.is_a?(Array)
+          return @should_raise[0]
+        else
+          return Exception
         end
       end
   
       def determine_error_message
-        if candidate = @options[:should_raise]
-          if candidate.is_a?(Array)
-            return candidate[1]
-          end
+        if @should_raise.is_a?(Array)
+          return @should_raise[1]
         end
         return nil
       end
@@ -54,18 +51,17 @@ module Spec
       end
 
       def handle(errors)
-        if @expected_error_class
-          if errors.empty?
-            errors << Spec::Expectations::ExpectationNotMetError.new(build_message)
+        return unless @expected_error_class
+        if errors.empty?
+          errors << Spec::Expectations::ExpectationNotMetError.new(build_message)
+        else
+          error_to_remove = errors.detect do |error|
+            error_matches?(error)
+          end
+          if error_to_remove.nil?
+            errors.insert(0,Spec::Expectations::ExpectationNotMetError.new(build_message(errors[0])))
           else
-            error_to_remove = errors.detect do |error|
-              error_matches?(error)
-            end
-            if error_to_remove.nil?
-              errors.insert(0,Spec::Expectations::ExpectationNotMetError.new(build_message(errors[0])))
-            else
-              errors.delete(error_to_remove)
-            end
+            errors.delete(error_to_remove)
           end
         end
       end

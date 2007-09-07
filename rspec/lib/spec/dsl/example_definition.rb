@@ -28,7 +28,9 @@ module Spec
           location = failure_location(before_each_ok, example_ok, after_each_ok)
         end
 
-        ExampleShouldRaiseHandler.new(@from, @options).handle(errors)
+        if @options[:should_raise]
+          ExampleShouldRaiseHandler.new(@from, @options[:should_raise]).handle(errors)
+        end
         reporter.example_finished(self, errors.first, location, pending?) if reporter
       end
 
