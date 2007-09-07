@@ -1,15 +1,15 @@
 module Spec
   module DSL
     class ExampleShouldRaiseHandler
-      def initialize(file_and_line_number, opts)
+      def initialize(file_and_line_number, options)
         @file_and_line_number = file_and_line_number
-        @options = opts
-        @expected_error_class = determine_error_class(opts)
-        @expected_error_message = determine_error_message(opts)
+        @options = options
+        @expected_error_class = determine_error_class
+        @expected_error_message = determine_error_message
       end
   
-      def determine_error_class(opts)
-        if candidate = opts[:should_raise]
+      def determine_error_class
+        if candidate = @options[:should_raise]
           if candidate.is_a?(Class)
             return candidate
           elsif candidate.is_a?(Array)
@@ -20,8 +20,8 @@ module Spec
         end
       end
   
-      def determine_error_message(opts)
-        if candidate = opts[:should_raise]
+      def determine_error_message
+        if candidate = @options[:should_raise]
           if candidate.is_a?(Array)
             return candidate[1]
           end
