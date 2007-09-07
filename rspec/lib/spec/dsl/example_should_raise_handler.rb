@@ -1,7 +1,7 @@
 module Spec
   module DSL
     class ExampleShouldRaiseHandler
-      def initialize(file_and_line_number, should_raise=nil)
+      def initialize(file_and_line_number, should_raise)
         @file_and_line_number = file_and_line_number
         @should_raise = should_raise
         @expected_error_class = determine_error_class
@@ -9,7 +9,6 @@ module Spec
       end
   
       def determine_error_class
-        return unless @should_raise
         if @should_raise.is_a?(Class)
           return @should_raise
         elsif @should_raise.is_a?(Array)
@@ -27,10 +26,10 @@ module Spec
       end
   
       def build_message(exception=nil)
-        if @expected_error_message.nil?
-          message = "example block expected #{@expected_error_class.to_s}"
-        else
+        if @expected_error_message
           message = "example block expected #{@expected_error_class.new(@expected_error_message.to_s).inspect}"
+        else
+          message = "example block expected #{@expected_error_class.to_s}"
         end
         message << " but raised #{exception.inspect}" if exception
         message << " but nothing was raised" unless exception
@@ -40,7 +39,7 @@ module Spec
   
       def error_matches?(error)
         return false unless error.kind_of?(@expected_error_class)
-        unless @expected_error_message.nil?
+        if @expected_error_message
           if @expected_error_message.is_a?(Regexp)
             return false unless error.message =~ @expected_error_message
           else
@@ -51,7 +50,6 @@ module Spec
       end
 
       def handle(errors)
-        return unless @expected_error_class
         if errors.empty?
           errors << Spec::Expectations::ExpectationNotMetError.new(build_message)
         else
