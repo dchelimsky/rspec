@@ -26,6 +26,35 @@ module Spec
         Example.clear_before_and_after!
       end
     end
+    
+    describe Example, ".it" do
+      it_should_behave_like "Spec::DSL::Example"
+
+      it "should should create an example instance" do
+        lambda {
+          @behaviour.it("")
+        }.should change(@behaviour.example_definitions, :length).by(1)
+      end
+    end
+
+    describe Example, ".xit" do
+      it_should_behave_like "Spec::DSL::Example"
+      
+      before(:each) do
+        Kernel.stub!(:warn)
+      end
+      
+      it "should NOT  should create an example instance" do
+        lambda {
+          @behaviour.xit("")
+        }.should_not change(@behaviour.example_definitions, :length)
+      end
+      
+      it "should warn that it is disabled" do
+        Kernel.should_receive(:warn).with("Example  is disabled")
+        @behaviour.xit("")
+      end
+    end
 
     describe "Example", ".suite" do
       it_should_behave_like "Spec::DSL::Example"
@@ -721,6 +750,9 @@ module Spec
         reporter.should_not_receive(:add_behaviour)
         behaviour.run
       end
+    end
+    
+    describe Example, "#xit" do
     end
 
     class ExampleSubclass < Example

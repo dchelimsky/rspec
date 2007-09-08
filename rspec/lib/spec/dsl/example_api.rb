@@ -58,9 +58,11 @@ module Spec
       def it(description=:__generate_description, opts={}, &block)
         example_definitions << create_example_definition(description, opts, &block)
       end
+      
       alias_method :specify, :it
+      
       def xit(description=:__generate_description, opts={}, &block)
-        warn("Example #{description} is disabled")
+        Kernel.warn("Example #{description} is disabled")
       end
 
       def behaviour_type #:nodoc:

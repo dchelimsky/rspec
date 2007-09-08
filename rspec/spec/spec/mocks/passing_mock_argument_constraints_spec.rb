@@ -5,6 +5,7 @@ module Spec
     describe "mock argument constraints", :shared => true do
       before(:each) do
         @mock = Mock.new("test mock")
+        Kernel.stub!(:warn)
       end
       
       after(:each) do
