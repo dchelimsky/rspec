@@ -1,3 +1,4 @@
+require 'spec/matchers/simple_matcher'
 require 'spec/matchers/be'
 require 'spec/matchers/be_close'
 require 'spec/matchers/change'

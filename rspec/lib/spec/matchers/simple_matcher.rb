@@ -1,0 +1,23 @@
+module Spec
+  module Matchers
+    class SimpleMatcher
+      def initialize(description, &match_block)
+        @description = description
+        @match_block = match_block
+      end
+
+      def matches?(actual)
+        @actual = actual
+        return @match_block.call(@actual)
+      end
+
+      def failure_message()
+        return %[Expected #{@description.inspect} but got #{@actual.inspect}]
+      end
+        
+      def negative_failure_message()
+        return %[Expected not to get #{@description.inspect}, but got #{@actual.inspect}]
+      end
+    end
+  end
+end
