@@ -3,7 +3,7 @@
     unless defined? MAJOR
       MAJOR  = 1
       MINOR  = 0
-      TINY   = 8
+      TINY   = 9
       RELEASE_CANDIDATE = nil
 
       # RANDOM_TOKEN: 0.40916225564567
