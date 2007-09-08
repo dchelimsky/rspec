@@ -21,6 +21,31 @@ describe Object, "#should" do
       @target.should @matcher
     }.should fail_with("the failure message")
   end
+  
+  it "should raise error if it receives false directly" do
+    lambda {
+      @target.should false
+    }.should raise_error(NoMethodError)
+  end
+  
+  it "should raise error if it receives false (evaluated)" do
+    lambda {
+      @target.should eql?("foo")
+    }.should raise_error(NoMethodError)
+  end
+  
+  it "should raise error if it receives true" do
+    lambda {
+      @target.should true
+    }.should raise_error(NoMethodError)
+  end
+  
+  it "should raise error if it receives nil" do
+    pending("refactor the should method to handle this")
+    lambda {
+      @target.should nil
+    }.should raise_error(NoMethodError)
+  end
 end
 
 describe Object, "#should_not" do

@@ -29,7 +29,7 @@ module Spec
       # NOTE that this does NOT support receiver.should != expected.
       # Instead, use receiver.should_not == expected
       def should(matcher=nil, &block)
-        return ExpectationMatcherHandler.handle_matcher(self, matcher, &block) if matcher
+        return ExpectationMatcherHandler.handle_matcher(self, matcher, &block) unless matcher.nil?
         Spec::Matchers::PositiveOperatorMatcher.new(self)
       end
 
