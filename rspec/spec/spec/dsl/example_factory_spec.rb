@@ -2,15 +2,15 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 
 module Spec
   module DSL
-    describe BehaviourFactory do
+    describe ExampleFactory do
       it "should create an anonymous Spec::DSL::Example subclass by default" do
-        behaviour = Spec::DSL::BehaviourFactory.create("behaviour")
+        behaviour = Spec::DSL::ExampleFactory.create("behaviour")
         behaviour.name.should be_empty
         behaviour.superclass.should == Spec::DSL::Example
       end
 
       it "should create a Spec::DSL::Example when :behaviour_type => :default" do
-        behaviour = Spec::DSL::BehaviourFactory.create("behaviour", :behaviour_type => :default)
+        behaviour = Spec::DSL::ExampleFactory.create("behaviour", :behaviour_type => :default)
         behaviour.name.should be_empty
         behaviour.superclass.should == Spec::DSL::Example
       end
@@ -19,8 +19,8 @@ module Spec
         behaviour_class = Class.new(Example) do
           def initialize(*args, &block); end
         end
-        Spec::DSL::BehaviourFactory.add_behaviour_class(:something_other_than_default, behaviour_class)
-        behaviour = Spec::DSL::BehaviourFactory.create("behaviour", :behaviour_type => :something_other_than_default)
+        Spec::DSL::ExampleFactory.add_example_class(:something_other_than_default, behaviour_class)
+        behaviour = Spec::DSL::ExampleFactory.create("behaviour", :behaviour_type => :something_other_than_default)
         behaviour.name.should be_empty
         behaviour.superclass.should == behaviour_class
       end
@@ -29,8 +29,8 @@ module Spec
         behaviour_class = Class.new(Example) do
           def initialize(*args, &block); end
         end
-        Spec::DSL::BehaviourFactory.add_behaviour_class(:something_other_than_default, behaviour_class)
-        behaviour = Spec::DSL::BehaviourFactory.create("behaviour", :spec_path => "./spec/something_other_than_default/some_spec.rb")
+        Spec::DSL::ExampleFactory.add_example_class(:something_other_than_default, behaviour_class)
+        behaviour = Spec::DSL::ExampleFactory.create("behaviour", :spec_path => "./spec/something_other_than_default/some_spec.rb")
         behaviour.name.should be_empty
         behaviour.superclass.should == behaviour_class
       end
@@ -39,14 +39,14 @@ module Spec
         behaviour_class = Class.new(Example) do
           def initialize(*args, &block); end
         end
-        Spec::DSL::BehaviourFactory.add_behaviour_class(:something_other_than_default, behaviour_class)
-        behaviour = Spec::DSL::BehaviourFactory.create("behaviour", :spec_path => "./spec\\something_other_than_default\\some_spec.rb")
+        Spec::DSL::ExampleFactory.add_example_class(:something_other_than_default, behaviour_class)
+        behaviour = Spec::DSL::ExampleFactory.create("behaviour", :spec_path => "./spec\\something_other_than_default\\some_spec.rb")
         behaviour.name.should be_empty
         behaviour.superclass.should == behaviour_class
       end
       
       after(:each) do
-        Spec::DSL::BehaviourFactory.remove_behaviour_class(:something_other_than_default)
+        Spec::DSL::ExampleFactory.remove_example_class(:something_other_than_default)
       end
     end
   end

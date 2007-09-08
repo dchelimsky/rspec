@@ -7,7 +7,7 @@ module Spec
       # provides support for fixtures and some custom expectations via extensions
       # to ActiveRecord::Base.
       class ModelExample < RailsExample
-        Spec::DSL::BehaviourFactory.add_behaviour_class(:model, self)
+        Spec::DSL::ExampleFactory.add_example_class(:model, self)
       end
     end
   end

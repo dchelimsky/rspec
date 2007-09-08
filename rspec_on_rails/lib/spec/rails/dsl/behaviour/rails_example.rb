@@ -90,7 +90,7 @@ module Spec
           stubs.each {|k,v| m.stub!(k).and_return(v)}
           m
         end
-        Spec::DSL::BehaviourFactory.add_behaviour_class(:default, self)
+        Spec::DSL::ExampleFactory.add_example_class(:default, self)
       end
     end
   end
