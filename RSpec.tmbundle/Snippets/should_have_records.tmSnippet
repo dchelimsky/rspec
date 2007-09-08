@@ -8,7 +8,7 @@ $0</string>
 	<key>name</key>
 	<string>should have_records</string>
 	<key>scope</key>
-	<string>source.ruby</string>
+	<string>source.ruby.rspec</string>
 	<key>tabTrigger</key>
 	<string>shrecords</string>
 	<key>uuid</key>

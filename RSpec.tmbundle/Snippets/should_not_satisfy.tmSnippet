@@ -8,7 +8,7 @@ $0</string>
 	<key>name</key>
 	<string>should_not satisfy</string>
 	<key>scope</key>
-	<string>source.ruby</string>
+	<string>source.ruby.rspec</string>
 	<key>tabTrigger</key>
 	<string>shsa</string>
 	<key>uuid</key>

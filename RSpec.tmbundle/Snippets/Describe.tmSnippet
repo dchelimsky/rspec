@@ -11,7 +11,7 @@ end</string>
 	<key>name</key>
 	<string>describe (String)</string>
 	<key>scope</key>
-	<string>source.ruby</string>
+	<string>source.ruby.rspec</string>
 	<key>tabTrigger</key>
 	<string>de</string>
 	<key>uuid</key>

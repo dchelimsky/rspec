@@ -12,7 +12,7 @@ end</string>
 	<key>name</key>
 	<string>Story</string>
 	<key>scope</key>
-	<string>source.ruby</string>
+	<string>source.ruby.rspec</string>
 	<key>tabTrigger</key>
 	<string>Story</string>
 	<key>uuid</key>

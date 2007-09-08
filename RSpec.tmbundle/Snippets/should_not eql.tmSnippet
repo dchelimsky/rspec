@@ -8,7 +8,7 @@ $0</string>
 	<key>name</key>
 	<string>should_not eql</string>
 	<key>scope</key>
-	<string>source.ruby</string>
+	<string>source.ruby.rspec</string>
 	<key>tabTrigger</key>
 	<string>she</string>
 	<key>uuid</key>

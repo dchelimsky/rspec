@@ -11,7 +11,7 @@ end</string>
 	<key>name</key>
 	<string>describe (Generic Controller)</string>
 	<key>scope</key>
-	<string>source.ruby</string>
+	<string>source.ruby.rspec</string>
 	<key>tabTrigger</key>
 	<string>cdes</string>
 	<key>uuid</key>

@@ -9,7 +9,7 @@ $0
 	<key>name</key>
 	<string>should_receive with args</string>
 	<key>scope</key>
-	<string>source.ruby</string>
+	<string>source.ruby.rspec</string>
 	<key>tabTrigger</key>
 	<string>shrec</string>
 	<key>uuid</key>

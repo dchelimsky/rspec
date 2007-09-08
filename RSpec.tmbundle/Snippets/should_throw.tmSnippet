@@ -8,7 +8,7 @@ $0</string>
 	<key>name</key>
 	<string>should throw</string>
 	<key>scope</key>
-	<string>source.ruby</string>
+	<string>source.ruby.rspec</string>
 	<key>tabTrigger</key>
 	<string>shthr</string>
 	<key>uuid</key>

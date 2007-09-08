@@ -7,7 +7,7 @@
 	<key>name</key>
 	<string>and_return</string>
 	<key>scope</key>
-	<string>source.ruby</string>
+	<string>source.ruby.rspec</string>
 	<key>tabTrigger</key>
 	<string>mret</string>
 	<key>uuid</key>

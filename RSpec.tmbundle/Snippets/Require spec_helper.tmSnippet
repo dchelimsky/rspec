@@ -7,7 +7,7 @@
 	<key>name</key>
 	<string>Require spec_helper</string>
 	<key>scope</key>
-	<string>source.ruby</string>
+	<string>source.ruby.rspec</string>
 	<key>tabTrigger</key>
 	<string>spech</string>
 	<key>uuid</key>

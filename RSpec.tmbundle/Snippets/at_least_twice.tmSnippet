@@ -7,7 +7,7 @@
 	<key>name</key>
 	<string>at_least_twice</string>
 	<key>scope</key>
-	<string>source.ruby</string>
+	<string>source.ruby.rspec</string>
 	<key>tabTrigger</key>
 	<string>recc</string>
 	<key>uuid</key>

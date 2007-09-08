@@ -8,7 +8,7 @@ $0</string>
 	<key>name</key>
 	<string>should be_a_kind_of</string>
 	<key>scope</key>
-	<string>source.ruby</string>
+	<string>source.ruby.rspec</string>
 	<key>tabTrigger</key>
 	<string>shkof</string>
 	<key>uuid</key>

@@ -5,7 +5,9 @@
 	<key>content</key>
 	<string>controller_name :${1:controller}</string>
 	<key>name</key>
-	<string>Set Controller for Spec</string>
+	<string>controller_name</string>
+	<key>scope</key>
+	<string>source.ruby.rspec</string>
 	<key>tabTrigger</key>
 	<string>cnn</string>
 	<key>uuid</key>
