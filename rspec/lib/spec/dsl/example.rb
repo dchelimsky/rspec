@@ -4,7 +4,7 @@ module Spec
       remove_method :default_test if respond_to?(:default_test)
       class << self
         extend ExampleCallbacks
-        include BehaviourApi
+        include ExampleApi
         public :include
         attr_accessor :rspec_options
 
