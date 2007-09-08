@@ -3,9 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>require File.dirname(__FILE__) + '/../spec_helper'
-
-describe ${1:controller}, "Requesting ${2:/some/path} using ${3:GET|POST|PUT|DELETE}${4: with some parameters}" do
+	<string>describe ${1:controller}, "${2:GET|POST|PUT|DELETE} ${3:/some/path}${4: with some parameters}" do
   $0
 end</string>
 	<key>name</key>
@@ -13,7 +11,7 @@ end</string>
 	<key>scope</key>
 	<string>source.ruby.rspec</string>
 	<key>tabTrigger</key>
-	<string>cdes</string>
+	<string>desrc</string>
 	<key>uuid</key>
 	<string>0ED99C84-1F7B-471E-BB88-B59C5D08FA6B</string>
 </dict>

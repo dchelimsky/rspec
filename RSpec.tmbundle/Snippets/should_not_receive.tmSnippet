@@ -11,7 +11,7 @@ $0
 	<key>scope</key>
 	<string>source.ruby.rspec</string>
 	<key>tabTrigger</key>
-	<string>shrec</string>
+	<string>shnr</string>
 	<key>uuid</key>
 	<string>4CBCCACF-D6DA-49A6-9A8E-EC2F9CD15E94</string>
 </dict>

@@ -10,7 +10,7 @@ $0</string>
 	<key>scope</key>
 	<string>source.ruby.rspec</string>
 	<key>tabTrigger</key>
-	<string>shsa</string>
+	<string>shs</string>
 	<key>uuid</key>
 	<string>3FF9AC90-799D-4BFD-8203-58199A1AD429</string>
 </dict>

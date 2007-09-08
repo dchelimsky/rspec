@@ -32,7 +32,7 @@ end</string>
 	<key>scope</key>
 	<string>source.ruby.rspec</string>
 	<key>tabTrigger</key>
-	<string>matcher</string>
+	<string>mat</string>
 	<key>uuid</key>
 	<string>55BF6C99-B4C4-4772-B7DC-0A18407E429C</string>
 </dict>

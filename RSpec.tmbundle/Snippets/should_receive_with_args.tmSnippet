@@ -3,15 +3,15 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>${1:mock}.should_receive(:${2:message})${4:.once}.with(${3:args})
+	<string>with(${1:args})
 $0
 </string>
 	<key>name</key>
-	<string>should_receive with args</string>
+	<string>with args</string>
 	<key>scope</key>
 	<string>source.ruby.rspec</string>
 	<key>tabTrigger</key>
-	<string>shrec</string>
+	<string>wia</string>
 	<key>uuid</key>
 	<string>3F3E8066-8C1A-40D1-85C7-9DC18C6A34BA</string>
 </dict>

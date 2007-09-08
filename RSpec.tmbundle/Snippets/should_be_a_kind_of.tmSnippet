@@ -6,11 +6,11 @@
 	<string>${1:target}.should be_a_kind_of(${2:klass})
 $0</string>
 	<key>name</key>
-	<string>should be_a_kind_of</string>
+	<string>should be_kind_of</string>
 	<key>scope</key>
 	<string>source.ruby.rspec</string>
 	<key>tabTrigger</key>
-	<string>shkof</string>
+	<string>shbko</string>
 	<key>uuid</key>
 	<string>29BF3286-6D33-418D-9BD5-79BAB0797FE4</string>
 </dict>

@@ -13,7 +13,7 @@ end</string>
 	<key>scope</key>
 	<string>source.ruby.rspec</string>
 	<key>tabTrigger</key>
-	<string>desct</string>
+	<string>dest</string>
 	<key>uuid</key>
 	<string>2ED94046-DAF7-4C91-8D98-771513BB3804</string>
 </dict>
