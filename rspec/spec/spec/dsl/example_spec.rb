@@ -337,7 +337,7 @@ module Spec
         ]
       end
 
-      it "before callbacks are ordered from global to local" do
+      it "should order before callbacks from global to local" do
         fiddle = []
         Example.prepend_before(:all) { fiddle << "Example.prepend_before(:all)" }
         Example.before(:all) { fiddle << "Example.before(:all)" }
@@ -357,7 +357,7 @@ module Spec
         ]
       end
 
-      it "after callbacks are ordered from local to global" do
+      it "should order after callbacks from local to global" do
         @reporter.should_receive(:add_behaviour).with any_args()
         @reporter.should_receive(:example_finished).with any_args()
 
@@ -689,12 +689,6 @@ module Spec
     end
 
     describe Example, "#pending" do
-      it "should support pending" do
-        lambda {
-          pending("something")
-        }.should raise_error(Spec::DSL::ExamplePendingError, "something")
-      end
-
       it "should raise a Pending error when its block fails" do
         block_ran = false
         lambda {
@@ -716,7 +710,7 @@ module Spec
         block_ran.should == true
       end
     end
-
+    
     describe Example, "#run" do
       it "should not run when there are no example_definitions" do
         behaviour = Class.new(Example).describe("Foobar") {}

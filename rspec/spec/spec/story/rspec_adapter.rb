@@ -19,7 +19,7 @@ end
 # custom matchers
 
 def contain(string)
-  return Spec::Matchers::SimpleMatcher.new(%[string containing "#{string}"]) do |actual|
+  return simple_matcher(%[string containing "#{string}"]) do |actual|
     actual.include? string
   end
 end
@@ -27,13 +27,13 @@ end
 alias :contains :contain
 
 def is(expected)
-  return Spec::Matchers::SimpleMatcher.new("equal to #{expected}") do |actual| actual == expected end
+  return simple_matcher("equal to #{expected}") do |actual| actual == expected end
 end
 
 alias :are :is
 
 def is_a(type)
-  return Spec::Matchers::SimpleMatcher.new("object of type #{type}") do |actual|
+  return simple_matcher("object of type #{type}") do |actual|
     actual.is_a? type
   end
 end
@@ -41,7 +41,7 @@ end
 alias :is_an :is_a
 
 def matches(pattern)
-  return Spec::Matchers::SimpleMatcher.new("string matching #{pattern}") do |actual|
+  return simple_matcher("string matching #{pattern}") do |actual|
     actual =~ pattern
   end
 end
