@@ -5,6 +5,7 @@ provides navigation to descriptions and examples (rather than classes and method
 it is going to try to hijack all of your .rb files. All you need to do is open a .rb file that does not end with
 'spec.rb' and change the bundle selection from RSpec to Ruby. TextMate will do the right thing from then on.
 
+* Applied Patch from James Edward Gray II to improve syntax highlighting in TextMate
 * Fixed [#13579] NoMethodError not raised for missing helper methods
 * Fixed [#13713] form helper method 'select' can not be called when calling custom helper methods from specs
 * Behaviour subclasses Test::Unit::TestCase

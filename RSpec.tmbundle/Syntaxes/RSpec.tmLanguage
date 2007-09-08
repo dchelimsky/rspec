@@ -69,43 +69,67 @@
 	<dict>
 		<key>behaviour</key>
 		<dict>
-			<key>captures</key>
+			<key>begin</key>
+			<string>^\s*(describe)\b</string>
+			<key>beginCaptures</key>
 			<dict>
 				<key>1</key>
 				<dict>
 					<key>name</key>
 					<string>keyword.other.rspec.behaviour</string>
 				</dict>
-				<key>3</key>
+			</dict>
+			<key>end</key>
+			<string>\b(do)\s*$</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>1</key>
 				<dict>
 					<key>name</key>
 					<string>keyword.control.ruby.start-block</string>
 				</dict>
 			</dict>
-			<key>match</key>
-			<string>^\s*(describe)\s+(.+)\s+(do)\s*$</string>
 			<key>name</key>
 			<string>meta.rspec.behaviour</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>source.ruby</string>
+				</dict>
+			</array>
 		</dict>
 		<key>example</key>
 		<dict>
-			<key>captures</key>
+			<key>begin</key>
+			<string>^\s*(it)\b</string>
+			<key>beginCaptures</key>
 			<dict>
 				<key>1</key>
 				<dict>
 					<key>name</key>
 					<string>keyword.other.rspec.example</string>
 				</dict>
-				<key>3</key>
+			</dict>
+			<key>end</key>
+			<string>\b(do)\s*$</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>1</key>
 				<dict>
 					<key>name</key>
 					<string>keyword.control.ruby.start-block</string>
 				</dict>
 			</dict>
-			<key>match</key>
-			<string>^\s*(it)\s+(.+)\s+(do)\s*$</string>
 			<key>name</key>
 			<string>meta.rspec.example</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>source.ruby</string>
+				</dict>
+			</array>
 		</dict>
 	</dict>
 	<key>scopeName</key>
