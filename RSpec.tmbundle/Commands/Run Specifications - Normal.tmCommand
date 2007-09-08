@@ -14,13 +14,13 @@ SpecMate.new.run_file STDOUT</string>
 	<key>input</key>
 	<string>document</string>
 	<key>keyEquivalent</key>
-	<string>@d</string>
+	<string>@r</string>
 	<key>name</key>
 	<string>Run Behaviour Description</string>
 	<key>output</key>
 	<string>showAsHTML</string>
 	<key>scope</key>
-	<string>source.ruby</string>
+	<string>source.ruby.rspec</string>
 	<key>uuid</key>
 	<string>B5906021-8E54-4863-A13B-EA46333DB5F1</string>
 </dict>

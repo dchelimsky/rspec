@@ -13,13 +13,13 @@ SpecMate.new.run_files STDOUT
 	<key>input</key>
 	<string>none</string>
 	<key>keyEquivalent</key>
-	<string>@r</string>
+	<string>~@r</string>
 	<key>name</key>
 	<string>Run Behaviour Descriptions in selected files/directories</string>
 	<key>output</key>
 	<string>showAsHTML</string>
 	<key>scope</key>
-	<string>source.ruby</string>
+	<string>source.ruby.rspec</string>
 	<key>uuid</key>
 	<string>67E726E0-63E2-4840-B8BB-37F665CD34B8</string>
 </dict>

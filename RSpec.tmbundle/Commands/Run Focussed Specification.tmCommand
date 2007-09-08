@@ -15,13 +15,13 @@ SpecMate.new.run_focussed STDOUT
 	<key>input</key>
 	<string>document</string>
 	<key>keyEquivalent</key>
-	<string>@i</string>
+	<string>@R</string>
 	<key>name</key>
 	<string>Run Focused Example</string>
 	<key>output</key>
 	<string>showAsHTML</string>
 	<key>scope</key>
-	<string>source.ruby</string>
+	<string>source.ruby.rspec</string>
 	<key>uuid</key>
 	<string>240FDD9D-CD49-4917-9003-80A3E1DADFBA</string>
 </dict>
