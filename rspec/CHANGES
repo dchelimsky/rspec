@@ -5,6 +5,10 @@ provides navigation to descriptions and examples (rather than classes and method
 it is going to try to hijack all of your .rb files. All you need to do is open a .rb file that does not end with
 'spec.rb' and change the bundle selection from RSpec to Ruby. TextMate will do the right thing from then on.
 
+Shortcuts for tab-activated snippets all follow the TextMate convention of 2 or 3 letters of the first word, followed by the first letter of each subsequent word. So "should have_at_least" would be triggered by shhal.
+
+We reduced the scope for running spec directories, files, a single file or individual spec in TextMate to source.ruby.rspec. This allowed us to restore the standard Ruby shortcuts: CMD-R runs all the specs in one file, CMD-SHIFT-R runs an individual spec, and CMD-OPT-R runs any files or directories selected in the TextMate drawer.
+
 * Applied Patch from James Edward Gray II to improve syntax highlighting in TextMate
 * Fixed [#13579] NoMethodError not raised for missing helper methods
 * Fixed [#13713] form helper method 'select' can not be called when calling custom helper methods from specs
