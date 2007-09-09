@@ -9,6 +9,9 @@ module Spec
         @options.formatters << @formatter
         @behaviour = Class.new(Example).describe("behaviour")
         @behaviour.rspec_options = @options
+        class << @behaviour
+          public :include
+        end
       end
 
       after(:each) do

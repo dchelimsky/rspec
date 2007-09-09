@@ -12,8 +12,6 @@ module Spec
         )
         
         class << self
-          extend Forwardable
-
           def configure
             self.fixture_table_names = []
             self.fixture_class_names = {}
@@ -31,8 +29,6 @@ module Spec
             configure
           end          
         end
-
-        extend Forwardable
 
         include Spec::Rails::Matchers
 

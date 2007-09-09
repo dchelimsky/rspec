@@ -5,7 +5,6 @@ module Spec
       class << self
         extend ExampleCallbacks
         include ExampleApi
-        public :include
         attr_accessor :rspec_options
 
         def suite

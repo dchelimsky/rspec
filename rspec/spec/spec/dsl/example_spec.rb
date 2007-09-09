@@ -20,6 +20,9 @@ module Spec
           it "does nothing"
         end
         @behaviour.rspec_options = @options
+        class << @behaviour
+          public :include
+        end
       end
 
       after :each do

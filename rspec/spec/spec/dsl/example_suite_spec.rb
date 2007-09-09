@@ -21,6 +21,9 @@ module Spec
         end
         @behaviour.rspec_options = @options
         @result = Test::Unit::TestResult.new
+        class << @behaviour
+          public :include
+        end
       end
 
       after :each do
