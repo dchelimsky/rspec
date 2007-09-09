@@ -14,7 +14,7 @@ module Spec
         reporter.example_started(example_definition)
         if dry_run
           example_definition.description = "NO NAME (Because of --dry-run)"
-          return reporter.example_finished(example_definition, nil, "NO NAME (Because of --dry-run)")
+          return reporter.example_finished(example_definition, nil, example_definition.description)
         end
 
         location = nil
