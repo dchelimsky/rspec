@@ -108,6 +108,7 @@ module Spec
         if described_type.class == Module
           include described_type
         end
+        self.description
       end
     end
   end

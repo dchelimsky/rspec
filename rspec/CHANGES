@@ -13,6 +13,7 @@ CMD-R runs all the specs in one file
 CMD-SHIFT-R runs an individual spec
 CMD-OPT-R runs any files or directories selected in the TextMate drawer
 
+* Add abilitiy to define Example subclass instead of using describe
 * Applied Patch from James Edward Gray II to improve syntax highlighting in TextMate
 * Fixed [#13579] NoMethodError not raised for missing helper methods
 * Fixed [#13713] form helper method 'select' can not be called when calling custom helper methods from specs

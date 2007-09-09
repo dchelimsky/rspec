@@ -8,10 +8,9 @@ require 'active_record/base'
 require 'active_record/fixtures'
 require 'spec'
 
-require File.expand_path("#{dir}/rails/dsl")
-
 require File.expand_path("#{dir}/dsl")
 require File.expand_path("#{dir}/matchers")
+require File.expand_path("#{dir}/rails/dsl")
 
 require File.expand_path("#{dir}/rails/version")
 require File.expand_path("#{dir}/rails/extensions")

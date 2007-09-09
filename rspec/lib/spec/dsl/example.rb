@@ -7,9 +7,17 @@ module Spec
         include ExampleApi
         attr_accessor :rspec_options
 
+        def inherited(klass)
+          super
+          unless klass.name.to_s == ""
+            klass.describe(klass.name)
+            register_behaviour(klass)
+          end
+        end
+
         def suite
-          return ExampleSuite.new("Rspec Description Suite", self) unless description
-          suite = ExampleSuite.new(description.description, self)
+          description = description ? description.description : "Rspec Description Suite"
+          suite = ExampleSuite.new(description, self)
           ordered_example_definitions(reverse).each do |example_definition|
             suite << new(example_definition)
           end
@@ -68,7 +76,7 @@ module Spec
         protected
 
         def reverse
-          rspec_options.reverse
+          rspec_options ? rspec_options.reverse : false
         end
 
         def ordered_example_definitions(reverse)
