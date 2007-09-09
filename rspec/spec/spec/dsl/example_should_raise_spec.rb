@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 module Spec
   module DSL
-    describe ExampleDefinition, " declared with {:should_raise => ...}" do
+    describe ExampleRunProxy, " declared with {:should_raise => ...}" do
       before(:each) do
         @options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
         @reporter = ::Spec::Runner::Reporter.new(@options)

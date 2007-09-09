@@ -50,17 +50,13 @@ module Spec
       end
 
       def handle(errors)
-        if errors.empty?
-          errors << Spec::Expectations::ExpectationNotMetError.new(build_message)
+        error_to_remove = errors.detect do |error|
+          error_matches?(error)
+        end
+        if error_to_remove.nil?
+          errors.insert(0,Spec::Expectations::ExpectationNotMetError.new(build_message(errors[0])))
         else
-          error_to_remove = errors.detect do |error|
-            error_matches?(error)
-          end
-          if error_to_remove.nil?
-            errors.insert(0,Spec::Expectations::ExpectationNotMetError.new(build_message(errors[0])))
-          else
-            errors.delete(error_to_remove)
-          end
+          errors.delete(error_to_remove)
         end
       end
     end
