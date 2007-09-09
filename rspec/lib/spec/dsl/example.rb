@@ -12,7 +12,7 @@ module Spec
           return ExampleSuite.new("Rspec Description Suite", self) unless description
           suite = ExampleSuite.new(description.description, self)
           ordered_example_definitions(reverse).each do |example_definition|
-            suite << create_example(example_definition)
+            suite << new(example_definition)
           end
           suite
         end
@@ -74,10 +74,6 @@ module Spec
 
         def ordered_example_definitions(reverse)
           reverse ? example_definitions.reverse : example_definitions
-        end
-
-        def create_example(example_definition)
-          new example_definition
         end
 
         def plugin_mock_framework

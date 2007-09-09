@@ -59,7 +59,7 @@ module Spec
         errors = []
         unless dry_run
           begin
-            @before_and_after_all_example = create_example(nil)
+            @before_and_after_all_example = behaviour.new(nil)
             @before_and_after_all_example.instance_eval(&before_all_proc(behaviour_type))
           rescue Exception => e
             errors << e
@@ -75,7 +75,7 @@ module Spec
       def run_after_all
         unless dry_run
           begin
-            @before_and_after_all_example ||= create_example(nil)
+            @before_and_after_all_example ||= behaviour.new(nil)
             @before_and_after_all_example.instance_eval(&after_all_proc(behaviour_type))
           rescue Exception => e
             location = "after(:all)"
@@ -86,7 +86,6 @@ module Spec
 
       def_delegator :behaviour, :rspec_options
       def_delegator :behaviour, :create_example_definition
-      def_delegator :behaviour, :create_example
       def_delegator :behaviour, :description
       def_delegator :behaviour, :behaviour_type
       def_delegator :behaviour, :before_all_proc
