@@ -19,7 +19,7 @@ module Spec
           return if example_definitions.empty?
 
           reporter.add_behaviour(description)
-          before_all_errors = run_before_all(reporter, dry_run)
+          before_all_errors = run_before_all
 
           if before_all_errors.empty?
             example = nil
@@ -32,12 +32,12 @@ module Spec
                 afters = after_each_proc(behaviour_type)
               end
               run_proxy = ExampleRunProxy.new(rspec_options, example)
-              run_proxy.run(befores, afters, timeout)
+              run_proxy.run(befores, afters)
             end
             @before_and_after_all_example.copy_instance_variables_from(example)
           end
 
-          run_after_all(reporter, dry_run)
+          run_after_all
         end
 
         # Sets the #number on each ExampleDefinition and returns the next number
@@ -76,15 +76,11 @@ module Spec
           rspec_options.reverse
         end
 
-        def timeout
-          rspec_options.timeout
-        end
-
         def specified_examples
           rspec_options.examples
         end
 
-        def run_before_all(reporter, dry_run)
+        def run_before_all
           errors = []
           unless dry_run
             begin
@@ -101,7 +97,7 @@ module Spec
           errors
         end
 
-        def run_after_all(reporter, dry_run)
+        def run_after_all
           unless dry_run
             begin
               @before_and_after_all_example ||= create_example(nil)

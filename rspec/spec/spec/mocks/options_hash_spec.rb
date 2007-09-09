@@ -21,7 +21,7 @@ module Spec
         @reporter.should_receive(:example_finished) do |spec, error|
           error.backtrace.detect {|line| line =~ /\/path\/to\/blah.ext:37/}.should_not be_nil
         end
-        proxy.run(nil, nil, nil)
+        proxy.run(nil, nil)
       end
 
       it "should use the message supplied with :message" do
@@ -35,7 +35,7 @@ module Spec
         @reporter.should_receive(:example_finished) do |spec, error|
           error.message.should == "recebi nada"
         end
-        proxy.run(nil, nil, nil)
+        proxy.run(nil, nil)
       end
     end
   end

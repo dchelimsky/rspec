@@ -28,7 +28,7 @@ module Spec
         @reporter.should_receive(:example_finished) do |description, error|
           error.should be_nil
         end
-        proxy.run(nil, nil, nil)
+        proxy.run(nil, nil)
       end
 
       it "true} should fail if nothing is raised" do
@@ -38,7 +38,7 @@ module Spec
         @reporter.should_receive(:example_finished) do |example_name, error|
           verify_error(error, /example block expected Exception but nothing was raised/)
         end
-        proxy.run(nil, nil, nil)
+        proxy.run(nil, nil)
       end
 
       it "NameError} should pass when there is a NameError" do
@@ -50,7 +50,7 @@ module Spec
         @reporter.should_receive(:example_finished) do |example_name, error|
           error.should be_nil
         end
-        proxy.run(nil, nil, nil)
+        proxy.run(nil, nil)
       end
 
       it "NameError} should fail when there is no error" do
@@ -62,7 +62,7 @@ module Spec
         @reporter.should_receive(:example_finished) do |example_name, error|
           verify_error(error,/example block expected NameError but nothing was raised/)
         end
-        proxy.run(nil, nil, nil)
+        proxy.run(nil, nil)
       end
 
       it "NameError} should fail when there is the wrong error" do
@@ -74,7 +74,7 @@ module Spec
         @reporter.should_receive(:example_finished) do |example_name, error|
           verify_error(error, /example block expected NameError but raised.+RuntimeError/)
         end
-        proxy.run(nil, nil, nil)
+        proxy.run(nil, nil)
       end
 
       it "[NameError]} should pass when there is a NameError" do
@@ -86,7 +86,7 @@ module Spec
         @reporter.should_receive(:example_finished) do |description, error|
           error.should be_nil
         end
-        proxy.run(nil, nil, nil)
+        proxy.run(nil, nil)
       end
 
       it "[NameError]} should fail when there is no error" do
@@ -97,7 +97,7 @@ module Spec
         @reporter.should_receive(:example_finished) do |description, error|
           verify_error(error, /example block expected NameError but nothing was raised/)
         end
-        proxy.run(nil, nil, nil)
+        proxy.run(nil, nil)
       end
 
       it "[NameError]} should fail when there is the wrong error" do
@@ -109,7 +109,7 @@ module Spec
         @reporter.should_receive(:example_finished) do |description, error|
           verify_error(error, /example block expected NameError but raised.+RuntimeError/)
         end
-        proxy.run(nil, nil, nil)
+        proxy.run(nil, nil)
       end
 
       it "[NameError, 'message'} should pass when there is a NameError with the right message" do
@@ -121,7 +121,7 @@ module Spec
         @reporter.should_receive(:example_finished) do |description, error|
           error.should be_nil
         end
-        proxy.run(nil, nil, nil)
+        proxy.run(nil, nil)
       end
 
       it "[NameError, 'message'} should pass when there is a NameError with a message matching a regex" do
@@ -133,7 +133,7 @@ module Spec
         @reporter.should_receive(:example_finished) do |description, error|
           error.should be_nil
         end
-        proxy.run(nil, nil, nil)
+        proxy.run(nil, nil)
       end
 
       it "[NameError, 'message'} should fail when there is a NameError with the wrong message" do
@@ -145,7 +145,7 @@ module Spec
         @reporter.should_receive(:example_finished) do |description, error|
           verify_error(error, /example block expected #<NameError: expected> but raised #<NameError: wrong message>/)
         end
-        proxy.run(nil, nil, nil)
+        proxy.run(nil, nil)
       end
 
       it "[NameError, 'message'} should fail when there is a NameError with a message not matching regexp" do
@@ -157,7 +157,7 @@ module Spec
         @reporter.should_receive(:example_finished) do |description, error|
           verify_error(error, /example block expected #<NameError: \(\?-mix:exp\)> but raised #<NameError: wrong message>/)
         end
-        proxy.run(nil, nil, nil)
+        proxy.run(nil, nil)
       end
     end
   end

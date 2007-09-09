@@ -10,7 +10,7 @@ module Spec
         @errors = []
       end
 
-      def run(before_each_block, after_each_block, timeout=nil)
+      def run(before_each_block, after_each_block)
         reporter.example_started(example_definition)
         if dry_run
           example_definition.description = "NO NAME (Because of --dry-run)"
@@ -87,6 +87,10 @@ module Spec
 
       def reporter
         @options.reporter
+      end
+
+      def timeout
+        @options.timeout
       end
       
       def dry_run
