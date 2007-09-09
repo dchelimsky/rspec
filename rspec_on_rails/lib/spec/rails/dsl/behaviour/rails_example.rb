@@ -36,7 +36,7 @@ module Spec
 
         include Spec::Rails::Matchers
 
-        def initialize(behaviour, example) #:nodoc:
+        def initialize(example) #:nodoc:
           super
           def self.method_missing(method_name, *args, &block)
             return ::Spec::Matchers::Be.new(method_name, *args) if method_name.starts_with?("be_")

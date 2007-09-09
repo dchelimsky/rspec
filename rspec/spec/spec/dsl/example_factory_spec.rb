@@ -9,10 +9,26 @@ module Spec
         behaviour.superclass.should == Spec::DSL::Example
       end
 
+      it "should create a Spec::DSL::Example when :type => :default" do
+        behaviour = Spec::DSL::ExampleFactory.create("behaviour", :type => :default)
+        behaviour.name.should be_empty
+        behaviour.superclass.should == Spec::DSL::Example
+      end
+
       it "should create a Spec::DSL::Example when :behaviour_type => :default" do
         behaviour = Spec::DSL::ExampleFactory.create("behaviour", :behaviour_type => :default)
         behaviour.name.should be_empty
         behaviour.superclass.should == Spec::DSL::Example
+      end
+
+      it "should create specified type when :type => :something_other_than_default" do
+        behaviour_class = Class.new(Example) do
+          def initialize(*args, &block); end
+        end
+        Spec::DSL::ExampleFactory.add_example_class(:something_other_than_default, behaviour_class)
+        behaviour = Spec::DSL::ExampleFactory.create("behaviour", :type => :something_other_than_default)
+        behaviour.name.should be_empty
+        behaviour.superclass.should == behaviour_class
       end
 
       it "should create specified type when :behaviour_type => :something_other_than_default" do

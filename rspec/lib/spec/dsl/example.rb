@@ -31,7 +31,8 @@ module Spec
                 befores = before_each_proc(behaviour_type) {|e| raise e}
                 afters = after_each_proc(behaviour_type)
               end
-              example_definition.run(reporter, befores, afters, dry_run, example, timeout)
+              run_proxy = ExampleRunProxy.new(rspec_options, example)
+              run_proxy.run(reporter, befores, afters, timeout)
             end
             @before_and_after_all_example.copy_instance_variables_from(example)
           end
@@ -153,7 +154,7 @@ module Spec
         end
 
         def create_example(example_definition)
-          new self, example_definition
+          new example_definition
         end
 
         def plugin_mock_framework
@@ -186,16 +187,19 @@ module Spec
       alias_method :behaviour, :rspec_behaviour
       alias_method :definition, :rspec_definition
 
-      def initialize(behaviour, definition) #:nodoc:
-        (class << self; self; end).class_eval do
-          plugin_mock_framework
-          include_example_modules behaviour.behaviour_type
-          define_predicate_matchers(behaviour.predicate_matchers)
-          define_predicate_matchers(Spec::Runner.configuration.predicate_matchers)
-        end
-        @rspec_behaviour = behaviour
+      def initialize(definition) #:nodoc:
+        @rspec_behaviour = self.class
         @rspec_definition = definition
         @_result = Test::Unit::TestResult.new
+        
+        behaviour_type = @rspec_behaviour.behaviour_type
+        predicate_matchers = @rspec_behaviour.predicate_matchers
+        (class << self; self; end).class_eval do
+          plugin_mock_framework
+          include_example_modules behaviour_type
+          define_predicate_matchers predicate_matchers
+          define_predicate_matchers(Spec::Runner.configuration.predicate_matchers)
+        end
       end
 
       def violated(message="")
@@ -217,6 +221,10 @@ module Spec
         else
           raise Spec::DSL::ExamplePendingError.new(message)
         end
+      end
+
+      def copy_instance_variables_from(obj)
+        super(obj, [:@rspec_definition, :@rspec_behaviour, :@_result])
       end
     end
   end

@@ -32,7 +32,7 @@ module Spec
           end          
         end
 
-        def initialize(behaviour, example) #:nodoc:
+        def initialize(example) #:nodoc:
           super
           @controller_class_name = "Spec::Rails::DSL::ViewExampleController"
         end

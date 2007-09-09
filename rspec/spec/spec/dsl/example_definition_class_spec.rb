@@ -3,21 +3,20 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 module Spec
   module DSL
     describe ExampleDefinition, " class" do
-
-      def run(example)
-        example.run(@reporter, nil, nil, nil, Object.new)
-      end
-
       before do
-        @reporter = stub("reporter", :example_started => nil, :example_finished => nil)
+        @options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
+        @reporter = ::Spec::Runner::Reporter.new(@options)
         @example_definition_class = ExampleDefinition.dup
+        @behaviour = Class.new(Example).describe("My Behaviour")
       end
       
       it "should report errors in example" do
         error = Exception.new
-        example = @example_definition_class.new("example") {raise(error)}
+        example_definition = @example_definition_class.new("example") {raise(error)}
+        example = @behaviour.new(example_definition)
+        proxy = ExampleRunProxy.new(@options, example)
         @reporter.should_receive(:example_finished).with(equal(example), error, "example", false)
-        run(example)
+        proxy.run(@reporter, nil, nil, nil)
       end
     end
   end
