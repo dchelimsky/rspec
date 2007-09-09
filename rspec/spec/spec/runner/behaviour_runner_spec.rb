@@ -11,31 +11,46 @@ module Spec
         class << @runner
           attr_reader :behaviours
         end
-
-        @behaviour = Class.new(::Spec::DSL::Example).describe("A Behaviour") do
-          it "runs 1" do
-          end
-          it "runs 2" do
-          end
-        end
       end
 
-      it "keeps all example_definitions when options.examples is nil" do
+      it "runs all examples when options.examples is nil" do
+        example_1_has_run = false
+        example_2_has_run = false
+        @behaviour = Class.new(::Spec::DSL::Example).describe("A Behaviour") do
+          it "runs 1" do
+            example_1_has_run = true
+          end
+          it "runs 2" do
+            example_2_has_run = true
+          end
+        end
+        
         @options.examples = nil
-        @behaviour.number_of_examples.should == 2
 
         @runner.add_behaviour @behaviour
-        @behaviour.number_of_examples.should == 2
-        @behaviour.example_definitions.collect {|example| example.send(:description) }.should == ['runs 1', 'runs 2']
+        @runner.run([], false)
+        example_1_has_run.should be_true
+        example_2_has_run.should be_true
       end
 
       it "keeps all example_definitions when options.examples is empty" do
+        example_1_has_run = false
+        example_2_has_run = false
+        @behaviour = Class.new(::Spec::DSL::Example).describe("A Behaviour") do
+          it "runs 1" do
+            example_1_has_run = true
+          end
+          it "runs 2" do
+            example_2_has_run = true
+          end
+        end
+        
         @options.examples = []
-        @behaviour.number_of_examples.should == 2
 
         @runner.add_behaviour @behaviour
-        @behaviour.number_of_examples.should == 2
-        @behaviour.example_definitions.collect {|example| example.send(:description) }.should == ['runs 1', 'runs 2']
+        @runner.run([], false)
+        example_1_has_run.should be_true
+        example_2_has_run.should be_true
       end
     end
 
@@ -154,9 +169,14 @@ module Spec
         b2.should_receive(:number_of_examples).and_return(2)
         b2.should_receive(:shared?).and_return(false)
         b2.should_receive(:set_sequence_numbers).with(0, true).and_return(12)
-        b2.should_receive(:run) do
-          b1.should_receive(:run)
-        end
+
+        b2_suite = b2.suite
+        b2.should_receive(:suite).and_return(b2_suite)
+        b1_suite = b1.suite
+        b1.should_receive(:suite).and_return(b1_suite)
+
+        b2_suite.should_receive(:run).ordered
+        b1_suite.should_receive(:run).ordered
 
         runner.add_behaviour(b1)
         runner.add_behaviour(b2)
@@ -179,12 +199,16 @@ module Spec
         runner.run([], false)
       end
 
-      it "removes example_definitions not selected from Example when options.examples is set" do
+      it "runs only selected Examples when options.examples is set" do
         @options.examples << "behaviour should"
+        should_has_run = false
+        should_not_has_run = false
         behaviour = Class.new(::Spec::DSL::Example).describe("behaviour") do
           it "should" do
+            should_has_run = true
           end
           it "should not" do
+            should_not_has_run = true
           end
         end
 
@@ -192,12 +216,12 @@ module Spec
         reporter.should_receive(:add_behaviour).with(an_instance_of(Spec::DSL::BehaviourDescription))
         @options.reporter = reporter
 
-        behaviour.number_of_examples.should == 2
         runner = Spec::Runner::BehaviourRunner.new(@options)
         runner.add_behaviour behaviour
         runner.run([], false)
 
-        behaviour.number_of_examples.should == 1
+        should_has_run.should be_true
+        should_not_has_run.should be_false
       end
     end
   end

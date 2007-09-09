@@ -11,39 +11,16 @@ module Spec
         def suite
           return ExampleSuite.new("Rspec Description Suite", self) unless description
           suite = ExampleSuite.new(description.description, self)
-          suite
-        end
-
-        def run
-          retain_specified_examples
-          return if example_definitions.empty?
-
-          reporter.add_behaviour(description)
-          before_all_errors = run_before_all
-
-          if before_all_errors.empty?
-            example = nil
-            ordered_example_definitions(reverse).each do |example_definition|
-              example = create_example(example_definition)
-              example.copy_instance_variables_from(@before_and_after_all_example)
-
-              unless example_definition.pending?
-                befores = before_each_proc(behaviour_type) {|e| raise e}
-                afters = after_each_proc(behaviour_type)
-              end
-              run_proxy = ExampleRunProxy.new(rspec_options, example)
-              run_proxy.run(befores, afters)
-            end
-            @before_and_after_all_example.copy_instance_variables_from(example)
+          ordered_example_definitions(reverse).each do |example_definition|
+            suite << create_example(example_definition)
           end
-
-          run_after_all
+          suite
         end
 
         # Sets the #number on each ExampleDefinition and returns the next number
         def set_sequence_numbers(number, reverse) #:nodoc:
-          ordered_example_definitions(reverse).each do |example|
-            example.number = number
+          ordered_example_definitions(reverse).each do |example_definition|
+            example_definition.number = number
             number += 1
           end
           number
@@ -51,66 +28,6 @@ module Spec
 
         def shared?
           false
-        end
-
-        protected
-
-        def retain_specified_examples
-          return if specified_examples.empty?
-          return if specified_examples.index(description.to_s)
-          matcher = ExampleMatcher.new(description.to_s)
-          example_definitions.reject! do |example|
-            !example.matches?(matcher, specified_examples)
-          end
-        end
-
-        def reporter
-          rspec_options.reporter
-        end
-
-        def dry_run
-          rspec_options.dry_run
-        end
-
-        def reverse
-          rspec_options.reverse
-        end
-
-        def specified_examples
-          rspec_options.examples
-        end
-
-        def run_before_all
-          errors = []
-          unless dry_run
-            begin
-              @before_and_after_all_example = create_example(nil)
-              @before_and_after_all_example.instance_eval(&before_all_proc(behaviour_type))
-            rescue Exception => e
-              errors << e
-              location = "before(:all)"
-              # The easiest is to report this as an example failure. We don't have an ExampleDefinition
-              # at this point, so we'll just create a placeholder.
-              reporter.example_finished(create_example_definition(location), e, location)
-            end
-          end
-          errors
-        end
-
-        def run_after_all
-          unless dry_run
-            begin
-              @before_and_after_all_example ||= create_example(nil)
-              @before_and_after_all_example.instance_eval(&after_all_proc(behaviour_type))
-            rescue Exception => e
-              location = "after(:all)"
-              reporter.example_finished(create_example_definition(location), e, location)
-            end
-          end
-        end
-
-        def ordered_example_definitions(reverse)
-          reverse ? example_definitions.reverse : example_definitions
         end
 
         def before_each_proc(behaviour_type, &error_handler)
@@ -147,6 +64,16 @@ module Spec
           parts.push(*Example.after_each_parts(behaviour_type)) if behaviour_type
           parts.push(*Example.after_each_parts(nil))
           CompositeProcBuilder.new(parts).proc
+        end
+        
+        protected
+
+        def reverse
+          rspec_options.reverse
+        end
+
+        def ordered_example_definitions(reverse)
+          reverse ? example_definitions.reverse : example_definitions
         end
 
         def create_example(example_definition)

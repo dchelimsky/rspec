@@ -67,8 +67,8 @@ module Spec
 
       def run_behaviours
         @behaviours.each do |behaviour|
+          behaviour.rspec_options = @options
           suite = behaviour.suite
-          suite.rspec_options = @options
           suite.run(nil)
         end
       end
