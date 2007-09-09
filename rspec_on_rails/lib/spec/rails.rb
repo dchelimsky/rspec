@@ -16,7 +16,7 @@ require File.expand_path("#{dir}/rails/version")
 require File.expand_path("#{dir}/rails/extensions")
 require File.expand_path("#{dir}/rails/matchers")
 
-Test::Unit.run = true
+#Test::Unit.run = true
 
 module Spec
   # = Spec::Rails

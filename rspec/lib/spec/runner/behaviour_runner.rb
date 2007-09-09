@@ -21,13 +21,13 @@ module Spec
       # Runs all behaviours and returns the number of failures.
       def run(paths, exit_when_done)
         prepare(paths)
+        failure_count = nil
         begin
           run_behaviours
         rescue Interrupt
         ensure
-          report_end
+          failure_count = finish
         end
-        failure_count = report_dump
         
         heckle if(failure_count == 0 && @options.heckle_runner)
         
@@ -37,10 +37,10 @@ module Spec
         end
         failure_count
       end
-      
-    protected
 
       def prepare(paths)
+        return if @already_prepared
+        @already_prepared = true
         unless paths.nil? # It's nil when running single specs with ruby
           paths = find_paths(paths)
           sorted_paths = sort_paths(paths)
@@ -50,6 +50,13 @@ module Spec
         @behaviours.reverse! if @options.reverse
         set_sequence_numbers
       end
+
+      def finish
+        report_end
+        report_dump
+      end
+      
+    protected
 
       def sorter(paths)
         FILE_SORTERS[@options.loadby]

@@ -13,21 +13,21 @@ module Spec
         @behaviour_names << name
       end
       
-      def example_started(name)
-        formatters.each{|f| f.example_started(name)}
+      def example_started(example_definition)
+        formatters.each{|f| f.example_started(example_definition)}
       end
       
-      def example_finished(name, error=nil, failure_location=nil, not_implemented = false)
-        @example_names << name
+      def example_finished(example_definition, error=nil, failure_location=nil, not_implemented = false)
+        @example_names << example_definition
         
         if not_implemented
-          example_pending(@behaviour_names.last, name)
+          example_pending(@behaviour_names.last, example_definition)
         elsif error.nil?
-          example_passed(name)
+          example_passed(example_definition)
         elsif Spec::DSL::ExamplePendingError === error
-          example_pending(@behaviour_names.last, name, error.message)
+          example_pending(@behaviour_names.last, example_definition, error.message)
         else
-          example_failed(name, error, failure_location)
+          example_failed(example_definition, error, failure_location)
         end
       end
 

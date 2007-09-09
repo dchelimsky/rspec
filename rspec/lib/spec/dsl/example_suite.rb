@@ -12,6 +12,7 @@ module Spec
       end
 
       def run(result, &progress_block)
+        behaviour_runner.prepare(nil)
         retain_specified_examples
         return if examples.empty?
 
@@ -28,7 +29,7 @@ module Spec
               afters = after_each_proc(behaviour_type)
             end
             run_proxy = ExampleRunProxy.new(rspec_options, example)
-            run_proxy.run(befores, afters)
+            run_proxy.run(befores, afters, &progress_block)
           end
           @before_and_after_all_example.copy_instance_variables_from(example)
         end

@@ -30,7 +30,12 @@ module Spec
         if should_raise
           ExampleShouldRaiseHandler.new(from, should_raise).handle(errors)
         end
-        reporter.example_finished(example_definition, errors.first, location, example_definition.pending?) if reporter
+        reporter.example_finished(
+          example_definition,
+          errors.first,
+          location,
+          example_definition.pending?
+        )
       end
 
       def ok?
