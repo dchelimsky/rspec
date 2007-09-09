@@ -16,7 +16,7 @@ module Spec
         example = @behaviour.new(example_definition)
         proxy = ExampleRunProxy.new(@options, example)
         @reporter.should_receive(:example_finished).with(equal(example), error, "example", false)
-        proxy.run(@reporter, nil, nil, nil)
+        proxy.run(nil, nil, nil)
       end
     end
   end
