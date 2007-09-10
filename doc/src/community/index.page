@@ -100,7 +100,8 @@ James Edward Gray II
 ** Patch [#10920] Added support for not implemented examples
 * Jake Howerton
 ** Port of Kevin Clark's ARTS to RSpec
-* Shintaro KAKUTANI
+* Shintaro Kakutani
+** Patch [#13814] RSpec on Rails w/ fixture-scenarios
 ** Patches for coloured progress<br>
 ** Assorted Rails patches
 * Erik Kastner
