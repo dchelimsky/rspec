@@ -158,7 +158,7 @@ module Spec
       # for details about what you can do with it.
       #
       def configure
-        yield configuration if @configuration.nil?
+        yield configuration
       end
     end
   end

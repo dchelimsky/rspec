@@ -197,15 +197,6 @@ module Spec
         end
       end
 
-      it "should fail on no args if any args received" do
-        @mock.should_receive(:something).with(:no_args)
-        begin
-          @mock.something 1
-        rescue MockExpectationError => e
-          e.message.should == "Mock 'test mock' expected :something with (no args) but received it with (1)"
-        end
-      end
-      
       it "should fail when args are expected but none are received" do
         @mock.should_receive(:something).with(1)
         begin
