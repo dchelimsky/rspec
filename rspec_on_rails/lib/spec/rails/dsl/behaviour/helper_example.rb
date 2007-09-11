@@ -50,7 +50,7 @@ module Spec
         include ActionView::Helpers::FormOptionsHelper
         include ActionView::Helpers::FormTagHelper
         include ActionView::Helpers::JavaScriptHelper
-        include ActionView::Helpers::JavaScriptMacrosHelper
+        include ActionView::Helpers::JavaScriptMacrosHelper rescue nil #removed after 1.2.3
         include ActionView::Helpers::NumberHelper
         include ActionView::Helpers::PaginationHelper rescue nil #removed after 1.2.3
         include ActionView::Helpers::PrototypeHelper

@@ -160,6 +160,7 @@ James Edward Gray II
 ** Patch [#11615] Partial mock methods give ambiguous failures when given a method name as a String
 ** Patch [#13274] ThrowSymbol recognized a NameError triggered by Kernel#method_missing as a thrown Symbol
 * Yurii Rashkovskii
+** Patch [#13833] ActionView::Helpers::JavaScriptMacrosHelper removed after 1.2.3
 ** Patch to improve generated descriptions for the "be" matcher
 ** Patch [#12611] should_not redirect_to implementation
 * Luke Redpath
