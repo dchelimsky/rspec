@@ -61,8 +61,9 @@ module Spec
       
       alias_method :specify, :it
       
+      # Use this to temporarily disable an example.
       def xit(description=:__generate_description, opts={}, &block)
-        Kernel.warn("Example #{description} is disabled")
+        Kernel.warn("Example disabled: #{description}")
       end
 
       def behaviour_type #:nodoc:

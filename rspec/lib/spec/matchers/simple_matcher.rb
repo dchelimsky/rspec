@@ -12,11 +12,11 @@ module Spec
       end
 
       def failure_message()
-        return %[Expected #{@description.inspect} but got #{@actual.inspect}]
+        return %[expected #{@description.inspect} but got #{@actual.inspect}]
       end
         
       def negative_failure_message()
-        return %[Expected not to get #{@description.inspect}, but got #{@actual.inspect}]
+        return %[expected not to get #{@description.inspect}, but got #{@actual.inspect}]
       end
     end
     

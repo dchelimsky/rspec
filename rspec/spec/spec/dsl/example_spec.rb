@@ -54,21 +54,21 @@ module Spec
       end
       
       it "should warn that it is disabled" do
-        Kernel.should_receive(:warn).with("Example  is disabled")
-        @behaviour.xit("")
+        Kernel.should_receive(:warn).with("Example disabled: foo")
+        @behaviour.xit("foo")
       end
     end
 
     describe "Example", ".suite" do
       it_should_behave_like "Spec::DSL::Example"
 
-      it "returns an empty ExampleSuite when there is no description" do
+      it "should return an empty ExampleSuite when there is no description" do
         Example.description.should be_nil
         Example.suite.should be_instance_of(ExampleSuite)
         Example.suite.tests.should be_empty
       end
 
-      it "returns an ExampleSuite with Examples"
+      it "should return an ExampleSuite with Examples"
     end
 
     describe "Example", ".description" do

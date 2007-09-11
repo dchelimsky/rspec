@@ -132,10 +132,6 @@ module Spec
         raise Spec::Expectations::ExpectationNotMetError.new(message)
       end
 
-      def inspect
-        "[RSpec example]"
-      end
-
       def pending(message)
         if block_given?
           begin
