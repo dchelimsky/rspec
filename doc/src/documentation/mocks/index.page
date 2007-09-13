@@ -32,7 +32,7 @@ h3. Stubs
 <a href="stubs.html">Stubs</a> are objects that allow you to set "stub" responses to
 messages. As Martin Fowler points out on his site, "Mocks aren't stubs":http://www.martinfowler.com/articles/mocksArentStubs.html. Paraphrasing Fowler's paraphrasing
 of Gerard Meszaros: Stubs provide canned responses to messages they might receive in a test, while
-mocks allow you to specify and, subsquently, verify that certain messages should be received during
+mocks allow you to specify and, subsequently, verify that certain messages should be received during
 the execution of a test.
 
 h3. Partials
