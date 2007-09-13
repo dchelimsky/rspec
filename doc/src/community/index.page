@@ -106,6 +106,8 @@ James Edward Gray II
 ** Assorted Rails patches
 * Erik Kastner
 ** Patch to rename file_list to spec_file_list in spectask.rake (to avoid conflicts w/ other tools)
+* Brandon Keepers
+** Patch [#13881] Dynamically include Helpers that are included on ActionView::Base
 * Rich Kilmer
 ** Underscore syntactic sugar
 * Ryan Kinderman

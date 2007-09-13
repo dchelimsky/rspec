@@ -13,6 +13,7 @@ CMD-R runs all the specs in one file
 CMD-SHIFT-R runs an individual spec
 CMD-OPT-R runs any files or directories selected in the TextMate drawer
 
+* Applied [#13881] Dynamically include Helpers that are included on ActionView::Base (Patch from Brandon Keepers)
 * Applied [#13833] ActionView::Helpers::JavaScriptMacrosHelper removed after 1.2.3 (Patch from Yurii Rashkovskii)
 * Applied [#13814] RSpec on Rails w/ fixture-scenarios (Patch from Shintaro Kakutani)
 * Add ability to define Example subclass instead of using describe

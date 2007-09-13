@@ -39,26 +39,9 @@ module Spec
           end
         end
 
-        include ActionView::Helpers::ActiveRecordHelper
-        include ActionView::Helpers::AssetTagHelper
-        include ActionView::Helpers::BenchmarkHelper
-        include ActionView::Helpers::CacheHelper
-        include ActionView::Helpers::CaptureHelper
-        include ActionView::Helpers::DateHelper
-        include ActionView::Helpers::DebugHelper
-        include ActionView::Helpers::FormHelper
-        include ActionView::Helpers::FormOptionsHelper
-        include ActionView::Helpers::FormTagHelper
-        include ActionView::Helpers::JavaScriptHelper
-        include ActionView::Helpers::JavaScriptMacrosHelper rescue nil #removed after 1.2.3
-        include ActionView::Helpers::NumberHelper
-        include ActionView::Helpers::PaginationHelper rescue nil #removed after 1.2.3
-        include ActionView::Helpers::PrototypeHelper
-        include ActionView::Helpers::RecordIdentificationHelper rescue nil
-        include ActionView::Helpers::ScriptaculousHelper
-        include ActionView::Helpers::TagHelper
-        include ActionView::Helpers::TextHelper
-        include ActionView::Helpers::UrlHelper
+        ActionView::Base.included_modules.each do |mod|
+          include mod if mod.parents.include?(ActionView::Helpers)
+        end
         ActionController::Routing::Routes.named_routes.install(self)
 
         def helper_setup #:nodoc:
