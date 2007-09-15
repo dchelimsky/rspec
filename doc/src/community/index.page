@@ -138,6 +138,7 @@ James Edward Gray II
 * Dan Manges
 ** Fixed visibility problem for ActionController::Base#render in Spec::Rails
 * Mike Mangino
+** Patch for  [#13370] Weird mock expectation error
 ** Patch for [#13065] Named routes throw a NoMethodError in Helper specs
 * Pat Maddox
 ** Spec'ing routes (Rails)

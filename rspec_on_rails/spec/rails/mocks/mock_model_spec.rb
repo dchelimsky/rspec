@@ -50,30 +50,16 @@ end
 
 describe "mock_model as association", :behaviour_type => :view do
   before(:each) do
-    @pending_message = %{
-      mock == association_proxy fails but reports odd messages like this one:
-        Mock 'Book_1027' expected :store_with_privacy? with (#<Clip:0x1a9139c @name="Clip_1025">)
-        but received it with (#<Clip:0x1a9139c @name="Clip_1025">)
-      
-      Note that both objects report themselves as instances of the model, but, in fact,
-      both are lying! The expected is actually a mock and the actual is actually an AssociationProxy.
-      
-      We should try to figure out a way to get this to report the truth.
-    }
-    @real = MockableModel.create!
-    # @real.associated_model = 
-    @associated_mock_model = mock_model(AssociatedModel)
+    @real = AssociatedModel.create!
+    @mock_model = mock_model(MockableModel)
+    @real.mockable_model = @mock_model
   end
   
   it "should pass associated_model == mock" do
-    pending @pending_message do
-      @associated_mock_model.should == @real.associated_model
-    end
+      @mock_model.should == @real.mockable_model
   end
 
   it "should pass mock == associated_model" do
-    pending @pending_message do
-      @real.associated_model.should == @associated_mock_model
-    end
+      @real.mockable_model.should == @mock_model
   end
 end
