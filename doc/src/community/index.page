@@ -127,6 +127,7 @@ James Edward Gray II
 * Ian Leitch
 ** Patch [#11888] rspec_on_rails spews out warnings when assert_select is used with an XML response
 ** Patch [#12817] Cannot include same shared behaviour when required with absolute paths.
+** Patch [#13952] Fix for performance regression introduced in r2096
 * Jay Levitt
 ** Patch [#13143] ActionView::Helpers::RecordIdentificationHelper should be included if present
 ** Patch [#13016] [DOC] Point out that view specs render, well, a view

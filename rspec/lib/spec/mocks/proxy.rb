@@ -91,7 +91,7 @@ module Spec
         if target_responds_to?(sym) && !@proxied_methods.include?(sym)
           munged_sym = munge(sym)
           metaclass.instance_eval do
-            alias_method munged_sym, sym if instance_methods.include?(sym.to_s)
+            alias_method munged_sym, sym if method_defined?(sym.to_s)
           end
           @proxied_methods << sym
         end
@@ -143,7 +143,7 @@ module Spec
         @proxied_methods.each do |sym|
           munged_sym = munge(sym)
           metaclass.instance_eval do
-            if instance_methods.include?(munged_sym.to_s)
+            if method_defined?(munged_sym.to_s)
               alias_method sym, munged_sym
               undef_method munged_sym
             else
