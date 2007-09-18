@@ -4,7 +4,9 @@ module Spec
       def initialize
         @steps = Hash.new do |hsh,type|
           hsh[type] = Hash.new do |hsh,name|
-            raise UnknownStepException, "No such step: #{type} #{name}"
+            SimpleStep.new(name) do
+              raise Spec::DSL::ExamplePendingError.new("Unimplemented step: #{name}")
+            end
           end
         end
       end
