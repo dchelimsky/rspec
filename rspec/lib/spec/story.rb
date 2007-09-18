@@ -1,5 +1,4 @@
 require 'spec/story/documenter'
-require 'spec/story/exceptions'
 require 'spec/story/extensions'
 require 'spec/story/given_scenario'
 require 'spec/story/reporter'
