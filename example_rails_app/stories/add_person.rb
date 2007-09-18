@@ -11,10 +11,10 @@ Story "Add Person", %{
     end
     
     When "creating a new person named", "Dan" do |name|
-      post "/people/create", :person => {:name => name}
+      post "people/create", :person => {:name => name}
     end
     
-    Then "viewer should see", "/people/list" do |template|
+    Then "viewer should see", "people/list" do |template|
       follow_redirect!
       response.should render_template(template)
     end
@@ -34,7 +34,7 @@ Story "Add Person", %{
       When "creating a new person named", nil
     end
     
-    Then "viewer should see", "/people/create" do |template|
+    Then "viewer should see", "people/create" do |template|
       assert_template template
     end
     
@@ -42,4 +42,6 @@ Story "Add Person", %{
       response.should_not have_text(/#{name}/)
     end
   end
+  
+  Scenario "This is supposed to come up as pending."
 end

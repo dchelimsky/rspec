@@ -6,11 +6,13 @@ module Spec::Expectations::ObjectExpectations
 end
 
 def exception_from(&block)
+  exception = nil
   begin
     yield
   rescue StandardError => e
-    e
+    exception = e
   end
+  exception
 end
 
 # simplify matchers

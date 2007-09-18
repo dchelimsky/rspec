@@ -8,6 +8,7 @@ module Spec
         
         def run(scenario, world)
           begin
+            raise Spec::DSL::ExamplePendingError unless scenario.body
             @listeners.each { |l| l.scenario_started(scenario.story.title, scenario.name) }
             run_story_ignoring_scenarios(scenario.story, world)
             world.instance_eval(&scenario.body)

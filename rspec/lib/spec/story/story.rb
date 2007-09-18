@@ -4,7 +4,6 @@ module Spec
       attr_reader :title, :narrative
       
       def initialize(title, narrative, params = {}, &body)
-        raise(ArgumentError, 'A story needs a body') unless block_given?
         @body = body
         @title = title
         @narrative = narrative

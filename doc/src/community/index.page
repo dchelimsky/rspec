@@ -122,6 +122,8 @@ James Edward Gray II
 * Matthijs Langenberg
 ** Patch [#12682] Not correctly aliasing original 'stub!' and 'should_receive' methods for ApplicationController
 ** Patch [#12719] rspec_on_rails should not include pagination helper
+* Evan Light
+** Patch [#13913] Scenario should treat no code block as pending
 * Will Leinweber
 ** Patch [#13339] Add the ability for spec_parser to parse describes with :behaviour_type set (with Dav Yaginuma)
 * Ian Leitch

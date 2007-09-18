@@ -13,6 +13,7 @@ CMD-R runs all the specs in one file
 CMD-SHIFT-R runs an individual spec
 CMD-OPT-R runs any files or directories selected in the TextMate drawer
 
+* Applied [#13913] Scenario should treat no code block as pending (Patch from Evan Light)
 * Fixed [#13370] Weird mock expectation error (Patch from Mike Mangino)
 * Applied [#13952] Fix for performance regression introduced in r2096 (Patch from Ian Leitch)
 * Applied [#13881] Dynamically include Helpers that are included on ActionView::Base (Patch from Brandon Keepers)

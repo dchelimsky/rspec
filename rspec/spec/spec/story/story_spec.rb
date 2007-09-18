@@ -18,14 +18,14 @@ module Spec
         $instance.should be(object)
       end
       
-      it 'should raise an error if no block is supplied' do
+      it 'should not raise an error if no block is supplied' do
         # when
         error = exception_from do
           Story.new 'title', 'narrative'
         end
         
         # then
-        error.should be_kind_of(ArgumentError)
+        error.should be_nil
       end
       
       it "should raise when error raised running in another object" do

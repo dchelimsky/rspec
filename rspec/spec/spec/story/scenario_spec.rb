@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/story_helper'
 module Spec
   module Story
     describe Scenario do
-      it 'should fail to construct if no body is supplied' do
+      it 'should not raise an error if no body is supplied' do
         # given
         story = StoryBuilder.new.to_story
         
@@ -13,7 +13,7 @@ module Spec
         end
         
         # then
-        error.should be_kind_of(ArgumentError)
+        error.should be_nil
       end
     end
   end
