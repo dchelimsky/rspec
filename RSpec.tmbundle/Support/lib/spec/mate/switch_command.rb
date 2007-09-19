@@ -27,8 +27,10 @@ module Spec
               path = path.gsub(/\/lib\//, "/spec/")
               path = path.gsub(/\.rb$/, "_spec.rb")
               path = path.gsub(/\.erb$/, ".erb_spec.rb")
+              path = path.gsub(/\.rhtml$/, ".rhtml_spec.rb")
             when 'spec' then
               new_parent = rails?(prefix) ? "app" : "lib"
+              path = path.gsub(/\.rhtml_spec\.rb$/, ".rhtml")
               path = path.gsub(/\.erb_spec\.rb$/, ".erb")
               path = path.gsub(/_spec\.rb$/, ".rb")
               path = path.gsub(/\/spec\//, "/#{new_parent}/")
@@ -70,7 +72,8 @@ module Spec
       
       # Extracts the snippet text
       def snippet(snippet_name)
-        snippet_file = File.dirname(__FILE__) + "/../../../../Snippets/#{snippet_name}"
+        puts File.dirname(__FILE__) + "/../../../../Snippets/#{snippet_name}"
+        snippet_file = File.expand_path(File.dirname(__FILE__) + "/../../../../Snippets/#{snippet_name}")
         xml = File.open(snippet_file).read
         xml.match(/<key>content<\/key>\s*<string>([^<]*)<\/string>/m)[1]
       end

@@ -132,6 +132,11 @@ EOF
         "/a/full/path/spec/views/mooky/show.html.erb_spec.rb")
       end
       
+      it do
+        "/a/full/path/app/views/mooky/show.rhtml".should twin(
+        "/a/full/path/spec/views/mooky/show.rhtml_spec.rb")
+      end
+      
       it "should suggest controller spec" do
         "/a/full/path/spec/controllers/mooky_controller_spec.rb".should be_a("controller spec")
       end
