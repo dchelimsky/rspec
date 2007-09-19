@@ -86,7 +86,7 @@ In alphabetical order (by last name)
 * David Goodlad
 ** Patch for allowing non-Strings as partial_paths in view/specs
 ** Patch for file mappings for rspec/autotest integration
-James Edward Gray II
+* James Edward Gray II
 ** Patch to improve syntax highlighting in TextMate
 * Kyle Hargraves
 ** Patch [#10951] Odd instance variable name in rspec_model template
