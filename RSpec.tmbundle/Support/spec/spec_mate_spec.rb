@@ -17,7 +17,7 @@ describe "SpecMate" do
     
     set_env
     load File.dirname(__FILE__) + '/../lib/spec_mate.rb'
-    @spec_mate = SpecMate.new
+    @spec_mate = Spec::Mate::Runner.new
   end
   
   after(:each) do
@@ -25,7 +25,7 @@ describe "SpecMate" do
   end
 
   it "should run whole file when only file specified" do
-    ENV['TM_FILEPATH'] = File.expand_path(File.dirname(__FILE__)) + '/fixtures/example_failing_spec.rb'
+    ENV['TM_FILEPATH'] = File.expand_path(File.dirname(__FILE__)) + '/../fixtures/example_failing_spec.rb'
 
     out = StringIO.new
     @spec_mate.run_file(out)
@@ -36,7 +36,7 @@ describe "SpecMate" do
   end
 
   it "should run first spec when file and line 4 specified" do
-    ENV['TM_FILEPATH'] = File.expand_path(File.dirname(__FILE__)) + '/fixtures/example_failing_spec.rb'
+    ENV['TM_FILEPATH'] = File.expand_path(File.dirname(__FILE__)) + '/../fixtures/example_failing_spec.rb'
     ENV['TM_LINE_NUMBER'] = '4'
 
     out = StringIO.new
@@ -48,7 +48,7 @@ describe "SpecMate" do
   end
 
   it "should run first spec when file and line 8 specified" do
-    ENV['TM_FILEPATH'] = File.expand_path(File.dirname(__FILE__)) + '/fixtures/example_failing_spec.rb'
+    ENV['TM_FILEPATH'] = File.expand_path(File.dirname(__FILE__)) + '/../fixtures/example_failing_spec.rb'
     ENV['TM_LINE_NUMBER'] = '8'
 
     out = StringIO.new
@@ -62,7 +62,7 @@ describe "SpecMate" do
 
   it "should run all selected files" do
     ENV['TM_SELECTED_FILES'] = ['example_failing_spec.rb', 'example_passing_spec.rb'].map do |f|
-      "'" + File.expand_path(File.dirname(__FILE__)) + "/fixtures/#{f}'"
+      "'" + File.expand_path(File.dirname(__FILE__)) + "/../fixtures/#{f}'"
     end.join(" ")
 
     out = StringIO.new

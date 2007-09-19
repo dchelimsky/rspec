@@ -72,7 +72,6 @@ module Spec
       
       # Extracts the snippet text
       def snippet(snippet_name)
-        puts File.dirname(__FILE__) + "/../../../../Snippets/#{snippet_name}"
         snippet_file = File.expand_path(File.dirname(__FILE__) + "/../../../../Snippets/#{snippet_name}")
         xml = File.open(snippet_file).read
         xml.match(/<key>content<\/key>\s*<string>([^<]*)<\/string>/m)[1]
