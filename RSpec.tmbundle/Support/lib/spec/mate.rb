@@ -11,7 +11,7 @@ elsif ENV['TM_RSPEC_HOME']
 end
 require 'spec'
 
-$LOAD_PATH.unshift(File.dirname(__FILE__))
+$LOAD_PATH.unshift(File.dirname(__FILE__) + '/..')
 require 'spec/mate/runner'
 require 'spec/mate/switch_command'
 require 'spec/mate/text_mate_formatter'
