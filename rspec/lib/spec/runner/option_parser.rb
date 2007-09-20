@@ -25,7 +25,7 @@ module Spec
         'b'        => Formatter::FailingBehavioursFormatter
       }
 
-      COMMAND_LINE = {
+      OPTIONS = {
         :diff =>    ["-D", "--diff [FORMAT]", "Show diff of objects that are expected to be equal when they are not",
                                              "Builtin formats: unified|u|context|c",
                                              "You can also specify a custom differ class",
@@ -98,35 +98,35 @@ module Spec
 
         self.banner = "Usage: spec (FILE|DIRECTORY|GLOB)+ [options]"
         self.separator ""
-        self.rspec_on(:diff) {|diff| @options.parse_diff(diff)}
-        self.rspec_on(:colour) {@options.colour = true}
-        self.rspec_on(:example) {|example| @options.parse_example(example)}
-        self.rspec_on(:specification) {|example| @options.parse_example(example)}
-        self.rspec_on(:line) {|line_number| @options.line_number = line_number.to_i}
-        self.rspec_on(:format) {|format| @options.parse_format(format)}
-        self.rspec_on(:require) {|req| @options.parse_require(req)}
-        self.rspec_on(:backtrace) {@options.backtrace_tweaker = NoisyBacktraceTweaker.new}
-        self.rspec_on(:loadby) {|loadby| @options.loadby = loadby}
-        self.rspec_on(:reverse) {@options.reverse = true}
-        self.rspec_on(:timeout) {|timeout| @options.timeout = timeout.to_f}
-        self.rspec_on(:heckle) {|heckle| @options.parse_heckle(heckle)}
-        self.rspec_on(:dry_run) {@options.dry_run = true}
-        self.rspec_on(:options_file) do |options_file|
+        on(*OPTIONS[:diff]) {|diff| @options.parse_diff(diff)}
+        on(*OPTIONS[:colour]) {@options.colour = true}
+        on(*OPTIONS[:example]) {|example| @options.parse_example(example)}
+        on(*OPTIONS[:specification]) {|example| @options.parse_example(example)}
+        on(*OPTIONS[:line]) {|line_number| @options.line_number = line_number.to_i}
+        on(*OPTIONS[:format]) {|format| @options.parse_format(format)}
+        on(*OPTIONS[:require]) {|req| @options.parse_require(req)}
+        on(*OPTIONS[:backtrace]) {@options.backtrace_tweaker = NoisyBacktraceTweaker.new}
+        on(*OPTIONS[:loadby]) {|loadby| @options.loadby = loadby}
+        on(*OPTIONS[:reverse]) {@options.reverse = true}
+        on(*OPTIONS[:timeout]) {|timeout| @options.timeout = timeout.to_f}
+        on(*OPTIONS[:heckle]) {|heckle| @options.parse_heckle(heckle)}
+        on(*OPTIONS[:dry_run]) {@options.dry_run = true}
+        on(*OPTIONS[:options_file]) do |options_file|
           parse_options_file(options_file)
           @return_options = false
         end
-        self.rspec_on(:generate_options) do |options_file|
+        on(*OPTIONS[:generate_options]) do |options_file|
           @options.parse_generate_options(options_file, copy_original_args, @out_stream)
         end
-        self.rspec_on(:runner) do |runner|
+        on(*OPTIONS[:runner]) do |runner|
           @options.runner_arg = runner
         end
-        self.rspec_on(:drb) do
+        on(*OPTIONS[:drb]) do
           parse_drb
           @return_options = false
         end
-        self.rspec_on(:version) {parse_version}
-        self.on_tail(*COMMAND_LINE[:help]) {parse_help}
+        on(*OPTIONS[:version]) {parse_version}
+        self.on_tail(*OPTIONS[:help]) {parse_help}
       end
 
       def parse!(args)
@@ -154,10 +154,6 @@ module Spec
       end
 
       protected
-      def rspec_on(name, &block)
-        on(*COMMAND_LINE[name], &block)
-      end
-
       def parse_options_file(options_file)
         # Remove the --options option and the argument before writing to filecreate_behaviour_runner
         args_copy = copy_original_args
