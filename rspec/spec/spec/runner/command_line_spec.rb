@@ -10,7 +10,7 @@ describe "CommandLine" do
     err = StringIO.new
     out = StringIO.new
     Spec::Runner::CommandLine.run([file], err, out, false, true)
-    
+
     out.rewind
     out.read.should =~ /\d+ examples, 0 failures, 3 pending/n
   end
@@ -20,7 +20,7 @@ describe "CommandLine" do
     err = StringIO.new
     out = StringIO.new
     Spec::Runner::CommandLine.run([file], err, out, false, true)
-    
+
     out.rewind
     out.read.should =~ /2 examples, 1 failure/n
   end
