@@ -41,10 +41,9 @@ private
   end
 
   def behaviour_runner
-    # TODO: Figure out a better way to get this considered "covered" and keep this statement on multiple lines 
-    unless $behaviour_runner; \
-      options = ::Spec::Runner::OptionParser.parse(ARGV.dup, STDERR, STDOUT, false); \
-      $behaviour_runner = options.create_behaviour_runner;
+    unless $behaviour_runner
+      options = ::Spec::Runner::OptionParser.parse(ARGV.dup, STDERR, STDOUT, false)
+      $behaviour_runner = options.create_behaviour_runner
     end
     $behaviour_runner
   end
