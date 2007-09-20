@@ -50,6 +50,11 @@ module Spec
         @mock.should_receive(:random_call).with(:any_args)
         @mock.random_call("a string")
       end
+      
+      it "should match no args against no_args" do
+        @mock.should_receive(:random_call).with(:no_args)
+        @mock.random_call
+      end
     end
 
     describe Methods, "handling argument constraints" do

@@ -1,6 +1,10 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 describe "CommandLine" do
+  before(:each) do
+    Kernel.stub!(:at_exit)
+  end
+
   it "should run directory" do
     file = File.dirname(__FILE__) + '/../../../examples'
     err = StringIO.new

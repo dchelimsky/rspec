@@ -7,8 +7,8 @@
 	<key>command</key>
 	<string>#!/usr/bin/env ruby
 
-require ENV['TM_BUNDLE_SUPPORT'] + "/lib/spec_mate"
-SpecMate.new.run_file STDOUT</string>
+require ENV['TM_BUNDLE_SUPPORT'] + "/lib/spec/mate"
+Spec::Mate::Runner.new.run_file STDOUT</string>
 	<key>fallbackInput</key>
 	<string>document</string>
 	<key>input</key>

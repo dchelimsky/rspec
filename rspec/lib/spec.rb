@@ -1,8 +1,8 @@
-require "forwardable"
+require "forwardable" # TODO - is this necessary?
+
 require "test/unit"
 require "test/unit/testresult"
 require "test/unit/ui/testrunnermediator"
-#Test::Unit.run = true
 
 require 'spec/extensions'
 require 'spec/version'

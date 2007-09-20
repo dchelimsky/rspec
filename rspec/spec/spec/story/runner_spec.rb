@@ -12,6 +12,7 @@ module Spec
       end
       
       before :each do
+        Kernel.stub!(:at_exit)
         @stdout, $stdout = $stdout, dev_null
         @argv = Array.new(ARGV)
         Runner.module_eval { @run_options = @story_runner = nil }

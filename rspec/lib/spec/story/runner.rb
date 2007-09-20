@@ -32,10 +32,12 @@ module Spec
         end
         
         def register_exit_hook
+          # TODO - when story runner uses test/unit runners like example runner does we can kill
+          # this and also the assorted Kernel.stub!(:at_exit) in examples
           at_exit do
             Runner.story_runner.run_stories unless $!
-            # TODO exit with non-zero status if run fails
           end
+          # TODO exit with non-zero status if run fails
         end
         
         def dry_run

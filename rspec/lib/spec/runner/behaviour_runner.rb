@@ -33,6 +33,8 @@ module Spec
         
         if(exit_when_done)
           exit_code = (failure_count == 0) ? 0 : 1
+          # TODO - get rid of exit when done and all that stuff (AH)
+          # debugger
           exit(exit_code)
         end
         failure_count
