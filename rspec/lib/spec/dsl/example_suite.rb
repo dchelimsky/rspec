@@ -1,3 +1,5 @@
+require 'forwardable'
+
 module Spec
   module DSL
     class ExampleSuite < ::Test::Unit::TestSuite

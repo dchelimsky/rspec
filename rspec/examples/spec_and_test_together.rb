@@ -1,6 +1,7 @@
 # To run this, stand in the same directory and say:
 #
 #   ruby spec_and_test_together.rb
+$:.push File.join(File.dirname(__FILE__), *%w[.. lib])
 
 require 'rubygems'
 require 'spec'
