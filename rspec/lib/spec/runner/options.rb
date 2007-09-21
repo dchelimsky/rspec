@@ -33,7 +33,8 @@ module Spec
         :timeout,
         :verbose,
         :runner_arg,
-        :behaviour_runner
+        :behaviour_runner,
+        :files
       )
       attr_reader :colour, :differ_class
 
@@ -48,6 +49,7 @@ module Spec
         @reporter = Reporter.new(self)
         @context_lines = 3
         @diff_format  = :unified
+        @files = []
       end
       
       def colour=(colour)

@@ -13,14 +13,12 @@ module Spec
         old_behaviour_runner = defined?($behaviour_runner) ? $behaviour_runner : nil
         begin
           parser = OptionParser.new(err, out, warn_if_no_files)
-          paths = []
-          options = parser.order!(argv) do |path|
-            paths << path
-          end
+          parser.order!(argv)
+          options = parser.options
           $behaviour_runner = options.create_behaviour_runner
           return unless $behaviour_runner # This is the case if we use --drb
 
-          $behaviour_runner.run(paths, exit)
+          $behaviour_runner.run(options.files, exit)
         ensure
           $behaviour_runner = old_behaviour_runner
         end

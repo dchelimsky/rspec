@@ -136,21 +136,20 @@ module Spec
       def order!(args=default_argv, &blk)
         @args = args
         @original_args = args.dup
-        files = []
         super(@args) do |file|
-          files << file
-          blk.call(file)
+          @options.files << file
+          blk.call(file) if blk
         end
         return nil unless @return_options
 
-        if files.empty? && @warn_if_no_files
+        if @options.files.empty? && @warn_if_no_files
           @error_stream.puts "No files specified."
           @error_stream.puts self
           exit(6) if stderr?
         end
 
         if @options.line_number
-          set_spec_from_line_number(files)
+          set_spec_from_line_number
         end
 
         if @options.formatters.empty?
@@ -191,22 +190,22 @@ module Spec
         exit if stdout?
       end      
 
-      def set_spec_from_line_number(files)
+      def set_spec_from_line_number
         if @options.examples.empty?
-          if files.length == 1
-            if @file_factory.file?(files[0])
-              source = @file_factory.open(files[0])
+          if @options.files.length == 1
+            if @file_factory.file?(@options.files[0])
+              source = @file_factory.open(@options.files[0])
               example = @spec_parser.spec_name_for(source, @options.line_number)
               @options.parse_example(example)
-            elsif @file_factory.directory?(files[0])
+            elsif @file_factory.directory?(@options.files[0])
               @error_stream.puts "You must specify one file, not a directory when using the --line option"
               exit(1) if stderr?
             else
-              @error_stream.puts "#{files[0]} does not exist"
+              @error_stream.puts "#{@options.files[0]} does not exist"
               exit(2) if stderr?
             end
           else
-            @error_stream.puts "Only one file can be specified when using the --line option: #{files.inspect}"
+            @error_stream.puts "Only one file can be specified when using the --line option: #{@options.files.inspect}"
             exit(3) if stderr?
           end
         else
