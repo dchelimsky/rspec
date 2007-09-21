@@ -18,8 +18,8 @@ module Spec
   module Runner
     class RailsSpecServer
       def run(args, stderr, stdout)
-    	$stdout = stdout
-    	$stderr = stderr
+        $stdout = stdout
+        $stderr = stderr
 
         ::Dispatcher.reset_application!
         ::Dependencies.mechanism = :load
