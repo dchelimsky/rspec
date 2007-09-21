@@ -26,7 +26,7 @@ module Spec
         require_dependency('application.rb') unless Object.const_defined?(:ApplicationController)
         load File.dirname(__FILE__) + '/../spec/spec_helper.rb'
     
-        ::Spec::Runner::CommandLine.run(args, stderr, stdout, false, true)
+        ::Spec::Runner::CommandLine.run(args, stderr, stdout, false)
       end
     end
   end
