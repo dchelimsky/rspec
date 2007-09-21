@@ -5,7 +5,7 @@ describe "CommandLine" do
     file = File.dirname(__FILE__) + '/../../../examples'
     err = StringIO.new
     out = StringIO.new
-    Spec::Runner::CommandLine.run([file], err, out, false, true)
+    Spec::Runner::CommandLine.run([file], err, out, false)
 
     out.rewind
     out.read.should =~ /\d+ examples, 0 failures, 3 pending/n
@@ -15,7 +15,7 @@ describe "CommandLine" do
     file = File.dirname(__FILE__) + '/../../../failing_examples/predicate_example.rb'
     err = StringIO.new
     out = StringIO.new
-    Spec::Runner::CommandLine.run([file], err, out, false, true)
+    Spec::Runner::CommandLine.run([file], err, out, false)
 
     out.rewind
     out.read.should =~ /2 examples, 1 failure/n
@@ -27,7 +27,7 @@ describe "CommandLine" do
     out = StringIO.new
 
     lambda {
-      Spec::Runner::CommandLine.run([file], err, out, false, true)
+      Spec::Runner::CommandLine.run([file], err, out, false)
     }.should raise_error
   end
 end

@@ -74,7 +74,7 @@ module Spec
           out.instance_eval do
             def tty?; true end
           end
-          Spec::Runner::DrbCommandLine.run(args, err, out, false, true)
+          Spec::Runner::DrbCommandLine.run(args, err, out, false)
           out.rewind; out.read
         end
       end

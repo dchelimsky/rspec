@@ -5,8 +5,8 @@ module Spec
   module Runner
     class OptionParser < ::OptionParser
       class << self
-        def parse(args, err, out, warn_if_no_files)
-          parser = new(err, out, warn_if_no_files)
+        def parse(args, err, out)
+          parser = new(err, out)
           parser.parse(args)
           parser.options
         end
@@ -89,11 +89,10 @@ module Spec
         :help => ["-h", "--help", "You're looking at it"]
       }
 
-      def initialize(err, out, warn_if_no_files)
+      def initialize(err, out)
         super()
         @error_stream = err
         @out_stream = out
-        @warn_if_no_files = warn_if_no_files
         @options = Options.new(@error_stream, @out_stream)
         @return_options = true
         
@@ -139,12 +138,6 @@ module Spec
         end
         return nil unless @return_options
 
-        if @options.files.empty? && @warn_if_no_files
-          @error_stream.puts "No files specified."
-          @error_stream.puts self
-          exit(6) if stderr?
-        end
-
         if @options.line_number
           set_spec_from_line_number
         end
@@ -169,7 +162,7 @@ module Spec
         index = args_copy.index("-X") || args_copy.index("--drb")
         args_copy.delete_at(index)
 
-        return DrbCommandLine.run(args_copy, @error_stream, @out_stream, true, @warn_if_no_files)
+        return DrbCommandLine.run(args_copy, @error_stream, @out_stream)
       end
 
       def parse_version

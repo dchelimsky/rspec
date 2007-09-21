@@ -6,7 +6,7 @@ module Spec
     class DrbCommandLine
       # Runs specs on a DRB server. Note that this API is similar to that of
       # CommandLine - making it possible for clients to use both interchangeably.
-      def self.run(argv, stderr, stdout, exit=true, warn_if_no_files=true)
+      def self.run(argv, stderr, stdout, exit=true)
         begin
           DRb.start_service
           spec_server = DRbObject.new_with_uri("druby://localhost:8989")

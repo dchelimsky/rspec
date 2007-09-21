@@ -4,7 +4,7 @@ describe "OptionParser" do
   before(:each) do
     @out = StringIO.new
     @err = StringIO.new
-    @parser = Spec::Runner::OptionParser.new(@err, @out, true)
+    @parser = Spec::Runner::OptionParser.new(@err, @out)
   end
 
   def parse(args)
@@ -13,7 +13,7 @@ describe "OptionParser" do
   end
 
   def behaviour_runner(args)
-    options = Spec::Runner::OptionParser.parse(args, @err, @out, true)
+    options = Spec::Runner::OptionParser.parse(args, @err, @out)
     options.create_behaviour_runner
   end
 
@@ -59,11 +59,6 @@ describe "OptionParser" do
   it "should print instructions about how to require missing formatter" do
     lambda { options = parse(["--format", "Custom::MissingFormatter"]) }.should raise_error(NameError)
     @err.string.should match(/Couldn't find formatter class Custom::MissingFormatter/n)
-  end
-
-  it "should print usage to err if no dir specified" do
-    options = parse([])
-    @err.string.should match(/Usage: spec/)
   end
 
   it "should print version to stdout" do
@@ -308,7 +303,7 @@ describe "OptionParser" do
   end
 
   it "should call DrbCommandLine when --drb is specified" do
-    Spec::Runner::DrbCommandLine.should_receive(:run).with(["some/spec.rb", "--diff", "--colour"], @err, @out, true, true)
+    Spec::Runner::DrbCommandLine.should_receive(:run).with(["some/spec.rb", "--diff", "--colour"], @err, @out)
     options = parse(["some/spec.rb", "--diff", "--drb", "--colour"])
   end
   
@@ -343,12 +338,12 @@ describe "OptionParser" do
   end
 
   it "should return the correct default behaviour runner" do
-    options = Spec::Runner::OptionParser.parse([], @err, @out, true)
+    options = Spec::Runner::OptionParser.parse([], @err, @out)
     options.create_behaviour_runner.should be_instance_of(Spec::Runner::BehaviourRunner)
   end
 
   it "should return the correct default behaviour runner" do
-   options = Spec::Runner::OptionParser.parse(["--runner", "Custom::BehaviourRunner"], @err, @out, true)
+   options = Spec::Runner::OptionParser.parse(["--runner", "Custom::BehaviourRunner"], @err, @out)
     options.create_behaviour_runner.should be_instance_of(Custom::BehaviourRunner)
   end
 end
