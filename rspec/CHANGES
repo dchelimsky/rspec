@@ -13,6 +13,7 @@ CMD-R runs all the specs in one file
 CMD-SHIFT-R runs an individual spec
 CMD-OPT-R runs any files or directories selected in the TextMate drawer
 
+* Removed warn_if_no_files argument and feature
 * Steps (Given/When/Then) with no blocks are treated as pending
 * Applied [#13913] Scenario should treat no code block as pending (Patch from Evan Light)
 * Fixed [#13370] Weird mock expectation error (Patch from Mike Mangino)
