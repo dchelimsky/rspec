@@ -12,11 +12,15 @@ module Spec
       def self.run(argv, err, out, exit=true, warn_if_no_files=true)
         old_behaviour_runner = defined?($behaviour_runner) ? $behaviour_runner : nil
         begin
-          options = OptionParser.parse(argv, err, out, warn_if_no_files)
+          parser = OptionParser.new(err, out, warn_if_no_files)
+          paths = []
+          options = parser.order!(argv) do |path|
+            paths << path
+          end
           $behaviour_runner = options.create_behaviour_runner
-          return if $behaviour_runner.nil? # This is the case if we use --drb
+          return unless $behaviour_runner # This is the case if we use --drb
 
-          $behaviour_runner.run(argv, exit)
+          $behaviour_runner.run(paths, exit)
         ensure
           $behaviour_runner = old_behaviour_runner
         end

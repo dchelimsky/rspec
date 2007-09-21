@@ -42,8 +42,9 @@ private
 
   def behaviour_runner
     unless $behaviour_runner
-      options = ::Spec::Runner::OptionParser.parse(ARGV.dup, STDERR, STDOUT, false)
-      $behaviour_runner = options.create_behaviour_runner
+      parser = ::Spec::Runner::OptionParser.new(STDERR, STDOUT, false)
+      parser.parse(ARGV)
+      $behaviour_runner = parser.options.create_behaviour_runner
     end
     $behaviour_runner
   end

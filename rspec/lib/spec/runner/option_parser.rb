@@ -6,9 +6,13 @@ module Spec
     class OptionParser < ::OptionParser
       class << self
         def parse(args, err, out, warn_if_no_files)
-          self.new(err, out, warn_if_no_files).parse!(args)
+          parser = new(err, out, warn_if_no_files)
+          parser.parse(args)
+          parser.options
         end
       end
+
+      attr_reader :options
 
       BUILT_IN_FORMATTERS = {
         'specdoc'  => Formatter::SpecdocFormatter,
@@ -129,21 +133,24 @@ module Spec
         self.on_tail(*OPTIONS[:help]) {parse_help}
       end
 
-      def parse!(args)
+      def order!(args=default_argv, &blk)
         @args = args
         @original_args = args.dup
-        super(@args)
-
+        files = []
+        super(@args) do |file|
+          files << file
+          blk.call(file)
+        end
         return nil unless @return_options
 
-        if @args.empty? && @warn_if_no_files
+        if files.empty? && @warn_if_no_files
           @error_stream.puts "No files specified."
           @error_stream.puts self
           exit(6) if stderr?
         end
 
         if @options.line_number
-          set_spec_from_line_number
+          set_spec_from_line_number(files)
         end
 
         if @options.formatters.empty?
@@ -184,22 +191,22 @@ module Spec
         exit if stdout?
       end      
 
-      def set_spec_from_line_number
+      def set_spec_from_line_number(files)
         if @options.examples.empty?
-          if @args.length == 1
-            if @file_factory.file?(@args[0])
-              source = @file_factory.open(@args[0])
+          if files.length == 1
+            if @file_factory.file?(files[0])
+              source = @file_factory.open(files[0])
               example = @spec_parser.spec_name_for(source, @options.line_number)
               @options.parse_example(example)
-            elsif @file_factory.directory?(@args[0])
+            elsif @file_factory.directory?(files[0])
               @error_stream.puts "You must specify one file, not a directory when using the --line option"
               exit(1) if stderr?
             else
-              @error_stream.puts "#{@args[0]} does not exist"
+              @error_stream.puts "#{files[0]} does not exist"
               exit(2) if stderr?
             end
           else
-            @error_stream.puts "Only one file can be specified when using the --line option: #{@args.inspect}"
+            @error_stream.puts "Only one file can be specified when using the --line option: #{files.inspect}"
             exit(3) if stderr?
           end
         else

@@ -1,5 +1,32 @@
 require File.dirname(__FILE__) + '/../../../spec_helper.rb'
 
+describe Kernel, "#behaviour_runner when $behaviour_runner is not set" do
+  before do
+    @original_behaviour_runner = $behaviour_runner
+    $behaviour_runner = nil
+  end
+
+  after do
+    $behaviour_runner = @original_behaviour_runner
+  end
+
+  it "creates a BehaviourRunner" do
+    behaviour_runner.should be_instance_of(Spec::Runner::BehaviourRunner)
+    behaviour_runner.should === $behaviour_runner
+  end
+end
+
+describe Kernel, "#behaviour_runner when $behaviour_runner is set" do
+  before do
+    $behaviour_runner.should_not be_nil
+  end
+
+  it "creates a BehaviourRunner" do
+    behaviour_runner.should be_instance_of(Spec::Runner::BehaviourRunner)
+    behaviour_runner.should === $behaviour_runner
+  end
+end
+
 describe Kernel, "when extended by rspec" do
   it "should respond to :describe" do
     Object.new.should respond_to(:describe)
@@ -8,7 +35,6 @@ describe Kernel, "when extended by rspec" do
 end
 
 describe Kernel, " when creating behaviours with describe" do
-
   it "should fail when no block given" do
     lambda { describe "foo" }.should raise_error(ArgumentError)
   end
