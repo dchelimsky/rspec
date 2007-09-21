@@ -4,10 +4,11 @@ unless [/mswin/, /java/].detect{|p| p =~ RUBY_PLATFORM}
 
   describe "Heckler" do
     it "should run behaviour_runner on tests_pass?" do
-      behaviour_runner = mock("behaviour_runner")
-      behaviour_runner.should_receive(:run).with([], false)
+      options = Spec::Runner::Options.new(StringIO.new, StringIO.new)
+      behaviour_runner = Spec::Runner::BehaviourRunner.new(options)
+      run = behaviour_runner.method(:run)
+      behaviour_runner.should_receive(:run).with(false).and_return(&run)
       heckler = Spec::Runner::Heckler.new('Array', 'push', behaviour_runner)
-
       heckler.tests_pass?
     end
   end

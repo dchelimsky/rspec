@@ -63,8 +63,7 @@ module Spec
       end
 
       def tests_pass?
-        paths = [] # We can pass an empty array of paths - our specs are already loaded.
-        failure_count = @behaviour_runner.run(paths, false)
+        failure_count = @behaviour_runner.run(false)
         failure_count == 0
       end
     end
