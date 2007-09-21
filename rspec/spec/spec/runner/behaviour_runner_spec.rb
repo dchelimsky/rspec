@@ -6,7 +6,7 @@ module Spec
       before do
         @err = StringIO.new('')
         @out = StringIO.new('')
-        @options = Options.new(@err,@out)
+        @options = Options.new(@err, @out)
         @runner = BehaviourRunner.new(@options)
         class << @runner
           attr_reader :behaviours

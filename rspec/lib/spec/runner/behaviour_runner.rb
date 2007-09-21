@@ -5,7 +5,7 @@ module Spec
         @behaviours = []
         @options = options
       end
-    
+
       def add_behaviour(behaviour)
         if behaviour.shared?
           raise ArgumentError, "Cannot add Shared Example to the BehaviourRunner"
@@ -13,7 +13,7 @@ module Spec
         @behaviours << behaviour
         behaviour.rspec_options = @options
       end
-      
+
       # Runs all behaviours and returns the number of failures.
       def run
         prepare
@@ -24,7 +24,7 @@ module Spec
         ensure
           failure_count = finish
         end
-        
+
         heckle if(failure_count == 0 && @options.heckle_runner)
         failure_count
       end
@@ -39,10 +39,10 @@ module Spec
       end
 
       def finish
-        report_end
-        report_dump
+        @options.reporter.end
+        @options.reporter.dump
       end
-      
+
     protected
 
       def number_of_examples
@@ -55,16 +55,9 @@ module Spec
           suite = behaviour.suite
           suite.run(nil)
         end
+        ::Test::Unit.run = true
       end
 
-      def report_end
-        @options.reporter.end
-      end
-
-      def report_dump
-        @options.reporter.dump
-      end
-      
       # Sets the #number on each ExampleDefinition
       def set_sequence_numbers
         number = 0
@@ -72,13 +65,13 @@ module Spec
           number = behaviour.set_sequence_numbers(number, @options.reverse)
         end
       end
-      
+
       def load_specs
         @options.paths.each do |path|
           load path
         end
       end
-      
+
       def heckle
         heckle_runner = @options.heckle_runner
         @options.heckle_runner = nil
