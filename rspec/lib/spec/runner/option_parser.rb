@@ -115,12 +115,9 @@ module Spec
         on(*OPTIONS[:timeout]) {|timeout| @options.timeout = timeout.to_f}
         on(*OPTIONS[:heckle]) {|heckle| @options.parse_heckle(heckle)}
         on(*OPTIONS[:dry_run]) {@options.dry_run = true}
-        on(*OPTIONS[:options_file]) do |options_file|
-          parse_options_file(options_file)
-          @return_options = false
-        end
+        on(*OPTIONS[:options_file]) {|options_file| parse_options_file(options_file)}
         on(*OPTIONS[:generate_options]) do |options_file|
-          @options.parse_generate_options(options_file, copy_original_args, @out_stream)
+          @options.parse_generate_options(options_file, copy_original_argv, @out_stream)
         end
         on(*OPTIONS[:runner]) do |runner|
           @options.runner_arg = runner
@@ -133,10 +130,10 @@ module Spec
         self.on_tail(*OPTIONS[:help]) {parse_help}
       end
 
-      def order!(args=default_argv, &blk)
-        @args = args
-        @original_args = args.dup
-        super(@args) do |file|
+      def order!(argv=default_argv, &blk)
+        @argv = argv
+        @original_argv = argv.dup
+        super(@argv) do |file|
           @options.files << file
           blk.call(file) if blk
         end
@@ -161,18 +158,13 @@ module Spec
 
       protected
       def parse_options_file(options_file)
-        # Remove the --options option and the argument before writing to filecreate_behaviour_runner
-        args_copy = copy_original_args
-        index = args_copy.index("-O") || args_copy.index("--options")
-        args_copy.delete_at(index)
-        args_copy.delete_at(index)
-
-        new_args = args_copy + IO.readlines(options_file).map {|l| l.chomp.split " "}.flatten
-        return CommandLine.run(new_args, @error_stream, @out_stream, true, @warn_if_no_files)
+        option_file_args = IO.readlines(options_file).map {|l| l.chomp.split " "}.flatten
+        @argv.push(*option_file_args)
       end
 
+      # TODO: Do not delegate to DrbCommandLine.run here. Use OptionParser instead.
       def parse_drb
-        args_copy = copy_original_args
+        args_copy = copy_original_argv
         # Remove the --drb option
         index = args_copy.index("-X") || args_copy.index("--drb")
         args_copy.delete_at(index)
@@ -214,8 +206,8 @@ module Spec
         end
       end
 
-      def copy_original_args
-        @original_args.dup
+      def copy_original_argv
+        @original_argv.dup
       end
 
       def stdout?

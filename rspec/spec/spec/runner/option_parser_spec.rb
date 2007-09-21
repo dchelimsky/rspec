@@ -283,18 +283,21 @@ describe "OptionParser" do
   end
 
   it "should read options from file when --options is specified" do
-    Spec::Runner::CommandLine.should_receive(:run).with(["--diff", "--colour"], @err, @out, true, true)
     options = parse(["--options", File.dirname(__FILE__) + "/spec.opts"])
+    options.diff_format.should_not be_nil
+    options.colour.should be_true
   end
 
-  it "should append options from file when --options is specified" do
-    Spec::Runner::CommandLine.should_receive(:run).with(["some/spec.rb", "--diff", "--colour"], @err, @out, true, true)
-    options = parse(["some/spec.rb", "--options", File.dirname(__FILE__) + "/spec.opts"])
+  it "should default the formatter to ProgressBarFormatter when using options file" do
+    options = parse(["--options", File.dirname(__FILE__) + "/spec.opts"])
+    options.formatters.first.should be_instance_of(::Spec::Runner::Formatter::ProgressBarFormatter)
   end
-  
+
   it "should read spaced and multi-line options from file when --options is specified" do
-    Spec::Runner::CommandLine.should_receive(:run).with(["--diff", "--colour", "--format", "s"], @err, @out, true, true)
     options = parse(["--options", File.dirname(__FILE__) + "/spec_spaced.opts"])
+    options.diff_format.should_not be_nil
+    options.colour.should be_true
+    options.formatters.first.should be_instance_of(::Spec::Runner::Formatter::SpecdocFormatter)
   end
    
   it "should save config to file when --generate-options is specified" do
