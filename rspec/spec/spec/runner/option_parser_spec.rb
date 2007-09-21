@@ -314,12 +314,12 @@ describe "OptionParser" do
   end
 
   it "should set an mtime comparator when --loadby mtime" do
-    behaviour_runner = behaviour_runner(["--loadby", 'mtime'])
+    options = parse(["--loadby", 'mtime'])
     Dir.chdir(File.dirname(__FILE__)) do
+      options.files << 'command_line_spec.rb'
+      options.files << 'most_recent_spec.rb'
       FileUtils.touch "most_recent_spec.rb"
-      all_files = ['command_line_spec.rb', 'most_recent_spec.rb']
-        sorted_files = behaviour_runner.__send__(:sort_paths, all_files)
-      sorted_files.should == ["most_recent_spec.rb", "command_line_spec.rb"]
+      options.paths.should == ["most_recent_spec.rb", "command_line_spec.rb"]
       FileUtils.rm "most_recent_spec.rb"
     end
   end
@@ -348,5 +348,4 @@ describe "OptionParser" do
    options = Spec::Runner::OptionParser.parse(["--runner", "Custom::BehaviourRunner"], @err, @out, true)
     options.create_behaviour_runner.should be_instance_of(Custom::BehaviourRunner)
   end
-
 end

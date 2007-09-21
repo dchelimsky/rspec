@@ -1,6 +1,10 @@
 module Spec
   module Runner
     class Options
+      FILE_SORTERS = {
+        'mtime' => lambda {|file_a, file_b| File.mtime(file_b) <=> File.mtime(file_a)}
+      }
+      
       BUILT_IN_FORMATTERS = {
         'specdoc'  => Formatter::SpecdocFormatter,
         's'        => Formatter::SpecdocFormatter,
@@ -168,7 +172,29 @@ module Spec
         end
       end
 
+      def paths
+        result = []
+        sorted_files.each do |file|
+          if test ?d, file
+            result += Dir[File.expand_path("#{file}/**/*.rb")]
+          elsif test ?f, file
+            result << file
+          else
+            raise "File or directory not found: #{file}"
+          end
+        end
+        result
+      end
+
       protected
+      def sorted_files
+        return sorter ? files.sort(&sorter) : files
+      end
+      
+      def sorter
+        FILE_SORTERS[loadby]
+      end
+      
       def default_differ
         require 'spec/expectations/differs/default'
         self.differ_class = Spec::Expectations::Differs::Default

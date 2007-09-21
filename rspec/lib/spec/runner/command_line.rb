@@ -18,7 +18,7 @@ module Spec
           $behaviour_runner = options.create_behaviour_runner
           return unless $behaviour_runner # This is the case if we use --drb
 
-          $behaviour_runner.run(options.files, exit)
+          $behaviour_runner.run(exit)
         ensure
           $behaviour_runner = old_behaviour_runner
         end
