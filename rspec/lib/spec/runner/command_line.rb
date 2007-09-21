@@ -18,7 +18,12 @@ module Spec
           $behaviour_runner = options.create_behaviour_runner
           return unless $behaviour_runner # This is the case if we use --drb
 
-          $behaviour_runner.run(exit)
+          failure_count = $behaviour_runner.run
+          if exit
+            exit_code = (failure_count == 0) ? 0 : 1
+            # TODO - get rid of exit when done and all that stuff (AH)
+            exit(exit_code)
+          end          
         ensure
           $behaviour_runner = old_behaviour_runner
         end

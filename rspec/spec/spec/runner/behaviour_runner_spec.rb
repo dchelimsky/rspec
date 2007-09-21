@@ -28,7 +28,7 @@ module Spec
         @options.examples = nil
 
         @runner.add_behaviour @behaviour
-        @runner.run(false)
+        @runner.run
         example_1_has_run.should be_true
         example_2_has_run.should be_true
       end
@@ -48,7 +48,7 @@ module Spec
         @options.examples = []
 
         @runner.add_behaviour @behaviour
-        @runner.run(false)
+        @runner.run
         example_1_has_run.should be_true
         example_2_has_run.should be_true
       end
@@ -125,7 +125,7 @@ module Spec
         @options.reporter = reporter
         runner = Spec::Runner::BehaviourRunner.new(@options)
         runner.add_behaviour(behaviour)
-        runner.run(false)
+        runner.run
       end
 
       it "should heckle when options have heckle_runner" do
@@ -147,7 +147,7 @@ module Spec
 
         runner = Spec::Runner::BehaviourRunner.new(@options)
         runner.add_behaviour(behaviour)
-        runner.run(false)
+        runner.run
       end
 
       it "should run examples backwards if options.reverse is true" do
@@ -181,7 +181,7 @@ module Spec
         runner.add_behaviour(b1)
         runner.add_behaviour(b2)
 
-        runner.run(false)
+        runner.run
       end
 
       it "should pass its Description to the reporter" do
@@ -196,7 +196,7 @@ module Spec
         @options.reporter = reporter
         runner = Spec::Runner::BehaviourRunner.new(@options)
         runner.add_behaviour(behaviour)
-        runner.run(false)
+        runner.run
       end
 
       it "runs only selected Examples when options.examples is set" do
@@ -218,7 +218,7 @@ module Spec
 
         runner = Spec::Runner::BehaviourRunner.new(@options)
         runner.add_behaviour behaviour
-        runner.run(false)
+        runner.run
 
         should_has_run.should be_true
         should_not_has_run.should be_false

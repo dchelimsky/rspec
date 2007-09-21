@@ -7,7 +7,7 @@ unless [/mswin/, /java/].detect{|p| p =~ RUBY_PLATFORM}
       options = Spec::Runner::Options.new(StringIO.new, StringIO.new)
       behaviour_runner = Spec::Runner::BehaviourRunner.new(options)
       run = behaviour_runner.method(:run)
-      behaviour_runner.should_receive(:run).with(false).and_return(&run)
+      behaviour_runner.should_receive(:run).with().and_return(&run)
       heckler = Spec::Runner::Heckler.new('Array', 'push', behaviour_runner)
       heckler.tests_pass?
     end

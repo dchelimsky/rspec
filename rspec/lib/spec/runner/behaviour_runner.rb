@@ -15,7 +15,7 @@ module Spec
       end
       
       # Runs all behaviours and returns the number of failures.
-      def run(exit_when_done)
+      def run
         prepare
         failure_count = nil
         begin
@@ -26,12 +26,6 @@ module Spec
         end
         
         heckle if(failure_count == 0 && @options.heckle_runner)
-        
-        if(exit_when_done)
-          exit_code = (failure_count == 0) ? 0 : 1
-          # TODO - get rid of exit when done and all that stuff (AH)
-          exit(exit_code)
-        end
         failure_count
       end
 

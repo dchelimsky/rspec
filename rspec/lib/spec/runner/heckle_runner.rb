@@ -63,7 +63,7 @@ module Spec
       end
 
       def tests_pass?
-        failure_count = @behaviour_runner.run(false)
+        failure_count = @behaviour_runner.run
         failure_count == 0
       end
     end
