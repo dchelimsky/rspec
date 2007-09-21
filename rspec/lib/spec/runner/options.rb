@@ -33,10 +33,9 @@ module Spec
         :timeout,
         :verbose,
         :runner_arg,
-        :behaviour_runner,
-        :files
+        :behaviour_runner
       )
-      attr_reader :colour, :differ_class
+      attr_reader :colour, :differ_class, :files
 
       def initialize(error_stream, output_stream)
         @error_stream = error_stream
