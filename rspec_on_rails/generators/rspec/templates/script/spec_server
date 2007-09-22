@@ -83,4 +83,3 @@ if options[:daemon]
 else
   exec_server.call
 end
-
