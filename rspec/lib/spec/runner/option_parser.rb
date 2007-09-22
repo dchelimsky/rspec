@@ -115,7 +115,6 @@ module Spec
         on(*OPTIONS[:dry_run]) {@options.dry_run = true}
         on(*OPTIONS[:options_file]) {|options_file| parse_options_file(options_file)}
         on(*OPTIONS[:generate_options]) do |options_file|
-          parse_generate_options options_file
         end
         on(*OPTIONS[:runner]) do |runner|
           @options.runner_arg = runner
@@ -127,7 +126,7 @@ module Spec
 
       def order!(argv=default_argv, &blk)
         @argv = argv
-        @original_argv = argv.dup
+        return if parse_generate_options
         return if parse_drb
         
         super(@argv) do |file|
@@ -152,19 +151,34 @@ module Spec
         @argv.push(*option_file_args)
       end
 
-      def parse_generate_options(options_file)
-        args_copy = copy_original_argv
+      def parse_generate_options
         # Remove the --generate-options option and the argument before writing to file
-        index = args_copy.index("-G") || args_copy.index("--generate-options")
-        args_copy.delete_at(index)
-        args_copy.delete_at(index)
+        options_file = nil
+        if index = @argv.index('-G')
+          @argv.delete_at(index)
+          options_file = @argv.delete_at(index)
+        end
+        if index = @argv.index('--generate-options')
+          @argv.delete_at(index)
+          options_file = @argv.delete_at(index)
+        end
+        
+        if options_file
+          write_generated_options(options_file)
+          return true
+        else
+          return false
+        end
+      end
+
+      def write_generated_options(options_file)
         File.open(options_file, 'w') do |io|
-          io.puts args_copy.join("\n")
+          io.puts @argv.join("\n")
         end
         @out_stream.puts "\nOptions written to #{options_file}. You can now use these options with:"
         @out_stream.puts "spec --options #{options_file}"
         @options.generate = true
-      end      
+      end
 
       def parse_drb
         is_drb = false
@@ -205,10 +219,6 @@ module Spec
           @error_stream.puts "You cannot use both --line and --example"
           exit(4) if stderr?
         end
-      end
-
-      def copy_original_argv
-        @original_argv.dup
       end
 
       def stdout?
