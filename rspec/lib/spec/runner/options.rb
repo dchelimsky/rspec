@@ -106,7 +106,7 @@ module Spec
       def parse_format(format_arg)
         format, where = split_at_colon(format_arg)
         # This funky regexp checks whether we have a FILE_NAME or not
-        if where.nil?
+        unless where
           raise "When using several --format options only one of them can be without a file" if @out_used
           where = @output_stream
           @out_used = true
