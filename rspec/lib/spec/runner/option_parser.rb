@@ -115,7 +115,7 @@ module Spec
         on(*OPTIONS[:dry_run]) {@options.dry_run = true}
         on(*OPTIONS[:options_file]) {|options_file| parse_options_file(options_file)}
         on(*OPTIONS[:generate_options]) do |options_file|
-          @options.parse_generate_options(options_file, copy_original_argv, @out_stream)
+          parse_generate_options options_file
         end
         on(*OPTIONS[:runner]) do |runner|
           @options.runner_arg = runner
@@ -151,6 +151,20 @@ module Spec
         option_file_args = IO.readlines(options_file).map {|l| l.chomp.split " "}.flatten
         @argv.push(*option_file_args)
       end
+
+      def parse_generate_options(options_file)
+        args_copy = copy_original_argv
+        # Remove the --generate-options option and the argument before writing to file
+        index = args_copy.index("-G") || args_copy.index("--generate-options")
+        args_copy.delete_at(index)
+        args_copy.delete_at(index)
+        File.open(options_file, 'w') do |io|
+          io.puts args_copy.join("\n")
+        end
+        @out_stream.puts "\nOptions written to #{options_file}. You can now use these options with:"
+        @out_stream.puts "spec --options #{options_file}"
+        @options.generate = true
+      end      
 
       def parse_drb
         is_drb = false

@@ -132,19 +132,6 @@ module Spec
         @heckle_runner = HeckleRunner.new(heckle)
       end
 
-      def parse_generate_options(options_file, args_copy, out_stream)
-        # Remove the --generate-options option and the argument before writing to file
-        index = args_copy.index("-G") || args_copy.index("--generate-options")
-        args_copy.delete_at(index)
-        args_copy.delete_at(index)
-        File.open(options_file, 'w') do |io|
-          io.puts args_copy.join("\n")
-        end
-        out_stream.puts "\nOptions written to #{options_file}. You can now use these options with:"
-        out_stream.puts "spec --options #{options_file}"
-        @generate = true
-      end
-
       def split_at_colon(s)
         if s =~ /([a-zA-Z_]+(?:::[a-zA-Z_]+)*):?(.*)/
           arg = $2 == "" ? nil : $2
