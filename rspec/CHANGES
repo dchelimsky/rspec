@@ -13,6 +13,7 @@ CMD-R runs all the specs in one file
 CMD-SHIFT-R runs an individual spec
 CMD-OPT-R runs any files or directories selected in the TextMate drawer
 
+* Applied [#14142] Fix for bug #11602: Nested #have_tag specifications fails on the wrong line number (Patch from Antti Tarvainen)
 * Removed warn_if_no_files argument and feature
 * Steps (Given/When/Then) with no blocks are treated as pending
 * Applied [#13913] Scenario should treat no code block as pending (Patch from Evan Light)
