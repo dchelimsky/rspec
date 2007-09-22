@@ -1,4 +1,24 @@
 class Test::Unit::UI::TestRunnerMediator
+  class << self
+    def behaviour_runners
+      @behaviour_runners ||= []
+    end
+
+    def behaviour_runner
+      behaviour_runners.last || super
+    end
+
+    def current_behaviour_runner(runner)
+      behaviour_runners << runner
+      return_value = nil
+      begin
+        return_value = yield
+      ensure
+        behaviour_runners.pop
+      end
+      return_value
+    end
+  end
   original_verbose = $VERBOSE
   $VERBOSE = nil
   begin
@@ -12,6 +32,6 @@ class Test::Unit::UI::TestRunnerMediator
 
   protected
   def rspec_finished(time)
-    behaviour_runner.finish
+    self.class.behaviour_runner.finish
   end
 end

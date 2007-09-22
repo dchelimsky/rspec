@@ -1,6 +1,7 @@
 module Spec
   module Runner
     class BehaviourRunner
+      attr_reader :options
       def initialize(options)
         @behaviours = []
         @options = options
@@ -17,16 +18,9 @@ module Spec
       # Runs all behaviours and returns the number of failures.
       def run
         prepare
-        failure_count = nil
-        begin
-          run_behaviours
-        rescue Interrupt
-        ensure
-          failure_count = finish
-        end
-
-        heckle if(failure_count == 0 && @options.heckle_runner)
-        failure_count
+        success = run_behaviours
+        heckle if(success && @options.heckle_runner)
+        success
       end
 
       def prepare
@@ -50,12 +44,16 @@ module Spec
       end
 
       def run_behaviours
+        suite = ::Test::Unit::TestSuite.new("Rspec suite")
         @behaviours.each do |behaviour|
           behaviour.rspec_options = @options
-          suite = behaviour.suite
-          suite.run(nil)
+          suite << behaviour.suite
         end
-        ::Test::Unit.run = true
+        runner = ::Test::Unit::AutoRunner.new(true)
+        runner.collector = proc {suite}
+        ::Test::Unit::UI::TestRunnerMediator.current_behaviour_runner(self) do
+          runner.run
+        end
       end
 
       # Sets the #number on each ExampleDefinition

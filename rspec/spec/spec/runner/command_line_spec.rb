@@ -1,6 +1,7 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 describe "CommandLine" do
+  it_should_behave_like "Test::Unit io sink"
   it "should run directory" do
     file = File.dirname(__FILE__) + '/../../../examples'
     err = StringIO.new

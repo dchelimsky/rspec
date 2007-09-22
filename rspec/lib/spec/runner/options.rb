@@ -37,7 +37,8 @@ module Spec
         :timeout,
         :verbose,
         :runner_arg,
-        :behaviour_runner
+        :behaviour_runner,
+        :output_file_path
       )
       attr_reader :colour, :differ_class, :files
 
