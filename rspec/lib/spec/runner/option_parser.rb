@@ -94,8 +94,7 @@ module Spec
         @error_stream = err
         @out_stream = out
         @options = Options.new(@error_stream, @out_stream)
-        @return_options = true
-        
+
         @spec_parser = SpecParser.new
         @file_factory = File
 
@@ -121,10 +120,7 @@ module Spec
         on(*OPTIONS[:runner]) do |runner|
           @options.runner_arg = runner
         end
-        on(*OPTIONS[:drb]) do
-          parse_drb
-          @return_options = false
-        end
+        on(*OPTIONS[:drb]) {}
         on(*OPTIONS[:version]) {parse_version}
         self.on_tail(*OPTIONS[:help]) {parse_help}
       end
@@ -132,11 +128,12 @@ module Spec
       def order!(argv=default_argv, &blk)
         @argv = argv
         @original_argv = argv.dup
+        return if parse_drb
+        
         super(@argv) do |file|
           @options.files << file
           blk.call(file) if blk
         end
-        return nil unless @return_options
 
         if @options.line_number
           set_spec_from_line_number
@@ -155,14 +152,11 @@ module Spec
         @argv.push(*option_file_args)
       end
 
-      # TODO: Do not delegate to DrbCommandLine.run here. Use OptionParser instead.
       def parse_drb
-        args_copy = copy_original_argv
-        # Remove the --drb option
-        index = args_copy.index("-X") || args_copy.index("--drb")
-        args_copy.delete_at(index)
-
-        return DrbCommandLine.run(args_copy, @error_stream, @out_stream)
+        is_drb = false
+        is_drb ||= @argv.delete(OPTIONS[:drb][0])
+        is_drb ||= @argv.delete(OPTIONS[:drb][1])
+        return is_drb ? DrbCommandLine.run(@argv, @error_stream, @out_stream) : nil
       end
 
       def parse_version
