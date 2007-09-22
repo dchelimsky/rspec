@@ -302,6 +302,13 @@ describe "OptionParser" do
     FileUtils.rm 'test.spec.opts'
   end
 
+  it "should save config to file when -G is specified" do
+    FileUtils.rm 'test.spec.opts' if File.exist?('test.spec.opts')
+    options = parse(["--colour", "-G", "test.spec.opts", "--diff"])
+    IO.read('test.spec.opts').should == "--colour\n--diff\n"
+    FileUtils.rm 'test.spec.opts'
+  end
+
   it "should call DrbCommandLine when --drb is specified" do
     Spec::Runner::DrbCommandLine.should_receive(:run).with(["some/spec.rb", "--diff", "--colour"], @err, @out)
     options = parse(["some/spec.rb", "--diff", "--drb", "--colour"])

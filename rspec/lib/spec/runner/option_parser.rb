@@ -154,13 +154,11 @@ module Spec
       def parse_generate_options
         # Remove the --generate-options option and the argument before writing to file
         options_file = nil
-        if index = @argv.index('-G')
-          @argv.delete_at(index)
-          options_file = @argv.delete_at(index)
-        end
-        if index = @argv.index('--generate-options')
-          @argv.delete_at(index)
-          options_file = @argv.delete_at(index)
+        ['-G', '--generate-options'].each do |option|
+          if index = @argv.index(option)
+            @argv.delete_at(index)
+            options_file = @argv.delete_at(index)
+          end
         end
         
         if options_file
@@ -170,7 +168,7 @@ module Spec
           return false
         end
       end
-
+      
       def write_generated_options(options_file)
         File.open(options_file, 'w') do |io|
           io.puts @argv.join("\n")
