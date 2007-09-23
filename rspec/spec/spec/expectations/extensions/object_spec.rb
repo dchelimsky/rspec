@@ -9,8 +9,7 @@ describe Object, "#should" do
   end
   
   it "should accept and interact with a matcher" do
-    @matcher.should_receive(:matches?).with(@target).and_return(true)
-    
+    @matcher.should_receive(:matches?).with(@target).and_return(true)    
     @target.should @matcher
   end
   
@@ -67,5 +66,30 @@ describe Object, "#should_not" do
     lambda {
       @target.should_not @matcher
     }.should fail_with("the negative failure message")
+  end
+
+  it "should raise error if it receives false directly" do
+    lambda {
+      @target.should_not false
+    }.should raise_error
+  end
+  
+  it "should raise error if it receives false (evaluated)" do
+    lambda {
+      @target.should_not eql?("foo")
+    }.should raise_error
+  end
+  
+  it "should raise error if it receives true" do
+    lambda {
+      @target.should_not true
+    }.should raise_error
+  end
+
+  it "should raise error if it receives nil" do
+    pending("refactor the should_not method to handle this")
+    lambda {
+      @target.should_not nil
+    }.should raise_error
   end
 end

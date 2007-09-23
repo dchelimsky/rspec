@@ -182,6 +182,7 @@ In alphabetical order (by last name)
 ** Patches for Emacs
 ** Handling of Interrupt
 * Antii Tarvainen
+** Patch [#14156] False positives with should_not
 ** Patch [#14170] route_for and params_from internal specs fixed
 ** Patch [#14142] Fix for bug #11602: Nested #have_tag specifications fails on the wrong line number
 ** Patch [#10315] to fix pre_commit bug 10313 - pre_commit_rails: doesn't always build correctly

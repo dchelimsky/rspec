@@ -53,7 +53,7 @@ module Spec
       #
       # See Spec::Matchers for more information about matchers
       def should_not(matcher=nil, &block)
-        return NegativeExpectationMatcherHandler.handle_matcher(self, matcher, &block) if matcher
+        return NegativeExpectationMatcherHandler.handle_matcher(self, matcher, &block) unless matcher.nil?
         Spec::Matchers::NegativeOperatorMatcher.new(self)
       end
 
