@@ -26,7 +26,7 @@ CMD-OPT-R runs any files or directories selected in the TextMate drawer
 * Applied Patch from James Edward Gray II to improve syntax highlighting in TextMate
 * Fixed [#13579] NoMethodError not raised for missing helper methods
 * Fixed [#13713] form helper method 'select' can not be called when calling custom helper methods from specs
-* Behaviour subclasses Test::Unit::TestCase
+* Example subclasses Test::Unit::TestCase
 * Added stub_everything method to create a stub that will return itself for any message it doesn't understand
 * Added stories directory with stories/all.rb and stories/helper.rb when you script/generate rspec
 * Applied [#13554] Add "And" so you can say Given... And... When... Then... And...
@@ -39,9 +39,7 @@ CMD-OPT-R runs any files or directories selected in the TextMate drawer
 * Applied [#11919] Making non-implemented specs easy in textmate (Patch from Scott Taylor)
 * Applied [#13274] ThrowSymbol recognized a NameError triggered by Kernel#method_missing as a thrown Symbol
 * Applied [#12722] the alternate file command does not work in rails views due to scope (Patch from Carl Porth)
-* Moved instance method of Behaviour to Class methods
-* Instances of Behaviour are now executed as the spec
-* Renamed Example to ExampleDefinition
+* Behaviour is now a Module that is used by Example class methods and SharedBehaviour
 * Added ExampleDefinition
 * Added story runner framework based on rbehave [#12628]
 * Applied [#13336] Helper directory incorrect for rake stats in statsetup task (Patch from Curtis Miller)
