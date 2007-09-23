@@ -79,22 +79,6 @@ module Spec
 
         @runner.behaviours.length.should == 1
       end
-
-      it "raises error when trying to add shared behaviour" do
-        @behaviour = ::Spec::DSL::SharedBehaviour.new("A Example", :shared => true) do
-          it "does not use this behaviour" do
-          end
-        end
-        @behaviour.should be_shared
-        proc do
-          @runner.add_behaviour @behaviour
-        end.should raise_error(
-          ArgumentError,
-          "Cannot add Shared Example to the BehaviourRunner"
-        )
-
-        @runner.behaviours.should be_empty
-      end
     end
 
     describe BehaviourRunner, "#run" do

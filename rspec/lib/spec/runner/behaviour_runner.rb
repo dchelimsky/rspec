@@ -8,9 +8,6 @@ module Spec
       end
 
       def add_behaviour(behaviour)
-        if behaviour.shared?
-          raise ArgumentError, "Cannot add Shared Example to the BehaviourRunner"
-        end
         @behaviours << behaviour
         behaviour.rspec_options = @options
       end
