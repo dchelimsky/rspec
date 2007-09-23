@@ -1,6 +1,6 @@
 module Spec
   module DSL
-    class ExampleShouldRaiseHandler
+    class ShouldRaiseHandler
       def initialize(file_and_line_number, should_raise)
         @file_and_line_number = file_and_line_number
         @should_raise = should_raise

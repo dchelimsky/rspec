@@ -28,7 +28,7 @@ module Spec
         end
 
         if should_raise
-          ExampleShouldRaiseHandler.new(from, should_raise).handle(errors)
+          ShouldRaiseHandler.new(from, should_raise).handle(errors)
         end
         reporter.example_finished(
           example_definition,
