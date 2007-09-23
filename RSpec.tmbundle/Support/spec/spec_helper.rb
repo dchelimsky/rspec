@@ -1,4 +1,5 @@
-require 'rubygems'
+dir = File.dirname(__FILE__)
+$LOAD_PATH.unshift "#{dir}/../../../rspec/lib" 
 require 'spec'
 require 'stringio'
 
