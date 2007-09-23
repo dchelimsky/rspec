@@ -3,7 +3,6 @@ module Spec
     class Example < ::Test::Unit::TestCase
       remove_method :default_test if respond_to?(:default_test)
       class << self
-        extend ExampleCallbacks
         include ExampleApi
         attr_accessor :rspec_options
 
