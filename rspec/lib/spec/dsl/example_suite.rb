@@ -52,9 +52,8 @@ module Spec
         return unless specified_examples
         return if specified_examples.empty?
         return if specified_examples.index(description.to_s)
-        matcher = ExampleMatcher.new(description.to_s)
         examples.reject! do |example|
-          matcher.example_description = example.rspec_definition.description
+          matcher = ExampleMatcher.new(description.to_s, example.rspec_definition.description)
           !matcher.matches?(specified_examples)
         end
       end

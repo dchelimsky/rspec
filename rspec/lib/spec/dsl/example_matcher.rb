@@ -1,10 +1,9 @@
 module Spec
   module DSL
     class ExampleMatcher
-      attr_accessor :example_description
-      def initialize(behaviour_description)
+      def initialize(behaviour_description, example_description)
         @behaviour_description = behaviour_description
-        @example_description = nil
+        @example_description = example_description
       end
       
       def matches?(specified_examples)
