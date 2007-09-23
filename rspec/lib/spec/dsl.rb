@@ -1,5 +1,4 @@
 require 'timeout'
-require 'spec/dsl/example_callbacks'
 require 'spec/dsl/behaviour_description'
 require 'spec/dsl/errors'
 require 'spec/dsl/configuration'
