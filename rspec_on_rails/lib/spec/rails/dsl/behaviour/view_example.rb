@@ -154,7 +154,7 @@ module Spec
           @controller.template
         end
 
-        Spec::DSL::ExampleFactory.add_example_class(:view, self)
+        Spec::DSL::BehaviourFactory.add_example_class(:view, self)
       end
 
       class ViewExampleController < ApplicationController #:nodoc:

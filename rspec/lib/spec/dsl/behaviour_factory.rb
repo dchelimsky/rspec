@@ -1,27 +1,25 @@
 module Spec
   module DSL
-    class ExampleFactory
-
+    class BehaviourFactory
+      BEHAVIOURS = {
+        :default => Spec::DSL::Example,
+        :shared => Spec::DSL::SharedBehaviour
+      }      
       class << self
-        EXAMPLE_CLASSES = {
-          :default => Spec::DSL::Example,
-          :shared => Spec::DSL::SharedBehaviour
-        }
-        
         # Registers a behaviour class +klass+ with the symbol
         # +type+. For example:
         #
-        #   Spec::DSL::ExampleFactory.add_example_class(:farm, Spec::Farm::DSL::FarmBehaviour)
+        #   Spec::DSL::BehaviourFactory.add_example_class(:farm, Spec::Farm::DSL::FarmBehaviour)
         #
         # This will cause Kernel#describe from a file living in 
         # <tt>spec/farm</tt> to create behaviour instances of type
         # Spec::Farm::DSL::FarmBehaviour.
         def add_example_class(type, klass)
-          EXAMPLE_CLASSES[type] = klass
+          BEHAVIOURS[type] = klass
         end
         
         def remove_example_class(type)
-          EXAMPLE_CLASSES.delete(type)
+          BEHAVIOURS.delete(type)
         end
 
         def create(*args, &block)
@@ -38,18 +36,18 @@ module Spec
           elsif opts[:behaviour_type]
             type = opts[:behaviour_type]
             
-          elsif opts[:spec_path] =~ /spec(\\|\/)(#{EXAMPLE_CLASSES.keys.join('|')})/
+          elsif opts[:spec_path] =~ /spec(\\|\/)(#{BEHAVIOURS.keys.join('|')})/
             type = $2.to_sym
           else
             type = :default
           end
-          example_class = Class.new(EXAMPLE_CLASSES[type])
+          example_class = Class.new(BEHAVIOURS[type])
           example_class.describe(*args, &block)
         end
 
         protected
         def create_shared_module(*args, &block)
-          EXAMPLE_CLASSES[:shared].new(*args, &block)
+          BEHAVIOURS[:shared].new(*args, &block)
         end
       end
     end
