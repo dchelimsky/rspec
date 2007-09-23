@@ -11,8 +11,4 @@ require 'spec/dsl'
 require 'spec/runner'
 require 'spec/story'
 
-class Object
-  def metaclass
-    class << self; self; end
-  end
-end
+include Spec::Extensions::Main

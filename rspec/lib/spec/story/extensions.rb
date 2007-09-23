@@ -1,1 +1,1 @@
-require 'spec/story/extensions/kernel'
+require 'spec/story/extensions/main'
