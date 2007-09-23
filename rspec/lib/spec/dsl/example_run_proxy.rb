@@ -36,10 +36,11 @@ module Spec
           location,
           example_definition.pending?
         )
+        ok?
       end
 
       def ok?
-        @errors.empty?
+        @errors.empty? || @errors.all? {|error| error.is_a?(Spec::DSL::ExamplePendingError)}
       end
 
       def failed?
@@ -60,6 +61,7 @@ module Spec
       def run_example
         example.instance_eval(&example_block) if example_block
         return true
+#      rescue ExamplePendingError => e
       rescue Exception => e
         errors << e
         return false
@@ -84,6 +86,7 @@ module Spec
         return 'before(:each)' unless before_each_ok
         return description unless example_ok
         return 'after(:each)' unless after_each_ok
+        return nil
       end
 
       def example_block

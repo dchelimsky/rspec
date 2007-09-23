@@ -9,10 +9,11 @@ module Spec
       end
     end
     
-    describe ExampleSuite, "#run" do
+    describe ExampleSuite, "#run", :shared => true do
       before :each do
         @options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
-        @options.formatters << mock("formatter", :null_object => true)
+        @formatter = mock("formatter", :null_object => true)
+        @options.formatters << @formatter
         @options.backtrace_tweaker = mock("backtrace_tweaker", :null_object => true)
         @reporter = FakeReporter.new(@options)
         @options.reporter = @reporter
@@ -29,9 +30,39 @@ module Spec
       after :each do
         Example.clear_before_and_after!
       end
+    end
 
-      it "should not run before(:all) or after(:all) on dry run" do
+    describe ExampleSuite, "#run without failure in example", :shared => true do
+      it_should_behave_like "Spec::DSL::ExampleSuite#run"
+
+      it "should not add an example failure to the TestResult" do
+        @result.passed?.should be_true
+        suite = @behaviour.suite
+        suite.run(@result) {}
+        @result.passed?.should be_true
+      end
+    end
+
+    describe ExampleSuite, "#run with failure in example", :shared => true do
+      it_should_behave_like "Spec::DSL::ExampleSuite#run"
+      
+      it "should add an example failure to the TestResult" do
+        @result.passed?.should be_true
+        @result.should_receive(:add_example_failure).and_return(&@result.method(:add_example_failure))
+        suite = @behaviour.suite
+        suite.run(@result) {}
+        @result.passed?.should be_false
+      end      
+    end
+
+    describe ExampleSuite, "#run on dry run" do
+      it_should_behave_like "Spec::DSL::ExampleSuite#run"
+
+      before do
         @options.dry_run = true
+      end
+    
+      it "should not run before(:all) or after(:all)" do
         before_all_ran = false
         after_all_ran = false
         Example.before(:all) { before_all_ran = true }
@@ -43,116 +74,17 @@ module Spec
         after_all_ran.should be_false
       end
 
-      it "should not run any example if before(:all) fails" do
-        spec_ran = false
-        Example.before(:all) { raise NonStandardError }
-        @behaviour.it("test") {spec_ran = true}
+      it "should not run example" do
+        example_ran = false
+        @behaviour.it("should") {example_ran = true}
         suite = @behaviour.suite
         suite.run(@result) {}
-        spec_ran.should be_false
+        example_ran.should be_false
       end
+    end
 
-      it "should run after(:all) if before(:all) fails" do
-        after_all_ran = false
-        Example.before(:all) { raise NonStandardError }
-        Example.after(:all) { after_all_ran = true }
-        suite = @behaviour.suite
-        suite.run(@result) {}
-        after_all_ran.should be_true
-      end
-
-      it "should run after(:all) if before(:each) fails" do
-        after_all_ran = false
-        Example.before(:each) { raise NonStandardError }
-        Example.after(:all) { after_all_ran = true }
-        suite = @behaviour.suite
-        suite.run(@result) {}
-        after_all_ran.should be_true
-      end
-
-      it "should run after(:all) if any example fails" do
-        after_all_ran = false
-        @behaviour.it("should") { raise NonStandardError }
-        Example.after(:all) { after_all_ran = true }
-        suite = @behaviour.suite
-        suite.run(@result) {}
-        after_all_ran.should be_true
-      end
-
-      it "should run second after(:each) block even if the first one fails" do
-        example = @behaviour.it("example") {}
-        second_after_ran = false
-        @behaviour.after(:each) do
-          second_after_ran = true
-          raise "second"
-        end
-        first_after_ran = false
-        @behaviour.after(:each) do
-          first_after_ran = true
-          raise "first"
-        end
-
-        @reporter.should_receive(:example_finished) do |example, error, location, example_not_implemented|
-          example.should equal(example)
-          error.message.should eql("first")
-          location.should eql("after(:each)")
-          example_not_implemented.should be_false
-        end
-        suite = @behaviour.suite
-        suite.run(@result) {}
-        first_after_ran.should be_true
-        second_after_ran.should be_true
-      end
-
-      it "should not run second before(:each) if the first one fails" do
-        @behaviour.it("example") {}
-        first_before_ran = false
-        @behaviour.before(:each) do
-          first_before_ran = true
-          raise "first"
-        end
-        second_before_ran = false
-        @behaviour.before(:each) do
-          second_before_ran = true
-          raise "second"
-        end
-
-        @reporter.should_receive(:example_finished) do |name, error, location, example_not_implemented|
-          name.should eql("example")
-          error.message.should eql("first")
-          location.should eql("before(:each)")
-          example_not_implemented.should be_false
-        end
-        suite = @behaviour.suite
-        suite.run(@result) {}
-        first_before_ran.should be_true
-        second_before_ran.should be_false
-      end
-
-      it "should supply before(:all) as description if failure in before(:all)" do
-        @reporter.should_receive(:example_finished) do |example, error, location|
-          example.description.should eql("before(:all)")
-          error.message.should == "in before(:all)"
-          location.should eql("before(:all)")
-        end
-
-        Example.before(:all) { raise NonStandardError.new("in before(:all)") }
-        @behaviour.it("test") {true}
-        suite = @behaviour.suite
-        suite.run(@result) {}
-      end
-
-      it "should provide after(:all) as description if failure in after(:all)" do
-        @reporter.should_receive(:example_finished) do |example, error, location|
-          example.description.should eql("after(:all)")
-          error.message.should eql("in after(:all)")
-          location.should eql("after(:all)")
-        end
-
-        Example.after(:all) { raise NonStandardError.new("in after(:all)") }
-        suite = @behaviour.suite
-        suite.run(@result) {}
-      end
+    describe ExampleSuite, "#run with success" do
+      it_should_behave_like "Spec::DSL::ExampleSuite#run without failure in example"
 
       it "should send reporter add_behaviour" do
         suite = @behaviour.suite
@@ -166,89 +98,6 @@ module Spec
         suite = @behaviour.suite
         suite.run(@result) {}
         example_ran.should be_true
-      end
-
-      it "should not run example on dry run" do
-        example_ran = false
-        @options.dry_run = true
-        @behaviour.it("should") {example_ran = true}
-        suite = @behaviour.suite
-        suite.run(@result) {}
-        example_ran.should be_false
-      end
-
-      it "should not run before(:all) or after(:all) on dry run" do
-        @options.dry_run = true
-        before_all_ran = false
-        after_all_ran = false
-        @behaviour.before(:all) { before_all_ran = true }
-        @behaviour.after(:all) { after_all_ran = true }
-        @behaviour.it("should") {}
-        suite = @behaviour.suite
-        suite.run(@result) {}
-        before_all_ran.should be_false
-        after_all_ran.should be_false
-      end
-
-      it "should not run any example if before(:all) fails" do
-        spec_ran = false
-        @behaviour.before(:all) { raise "help" }
-        @behaviour.it("test") {spec_ran = true}
-        suite = @behaviour.suite
-        suite.run(@result) {}
-        spec_ran.should be_false
-      end
-
-      it "should run after(:all) if before(:all) fails" do
-        after_all_ran = false
-        @behaviour.before(:all) { raise }
-        @behaviour.after(:all) { after_all_ran = true }
-        suite = @behaviour.suite
-        suite.run(@result) {}
-        after_all_ran.should be_true
-      end
-
-      it "should run after(:all) if before(:each) fails" do
-        after_all_ran = false
-        @behaviour.before(:each) { raise }
-        @behaviour.after(:all) { after_all_ran = true }
-        suite = @behaviour.suite
-        suite.run(@result) {}
-        after_all_ran.should be_true
-      end
-
-      it "should run after(:all) if any example fails" do
-        after_all_ran = false
-        @behaviour.it("should") { raise "before all error" }
-        @behaviour.after(:all) { after_all_ran = true }
-        suite = @behaviour.suite
-        suite.run(@result) {}
-        after_all_ran.should be_true
-      end
-
-      it "should supply before(:all) as description if failure in before(:all)" do
-        @reporter.should_receive(:example_finished) do |example, error, location|
-          example.description.should eql("before(:all)")
-          error.message.should eql("in before(:all)")
-          location.should eql("before(:all)")
-        end
-
-        @behaviour.before(:all) { raise "in before(:all)" }
-        @behaviour.it("test") {true}
-        suite = @behaviour.suite
-        suite.run(@result) {}
-      end
-
-      it "should provide after(:all) as description if failure in after(:all)" do
-        @reporter.should_receive(:example_finished) do |example, error, location|
-          example.description.should eql("after(:all)")
-          error.message.should eql("in after(:all)")
-          location.should eql("after(:all)")
-        end
-
-        @behaviour.after(:all) { raise "in after(:all)" }
-        suite = @behaviour.suite
-        suite.run(@result) {}
       end
 
       it "should run before(:all) block only once" do
@@ -501,12 +350,209 @@ module Spec
         ensure
           Spec::Runner.configuration.mock_with :rspec
         end
-      end      
+      end
+    end
+
+    describe ExampleSuite, "#run with pending example that has a failing assertion" do
+      it_should_behave_like "Spec::DSL::ExampleSuite#run without failure in example"
+
+      before do
+        @behaviour.it("should be pending") do
+          pending("Example fails") {false.should be_true}
+        end
+      end
+
+      it "should send example_pending to formatter" do
+        @formatter.should_receive(:example_pending).with("example", "should be pending", "Example fails")
+        suite = @behaviour.suite
+        suite.run(@result) {}
+      end
+    end
+
+    describe ExampleSuite, "#run with pending example that does not have a failing assertion" do
+      it_should_behave_like "Spec::DSL::ExampleSuite#run with failure in example"
+
+      before do
+        @behaviour.it("should be pending") do
+          pending("Example passes") {true.should be_true}
+        end
+      end
+
+      it "should send example_pending to formatter" do
+        @formatter.should_receive(:example_pending).with("example", "should be pending", "Example passes")
+        suite = @behaviour.suite
+        suite.run(@result) {}
+      end
+    end
+
+    describe ExampleSuite, "#run when before(:all) fails" do
+      it_should_behave_like "Spec::DSL::ExampleSuite#run"
+
+      before do
+        Example.before(:all) { raise NonStandardError, "before(:all) failure" }
+      end
+
+      it "should not run any example" do
+        spec_ran = false
+        @behaviour.it("test") {spec_ran = true}
+        suite = @behaviour.suite
+        suite.run(@result) {}
+        spec_ran.should be_false
+      end
+
+      it "should run after(:all)" do
+        after_all_ran = false
+        Example.after(:all) { after_all_ran = true }
+        suite = @behaviour.suite
+        suite.run(@result) {}
+        after_all_ran.should be_true
+      end
+
+      it "should not run any example" do
+        spec_ran = false
+        @behaviour.it("test") {spec_ran = true}
+        suite = @behaviour.suite
+        suite.run(@result) {}
+        spec_ran.should be_false
+      end
+
+      it "should run after(:all)" do
+        after_all_ran = false
+        @behaviour.after(:all) { after_all_ran = true }
+        suite = @behaviour.suite
+        suite.run(@result) {}
+        after_all_ran.should be_true
+      end
+
+      it "should supply before(:all) as description" do
+        @reporter.should_receive(:example_finished) do |example, error, location|
+          example.description.should eql("before(:all)")
+          error.message.should eql("before(:all) failure")
+          location.should eql("before(:all)")
+        end
+
+        @behaviour.it("test") {true}
+        suite = @behaviour.suite
+        suite.run(@result) {}
+      end
+    end
+
+    describe ExampleSuite, "#run when before(:each) fails" do
+      it_should_behave_like "Spec::DSL::ExampleSuite#run with failure in example"
+
+      before do
+        Example.before(:each) { raise NonStandardError }
+      end
+      
+      it "should run after(:all)" do
+        after_all_ran = false
+        Example.after(:all) { after_all_ran = true }
+        suite = @behaviour.suite
+        suite.run(@result) {}
+        after_all_ran.should be_true
+      end
+    end
+
+    describe ExampleSuite, "#run when any example fails" do
+      it_should_behave_like "Spec::DSL::ExampleSuite#run with failure in example"
+
+      before do
+        @behaviour.it("should") { raise NonStandardError }
+      end
+      
+      it "should run after(:all)" do
+        after_all_ran = false
+        Example.after(:all) { after_all_ran = true }
+        suite = @behaviour.suite
+        suite.run(@result) {}
+        after_all_ran.should be_true
+      end
+    end
+
+    describe ExampleSuite, "#run when first after(:each) block fails" do
+      it_should_behave_like "Spec::DSL::ExampleSuite#run with failure in example"
+
+      before do
+        example = @behaviour.it("example") {}
+      end
+      
+      it "should run second after(:each) block" do
+        second_after_ran = false
+        @behaviour.after(:each) do
+          second_after_ran = true
+        end
+        first_after_ran = false
+        @behaviour.after(:each) do
+          first_after_ran = true
+          raise "first"
+        end
+
+        @reporter.should_receive(:example_finished) do |example, error, location, example_not_implemented|
+          example.should equal(example)
+          error.message.should eql("first")
+          location.should eql("after(:each)")
+          example_not_implemented.should be_false
+        end
+        suite = @behaviour.suite
+        suite.run(@result) {}
+        first_after_ran.should be_true
+        second_after_ran.should be_true
+      end
+    end
+
+    describe ExampleSuite, "#run when first before(:each) block fails" do
+      it_should_behave_like "Spec::DSL::ExampleSuite#run with failure in example"
+
+      before do
+        @behaviour.it("example") {}
+      end
+
+      it "should not run second before(:each)" do
+        first_before_ran = false
+        @behaviour.before(:each) do
+          first_before_ran = true
+          raise "first"
+        end
+        second_before_ran = false
+        @behaviour.before(:each) do
+          second_before_ran = true
+        end
+
+        @reporter.should_receive(:example_finished) do |name, error, location, example_not_implemented|
+          name.should eql("example")
+          error.message.should eql("first")
+          location.should eql("before(:each)")
+          example_not_implemented.should be_false
+        end
+        suite = @behaviour.suite
+        suite.run(@result) {}
+        first_before_ran.should be_true
+        second_before_ran.should be_false
+      end
+    end
+
+    describe ExampleSuite, "#run when failure in after(:all)" do
+      it_should_behave_like "Spec::DSL::ExampleSuite#run with failure in example"
+
+      before do
+        Example.after(:all) { raise NonStandardError.new("in after(:all)") }
+      end
+
+      it "should provide after(:all) as description" do
+        @reporter.should_receive(:example_finished) do |example, error, location|
+          example.description.should eql("after(:all)")
+          error.message.should eql("in after(:all)")
+          location.should eql("after(:all)")
+        end
+
+        suite = @behaviour.suite
+        suite.run(@result) {}
+      end
     end
 
     describe ExampleSuite, "#size" do
       it "returns the number of examples in the behaviour" do
-        behaviour = Class.new(Example) do
+        behaviour = Class.new(Example).describe("Behaviour") do
           it("does something") {}
           it("does something else") {}
         end
