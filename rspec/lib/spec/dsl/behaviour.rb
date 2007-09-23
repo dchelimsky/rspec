@@ -82,15 +82,6 @@ module Spec
         example_definitions.length
       end
 
-      def matches?(specified_examples)
-        matcher ||= ExampleMatcher.new(description.to_s)
-
-        example_definitions.each do |example|
-          return true if example.matches?(matcher, specified_examples)
-        end
-        return false
-      end
-
       def create_example_definition(description, options={}, &block)
         ExampleDefinition.new(description, options, &block)
       end

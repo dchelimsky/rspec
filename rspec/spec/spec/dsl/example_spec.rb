@@ -159,21 +159,6 @@ module Spec
       end
     end
 
-    describe "Example", ".matches?" do
-      it_should_behave_like "Spec::DSL::Example"
-
-      it "should not match anything when there are no example_definitions" do
-        @behaviour.should_not be_matches(['context'])
-      end
-
-      it "should match when one of the example_definitions match" do
-        example = mock('my example')
-        example.should_receive(:matches?).and_return(true)
-        @behaviour.stub!(:example_definitions).and_return([example])
-        @behaviour.should be_matches(['jalla'])
-      end
-    end
-
     describe "Example", ".class_eval" do
       it_should_behave_like "Spec::DSL::Example"
 
