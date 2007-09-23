@@ -222,14 +222,6 @@ task :package_tmbundle do
 end
 task :pkg => :package_tmbundle
 
-desc "Package the Spec::Ui gem"
-task :package_spec_ui do
-  Dir.chdir '../spec_ui' do
-    `rake clobber gem`
-  end
-end
-task :pkg => :package_spec_ui
-
 desc "Publish gem+tgz+zip on RubyForge. You must make sure lib/version.rb is aligned with the CHANGELOG file"
 task :publish_packages => [:verify_user, :package] do
   require File.dirname(__FILE__) + '/../spec_ui/lib/spec/ui/version'
