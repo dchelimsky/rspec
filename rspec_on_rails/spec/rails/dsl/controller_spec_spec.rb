@@ -73,7 +73,7 @@ require 'controller_spec_controller'
     end
 
     it "should support custom routes" do
-      route_for(:controller => "custom_route_spec", :action => "custom_route").should == "/custom_route_spec/custom_route"
+      route_for(:controller => "custom_route_spec", :action => "custom_route").should == "/custom_route"
     end
 
     it "should support existing routes" do
@@ -81,9 +81,7 @@ require 'controller_spec_controller'
     end
 
     it "should generate params for custom routes" do
-      pending "someone who knows how the routes are gnerated for the specs can work out why this fails" do
-        params_from(:get, '/custom_route_spec/custom_route').should == {:controller => "custom_route_spec", :action => "custom_route"}
-      end
+      params_from(:get, '/custom_route').should == {:controller => "custom_route_spec", :action => "custom_route"}
     end
     
     it "should generate params for existing routes" do
