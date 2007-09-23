@@ -16,6 +16,7 @@ module Spec
           $behaviour_runner = options.create_behaviour_runner
           return true unless $behaviour_runner # This is the case if we use --drb
 
+          options.load_paths
           return $behaviour_runner.run
         ensure
           $behaviour_runner = old_behaviour_runner

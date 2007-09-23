@@ -60,6 +60,7 @@ module Spec
       def initialize(klass_name, method_name, behaviour_runner)
         super(klass_name, method_name)
         @behaviour_runner = behaviour_runner
+        @behaviour_runner.options.load_paths
       end
 
       def tests_pass?

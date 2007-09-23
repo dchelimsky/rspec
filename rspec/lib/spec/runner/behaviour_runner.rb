@@ -14,16 +14,12 @@ module Spec
 
       # Runs all behaviours and returns the number of failures.
       def run
-        prepare
         success = run_behaviours
         heckle if(success && @options.heckle_runner)
         success
       end
 
       def prepare
-        return if @already_prepared
-        @already_prepared = true
-        load_specs # This will populate @behaviours via callbacks to add_behaviour
         @options.reporter.start(number_of_examples)
         @behaviours.reverse! if @options.reverse
         set_sequence_numbers
@@ -58,12 +54,6 @@ module Spec
         number = 0
         @behaviours.each do |behaviour|
           number = behaviour.set_sequence_numbers(number, @options.reverse)
-        end
-      end
-
-      def load_specs
-        @options.paths.each do |path|
-          load path
         end
       end
 

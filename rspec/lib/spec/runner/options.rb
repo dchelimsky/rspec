@@ -160,6 +160,12 @@ module Spec
         end
       end
 
+      def load_paths
+        paths.each do |path|
+          load path
+        end
+      end
+
       def paths
         result = []
         sorted_files.each do |file|

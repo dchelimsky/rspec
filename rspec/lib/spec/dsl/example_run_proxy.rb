@@ -59,9 +59,12 @@ module Spec
       end
 
       def run_example
-        example.instance_eval(&example_block) if example_block
-        return true
-#      rescue ExamplePendingError => e
+        if example_block
+          example.instance_eval(&example_block)
+          return true
+        else
+          raise ExamplePendingError
+        end
       rescue Exception => e
         errors << e
         return false

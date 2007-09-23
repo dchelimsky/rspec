@@ -32,6 +32,7 @@ module Spec
           number
         end
 
+        # TODO: BT - Is this needed?
         def shared?
           false
         end
@@ -71,7 +72,7 @@ module Spec
           parts.push(*Example.after_each_parts(nil))
           CompositeProcBuilder.new(parts).proc
         end
-        
+
         protected
 
         def reverse

@@ -12,7 +12,6 @@ module Spec
       end
 
       def run(result, &progress_block)
-        behaviour_runner.prepare
         retain_specified_examples
         return if examples.empty?
 

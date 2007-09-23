@@ -24,6 +24,7 @@ class Test::Unit::UI::TestRunnerMediator
   begin
     def initialize(suite)
       @suite = suite
+      add_listener(STARTED, &method(:rspec_prepare))
       add_listener(FINISHED, &method(:rspec_finished))
     end
   ensure
@@ -31,6 +32,10 @@ class Test::Unit::UI::TestRunnerMediator
   end
 
   protected
+  def rspec_prepare(time)
+    self.class.behaviour_runner.prepare
+  end
+
   def rspec_finished(time)
     self.class.behaviour_runner.finish
   end
