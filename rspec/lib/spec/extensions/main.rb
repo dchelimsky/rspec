@@ -24,19 +24,13 @@ module Spec
         raise ArgumentError unless block
         args << {} unless Hash === args.last
         args.last[:spec_path] = caller(0)[1]
-        register_behaviour(Spec::DSL::BehaviourFactory.create(*args, &block))
+        behaviour = Spec::DSL::BehaviourFactory.create(*args, &block)
+        behaviour.register
+        behaviour
       end
       alias :context :describe
       
     private
-
-      def register_behaviour(behaviour)
-        if behaviour.shared?
-          Spec::DSL::SharedBehaviour.add_shared_behaviour(behaviour)
-        else
-          behaviour_runner.add_behaviour(behaviour)
-        end
-      end
 
       def behaviour_runner
         unless $behaviour_runner

@@ -35,10 +35,6 @@ module Spec
         describe(*args, &behaviour_block)
       end
 
-      def shared?
-        true
-      end
-
       def included(mod) # :nodoc:
         example_definitions.each { |e| mod.example_definitions << e; }
         before_each_parts.each   { |p| mod.before_each_parts << p }
@@ -46,6 +42,10 @@ module Spec
         before_all_parts.each    { |p| mod.before_all_parts << p }
         after_all_parts.each     { |p| mod.after_all_parts << p }
         included_modules.each    { |m| mod.__send__(:include, m) }
+      end
+
+      def register
+        Spec::DSL::SharedBehaviour.add_shared_behaviour(self)
       end
     end
   end

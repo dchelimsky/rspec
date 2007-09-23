@@ -9,6 +9,7 @@ module Spec
         @options.formatters << @formatter
         @behaviour = Class.new(Example).describe("behaviour")
         @behaviour.rspec_options = @options
+        @result = ::Test::Unit::TestResult.new
         class << @behaviour
           public :include
         end
@@ -46,13 +47,14 @@ module Spec
         SharedBehaviour.find_shared_behaviour("b2").should equal(b2)
       end
 
-      it "should be shared when configured as shared" do
+      it "should register as shared behaviour" do
         behaviour = make_shared_behaviour("behaviour") {}
-        behaviour.should be_shared
+        SharedBehaviour.shared_behaviours.should include(behaviour)
       end
 
       it "should not be shared when not configured as shared" do
-        non_shared_behaviour.should_not be_shared
+        behaviour = non_shared_behaviour
+        SharedBehaviour.shared_behaviours.should_not include(behaviour)
       end
 
       it "should raise if run when shared" do

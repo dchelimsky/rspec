@@ -10,7 +10,7 @@ module Spec
           super
           unless klass.name.to_s == ""
             klass.describe(klass.name)
-            register_behaviour(klass)
+            klass.register
           end
         end
 
@@ -32,9 +32,8 @@ module Spec
           number
         end
 
-        # TODO: BT - Is this needed?
-        def shared?
-          false
+        def register
+          behaviour_runner.add_behaviour(self)
         end
 
         def before_each_proc(behaviour_type, &error_handler)

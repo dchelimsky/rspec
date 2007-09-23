@@ -73,7 +73,6 @@ module Spec
           end
         end
 
-        @behaviour.should_not be_shared
         @behaviour.number_of_examples.should be > 0
         @runner.add_behaviour @behaviour
 
