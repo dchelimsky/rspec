@@ -12,11 +12,6 @@ module Spec
         @description = description
       end
 
-      def matches?(matcher, specified_examples)
-        matcher.example_description = description
-        matcher.matches?(specified_examples)
-      end
-
       def to_s
         description
       end
