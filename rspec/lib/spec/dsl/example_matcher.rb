@@ -1,10 +1,10 @@
 module Spec
   module DSL
     class ExampleMatcher
-      attr_writer :example_description
-      def initialize(behaviour_description, example_description=nil)
+      attr_accessor :example_description
+      def initialize(behaviour_description)
         @behaviour_description = behaviour_description
-        @example_description = example_description
+        @example_description = nil
       end
       
       def matches?(specified_examples)
@@ -14,20 +14,20 @@ module Spec
         false
       end
       
-      private
+      protected
       def matches_literal_example?(specified_example)
-        specified_example =~ /(^#{context_regexp} #{example_regexp}$|^#{context_regexp}$|^#{example_regexp}$)/
+        specified_example =~ /(^#{behaviour_regexp} #{example_regexp}$|^#{behaviour_regexp}$|^#{example_regexp}$)/
       end
 
       def matches_example_not_considering_modules?(specified_example)
-        specified_example =~ /(^#{context_regexp_not_considering_modules} #{example_regexp}$|^#{context_regexp_not_considering_modules}$|^#{example_regexp}$)/
+        specified_example =~ /(^#{behaviour_regexp_not_considering_modules} #{example_regexp}$|^#{behaviour_regexp_not_considering_modules}$|^#{example_regexp}$)/
       end
 
-      def context_regexp
+      def behaviour_regexp
         Regexp.escape(@behaviour_description)
       end
 
-      def context_regexp_not_considering_modules
+      def behaviour_regexp_not_considering_modules
         Regexp.escape(@behaviour_description.split('::').last)
       end
 
