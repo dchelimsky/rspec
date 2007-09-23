@@ -3,7 +3,7 @@ module Spec
     class Example < ::Test::Unit::TestCase
       remove_method :default_test if respond_to?(:default_test)
       class << self
-        include ExampleApi
+        include Behaviour
         attr_accessor :rspec_options
 
         def inherited(klass)

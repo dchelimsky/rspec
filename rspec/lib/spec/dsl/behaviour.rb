@@ -1,7 +1,7 @@
 module Spec
   module DSL
     # See http://rspec.rubyforge.org/documentation/before_and_after.html
-    module ExampleApi
+    module Behaviour
       attr_accessor :description
 
       def describe(*args, &behaviour_block)

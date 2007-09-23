@@ -28,7 +28,7 @@ module Spec
           $shared_behaviours ||= []
         end
       end
-      include ExampleApi
+      include Behaviour
       public :include
 
       def initialize(*args, &behaviour_block)
