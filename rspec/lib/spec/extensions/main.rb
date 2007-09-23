@@ -24,7 +24,7 @@ module Spec
         raise ArgumentError unless block
         args << {} unless Hash === args.last
         args.last[:spec_path] = caller(0)[1]
-        register_behaviour(Spec::DSL::ExampleFactory.create(*args, &block))
+        register_behaviour(Spec::DSL::BehaviourFactory.create(*args, &block))
       end
       alias :context :describe
       
