@@ -21,6 +21,8 @@ behaviour to your existing objects.
 Spec::Runner provides a very small but powerful DSL for writing executable
 examples of how your code should work.
 
+Spec::Story provides a framework for expressing User Stories
+
 == Installation
 
 The simplest approach is to install the gem:
@@ -60,7 +62,6 @@ Once those are all installed, you should be able to run the suite with the follo
 * cd ..
 * rake pre_commit
 
-
 Note that RSpec itself - once built - doesn't have any dependencies outside the Ruby core 
 and stdlib - with a few exceptions:
 
@@ -69,3 +70,6 @@ and stdlib - with a few exceptions:
 * The Spec::Rake::SpecTask needs RCov if RCov is enabled in the task.
 
 See http://rspec.rubyforge.org for further documentation.
+
+== Contributing
+

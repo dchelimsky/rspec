@@ -67,6 +67,9 @@ Please submit a patch, but please follow these guidelines.
 * create a new ticket in the "RubyForge tracker":http://rubyforge.org/tracker/?group_id=797
 * attach the diff file to the ticket (DON'T FORGET TO TICK THE CHECKBOX OR YOUR PATCH WILL GET LOST)
 
+%{font-weight:bold; color:red}WARNING:% When you add new files, you have to 'svn add' them before
+running pre_commit.
+
 h3. Bugs
 
 We LOVE to hear about bugs that you find, but we can't address them
