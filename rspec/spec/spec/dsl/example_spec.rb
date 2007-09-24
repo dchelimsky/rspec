@@ -85,20 +85,33 @@ module Spec
         suite.tests.first.rspec_definition.description.should == "should pass"
       end
 
-      it "should include methods that begin with test_ and has an arity of 0 in suite" do
+      it "should include methods that begin with test and has an arity of 0 in suite" do
         behaviour = Class.new(Example).describe('example') do
+          def testCamelCase
+            true.should be_true
+          end
+          def test_any_args(*args)
+            true.should be_true
+          end
           def test_something
             1.should == 1
           end
+          def test
+            raise "This is not a real test"
+          end
         end
         suite = behaviour.suite
-        suite.tests.length.should == 1
-        suite.tests.first.rspec_definition.description.should == "test_something"
+        suite.tests.length.should == 3
+        descriptions = suite.tests.collect {|test| test.rspec_definition.description}.sort
+        descriptions.should == ["testCamelCase", "test_any_args", "test_something"]
       end
 
       it "should not include methods that begin with test_ and has an arity > 0 in suite" do
         behaviour = Class.new(Example).describe('example') do
           def test_invalid(foo)
+            1.should == 1
+          end
+          def testInvalidCamelCase(foo)
             1.should == 1
           end
         end

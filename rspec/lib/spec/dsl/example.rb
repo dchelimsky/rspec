@@ -19,7 +19,10 @@ module Spec
             suite << new(example_definition)
           end
           instance_methods.each do |method_name|
-            if method_name =~ /^test_/ && instance_method(method_name).arity == 0
+            if method_name =~ /^test./ && (
+              instance_method(method_name).arity == 0 ||
+              instance_method(method_name).arity == -1
+            )
               example_definition = ExampleDefinition.new(method_name) do
                 __send__ method_name
               end
