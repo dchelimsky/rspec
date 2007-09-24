@@ -27,6 +27,7 @@ module Spec
         class << @behaviour
           public :include
         end
+        @result = ::Test::Unit::TestResult.new
       end
 
       after :each do
@@ -194,6 +195,39 @@ module Spec
       end
     end
 
+    class ExampleModuleScopingSpec < Example
+      describe Example, " via a class definition"
+
+      module Foo
+        module Bar
+          def self.loaded?
+            true
+          end
+        end
+      end
+      include Foo
+
+      it "should understand module scoping" do
+        Bar.should be_loaded
+      end
+
+      @@foo = 1
+
+      it "should allow class variables to be defined" do
+        @@foo.should == 1
+      end      
+    end
+
+    class ExampleClassVariablePollutionSpec < Example
+      describe Example, " via a class definition without a class variable"
+
+      it "should not retain class variables from other Example classes" do
+        proc do
+          @@foo
+        end.should raise_error
+      end
+    end
+
     describe "Example", ".class_eval" do
       it_should_behave_like "Spec::DSL::Example"
 
@@ -207,45 +241,6 @@ module Spec
         suite = behaviour.suite
         suite.run(@result) {}
         Object.const_defined?(:FOO).should == false
-      end
-
-      it "should understand module scoping" do
-        pending "Example.new needs to create a class that is evaled"
-        module Foo
-          module Bar
-            def self.loaded?
-              true
-            end
-          end
-        end
-
-        Example.new('example') do
-          include Foo
-          it "should allow module scoping" do
-            Bar.should be_loaded
-          end
-        end.run
-        @reporter.instance_variable_get(:@failures).should == []
-        @reporter.dump.should == 0
-      end
-
-      it "should allow class variables to be defined" do
-        pending "class_eval cannot be used. Only the class definition can be used. This may not be possible."
-        Example.new('example') do
-          @@foo = 1
-          it "should reference @@foo" do
-            @@foo.should == 1
-          end
-        end.run
-
-        Example.new('example2') do
-          it "should not have access to other class variables" do
-            proc do
-              @@foo
-            end.should raise_error
-          end
-        end.run
-        @reporter.dump.should == 0
       end
     end
 
@@ -345,9 +340,6 @@ module Spec
       end
     end
     
-    describe Example, "#xit" do
-    end
-
     class ExampleSubclass < Example
     end
 
