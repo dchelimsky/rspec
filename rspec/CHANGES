@@ -13,6 +13,7 @@ CMD-R runs all the specs in one file
 CMD-SHIFT-R runs an individual spec
 CMD-OPT-R runs any files or directories selected in the TextMate drawer
 
+* test_ methods with an arity of 0 defined in a describe block or Example object will be run as an Example, providing a seamless transition from Test::Unit
 * Removed BehaviourRunner
 * Fixed [#13969] Spec Failures on Trunk w/ Autotest
 * Applied [#14156] False positives with should_not (Patch from Antti Tarvainen)

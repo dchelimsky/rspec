@@ -73,7 +73,37 @@ module Spec
         Example.suite.tests.should be_empty
       end
 
-      it "should return an ExampleSuite with Examples"
+      it "should return an ExampleSuite with Examples" do
+        behaviour = Class.new(Example).describe('example') do
+          it "should pass" do
+            1.should == 1
+          end
+        end
+        suite = behaviour.suite
+        suite.tests.length.should == 1
+        suite.tests.first.rspec_definition.description.should == "should pass"
+      end
+
+      it "should include methods that begin with test_ and has an arity of 0 in suite" do
+        behaviour = Class.new(Example).describe('example') do
+          def test_something
+            1.should == 1
+          end
+        end
+        suite = behaviour.suite
+        suite.tests.length.should == 1
+        suite.tests.first.rspec_definition.description.should == "test_something"
+      end
+
+      it "should not include methods that begin with test_ and has an arity > 0 in suite" do
+        behaviour = Class.new(Example).describe('example') do
+          def test_invalid(foo)
+            1.should == 1
+          end
+        end
+        suite = behaviour.suite
+        suite.tests.length.should == 0
+      end
     end
 
     describe "Example", ".description" do

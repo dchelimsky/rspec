@@ -8,6 +8,10 @@ class TestUnitAndRspecSpec < ::Spec::DSL::Example
   it "should run tests and specs" do
     self.class.examples_run = true
   end
+
+  def test_should_have_seamless_transition_from_test_unit
+    assert true
+  end
 end
 
 class TestUnitAndRspecTest < Test::Unit::TestCase

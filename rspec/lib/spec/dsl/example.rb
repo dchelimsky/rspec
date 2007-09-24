@@ -18,6 +18,14 @@ module Spec
           ordered_example_definitions(reverse).each do |example_definition|
             suite << new(example_definition)
           end
+          instance_methods.each do |method_name|
+            if method_name =~ /^test_/ && instance_method(method_name).arity == 0
+              example_definition = ExampleDefinition.new(method_name) do
+                __send__ method_name
+              end
+              suite << new(example_definition)
+            end
+          end
           suite
         end
 
