@@ -33,10 +33,10 @@ class Test::Unit::UI::TestRunnerMediator
 
   protected
   def rspec_prepare(time)
-    self.class.behaviour_runner.prepare
+    self.class.behaviour_runner.options.prepare
   end
 
   def rspec_finished(time)
-    self.class.behaviour_runner.finish
+    self.class.behaviour_runner.options.finish
   end
 end

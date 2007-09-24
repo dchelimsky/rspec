@@ -38,7 +38,8 @@ module Spec
         :verbose,
         :runner_arg,
         :behaviour_runner,
-        :output_file_path
+        :output_file_path,
+        :behaviours
       )
       attr_reader :colour, :differ_class, :files
 
@@ -54,7 +55,24 @@ module Spec
         @context_lines = 3
         @diff_format  = :unified
         @files = []
+        @behaviours = []
       end
+
+      def add_behaviour(behaviour)
+        @behaviours << behaviour
+        behaviour.rspec_options = self        
+      end
+
+      def prepare
+        reporter.start(number_of_examples)
+        @behaviours.reverse! if reverse
+        set_sequence_numbers
+      end
+
+      def finish
+        reporter.end
+        reporter.dump
+      end      
       
       def colour=(colour)
         @colour = colour
@@ -181,6 +199,18 @@ module Spec
       end
 
       protected
+      # Sets the #number on each ExampleDefinition
+      def set_sequence_numbers
+        number = 0
+        @behaviours.each do |behaviour|
+          number = behaviour.set_sequence_numbers(number, reverse)
+        end
+      end
+
+      def number_of_examples
+        @behaviours.inject(0) {|sum, behaviour| sum + behaviour.number_of_examples}
+      end      
+
       def sorted_files
         return sorter ? files.sort(&sorter) : files
       end

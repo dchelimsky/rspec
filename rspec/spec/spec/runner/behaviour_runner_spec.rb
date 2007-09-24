@@ -28,7 +28,7 @@ module Spec
         
         @options.examples = nil
 
-        @runner.add_behaviour @behaviour
+        @options.add_behaviour @behaviour
         @runner.run
         example_1_has_run.should be_true
         example_2_has_run.should be_true
@@ -48,7 +48,7 @@ module Spec
         
         @options.examples = []
 
-        @runner.add_behaviour @behaviour
+        @options.add_behaviour @behaviour
         @runner.run
         example_1_has_run.should be_true
         example_2_has_run.should be_true
@@ -74,9 +74,9 @@ module Spec
         end
 
         @behaviour.number_of_examples.should be > 0
-        @runner.add_behaviour @behaviour
+        @options.add_behaviour @behaviour
 
-        @runner.behaviours.length.should == 1
+        @options.behaviours.length.should == 1
       end
     end
 
@@ -102,7 +102,7 @@ module Spec
         @options.reporter.should_receive(:dump)
 
         runner = Spec::Runner::BehaviourRunner.new(@options)
-        runner.add_behaviour(behaviour)
+        @options.add_behaviour(behaviour)
         runner.run
       end
 
@@ -111,14 +111,14 @@ module Spec
           it "no error" do
           end
         end
-        @runner.add_behaviour behaviour
+        @options.add_behaviour behaviour
 
         heckle_runner = mock("heckle_runner")
         heckle_runner.should_receive(:heckle_with)
         $rspec_mocks.__send__(:mocks).delete(heckle_runner)
 
         @options.heckle_runner = heckle_runner
-        @runner.add_behaviour(behaviour)
+        @options.add_behaviour(behaviour)
         @runner.run
         heckle_runner.rspec_verify
       end
@@ -137,8 +137,8 @@ module Spec
         b2_suite.should_receive(:run).ordered
         b1_suite.should_receive(:run).ordered
 
-        @runner.add_behaviour(b1)
-        @runner.add_behaviour(b2)
+        @options.add_behaviour(b1)
+        @options.add_behaviour(b2)
 
         @runner.run
       end
@@ -150,7 +150,7 @@ module Spec
         end
 
         @options.reporter.should_receive(:add_behaviour).with(an_instance_of(Spec::DSL::BehaviourDescription))
-        @runner.add_behaviour(behaviour)
+        @options.add_behaviour(behaviour)
         @runner.run
       end
 
@@ -169,7 +169,7 @@ module Spec
 
         @options.reporter.should_receive(:add_behaviour).with(an_instance_of(Spec::DSL::BehaviourDescription))
 
-        @runner.add_behaviour behaviour
+        @options.add_behaviour behaviour
         @runner.run
 
         should_has_run.should be_true

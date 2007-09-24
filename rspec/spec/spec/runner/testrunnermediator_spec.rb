@@ -7,7 +7,7 @@ module Test
         it "should tell behaviour_runner to finish when suite is finished" do
           suite = Spec::DSL::ExampleSuite.new("foobar", nil)
           mediator = TestRunnerMediator.new(suite)
-          behaviour_runner.should_receive(:finish)
+          behaviour_runner.options.should_receive(:finish)
           mediator.notify_listeners(TestRunnerMediator::FINISHED, 50)
         end
       end

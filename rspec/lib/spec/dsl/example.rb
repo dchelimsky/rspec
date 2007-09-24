@@ -33,7 +33,7 @@ module Spec
         end
 
         def register
-          behaviour_runner.add_behaviour(self)
+          behaviour_runner.options.add_behaviour self
         end
 
         def before_each_proc(behaviour_type, &error_handler)
