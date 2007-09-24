@@ -10,8 +10,13 @@ module Spec
     end
 
     describe Example, :shared => true do
+      before :all do
+        @original_rspec_options = $rspec_options
+      end
+
       before :each do
         @options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
+        $rspec_options = @options
         @options.formatters << mock("formatter", :null_object => true)
         @options.backtrace_tweaker = mock("backtrace_tweaker", :null_object => true)
         @reporter = FakeReporter.new(@options)
@@ -19,13 +24,13 @@ module Spec
         @behaviour = Class.new(Example).describe("example") do
           it "does nothing"
         end
-        @behaviour.rspec_options = @options
         class << @behaviour
           public :include
         end
       end
 
       after :each do
+        $rspec_options = @original_rspec_options
         Example.clear_before_and_after!
       end
     end
@@ -169,7 +174,6 @@ module Spec
             FOO.should == 1
           end
         end
-        behaviour.rspec_options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
         suite = behaviour.suite
         suite.run(@result) {}
         Object.const_defined?(:FOO).should == false
@@ -290,10 +294,19 @@ module Spec
     end
     
     describe Example, "#run" do
+      before do
+        @options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
+        @original_rspec_options = $rspec_options
+        $rspec_options = @options
+      end
+
+      after do
+        $rspec_options = @original_rspec_options
+      end
+
       it "should not run when there are no example_definitions" do
         behaviour = Class.new(Example).describe("Foobar") {}
         behaviour.example_definitions.should be_empty
-        behaviour.rspec_options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
 
         reporter = mock("Reporter")
         reporter.should_not_receive(:add_behaviour)

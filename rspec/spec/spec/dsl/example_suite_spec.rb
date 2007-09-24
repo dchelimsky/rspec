@@ -10,8 +10,13 @@ module Spec
     end
     
     describe ExampleSuite, "#run", :shared => true do
+      before :all do
+        @original_rspec_options = $rspec_options
+      end
+
       before :each do
         @options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
+        $rspec_options = @options
         @formatter = mock("formatter", :null_object => true)
         @options.formatters << @formatter
         @options.backtrace_tweaker = mock("backtrace_tweaker", :null_object => true)
@@ -20,7 +25,6 @@ module Spec
         @behaviour = Class.new(Example).describe("example") do
           it "does nothing"
         end
-        @behaviour.rspec_options = @options
         @result = Test::Unit::TestResult.new
         class << @behaviour
           public :include
@@ -28,6 +32,7 @@ module Spec
       end
 
       after :each do
+        $rspec_options = @original_rspec_options
         Example.clear_before_and_after!
       end
     end
@@ -155,7 +160,6 @@ module Spec
         behaviour = Class.new(Example).describe("I'm not special", :behaviour_type => :not_special) do
           it "does nothing"
         end
-        behaviour.rspec_options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
         suite = behaviour.suite
         suite.run(@result) {}
         fiddle.should == [
@@ -176,7 +180,6 @@ module Spec
 
         Example.append_before(:behaviour_type => :special) { fiddle << "Example.append_before(:each, :behaviour_type => :special)" }
         behaviour = Class.new(Example).describe("I'm not special", :behaviour_type => :special) {}
-        behaviour.rspec_options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
         behaviour.it("test") {true}
         suite = behaviour.suite
         suite.run(@result) {}
@@ -300,7 +303,6 @@ module Spec
           behaviour = Class.new(Example).describe("I'm special", :behaviour_type => :dog) do
             it "does nothing"
           end
-          behaviour.rspec_options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
           suite = behaviour.suite
           suite.run(@result) {}
 
@@ -320,7 +322,6 @@ module Spec
             $included_predicate_matcher_found = respond_to?(:do_something)
           end
         end
-        behaviour.rspec_options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
         suite = behaviour.suite
         suite.run(@result) {}
         $included_predicate_matcher_found.should be(true)
@@ -342,7 +343,6 @@ module Spec
           behaviour = Class.new(Example).describe('example') do
             it "does nothing"
           end
-          behaviour.rspec_options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
           suite = behaviour.suite
           suite.run(@result) {}
 
