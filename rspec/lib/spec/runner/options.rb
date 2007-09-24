@@ -38,10 +38,9 @@ module Spec
         :verbose,
         :runner_arg,
         :behaviour_runner,
-        :output_file_path,
-        :behaviours
+        :output_file_path
       )
-      attr_reader :colour, :differ_class, :files
+      attr_reader :colour, :differ_class, :files, :behaviours
 
       def initialize(error_stream, output_stream)
         @error_stream = error_stream
@@ -67,6 +66,19 @@ module Spec
         reporter.start(number_of_examples)
         @behaviours.reverse! if reverse
         set_sequence_numbers
+      end
+
+      def run_examples
+        suite = ::Test::Unit::TestSuite.new("Rspec suite")
+        behaviours.each do |behaviour|
+          suite << behaviour.suite
+        end
+        runner = ::Test::Unit::AutoRunner.new(true)
+        runner.collector = proc {suite}
+        success = false
+        ::Test::Unit::UI::TestRunnerMediator.current_rspec_options(self) do
+          return runner.run
+        end        
       end
 
       def finish
@@ -198,6 +210,9 @@ module Spec
         result
       end
 
+      def number_of_examples
+        @behaviours.inject(0) {|sum, behaviour| sum + behaviour.number_of_examples}
+      end      
       protected
       # Sets the #number on each ExampleDefinition
       def set_sequence_numbers
@@ -206,10 +221,6 @@ module Spec
           number = behaviour.set_sequence_numbers(number, reverse)
         end
       end
-
-      def number_of_examples
-        @behaviours.inject(0) {|sum, behaviour| sum + behaviour.number_of_examples}
-      end      
 
       def sorted_files
         return sorter ? files.sort(&sorter) : files

@@ -15,7 +15,7 @@ module Spec
       
       # Runs all the contexts held by +behaviour_runner+ once for each of the 
       # methods in the matched classes.
-      def heckle_with(behaviour_runner)
+      def heckle_with
         if @filter =~ /(.*)[#\.](.*)/
           heckle_method($1, $2)
         else
@@ -64,7 +64,7 @@ module Spec
       end
 
       def tests_pass?
-        failure_count = @behaviour_runner.run
+        failure_count = @behaviour_runner.options.run_examples
         failure_count == 0
       end
     end

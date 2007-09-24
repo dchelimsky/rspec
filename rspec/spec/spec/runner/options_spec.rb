@@ -116,7 +116,7 @@ module Spec
       end
     end
 
-    describe Options, "receiving create_behaviour_runner" do
+    describe Options, "#create_behaviour_runner" do
       before do
         @err = StringIO.new
         @out = StringIO.new
@@ -162,5 +162,75 @@ module Spec
         @options.reporter.options.should === @options
       end
     end
+
+    describe Options, "#add_behaviour affecting passed in behaviour" do
+      it_should_behave_like "Test::Unit io sink"
+      before do
+        @err = StringIO.new('')
+        @out = StringIO.new('')
+        @options = Options.new(@err, @out)
+      end
+
+      it "runs all examples when options.examples is nil" do
+        example_1_has_run = false
+        example_2_has_run = false
+        @behaviour = Class.new(::Spec::DSL::Example).describe("A Behaviour") do
+          it "runs 1" do
+            example_1_has_run = true
+          end
+          it "runs 2" do
+            example_2_has_run = true
+          end
+        end
+
+        @options.examples = nil
+
+        @options.add_behaviour @behaviour
+        @options.run_examples
+        example_1_has_run.should be_true
+        example_2_has_run.should be_true
+      end
+
+      it "keeps all example_definitions when options.examples is empty" do
+        example_1_has_run = false
+        example_2_has_run = false
+        @behaviour = Class.new(::Spec::DSL::Example).describe("A Behaviour") do
+          it "runs 1" do
+            example_1_has_run = true
+          end
+          it "runs 2" do
+            example_2_has_run = true
+          end
+        end
+
+        @options.examples = []
+
+        @options.add_behaviour @behaviour
+        @options.run_examples
+        example_1_has_run.should be_true
+        example_2_has_run.should be_true
+      end
+    end
+
+    describe BehaviourRunner, "#add_behaviour affecting behaviours" do
+      it_should_behave_like "Test::Unit io sink"
+      before do
+        @err = StringIO.new('')
+        @out = StringIO.new('')
+        @options = Options.new(@err,@out)
+      end
+
+      it "adds behaviour when behaviour has example_definitions and is not shared" do
+        @behaviour = Class.new(::Spec::DSL::Example).describe("A Behaviour") do
+          it "uses this behaviour" do
+          end
+        end
+
+        @options.number_of_examples.should == 0
+        @options.add_behaviour @behaviour
+        @options.number_of_examples.should == 1
+        @options.behaviours.length.should == 1
+      end
+    end    
   end
 end
