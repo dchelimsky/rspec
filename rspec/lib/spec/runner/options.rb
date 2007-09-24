@@ -35,8 +35,7 @@ module Spec
         :reporter,
         :reverse,
         :timeout,
-        :verbose,
-        :output_file_path
+        :verbose
       )
       attr_reader :colour, :differ_class, :files, :behaviours
 
@@ -66,7 +65,7 @@ module Spec
       end
 
       def run_examples
-        suite = ::Test::Unit::TestSuite.new("Rspec suite")
+        suite = ::Test::Unit::TestSuite.new("RSpec suite")
         behaviours.each do |behaviour|
           suite << behaviour.suite
         end

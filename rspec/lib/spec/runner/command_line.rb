@@ -6,8 +6,7 @@ module Spec
     class CommandLine
       class << self
         # Runs specs. +argv+ is the commandline args as per the spec commandline API, +err+
-        # and +out+ are the streams output will be written to. +exit+ tells whether or
-        # not a system exit should be called after the specs are run.
+        # and +out+ are the streams output will be written to.
         def run(argv, err, out)
           old_rspec_options = defined?($rspec_options) ? $rspec_options : nil
           begin
