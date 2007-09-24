@@ -19,7 +19,6 @@ module Spec
       def run_behaviours
         suite = ::Test::Unit::TestSuite.new("Rspec suite")
         @options.behaviours.each do |behaviour|
-          behaviour.rspec_options = @options
           suite << behaviour.suite
         end
         runner = ::Test::Unit::AutoRunner.new(true)
