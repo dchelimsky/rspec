@@ -13,7 +13,7 @@ module Spec
         @heckle_class = heckle_class
       end
       
-      # Runs all the contexts held by +behaviour_runner+ once for each of the 
+      # Runs all the behaviours held by +rspec_options+ once for each of the
       # methods in the matched classes.
       def heckle_with
         if @filter =~ /(.*)[#\.](.*)/
@@ -25,7 +25,7 @@ module Spec
       
       def heckle_method(class_name, method_name)
         verify_constant(class_name)
-        heckle = @heckle_class.new(class_name, method_name, behaviour_runner)
+        heckle = @heckle_class.new(class_name, method_name, rspec_options)
         heckle.validate
       end
       
@@ -39,7 +39,7 @@ module Spec
         
         classes.each do |klass|
           klass.instance_methods(false).each do |method_name|
-            heckle = @heckle_class.new(klass.name, method_name, behaviour_runner)
+            heckle = @heckle_class.new(klass.name, method_name, rspec_options)
             heckle.validate
           end
         end
@@ -57,14 +57,14 @@ module Spec
     
     #Supports Heckle 1.2 and prior (earlier versions used Heckle::Base)
     class Heckler < (Heckle.const_defined?(:Base) ? Heckle::Base : Heckle)
-      def initialize(klass_name, method_name, behaviour_runner)
+      def initialize(klass_name, method_name, rspec_options)
         super(klass_name, method_name)
-        @behaviour_runner = behaviour_runner
-        @behaviour_runner.options.load_paths
+        @rspec_options = rspec_options
+        @rspec_options.load_paths
       end
 
       def tests_pass?
-        failure_count = @behaviour_runner.options.run_examples
+        failure_count = @rspec_options.run_examples
         failure_count == 0
       end
     end

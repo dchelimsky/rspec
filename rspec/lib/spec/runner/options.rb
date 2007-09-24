@@ -36,8 +36,6 @@ module Spec
         :reverse,
         :timeout,
         :verbose,
-        :runner_arg,
-        :behaviour_runner,
         :output_file_path
       )
       attr_reader :colour, :differ_class, :files, :behaviours
@@ -59,7 +57,6 @@ module Spec
 
       def add_behaviour(behaviour)
         @behaviours << behaviour
-        behaviour.rspec_options = self        
       end
 
       def prepare
@@ -92,17 +89,6 @@ module Spec
           require 'Win32/Console/ANSI' if @colour && PLATFORM =~ /win32/; \
         rescue LoadError ; \
           raise "You must gem install win32console to use colour on Windows" ; \
-        end
-      end
-
-      def create_behaviour_runner
-        return nil if @generate
-        if @runner_arg
-          klass_name, arg = split_at_colon(@runner_arg)
-          runner_type = load_class(klass_name, 'behaviour runner', '--runner')
-          @behaviour_runner = runner_type.new(self, arg)
-        else
-          @behaviour_runner = BehaviourRunner.new(self)
         end
       end
 

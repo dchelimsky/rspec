@@ -13,6 +13,7 @@ CMD-R runs all the specs in one file
 CMD-SHIFT-R runs an individual spec
 CMD-OPT-R runs any files or directories selected in the TextMate drawer
 
+* Removed BehaviourRunner
 * Fixed [#13969] Spec Failures on Trunk w/ Autotest
 * Applied [#14156] False positives with should_not (Patch from Antti Tarvainen)
 * Applied [#14170] route_for and params_from internal specs fixed (Patch from Antti Tarvainen)

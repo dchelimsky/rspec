@@ -32,13 +32,13 @@ module Spec
       
     private
 
-      def behaviour_runner
-        unless $behaviour_runner
+      def rspec_options
+        unless $rspec_options
           parser = ::Spec::Runner::OptionParser.new(STDERR, STDOUT)
           parser.parse(ARGV)
-          $behaviour_runner = parser.options.create_behaviour_runner
+          $rspec_options = parser.options
         end
-        $behaviour_runner
+        $rspec_options
       end
     end
   end

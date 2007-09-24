@@ -7,17 +7,17 @@ end
 describe "The main object extended by MainExtensions" do
   before(:each) do
     @main = MainObjectImposter.new
-    @original_behaviour_runner = $behaviour_runner
-    $behaviour_runner = nil
+    @original_rspec_options = $rspec_options
+    $rspec_options = nil
   end
 
   after do
-    $behaviour_runner = @original_behaviour_runner
+    $rspec_options = @original_rspec_options
   end
 
-  it "should create a BehaviourRunner" do
-    @main.send(:behaviour_runner).should be_instance_of(Spec::Runner::BehaviourRunner)
-    @main.send(:behaviour_runner).should === $behaviour_runner
+  it "should create an Options object" do
+    @main.send(:rspec_options).should be_instance_of(Spec::Runner::Options)
+    @main.send(:rspec_options).should === $rspec_options
   end
   
   specify {@main.should respond_to(:describe)}

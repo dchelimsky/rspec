@@ -12,11 +12,6 @@ describe "OptionParser" do
     @parser.options
   end
 
-  def behaviour_runner(args)
-    options = Spec::Runner::OptionParser.parse(args, @err, @out)
-    options.create_behaviour_runner
-  end
-
   it "should accept dry run option" do
     options = parse(["--dry-run"])
     options.dry_run.should be_true
@@ -327,30 +322,5 @@ describe "OptionParser" do
       options.paths.should == ["most_recent_spec.rb", "command_line_spec.rb"]
       FileUtils.rm "most_recent_spec.rb"
     end
-  end
-
-  it "should use the standard runner by default" do
-    options = parse([])
-    options.create_behaviour_runner.class.should equal(Spec::Runner::BehaviourRunner)
-  end
-
-  it "should use a custom runner when given" do
-    options = parse(["--runner", "Custom::BehaviourRunner"])
-    options.create_behaviour_runner.class.should equal(Custom::BehaviourRunner)
-  end
-
-  it "should use a custom runner with extra options" do
-    options = parse(["--runner", "Custom::BehaviourRunner:something"])
-    options.create_behaviour_runner.class.should equal(Custom::BehaviourRunner)
-  end
-
-  it "should return the correct default behaviour runner" do
-    options = Spec::Runner::OptionParser.parse([], @err, @out)
-    options.create_behaviour_runner.should be_instance_of(Spec::Runner::BehaviourRunner)
-  end
-
-  it "should return the correct default behaviour runner" do
-   options = Spec::Runner::OptionParser.parse(["--runner", "Custom::BehaviourRunner"], @err, @out)
-    options.create_behaviour_runner.should be_instance_of(Custom::BehaviourRunner)
   end
 end

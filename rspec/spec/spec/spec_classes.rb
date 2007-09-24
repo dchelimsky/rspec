@@ -113,10 +113,6 @@ module Custom
     end
   end
 
-  class BehaviourRunner
-    def initialize(options, arg=nil); end
-  end
-
   class Differ
     attr_reader :options
     def initialize(options)

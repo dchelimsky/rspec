@@ -5,10 +5,11 @@ module Spec
     describe Example, ", with :shared => true" do
       before(:each) do
         @options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
+        @original_rspec_options = $rspec_options
+        $rspec_options = @options
         @formatter = Spec::Mocks::Mock.new("formatter", :null_object => true)
         @options.formatters << @formatter
         @behaviour = Class.new(Example).describe("behaviour")
-        @behaviour.rspec_options = @options
         @result = ::Test::Unit::TestResult.new
         class << @behaviour
           public :include
@@ -16,6 +17,7 @@ module Spec
       end
 
       after(:each) do
+        $rspec_options = @original_rspec_options
         @formatter.rspec_verify
         @behaviour_class = nil
         $shared_behaviours.clear unless $shared_behaviours.nil?

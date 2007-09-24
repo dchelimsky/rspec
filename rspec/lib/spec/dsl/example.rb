@@ -4,7 +4,10 @@ module Spec
       remove_method :default_test if respond_to?(:default_test)
       class << self
         include Behaviour
-        attr_accessor :rspec_options
+        def rspec_options
+          @rspec_options || super
+        end
+        attr_writer :rspec_options
 
         def inherited(klass)
           super
@@ -33,7 +36,7 @@ module Spec
         end
 
         def register
-          behaviour_runner.options.add_behaviour self
+          rspec_options.add_behaviour self
         end
 
         def before_each_proc(behaviour_type, &error_handler)

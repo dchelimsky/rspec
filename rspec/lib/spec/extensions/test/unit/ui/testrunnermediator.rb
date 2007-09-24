@@ -5,7 +5,7 @@ class Test::Unit::UI::TestRunnerMediator
     end
 
     def rspec_options
-      rspec_options_list.last || behaviour_runner.options
+      rspec_options_list.last || super
     end
 
     def current_rspec_options(options)

@@ -116,33 +116,11 @@ module Spec
       end
     end
 
-    describe Options, "#create_behaviour_runner" do
+    describe Options, "#differ_class and #differ_class=" do
       before do
         @err = StringIO.new
         @out = StringIO.new
         @options = Options.new(@err, @out)
-      end
-
-      it "should fail when custom runner not found" do
-        @options.runner_arg = "Whatever"
-        lambda { @options.create_behaviour_runner }.should raise_error(NameError)
-        @err.string.should match(/Couldn't find behaviour runner class/)
-      end
-
-      it "should fail when custom runner not valid class name" do
-        @options.runner_arg = "whatever"
-        lambda { @options.create_behaviour_runner }.should raise_error('"whatever" is not a valid class name')
-        @err.string.should match(/"whatever" is not a valid class name/)
-      end
-
-      it "returns nil when generate is true" do
-        @options.generate = true
-        @options.create_behaviour_runner.should == nil
-      end
-
-      it "returns a BehaviourRunner by default" do
-        runner = @options.create_behaviour_runner
-        runner.class.should == BehaviourRunner
       end
 
       it "does not set Expectations differ when differ_class is not set" do
@@ -156,8 +134,16 @@ module Spec
         end
         @options.differ_class = Spec::Expectations::Differs::Default
       end
+    end
 
-      it "has a Reporter" do
+    describe Options, "#reporter" do
+      before do
+        @err = StringIO.new
+        @out = StringIO.new
+        @options = Options.new(@err, @out)
+      end
+
+      it "returns a Reporter" do
         @options.reporter.should be_instance_of(Reporter)
         @options.reporter.options.should === @options
       end
@@ -212,7 +198,7 @@ module Spec
       end
     end
 
-    describe BehaviourRunner, "#add_behaviour affecting behaviours" do
+    describe Options, "#add_behaviour affecting behaviours" do
       it_should_behave_like "Test::Unit io sink"
       before do
         @err = StringIO.new('')
