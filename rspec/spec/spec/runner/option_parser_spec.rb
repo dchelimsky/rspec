@@ -323,4 +323,29 @@ describe "OptionParser" do
       FileUtils.rm "most_recent_spec.rb"
     end
   end
+
+  it "should use the standard runner by default" do
+    options = parse([])
+    options.custom_runner.should be_nil
+  end
+
+  it "should use a custom runner when given" do
+    options = parse(["--runner", "Custom::BehaviourRunner"])
+    options.custom_runner.class.should equal(Custom::BehaviourRunner)
+  end
+
+  it "should use a custom runner with extra options" do
+    options = parse(["--runner", "Custom::BehaviourRunner:something"])
+    options.custom_runner.class.should equal(Custom::BehaviourRunner)
+  end
+
+  it "should not have a custom runner by default" do
+    options = Spec::Runner::OptionParser.parse([], @err, @out)
+    options.custom_runner.should be_nil
+  end
+
+  it "should return the correct default behaviour runner" do
+   options = Spec::Runner::OptionParser.parse(["--runner", "Custom::BehaviourRunner"], @err, @out)
+    options.custom_runner.class.should equal(Custom::BehaviourRunner)
+  end  
 end

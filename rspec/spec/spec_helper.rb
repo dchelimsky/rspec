@@ -56,3 +56,12 @@ describe "Test::Unit io sink", :shared => true do
     Test::Unit::UI::Console::TestRunner.__send__(:remove_const, :STDOUT)
   end
 end
+
+module Custom
+  class BehaviourRunner
+    attr_reader :options, :arg
+    def initialize(options, arg)
+      @options, @arg = options, arg
+    end
+  end  
+end

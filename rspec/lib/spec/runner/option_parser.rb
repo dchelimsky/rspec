@@ -83,6 +83,7 @@ module Spec
         :dry_run => ["-d", "--dry-run", "Invokes formatters without executing the examples."],
         :options_file => ["-O", "--options PATH", "Read options from a file"],
         :generate_options => ["-G", "--generate-options PATH", "Generate an options file for --options"],
+        :runner => ["-U", "--runner RUNNER", "Use a custom BehaviourRunner."],
         :drb => ["-X", "--drb", "Run examples via DRb. (For example against script/spec_server)"],
         :version => ["-v", "--version", "Show version"],
         :help => ["-h", "--help", "You're looking at it"]
@@ -114,6 +115,9 @@ module Spec
         on(*OPTIONS[:dry_run]) {@options.dry_run = true}
         on(*OPTIONS[:options_file]) {|options_file| parse_options_file(options_file)}
         on(*OPTIONS[:generate_options]) do |options_file|
+        end
+        on(*OPTIONS[:runner]) do |runner|
+          @options.runner_arg = runner
         end
         on(*OPTIONS[:drb]) {}
         on(*OPTIONS[:version]) {parse_version}

@@ -35,7 +35,8 @@ module Spec
         :reporter,
         :reverse,
         :timeout,
-        :verbose
+        :verbose,
+        :runner_arg
       )
       attr_reader :colour, :differ_class, :files, :behaviours
 
@@ -89,6 +90,13 @@ module Spec
         rescue LoadError ; \
           raise "You must gem install win32console to use colour on Windows" ; \
         end
+      end
+
+      def custom_runner
+        return nil unless @runner_arg
+        klass_name, arg = split_at_colon(@runner_arg)
+        runner_type = load_class(klass_name, 'behaviour runner', '--runner')
+        return runner_type.new(self, arg)
       end
 
       def differ_class=(klass)
