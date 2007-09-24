@@ -3,10 +3,14 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 module Spec
   module Runner
     describe Options do
-      before do
+      before(:each) do
         @err = StringIO.new('')
         @out = StringIO.new('')
         @options = Options.new(@err, @out)
+      end
+      
+      after(:each) do
+        Spec::Expectations.differ = nil
       end
 
       it "instantiates empty arrays" do
