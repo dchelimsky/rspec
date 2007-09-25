@@ -15,7 +15,7 @@ module Spec
         def suite
           description = description ? description.description : "Rspec Description Suite"
           suite = ExampleSuite.new(description, self)
-          ordered_example_definitions(reverse).each do |example_definition|
+          ordered_example_definitions.each do |example_definition|
             suite << new(example_definition)
           end
           instance_methods.each do |method_name|
@@ -33,8 +33,8 @@ module Spec
         end
 
         # Sets the #number on each ExampleDefinition and returns the next number
-        def set_sequence_numbers(number, reverse) #:nodoc:
-          ordered_example_definitions(reverse).each do |example_definition|
+        def set_sequence_numbers(number) #:nodoc:
+          ordered_example_definitions.each do |example_definition|
             example_definition.number = number
             number += 1
           end
@@ -83,12 +83,8 @@ module Spec
 
         protected
 
-        def reverse
-          rspec_options ? rspec_options.reverse : false
-        end
-
-        def ordered_example_definitions(reverse)
-          reverse ? example_definitions.reverse : example_definitions
+        def ordered_example_definitions
+          rspec_options.reverse ? example_definitions.reverse : example_definitions
         end
 
         def plugin_mock_framework

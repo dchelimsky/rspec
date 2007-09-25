@@ -214,7 +214,7 @@ module Spec
       def set_sequence_numbers
         number = 0
         @behaviours.each do |behaviour|
-          number = behaviour.set_sequence_numbers(number, reverse)
+          number = behaviour.set_sequence_numbers(number)
         end
       end
 
