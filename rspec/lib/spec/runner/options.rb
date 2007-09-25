@@ -72,7 +72,6 @@ module Spec
         end
         runner = ::Test::Unit::AutoRunner.new(true)
         runner.collector = proc {suite}
-        success = false
         ::Test::Unit::UI::TestRunnerMediator.current_rspec_options(self) do
           return runner.run
         end        
@@ -92,8 +91,12 @@ module Spec
         end
       end
 
+      def custom_runner?
+        return @runner_arg ? true : false
+      end
+
       def custom_runner
-        return nil unless @runner_arg
+        return nil unless custom_runner?
         klass_name, arg = split_at_colon(@runner_arg)
         runner_type = load_class(klass_name, 'behaviour runner', '--runner')
         return runner_type.new(self, arg)

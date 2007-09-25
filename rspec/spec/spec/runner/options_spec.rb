@@ -89,6 +89,24 @@ module Spec
       end
     end
 
+    describe Options, "#custom_runner?" do
+      before do
+        @err = StringIO.new('')
+        @out = StringIO.new('')
+        @options = Options.new(@err, @out)
+      end
+      
+      it "returns true when there is a runner_arg" do
+        @options.runner_arg = "Custom::BehaviourRunner"
+        @options.custom_runner?.should be_true
+      end
+
+      it "returns false when there is no runner_arg" do
+        @options.runner_arg = nil
+        @options.custom_runner?.should be_false
+      end
+    end
+
     describe Options, "splitting class names and args" do
       before do
         @err = StringIO.new('')

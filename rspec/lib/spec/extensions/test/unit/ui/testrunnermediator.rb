@@ -24,8 +24,10 @@ class Test::Unit::UI::TestRunnerMediator
   begin
     def initialize(suite)
       @suite = suite
-      add_listener(STARTED, &method(:rspec_prepare))
-      add_listener(FINISHED, &method(:rspec_finished))
+      unless self.class.rspec_options.custom_runner?
+        add_listener(STARTED, &method(:rspec_prepare))
+        add_listener(FINISHED, &method(:rspec_finished))
+      end
     end
   ensure
     $VERBOSE = original_verbose
