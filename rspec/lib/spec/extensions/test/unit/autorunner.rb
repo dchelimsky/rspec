@@ -1,6 +1,6 @@
 class Test::Unit::AutoRunner
   class << self
-    def new(*args)
+    def new(*args, &blk)
       custom_runner = rspec_options.custom_runner
       if custom_runner
         custom_runner
