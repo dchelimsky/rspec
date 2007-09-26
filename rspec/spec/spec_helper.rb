@@ -49,11 +49,9 @@ class NonStandardError < Exception; end
 describe "Test::Unit io sink", :shared => true do
   before do
     @test_runner_io = StringIO.new
-#    Test::Unit::UI::Console::TestRunner.const_set(:STDOUT, @test_runner_io)
   end
 
   after do
-#    Test::Unit::UI::Console::TestRunner.__send__(:remove_const, :STDOUT)
   end
 end
 
