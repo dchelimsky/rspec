@@ -1,8 +1,7 @@
 module Spec
   module DSL
-    # TODO: What is the responsibility of this class? It looks like it runs examples,
-    # so maybe we should call it ExampleRunner? We need RDoc here anyway (Aslak) 
-    class ExampleRunProxy
+    # TODO: We need RDoc here anyway (Aslak) 
+    class ExampleRunner
       attr_reader :options, :example, :example_definition, :errors
 
       def initialize(options, example)

@@ -14,7 +14,7 @@ module Spec
         error = Exception.new
         example_definition = @example_definition_class.new("example") {raise(error)}
         example = @behaviour.new(example_definition)
-        proxy = ExampleRunProxy.new(@options, example)
+        proxy = ExampleRunner.new(@options, example)
         @reporter.should_receive(:example_finished).with(equal(example), error, "example", false)
         proxy.run
       end

@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 module Spec
   module DSL
-    describe ExampleRunProxy, "#run", :shared => true do
+    describe ExampleRunner, "#run", :shared => true do
       before(:each) do
         @options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
         @reporter = ::Spec::Runner::Reporter.new(@options)
@@ -12,15 +12,15 @@ module Spec
 
       def create_proxy(example_definition)
         example = @behaviour.new(example_definition)
-        proxy = ExampleRunProxy.new(@options, example)
+        proxy = ExampleRunner.new(@options, example)
         proxy.stub!(:verify_mocks)
         proxy.stub!(:teardown_mocks)
         proxy
       end
     end
 
-    describe ExampleRunProxy, "#run with blank passing example" do
-      it_should_behave_like "Spec::DSL::ExampleRunProxy#run"
+    describe ExampleRunner, "#run with blank passing example" do
+      it_should_behave_like "Spec::DSL::ExampleRunner#run"
 
       before do
         @example_definition = @behaviour.create_example_definition("example") {}
@@ -44,9 +44,9 @@ module Spec
       end
     end
 
-    describe ExampleRunProxy, "#run with a failing example" do
+    describe ExampleRunner, "#run with a failing example" do
       predicate_matchers[:is_a] = [:is_a?]
-      it_should_behave_like "Spec::DSL::ExampleRunProxy#run"
+      it_should_behave_like "Spec::DSL::ExampleRunner#run"
 
       before do
         @example_definition = @behaviour.create_example_definition("example") do
@@ -66,8 +66,8 @@ module Spec
       end
     end
 
-    describe ExampleRunProxy, "#run with a erroring example" do
-      it_should_behave_like "Spec::DSL::ExampleRunProxy#run"
+    describe ExampleRunner, "#run with a erroring example" do
+      it_should_behave_like "Spec::DSL::ExampleRunner#run"
 
       before do
         @error = error = NonStandardError.new("in body")
@@ -100,8 +100,8 @@ module Spec
       end      
     end
 
-    describe ExampleRunProxy, "#run where before_each fails" do
-      it_should_behave_like "Spec::DSL::ExampleRunProxy#run"
+    describe ExampleRunner, "#run where before_each fails" do
+      it_should_behave_like "Spec::DSL::ExampleRunner#run"
 
       before do
         @example_ran = example_ran = false
@@ -134,8 +134,8 @@ module Spec
       end
     end
 
-    describe ExampleRunProxy, "#run where after_each fails" do
-      it_should_behave_like "Spec::DSL::ExampleRunProxy#run"
+    describe ExampleRunner, "#run where after_each fails" do
+      it_should_behave_like "Spec::DSL::ExampleRunner#run"
 
       before do
         @example_ran = example_ran = false
@@ -156,9 +156,9 @@ module Spec
       end
     end
 
-    describe ExampleRunProxy, "#run with use cases" do
+    describe ExampleRunner, "#run with use cases" do
       predicate_matchers[:is_a] = [:is_a?]
-      it_should_behave_like "Spec::DSL::ExampleRunProxy#run"
+      it_should_behave_like "Spec::DSL::ExampleRunner#run"
 
       it "should run example block in scope of example" do
         scope_object = nil
