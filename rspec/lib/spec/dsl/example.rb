@@ -164,6 +164,10 @@ module Spec
         exception = run_after_parts(exception, Example.after_each_parts(nil))
         raise exception if exception
       end
+
+      def run_example
+        self.instance_eval(&rspec_definition.example_block)
+      end
       
       protected
       def run_before_parts(parts)
@@ -187,7 +191,6 @@ module Spec
       def behaviour_type
         @rspec_behaviour.behaviour_type
       end
-
     end
   end
 end

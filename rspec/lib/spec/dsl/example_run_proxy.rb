@@ -63,7 +63,7 @@ module Spec
 
       def run_example
         if example_block
-          example.instance_eval(&example_block)
+          example.run_example
           return true
         else
           raise ExamplePendingError
