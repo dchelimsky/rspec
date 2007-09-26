@@ -19,7 +19,7 @@ module Spec
             options.load_paths
             success = options.run_examples
             heckle(options) if options.heckle_runner
-            
+
             return success
           ensure
             $rspec_options = old_rspec_options

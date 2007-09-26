@@ -29,18 +29,18 @@ module Spec
       
       it "should send reporter example_started" do
         @reporter.should_receive(:example_started).with(equal(@example_definition))
-        @proxy.run(nil, nil)
+        @proxy.run
       end
 
       it "should report its name for dry run" do
         @options.dry_run = true
         @reporter.should_receive(:example_finished).with(equal(@example_definition), nil, "NO NAME (Because of --dry-run)")
-        @proxy.run(nil, nil)
+        @proxy.run
       end
 
       it "should report success" do
         @reporter.should_receive(:example_finished).with(equal(@example_definition), nil, nil, false)
-        @proxy.run(nil, nil)
+        @proxy.run
       end
     end
 
@@ -62,7 +62,7 @@ module Spec
           "example",
           false
         )
-        @proxy.run(nil, nil)
+        @proxy.run
       end
     end
 
@@ -84,11 +84,11 @@ module Spec
           "example",
           false
         )
-        @proxy.run(nil, nil)
+        @proxy.run
       end
 
       it "should run after_each block" do
-        after_each = lambda do
+        @behaviour.after(:each) do
           raise("in after_each")
         end
         @reporter.should_receive(:example_finished) do |example_definition, error, location|
@@ -96,7 +96,7 @@ module Spec
           location.should eql("example")
           error.message.should eql("in body")
         end
-        @proxy.run(nil, after_each)
+        @proxy.run
       end      
     end
 
@@ -109,18 +109,18 @@ module Spec
           example_ran = true
         end
         @proxy = create_proxy(@example_definition)
-        @before_each = lambda {raise NonStandardError, "in before_each"}
+        @behaviour.before(:each) {raise NonStandardError, "in before_each"}
       end
 
       it "should not run example block if before_each fails" do
-        @proxy.run(@before_each, nil)
+        @proxy.run
         @example_ran.should == false
       end
 
       it "should run after_each block" do
         after_each_ran = false
-        after_each = lambda {after_each_ran = true}
-        @proxy.run(@before_each, after_each)
+        @behaviour.after(:each) {after_each_ran = true}
+        @proxy.run
         after_each_ran.should == true
       end
 
@@ -130,7 +130,7 @@ module Spec
           error.message.should eql("in before_each")
           location.should eql("before(:each)")
         end
-        @proxy.run(@before_each, nil)
+        @proxy.run
       end
     end
 
@@ -143,7 +143,7 @@ module Spec
           example_ran = true
         end
         @proxy = create_proxy(@example_definition)
-        @after_each = lambda { raise(NonStandardError.new("in after_each")) }
+        @behaviour.after(:each) { raise(NonStandardError.new("in after_each")) }
       end
 
       it "should report failure location when in after_each" do
@@ -152,7 +152,7 @@ module Spec
           error.message.should eql("in after_each")
           location.should eql("after(:each)")
         end
-        @proxy.run(nil, @after_each)
+        @proxy.run
       end
     end
 
@@ -170,7 +170,7 @@ module Spec
         @example = @proxy.example
 
         @reporter.should_receive(:example_finished).with(equal(@example_definition), nil, nil, false)
-        @proxy.run(nil, nil)
+        @proxy.run
         
         scope_object.should == @example
         scope_object.should be_instance_of(@behaviour)
@@ -193,7 +193,7 @@ module Spec
           example_definition.description.should == "NO NAME (Because of --dry-run)"
           location.should == "NO NAME (Because of --dry-run)"
          end
-        proxy.run(nil, nil)
+        proxy.run
       end
 
       it "should report NO NAME when told to use generated description with no expectations" do
@@ -202,7 +202,7 @@ module Spec
         @reporter.should_receive(:example_finished) do |example, error, location|
           example.description.should == "NO NAME (Because there were no expectations)"
         end
-        proxy.run(nil, nil)
+        proxy.run
       end
 
       it "should report NO NAME when told to use generated description and matcher fails" do
@@ -215,7 +215,7 @@ module Spec
           example_definition.description.should == "NO NAME (Because of Error raised in matcher)"
           location.should == "NO NAME (Because of Error raised in matcher)"
         end
-        proxy.run(nil, nil)
+        proxy.run
       end
 
       it "should report generated description when told to and it is available" do
@@ -227,7 +227,7 @@ module Spec
         @reporter.should_receive(:example_finished) do |example_definition, error, location|
           example_definition.description.should == "should == 5"
         end
-        proxy.run(nil, nil)
+        proxy.run
       end
 
       it "should unregister description_generated callback (lest a memory leak should build up)" do
@@ -235,7 +235,7 @@ module Spec
         proxy = create_proxy(example_definition)
 
         Spec::Matchers.should_receive(:clear_generated_description)
-        proxy.run(nil, nil)
+        proxy.run
       end
     end
   end

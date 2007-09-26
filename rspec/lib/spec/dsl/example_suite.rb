@@ -12,30 +12,29 @@ module Spec
       end
 
       def run(result, &progress_block)
+        return true if result.is_a?(::Test::Unit::TestResult)
         retain_specified_examples
-        return if examples.empty?
+        return true if examples.empty?
 
         reporter.add_behaviour(description)
-        before_all_errors = run_before_all
-
-        if before_all_errors.empty?
+        success = run_before_all
+        if success
           example = nil
           examples.each do |example|
             example.copy_instance_variables_from(@before_and_after_all_example)
 
-            unless example.rspec_definition.pending?
-              befores = before_each_proc(behaviour_type) {|e| raise e}
-              afters = after_each_proc(behaviour_type)
-            end
             run_proxy = ExampleRunProxy.new(rspec_options, example)
-            unless run_proxy.run(befores, afters, &progress_block)
-              result.add_example_failure run_proxy
+            unless run_proxy.run(&progress_block)
+              success = false
             end
           end
           @before_and_after_all_example.copy_instance_variables_from(example)
         end
 
-        run_after_all
+        unless run_after_all
+          success = false
+        end
+        return success
       end
 
       def <<(example)
@@ -62,28 +61,31 @@ module Spec
         unless dry_run
           begin
             @before_and_after_all_example = behaviour.new(nil)
-            @before_and_after_all_example.instance_eval(&before_all_proc(behaviour_type))
+            @before_and_after_all_example.before_all
           rescue Exception => e
             errors << e
             location = "before(:all)"
             # The easiest is to report this as an example failure. We don't have an ExampleDefinition
             # at this point, so we'll just create a placeholder.
             reporter.example_finished(create_example_definition(location), e, location)
+            return false
           end
         end
-        errors
+        return true
       end
 
       def run_after_all
         unless dry_run
           begin
             @before_and_after_all_example ||= behaviour.new(nil)
-            @before_and_after_all_example.instance_eval(&after_all_proc(behaviour_type))
+            @before_and_after_all_example.after_all
           rescue Exception => e
             location = "after(:all)"
             reporter.example_finished(create_example_definition(location), e, location)
+            return false
           end
         end
+        return true
       end
 
       def_delegator :behaviour, :create_example_definition

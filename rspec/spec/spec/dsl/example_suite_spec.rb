@@ -23,9 +23,10 @@ module Spec
         @reporter = FakeReporter.new(@options)
         @options.reporter = @reporter
         @behaviour = Class.new(Example).describe("example") do
-          it "does nothing"
+          it "does nothing" do
+          end
         end
-        @result = Test::Unit::TestResult.new
+        @result = nil
         class << @behaviour
           public :include
         end
@@ -41,10 +42,8 @@ module Spec
       it_should_behave_like "Spec::DSL::ExampleSuite#run"
 
       it "should not add an example failure to the TestResult" do
-        @result.passed?.should be_true
         suite = @behaviour.suite
-        suite.run(@result) {}
-        @result.passed?.should be_true
+        suite.run(@result) {}.should be_true
       end
     end
 
@@ -52,12 +51,9 @@ module Spec
       it_should_behave_like "Spec::DSL::ExampleSuite#run"
       
       it "should add an example failure to the TestResult" do
-        @result.passed?.should be_true
-        @result.should_receive(:add_example_failure).and_return(&@result.method(:add_example_failure))
         suite = @behaviour.suite
-        suite.run(@result) {}
-        @result.passed?.should be_false
-      end      
+        suite.run(@result) {}.should be_false
+      end
     end
 
     describe ExampleSuite, "#run on dry run" do
@@ -202,7 +198,6 @@ module Spec
         @behaviour.before(:all) { fiddle << "before(:all)" }
         @behaviour.prepend_before(:each) { fiddle << "prepend_before(:each)" }
         @behaviour.before(:each) { fiddle << "before(:each)" }
-        @behaviour.it("test") {true}
         suite = @behaviour.suite
         suite.run(@result) {}
         fiddle.should == [
@@ -226,7 +221,6 @@ module Spec
         @behaviour.append_after(:all) { fiddle << "append_after(:all)" }
         Example.after(:all) { fiddle << "Example.after(:all)" }
         Example.append_after(:all) { fiddle << "Example.append_after(:all)" }
-        @behaviour.it("test") {true}
         suite = @behaviour.suite
         suite.run(@result) {}
         fiddle.should == [
@@ -470,11 +464,22 @@ module Spec
     end
 
     describe ExampleSuite, "#run when first after(:each) block fails" do
-      it_should_behave_like "Spec::DSL::ExampleSuite#run with failure in example"
+      it_should_behave_like "Spec::DSL::ExampleSuite#run"
 
-      before do
-        example = @behaviour.it("example") {}
-      end
+      it "should add an example failure to the TestResult" do
+        second_after_ran = false
+        @behaviour.after(:each) do
+          second_after_ran = true
+        end
+        first_after_ran = false
+        @behaviour.after(:each) do
+          first_after_ran = true
+          raise "first"
+        end
+        
+        suite = @behaviour.suite
+        suite.run(@result) {}.should be_false
+      end      
       
       it "should run second after(:each) block" do
         second_after_ran = false
@@ -501,10 +506,21 @@ module Spec
     end
 
     describe ExampleSuite, "#run when first before(:each) block fails" do
-      it_should_behave_like "Spec::DSL::ExampleSuite#run with failure in example"
+      it_should_behave_like "Spec::DSL::ExampleSuite#run"
 
-      before do
-        @behaviour.it("example") {}
+      it "should add an example failure to the TestResult" do
+        first_before_ran = false
+        @behaviour.before(:each) do
+          first_before_ran = true
+          raise "first"
+        end
+        second_before_ran = false
+        @behaviour.before(:each) do
+          second_before_ran = true
+        end
+        
+        suite = @behaviour.suite
+        suite.run(@result) {}.should be_false
       end
 
       it "should not run second before(:each)" do
@@ -532,11 +548,16 @@ module Spec
     end
 
     describe ExampleSuite, "#run when failure in after(:all)" do
-      it_should_behave_like "Spec::DSL::ExampleSuite#run with failure in example"
+      it_should_behave_like "Spec::DSL::ExampleSuite#run"
 
       before do
-        Example.after(:all) { raise NonStandardError.new("in after(:all)") }
+        Example.after(:all) { raise NonStandardError, "in after(:all)" }
       end
+
+      it "should return false" do
+        suite = @behaviour.suite
+        suite.run(@result) {}.should be_false
+      end      
 
       it "should provide after(:all) as description" do
         @reporter.should_receive(:example_finished) do |example, error, location|

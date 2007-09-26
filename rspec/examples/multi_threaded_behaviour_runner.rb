@@ -7,7 +7,7 @@ class MultiThreadedBehaviourRunner < Spec::Runner::BehaviourRunner
     @thread_wait = 0
   end
 
-  def run_behaviours(behaviours)
+  def run
     @threads = []
     q = Queue.new
     behaviours.each { |b| q << b}

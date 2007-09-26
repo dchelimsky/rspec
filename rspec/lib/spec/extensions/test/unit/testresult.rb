@@ -1,5 +1,6 @@
 class Test::Unit::TestResult
-  def add_example_failure(example_run_proxy)
-    @failures << example_run_proxy
+  remove_method :passed?
+  def passed?
+    return @failures.empty? && @errors.empty? && rspec_options.run_examples
   end
 end

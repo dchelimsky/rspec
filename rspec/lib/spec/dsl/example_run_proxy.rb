@@ -10,9 +10,11 @@ module Spec
         @example = example
         @example_definition = example.rspec_definition
         @errors = []
+        @behaviour = example.rspec_behaviour
+        @behaviour_type = @behaviour.behaviour_type
       end
 
-      def run(before_each_block, after_each_block)
+      def run
         reporter.example_started(example_definition)
         if dry_run
           example_definition.description = "NO NAME (Because of --dry-run)"
@@ -21,9 +23,9 @@ module Spec
 
         location = nil
         Timeout.timeout(timeout) do
-          before_each_ok = before_example(&before_each_block)
+          before_each_ok = before_example
           example_ok = run_example if before_each_ok
-          after_each_ok = after_example(&after_each_block)
+          after_each_ok = after_example
           example_definition.description = description
           location = failure_location(before_each_ok, example_ok, after_each_ok)
           Spec::Matchers.clear_generated_description
@@ -50,10 +52,9 @@ module Spec
       end
 
       protected
-      def before_example(&behaviour_before_block)
+      def before_example
         setup_mocks
-
-        example.instance_eval(&behaviour_before_block) if behaviour_before_block
+        example.before_each
         return ok?
       rescue Exception => e
         errors << e
@@ -73,7 +74,7 @@ module Spec
       end
 
       def after_example(&behaviour_after_each)
-        example.instance_eval(&behaviour_after_each) if behaviour_after_each
+        example.after_each
 
         begin
           verify_mocks

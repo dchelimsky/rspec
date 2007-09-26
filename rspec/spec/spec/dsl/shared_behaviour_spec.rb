@@ -10,7 +10,6 @@ module Spec
         @formatter = Spec::Mocks::Mock.new("formatter", :null_object => true)
         @options.formatters << @formatter
         @behaviour = Class.new(Example).describe("behaviour")
-        @result = ::Test::Unit::TestResult.new
         class << @behaviour
           public :include
         end
@@ -142,7 +141,7 @@ module Spec
         @behaviour.it_should_behave_like("shared behaviour")
         @behaviour.it("example") {example_ran = true}
         suite = @behaviour.suite
-        suite.run(@result) {}
+        suite.run(nil) {}
         example_ran.should be_true
         shared_example_ran.should be_true
       end
@@ -160,7 +159,7 @@ module Spec
         @behaviour.it_should_behave_like("shared behaviour")
         @behaviour.it("example") {example_ran = true}
         suite = @behaviour.suite
-        suite.run(@result) {}
+        suite.run(nil) {}
         example_ran.should be_true
         shared_setup_ran.should be_true
         shared_teardown_ran.should be_true
@@ -179,7 +178,7 @@ module Spec
         @behaviour.it_should_behave_like("shared behaviour")
         @behaviour.it("example") {example_ran = true}
         suite = @behaviour.suite
-        suite.run(@result) {}
+        suite.run(nil) {}
         example_ran.should be_true
         shared_before_all_run_count.should == 1
         shared_after_all_run_count.should == 1
@@ -216,7 +215,7 @@ module Spec
           mod2_method
         end
         suite = @behaviour.suite
-        suite.run(@result) {}
+        suite.run(nil) {}
         mod1_method_called.should be_true
         mod2_method_called.should be_true
       end
@@ -234,7 +233,7 @@ module Spec
           success = true
         end
         suite = @behaviour.suite
-        suite.run(@result) {}
+        suite.run(nil) {}
         success.should be_true
       end
 

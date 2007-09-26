@@ -27,7 +27,7 @@ module Spec
         class << @behaviour
           public :include
         end
-        @result = ::Test::Unit::TestResult.new
+        @result = nil
       end
 
       after :each do

@@ -59,29 +59,11 @@ module Spec
         @behaviours << behaviour
       end
 
-      def prepare
-        reporter.start(number_of_examples)
-        @behaviours.reverse! if reverse
-        set_sequence_numbers
-      end
-
       def run_examples
-        suite = ::Test::Unit::TestSuite.new("RSpec suite")
-        behaviours.each do |behaviour|
-          suite << behaviour.suite
-        end
-        runner = ::Test::Unit::AutoRunner.new(true)
-        runner.collector = proc {suite}
-        ::Test::Unit::UI::TestRunnerMediator.current_rspec_options(self) do
-          return runner.run
-        end        
+        runner = custom_runner || BehaviourRunner.new(self)
+        runner.run
       end
 
-      def finish
-        reporter.end
-        reporter.dump
-      end      
-      
       def colour=(colour)
         @colour = colour
         begin; \
@@ -208,16 +190,9 @@ module Spec
 
       def number_of_examples
         @behaviours.inject(0) {|sum, behaviour| sum + behaviour.number_of_examples}
-      end      
-      protected
-      # Sets the #number on each ExampleDefinition
-      def set_sequence_numbers
-        number = 0
-        @behaviours.each do |behaviour|
-          number = behaviour.set_sequence_numbers(number)
-        end
       end
-
+      
+      protected
       def sorted_files
         return sorter ? files.sort(&sorter) : files
       end
