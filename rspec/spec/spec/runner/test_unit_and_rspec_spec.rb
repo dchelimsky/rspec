@@ -17,6 +17,7 @@ class TestUnitAndRspecSpec < ::Spec::DSL::Example
   end
   
   it "should run tests and specs" do
+    TestUnitAndRspecTest.suite.run(Test::Unit::TestResult.new) {}
     TestUnitAndRspecTest.tests_run.should be_true
   end
 

@@ -16,7 +16,7 @@ class MultiThreadedBehaviourRunner < Spec::Runner::BehaviourRunner
       @threads << Thread.new(q) do |queue|
         while not queue.empty?
           behaviour = queue.pop
-          success &= behaviour.run(@options.reporter, @options.dry_run, @options.reverse)
+          success &= behaviour.suite.run(nil)
         end
       end
       sleep @thread_wait
