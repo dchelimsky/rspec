@@ -80,6 +80,15 @@ module Spec
         end
       end
 
+      class TestResultShim
+        def add_assertion
+        end
+        def add_failure(failure)
+        end
+        def add_error(error)
+        end
+      end
+
       include ::Spec::Matchers
 
       attr_reader :rspec_behaviour, :rspec_definition
@@ -89,7 +98,7 @@ module Spec
       def initialize(definition) #:nodoc:
         @rspec_behaviour = self.class
         @rspec_definition = definition
-        @_result = Test::Unit::TestResult.new
+        @_result = TestResultShim.new
 
         behaviour_type = behaviour_type
         predicate_matchers = @rspec_behaviour.predicate_matchers

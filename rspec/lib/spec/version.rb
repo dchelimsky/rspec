@@ -6,7 +6,7 @@
       TINY   = 9
       RELEASE_CANDIDATE = nil
 
-      # RANDOM_TOKEN: 0.370546618659802
+      # RANDOM_TOKEN: 0.140341795183789
       REV = "$LastChangedRevision$".match(/LastChangedRevision: (\d+)/)[1]
 
       STRING = [MAJOR, MINOR, TINY].join('.')

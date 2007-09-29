@@ -11,7 +11,7 @@ class TestUnitAndRspecTest < Test::Unit::TestCase
   end
 end
 
-class TestUnitAndRspecSpec < ::Spec::DSL::Example
+class TestUnitAndRspecSpec < ::Spec::Test::Unit::Example
   class << self
     attr_accessor :examples_run
   end

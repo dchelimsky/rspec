@@ -24,7 +24,7 @@ module Spec # :nodoc:
           @block = block if block
           begin
             @spec_scope.send(@assertion, *@args, &@block)
-          rescue Test::Unit::AssertionFailedError => @error
+          rescue ::Test::Unit::AssertionFailedError => @error
           end
           
           @error.nil?
