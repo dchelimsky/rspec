@@ -43,3 +43,5 @@ module Spec
     end
   end
 end
+
+include Spec::Extensions::Main
