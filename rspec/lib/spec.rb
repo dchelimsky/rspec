@@ -10,5 +10,6 @@ require 'spec/dsl'
 require 'spec/extensions'
 require 'spec/runner'
 require 'spec/story'
+require 'spec/test'
 
 include Spec::Extensions::Main
