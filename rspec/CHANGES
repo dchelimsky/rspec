@@ -13,6 +13,7 @@ CMD-R runs all the specs in one file
 CMD-SHIFT-R runs an individual spec
 CMD-OPT-R runs any files or directories selected in the TextMate drawer
 
+* Applied [#14254] Improved error handling for Object#should and Object#should_not (Patch from Antti Tarvainen)
 * Applied [#14186] Remove dead code from message_expecation.rb (Patch from Antti Tarvainen)
 * Applied [#14183] Tiny improvement on mock_spec.rb (Patch from Antti Tarvainen)
 * Applied [#14208] Fix to Mock#method_missing raising NameErrors instead of MockExpectationErrors (Patch from Antti Tarvainen)

@@ -183,6 +183,7 @@ In alphabetical order (by last name)
 ** Patches for Emacs
 ** Handling of Interrupt
 * Antti Tarvainen
+** Patch [#14254] Improved error handling for Object#should and Object#should_not
 ** Patch [#14186] Remove dead code from message_expecation.rb
 ** Patch [#14183] Tiny improvement on mock_spec.rb
 ** Patch [#14208] Fix to Mock#method_missing raising NameErrors instead of MockExpectationErrors
