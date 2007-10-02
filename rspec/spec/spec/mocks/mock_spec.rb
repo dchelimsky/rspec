@@ -335,16 +335,13 @@ module Spec
         @mock.rspec_verify
       end
       
-      # TODO - this is failing, but not if you run the file w/ --reverse - weird!!!!!!
       it "should clear expectations after verify" do
-        pending("this fails if you run the file normally, but passes if you comment out the example at 116 or run the file in reverse") do
-          @mock.should_receive(:foobar)
+        @mock.should_receive(:foobar)
+        @mock.foobar
+        @mock.rspec_verify
+        lambda {
           @mock.foobar
-          @mock.rspec_verify
-          lambda {
-            @mock.foobar
-          }.should raise_error(MockExpectationError, "Mock 'test mock' received unexpected message :foobar with (no args)")
-        end
+        }.should raise_error(MockExpectationError, "Mock 'test mock' received unexpected message :foobar with (no args)")
       end
       
       it "should restore objects to their original state on rspec_reset" do
@@ -354,6 +351,34 @@ module Spec
         mock.rspec_verify #should throw if reset didn't work
       end
 
+      it "should work even after method_missing starts raising NameErrors instead of NoMethodErrors" do
+        # Object#method_missing throws either NameErrors or NoMethodErrors.
+        #
+        # On a fresh ruby program Object#method_missing: 
+        #  * raises a NoMethodError when called directly
+        #  * raises a NameError when called indirectly
+        #
+        # Once Object#method_missing has been called at least once (on any object)
+        # it starts behaving differently: 
+        #  * raises a NameError when called directly
+        #  * raises a NameError when called indirectly
+        #
+        # There was a bug in Mock#method_missing that relied on the fact
+        # that calling Object#method_missing directly raises a NoMethodError.
+        # This example tests that the bug doesn't exist anymore.
+        
+        
+        # Ensures that method_missing always raises NameErrors.
+        a_method_that_doesnt_exist rescue
+        
+        
+        @mock.should_receive(:foobar)
+        @mock.foobar
+        @mock.rspec_verify
+                
+        lambda { @mock.foobar }.should_not raise_error(NameError)
+        lambda { @mock.foobar }.should raise_error(MockExpectationError)
+      end
     end
 
     describe "a mock message receiving a block" do

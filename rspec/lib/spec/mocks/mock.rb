@@ -24,7 +24,7 @@ module Spec
         begin
           return self if __mock_proxy.null_object?
           super(sym, *args, &block)
-        rescue NoMethodError
+        rescue NameError
           __mock_proxy.raise_unexpected_message_error sym, *args
         end
       end

@@ -13,6 +13,7 @@ CMD-R runs all the specs in one file
 CMD-SHIFT-R runs an individual spec
 CMD-OPT-R runs any files or directories selected in the TextMate drawer
 
+* Applied [#14208] Fix to Mock#method_missing raising NameErrors instead of MockExpectationErrors (Patch from Antti Tarvainen)
 * Applied [#14255] Fixed examples in mock_spec.rb and shared_behaviour_spec.rb (Patch from Antti Tarvainen)
 * Applied [#14362] partially mocking objects that define == can blow up (Patch from Pat Maddox)
 * test_ methods with an arity of 0 defined in a describe block or Example object will be run as an Example, providing a seamless transition from Test::Unit
