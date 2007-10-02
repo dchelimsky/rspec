@@ -13,6 +13,7 @@ CMD-R runs all the specs in one file
 CMD-SHIFT-R runs an individual spec
 CMD-OPT-R runs any files or directories selected in the TextMate drawer
 
+* Applied [#14043] Change output ordering to show pending before errors (Patch from Mike Mangino)
 * Applied [#14095] Don't have ./script/generate rspec create previous_failures.txt (Patch from Bryan Helmkamp)
 * Applied [#14254] Improved error handling for Object#should and Object#should_not (Patch from Antti Tarvainen)
 * Applied [#14186] Remove dead code from message_expecation.rb (Patch from Antti Tarvainen)

@@ -44,6 +44,7 @@ module Spec
       # Dumps the summary and returns the total number of failures
       def dump
         formatters.each{|f| f.start_dump}
+        dump_pending
         dump_failures
         formatters.each do |f|
           f.dump_summary(duration, @example_names.length, @failures.length, @pending_count)
@@ -77,6 +78,9 @@ module Spec
           formatters.each{|f| f.dump_failure(index, failure)}
           index + 1
         end
+      end
+      def dump_pending
+        formatters.each{|f| f.dump_pending}
       end
 
       def duration

@@ -28,9 +28,6 @@ module Spec
 Finished in 3 seconds
 
 2 examples, 1 failure, 1 pending
-
-Pending:
-behaviour example (message)
 |)
         end
 

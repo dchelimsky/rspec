@@ -65,7 +65,6 @@ module Spec
             @output.puts red(summary)
           end
           @output.flush
-          dump_pending
         end
 
         def dump_pending

@@ -142,7 +142,8 @@ In alphabetical order (by last name)
 * Dan Manges
 ** Fixed visibility problem for ActionController::Base#render in Spec::Rails
 * Mike Mangino
-** Patch for  [#13370] Weird mock expectation error
+** Patch [#14043] Change output ordering to show pending before errors
+** Patch for [#13370] Weird mock expectation error
 ** Patch for [#13065] Named routes throw a NoMethodError in Helper specs
 * Pat Maddox
 ** Patch [#14362] partially mocking objects that define == can blow up
