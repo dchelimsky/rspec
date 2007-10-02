@@ -93,6 +93,8 @@ In alphabetical order (by last name)
 ** Patch [#11608] Exclude rspec_on_rails from plugin spec runs
 ** Patch [#12066] Docfix for mocks/mocks.page
 ** Patch [#12300] rr integration
+* Bryan Helmkamp
+** Patch [#14095] Don't have ./script/generate rspec create previous_failures.txt
 * Chris Hoffman
 ** Patch for spec:translate task in Spec::Rails
 * Chad Humphries

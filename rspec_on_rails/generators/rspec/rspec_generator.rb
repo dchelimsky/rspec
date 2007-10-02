@@ -16,7 +16,6 @@ class RspecGenerator < Rails::Generator::Base
       m.directory 'spec'
       m.template  'spec_helper.rb',                'spec/spec_helper.rb'
       m.file      'spec.opts',                     'spec/spec.opts'
-      m.file      'previous_failures.txt',         'previous_failures.txt'
       m.file      'script/spec_server',            'script/spec_server', script_options
       m.file      'script/spec',                   'script/spec',        script_options
 
