@@ -238,12 +238,10 @@ module Spec
       end
 
       it "should raise when named shared behaviour can not be found" do
-        begin
+        lambda {
           @behaviour.it_should_behave_like("non-existent shared behaviour")
           violated
-        rescue => e
-          e.message.should == "Shared Example 'non-existent shared behaviour' can not be found"
-        end
+        }.should raise_error("Shared Example 'non-existent shared behaviour' can not be found")
       end
     end
   end

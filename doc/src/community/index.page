@@ -182,7 +182,8 @@ In alphabetical order (by last name)
 * Kouhei Sutou
 ** Patches for Emacs
 ** Handling of Interrupt
-* Antii Tarvainen
+* Antti Tarvainen
+** Patch [#14255] Fixed examples in mock_spec.rb and shared_behaviour_spec.rb
 ** Patch [#14156] False positives with should_not
 ** Patch [#14170] route_for and params_from internal specs fixed
 ** Patch [#14142] Fix for bug #11602: Nested #have_tag specifications fails on the wrong line number
