@@ -10,12 +10,10 @@ describe "Spec::Mate::Runner", :shared => true do
     @spec_mate = Spec::Mate::Runner.new
 
     @test_runner_io = StringIO.new
-    Test::Unit::UI::Console::TestRunner.const_set(:STDOUT, @test_runner_io)
   end
   
   after(:each) do
     set_env
-    Test::Unit::UI::Console::TestRunner.__send__(:remove_const, :STDOUT)
   end
 end
 
