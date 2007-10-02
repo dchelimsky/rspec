@@ -13,17 +13,13 @@ module Spec
       end
       
       it "should report line number of expectation of unreceived message" do
-        @mock.should_receive(:wont_happen).with("x", 3)
-        #NOTE - this test is quite ticklish because it specifies that
-        #the above statement appears on line 12 of this file.
-      
+        expected_error_line = __LINE__; @mock.should_receive(:wont_happen).with("x", 3)
         begin
           @mock.rspec_verify
           violated
         rescue MockExpectationError => e
-          e.backtrace[0].should match(/mock_spec\.rb:16/)
+          e.backtrace[0].should match(/#{File.basename(__FILE__)}:#{expected_error_line}$/)
         end
-          
       end
       
       it "should pass when not receiving message specified as not to be received" do
