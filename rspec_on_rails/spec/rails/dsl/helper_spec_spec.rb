@@ -62,7 +62,7 @@ describe "HelperExample included modules", :behaviour_type => :helper do
     ActionView::Helpers::TextHelper,
     ActionView::Helpers::UrlHelper
   ]
-  unless ENV['RSPEC_RAILS_VERSION'] == 'edge'
+  unless ['edge','2.0.0'].include?(ENV['RSPEC_RAILS_VERSION'])
     helpers += [
       ActionView::Helpers::PaginationHelper,
       ActionView::Helpers::JavaScriptMacrosHelper

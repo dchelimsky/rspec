@@ -1,5 +1,5 @@
 class ControllerSpecController < ActionController::Base
-  if ENV['RSPEC_RAILS_VERSION'] == 'edge'
+  if ['edge','2.0.0'].include?(ENV['RSPEC_RAILS_VERSION'])
     set_view_path [File.join(File.dirname(__FILE__), "..", "views")]
   else
     set_view_path File.join(File.dirname(__FILE__), "..", "views")
