@@ -23,8 +23,8 @@ module Spec
           examples.each do |example|
             example.copy_instance_variables_from(@before_and_after_all_example)
 
-            run_proxy = ExampleRunner.new(rspec_options, example)
-            unless run_proxy.run(&progress_block)
+            runner = ExampleRunner.new(rspec_options, example)
+            unless runner.run
               success = false
             end
           end
