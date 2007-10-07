@@ -3,6 +3,7 @@ class CreateAnimals < ActiveRecord::Migration
     create_table :animals do |t|
       t.column :name,      :string, :default => nil
       t.column :person_id, :integer
+      t.column :age, :float
     end
   end
 

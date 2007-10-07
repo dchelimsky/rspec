@@ -270,12 +270,6 @@ class PreCommit::RspecOnRails < PreCommit
 
   VENDOR_DEPS = [
     {
-      :checkout_path => "vendor/rails/1.2.1",
-      :name =>  "rails 1.2.1",
-      :url => "http://dev.rubyonrails.org/svn/rails/tags/rel_1-2-1",
-      :tagged? => true
-    },
-    {
       :checkout_path => "vendor/rails/1.2.2",
       :name =>  "rails 1.2.2",
       :url => "http://dev.rubyonrails.org/svn/rails/tags/rel_1-2-2",
