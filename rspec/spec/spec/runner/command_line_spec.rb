@@ -1,8 +1,6 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 describe Spec::Runner::CommandLine, ".run" do
-  it_should_behave_like "Test::Unit io sink"
-
   before do
     @err = StringIO.new
     @out = StringIO.new
@@ -31,7 +29,7 @@ describe Spec::Runner::CommandLine, ".run" do
       Spec::Runner::CommandLine.run([file], @err, @out)
     }.should raise_error
   end
-  
+
   it "should return true when in --generate-options mode" do
     Spec::Runner::CommandLine.run(['--generate-options', '/dev/null'], @err, @out).should be_true
   end
@@ -50,7 +48,7 @@ describe Spec::Runner::CommandLine, ".run" do
     ::Spec::Runner::Options.should_receive(:new).with(@err, @out).and_return(options)
     options.reporter.should_receive(:dump)
     options.add_behaviour(behaviour)
-    
+
     Spec::Runner::CommandLine.run([], @err, @out)
   end
 

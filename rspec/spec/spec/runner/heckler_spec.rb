@@ -3,7 +3,6 @@ unless [/mswin/, /java/].detect{|p| p =~ RUBY_PLATFORM}
   require 'spec/runner/heckle_runner'
 
   describe "Heckler" do
-    it_should_behave_like "Test::Unit io sink"
     it "should run examples on tests_pass?" do
       options = Spec::Runner::Options.new(StringIO.new, StringIO.new)
       options.should_receive(:run_examples).with().and_return(&options.method(:run_examples))

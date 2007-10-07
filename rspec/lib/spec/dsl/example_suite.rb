@@ -2,7 +2,7 @@ module Spec
   module DSL
     class ExampleSuite
       extend Forwardable
-      attr_reader :examples, :behaviour
+      attr_reader :examples, :behaviour, :name
       alias_method :tests, :examples
 
       def initialize(name, behaviour)

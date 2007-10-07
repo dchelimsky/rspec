@@ -53,6 +53,7 @@ module Spec
         @diff_format  = :unified
         @files = []
         @behaviours = []
+        @runner_arg = nil
       end
 
       def add_behaviour(behaviour)

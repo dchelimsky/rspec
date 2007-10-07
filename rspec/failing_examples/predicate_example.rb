@@ -4,7 +4,7 @@ class BddFramework
   def intuitive?
     true
   end
-  
+
   def adopted_quickly?
     #this will cause failures because it reallly SHOULD be adopted quickly
     false
@@ -21,7 +21,7 @@ describe "BDD framework" do
     #this will fail because it reallly SHOULD be adopted quickly
     @bdd_framework.should be_adopted_quickly
   end
-  
+
   it "should be intuitive" do
     @bdd_framework.should be_intuitive
   end

@@ -3,7 +3,6 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 module Spec
   module Runner
     describe DrbCommandLine, "without running local server" do
-      it_should_behave_like "Test::Unit io sink"
       unless Config::CONFIG['ruby_install_name'] == 'jruby'
         it "should print error when there is no running local server" do
           err = StringIO.new
@@ -18,7 +17,6 @@ module Spec
 
     class DrbCommandLineSpec < ::Spec::DSL::Example
       describe DrbCommandLine, "with local server"
-      it_should_behave_like "Test::Unit io sink"
 
       class CommandLineForSpec
         def self.run(argv, err, out)

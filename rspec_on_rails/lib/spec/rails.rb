@@ -6,6 +6,7 @@ require 'action_controller/test_process'
 require 'action_controller/integration'
 require 'active_record/base'
 require 'active_record/fixtures'
+require 'test/unit'
 require 'spec'
 
 require File.expand_path("#{dir}/dsl")

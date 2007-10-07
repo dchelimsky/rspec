@@ -46,15 +46,6 @@ end
 
 class NonStandardError < Exception; end
 
-describe "Test::Unit io sink", :shared => true do
-  before do
-    @test_runner_io = StringIO.new
-  end
-
-  after do
-  end
-end
-
 module Custom
   class BehaviourRunner
     attr_reader :options, :arg

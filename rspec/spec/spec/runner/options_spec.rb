@@ -168,7 +168,6 @@ module Spec
     end
 
     describe Options, "#add_behaviour affecting passed in behaviour" do
-      it_should_behave_like "Test::Unit io sink"
       before do
         @err = StringIO.new('')
         @out = StringIO.new('')
@@ -217,7 +216,6 @@ module Spec
     end
 
     describe Options, "#add_behaviour affecting behaviours" do
-      it_should_behave_like "Test::Unit io sink"
       before do
         @err = StringIO.new('')
         @out = StringIO.new('')

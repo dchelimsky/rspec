@@ -1,27 +1,28 @@
 require File.dirname(__FILE__) + '/../../../spec_helper.rb'
 
-class TestUnitAndRspecTest < Test::Unit::TestCase
-  class << self
-    attr_accessor :tests_run
-  end
-
-  def test_should_run_tests
-    self.class.tests_run = true
-    assert true
-  end
-end
-
-class TestUnitAndRspecSpec < ::Spec::Test::Unit::Example
-  class << self
-    attr_accessor :examples_run
+describe "Test::Unit interaction" do
+  it "runs tests and specs" do
+    `ruby #{dir}/sample_spec_test.rb`
+    $?.should be_success
   end
   
-  it "should run tests and specs" do
-    TestUnitAndRspecTest.suite.run(Test::Unit::TestResult.new) {}
-    TestUnitAndRspecTest.tests_run.should be_true
+  it "monkey patches AutoRunner" do
+    `ruby #{dir}/autorunner_test.rb`
+    $?.should be_success
   end
 
-  def test_should_have_seamless_transition_from_test_unit
-    assert true
+  it "runs methods beginning with test" do
+    behaviour = Class.new(::Spec::DSL::Example).describe("Behaviour") do
+      def test_should_have_seamless_transition_from_test_unit
+        true.should be_true
+      end
+    end
+    suite = behaviour.suite
+    suite.size.should == 1
+    suite.run.should be_true
+  end
+
+  def dir
+    File.dirname(__FILE__)
   end
 end
