@@ -1,0 +1,54 @@
+=== Before releasing 1.1.0:
+
+== Test/Unit integration
+
+As of 2698:
+
+  $ ruby examples/spec_and_test_together.rb 
+  Loaded suite examples/spec_and_test_together
+  Started
+  .
+  Finished in 0.000236 seconds.
+
+  1 tests, 1 assertions, 0 failures, 0 errors
+  .
+
+  Finished in 0.011123 seconds
+
+  1 example, 0 failures  
+
+That works only if you use ruby (not the spec command) and if the requires go in this order:
+
+  require 'spec'
+  require 'test/unit'
+  
+We need to get it to where it works like that regardless of whether you use the ruby or spec commands
+and regardless of the load order.  
+
+== What's happening as of 2698:
+
+If you reverse the requires you get this:
+
+  $ ruby examples/spec_and_test_together.rb 
+  .
+
+  Finished in 0.011724 seconds
+
+  1 example, 0 failures
+
+If you use the spec command you get this regardless of the order of the requires (because
+rspec gets loaded first regardless):
+
+  $ ruby bin/spec examples/spec_and_test_together.rb 
+  .
+
+  Finished in 0.006246 seconds
+
+  1 example, 0 failures
+
+
+  Finished in 8.0e-06 seconds
+
+  0 examples, 0 failures
+
+So in this case, there is no test/unit output and rspec's output is printed a second time but showing 0 examples.
