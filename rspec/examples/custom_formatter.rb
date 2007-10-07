@@ -1,3 +1,4 @@
+require File.dirname(__FILE__) + '/spec_helper'
 require 'spec/runner/formatter/progress_bar_formatter'
 
 # Example of a formatter with custom bactrace printing. Run me with:

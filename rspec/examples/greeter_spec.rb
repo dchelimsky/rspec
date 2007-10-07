@@ -1,3 +1,4 @@
+require File.dirname(__FILE__) + '/spec_helper'
 # greeter.rb
 #
 # Based on http://glu.ttono.us/articles/2006/12/19/tormenting-your-tests-with-heckle

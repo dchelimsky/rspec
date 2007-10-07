@@ -1,3 +1,4 @@
+require File.dirname(__FILE__) + '/spec_helper'
 $global = 0
 
 describe "State created in before(:all)" do

@@ -54,6 +54,7 @@ module Spec
         @files = []
         @behaviours = []
         @runner_arg = nil
+        @examples_run = false
       end
 
       def add_behaviour(behaviour)
@@ -62,7 +63,13 @@ module Spec
 
       def run_examples
         runner = custom_runner || BehaviourRunner.new(self)
-        runner.run
+        success = runner.run
+        @examples_run = true
+        success
+      end
+
+      def examples_run?
+        @examples_run
       end
 
       def colour=(colour)
