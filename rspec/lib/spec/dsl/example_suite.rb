@@ -1,12 +1,12 @@
 module Spec
   module DSL
-    class ExampleSuite < ::Test::Unit::TestSuite
+    class ExampleSuite
       extend Forwardable
       attr_reader :examples, :behaviour
       alias_method :tests, :examples
 
       def initialize(name, behaviour)
-        super name
+        @name = name
         @behaviour = behaviour
         @examples = []
       end
@@ -42,7 +42,15 @@ module Spec
       end
 
       def size
-        @behaviour.number_of_examples
+        examples.length
+      end
+
+      def empty?
+        size == 0
+      end
+
+      def delete(example)
+        @examples.delete example
       end
 
       protected

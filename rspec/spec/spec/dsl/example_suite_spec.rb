@@ -581,5 +581,38 @@ module Spec
         suite.size.should == 2
       end
     end
+
+    describe ExampleSuite, "#empty?" do
+      it "when there are examples; returns true" do
+        behaviour = Class.new(Example).describe("Behaviour") do
+          it("does something") {}
+        end
+        suite = behaviour.suite
+        suite.size.should be > 0
+
+        suite.should_not be_empty
+      end
+
+      it "when there are no examples; returns true" do
+        behaviour = Class.new(Example).describe("Behaviour") do
+        end
+        suite = behaviour.suite
+        suite.size.should == 0
+
+        suite.should be_empty
+      end
+    end
+
+    describe ExampleSuite, "#delete" do
+      it "removes the passed in example" do
+        behaviour = Class.new(Example).describe("Behaviour") do
+          it("does something") {}
+        end
+        suite = behaviour.suite
+        suite.delete(suite.examples.first)
+
+        suite.should be_empty
+      end
+    end
   end
 end
