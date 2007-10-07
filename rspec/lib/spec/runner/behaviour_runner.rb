@@ -10,7 +10,7 @@ module Spec
         success = true
         behaviours.each do |behaviour|
 
-          success = success & behaviour.suite.run(nil)
+          success = success & behaviour.suite.run
         end
         return success
       ensure

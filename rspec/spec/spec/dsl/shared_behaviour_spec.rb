@@ -141,7 +141,7 @@ module Spec
         @behaviour.it_should_behave_like("shared behaviour")
         @behaviour.it("example") {example_ran = true}
         suite = @behaviour.suite
-        suite.run(nil) {}
+        suite.run
         example_ran.should be_true
         shared_example_ran.should be_true
       end
@@ -159,7 +159,7 @@ module Spec
         @behaviour.it_should_behave_like("shared behaviour")
         @behaviour.it("example") {example_ran = true}
         suite = @behaviour.suite
-        suite.run(nil) {}
+        suite.run
         example_ran.should be_true
         shared_setup_ran.should be_true
         shared_teardown_ran.should be_true
@@ -178,7 +178,7 @@ module Spec
         @behaviour.it_should_behave_like("shared behaviour")
         @behaviour.it("example") {example_ran = true}
         suite = @behaviour.suite
-        suite.run(nil) {}
+        suite.run
         example_ran.should be_true
         shared_before_all_run_count.should == 1
         shared_after_all_run_count.should == 1
@@ -215,7 +215,7 @@ module Spec
           mod2_method
         end
         suite = @behaviour.suite
-        suite.run(nil) {}
+        suite.run
         mod1_method_called.should be_true
         mod2_method_called.should be_true
       end
@@ -233,7 +233,7 @@ module Spec
           success = true
         end
         suite = @behaviour.suite
-        suite.run(nil) {}
+        suite.run
         success.should be_true
       end
 

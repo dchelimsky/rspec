@@ -141,13 +141,13 @@ module Spec
         proc = Proc.new { after_all_ran = true }
         Example.after(:each, &proc)
         suite = @behaviour.suite
-        suite.run(@result) {}
+        suite.run
         after_all_ran.should be_true
 
         after_all_ran = false
         Example.remove_after(:each, &proc)
         suite = @behaviour.suite
-        suite.run(@result) {}
+        suite.run
         after_all_ran.should be_false
       end
     end
@@ -252,7 +252,7 @@ module Spec
           end
         end
         suite = behaviour.suite
-        suite.run(@result) {}
+        suite.run
         Object.const_defined?(:FOO).should == false
       end
     end
@@ -349,7 +349,7 @@ module Spec
         reporter = mock("Reporter")
         reporter.should_not_receive(:add_behaviour)
         suite = behaviour.suite
-        suite.run(@result) {}
+        suite.run
       end
     end
     

@@ -11,8 +11,7 @@ module Spec
         @examples = []
       end
 
-      def run(result, &progress_block)
-        return true if result.is_a?(::Test::Unit::TestResult)
+      def run
         retain_specified_examples
         return true if examples.empty?
 

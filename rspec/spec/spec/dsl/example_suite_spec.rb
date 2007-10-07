@@ -26,7 +26,6 @@ module Spec
           it "does nothing" do
           end
         end
-        @result = nil
         class << @behaviour
           public :include
         end
@@ -43,7 +42,7 @@ module Spec
 
       it "should not add an example failure to the TestResult" do
         suite = @behaviour.suite
-        suite.run(@result) {}.should be_true
+        suite.run.should be_true
       end
     end
 
@@ -52,7 +51,7 @@ module Spec
       
       it "should add an example failure to the TestResult" do
         suite = @behaviour.suite
-        suite.run(@result) {}.should be_false
+        suite.run.should be_false
       end
     end
 
@@ -70,7 +69,7 @@ module Spec
         Example.after(:all) { after_all_ran = true }
         @behaviour.it("should") {}
         suite = @behaviour.suite
-        suite.run(@result) {}
+        suite.run
         before_all_ran.should be_false
         after_all_ran.should be_false
       end
@@ -79,7 +78,7 @@ module Spec
         example_ran = false
         @behaviour.it("should") {example_ran = true}
         suite = @behaviour.suite
-        suite.run(@result) {}
+        suite.run
         example_ran.should be_false
       end
     end
@@ -89,7 +88,7 @@ module Spec
 
       it "should send reporter add_behaviour" do
         suite = @behaviour.suite
-        suite.run(@result) {}
+        suite.run
         @reporter.added_behaviour.should == "example"
       end
 
@@ -97,7 +96,7 @@ module Spec
         example_ran = false
         @behaviour.it("should") {example_ran = true}
         suite = @behaviour.suite
-        suite.run(@result) {}
+        suite.run
         example_ran.should be_true
       end
 
@@ -107,7 +106,7 @@ module Spec
         @behaviour.it("test") {true}
         @behaviour.it("test2") {true}
         suite = @behaviour.suite
-        suite.run(@result) {}
+        suite.run
         before_all_run_count_run_count.should == 1
       end
 
@@ -117,7 +116,7 @@ module Spec
         @behaviour.it("test") {true}
         @behaviour.it("test2") {true}
         suite = @behaviour.suite
-        suite.run(@result) {}
+        suite.run
         after_all_run_count.should == 1
         @reporter.rspec_verify
       end
@@ -129,7 +128,7 @@ module Spec
         @behaviour.after(:all) { context_instance_value_out = @instance_var }
         @behaviour.it("test") {true}
         suite = @behaviour.suite
-        suite.run(@result) {}
+        suite.run
         context_instance_value_in.should == context_instance_value_out
       end
 
@@ -139,7 +138,7 @@ module Spec
         @behaviour.before(:all) { @instance_var = context_instance_value_in }
         @behaviour.it("test") {context_instance_value_out = @instance_var}
         suite = @behaviour.suite
-        suite.run(@result) {}
+        suite.run
         context_instance_value_in.should == context_instance_value_out
       end
 
@@ -157,7 +156,7 @@ module Spec
           it "does nothing"
         end
         suite = behaviour.suite
-        suite.run(@result) {}
+        suite.run
         fiddle.should == [
           'Example.prepend_before(:all)',
           'Example.before(:all)',
@@ -178,7 +177,7 @@ module Spec
         behaviour = Class.new(Example).describe("I'm not special", :behaviour_type => :special) {}
         behaviour.it("test") {true}
         suite = behaviour.suite
-        suite.run(@result) {}
+        suite.run
         fiddle.should == [
           'Example.prepend_before(:all)',
           'Example.before(:all)',
@@ -199,7 +198,7 @@ module Spec
         @behaviour.prepend_before(:each) { fiddle << "prepend_before(:each)" }
         @behaviour.before(:each) { fiddle << "before(:each)" }
         suite = @behaviour.suite
-        suite.run(@result) {}
+        suite.run
         fiddle.should == [
           'Example.prepend_before(:all)',
           'Example.before(:all)',
@@ -222,7 +221,7 @@ module Spec
         Example.after(:all) { fiddle << "Example.after(:all)" }
         Example.append_after(:all) { fiddle << "Example.append_after(:all)" }
         suite = @behaviour.suite
-        suite.run(@result) {}
+        suite.run
         fiddle.should == [
           'after(:each)',
           'append_after(:each)',
@@ -258,7 +257,7 @@ module Spec
           mod2_method
         end
         suite = @behaviour.suite
-        suite.run(@result) {}
+        suite.run
         mod1_method_called.should be_true
         mod2_method_called.should be_true
       end
@@ -298,7 +297,7 @@ module Spec
             it "does nothing"
           end
           suite = behaviour.suite
-          suite.run(@result) {}
+          suite.run
 
           $included_modules.should include(mod1)
           $included_modules.should include(mod2)
@@ -317,7 +316,7 @@ module Spec
           end
         end
         suite = behaviour.suite
-        suite.run(@result) {}
+        suite.run
         $included_predicate_matcher_found.should be(true)
       end
 
@@ -338,7 +337,7 @@ module Spec
             it "does nothing"
           end
           suite = behaviour.suite
-          suite.run(@result) {}
+          suite.run
 
           $included_module.should_not be_nil
         ensure
@@ -359,7 +358,7 @@ module Spec
       it "should send example_pending to formatter" do
         @formatter.should_receive(:example_pending).with("example", "should be pending", "Example fails")
         suite = @behaviour.suite
-        suite.run(@result) {}
+        suite.run
       end
     end
 
@@ -375,7 +374,7 @@ module Spec
       it "should send example_pending to formatter" do
         @formatter.should_receive(:example_pending).with("example", "should be pending", "Example passes")
         suite = @behaviour.suite
-        suite.run(@result) {}
+        suite.run
       end
     end
 
@@ -390,7 +389,7 @@ module Spec
         spec_ran = false
         @behaviour.it("test") {spec_ran = true}
         suite = @behaviour.suite
-        suite.run(@result) {}
+        suite.run
         spec_ran.should be_false
       end
 
@@ -398,7 +397,7 @@ module Spec
         after_all_ran = false
         Example.after(:all) { after_all_ran = true }
         suite = @behaviour.suite
-        suite.run(@result) {}
+        suite.run
         after_all_ran.should be_true
       end
 
@@ -406,7 +405,7 @@ module Spec
         spec_ran = false
         @behaviour.it("test") {spec_ran = true}
         suite = @behaviour.suite
-        suite.run(@result) {}
+        suite.run
         spec_ran.should be_false
       end
 
@@ -414,7 +413,7 @@ module Spec
         after_all_ran = false
         @behaviour.after(:all) { after_all_ran = true }
         suite = @behaviour.suite
-        suite.run(@result) {}
+        suite.run
         after_all_ran.should be_true
       end
 
@@ -427,7 +426,7 @@ module Spec
 
         @behaviour.it("test") {true}
         suite = @behaviour.suite
-        suite.run(@result) {}
+        suite.run
       end
     end
 
@@ -442,7 +441,7 @@ module Spec
         after_all_ran = false
         Example.after(:all) { after_all_ran = true }
         suite = @behaviour.suite
-        suite.run(@result) {}
+        suite.run
         after_all_ran.should be_true
       end
     end
@@ -458,7 +457,7 @@ module Spec
         after_all_ran = false
         Example.after(:all) { after_all_ran = true }
         suite = @behaviour.suite
-        suite.run(@result) {}
+        suite.run
         after_all_ran.should be_true
       end
     end
@@ -478,7 +477,7 @@ module Spec
         end
         
         suite = @behaviour.suite
-        suite.run(@result) {}.should be_false
+        suite.run.should be_false
       end      
       
       it "should run second after(:each) block" do
@@ -499,7 +498,7 @@ module Spec
           example_not_implemented.should be_false
         end
         suite = @behaviour.suite
-        suite.run(@result) {}
+        suite.run
         first_after_ran.should be_true
         second_after_ran.should be_true
       end
@@ -520,7 +519,7 @@ module Spec
         end
         
         suite = @behaviour.suite
-        suite.run(@result) {}.should be_false
+        suite.run.should be_false
       end
 
       it "should not run second before(:each)" do
@@ -541,7 +540,7 @@ module Spec
           example_not_implemented.should be_false
         end
         suite = @behaviour.suite
-        suite.run(@result) {}
+        suite.run
         first_before_ran.should be_true
         second_before_ran.should be_false
       end
@@ -556,7 +555,7 @@ module Spec
 
       it "should return false" do
         suite = @behaviour.suite
-        suite.run(@result) {}.should be_false
+        suite.run.should be_false
       end      
 
       it "should provide after(:all) as description" do
@@ -567,7 +566,7 @@ module Spec
         end
 
         suite = @behaviour.suite
-        suite.run(@result) {}
+        suite.run
       end
     end
 
