@@ -59,7 +59,7 @@ module Spec
         args << {} unless Hash === args.last
         modules, options = args_and_options(*args)
         required_behaviour_type = options[:behaviour_type]
-        required_behaviour_type = required_behaviour_type.to_sym unless required_behaviour_type.nil?
+        required_behaviour_type = required_behaviour_type.to_sym if required_behaviour_type
         @modules ||= {}
         @modules[required_behaviour_type] ||= []
         @modules[required_behaviour_type] += modules
@@ -69,7 +69,7 @@ module Spec
         @modules ||= {}
         modules = @modules[nil] || [] # general ones
         if required_behaviour_type
-          modules << @modules[required_behaviour_type.to_sym]
+          modules.push(*@modules[required_behaviour_type.to_sym])
         end
         modules.uniq.compact
       end

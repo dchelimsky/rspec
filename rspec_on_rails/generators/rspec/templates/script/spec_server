@@ -16,16 +16,20 @@ end
 module Spec
   module Runner
     class RailsSpecServer
-      def run(args, stderr, stdout)
-        $stdout = stdout
-        $stderr = stderr
+      def run(options)
+        $stdout = options.output_stream
+        $stderr = options.error_stream
 
-        ::Dispatcher.reset_application!
+        if ::Dispatcher.respond_to?(:cleanup_application)
+          ::Dispatcher.cleanup_application
+        elsif ::Dispatcher.respond_to?(:reset_application!)
+          ::Dispatcher.reset_application!
+        end
         ::Dependencies.mechanism = :load
         require_dependency('application.rb') unless Object.const_defined?(:ApplicationController)
         load File.dirname(__FILE__) + '/../spec/spec_helper.rb'
     
-        ::Spec::Runner::CommandLine.run(args, stderr, stdout)
+        ::Spec::Runner::CommandLine.run(options)
       end
     end
   end

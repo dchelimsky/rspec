@@ -7,19 +7,15 @@ module Spec
       class << self
         # Runs specs. +argv+ is the commandline args as per the spec commandline API, +err+
         # and +out+ are the streams output will be written to.
-        def run(argv, err, out)
-          old_rspec_options = defined?($rspec_options) ? $rspec_options : nil
+        def run(instance_rspec_options=rspec_options)
+          old_rspec_options = rspec_options
           begin
-            parser = OptionParser.new(err, out)
-            parser.order!(argv)
-            options = parser.options
-            $rspec_options = options
-            return true if $rspec_options.generate
+            $rspec_options = instance_rspec_options
+            return true if rspec_options.generate
 
-            options.load_paths
-            success = options.run_examples
-            heckle(options) if options.heckle_runner
-
+            rspec_options.load_paths
+            success = rspec_options.run_examples
+            heckle(rspec_options) if rspec_options.heckle_runner
             return success
           ensure
             $rspec_options = old_rspec_options

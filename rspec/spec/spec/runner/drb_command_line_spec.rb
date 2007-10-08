@@ -7,7 +7,7 @@ module Spec
         it "should print error when there is no running local server" do
           err = StringIO.new
           out = StringIO.new
-          DrbCommandLine.run(['--version'], err, out)
+          DrbCommandLine.run(OptionParser.parse(['--version'], err, out))
 
           err.rewind
           err.read.should =~ /No server is running/
@@ -19,8 +19,8 @@ module Spec
       describe DrbCommandLine, "with local server"
 
       class CommandLineForSpec
-        def self.run(argv, err, out)
-          exit Spec::Runner::CommandLine.run(argv, err, out)
+        def self.run(options)
+          exit Spec::Runner::CommandLine.run(options)
         end
       end
       
@@ -75,12 +75,12 @@ module Spec
           end
         end
 
-        def run_spec_via_druby(args)
+        def run_spec_via_druby(argv)
           err, out = StringIO.new, StringIO.new
           out.instance_eval do
             def tty?; true end
           end
-          Spec::Runner::DrbCommandLine.run(args, err, out)
+          Spec::Runner::DrbCommandLine.run(OptionParser.parse(argv, err, out))
           out.rewind; out.read
         end
       end

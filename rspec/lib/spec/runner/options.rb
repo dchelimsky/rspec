@@ -36,7 +36,9 @@ module Spec
         :reverse,
         :timeout,
         :verbose,
-        :runner_arg
+        :runner_arg,
+        :error_stream,
+        :output_stream
       )
       attr_reader :colour, :differ_class, :files, :behaviours
 

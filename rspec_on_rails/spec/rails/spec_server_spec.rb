@@ -6,7 +6,12 @@ describe "script/spec_server file" do
     spec_server_pid_file = "#{dir}/spec_server.pid"
     FileUtils.mkdir_p dir
     system "touch #{spec_server_pid_file}"
-    cmd = %Q|ruby -e 'system("echo " + Process.pid.to_s + " > #{spec_server_pid_file}"); load "#{RAILS_ROOT}/script/spec_server"' &|
+    dir = File.dirname(__FILE__)
+    rspec_path = File.expand_path("#{File.dirname(__FILE__)}/../../../rspec/lib")
+
+    cmd =  %Q|ruby -e 'system("echo " + Process.pid.to_s + " > #{spec_server_pid_file}"); |
+    cmd << %Q|$LOAD_PATH.unshift("#{rspec_path}"); require "spec"; |
+    cmd << %Q|load "#{RAILS_ROOT}/script/spec_server"' &|
     system cmd
 
     file_content = ""
@@ -24,7 +29,8 @@ describe "script/spec_server file" do
   end
 
   it "should run a spec" do
-    pending("this doesn't seem to work consistently")
+    # TODO: Please fix this if it does not work on your machine. Otherwise there will be NO coverage of spec_server.
+#    pending("this doesn't seem to work consistently")
     dir = File.dirname(__FILE__)
     output = ""
     Timeout.timeout(5) do

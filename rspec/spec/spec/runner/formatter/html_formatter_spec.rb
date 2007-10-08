@@ -16,9 +16,7 @@ describe "HtmlFormatter" do
         err = StringIO.new
         out = StringIO.new
         Spec::Runner::CommandLine.run(
-          args,
-          err,
-          out
+          ::Spec::Runner::OptionParser.parse(args, err, out)
         )
 
         seconds = /\d+\.\d+ seconds/

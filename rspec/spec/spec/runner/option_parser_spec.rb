@@ -305,8 +305,13 @@ describe "OptionParser" do
   end
 
   it "should call DrbCommandLine when --drb is specified" do
-    Spec::Runner::DrbCommandLine.should_receive(:run).with(["some/spec.rb", "--diff", "--colour"], @err, @out)
-    options = parse(["some/spec.rb", "--diff", "--drb", "--colour"])
+    options = Spec::Runner::OptionParser.parse(["some/spec.rb", "--diff", "--colour"], @err, @out)
+    Spec::Runner::DrbCommandLine.should_receive(:run).and_return do |options|
+      options.differ_class.should == Spec::Expectations::Differs::Default
+      options.colour.should be_true
+      options.files.should == ["some/spec.rb"]
+    end
+    parse(["some/spec.rb", "--diff", "--drb", "--colour"])
   end
   
   it "should reverse spec order when --reverse is specified" do

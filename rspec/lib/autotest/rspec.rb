@@ -76,7 +76,6 @@ class Autotest::Rspec < Autotest
         return @alt_separator ? (command.gsub @separator, @alt_separator) : command
       end
     end
-    
     raise RspecCommandError, "No spec command could be found!"
   end
   
@@ -87,7 +86,7 @@ class Autotest::Rspec < Autotest
   #   * default spec bin/loader installed in Rubygems
   def spec_commands
     [
-      File.join('bin', 'spec'),
+      File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'bin', 'spec')),
       File.join(Config::CONFIG['bindir'], 'spec')
     ]
   end

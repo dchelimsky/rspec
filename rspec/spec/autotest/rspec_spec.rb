@@ -39,7 +39,10 @@ HERE
 
   describe Rspec, "rspec_commands" do
     it "should contain the various commands, ordered by preference" do
-      Rspec.new.spec_commands.should == ["bin/spec", "#{Config::CONFIG['bindir']}/spec"]
+      Rspec.new.spec_commands.should == [
+        File.expand_path("#{File.dirname(__FILE__)}/../../bin/spec"),
+        "#{Config::CONFIG['bindir']}/spec"
+      ]
     end
   end
   
@@ -54,8 +57,9 @@ HERE
     it "should try to find the spec command if it exists in ./bin and use it above everything else" do
       File.stub!(:exists?).and_return true
 
-      File.should_receive(:exists?).with("bin/spec").and_return true
-      @rspec_autotest.spec_command.should == "bin/spec"
+      spec_path = File.expand_path("#{File.dirname(__FILE__)}/../../bin/spec")
+      File.should_receive(:exists?).with(spec_path).and_return true
+      @rspec_autotest.spec_command.should == spec_path
     end
 
     it "should otherwise select the default spec command in gem_dir/bin/spec" do
@@ -85,15 +89,17 @@ HERE
     
     it "should use the ALT_SEPARATOR if it is non-nil" do
       @rspec_autotest = Rspec.new(@kernel, @posix_separator, @windows_alt_separator)
-      @rspec_autotest.stub!(:spec_commands).and_return [File.join('bin', 'spec')]
-      @rspec_autotest.spec_command.should == "bin\\spec"
+      spec_command = File.expand_path("#{File.dirname(__FILE__)}/../../bin/spec")
+      @rspec_autotest.stub!(:spec_commands).and_return [spec_command]
+      @rspec_autotest.spec_command.should == spec_command.gsub('/', '\\')
     end
     
     it "should not use the ALT_SEPATOR if it is nil" do
       @windows_alt_separator = nil
       @rspec_autotest = Rspec.new(@kernel, @posix_separator, @windows_alt_separator)
-      @rspec_autotest.stub!(:spec_commands).and_return [File.join('bin', 'spec')]
-      @rspec_autotest.spec_command.should == "bin/spec"
+      spec_command = File.expand_path("#{File.dirname(__FILE__)}/../../bin/spec")
+      @rspec_autotest.stub!(:spec_commands).and_return [spec_command]
+      @rspec_autotest.spec_command.should == spec_command
     end
   end
 

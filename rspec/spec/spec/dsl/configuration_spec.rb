@@ -44,6 +44,12 @@ module Spec
         @config.modules_for(nil).should include(mod)
       end
 
+      it "should let you define modules to be included for a behaviour_type" do
+        mod = Module.new
+        @config.include mod, :behaviour_type => :foobar
+        @config.modules_for(:foobar).should include(mod)
+      end
+
       [:prepend_before, :append_before, :prepend_after, :append_after].each do |m|
         it "should delegate ##{m} to Example class" do
           Example.should_receive(m).with(:whatever)
