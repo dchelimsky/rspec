@@ -1,6 +1,6 @@
 module Spec
   module DSL      
-    module SupportsPending
+    module Pending
       def pending(message = "TODO")
         if block_given?
           begin

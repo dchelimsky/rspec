@@ -90,6 +90,7 @@ module Spec
       end
 
       include ::Spec::Matchers
+      include ::Spec::DSL::Pending
 
       attr_reader :rspec_behaviour, :rspec_definition
       alias_method :behaviour, :rspec_behaviour
@@ -112,19 +113,6 @@ module Spec
 
       def violated(message="")
         raise Spec::Expectations::ExpectationNotMetError.new(message)
-      end
-
-      def pending(message)
-        if block_given?
-          begin
-            yield
-          rescue Exception => e
-            raise Spec::DSL::ExamplePendingError.new(message)
-          end
-          raise Spec::DSL::PendingFixedError.new("Expected pending '#{message}' to fail. No Error was raised.")
-        else
-          raise Spec::DSL::ExamplePendingError.new(message)
-        end
       end
 
       def copy_instance_variables_from(obj)

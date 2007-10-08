@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'spec/expectations'
 require 'spec/matchers'
-require 'spec/dsl/supports_pending'
+require 'spec/dsl/pending'
 
 module Spec
   module Story
@@ -14,7 +14,7 @@ module Spec
   blocks.
 =end
     module World
-      include ::Spec::DSL::SupportsPending
+      include ::Spec::DSL::Pending
       include ::Spec::Matchers
       # store steps and listeners in the singleton metaclass.
       # This serves both to keep them out of the way of runtime Worlds

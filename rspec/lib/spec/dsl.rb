@@ -1,5 +1,6 @@
 require 'timeout'
 require 'forwardable'
+require 'spec/dsl/pending'
 require 'spec/dsl/behaviour'
 require 'spec/dsl/behaviour_description'
 require 'spec/dsl/shared_behaviour'
