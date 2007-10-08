@@ -31,7 +31,7 @@ module Spec
         end
         argv += ENV['TM_RSPEC_OPTS'].split(" ") if ENV['TM_RSPEC_OPTS']
         Dir.chdir(ENV['TM_PROJECT_DIRECTORY']) do
-          ::Spec::Runner::CommandLine.run(argv, STDERR, stdout)
+          ::Spec::Runner::CommandLine.run(::Spec::Runner::OptionParser.parse(argv, STDERR, stdout))
         end
       end
     end
