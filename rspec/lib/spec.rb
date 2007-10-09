@@ -8,5 +8,5 @@ require 'spec/runner'
 require 'spec/story'
 require 'spec/test' if Object.const_defined?(:Test)
 at_exit do
-  unless rspec_options.examples_run?; exit rspec_options.run_examples; end
+  unless $! || rspec_options.examples_run?; exit rspec_options.run_examples; end
 end

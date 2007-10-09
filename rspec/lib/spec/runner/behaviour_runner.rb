@@ -9,7 +9,6 @@ module Spec
         prepare
         success = true
         behaviours.each do |behaviour|
-
           success = success & behaviour.suite.run
         end
         return success
