@@ -7,7 +7,7 @@ module Spec
       class << self
         # Runs specs. +argv+ is the commandline args as per the spec commandline API, +err+
         # and +out+ are the streams output will be written to.
-        def run(instance_rspec_options=rspec_options)
+        def run(instance_rspec_options)
           old_rspec_options = rspec_options
           begin
             $rspec_options = instance_rspec_options

@@ -84,7 +84,7 @@ end
 describe "Spec::Mate::Runner error cases" do
   it_should_behave_like "Spec::Mate::Runner"
 
-  it "should raise exception when TM_RSPEC_HOME points to bad location" do
+  it "should raise exception when TM_PROJECT_DIRECTORY points to bad location" do
     ENV['TM_PROJECT_DIRECTORY'] = __FILE__ # bad on purpose
     lambda do
       load File.dirname(__FILE__) + '/../../../lib/spec/mate.rb'

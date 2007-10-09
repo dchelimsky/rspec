@@ -1,4 +1,5 @@
 require File.dirname(__FILE__) + '/spec_helper.rb'
+require 'spec/test'
 
 class TestUnitAndRspecTest < Test::Unit::TestCase
   class << self
