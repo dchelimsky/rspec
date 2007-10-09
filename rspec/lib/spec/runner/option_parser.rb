@@ -168,9 +168,11 @@ module Spec
         is_drb ||= @argv.delete(OPTIONS[:drb][0])
         is_drb ||= @argv.delete(OPTIONS[:drb][1])
         return nil unless is_drb
-        return DrbCommandLine.run(
+        @options.generate = true
+        DrbCommandLine.run(
           self.class.parse(@argv, @error_stream, @out_stream)
         )
+        true
       end
 
       def parse_version
