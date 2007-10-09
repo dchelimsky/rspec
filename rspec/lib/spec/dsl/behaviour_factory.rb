@@ -17,6 +17,10 @@ module Spec
         def add_example_class(type, klass)
           BEHAVIOURS[type] = klass
         end
+        def add_behaviour_class(type, klass)
+          warn "add_behaviour_class is deprecated. Use add_example_class instead."
+          add_example_class(type, klass)
+        end
         
         def remove_example_class(type)
           BEHAVIOURS.delete(type)
