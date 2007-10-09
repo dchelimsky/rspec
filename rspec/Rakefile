@@ -26,7 +26,6 @@ PKG_FILES = FileList[
   'examples/**/*',
   'plugins/**/*'
 ]
-FileUtils.touch(File.dirname(__FILE__) + '/previous_failures.txt')
 
 task :default => [:verify_rcov]
 
@@ -37,19 +36,6 @@ Spec::Rake::SpecTask.new do |t|
   t.rcov = true
   t.rcov_dir = '../doc/output/coverage'
   t.rcov_opts = ['--exclude', 'spec\/spec,bin\/spec,examples,\/var\/lib\/gems']
-end
-
-desc "Run all translated specs"
-Spec::Rake::SpecTask.new('translated_specs') do |t|
-  t.spec_files = FileList['translated_specs/**/*_spec.rb'].exclude( # These translate, but have other quirks
-    'translated_specs/spec/translator_spec.rb',
-    'translated_specs/spec/runner/formatter/html_formatter_spec.rb',
-    'translated_specs/spec/runner/option_parser_spec.rb'
-  )
-  t.spec_opts = ['--options', 'spec.opts']
-  t.rcov = true
-  t.rcov_dir = '../doc/output/coverage'
-  t.rcov_opts = ['--exclude', 'spec\/spec,bin\/spec,examples']
 end
 
 desc "Run all specs and store html output in doc/output/report.html"

@@ -31,7 +31,7 @@ module Spec
       alias :context :describe
       
     private
-
+    
       def rspec_options
         $rspec_options ||= begin; \
           parser = ::Spec::Runner::OptionParser.new(STDERR, STDOUT); \
@@ -39,6 +39,10 @@ module Spec
           $rspec_options = parser.options; \
         end
         $rspec_options
+      end
+      
+      def init_rspec_options(options)
+        $rspec_options = options if $rspec_options.nil?
       end
     end
   end
