@@ -19,8 +19,8 @@ module Spec
       describe DrbCommandLine, "with local server"
 
       class CommandLineForSpec
-        def self.run(options)
-          exit Spec::Runner::CommandLine.run(options)
+        def self.run(argv, stderr, stdout)
+          exit Spec::Runner::CommandLine.run(OptionParser.parse(argv, stderr, stdout))
         end
       end
       
@@ -80,7 +80,9 @@ module Spec
           out.instance_eval do
             def tty?; true end
           end
-          Spec::Runner::DrbCommandLine.run(OptionParser.parse(argv, err, out))
+          options = ::Spec::Runner::Options.new(err, out)
+          options.current_argv = argv
+          Spec::Runner::DrbCommandLine.run(options)
           out.rewind; out.read
         end
       end

@@ -4,7 +4,7 @@ module Spec
       FILE_SORTERS = {
         'mtime' => lambda {|file_a, file_b| File.mtime(file_b) <=> File.mtime(file_a)}
       }
-      
+
       BUILT_IN_FORMATTERS = {
         'specdoc'  => Formatter::SpecdocFormatter,
         's'        => Formatter::SpecdocFormatter,
@@ -19,7 +19,7 @@ module Spec
         'failing_behaviours' => Formatter::FailingBehavioursFormatter,
         'b'        => Formatter::FailingBehavioursFormatter
       }
-      
+
       attr_accessor(
         :backtrace_tweaker,
         :context_lines,
@@ -38,7 +38,8 @@ module Spec
         :verbose,
         :runner_arg,
         :error_stream,
-        :output_stream
+        :output_stream,
+        :current_argv
       )
       attr_reader :colour, :differ_class, :files, :behaviours
 
@@ -159,7 +160,7 @@ module Spec
           raise "Couldn't parse #{s.inspect}"
         end
       end
-      
+
       def load_class(name, kind, option)
         if name =~ /\A(?:::)?([A-Z]\w*(?:::[A-Z]\w*)*)\z/
           arg = $2 == "" ? nil : $2
@@ -201,20 +202,20 @@ module Spec
       def number_of_examples
         @behaviours.inject(0) {|sum, behaviour| sum + behaviour.number_of_examples}
       end
-      
+
       protected
       def sorted_files
         return sorter ? files.sort(&sorter) : files
       end
-      
+
       def sorter
         FILE_SORTERS[loadby]
       end
-      
+
       def default_differ
         require 'spec/expectations/differs/default'
         self.differ_class = Spec::Expectations::Differs::Default
-      end      
+      end
     end
   end
 end

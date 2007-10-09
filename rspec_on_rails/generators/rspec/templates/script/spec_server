@@ -4,7 +4,6 @@ $LOAD_PATH.unshift File.dirname(__FILE__) + '/../vendor/plugins/rspec/lib' # For
 require 'rubygems'
 require 'drb/drb'
 require 'rbconfig'
-require 'spec'
 require 'optparse'
 specmate = ENV['HOME'] + "/Library/Application\ Support/TextMate/Bundles/RSpec.tmbundle/Support/lib"
 if File.directory?(specmate)
@@ -16,9 +15,9 @@ end
 module Spec
   module Runner
     class RailsSpecServer
-      def run(options)
-        $stdout = options.output_stream
-        $stderr = options.error_stream
+      def run(argv, stderr, stdout)
+        $stdout = stdout
+        $stderr = stderr
 
         if ::Dispatcher.respond_to?(:cleanup_application)
           ::Dispatcher.cleanup_application
@@ -28,8 +27,14 @@ module Spec
         ::Dependencies.mechanism = :load
         require_dependency('application.rb') unless Object.const_defined?(:ApplicationController)
         load File.dirname(__FILE__) + '/../spec/spec_helper.rb'
-    
-        ::Spec::Runner::CommandLine.run(options)
+
+        ::Spec::Runner::CommandLine.run(
+          ::Spec::Runner::OptionParser.parse(
+            argv,
+            $stderr,
+            $stdout
+          )
+        )
       end
     end
   end
