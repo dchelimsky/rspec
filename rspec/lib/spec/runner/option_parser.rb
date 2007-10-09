@@ -14,21 +14,6 @@ module Spec
 
       attr_reader :options
 
-      BUILT_IN_FORMATTERS = {
-        'specdoc'  => Formatter::SpecdocFormatter,
-        's'        => Formatter::SpecdocFormatter,
-        'html'     => Formatter::HtmlFormatter,
-        'h'        => Formatter::HtmlFormatter,
-        'rdoc'     => Formatter::RdocFormatter,
-        'r'        => Formatter::RdocFormatter,
-        'progress' => Formatter::ProgressBarFormatter,
-        'p'        => Formatter::ProgressBarFormatter,
-        'failing_examples' => Formatter::FailingExamplesFormatter,
-        'e'        => Formatter::FailingExamplesFormatter,
-        'failing_behaviours' => Formatter::FailingBehavioursFormatter,
-        'b'        => Formatter::FailingBehavioursFormatter
-      }
-
       OPTIONS = {
         :diff =>    ["-D", "--diff [FORMAT]", "Show diff of objects that are expected to be equal when they are not",
                                              "Builtin formats: unified|u|context|c",
