@@ -4,6 +4,7 @@ class PreCommit::Rspec < PreCommit
     fix_cr_lf
     touch_revision_storing_files
     pre_commit_core
+    pre_commit_textmate_bundle
     pre_commit_rails
     ok_to_commit
   end
@@ -60,6 +61,14 @@ class PreCommit::Rspec < PreCommit
       rake = (PLATFORM == "i386-mswin32") ? "rake.bat" : "rake"
       system("#{rake} pre_commit --verbose --trace")
       raise "RSpec Core pre_commit failed" if error_code?
+    end    
+  end
+
+  def pre_commit_textmate_bundle
+    Dir.chdir 'RSpec.tmbundle/Support' do
+      rake = (PLATFORM == "i386-mswin32") ? "rake.bat" : "rake"
+      system("#{rake} spec --verbose --trace")
+      raise "RSpec Textmate Bundle specs failed" if error_code?
     end    
   end
 

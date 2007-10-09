@@ -11,11 +11,11 @@ module Spec
           old_rspec_options = rspec_options
           begin
             $rspec_options = instance_rspec_options
-            return true if rspec_options.generate
+            return true if $rspec_options.generate
 
-            rspec_options.load_paths
-            success = rspec_options.run_examples
-            heckle(rspec_options) if rspec_options.heckle_runner
+            $rspec_options.load_paths
+            success = $rspec_options.run_examples
+            heckle(rspec_options) if $rspec_options.heckle_runner
             return success
           ensure
             $rspec_options = old_rspec_options

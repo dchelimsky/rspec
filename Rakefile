@@ -19,6 +19,11 @@ task :pre_commit_core do
   pre_commit.pre_commit_core
 end
 
+desc "Runs textmate bundle specs"
+task :pre_commit_textmate_bundle do
+  pre_commit.pre_commit_textmate_bundle
+end
+
 desc "Runs pre_commit against example_rails_app (against all supported Rails versions)"
 task :pre_commit_rails do
   pre_commit.pre_commit_rails
