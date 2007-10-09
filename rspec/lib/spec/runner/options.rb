@@ -36,9 +36,11 @@ module Spec
         :reverse,
         :timeout,
         :verbose,
+        # TODO: BT - Rename to something better
         :runner_arg,
         :error_stream,
         :output_stream,
+        # TODO: BT - Figure out a better name
         :current_argv
       )
       attr_reader :colour, :differ_class, :files, :behaviours
