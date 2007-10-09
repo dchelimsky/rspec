@@ -111,6 +111,7 @@ module Spec
 
       def order!(argv=default_argv, &blk)
         @argv = argv
+        @options.current_argv = @argv
         return if parse_generate_options
         return if parse_drb
         
