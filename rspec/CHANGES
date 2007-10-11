@@ -1,4 +1,4 @@
-== Version 1.0.9 (in SVN)
+== Version 1.1.0 (in SVN)
 
 Textmate Bundle users - this release adds a new RSpec bundle that highlights describe, it, before and after and
 provides navigation to descriptions and examples (rather than classes and methods). When you first install this,
@@ -13,6 +13,7 @@ CMD-R runs all the specs in one file
 CMD-SHIFT-R runs an individual spec
 CMD-OPT-R runs any files or directories selected in the TextMate drawer
 
+* Removed Patch [#10577] Rails with Oracle breaks 0.9.2 - was no longer necessary since we moved describe to the Main object (instead of Object)
 * Fixed [#14527] specs run twice on rails 1.2.4 and rspec/rspec_on_rails trunk
 * Applied [#14043] Change output ordering to show pending before errors (Patch from Mike Mangino)
 * Applied [#14095] Don't have ./script/generate rspec create previous_failures.txt (Patch from Bryan Helmkamp)
