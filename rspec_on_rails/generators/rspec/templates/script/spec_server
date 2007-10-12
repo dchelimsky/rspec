@@ -19,6 +19,16 @@ module Spec
         $stdout = stdout
         $stderr = stderr
 
+        base = ActiveRecord::Base
+        def base.clear_reloadable_connections!
+          active_connections.each do |name, conn|
+            if conn.requires_reloading?
+              conn.disconnect!
+              active_connections.delete(name)
+            end
+          end
+        end        
+
         if ::Dispatcher.respond_to?(:cleanup_application)
           ::Dispatcher.cleanup_application
         elsif ::Dispatcher.respond_to?(:reset_application!)
