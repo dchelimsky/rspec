@@ -23,6 +23,7 @@ module Spec
             heckle(rspec_options) if $rspec_options.heckle_runner
             return success
           ensure
+            ::Spec.run = true
             $rspec_options = orig_rspec_options
           end
         end

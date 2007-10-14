@@ -135,6 +135,13 @@ module Spec
         should_has_run.should be_true
         should_not_has_run.should be_false
       end
+
+      it "sets Spec.run to true" do
+        ::Spec.run = false
+        ::Spec.should_not be_run
+        Spec::Runner::CommandLine.run(OptionParser.parse([], @err, @out))
+        ::Spec.should be_run
+      end
     end
   end
 end
