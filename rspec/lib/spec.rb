@@ -10,15 +10,19 @@ require 'spec/story'
 module Spec
   class << self
     def run?
-      @run
+      @run || rspec_options.examples_run?
+    end
+
+    def run; \
+      return true if run?; \
+      result = rspec_options.run_examples; \
+      @run = true; \
+      result; \
     end
     attr_writer :run
   end
 end
-if Object.const_defined?(:Test)
-  require 'spec/test'
-else
-  at_exit do
-    unless $! || Spec.run?; exit rspec_options.run_examples; end
-  end
+require 'spec/test' if Object.const_defined?(:Test)
+at_exit do
+  unless $! || Spec.run?; exit Spec.run; end
 end
