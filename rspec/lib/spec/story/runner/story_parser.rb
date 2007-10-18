@@ -4,29 +4,18 @@
 module Spec
   module Story
     module Runner
+      
+      class IllegalStepError < StandardError
+        def initialize(state, event)
+          super("Illegal attempt to create a #{event} after a #{state}")
+        end
+      end
 
       class StoryParser
-        attr_reader :story_part_factory
         def initialize(story_part_factory)
           @story_part_factory = story_part_factory
           @current_story_lines = []
-          init_states
-          transition_to_state(:starting)
-        end
-        
-        def init_states
-          @states = {
-            :starting => StartingState.new(self),
-            :story => StoryState.new(self),
-            :scenario => ScenarioState.new(self),
-            :given => GivenState.new(self),
-            :when => WhenState.new(self),
-            :then => ThenState.new(self),
-          }
-        end
-        
-        def transition_to_state(key)
-          @state = @states[key]
+          transition_to(:starting_state)
         end
         
         def parse(lines)
@@ -43,7 +32,7 @@ module Spec
           /^Given / => :given,
           /^When / => :event,
           /^Then / => :outcome,
-          /^And / => :another
+          /^And / => :one_more_of_the_same
         }
         
         def process_line(line)
@@ -54,10 +43,6 @@ module Spec
             end
           end
           @state.other(line)
-        end
-        
-        def transition_to(state)
-          @state = state
         end
         
         def init_story(title)
@@ -91,6 +76,21 @@ module Spec
         def create_then(name)
           @story_part_factory.create_then(name)
         end
+
+        def transition_to(key)
+          @state = states[key]
+        end
+        
+        def states
+          @states ||= {
+            :starting_state => StartingState.new(self),
+            :story_state => StoryState.new(self),
+            :scenario_state => ScenarioState.new(self),
+            :given_state => GivenState.new(self),
+            :when_state => WhenState.new(self),
+            :then_state => ThenState.new(self)
+          }
+        end
         
         class State
           def initialize(parser)
@@ -99,17 +99,16 @@ module Spec
           
           def story(line)
             @parser.init_story(line)
-            @parser.transition_to_state(:story)
+            @parser.transition_to(:story_state)
           end
 
           def scenario(line)
             @parser.create_scenario(line)
-            @parser.transition_to_state(:scenario)
+            @parser.transition_to(:scenario_state)
           end
           
           def eof
           end
-          
         end
         
         class StartingState < State
@@ -127,7 +126,19 @@ module Spec
           def scenario(line)
             @parser.create_story
             @parser.create_scenario(line)
-            @parser.transition_to_state(:scenario)
+            @parser.transition_to(:scenario_state)
+          end
+          
+          def given(line)
+            raise IllegalStepError.new("Story","Given")
+          end
+          
+          def event(line)
+            raise IllegalStepError.new("Story","When")
+          end
+          
+          def outcome(line)
+            raise IllegalStepError.new("Story","Then")
           end
           
           def other(line)
@@ -143,41 +154,35 @@ module Spec
         class ScenarioState < State
           def given(line)
             @parser.create_given(line.gsub("Given ",""))
-            @parser.transition_to_state(:given)
+            @parser.transition_to(:given_state)
           end
         end
         
         class GivenState < State
-          def another(line)
+          def one_more_of_the_same(line)
             @parser.create_given(line.gsub("And ",""))
           end
           
           def event(line)
             @parser.create_when(line.gsub("When ",""))
-            @parser.transition_to_state(:when)
+            @parser.transition_to(:when_state)
           end
         end
         
         class WhenState < State
-          def another(line)
+          def one_more_of_the_same(line)
             @parser.create_when(line.gsub("And ",""))
           end
 
           def outcome(line)
             @parser.create_then(line.gsub("Then ",""))
-            @parser.transition_to_state(:then)
-          end
-          
-          def eof
+            @parser.transition_to(:then_state)
           end
         end
 
         class ThenState < State
-          def another(line)
+          def one_more_of_the_same(line)
             @parser.create_then(line.gsub("And ",""))
-          end
-
-          def eof
           end
         end
 

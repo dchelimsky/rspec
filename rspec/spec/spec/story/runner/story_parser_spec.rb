@@ -124,6 +124,24 @@ module Spec
 			    @story_part_factory.should_receive(:create_scenario).with("second scenario")
 					@parser.parse(["Story: simple addition","Scenario: first scenario", "Given foo", "Scenario: second scenario"])
 			  end
+			  
+			  it "should raise when a Given follows a Story" do
+			    lambda {
+  					@parser.parse(["Story: foo", "Given bar"])
+			    }.should raise_error(IllegalStepError, /^Illegal attempt to create a Given after a Story/)
+			  end
+			  
+			  it "should raise when a Then follows a Story" do
+			    lambda {
+  					@parser.parse(["Story: foo", "When bar"])
+			    }.should raise_error(IllegalStepError, /^Illegal attempt to create a When after a Story/)
+			  end
+			  
+			  it "should raise when a Then follows a Story" do
+			    lambda {
+  					@parser.parse(["Story: foo", "Then bar"])
+			    }.should raise_error(IllegalStepError, /^Illegal attempt to create a Then after a Story/)
+			  end
 			end
 			
 		end
