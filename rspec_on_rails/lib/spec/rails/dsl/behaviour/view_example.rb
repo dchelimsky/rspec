@@ -154,7 +154,7 @@ module Spec
           @controller.template
         end
 
-        Spec::DSL::BehaviourFactory.register_behaviour(:view, self)
+        Spec::DSL::BehaviourFactory.register(:view, self)
       end
 
       class ViewExampleController < ApplicationController #:nodoc:

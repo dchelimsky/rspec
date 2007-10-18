@@ -25,7 +25,7 @@ module Spec
         behaviour_class = Class.new(Example) do
           def initialize(*args, &block); end
         end
-        Spec::DSL::BehaviourFactory.register_behaviour(:something_other_than_default, behaviour_class)
+        Spec::DSL::BehaviourFactory.register(:something_other_than_default, behaviour_class)
         behaviour = Spec::DSL::BehaviourFactory.create("behaviour", :type => :something_other_than_default)
         behaviour.name.should be_empty
         behaviour.superclass.should == behaviour_class
@@ -35,7 +35,7 @@ module Spec
         behaviour_class = Class.new(Example) do
           def initialize(*args, &block); end
         end
-        Spec::DSL::BehaviourFactory.register_behaviour(:something_other_than_default, behaviour_class)
+        Spec::DSL::BehaviourFactory.register(:something_other_than_default, behaviour_class)
         behaviour = Spec::DSL::BehaviourFactory.create("behaviour", :behaviour_type => :something_other_than_default)
         behaviour.name.should be_empty
         behaviour.superclass.should == behaviour_class
@@ -45,7 +45,7 @@ module Spec
         behaviour_class = Class.new(Example) do
           def initialize(*args, &block); end
         end
-        Spec::DSL::BehaviourFactory.register_behaviour(:something_other_than_default, behaviour_class)
+        Spec::DSL::BehaviourFactory.register(:something_other_than_default, behaviour_class)
         behaviour = Spec::DSL::BehaviourFactory.create("behaviour", :spec_path => "./spec/something_other_than_default/some_spec.rb")
         behaviour.name.should be_empty
         behaviour.superclass.should == behaviour_class
@@ -55,14 +55,14 @@ module Spec
         behaviour_class = Class.new(Example) do
           def initialize(*args, &block); end
         end
-        Spec::DSL::BehaviourFactory.register_behaviour(:something_other_than_default, behaviour_class)
+        Spec::DSL::BehaviourFactory.register(:something_other_than_default, behaviour_class)
         behaviour = Spec::DSL::BehaviourFactory.create("behaviour", :spec_path => "./spec\\something_other_than_default\\some_spec.rb")
         behaviour.name.should be_empty
         behaviour.superclass.should == behaviour_class
       end
       
       after(:each) do
-        Spec::DSL::BehaviourFactory.unregister_behaviour(:something_other_than_default)
+        Spec::DSL::BehaviourFactory.unregister(:something_other_than_default)
       end
     end
   end

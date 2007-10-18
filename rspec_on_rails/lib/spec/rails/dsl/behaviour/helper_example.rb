@@ -68,7 +68,7 @@ module Spec
           ERB.new(text).result(binding)
         end
 
-        Spec::DSL::BehaviourFactory.register_behaviour(:helper, self)
+        Spec::DSL::BehaviourFactory.register(:helper, self)
       end
 
       class HelperBehaviourController < ApplicationController #:nodoc:
