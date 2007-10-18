@@ -35,7 +35,7 @@ module Spec
           elsif line =~ /^And /
             @state.another(line)
           else
-            @state.process_line(line)
+            @state.other(line)
           end
         end
         
@@ -60,6 +60,10 @@ module Spec
         end
         
         class State
+          def initialize(parser)
+            @parser = parser
+          end
+          
           def story(line)
             @parser.init_story(line)
             @parser.transition_to(StoryState.new(@parser))
@@ -81,11 +85,7 @@ module Spec
           end
         end
         
-        class StoryState
-          def initialize(parser)
-            @parser = parser
-          end
-          
+        class StoryState < State
           def story(line)
             @parser.create_story
             @parser.current_story_lines << line
@@ -97,7 +97,7 @@ module Spec
             @parser.transition_to(ScenarioState.new(@parser))
           end
           
-          def process_line(line)
+          def other(line)
             @parser.current_story_lines << line
           end
           
@@ -108,10 +108,6 @@ module Spec
         end
 
         class ScenarioState < State
-          def initialize(parser)
-            @parser = parser
-          end
-                    
           def given(line)
             @parser.story_part_factory.create_given(line.gsub("Given ",""))
             @parser.transition_to(GivenState.new(@parser))
@@ -119,10 +115,6 @@ module Spec
         end
         
         class GivenState < State
-          def initialize(parser)
-            @parser = parser
-          end
-          
           def another(line)
             @parser.story_part_factory.create_given(line.gsub("And ",""))
             @parser.transition_to(GivenState.new(@parser))
@@ -134,11 +126,7 @@ module Spec
           end
         end
         
-        class WhenState
-          def initialize(parser)
-            @parser = parser
-          end
-          
+        class WhenState < State
           def another(line)
             @parser.story_part_factory.create_when(line.gsub("And ",""))
             @parser.transition_to(WhenState.new(@parser))
@@ -153,11 +141,7 @@ module Spec
           end
         end
 
-        class ThenState
-          def initialize(parser)
-            @parser = parser
-          end
-          
+        class ThenState < State
           def another(line)
             @parser.story_part_factory.create_then(line.gsub("And ",""))
             @parser.transition_to(ThenState.new(@parser))
