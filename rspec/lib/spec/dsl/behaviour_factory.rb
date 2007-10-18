@@ -9,17 +9,22 @@ module Spec
         # Registers a behaviour class +klass+ with the symbol
         # +type+. For example:
         #
-        #   Spec::DSL::BehaviourFactory.add_example_class(:farm, Spec::Farm::DSL::FarmBehaviour)
+        #   Spec::DSL::BehaviourFactory.register_behaviour(:farm, Spec::Farm::DSL::FarmBehaviour)
         #
         # This will cause Main#describe from a file living in 
         # <tt>spec/farm</tt> to create behaviour instances of type
         # Spec::Farm::DSL::FarmBehaviour.
-        def add_example_class(type, klass)
-          BEHAVIOURS[type] = klass
+        def register_behaviour(id, behaviour)
+          BEHAVIOURS[id] = behaviour
         end
-        def add_behaviour_class(type, klass)
-          warn "add_behaviour_class is deprecated. Use add_example_class instead."
-          add_example_class(type, klass)
+
+        def add_example_class(id, behaviour)
+          warn "add_example_class is deprecated. Use register_behaviour instead."
+          register_behaviour(id, behaviour)
+        end
+        def add_behaviour_class(id, behaviour)
+          warn "add_behaviour_class is deprecated. Use register_behaviour instead."
+          register_behaviour(id, behaviour)
         end
         
         def remove_example_class(type)

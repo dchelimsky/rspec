@@ -244,7 +244,7 @@ module Spec
           end
         end
 
-        Spec::DSL::BehaviourFactory.add_example_class(:controller, self)
+        Spec::DSL::BehaviourFactory.register_behaviour(:controller, self)
       end
     end
   end

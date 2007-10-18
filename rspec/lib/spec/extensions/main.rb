@@ -16,7 +16,7 @@ module Spec
       # different matcher methods available from within the <tt>describe</tt>
       # block.
       #
-      # See Spec::DSL::ExampleFactory#add_example_class for details about 
+      # See Spec::DSL::ExampleFactory#register_behaviour for details about
       # how to register special Spec::DSL::Example implementations.
       #
       def describe(*args, &block)
