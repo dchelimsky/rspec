@@ -4,8 +4,8 @@ module Spec
   module Story
     describe StepMother do
       before(:each) do
-        @step_matchers, $step_matchers = $step_matchers, mock("step matcher collection")
-        $step_matchers.stub!(:find)
+        @step_matchers, $rspec_story_step_matchers = $rspec_story_step_matchers, mock("step matcher collection")
+        $rspec_story_step_matchers.stub!(:find)
       end
       
       it 'should store a step by name and type' do
@@ -69,14 +69,14 @@ module Spec
           step_mother.find(:given, "some text")
         }.expect {
           #then
-          $step_matchers.should_receive(:find).with(:given, "some text")
+          $rspec_story_step_matchers.should_receive(:find).with(:given, "some text")
         }
       end
       
       it "should store a step matcher" do
         #given
-        $step_matchers = StepMatchers.new
-        matcher = $step_matchers.create_matcher(:given, "a guy named $name") {}
+        $rspec_story_step_matchers = StepMatchers.new
+        matcher = $rspec_story_step_matchers.create_matcher(:given, "a guy named $name") {}
         step_mother = StepMother.new
         
         #when
@@ -87,7 +87,7 @@ module Spec
       end
       
       after(:each) do
-        $step_matchers, @step_matchers = @step_matchers, nil
+        $rspec_story_step_matchers, @step_matchers = @step_matchers, nil
       end
     end
   end

@@ -29,7 +29,22 @@ module Spec
         behaviour
       end
       alias :context :describe
-      
+
+      # Creates and registers a StepMatcher for use with StoryRunner.
+      #
+      # == Example
+      #
+      #   step_matcher(:given, "a $account_type account with $amount dollars") do |account_type, amount|
+      #     @account = AccountFactory.create_account(account_type, amount)
+      #   end
+      #
+      #   Story ...
+      #     Scenario ...
+      #       Given "a savings account with 50 dollars"
+      #
+      def step_matcher(type, name, &block)
+        rspec_story_step_matchers.create_matcher(type, name, &block)
+      end
     private
     
       def rspec_options
@@ -43,6 +58,10 @@ module Spec
       
       def init_rspec_options(options)
         $rspec_options = options if $rspec_options.nil?
+      end
+
+      def rspec_story_step_matchers
+        $rspec_story_step_matchers ||= Spec::Story::StepMatchers.new
       end
     end
   end
