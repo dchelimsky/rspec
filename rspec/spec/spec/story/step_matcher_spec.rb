@@ -54,7 +54,7 @@ module Spec
         }.should raise_error
       end
       
-      it 'should perform itself on an object' do
+      it "should perform itself on an object" do
         # given
         $instance = nil
         step = StepMatcher.new 'step' do
@@ -69,7 +69,7 @@ module Spec
         $instance.should == instance
       end
       
-      it 'should perform itself with one parameter' do
+      it "should perform itself with one parameter" do
         # given
         $result = nil
         step = StepMatcher.new 'an account with $count dollars' do |count|
@@ -84,7 +84,7 @@ module Spec
         $result.should == "3"
       end
       
-      it 'should perform itself with 2 parameters' do
+      it "should perform itself with 2 parameters" do
         # given
         $account_type = nil
         $amount = nil

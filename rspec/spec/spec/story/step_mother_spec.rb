@@ -3,6 +3,11 @@ require File.dirname(__FILE__) + '/story_helper'
 module Spec
   module Story
     describe StepMother do
+      before(:each) do
+        @step_matchers, $step_matchers = $step_matchers, mock("step matcher collection")
+        $step_matchers.stub!(:find)
+      end
+      
       it 'should store a step by name and type' do
         # given
         step_mother = StepMother.new
@@ -57,16 +62,19 @@ module Spec
       
       it "should look for a step matcher" do
         #given
-        step_matchers = mock("step matcher collection")
-        step_mother = StepMother.new(step_matchers)
+        step_mother = StepMother.new
         
         during {
           #when
           step_mother.find(:given, "some text")
         }.expect {
           #then
-          step_matchers.should_receive(:find).with(:given, "some text")
+          $step_matchers.should_receive(:find).with(:given, "some text")
         }
+      end
+      
+      after(:each) do
+        $step_matchers, @step_matchers = @step_matchers, nil
       end
     end
   end
