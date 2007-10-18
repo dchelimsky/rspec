@@ -115,6 +115,10 @@ module Spec
           def initialize(parser)
             @parser = parser
           end
+          
+          def other(line)
+            # no-op - supports header text before the first story in a file
+          end
         end
         
         class StoryState < State

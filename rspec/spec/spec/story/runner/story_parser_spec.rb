@@ -19,6 +19,15 @@ module Spec
 					@parser.parse([])
 			  end
 			  
+			  it "should allow free text before a story" do
+			    @story_part_factory.should_not_receive(:create_scenario)
+			    @story_part_factory.should_not_receive(:create_given)
+			    @story_part_factory.should_not_receive(:create_when)
+			    @story_part_factory.should_not_receive(:create_then)
+			    @story_part_factory.should_receive(:create_story).with("simple addition", "")
+					@parser.parse(["Here is a bunch of text", "about a calculator and all the things", "that it will do", "Story: simple addition"])
+		    end
+			  
 			  it "should create a story" do
 			    @story_part_factory.should_receive(:create_story).with("simple addition", "")
 					@parser.parse(["Story: simple addition"])
