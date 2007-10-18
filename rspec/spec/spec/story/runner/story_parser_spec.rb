@@ -7,11 +7,6 @@ module Spec
 			describe StoryParser do
 			  before(:each) do
 			    @story_part_factory = mock("story_part_factory")
-			    @story_part_factory.stub!(:create_story)
-			    @story_part_factory.stub!(:create_scenario)
-			    @story_part_factory.stub!(:create_given)
-			    @story_part_factory.stub!(:create_when)
-			    @story_part_factory.stub!(:create_then)
 		    	@parser = StoryParser.new(@story_part_factory)
 			  end
 
@@ -19,7 +14,7 @@ module Spec
 					@parser.parse([])
 			  end
 			  
-			  it "should allow free text before a story" do
+			  it "should ignore text before the first Story: begins" do
 			    @story_part_factory.should_not_receive(:create_scenario)
 			    @story_part_factory.should_not_receive(:create_given)
 			    @story_part_factory.should_not_receive(:create_when)
@@ -61,25 +56,33 @@ module Spec
 			  
 			  it "should exclude Scenario from the narrative" do
 			    @story_part_factory.should_receive(:create_story).with("simple addition","narrative line 1\nline 2")
+			    @story_part_factory.should_receive(:create_scenario)
 					@parser.parse(["Story: simple addition","narrative line 1", "line 2", "Scenario: add one plus one"])
 			  end
 			  
 			  it "should create a Scenario" do
+			    @story_part_factory.should_receive(:create_story)
 			    @story_part_factory.should_receive(:create_scenario).with("add one plus one")
 					@parser.parse(["Story: simple addition","narrative line 1", "line 2", "Scenario: add one plus one"])
 			  end
 			  
 			  it "should create a Given" do
+			    @story_part_factory.should_receive(:create_story)
+          @story_part_factory.should_receive(:create_scenario)
 			    @story_part_factory.should_receive(:create_given).with("an addend of 1")
 					@parser.parse(["Story: simple addition","Scenario: add one plus one", "Given an addend of 1"])
 			  end
 			  
 			  it "should create a Given for an And after a Given" do
+			    @story_part_factory.should_receive(:create_story)
+          @story_part_factory.should_receive(:create_scenario)
 			    @story_part_factory.should_receive(:create_given).with("an addend of 1").twice
 					@parser.parse(["Story: simple addition","Scenario: add one plus one", "Given an addend of 1", "And an addend of 1"])
 			  end
 			  
 			  it "should create a Given for each of two Ands after a Given" do
+			    @story_part_factory.should_receive(:create_story)
+          @story_part_factory.should_receive(:create_scenario)
 			    @story_part_factory.should_receive(:create_given).with("an addend of 1")
 			    @story_part_factory.should_receive(:create_given).with("an addend of 2")
 			    @story_part_factory.should_receive(:create_given).with("an addend of 3")
@@ -87,17 +90,26 @@ module Spec
 			  end
 			  
 			  it "should create a When" do
+			    @story_part_factory.should_receive(:create_story)
+          @story_part_factory.should_receive(:create_scenario)
+          @story_part_factory.should_receive(:create_given).twice
 			    @story_part_factory.should_receive(:create_when).with("the addends are added")
 					@parser.parse(["Story: simple addition","Scenario: add one plus one", "Given an addend of 1", "And an addend of 1", "When the addends are added"])
 			  end
 			  
 			  it "should create a When for an And after a When" do
+			    @story_part_factory.should_receive(:create_story)
+          @story_part_factory.should_receive(:create_scenario)
+          @story_part_factory.should_receive(:create_given).twice
 			    @story_part_factory.should_receive(:create_when).with("the addends are added")
 			    @story_part_factory.should_receive(:create_when).with("the corks are popped")
 					@parser.parse(["Story: simple addition","Scenario: add one plus one", "Given an addend of 1", "And an addend of 1", "When the addends are added", "And the corks are popped"])
 			  end
 			  
 			  it "should create a When for each of two Ands after a When" do
+			    @story_part_factory.should_receive(:create_story)
+          @story_part_factory.should_receive(:create_scenario)
+          @story_part_factory.should_receive(:create_given).twice
 			    @story_part_factory.should_receive(:create_when).with("the addends are added")
 			    @story_part_factory.should_receive(:create_when).with("the corks are popped")
 			    @story_part_factory.should_receive(:create_when).with("the bottle is emptied")
@@ -105,17 +117,29 @@ module Spec
 			  end
 			  
 			  it "should create a Then" do
+			    @story_part_factory.should_receive(:create_story)
+          @story_part_factory.should_receive(:create_scenario)
+          @story_part_factory.should_receive(:create_given).twice
+          @story_part_factory.should_receive(:create_when)
 			    @story_part_factory.should_receive(:create_then).with("the sum should be 2")
 					@parser.parse(["Story: simple addition","Scenario: add one plus one", "Given an addend of 1", "And an addend of 1", "When the addends are added", "Then the sum should be 2"])
 			  end
 			  
 			  it "should create a Then for an And after a Then" do
+			    @story_part_factory.should_receive(:create_story)
+          @story_part_factory.should_receive(:create_scenario)
+          @story_part_factory.should_receive(:create_given).twice
+          @story_part_factory.should_receive(:create_when)
 			    @story_part_factory.should_receive(:create_then).with("the sum should be 2")
 			    @story_part_factory.should_receive(:create_then).with("the corks should be popped")
 					@parser.parse(["Story: simple addition","Scenario: add one plus one", "Given an addend of 1", "And an addend of 1", "When the addends are added", "Then the sum should be 2", "And the corks should be popped"])
 			  end
 			  
 			  it "should create a Then for each of two Ands after a Then" do
+			    @story_part_factory.should_receive(:create_story)
+			    @story_part_factory.should_receive(:create_scenario)
+			    @story_part_factory.should_receive(:create_given).twice
+			    @story_part_factory.should_receive(:create_when)
 			    @story_part_factory.should_receive(:create_then).with("the sum should be 2")
 			    @story_part_factory.should_receive(:create_then).with("the corks should be popped")
 			    @story_part_factory.should_receive(:create_then).with("the bottle should be emptied")
@@ -123,12 +147,15 @@ module Spec
 			  end
 			  
 			  it "should create a Scenario for a new Scenario after a Scenario" do
+			    @story_part_factory.should_receive(:create_story)
 			    @story_part_factory.should_receive(:create_scenario).with("first scenario")
 			    @story_part_factory.should_receive(:create_scenario).with("second scenario")
 					@parser.parse(["Story: simple addition","Scenario: first scenario", "Scenario: second scenario"])
 			  end
 			  
 			  it "should create a Scenario for a new Scenario after a Given" do
+			    @story_part_factory.should_receive(:create_story)
+			    @story_part_factory.should_receive(:create_given)
 			    @story_part_factory.should_receive(:create_scenario).with("first scenario")
 			    @story_part_factory.should_receive(:create_scenario).with("second scenario")
 					@parser.parse(["Story: simple addition","Scenario: first scenario", "Given foo", "Scenario: second scenario"])
