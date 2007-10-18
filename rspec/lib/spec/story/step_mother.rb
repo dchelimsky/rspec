@@ -1,11 +1,14 @@
 module Spec
   module Story
     class StepMother
-      def initialize
+      def initialize(step_matchers=nil)
         @steps = Hash.new do |hsh,type|
           hsh[type] = Hash.new do |hsh,name|
-            SimpleStep.new(name) do
-              raise Spec::DSL::ExamplePendingError.new("Unimplemented step: #{name}")
+            if step_matchers and step_matchers.find(type, name)
+            else
+              SimpleStep.new(name) do
+                raise Spec::DSL::ExamplePendingError.new("Unimplemented step: #{name}")
+              end
             end
           end
         end

@@ -54,6 +54,20 @@ module Spec
         # then
         step_mother.should be_empty
       end
+      
+      it "should look for a step matcher" do
+        #given
+        step_matchers = mock("step matcher collection")
+        step_mother = StepMother.new(step_matchers)
+        
+        during {
+          #when
+          step_mother.find(:given, "some text")
+        }.expect {
+          #then
+          step_matchers.should_receive(:find).with(:given, "some text")
+        }
+      end
     end
   end
 end
