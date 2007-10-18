@@ -145,7 +145,7 @@ class PreCommit::RspecOnRails < PreCommit
   end
   
   def purchase_migration_version
-    "006"
+    "005"
   end
 
   def migrate_up
