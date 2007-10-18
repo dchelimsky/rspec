@@ -2,12 +2,15 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 module Spec
   module DSL
-    describe Configuration do
+    ConfigurationSpec = describe Configuration, :shared => true do
       before(:each) do
         @config = Configuration.new
         @behaviour = mock("behaviour")
-      end
-
+      end      
+    end
+    
+    describe Configuration, "#mock_with" do
+      include ConfigurationSpec
       it "should default mock framework to rspec" do
         @config.mock_framework.should =~ /\/plugins\/mock_frameworks\/rspec$/
       end
@@ -37,7 +40,10 @@ module Spec
         @config.mock_with(adapter)
         @config.mock_framework.should == adapter
       end
+    end
 
+    describe Configuration, "#include" do
+      include ConfigurationSpec
       it "should let you define modules to be included" do
         mod = Module.new
         @config.include mod
