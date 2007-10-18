@@ -43,7 +43,7 @@ module Spec
         step.should be_an_instance_of(SimpleStep)
         
         lambda do
-          step.perform(Object.new)
+          step.perform(Object.new, nil)
         end.should raise_error(Spec::DSL::ExamplePendingError, /Unimplemented/)
       end
       
@@ -71,6 +71,19 @@ module Spec
           #then
           $step_matchers.should_receive(:find).with(:given, "some text")
         }
+      end
+      
+      it "should store a step matcher" do
+        #given
+        $step_matchers = StepMatchers.new
+        matcher = $step_matchers.create_matcher(:given, "a guy named $name") {}
+        step_mother = StepMother.new
+        
+        #when
+        found_matcher = step_mother.find(:given, "a guy named Joe")
+
+        #then
+        found_matcher.should == matcher
       end
       
       after(:each) do

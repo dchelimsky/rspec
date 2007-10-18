@@ -17,7 +17,7 @@ module Spec
         step = GivenScenario.new 'scenario name'
         
         # when
-        step.perform(instance)
+        step.perform(instance, nil)
         
         # then
         ensure_that instance.scenario_ran, is(true)

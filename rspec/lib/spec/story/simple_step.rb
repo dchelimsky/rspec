@@ -8,7 +8,7 @@ module Spec
         end
       end
       
-      def perform(instance, *args)
+      def perform(instance, ignore_name, *args)
         instance.extend(@mod)
         instance.__send__(@name, *args)
       end

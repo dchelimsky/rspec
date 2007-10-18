@@ -12,7 +12,7 @@ module Spec
         !(matches = name.match(@expression)).nil?
       end
       
-      def perform(instance, name)
+      def perform(instance, name, *ignore_args)
         instance.extend(@mod)
         instance.__send__(@name, *parse_args(name))
       end

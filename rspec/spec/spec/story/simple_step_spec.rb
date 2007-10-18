@@ -12,7 +12,7 @@ module Spec
         instance = Object.new
         
         # when
-        step.perform(instance)
+        step.perform(instance, 'step')
         
         # then
         $instance.should == instance
@@ -27,7 +27,7 @@ module Spec
         instance = Object.new
         
         # when
-        step.perform(instance, 3)
+        step.perform(instance, nil, 3)
         
         # then
         $result.should == 3
