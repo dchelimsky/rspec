@@ -6,11 +6,27 @@ module Spec
     module Runner
 
       class StoryParser
-        attr_reader :story_part_factory, :current_story_lines
+        attr_reader :story_part_factory
         def initialize(story_part_factory)
           @story_part_factory = story_part_factory
           @current_story_lines = []
-          @state = StartingState.new(self)
+          init_states
+          transition_to_state(:starting)
+        end
+        
+        def init_states
+          @states = {
+            :starting => StartingState.new(self),
+            :story => StoryState.new(self),
+            :scenario => ScenarioState.new(self),
+            :given => GivenState.new(self),
+            :when => WhenState.new(self),
+            :then => ThenState.new(self),
+          }
+        end
+        
+        def transition_to_state(key)
+          @state = @states[key]
         end
         
         def parse(lines)
@@ -21,30 +37,35 @@ module Spec
           @state.eof
         end
         
+        MARKERS = {
+          /^Story: / => :story,
+          /^Scenario: / => :scenario,
+          /^Given / => :given,
+          /^When / => :event,
+          /^Then / => :outcome,
+          /^And / => :another
+        }
+        
         def process_line(line)
-          if line =~ /^Story: /
-            @state.story(line)
-          elsif line =~ /^Scenario: /
-            @state.scenario(line)
-          elsif line =~ /^Given /
-            @state.given(line)
-          elsif line =~ /^When /
-            @state.event(line)
-          elsif line =~ /^Then /
-            @state.outcome(line)
-          elsif line =~ /^And /
-            @state.another(line)
-          else
-            @state.other(line)
+          line.strip!
+          MARKERS.keys.each do |key|
+            if line =~ key
+              return @state.send(MARKERS[key], line)
+            end
           end
+          @state.other(line)
         end
         
         def transition_to(state)
           @state = state
         end
         
-        def init_story(line)
+        def init_story(title)
           @current_story_lines.clear
+          add_story_line(title)
+        end
+        
+        def add_story_line(line)
           @current_story_lines << line
         end
         
@@ -59,6 +80,18 @@ module Spec
           @story_part_factory.create_scenario(title.gsub("Scenario: ",""))
         end
         
+        def create_given(name)
+          @story_part_factory.create_given(name)
+        end
+        
+        def create_when(name)
+          @story_part_factory.create_when(name)
+        end
+        
+        def create_then(name)
+          @story_part_factory.create_then(name)
+        end
+        
         class State
           def initialize(parser)
             @parser = parser
@@ -66,12 +99,12 @@ module Spec
           
           def story(line)
             @parser.init_story(line)
-            @parser.transition_to(StoryState.new(@parser))
+            @parser.transition_to_state(:story)
           end
 
           def scenario(line)
             @parser.create_scenario(line)
-            @parser.transition_to(ScenarioState.new(@parser))
+            @parser.transition_to_state(:scenario)
           end
           
           def eof
@@ -88,17 +121,17 @@ module Spec
         class StoryState < State
           def story(line)
             @parser.create_story
-            @parser.current_story_lines << line
+            @parser.add_story_line(line)
           end
           
           def scenario(line)
             @parser.create_story
             @parser.create_scenario(line)
-            @parser.transition_to(ScenarioState.new(@parser))
+            @parser.transition_to_state(:scenario)
           end
           
           def other(line)
-            @parser.current_story_lines << line
+            @parser.add_story_line(line)
           end
           
           def eof
@@ -109,32 +142,30 @@ module Spec
 
         class ScenarioState < State
           def given(line)
-            @parser.story_part_factory.create_given(line.gsub("Given ",""))
-            @parser.transition_to(GivenState.new(@parser))
+            @parser.create_given(line.gsub("Given ",""))
+            @parser.transition_to_state(:given)
           end
         end
         
         class GivenState < State
           def another(line)
-            @parser.story_part_factory.create_given(line.gsub("And ",""))
-            @parser.transition_to(GivenState.new(@parser))
+            @parser.create_given(line.gsub("And ",""))
           end
           
           def event(line)
-            @parser.story_part_factory.create_when(line.gsub("When ",""))
-            @parser.transition_to(WhenState.new(@parser))
+            @parser.create_when(line.gsub("When ",""))
+            @parser.transition_to_state(:when)
           end
         end
         
         class WhenState < State
           def another(line)
-            @parser.story_part_factory.create_when(line.gsub("And ",""))
-            @parser.transition_to(WhenState.new(@parser))
+            @parser.create_when(line.gsub("And ",""))
           end
 
           def outcome(line)
-            @parser.story_part_factory.create_then(line.gsub("Then ",""))
-            @parser.transition_to(ThenState.new(@parser))
+            @parser.create_then(line.gsub("Then ",""))
+            @parser.transition_to_state(:then)
           end
           
           def eof
@@ -143,8 +174,7 @@ module Spec
 
         class ThenState < State
           def another(line)
-            @parser.story_part_factory.create_then(line.gsub("And ",""))
-            @parser.transition_to(ThenState.new(@parser))
+            @parser.create_then(line.gsub("And ",""))
           end
 
           def eof
