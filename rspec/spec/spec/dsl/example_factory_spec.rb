@@ -62,7 +62,7 @@ module Spec
       end
       
       after(:each) do
-        Spec::DSL::BehaviourFactory.remove_example_class(:something_other_than_default)
+        Spec::DSL::BehaviourFactory.unregister_behaviour(:something_other_than_default)
       end
     end
   end

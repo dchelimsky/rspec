@@ -27,8 +27,8 @@ module Spec
           register_behaviour(id, behaviour)
         end
         
-        def remove_example_class(type)
-          BEHAVIOURS.delete(type)
+        def unregister_behaviour(id)
+          BEHAVIOURS.delete(id)
         end
 
         def create(*args, &block)
