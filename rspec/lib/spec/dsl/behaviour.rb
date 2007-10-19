@@ -135,22 +135,26 @@ module Spec
         after(:each, &block)
       end
 
-      def before_all_parts(behaviour_type=nil) # :nodoc:
+      def before_all_parts(behaviour_type=:default) # :nodoc:
+        behaviour_type ||= :default
         @before_all_parts ||= {}
         @before_all_parts[behaviour_type] ||= []
       end
 
-      def after_all_parts(behaviour_type=nil) # :nodoc:
+      def after_all_parts(behaviour_type=:default) # :nodoc:
+        behaviour_type ||= :default
         @after_all_parts ||= {}
         @after_all_parts[behaviour_type] ||= []
       end
 
-      def before_each_parts(behaviour_type=nil) # :nodoc:
+      def before_each_parts(behaviour_type=:default) # :nodoc:
+        behaviour_type ||= :default
         @before_each_parts ||= {}
         @before_each_parts[behaviour_type] ||= []
       end
 
-      def after_each_parts(behaviour_type=nil) # :nodoc:
+      def after_each_parts(behaviour_type=:default) # :nodoc:
+        behaviour_type ||= :default
         @after_each_parts ||= {}
         @after_each_parts[behaviour_type] ||= []
       end
