@@ -34,7 +34,7 @@ module Spec
 
       it "should report its name for dry run" do
         @options.dry_run = true
-        @reporter.should_receive(:example_finished).with(equal(@example_definition), nil, "NO NAME (Because of --dry-run)")
+        @reporter.should_receive(:example_finished).with(equal(@example_definition), nil, "example")
         @proxy.run
       end
 
@@ -192,6 +192,20 @@ module Spec
         @reporter.should_receive(:example_finished) do |example_definition, error, location|
           example_definition.description.should == "NO NAME (Because of --dry-run)"
           location.should == "NO NAME (Because of --dry-run)"
+         end
+        proxy.run
+      end
+
+      it "should report given name if present with --dry-run" do
+        @options.dry_run = true
+        example_definition = @behaviour.create_example_definition("example name") do
+          5.should == 5
+        end
+        proxy = create_proxy(example_definition)
+
+        @reporter.should_receive(:example_finished) do |example_definition, error, location|
+          example_definition.description.should == "example name"
+          location.should == "example name"
          end
         proxy.run
       end
