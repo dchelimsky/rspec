@@ -9,12 +9,27 @@ module Spec
         end
       
         def example_failed(example, counter, failure)
-          @output.puts failure.expectation_not_met? ? red("- #{example.description} (FAILED - #{counter})") : magenta("- #{example.description} (ERROR - #{counter})")
+          message = if failure.expectation_not_met?
+            "- #{example.description} (FAILED - #{counter})"
+          else
+            "- #{example.description} (ERROR - #{counter})"
+          end
+          
+          message += " (#{sprintf("%.3f", elapsed_time)} sec)" if profile? && !dry_run?
+           
+          @output.puts(failure.expectation_not_met? ? red(message) : magenta(message))
           @output.flush
+        end
+        
+        def example_started(example)
+          @started_time = Time.now
         end
       
         def example_passed(example)
-          @output.puts green("- #{example.description}")
+          message = "- #{example.description}"
+          message += " (#{sprintf("%.3f", elapsed_time)} sec)" if profile? && !dry_run?
+          
+          @output.puts green(message)
           @output.flush
         end
         
@@ -22,6 +37,12 @@ module Spec
           super
           @output.puts yellow("- #{example_name} (PENDING: #{message})")
           @output.flush
+        end
+        
+      private
+
+        def elapsed_time
+          @started_time ? Time.now - @started_time : 0.0
         end
       end
     end

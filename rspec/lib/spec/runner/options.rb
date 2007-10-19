@@ -25,6 +25,7 @@ module Spec
         :context_lines,
         :diff_format,
         :dry_run,
+        :profile,
         :examples,
         :failure_file,
         :formatters,
@@ -52,6 +53,7 @@ module Spec
         @examples = []
         @formatters = []
         @colour = false
+        @profile = false
         @dry_run = false
         @reporter = Reporter.new(self)
         @context_lines = 3
