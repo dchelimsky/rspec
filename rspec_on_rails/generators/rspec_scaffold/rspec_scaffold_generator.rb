@@ -37,10 +37,10 @@ class RspecScaffoldGenerator < Rails::Generator::NamedBase
       @default_file_extension = "rhtml"
     end
     
-    if Routing::SEPARATORS.include(";")
-      @resource_edit_path = ";edit"
-    else
+    if ActionController::Base.respond_to?(:resource_action_separator)
       @resource_edit_path = "/edit"
+    else
+      @resource_edit_path = ";edit"
     end
   end
 
