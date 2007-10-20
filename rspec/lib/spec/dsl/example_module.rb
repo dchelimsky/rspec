@@ -125,9 +125,6 @@ module Spec
           run_before_parts Example.before_each_parts(behaviour_type)
         end
         run_before_parts rspec_behaviour.before_each_parts(nil)
-        if behaviour_type
-          run_before_parts rspec_behaviour.before_each_parts(behaviour_type)
-        end
       end
 
       def before_all
@@ -136,16 +133,10 @@ module Spec
           run_before_parts Example.before_all_parts(behaviour_type)
         end
         run_before_parts rspec_behaviour.before_all_parts(nil)
-        if behaviour_type
-          run_before_parts rspec_behaviour.before_all_parts(behaviour_type)
-        end
       end
 
       def after_all
         exception = nil
-        if behaviour_type
-          exception = run_after_parts(exception, rspec_behaviour.after_all_parts(behaviour_type))
-        end
         exception = run_after_parts(exception, rspec_behaviour.after_all_parts(nil))
         if behaviour_type
           exception = run_after_parts(exception, Example.after_all_parts(behaviour_type))
@@ -156,9 +147,6 @@ module Spec
 
       def after_each
         exception = nil
-        if behaviour_type
-          exception = run_after_parts(exception, rspec_behaviour.after_each_parts(behaviour_type))
-        end
         exception = run_after_parts(exception, rspec_behaviour.after_each_parts(nil))
         if behaviour_type
           exception = run_after_parts(exception, Example.after_each_parts(behaviour_type))
