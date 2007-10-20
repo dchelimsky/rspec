@@ -45,6 +45,14 @@ describe "OptionParser" do
     options.colour.should == false
   end
 
+  it "should print help to stdout if no args" do
+    pending() do
+      options = parse([])
+      @out.rewind
+      @out.read.should match(/Usage: spec \(FILE\|DIRECTORY\|GLOB\)\+ \[options\]/m)
+    end
+  end
+
   it "should print help to stdout" do
     options = parse(["--help"])
     @out.rewind

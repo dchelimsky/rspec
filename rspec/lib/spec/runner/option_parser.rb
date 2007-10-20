@@ -108,10 +108,10 @@ module Spec
         end
         on(*OPTIONS[:drb]) {}
         on(*OPTIONS[:version]) {parse_version}
-        self.on_tail(*OPTIONS[:help]) {parse_help}
+        on_tail(*OPTIONS[:help]) {parse_help}
       end
 
-      def order!(argv=default_argv, &blk)
+      def order!(argv, &blk)
         @argv = argv
         @options.current_argv = @argv
         return if parse_generate_options

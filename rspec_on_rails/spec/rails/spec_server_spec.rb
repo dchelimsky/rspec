@@ -30,19 +30,18 @@ describe "script/spec_server file" do
 
   it "should run a spec" do
     # TODO: Please fix this if it does not work on your machine. Otherwise there will be NO coverage of spec_server.
-    pending("this doesn't seem to work consistently") do
-      dir = File.dirname(__FILE__)
-      output = ""
-      Timeout.timeout(5) do
-        loop do
-          output = `#{RAILS_ROOT}/script/spec #{dir}/sample_spec.rb --drb 2>&1`
-          break unless output.include?("No server is running")
-        end
+    pending("this doesn't seem to work consistently")
+    dir = File.dirname(__FILE__)
+    output = ""
+    Timeout.timeout(10) do
+      loop do
+        output = `#{RAILS_ROOT}/script/spec #{dir}/sample_spec.rb --drb 2>&1`
+        break unless output.include?("No server is running")
       end
+    end
 
-      unless $?.exitstatus == 0
-        flunk "command 'script/spec spec/sample_spec' failed\n#{output}"
-      end
+    unless $?.exitstatus == 0
+      flunk "command 'script/spec spec/sample_spec' failed\n#{output}"
     end
   end
 end
