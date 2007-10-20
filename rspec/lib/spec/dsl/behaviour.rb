@@ -88,37 +88,31 @@ module Spec
 
       def prepend_before(*args, &block)
         scope, options = scope_and_options(*args)
-        add(scope, options, :before, :unshift, &block)
+        parts = before_parts_from_scope(scope, options[:behaviour_type])
+        parts.unshift(block)
       end
       def append_before(*args, &block)
         scope, options = scope_and_options(*args)
-        add(scope, options, :before, :<<, &block)
+        parts = before_parts_from_scope(scope, options[:behaviour_type])
+        parts << block
       end
       alias_method :before, :append_before
 
       def prepend_after(*args, &block)
         scope, options = scope_and_options(*args)
-        add(scope, options, :after, :unshift, &block)
+        parts = after_parts_from_scope(scope, options[:behaviour_type])
+        parts.unshift(block)
       end
       alias_method :after, :prepend_after
       def append_after(*args, &block)
         scope, options = scope_and_options(*args)
-        add(scope, options, :after, :<<, &block)
+        parts = after_parts_from_scope(scope, options[:behaviour_type])
+        parts << block
       end
 
       def scope_and_options(*args)
         args, options = args_and_options(*args)
         scope = (args[0] || :each), options
-      end
-
-      def add(scope, options, where, how, &block)
-        scope ||= :each
-        options ||= {}
-        behaviour_type = options[:behaviour_type]
-        case scope
-          when :each; self.__send__("#{where}_each_parts", behaviour_type).__send__(how, block)
-          when :all;  self.__send__("#{where}_all_parts", behaviour_type).__send__(how, block)
-        end
       end
 
       def remove_after(scope, &block)
@@ -167,6 +161,20 @@ module Spec
       end
       
       protected
+
+      def before_parts_from_scope(scope, behaviour_type)
+        case scope
+        when :each; before_each_parts(behaviour_type)
+        when :all; before_all_parts(behaviour_type)
+        end
+      end
+
+      def after_parts_from_scope(scope, behaviour_type)
+        case scope
+        when :each; after_each_parts(behaviour_type)
+        when :all; after_all_parts(behaviour_type)
+        end
+      end      
 
       def before_eval
       end
