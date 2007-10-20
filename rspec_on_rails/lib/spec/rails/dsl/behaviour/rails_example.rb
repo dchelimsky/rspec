@@ -3,7 +3,7 @@ ActionView::Base.cache_template_extensions = false
 module Spec
   module Rails
     module DSL
-      class RailsExample < ::Spec::Test::Unit::Example
+      class RailsExample < ::Spec::DSL::Example
         cattr_accessor(
           :fixture_path,
           :use_transactional_fixtures,

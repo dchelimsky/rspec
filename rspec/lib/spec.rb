@@ -1,3 +1,4 @@
+require 'test/unit'
 require 'spec/version'
 require 'spec/matchers'
 require 'spec/expectations'
@@ -6,7 +7,7 @@ require 'spec/dsl'
 require 'spec/extensions'
 require 'spec/runner'
 require 'spec/story'
-
+require 'spec/test'
 module Spec
   class << self
     def run?
@@ -21,8 +22,4 @@ module Spec
     end
     attr_writer :run
   end
-end
-require 'spec/test' if Object.const_defined?(:Test)
-at_exit do
-  unless $! || Spec.run?; exit Spec.run; end
 end

@@ -12,7 +12,7 @@ class TestUnitAndRspecTest < Test::Unit::TestCase
   end
 end
 
-class TestUnitAndRspecSpec < ::Spec::Test::Unit::Example
+class TestUnitAndRspecSpec < ::Spec::DSL::Example
   class << self
     attr_accessor :examples_run
   end

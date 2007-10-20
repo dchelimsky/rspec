@@ -48,7 +48,7 @@ module Spec
         # NOTE - BE CAREFUL IF CHANGING THIS NEXT LINE:
         #   this line is as it is to satisfy JRuby - the original version
         #   read, simply: "if options[:behaviour_class]", which passed against ruby, but failed against jruby
-        if options[:behaviour_class] && options[:behaviour_class].ancestors.include?(ExampleModule)
+        if options[:behaviour_class] && options[:behaviour_class].ancestors.include?(Example)
           options[:behaviour_type] ||= parse_behaviour_type(@options[:behaviour_class])
         end
       end

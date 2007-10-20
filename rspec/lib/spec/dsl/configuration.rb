@@ -96,6 +96,8 @@ module Spec
       # Prepends a global <tt>before</tt> block to all behaviours.
       # See #append_before for filtering semantics.
       def prepend_before(*args, &proc)
+        scope, options = scope_and_options(*args)
+        behaviour_type = BehaviourFactory.get(options[:behaviour_type])
         Example.prepend_before(*args, &proc)
       end
       # Appends a global <tt>before</tt> block to all behaviours.
@@ -127,6 +129,11 @@ module Spec
       end
 
     private
+
+      def scope_and_options(*args)
+        args, options = args_and_options(*args)
+        scope = (args[0] || :each), options
+      end
     
       def mock_framework_path(framework_name)
         File.expand_path(File.join(File.dirname(__FILE__), "..", "..", "..", "plugins", "mock_frameworks", framework_name))
