@@ -1,6 +1,7 @@
 module Spec
   module Story
     class StepMatchers
+      
       def initialize
         @matchers = Hash.new {|h, k| h[k] = []}
         yield self if block_given?

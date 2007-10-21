@@ -65,6 +65,17 @@ module Spec
         @step_matchers.find(:given, "this and that").should equal(step_matcher)
       end
       
+      it "should append several other collections" do
+        matchers_to_append = StepMatchers.new
+        more_matchers_to_append = StepMatchers.new
+        first_matcher = matchers_to_append.given("this and that") {}
+        second_matcher = more_matchers_to_append.given("and the other") {}
+        @step_matchers << matchers_to_append
+        @step_matchers << more_matchers_to_append
+        @step_matchers.find(:given, "this and that").should equal(first_matcher)
+        @step_matchers.find(:given, "and the other").should equal(second_matcher)
+      end
+      
       it "should yield itself on initialization" do
         begin
           $step_matchers_spec_matcher = nil

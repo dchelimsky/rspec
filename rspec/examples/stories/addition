@@ -21,4 +21,12 @@ Story: simple addition
     
     Then the sum should be 7
     And the corks should be popped
-    And this is an unknown step that will result in a pending error
+
+  Scenario: add 3 plus 2
+    Given an addend of 3
+    And an addend of 2
+  
+    When the addends are added
+  
+    Then the sum should be 5
+  
