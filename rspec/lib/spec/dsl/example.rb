@@ -108,38 +108,38 @@ module Spec
       end
 
       def before_each
-        run_before_parts Example.before_each_parts(nil)
+        run_before_parts Example.before_each_parts
         if behaviour_type
-          run_before_parts BehaviourFactory.get!(behaviour_type).before_each_parts(nil)
+          run_before_parts BehaviourFactory.get!(behaviour_type).before_each_parts
         end
-        run_before_parts rspec_behaviour.before_each_parts(nil)
+        run_before_parts rspec_behaviour.before_each_parts
       end
 
       def before_all
-        run_before_parts Example.before_all_parts(nil)
+        run_before_parts Example.before_all_parts
         if behaviour_type
-          run_before_parts BehaviourFactory.get!(behaviour_type).before_all_parts(nil)
+          run_before_parts BehaviourFactory.get!(behaviour_type).before_all_parts
         end
-        run_before_parts rspec_behaviour.before_all_parts(nil)
+        run_before_parts rspec_behaviour.before_all_parts
       end
 
       def after_all
         exception = nil
-        exception = run_after_parts(exception, rspec_behaviour.after_all_parts(nil))
+        exception = run_after_parts(exception, rspec_behaviour.after_all_parts)
         if behaviour_type
-          exception = run_after_parts(exception, BehaviourFactory.get!(behaviour_type).after_all_parts(nil))
+          exception = run_after_parts(exception, BehaviourFactory.get!(behaviour_type).after_all_parts)
         end
-        exception = run_after_parts(exception, Example.after_all_parts(nil))
+        exception = run_after_parts(exception, Example.after_all_parts)
         raise exception if exception
       end
 
       def after_each
         exception = nil
-        exception = run_after_parts(exception, rspec_behaviour.after_each_parts(nil))
+        exception = run_after_parts(exception, rspec_behaviour.after_each_parts)
         if behaviour_type
-          exception = run_after_parts(exception, BehaviourFactory.get!(behaviour_type).after_each_parts(nil))
+          exception = run_after_parts(exception, BehaviourFactory.get!(behaviour_type).after_each_parts)
         end
-        exception = run_after_parts(exception, Example.after_each_parts(nil))
+        exception = run_after_parts(exception, Example.after_each_parts)
         raise exception if exception
       end
 
