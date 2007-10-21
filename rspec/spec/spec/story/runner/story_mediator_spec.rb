@@ -4,31 +4,31 @@ module Spec
   module Story
     module Runner
       
-      describe StoryPartFactory do
+      describe StoryMediator do
         before(:each) do
-          $story_part_factory_spec_instance = nil
+          $story_mediator_spec_value = nil
           @step_matchers = StepMatchers.new
-          @step_matchers.create_matcher(:given, "given") { $story_part_factory_spec_instance = "given matched" }
-          @step_matchers.create_matcher(:when, "when") { $story_part_factory_spec_instance = "when matched" }
-          @step_matchers.create_matcher(:then, "then") { $story_part_factory_spec_instance = "then matched" }
+          @step_matchers.create_matcher(:given, "given") { $story_mediator_spec_value = "given matched" }
+          @step_matchers.create_matcher(:when, "when") { $story_mediator_spec_value = "when matched" }
+          @step_matchers.create_matcher(:then, "then") { $story_mediator_spec_value = "then matched" }
           
-          @factory = StoryPartFactory.new @step_matchers
           @scenario_runner = ScenarioRunner.new
           @runner = StoryRunner.new @scenario_runner
+          @mediator = StoryMediator.new @step_matchers, @runner
         end
         
         def run_stories
-          @factory.stories.each { |story| @runner.instance_eval(&story) }
+          @mediator.run_stories
           @runner.run_stories
         end
-
+        
         it "should have no stories" do
-          @factory.stories.should be_empty
+          @mediator.stories.should be_empty
         end
         
         it "should create two stories" do
-          @factory.create_story "story title", "story narrative"
-          @factory.create_story "story title 2", "story narrative 2"
+          @mediator.create_story "story title", "story narrative"
+          @mediator.create_story "story title 2", "story narrative 2"
           run_stories
           
           @runner.should have(2).stories
@@ -39,8 +39,8 @@ module Spec
         end
         
         it "should create a scenario" do
-          @factory.create_story "title", "narrative"
-          @factory.create_scenario "scenario name"
+          @mediator.create_story "title", "narrative"
+          @mediator.create_scenario "scenario name"
           run_stories
           
           @runner.should have(1).scenarios
@@ -49,18 +49,18 @@ module Spec
         end
         
         it "should create a given step if one matches" do
-          @factory.create_story "title", "narrative"
-          @factory.create_scenario "scenario"
-          @factory.create_given "given"
+          @mediator.create_story "title", "narrative"
+          @mediator.create_scenario "scenario"
+          @mediator.create_given "given"
           run_stories
           
-          $story_part_factory_spec_instance.should == "given matched"
+          $story_mediator_spec_value.should == "given matched"
         end
         
         it "should create a pending step if no given step matches" do
-          @factory.create_story "title", "narrative"
-          @factory.create_scenario "scenario"
-          @factory.create_given "no match"
+          @mediator.create_story "title", "narrative"
+          @mediator.create_scenario "scenario"
+          @mediator.create_given "no match"
           mock_listener = stub_everything("listener")
           mock_listener.should_receive(:scenario_pending).with("title", "scenario", "Unimplemented step: no match")
           @scenario_runner.add_listener mock_listener
@@ -68,18 +68,18 @@ module Spec
         end
         
         it "should create a when step if one matches" do
-          @factory.create_story "title", "narrative"
-          @factory.create_scenario "scenario"
-          @factory.create_when "when"
+          @mediator.create_story "title", "narrative"
+          @mediator.create_scenario "scenario"
+          @mediator.create_when "when"
           run_stories
           
-          $story_part_factory_spec_instance.should == "when matched"
+          $story_mediator_spec_value.should == "when matched"
         end
         
         it "should create a pending step if no when step matches" do
-          @factory.create_story "title", "narrative"
-          @factory.create_scenario "scenario"
-          @factory.create_when "no match"
+          @mediator.create_story "title", "narrative"
+          @mediator.create_scenario "scenario"
+          @mediator.create_when "no match"
           mock_listener = stub_everything("listener")
           mock_listener.should_receive(:scenario_pending).with("title", "scenario", "Unimplemented step: no match")
           @scenario_runner.add_listener mock_listener
@@ -87,18 +87,18 @@ module Spec
         end
         
         it "should create a then step if one matches" do
-          @factory.create_story "title", "narrative"
-          @factory.create_scenario "scenario"
-          @factory.create_then "then"
+          @mediator.create_story "title", "narrative"
+          @mediator.create_scenario "scenario"
+          @mediator.create_then "then"
           run_stories
           
-          $story_part_factory_spec_instance.should == "then matched"
+          $story_mediator_spec_value.should == "then matched"
         end
         
         it "should create a pending step if no 'then' step matches" do
-          @factory.create_story "title", "narrative"
-          @factory.create_scenario "scenario"
-          @factory.create_then "no match"
+          @mediator.create_story "title", "narrative"
+          @mediator.create_scenario "scenario"
+          @mediator.create_then "no match"
           mock_listener = stub_everything("listener")
           mock_listener.should_receive(:scenario_pending).with("title", "scenario", "Unimplemented step: no match")
           @scenario_runner.add_listener mock_listener

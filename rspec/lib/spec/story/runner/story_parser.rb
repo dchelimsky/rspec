@@ -12,8 +12,8 @@ module Spec
       end
 
       class StoryParser
-        def initialize(story_part_factory)
-          @story_part_factory = story_part_factory
+        def initialize(story_mediator)
+          @story_mediator = story_mediator
           @current_story_lines = []
           transition_to(:starting_state)
         end
@@ -56,25 +56,25 @@ module Spec
         
         def create_story()
           unless @current_story_lines.empty?
-            @story_part_factory.create_story(@current_story_lines[0].gsub("Story: ",""), @current_story_lines[1..-1].join("\n"))
+            @story_mediator.create_story(@current_story_lines[0].gsub("Story: ",""), @current_story_lines[1..-1].join("\n"))
             @current_story_lines.clear
           end
         end
         
         def create_scenario(title)
-          @story_part_factory.create_scenario(title.gsub("Scenario: ",""))
+          @story_mediator.create_scenario(title.gsub("Scenario: ",""))
         end
         
         def create_given(name)
-          @story_part_factory.create_given(name)
+          @story_mediator.create_given(name)
         end
         
         def create_when(name)
-          @story_part_factory.create_when(name)
+          @story_mediator.create_when(name)
         end
         
         def create_then(name)
-          @story_part_factory.create_then(name)
+          @story_mediator.create_then(name)
         end
 
         def transition_to(key)

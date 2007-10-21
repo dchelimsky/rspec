@@ -2,10 +2,11 @@ module Spec
   module Story
     module Runner
 
-      class StoryPartFactory
-        def initialize(matchers)
+      class StoryMediator
+        def initialize(matchers, runner)
           @matchers = matchers
           @story_parts = []
+          @runner = runner
         end
         
         def stories
@@ -30,6 +31,10 @@ module Spec
         
         def create_then(name)
           current_scenario_part.add_step StepPart.new(:then, name, @matchers)
+        end
+        
+        def run_stories
+          stories.each { |story| @runner.instance_eval(&story) }
         end
         
         private

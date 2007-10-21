@@ -2,7 +2,7 @@ require File.join(File.dirname(__FILE__), "helper")
 require File.join(File.dirname(__FILE__), "adder")
 
 # Init a runner with the file that contains the plain text story
-runner = Spec::Story::PlainTextStoryRunner.new File.expand_path(__FILE__).gsub(".rb","")
+runner = Spec::Story::Runner::PlainTextStoryRunner.new File.expand_path(__FILE__).gsub(".rb","")
 
 # You can append an instance of a subclass of StepMatchers. This one
 # can be found in examples/steps/addition_steps.rb
