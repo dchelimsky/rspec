@@ -109,15 +109,15 @@ module Spec
           
           def eof
           end
+          
+          def other(line)
+            # no-op - supports header text before the first story in a file
+          end
         end
         
         class StartingState < State
           def initialize(parser)
             @parser = parser
-          end
-          
-          def other(line)
-            # no-op - supports header text before the first story in a file
           end
         end
         

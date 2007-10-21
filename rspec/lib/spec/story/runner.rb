@@ -2,6 +2,7 @@ require 'spec/story/runner/scenario_collector.rb'
 require 'spec/story/runner/scenario_runner.rb'
 require 'spec/story/runner/story_runner.rb'
 require 'spec/story/runner/story_parser.rb'
+require 'spec/story/runner/story_part_factory.rb'
 
 module Spec
   module Story
