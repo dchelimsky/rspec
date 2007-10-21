@@ -88,6 +88,15 @@ module Spec
         end
       end
       
+      it "should support defaults" do
+        class StepMatchersSubclass < StepMatchers
+          step_matchers do |add|
+            add.given("foo") {}
+          end
+        end
+        StepMatchersSubclass.new.find(:given, "foo").should_not be_nil
+      end
+      
     end
   end
 end

@@ -1,14 +1,22 @@
 module Spec
   module Story
     class StepMatchers
+      def self.step_matchers
+        @step_matchers ||= StepMatchers.new(false)
+        yield @step_matchers if block_given?
+        @step_matchers
+      end
       
-      def initialize
-        @matchers = Hash.new {|h, k| h[k] = []}
+      def initialize(init_defaults=true)
+        @hash_of_lists_of_matchers = Hash.new {|h, k| h[k] = []}
+        if init_defaults
+          self.class.step_matchers.add_to(self)
+        end
         yield self if block_given?
       end
       
       def find(type, name)
-        @matchers[type].each do |matcher|
+        @hash_of_lists_of_matchers[type].each do |matcher|
           return matcher if matcher.matches?(name)
         end
         return nil
@@ -26,24 +34,24 @@ module Spec
         create_matcher(:then, name, &block)
       end
       
-      def add(type, new_matchers)
-        (@matchers[type] << new_matchers).flatten!
+      def add(type, list_of_new_matchers)
+        (@hash_of_lists_of_matchers[type] << list_of_new_matchers).flatten!
       end
       
-      def add_to(other_matchers)
+      def add_to(other_step_matchers)
         [:given, :when, :then].each do |type|
-          other_matchers.add(type, @matchers[type])
+          other_step_matchers.add(type, @hash_of_lists_of_matchers[type])
         end
       end
       
-      def <<(other_matchers)
-        other_matchers.add_to(self)
+      def <<(other_step_matchers)
+        other_step_matchers.add_to(self)
       end
       
       # TODO - make me private
       def create_matcher(type, name, &block)
         matcher = StepMatcher.new(name, &block)
-        @matchers[type] << matcher
+        @hash_of_lists_of_matchers[type] << matcher
         matcher
       end
     end
