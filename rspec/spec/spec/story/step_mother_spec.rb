@@ -63,27 +63,25 @@ module Spec
       it "should look for a step matcher" do
         #given
         step_mother = StepMother.new
+        step_mother.use(matchers = mock("matchers"))
         
         during {
           #when
           step_mother.find(:given, "some text")
         }.expect {
           #then
-          $rspec_story_step_matchers.should_receive(:find).with(:given, "some text")
+          matchers.should_receive(:find).with(:given, "some text")
         }
       end
       
-      it "should store a step matcher" do
-        #given
-        $rspec_story_step_matchers = StepMatchers.new
-        matcher = $rspec_story_step_matchers.create_matcher(:given, "a guy named $name") {}
+      it "should use assigned step_matchers" do
         step_mother = StepMother.new
         
-        #when
-        found_matcher = step_mother.find(:given, "a guy named Joe")
-
-        #then
-        found_matcher.should == matcher
+        step_mother.use(matchers = mock("matchers"))
+        
+        matchers.should_receive(:find).with(:given, "a guy named Jose")
+        
+        step_mother.find(:given, "a guy named Jose")
       end
       
       after(:each) do

@@ -4,7 +4,7 @@ module Spec
       def initialize
         @steps = Hash.new do |hsh,type|
           hsh[type] = Hash.new do |hsh,name|
-            if $rspec_story_step_matchers and matcher = $rspec_story_step_matchers.find(type, name)
+            if step_matchers and matcher = step_matchers.find(type, name)
               matcher
             else
               SimpleStep.new(name) do
@@ -13,6 +13,10 @@ module Spec
             end
           end
         end
+      end
+      
+      def use(step_matchers)
+        @step_matchers = step_matchers
       end
       
       def store(type, name, step)
@@ -30,6 +34,12 @@ module Spec
       def empty?
         @steps.empty?
       end
+
+      private
+        def step_matchers
+          @step_matchers
+        end
+      
     end
   end
 end

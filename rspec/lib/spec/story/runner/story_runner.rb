@@ -37,6 +37,7 @@ module Spec
           return if @stories.empty?
           @listeners.each { |l| l.run_started(scenarios.size) }
           @stories.each do |story|
+            story.assign_matchers(World)
             @current_story = story
             @listeners.each { |l| l.story_started(story.title, story.narrative) }
             scenarios = @scenarios_by_story[story.title]
@@ -44,7 +45,6 @@ module Spec
               type = story[:type] || Object
               args = story[:args] || []
               world = @world_creator.create(type, *args)
-              world.instance_variable_set :@current_story, story
               @scenario_runner.run(scenario, world)
             end
             @listeners.each { |l| l.story_ended(story.title, story.narrative) }

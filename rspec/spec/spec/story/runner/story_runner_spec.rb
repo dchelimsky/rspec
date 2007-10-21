@@ -198,30 +198,6 @@ module Spec
           scenario_world_catcher.worlds[0].size.should == 3
         end
         
-        it 'should store the current running story in the world' do
-          # given
-          $stories = []
-          story_runner = StoryRunner.new(ScenarioRunner.new)
-          story_runner.Story 'title1', 'narrative1' do
-            Scenario 'scenario1' do
-              $stories << @current_story
-            end
-          end
-          story_runner.Story 'title2', 'narrative2' do
-            Scenario 'scenario2' do
-              $stories << @current_story
-            end
-          end
-          
-          # when
-          story_runner.run_stories
-          
-          # then
-          $stories.size.should == 2
-          ensure_that $stories[0].title, is('title1')
-          ensure_that $stories[1].title, is('title2')
-        end
-      
         it 'should find a scenario in the current story by name' do
           # given
           story_runner = StoryRunner.new(ScenarioRunner.new)

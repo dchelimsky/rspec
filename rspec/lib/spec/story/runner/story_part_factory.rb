@@ -13,7 +13,7 @@ module Spec
         end
         
         def create_story(title, narrative)
-          @story_parts << StoryPart.new(title, narrative)
+          @story_parts << StoryPart.new(title, narrative, @matchers)
         end
         
         def create_scenario(title)
@@ -42,25 +42,27 @@ module Spec
         end
         
         class StoryPart
-          def initialize(title, narrative)
+          def initialize(title, narrative, matchers)
             @title = title
             @narrative = narrative
             @scenarios = []
+            @matchers = matchers
           end
           
           def to_proc
             title = @title
             narrative = @narrative
-            scenarios = @scenarios.collect { |s| s.to_proc }
+            scenarios = @scenarios.collect { |scenario| scenario.to_proc }
+            matchers = @matchers
             lambda do
-              Story title, narrative do
-                scenarios.each { |s| instance_eval(&s) }
+              Story title, narrative, :matchers => matchers do
+                scenarios.each { |scenario| instance_eval(&scenario) }
               end
             end
           end
           
-          def add_scenario(s)
-            @scenarios << s
+          def add_scenario(scenario)
+            @scenarios << scenario
           end
           
           def current_scenario_part

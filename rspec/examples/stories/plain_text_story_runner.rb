@@ -3,7 +3,6 @@
 module Spec
   module Story
     class PlainTextStoryRunner
-      attr_reader :step_matchers
 
       def initialize(story_file)
         @story_file = story_file
@@ -17,13 +16,13 @@ module Spec
         parser.parse story_text.split("\n")
 
         story_runner = Spec::Story::Runner.story_runner
-        factory.stories.each { |s| story_runner.instance_eval(&s) }
+        factory.stories.each { |story| story_runner.instance_eval(&story) }
       end
   
       def step_matchers
-        $rspec_story_step_matchers ||= Spec::Story::StepMatchers.new
-        yield $rspec_story_step_matchers if block_given?
-        $rspec_story_step_matchers
+        @step_matchers ||= Spec::Story::StepMatchers.new
+        yield @step_matchers if block_given?
+        @step_matchers
       end
   
     end

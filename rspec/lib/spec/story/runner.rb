@@ -3,6 +3,7 @@ require 'spec/story/runner/scenario_runner.rb'
 require 'spec/story/runner/story_runner.rb'
 require 'spec/story/runner/story_parser.rb'
 require 'spec/story/runner/story_part_factory.rb'
+require 'spec/story/runner/plain_text_story_runner.rb'
 
 module Spec
   module Story

@@ -6,11 +6,11 @@ module Spec
       
       describe StoryPartFactory do
         before(:each) do
-          $instance = nil
-          @step_matchers = $rspec_story_step_matchers = StepMatchers.new
-          @step_matchers.create_matcher(:given, "given") { $instance = "given matched" }
-          @step_matchers.create_matcher(:when, "when") { $instance = "when matched" }
-          @step_matchers.create_matcher(:then, "then") { $instance = "then matched" }
+          $story_part_factory_spec_instance = nil
+          @step_matchers = StepMatchers.new
+          @step_matchers.create_matcher(:given, "given") { $story_part_factory_spec_instance = "given matched" }
+          @step_matchers.create_matcher(:when, "when") { $story_part_factory_spec_instance = "when matched" }
+          @step_matchers.create_matcher(:then, "then") { $story_part_factory_spec_instance = "then matched" }
           
           @factory = StoryPartFactory.new @step_matchers
           @scenario_runner = ScenarioRunner.new
@@ -18,7 +18,7 @@ module Spec
         end
         
         def run_stories
-          @factory.stories.each { |s| @runner.instance_eval(&s) }
+          @factory.stories.each { |story| @runner.instance_eval(&story) }
           @runner.run_stories
         end
 
@@ -54,7 +54,7 @@ module Spec
           @factory.create_given "given"
           run_stories
           
-          $instance.should == "given matched"
+          $story_part_factory_spec_instance.should == "given matched"
         end
         
         it "should create a pending step if no given step matches" do
@@ -73,7 +73,7 @@ module Spec
           @factory.create_when "when"
           run_stories
           
-          $instance.should == "when matched"
+          $story_part_factory_spec_instance.should == "when matched"
         end
         
         it "should create a pending step if no when step matches" do
@@ -92,10 +92,10 @@ module Spec
           @factory.create_then "then"
           run_stories
           
-          $instance.should == "then matched"
+          $story_part_factory_spec_instance.should == "then matched"
         end
         
-        it "should create a pending step if no then step matches" do
+        it "should create a pending step if no 'then' step matches" do
           @factory.create_story "title", "narrative"
           @factory.create_scenario "scenario"
           @factory.create_then "no match"
@@ -104,6 +104,7 @@ module Spec
           @scenario_runner.add_listener mock_listener
           run_stories
         end
+        
       end
       
     end

@@ -4,7 +4,8 @@ require File.join(File.dirname(__FILE__), "adder")
 # Init a runner with the file that contains the plain text story
 runner = Spec::Story::PlainTextStoryRunner.new File.expand_path(__FILE__).gsub(".rb","")
 
-# You can append an instance of a subclass of StepMatchers
+# You can append an instance of a subclass of StepMatchers. This one
+# can be found in examples/steps/addition_steps.rb
 runner.step_matchers << AdditionSteps.new
 
 # And/or you can add steps that are unique to this story right here

@@ -17,6 +17,10 @@ module Spec
       def run_in(obj)
         obj.instance_eval(&@body)
       end
+      
+      def assign_matchers(assignee)
+        assignee.use(@params[:matchers])
+      end
     end
   end
 end

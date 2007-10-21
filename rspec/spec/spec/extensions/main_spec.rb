@@ -30,15 +30,4 @@ describe "The main object extended by MainExtensions" do
   it "should raise when no description given to describe" do
     lambda { @main.describe do; end }.should raise_error(ArgumentError)
   end
-  
-  it "should create an rspec_story_step_matchers" do
-    @rspec_story_step_matchers, $rspec_story_step_matchers = $rspec_story_step_matchers, Spec::Story::StepMatchers.new
-    block = lambda {}
-    $rspec_story_step_matchers.should_receive(:create_matcher).with(:type, "name", &block)
-    begin
-      @main.step_matcher(:type, "name", &block)
-    ensure
-      $rspec_story_step_matchers, @rspec_story_step_matchers = @rspec_story_step_matchers, nil
-    end
-  end
 end

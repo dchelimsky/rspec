@@ -40,6 +40,13 @@ module Spec
           story.run_in(object)
         end.should raise_error
       end
+      
+      it "should use the matchers it is told to" do
+        story = Story.new("title", "narrative", :matchers => matchers = StepMatchers.new) do end
+        assignee = mock("assignee")
+        assignee.should_receive(:use).with(matchers)
+        story.assign_matchers(assignee)
+      end
     end
   end
 end

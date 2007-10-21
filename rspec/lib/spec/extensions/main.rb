@@ -59,10 +59,6 @@ module Spec
       def init_rspec_options(options)
         $rspec_options = options if $rspec_options.nil?
       end
-
-      def rspec_story_step_matchers
-        $rspec_story_step_matchers ||= Spec::Story::StepMatchers.new
-      end
     end
   end
 end

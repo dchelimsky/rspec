@@ -401,6 +401,11 @@ module Spec
           'hello'.should match(/^hello$/)
         end
       end
+      
+      it "should use assigned matchers" do
+        world = World.create
+        World.use(matchers = mock("matchers"))
+      end
     end
   end
 end
