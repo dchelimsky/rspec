@@ -70,6 +70,7 @@ module Spec
           end
           example_class = Class.new(get(id))
           example_class.describe(*args, &block)
+          example_class
         end
 
         protected

@@ -67,7 +67,7 @@ module Spec
       end
 
       def behaviour_type #:nodoc:
-        description[:behaviour_type]
+        description ? description[:behaviour_type] : :default
       end
 
       def described_type

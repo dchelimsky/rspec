@@ -45,6 +45,18 @@ module Spec
 
     describe Configuration, "#include" do
       include ConfigurationSpec
+
+      before do
+        @original_configuration = Spec::Runner.configuration
+        spec_configuration = @config
+        Spec::Runner.instance_eval {@configuration = spec_configuration}
+      end
+
+      after do
+        original_configuration = @original_configuration
+        Spec::Runner.instance_eval {@configuration = original_configuration}
+      end
+
       it "should let you define modules to be included" do
         mod = Module.new
         @config.include mod
@@ -55,6 +67,22 @@ module Spec
         mod = Module.new
         @config.include mod, :behaviour_type => :foobar
         @config.modules_for(:foobar).should include(mod)
+      end
+
+      it "causes suite run to include the module into the Behaviour" do
+        mod = Module.new
+        def mod.included(behaviour)
+          behaviour.module_included = true
+        end
+        @config.include mod
+        behaviour = Class.new(Example).describe("Some Spec")
+        class << behaviour
+          attr_accessor :module_included
+        end
+        suite = behaviour.suite
+        suite.run
+
+        behaviour.module_included.should be_true
       end
     end
 

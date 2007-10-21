@@ -15,6 +15,7 @@ module Spec
 
         def suite
           description = description ? description.description : "Rspec Description Suite"
+          include_example_modules
           suite = ExampleSuite.new(description, self)
           ordered_example_definitions.each do |example_definition|
             suite << new(example_definition)
@@ -62,7 +63,7 @@ module Spec
           end
         end
 
-        def include_example_modules(behaviour_type)
+        def include_example_modules
           Spec::Runner.configuration.modules_for(behaviour_type).each do |mod|
             include mod
           end
@@ -93,7 +94,6 @@ module Spec
         predicate_matchers = @rspec_behaviour.predicate_matchers
         (class << self; self; end).class_eval do
           plugin_mock_framework
-          include_example_modules behaviour_type
           define_predicate_matchers predicate_matchers
           define_predicate_matchers(Spec::Runner.configuration.predicate_matchers)
         end
