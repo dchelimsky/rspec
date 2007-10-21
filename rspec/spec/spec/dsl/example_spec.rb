@@ -356,13 +356,23 @@ module Spec
     class ExampleSubclass < Example
     end
 
-    describe "Example", " subclass" do
+    describe "Example subclass", "#described_type" do
+      after do
+        BehaviourFactory.unregister(:subclass)
+      end
+
       it "should have access to the described_type" do
         behaviour = Class.new(ExampleSubclass).describe(ExampleDefinition){}
         behaviour.send(:described_type).should == ExampleDefinition
       end
 
-      it "should figure out its behaviour_type based on its name ()" do
+      it "when behaviour_type is registered; figures out its behaviour_type based on its name" do
+        behaviour = Class.new(ExampleSubclass).describe(ExampleDefinition){}
+        behaviour.send(:behaviour_type).should be_nil
+      end
+
+      it "when behaviour_type is not registered; returns nil" do
+        BehaviourFactory.register(:subclass, ExampleSubclass)
         behaviour = Class.new(ExampleSubclass).describe(ExampleDefinition){}
         behaviour.send(:behaviour_type).should == :subclass
       end

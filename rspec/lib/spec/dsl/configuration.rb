@@ -97,8 +97,8 @@ module Spec
       # See #append_before for filtering semantics.
       def prepend_before(*args, &proc)
         scope, options = scope_and_options(*args)
-        behaviour_type = BehaviourFactory.get(options[:behaviour_type])
-        Example.prepend_before(*args, &proc)
+        behaviour_type = BehaviourFactory.get!(options[:behaviour_type])
+        behaviour_type.prepend_before(scope, &proc)
       end
       # Appends a global <tt>before</tt> block to all behaviours.
       #
@@ -112,20 +112,26 @@ module Spec
       #   config.prepend_before(:behaviour_type => :farm)
       #
       def append_before(*args, &proc)
-        Example.append_before(*args, &proc)
+        scope, options = scope_and_options(*args)
+        behaviour_type = BehaviourFactory.get!(options[:behaviour_type])
+        behaviour_type.append_before(scope, &proc)
       end
       alias_method :before, :append_before
 
       # Prepends a global <tt>after</tt> block to all behaviours.
       # See #append_before for filtering semantics.
       def prepend_after(*args, &proc)
-        Example.prepend_after(*args, &proc)
+        scope, options = scope_and_options(*args)
+        behaviour_type = BehaviourFactory.get!(options[:behaviour_type])
+        behaviour_type.prepend_after(scope, &proc)
       end
       alias_method :after, :prepend_after
       # Appends a global <tt>after</tt> block to all behaviours.
       # See #append_before for filtering semantics.
       def append_after(*args, &proc)
-        Example.append_after(*args, &proc)
+        scope, options = scope_and_options(*args)
+        behaviour_type = BehaviourFactory.get!(options[:behaviour_type])
+        behaviour_type.append_after(scope, &proc)
       end
 
     private

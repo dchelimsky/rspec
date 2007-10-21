@@ -86,6 +86,18 @@ module Spec
     describe ExampleSuite, "#run with success" do
       it_should_behave_like "Spec::DSL::ExampleSuite#run without failure in example"
 
+      before do
+        @special = Class.new(Example)
+        BehaviourFactory.register(:special, @special)
+        @not_special = Class.new(Example)
+        BehaviourFactory.register(:not_special, @not_special)
+      end
+
+      after do
+        BehaviourFactory.unregister :special
+        BehaviourFactory.unregister :non_special
+      end
+
       it "should send reporter add_behaviour" do
         suite = @behaviour.suite
         suite.run
@@ -147,10 +159,10 @@ module Spec
 
         Example.before(:all) { fiddle << "Example.before(:all)" }
         Example.prepend_before(:all) { fiddle << "Example.prepend_before(:all)" }
-        Example.before(:each, :behaviour_type => :special) { fiddle << "Example.before(:each, :behaviour_type => :special)" }
-        Example.prepend_before(:each, :behaviour_type => :special) { fiddle << "Example.prepend_before(:each, :behaviour_type => :special)" }
-        Example.before(:all, :behaviour_type => :special) { fiddle << "Example.before(:all, :behaviour_type => :special)" }
-        Example.prepend_before(:all, :behaviour_type => :special) { fiddle << "Example.prepend_before(:all, :behaviour_type => :special)" }
+        @special.before(:each) { fiddle << "Example.before(:each, :behaviour_type => :special)" }
+        @special.prepend_before(:each) { fiddle << "Example.prepend_before(:each, :behaviour_type => :special)" }
+        @special.before(:all) { fiddle << "Example.before(:all, :behaviour_type => :special)" }
+        @special.prepend_before(:all) { fiddle << "Example.prepend_before(:all, :behaviour_type => :special)" }
 
         behaviour = Class.new(Example).describe("I'm not special", :behaviour_type => :not_special) do
           it "does nothing"
@@ -168,24 +180,24 @@ module Spec
 
         Example.before(:all) { fiddle << "Example.before(:all)" }
         Example.prepend_before(:all) { fiddle << "Example.prepend_before(:all)" }
-        Example.before(:each, :behaviour_type => :special) { fiddle << "Example.before(:each, :behaviour_type => :special)" }
-        Example.prepend_before(:each, :behaviour_type => :special) { fiddle << "Example.prepend_before(:each, :behaviour_type => :special)" }
-        Example.before(:all, :behaviour_type => :special) { fiddle << "Example.before(:all, :behaviour_type => :special)" }
-        Example.prepend_before(:all, :behaviour_type => :special) { fiddle << "Example.prepend_before(:all, :behaviour_type => :special)" }
-
-        Example.append_before(:behaviour_type => :special) { fiddle << "Example.append_before(:each, :behaviour_type => :special)" }
-        behaviour = Class.new(Example).describe("I'm not special", :behaviour_type => :special) {}
+        @special.before(:each) { fiddle << "special.before(:each, :behaviour_type => :special)" }
+        @special.prepend_before(:each) { fiddle << "special.prepend_before(:each, :behaviour_type => :special)" }
+        @special.before(:all) { fiddle << "special.before(:all, :behaviour_type => :special)" }
+        @special.prepend_before(:all) { fiddle << "special.prepend_before(:all, :behaviour_type => :special)" }
+        @special.append_before(:each) { fiddle << "special.append_before(:each, :behaviour_type => :special)" }
+        
+        behaviour = Class.new(Example).describe("I'm a special behaviour", :behaviour_type => :special) {}
         behaviour.it("test") {true}
         suite = behaviour.suite
         suite.run
         fiddle.should == [
           'Example.prepend_before(:all)',
           'Example.before(:all)',
-          'Example.prepend_before(:all, :behaviour_type => :special)',
-          'Example.before(:all, :behaviour_type => :special)',
-          'Example.prepend_before(:each, :behaviour_type => :special)',
-          'Example.before(:each, :behaviour_type => :special)',
-          'Example.append_before(:each, :behaviour_type => :special)',
+          'special.prepend_before(:all, :behaviour_type => :special)',
+          'special.before(:all, :behaviour_type => :special)',
+          'special.prepend_before(:each, :behaviour_type => :special)',
+          'special.before(:each, :behaviour_type => :special)',
+          'special.append_before(:each, :behaviour_type => :special)',
         ]
       end
 

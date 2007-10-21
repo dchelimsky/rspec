@@ -110,7 +110,7 @@ module Spec
       def before_each
         run_before_parts Example.before_each_parts(nil)
         if behaviour_type
-          run_before_parts Example.before_each_parts(behaviour_type)
+          run_before_parts BehaviourFactory.get!(behaviour_type).before_each_parts(nil)
         end
         run_before_parts rspec_behaviour.before_each_parts(nil)
       end
@@ -118,7 +118,7 @@ module Spec
       def before_all
         run_before_parts Example.before_all_parts(nil)
         if behaviour_type
-          run_before_parts Example.before_all_parts(behaviour_type)
+          run_before_parts BehaviourFactory.get!(behaviour_type).before_all_parts(nil)
         end
         run_before_parts rspec_behaviour.before_all_parts(nil)
       end
@@ -127,7 +127,7 @@ module Spec
         exception = nil
         exception = run_after_parts(exception, rspec_behaviour.after_all_parts(nil))
         if behaviour_type
-          exception = run_after_parts(exception, Example.after_all_parts(behaviour_type))
+          exception = run_after_parts(exception, BehaviourFactory.get!(behaviour_type).after_all_parts(nil))
         end
         exception = run_after_parts(exception, Example.after_all_parts(nil))
         raise exception if exception
@@ -137,7 +137,7 @@ module Spec
         exception = nil
         exception = run_after_parts(exception, rspec_behaviour.after_each_parts(nil))
         if behaviour_type
-          exception = run_after_parts(exception, Example.after_each_parts(behaviour_type))
+          exception = run_after_parts(exception, BehaviourFactory.get!(behaviour_type).after_each_parts(nil))
         end
         exception = run_after_parts(exception, Example.after_each_parts(nil))
         raise exception if exception

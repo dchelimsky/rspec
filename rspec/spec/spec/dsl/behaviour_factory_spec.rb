@@ -42,12 +42,49 @@ module Spec
         BehaviourFactory.unregister(:foobar)
       end
 
+      it "when passed nil; returns the default behaviour" do
+        BehaviourFactory.get(nil).should == Example
+      end
+
       it "when passed an id; returns the behaviour for the passed in id" do
         BehaviourFactory.get(:foobar).should == @behaviour
       end
 
       it "when passed in the actual behaviour; returns the behaviour" do
         BehaviourFactory.get(@behaviour).should == @behaviour
+      end
+
+      it "when passed unregistered value; returns nil" do
+        BehaviourFactory.get(:does_not_exist).should be_nil
+      end
+    end    
+
+    describe BehaviourFactory, "#get!" do
+      before do
+        @behaviour = Class.new(Example)
+        BehaviourFactory.register(:foobar, @behaviour)
+      end
+
+      after do
+        BehaviourFactory.unregister(:foobar)
+      end
+
+      it "when passed nil; returns the default behaviour" do
+        BehaviourFactory.get!(nil).should == Example
+      end
+
+      it "when passed an id; returns the behaviour for the passed in id" do
+        BehaviourFactory.get!(:foobar).should == @behaviour
+      end
+
+      it "when passed in the actual behaviour; returns the behaviour" do
+        BehaviourFactory.get!(@behaviour).should == @behaviour
+      end
+
+      it "when passed unregistered value; raises error" do
+        proc do
+          BehaviourFactory.get!(:does_not_exist)
+        end.should raise_error
       end
     end    
   end

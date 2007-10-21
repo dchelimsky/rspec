@@ -31,13 +31,23 @@ module Spec
           BEHAVIOURS.delete(id)
         end
 
-        def get(id)
+        def get(id=:default)
+          id ||= :default
           if BEHAVIOURS.values.include?(id)
             return id
           else
-            return BEHAVIOURS[id]
+            behaviour = BEHAVIOURS[id]
+            return behaviour
           end
         end
+        
+        def get!(id=:default)
+          behaviour = get(id)
+          unless behaviour
+            raise "Behaviour #{id.inspect} is not registered. Use ::Spec::DSL::BehaviourFactory.register"
+          end
+          return behaviour
+        end  
 
         def create(*args, &block)
           opts = Hash === args.last ? args.last : {}
