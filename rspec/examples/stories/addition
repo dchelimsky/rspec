@@ -7,14 +7,18 @@ Story: simple addition
   Scenario: add one plus one
     Given an addend of 1
     And an addend of 1
+    
     When the addends are added
+    
     Then the sum should be 2
     And the corks should be popped
   
   Scenario: add two plus five
     Given an addend of 2
     And an addend of 5
+    
     When the addends are added
+    
     Then the sum should be 7
     And the corks should be popped
-    And the bottle should be emptied
+    And this is an unknown step that will result in a pending error
