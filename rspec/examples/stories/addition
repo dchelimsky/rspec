@@ -1,3 +1,6 @@
+This is a story about a calculator. The text up here above the Story: declaration
+won't be processed, so you can write whatever you wish!
+
 Story: simple addition
 
   As an accountant
@@ -12,6 +15,7 @@ Story: simple addition
     
     Then the sum should be 2
     And the corks should be popped
+    And this is an unimplemented step that will show up as pending
   
   Scenario: add two plus five
     Given an addend of 2
@@ -20,7 +24,6 @@ Story: simple addition
     When the addends are added
     
     Then the sum should be 7
-    And the corks should be popped
 
   Scenario: add 3 plus 2
     Given an addend of 3
