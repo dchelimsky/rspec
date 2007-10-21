@@ -53,10 +53,6 @@ module Spec
           @flash = ActionController::Flash::FlashHash.new
           session['flash'] = @flash
 
-          # This is to fix the JavaScriptGenerator::GeneratorMethods issue
-          # TODO: Refactor me
-          @lines = []
-
           ActionView::Helpers::AssetTagHelper::reset_javascript_include_default
         end
 
