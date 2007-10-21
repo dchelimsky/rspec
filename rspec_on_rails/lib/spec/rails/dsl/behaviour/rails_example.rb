@@ -12,6 +12,13 @@ module Spec
         )
         
         class << self
+          def before_eval #:nodoc:
+            super
+            prepend_before {setup}
+            append_after {teardown}
+            configure
+          end
+          
           def configure
             self.fixture_table_names = []
             self.fixture_class_names = {}
@@ -21,26 +28,9 @@ module Spec
             self.global_fixtures = Spec::Runner.configuration.global_fixtures
             self.fixtures(self.global_fixtures) if self.global_fixtures
           end
-
-          def before_eval #:nodoc:
-            super
-            prepend_before {setup}
-            append_after {teardown}
-            configure
-          end          
         end
 
         include Spec::Rails::Matchers
-
-        def initialize(example) #:nodoc:
-          super
-          def self.method_missing(method_name, *args, &block)
-            return ::Spec::Matchers::Be.new(method_name, *args) if method_name.starts_with?("be_")
-            return ::Spec::Matchers::Has.new(method_name, *args) if method_name.starts_with?("have_")
-            return @test_case.send(method_name, *args, &block) if @test_case.respond_to?(method_name)
-            super
-          end
-        end
 
         @@model_id = 1000
         # Creates a mock object instance for a +model_class+ with common
