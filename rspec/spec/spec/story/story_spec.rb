@@ -42,10 +42,10 @@ module Spec
       end
       
       it "should use the matchers it is told to" do
-        story = Story.new("title", "narrative", :matchers => matchers = StepMatchers.new) do end
+        story = Story.new("title", "narrative", :step_matchers => matchers = StepMatchers.new) do end
         assignee = mock("assignee")
         assignee.should_receive(:use).with(matchers)
-        story.assign_matchers(assignee)
+        story.assign_step_matchers_to(assignee)
       end
     end
   end

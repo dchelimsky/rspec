@@ -37,7 +37,7 @@ module Spec
           return if @stories.empty?
           @listeners.each { |l| l.run_started(scenarios.size) }
           @stories.each do |story|
-            story.assign_matchers(World)
+            story.assign_step_matchers_to(World)
             @current_story = story
             @listeners.each { |l| l.story_started(story.title, story.narrative) }
             scenarios = @scenarios_by_story[story.title]

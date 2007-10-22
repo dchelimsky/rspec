@@ -18,8 +18,8 @@ module Spec
         obj.instance_eval(&@body)
       end
       
-      def assign_matchers(assignee)
-        assignee.use(@params[:matchers])
+      def assign_step_matchers_to(assignee)
+        assignee.use(@params[:step_matchers])
       end
     end
   end

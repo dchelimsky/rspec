@@ -60,7 +60,7 @@ module Spec
             scenarios = @scenarios.collect { |scenario| scenario.to_proc }
             matchers = @matchers
             lambda do
-              Story title, narrative, :matchers => matchers do
+              Story title, narrative, :step_matchers => matchers do
                 scenarios.each { |scenario| instance_eval(&scenario) }
               end
             end
