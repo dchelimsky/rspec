@@ -89,19 +89,44 @@ module Spec
       end
     end
 
-    describe Options, "#examples_run?" do
+    describe Options, "#examples_run when there are behaviours" do
       before do
         @err = StringIO.new('')
         @out = StringIO.new('')
         @options = Options.new(@err, @out)
+        @options.add_behaviour Class.new(::Spec::DSL::Example)
+        @options.formatters << Formatter::BaseTextFormatter.new(@options, @out)
+      end
+
+      it "runs the Examples and outputs the result" do
+        @options.run_examples
+        @out.string.should include("0 examples, 0 failures")
       end
       
-      it "when run_examples called; returns true" do
+      it "sets #examples_run? to true" do
+        @options.examples_run?.should be_false
         @options.run_examples
         @options.examples_run?.should be_true
       end
+    end
 
-      it "when run_examples not called; returns false" do
+    describe Options, "#examples_run when there are no behaviours" do
+      before do
+        @err = StringIO.new('')
+        @out = StringIO.new('')
+        @options = Options.new(@err, @out)
+        @options.formatters << Formatter::BaseTextFormatter.new(@options, @out)
+      end
+
+      it "does not run Examples and does not output a result" do
+        @options.run_examples
+        @out.string.should_not include("examples")
+        @out.string.should_not include("failures")
+      end
+      
+      it "sets #examples_run? to false" do
+        @options.examples_run?.should be_false
+        @options.run_examples
         @options.examples_run?.should be_false
       end
     end

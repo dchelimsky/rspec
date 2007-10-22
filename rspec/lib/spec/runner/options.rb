@@ -69,6 +69,7 @@ module Spec
       end
 
       def run_examples
+        return true if behaviours.empty?
         runner = custom_runner || BehaviourRunner.new(self)
         success = runner.run
         @examples_run = true
