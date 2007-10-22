@@ -1,16 +1,16 @@
 dir = File.dirname(__FILE__)
-$LOAD_PATH.unshift("#{dir}/../../../../../rspec/lib")
-$LOAD_PATH.unshift("#{dir}/../spec_resources/controllers")
-$LOAD_PATH.unshift("#{dir}/../spec_resources/helpers")
-require "#{dir}/../../../../spec/spec_helper"
-require "#{dir}/../spec_resources/controllers/render_spec_controller"
-require "#{dir}/../spec_resources/controllers/rjs_spec_controller"
-require "#{dir}/../spec_resources/controllers/redirect_spec_controller"
-require "#{dir}/../spec_resources/controllers/action_view_base_spec_controller"
-require "#{dir}/../spec_resources/helpers/explicit_helper"
-require "#{dir}/../spec_resources/helpers/more_explicit_helper"
-require "#{dir}/../spec_resources/helpers/view_spec_helper"
-require "#{dir}/../spec_resources/helpers/plugin_application_helper"
+$LOAD_PATH.unshift(File.expand_path("#{dir}/../../../../../rspec/lib"))
+$LOAD_PATH.unshift(File.expand_path("#{dir}/../spec_resources/controllers"))
+$LOAD_PATH.unshift(File.expand_path("#{dir}/../spec_resources/helpers"))
+require File.expand_path("#{dir}/../../../../spec/spec_helper")
+require File.expand_path("#{dir}/../spec_resources/controllers/render_spec_controller")
+require File.expand_path("#{dir}/../spec_resources/controllers/rjs_spec_controller")
+require File.expand_path("#{dir}/../spec_resources/controllers/redirect_spec_controller")
+require File.expand_path("#{dir}/../spec_resources/controllers/action_view_base_spec_controller")
+require File.expand_path("#{dir}/../spec_resources/helpers/explicit_helper")
+require File.expand_path("#{dir}/../spec_resources/helpers/more_explicit_helper")
+require File.expand_path("#{dir}/../spec_resources/helpers/view_spec_helper")
+require File.expand_path("#{dir}/../spec_resources/helpers/plugin_application_helper")
 
 if Rails::VERSION::MINOR >= 2
   ActionController::Routing.controller_paths << "#{dir}/../spec_resources/controllers"
