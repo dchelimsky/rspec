@@ -167,9 +167,18 @@ module Spec
             @parser.create_given(line.gsub("And ",""))
           end
           
+          def given(line)
+            @parser.create_given(line.gsub("Given ",""))
+          end
+
           def event(line)
             @parser.create_when(line.gsub("When ",""))
             @parser.transition_to(:when_state)
+          end
+
+          def outcome(line)
+            @parser.create_then(line.gsub("Then ",""))
+            @parser.transition_to(:then_state)
           end
         end
         

@@ -73,30 +73,6 @@ module Spec
 					@parser.parse(["Story: simple addition","Scenario: add one plus one", "Given an addend of 1"])
 			  end
 			  
-			  it "should create a Given for an And after a Given" do
-			    @story_part_factory.should_receive(:create_story)
-          @story_part_factory.should_receive(:create_scenario)
-			    @story_part_factory.should_receive(:create_given).with("an addend of 1").twice
-					@parser.parse(["Story: simple addition","Scenario: add one plus one", "Given an addend of 1", "And an addend of 1"])
-			  end
-			  
-			  it "should create a Given for each of two Ands after a Given" do
-			    @story_part_factory.should_receive(:create_story)
-          @story_part_factory.should_receive(:create_scenario)
-			    @story_part_factory.should_receive(:create_given).with("an addend of 1")
-			    @story_part_factory.should_receive(:create_given).with("an addend of 2")
-			    @story_part_factory.should_receive(:create_given).with("an addend of 3")
-					@parser.parse(["Story: simple addition","Scenario: add one plus one", "Given an addend of 1", "And an addend of 2", "And an addend of 3"])
-			  end
-			  
-			  it "should create a When" do
-			    @story_part_factory.should_receive(:create_story)
-          @story_part_factory.should_receive(:create_scenario)
-          @story_part_factory.should_receive(:create_given).twice
-			    @story_part_factory.should_receive(:create_when).with("the addends are added")
-					@parser.parse(["Story: simple addition","Scenario: add one plus one", "Given an addend of 1", "And an addend of 1", "When the addends are added"])
-			  end
-			  
 			  it "should create a When after a Then" do
 			    @story_part_factory.should_receive(:create_story)
           @story_part_factory.should_receive(:create_scenario)
@@ -191,6 +167,49 @@ module Spec
 			  end
 			end
 			
+			describe StoryParser, "in Given state" do
+			  before(:each) do
+			    @story_part_factory = mock("story_part_factory")
+		    	@parser = StoryParser.new(@story_part_factory)
+			    @story_part_factory.stub!(:create_story)
+			    @story_part_factory.stub!(:create_scenario)
+			    @story_part_factory.should_receive(:create_given).with("first")
+			  end
+			  
+			  it "should create a Story for Story" do
+          @story_part_factory.should_receive(:create_story).with("number two","")
+					@parser.parse(["Story: s", "Scenario: s", "Given first", "Story: number two"])
+			  end
+			  
+			  it "should create a Scenario for Scenario" do
+          @story_part_factory.should_receive(:create_scenario).with("number two")
+					@parser.parse(["Story: s", "Scenario: s", "Given first", "Scenario: number two"])
+			  end
+
+			  it "should create a second Given for Given" do
+          @story_part_factory.should_receive(:create_given).with("second")
+					@parser.parse(["Story: s", "Scenario: s", "Given first", "Given second"])
+			  end
+			  
+			  it "should create a second Given for And" do
+          @story_part_factory.should_receive(:create_given).with("second")
+					@parser.parse(["Story: s", "Scenario: s", "Given first", "And second"])
+			  end
+			  
+			  it "should create a When for When" do
+          @story_part_factory.should_receive(:create_when).with("ever")
+					@parser.parse(["Story: s", "Scenario: s", "Given first", "When ever"])
+			  end
+			  
+			  it "should create a Then for Then" do
+          @story_part_factory.should_receive(:create_then).with("and there")
+					@parser.parse(["Story: s", "Scenario: s", "Given first", "Then and there"])
+			  end
+			  
+			  it "should ignore other" do
+					@parser.parse(["Story: s", "Scenario: s", "Given first", "this is ignored"])
+			  end
+			end
 		end
 	end
 end
