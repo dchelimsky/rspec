@@ -84,6 +84,8 @@ In alphabetical order (by last name)
 ** Patch for Spec::Rails on Windows
 * Nicholas Evans
 ** Patch [#10410] redirect_to does not behave consistently with regards to query string parameter ordering
+* Jens-Christian Fischer
+** Patch [#14388] protect_against_forgery? helper method not being picked up by rspec_on_rails
 * David Goodlad
 ** Patch for allowing non-Strings as partial_paths in view/specs
 ** Patch for file mappings for rspec/autotest integration

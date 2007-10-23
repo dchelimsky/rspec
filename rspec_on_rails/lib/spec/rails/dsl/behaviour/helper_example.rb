@@ -64,6 +64,13 @@ module Spec
           ERB.new(text).result(binding)
         end
 
+
+        # TODO: BT - Helper Examples should proxy method_missing to a Rails View instance.
+        # When that is done, remove this method
+        def protect_against_forgery?
+          false
+        end
+
         Spec::DSL::BehaviourFactory.register(:helper, self)
       end
 
