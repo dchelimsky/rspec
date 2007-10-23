@@ -186,7 +186,7 @@ module Spec
         @special_behaviour.prepend_before(:all) { fiddle << "special.prepend_before(:all, :behaviour_type => :special)" }
         @special_behaviour.append_before(:each) { fiddle << "special.append_before(:each, :behaviour_type => :special)" }
         
-        behaviour = Class.new(Example).describe("I'm a special behaviour", :behaviour_type => :special) {}
+        behaviour = Class.new(@special_behaviour).describe("I'm a special behaviour") {}
         behaviour.it("test") {true}
         suite = behaviour.suite
         suite.run
