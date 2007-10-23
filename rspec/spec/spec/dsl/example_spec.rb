@@ -365,19 +365,6 @@ module Spec
         behaviour = Class.new(ExampleSubclass).describe(ExampleDefinition){}
         behaviour.send(:described_type).should == ExampleDefinition
       end
-
-      it "when behaviour_type is registered; figures out its behaviour_type based on its name" do
-        behaviour = Class.new(ExampleSubclass).describe(ExampleDefinition){}
-        behaviour.send(:behaviour_type).should be_nil
-      end
-
-      it "when behaviour_type is not registered; returns nil" do
-        BehaviourFactory.register(:subclass, ExampleSubclass)
-        behaviour = Class.new(ExampleSubclass).describe(ExampleDefinition){}
-        behaviour.send(:behaviour_type).should == :subclass
-      end
-
-      # TODO - add an example about shared behaviours
     end
 
     describe Enumerable do

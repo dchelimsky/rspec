@@ -151,16 +151,3 @@ describe ControllerSpecController, :behaviour_type => :controller do
   it "should not require naming the controller if describe is passed a type" do
   end
 end
-
-module Spec
-  module Rails
-    module DSL
-      describe ControllerExample do
-        it "should tell you its behaviour_type is :controller" do
-          behaviour = Class.new(ControllerExample).describe("")
-          behaviour.behaviour_type.should == :controller
-        end
-      end
-    end
-  end
-end

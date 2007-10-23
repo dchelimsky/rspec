@@ -10,7 +10,6 @@ module Spec
         @example_definition = example.rspec_definition
         @errors = []
         @behaviour = example.rspec_behaviour
-        @behaviour_type = @behaviour.behaviour_type
       end
 
       def run

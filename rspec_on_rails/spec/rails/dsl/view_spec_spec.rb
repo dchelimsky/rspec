@@ -230,16 +230,3 @@ describe "An instantiated ViewExampleController", :behaviour_type => :view do
     @controller.controller_path.should == 'view_spec/foo'
   end
 end
-
-module Spec
-  module Rails
-    module DSL
-      describe ViewExample do
-        it "should tell you its behaviour_type is :view" do
-          behaviour = Class.new(ViewExample).describe("")
-          behaviour.behaviour_type.should == :view
-        end
-      end
-    end
-  end
-end

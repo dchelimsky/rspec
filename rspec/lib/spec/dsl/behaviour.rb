@@ -66,10 +66,6 @@ module Spec
         Kernel.warn("Example disabled: #{description}")
       end
 
-      def behaviour_type #:nodoc:
-        description ? description[:behaviour_type] : :default
-      end
-
       def described_type
         description.described_type
       end

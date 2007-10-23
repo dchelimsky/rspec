@@ -95,16 +95,25 @@ module Spec
         return true
       end
 
-      def_delegator :behaviour, :create_example_definition
-      def_delegator :behaviour, :description
-      def_delegator :behaviour, :behaviour_type
-      def_delegator :behaviour, :before_all_proc
-      def_delegator :behaviour, :before_each_proc
-      def_delegator :behaviour, :after_each_proc
-      def_delegator :behaviour, :after_all_proc
-      def_delegator :rspec_options, :examples, :specified_examples
-      def_delegator :rspec_options, :reporter
-      def_delegator :rspec_options, :dry_run
+      def create_example_definition(location)
+        behaviour.create_example_definition location
+      end
+
+      def description
+        behaviour.description
+      end
+
+      def specified_examples
+        rspec_options.examples
+      end
+
+      def reporter
+        rspec_options.reporter
+      end
+
+      def dry_run
+        rspec_options.dry_run
+      end
     end
   end
 end

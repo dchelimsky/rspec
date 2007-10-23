@@ -10,13 +10,6 @@ end
 module Spec
   module Rails
     module DSL
-      describe HelperExample do
-        it "should tell you its behaviour_type is :helper" do
-          behaviour = Class.new(HelperExample).describe("")
-          behaviour.behaviour_type.should == :helper
-        end
-      end
-      
       describe HelperExample, :behaviour_type => :helper do
         helper_name :explicit
 
