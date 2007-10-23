@@ -97,6 +97,17 @@ module Spec
 					@parser.parse(["Story: simple addition","Scenario: add one plus one", "Given an addend of 1", "And an addend of 1", "When the addends are added"])
 			  end
 			  
+			  it "should create a When after a Then" do
+			    @story_part_factory.should_receive(:create_story)
+          @story_part_factory.should_receive(:create_scenario)
+          @story_part_factory.should_receive(:create_given)
+			    @story_part_factory.should_receive(:create_when).with("b")
+			    @story_part_factory.should_receive(:create_then).with("c")
+			    @story_part_factory.should_receive(:create_when).with("d")
+			    @story_part_factory.should_receive(:create_then).with("e")
+					@parser.parse(["Story: foo","Scenario: bar","Given a","When b","Then c","When d","Then e"])
+			  end
+			  
 			  it "should create a When for an And after a When" do
 			    @story_part_factory.should_receive(:create_story)
           @story_part_factory.should_receive(:create_scenario)

@@ -188,6 +188,11 @@ module Spec
           def one_more_of_the_same(line)
             @parser.create_then(line.gsub("And ",""))
           end
+
+          def event(line)
+            @parser.create_when(line.gsub("When ",""))
+            @parser.transition_to(:when_state)
+          end
         end
 
       end
