@@ -3,10 +3,11 @@ module Spec
     module Runner
 
       class StoryMediator
-        def initialize(matchers, runner)
+        def initialize(matchers, runner, options={})
           @matchers = matchers
           @story_parts = []
           @runner = runner
+          @options = options
         end
         
         def stories
@@ -14,7 +15,7 @@ module Spec
         end
         
         def create_story(title, narrative)
-          @story_parts << StoryPart.new(title, narrative, @matchers)
+          @story_parts << StoryPart.new(title, narrative, @matchers, @options)
         end
         
         def create_scenario(title)
@@ -47,11 +48,12 @@ module Spec
         end
         
         class StoryPart
-          def initialize(title, narrative, matchers)
+          def initialize(title, narrative, matchers, options)
             @title = title
             @narrative = narrative
             @scenarios = []
             @matchers = matchers
+            @options = options
           end
           
           def to_proc
@@ -59,8 +61,9 @@ module Spec
             narrative = @narrative
             scenarios = @scenarios.collect { |scenario| scenario.to_proc }
             matchers = @matchers
+            options = @options.merge(:step_matchers => matchers)
             lambda do
-              Story title, narrative, :step_matchers => matchers do
+              Story title, narrative, options do
                 scenarios.each { |scenario| instance_eval(&scenario) }
               end
             end

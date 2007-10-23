@@ -12,8 +12,9 @@ module Spec
         #   PlainTextStoryRunner.new do |runner|
         #     runner.load 'path/to/file'
         #   end
-        def initialize(path=nil)
-          @story_file = path
+        def initialize(*args)
+          @options = Hash === args.last ? args.pop : {}
+          @story_file = args.empty? ? nil : args.shift
           yield self if block_given?
         end
         
@@ -23,7 +24,7 @@ module Spec
         
         def run
           raise "You must set a path to the file with the story. See the RDoc." if @story_file.nil?
-          mediator = Spec::Story::Runner::StoryMediator.new step_matchers, Spec::Story::Runner.story_runner
+          mediator = Spec::Story::Runner::StoryMediator.new step_matchers, Spec::Story::Runner.story_runner, @options
           parser = Spec::Story::Runner::StoryParser.new mediator
 
           story_text = File.read(@story_file)          

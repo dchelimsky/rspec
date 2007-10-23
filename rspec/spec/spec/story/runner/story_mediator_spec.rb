@@ -105,6 +105,15 @@ module Spec
           run_stories
         end
         
+        it "should pass options to the stories it creates" do
+          @mediator = StoryMediator.new @step_matchers, @runner, :foo => :bar
+          @mediator.create_story "story title", "story narrative"
+
+          run_stories
+          
+          @runner.stories.first[:foo].should == :bar
+        end
+        
       end
       
     end

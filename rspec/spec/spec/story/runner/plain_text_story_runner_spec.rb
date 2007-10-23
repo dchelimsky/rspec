@@ -33,7 +33,7 @@ module Spec
         it "should build up a mediator with its own step matchers and the singleton story_runner" do
           runner = PlainTextStoryRunner.new("path")
           Spec::Story::Runner.should_receive(:story_runner).and_return(story_runner = mock("story runner"))
-          Spec::Story::Runner::StoryMediator.should_receive(:new).with(runner.step_matchers, story_runner).
+          Spec::Story::Runner::StoryMediator.should_receive(:new).with(runner.step_matchers, story_runner, {}).
             and_return(mediator = stub("mediator", :run_stories => nil))
           runner.run
         end
@@ -67,6 +67,14 @@ module Spec
           lambda {
             runner.run
           }.should raise_error(RuntimeError, "You must set a path to the file with the story. See the RDoc.")
+        end
+        
+        it "should pass options to the mediator" do
+          runner = PlainTextStoryRunner.new("path", :foo => :bar)
+          Spec::Story::Runner::StoryMediator.should_receive(:new).
+            with(anything, anything, :foo => :bar).
+            and_return(mediator = stub("mediator", :run_stories => nil))
+          runner.run
         end
       end
     end
