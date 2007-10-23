@@ -52,6 +52,8 @@ In alphabetical order (by last name)
 ** mock_model in Spec::Rails
 * Ola Bini
 ** Paired with Aslak to iron out minor JRuby issues.
+* Mike Breen
+** Patch [#13098] Error running "script/spec_server" after upgrading from 1.0.5 to 1.0.8
 * Wincent Colaiuta
 ** Patch [#11254] RSpec syntax coloring and function pop-up integration in TextMate
 ** Patch [#11252] Should be able to re-load file containing shared behaviours without raising an exception
