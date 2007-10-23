@@ -1,7 +1,6 @@
 module Spec
   module DSL
     class Configuration
-      
       # Chooses what mock framework to use. Example:
       #
       #   Spec::Runner.configure do |config|
@@ -60,27 +59,11 @@ module Spec
         modules, options = args_and_options(*args)
         required_behaviour_type = options[:behaviour_type]
         required_behaviour_type = required_behaviour_type.to_sym if required_behaviour_type
-        @modules ||= {}
-        @modules[required_behaviour_type] ||= []
-        @modules[required_behaviour_type] += modules
+        modules.each do |mod|
+          BehaviourFactory.get!(required_behaviour_type).send(:include, mod)
+        end
       end
 
-      def modules_for(required_behaviour_type) #:nodoc:
-        @modules ||= {}
-        modules = @modules[nil] || [] # general ones
-        if required_behaviour_type
-          modules.push(*@modules[required_behaviour_type.to_sym])
-        end
-        modules.uniq.compact
-      end
-      
-      # This is just for cleanup in RSpec's own examples
-      def exclude(*modules) #:nodoc:
-        @modules.each do |behaviour_type, mods|
-          modules.each{|m| mods.delete(m)}
-        end
-      end
-      
       # Defines global predicate matchers. Example:
       #
       #   config.predicate_matchers[:swim] = :can_swim?
@@ -144,7 +127,6 @@ module Spec
       def mock_framework_path(framework_name)
         File.expand_path(File.join(File.dirname(__FILE__), "..", "..", "..", "plugins", "mock_frameworks", framework_name))
       end
-      
     end
   end
 end

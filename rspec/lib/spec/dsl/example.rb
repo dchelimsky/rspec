@@ -15,7 +15,6 @@ module Spec
 
         def suite
           description = description ? description.description : "Rspec Description Suite"
-          include_example_modules
           suite = ExampleSuite.new(description, self)
           ordered_example_definitions.each do |example_definition|
             suite << new(example_definition)
@@ -60,12 +59,6 @@ module Spec
           else
             require Spec::Runner.configuration.mock_framework
             include Spec::Plugins::MockFramework
-          end
-        end
-
-        def include_example_modules
-          Spec::Runner.configuration.modules_for(behaviour_type).each do |mod|
-            include mod
           end
         end
 
