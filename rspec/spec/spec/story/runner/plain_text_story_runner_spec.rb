@@ -53,6 +53,21 @@ module Spec
           mediator.should_receive(:run_stories)
           runner.run
         end
+        
+        it "should accept a block instead of a path" do
+          runner = PlainTextStoryRunner.new do |runner|
+            runner.load("path/to/story")
+          end
+          File.should_receive(:read).with("path/to/story").and_return("this\nand that")
+          runner.run
+        end
+        
+        it "should tell you if you try to run with no path set" do
+          runner = PlainTextStoryRunner.new
+          lambda {
+            runner.run
+          }.should raise_error(RuntimeError, "You must set a path to the file with the story. See the RDoc.")
+        end
       end
     end
   end

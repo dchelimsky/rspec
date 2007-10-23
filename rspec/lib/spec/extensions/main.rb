@@ -29,22 +29,12 @@ module Spec
         behaviour
       end
       alias :context :describe
-
-      # Creates and registers a StepMatcher for use with StoryRunner.
-      #
-      # == Example
-      #
-      #   step_matcher(:given, "a $account_type account with $amount dollars") do |account_type, amount|
-      #     @account = AccountFactory.create_account(account_type, amount)
-      #   end
-      #
-      #   Story ...
-      #     Scenario ...
-      #       Given "a savings account with 50 dollars"
-      #
-      def step_matcher(type, name, &block)
-        rspec_story_step_matchers.create_matcher(type, name, &block)
+      
+      def run_story(*args,&block)
+        runner = Spec::Story::Runner::PlainTextStoryRunner.new(*args,&block)
+        runner.run
       end
+
     private
     
       def rspec_options

@@ -23,4 +23,3 @@ Story: simple addition
     When the addends are added
     
     Then the sum should be 7
-    And this is an unimplemented step that will show up as pending
