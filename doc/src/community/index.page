@@ -56,6 +56,7 @@ In alphabetical order (by last name)
 ** Patch [#11254] RSpec syntax coloring and function pop-up integration in TextMate
 ** Patch [#11252] Should be able to re-load file containing shared behaviours without raising an exception
 ** Patch [#12010] Nicer failure message formatting
+** Patch [#14923] Nested shared behaviours get executed twice
 * Bob Cotton
 ** Patch [#13118] Rinda support for Spec::Distributed
 ** Support for context_setup and context_teardown (now before(:all) and after(:all))
