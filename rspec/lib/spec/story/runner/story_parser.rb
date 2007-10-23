@@ -1,6 +1,3 @@
-# This is the beginning of an experimental StoryParser based on conversations
-# on the rspec list: http://rubyforge.org/pipermail/rspec-users/2007-October/003704.html
-
 module Spec
   module Story
     module Runner
@@ -106,7 +103,22 @@ module Spec
             @parser.create_scenario(line)
             @parser.transition_to(:scenario_state)
           end
+
+          def given(line)
+            @parser.create_given(line.gsub("Given ",""))
+            @parser.transition_to(:given_state)
+          end
           
+          def event(line)
+            @parser.create_when(line.gsub("When ",""))
+            @parser.transition_to(:when_state)
+          end
+          
+          def outcome(line)
+            @parser.create_then(line.gsub("Then ",""))
+            @parser.transition_to(:then_state)
+          end
+
           def eof
           end
           
@@ -122,6 +134,10 @@ module Spec
         end
         
         class StoryState < State
+          def one_more_of_the_same(line)
+            raise IllegalStepError.new("Story","And")
+          end
+
           def story(line)
             @parser.create_story
             @parser.add_story_line(line)
@@ -152,13 +168,15 @@ module Spec
           def eof
             @parser.create_story
           end
-          
         end
 
         class ScenarioState < State
-          def given(line)
-            @parser.create_given(line.gsub("Given ",""))
-            @parser.transition_to(:given_state)
+          def one_more_of_the_same(line)
+            raise IllegalStepError.new("Scenario","And")
+          end
+
+          def scenario(line)
+            @parser.create_scenario(line)
           end
         end
         
@@ -170,16 +188,6 @@ module Spec
           def given(line)
             @parser.create_given(line.gsub("Given ",""))
           end
-
-          def event(line)
-            @parser.create_when(line.gsub("When ",""))
-            @parser.transition_to(:when_state)
-          end
-
-          def outcome(line)
-            @parser.create_then(line.gsub("Then ",""))
-            @parser.transition_to(:then_state)
-          end
         end
         
         class WhenState < State
@@ -187,9 +195,8 @@ module Spec
             @parser.create_when(line.gsub("And ",""))
           end
 
-          def outcome(line)
-            @parser.create_then(line.gsub("Then ",""))
-            @parser.transition_to(:then_state)
+          def event(line)
+            @parser.create_when(line.gsub("When ",""))
           end
         end
 
@@ -198,14 +205,12 @@ module Spec
             @parser.create_then(line.gsub("And ",""))
           end
 
-          def event(line)
-            @parser.create_when(line.gsub("When ",""))
-            @parser.transition_to(:when_state)
+          def outcome(line)
+            @parser.create_then(line.gsub("Then ",""))
           end
         end
 
       end
-
     end
   end
 end
