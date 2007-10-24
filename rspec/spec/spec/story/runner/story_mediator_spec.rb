@@ -7,14 +7,14 @@ module Spec
       describe StoryMediator do
         before(:each) do
           $story_mediator_spec_value = nil
-          @step_matchers = StepMatchers.new
-          @step_matchers.create_matcher(:given, "given") { $story_mediator_spec_value = "given matched" }
-          @step_matchers.create_matcher(:when, "when") { $story_mediator_spec_value = "when matched" }
-          @step_matchers.create_matcher(:then, "then") { $story_mediator_spec_value = "then matched" }
+          @step_group = StepMatchers.new
+          @step_group.create_matcher(:given, "given") { $story_mediator_spec_value = "given matched" }
+          @step_group.create_matcher(:when, "when") { $story_mediator_spec_value = "when matched" }
+          @step_group.create_matcher(:then, "then") { $story_mediator_spec_value = "then matched" }
           
           @scenario_runner = ScenarioRunner.new
           @runner = StoryRunner.new @scenario_runner
-          @mediator = StoryMediator.new @step_matchers, @runner
+          @mediator = StoryMediator.new @step_group, @runner
         end
         
         def run_stories
@@ -106,7 +106,7 @@ module Spec
         end
         
         it "should pass options to the stories it creates" do
-          @mediator = StoryMediator.new @step_matchers, @runner, :foo => :bar
+          @mediator = StoryMediator.new @step_group, @runner, :foo => :bar
           @mediator.create_story "story title", "story narrative"
 
           run_stories

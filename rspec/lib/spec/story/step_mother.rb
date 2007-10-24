@@ -4,8 +4,8 @@ module Spec
       def initialize
         @steps = Hash.new do |hsh,type|
           hsh[type] = Hash.new do |hsh,name|
-            if step_matchers and matcher = step_matchers.find(type, name)
-              matcher
+            if step_group and step = step_group.find(type, name)
+              step
             else
               SimpleStep.new(name) do
                 raise Spec::DSL::ExamplePendingError.new("Unimplemented step: #{name}")
@@ -15,8 +15,8 @@ module Spec
         end
       end
       
-      def use(step_matchers)
-        @step_matchers = step_matchers
+      def use(step_group)
+        @step_group = step_group
       end
       
       def store(type, name, step)
@@ -36,8 +36,8 @@ module Spec
       end
 
       private
-        def step_matchers
-          @step_matchers
+        def step_group
+          @step_group
         end
       
     end

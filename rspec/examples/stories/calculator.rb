@@ -2,7 +2,7 @@ $:.push File.join(File.dirname(__FILE__), *%w[.. .. lib])
 require 'spec'
 
 class AdditionMatchers < Spec::Story::StepMatchers
-  step_matchers do |add|
+  steps do |add|
     add.given("an addend of $addend") do |addend|
       @adder ||= Adder.new
       @adder << addend.to_i
@@ -10,24 +10,24 @@ class AdditionMatchers < Spec::Story::StepMatchers
   end
 end
 
-matchers = AdditionMatchers.new do |add|  
+steps = AdditionMatchers.new do |add|  
   add.then("the sum should be $sum") do |sum|
     @sum.should == sum.to_i
   end
 end
 
-matchers.when("they are added") do
+steps.when("they are added") do
   @sum = @adder.sum
 end
 
-# This Story uses step_matchers (see above) instead of blocks
+# This Story uses steps (see above) instead of blocks
 # passed to Given, When and Then
 
 Story "addition", %{
   As an accountant
   I want to add numbers
   So that I can count some beans
-}, :step_matchers => matchers do
+}, :steps => steps do
   Scenario "2 + 3" do
     Given "an addend of 2"
     And "an addend of 3"

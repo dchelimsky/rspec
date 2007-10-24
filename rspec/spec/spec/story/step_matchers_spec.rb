@@ -4,32 +4,32 @@ module Spec
   module Story
     describe StepMatchers do
       before(:each) do
-        @step_matchers = StepMatchers.new
+        @step_group = StepMatchers.new
       end
       
       it "should not find a matcher if empty" do
-        @step_matchers.find(:given, "this and that").should be_nil
+        @step_group.find(:given, "this and that").should be_nil
       end
       
       it "should create a given matcher" do
-        step_matcher = @step_matchers.given("this and that") {}
-        @step_matchers.find(:given, "this and that").should equal(step_matcher)
+        step_matcher = @step_group.given("this and that") {}
+        @step_group.find(:given, "this and that").should equal(step_matcher)
       end
       
       it "should create a when matcher" do
-        step_matcher = @step_matchers.when("this and that") {}
-        @step_matchers.find(:when, "this and that").should equal(step_matcher)
+        step_matcher = @step_group.when("this and that") {}
+        @step_group.find(:when, "this and that").should equal(step_matcher)
       end
       
       it "should create a them matcher" do
-        step_matcher = @step_matchers.then("this and that") {}
-        @step_matchers.find(:then, "this and that").should equal(step_matcher)
+        step_matcher = @step_group.then("this and that") {}
+        @step_group.find(:then, "this and that").should equal(step_matcher)
       end
       
       it "should add a matcher object" do
         step_matcher = StepMatcher.new("this and that") {}
-        @step_matchers.add(:given, step_matcher)
-        @step_matchers.find(:given, "this and that").should equal(step_matcher)
+        @step_group.add(:given, step_matcher)
+        @step_group.find(:given, "this and that").should equal(step_matcher)
       end
       
       it "should add it matchers to another StepMatchers (with one given)" do
@@ -61,8 +61,8 @@ module Spec
       it "should append another collection" do
         matchers_to_append = StepMatchers.new
         step_matcher = matchers_to_append.given("this and that") {}
-        @step_matchers << matchers_to_append
-        @step_matchers.find(:given, "this and that").should equal(step_matcher)
+        @step_group << matchers_to_append
+        @step_group.find(:given, "this and that").should equal(step_matcher)
       end
       
       it "should append several other collections" do
@@ -70,27 +70,27 @@ module Spec
         more_matchers_to_append = StepMatchers.new
         first_matcher = matchers_to_append.given("this and that") {}
         second_matcher = more_matchers_to_append.given("and the other") {}
-        @step_matchers << matchers_to_append
-        @step_matchers << more_matchers_to_append
-        @step_matchers.find(:given, "this and that").should equal(first_matcher)
-        @step_matchers.find(:given, "and the other").should equal(second_matcher)
+        @step_group << matchers_to_append
+        @step_group << more_matchers_to_append
+        @step_group.find(:given, "this and that").should equal(first_matcher)
+        @step_group.find(:given, "and the other").should equal(second_matcher)
       end
       
       it "should yield itself on initialization" do
         begin
-          $step_matchers_spec_matcher = nil
+          $step_group_spec_step = nil
           matchers = StepMatchers.new do |matchers|
-            $step_matchers_spec_matcher = matchers.given("foo") {}
+            $step_group_spec_step = matchers.given("foo") {}
           end
-          $step_matchers_spec_matcher.matches?("foo").should be_true
+          $step_group_spec_step.matches?("foo").should be_true
         ensure
-          $step_matchers_spec_matcher = nil
+          $step_group_spec_step = nil
         end
       end
       
       it "should support defaults" do
         class StepMatchersSubclass < StepMatchers
-          step_matchers do |add|
+          steps do |add|
             add.given("foo") {}
           end
         end

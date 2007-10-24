@@ -1,5 +1,5 @@
 class AdditionSteps < Spec::Story::StepMatchers
-  step_matchers do |add|
+  steps do |add|
     add.given("an addend of $addend") do |addend|
       @adder ||= Adder.new
       @adder << addend.to_i

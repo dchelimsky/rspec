@@ -3,11 +3,6 @@ require File.dirname(__FILE__) + '/story_helper'
 module Spec
   module Story
     describe StepMother do
-      before(:each) do
-        @step_matchers, $rspec_story_step_matchers = $rspec_story_step_matchers, mock("step matcher collection")
-        $rspec_story_step_matchers.stub!(:find)
-      end
-      
       it 'should store a step by name and type' do
         # given
         step_mother = StepMother.new
@@ -74,18 +69,14 @@ module Spec
         }
       end
       
-      it "should use assigned step_matchers" do
+      it "should use assigned steps" do
         step_mother = StepMother.new
         
-        step_mother.use(matchers = mock("matchers"))
+        step_mother.use(steps = mock("matchers"))
         
-        matchers.should_receive(:find).with(:given, "a guy named Jose")
+        steps.should_receive(:find).with(:given, "a guy named Jose")
         
         step_mother.find(:given, "a guy named Jose")
-      end
-      
-      after(:each) do
-        $rspec_story_step_matchers, @step_matchers = @step_matchers, nil
       end
     end
   end

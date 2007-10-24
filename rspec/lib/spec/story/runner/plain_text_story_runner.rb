@@ -24,7 +24,7 @@ module Spec
         
         def run
           raise "You must set a path to the file with the story. See the RDoc." if @story_file.nil?
-          mediator = Spec::Story::Runner::StoryMediator.new step_matchers, Spec::Story::Runner.story_runner, @options
+          mediator = Spec::Story::Runner::StoryMediator.new steps, Spec::Story::Runner.story_runner, @options
           parser = Spec::Story::Runner::StoryParser.new mediator
 
           story_text = File.read(@story_file)          
@@ -33,10 +33,10 @@ module Spec
           mediator.run_stories
         end
         
-        def step_matchers
-          @step_matchers ||= Spec::Story::StepMatchers.new
-          yield @step_matchers if block_given?
-          @step_matchers
+        def steps
+          @step_group ||= Spec::Story::StepMatchers.new
+          yield @step_group if block_given?
+          @step_group
         end
       end
     end

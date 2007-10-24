@@ -404,7 +404,10 @@ module Spec
       
       it "should use assigned matchers" do
         world = World.create
-        World.use(matchers = mock("matchers"))
+        
+        World.should_receive(:use).with(steps = Object.new)
+        
+        World.use(steps)
       end
     end
   end

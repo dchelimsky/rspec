@@ -35,7 +35,7 @@ describe "The main object extended by MainExtensions" do
     File.should_receive(:read).with("some/path").and_return("Story: foo")
     $main_spec_step_matchers = nil
     @main.run_story("some/path") do |runner|
-      $main_spec_step_matchers = runner.step_matchers
+      $main_spec_step_matchers = runner.steps
     end
     $main_spec_step_matchers.should be_an_instance_of(Spec::Story::StepMatchers)
   end

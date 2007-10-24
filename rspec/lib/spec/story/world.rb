@@ -36,8 +36,8 @@ module Spec
           @step_mother ||= StepMother.new
         end
                 
-        def use(step_matchers)
-          step_mother.use(step_matchers)
+        def use(steps)
+          step_mother.use(steps)
         end
 
         # TODO: investigate duplication between #run_with_suspended_listeners and #store_and_call

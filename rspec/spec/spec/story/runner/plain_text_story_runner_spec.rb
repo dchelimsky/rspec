@@ -10,14 +10,14 @@ module Spec
           File.stub!(:read).with("path").and_return("this\nand that")
         end
 
-        it "should provide access to matchers" do
+        it "should provide access to steps" do
           runner = PlainTextStoryRunner.new("path")
           
-          runner.step_matchers do |add|
+          runner.steps do |add|
             add.given("baz") {}
           end
           
-          runner.step_matchers.find(:given, "baz").should_not be_nil
+          runner.steps.find(:given, "baz").should_not be_nil
         end
         
         it "should parse a story file" do
@@ -30,10 +30,10 @@ module Spec
           }
         end
         
-        it "should build up a mediator with its own step matchers and the singleton story_runner" do
+        it "should build up a mediator with its own steps and the singleton story_runner" do
           runner = PlainTextStoryRunner.new("path")
           Spec::Story::Runner.should_receive(:story_runner).and_return(story_runner = mock("story runner"))
-          Spec::Story::Runner::StoryMediator.should_receive(:new).with(runner.step_matchers, story_runner, {}).
+          Spec::Story::Runner::StoryMediator.should_receive(:new).with(runner.steps, story_runner, {}).
             and_return(mediator = stub("mediator", :run_stories => nil))
           runner.run
         end
