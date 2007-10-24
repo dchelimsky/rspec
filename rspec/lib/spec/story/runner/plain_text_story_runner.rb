@@ -34,7 +34,7 @@ module Spec
         end
         
         def steps
-          @step_group ||= Spec::Story::StepMatchers.new
+          @step_group ||= Spec::Story::StepGroup.new
           yield @step_group if block_given?
           @step_group
         end

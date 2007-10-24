@@ -37,7 +37,7 @@ describe "The main object extended by MainExtensions" do
     @main.run_story("some/path") do |runner|
       $main_spec_step_matchers = runner.steps
     end
-    $main_spec_step_matchers.should be_an_instance_of(Spec::Story::StepMatchers)
+    $main_spec_step_matchers.should be_an_instance_of(Spec::Story::StepGroup)
   end
   
   it "should tell the PlainTextStoryRunner to run with run_story" do

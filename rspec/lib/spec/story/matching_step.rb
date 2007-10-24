@@ -1,6 +1,6 @@
 module Spec
   module Story
-    class StepMatcher
+    class MatchingStep
       def initialize(expression, &block)
         raise unless block_given?
         assign_name(expression)

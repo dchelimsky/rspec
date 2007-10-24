@@ -7,7 +7,7 @@ module Spec
       describe StoryMediator do
         before(:each) do
           $story_mediator_spec_value = nil
-          @step_group = StepMatchers.new
+          @step_group = StepGroup.new
           @step_group.create_matcher(:given, "given") { $story_mediator_spec_value = "given matched" }
           @step_group.create_matcher(:when, "when") { $story_mediator_spec_value = "when matched" }
           @step_group.create_matcher(:then, "then") { $story_mediator_spec_value = "then matched" }

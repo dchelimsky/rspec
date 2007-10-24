@@ -1,7 +1,7 @@
 $:.push File.join(File.dirname(__FILE__), *%w[.. .. lib])
 require 'spec'
 
-class AdditionMatchers < Spec::Story::StepMatchers
+class AdditionMatchers < Spec::Story::StepGroup
   steps do |add|
     add.given("an addend of $addend") do |addend|
       @adder ||= Adder.new

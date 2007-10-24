@@ -1,8 +1,8 @@
 module Spec
   module Story
-    class StepMatchers
+    class StepGroup
       def self.steps
-        @step_group ||= StepMatchers.new(false)
+        @step_group ||= StepGroup.new(false)
         yield @step_group if block_given?
         @step_group
       end
@@ -50,7 +50,7 @@ module Spec
       
       # TODO - make me private
       def create_matcher(type, name, &block)
-        matcher = StepMatcher.new(name, &block)
+        matcher = MatchingStep.new(name, &block)
         @hash_of_lists_of_steps[type] << matcher
         matcher
       end
