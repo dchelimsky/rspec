@@ -43,13 +43,23 @@ module Spec
       end
       
       def with_steps_for(tag, &block)
-        steps = Spec::Story::StepGroup.new
+        steps = Spec::Story::StepGroup.new do
+          extend StoryRunnerStepGroupAdapter
+        end
         steps << rspec_story_steps[tag]
         steps.instance_eval(&block) if block
         steps
       end
 
     private
+
+      module StoryRunnerStepGroupAdapter
+        def run(path)
+          runner = Spec::Story::Runner::PlainTextStoryRunner.new(path)
+          runner.steps << self
+          runner.run
+        end
+      end
     
       def rspec_story_steps
         $rspec_story_steps ||= step_group_hash
