@@ -27,12 +27,6 @@ module Spec
       #   end
       class HelperExample < FunctionalExample
         class << self
-          def before_eval #:nodoc:
-            prepend_before {helper_setup}
-            append_after {teardown}
-            configure
-          end
-
           # The helper name....
           def helper_name(name=nil)
             send :include, "#{name}_helper".camelize.constantize
@@ -44,9 +38,11 @@ module Spec
         end
         ActionController::Routing::Routes.named_routes.install(self)
 
-        def helper_setup #:nodoc:
+        before(:all) do
           @controller_class_name = 'Spec::Rails::DSL::HelperBehaviourController'
-          functional_setup
+        end
+
+        before(:each) do
           @controller.request = @request
           @controller.url = ActionController::UrlRewriter.new @request, {} # url_for
 

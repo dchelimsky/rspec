@@ -14,8 +14,6 @@ module Spec
         class << self
           def before_eval #:nodoc:
             super
-            prepend_before {setup}
-            append_after {teardown}
             configure
           end
           
@@ -29,6 +27,9 @@ module Spec
             self.fixtures(self.global_fixtures) if self.global_fixtures
           end
         end
+
+        before(:each) {setup}
+        after(:each) {teardown}
 
         include Spec::Rails::Matchers
 

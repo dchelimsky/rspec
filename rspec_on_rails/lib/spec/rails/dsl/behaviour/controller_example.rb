@@ -63,12 +63,6 @@ module Spec
       #   end
       class ControllerExample < FunctionalExample
         class << self
-          def before_eval # :nodoc:
-            prepend_before {controller_setup}
-            append_after {teardown}
-            configure
-          end
-
           # Use this to instruct RSpec to render views in your controller examples (Integration Mode).
           #
           #   describe ThingController do
@@ -96,22 +90,7 @@ module Spec
           attr_accessor :controller_class_name # :nodoc:
         end
 
-        attr_reader :response, :request, :controller
-
-        def initialize(example)
-          super
-          controller_class_name = self.class.controller_class_name
-          if controller_class_name
-            @controller_class_name = controller_class_name.to_s
-          else
-            @controller_class_name = self.class.described_type.to_s
-          end
-          @integrate_views = self.class.integrate_views?
-        end
-
-        def controller_setup #:nodoc:
-          functional_setup
-
+        before(:each) do
           # Some Rails apps explicitly disable ActionMailer in environment.rb
           if defined?(ActionMailer)
             @deliveries = []
@@ -134,6 +113,19 @@ module Spec
           end
           @controller.integrate_views! if @integrate_views
           @controller.session = session
+        end
+
+        attr_reader :response, :request, :controller
+
+        def initialize(example)
+          super
+          controller_class_name = self.class.controller_class_name
+          if controller_class_name
+            @controller_class_name = controller_class_name.to_s
+          else
+            @controller_class_name = self.class.described_type.to_s
+          end
+          @integrate_views = self.class.integrate_views?
         end
 
         # Uses ActionController::Routing::Routes to generate
