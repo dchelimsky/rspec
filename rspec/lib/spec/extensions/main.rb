@@ -30,6 +30,7 @@ module Spec
       end
       alias :context :describe
       
+      # Deprecated ;)
       def run_story(*args, &block)
         runner = Spec::Story::Runner::PlainTextStoryRunner.new(*args)
         runner.instance_eval(&block) if block
@@ -42,11 +43,11 @@ module Spec
         steps
       end
       
-      def with_steps_for(tag, &block)
+      def with_steps_for(*tags, &block)
         steps = Spec::Story::StepGroup.new do
           extend StoryRunnerStepGroupAdapter
         end
-        steps << rspec_story_steps[tag]
+        tags.each {|tag| steps << rspec_story_steps[tag]}
         steps.instance_eval(&block) if block
         steps
       end
@@ -54,8 +55,8 @@ module Spec
     private
 
       module StoryRunnerStepGroupAdapter
-        def run(path)
-          runner = Spec::Story::Runner::PlainTextStoryRunner.new(path)
+        def run(path, options={})
+          runner = Spec::Story::Runner::PlainTextStoryRunner.new(path, options)
           runner.steps << self
           runner.run
         end

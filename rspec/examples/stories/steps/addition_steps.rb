@@ -9,5 +9,8 @@ end
 # This appends to them
 steps_for(:addition) do
   When("the addends are added")  { @sum = @adder.sum }
+end
+
+steps_for(:more_addition) do
   Then("the sum should be $sum") { |sum| @sum.should == sum.to_i }
 end

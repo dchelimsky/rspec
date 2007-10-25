@@ -105,19 +105,17 @@ module Spec
         second_group.should have_step(:given, "second")
       end
       
-      it "should run a story with steps for foo" do
-        pending("ugh!!!!! this should work")
-        $step_was_invoked = false
-        @main.steps_for(:key) do
-          Given("first") {
-            $step_was_invoked = true
-          }
+      it "should run a story with steps for arbitrary groups" do
+        pending("this working ...")
+        $login_name = nil
+        @main.steps_for(:login) do
+          Given("logged in as $name") {|name| $login_name = name}
         end
-        File.should_receive(:read).with('path/to/file').and_return("Story: foo\nScenario: bar\nGiven first\nWhen second\nThen third")
-        @main.with_steps_for(:key) do
+        File.should_receive(:read).with('path/to/file').and_return("Story: foo\nScenario: bar\nGiven logged in as admin")
+        @main.with_steps_for(:login) do
           run 'path/to/file'
         end
-        $step_was_invoked.should be_true
+        $login_name.should == "admin"
       end
 
       def have_step(type, name)
