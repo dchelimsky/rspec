@@ -124,8 +124,7 @@ module Spec
         sub.find(:given, "a given").should_not be_nil
         sub.find(:when, "a when").should_not be_nil
         sub.find(:then, "a then").should_not be_nil
-      end
-      
+      end      
     end
   end
 end

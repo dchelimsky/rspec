@@ -1,5 +1,14 @@
 module Spec
   module Story
+
+    class StepGroupHash < Hash
+      def initialize
+        super do |h,k|
+          h[k] = Spec::Story::StepGroup.new
+        end
+      end
+    end
+
     class StepGroup
       def self.steps(&block)
         @step_group ||= StepGroup.new(false)

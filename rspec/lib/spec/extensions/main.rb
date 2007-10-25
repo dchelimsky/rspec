@@ -29,48 +29,8 @@ module Spec
         behaviour
       end
       alias :context :describe
-      
-      # Deprecated ;)
-      def run_story(*args, &block)
-        runner = Spec::Story::Runner::PlainTextStoryRunner.new(*args)
-        runner.instance_eval(&block) if block
-        runner.run
-      end
-      
-      def steps_for(tag, &block)
-        steps = rspec_story_steps[tag]
-        steps.instance_eval(&block) if block
-        steps
-      end
-      
-      def with_steps_for(*tags, &block)
-        steps = Spec::Story::StepGroup.new do
-          extend StoryRunnerStepGroupAdapter
-        end
-        tags.each {|tag| steps << rspec_story_steps[tag]}
-        steps.instance_eval(&block) if block
-        steps
-      end
 
     private
-
-      module StoryRunnerStepGroupAdapter
-        def run(path, options={})
-          runner = Spec::Story::Runner::PlainTextStoryRunner.new(path, options)
-          runner.steps << self
-          runner.run
-        end
-      end
-    
-      def rspec_story_steps
-        $rspec_story_steps ||= step_group_hash
-      end
-      
-      def step_group_hash
-        Hash.new do |h,k|
-          h[k] = Spec::Story::StepGroup.new
-        end
-      end
     
       def rspec_options
         $rspec_options ||= begin; \
