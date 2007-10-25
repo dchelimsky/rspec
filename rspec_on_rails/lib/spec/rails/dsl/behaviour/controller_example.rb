@@ -23,11 +23,11 @@ module Spec
       #
       # To run in this mode, include the +integrate_views+ declaration
       # in your controller context:
-      # 
+      #
       #   describe ThingController do
       #     integrate_views
       #     ...
-      # 
+      #
       # In this mode, controller specs are run in the same way that
       # rails functional tests run - one set of tests for both the
       # controllers and the views. The benefit of this approach is that
@@ -83,7 +83,7 @@ module Spec
           def integrate_views? # :nodoc:
             @integrate_views
           end
-          
+
           # You MUST provide a controller_name within the context of
           # your controller specs:
           #
@@ -93,19 +93,20 @@ module Spec
           def controller_name(name)
             @controller_class_name = "#{name}_controller".camelize
           end
-          attr_accessor :controller_class_name # :nodoc:          
+          attr_accessor :controller_class_name # :nodoc:
         end
 
         attr_reader :response, :request, :controller
 
         def initialize(example)
           super
-          if rspec_behaviour.controller_class_name
-            @controller_class_name = rspec_behaviour.controller_class_name.to_s
+          controller_class_name = self.class.controller_class_name
+          if controller_class_name
+            @controller_class_name = controller_class_name.to_s
           else
-            @controller_class_name = rspec_behaviour.described_type.to_s
+            @controller_class_name = self.class.described_type.to_s
           end
-          @integrate_views = rspec_behaviour.integrate_views?
+          @integrate_views = self.class.integrate_views?
         end
 
         def controller_setup #:nodoc:

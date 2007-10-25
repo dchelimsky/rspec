@@ -84,16 +84,14 @@ module Spec
       include ::Spec::Matchers
       include ::Spec::DSL::Pending
 
-      attr_reader :rspec_behaviour, :rspec_definition
-      alias_method :behaviour, :rspec_behaviour
+      attr_reader :rspec_definition
       alias_method :definition, :rspec_definition
 
       def initialize(definition) #:nodoc:
-        @rspec_behaviour = self.class
         @rspec_definition = definition
         @_result = ::Test::Unit::TestResult.new
 
-        predicate_matchers = @rspec_behaviour.predicate_matchers
+        predicate_matchers = self.class.predicate_matchers
         (class << self; self; end).class_eval do
           plugin_mock_framework
           define_predicate_matchers predicate_matchers
@@ -106,7 +104,7 @@ module Spec
       end
 
       def copy_instance_variables_from(obj)
-        super(obj, [:@rspec_definition, :@rspec_behaviour, :@_result])
+        super(obj, [:@rspec_definition, :@_result])
       end
 
       def before_each
