@@ -1,18 +1,18 @@
 module Spec
   module Story
     class StepGroup
-      def self.steps
+      def self.steps(&block)
         @step_group ||= StepGroup.new(false)
-        yield @step_group if block_given?
+        @step_group.instance_eval(&block) if block
         @step_group
       end
       
-      def initialize(init_defaults=true)
+      def initialize(init_defaults=true,&block)
         @hash_of_lists_of_steps = Hash.new {|h, k| h[k] = []}
         if init_defaults
           self.class.steps.add_to(self)
         end
-        yield self if block_given?
+        instance_eval(&block) if block
       end
       
       def find(type, name)
@@ -22,17 +22,22 @@ module Spec
         return nil
       end
       
-      def given(name, &block)
+      def Given(name, &block)
         create_matcher(:given, name, &block)
       end
       
-      def when(name, &block)
+      def When(name, &block)
         create_matcher(:when, name, &block)
       end
       
-      def then(name, &block)
+      def Then(name, &block)
         create_matcher(:then, name, &block)
       end
+
+      alias :given :Given
+      alias :when :When
+      alias :then :Then
+      
       
       def add(type, list_of_new_matchers)
         (@hash_of_lists_of_steps[type] << list_of_new_matchers).flatten!
@@ -54,6 +59,7 @@ module Spec
         @hash_of_lists_of_steps[type] << matcher
         matcher
       end
+      
     end
   end
 end

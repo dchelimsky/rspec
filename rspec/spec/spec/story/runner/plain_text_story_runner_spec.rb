@@ -76,6 +76,16 @@ module Spec
             and_return(mediator = stub("mediator", :run_stories => nil))
           runner.run
         end
+        
+        it "should provide access to its options" do
+          runner = PlainTextStoryRunner.new("path")
+          runner[:foo] = :bar
+          Spec::Story::Runner::StoryMediator.should_receive(:new).
+            with(anything, anything, :foo => :bar).
+            and_return(mediator = stub("mediator", :run_stories => nil))
+          runner.run
+        end
+        
       end
     end
   end

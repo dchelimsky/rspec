@@ -18,6 +18,10 @@ module Spec
           yield self if block_given?
         end
         
+        def []=(key, value)
+          @options[key] = value
+        end
+        
         def load(path)
           @story_file = path
         end

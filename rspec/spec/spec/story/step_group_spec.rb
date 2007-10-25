@@ -97,6 +97,35 @@ module Spec
         StepGroupSubclass.new.find(:given, "foo").should_not be_nil
       end
       
+      it "should create a Given" do
+        sub = Class.new(StepGroup).new
+        step = sub.Given("foo") {}
+        sub.find(:given, "foo").should == step
+      end
+      
+      it "should create a When" do
+        sub = Class.new(StepGroup).new
+        step = sub.When("foo") {}
+        sub.find(:when, "foo").should == step
+      end
+      
+      it "should create a Then" do
+        sub = Class.new(StepGroup).new
+        step = sub.Then("foo") {}
+        sub.find(:then, "foo").should == step
+      end
+      
+      it "should create steps in a block" do
+        sub = Class.new(StepGroup).new do
+          Given("a given") {}
+          When("a when") {}
+          Then("a then") {}
+        end
+        sub.find(:given, "a given").should_not be_nil
+        sub.find(:when, "a when").should_not be_nil
+        sub.find(:then, "a then").should_not be_nil
+      end
+      
     end
   end
 end

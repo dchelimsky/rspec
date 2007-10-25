@@ -30,12 +30,36 @@ module Spec
       end
       alias :context :describe
       
-      def run_story(*args,&block)
-        runner = Spec::Story::Runner::PlainTextStoryRunner.new(*args,&block)
+      def run_story(*args, &block)
+        runner = Spec::Story::Runner::PlainTextStoryRunner.new(*args)
+        runner.instance_eval(&block) if block
         runner.run
+      end
+      
+      def steps_for(tag, &block)
+        steps = rspec_story_steps[tag]
+        steps.instance_eval(&block) if block
+        steps
+      end
+      
+      def with_steps_for(tag, &block)
+        steps = Spec::Story::StepGroup.new
+        steps << rspec_story_steps[tag]
+        steps.instance_eval(&block) if block
+        steps
       end
 
     private
+    
+      def rspec_story_steps
+        $rspec_story_steps ||= step_group_hash
+      end
+      
+      def step_group_hash
+        Hash.new do |h,k|
+          h[k] = Spec::Story::StepGroup.new
+        end
+      end
     
       def rspec_options
         $rspec_options ||= begin; \

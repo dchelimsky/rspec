@@ -2,7 +2,7 @@ module Spec
   module Story
     class MatchingStep
       def initialize(expression, &block)
-        raise unless block_given?
+        raise "No block given to step: #{expression}" unless block_given?
         assign_name(expression)
         assign_expression(expression)
         init_module(expression, &block)
