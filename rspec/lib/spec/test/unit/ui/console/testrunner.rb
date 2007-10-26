@@ -5,6 +5,23 @@ module Test
     module UI
       module Console
         class TestRunner
+          alias_method :started_without_rspec, :started
+          def started_with_rspec(result)
+            @result = result
+            @need_to_output_started = true
+          end
+          alias_method :started, :started_with_rspec
+
+          alias_method :test_started_without_rspec, :test_started
+          def test_started_with_rspec(name)
+            if @need_to_output_started
+              output("Started")
+              @need_to_output_started = false
+            end
+            test_started_without_rspec(name)
+          end
+          alias_method :test_started, :test_started_with_rspec
+
           alias_method :test_finished_without_rspec, :test_finished
           def test_finished_with_rspec(name)
             test_finished_without_rspec(name)
