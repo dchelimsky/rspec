@@ -188,7 +188,7 @@ In alphabetical order (by last name)
 * Nick Sieger
 ** Spec::Rails patches for stats
 * Daniel Siemssen
-** Spec::Rails patches for rails_spec_server
+** Spec::Rails patches for spec_server
 * Kouhei Sutou
 ** Patches for Emacs
 ** Handling of Interrupt

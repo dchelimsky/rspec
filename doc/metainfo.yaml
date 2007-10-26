@@ -11,6 +11,10 @@ documentation/index.page:
   orderInfo: 20
 documentation/expectations.page:
   orderInfo: 20
+documentation/stories.page:
+  orderInfo: 25
+documentation/specs.page:
+  orderInfo: 30
 documentation/mocks/:
   orderInfo: 40
 documentation/mocks/mocks.page:
