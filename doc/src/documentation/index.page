@@ -65,7 +65,7 @@ like <code>#setup</code> and <code>#teardown</code> in xUnit. You use them to
 set up the state _before_ each example is executed, and tear down any
 resources _after_ each example.
 
-h4. #before and #after
+h2. #before and #after
 
 You can use <code>#before</code> and/or <code>#after</code> to define
 code that executes before and after each example or only once per Behaviour:
@@ -112,7 +112,7 @@ end
 generally discouraged because it introduces dependencies between the Examples.
 Still, it might prove useful for very expensive operations if you know what you are doing.
 
-h4. Helper Methods
+h2. Helper Methods
 
 You can write helper methods directly within a Behaviour:
 
@@ -129,7 +129,7 @@ You can write helper methods directly within a Behaviour:
 end
 </ruby>
 
-h4. Reusable Helper Methods
+h2. Reusable Helper Methods
 
 You can include helper methods in multiple Behaviours by expressing them within
 a module, and then including that module in your Behaviour:
@@ -153,7 +153,7 @@ describe "A new account" do
 end
 </ruby>
 
-h3. Shared behaviors
+h2. Shared behaviors
 
 You can create shared behaviors and include those behaviors into other behaviors.
 
@@ -233,48 +233,39 @@ Officer
 - should be optionable
 </ruby>
 
+h2. Pending Examples
 
-h3. Pending Examples
+There are three ways to mark an example as "pending."
 
-Beginning with rSpec-1.0, you may omit the block on an an example:
+h3. Leave out the block:
 
 <ruby>
-it "should do something"
+it "should say foo"
 </ruby>
 
-the summary report lists that example as not implemented.
+The output will say PENDING (Not Yet Implemented).
+
+h3. Use the pending method with no block:
 
 <ruby>
-37 examples, 0 failures, 1 not implemented
-</ruby>
-
-However, if you wish to have a body for your example, but still have
-the example be marked as pending, use the #pending method:
-
-<ruby>
-it "should do something" do
-   pending("for some reason")
-   true.should == true
+it "should say foo" do
+  pending("get the vocal chords working")
+  subject.should say("foo")
 end
 </ruby>
 
-Additionally, suppose you have a behaviour that exposes a known bug in
-the system. For reasons beyond your control this bug will not be fixed
-immediately, but you don't want it failing your build. However, you
-would like to be notified when the bug has been fixed.
+The output will say PENDING (get the vocal chords working).
 
-For this scenario, #pending optionally accepts a block. 
+h3. Use the pending method with a block:
 
 <ruby>
-it "should do something" do
-   pending("for obvious reasons") do
-     true.should == false
-   end
+it "should say foo" do
+  pending("get the vocal chords working") do
+    subject.should say("foo")
+  end
 end
 </ruby>
 
-If this block throws any exception, the example is still treated as
-pending. However, if the block does not throw any exceptions, #pending
-will raise a Spec::Expectations::ExpectationNotMetError alerting you
-to the fact that something has changed.
-
+The output will say PENDING (get the vocal chords working), and the
+example will fail telling you to it is FIXED as soon as the body of
+the block raises no errors.
