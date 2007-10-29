@@ -15,7 +15,7 @@ module Spec
 
         def have_step(type, name)
           return simple_matcher(%[step group containing a #{type} named #{name.inspect}]) do |actual|
-            Spec::Story::MatchingStep === actual.find(type, name)
+            Spec::Story::Step === actual.find(type, name)
           end
         end
       end

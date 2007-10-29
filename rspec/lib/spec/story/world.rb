@@ -55,7 +55,7 @@ module Spec
         
         def store_and_call(instance, type, name, *args, &block)
           if block_given?
-            step_mother.store(type, name, SimpleStep.new(name, &block))
+            step_mother.store(type, Step.new(name, &block))
           end
           step = step_mother.find(type, name)
           listeners.each { |l| l.found_step(type, name, *args) }

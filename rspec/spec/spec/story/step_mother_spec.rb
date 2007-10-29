@@ -6,8 +6,8 @@ module Spec
       it 'should store a step by name and type' do
         # given
         step_mother = StepMother.new
-        step = SimpleStep.new("a given", &lambda {})
-        step_mother.store(:given, "a given", step)
+        step = Step.new("a given", &lambda {})
+        step_mother.store(:given, step)
         
         # when
         found = step_mother.find(:given, "a given")
@@ -35,18 +35,18 @@ module Spec
         step = step_mother.find(:given, "doesn't exist")
         
         # then
-        step.should be_an_instance_of(SimpleStep)
+        step.should be_an_instance_of(Step)
         
         lambda do
-          step.perform(Object.new, nil)
+          step.perform(Object.new, "doesn't exist")
         end.should raise_error(Spec::DSL::ExamplePendingError, /Unimplemented/)
       end
       
       it 'should clear itself' do
         # given
         step_mother = StepMother.new
-        step = SimpleStep.new("a given") do end
-        step_mother.store(:given, "a given", step)
+        step = Step.new("a given") do end
+        step_mother.store(:given, step)
 
         # when
         step_mother.clear
@@ -55,28 +55,16 @@ module Spec
         step_mother.should be_empty
       end
       
-      it "should look for a step matcher" do
-        #given
-        step_mother = StepMother.new
-        step_mother.use(matchers = mock("matchers"))
-        
-        during {
-          #when
-          step_mother.find(:given, "some text")
-        }.expect {
-          #then
-          matchers.should_receive(:find).with(:given, "some text")
-        }
-      end
-      
       it "should use assigned steps" do
         step_mother = StepMother.new
         
-        step_mother.use(steps = mock("matchers"))
+        step = Step.new('step') {}
+        step_group = StepGroup.new
+        step_group.add(:given, step)
         
-        steps.should_receive(:find).with(:given, "a guy named Jose")
-        
-        step_mother.find(:given, "a guy named Jose")
+        step_mother.use(step_group)
+                
+        step_mother.find(:given, "step").should equal(step)
       end
     end
   end

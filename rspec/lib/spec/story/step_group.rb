@@ -25,8 +25,8 @@ module Spec
       end
       
       def find(type, name)
-        @hash_of_lists_of_steps[type].each do |matcher|
-          return matcher if matcher.matches?(name)
+        @hash_of_lists_of_steps[type].each do |step|
+          return step if step.matches?(name)
         end
         return nil
       end
@@ -48,8 +48,19 @@ module Spec
       alias :then :Then
       
       
-      def add(type, list_of_new_matchers)
-        (@hash_of_lists_of_steps[type] << list_of_new_matchers).flatten!
+      def add(type, steps)
+        (@hash_of_lists_of_steps[type] << steps).flatten!
+      end
+      
+      def clear
+        @hash_of_lists_of_steps.clear
+      end
+      
+      def empty?
+        [:given, :when, :then].each do |type|
+          return false unless @hash_of_lists_of_steps[type].empty?
+        end
+        return true
       end
       
       def add_to(other_step_matchers)
@@ -59,12 +70,12 @@ module Spec
       end
       
       def <<(other_step_matchers)
-        other_step_matchers.add_to(self)
+        other_step_matchers.add_to(self) if other_step_matchers.respond_to?(:add_to)
       end
       
       # TODO - make me private
       def create_matcher(type, name, &block)
-        matcher = MatchingStep.new(name, &block)
+        matcher = Step.new(name, &block)
         @hash_of_lists_of_steps[type] << matcher
         matcher
       end

@@ -12,32 +12,32 @@ module Spec
       end
       
       it "should create a given matcher" do
-        step_matcher = @step_group.given("this and that") {}
-        @step_group.find(:given, "this and that").should equal(step_matcher)
+        step = @step_group.given("this and that") {}
+        @step_group.find(:given, "this and that").should equal(step)
       end
       
       it "should create a when matcher" do
-        step_matcher = @step_group.when("this and that") {}
-        @step_group.find(:when, "this and that").should equal(step_matcher)
+        step = @step_group.when("this and that") {}
+        @step_group.find(:when, "this and that").should equal(step)
       end
       
       it "should create a them matcher" do
-        step_matcher = @step_group.then("this and that") {}
-        @step_group.find(:then, "this and that").should equal(step_matcher)
+        step = @step_group.then("this and that") {}
+        @step_group.find(:then, "this and that").should equal(step)
       end
       
       it "should add a matcher object" do
-        step_matcher = MatchingStep.new("this and that") {}
-        @step_group.add(:given, step_matcher)
-        @step_group.find(:given, "this and that").should equal(step_matcher)
+        step = Step.new("this and that") {}
+        @step_group.add(:given, step)
+        @step_group.find(:given, "this and that").should equal(step)
       end
       
       it "should add it matchers to another StepGroup (with one given)" do
         source = StepGroup.new
         target = StepGroup.new
-        step_matcher = source.given("this and that") {}
+        step = source.given("this and that") {}
         source.add_to target
-        target.find(:given, "this and that").should equal(step_matcher)
+        target.find(:given, "this and that").should equal(step)
       end
       
       it "should add it matchers to another StepGroup (with some of each type)" do
@@ -60,9 +60,9 @@ module Spec
       
       it "should append another collection" do
         matchers_to_append = StepGroup.new
-        step_matcher = matchers_to_append.given("this and that") {}
+        step = matchers_to_append.given("this and that") {}
         @step_group << matchers_to_append
-        @step_group.find(:given, "this and that").should equal(step_matcher)
+        @step_group.find(:given, "this and that").should equal(step)
       end
       
       it "should append several other collections" do
@@ -124,7 +124,26 @@ module Spec
         sub.find(:given, "a given").should_not be_nil
         sub.find(:when, "a when").should_not be_nil
         sub.find(:then, "a then").should_not be_nil
-      end      
+      end
+      
+      it "should clear itself" do
+        step = @step_group.given("this and that") {}
+        @step_group.clear
+        @step_group.find(:given, "this and that").should be_nil
+      end
+      
+      it "should tell you when it is empty" do
+        @step_group.should be_empty
+      end
+      
+      it "should tell you when it is not empty" do
+        @step_group.given("this and that") {}
+        @step_group.should_not be_empty
+      end
+      
+      it "should handle << nil" do
+        @step_group << nil
+      end
     end
   end
 end
