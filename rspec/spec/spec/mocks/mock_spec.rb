@@ -18,7 +18,8 @@ module Spec
           @mock.rspec_verify
           violated
         rescue MockExpectationError => e
-          e.backtrace[0].should match(/#{File.basename(__FILE__)}:#{expected_error_line}$/)
+          # NOTE - this regexp ended w/ $, but jruby adds extra info at the end of the line
+          e.backtrace[0].should match(/#{File.basename(__FILE__)}:#{expected_error_line}/)
         end
       end
       

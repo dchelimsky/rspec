@@ -92,23 +92,6 @@ module Spec
         @obj.stub!(:existing_instance_method).and_return(:mock_value)
         @obj.existing_instance_method.should equal(:mock_value)
         @obj.rspec_verify
-        # TODO JRUBY: This causes JRuby to fail with:
-        # NativeException in 'Stub should revert to original instance method if existed'
-        # java.lang.ArrayIndexOutOfBoundsException: 0
-        # org.jruby.internal.runtime.methods.IterateCallable.internalCall(IterateCallable.java:63)
-        # org.jruby.internal.runtime.methods.AbstractCallable.call(AbstractCallable.java:64)
-        # org.jruby.runtime.ThreadContext.yieldInternal(ThreadContext.java:574)
-        # org.jruby.runtime.ThreadContext.yieldSpecificBlock(ThreadContext.java:549)
-        # org.jruby.runtime.Block.call(Block.java:158)
-        # org.jruby.RubyProc.call(RubyProc.java:118)
-        # org.jruby.internal.runtime.methods.ProcMethod.internalCall(ProcMethod.java:69)
-        # org.jruby.internal.runtime.methods.AbstractMethod.call(AbstractMethod.java:58)
-        # org.jruby.RubyObject.callMethod(RubyObject.java:379)
-        # org.jruby.RubyObject.callMethod(RubyObject.java:331)
-        # org.jruby.evaluator.EvaluationState.evalInternal(EvaluationState.java:472)
-        # org.jruby.evaluator.EvaluationState.evalInternal(EvaluationState.java:462)
-        # org.jruby.evaluator.EvaluationState.evalInternal(EvaluationState.java:390)
-        # org.jruby.evaluator.EvaluationState.eval(EvaluationState.java:133)
         @obj.existing_instance_method.should equal(:original_value)
       end
       

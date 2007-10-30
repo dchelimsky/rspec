@@ -18,7 +18,6 @@
   </style>
 </head>
 <body>
-
 <div class="rspec-report">
   <script type="text/javascript">
     // <![CDATA[
@@ -177,7 +176,6 @@ a {
 </div>
 
 <div class="results">
-
 <div class="behaviour">
   <dl>
   <dt id="behaviour_1">Mocker</dt>
@@ -190,9 +188,11 @@ a {
       <span class="failed_spec_name">should fail when expected message not received</span>
       <div class="failure" id="failure_1">
         <div class="message"><pre>Mock 'poke me' expected :poke with (any args) once, but received it 0 times</pre></div>
-        <div class="backtrace"><pre>./failing_examples/mocking_example.rb:13:
-./spec/spec/runner/formatter/html_formatter_spec.rb:17:
-./spec/spec/runner/formatter/html_formatter_spec.rb:13:</pre></div>
+        <div class="backtrace"><pre>/Users/david/projects/ruby/jruby/testsuites/rspec/target/rspec/./failing_examples/mocking_example.rb:13:in `should_receive'
+/Users/david/projects/ruby/jruby/testsuites/rspec/target/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:24:in `run'
+/Users/david/projects/ruby/jruby/testsuites/rspec/target/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:20:in `chdir'
+/Users/david/projects/ruby/jruby/testsuites/rspec/target/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:20:in `chdir'
+/Users/david/projects/ruby/jruby/testsuites/rspec/target/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:20:in `instance_eval'</pre></div>
     <pre class="ruby"><code><span class="linenum">11</span>  it "should fail when expected message not received" do
 <span class="linenum">12</span>    mock = mock("poke me")
 <span class="offending"><span class="linenum">13</span>    mock.should_receive(:poke)</span>
@@ -206,9 +206,12 @@ a {
       <span class="failed_spec_name">should fail when messages are received out of order</span>
       <div class="failure" id="failure_2">
         <div class="message"><pre>Mock 'one two three' received :three out of order</pre></div>
-        <div class="backtrace"><pre>./failing_examples/mocking_example.rb:22:
-./spec/spec/runner/formatter/html_formatter_spec.rb:17:
-./spec/spec/runner/formatter/html_formatter_spec.rb:13:</pre></div>
+        <div class="backtrace"><pre>/Users/david/projects/ruby/jruby/testsuites/rspec/target/rspec/./failing_examples/mocking_example.rb:22:in `three'
+/Users/david/projects/ruby/jruby/testsuites/rspec/target/rspec/./failing_examples/mocking_example.rb:16:in `instance_eval'
+/Users/david/projects/ruby/jruby/testsuites/rspec/target/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:24:in `run'
+/Users/david/projects/ruby/jruby/testsuites/rspec/target/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:20:in `chdir'
+/Users/david/projects/ruby/jruby/testsuites/rspec/target/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:20:in `chdir'
+/Users/david/projects/ruby/jruby/testsuites/rspec/target/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:20:in `instance_eval'</pre></div>
     <pre class="ruby"><code><span class="linenum">20</span>    mock.should_receive(:three).ordered
 <span class="linenum">21</span>    mock.one
 <span class="offending"><span class="linenum">22</span>    mock.three</span>
@@ -222,9 +225,11 @@ a {
       <span class="failed_spec_name">should get yelled at when sending unexpected messages</span>
       <div class="failure" id="failure_3">
         <div class="message"><pre>Mock 'don't talk to me' expected :any_message_at_all with (any args) 0 times, but received it once</pre></div>
-        <div class="backtrace"><pre>./failing_examples/mocking_example.rb:28:
-./spec/spec/runner/formatter/html_formatter_spec.rb:17:
-./spec/spec/runner/formatter/html_formatter_spec.rb:13:</pre></div>
+        <div class="backtrace"><pre>/Users/david/projects/ruby/jruby/testsuites/rspec/target/rspec/./failing_examples/mocking_example.rb:28:in `should_not_receive'
+/Users/david/projects/ruby/jruby/testsuites/rspec/target/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:24:in `run'
+/Users/david/projects/ruby/jruby/testsuites/rspec/target/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:20:in `chdir'
+/Users/david/projects/ruby/jruby/testsuites/rspec/target/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:20:in `chdir'
+/Users/david/projects/ruby/jruby/testsuites/rspec/target/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:20:in `instance_eval'</pre></div>
     <pre class="ruby"><code><span class="linenum">26</span>  it "should get yelled at when sending unexpected messages" do
 <span class="linenum">27</span>    mock = mock("don't talk to me")
 <span class="offending"><span class="linenum">28</span>    mock.should_not_receive(:any_message_at_all)</span>
@@ -238,9 +243,12 @@ a {
       <span class="failed_spec_name">has a bug we need to fix</span>
       <div class="failure" id="failure_4">
         <div class="message"><pre>Expected pending 'here is the bug' to fail. No Error was raised.</pre></div>
-        <div class="backtrace"><pre>./failing_examples/mocking_example.rb:33:
-./spec/spec/runner/formatter/html_formatter_spec.rb:17:
-./spec/spec/runner/formatter/html_formatter_spec.rb:13:</pre></div>
+        <div class="backtrace"><pre>/Users/david/projects/ruby/jruby/testsuites/rspec/target/rspec/./failing_examples/mocking_example.rb:33:in `pending'
+/Users/david/projects/ruby/jruby/testsuites/rspec/target/rspec/./failing_examples/mocking_example.rb:33:in `instance_eval'
+/Users/david/projects/ruby/jruby/testsuites/rspec/target/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:24:in `run'
+/Users/david/projects/ruby/jruby/testsuites/rspec/target/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:20:in `chdir'
+/Users/david/projects/ruby/jruby/testsuites/rspec/target/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:20:in `chdir'
+/Users/david/projects/ruby/jruby/testsuites/rspec/target/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:20:in `instance_eval'</pre></div>
     <pre class="ruby"><code><span class="linenum">31</span>
 <span class="linenum">32</span>  it "has a bug we need to fix" do
 <span class="offending"><span class="linenum">33</span>    pending "here is the bug" do</span>
@@ -268,10 +276,11 @@ Diff:
 +behaviour driven development
  framework for Ruby
 </pre></div>
-        <div class="backtrace"><pre>./failing_examples/diffing_spec.rb:13:in `=='
-./failing_examples/diffing_spec.rb:13:
-./spec/spec/runner/formatter/html_formatter_spec.rb:17:
-./spec/spec/runner/formatter/html_formatter_spec.rb:13:</pre></div>
+        <div class="backtrace"><pre>/Users/david/projects/ruby/jruby/testsuites/rspec/target/rspec/./failing_examples/diffing_spec.rb:13:in `=='
+/Users/david/projects/ruby/jruby/testsuites/rspec/target/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:24:in `run'
+/Users/david/projects/ruby/jruby/testsuites/rspec/target/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:20:in `chdir'
+/Users/david/projects/ruby/jruby/testsuites/rspec/target/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:20:in `chdir'
+/Users/david/projects/ruby/jruby/testsuites/rspec/target/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:20:in `instance_eval'</pre></div>
     <pre class="ruby"><code><span class="linenum">11</span>framework for Ruby
 <span class="linenum">12</span>EOF
 <span class="offending"><span class="linenum">13</span>    usa.should == uk</span>
@@ -301,9 +310,12 @@ Diff:
 +species=tortoise
  &gt;
 </pre></div>
-        <div class="backtrace"><pre>./failing_examples/diffing_spec.rb:34:
-./spec/spec/runner/formatter/html_formatter_spec.rb:17:
-./spec/spec/runner/formatter/html_formatter_spec.rb:13:</pre></div>
+        <div class="backtrace"><pre>/Users/david/projects/ruby/jruby/testsuites/rspec/target/rspec/./failing_examples/diffing_spec.rb:34:in `should'
+/Users/david/projects/ruby/jruby/testsuites/rspec/target/rspec/./failing_examples/diffing_spec.rb:31:in `instance_eval'
+/Users/david/projects/ruby/jruby/testsuites/rspec/target/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:24:in `run'
+/Users/david/projects/ruby/jruby/testsuites/rspec/target/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:20:in `chdir'
+/Users/david/projects/ruby/jruby/testsuites/rspec/target/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:20:in `chdir'
+/Users/david/projects/ruby/jruby/testsuites/rspec/target/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:20:in `instance_eval'</pre></div>
     <pre class="ruby"><code><span class="linenum">32</span>    expected = Animal.new "bob", "giraffe"
 <span class="linenum">33</span>    actual   = Animal.new "bob", "tortoise"
 <span class="offending"><span class="linenum">34</span>    expected.should eql(actual)</span>
