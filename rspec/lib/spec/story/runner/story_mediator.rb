@@ -23,15 +23,15 @@ module Spec
         end
         
         def create_given(name)
-          current_scenario_part.add_step StepPart.new(:given, name, @step_group)
+          current_scenario_part.add_step StepPart.new(:given, name)
         end
         
         def create_when(name)
-          current_scenario_part.add_step StepPart.new(:when, name, @step_group)
+          current_scenario_part.add_step StepPart.new(:when, name)
         end
         
         def create_then(name)
-          current_scenario_part.add_step StepPart.new(:then, name, @step_group)
+          current_scenario_part.add_step StepPart.new(:then, name)
         end
         
         def run_stories
@@ -60,8 +60,7 @@ module Spec
             title = @title
             narrative = @narrative
             scenarios = @scenarios.collect { |scenario| scenario.to_proc }
-            step_group = @step_group
-            options = @options.merge(:steps => step_group)
+            options = @options.merge(:steps => @step_group)
             lambda do
               Story title, narrative, options do
                 scenarios.each { |scenario| instance_eval(&scenario) }
@@ -86,24 +85,23 @@ module Spec
           
           def to_proc
             name = @name
-            steps = @steps.collect { |s| s.to_proc }
+            steps = @steps.collect { |step| step.to_proc }
             lambda do
               Scenario name do
-                steps.each { |s| instance_eval(&s) }
+                steps.each { |scenario| instance_eval(&scenario) }
               end
             end
           end
           
-          def add_step(s)
-            @steps << s
+          def add_step(step)
+            @steps << step
           end
         end
         
         class StepPart
-          def initialize(type, name, step_group)
+          def initialize(type, name)
             @type = type
             @name = name
-            @step_group = step_group
           end
           
           def to_proc

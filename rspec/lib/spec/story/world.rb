@@ -43,7 +43,7 @@ module Spec
         # TODO: investigate duplication between #run_with_suspended_listeners and #store_and_call
         
         def run_with_suspended_listeners(instance, type, name, step)
-          current_listeners = Array.new(@listeners)
+          current_listeners = Array.new(listeners)
           begin
             listeners.each { |l| l.found_step(type, name) }
             @listeners.clear
