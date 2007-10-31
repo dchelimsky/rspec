@@ -2,58 +2,87 @@
 
 == Test/Unit integration
 
-As of 2698:
+Intermingling of specs and tests should work the same with the
+spec command or the ruby command. Also, when a spec or a test
+fails, the output should be complete (including the normal spec-only
+output AND test-only output).
 
-  $ ruby examples/spec_and_test_together.rb 
-  Loaded suite examples/spec_and_test_together
-  Started
-  .
-  Finished in 0.000236 seconds.
+As of 2801:
 
-  1 tests, 1 assertions, 0 failures, 0 errors
-  .
+------------------------------------------
+Running w/ `ruby`
+- runs specs and tests together
+------------------------------------------
+$ ruby examples/spec_and_test_together.rb 
+Loaded suite examples/spec_and_test_together
+Started
+.
+Finished in 0.000321 seconds.
 
-  Finished in 0.011123 seconds
+1 tests, 1 assertions, 0 failures, 0 errors
+.
 
-  1 example, 0 failures  
+Finished in 0.000593 seconds
 
-That works only if you use ruby (not the spec command) and if the requires go in this order:
+1 example, 0 failures
 
-  require 'spec'
-  require 'test/unit'
-  
-We need to get it to where it works like that regardless of whether you use the ruby or spec commands
-and regardless of the load order.  
+------------------------------------------
+Running w/ `spec`
+- only runs the specs
+-- it should also run the tests
+------------------------------------------
+$ ruby bin/spec examples/spec_and_test_together.rb 
+.
 
-== What's happening as of 2698:
+Finished in 0.006251 seconds
 
-If you reverse the requires you get this:
+1 example, 0 failures
 
-  $ ruby examples/spec_and_test_together.rb 
-  .
+------------------------------------------
+Running w/ `ruby` with a failing test
+- prohibits the spec output
+-- it should allow spec output
+------------------------------------------
+$ ruby examples/spec_and_test_together.rb 
+Loaded suite examples/spec_and_test_together
+Started
+F
+Finished in 0.005884 seconds.
 
-  Finished in 0.011724 seconds
+  1) Failure:
+test_should_run_alongside_spec(NeighborlyTest) [examples/spec_and_test_together.rb:18]:
+<5> expected but was
+<4>.
 
-  1 example, 0 failures
+1 tests, 1 assertions, 1 failures, 0 errors
 
-If you use the spec command you get this regardless of the order of the requires (because
-rspec gets loaded first regardless):
+------------------------------------------
+Running w/ `ruby` with a failing spec
+- allows spec and test output
+------------------------------------------
+$ ruby examples/spec_and_test_together.rb 
+Loaded suite examples/spec_and_test_together
+Started
+.
+Finished in 0.000321 seconds.
 
-  $ ruby bin/spec examples/spec_and_test_together.rb 
-  .
+1 tests, 1 assertions, 0 failures, 0 errors
+F
 
-  Finished in 0.006246 seconds
+1)
+'spec should run alongside test' FAILED
+expected: 4,
+     got: 5 (using ==)
+examples/spec_and_test_together.rb:12:
+./examples/../lib/spec.rb:19:in `run'
+examples/spec_and_test_together.rb:17:
 
-  1 example, 0 failures
+Finished in 0.0009 seconds
 
+1 example, 1 failure
+------------------------------------------
 
-  Finished in 8.0e-06 seconds
-
-  0 examples, 0 failures
-
-So in this case, there is no test/unit output and rspec's output is printed a second time but showing 0 examples.
-
-== Story Framework tweaks
+== Story Framework
 
 - should support blockless steps (in StepGroup) as pending
 - should continue execution passed pending steps (or switch to --dry-run????)
