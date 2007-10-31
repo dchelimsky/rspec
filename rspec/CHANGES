@@ -13,6 +13,7 @@ CMD-R runs all the specs in one file
 CMD-SHIFT-R runs an individual spec
 CMD-OPT-R runs any files or directories selected in the TextMate drawer
 
+* Fixed [#15232] heckle is not working correctly in trunk (as of r2801)
 * Applied [#13206] Individual Spec's Runtimes in Specdoc formatter (Patch from Bryan Helmkamp)
 * Applied [#14399] Show pending reasons in HTML report (Patch from Bryan Helmkamp)
 * Discovered fixed: [#10263] mock "leak" when setting an expectation in a block passed to mock#should_receive

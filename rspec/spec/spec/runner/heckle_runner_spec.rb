@@ -59,4 +59,20 @@ unless [/mswin/, /java/].detect{|p| p =~ RUBY_PLATFORM}
       heckle_runner.heckle_with
     end
   end
+  
+  describe "Heckler" do
+    it "should say yes to tests_pass? if specs pass" do
+      options = mock("options", :null_object => true)
+      options.should_receive(:run_examples).and_return(true)
+      heckler = Spec::Runner::Heckler.new("Foo", nil, options)
+      heckler.tests_pass?.should be_true
+    end
+
+    it "should say no to tests_pass? if specs fail" do
+      options = mock("options", :null_object => true)
+      options.should_receive(:run_examples).and_return(false)
+      heckler = Spec::Runner::Heckler.new("Foo", nil, options)
+      heckler.tests_pass?.should be_false
+    end
+  end
 end

@@ -64,9 +64,10 @@ module Spec
       end
 
       def tests_pass?
-        failure_count = @rspec_options.run_examples
-        failure_count == 0
+        success = @rspec_options.run_examples
+        success
       end
+
     end
   end
 end
