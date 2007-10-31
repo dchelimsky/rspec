@@ -15,6 +15,7 @@ module Spec
         output =`ruby #{dir}/output_one_time_with_test_unit_fixture_runner.rb`
         output.should_not include("Started")
         output.should_not match(/\btests\b/)
+        output.should_not match(/\Loaded suite\b/)
         output.should_not include("assertions")
         output.should_not include("0 tests, 0 assertions, 0 failures, 0 errors")
       end

@@ -52,3 +52,8 @@ rspec gets loaded first regardless):
   0 examples, 0 failures
 
 So in this case, there is no test/unit output and rspec's output is printed a second time but showing 0 examples.
+
+== Story Framework tweaks
+
+- should support blockless steps (in StepGroup) as pending
+- should continue execution passed pending steps (or switch to --dry-run????)

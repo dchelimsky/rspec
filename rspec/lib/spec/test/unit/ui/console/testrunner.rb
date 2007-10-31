@@ -36,6 +36,13 @@ module Test
             end
           end
           alias_method :finished, :finished_with_rspec
+          
+          alias_method :setup_mediator_without_rspec, :setup_mediator
+          def setup_mediator_with_rspec
+            @mediator = create_mediator(@suite)
+          end
+          alias_method :setup_mediator, :setup_mediator_with_rspec
+          
         end
       end
     end
