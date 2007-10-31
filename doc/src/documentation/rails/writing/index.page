@@ -1,0 +1,35 @@
+---
+title: Writing 
+---
+h2. Introduction to Writing Examples using Spec::Rails
+
+Spec::Rails supports 4 different types of Executable Examples:
+
+* "Model Examples":models.html
+* "View Examples":views.html
+* "Controller Examples":controllers.html
+* "Helper Examples":helpers.html
+
+Each of these use specialized Behaviour subclasses to give you access to the appropriate
+services and methods. The specific type of Behaviour is determined implicitly by placing the
+examples in an appropriately named file (*_spec.rb) within an appropriately named directory: 
+
+<pre>
+spec/controllers/**/*_spec.rb
+spec/helpers/**/*_spec.rb
+spec/models/**/*_spec.rb
+spec/views/**/*_spec.rb
+</pre>
+
+%{color:red;font-weight:bold}WARNING:% If you do not follow these conventions, you will not
+get the correct Behaviour subclass. If you prefer to disregard this convention, you can
+get the correct Behaviour subclass by passing a hash to the describe method:
+
+<ruby>
+describe "some model", :behaviour_type => :model do
+  ...
+end
+</ruby>
+
+This works with <code>:model, :view, :controller and :helper</code>.
+

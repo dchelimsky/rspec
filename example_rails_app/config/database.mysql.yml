@@ -1,0 +1,8 @@
+development:
+  adapter: mysql
+  database: rspec_dev
+  username: root
+test:
+  adapter: mysql
+  database: rspec_test
+  username: root

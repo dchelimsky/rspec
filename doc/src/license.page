@@ -1,0 +1,11 @@
+h2. RSpec
+
+<br>
+<pre>{includeFile: {filename: ../../rspec/MIT-LICENSE, processOutput: false}}</pre>
+<br>
+<br>
+
+h2. Spec::Rails (a.k.a. 'spec/rails', a.k.a. RSpec on Rails)
+
+<br>
+<pre>{includeFile: {filename: ../../rspec_on_rails/MIT-LICENSE, processOutput: false}}</pre>

@@ -1,0 +1,23 @@
+---
+title: Helpers
+---
+h2. Spec::Rails - Specifying Helpers
+
+Helper Examples live in $RAILS_ROOT/spec/helpers/.
+
+Writing specs for your helpers is a snap. Just tell the context the name of the
+helper ...
+
+<ruby>
+describe RegistrationHelper do
+  ...
+end
+</ruby>
+
+... and then you can reference the methods directly because they are actually included
+in the specs!
+
+
+h2. Sample Helpers Examples
+
+<ruby file="../example_rails_app/spec/helpers/people_helper_spec.rb"/>

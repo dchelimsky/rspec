@@ -1,0 +1,3 @@
+$LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + "/../lib"))
+require 'spec'
+exit ::Spec::Runner::CommandLine.run(rspec_options)
