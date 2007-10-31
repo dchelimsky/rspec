@@ -40,12 +40,12 @@ module Spec
         helper_name :explicit
         fixtures :animals
 
-        it "loads fixtures" do
+        it "should load fixtures" do
           pig = animals(:pig)
           pig.class.should == Animal
         end
 
-        it "loads global fixtures" do
+        it "should load global fixtures" do
           lachie = people(:lachie)
           lachie.class.should == Person
         end
@@ -71,12 +71,8 @@ module Spec
           ActionView::Helpers::TextHelper,
           ActionView::Helpers::UrlHelper
         ]
-        unless ['edge','2.0.0'].include?(ENV['RSPEC_RAILS_VERSION'])
-          helpers += [
-            ActionView::Helpers::PaginationHelper,
-            ActionView::Helpers::JavaScriptMacrosHelper
-          ]
-        end
+        helpers << ActionView::Helpers::PaginationHelper rescue nil       #removed for 2.0
+        helpers << ActionView::Helpers::JavaScriptMacrosHelper rescue nil #removed for 2.0
         helpers.each do |helper_module|
           it "should include #{helper_module}" do
             self.class.ancestors.should include(helper_module)
@@ -87,7 +83,7 @@ module Spec
       # TODO: BT - Helper Examples should proxy method_missing to a Rails View instance.
       # When that is done, remove this method
       describe HelperExample, "#protect_against_forgery?", :behaviour_type => :helper do
-        it "returns false" do
+        it "should return false" do
           protect_against_forgery?.should be_false
         end
       end
