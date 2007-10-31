@@ -5,6 +5,7 @@ module Test
     module UI
       module Console
         class TestRunner
+
           alias_method :started_without_rspec, :started
           def started_with_rspec(result)
             @result = result
@@ -15,6 +16,10 @@ module Test
           alias_method :test_started_without_rspec, :test_started
           def test_started_with_rspec(name)
             if @need_to_output_started
+              if @rspec_io
+                @rspec_io.rewind
+                output(@rspec_io.read)
+              end
               output("Started")
               @need_to_output_started = false
             end
@@ -39,7 +44,12 @@ module Test
           
           alias_method :setup_mediator_without_rspec, :setup_mediator
           def setup_mediator_with_rspec
-            @mediator = create_mediator(@suite)
+            orig_io = @io
+            @io = StringIO.new
+            setup_mediator_without_rspec
+          ensure
+            @rspec_io = @io
+            @io = orig_io
           end
           alias_method :setup_mediator, :setup_mediator_with_rspec
           
