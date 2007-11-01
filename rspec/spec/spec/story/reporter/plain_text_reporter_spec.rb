@@ -23,7 +23,7 @@ module Spec
           @reporter.scenario_failed('story', 'scenario', RuntimeError.new('oops'))
           
           # then
-          @out.should == 'F'
+          @out.should =~ /FAILED/
         end
         
         it 'should write a P when a scenario is pending' do
@@ -31,7 +31,7 @@ module Spec
           @reporter.scenario_pending('story', 'scenario', 'todo')
           
           # then
-          @out.should == 'P'
+          @out.should =~ /PENDING/
         end
         
         it 'should summarize the number of scenarios when the run ends' do

@@ -101,7 +101,6 @@ module Spec
           error = RuntimeError.new('oops')
           story = Story.new 'title', 'narrative' do end
           scenario = Scenario.new story, 'scenario1' do
-            raise error
           end
           scenario_runner = ScenarioRunner.new
           mock_listener = stub_everything('listener')
@@ -109,6 +108,7 @@ module Spec
           world = stub_everything
           
           # expect
+          world.should_receive(:errors).twice.and_return([error])
           mock_listener.should_receive(:scenario_failed).with('title', 'scenario1', error)
           
           # when
@@ -120,16 +120,17 @@ module Spec
         
         it 'should notify listeners when a scenario is pending' do
           # given
+          pending_error = Spec::DSL::ExamplePendingError.new('todo')
           story = Story.new 'title', 'narrative' do end
           scenario = Scenario.new story, 'scenario1' do
-            pending 'todo'
           end
           scenario_runner = ScenarioRunner.new
           mock_listener = mock('listener')
           scenario_runner.add_listener(mock_listener)
-          world = World.create
+          world = stub_everything
           
           # expect
+          world.should_receive(:errors).twice.and_return([pending_error])
           mock_listener.should_receive(:scenario_started).with('title', 'scenario1')
           mock_listener.should_receive(:scenario_pending).with('title', 'scenario1', 'todo')
           
