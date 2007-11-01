@@ -8,7 +8,7 @@ module Spec
         class MyWorld
           attr :scenario_ran
         end
-        instance = MyWorld.new
+        instance = World.create(MyWorld)
         scenario = ScenarioBuilder.new.to_scenario do
           @scenario_ran = true
         end

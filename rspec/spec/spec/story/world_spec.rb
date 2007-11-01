@@ -251,34 +251,38 @@ module Spec
         $instances.should == [ world1.__id__, world2.__id__, world2.__id__ ]
       end
       
-      def ensure_world_propagates_error(expected_error, &block)
+      def ensure_world_collects_error(expected_error, &block)
         # given
         world = World.create
-        $error = nil
+        # $error = nil
         
         # when
-        error = exception_from do
-          world.instance_eval(&block)
-        end
+        world.start_collecting_errors
+        world.instance_eval(&block)
         
         # then
-        error.should be_kind_of(expected_error)
+        world.should have(1).errors
+        world.errors[0].should be_kind_of(expected_error)
       end
       
-      it 'should propagate a failure from a Given, When or Then step' do
-        ensure_world_propagates_error RuntimeError do
+      it 'should collect a failure from a Given step' do
+        ensure_world_collects_error RuntimeError do
           Given 'a given' do
             raise RuntimeError, "oops"
           end
         end
-        
-        ensure_world_propagates_error RuntimeError do
+      end
+      
+      it 'should collect a failure from a When step' do
+        ensure_world_collects_error RuntimeError do
           When 'an event' do
             raise RuntimeError, "oops"
           end
         end
-        
-        ensure_world_propagates_error RuntimeError do
+      end
+      
+      it 'should collect a failure from a Then step' do
+        ensure_world_collects_error RuntimeError do
           Then 'an outcome' do
             raise RuntimeError, "oops"
           end

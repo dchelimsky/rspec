@@ -7,16 +7,22 @@ module Spec
         end
         
         def run(scenario, world)
-          begin
-            raise Spec::DSL::ExamplePendingError unless scenario.body
-            @listeners.each { |l| l.scenario_started(scenario.story.title, scenario.name) }
-            run_story_ignoring_scenarios(scenario.story, world)
-            world.instance_eval(&scenario.body)
+          @listeners.each { |l| l.scenario_started(scenario.story.title, scenario.name) }
+          run_story_ignoring_scenarios(scenario.story, world)
+          
+          world.start_collecting_errors
+          world.instance_eval(&scenario.body)
+          if world.errors.empty?
             @listeners.each { |l| l.scenario_succeeded(scenario.story.title, scenario.name) }
-          rescue Spec::DSL::ExamplePendingError => e
-            @listeners.each { |l| l.scenario_pending(scenario.story.title, scenario.name, e.message) }
-          rescue StandardError => e
-            @listeners.each { |l| l.scenario_failed(scenario.story.title, scenario.name, e) }
+          else
+            world.errors.each do |e|
+              case e
+              when Spec::DSL::ExamplePendingError
+                @listeners.each { |l| l.scenario_pending(scenario.story.title, scenario.name, e.message) }
+              else
+                @listeners.each { |l| l.scenario_failed(scenario.story.title, scenario.name, e) }
+              end
+            end
           end
         end
         

@@ -15,13 +15,13 @@ module Spec
         end
         
         def scenario_failed(story_title, scenario_name, err)
-          @out << 'F'
+          @out << "FAILED\n"
           @failed << [story_title, scenario_name, err]
         end
         
         def scenario_pending(story_title, scenario_name, msg)
           @pending << [story_title, scenario_name, msg]
-          @out << 'P'
+          @out << "PENDING\n"
         end
         
         def run_started(count)

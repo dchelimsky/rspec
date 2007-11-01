@@ -59,8 +59,24 @@ module Spec
           end
           step = step_mother.find(type, name)
           listeners.each { |l| l.found_step(type, name, *args) }
-          step.perform(instance, name, *args) unless ::Spec::Story::Runner.dry_run
+          begin
+            step.perform(instance, name, *args) unless ::Spec::Story::Runner.dry_run
+          rescue Exception => e
+            errors << e
+          end
         end
+        
+        def errors
+          @errors ||= []
+        end
+      end
+      
+      def start_collecting_errors
+        errors.clear
+      end
+      
+      def errors
+        World.errors
       end
       
       def GivenScenario(name)
