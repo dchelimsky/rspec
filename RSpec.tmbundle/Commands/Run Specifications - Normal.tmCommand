@@ -16,7 +16,7 @@ Spec::Mate::Runner.new.run_file STDOUT</string>
 	<key>keyEquivalent</key>
 	<string>@r</string>
 	<key>name</key>
-	<string>Run Behaviour Description</string>
+	<string>Run Examples</string>
 	<key>output</key>
 	<string>showAsHTML</string>
 	<key>scope</key>

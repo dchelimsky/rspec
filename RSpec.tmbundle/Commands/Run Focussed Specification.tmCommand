@@ -17,7 +17,7 @@ Spec::Mate::Runner.new.run_focussed STDOUT
 	<key>keyEquivalent</key>
 	<string>@R</string>
 	<key>name</key>
-	<string>Run Focused Example</string>
+	<string>Run Single Example</string>
 	<key>output</key>
 	<string>showAsHTML</string>
 	<key>scope</key>
