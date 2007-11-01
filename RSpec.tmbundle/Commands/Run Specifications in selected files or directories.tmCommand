@@ -15,7 +15,7 @@ Spec::Mate::Runner.new.run_files STDOUT
 	<key>keyEquivalent</key>
 	<string>~@r</string>
 	<key>name</key>
-	<string>Run Behaviour Descriptions in selected files/directories</string>
+	<string>Run Examples in selected files/directories</string>
 	<key>output</key>
 	<string>showAsHTML</string>
 	<key>scope</key>
