@@ -13,7 +13,15 @@ module SharedBehaviourExample
     end
   end
   
-  describe "All Things", :shared => true do
+  class YetAnotherThing
+    def what_things_do
+      "stuff"
+    end
+  end
+  
+  # A Shared Behaviour is a module, so you can assign
+  # it to a constant if you want ....
+  AllThings = describe "All Things", :shared => true do
     def helper_method
       "helper method"
     end
@@ -24,6 +32,8 @@ module SharedBehaviourExample
   end
 
   describe OneThing do
+    # ... then you can include the behaviour like this, which 
+    # feels more like what you might say ...
     it_should_behave_like "All Things"
     before(:each) { @thing = OneThing.new }
     
@@ -33,7 +43,18 @@ module SharedBehaviourExample
   end
 
   describe AnotherThing do
-    it_should_behave_like "All Things"
+    # ... or you can include the behaviour like this, which
+    # feels more like the programming language we love.
+    it_should_behave_like AllThings
+    
+    before(:each) { @thing = AnotherThing.new }
+  end
+
+  describe YetAnotherThing do
+    # ... or you can include the behaviour like this, which
+    # feels more like the programming language we love.
+    include AllThings
+    
     before(:each) { @thing = AnotherThing.new }
   end
 end

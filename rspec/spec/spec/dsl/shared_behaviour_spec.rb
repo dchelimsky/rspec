@@ -120,7 +120,7 @@ module Spec
         end.should raise_error(ArgumentError, /already exists/)
       end
 
-      it "should add examples to current behaviour when calling it_should_behave_like" do
+      it "should add examples to current behaviour using it_should_behave_like" do
         shared_behaviour = make_shared_behaviour("shared behaviour") {}
         shared_behaviour.it("shared example") {}
         shared_behaviour.it("shared example 2") {}
@@ -129,6 +129,30 @@ module Spec
         @behaviour.number_of_examples.should == 1
         @behaviour.it_should_behave_like("shared behaviour")
         @behaviour.number_of_examples.should == 3
+      end
+
+      it "should add examples to current behaviour using include" do
+        shared_behaviour = describe "all things", :shared => true do
+          it "should do stuff" do end
+        end
+        
+        behaviour = describe "one thing" do
+          include shared_behaviour
+        end
+        
+        behaviour.number_of_examples.should == 1
+      end
+
+      it "should add examples to current behaviour using it_should_behave_like with a module" do
+        AllThings = describe "all things", :shared => true do
+          it "should do stuff" do end
+        end
+        
+        behaviour = describe "one thing" do
+          it_should_behave_like AllThings
+        end
+        
+        behaviour.number_of_examples.should == 1
       end
 
       it "should run shared examples" do

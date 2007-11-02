@@ -11,14 +11,19 @@ module Spec
         self
       end
 
-      # Use this to pull in example_definitions from shared behaviours.
+      # Use this to pull in examples from shared behaviours.
       # See Spec::Runner for information about shared behaviours.
-      def it_should_behave_like(behaviour_description)
-        behaviour = SharedBehaviour.find_shared_behaviour(behaviour_description)
-        unless behaviour
-          raise RuntimeError.new("Shared Example '#{behaviour_description}' can not be found")
+      def it_should_behave_like(shared_behaviour)
+        case shared_behaviour
+        when SharedBehaviour
+          include shared_behaviour
+        else
+          behaviour = SharedBehaviour.find_shared_behaviour(shared_behaviour)
+          unless behaviour
+            raise RuntimeError.new("Shared Example '#{shared_behaviour}' can not be found")
+          end
+          include(behaviour)
         end
-        include(behaviour)
       end
 
       # :call-seq:
