@@ -135,7 +135,7 @@ module Spec
         
         class StoryState < State
           def one_more_of_the_same(line)
-            raise IllegalStepError.new("Story","And")
+            other(line)
           end
 
           def story(line)
@@ -150,15 +150,15 @@ module Spec
           end
           
           def given(line)
-            raise IllegalStepError.new("Story","Given")
+            other(line)
           end
           
           def event(line)
-            raise IllegalStepError.new("Story","When")
+            other(line)
           end
           
           def outcome(line)
-            raise IllegalStepError.new("Story","Then")
+            other(line)
           end
           
           def other(line)

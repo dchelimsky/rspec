@@ -68,10 +68,10 @@ module Spec
 					@parser.parse(["Story: s", "Story: number two"])
 			  end
 			  
-			  it "should raise for And" do
-			    lambda {
-  					@parser.parse(["Story: s", "And second"])
-			    }.should raise_error(IllegalStepError, /^Illegal attempt to create a And after a Story/)
+			  it "should include And in the narrative" do
+          @story_mediator.should_receive(:create_story).with("s","And foo")
+          @story_mediator.should_receive(:create_scenario).with("bar")
+					@parser.parse(["Story: s", "And foo", "Scenario: bar"])
 			  end
 			  
 			  it "should create a Scenario for Scenario" do
@@ -79,24 +79,24 @@ module Spec
 					@parser.parse(["Story: s", "Scenario: number two"])
 			  end
 
-			  it "should raise when a Given follows a Story" do
-			    lambda {
-  					@parser.parse(["Story: foo", "Given bar"])
-			    }.should raise_error(IllegalStepError, /^Illegal attempt to create a Given after a Story/)
+			  it "should include Given in the narrative" do
+          @story_mediator.should_receive(:create_story).with("s","Given foo")
+          @story_mediator.should_receive(:create_scenario).with("bar")
+					@parser.parse(["Story: s", "Given foo", "Scenario: bar"])
 			  end
-			  
-			  it "should raise when a Then follows a Story" do
-			    lambda {
-  					@parser.parse(["Story: foo", "When bar"])
-			    }.should raise_error(IllegalStepError, /^Illegal attempt to create a When after a Story/)
+			  			  
+			  it "should include When in the narrative" do
+          @story_mediator.should_receive(:create_story).with("s","When foo")
+          @story_mediator.should_receive(:create_scenario).with("bar")
+					@parser.parse(["Story: s", "When foo", "Scenario: bar"])
 			  end
-			  
-			  it "should raise when a Then follows a Story" do
-			    lambda {
-  					@parser.parse(["Story: foo", "Then bar"])
-			    }.should raise_error(IllegalStepError, /^Illegal attempt to create a Then after a Story/)
+			  			  
+			  it "should include Then in the narrative" do
+          @story_mediator.should_receive(:create_story).with("s","Then foo")
+          @story_mediator.should_receive(:create_scenario).with("bar")
+					@parser.parse(["Story: s", "Then foo", "Scenario: bar"])
 			  end
-			  
+			  			  
 			  it "should include other in the story" do
           @story_mediator.should_receive(:create_story).with("s","narrative")
 					@parser.parse(["Story: s", "narrative"])
