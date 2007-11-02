@@ -139,6 +139,31 @@ module Spec
   #      ...
   #    end
   #  end
+  #
+  # You can also assign the shared behaviour to a module and include that
+  #
+  #  AllEditions = describe "All Editions", :shared => true do
+  #    it "all editions behaviour" ...
+  #  end
+  #
+  #  describe SmallEdition do
+  #    it_should_behave_like AllEditions
+  #  
+  #    it "should do small edition stuff" do
+  #      ...
+  #    end
+  #  end
+  #
+  # And, for those of you who prefer to use something more like Ruby, you
+  # can just include the module directly
+  #
+  #  describe SmallEdition do
+  #    include AllEditions
+  #  
+  #    it "should do small edition stuff" do
+  #      ...
+  #    end
+  #  end
   module Runner
     class << self
       def configuration # :nodoc:
