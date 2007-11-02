@@ -1,7 +1,9 @@
+require File.join(File.dirname(__FILE__), *%w[helper])
+
 Story 'I can kill a cell',
   %(As a game producer
   I want to kill a cell
-  So that when I make a mistake I dont have to start again) do
+  So that when I make a mistake I dont have to start again), :steps => LifeSteps do
   
   Scenario 'bang youre dead' do
     
