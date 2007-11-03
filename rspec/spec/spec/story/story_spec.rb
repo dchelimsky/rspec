@@ -57,9 +57,25 @@ module Spec
           story = Story.new("title", "narrative", :steps_for => :foo) do end
           assignee = mock("assignee")
         
-          assignee.should_receive(:use) do |step_group|
-            step_group.should equal(steps)
-          end
+          assignee.should_receive(:use).with(steps)
+          story.assign_steps_to(assignee)
+        ensure
+          $rspec_story_steps = orig_rspec_story_steps
+        end
+      end
+      
+      it "should use the steps it is told to using multiple keys" do
+        begin
+          orig_rspec_story_steps = $rspec_story_steps
+          $rspec_story_steps = StepGroupHash.new
+          $rspec_story_steps[:foo] = foo_steps = Object.new
+          $rspec_story_steps[:bar] = bar_steps = Object.new
+        
+          story = Story.new("title", "narrative", :steps_for => [:foo, :bar]) do end
+          assignee = mock("assignee")
+        
+          assignee.should_receive(:use).with(foo_steps)
+          assignee.should_receive(:use).with(bar_steps)
           story.assign_steps_to(assignee)
         ensure
           $rspec_story_steps = orig_rspec_story_steps
