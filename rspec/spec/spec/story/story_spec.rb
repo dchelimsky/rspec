@@ -41,7 +41,7 @@ module Spec
         end.should raise_error
       end
       
-      it "should use the matchers it is told to" do
+      it "should use the steps it is told to" do
         story = Story.new("title", "narrative", :steps => steps = StepGroup.new) do end
         assignee = mock("assignee")
         assignee.should_receive(:use).with(steps)
