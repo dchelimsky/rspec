@@ -88,6 +88,8 @@ response.should have_tag('div') #passes if any div tags appear
 response.should have_tag('div#interesting_div')
 response.should have_tag('div', 'expected content')
 response.should have_tag('div', /regexp matching expected content/)
+response.should have_tag('form[action=?]', things_path)
+response.should have_tag("input[type=?][checked=?]", 'checkbox', 'checked')
 response.should have_tag('ul') do
   with_tag('li', 'list item 1')
   with_tag('li', 'list item 2')
