@@ -41,11 +41,29 @@ module Spec
         end.should raise_error
       end
       
-      it "should use the steps it is told to" do
+      it "should use the steps it is told to using a StepGroup" do
         story = Story.new("title", "narrative", :steps => steps = StepGroup.new) do end
         assignee = mock("assignee")
         assignee.should_receive(:use).with(steps)
         story.assign_steps_to(assignee)
+      end
+
+      it "should use the steps it is told to using a key" do
+        begin
+          orig_rspec_story_steps = $rspec_story_steps
+          $rspec_story_steps = StepGroupHash.new
+          $rspec_story_steps[:foo] = steps = Object.new
+        
+          story = Story.new("title", "narrative", :steps_for => :foo) do end
+          assignee = mock("assignee")
+        
+          assignee.should_receive(:use) do |step_group|
+            step_group.should equal(steps)
+          end
+          story.assign_steps_to(assignee)
+        ensure
+          $rspec_story_steps = orig_rspec_story_steps
+        end
       end
     end
   end
