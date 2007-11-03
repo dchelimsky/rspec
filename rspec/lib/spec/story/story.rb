@@ -19,7 +19,12 @@ module Spec
       end
       
       def assign_steps_to(assignee)
-        assignee.use(@params[:steps])
+        assignee.use(@params[:steps]) if @params[:steps]
+        assignee.use(steps_for_key) if @params[:steps_for]
+      end
+      
+      def steps_for_key
+        $rspec_story_steps[@params[:steps_for]]
       end
     end
   end

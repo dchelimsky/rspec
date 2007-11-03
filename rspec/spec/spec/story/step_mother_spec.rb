@@ -66,6 +66,7 @@ module Spec
                 
         step_mother.find(:given, "step").should equal(step)
       end
+
     end
   end
 end

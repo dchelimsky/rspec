@@ -3,7 +3,7 @@ require File.join(File.dirname(__FILE__), *%w[helper])
 Story "I can create a cell",
   %(As a game producer
     I want to create a cell
-    So that I can show the grid to people), :steps => LifeSteps do
+    So that I can show the grid to people), :steps_for => :life do
   
   Scenario "nothing to see here" do
     Given "a game with dimensions", 3, 3 do |rows,cols|
