@@ -106,12 +106,59 @@ module Spec
         descriptions.should == ["testCamelCase", "test_any_args", "test_something"]
       end
 
+      it "should include methods that begin with should and has an arity of 0 in suite" do
+        behaviour = Class.new(Example).describe('example') do
+          def shouldCamelCase
+            true.should be_true
+          end
+          def should_any_args(*args)
+            true.should be_true
+          end
+          def should_something
+            1.should == 1
+          end
+          def should_not_something
+            1.should_not == 2
+          end
+          def should
+            raise "This is not a real example"
+          end
+          def should_not
+            raise "This is not a real example"
+          end
+        end
+        behaviour = behaviour.dup
+        suite = behaviour.suite
+        suite.tests.length.should == 4
+        descriptions = suite.tests.collect {|test| test.rspec_definition.description}.sort
+        descriptions.should include("shouldCamelCase")
+        descriptions.should include("should_any_args")
+        descriptions.should include("should_something")
+        descriptions.should include("should_not_something")
+      end
+
       it "should not include methods that begin with test_ and has an arity > 0 in suite" do
         behaviour = Class.new(Example).describe('example') do
           def test_invalid(foo)
             1.should == 1
           end
           def testInvalidCamelCase(foo)
+            1.should == 1
+          end
+        end
+        suite = behaviour.suite
+        suite.tests.length.should == 0
+      end
+
+      it "should not include methods that begin with should_ and has an arity > 0 in suite" do
+        behaviour = Class.new(Example).describe('example') do
+          def should_invalid(foo)
+            1.should == 1
+          end
+          def shouldInvalidCamelCase(foo)
+            1.should == 1
+          end
+          def should_not_invalid(foo)
             1.should == 1
           end
         end
@@ -130,6 +177,12 @@ module Spec
 
     describe "Example", ".run" do
       it_should_behave_like "Spec::DSL::Example"
+    end
+    
+    describe "Example" do
+      it "should be exposed as Spec::ExampleGroup" do
+        Spec::ExampleGroup.should equal(Spec::DSL::Example)
+      end
     end
 
     describe "Example", ".remove_after" do

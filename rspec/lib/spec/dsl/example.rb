@@ -20,7 +20,7 @@ module Spec
             suite << new(example_definition)
           end
           instance_methods.each do |method_name|
-            if method_name =~ /^test./ && (
+            if (is_test?(method_name) || is_spec?(method_name)) && (
               instance_method(method_name).arity == 0 ||
               instance_method(method_name).arity == -1
             )
@@ -31,6 +31,14 @@ module Spec
             end
           end
           suite
+        end
+        
+        def is_test?(method_name)
+          method_name =~ /^test./
+        end
+        
+        def is_spec?(method_name)
+          !(method_name =~ /^should(_not)?$/) && method_name =~ /^should/
         end
 
         # Sets the #number on each ExampleDefinition and returns the next number
@@ -165,4 +173,6 @@ module Spec
       end
     end
   end
+  
+  ExampleGroup = Spec::DSL::Example
 end
