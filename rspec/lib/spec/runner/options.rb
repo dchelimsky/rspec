@@ -17,7 +17,9 @@ module Spec
         'failing_examples' => Formatter::FailingExamplesFormatter,
         'e'        => Formatter::FailingExamplesFormatter,
         'failing_behaviours' => Formatter::FailingBehavioursFormatter,
-        'b'        => Formatter::FailingBehavioursFormatter
+        'b'        => Formatter::FailingBehavioursFormatter,
+        'profile'  => Formatter::ProfileFormatter,
+        'o'        => Formatter::ProfileFormatter
       }
 
       attr_accessor(
@@ -25,7 +27,6 @@ module Spec
         :context_lines,
         :diff_format,
         :dry_run,
-        :profile,
         :examples,
         :failure_file,
         :formatters,

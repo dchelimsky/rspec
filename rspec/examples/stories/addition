@@ -23,3 +23,4 @@ Story: simple addition
     When the addends are added
     
     Then the sum should be 7
+    Then it should snow

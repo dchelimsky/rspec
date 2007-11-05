@@ -80,6 +80,8 @@ class PreCommit::RspecOnRails < PreCommit
   def uninstall_plugins
     rm_rf 'vendor/plugins/rspec_on_rails'
     rm_rf 'vendor/plugins/rspec'
+    rm_rf 'script/spec'
+    rm_rf 'script/spec_server'
   end
 
   def generate_rspec
