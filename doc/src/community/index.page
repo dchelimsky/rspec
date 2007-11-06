@@ -138,7 +138,8 @@ In alphabetical order (by last name)
 ** Patch [#11888] rspec_on_rails spews out warnings when assert_select is used with an XML response
 ** Patch [#12817] Cannot include same shared behaviour when required with absolute paths.
 ** Patch [#13952] Fix for performance regression introduced in r2096
-** PAtch [#13943] ProfileFormatter (Top 10 slowest examples)
+** Patch [#13943] ProfileFormatter (Top 10 slowest examples)
+** Patch [#14023] Small optimization for heavily proxied objects.
 * Jay Levitt
 ** Patch [#13143] ActionView::Helpers::RecordIdentificationHelper should be included if present
 ** Patch [#13016] [DOC] Point out that view specs render, well, a view
@@ -153,6 +154,7 @@ In alphabetical order (by last name)
 ** Patch for [#13370] Weird mock expectation error
 ** Patch for [#13065] Named routes throw a NoMethodError in Helper specs
 * Pat Maddox
+** [#14082] [PATCH] allow stubs to yield and return values
 ** Patch [#14362] partially mocking objects that define == can blow up
 ** Spec'ing routes (Rails)
 ** Accepting xhr requests (Rails)
