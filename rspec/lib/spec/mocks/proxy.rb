@@ -88,7 +88,7 @@ module Spec
       end
       
       def define_expected_method(sym)
-        if target_responds_to?(sym) && !@proxied_methods.include?(sym)
+        if target_responds_to?(sym) && !metaclass.method_defined?(munge(sym))
           munged_sym = munge(sym)
           metaclass.instance_eval do
             alias_method munged_sym, sym if method_defined?(sym.to_s)

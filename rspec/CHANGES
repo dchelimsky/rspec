@@ -13,6 +13,7 @@ CMD-R runs all the specs in one file
 CMD-SHIFT-R runs an individual spec
 CMD-OPT-R runs any files or directories selected in the TextMate drawer
 
+* Applied [#14023] Small optimization for heavily proxied objects. (Patch from Ian Leitch)
 * Applied [#13943] ProfileFormatter (Top 10 slowest examples) (Patch from Ian Leitch)
 * Fixed [#15232] heckle is not working correctly in trunk (as of r2801)
 * Applied [#14399] Show pending reasons in HTML report (Patch from Bryan Helmkamp)
