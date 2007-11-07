@@ -57,7 +57,7 @@ module Spec
       after do
         original_configuration = @original_configuration
         Spec::Runner.instance_eval {@configuration = original_configuration}
-        BehaviourFactory.unregister(:foobar)
+        BehaviourFactory.reset!
       end
 
       it "should let you define modules to be included for a behaviour_type" do
@@ -82,8 +82,7 @@ module Spec
         end
 
         after do
-          BehaviourFactory.unregister :special
-          BehaviourFactory.unregister :non_special
+          BehaviourFactory.reset!
         end
       end
 

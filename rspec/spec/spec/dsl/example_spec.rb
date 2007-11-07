@@ -411,7 +411,7 @@ module Spec
 
     describe "Example subclass", "#described_type" do
       after do
-        BehaviourFactory.unregister(:subclass)
+        BehaviourFactory.reset!
       end
 
       it "should have access to the described_type" do

@@ -62,7 +62,7 @@ module Spec
       end
       
       after(:each) do
-        Spec::DSL::BehaviourFactory.unregister(:something_other_than_default)
+        Spec::DSL::BehaviourFactory.reset!
       end
     end
   end
