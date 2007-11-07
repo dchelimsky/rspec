@@ -94,8 +94,7 @@ module Spec
       end
 
       after do
-        BehaviourFactory.unregister :special
-        BehaviourFactory.unregister :non_special
+        BehaviourFactory.reset!
       end
 
       it "should send reporter add_behaviour" do

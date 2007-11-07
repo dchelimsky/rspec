@@ -21,19 +21,6 @@ module Spec
           @behaviour_types[id] = behaviour
         end
 
-        def add_example_class(id, behaviour)
-          warn "add_example_class is deprecated. Use register instead."
-          register(id, behaviour)
-        end
-        def add_behaviour_class(id, behaviour)
-          warn "add_behaviour_class is deprecated. Use register instead."
-          register(id, behaviour)
-        end
-        
-        def unregister(id)
-          @behaviour_types.delete(id)
-        end
-
         def get(id=:default)
           id ||= :default
           if @behaviour_types.values.include?(id)
