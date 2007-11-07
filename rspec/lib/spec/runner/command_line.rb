@@ -18,7 +18,6 @@ module Spec
             $rspec_options = instance_rspec_options
             return true if $rspec_options.generate
         
-            $rspec_options.load_paths
             success = $rspec_options.run_examples
             heckle(rspec_options) if $rspec_options.heckle_runner
             return success

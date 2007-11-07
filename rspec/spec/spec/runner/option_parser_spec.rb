@@ -332,7 +332,7 @@ describe "OptionParser" do
       options.files << 'command_line_spec.rb'
       options.files << 'most_recent_spec.rb'
       FileUtils.touch "most_recent_spec.rb"
-      options.paths.should == ["most_recent_spec.rb", "command_line_spec.rb"]
+      options.files_to_load.should == ["most_recent_spec.rb", "command_line_spec.rb"]
       FileUtils.rm "most_recent_spec.rb"
     end
   end

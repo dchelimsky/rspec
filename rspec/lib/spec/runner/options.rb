@@ -70,8 +70,11 @@ module Spec
       end
 
       def run_examples
-        return true if behaviours.empty?
         runner = custom_runner || BehaviourRunner.new(self)
+
+        runner.load_files(files_to_load)
+        return true if behaviours.empty?
+
         success = runner.run
         @examples_run = true
         success
@@ -185,13 +188,7 @@ module Spec
         end
       end
 
-      def load_paths
-        paths.each do |path|
-          load path
-        end
-      end
-
-      def paths
+      def files_to_load
         result = []
         sorted_files.each do |file|
           if test ?d, file
