@@ -39,7 +39,7 @@ module Spec
           return behaviour
         end  
 
-        def create(*args, &block)
+        def create_behaviour_class(*args, &block)
           opts = Hash === args.last ? args.last : {}
           if opts[:shared]
             id = :shared
