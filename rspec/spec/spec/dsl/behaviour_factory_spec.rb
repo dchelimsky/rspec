@@ -9,26 +9,26 @@ module Spec
       end
 
       after do
-        BehaviourFactory::BEHAVIOURS.delete(:some)
+        BehaviourFactory.reset!
       end
 
       specify "#register; adds behaviour to BEHAVIOURS repository" do
         BehaviourFactory.register(:some, SomeBehaviourClass)
-        BehaviourFactory::BEHAVIOURS[:some].should == SomeBehaviourClass
+        BehaviourFactory.get(:some).should == SomeBehaviourClass
       end
 
       specify "#add_behaviour_class; add behaviour to BEHAVIOURS repository" do
         BehaviourFactory.should_receive(:warn).
           with("add_behaviour_class is deprecated. Use register instead.")
         BehaviourFactory.add_behaviour_class(:some, SomeBehaviourClass)
-        BehaviourFactory::BEHAVIOURS[:some].should == SomeBehaviourClass
+        BehaviourFactory.get(:some).should == SomeBehaviourClass
       end
 
       specify "#register; add behaviour to BEHAVIOURS repository" do
         BehaviourFactory.should_receive(:warn).
           with("add_example_class is deprecated. Use register instead.")
         BehaviourFactory.add_example_class(:some, SomeBehaviourClass)
-        BehaviourFactory::BEHAVIOURS[:some].should == SomeBehaviourClass
+        BehaviourFactory.get(:some).should == SomeBehaviourClass
       end
     end
 
