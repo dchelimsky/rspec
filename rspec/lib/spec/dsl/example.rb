@@ -38,14 +38,14 @@ module Spec
           rspec_options.add_behaviour self
         end
 
-        def behaviour_chain
-          behaviours = []
+        def inheritance_chain(superclass_first)
+          classes = []
           current_class = self
           while current_class.is_a?(Behaviour)
-            behaviours << current_class
+            superclass_first ? classes << current_class : classes.unshift(current_class)
             current_class = current_class.superclass
           end
-          behaviours
+          classes
         end
 
       private
@@ -122,35 +122,29 @@ module Spec
       end
 
       def before_each
-        behaviours = self.class.behaviour_chain
-        behaviours.reverse!
-        behaviours.each do |behaviour|
-          run_before_parts behaviour.before_each_parts
+        self.class.inheritance_chain(false).each do |behaviour_class|
+          run_before_parts behaviour_class.before_each_parts
         end
       end
 
       def before_all
-        behaviours = self.class.behaviour_chain
-        behaviours.reverse!
-        behaviours.each do |behaviour|
-          run_before_parts behaviour.before_all_parts
+        self.class.inheritance_chain(false).each do |behaviour_class|
+          run_before_parts behaviour_class.before_all_parts
         end
       end
 
       def after_all
         exception = nil
-        behaviours = self.class.behaviour_chain
-        behaviours.each do |behaviour|
-          exception = run_after_parts(exception, behaviour.after_all_parts)
+        self.class.inheritance_chain(true).each do |behaviour_class|
+          exception = run_after_parts(exception, behaviour_class.after_all_parts)
         end
         raise exception if exception
       end
 
       def after_each
         exception = nil
-        behaviours = self.class.behaviour_chain
-        behaviours.each do |behaviour|
-          exception = run_after_parts(exception, behaviour.after_each_parts)
+        self.class.inheritance_chain(true).each do |behaviour_class|
+          exception = run_after_parts(exception, behaviour_class.after_each_parts)
         end
         raise exception if exception
       end
