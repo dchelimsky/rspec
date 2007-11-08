@@ -68,7 +68,7 @@ module Spec
         unless dry_run
           begin
             @before_and_after_all_example = behaviour.new(nil)
-            @before_and_after_all_example.before_all
+            @before_and_after_all_example.run_before_all
           rescue Exception => e
             errors << e
             location = "before(:all)"
@@ -85,7 +85,7 @@ module Spec
         unless dry_run
           begin
             @before_and_after_all_example ||= behaviour.new(nil)
-            @before_and_after_all_example.after_all
+            @before_and_after_all_example.run_after_all
           rescue Exception => e
             location = "after(:all)"
             reporter.example_finished(create_example_definition(location), e, location)
