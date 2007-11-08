@@ -14,7 +14,7 @@ module Spec
         end
 
         def suite
-          description = description ? description.description : "Rspec Description Suite"
+          description = description ? description.description : "RSpec Description Suite"
           suite = ExampleSuite.new(description, self)
           ordered_example_definitions.each do |example_definition|
             suite << new(example_definition)

@@ -85,27 +85,32 @@ module Spec
         Kernel.warn("Example disabled: #{description}")
       end
 
-      def described_type
+      def described_type #:nodoc:
         description.described_type
       end
 
-      def example_definitions
+      def example_definitions #:nodoc:
         @example_definitions ||= []
       end
 
-      def number_of_examples
+      def number_of_examples #:nodoc:
         example_definitions.length
       end
 
-      def create_example_definition(description, options={}, &block)
+      def create_example_definition(description, options={}, &block) #:nodoc:
         ExampleDefinition.new(description, options, &block)
       end
 
+      # Registers a block to be executed before each example.
+      # This method prepends +block+ to existing before blocks.
       def prepend_before(*args, &block)
         scope, options = scope_and_options(*args)
         parts = before_parts_from_scope(scope)
         parts.unshift(block)
       end
+
+      # Registers a block to be executed before each example.
+      # This method appends +block+ to existing before blocks.
       def append_before(*args, &block)
         scope, options = scope_and_options(*args)
         parts = before_parts_from_scope(scope)
@@ -113,21 +118,21 @@ module Spec
       end
       alias_method :before, :append_before
 
+      # Registers a block to be executed after each example.
+      # This method prepends +block+ to existing after blocks.
       def prepend_after(*args, &block)
         scope, options = scope_and_options(*args)
         parts = after_parts_from_scope(scope)
         parts.unshift(block)
       end
       alias_method :after, :prepend_after
+
+      # Registers a block to be executed after each example.
+      # This method appends +block+ to existing after blocks.
       def append_after(*args, &block)
         scope, options = scope_and_options(*args)
         parts = after_parts_from_scope(scope)
         parts << block
-      end
-
-      def scope_and_options(*args)
-        args, options = args_and_options(*args)
-        scope = (args[0] || :each), options
       end
 
       def remove_after(scope, &block)
@@ -160,7 +165,8 @@ module Spec
         @after_each_parts ||= []
       end
 
-      def clear_before_and_after! # :nodoc:
+      # Only used from RSpec's own examples
+      def reset! # :nodoc:
         @before_all_parts = nil
         @after_all_parts = nil
         @before_each_parts = nil
@@ -168,6 +174,11 @@ module Spec
       end
       
       protected
+
+      def scope_and_options(*args)
+        args, options = args_and_options(*args)
+        scope = (args[0] || :each), options
+      end
 
       def before_parts_from_scope(scope)
         case scope

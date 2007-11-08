@@ -33,7 +33,7 @@ module Spec
 
       after :each do
         $rspec_options = @original_rspec_options
-        Example.clear_before_and_after!
+        Example.reset!
       end
     end
 
