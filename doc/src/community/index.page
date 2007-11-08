@@ -116,6 +116,7 @@ In alphabetical order (by last name)
 * Erik Kastner
 ** Patch to rename file_list to spec_file_list in spectask.rake (to avoid conflicts w/ other tools)
 * Brandon Keepers
+** Patch [#15465] Edge rails #8115 changed plugin loading, causing conflict between rspec and rails plugin
 ** Patch [#13881] Dynamically include Helpers that are included on ActionView::Base
 * Rich Kilmer
 ** Underscore syntactic sugar
