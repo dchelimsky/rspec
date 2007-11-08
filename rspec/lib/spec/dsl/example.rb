@@ -19,28 +19,12 @@ module Spec
           ordered_example_definitions.each do |example_definition|
             suite << new(example_definition)
           end
-          instance_methods.each do |method_name|
-            if (is_test?(method_name) || is_spec?(method_name)) && (
-              instance_method(method_name).arity == 0 ||
-              instance_method(method_name).arity == -1
-            )
-              example_definition = ExampleDefinition.new(method_name) do
-                __send__ method_name
-              end
-              suite << new(example_definition)
-            end
-          end
+          
+          add_examples_from_methods(suite)
+          
           suite
         end
         
-        def is_test?(method_name)
-          method_name =~ /^test./
-        end
-        
-        def is_spec?(method_name)
-          !(method_name =~ /^should(_not)?$/) && method_name =~ /^should/
-        end
-
         # Sets the #number on each ExampleDefinition and returns the next number
         def set_sequence_numbers(number) #:nodoc:
           ordered_example_definitions.each do |example_definition|
@@ -64,7 +48,29 @@ module Spec
           behaviours
         end
 
-        protected
+      private
+
+        def add_examples_from_methods(suite)
+          instance_methods.each do |method_name|
+            if (is_test?(method_name) || is_spec?(method_name)) && (
+              instance_method(method_name).arity == 0 ||
+              instance_method(method_name).arity == -1
+            )
+              example_definition = ExampleDefinition.new(method_name) do
+                __send__ method_name
+              end
+              suite << new(example_definition)
+            end
+          end
+        end
+
+        def is_test?(method_name)
+          method_name =~ /^test./
+        end
+        
+        def is_spec?(method_name)
+          !(method_name =~ /^should(_not)?$/) && method_name =~ /^should/
+        end
 
         def ordered_example_definitions
           rspec_options.reverse ? example_definitions.reverse : example_definitions
