@@ -1,6 +1,5 @@
 module Spec
   module DSL
-    # TODO: We need RDoc here anyway (Aslak) 
     class ExampleRunner
       attr_reader :options, :example, :example_definition, :errors
 
