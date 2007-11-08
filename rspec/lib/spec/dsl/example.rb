@@ -38,6 +38,32 @@ module Spec
           rspec_options.add_behaviour self
         end
 
+        def before_each(example)
+          inheritance_chain(false).each do |behaviour_class|
+            example.eval_each_fail_fast(behaviour_class.before_each_parts)
+          end
+        end
+        
+        def before_all(example)
+          inheritance_chain(false).each do |behaviour_class|
+            example.eval_each_fail_fast(behaviour_class.before_all_parts)
+          end
+        end
+
+        def after_all(example)
+          inheritance_chain(true).each do |behaviour_class|
+            example.eval_each_fail_slow(behaviour_class.after_all_parts)
+          end
+        end
+        
+        def after_each(example)
+          inheritance_chain(true).each do |behaviour_class|
+            example.eval_each_fail_slow(behaviour_class.after_each_parts)
+          end
+        end
+
+      private
+
         def inheritance_chain(superclass_first)
           classes = []
           current_class = self
@@ -47,8 +73,6 @@ module Spec
           end
           classes
         end
-
-      private
 
         def add_examples_from_methods(suite)
           instance_methods.each do |method_name|
@@ -121,56 +145,44 @@ module Spec
         super(obj, [:@rspec_definition, :@_result])
       end
 
-      def before_each
-        self.class.inheritance_chain(false).each do |behaviour_class|
-          run_before_parts behaviour_class.before_each_parts
-        end
-      end
-
       def before_all
-        self.class.inheritance_chain(false).each do |behaviour_class|
-          run_before_parts behaviour_class.before_all_parts
-        end
+        self.class.before_all(self)
       end
 
-      def after_all
-        exception = nil
-        self.class.inheritance_chain(true).each do |behaviour_class|
-          exception = run_after_parts(exception, behaviour_class.after_all_parts)
-        end
-        raise exception if exception
+      def before_each
+        self.class.before_each(self)
       end
 
       def after_each
-        exception = nil
-        self.class.inheritance_chain(true).each do |behaviour_class|
-          exception = run_after_parts(exception, behaviour_class.after_each_parts)
-        end
-        raise exception if exception
+        self.class.after_each(self)
+      end
+
+      def after_all
+        self.class.after_all(self)
       end
 
       def run_example
         self.instance_eval(&rspec_definition.example_block)
       end
 
-      protected
-      def run_before_parts(parts)
-        parts.each do |part|
-          self.instance_eval(&part)
+      def eval_each_fail_fast(procs) #:nodoc:
+        procs.each do |proc|
+          instance_eval(&proc)
         end
       end
 
-      def run_after_parts(original_exception, parts)
-        new_exception = nil
-        parts.each do |part|
+      def eval_each_fail_slow(procs) #:nodoc:
+        first_exception = nil
+        procs.each do |proc|
           begin
-            self.instance_eval(&part)
+            instance_eval(&proc)
           rescue Exception => e
-            new_exception ||= e
+            first_exception ||= e
           end
         end
-        return original_exception || new_exception
+        raise first_exception if first_exception
       end
+
     end
   end
   
