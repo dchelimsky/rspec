@@ -38,40 +38,43 @@ module Spec
           rspec_options.add_behaviour self
         end
 
-        def before_each(example)
-          inheritance_chain(false).each do |behaviour_class|
+        def run_before_each(example)
+          execute_in_class_hierarchy(false) do |behaviour_class|
             example.eval_each_fail_fast(behaviour_class.before_each_parts)
           end
         end
         
-        def before_all(example)
-          inheritance_chain(false).each do |behaviour_class|
+        def run_before_all(example)
+          execute_in_class_hierarchy(false) do |behaviour_class|
             example.eval_each_fail_fast(behaviour_class.before_all_parts)
           end
         end
 
-        def after_all(example)
-          inheritance_chain(true).each do |behaviour_class|
+        def run_after_all(example)
+          execute_in_class_hierarchy(true) do |behaviour_class|
             example.eval_each_fail_slow(behaviour_class.after_all_parts)
           end
         end
         
-        def after_each(example)
-          inheritance_chain(true).each do |behaviour_class|
+        def run_after_each(example)
+          execute_in_class_hierarchy(true) do |behaviour_class|
             example.eval_each_fail_slow(behaviour_class.after_each_parts)
           end
         end
 
       private
 
-        def inheritance_chain(superclass_first)
+        def execute_in_class_hierarchy(superclass_first)
           classes = []
           current_class = self
           while current_class.is_a?(Behaviour)
             superclass_first ? classes << current_class : classes.unshift(current_class)
             current_class = current_class.superclass
           end
-          classes
+
+          classes.each do |behaviour_class|
+            yield behaviour_class
+          end
         end
 
         def add_examples_from_methods(suite)
@@ -127,9 +130,12 @@ module Spec
 
       def initialize(definition) #:nodoc:
         @rspec_definition = definition
+        @behaviour_class = self.class
+        
         @_result = ::Test::Unit::TestResult.new
 
-        predicate_matchers = self.class.predicate_matchers
+        predicate_matchers = @behaviour_class.predicate_matchers
+
         (class << self; self; end).class_eval do
           plugin_mock_framework
           define_predicate_matchers predicate_matchers
@@ -145,24 +151,24 @@ module Spec
         super(obj, [:@rspec_definition, :@_result])
       end
 
-      def before_all
-        self.class.before_all(self)
+      def run_before_all
+        @behaviour_class.run_before_all(self)
       end
 
-      def before_each
-        self.class.before_each(self)
+      def run_before_each
+        @behaviour_class.run_before_each(self)
       end
 
-      def after_each
-        self.class.after_each(self)
+      def run_after_each
+        @behaviour_class.run_after_each(self)
       end
 
-      def after_all
-        self.class.after_all(self)
+      def run_after_all
+        @behaviour_class.run_after_all(self)
       end
 
       def run_example
-        self.instance_eval(&rspec_definition.example_block)
+        instance_eval(&rspec_definition.example_block)
       end
 
       def eval_each_fail_fast(procs) #:nodoc:
