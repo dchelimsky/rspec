@@ -37,21 +37,23 @@ module Spec
     end    
 
     describe BehaviourFactory do
-      it "should create an anonymous Spec::DSL::Example subclass by default" do
+      it "should create a uniquely named class" do
         behaviour_class = Spec::DSL::BehaviourFactory.create_behaviour_class("behaviour")
-        behaviour_class.name.should be_empty
+        behaviour_class.name.should =~ /Spec::DSL::Example::Subclass_\d+/ # TODO: We want it to be Behaviour or ExampleGroup
+      end
+
+      it "should create a Spec::DSL::Example subclass by default" do
+        behaviour_class = Spec::DSL::BehaviourFactory.create_behaviour_class("behaviour")
         behaviour_class.superclass.should == Spec::DSL::Example
       end
 
       it "should create a Spec::DSL::Example when :type => :default" do
         behaviour_class = Spec::DSL::BehaviourFactory.create_behaviour_class("behaviour", :type => :default)
-        behaviour_class.name.should be_empty
         behaviour_class.superclass.should == Spec::DSL::Example
       end
 
       it "should create a Spec::DSL::Example when :behaviour_type => :default" do
         behaviour_class = Spec::DSL::BehaviourFactory.create_behaviour_class("behaviour", :behaviour_type => :default)
-        behaviour_class.name.should be_empty
         behaviour_class.superclass.should == Spec::DSL::Example
       end
 
@@ -61,7 +63,6 @@ module Spec
         end
         Spec::DSL::BehaviourFactory.register(:something_other_than_default, klass)
         behaviour_class = Spec::DSL::BehaviourFactory.create_behaviour_class("behaviour", :type => :something_other_than_default)
-        behaviour_class.name.should be_empty
         behaviour_class.superclass.should == klass
       end
 
@@ -71,7 +72,6 @@ module Spec
         end
         Spec::DSL::BehaviourFactory.register(:something_other_than_default, klass)
         behaviour_class = Spec::DSL::BehaviourFactory.create_behaviour_class("behaviour", :behaviour_type => :something_other_than_default)
-        behaviour_class.name.should be_empty
         behaviour_class.superclass.should == klass
       end
       
@@ -81,7 +81,6 @@ module Spec
         end
         Spec::DSL::BehaviourFactory.register(:something_other_than_default, klass)
         behaviour_class = Spec::DSL::BehaviourFactory.create_behaviour_class("behaviour", :spec_path => "./spec/something_other_than_default/some_spec.rb")
-        behaviour_class.name.should be_empty
         behaviour_class.superclass.should == klass
       end
       
@@ -91,7 +90,6 @@ module Spec
         end
         Spec::DSL::BehaviourFactory.register(:something_other_than_default, klass)
         behaviour_class = Spec::DSL::BehaviourFactory.create_behaviour_class("behaviour", :spec_path => "./spec\\something_other_than_default\\some_spec.rb")
-        behaviour_class.name.should be_empty
         behaviour_class.superclass.should == klass
       end
       
@@ -105,10 +103,10 @@ module Spec
           def initialize(*args, &block); end
         end
         Spec::DSL::BehaviourFactory.register(:something_other_than_default, klass)
-        behaviour = Spec::DSL::BehaviourFactory.create_behaviour_class("name", :spec_path => '/blah/spec/models/blah.rb', :behaviour_type => :something_other_than_default)
-        behaviour.superclass.should == klass
+        behaviour_class = Spec::DSL::BehaviourFactory.create_behaviour_class("name", :spec_path => '/blah/spec/models/blah.rb', :behaviour_type => :something_other_than_default)
+        behaviour_class.superclass.should == klass
       end
-
+      
       after(:each) do
         Spec::DSL::BehaviourFactory.reset!
       end
