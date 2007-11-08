@@ -4,6 +4,20 @@ module Spec
     module Behaviour
       attr_accessor :description
 
+      # Makes the describe/it syntax available from a class. For example:
+      #
+      #   class StackSpec < Example
+      #     describe Stack, "with no elements"
+      #
+      #     before
+      #       @stack = Stack.new
+      #     end
+      #
+      #     it "should raise on pop" do
+      #       lambda{ @stack.pop }.should raise_error
+      #     end
+      #   end
+      #
       def describe(*args, &behaviour_block)
         set_description(*args)
         before_eval
