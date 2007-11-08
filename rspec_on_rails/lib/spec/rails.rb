@@ -9,12 +9,10 @@ require 'active_record/fixtures'
 require 'test/unit'
 require 'spec'
 
-require File.expand_path("#{dir}/dsl")
-require File.expand_path("#{dir}/../extensions/spec/matchers")
+require File.expand_path("#{dir}/extensions")
 require File.expand_path("#{dir}/rails/dsl")
 
 require File.expand_path("#{dir}/rails/version")
-require File.expand_path("#{dir}/rails/extensions")
 require File.expand_path("#{dir}/rails/matchers")
 
 module Spec
