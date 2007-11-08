@@ -29,8 +29,8 @@ module Spec
           steps
         end
       
-        # Creates a context for running a Plain Text Story with specific groups of Steps
-        # Steps. Also supports adding arbitrary steps that will only be accessible to
+        # Creates a context for running a Plain Text Story with specific groups of Steps. 
+        # Also supports adding arbitrary steps that will only be accessible to
         # the Story being run.
         #
         # == Examples

@@ -31,7 +31,8 @@ h3. RSpec!
 
 In alphabetical order (by last name)
 
-
+* Daniel De Aguiar
+** Patch [#15446] Removed duplicate word in with_steps_for comment.
 * Chris Anderson
 ** Patch to return strings in response to :to_param (in generated controller/view specs)
 ** Patch to add --skip-migration option to rspec_scaffold generator
