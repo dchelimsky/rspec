@@ -16,22 +16,11 @@ module Spec
           orig_rspec_options = rspec_options
           begin
             $rspec_options = instance_rspec_options
-            return true if $rspec_options.generate
-        
-            success = $rspec_options.run_examples
-            heckle(rspec_options) if $rspec_options.heckle_runner
-            return success
+            return $rspec_options.run_examples
           ensure
             ::Spec.run = true
             $rspec_options = orig_rspec_options
           end
-        end
-
-        protected
-        def heckle(options)
-          heckle_runner = options.heckle_runner
-          options.heckle_runner = nil
-          heckle_runner.heckle_with
         end
       end
     end

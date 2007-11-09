@@ -32,7 +32,6 @@ module Spec
         :examples,
         :failure_file,
         :formatters,
-        :generate,
         :heckle_runner,
         :line_number,
         :loadby,
@@ -72,15 +71,25 @@ module Spec
       end
 
       def run_examples
+        return true unless examples_should_be_run?
         runner = custom_runner || BehaviourRunner.new(self)
 
         runner.load_files(files_to_load)
-        return true if behaviours.empty?
-
-        success = runner.run
-        @examples_run = true
-        success
+        if behaviours.empty?
+          true
+        else
+          success = runner.run
+          @examples_run = true
+          heckle if heckle_runner
+          success
+        end
       end
+
+      def examples_should_be_run?
+        return @examples_should_be_run unless @examples_should_be_run.nil?
+        @examples_should_be_run = true
+      end
+      attr_writer :examples_should_be_run
 
       def examples_run?
         @examples_run
@@ -209,6 +218,12 @@ module Spec
       end
 
       protected
+      def heckle
+        returns = self.heckle_runner.heckle_with
+        self.heckle_runner = nil
+        returns
+      end
+      
       def sorted_files
         return sorter ? files.sort(&sorter) : files
       end
