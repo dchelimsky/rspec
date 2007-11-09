@@ -138,13 +138,13 @@ module Spec
         @options = Options.new(@err, @out)
       end
       
-      it "returns true when there is a runner_arg" do
-        @options.runner_arg = "Custom::BehaviourRunner"
+      it "returns true when there is a user_input_for_runner" do
+        @options.user_input_for_runner = "Custom::BehaviourRunner"
         @options.custom_runner?.should be_true
       end
 
-      it "returns false when there is no runner_arg" do
-        @options.runner_arg = nil
+      it "returns false when there is no user_input_for_runner" do
+        @options.user_input_for_runner = nil
         @options.custom_runner?.should be_false
       end
     end

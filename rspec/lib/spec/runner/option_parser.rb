@@ -103,7 +103,7 @@ module Spec
         on(*OPTIONS[:generate_options]) do |options_file|
         end
         on(*OPTIONS[:runner]) do |runner|
-          @options.runner_arg = runner
+          @options.user_input_for_runner = runner
         end
         on(*OPTIONS[:drb]) {}
         on(*OPTIONS[:version]) {parse_version}

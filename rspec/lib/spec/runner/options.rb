@@ -39,8 +39,7 @@ module Spec
         :reverse,
         :timeout,
         :verbose,
-        # TODO: BT - Rename to something better
-        :runner_arg,
+        :user_input_for_runner,
         :error_stream,
         :output_stream,
         # TODO: BT - Figure out a better name
@@ -62,7 +61,7 @@ module Spec
         @diff_format  = :unified
         @files = []
         @behaviours = []
-        @runner_arg = nil
+        @user_input_for_runner = nil
         @examples_run = false
       end
 
@@ -105,12 +104,12 @@ module Spec
       end
 
       def custom_runner?
-        return @runner_arg ? true : false
+        return user_input_for_runner ? true : false
       end
 
       def custom_runner
         return nil unless custom_runner?
-        klass_name, arg = split_at_colon(@runner_arg)
+        klass_name, arg = split_at_colon(user_input_for_runner)
         runner_type = load_class(klass_name, 'behaviour runner', '--runner')
         return runner_type.new(self, arg)
       end
