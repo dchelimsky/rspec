@@ -26,9 +26,22 @@ module Spec
           @io.string.should eql("\ncontext\n")
         end
 
-        it "should push failing spec name and failure number" do
-          @formatter.example_failed(@behaviour.create_example_definition("spec"), 98, Reporter::Failure.new("c s", RuntimeError.new))
+        it "when having an error, should push failing spec name and failure number" do
+          @formatter.example_failed(
+            @behaviour.create_example_definition("spec"),
+            98,
+            Reporter::Failure.new("c s", RuntimeError.new)
+          )
           @io.string.should eql("- spec (ERROR - 98)\n")
+        end
+
+        it "when having an expectation failure, should push failing spec name and failure number" do
+          @formatter.example_failed(
+            @behaviour.create_example_definition("spec"),
+            98,
+            Reporter::Failure.new("c s", Spec::Expectations::ExpectationNotMetError.new)
+          )
+          @io.string.should eql("- spec (FAILED - 98)\n")
         end
 
         it "should push nothing on start" do

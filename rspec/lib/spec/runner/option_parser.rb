@@ -112,7 +112,7 @@ module Spec
 
       def order!(argv, &blk)
         @argv = argv
-        @options.current_argv = @argv
+        @options.current_argv = @argv.dup
         return if parse_generate_options
         return if parse_drb
         
@@ -167,12 +167,13 @@ module Spec
 
       def parse_drb
         is_drb = false
-        is_drb ||= @argv.delete(OPTIONS[:drb][0])
-        is_drb ||= @argv.delete(OPTIONS[:drb][1])
+        current_argv = @options.current_argv
+        is_drb ||= current_argv.delete(OPTIONS[:drb][0])
+        is_drb ||= current_argv.delete(OPTIONS[:drb][1])
         return nil unless is_drb
         @options.generate = true
         DrbCommandLine.run(
-          self.class.parse(@argv, @error_stream, @out_stream)
+          self.class.parse(current_argv, @error_stream, @out_stream)
         )
         true
       end

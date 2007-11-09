@@ -1,14 +1,3 @@
-require 'spec/runner/formatter/html_formatter'
-
-module Spec
-  module Mate
-    # Formats backtraces so they're clickable by TextMate
-    class TextMateFormatter < Spec::Runner::Formatter::HtmlFormatter
-      def backtrace_line(line)
-        line.gsub(/([^:]*\.rb):(\d*)/) do
-          "<a href=\"txmt://open?url=file://#{File.expand_path($1)}&line=#{$2}\">#{$1}:#{$2}</a> "
-        end
-      end
-    end
-  end
-end
+require 'spec/runner/formatter/text_mate_formatter'
+warn "Requiring text_mate_formatter in SpecMate is deprecated because TextMateFormatter is bundled with rspec core. " <<
+     "You may need to update your spec_server script."

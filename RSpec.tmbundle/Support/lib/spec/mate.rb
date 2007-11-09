@@ -14,4 +14,4 @@ require 'spec'
 $LOAD_PATH.unshift(File.dirname(__FILE__) + '/..')
 require 'spec/mate/runner'
 require 'spec/mate/switch_command'
-require 'spec/mate/text_mate_formatter'
+#require 'spec/mate/text_mate_formatter'
