@@ -13,7 +13,7 @@ Story: simple addition
     
     When the addends are added
     
-    Then the sum should be 2
+    Then the sum should be 3
     And the corks should be popped
   
   Scenario: add two plus five

@@ -40,7 +40,7 @@ module Spec
               expression.gsub!($1, "(.*)")
             end
           end
-          @expression = Regexp.new(expression)
+          @expression = Regexp.new("^#{expression}$")
         end
 
     end
