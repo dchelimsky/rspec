@@ -19,7 +19,8 @@ module Spec
         'failing_behaviours' => Formatter::FailingBehavioursFormatter,
         'b'        => Formatter::FailingBehavioursFormatter,
         'profile'  => Formatter::ProfileFormatter,
-        'o'        => Formatter::ProfileFormatter
+        'o'        => Formatter::ProfileFormatter,
+        'textmate' => Formatter::TextMateFormatter,
       }
 
       attr_accessor(
@@ -27,6 +28,7 @@ module Spec
         :context_lines,
         :diff_format,
         :dry_run,
+        :profile,
         :examples,
         :failure_file,
         :formatters,

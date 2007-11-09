@@ -24,7 +24,7 @@ module Spec
       def run(stdout, options)
         argv = options[:files].dup
         argv << '--format'
-        argv << 'Spec::Mate::TextMateFormatter'
+        argv << 'textmate'
         if options[:line]
           argv << '--line'
           argv << options[:line]
