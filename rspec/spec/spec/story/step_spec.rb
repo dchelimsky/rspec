@@ -8,6 +8,16 @@ module Spec
         step_matcher.matches?("this text").should be_true
       end
       
+      it "should not match a text string that does not start the same" do
+        step_matcher = Step.new("this text") {}
+        step_matcher.matches?("Xthis text").should be_false
+      end
+      
+      it "should not match a text string that does not start the same" do
+        step_matcher = Step.new("this text") {}
+        step_matcher.matches?("this textX").should be_false
+      end
+      
       it "should match a text string with a param" do
         step_matcher = Step.new("this $param text") {}
         step_matcher.matches?("this anything text").should be_true

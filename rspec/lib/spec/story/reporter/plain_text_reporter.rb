@@ -10,29 +10,31 @@ module Spec
         end
         
         def scenario_succeeded(story_title, scenario_name)
-          @out << '.'
           @succeeded += 1
         end
         
+        def scenario_started(story_title, scenario_name)
+          @scenario_already_failed = false
+        end
+        
         def scenario_failed(story_title, scenario_name, err)
-          @out << "FAILED\n"
-          @failed << [story_title, scenario_name, err]
+          @failed << [story_title, scenario_name, err] unless @scenario_already_failed
+          @scenario_already_failed = true
         end
         
         def scenario_pending(story_title, scenario_name, msg)
           @pending << [story_title, scenario_name, msg]
-          @out << "PENDING\n"
         end
         
         def run_started(count)
           @count = count
-          @out << "Running #@count scenarios:\n"
+          @out << "Running #@count scenarios:\n\n"
         end
         
         def run_ended
-          @out << "\n\n#@count scenarios: #@succeeded succeeded, #{@failed.size} failed, #{@pending.size} pending\n"
+          @out << "\n\n#@count scenarios: #@succeeded succeeded, #{@failed.size} failed\n"
           unless @pending.empty?
-            @out << "\nPending:\n"
+            @out << "\nPENDING:\n"
             @pending.each_with_index do |pending, i|
               title, scenario_name, msg = pending
               @out << "#{i+1}) #{title} (#{scenario_name}): #{msg}\n"

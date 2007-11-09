@@ -15,7 +15,7 @@ module Spec
           @documenter.story_started 'story', 'narrative'
           
           # then
-          @out.should contain("Story: story\nnarrative\n")
+          @out.should contain("Story: story\n\n  narrative")
         end
         
         it 'should document a scenario name' do
@@ -23,7 +23,7 @@ module Spec
           @documenter.scenario_started 'story', 'scenario'
           
           # then
-          @out.should contain("\nScenario: scenario\n")
+          @out.should contain("\n\nScenario: scenario")
         end
         
         it 'should document a step by sentence-casing its name' do
@@ -33,7 +33,7 @@ module Spec
           @documenter.found_step :then, 'an outcome'
           
           # then
-          @out.should contain("  Given a context\n\n  When an event\n\n  Then an outcome\n")
+          @out.should contain("\n\n  Given a context\n\n  When an event\n\n  Then an outcome")
         end
         
         it 'should document additional givens using And' do

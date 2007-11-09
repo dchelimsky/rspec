@@ -8,30 +8,41 @@ module Spec
         end
         
         def story_started(title, narrative)
-          @out << "Story: #{title}\n#{narrative}\n"
-        end
-        
-        def story_ended(title, narrative)
-          @out << "\n\n"
+          @out << "Story: #{title}\n\n"
+          narrative.each_line do |line|
+            @out << "  " << line
+          end
         end
         
         def scenario_started(story_title, scenario_name)
-          @out << "\nScenario: #{scenario_name}\n"
+          @out << "\n\nScenario: #{scenario_name}"
         end
         
         def found_step(type, description, *args)
           args_txt = args.empty? ? "" : " #{args.join ','}"
           if type == @previous_type
-            @out << "  And "
+            @out << "\n  And "
           else
-            @out << "\n" << "  #{type.to_s.capitalize} "
+            @out << "\n\n" << "  #{type.to_s.capitalize} "
           end
-          @out << "#{description}#{args_txt}" << "\n"
+          @out << "#{description}#{args_txt}"
           if type == :'given scenario'
             @previous_type = :given
           else
             @previous_type = type
           end
+        end
+        
+        def step_pending
+          @out << " (PENDING)"
+        end
+        
+        def step_failed
+          @out << " (FAILED)"
+        end
+
+        def story_ended(title, narrative)
+          @out << "\n\n"
         end
         
         def method_missing(meth, *args, &block)

@@ -62,6 +62,12 @@ module Spec
           begin
             step.perform(instance, name, *args) unless ::Spec::Story::Runner.dry_run
           rescue Exception => e
+            case e
+            when Spec::DSL::ExamplePendingError
+              @listeners.each { |l| l.step_pending }
+            else
+              @listeners.each { |l| l.step_failed }
+            end
             errors << e
           end
         end
