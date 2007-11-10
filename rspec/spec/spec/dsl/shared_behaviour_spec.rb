@@ -18,7 +18,7 @@ module Spec
       after(:each) do
         $rspec_options = @original_rspec_options
         @formatter.rspec_verify
-        @behaviour_class = nil
+        @behaviour = nil
         $shared_behaviours.clear unless $shared_behaviours.nil?
       end
 
