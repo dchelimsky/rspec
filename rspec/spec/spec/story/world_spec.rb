@@ -298,13 +298,13 @@ module Spec
         World.add_listener(mock_listener2)
         
         # expect
-        mock_listener1.should_receive(:found_step).with(:given, 'a context')
-        mock_listener1.should_receive(:found_step).with(:when, 'an event')
-        mock_listener1.should_receive(:found_step).with(:then, 'an outcome')
+        mock_listener1.should_receive(:step_succeeded).with(:given, 'a context')
+        mock_listener1.should_receive(:step_succeeded).with(:when, 'an event')
+        mock_listener1.should_receive(:step_succeeded).with(:then, 'an outcome')
         
-        mock_listener2.should_receive(:found_step).with(:given, 'a context')
-        mock_listener2.should_receive(:found_step).with(:when, 'an event')
-        mock_listener2.should_receive(:found_step).with(:then, 'an outcome')
+        mock_listener2.should_receive(:step_succeeded).with(:given, 'a context')
+        mock_listener2.should_receive(:step_succeeded).with(:when, 'an event')
+        mock_listener2.should_receive(:step_succeeded).with(:then, 'an outcome')
         
         # when
         world.instance_eval do
@@ -326,7 +326,7 @@ module Spec
         world = World.create
         
         # expect
-        mock_listener.should_receive(:found_step).with(:given, 'a context')
+        mock_listener.should_receive(:step_succeeded).with(:given, 'a context')
         
         # when
         world.instance_eval do
@@ -360,10 +360,10 @@ module Spec
         World.add_listener(listener)        
         
         # expect
-        listener.should_receive(:found_step).with(:'given scenario', 'a scenario')
-        listener.should_receive(:found_step).never.with(:given, 'given')
-        listener.should_receive(:found_step).never.with(:when, 'event')
-        listener.should_receive(:found_step).never.with(:then, 'outcome')
+        listener.should_receive(:found_scenario).with(:'given scenario', 'a scenario')
+        listener.should_receive(:step_succeeded).never.with(:given, 'given')
+        listener.should_receive(:step_succeeded).never.with(:when, 'event')
+        listener.should_receive(:step_succeeded).never.with(:then, 'outcome')
         
         # when
         world.GivenScenario 'a scenario'
@@ -372,6 +372,7 @@ module Spec
         # TODO verify_all
         $scenario_ran.should be_true
       end
+      
       it 'should interpret GivenScenario... And... as multiple givens' do
         # given
         world = World.create

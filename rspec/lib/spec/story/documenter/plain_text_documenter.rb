@@ -16,6 +16,27 @@ module Spec
         
         def scenario_started(story_title, scenario_name)
           @out << "\n\nScenario: #{scenario_name}"
+          @scenario_ok = true
+        end
+        
+        def step_succeeded(type, description, *args)
+          found_step(type, description, *args)
+        end
+        
+        def step_pending(type, description, *args)
+          found_step(type, description, *args)
+          @out << " (PENDING)"
+          @scenario_ok = false
+        end
+        
+        def step_failed(type, description, *args)
+          found_step(type, description, *args)
+          @scenario_ok ? (@out << " (FAILED)") : (@out << " (SKIPPED)")
+          @scenario_ok = false
+        end
+
+        def story_ended(title, narrative)
+          @out << "\n\n"
         end
         
         def found_step(type, description, *args)
@@ -31,18 +52,6 @@ module Spec
           else
             @previous_type = type
           end
-        end
-        
-        def step_pending
-          @out << " (PENDING)"
-        end
-        
-        def step_failed
-          @out << " (FAILED)"
-        end
-
-        def story_ended(title, narrative)
-          @out << "\n\n"
         end
         
         def method_missing(meth, *args, &block)

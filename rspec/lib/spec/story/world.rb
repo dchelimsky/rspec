@@ -40,33 +40,31 @@ module Spec
           step_mother.use(steps)
         end
 
-        # TODO: investigate duplication between #run_with_suspended_listeners and #store_and_call
-        
-        def run_with_suspended_listeners(instance, type, name, step)
+        def run_given_scenario_with_suspended_listeners(world, type, name, scenario)
           current_listeners = Array.new(listeners)
           begin
-            listeners.each { |l| l.found_step(type, name) }
+            listeners.each { |l| l.found_scenario(type, name) }
             @listeners.clear
-            step.perform(instance, name) unless ::Spec::Story::Runner.dry_run
+            scenario.perform(world, name) unless ::Spec::Story::Runner.dry_run
           ensure
             @listeners.replace(current_listeners)
           end
         end
         
-        def store_and_call(instance, type, name, *args, &block)
+        def store_and_call(world, type, name, *args, &block)
           if block_given?
             step_mother.store(type, Step.new(name, &block))
           end
           step = step_mother.find(type, name)
-          listeners.each { |l| l.found_step(type, name, *args) }
           begin
-            step.perform(instance, name, *args) unless ::Spec::Story::Runner.dry_run
+            step.perform(world, name, *args) unless ::Spec::Story::Runner.dry_run
+            listeners.each { |l| l.step_succeeded(type, name, *args) }
           rescue Exception => e
             case e
             when Spec::DSL::ExamplePendingError
-              @listeners.each { |l| l.step_pending }
+              @listeners.each { |l| l.step_pending(type, name, *args) }
             else
-              @listeners.each { |l| l.step_failed }
+              @listeners.each { |l| l.step_failed(type, name, *args) }
             end
             errors << e
           end
@@ -75,7 +73,7 @@ module Spec
         def errors
           @errors ||= []
         end
-      end
+      end # end of class << self
       
       def start_collecting_errors
         errors.clear
@@ -86,7 +84,7 @@ module Spec
       end
       
       def GivenScenario(name)
-        World.run_with_suspended_listeners(self, :'given scenario', name, GivenScenario.new(name))
+        World.run_given_scenario_with_suspended_listeners(self, :'given scenario', name, GivenScenario.new(name))
         @__previous_step = :given
       end
       

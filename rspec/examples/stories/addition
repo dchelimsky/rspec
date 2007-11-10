@@ -11,7 +11,7 @@ Story: simple addition
     Given an addend of 1
     And an addend of 1
     
-    When the addends are added
+    When the addends are addeds
     
     Then the sum should be 3
     And the corks should be popped
