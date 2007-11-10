@@ -192,7 +192,7 @@ module Spec
         when :each; after_each_parts
         when :all; after_all_parts
         end
-      end      
+      end
 
       def before_eval
       end
