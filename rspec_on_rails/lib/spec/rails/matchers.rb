@@ -1,8 +1,8 @@
 dir = File.dirname(__FILE__)
-require File.expand_path("#{dir}/matchers/assert_select")
-require File.expand_path("#{dir}/matchers/have_text")
-require File.expand_path("#{dir}/matchers/redirect_to")
-require File.expand_path("#{dir}/matchers/render_template")
+require 'spec/rails/matchers/assert_select'
+require 'spec/rails/matchers/have_text'
+require 'spec/rails/matchers/redirect_to'
+require 'spec/rails/matchers/render_template'
 
 module Spec
   module Rails

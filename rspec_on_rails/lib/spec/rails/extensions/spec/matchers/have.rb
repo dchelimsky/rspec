@@ -1,3 +1,5 @@
+require 'spec/matchers/have'
+
 module Spec #:nodoc:
   module Matchers #:nodoc:
     class Have #:nodoc:

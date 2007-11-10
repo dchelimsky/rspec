@@ -11,3 +11,5 @@ module Spec
     end
   end
 end
+
+Spec::ExampleGroup = Spec::DSL::ExampleGroup

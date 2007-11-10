@@ -1,19 +1,18 @@
-dir = File.dirname(__FILE__)
-require 'application'
-
 silence_warnings { RAILS_ENV = "test" }
+
+require 'application'
 require 'action_controller/test_process'
 require 'action_controller/integration'
 require 'active_record/base'
 require 'active_record/fixtures'
 require 'test/unit'
+
 require 'spec'
 
-require File.expand_path("#{dir}/extensions")
-require File.expand_path("#{dir}/rails/dsl")
-
-require File.expand_path("#{dir}/rails/version")
-require File.expand_path("#{dir}/rails/matchers")
+require 'spec/rails/extensions'
+require 'spec/rails/dsl'
+require 'spec/rails/version'
+require 'spec/rails/matchers'
 
 module Spec
   # = Spec::Rails

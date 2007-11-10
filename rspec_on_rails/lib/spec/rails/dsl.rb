@@ -1,8 +1,8 @@
 dir = File.dirname(__FILE__)
 
-require File.expand_path("#{dir}/dsl/ivar_proxy")
-require File.expand_path("#{dir}/dsl/assigns_hash_proxy")
-require File.expand_path("#{dir}/dsl/behaviour")
+require 'spec/rails/dsl/ivar_proxy'
+require 'spec/rails/dsl/assigns_hash_proxy'
+require 'spec/rails/dsl/behaviour'
 
 module Spec
   module Rails
