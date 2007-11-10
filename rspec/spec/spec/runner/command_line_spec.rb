@@ -39,7 +39,7 @@ module Spec
       end
 
       it "should dump even if Interrupt exception is occurred" do
-        behaviour = Class.new(::Spec::DSL::Example).describe("behaviour") do
+        behaviour = Class.new(::Spec::DSL::ExampleGroup).describe("behaviour") do
           it "no error" do
           end
 
@@ -57,7 +57,7 @@ module Spec
       end
 
       it "should heckle when options have heckle_runner" do
-        behaviour = Class.new(::Spec::DSL::Example).describe("behaviour") do
+        behaviour = Class.new(::Spec::DSL::ExampleGroup).describe("behaviour") do
           it "no error" do
           end
         end
@@ -81,8 +81,8 @@ module Spec
         ::Spec::Runner::Options.should_receive(:new).with(@err, @out).and_return(options)
         options.reverse = true
 
-        b1 = Class.new(Spec::DSL::Example)
-        b2 = Class.new(Spec::DSL::Example)
+        b1 = Class.new(Spec::DSL::ExampleGroup)
+        b2 = Class.new(Spec::DSL::ExampleGroup)
 
         b1_suite = b1.suite
         b1.should_receive(:suite).and_return(b1_suite)
@@ -99,7 +99,7 @@ module Spec
       end
 
       it "should pass its Description to the reporter" do
-        behaviour = Class.new(::Spec::DSL::Example).describe("behaviour") do
+        behaviour = Class.new(::Spec::DSL::ExampleGroup).describe("behaviour") do
           it "should" do
           end
         end
@@ -118,7 +118,7 @@ module Spec
         options.examples << "behaviour should"
         should_has_run = false
         should_not_has_run = false
-        behaviour = Class.new(::Spec::DSL::Example).describe("behaviour") do
+        behaviour = Class.new(::Spec::DSL::ExampleGroup).describe("behaviour") do
           it "should" do
             should_has_run = true
           end

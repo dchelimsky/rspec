@@ -12,7 +12,7 @@ describe "Test::Unit interaction" do
   end
 
   it "runs methods beginning with test" do
-    behaviour = Class.new(::Spec::DSL::Example).describe("Behaviour") do
+    behaviour = Class.new(::Spec::DSL::ExampleGroup).describe("Behaviour") do
       def test_should_have_seamless_transition_from_test_unit
         true.should be_true
       end

@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 
 module Spec
   module DSL
-    class ExampleClassDefinitionSpec < Example
+    class ExampleClassDefinitionSpec < ExampleGroup
       class << self
         attr_accessor :examples_ran
       end

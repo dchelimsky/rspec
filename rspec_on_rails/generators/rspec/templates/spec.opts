@@ -4,3 +4,4 @@ progress
 --loadby
 mtime
 --reverse
+--backtrace

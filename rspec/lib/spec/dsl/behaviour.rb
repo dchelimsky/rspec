@@ -4,9 +4,17 @@ module Spec
     module Behaviour
       attr_accessor :description
 
+      def inherited(klass)
+        super
+        unless klass.name.to_s == ""
+          klass.describe(klass.name)
+          klass.register
+        end
+      end
+
       # Makes the describe/it syntax available from a class. For example:
       #
-      #   class StackSpec < Example
+      #   class StackSpec < ExampleGroup
       #     describe Stack, "with no elements"
       #
       #     before
@@ -309,7 +317,7 @@ module Spec
       end
 
       def set_description(*args)
-        unless self.class == Example
+        unless self.class == ExampleGroup
           args << {} unless Hash === args.last
           args.last[:behaviour] = self
         end

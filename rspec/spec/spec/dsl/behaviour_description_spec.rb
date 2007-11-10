@@ -27,48 +27,48 @@ module Spec
     end
     
     describe BehaviourDescription, " constructed with a Type" do
-      before(:each) {@description = BehaviourDescription.new(Example)}
+      before(:each) {@description = BehaviourDescription.new(ExampleGroup)}
 
       it "should provide a String representation of that type (fully qualified) as its name" do
-        @description.description.should == "Spec::DSL::Example"
+        @description.description.should == "Spec::DSL::ExampleGroup"
       end
       it "should provide that type (fully qualified) as its type" do
-        @description.described_type.should == Spec::DSL::Example
+        @description.described_type.should == Spec::DSL::ExampleGroup
       end
     end
     
     describe BehaviourDescription, " constructed with a Type and a String" do
-      before(:each) {@description = BehaviourDescription.new(Example, " behaving")}
+      before(:each) {@description = BehaviourDescription.new(ExampleGroup, " behaving")}
       
       it "should include the type and second String in its name" do
-        @description.description.should == "Spec::DSL::Example behaving"
+        @description.description.should == "Spec::DSL::ExampleGroup behaving"
       end
       it "should provide that type (fully qualified) as its type" do
-        @description.described_type.should == Spec::DSL::Example
+        @description.described_type.should == Spec::DSL::ExampleGroup
       end
     end
 
     describe BehaviourDescription, "constructed with a Type and a String not starting with a space" do
-      before(:each) {@description = BehaviourDescription.new(Example, "behaving")}
+      before(:each) {@description = BehaviourDescription.new(ExampleGroup, "behaving")}
 
       it "should include the type and second String with a space in its name" do
-        @description.description.should == "Spec::DSL::Example behaving"
+        @description.description.should == "Spec::DSL::ExampleGroup behaving"
       end
     end
 
     describe BehaviourDescription, "constructed with a Type and a String starting with a ." do
-      before(:each) {@description = BehaviourDescription.new(Example, ".behaving")}
+      before(:each) {@description = BehaviourDescription.new(ExampleGroup, ".behaving")}
 
       it "should include the type and second String with a space in its name" do
-        @description.description.should == "Spec::DSL::Example.behaving"
+        @description.description.should == "Spec::DSL::ExampleGroup.behaving"
       end
     end
 
     describe BehaviourDescription, "constructed with a Type and a String starting with a #" do
-      before(:each) {@description = BehaviourDescription.new(Example, "#behaving")}
+      before(:each) {@description = BehaviourDescription.new(ExampleGroup, "#behaving")}
 
       it "should include the type and second String with a space in its name" do
-        @description.description.should == "Spec::DSL::Example#behaving"
+        @description.description.should == "Spec::DSL::ExampleGroup#behaving"
       end
     end
 
@@ -82,7 +82,7 @@ module Spec
     
     describe BehaviourDescription, " constructed with options" do
       before(:each) do
-        @description = BehaviourDescription.new(Example, :a => "b", :spec_path => "blah")
+        @description = BehaviourDescription.new(ExampleGroup, :a => "b", :spec_path => "blah")
       end
 
       it "should provide its options" do

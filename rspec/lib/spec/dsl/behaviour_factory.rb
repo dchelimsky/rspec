@@ -4,7 +4,7 @@ module Spec
       class << self
         def reset!
           @behaviour_types = {
-            :default => Spec::DSL::Example,
+            :default => Spec::DSL::ExampleGroup,
             :shared => Spec::DSL::SharedBehaviour
           }
         end

@@ -62,7 +62,7 @@ module Spec
   
         def unregister_verify_after_each #:nodoc:
           proc = verify_rendered_proc
-          Spec::DSL::Example.remove_after(:each, &proc)
+          Spec::DSL::ExampleGroup.remove_after(:each, &proc)
         end
 
         protected
@@ -77,7 +77,7 @@ module Spec
 
         def register_verify_after_each #:nodoc:
           proc = verify_rendered_proc
-          Spec::DSL::Example.after(:each, &proc)
+          Spec::DSL::ExampleGroup.after(:each, &proc)
         end
   
         def expect_render_mock_proxy #:nodoc:

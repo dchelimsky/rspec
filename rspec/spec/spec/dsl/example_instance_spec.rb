@@ -7,7 +7,7 @@ module Spec
         @options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
         @reporter = ::Spec::Runner::Reporter.new(@options)
         @options.reporter = @reporter
-        @behaviour = Class.new(Example).describe("My Behaviour") {}
+        @behaviour = Class.new(ExampleGroup).describe("My Behaviour") {}
       end
 
       def create_proxy(example_definition)

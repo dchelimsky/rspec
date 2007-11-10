@@ -1,19 +1,6 @@
 module Spec
   module DSL
-    class Example < ::Test::Unit::TestCase
-      remove_method :default_test if respond_to?(:default_test)
-
-      class << self
-        include Behaviour
-        def inherited(klass)
-          super
-          unless klass.name.to_s == ""
-            klass.describe(klass.name)
-            klass.register
-          end
-        end
-      end
-
+    module ExampleGroupMethods
       include ::Spec::Matchers
       include ::Spec::DSL::Pending
 
@@ -70,9 +57,6 @@ module Spec
         end
         raise first_exception if first_exception
       end
-
     end
   end
-  
-  ExampleGroup = Spec::DSL::Example
 end
