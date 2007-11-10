@@ -23,8 +23,8 @@ module Spec
             args = [
               'failing_examples/mocking_example.rb',
                 'failing_examples/diffing_spec.rb',
-                'examples/stubbing_example.rb',
-                'examples/pending_example.rb',
+                'examples/pure/stubbing_example.rb',
+                'examples/pure/pending_example.rb',
                 '--format',
                 'textmate',
                 opt

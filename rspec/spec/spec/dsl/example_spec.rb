@@ -403,14 +403,14 @@ module Spec
     class ExampleSubclass < ExampleGroup
     end
 
-    describe "Example subclass", "#described_type" do
+    describe ExampleGroup, "subclasses" do
       after do
         BehaviourFactory.reset!
       end
 
       it "should have access to the described_type" do
-        behaviour = Class.new(ExampleSubclass).describe(ExampleDefinition){}
-        behaviour.send(:described_type).should == ExampleDefinition
+        behaviour = Class.new(ExampleSubclass).describe(Array){}
+        behaviour.send(:described_type).should == Array
       end
     end
 

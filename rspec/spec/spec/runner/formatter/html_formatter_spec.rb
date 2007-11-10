@@ -18,7 +18,7 @@ describe "HtmlFormatter" do
       end
 
       Dir.chdir(root) do
-        args = ['failing_examples/mocking_example.rb', 'failing_examples/diffing_spec.rb', 'examples/stubbing_example.rb',  'examples/pending_example.rb', '--format', 'html', opt]
+        args = ['failing_examples/mocking_example.rb', 'failing_examples/diffing_spec.rb', 'examples/pure/stubbing_example.rb',  'examples/pure/pending_example.rb', '--format', 'html', opt]
         err = StringIO.new
         out = StringIO.new
         Spec::Runner::CommandLine.run(
