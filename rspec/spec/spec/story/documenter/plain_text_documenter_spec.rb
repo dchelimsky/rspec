@@ -28,9 +28,9 @@ module Spec
         
         it 'should document a step by sentence-casing its name' do
           # when
-          @documenter.found_step :given, 'a context'
-          @documenter.found_step :when, 'an event'
-          @documenter.found_step :then, 'an outcome'
+          @documenter.step_succeeded :given, 'a context'
+          @documenter.step_succeeded :when, 'an event'
+          @documenter.step_succeeded :then, 'an outcome'
           
           # then
           @out.should contain("\n\n  Given a context\n\n  When an event\n\n  Then an outcome")
@@ -38,9 +38,9 @@ module Spec
         
         it 'should document additional givens using And' do
           # when
-          @documenter.found_step :given, 'step 1'
-          @documenter.found_step :given, 'step 2'
-          @documenter.found_step :given, 'step 3'
+          @documenter.step_succeeded :given, 'step 1'
+          @documenter.step_succeeded :given, 'step 2'
+          @documenter.step_succeeded :given, 'step 3'
           
           # then
           @out.should contain("  Given step 1\n  And step 2\n  And step 3")
@@ -48,9 +48,9 @@ module Spec
         
         it 'should document additional events using And' do
           # when
-          @documenter.found_step :when, 'step 1'
-          @documenter.found_step :when, 'step 2'
-          @documenter.found_step :when, 'step 3'
+          @documenter.step_succeeded :when, 'step 1'
+          @documenter.step_succeeded :when, 'step 2'
+          @documenter.step_succeeded :when, 'step 3'
           
           # then
           @out.should contain("  When step 1\n  And step 2\n  And step 3")
@@ -58,9 +58,9 @@ module Spec
         
         it 'should document additional outcomes using And' do
           # when
-          @documenter.found_step :then, 'step 1'
-          @documenter.found_step :then, 'step 2'
-          @documenter.found_step :then, 'step 3'
+          @documenter.step_succeeded :then, 'step 1'
+          @documenter.step_succeeded :then, 'step 2'
+          @documenter.step_succeeded :then, 'step 3'
           
           # then
           @out.should contain("  Then step 1\n  And step 2\n  And step 3")
@@ -68,11 +68,49 @@ module Spec
         
         it 'should document a GivenScenario followed by a Given using And' do
           # when
-          @documenter.found_step :'given scenario', 'a scenario'
-          @documenter.found_step :given, 'a context'
+          @documenter.step_succeeded :'given scenario', 'a scenario'
+          @documenter.step_succeeded :given, 'a context'
           
           # then
           @out.should contain("  Given scenario a scenario\n  And a context")
+        end
+        
+        it "should append PENDING for the first pending step" do
+          @documenter.scenario_started('','')
+          @documenter.step_pending(:given, 'a context')
+          
+          @out.should contain('Given a context (PENDING)')
+        end
+        
+        it "should append PENDING for pending after already pending" do
+          @documenter.scenario_started('','')
+          @documenter.step_pending(:given, 'a context')
+          @documenter.step_pending(:when, 'I say hey')
+          
+          @out.should contain('When I say hey (PENDING)')
+        end
+        
+        it "should append FAILED for the first failiure" do
+          @documenter.scenario_started('','')
+          @documenter.step_failed(:given, 'a context')
+          
+          @out.should contain('Given a context (FAILED)')
+        end
+        
+        it "should append SKIPPED for the second failiure" do
+          @documenter.scenario_started('','')
+          @documenter.step_failed(:given, 'a context')
+          @documenter.step_failed(:when, 'I say hey')
+          
+          @out.should contain('When I say hey (SKIPPED)')
+        end
+        
+        it "should append SKIPPED for the a failiure after PENDING" do
+          @documenter.scenario_started('','')
+          @documenter.step_pending(:given, 'a context')
+          @documenter.step_failed(:when, 'I say hey')
+          
+          @out.should contain('When I say hey (SKIPPED)')
         end
         
         it 'should print some white space after each story' do

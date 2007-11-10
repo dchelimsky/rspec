@@ -8,7 +8,7 @@ end
 
 # This appends to them
 steps_for(:addition) do
-  # When("the addends are added")  { @sum = @adder.sum }
+  When("the addends are added")  { @sum = @adder.sum }
 end
 
 steps_for(:more_addition) do
