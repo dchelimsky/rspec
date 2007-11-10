@@ -1,5 +1,5 @@
-require File.dirname(__FILE__) + '/spec_helper'
-require File.dirname(__FILE__) + "/stack"
+require File.dirname(__FILE__) + '/../pure/spec_helper'
+require File.dirname(__FILE__) + '/../pure/stack'
 
 class EmptyStackSpec < Spec::ExampleGroup
   def should_be_empty
