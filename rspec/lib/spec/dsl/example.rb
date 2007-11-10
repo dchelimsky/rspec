@@ -97,7 +97,7 @@ module Spec
         end
 
         def is_test?(method_name)
-          method_name =~ /^test./
+          method_name =~ /^test_./
         end
         
         def is_spec?(method_name)
