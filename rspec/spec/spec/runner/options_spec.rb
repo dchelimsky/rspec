@@ -94,7 +94,7 @@ module Spec
         @err = StringIO.new('')
         @out = StringIO.new('')
         @options = Options.new(@err, @out)
-        @options.add_behaviour Class.new(::Spec::DSL::Example)
+        @options.add_behaviour Class.new(::Spec::DSL::ExampleGroup)
         @options.formatters << Formatter::BaseTextFormatter.new(@options, @out)
       end
 
@@ -219,7 +219,7 @@ module Spec
       it "runs all examples when options.examples is nil" do
         example_1_has_run = false
         example_2_has_run = false
-        @behaviour = Class.new(::Spec::DSL::Example).describe("A Behaviour") do
+        @behaviour = Class.new(::Spec::DSL::ExampleGroup).describe("A Behaviour") do
           it "runs 1" do
             example_1_has_run = true
           end
@@ -239,7 +239,7 @@ module Spec
       it "keeps all example_definitions when options.examples is empty" do
         example_1_has_run = false
         example_2_has_run = false
-        @behaviour = Class.new(::Spec::DSL::Example).describe("A Behaviour") do
+        @behaviour = Class.new(::Spec::DSL::ExampleGroup).describe("A Behaviour") do
           it "runs 1" do
             example_1_has_run = true
           end
@@ -265,7 +265,7 @@ module Spec
       end
 
       it "adds behaviour when behaviour has example_definitions and is not shared" do
-        @behaviour = Class.new(::Spec::DSL::Example).describe("A Behaviour") do
+        @behaviour = Class.new(::Spec::DSL::ExampleGroup).describe("A Behaviour") do
           it "uses this behaviour" do
           end
         end

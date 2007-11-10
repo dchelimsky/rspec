@@ -8,7 +8,7 @@ module Spec
           @io = StringIO.new
           @options = Options.new(StringIO.new, @io)
           @formatter = @options.create_formatter(SpecdocFormatter)
-          @behaviour = Class.new(::Spec::DSL::Example).describe("My Behaviour")
+          @behaviour = Class.new(::Spec::DSL::ExampleGroup).describe("My Behaviour")
         end
 
         it "should produce standard summary without pending when pending has a 0 count" do

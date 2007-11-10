@@ -48,7 +48,7 @@ module Spec
         # NOTE - BE CAREFUL IF CHANGING THIS NEXT LINE:
         #   this line is as it is to satisfy JRuby - the original version
         #   read, simply: "if options[:behaviour]", which passed against ruby, but failed against jruby
-        if options[:behaviour] && options[:behaviour].ancestors.include?(Example)
+        if options[:behaviour] && options[:behaviour].ancestors.include?(ExampleGroup)
           proposed_behaviour_type = parse_behaviour_type(options[:behaviour])
           if BehaviourFactory.get(proposed_behaviour_type)
             options[:behaviour_type] ||= proposed_behaviour_type
@@ -72,7 +72,7 @@ module Spec
     
       def parse_behaviour_type(behaviour)
         class_name = get_class_name(behaviour)
-        parsed_class_name = class_name.split("::").reverse[0].gsub('Example', '')
+        parsed_class_name = class_name.split("::").reverse[0].gsub('ExampleGroup', '')
         return nil if parsed_class_name.empty?
         parsed_class_name.downcase.to_sym
       end

@@ -9,7 +9,7 @@ module Spec
       end
     end
 
-    describe Example, :shared => true do
+    describe ExampleGroup, :shared => true do
       before :all do
         @original_rspec_options = $rspec_options
       end
@@ -21,7 +21,7 @@ module Spec
         @options.backtrace_tweaker = mock("backtrace_tweaker", :null_object => true)
         @reporter = FakeReporter.new(@options)
         @options.reporter = @reporter
-        @behaviour = Class.new(Example).describe("example") do
+        @behaviour = Class.new(ExampleGroup).describe("example") do
           it "does nothing"
         end
         class << @behaviour
@@ -32,12 +32,12 @@ module Spec
 
       after :each do
         $rspec_options = @original_rspec_options
-        Example.reset!
+        ExampleGroup.reset!
       end
     end
     
-    describe Example, ".it" do
-      it_should_behave_like "Spec::DSL::Example"
+    describe ExampleGroup, ".it" do
+      it_should_behave_like "Spec::DSL::ExampleGroup"
 
       it "should should create an example instance" do
         lambda {
@@ -46,8 +46,8 @@ module Spec
       end
     end
 
-    describe Example, ".xit" do
-      it_should_behave_like "Spec::DSL::Example"
+    describe ExampleGroup, ".xit" do
+      it_should_behave_like "Spec::DSL::ExampleGroup"
       
       before(:each) do
         Kernel.stub!(:warn)
@@ -65,17 +65,17 @@ module Spec
       end
     end
 
-    describe "Example", ".suite" do
-      it_should_behave_like "Spec::DSL::Example"
+    describe ExampleGroup, ".suite" do
+      it_should_behave_like "Spec::DSL::ExampleGroup"
 
       it "should return an empty ExampleSuite when there is no description" do
-        Example.description.should be_nil
-        Example.suite.should be_instance_of(ExampleSuite)
-        Example.suite.tests.should be_empty
+        ExampleGroup.description.should be_nil
+        ExampleGroup.suite.should be_instance_of(ExampleSuite)
+        ExampleGroup.suite.tests.should be_empty
       end
 
       it "should return an ExampleSuite with Examples" do
-        behaviour = Class.new(Example).describe('example') do
+        behaviour = Class.new(ExampleGroup).describe('example') do
           it "should pass" do
             1.should == 1
           end
@@ -86,7 +86,7 @@ module Spec
       end
 
       it "should include methods that begin with test and has an arity of 0 in suite" do
-        behaviour = Class.new(Example).describe('example') do
+        behaviour = Class.new(ExampleGroup).describe('example') do
           def test_any_args(*args)
             true.should be_true
           end
@@ -107,7 +107,7 @@ module Spec
       end
 
       it "should include methods that begin with should and has an arity of 0 in suite" do
-        behaviour = Class.new(Example).describe('example') do
+        behaviour = Class.new(ExampleGroup).describe('example') do
           def shouldCamelCase
             true.should be_true
           end
@@ -138,7 +138,7 @@ module Spec
       end
 
       it "should not include methods that begin with test_ and has an arity > 0 in suite" do
-        behaviour = Class.new(Example).describe('example') do
+        behaviour = Class.new(ExampleGroup).describe('example') do
           def test_invalid(foo)
             1.should == 1
           end
@@ -151,7 +151,7 @@ module Spec
       end
 
       it "should not include methods that begin with should_ and has an arity > 0 in suite" do
-        behaviour = Class.new(Example).describe('example') do
+        behaviour = Class.new(ExampleGroup).describe('example') do
           def should_invalid(foo)
             1.should == 1
           end
@@ -167,46 +167,40 @@ module Spec
       end
     end
 
-    describe "Example", ".description" do
-      it_should_behave_like "Spec::DSL::Example"
+    describe ExampleGroup, ".description" do
+      it_should_behave_like "Spec::DSL::ExampleGroup"
 
       it "should return the same description instance for each call" do
         @behaviour.description.should eql(@behaviour.description)
       end
     end
 
-    describe "Example", ".run" do
-      it_should_behave_like "Spec::DSL::Example"
+    describe ExampleGroup, ".run" do
+      it_should_behave_like "Spec::DSL::ExampleGroup"
     end
     
-    describe "Example" do
-      it "should be exposed as Spec::ExampleGroup" do
-        Spec::ExampleGroup.should equal(Spec::DSL::Example)
-      end
-    end
-
-    describe "Example", ".remove_after" do
-      it_should_behave_like "Spec::DSL::Example"
+    describe ExampleGroup, ".remove_after" do
+      it_should_behave_like "Spec::DSL::ExampleGroup"
 
       it "should unregister a given after(:each) block" do
         after_all_ran = false
         @behaviour.it("example") {}
         proc = Proc.new { after_all_ran = true }
-        Example.after(:each, &proc)
+        ExampleGroup.after(:each, &proc)
         suite = @behaviour.suite
         suite.run
         after_all_ran.should be_true
 
         after_all_ran = false
-        Example.remove_after(:each, &proc)
+        ExampleGroup.remove_after(:each, &proc)
         suite = @behaviour.suite
         suite.run
         after_all_ran.should be_false
       end
     end
 
-    describe "Example", ".include" do
-      it_should_behave_like "Spec::DSL::Example"
+    describe ExampleGroup, ".include" do
+      it_should_behave_like "Spec::DSL::ExampleGroup"
 
       it "should have accessible class methods from included module" do
         mod1_method_called = false
@@ -248,8 +242,8 @@ module Spec
       end
     end
 
-    describe "Example", ".number_of_examples" do
-      it_should_behave_like "Spec::DSL::Example"
+    describe ExampleGroup, ".number_of_examples" do
+      it_should_behave_like "Spec::DSL::ExampleGroup"
 
       it "should count number of specs" do
         @behaviour.example_definitions.clear
@@ -261,8 +255,8 @@ module Spec
       end
     end
 
-    class ExampleModuleScopingSpec < Example
-      describe Example, " via a class definition"
+    class ExampleModuleScopingSpec < ExampleGroup
+      describe ExampleGroup, " via a class definition"
 
       module Foo
         module Bar
@@ -284,8 +278,8 @@ module Spec
       end      
     end
 
-    class ExampleClassVariablePollutionSpec < Example
-      describe Example, " via a class definition without a class variable"
+    class ExampleClassVariablePollutionSpec < ExampleGroup
+      describe ExampleGroup, " via a class definition without a class variable"
 
       it "should not retain class variables from other Example classes" do
         proc do
@@ -294,11 +288,11 @@ module Spec
       end
     end
 
-    describe "Example", ".class_eval" do
-      it_should_behave_like "Spec::DSL::Example"
+    describe ExampleGroup, ".class_eval" do
+      it_should_behave_like "Spec::DSL::ExampleGroup"
 
       it "should allow constants to be defined" do
-        behaviour = Class.new(Example).describe('example') do
+        behaviour = Class.new(ExampleGroup).describe('example') do
           FOO = 1
           it "should reference FOO" do
             FOO.should == 1
@@ -310,7 +304,7 @@ module Spec
       end
     end
 
-    describe Example, '.run functional example' do
+    describe ExampleGroup, '.run functional example' do
       def count
         @count ||= 0
         @count = @count + 1
@@ -354,14 +348,14 @@ module Spec
       end
     end
 
-    describe Example, "#initialize" do
+    describe ExampleGroup, "#initialize" do
       the_behaviour = self
       it "should have copy of behaviour" do
-        the_behaviour.superclass.should == Example
+        the_behaviour.superclass.should == ExampleGroup
       end
     end
 
-    describe Example, "#pending" do
+    describe ExampleGroup, "#pending" do
       it "should raise a Pending error when its block fails" do
         block_ran = false
         lambda {
@@ -384,7 +378,7 @@ module Spec
       end
     end
     
-    describe Example, "#run" do
+    describe ExampleGroup, "#run" do
       before do
         @options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
         @original_rspec_options = $rspec_options
@@ -396,7 +390,7 @@ module Spec
       end
 
       it "should not run when there are no example_definitions" do
-        behaviour = Class.new(Example).describe("Foobar") {}
+        behaviour = Class.new(ExampleGroup).describe("Foobar") {}
         behaviour.example_definitions.should be_empty
 
         reporter = mock("Reporter")
@@ -406,7 +400,7 @@ module Spec
       end
     end
     
-    class ExampleSubclass < Example
+    class ExampleSubclass < ExampleGroup
     end
 
     describe "Example subclass", "#described_type" do

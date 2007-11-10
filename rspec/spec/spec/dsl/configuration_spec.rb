@@ -50,7 +50,7 @@ module Spec
         @original_configuration = Spec::Runner.configuration
         spec_configuration = @config
         Spec::Runner.instance_eval {@configuration = spec_configuration}
-        @foobar_behaviour = Class.new(Example)
+        @foobar_behaviour = Class.new(ExampleGroup)
         BehaviourFactory.register(:foobar, @foobar_behaviour)
       end
 
@@ -71,9 +71,9 @@ module Spec
       describe Configuration, " callbacks", :shared => true do
         before do
           @config = Configuration.new
-          @special_behaviour = Class.new(Example)
+          @special_behaviour = Class.new(ExampleGroup)
           @special_child_behaviour = Class.new(@special_behaviour)
-          @nonspecial_behaviour = Class.new(Example)
+          @nonspecial_behaviour = Class.new(ExampleGroup)
           BehaviourFactory.register(:special, @special_behaviour)
           BehaviourFactory.register(:special_child, @special_child_behaviour)
           BehaviourFactory.register(:non_special, @nonspecial_behaviour)

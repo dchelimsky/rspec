@@ -9,7 +9,7 @@ module Spec
           @options = Options.new(StringIO.new, @io)
           @formatter = @options.create_formatter(RdocFormatter)
           @options.dry_run = true
-          @behaviour = Class.new(::Spec::DSL::Example).describe("My Behaviour")
+          @behaviour = Class.new(::Spec::DSL::ExampleGroup).describe("My Behaviour")
         end
 
         it "should produce no summary" do

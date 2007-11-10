@@ -8,7 +8,7 @@ module Spec
           @io = StringIO.new
           @options = Options.new(StringIO.new, @io)
           @formatter = @options.create_formatter(FailingExamplesFormatter)
-          @behaviour = Class.new(::Spec::DSL::Example).describe("My Behaviour")
+          @behaviour = Class.new(::Spec::DSL::ExampleGroup).describe("My Behaviour")
         end
 
         it "should add example name for each failure" do

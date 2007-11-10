@@ -6,7 +6,7 @@ module Spec
       before do
         @options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
         @reporter = ::Spec::Runner::Reporter.new(@options)
-        @behaviour = Class.new(::Spec::DSL::Example).describe("My Behaviour")
+        @behaviour = Class.new(::Spec::DSL::ExampleGroup).describe("My Behaviour")
       end
 
       it "should report the file and line submitted with :expected_from" do
