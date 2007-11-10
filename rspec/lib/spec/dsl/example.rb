@@ -15,13 +15,12 @@ module Spec
 
         def suite
           description = description ? description.description : "RSpec Description Suite"
+          customize_example
           suite = ExampleSuite.new(description, self)
           ordered_example_definitions.each do |example_definition|
             suite << new(example_definition)
           end
-          
           add_examples_from_methods(suite)
-          
           suite
         end
         
@@ -63,6 +62,12 @@ module Spec
         end
 
       private
+
+        def customize_example
+          plugin_mock_framework
+          define_predicate_matchers predicate_matchers
+          define_predicate_matchers(Spec::Runner.configuration.predicate_matchers)
+        end
 
         def execute_in_class_hierarchy(superclass_first)
           classes = []
@@ -131,16 +136,7 @@ module Spec
       def initialize(definition) #:nodoc:
         @rspec_definition = definition
         @behaviour_class = self.class
-        
         @_result = ::Test::Unit::TestResult.new
-
-        predicate_matchers = @behaviour_class.predicate_matchers
-
-        (class << self; self; end).class_eval do
-          plugin_mock_framework
-          define_predicate_matchers predicate_matchers
-          define_predicate_matchers(Spec::Runner.configuration.predicate_matchers)
-        end
       end
 
       def violated(message="")
