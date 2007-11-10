@@ -36,7 +36,7 @@ well as an unexpected exception being raised.  Here are examples of both:
 <pre>
 $ spec failing_examples/team_spec.rb
 
-{execute: ruby docspec.rb failing_examples/team_spec.rb}
+{execute: ruby docspec.rb failing_examples/pure/team_spec.rb}
 </pre>
 
 h2. Command line options
