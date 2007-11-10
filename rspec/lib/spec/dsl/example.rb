@@ -38,26 +38,26 @@ module Spec
         end
 
         def run_before_each(example)
-          execute_in_class_hierarchy(false) do |behaviour_class|
-            example.eval_each_fail_fast(behaviour_class.before_each_parts)
+          execute_in_class_hierarchy(false) do |behaviour|
+            example.eval_each_fail_fast(behaviour.before_each_parts)
           end
         end
         
         def run_before_all(example)
-          execute_in_class_hierarchy(false) do |behaviour_class|
-            example.eval_each_fail_fast(behaviour_class.before_all_parts)
+          execute_in_class_hierarchy(false) do |behaviour|
+            example.eval_each_fail_fast(behaviour.before_all_parts)
           end
         end
 
         def run_after_all(example)
-          execute_in_class_hierarchy(true) do |behaviour_class|
-            example.eval_each_fail_slow(behaviour_class.after_all_parts)
+          execute_in_class_hierarchy(true) do |behaviour|
+            example.eval_each_fail_slow(behaviour.after_all_parts)
           end
         end
         
         def run_after_each(example)
-          execute_in_class_hierarchy(true) do |behaviour_class|
-            example.eval_each_fail_slow(behaviour_class.after_each_parts)
+          execute_in_class_hierarchy(true) do |behaviour|
+            example.eval_each_fail_slow(behaviour.after_each_parts)
           end
         end
 
@@ -77,8 +77,8 @@ module Spec
             current_class = current_class.superclass
           end
 
-          classes.each do |behaviour_class|
-            yield behaviour_class
+          classes.each do |behaviour|
+            yield behaviour
           end
         end
 
@@ -135,7 +135,6 @@ module Spec
 
       def initialize(definition) #:nodoc:
         @rspec_definition = definition
-        @behaviour_class = self.class
         @_result = ::Test::Unit::TestResult.new
       end
 
@@ -148,19 +147,19 @@ module Spec
       end
 
       def run_before_all
-        @behaviour_class.run_before_all(self)
+        self.class.run_before_all(self)
       end
 
       def run_before_each
-        @behaviour_class.run_before_each(self)
+        self.class.run_before_each(self)
       end
 
       def run_after_each
-        @behaviour_class.run_after_each(self)
+        self.class.run_after_each(self)
       end
 
       def run_after_all
-        @behaviour_class.run_after_all(self)
+        self.class.run_after_all(self)
       end
 
       def run_example

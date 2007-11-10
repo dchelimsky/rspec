@@ -40,7 +40,7 @@ module Spec
         end  
 
         # Dynamically creates a class 
-        def create_behaviour_class(*args, &block)
+        def create_behaviour(*args, &block)
           opts = Hash === args.last ? args.last : {}
           if opts[:shared]
             id = :shared
@@ -60,20 +60,20 @@ module Spec
             id = :default
           end
           superclass = get(id)
-          behaviour_class = create_uniquely_named_class(superclass)
-          behaviour_class.describe(*args, &block)
-          behaviour_class
+          behaviour = create_uniquely_named_class(superclass)
+          behaviour.describe(*args, &block)
+          behaviour
         end
 
         protected
         
         def create_uniquely_named_class(superclass)
-          behaviour_class = Class.new(superclass)
+          behaviour = Class.new(superclass)
           @class_count ||= 0
           class_name = "Subclass_#{@class_count}"
           @class_count += 1
           superclass.instance_eval do
-            const_set(class_name, behaviour_class)
+            const_set(class_name, behaviour)
           end
         end
         
