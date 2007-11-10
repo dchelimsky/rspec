@@ -5,6 +5,7 @@ $:.unshift File.join(File.dirname(__FILE__), *%w[.. .. .. .. rspec lib])
 require 'test_help'
 require 'test/unit/testresult'
 require 'spec'
+require 'spec/rails'
 
 Test::Unit.run = true
 

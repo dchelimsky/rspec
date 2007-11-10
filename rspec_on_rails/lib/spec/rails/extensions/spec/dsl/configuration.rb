@@ -1,3 +1,5 @@
+require 'spec/dsl/configuration'
+
 module Spec
   module DSL
     class Configuration
