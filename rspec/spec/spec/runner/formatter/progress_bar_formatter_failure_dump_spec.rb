@@ -10,7 +10,7 @@ module Spec
           @options.create_formatter(ProgressBarFormatter)
           @options.backtrace_tweaker = NoisyBacktraceTweaker.new
           @reporter = Reporter.new(@options)
-          @reporter.add_behaviour(Spec::DSL::ExampleGroupDescription.new("context"))
+          @reporter.add_example_group(Spec::DSL::ExampleGroupDescription.new("context"))
         end
 
         it "should end with line break" do

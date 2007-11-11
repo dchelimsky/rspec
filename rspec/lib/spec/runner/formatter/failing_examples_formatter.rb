@@ -2,7 +2,7 @@ module Spec
   module Runner
     module Formatter
       class FailingExamplesFormatter < BaseTextFormatter      
-        def add_behaviour(behaviour_name)
+        def add_example_group(behaviour_name)
           @behaviour_name = behaviour_name
         end
       

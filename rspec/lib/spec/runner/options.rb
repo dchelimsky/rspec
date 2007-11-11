@@ -45,7 +45,7 @@ module Spec
         # TODO: BT - Figure out a better name
         :current_argv
       )
-      attr_reader :colour, :differ_class, :files, :behaviours
+      attr_reader :colour, :differ_class, :files, :example_groups
 
       def initialize(error_stream, output_stream)
         @error_stream = error_stream
@@ -60,13 +60,13 @@ module Spec
         @context_lines = 3
         @diff_format  = :unified
         @files = []
-        @behaviours = []
+        @example_groups = []
         @user_input_for_runner = nil
         @examples_run = false
       end
 
-      def add_behaviour(behaviour)
-        @behaviours << behaviour
+      def add_example_group(behaviour)
+        @example_groups << behaviour
       end
 
       def run_examples
@@ -74,7 +74,7 @@ module Spec
         runner = custom_runner || BehaviourRunner.new(self)
 
         runner.load_files(files_to_load)
-        if behaviours.empty?
+        if example_groups.empty?
           true
         else
           success = runner.run
@@ -213,7 +213,7 @@ module Spec
       end
 
       def number_of_examples
-        @behaviours.inject(0) {|sum, behaviour| sum + behaviour.number_of_examples}
+        @example_groups.inject(0) {|sum, behaviour| sum + behaviour.number_of_examples}
       end
 
       protected

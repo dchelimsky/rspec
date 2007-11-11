@@ -94,7 +94,7 @@ module Spec
         @err = StringIO.new('')
         @out = StringIO.new('')
         @options = Options.new(@err, @out)
-        @options.add_behaviour Class.new(::Spec::DSL::ExampleGroup)
+        @options.add_example_group Class.new(::Spec::DSL::ExampleGroup)
         @options.formatters << Formatter::BaseTextFormatter.new(@options, @out)
       end
 
@@ -209,7 +209,7 @@ module Spec
       end
     end
 
-    describe Options, "#add_behaviour affecting passed in behaviour" do
+    describe Options, "#add_example_group affecting passed in behaviour" do
       before do
         @err = StringIO.new('')
         @out = StringIO.new('')
@@ -230,7 +230,7 @@ module Spec
 
         @options.examples = nil
 
-        @options.add_behaviour @behaviour
+        @options.add_example_group @behaviour
         @options.run_examples
         example_1_has_run.should be_true
         example_2_has_run.should be_true
@@ -250,14 +250,14 @@ module Spec
 
         @options.examples = []
 
-        @options.add_behaviour @behaviour
+        @options.add_example_group @behaviour
         @options.run_examples
         example_1_has_run.should be_true
         example_2_has_run.should be_true
       end
     end
 
-    describe Options, "#add_behaviour affecting behaviours" do
+    describe Options, "#add_example_group affecting behaviours" do
       before do
         @err = StringIO.new('')
         @out = StringIO.new('')
@@ -271,9 +271,9 @@ module Spec
         end
 
         @options.number_of_examples.should == 0
-        @options.add_behaviour @behaviour
+        @options.add_example_group @behaviour
         @options.number_of_examples.should == 1
-        @options.behaviours.length.should == 1
+        @options.example_groups.length.should == 1
       end
     end    
   end

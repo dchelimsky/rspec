@@ -12,7 +12,7 @@ module Spec
           @output.puts "Profiling enabled."
         end
         
-        def add_behaviour(example)
+        def add_example_group(example)
           @behaviour = example
         end
         

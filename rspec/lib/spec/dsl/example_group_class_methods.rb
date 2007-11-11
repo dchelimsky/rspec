@@ -27,25 +27,25 @@ module Spec
       #     end
       #   end
       #
-      def describe(*args, &behaviour_block)
+      def describe(*args, &example_group_block)
         set_description(*args)
         before_eval
-        module_eval(&behaviour_block) if behaviour_block
+        module_eval(&example_group_block) if example_group_block
         self
       end
 
       # Use this to pull in examples from shared behaviours.
       # See Spec::Runner for information about shared behaviours.
-      def it_should_behave_like(shared_behaviour)
-        case shared_behaviour
+      def it_should_behave_like(shared_example_group)
+        case shared_example_group
         when SharedExampleGroup
-          include shared_behaviour
+          include shared_example_group
         else
-          behaviour = SharedExampleGroup.find_shared_behaviour(shared_behaviour)
-          unless behaviour
-            raise RuntimeError.new("Shared Example '#{shared_behaviour}' can not be found")
+          example_group = SharedExampleGroup.find_shared_example_group(shared_example_group)
+          unless example_group
+            raise RuntimeError.new("Shared Example Group '#{shared_example_group}' can not be found")
           end
-          include(behaviour)
+          include(example_group)
         end
       end
 
@@ -81,10 +81,10 @@ module Spec
         @predicate_matchers ||= {:exist => :exist?, :an_instance_of => :is_a?}
       end
 
-      # Creates an instance of Spec::DSL::ExampleDefinition and adds
-      # it to a collection of example_definitions of the current behaviour.
+      # Creates an instance of Spec::DSL::Example and adds
+      # it to a collection of examples of the current behaviour.
       def it(description=:__generate_description, opts={}, &block)
-        example_definitions << create_example_definition(description, opts, &block)
+        examples << create_example(description, opts, &block)
       end
       
       alias_method :specify, :it
@@ -98,18 +98,18 @@ module Spec
         description.described_type
       end
 
-      def example_definitions #:nodoc:
-        @example_definitions ||= []
+      def examples #:nodoc:
+        @examples ||= []
       end
-
+      
       def number_of_examples #:nodoc:
-        example_definitions.length
+        examples.length
       end
 
-      def create_example_definition(description, options={}, &block) #:nodoc:
-        ExampleDefinition.new(description, options, &block)
+      def create_example(description, options={}, &block) #:nodoc:
+        Example.new(description, options, &block)
       end
-
+      
       # Registers a block to be executed before each example.
       # This method prepends +block+ to existing before blocks.
       def prepend_before(*args, &block)
@@ -186,24 +186,24 @@ module Spec
         description = description ? description.description : "RSpec Description Suite"
         customize_example
         suite = ExampleSuite.new(description, self)
-        ordered_example_definitions.each do |example_definition|
-          suite << new(example_definition)
+        ordered_examples.each do |example|
+          suite << new(example)
         end
         add_examples_from_methods(suite)
         suite
       end
       
-      # Sets the #number on each ExampleDefinition and returns the next number
+      # Sets the #number on each Example and returns the next number
       def set_sequence_numbers(number) #:nodoc:
-        ordered_example_definitions.each do |example_definition|
-          example_definition.number = number
+        ordered_examples.each do |example|
+          example.number = number
           number += 1
         end
         number
       end
 
       def register
-        rspec_options.add_behaviour self
+        rspec_options.add_example_group self
       end
 
       def run_before_each(example)
@@ -261,10 +261,10 @@ module Spec
             instance_method(method_name).arity == 0 ||
             instance_method(method_name).arity == -1
           )
-            example_definition = ExampleDefinition.new(method_name) do
+            example = Example.new(method_name) do
               __send__ method_name
             end
-            suite << new(example_definition)
+            suite << new(example)
           end
         end
       end
@@ -277,10 +277,10 @@ module Spec
         !(method_name =~ /^should(_not)?$/) && method_name =~ /^should/
       end
 
-      def ordered_example_definitions
-        rspec_options.reverse ? example_definitions.reverse : example_definitions
+      def ordered_examples
+        rspec_options.reverse ? examples.reverse : examples
       end
-
+      
       def plugin_mock_framework
         case mock_framework = Spec::Runner.configuration.mock_framework
         when Module

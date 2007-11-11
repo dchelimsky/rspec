@@ -46,7 +46,7 @@ module Spec
         @options.reverse
       end
 
-      # Sets the #number on each ExampleDefinition
+      # Sets the #number on each Example
       def set_sequence_numbers
         number = 0
         behaviours.each do |behaviour|
@@ -55,7 +55,7 @@ module Spec
       end      
 
       def behaviours
-        @options.behaviours
+        @options.example_groups
       end
 
       def number_of_examples

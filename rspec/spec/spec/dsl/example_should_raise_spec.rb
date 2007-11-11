@@ -8,7 +8,7 @@ module Spec
         @reporter = ::Spec::Runner::Reporter.new(@options)
         @reporter.stub!(:example_started)
         @options.reporter = @reporter
-        @behaviour = Class.new(ExampleGroup).describe("Some Examples")
+        @example_group = Class.new(ExampleGroup).describe("Some Examples")
       end
   
       def verify_error(error, message=nil)
@@ -20,10 +20,10 @@ module Spec
       end
 
       it "true} should pass when there is an ExpectationNotMetError" do
-        example_definition = @behaviour.create_example_definition("example", :should_raise => true) do
+        example_definition = @example_group.create_example("example", :should_raise => true) do
           raise Spec::Expectations::ExpectationNotMetError
         end
-        example = @behaviour.new(example_definition)
+        example = @example_group.new(example_definition)
         proxy = ExampleRunner.new(@options, example)
         @reporter.should_receive(:example_finished) do |description, error|
           error.should be_nil
@@ -32,8 +32,8 @@ module Spec
       end
 
       it "true} should fail if nothing is raised" do
-        example_definition = @behaviour.create_example_definition("example", :should_raise => true) {}
-        example = @behaviour.new(example_definition)
+        example_definition = @example_group.create_example("example", :should_raise => true) {}
+        example = @example_group.new(example_definition)
         proxy = ExampleRunner.new(@options, example)
         @reporter.should_receive(:example_finished) do |example_name, error|
           verify_error(error, /example block expected Exception but nothing was raised/)
@@ -42,10 +42,10 @@ module Spec
       end
 
       it "NameError} should pass when there is a NameError" do
-        example_definition = @behaviour.create_example_definition("example", :should_raise => NameError) do
+        example_definition = @example_group.create_example("example", :should_raise => NameError) do
           raise NameError
         end
-        example = @behaviour.new(example_definition)
+        example = @example_group.new(example_definition)
         proxy = ExampleRunner.new(@options, example)
         @reporter.should_receive(:example_finished) do |example_name, error|
           error.should be_nil
@@ -54,10 +54,10 @@ module Spec
       end
 
       it "NameError} should fail when there is no error" do
-        example_definition = @behaviour.create_example_definition("example", :should_raise => NameError) do
+        example_definition = @example_group.create_example("example", :should_raise => NameError) do
           #do nothing
         end
-        example = @behaviour.new(example_definition)
+        example = @example_group.new(example_definition)
         proxy = ExampleRunner.new(@options, example)
         @reporter.should_receive(:example_finished) do |example_name, error|
           verify_error(error,/example block expected NameError but nothing was raised/)
@@ -66,10 +66,10 @@ module Spec
       end
 
       it "NameError} should fail when there is the wrong error" do
-        example_definition = @behaviour.create_example_definition("example", :should_raise => NameError) do
+        example_definition = @example_group.create_example("example", :should_raise => NameError) do
           raise RuntimeError
         end
-        example = @behaviour.new(example_definition)
+        example = @example_group.new(example_definition)
         proxy = ExampleRunner.new(@options, example)
         @reporter.should_receive(:example_finished) do |example_name, error|
           verify_error(error, /example block expected NameError but raised.+RuntimeError/)
@@ -78,10 +78,10 @@ module Spec
       end
 
       it "[NameError]} should pass when there is a NameError" do
-        example_definition = @behaviour.create_example_definition("spec", :should_raise => [NameError]) do
+        example_definition = @example_group.create_example("spec", :should_raise => [NameError]) do
           raise NameError
         end
-        example = @behaviour.new(example_definition)
+        example = @example_group.new(example_definition)
         proxy = ExampleRunner.new(@options, example)
         @reporter.should_receive(:example_finished) do |description, error|
           error.should be_nil
@@ -90,9 +90,9 @@ module Spec
       end
 
       it "[NameError]} should fail when there is no error" do
-        example_definition = @behaviour.create_example_definition("spec", :should_raise => [NameError]) do
+        example_definition = @example_group.create_example("spec", :should_raise => [NameError]) do
         end
-        example = @behaviour.new(example_definition)
+        example = @example_group.new(example_definition)
         proxy = ExampleRunner.new(@options, example)
         @reporter.should_receive(:example_finished) do |description, error|
           verify_error(error, /example block expected NameError but nothing was raised/)
@@ -101,10 +101,10 @@ module Spec
       end
 
       it "[NameError]} should fail when there is the wrong error" do
-        example_definition = @behaviour.create_example_definition("spec", :should_raise => [NameError]) do
+        example_definition = @example_group.create_example("spec", :should_raise => [NameError]) do
           raise RuntimeError
         end
-        example = @behaviour.new(example_definition)
+        example = @example_group.new(example_definition)
         proxy = ExampleRunner.new(@options, example)
         @reporter.should_receive(:example_finished) do |description, error|
           verify_error(error, /example block expected NameError but raised.+RuntimeError/)
@@ -113,10 +113,10 @@ module Spec
       end
 
       it "[NameError, 'message'} should pass when there is a NameError with the right message" do
-        example_definition = @behaviour.create_example_definition("spec", :should_raise => [NameError, 'expected']) do
+        example_definition = @example_group.create_example("spec", :should_raise => [NameError, 'expected']) do
           raise NameError, 'expected'
         end
-        example = @behaviour.new(example_definition)
+        example = @example_group.new(example_definition)
         proxy = ExampleRunner.new(@options, example)
         @reporter.should_receive(:example_finished) do |description, error|
           error.should be_nil
@@ -125,10 +125,10 @@ module Spec
       end
 
       it "[NameError, 'message'} should pass when there is a NameError with a message matching a regex" do
-        example_definition = @behaviour.create_example_definition("spec", :should_raise => [NameError, /xpec/]) do
+        example_definition = @example_group.create_example("spec", :should_raise => [NameError, /xpec/]) do
           raise NameError, 'expected'
         end
-        example = @behaviour.new(example_definition)
+        example = @example_group.new(example_definition)
         proxy = ExampleRunner.new(@options, example)
         @reporter.should_receive(:example_finished) do |description, error|
           error.should be_nil
@@ -137,10 +137,10 @@ module Spec
       end
 
       it "[NameError, 'message'} should fail when there is a NameError with the wrong message" do
-        example_definition = @behaviour.create_example_definition("spec", :should_raise => [NameError, 'expected']) do
+        example_definition = @example_group.create_example("spec", :should_raise => [NameError, 'expected']) do
           raise NameError, 'wrong message'
         end
-        example = @behaviour.new(example_definition)
+        example = @example_group.new(example_definition)
         proxy = ExampleRunner.new(@options, example)
         @reporter.should_receive(:example_finished) do |description, error|
           verify_error(error, /example block expected #<NameError: expected> but raised #<NameError: wrong message>/)
@@ -149,10 +149,10 @@ module Spec
       end
 
       it "[NameError, 'message'} should fail when there is a NameError with a message not matching regexp" do
-        example_definition = @behaviour.create_example_definition("spec", :should_raise => [NameError, /exp/]) do
+        example_definition = @example_group.create_example("spec", :should_raise => [NameError, /exp/]) do
           raise NameError, 'wrong message'
         end
-        example = @behaviour.new(example_definition)
+        example = @example_group.new(example_definition)
         proxy = ExampleRunner.new(@options, example)
         @reporter.should_receive(:example_finished) do |description, error|
           verify_error(error, /example block expected #<NameError: \(\?-mix:exp\)> but raised #<NameError: wrong message>/)

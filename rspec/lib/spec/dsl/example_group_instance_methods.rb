@@ -4,11 +4,10 @@ module Spec
       include ::Spec::Matchers
       include ::Spec::DSL::Pending
 
-      attr_reader :rspec_definition
-      alias_method :definition, :rspec_definition
+      attr_reader :example
 
-      def initialize(definition) #:nodoc:
-        @rspec_definition = definition
+      def initialize(example) #:nodoc:
+        @example = example
         @_result = ::Test::Unit::TestResult.new
       end
 
@@ -17,7 +16,7 @@ module Spec
       end
 
       def copy_instance_variables_from(obj)
-        super(obj, [:@rspec_definition, :@_result])
+        super(obj, [:@example, :@_result])
       end
 
       def run_before_all
@@ -37,7 +36,11 @@ module Spec
       end
 
       def run_example
-        instance_eval(&rspec_definition.example_block)
+        instance_eval(&example)
+      end
+      
+      def description
+        example.description
       end
 
       def eval_each_fail_fast(procs) #:nodoc:

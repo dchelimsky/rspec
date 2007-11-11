@@ -9,8 +9,8 @@ module Spec
         clear
       end
       
-      def add_behaviour(name)
-        formatters.each{|f| f.add_behaviour(name)}
+      def add_example_group(name)
+        formatters.each{|f| f.add_example_group(name)}
         @behaviour_names << name
       end
       
