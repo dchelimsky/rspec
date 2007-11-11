@@ -33,8 +33,7 @@ module SharedExampleGroupExample
   
   # TODO - it would be nice to be able to say this instead of the above:
   
-  # class AllThings < Spec::ExampleGroup
-  #   share_as "All Things"
+  # class AllThings < Spec::SharedExampleGroup
   #   ...
   # end
 
