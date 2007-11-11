@@ -1,11 +1,9 @@
 == RSpec
 
-RSpec is a Behaviour Definition Framework intended for use in Behaviour
-Driven Development. RSpec plays the same role that a unit testing framework
-would play in a Test Driven Development environment, but does so using
-words and structures that better support BDD.
+RSpec is a Behaviour Driven Development framework with tools to express User Stories
+with Executable Scenarios and Executable Examples at the code level.
 
-RSpec ships with four modules:
+RSpec ships with several modules:
 
 Spec::Matchers provides Expression Matchers for use with Spec::Expectations
 and Spec::Mocks.

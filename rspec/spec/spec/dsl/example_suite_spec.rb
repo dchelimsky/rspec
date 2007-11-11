@@ -556,7 +556,7 @@ module Spec
 
     describe ExampleSuite, "#size" do
       it "returns the number of examples in the behaviour" do
-        behaviour = Class.new(ExampleGroup).describe("Behaviour") do
+        behaviour = Class.new(ExampleGroup).describe("Some Examples") do
           it("does something") {}
           it("does something else") {}
         end
@@ -567,7 +567,7 @@ module Spec
 
     describe ExampleSuite, "#empty?" do
       it "when there are examples; returns true" do
-        behaviour = Class.new(ExampleGroup).describe("Behaviour") do
+        behaviour = Class.new(ExampleGroup).describe("Some Examples") do
           it("does something") {}
         end
         suite = behaviour.suite
@@ -577,7 +577,7 @@ module Spec
       end
 
       it "when there are no examples; returns true" do
-        behaviour = Class.new(ExampleGroup).describe("Behaviour") do
+        behaviour = Class.new(ExampleGroup).describe("Some Examples") do
         end
         suite = behaviour.suite
         suite.size.should == 0
@@ -588,7 +588,7 @@ module Spec
 
     describe ExampleSuite, "#delete" do
       it "removes the passed in example" do
-        behaviour = Class.new(ExampleGroup).describe("Behaviour") do
+        behaviour = Class.new(ExampleGroup).describe("Some Examples") do
           it("does something") {}
         end
         suite = behaviour.suite

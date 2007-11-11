@@ -5,7 +5,7 @@ module Spec
         def reset!
           @behaviour_types = {
             :default => Spec::DSL::ExampleGroup,
-            :shared => Spec::DSL::SharedBehaviour
+            :shared => Spec::DSL::SharedExampleGroup
           }
         end
 
@@ -34,7 +34,7 @@ module Spec
         def get!(id=:default)
           behaviour = get(id)
           unless behaviour
-            raise "Behaviour #{id.inspect} is not registered. Use ::Spec::DSL::BehaviourFactory.register"
+            raise "ExampleGroup #{id.inspect} is not registered. Use ::Spec::DSL::BehaviourFactory.register"
           end
           return behaviour
         end  

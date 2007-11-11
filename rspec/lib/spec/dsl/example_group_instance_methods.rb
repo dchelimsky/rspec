@@ -1,6 +1,6 @@
 module Spec
   module DSL
-    module ExampleGroupMethods
+    module ExampleGroupInstanceMethods
       include ::Spec::Matchers
       include ::Spec::DSL::Pending
 

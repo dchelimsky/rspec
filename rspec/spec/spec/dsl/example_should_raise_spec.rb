@@ -8,7 +8,7 @@ module Spec
         @reporter = ::Spec::Runner::Reporter.new(@options)
         @reporter.stub!(:example_started)
         @options.reporter = @reporter
-        @behaviour = Class.new(ExampleGroup).describe("My Behaviour")
+        @behaviour = Class.new(ExampleGroup).describe("Some Examples")
       end
   
       def verify_error(error, message=nil)

@@ -30,7 +30,7 @@ module Spec
         CONSTANT.should == :foobar
       end
 
-      it "should have access to methods defined in the Behaviour" do
+      it "should have access to methods defined in the Example Group" do
         a_method.should == 22
       end
 
