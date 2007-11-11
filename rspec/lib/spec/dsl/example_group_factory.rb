@@ -1,6 +1,6 @@
 module Spec
   module DSL
-    class BehaviourFactory
+    class ExampleGroupFactory
       class << self
         def reset!
           @behaviour_types = {
@@ -12,7 +12,7 @@ module Spec
         # Registers a behaviour class +klass+ with the symbol
         # +type+. For example:
         #
-        #   Spec::DSL::BehaviourFactory.register(:farm, Spec::Farm::DSL::FarmBehaviour)
+        #   Spec::DSL::ExampleGroupFactory.register(:farm, Spec::Farm::DSL::FarmBehaviour)
         #
         # This will cause Main#describe from a file living in 
         # <tt>spec/farm</tt> to create behaviour instances of type
@@ -34,7 +34,7 @@ module Spec
         def get!(id=:default)
           behaviour = get(id)
           unless behaviour
-            raise "ExampleGroup #{id.inspect} is not registered. Use ::Spec::DSL::BehaviourFactory.register"
+            raise "ExampleGroup #{id.inspect} is not registered. Use ::Spec::DSL::ExampleGroupFactory.register"
           end
           return behaviour
         end  

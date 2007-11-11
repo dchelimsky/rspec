@@ -88,13 +88,13 @@ module Spec
 
       before do
         @special_behaviour = Class.new(ExampleGroup)
-        BehaviourFactory.register(:special, @special_behaviour)
+        ExampleGroupFactory.register(:special, @special_behaviour)
         @not_special_behaviour = Class.new(ExampleGroup)
-        BehaviourFactory.register(:not_special, @not_special_behaviour)
+        ExampleGroupFactory.register(:not_special, @not_special_behaviour)
       end
 
       after do
-        BehaviourFactory.reset!
+        ExampleGroupFactory.reset!
       end
 
       it "should send reporter add_behaviour" do

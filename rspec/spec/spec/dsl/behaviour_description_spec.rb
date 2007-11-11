@@ -2,8 +2,8 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 
 module Spec
   module DSL
-    describe BehaviourDescription, " constructed with a single String" do
-      before(:each) {@description = BehaviourDescription.new("abc")}
+    describe ExampleGroupDescription, " constructed with a single String" do
+      before(:each) {@description = ExampleGroupDescription.new("abc")}
       
       it "should provide that string as its name" do
         @description.description.should == "abc"
@@ -22,12 +22,12 @@ module Spec
         @description.should == "abc"
       end
       it "should return for == when value is other description that matches description" do
-        @description.should == BehaviourDescription.new("abc")
+        @description.should == ExampleGroupDescription.new("abc")
       end
     end
     
-    describe BehaviourDescription, " constructed with a Type" do
-      before(:each) {@description = BehaviourDescription.new(ExampleGroup)}
+    describe ExampleGroupDescription, " constructed with a Type" do
+      before(:each) {@description = ExampleGroupDescription.new(ExampleGroup)}
 
       it "should provide a String representation of that type (fully qualified) as its name" do
         @description.description.should == "Spec::DSL::ExampleGroup"
@@ -37,8 +37,8 @@ module Spec
       end
     end
     
-    describe BehaviourDescription, " constructed with a Type and a String" do
-      before(:each) {@description = BehaviourDescription.new(ExampleGroup, " behaving")}
+    describe ExampleGroupDescription, " constructed with a Type and a String" do
+      before(:each) {@description = ExampleGroupDescription.new(ExampleGroup, " behaving")}
       
       it "should include the type and second String in its name" do
         @description.description.should == "Spec::DSL::ExampleGroup behaving"
@@ -48,41 +48,41 @@ module Spec
       end
     end
 
-    describe BehaviourDescription, "constructed with a Type and a String not starting with a space" do
-      before(:each) {@description = BehaviourDescription.new(ExampleGroup, "behaving")}
+    describe ExampleGroupDescription, "constructed with a Type and a String not starting with a space" do
+      before(:each) {@description = ExampleGroupDescription.new(ExampleGroup, "behaving")}
 
       it "should include the type and second String with a space in its name" do
         @description.description.should == "Spec::DSL::ExampleGroup behaving"
       end
     end
 
-    describe BehaviourDescription, "constructed with a Type and a String starting with a ." do
-      before(:each) {@description = BehaviourDescription.new(ExampleGroup, ".behaving")}
+    describe ExampleGroupDescription, "constructed with a Type and a String starting with a ." do
+      before(:each) {@description = ExampleGroupDescription.new(ExampleGroup, ".behaving")}
 
       it "should include the type and second String with a space in its name" do
         @description.description.should == "Spec::DSL::ExampleGroup.behaving"
       end
     end
 
-    describe BehaviourDescription, "constructed with a Type and a String starting with a #" do
-      before(:each) {@description = BehaviourDescription.new(ExampleGroup, "#behaving")}
+    describe ExampleGroupDescription, "constructed with a Type and a String starting with a #" do
+      before(:each) {@description = ExampleGroupDescription.new(ExampleGroup, "#behaving")}
 
       it "should include the type and second String with a space in its name" do
         @description.description.should == "Spec::DSL::ExampleGroup#behaving"
       end
     end
 
-    describe BehaviourDescription, "constructed with String, Type, String" do
-      before(:each) {@description = BehaviourDescription.new("A", Hash, "with one entry")}
+    describe ExampleGroupDescription, "constructed with String, Type, String" do
+      before(:each) {@description = ExampleGroupDescription.new("A", Hash, "with one entry")}
 
       it "should include create a description with all arguments" do
         @description.description.should == "A Hash with one entry"
       end
     end
     
-    describe BehaviourDescription, " constructed with options" do
+    describe ExampleGroupDescription, " constructed with options" do
       before(:each) do
-        @description = BehaviourDescription.new(ExampleGroup, :a => "b", :spec_path => "blah")
+        @description = ExampleGroupDescription.new(ExampleGroup, :a => "b", :spec_path => "blah")
       end
 
       it "should provide its options" do

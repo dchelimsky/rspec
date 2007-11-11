@@ -24,7 +24,7 @@ module Spec
         raise ArgumentError unless block
         args << {} unless Hash === args.last
         args.last[:spec_path] = caller(0)[1]
-        behaviour = Spec::DSL::BehaviourFactory.create_behaviour(*args, &block)
+        behaviour = Spec::DSL::ExampleGroupFactory.create_behaviour(*args, &block)
         behaviour.register
         behaviour
       end

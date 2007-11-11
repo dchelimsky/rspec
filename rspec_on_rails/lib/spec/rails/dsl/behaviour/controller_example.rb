@@ -237,7 +237,7 @@ module Spec
           end
         end
 
-        Spec::DSL::BehaviourFactory.register(:controller, self)
+        Spec::DSL::ExampleGroupFactory.register(:controller, self)
       end
     end
   end

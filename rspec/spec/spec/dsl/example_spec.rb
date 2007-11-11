@@ -405,7 +405,7 @@ module Spec
 
     describe ExampleGroup, "subclasses" do
       after do
-        BehaviourFactory.reset!
+        ExampleGroupFactory.reset!
       end
 
       it "should have access to the described_type" do

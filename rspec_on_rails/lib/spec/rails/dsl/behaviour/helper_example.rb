@@ -67,7 +67,7 @@ module Spec
           false
         end
 
-        Spec::DSL::BehaviourFactory.register(:helper, self)
+        Spec::DSL::ExampleGroupFactory.register(:helper, self)
       end
 
       class HelperBehaviourController < ApplicationController #:nodoc:
