@@ -34,8 +34,7 @@ module Spec
         reporter.example_finished(
           example_definition,
           errors.first,
-          location,
-          example_definition.pending?
+          location
         )
         ok?
       end
