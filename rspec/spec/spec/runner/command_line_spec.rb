@@ -106,7 +106,7 @@ module Spec
 
         options = ::Spec::Runner::Options.new(@err, @out)
         ::Spec::Runner::Options.should_receive(:new).with(@err, @out).and_return(options)
-        options.reporter.should_receive(:add_behaviour).with(an_instance_of(Spec::DSL::BehaviourDescription))
+        options.reporter.should_receive(:add_behaviour).with(an_instance_of(Spec::DSL::ExampleGroupDescription))
         options.add_behaviour(behaviour)
         Spec::Runner::CommandLine.run(OptionParser.parse([], @err, @out))
       end
@@ -127,7 +127,7 @@ module Spec
           end
         end
 
-        options.reporter.should_receive(:add_behaviour).with(an_instance_of(Spec::DSL::BehaviourDescription))
+        options.reporter.should_receive(:add_behaviour).with(an_instance_of(Spec::DSL::ExampleGroupDescription))
 
         options.add_behaviour behaviour
         Spec::Runner::CommandLine.run(OptionParser.parse([], @err, @out))

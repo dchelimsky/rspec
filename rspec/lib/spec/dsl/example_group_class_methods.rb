@@ -324,7 +324,7 @@ module Spec
           args << {} unless Hash === args.last
           args.last[:behaviour] = self
         end
-        self.description = BehaviourDescription.new(*args)
+        self.description = ExampleGroupDescription.new(*args)
         if described_type.class == Module
           include described_type
         end

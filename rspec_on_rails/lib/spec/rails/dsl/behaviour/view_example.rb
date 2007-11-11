@@ -145,7 +145,7 @@ module Spec
           @controller.template
         end
 
-        Spec::DSL::BehaviourFactory.register(:view, self)
+        Spec::DSL::ExampleGroupFactory.register(:view, self)
       end
 
       class ViewExampleController < ApplicationController #:nodoc:

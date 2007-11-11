@@ -19,7 +19,7 @@ module Spec
       end
       
       def description(s)
-        Spec::DSL::BehaviourDescription.new(s)
+        Spec::DSL::ExampleGroupDescription.new(s)
       end
     end
     

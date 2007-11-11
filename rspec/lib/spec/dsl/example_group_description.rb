@@ -1,6 +1,6 @@
 module Spec
   module DSL
-    class BehaviourDescription
+    class ExampleGroupDescription
       module ClassMethods
         def generate_description(*args)
           description = args.shift.to_s
@@ -36,7 +36,7 @@ module Spec
       
       def ==(value)
         case value
-        when BehaviourDescription
+        when ExampleGroupDescription
           @description == value.description
         else
           @description == value
@@ -50,7 +50,7 @@ module Spec
         #   read, simply: "if options[:behaviour]", which passed against ruby, but failed against jruby
         if options[:behaviour] && options[:behaviour].ancestors.include?(ExampleGroup)
           proposed_behaviour_type = parse_behaviour_type(options[:behaviour])
-          if BehaviourFactory.get(proposed_behaviour_type)
+          if ExampleGroupFactory.get(proposed_behaviour_type)
             options[:behaviour_type] ||= proposed_behaviour_type
           end
         end

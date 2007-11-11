@@ -2,58 +2,58 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 
 module Spec
   module DSL
-    describe BehaviourFactory, "with :foobar registered as custom type" do
+    describe ExampleGroupFactory, "with :foobar registered as custom type" do
 
       before do
         @behaviour = Class.new(ExampleGroup)
-        BehaviourFactory.register(:foobar, @behaviour)
+        ExampleGroupFactory.register(:foobar, @behaviour)
       end
 
       after do
-        BehaviourFactory.reset!
+        ExampleGroupFactory.reset!
       end
 
       it "should #get the default behaviour type when passed nil" do
-        BehaviourFactory.get(nil).should == ExampleGroup
+        ExampleGroupFactory.get(nil).should == ExampleGroup
       end
 
       it "should #get custom type for :foobar" do
-        BehaviourFactory.get(:foobar).should == @behaviour
+        ExampleGroupFactory.get(:foobar).should == @behaviour
       end
 
       it "should #get the actual type when that is passed in" do
-        BehaviourFactory.get(@behaviour).should == @behaviour
+        ExampleGroupFactory.get(@behaviour).should == @behaviour
       end
 
       it "should #get nil for unregistered non-nil values" do
-        BehaviourFactory.get(:does_not_exist).should be_nil
+        ExampleGroupFactory.get(:does_not_exist).should be_nil
       end
 
       it "should raise error for #get! with unknown key" do
         proc do
-          BehaviourFactory.get!(:does_not_exist)
+          ExampleGroupFactory.get!(:does_not_exist)
         end.should raise_error
       end
     end    
 
-    describe BehaviourFactory do
+    describe ExampleGroupFactory do
       it "should create a uniquely named class" do
-        behaviour = Spec::DSL::BehaviourFactory.create_behaviour("behaviour")
+        behaviour = Spec::DSL::ExampleGroupFactory.create_behaviour("behaviour")
         behaviour.name.should =~ /Spec::DSL::ExampleGroup::Subclass_\d+/
       end
 
       it "should create a Spec::DSL::Example subclass by default" do
-        behaviour = Spec::DSL::BehaviourFactory.create_behaviour("behaviour")
+        behaviour = Spec::DSL::ExampleGroupFactory.create_behaviour("behaviour")
         behaviour.superclass.should == Spec::DSL::ExampleGroup
       end
 
       it "should create a Spec::DSL::Example when :type => :default" do
-        behaviour = Spec::DSL::BehaviourFactory.create_behaviour("behaviour", :type => :default)
+        behaviour = Spec::DSL::ExampleGroupFactory.create_behaviour("behaviour", :type => :default)
         behaviour.superclass.should == Spec::DSL::ExampleGroup
       end
 
       it "should create a Spec::DSL::Example when :behaviour_type => :default" do
-        behaviour = Spec::DSL::BehaviourFactory.create_behaviour("behaviour", :behaviour_type => :default)
+        behaviour = Spec::DSL::ExampleGroupFactory.create_behaviour("behaviour", :behaviour_type => :default)
         behaviour.superclass.should == Spec::DSL::ExampleGroup
       end
 
@@ -61,8 +61,8 @@ module Spec
         klass = Class.new(ExampleGroup) do
           def initialize(*args, &block); end
         end
-        Spec::DSL::BehaviourFactory.register(:something_other_than_default, klass)
-        behaviour = Spec::DSL::BehaviourFactory.create_behaviour("behaviour", :type => :something_other_than_default)
+        Spec::DSL::ExampleGroupFactory.register(:something_other_than_default, klass)
+        behaviour = Spec::DSL::ExampleGroupFactory.create_behaviour("behaviour", :type => :something_other_than_default)
         behaviour.superclass.should == klass
       end
 
@@ -70,8 +70,8 @@ module Spec
         klass = Class.new(ExampleGroup) do
           def initialize(*args, &block); end
         end
-        Spec::DSL::BehaviourFactory.register(:something_other_than_default, klass)
-        behaviour = Spec::DSL::BehaviourFactory.create_behaviour("behaviour", :behaviour_type => :something_other_than_default)
+        Spec::DSL::ExampleGroupFactory.register(:something_other_than_default, klass)
+        behaviour = Spec::DSL::ExampleGroupFactory.create_behaviour("behaviour", :behaviour_type => :something_other_than_default)
         behaviour.superclass.should == klass
       end
       
@@ -79,8 +79,8 @@ module Spec
         klass = Class.new(ExampleGroup) do
           def initialize(*args, &block); end
         end
-        Spec::DSL::BehaviourFactory.register(:something_other_than_default, klass)
-        behaviour = Spec::DSL::BehaviourFactory.create_behaviour("behaviour", :spec_path => "./spec/something_other_than_default/some_spec.rb")
+        Spec::DSL::ExampleGroupFactory.register(:something_other_than_default, klass)
+        behaviour = Spec::DSL::ExampleGroupFactory.create_behaviour("behaviour", :spec_path => "./spec/something_other_than_default/some_spec.rb")
         behaviour.superclass.should == klass
       end
       
@@ -88,13 +88,13 @@ module Spec
         klass = Class.new(ExampleGroup) do
           def initialize(*args, &block); end
         end
-        Spec::DSL::BehaviourFactory.register(:something_other_than_default, klass)
-        behaviour = Spec::DSL::BehaviourFactory.create_behaviour("behaviour", :spec_path => "./spec\\something_other_than_default\\some_spec.rb")
+        Spec::DSL::ExampleGroupFactory.register(:something_other_than_default, klass)
+        behaviour = Spec::DSL::ExampleGroupFactory.create_behaviour("behaviour", :spec_path => "./spec\\something_other_than_default\\some_spec.rb")
         behaviour.superclass.should == klass
       end
       
       it "should create a Spec::DSL::Example if :shared => true" do
-        Spec::DSL::BehaviourFactory.create_behaviour("name", :spec_path => '/blah/spec/models/blah.rb', :behaviour_type => :controller, :shared => true) {
+        Spec::DSL::ExampleGroupFactory.create_behaviour("name", :spec_path => '/blah/spec/models/blah.rb', :behaviour_type => :controller, :shared => true) {
         }.should be_an_instance_of(Spec::DSL::SharedExampleGroup)
       end
 
@@ -102,13 +102,13 @@ module Spec
         klass = Class.new(ExampleGroup) do
           def initialize(*args, &block); end
         end
-        Spec::DSL::BehaviourFactory.register(:something_other_than_default, klass)
-        behaviour = Spec::DSL::BehaviourFactory.create_behaviour("name", :spec_path => '/blah/spec/models/blah.rb', :behaviour_type => :something_other_than_default)
+        Spec::DSL::ExampleGroupFactory.register(:something_other_than_default, klass)
+        behaviour = Spec::DSL::ExampleGroupFactory.create_behaviour("name", :spec_path => '/blah/spec/models/blah.rb', :behaviour_type => :something_other_than_default)
         behaviour.superclass.should == klass
       end
       
       after(:each) do
-        Spec::DSL::BehaviourFactory.reset!
+        Spec::DSL::ExampleGroupFactory.reset!
       end
     end
   end
