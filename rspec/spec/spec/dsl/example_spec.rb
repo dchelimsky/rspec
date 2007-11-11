@@ -367,13 +367,13 @@ module Spec
         block_ran.should == true
       end
 
-      it "should raise Spec::DSL::PendingFixedError when its block does not fail" do
+      it "should raise Spec::DSL::PendingExampleFixedError when its block does not fail" do
         block_ran = false
         lambda {
           pending("something") do
             block_ran = true
           end
-        }.should raise_error(Spec::DSL::PendingFixedError, "Expected pending 'something' to fail. No Error was raised.")
+        }.should raise_error(Spec::DSL::PendingExampleFixedError, "Expected pending 'something' to fail. No Error was raised.")
         block_ran.should == true
       end
     end

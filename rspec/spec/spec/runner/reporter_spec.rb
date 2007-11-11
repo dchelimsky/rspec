@@ -202,7 +202,7 @@ module Spec
       end
     end
 
-    describe Reporter, "reporting one pending example (PendingFixedError)" do
+    describe Reporter, "reporting one pending example (PendingExampleFixedError)" do
       include ReporterSpecHelper
       before(:each) {setup}
 
@@ -212,7 +212,7 @@ module Spec
         end
         @formatter.should_receive(:add_behaviour).with(description("behaviour"))
         @reporter.add_behaviour(description('behaviour'))
-        @reporter.example_finished("example", Spec::DSL::PendingFixedError.new("reason"), nil, false)
+        @reporter.example_finished("example", Spec::DSL::PendingExampleFixedError.new("reason"), nil, false)
       end
     end
   end

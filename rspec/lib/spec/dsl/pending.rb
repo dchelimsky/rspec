@@ -8,7 +8,7 @@ module Spec
           rescue Exception => e
             raise Spec::DSL::ExamplePendingError.new(message)
           end
-          raise Spec::DSL::PendingFixedError.new("Expected pending '#{message}' to fail. No Error was raised.")
+          raise Spec::DSL::PendingExampleFixedError.new("Expected pending '#{message}' to fail. No Error was raised.")
         else
           raise Spec::DSL::ExamplePendingError.new(message)
         end

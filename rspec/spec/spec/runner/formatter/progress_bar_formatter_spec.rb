@@ -55,7 +55,7 @@ Finished in 3 seconds
         it "should push blue F for fixed pending spec" do
           @io.should_receive(:tty?).and_return(true)
           @options.colour = true
-          @formatter.example_failed("spec", 98, Reporter::Failure.new("c s", Spec::DSL::PendingFixedError.new))
+          @formatter.example_failed("spec", 98, Reporter::Failure.new("c s", Spec::DSL::PendingExampleFixedError.new))
           @io.string.should eql("\e[34mF\e[0m")
         end
 

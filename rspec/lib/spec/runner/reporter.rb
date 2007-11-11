@@ -125,7 +125,7 @@ module Spec
         end
         
         def pending_fixed?
-          @exception.is_a?(Spec::DSL::PendingFixedError)
+          @exception.is_a?(Spec::DSL::PendingExampleFixedError)
         end
 
         def expectation_not_met?
