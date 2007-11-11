@@ -18,6 +18,7 @@ class PreCommit::Rspec < PreCommit
     gem 'diff-lcs'
     gem 'heckle' unless PLATFORM == "i386-mswin32"
     gem 'hpricot'
+    gem 'mysql'
   end
 
   def fix_cr_lf

@@ -2,55 +2,70 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 
 module Spec
   module DSL
-    describe Configuration do
+    describe Configuration, :shared => true do
       before(:each) { @config = Configuration.new }
+    end
+
+    describe Configuration, "#use_transactional_fixtures" do
+      it_should_behave_like "Spec::DSL::Configuration"
       
-      it "should default use_transactional_fixtures to true" do
+      it "should default to true" do
         @config.use_transactional_fixtures.should be(true)
       end
 
-      it "should let you set use_transactional_fixtures false" do
+      it "should set to false" do
         @config.use_transactional_fixtures = false
         @config.use_transactional_fixtures.should be(false)
       end
 
-      it "should let you set use_transactional_fixtures true" do
+      it "should set to true" do
         @config.use_transactional_fixtures = true
         @config.use_transactional_fixtures.should be(true)
       end
+    end
 
-      it "should default use_instantiated_fixtures to false" do
+    describe Configuration, "#use_instantiated_fixtures" do
+      it_should_behave_like "Spec::DSL::Configuration"
+      
+      it "should to false" do
         @config.use_instantiated_fixtures.should be(false)
       end
 
-      it "should let you set use_instantiated_fixtures false" do
+      it "should set to false" do
         @config.use_instantiated_fixtures = false
         @config.use_instantiated_fixtures.should be(false)
       end
 
-      it "should let you set use_instantiated_fixtures true" do
+      it "should set to true" do
         @config.use_instantiated_fixtures = true
         @config.use_instantiated_fixtures.should be(true)
       end
+    end
 
-      it "should default fixture_path to RAILS_ROOT + '/spec/fixtures'" do
+    describe Configuration, "#fixture_path" do
+      it_should_behave_like "Spec::DSL::Configuration"
+      
+      it "should default to RAILS_ROOT + '/spec/fixtures'" do
         @config.fixture_path.should == RAILS_ROOT + '/spec/fixtures'
       end
 
-      it "should let you set fixture_path false" do
+      it "should set fixture_path" do
         @config.fixture_path = "/new/path"
         @config.fixture_path.should == "/new/path"
       end
+    end
 
-      it "should default global_fixtures to []" do
+    describe Configuration, "#global_fixtures" do
+      it_should_behave_like "Spec::DSL::Configuration"
+      
+      it "should default to []" do
         @config.global_fixtures.should == []
       end
 
-      it "should let you set global_fixtures false" do
+      it "should set to false" do
         @config.global_fixtures << :blah
         @config.global_fixtures.should == [:blah]
       end
-
     end
   end
 end
