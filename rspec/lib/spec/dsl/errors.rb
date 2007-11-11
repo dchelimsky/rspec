@@ -3,7 +3,7 @@ module Spec
     class ExamplePendingError < StandardError
     end
 
-    class PendingFixedError < StandardError
+    class PendingExampleFixedError < StandardError
     end
   end
 end

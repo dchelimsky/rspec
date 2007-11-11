@@ -18,13 +18,13 @@ module Spec
         }.should raise_error(ExamplePendingError, /TODO/)
       end
       
-      it 'should raise a PendingFixedError if a supplied block starts working' do
+      it 'should raise a PendingExampleFixedError if a supplied block starts working' do
         lambda {
           include Pending
           pending "TODO" do
             # success!
           end
-        }.should raise_error(PendingFixedError, /TODO/)
+        }.should raise_error(PendingExampleFixedError, /TODO/)
       end
     end
   end
