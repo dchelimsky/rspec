@@ -30,6 +30,13 @@ module SharedExampleGroupExample
       @thing.what_things_do.should == "stuff"
     end
   end
+  
+  # TODO - it would be nice to be able to say this instead of the above:
+  
+  # class AllThings < Spec::ExampleGroup
+  #   share_as "All Things"
+  #   ...
+  # end
 
   describe OneThing do
     # ... then you can include the behaviour like this, which 
