@@ -193,6 +193,8 @@ In alphabetical order (by last name)
 ** Spec::Rails patches for stats
 * Daniel Siemssen
 ** Spec::Rails patches for spec_server
+* Nathan Sobo
+** Specmate + drb fix
 * Kouhei Sutou
 ** Patches for Emacs
 ** Handling of Interrupt
