@@ -3,8 +3,8 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 module Spec
   module Runner
     
-    module ReporterSpecHelper
-      def setup
+    ReporterSpecHelper = describe "reporter spec helpers", :shared => true do
+      before(:each) do
         @io = StringIO.new
         @options = Options.new(StringIO.new, @io)
         @backtrace_tweaker = stub("backtrace tweaker", :tweak_backtrace => nil)
@@ -25,7 +25,10 @@ module Spec
     
     describe Reporter do
       include ReporterSpecHelper
-      before(:each) {setup}
+      
+      it "should assign itself as the reporter to options" do
+        @options.reporter.should equal(@reporter)
+      end
       
       it "should tell formatter when behaviour is added" do
         @formatter.should_receive(:add_behaviour).with(description("behaviour"))
