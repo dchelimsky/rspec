@@ -241,9 +241,7 @@ module Spec
       def execute_in_class_hierarchy(superclass_first)
         classes = []
         current_class = self
-        # TODO - Behaviour is now an alias for ExampleGroupClassMethods,
-        # but that doesn't speak well here. Need to perhaps rephrase.
-        while current_class.kind_of?(Behaviour)
+        while is_example_group?(current_class)
           superclass_first ? classes << current_class : classes.unshift(current_class)
           current_class = current_class.superclass
         end
@@ -252,7 +250,11 @@ module Spec
           yield behaviour
         end
       end
-
+      
+      def is_example_group?(klass)
+        klass.kind_of?(ExampleGroupClassMethods)
+      end
+      
       def add_examples_from_methods(suite)
         instance_methods.each do |method_name|
           if (is_test?(method_name) || is_spec?(method_name)) && (
@@ -331,10 +333,6 @@ module Spec
         self.description
       end
     end
-    
-    # TODO - this is temporary to get through
-    # refactoring out Behaviour
-    Behaviour = ExampleGroupClassMethods
     
   end
 end
