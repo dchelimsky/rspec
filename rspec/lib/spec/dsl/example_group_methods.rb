@@ -15,7 +15,7 @@ module Spec
 
       # Makes the describe/it syntax available from a class. For example:
       #
-      #   class StackSpec < ExampleGroup
+      #   class StackSpec < Spec::ExampleGroup
       #     describe Stack, "with no elements"
       #
       #     before
