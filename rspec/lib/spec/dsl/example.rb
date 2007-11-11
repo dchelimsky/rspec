@@ -16,6 +16,7 @@ module Spec
         @example_block
       end
       
+      # TODO - this is only called by example_definition_spec
       def call
         @example_block.call
       end

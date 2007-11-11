@@ -58,7 +58,7 @@ module Spec
       end
 
       def run_example
-        example_group_instance.run_example
+        example_group_instance.run
         return true
       rescue Exception => e
         errors << e

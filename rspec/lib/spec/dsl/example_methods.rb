@@ -1,6 +1,6 @@
 module Spec
   module DSL
-    module ExampleGroupInstanceMethods
+    module ExampleMethods
       include ::Spec::Matchers
       include ::Spec::DSL::Pending
 
@@ -10,9 +10,17 @@ module Spec
         @example = example
         @_result = ::Test::Unit::TestResult.new
       end
-
+      
       def violated(message="")
         raise Spec::Expectations::ExpectationNotMetError.new(message)
+      end
+
+      def run
+        instance_eval(&example)
+      end
+      
+      def description
+        example.description
       end
 
       def copy_instance_variables_from(obj)
@@ -33,14 +41,6 @@ module Spec
 
       def run_after_all
         self.class.run_after_all(self)
-      end
-
-      def run_example
-        instance_eval(&example)
-      end
-      
-      def description
-        example.description
       end
 
       def eval_each_fail_fast(procs) #:nodoc:
