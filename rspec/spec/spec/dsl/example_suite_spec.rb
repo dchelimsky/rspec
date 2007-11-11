@@ -4,7 +4,7 @@ module Spec
   module DSL
     class FakeReporter < Spec::Runner::Reporter
       attr_reader :added_behaviour
-      def add_behaviour(description)
+      def add_example_group(description)
         @added_behaviour = description
       end
     end
@@ -97,7 +97,7 @@ module Spec
         ExampleGroupFactory.reset!
       end
 
-      it "should send reporter add_behaviour" do
+      it "should send reporter add_example_group" do
         suite = @behaviour.suite
         suite.run
         @reporter.added_behaviour.should == "example"
@@ -221,7 +221,7 @@ module Spec
       end
 
       it "should order after callbacks from local to global" do
-        @reporter.should_receive(:add_behaviour).with any_args()
+        @reporter.should_receive(:add_example_group).with any_args()
         @reporter.should_receive(:example_finished).with any_args()
 
         fiddle = []
@@ -244,7 +244,7 @@ module Spec
       end
 
       it "should have accessible instance methods from included module" do
-        @reporter.should_receive(:add_behaviour).with any_args()
+        @reporter.should_receive(:add_example_group).with any_args()
         @reporter.should_receive(:example_finished).with any_args()
 
         mod1_method_called = false

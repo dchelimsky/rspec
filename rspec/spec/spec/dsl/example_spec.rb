@@ -4,7 +4,7 @@ module Spec
   module DSL
     class FakeReporter < Spec::Runner::Reporter
       attr_reader :added_behaviour
-      def add_behaviour(description)
+      def add_example_group(description)
         @added_behaviour = description
       end
     end
@@ -21,10 +21,10 @@ module Spec
         @options.backtrace_tweaker = mock("backtrace_tweaker", :null_object => true)
         @reporter = FakeReporter.new(@options)
         @options.reporter = @reporter
-        @behaviour = Class.new(ExampleGroup).describe("example") do
+        @example_group = Class.new(ExampleGroup).describe("example") do
           it "does nothing"
         end
-        class << @behaviour
+        class << @example_group
           public :include
         end
         @result = nil
@@ -41,8 +41,8 @@ module Spec
 
       it "should should create an example instance" do
         lambda {
-          @behaviour.it("")
-        }.should change(@behaviour.example_definitions, :length).by(1)
+          @example_group.it("")
+        }.should change(@example_group.examples, :length).by(1)
       end
     end
 
@@ -55,13 +55,13 @@ module Spec
       
       it "should NOT  should create an example instance" do
         lambda {
-          @behaviour.xit("")
-        }.should_not change(@behaviour.example_definitions, :length)
+          @example_group.xit("")
+        }.should_not change(@example_group.examples, :length)
       end
       
       it "should warn that it is disabled" do
         Kernel.should_receive(:warn).with("Example disabled: foo")
-        @behaviour.xit("foo")
+        @example_group.xit("foo")
       end
     end
 
@@ -82,7 +82,7 @@ module Spec
         end
         suite = behaviour.suite
         suite.tests.length.should == 1
-        suite.tests.first.rspec_definition.description.should == "should pass"
+        suite.tests.first.example.description.should == "should pass"
       end
 
       it "should include methods that begin with test and has an arity of 0 in suite" do
@@ -102,7 +102,7 @@ module Spec
         end
         suite = behaviour.suite
         suite.tests.length.should == 2
-        descriptions = suite.tests.collect {|test| test.rspec_definition.description}.sort
+        descriptions = suite.tests.collect {|test| test.example.description}.sort
         descriptions.should == ["test_any_args", "test_something"]
       end
 
@@ -130,7 +130,7 @@ module Spec
         behaviour = behaviour.dup
         suite = behaviour.suite
         suite.tests.length.should == 4
-        descriptions = suite.tests.collect {|test| test.rspec_definition.description}.sort
+        descriptions = suite.tests.collect {|test| test.example.description}.sort
         descriptions.should include("shouldCamelCase")
         descriptions.should include("should_any_args")
         descriptions.should include("should_something")
@@ -171,7 +171,7 @@ module Spec
       it_should_behave_like "Spec::DSL::ExampleGroup"
 
       it "should return the same description instance for each call" do
-        @behaviour.description.should eql(@behaviour.description)
+        @example_group.description.should eql(@example_group.description)
       end
     end
 
@@ -184,16 +184,16 @@ module Spec
 
       it "should unregister a given after(:each) block" do
         after_all_ran = false
-        @behaviour.it("example") {}
+        @example_group.it("example") {}
         proc = Proc.new { after_all_ran = true }
         ExampleGroup.after(:each, &proc)
-        suite = @behaviour.suite
+        suite = @example_group.suite
         suite.run
         after_all_ran.should be_true
 
         after_all_ran = false
         ExampleGroup.remove_after(:each, &proc)
-        suite = @behaviour.suite
+        suite = @example_group.suite
         suite.run
         after_all_ran.should be_false
       end
@@ -233,10 +233,10 @@ module Spec
           end
         end
 
-        @behaviour.include mod1, mod2
+        @example_group.include mod1, mod2
 
-        @behaviour.mod1_method
-        @behaviour.mod2_method
+        @example_group.mod1_method
+        @example_group.mod2_method
         mod1_method_called.should be_true
         mod2_method_called.should be_true
       end
@@ -246,12 +246,12 @@ module Spec
       it_should_behave_like "Spec::DSL::ExampleGroup"
 
       it "should count number of specs" do
-        @behaviour.example_definitions.clear
-        @behaviour.it("one") {}
-        @behaviour.it("two") {}
-        @behaviour.it("three") {}
-        @behaviour.it("four") {}
-        @behaviour.number_of_examples.should == 4
+        @example_group.examples.clear
+        @example_group.it("one") {}
+        @example_group.it("two") {}
+        @example_group.it("three") {}
+        @example_group.it("four") {}
+        @example_group.number_of_examples.should == 4
       end
     end
 
@@ -389,12 +389,12 @@ module Spec
         $rspec_options = @original_rspec_options
       end
 
-      it "should not run when there are no example_definitions" do
+      it "should not run when there are no examples" do
         behaviour = Class.new(ExampleGroup).describe("Foobar") {}
-        behaviour.example_definitions.should be_empty
+        behaviour.examples.should be_empty
 
         reporter = mock("Reporter")
-        reporter.should_not_receive(:add_behaviour)
+        reporter.should_not_receive(:add_example_group)
         suite = behaviour.suite
         suite.run
       end
@@ -419,7 +419,7 @@ module Spec
         ["4", "2", "1"].each(&block)
       end
 
-      it "should be included in example_definitions because it is a module" do
+      it "should be included in examples because it is a module" do
         map{|e| e.to_i}.should == [4,2,1]
       end
     end
@@ -429,13 +429,13 @@ module Spec
         ["4", "2", "1"].each(&block)
       end
 
-      it "should be included in example_definitions because it is a module" do
+      it "should be included in examples because it is a module" do
         map{|e| e.to_i}.should == [4,2,1]
       end
     end
 
     describe String do
-      it "should not be included in example_definitions because it is not a module" do
+      it "should not be included in examples because it is not a module" do
         lambda{self.map}.should raise_error(NoMethodError, /undefined method `map' for/)
       end
     end

@@ -51,7 +51,7 @@ module Spec
         options = ::Spec::Runner::Options.new(@err, @out)
         ::Spec::Runner::Options.should_receive(:new).with(@err, @out).and_return(options)
         options.reporter.should_receive(:dump)
-        options.add_behaviour(behaviour)
+        options.add_example_group(behaviour)
 
         Spec::Runner::CommandLine.run(OptionParser.parse([], @err, @out))
       end
@@ -63,14 +63,14 @@ module Spec
         end
         options = ::Spec::Runner::Options.new(@err, @out)
         ::Spec::Runner::Options.should_receive(:new).with(@err, @out).and_return(options)
-        options.add_behaviour behaviour
+        options.add_example_group behaviour
 
         heckle_runner = mock("heckle_runner")
         heckle_runner.should_receive(:heckle_with)
         $rspec_mocks.__send__(:mocks).delete(heckle_runner)
 
         options.heckle_runner = heckle_runner
-        options.add_behaviour(behaviour)
+        options.add_example_group(behaviour)
 
         Spec::Runner::CommandLine.run(OptionParser.parse([], @err, @out))
         heckle_runner.rspec_verify
@@ -92,8 +92,8 @@ module Spec
         b2_suite.should_receive(:run).ordered
         b1_suite.should_receive(:run).ordered
 
-        options.add_behaviour(b1)
-        options.add_behaviour(b2)
+        options.add_example_group(b1)
+        options.add_example_group(b2)
 
         Spec::Runner::CommandLine.run(OptionParser.parse([], @err, @out))
       end
@@ -106,8 +106,8 @@ module Spec
 
         options = ::Spec::Runner::Options.new(@err, @out)
         ::Spec::Runner::Options.should_receive(:new).with(@err, @out).and_return(options)
-        options.reporter.should_receive(:add_behaviour).with(an_instance_of(Spec::DSL::ExampleGroupDescription))
-        options.add_behaviour(behaviour)
+        options.reporter.should_receive(:add_example_group).with(an_instance_of(Spec::DSL::ExampleGroupDescription))
+        options.add_example_group(behaviour)
         Spec::Runner::CommandLine.run(OptionParser.parse([], @err, @out))
       end
 
@@ -127,9 +127,9 @@ module Spec
           end
         end
 
-        options.reporter.should_receive(:add_behaviour).with(an_instance_of(Spec::DSL::ExampleGroupDescription))
+        options.reporter.should_receive(:add_example_group).with(an_instance_of(Spec::DSL::ExampleGroupDescription))
 
-        options.add_behaviour behaviour
+        options.add_example_group behaviour
         Spec::Runner::CommandLine.run(OptionParser.parse([], @err, @out))
 
         should_has_run.should be_true

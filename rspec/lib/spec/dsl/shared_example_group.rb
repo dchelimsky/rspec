@@ -2,41 +2,41 @@ module Spec
   module DSL
     class SharedExampleGroup < Module
       class << self
-        def add_shared_behaviour(behaviour)
-          found_behaviour = find_shared_behaviour(behaviour.description)
-          return if behaviour.equal?(found_behaviour)
+        def add_shared_example_group(example_group)
+          found_example_group = find_shared_example_group(example_group.description)
+          return if example_group.equal?(found_example_group)
           if(
-            found_behaviour and
-            File.expand_path(behaviour.description[:spec_path]) == File.expand_path(found_behaviour.description[:spec_path])
+            found_example_group and
+            File.expand_path(example_group.description[:spec_path]) == File.expand_path(found_example_group.description[:spec_path])
           )
             return
           end
-          if found_behaviour
-            raise ArgumentError.new("Shared Example '#{behaviour.description}' already exists")
+          if found_example_group
+            raise ArgumentError.new("Shared Example '#{example_group.description}' already exists")
           end
-          shared_behaviours << behaviour
+          shared_example_groups << example_group
         end
 
-        def find_shared_behaviour(behaviour_description)
-          shared_behaviours.find { |b| b.description == behaviour_description }
+        def find_shared_example_group(example_group_description)
+          shared_example_groups.find { |b| b.description == example_group_description }
         end
 
-        def shared_behaviours
+        def shared_example_groups
           # TODO - this needs to be global, or at least accessible from
           # from subclasses of Example in a centralized place. I'm not loving
           # this as a solution, but it works for now.
-          $shared_behaviours ||= []
+          $shared_example_groups ||= []
         end
       end
       include ExampleGroupClassMethods
       public :include
 
-      def initialize(*args, &behaviour_block)
-        describe(*args, &behaviour_block)
+      def initialize(*args, &example_group_block)
+        describe(*args, &example_group_block)
       end
 
       def included(mod) # :nodoc:
-        example_definitions.each { |e| mod.example_definitions << e; }
+        examples.each { |e| mod.examples << e; }
         before_each_parts.each   { |p| mod.before_each_parts << p }
         after_each_parts.each    { |p| mod.after_each_parts << p }
         before_all_parts.each    { |p| mod.before_all_parts << p }
@@ -44,7 +44,7 @@ module Spec
       end
 
       def register
-        Spec::DSL::SharedExampleGroup.add_shared_behaviour(self)
+        Spec::DSL::SharedExampleGroup.add_shared_example_group(self)
       end
     end
   end

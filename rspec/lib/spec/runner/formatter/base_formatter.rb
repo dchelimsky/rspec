@@ -13,7 +13,7 @@ module Spec
         # formatters that need to provide progress on feedback (graphical ones)
         #
         # This method will only be invoked once, and the next one to be invoked
-        # is #add_behaviour
+        # is #add_example_group
         def start(example_count)
         end
 
@@ -22,7 +22,7 @@ module Spec
         # first behaviour - otherwise it's false.
         #
         # The next method to be invoked after this is #example_failed or #example_finished
-        def add_behaviour(name)
+        def add_example_group(name)
         end
 
         # This method is invoked when an +example+ starts.

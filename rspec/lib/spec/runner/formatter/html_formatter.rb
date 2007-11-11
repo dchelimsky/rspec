@@ -30,7 +30,7 @@ module Spec
           @output.flush
         end
 
-        def add_behaviour(name)
+        def add_example_group(name)
           @behaviour_red = false
           @behaviour_red = false
           @current_behaviour_number += 1

@@ -22,13 +22,13 @@ module Spec
         end
 
         it "should push context name" do
-          @formatter.add_behaviour(Spec::DSL::ExampleGroupDescription.new("context"))
+          @formatter.add_example_group(Spec::DSL::ExampleGroupDescription.new("context"))
           @io.string.should eql("\ncontext\n")
         end
 
         it "when having an error, should push failing spec name and failure number" do
           @formatter.example_failed(
-            @behaviour.create_example_definition("spec"),
+            @behaviour.create_example("spec"),
             98,
             Reporter::Failure.new("c s", RuntimeError.new)
           )
@@ -37,7 +37,7 @@ module Spec
 
         it "when having an expectation failure, should push failing spec name and failure number" do
           @formatter.example_failed(
-            @behaviour.create_example_definition("spec"),
+            @behaviour.create_example("spec"),
             98,
             Reporter::Failure.new("c s", Spec::Expectations::ExpectationNotMetError.new)
           )
@@ -55,7 +55,7 @@ module Spec
         end
 
         it "should push passing spec name" do
-          @formatter.example_passed(@behaviour.create_example_definition("spec"))
+          @formatter.example_passed(@behaviour.create_example("spec"))
           @io.string.should eql("- spec\n")
         end
 

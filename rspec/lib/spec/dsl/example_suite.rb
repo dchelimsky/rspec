@@ -2,12 +2,14 @@ module Spec
   module DSL
     class ExampleSuite
       extend Forwardable
-      attr_reader :examples, :behaviour, :name
-      alias_method :tests, :examples
+      attr_reader :examples, :example_group, :name
+      alias :tests :examples
+      
+      private :example_group
 
-      def initialize(name, behaviour)
+      def initialize(name, example_group)
         @name = name
-        @behaviour = behaviour
+        @example_group = example_group
         @examples = []
       end
 
@@ -15,7 +17,7 @@ module Spec
         retain_specified_examples
         return true if examples.empty?
 
-        reporter.add_behaviour(description)
+        reporter.add_example_group(description)
         success = run_before_all
         if success
           example = nil
@@ -58,7 +60,7 @@ module Spec
         return if specified_examples.empty?
         return if specified_examples.index(description.to_s)
         examples.reject! do |example|
-          matcher = ExampleMatcher.new(description.to_s, example.rspec_definition.description)
+          matcher = ExampleMatcher.new(description.to_s, example.description)
           !matcher.matches?(specified_examples)
         end
       end
@@ -67,14 +69,14 @@ module Spec
         errors = []
         unless dry_run
           begin
-            @before_and_after_all_example = behaviour.new(nil)
+            @before_and_after_all_example = example_group.new(nil)
             @before_and_after_all_example.run_before_all
           rescue Exception => e
             errors << e
             location = "before(:all)"
-            # The easiest is to report this as an example failure. We don't have an ExampleDefinition
+            # The easiest is to report this as an example failure. We don't have an Example
             # at this point, so we'll just create a placeholder.
-            reporter.example_finished(create_example_definition(location), e, location)
+            reporter.example_finished(create_example(location), e, location)
             return false
           end
         end
@@ -84,23 +86,23 @@ module Spec
       def run_after_all
         unless dry_run
           begin
-            @before_and_after_all_example ||= behaviour.new(nil)
+            @before_and_after_all_example ||= example_group.new(nil)
             @before_and_after_all_example.run_after_all
           rescue Exception => e
             location = "after(:all)"
-            reporter.example_finished(create_example_definition(location), e, location)
+            reporter.example_finished(create_example(location), e, location)
             return false
           end
         end
         return true
       end
 
-      def create_example_definition(location)
-        behaviour.create_example_definition location
+      def create_example(location)
+        example_group.create_example location
       end
 
       def description
-        behaviour.description
+        example_group.description
       end
 
       def specified_examples

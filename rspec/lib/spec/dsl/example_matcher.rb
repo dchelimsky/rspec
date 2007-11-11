@@ -1,9 +1,9 @@
 module Spec
   module DSL
     class ExampleMatcher
-      def initialize(behaviour_description, example_description)
-        @behaviour_description = behaviour_description
-        @example_description = example_description
+      def initialize(example_group_name, example_name)
+        @example_group_name = example_group_name
+        @example_name = example_name
       end
       
       def matches?(specified_examples)
@@ -23,15 +23,15 @@ module Spec
       end
 
       def behaviour_regexp
-        Regexp.escape(@behaviour_description)
+        Regexp.escape(@example_group_name)
       end
 
       def behaviour_regexp_not_considering_modules
-        Regexp.escape(@behaviour_description.split('::').last)
+        Regexp.escape(@example_group_name.split('::').last)
       end
 
       def example_regexp
-        Regexp.escape(@example_description)
+        Regexp.escape(@example_name)
       end
     end
   end

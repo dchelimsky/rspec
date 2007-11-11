@@ -1,21 +1,21 @@
 module Spec
   module DSL
     class ExampleRunner
-      attr_reader :options, :example, :example_definition, :errors
+      attr_reader :options, :example_group_instance, :errors, :example
+      private :example
 
-      def initialize(options, example)
+      def initialize(options, example_group_instance)
         @options = options
-        @example = example
-        @example_definition = example.rspec_definition
+        @example_group_instance = example_group_instance
+        @example = example_group_instance.example
         @errors = []
-        @behaviour = example.class
       end
-
+      
       def run
-        reporter.example_started(example_definition)
+        reporter.example_started(example)
         if dry_run
-          example_definition.description = "NO NAME (Because of --dry-run)" if example_definition.description == :__generate_description
-          return reporter.example_finished(example_definition, nil, example_definition.description)
+          example.description = "NO NAME (Because of --dry-run)" if example.description == :__generate_description
+          return reporter.example_finished(example, nil, example.description)
         end
 
         location = nil
@@ -23,7 +23,7 @@ module Spec
           before_each_ok = before_example
           example_ok = run_example if before_each_ok
           after_each_ok = after_example
-          example_definition.description = description
+          example.description = description
           location = failure_location(before_each_ok, example_ok, after_each_ok)
           Spec::Matchers.clear_generated_description
         end
@@ -32,7 +32,7 @@ module Spec
           ShouldRaiseHandler.new(from, should_raise).handle(errors)
         end
         reporter.example_finished(
-          example_definition,
+          example,
           errors.first,
           location
         )
@@ -50,7 +50,7 @@ module Spec
       protected
       def before_example
         setup_mocks
-        example.run_before_each
+        example_group_instance.run_before_each
         return ok?
       rescue Exception => e
         errors << e
@@ -58,19 +58,15 @@ module Spec
       end
 
       def run_example
-        if example_block
-          example.run_example
-          return true
-        else
-          raise ExamplePendingError
-        end
+        example_group_instance.run_example
+        return true
       rescue Exception => e
         errors << e
         return false
       end
 
       def after_example
-        example.run_after_each
+        example_group_instance.run_after_each
 
         begin
           verify_mocks
@@ -91,10 +87,6 @@ module Spec
         return nil
       end
 
-      def example_block
-        example_definition.example_block
-      end
-
       def reporter
         @options.reporter
       end
@@ -108,35 +100,35 @@ module Spec
       end
 
       def from
-        example_definition.from
+        example.from
       end
 
       def should_raise
-        example_definition.should_raise
+        example.should_raise
       end
 
       def description
-        return example_definition.description unless example_definition.use_generated_description?
+        return example.description unless example.use_generated_description?
         return Spec::Matchers.generated_description if Spec::Matchers.generated_description
         return "NO NAME (Because of Error raised in matcher)" if failed?
         "NO NAME (Because there were no expectations)"
       end
 
       def setup_mocks
-        if example.respond_to?(:setup_mocks_for_rspec)
-          example.setup_mocks_for_rspec
+        if example_group_instance.respond_to?(:setup_mocks_for_rspec)
+          example_group_instance.setup_mocks_for_rspec
         end
       end
 
       def verify_mocks
-        if example.respond_to?(:verify_mocks_for_rspec)
-          example.verify_mocks_for_rspec
+        if example_group_instance.respond_to?(:verify_mocks_for_rspec)
+          example_group_instance.verify_mocks_for_rspec
         end
       end
 
       def teardown_mocks
-        if example.respond_to?(:teardown_mocks_for_rspec)
-          example.teardown_mocks_for_rspec
+        if example_group_instance.respond_to?(:teardown_mocks_for_rspec)
+          example_group_instance.teardown_mocks_for_rspec
         end
       end
     end

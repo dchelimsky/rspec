@@ -2,7 +2,7 @@ module Spec
   module Runner
     module Formatter
       class RdocFormatter < BaseTextFormatter
-        def add_behaviour(name)
+        def add_example_group(name)
           @output.puts "# #{name}"
         end
   

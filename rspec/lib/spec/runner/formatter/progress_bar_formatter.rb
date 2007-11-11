@@ -2,7 +2,7 @@ module Spec
   module Runner
     module Formatter
       class ProgressBarFormatter < BaseTextFormatter
-        def add_behaviour(name)
+        def add_example_group(name)
         end
       
         def example_failed(example, counter, failure)

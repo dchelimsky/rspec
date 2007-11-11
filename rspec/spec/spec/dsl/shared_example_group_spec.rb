@@ -19,17 +19,17 @@ module Spec
         $rspec_options = @original_rspec_options
         @formatter.rspec_verify
         @behaviour = nil
-        $shared_behaviours.clear unless $shared_behaviours.nil?
+        $shared_example_groups.clear unless $shared_example_groups.nil?
       end
 
-      def make_shared_behaviour(name, opts=nil, &block)
+      def make_shared_example_group(name, opts=nil, &block)
         behaviour = SharedExampleGroup.new(name, :shared => true, &block)
-        SharedExampleGroup.add_shared_behaviour(behaviour)
+        SharedExampleGroup.add_shared_example_group(behaviour)
         behaviour
       end
 
-      def non_shared_behaviour()
-        @non_shared_behaviour ||= Class.new(ExampleGroup).describe("behaviour")
+      def non_shared_example_group()
+        @non_shared_example_group ||= Class.new(ExampleGroup).describe("behaviour")
       end
 
       it "should accept an optional options hash" do
@@ -38,28 +38,28 @@ module Spec
       end
 
       it "should return all shared behaviours" do
-        b1 = make_shared_behaviour("b1", :shared => true) {}
-        b2 = make_shared_behaviour("b2", :shared => true) {}
+        b1 = make_shared_example_group("b1", :shared => true) {}
+        b2 = make_shared_example_group("b2", :shared => true) {}
 
         b1.should_not be(nil)
         b2.should_not be(nil)
 
-        SharedExampleGroup.find_shared_behaviour("b1").should equal(b1)
-        SharedExampleGroup.find_shared_behaviour("b2").should equal(b2)
+        SharedExampleGroup.find_shared_example_group("b1").should equal(b1)
+        SharedExampleGroup.find_shared_example_group("b2").should equal(b2)
       end
 
       it "should register as shared behaviour" do
-        behaviour = make_shared_behaviour("behaviour") {}
-        SharedExampleGroup.shared_behaviours.should include(behaviour)
+        behaviour = make_shared_example_group("behaviour") {}
+        SharedExampleGroup.shared_example_groups.should include(behaviour)
       end
 
       it "should not be shared when not configured as shared" do
-        behaviour = non_shared_behaviour
-        SharedExampleGroup.shared_behaviours.should_not include(behaviour)
+        behaviour = non_shared_example_group
+        SharedExampleGroup.shared_example_groups.should_not include(behaviour)
       end
 
       it "should raise if run when shared" do
-        behaviour = make_shared_behaviour("context") {}
+        behaviour = make_shared_example_group("context") {}
         $example_ran = false
         behaviour.it("test") {$example_ran = true}
         lambda { behaviour.run(@formatter) }.should raise_error
@@ -67,9 +67,9 @@ module Spec
       end
 
       it "should contain examples when shared" do
-        shared_behaviour = make_shared_behaviour("shared behaviour") {}
-        shared_behaviour.it("shared example") {}
-        shared_behaviour.number_of_examples.should == 1
+        shared_example_group = make_shared_example_group("shared behaviour") {}
+        shared_example_group.it("shared example") {}
+        shared_example_group.number_of_examples.should == 1
       end
 
       it "should complain when adding a second shared behaviour with the same description" do
@@ -82,9 +82,9 @@ module Spec
       end
 
       it "should NOT complain when adding the same shared behaviour instance again" do
-        shared_behaviour = Class.new(ExampleGroup).describe("shared behaviour", :shared => true)
-        SharedExampleGroup.add_shared_behaviour(shared_behaviour)
-        SharedExampleGroup.add_shared_behaviour(shared_behaviour)
+        shared_example_group = Class.new(ExampleGroup).describe("shared behaviour", :shared => true)
+        SharedExampleGroup.add_shared_example_group(shared_example_group)
+        SharedExampleGroup.add_shared_example_group(shared_example_group)
       end
 
       it "should NOT complain when adding the same shared behaviour again (i.e. file gets reloaded)" do
@@ -97,33 +97,33 @@ module Spec
       end
 
       it "should NOT complain when adding the same shared behaviour in same file with different absolute path" do
-        shared_behaviour_1 = Class.new(ExampleGroup).describe("shared behaviour", :shared => true)
-        shared_behaviour_2 = Class.new(ExampleGroup).describe("shared behaviour", :shared => true)
+        shared_example_group_1 = Class.new(ExampleGroup).describe("shared behaviour", :shared => true)
+        shared_example_group_2 = Class.new(ExampleGroup).describe("shared behaviour", :shared => true)
 
-        shared_behaviour_1.description[:spec_path] = "/my/spec/a/../shared.rb"
-        shared_behaviour_2.description[:spec_path] = "/my/spec/b/../shared.rb"
+        shared_example_group_1.description[:spec_path] = "/my/spec/a/../shared.rb"
+        shared_example_group_2.description[:spec_path] = "/my/spec/b/../shared.rb"
 
-        SharedExampleGroup.add_shared_behaviour(shared_behaviour_1)
-        SharedExampleGroup.add_shared_behaviour(shared_behaviour_2)
+        SharedExampleGroup.add_shared_example_group(shared_example_group_1)
+        SharedExampleGroup.add_shared_example_group(shared_example_group_2)
       end
 
       it "should complain when adding a different shared behaviour with the same name in a different file with the same basename" do
-        shared_behaviour_1 = Class.new(ExampleGroup).describe("shared behaviour", :shared => true)
-        shared_behaviour_2 = Class.new(ExampleGroup).describe("shared behaviour", :shared => true)
+        shared_example_group_1 = Class.new(ExampleGroup).describe("shared behaviour", :shared => true)
+        shared_example_group_2 = Class.new(ExampleGroup).describe("shared behaviour", :shared => true)
 
-        shared_behaviour_1.description[:spec_path] = "/my/spec/a/shared.rb"
-        shared_behaviour_2.description[:spec_path] = "/my/spec/b/shared.rb"
+        shared_example_group_1.description[:spec_path] = "/my/spec/a/shared.rb"
+        shared_example_group_2.description[:spec_path] = "/my/spec/b/shared.rb"
 
-        SharedExampleGroup.add_shared_behaviour(shared_behaviour_1)
+        SharedExampleGroup.add_shared_example_group(shared_example_group_1)
         lambda do
-          SharedExampleGroup.add_shared_behaviour(shared_behaviour_2)
+          SharedExampleGroup.add_shared_example_group(shared_example_group_2)
         end.should raise_error(ArgumentError, /already exists/)
       end
 
       it "should add examples to current behaviour using it_should_behave_like" do
-        shared_behaviour = make_shared_behaviour("shared behaviour") {}
-        shared_behaviour.it("shared example") {}
-        shared_behaviour.it("shared example 2") {}
+        shared_example_group = make_shared_example_group("shared behaviour") {}
+        shared_example_group.it("shared example") {}
+        shared_example_group.it("shared example 2") {}
 
         @behaviour.it("example") {}
         @behaviour.number_of_examples.should == 1
@@ -132,12 +132,12 @@ module Spec
       end
 
       it "should add examples to current behaviour using include" do
-        shared_behaviour = describe "all things", :shared => true do
+        shared_example_group = describe "all things", :shared => true do
           it "should do stuff" do end
         end
         
         behaviour = describe "one thing" do
-          include shared_behaviour
+          include shared_example_group
         end
         
         behaviour.number_of_examples.should == 1
@@ -157,8 +157,8 @@ module Spec
 
       it "should run shared examples" do
         shared_example_ran = false
-        shared_behaviour = make_shared_behaviour("shared behaviour") {}
-        shared_behaviour.it("shared example") { shared_example_ran = true }
+        shared_example_group = make_shared_example_group("shared behaviour") {}
+        shared_example_group.it("shared example") { shared_example_ran = true }
 
         example_ran = false
 
@@ -173,10 +173,10 @@ module Spec
       it "should run setup and teardown from shared behaviour" do
         shared_setup_ran = false
         shared_teardown_ran = false
-        shared_behaviour = make_shared_behaviour("shared behaviour") {}
-        shared_behaviour.before { shared_setup_ran = true }
-        shared_behaviour.after { shared_teardown_ran = true }
-        shared_behaviour.it("shared example") { shared_example_ran = true }
+        shared_example_group = make_shared_example_group("shared behaviour") {}
+        shared_example_group.before { shared_setup_ran = true }
+        shared_example_group.after { shared_teardown_ran = true }
+        shared_example_group.it("shared example") { shared_example_ran = true }
 
         example_ran = false
 
@@ -192,10 +192,10 @@ module Spec
       it "should run before(:all) and after(:all) only once from shared behaviour" do
         shared_before_all_run_count = 0
         shared_after_all_run_count = 0
-        shared_behaviour = make_shared_behaviour("shared behaviour") {}
-        shared_behaviour.before(:all) { shared_before_all_run_count += 1}
-        shared_behaviour.after(:all) { shared_after_all_run_count += 1}
-        shared_behaviour.it("shared example") { shared_example_ran = true }
+        shared_example_group = make_shared_example_group("shared behaviour") {}
+        shared_example_group.before(:all) { shared_before_all_run_count += 1}
+        shared_example_group.after(:all) { shared_after_all_run_count += 1}
+        shared_example_group.it("shared example") { shared_example_ran = true }
 
         example_ran = false
 
@@ -209,11 +209,11 @@ module Spec
       end
 
       it "should include modules, included into shared behaviour, into current behaviour" do
-        @formatter.should_receive(:add_behaviour).with(any_args)
+        @formatter.should_receive(:add_example_group).with(any_args)
         @formatter.should_receive(:example_finished).twice.with(any_args)
 
-        shared_behaviour = make_shared_behaviour("shared behaviour") {}
-        shared_behaviour.it("shared example") { shared_example_ran = true }
+        shared_example_group = make_shared_example_group("shared behaviour") {}
+        shared_example_group.it("shared example") { shared_example_ran = true }
 
         mod1_method_called = false
         mod1 = Module.new do
@@ -229,7 +229,7 @@ module Spec
           end
         end
 
-        shared_behaviour.include mod2
+        shared_example_group.include mod2
 
         @behaviour.it_should_behave_like("shared behaviour")
         @behaviour.include mod1
@@ -245,7 +245,7 @@ module Spec
       end
 
       it "should make methods defined in the shared behaviour available in consuming behaviour" do
-        shared_behaviour = make_shared_behaviour("shared behaviour xyz") do
+        shared_example_group = make_shared_example_group("shared behaviour xyz") do
           def a_shared_helper_method
             "this got defined in a shared behaviour"
           end
@@ -263,9 +263,9 @@ module Spec
 
       it "should raise when named shared behaviour can not be found" do
         lambda {
-          @behaviour.it_should_behave_like("non-existent shared behaviour")
+          @behaviour.it_should_behave_like("non-existent shared example group")
           violated
-        }.should raise_error("Shared Example 'non-existent shared behaviour' can not be found")
+        }.should raise_error("Shared Example Group 'non-existent shared example group' can not be found")
       end
     end
   end
