@@ -174,12 +174,6 @@ module Spec
         scope_object.should be_instance_of(@behaviour)
       end
 
-      it "should accept an options hash following the example name" do
-        example_definition_options = {:key => 'value'}
-        example_definition = @behaviour.create_example("name", example_definition_options)
-        example_definition.options.should === example_definition_options
-      end
-
       it "should report NO NAME when told to use generated description with --dry-run" do
         @options.dry_run = true
         example_definition = @behaviour.create_example(:__generate_description) do

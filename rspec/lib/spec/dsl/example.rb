@@ -3,11 +3,10 @@ module Spec
     class Example
       # The global sequence number of this example
       attr_accessor :number, :description
-      attr_reader :from, :options
+      attr_reader :from
 
-      def initialize(description, options={}, &example_block)
+      def initialize(description, &example_block)
         @from = caller(0)[3]
-        @options = options
         @example_block = example_block || PENDING_EXAMPLE_BLOCK
         @description = description
       end
@@ -16,17 +15,12 @@ module Spec
         @example_block
       end
       
-      # TODO - this is only called by example_definition_spec
       def call
         @example_block.call
       end
 
       def to_s
         description
-      end
-
-      def should_raise
-        @options[:should_raise]
       end
 
       def use_generated_description?

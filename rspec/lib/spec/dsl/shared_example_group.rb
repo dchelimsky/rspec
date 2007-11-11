@@ -28,7 +28,7 @@ module Spec
           $shared_example_groups ||= []
         end
       end
-      include ExampleGroupClassMethods
+      include ExampleGroupMethods
       public :include
 
       def initialize(*args, &example_group_block)

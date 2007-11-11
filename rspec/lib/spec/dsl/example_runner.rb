@@ -28,9 +28,6 @@ module Spec
           Spec::Matchers.clear_generated_description
         end
 
-        if should_raise
-          ShouldRaiseHandler.new(from, should_raise).handle(errors)
-        end
         reporter.example_finished(
           example,
           errors.first,
@@ -101,10 +98,6 @@ module Spec
 
       def from
         example.from
-      end
-
-      def should_raise
-        example.should_raise
       end
 
       def description
