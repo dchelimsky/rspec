@@ -2,15 +2,17 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 
 module Spec
   module DSL
-    describe ExampleDefinition, "#pending?" do
-      it "returns false when a block is passed in" do
-        runner = ExampleDefinition.new("My description") {}
-        runner.should_not be_pending
+    describe ExampleDefinition do
+      it "should create an Example using the passed in block" do
+        example_definition = ExampleDefinition.new "example" do "success" end
+        example_definition.example_block.call.should == "success"
       end
 
-      it "returns true when a block is not passed in" do
-        runner = ExampleDefinition.new("My description")
-        runner.should be_pending
+      it "should create a block that raises ExamplePendingError when no block is passed in" do
+        example_definition = ExampleDefinition.new "example"
+        lambda {
+          example_definition.example_block.call
+        }.should raise_error(ExamplePendingError)
       end
     end
   end

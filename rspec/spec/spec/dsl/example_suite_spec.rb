@@ -475,11 +475,10 @@ module Spec
           raise "first"
         end
 
-        @reporter.should_receive(:example_finished) do |example, error, location, example_not_implemented|
+        @reporter.should_receive(:example_finished) do |example, error, location|
           example.should equal(example)
           error.message.should eql("first")
           location.should eql("after(:each)")
-          example_not_implemented.should be_false
         end
         suite = @behaviour.suite
         suite.run

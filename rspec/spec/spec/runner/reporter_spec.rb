@@ -154,30 +154,6 @@ module Spec
       
     end
     
-    describe Reporter, "reporting one pending example (Not Yet Implemented)" do
-      include ReporterSpecHelper
-      before(:each) {setup}
-
-      it "should tell formatter example is pending" do
-        @formatter.should_receive(:example_pending).with(description("behaviour"), "example", "Not Yet Implemented")
-        @formatter.should_receive(:add_behaviour).with(description("behaviour"))
-        @reporter.add_behaviour(description('behaviour'))
-        @reporter.example_finished("example", nil, nil, true)
-      end
-
-      it "should account for pending example in stats" do
-        @formatter.should_receive(:example_pending).with(description("behaviour"), "example", "Not Yet Implemented")
-        @formatter.should_receive(:start_dump)
-        @formatter.should_receive(:dump_pending)
-        @formatter.should_receive(:dump_summary).with(anything(), 1, 0, 1)
-        @formatter.should_receive(:add_behaviour).with(description("behaviour"))
-        @formatter.should_receive(:close).with(no_args)
-        @reporter.add_behaviour(description('behaviour'))
-        @reporter.example_finished("example", nil, nil, true)
-        @reporter.dump
-      end
-    end
-
     describe Reporter, "reporting one pending example (ExamplePendingError)" do
       include ReporterSpecHelper
       before(:each) {setup}
