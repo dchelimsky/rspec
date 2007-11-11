@@ -2,7 +2,7 @@ module Spec
   module DSL
 
     # See http://rspec.rubyforge.org/documentation/before_and_after.html
-    module ExampleGroupClassMethods
+    module ExampleGroupMethods
       attr_accessor :description
 
       def inherited(klass)
@@ -83,8 +83,8 @@ module Spec
 
       # Creates an instance of Spec::DSL::Example and adds
       # it to a collection of examples of the current behaviour.
-      def it(description=:__generate_description, opts={}, &block)
-        examples << create_example(description, opts, &block)
+      def it(description=:__generate_description, &block)
+        examples << create_example(description, &block)
       end
       
       alias_method :specify, :it
@@ -106,8 +106,8 @@ module Spec
         examples.length
       end
 
-      def create_example(description, options={}, &block) #:nodoc:
-        Example.new(description, options, &block)
+      def create_example(description, &block) #:nodoc:
+        Example.new(description, &block)
       end
       
       # Registers a block to be executed before each example.
@@ -252,7 +252,7 @@ module Spec
       end
       
       def is_example_group?(klass)
-        klass.kind_of?(ExampleGroupClassMethods)
+        klass.kind_of?(ExampleGroupMethods)
       end
       
       def add_examples_from_methods(suite)
@@ -261,7 +261,7 @@ module Spec
             instance_method(method_name).arity == 0 ||
             instance_method(method_name).arity == -1
           )
-            example = Example.new(method_name) do
+            example = create_example method_name do
               __send__ method_name
             end
             suite << new(example)

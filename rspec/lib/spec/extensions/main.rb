@@ -1,7 +1,7 @@
 module Spec
   module Extensions
     module Main
-      # Creates and returns a class that includes the ExampleGroupClassMethods
+      # Creates and returns a class that includes the ExampleGroupMethods
       # module. The ExampleGroup sub-class depends on the directory of the file
       # calling this method. For example, Spec::Rails will use different
       # classes for specs living in <tt>spec/models</tt>,

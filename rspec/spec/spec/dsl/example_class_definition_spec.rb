@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 
 module Spec
   module DSL
-    class SampleExampleClassDefinition < ExampleGroup
+    class ExampleGroupSubclass < ExampleGroup
       class << self
         attr_accessor :examples_ran
       end
@@ -39,9 +39,9 @@ module Spec
       end
     end
 
-    describe SampleExampleClassDefinition do
+    describe ExampleGroupSubclass do
       it "should run" do
-        SampleExampleClassDefinition.examples_ran.should be_true
+        ExampleGroupSubclass.examples_ran.should be_true
       end
     end
   end
