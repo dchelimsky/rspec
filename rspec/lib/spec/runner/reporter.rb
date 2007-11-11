@@ -5,6 +5,7 @@ module Spec
       
       def initialize(options)
         @options = options
+        @options.reporter = self
         clear
       end
       
