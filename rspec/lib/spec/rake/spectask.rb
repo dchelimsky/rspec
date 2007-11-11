@@ -8,7 +8,7 @@ require 'rake/tasklib'
 module Spec
   module Rake
 
-    # A Rake task that runs a set of RSpec contexts.
+    # A Rake task that runs a set of specs.
     #
     # Example:
     #  
