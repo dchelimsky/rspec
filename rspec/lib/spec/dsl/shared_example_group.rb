@@ -1,6 +1,6 @@
 module Spec
   module DSL
-    class SharedBehaviour < Module
+    class SharedExampleGroup < Module
       class << self
         def add_shared_behaviour(behaviour)
           found_behaviour = find_shared_behaviour(behaviour.description)
@@ -28,7 +28,7 @@ module Spec
           $shared_behaviours ||= []
         end
       end
-      include Behaviour
+      include ExampleGroupClassMethods
       public :include
 
       def initialize(*args, &behaviour_block)
@@ -44,7 +44,7 @@ module Spec
       end
 
       def register
-        Spec::DSL::SharedBehaviour.add_shared_behaviour(self)
+        Spec::DSL::SharedExampleGroup.add_shared_behaviour(self)
       end
     end
   end

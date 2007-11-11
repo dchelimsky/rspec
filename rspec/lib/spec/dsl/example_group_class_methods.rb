@@ -1,7 +1,8 @@
 module Spec
   module DSL
+
     # See http://rspec.rubyforge.org/documentation/before_and_after.html
-    module Behaviour
+    module ExampleGroupClassMethods
       attr_accessor :description
 
       def inherited(klass)
@@ -37,10 +38,10 @@ module Spec
       # See Spec::Runner for information about shared behaviours.
       def it_should_behave_like(shared_behaviour)
         case shared_behaviour
-        when SharedBehaviour
+        when SharedExampleGroup
           include shared_behaviour
         else
-          behaviour = SharedBehaviour.find_shared_behaviour(shared_behaviour)
+          behaviour = SharedExampleGroup.find_shared_behaviour(shared_behaviour)
           unless behaviour
             raise RuntimeError.new("Shared Example '#{shared_behaviour}' can not be found")
           end
@@ -240,7 +241,9 @@ module Spec
       def execute_in_class_hierarchy(superclass_first)
         classes = []
         current_class = self
-        while current_class.is_a?(Behaviour)
+        # TODO - Behaviour is now an alias for ExampleGroupClassMethods,
+        # but that doesn't speak well here. Need to perhaps rephrase.
+        while current_class.kind_of?(Behaviour)
           superclass_first ? classes << current_class : classes.unshift(current_class)
           current_class = current_class.superclass
         end
@@ -328,5 +331,10 @@ module Spec
         self.description
       end
     end
+    
+    # TODO - this is temporary to get through
+    # refactoring out Behaviour
+    Behaviour = ExampleGroupClassMethods
+    
   end
 end

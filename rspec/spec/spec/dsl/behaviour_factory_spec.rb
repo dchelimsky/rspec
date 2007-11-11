@@ -95,7 +95,7 @@ module Spec
       
       it "should create a Spec::DSL::Example if :shared => true" do
         Spec::DSL::BehaviourFactory.create_behaviour("name", :spec_path => '/blah/spec/models/blah.rb', :behaviour_type => :controller, :shared => true) {
-        }.should be_an_instance_of(Spec::DSL::SharedBehaviour)
+        }.should be_an_instance_of(Spec::DSL::SharedExampleGroup)
       end
 
       it "should favor the :behaviour_type over the :spec_path" do

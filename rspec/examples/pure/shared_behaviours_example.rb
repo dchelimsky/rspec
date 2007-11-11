@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/spec_helper'
 
-module SharedBehaviourExample
+module SharedExampleGroupExample
   class OneThing
     def what_things_do
       "stuff"
@@ -19,7 +19,7 @@ module SharedBehaviourExample
     end
   end
   
-  # A Shared Behaviour is a module, so you can assign
+  # A SharedExampleGroup is a module, so you can assign
   # it to a constant if you want ....
   AllThings = describe "All Things", :shared => true do
     def helper_method

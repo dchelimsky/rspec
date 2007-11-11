@@ -77,8 +77,8 @@ module Spec
           BehaviourFactory.register(:special, @special_behaviour)
           BehaviourFactory.register(:special_child, @special_child_behaviour)
           BehaviourFactory.register(:non_special, @nonspecial_behaviour)
-          @behaviour = @special_child_behaviour.describe "Special Behaviour"
-          @unselected_behaviour = Class.new(@nonspecial_behaviour).describe "NonSpecial Behaviour"
+          @behaviour = @special_child_behaviour.describe "Special Example Group"
+          @unselected_behaviour = Class.new(@nonspecial_behaviour).describe "Non Special Example Group"
         end
 
         after do
