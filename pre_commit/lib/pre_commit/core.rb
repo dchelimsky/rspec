@@ -35,7 +35,10 @@ class PreCommit::Core < PreCommit
   end
 
   def rdoc
-    rake_invoke :examples_rdoc
+    Dir.chdir '../rspec' do
+      rake = (PLATFORM == "i386-mswin32") ? "rake.cmd" : "rake"
+      `#{rake} rdoc`
+    end
   end
 
   def rdoc_rails

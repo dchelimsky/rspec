@@ -25,7 +25,7 @@ namespace :spec do
     t.spec_opts = ['--options', "\"#{RAILS_ROOT}/spec/spec.opts\""]
     t.spec_files = FileList['spec/**/*_spec.rb']
     t.rcov = true
-    t.rcov_opts = ['--exclude', 'spec', '--rails']
+    t.rcov_opts = ['--exclude', '"spec/*,gems/*"', '--rails']
   end
   
   desc "Print Specdoc for all specs (excluding plugin specs)"

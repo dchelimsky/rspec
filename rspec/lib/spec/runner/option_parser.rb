@@ -42,7 +42,6 @@ module Spec
                                                     "progress|p           : Text progress",
                                                     "profile|o            : Text progress with profiling of 10 slowest examples",
                                                     "specdoc|s            : Example doc as text",
-                                                    "rdoc|r               : Example doc as RDoc",
                                                     "html|h               : A nice HTML report",
                                                     "failing_examples|e   : Write all failing examples - input for --example",
                                                     "failing_behaviours|b : Write all failing behaviours - input for --example",
