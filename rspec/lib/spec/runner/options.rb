@@ -129,7 +129,7 @@ module Spec
       end
 
       def parse_format(format_arg)
-        format, where = split_at_colon(format_arg)
+        format, where = ClassAndArgumentsParser.parse(format_arg)
         # This funky regexp checks whether we have a FILE_NAME or not
         unless where
           raise "When using several --format options only one of them can be without a file" if @out_used
@@ -155,15 +155,6 @@ module Spec
         heckle_require = [/mswin/, /java/].detect{|p| p =~ RUBY_PLATFORM} ? 'spec/runner/heckle_runner_unsupported' : 'spec/runner/heckle_runner'
         require heckle_require
         @heckle_runner = HeckleRunner.new(heckle)
-      end
-
-      def split_at_colon(s)
-        if s =~ /([a-zA-Z_]+(?:::[a-zA-Z_]+)*):?(.*)/
-          arg = $2 == "" ? nil : $2
-          [$1, arg]
-        else
-          raise "Couldn't parse #{s.inspect}"
-        end
       end
 
       def number_of_examples
@@ -205,7 +196,7 @@ module Spec
       
       def custom_runner
         return nil unless custom_runner?
-        klass_name, arg = split_at_colon(user_input_for_runner)
+        klass_name, arg = ClassAndArgumentsParser.parse(user_input_for_runner)
         runner_type = load_class(klass_name, 'behaviour runner', '--runner')
         return runner_type.new(self, arg)
       end
