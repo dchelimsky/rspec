@@ -324,7 +324,7 @@ module Spec
       def set_description(*args)
         unless self.class == ExampleGroup
           args << {} unless Hash === args.last
-          args.last[:behaviour] = self
+          args.last[:example_group] = self
         end
         self.description = ExampleGroupDescription.new(*args)
         if described_type.class == Module
