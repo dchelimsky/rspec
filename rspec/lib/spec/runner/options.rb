@@ -130,7 +130,6 @@ module Spec
 
       def parse_format(format_arg)
         format, where = ClassAndArgumentsParser.parse(format_arg)
-        # This funky regexp checks whether we have a FILE_NAME or not
         unless where
           raise "When using several --format options only one of them can be without a file" if @out_used
           where = @output_stream
