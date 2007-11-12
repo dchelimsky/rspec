@@ -186,9 +186,7 @@ module Spec
         description = description ? description.description : "RSpec Description Suite"
         customize_example
         suite = ExampleSuite.new(description, self)
-        ordered_examples.each do |example|
-          suite << new(example)
-        end
+        add_examples(suite)
         add_examples_from_methods(suite)
         suite
       end
@@ -253,6 +251,12 @@ module Spec
       
       def is_example_group?(klass)
         klass.kind_of?(ExampleGroupMethods)
+      end
+      
+      def add_examples(suite)
+        ordered_examples.each do |example|
+          suite << new(example)
+        end
       end
       
       def add_examples_from_methods(suite)
