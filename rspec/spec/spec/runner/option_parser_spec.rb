@@ -328,27 +328,29 @@ describe "OptionParser" do
   end
 
   it "should use the standard runner by default" do
+    runner = ::Spec::Runner::BehaviourRunner.new(@parser.options)
+    ::Spec::Runner::BehaviourRunner.should_receive(:new).
+      with(@parser.options).
+      and_return(runner)
     options = parse([])
-    options.custom_runner.should be_nil
+    options.run_examples
   end
 
   it "should use a custom runner when given" do
+    runner = Custom::BehaviourRunner.new(@parser.options, nil)
+    Custom::BehaviourRunner.should_receive(:new).
+      with(@parser.options, nil).
+      and_return(runner)
     options = parse(["--runner", "Custom::BehaviourRunner"])
-    options.custom_runner.class.should equal(Custom::BehaviourRunner)
+    options.run_examples
   end
 
   it "should use a custom runner with extra options" do
+    runner = Custom::BehaviourRunner.new(@parser.options, 'something')
+    Custom::BehaviourRunner.should_receive(:new).
+      with(@parser.options, 'something').
+      and_return(runner)
     options = parse(["--runner", "Custom::BehaviourRunner:something"])
-    options.custom_runner.class.should equal(Custom::BehaviourRunner)
+    options.run_examples
   end
-
-  it "should not have a custom runner by default" do
-    options = Spec::Runner::OptionParser.parse([], @err, @out)
-    options.custom_runner.should be_nil
-  end
-
-  it "should return the correct default behaviour runner" do
-   options = Spec::Runner::OptionParser.parse(["--runner", "Custom::BehaviourRunner"], @err, @out)
-    options.custom_runner.class.should equal(Custom::BehaviourRunner)
-  end  
 end

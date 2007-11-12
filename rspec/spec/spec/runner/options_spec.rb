@@ -89,7 +89,40 @@ module Spec
       end
     end
 
-    describe Options, "#examples_run when there are behaviours" do
+    describe Options, "#run_examples", :shared => true do
+      it "should use the standard runner by default" do
+        runner = ::Spec::Runner::BehaviourRunner.new(@options)
+        ::Spec::Runner::BehaviourRunner.should_receive(:new).
+          with(@options).
+          and_return(runner)
+        @options.user_input_for_runner = nil
+        
+        @options.run_examples
+      end
+
+      it "should use a custom runner when given" do
+        runner = Custom::BehaviourRunner.new(@options, nil)
+        Custom::BehaviourRunner.should_receive(:new).
+          with(@options, nil).
+          and_return(runner)
+        @options.user_input_for_runner = "Custom::BehaviourRunner"
+
+        @options.run_examples
+      end
+
+      it "should use a custom runner with extra options" do
+        runner = Custom::BehaviourRunner.new(@options, 'something')
+        Custom::BehaviourRunner.should_receive(:new).
+          with(@options, 'something').
+          and_return(runner)
+        @options.user_input_for_runner = "Custom::BehaviourRunner:something"
+
+        @options.run_examples
+      end
+    end
+
+    describe Options, "#run_examples when there are behaviours" do
+      it_should_behave_like "Spec::Runner::Options#run_examples"
       before do
         @err = StringIO.new('')
         @out = StringIO.new('')
@@ -110,7 +143,8 @@ module Spec
       end
     end
 
-    describe Options, "#examples_run when there are no behaviours" do
+    describe Options, "#run_examples when there are no behaviours" do
+      it_should_behave_like "Spec::Runner::Options#run_examples"
       before do
         @err = StringIO.new('')
         @out = StringIO.new('')
@@ -131,31 +165,13 @@ module Spec
       end
     end
 
-    describe Options, "#custom_runner?" do
-      before do
-        @err = StringIO.new('')
-        @out = StringIO.new('')
-        @options = Options.new(@err, @out)
-      end
-      
-      it "returns true when there is a user_input_for_runner" do
-        @options.user_input_for_runner = "Custom::BehaviourRunner"
-        @options.custom_runner?.should be_true
-      end
-
-      it "returns false when there is no user_input_for_runner" do
-        @options.user_input_for_runner = nil
-        @options.custom_runner?.should be_false
-      end
-    end
-
     describe Options, "splitting class names and args" do
       before do
         @err = StringIO.new('')
         @out = StringIO.new('')
         @options = Options.new(@err, @out)
       end
-      
+
       it "should split class names with args" do
         @options.split_at_colon('Foo').should == ['Foo', nil]
         @options.split_at_colon('Foo:arg').should == ['Foo', 'arg']
