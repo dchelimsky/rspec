@@ -200,26 +200,14 @@ module Spec
       end
     end
 
-    describe Options, "splitting class names and args" do
-      before do
-        @err = StringIO.new('')
-        @out = StringIO.new('')
-        @options = Options.new(@err, @out)
-      end
+    describe Options, "#parse_class_and_arguments" do
+      it_should_behave_like options
 
-      it "should split class names with args" do
-        @options.split_at_colon('Foo').should == ['Foo', nil]
-        @options.split_at_colon('Foo:arg').should == ['Foo', 'arg']
-        @options.split_at_colon('Foo::Bar::Zap:arg').should == ['Foo::Bar::Zap', 'arg']
-        @options.split_at_colon('Foo:arg1,arg2').should == ['Foo', 'arg1,arg2']
-        @options.split_at_colon('Foo::Bar::Zap:arg1,arg2').should == ['Foo::Bar::Zap', 'arg1,arg2']
-        @options.split_at_colon('Foo::Bar::Zap:drb://foo,drb://bar').should == ['Foo::Bar::Zap', 'drb://foo,drb://bar']
-      end
+    end
 
-      it "should raise error when splitting something starting with a number" do
-        lambda { @options.split_at_colon('') }.should raise_error("Couldn't parse \"\"")
-      end
-
+    describe Options, "#load_class" do
+      it_should_behave_like options
+      
       it "should raise error when not class name" do
         lambda do
           @options.send(:load_class, 'foo', 'fruit', '--food')
