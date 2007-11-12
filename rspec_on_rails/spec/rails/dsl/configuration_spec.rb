@@ -47,17 +47,19 @@ module Spec
       
       it "should default to RAILS_ROOT + '/spec/fixtures'" do
         @config.fixture_path.should == RAILS_ROOT + '/spec/fixtures'
+        Test::Unit::TestCase.fixture_path.should == RAILS_ROOT + '/spec/fixtures'
       end
 
       it "should set fixture_path" do
         @config.fixture_path = "/new/path"
         @config.fixture_path.should == "/new/path"
+        Test::Unit::TestCase.fixture_path.should == "/new/path"
       end
     end
 
     describe Configuration, "#global_fixtures" do
       it_should_behave_like "Spec::DSL::Configuration"
-      
+
       it "should default to []" do
         @config.global_fixtures.should == []
       end
