@@ -55,40 +55,102 @@ module Spec
       end
     end
 
-    describe Options, "#parse_diff" do
+    describe Options, "#parse_diff when receiving nil" do
       it_should_behave_like options
 
-      it "when receiving nil, makes diff_format unified" do
+      before do
         @options.parse_diff nil
+      end
+
+      it "should make diff_format unified" do
         @options.diff_format.should == :unified
       end
 
-      it "when receiving 'unified', makes diff_format unified and uses default differ_class" do
+      it "should set Spec::Expectations.differ to be a default differ" do
+        Spec::Expectations.differ.class.should ==
+          ::Spec::Expectations::Differs::Default
+      end
+    end
+
+    describe Options, "#parse_diff when receiving 'unified'" do
+      it_should_behave_like options
+
+      before do
         @options.parse_diff 'unified'
+      end
+
+      it "should make diff_format unified and uses default differ_class" do
         @options.diff_format.should == :unified
         @options.differ_class.should equal(Spec::Expectations::Differs::Default)
       end
 
-      it "when receiving 'context', makes diff_format context and uses default differ_class" do
+      it "should set Spec::Expectations.differ to be a default differ" do
+        Spec::Expectations.differ.class.should ==
+          ::Spec::Expectations::Differs::Default
+      end
+    end
+
+    describe Options, "#parse_diff when receiving 'context'" do
+      it_should_behave_like options
+
+      before do
         @options.parse_diff 'context'
+      end
+
+      it "should make diff_format context and uses default differ_class" do
         @options.diff_format.should == :context
         @options.differ_class.should == Spec::Expectations::Differs::Default
       end
 
-      it "when receiving custom class name, uses custom differ_class" do
-        Spec::Expectations.differ.should_not be_instance_of(Custom::Differ)
-        
-        @options.parse_diff "Custom::Differ"
+      it "should set Spec::Expectations.differ to be a default differ" do
+        Spec::Expectations.differ.class.should ==
+          ::Spec::Expectations::Differs::Default
+      end
+    end
+
+    describe Options, "#parse_diff when receiving Custom::Differ" do
+      it_should_behave_like options
+
+      before do
+        @options.parse_diff 'Custom::Differ'
+      end
+      
+      it "should use custom differ_class" do
         @options.diff_format.should == :custom
         @options.differ_class.should == Custom::Differ
         Spec::Expectations.differ.should be_instance_of(Custom::Differ)
       end
 
-      it "when receiving missing class name, raises error" do
+      it "should set Spec::Expectations.differ to be a default differ" do
+        Spec::Expectations.differ.class.should ==
+          ::Custom::Differ
+      end
+    end
+
+    describe Options, "#parse_diff when receiving missing class name" do
+      it_should_behave_like options
+
+      it "should raise error" do
         lambda { @options.parse_diff "Custom::MissingDiffer" }.should raise_error(NameError)
         @err.string.should match(/Couldn't find differ class Custom::MissingDiffer/n)
       end
     end
+
+#    describe Options, "#differ_class and #differ_class=" do
+#      it_should_behave_like options
+#
+#      it "when differ_class is not set, should not set Expectations differ" do
+#        Spec::Expectations.should_not_receive(:differ=)
+#        @options.differ_class = nil
+#      end
+#
+#      it "when differ_class is set, should set Expectations differ" do
+#        Spec::Expectations.should_receive(:differ=).with(anything()).and_return do |arg|
+#          arg.class.should == Spec::Expectations::Differs::Default
+#        end
+#        @options.differ_class = Spec::Expectations::Differs::Default
+#      end
+#    end    
 
     describe Options, "#parse_format" do
       it_should_behave_like options
@@ -212,26 +274,6 @@ module Spec
         lambda do
           @options.send(:load_class, 'foo', 'fruit', '--food')
         end.should raise_error('"foo" is not a valid class name')
-      end
-    end
-
-    describe Options, "#differ_class and #differ_class=" do
-      before do
-        @err = StringIO.new
-        @out = StringIO.new
-        @options = Options.new(@err, @out)
-      end
-
-      it "does not set Expectations differ when differ_class is not set" do
-        Spec::Expectations.should_not_receive(:differ=)
-        @options.differ_class = nil
-      end
-
-      it "sets Expectations differ when differ_class is set" do
-        Spec::Expectations.should_receive(:differ=).with(anything()).and_return do |arg|
-          arg.class.should == Spec::Expectations::Differs::Default
-        end
-        @options.differ_class = Spec::Expectations::Differs::Default
       end
     end
 

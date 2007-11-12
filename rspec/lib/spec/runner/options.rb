@@ -62,8 +62,8 @@ module Spec
         @examples_run = false
       end
 
-      def add_example_group(behaviour)
-        @example_groups << behaviour
+      def add_example_group(example_group)
+        @example_groups << example_group
       end
 
       def run_examples
@@ -98,12 +98,6 @@ module Spec
         rescue LoadError ; \
           raise "You must gem install win32console to use colour on Windows" ; \
         end
-      end
-
-      def differ_class=(klass)
-        return unless klass
-        @differ_class = klass
-        Spec::Expectations.differ = self.differ_class.new(self)
       end
 
       def parse_diff(format)
@@ -146,21 +140,28 @@ module Spec
         formatter
       end
 
-      def parse_require(req)
-        req.split(",").each{|file| require file}
-      end
-
-      def parse_heckle(heckle)
-        heckle_require = [/mswin/, /java/].detect{|p| p =~ RUBY_PLATFORM} ? 'spec/runner/heckle_runner_unsupported' : 'spec/runner/heckle_runner'
-        require heckle_require
+      def load_heckle_runner(heckle)
+        if [/mswin/, /java/].detect{|p| p =~ RUBY_PLATFORM}
+          require 'spec/runner/heckle_runner_unsupported'
+        else
+          require 'spec/runner/heckle_runner'
+        end
         @heckle_runner = HeckleRunner.new(heckle)
       end
 
       def number_of_examples
-        @example_groups.inject(0) {|sum, behaviour| sum + behaviour.number_of_examples}
+        @example_groups.inject(0) do |sum, example_group|
+          sum + example_group.number_of_examples
+        end
       end
 
       protected
+      def differ_class=(klass)
+        return unless klass
+        @differ_class = klass
+        Spec::Expectations.differ = self.differ_class.new(self)
+      end
+
       def load_class(name, kind, option)
         if name =~ /\A(?:::)?([A-Z]\w*(?:::[A-Z]\w*)*)\z/
           arg = $2 == "" ? nil : $2

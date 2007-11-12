@@ -91,12 +91,12 @@ module Spec
         on(*OPTIONS[:specification]) {|example| @options.parse_example(example)}
         on(*OPTIONS[:line]) {|line_number| @options.line_number = line_number.to_i}
         on(*OPTIONS[:format]) {|format| @options.parse_format(format)}
-        on(*OPTIONS[:require]) {|req| @options.parse_require(req)}
+        on(*OPTIONS[:require]) {|requires| invoke_requires(requires)}
         on(*OPTIONS[:backtrace]) {@options.backtrace_tweaker = NoisyBacktraceTweaker.new}
         on(*OPTIONS[:loadby]) {|loadby| @options.loadby = loadby}
         on(*OPTIONS[:reverse]) {@options.reverse = true}
         on(*OPTIONS[:timeout]) {|timeout| @options.timeout = timeout.to_f}
-        on(*OPTIONS[:heckle]) {|heckle| @options.parse_heckle(heckle)}
+        on(*OPTIONS[:heckle]) {|heckle| @options.load_heckle_runner(heckle)}
         on(*OPTIONS[:dry_run]) {@options.dry_run = true}
         on(*OPTIONS[:options_file]) {|options_file| parse_options_file(options_file)}
         on(*OPTIONS[:generate_options]) do |options_file|
@@ -132,6 +132,12 @@ module Spec
       end
 
       protected
+      def invoke_requires(requires)
+        requires.split(",").each do |file|
+          require file
+        end
+      end
+      
       def parse_options_file(options_file)
         option_file_args = IO.readlines(options_file).map {|l| l.chomp.split " "}.flatten
         @argv.push(*option_file_args)
