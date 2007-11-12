@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 module Spec
   module Runner
-    describe Options do
+    options = describe Options, :shared => true do
       before(:each) do
         @err = StringIO.new('')
         @out = StringIO.new('')
@@ -12,43 +12,70 @@ module Spec
       after(:each) do
         Spec::Expectations.differ = nil
       end
+    end
 
-      it "instantiates empty arrays" do
+    describe Options, "#examples" do
+      it_should_behave_like options
+
+      it "defaults to empty array" do
         @options.examples.should == []
+      end
+    end
+
+    describe Options, "#formatters" do
+      it_should_behave_like options
+
+      it "defaults to empty array" do
         @options.formatters.should == []
       end
+    end
+
+    describe Options, "#backtrace_tweaker" do
+      it_should_behave_like options
 
       it "defaults to QuietBacktraceTweaker" do
         @options.backtrace_tweaker.class.should == QuietBacktraceTweaker
       end
+    end
 
-      it "defaults to no dry_run" do
+
+    describe Options, "#dry_run" do
+      it_should_behave_like options
+
+      it "defaults to false" do
         @options.dry_run.should == false
       end
+    end
 
-      it "parse_diff sets context_lines" do
-        @options.parse_diff nil
+    describe Options, "#context_lines" do
+      it_should_behave_like options
+
+      it "defaults to 3" do
         @options.context_lines.should == 3
       end
+    end
 
-      it "defaults diff to unified" do
+    describe Options, "#parse_diff" do
+      it_should_behave_like options
+
+      it "when receiving nil, makes diff_format unified" do
         @options.parse_diff nil
         @options.diff_format.should == :unified
       end
 
-      it "should use unified diff format option when format is unified" do
+      it "when receiving 'unified', makes diff_format unified and uses default differ_class" do
         @options.parse_diff 'unified'
         @options.diff_format.should == :unified
         @options.differ_class.should equal(Spec::Expectations::Differs::Default)
       end
 
-      it "should use context diff format option when format is context" do
+      it "when receiving 'context', makes diff_format context and uses default differ_class" do
         @options.parse_diff 'context'
         @options.diff_format.should == :context
         @options.differ_class.should == Spec::Expectations::Differs::Default
       end
 
-      it "should use custom diff format option when format is a custom format" do
+      it "when receiving custom class name, uses custom differ_class" do
         Spec::Expectations.differ.should_not be_instance_of(Custom::Differ)
         
         @options.parse_diff "Custom::Differ"
@@ -57,25 +84,33 @@ module Spec
         Spec::Expectations.differ.should be_instance_of(Custom::Differ)
       end
 
-      it "should print instructions about how to fix missing differ" do
+      it "when receiving missing class name, raises error" do
         lambda { @options.parse_diff "Custom::MissingDiffer" }.should raise_error(NameError)
         @err.string.should match(/Couldn't find differ class Custom::MissingDiffer/n)
-      end      
+      end
+    end
 
-      it "should print instructions about how to fix bad formatter" do
+    describe Options, "#parse_format" do
+      it_should_behave_like options
+      
+      it "when receiving invalid class name, raises error" do
         lambda do
           @options.parse_format "Custom::BadFormatter"
         end.should raise_error(NameError, /undefined local variable or method `bad_method'/)
-      end      
+      end
+    end      
 
-      it "parse_example sets single example when argument not a file" do
+    describe Options, "#parse_example" do
+      it_should_behave_like options
+      
+      it "when receiving argument thats not a file path, sets argument as the example" do
         example = "something or other"
         File.file?(example).should == false
         @options.parse_example example
         @options.examples.should eql(["something or other"])
       end
 
-      it "parse_example sets examples to contents of file" do
+      it "when receiving argument that is a file path, sets examples to contents of the file" do
         example = "#{File.dirname(__FILE__)}/examples.txt"
         File.should_receive(:file?).with(example).and_return(true)
         file = StringIO.new("Sir, if you were my husband, I would poison your drink.\nMadam, if you were my wife, I would drink it.")
@@ -187,7 +222,7 @@ module Spec
 
       it "should raise error when not class name" do
         lambda do
-          @options.load_class('foo', 'fruit', '--food')
+          @options.send(:load_class, 'foo', 'fruit', '--food')
         end.should raise_error('"foo" is not a valid class name')
       end
     end
