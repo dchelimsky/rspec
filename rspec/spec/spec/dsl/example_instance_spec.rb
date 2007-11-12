@@ -7,11 +7,11 @@ module Spec
         @options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
         @reporter = ::Spec::Runner::Reporter.new(@options)
         @options.reporter = @reporter
-        @behaviour = Class.new(ExampleGroup).describe("Some Examples") {}
+        @example_group_class = Class.new(ExampleGroup).describe("Some Examples") {}
       end
 
       def create_runner(example_definition)
-        example = @behaviour.new(example_definition)
+        example = @example_group_class.new(example_definition)
         runner = ExampleRunner.new(@options, example)
         runner.stub!(:verify_mocks)
         runner.stub!(:teardown_mocks)
@@ -23,23 +23,23 @@ module Spec
       it_should_behave_like "Spec::DSL::ExampleRunner#run"
 
       before do
-        @example_definition = @behaviour.create_example("example") {}
-        @runner = create_runner(@example_definition)
+        @example = @example_group_class.create_example("example") {}
+        @runner = create_runner(@example)
       end
       
       it "should send reporter example_started" do
-        @reporter.should_receive(:example_started).with(equal(@example_definition))
+        @reporter.should_receive(:example_started).with(equal(@example))
         @runner.run
       end
 
       it "should report its name for dry run" do
         @options.dry_run = true
-        @reporter.should_receive(:example_finished).with(equal(@example_definition), nil, "example")
+        @reporter.should_receive(:example_finished).with(equal(@example), nil, "example")
         @runner.run
       end
 
       it "should report success" do
-        @reporter.should_receive(:example_finished).with(equal(@example_definition), nil, nil)
+        @reporter.should_receive(:example_finished).with(equal(@example), nil, nil)
         @runner.run
       end
     end
@@ -49,15 +49,15 @@ module Spec
       it_should_behave_like "Spec::DSL::ExampleRunner#run"
 
       before do
-        @example_definition = @behaviour.create_example("example") do
+        @e = @example_group_class.create_example("example") do
           (2+2).should == 5
         end
-        @runner = create_runner(@example_definition)
+        @runner = create_runner(@e)
       end
 
       it "should report failure due to failure" do
         @reporter.should_receive(:example_finished).with(
-          equal(@example_definition),
+          equal(@e),
           is_a(Spec::Expectations::ExpectationNotMetError),
           "example"
         )
@@ -70,7 +70,7 @@ module Spec
 
       before do
         @error = error = NonStandardError.new("in body")
-        @example_definition = @behaviour.create_example("example") do
+        @example_definition = @example_group_class.create_example("example") do
           raise(error)
         end
         @runner = create_runner(@example_definition)
@@ -86,7 +86,7 @@ module Spec
       end
 
       it "should run after_each block" do
-        @behaviour.after(:each) do
+        @example_group_class.after(:each) do
           raise("in after_each")
         end
         @reporter.should_receive(:example_finished) do |example_definition, error, location|
@@ -103,11 +103,11 @@ module Spec
 
       before do
         @example_ran = example_ran = false
-        @example_definition = @behaviour.create_example("should not run") do
+        @example_definition = @example_group_class.create_example("should not run") do
           example_ran = true
         end
         @runner = create_runner(@example_definition)
-        @behaviour.before(:each) {raise NonStandardError, "in before_each"}
+        @example_group_class.before(:each) {raise NonStandardError, "in before_each"}
       end
 
       it "should not run example block if before_each fails" do
@@ -117,7 +117,7 @@ module Spec
 
       it "should run after_each block" do
         after_each_ran = false
-        @behaviour.after(:each) {after_each_ran = true}
+        @example_group_class.after(:each) {after_each_ran = true}
         @runner.run
         after_each_ran.should == true
       end
@@ -137,11 +137,11 @@ module Spec
 
       before do
         @example_ran = example_ran = false
-        @example_definition = @behaviour.create_example("should not run") do
+        @example_definition = @example_group_class.create_example("should not run") do
           example_ran = true
         end
         @runner = create_runner(@example_definition)
-        @behaviour.after(:each) { raise(NonStandardError.new("in after_each")) }
+        @example_group_class.after(:each) { raise(NonStandardError.new("in after_each")) }
       end
 
       it "should report failure location when in after_each" do
@@ -160,23 +160,23 @@ module Spec
 
       it "should run example block in scope of example" do
         scope_object = nil
-        @example_definition = @behaviour.create_example("should pass") do
+        @example_definition = @example_group_class.create_example("should pass") do
           self.instance_of?(Example).should == false
           scope_object = self
         end
         @runner = create_runner(@example_definition)
-        @example = @runner.example_group_instance
+        @example_group_instance = @runner.example_group_instance
 
         @reporter.should_receive(:example_finished).with(equal(@example_definition), nil, nil)
         @runner.run
         
-        scope_object.should == @example
-        scope_object.should be_instance_of(@behaviour)
+        scope_object.should == @example_group_instance
+        scope_object.should be_instance_of(@example_group_class)
       end
 
       it "should report NO NAME when told to use generated description with --dry-run" do
         @options.dry_run = true
-        example_definition = @behaviour.create_example(:__generate_description) do
+        example_definition = @example_group_class.create_example(:__generate_description) do
           5.should == 5
         end
         runner = create_runner(example_definition)
@@ -190,7 +190,7 @@ module Spec
 
       it "should report given name if present with --dry-run" do
         @options.dry_run = true
-        example_definition = @behaviour.create_example("example name") do
+        example_definition = @example_group_class.create_example("example name") do
           5.should == 5
         end
         runner = create_runner(example_definition)
@@ -203,7 +203,7 @@ module Spec
       end
 
       it "should report NO NAME when told to use generated description with no expectations" do
-        example_definition = @behaviour.create_example(:__generate_description) {}
+        example_definition = @example_group_class.create_example(:__generate_description) {}
         runner = create_runner(example_definition)
         @reporter.should_receive(:example_finished) do |example, error, location|
           example.description.should == "NO NAME (Because there were no expectations)"
@@ -212,7 +212,7 @@ module Spec
       end
 
       it "should report NO NAME when told to use generated description and matcher fails" do
-        example_definition = @behaviour.create_example(:__generate_description) do
+        example_definition = @example_group_class.create_example(:__generate_description) do
           5.should "" # Has no matches? method..
         end
         runner = create_runner(example_definition)
@@ -225,7 +225,7 @@ module Spec
       end
 
       it "should report generated description when told to and it is available" do
-        example_definition = @behaviour.create_example(:__generate_description) {
+        example_definition = @example_group_class.create_example(:__generate_description) {
           5.should == 5
         }
         runner = create_runner(example_definition)
@@ -237,7 +237,7 @@ module Spec
       end
 
       it "should unregister description_generated callback (lest a memory leak should build up)" do
-        example_definition = @behaviour.create_example("something")
+        example_definition = @example_group_class.create_example("something")
         runner = create_runner(example_definition)
 
         Spec::Matchers.should_receive(:clear_generated_description)
