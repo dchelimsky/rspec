@@ -100,17 +100,6 @@ module Spec
         end
       end
 
-      def custom_runner?
-        return user_input_for_runner ? true : false
-      end
-
-      def custom_runner
-        return nil unless custom_runner?
-        klass_name, arg = split_at_colon(user_input_for_runner)
-        runner_type = load_class(klass_name, 'behaviour runner', '--runner')
-        return runner_type.new(self, arg)
-      end
-
       def differ_class=(klass)
         return unless klass
         @differ_class = klass
@@ -214,6 +203,17 @@ module Spec
       end
 
       protected
+      def custom_runner
+        return nil unless custom_runner?
+        klass_name, arg = split_at_colon(user_input_for_runner)
+        runner_type = load_class(klass_name, 'behaviour runner', '--runner')
+        return runner_type.new(self, arg)
+      end
+
+      def custom_runner?
+        return user_input_for_runner ? true : false
+      end
+      
       def heckle
         returns = self.heckle_runner.heckle_with
         self.heckle_runner = nil
