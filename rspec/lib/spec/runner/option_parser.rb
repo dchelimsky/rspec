@@ -167,7 +167,7 @@ module Spec
         end
         @out_stream.puts "\nOptions written to #{options_file}. You can now use these options with:"
         @out_stream.puts "spec --options #{options_file}"
-        @options.examples_should_be_run = true
+        @options.examples_should_not_be_run
       end
 
       def parse_drb
@@ -176,7 +176,7 @@ module Spec
         is_drb ||= current_argv.delete(OPTIONS[:drb][0])
         is_drb ||= current_argv.delete(OPTIONS[:drb][1])
         return nil unless is_drb
-        @options.examples_should_be_run = true
+        @options.examples_should_not_be_run
         DrbCommandLine.run(
           self.class.parse(current_argv, @error_stream, @out_stream)
         )

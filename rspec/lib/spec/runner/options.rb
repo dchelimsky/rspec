@@ -81,15 +81,13 @@ module Spec
         end
       end
 
-      def examples_should_be_run?
-        return @examples_should_be_run unless @examples_should_be_run.nil?
-        @examples_should_be_run = true
-      end
-      attr_writer :examples_should_be_run
-
       def examples_run?
         @examples_run
       end
+
+      def examples_should_not_be_run
+        @examples_should_be_run = false
+      end      
 
       def colour=(colour)
         @colour = colour
@@ -156,6 +154,11 @@ module Spec
       end
 
       protected
+      def examples_should_be_run?
+        return @examples_should_be_run unless @examples_should_be_run.nil?
+        @examples_should_be_run = true
+      end
+      
       def differ_class=(klass)
         return unless klass
         @differ_class = klass
