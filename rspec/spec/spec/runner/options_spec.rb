@@ -136,22 +136,6 @@ module Spec
       end
     end
 
-#    describe Options, "#differ_class and #differ_class=" do
-#      it_should_behave_like options
-#
-#      it "when differ_class is not set, should not set Expectations differ" do
-#        Spec::Expectations.should_not_receive(:differ=)
-#        @options.differ_class = nil
-#      end
-#
-#      it "when differ_class is set, should set Expectations differ" do
-#        Spec::Expectations.should_receive(:differ=).with(anything()).and_return do |arg|
-#          arg.class.should == Spec::Expectations::Differs::Default
-#        end
-#        @options.differ_class = Spec::Expectations::Differs::Default
-#      end
-#    end    
-
     describe Options, "#parse_format" do
       it_should_behave_like options
       
