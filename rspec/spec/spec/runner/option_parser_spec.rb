@@ -157,16 +157,6 @@ describe "OptionParser" do
     options.formatters[0].class.should equal(Spec::Runner::Formatter::ProgressBarFormatter)
   end
 
-  it "should use rdoc formatter when format is r" do
-    options = parse(["--format", "r"])
-    options.formatters[0].class.should equal(Spec::Runner::Formatter::RdocFormatter)
-  end
-
-  it "should use rdoc formatter when format is rdoc" do
-    options = parse(["--format", "rdoc"])
-    options.formatters[0].class.should equal(Spec::Runner::Formatter::RdocFormatter)
-  end
-
   it "should use specdoc formatter when format is s" do
     options = parse(["--format", "s"])
     options.formatters[0].class.should equal(Spec::Runner::Formatter::SpecdocFormatter)

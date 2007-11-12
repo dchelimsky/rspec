@@ -1,7 +1,6 @@
 require 'spec/runner/formatter/base_formatter'
 require 'spec/runner/formatter/base_text_formatter'
 require 'spec/runner/formatter/progress_bar_formatter'
-require 'spec/runner/formatter/rdoc_formatter'
 require 'spec/runner/formatter/specdoc_formatter'
 require 'spec/runner/formatter/html_formatter'
 require 'spec/runner/formatter/text_mate_formatter'

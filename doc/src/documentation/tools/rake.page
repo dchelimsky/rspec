@@ -20,13 +20,6 @@ rake examples
 
 Also see the "RCov":rcov.html page for info about how to generate a coverage report.
 
-h3. Generate specdocs in RDoc format
-
-<ruby file="../rspec/rake_tasks/examples_rdoc.rake"/>
-
-This will write the specdocs to a file, which can be included in your RDoc. 
-Just like "this":../../rdoc/files/EXAMPLES_rd.html.
-
 h3. Generate HTML report
 
 <ruby file="../rspec/rake_tasks/failing_examples_with_html.rake"/>

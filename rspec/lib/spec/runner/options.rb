@@ -10,8 +10,6 @@ module Spec
         's'        => Formatter::SpecdocFormatter,
         'html'     => Formatter::HtmlFormatter,
         'h'        => Formatter::HtmlFormatter,
-        'rdoc'     => Formatter::RdocFormatter,
-        'r'        => Formatter::RdocFormatter,
         'progress' => Formatter::ProgressBarFormatter,
         'p'        => Formatter::ProgressBarFormatter,
         'failing_examples' => Formatter::FailingExamplesFormatter,
