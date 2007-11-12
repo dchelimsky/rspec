@@ -170,7 +170,9 @@ module Spec
       end
     end
 
-    describe Options, "#run_examples", :shared => true do
+    run_examples = describe Options, "#run_examples", :shared => true do
+      it_should_behave_like options
+      
       it "should use the standard runner by default" do
         runner = ::Spec::Runner::BehaviourRunner.new(@options)
         ::Spec::Runner::BehaviourRunner.should_receive(:new).
@@ -203,11 +205,9 @@ module Spec
     end
 
     describe Options, "#run_examples when there are behaviours" do
-      it_should_behave_like "Spec::Runner::Options#run_examples"
+      it_should_behave_like run_examples
+      
       before do
-        @err = StringIO.new('')
-        @out = StringIO.new('')
-        @options = Options.new(@err, @out)
         @options.add_example_group Class.new(::Spec::DSL::ExampleGroup)
         @options.formatters << Formatter::BaseTextFormatter.new(@options, @out)
       end
@@ -225,11 +225,9 @@ module Spec
     end
 
     describe Options, "#run_examples when there are no behaviours" do
-      it_should_behave_like "Spec::Runner::Options#run_examples"
+      it_should_behave_like run_examples
+
       before do
-        @err = StringIO.new('')
-        @out = StringIO.new('')
-        @options = Options.new(@err, @out)
         @options.formatters << Formatter::BaseTextFormatter.new(@options, @out)
       end
 
@@ -268,11 +266,7 @@ module Spec
     end
 
     describe Options, "#reporter" do
-      before do
-        @err = StringIO.new
-        @out = StringIO.new
-        @options = Options.new(@err, @out)
-      end
+      it_should_behave_like options
 
       it "returns a Reporter" do
         @options.reporter.should be_instance_of(Reporter)
@@ -281,11 +275,7 @@ module Spec
     end
 
     describe Options, "#add_example_group affecting passed in behaviour" do
-      before do
-        @err = StringIO.new('')
-        @out = StringIO.new('')
-        @options = Options.new(@err, @out)
-      end
+      it_should_behave_like options
 
       it "runs all examples when options.examples is nil" do
         example_1_has_run = false
@@ -329,11 +319,7 @@ module Spec
     end
 
     describe Options, "#add_example_group affecting behaviours" do
-      before do
-        @err = StringIO.new('')
-        @out = StringIO.new('')
-        @options = Options.new(@err,@out)
-      end
+      it_should_behave_like options
 
       it "adds behaviour when behaviour has example_definitions and is not shared" do
         @behaviour = Class.new(::Spec::DSL::ExampleGroup).describe("Some Examples") do
