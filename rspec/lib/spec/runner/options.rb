@@ -166,6 +166,11 @@ module Spec
         end
       end
 
+      def number_of_examples
+        @example_groups.inject(0) {|sum, behaviour| sum + behaviour.number_of_examples}
+      end
+
+      protected
       def load_class(name, kind, option)
         if name =~ /\A(?:::)?([A-Z]\w*(?:::[A-Z]\w*)*)\z/
           arg = $2 == "" ? nil : $2
@@ -183,7 +188,7 @@ module Spec
           if $_spec_spec ; raise e ; else exit(1) ; end
         end
       end
-
+      
       def files_to_load
         result = []
         sorted_files.each do |file|
@@ -197,12 +202,7 @@ module Spec
         end
         result
       end
-
-      def number_of_examples
-        @example_groups.inject(0) {|sum, behaviour| sum + behaviour.number_of_examples}
-      end
-
-      protected
+      
       def custom_runner
         return nil unless custom_runner?
         klass_name, arg = split_at_colon(user_input_for_runner)

@@ -318,11 +318,17 @@ describe "OptionParser" do
 
   it "should set an mtime comparator when --loadby mtime" do
     options = parse(["--loadby", 'mtime'])
+    runner = Spec::Runner::BehaviourRunner.new(options)
+    Spec::Runner::BehaviourRunner.should_receive(:new).
+      with(options).
+      and_return(runner)
+    runner.should_receive(:load_files).with(["most_recent_spec.rb", "command_line_spec.rb"])
+
     Dir.chdir(File.dirname(__FILE__)) do
       options.files << 'command_line_spec.rb'
       options.files << 'most_recent_spec.rb'
       FileUtils.touch "most_recent_spec.rb"
-      options.files_to_load.should == ["most_recent_spec.rb", "command_line_spec.rb"]
+      options.run_examples
       FileUtils.rm "most_recent_spec.rb"
     end
   end
