@@ -28,7 +28,6 @@ module Spec
         :dry_run,
         :profile,
         :examples,
-        :failure_file,
         :formatters,
         :heckle_runner,
         :line_number,
