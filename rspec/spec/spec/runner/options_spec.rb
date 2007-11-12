@@ -55,7 +55,7 @@ module Spec
       end
     end
 
-    describe Options, "#parse_diff when receiving nil" do
+    describe Options, "#parse_diff with nil" do
       it_should_behave_like options
 
       before do
@@ -72,7 +72,7 @@ module Spec
       end
     end
 
-    describe Options, "#parse_diff when receiving 'unified'" do
+    describe Options, "#parse_diff with 'unified'" do
       it_should_behave_like options
 
       before do
@@ -90,7 +90,7 @@ module Spec
       end
     end
 
-    describe Options, "#parse_diff when receiving 'context'" do
+    describe Options, "#parse_diff with 'context'" do
       it_should_behave_like options
 
       before do
@@ -108,7 +108,7 @@ module Spec
       end
     end
 
-    describe Options, "#parse_diff when receiving Custom::Differ" do
+    describe Options, "#parse_diff with Custom::Differ" do
       it_should_behave_like options
 
       before do
@@ -127,7 +127,7 @@ module Spec
       end
     end
 
-    describe Options, "#parse_diff when receiving missing class name" do
+    describe Options, "#parse_diff with missing class name" do
       it_should_behave_like options
 
       it "should raise error" do
@@ -139,7 +139,7 @@ module Spec
     describe Options, "#parse_format" do
       it_should_behave_like options
       
-      it "when receiving invalid class name, raises error" do
+      it "with invalid class name, raises error" do
         lambda do
           @options.parse_format "Custom::BadFormatter"
         end.should raise_error(NameError, /undefined local variable or method `bad_method'/)
@@ -149,14 +149,14 @@ module Spec
     describe Options, "#parse_example" do
       it_should_behave_like options
       
-      it "when receiving argument thats not a file path, sets argument as the example" do
+      it "with argument thats not a file path, sets argument as the example" do
         example = "something or other"
         File.file?(example).should == false
         @options.parse_example example
         @options.examples.should eql(["something or other"])
       end
 
-      it "when receiving argument that is a file path, sets examples to contents of the file" do
+      it "with argument that is a file path, sets examples to contents of the file" do
         example = "#{File.dirname(__FILE__)}/examples.txt"
         File.should_receive(:file?).with(example).and_return(true)
         file = StringIO.new("Sir, if you were my husband, I would poison your drink.\nMadam, if you were my wife, I would drink it.")
