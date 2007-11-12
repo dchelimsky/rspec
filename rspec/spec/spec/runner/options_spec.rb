@@ -246,14 +246,20 @@ module Spec
       end
     end
 
-    describe Options, "#parse_class_and_arguments" do
+    describe Options, "#examples_should_not_be_run" do
       it_should_behave_like options
 
+      it "should cause #run_examples to return true and do nothing" do
+        @options.examples_should_not_be_run
+        BehaviourRunner.should_not_receive(:new)
+        
+        @options.run_examples.should be_true
+      end
     end
 
     describe Options, "#load_class" do
       it_should_behave_like options
-      
+
       it "should raise error when not class name" do
         lambda do
           @options.send(:load_class, 'foo', 'fruit', '--food')
