@@ -100,7 +100,6 @@ module Spec
     
     describe Reporter, "reporting one passing example" do
       include ReporterSpecHelper
-      before(:each) {setup}
 
       it "should tell formatter example passed" do
         @formatter.should_receive(:example_passed)
@@ -126,7 +125,6 @@ module Spec
 
     describe Reporter, "reporting one failing example" do
       include ReporterSpecHelper
-      before(:each) {setup}
 
       it "should tell formatter that example failed" do
         @formatter.should_receive(:example_failed)
@@ -156,7 +154,6 @@ module Spec
     
     describe Reporter, "reporting one pending example (ExamplePendingError)" do
       include ReporterSpecHelper
-      before(:each) {setup}
 
       it "should tell formatter example is pending" do
         @formatter.should_receive(:example_pending).with(description("behaviour"), "example", "reason")
@@ -180,7 +177,6 @@ module Spec
 
     describe Reporter, "reporting one pending example (PendingExampleFixedError)" do
       include ReporterSpecHelper
-      before(:each) {setup}
 
       it "should tell formatter pending example is fixed" do
         @formatter.should_receive(:example_failed) do |name, counter, failure|

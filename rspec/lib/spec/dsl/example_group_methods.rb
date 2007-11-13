@@ -265,7 +265,7 @@ module Spec
             instance_method(method_name).arity == 0 ||
             instance_method(method_name).arity == -1
           )
-            example = create_example method_name do
+            example = create_example(method_name) do
               __send__ method_name
             end
             suite << new(example)
