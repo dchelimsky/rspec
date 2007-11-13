@@ -5,6 +5,10 @@ module Spec
     class ExampleGroup
       extend ExampleGroupMethods
       include ExampleMethods
+
+      def initialize(example) #:nodoc:
+        @example = example
+      end
     end
   end
 end

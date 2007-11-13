@@ -1,3 +1,5 @@
+require 'spec/test'
+
 ActionView::Base.cache_template_extensions = false
 
 module Spec
