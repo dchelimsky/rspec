@@ -176,7 +176,7 @@ module Spec
 
       it "should report NO NAME when told to use generated description with --dry-run" do
         @options.dry_run = true
-        example_definition = @example_group_class.create_example(:__generate_description) do
+        example_definition = @example_group_class.create_example(:__generate_docstring) do
           5.should == 5
         end
         runner = create_runner(example_definition)
@@ -203,7 +203,7 @@ module Spec
       end
 
       it "should report NO NAME when told to use generated description with no expectations" do
-        example_definition = @example_group_class.create_example(:__generate_description) {}
+        example_definition = @example_group_class.create_example(:__generate_docstring) {}
         runner = create_runner(example_definition)
         @reporter.should_receive(:example_finished) do |example, error, location|
           example.description.should == "NO NAME (Because there were no expectations)"
@@ -212,7 +212,7 @@ module Spec
       end
 
       it "should report NO NAME when told to use generated description and matcher fails" do
-        example_definition = @example_group_class.create_example(:__generate_description) do
+        example_definition = @example_group_class.create_example(:__generate_docstring) do
           5.should "" # Has no matches? method..
         end
         runner = create_runner(example_definition)
@@ -225,7 +225,7 @@ module Spec
       end
 
       it "should report generated description when told to and it is available" do
-        example_definition = @example_group_class.create_example(:__generate_description) {
+        example_definition = @example_group_class.create_example(:__generate_docstring) {
           5.should == 5
         }
         runner = create_runner(example_definition)

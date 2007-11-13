@@ -83,14 +83,14 @@ module Spec
 
       # Creates an instance of Spec::DSL::Example and adds
       # it to a collection of examples of the current behaviour.
-      def it(description=:__generate_description, &block)
+      def it(description=:__generate_docstring, &block)
         examples << create_example(description, &block)
       end
       
       alias_method :specify, :it
       
       # Use this to temporarily disable an example.
-      def xit(description=:__generate_description, opts={}, &block)
+      def xit(description=:__generate_docstring, opts={}, &block)
         Kernel.warn("Example disabled: #{description}")
       end
 

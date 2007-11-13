@@ -11,24 +11,22 @@ module Spec
       
       def add_example_group(name)
         formatters.each{|f| f.add_example_group(name)}
-        @behaviour_names << name
+        @example_group_names << name
       end
       
-      def example_started(example_definition)
-        formatters.each{|f| f.example_started(example_definition)}
+      def example_started(example)
+        formatters.each{|f| f.example_started(example)}
       end
       
-      def example_finished(example_definition, error=nil, failure_location=nil, pending=false)
-        @example_names << example_definition
+      def example_finished(example, error=nil, failure_location=nil, pending=false)
+        @examples << example
         
-        # if pending
-        #   example_pending(@behaviour_names.last, example_definition)
         if error.nil?
-          example_passed(example_definition)
+          example_passed(example)
         elsif Spec::DSL::ExamplePendingError === error
-          example_pending(@behaviour_names.last, example_definition, error.message)
+          example_pending(@example_group_names.last, example, error.message)
         else
-          example_failed(example_definition, error, failure_location)
+          example_failed(example, error, failure_location)
         end
       end
 
@@ -48,7 +46,7 @@ module Spec
         dump_pending
         dump_failures
         formatters.each do |f|
-          f.dump_summary(duration, @example_names.length, @failures.length, @pending_count)
+          f.dump_summary(duration, @examples.length, @failures.length, @pending_count)
           f.close
         end
         @failures.length
@@ -65,10 +63,10 @@ module Spec
       end
   
       def clear
-        @behaviour_names = []
+        @example_group_names = []
         @failures = []
         @pending_count = 0
-        @example_names = []
+        @examples = []
         @start_time = nil
         @end_time = nil
       end
@@ -95,7 +93,7 @@ module Spec
 
       def example_failed(name, error, failure_location)
         backtrace_tweaker.tweak_backtrace(error, failure_location)
-        example_name = "#{@behaviour_names.last} #{name}"
+        example_name = "#{@example_group_names.last} #{name}"
         failure = Failure.new(example_name, error)
         @failures << failure
         formatters.each{|f| f.example_failed(name, @failures.length, failure)}
