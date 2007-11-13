@@ -3,7 +3,7 @@ module Spec
     module ExampleMethods
       include ::Spec::Matchers
       include ::Spec::DSL::Pending
-
+      
       attr_reader :example
 
       def initialize(example) #:nodoc:
@@ -14,13 +14,21 @@ module Spec
       def violated(message="")
         raise Spec::Expectations::ExpectationNotMetError.new(message)
       end
-
+      
       def run
-        instance_eval(&example)
+        instance_eval(&example.example_block)
       end
       
       def description
         example.description
+      end
+      
+      def description=(description)
+        example.description=(description)
+      end
+            
+      def use_generated_description?
+        example.description == :__generate_docstring
       end
 
       def copy_instance_variables_from(obj)
@@ -60,6 +68,7 @@ module Spec
         end
         raise first_exception if first_exception
       end
+
     end
   end
 end

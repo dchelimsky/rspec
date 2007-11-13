@@ -3,7 +3,7 @@ module Spec
     class Example
       # The global sequence number of this example
       attr_accessor :number, :description
-      attr_reader :from
+      attr_reader :from, :example_block
 
       def initialize(description, &example_block)
         @from = caller(0)[3]
@@ -11,22 +11,10 @@ module Spec
         @description = description
       end
       
-      def to_proc
-        @example_block
-      end
-      
-      def call
-        @example_block.call
-      end
-
       def to_s
         description
       end
 
-      def use_generated_description?
-        @description == :__generate_description
-      end
-      
       private
       
         PENDING_EXAMPLE_BLOCK = lambda {

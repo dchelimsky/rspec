@@ -1,8 +1,7 @@
 module Spec
   module DSL
     class ExampleRunner
-      attr_reader :options, :example_group_instance, :errors, :example
-      private :example
+      attr_reader :options, :example_group_instance, :errors
 
       def initialize(options, example_group_instance)
         @options = options
@@ -12,10 +11,10 @@ module Spec
       end
       
       def run
-        reporter.example_started(example)
+        reporter.example_started(@example)
         if dry_run
-          example.description = "NO NAME (Because of --dry-run)" if example.description == :__generate_description
-          return reporter.example_finished(example, nil, example.description)
+          example_group_instance.description = "NO NAME (Because of --dry-run)" if example_group_instance.use_generated_description?
+          return reporter.example_finished(@example, nil, example_group_instance.description)
         end
 
         location = nil
@@ -23,13 +22,13 @@ module Spec
           before_each_ok = before_example
           example_ok = run_example if before_each_ok
           after_each_ok = after_example
-          example.description = description
+          example_group_instance.description = description
           location = failure_location(before_each_ok, example_ok, after_each_ok)
           Spec::Matchers.clear_generated_description
         end
 
         reporter.example_finished(
-          example,
+          @example,
           errors.first,
           location
         )
@@ -97,11 +96,11 @@ module Spec
       end
 
       def from
-        example.from
+        example_group_instance.from
       end
 
       def description
-        return example.description unless example.use_generated_description?
+        return @example.description unless example_group_instance.use_generated_description?
         return Spec::Matchers.generated_description if Spec::Matchers.generated_description
         return "NO NAME (Because of Error raised in matcher)" if failed?
         "NO NAME (Because there were no expectations)"
