@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>deleted</key>
@@ -273,6 +273,7 @@
 		<string>96F0A193-32F1-4A75-9093-5D20E36593EC</string>
 		<string>647C94D6-42FE-40F0-8618-73F7725BF59E</string>
 		<string>73A67D49-CA5B-4B8A-9B62-003506276CDD</string>
+		<string>FCB3248F-0AFD-4CB5-BF4F-1B7CDB807981</string>
 		<string>240FDD9D-CD49-4917-9003-80A3E1DADFBA</string>
 		<string>B5906021-8E54-4863-A13B-EA46333DB5F1</string>
 		<string>67E726E0-63E2-4840-B8BB-37F665CD34B8</string>
