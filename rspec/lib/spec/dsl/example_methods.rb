@@ -5,11 +5,6 @@ module Spec
       include ::Spec::DSL::Pending
       
       attr_reader :example
-
-      def initialize(example) #:nodoc:
-        @example = example
-        @_result = ::Test::Unit::TestResult.new
-      end
       
       def violated(message="")
         raise Spec::Expectations::ExpectationNotMetError.new(message)

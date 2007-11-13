@@ -3,6 +3,7 @@ require "test/unit"
 require "test/unit/testresult"
 require "test/unit/ui/testrunnermediator"
 require File.dirname(__FILE__) + '/../../spec/spec_helper.rb'
+require 'spec/test'
 
 module RubyRunner
   # Launces a new ruby interpreter - the same as the one running this one.
