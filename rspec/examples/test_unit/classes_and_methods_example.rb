@@ -1,7 +1,7 @@
-require File.dirname(__FILE__) + '/../pure/spec_helper'
+require File.dirname(__FILE__) + '/spec_helper'
 require File.dirname(__FILE__) + '/../pure/stack'
 
-class EmptyStackSpec < Spec::ExampleGroup
+class EmptyStackSpec < Test::Unit::TestCase::ExampleGroup
   def should_be_empty
     stack = Stack.new
     

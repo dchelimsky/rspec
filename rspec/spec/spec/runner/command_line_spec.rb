@@ -9,7 +9,7 @@ module Spec
       end
 
       it "should run directory" do
-        file = File.dirname(__FILE__) + '/../../../examples'
+        file = File.dirname(__FILE__) + '/../../../examples/pure'
         Spec::Runner::CommandLine.run(OptionParser.parse([file], @err, @out))
 
         @out.rewind

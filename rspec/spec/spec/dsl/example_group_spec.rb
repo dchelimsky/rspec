@@ -104,6 +104,7 @@ module Spec
         suite.tests.length.should == 2
         descriptions = suite.tests.collect {|test| test.example.description}.sort
         descriptions.should == ["test_any_args", "test_something"]
+        suite.run.should be_true
       end
 
       it "should include methods that begin with should and has an arity of 0 in suite" do

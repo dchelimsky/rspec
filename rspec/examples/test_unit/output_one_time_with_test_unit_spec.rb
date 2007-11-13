@@ -1,18 +1,20 @@
-require File.dirname(__FILE__) + '/../../../spec_helper.rb'
+require File.dirname(__FILE__) + '/spec_helper'
 
 module Spec
   module Runner
     describe CommandLine do
+      include RubyRunner
+
       it "should not output twice" do
         dir = File.dirname(__FILE__)
-        output =`ruby #{dir}/output_one_time_with_test_unit_fixture_runner.rb`
+        output = ruby "#{dir}/output_one_time_with_test_unit_fixture_runner.rb"
         output.should include("1 example, 0 failures")
         output.should_not include("0 examples, 0 failures")
       end
 
       it "when no tests are run, does not output test/unit summary" do
         dir = File.dirname(__FILE__)
-        output =`ruby #{dir}/output_one_time_with_test_unit_fixture_runner.rb`
+        output = ruby "#{dir}/output_one_time_with_test_unit_fixture_runner.rb"
         output.should_not include("Started")
         output.should_not match(/\btests\b/)
         output.should_not include("Loaded suite")
@@ -22,7 +24,7 @@ module Spec
 
       it "when tests are run, output test/unit sumary" do
         dir = File.dirname(__FILE__)
-        output =`ruby #{dir}/sample_spec_test.rb`
+        output = ruby "#{dir}/sample_spec_test.rb"
         output.should include("Started")
         output.should match(/\btests\b/)
         output.should include("Loaded suite")
