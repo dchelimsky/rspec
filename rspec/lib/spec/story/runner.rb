@@ -9,11 +9,11 @@ module Spec
   module Story
     module Runner
       class << self
-        def run_options
+        def run_options # :nodoc:
           @run_options ||= ::Spec::Runner::OptionParser.parse(ARGV, $stderr, $stdout)
         end
         
-        def story_runner
+        def story_runner # :nodoc:
           unless @story_runner
             @story_runner = StoryRunner.new(scenario_runner, world_creator)
             unless run_options.dry_run
@@ -27,21 +27,22 @@ module Spec
           @story_runner
         end
         
-        def scenario_runner
+        def scenario_runner # :nodoc:
           @scenario_runner ||= ScenarioRunner.new
         end
         
-        def world_creator
+        def world_creator # :nodoc:
           @world_creator ||= World
         end
         
+        # Use this to register a customer output formatter.
         def register_listener(listener)
           story_runner.add_listener(listener)
           world_creator.add_listener(listener)
           scenario_runner.add_listener(listener)
         end
         
-        def register_exit_hook
+        def register_exit_hook # :nodoc:
           # TODO - when story runner uses test/unit runners like example runner does we can kill
           # this and also the assorted Kernel.stub!(:at_exit) in examples
           at_exit do
