@@ -34,6 +34,16 @@ Story "addition", %{
     When "they are added"
     Then "the sum should be 5"
   end
+  
+  # This scenario uses GivenScenario, which silently runs
+  # all the steps in a previous scenario.
+  
+  Scenario "add 4 more" do
+    GivenScenario "2 + 3"
+    Given "an addend of 4"
+    When "they are added"
+    Then "the sum should be 9"
+  end
 end
 
 # And the class that makes the story pass
