@@ -24,24 +24,21 @@ module Spec
         end
         
         MARKERS = {
-          /^Story: / => :story,
-          /^Scenario: / => :scenario,
-          /^Given / => :given,
-          /^When / => :event,
-          /^Then / => :outcome,
-          /^And / => :one_more_of_the_same
         }
         
         def process_line(line)
           line.strip!
-          MARKERS.keys.each do |key|
-            if line =~ key
-              return @state.send(MARKERS[key], line)
-            end
+          case line
+          when /^Story: /    : @state.story(line)
+          when /^Scenario: / : @state.scenario(line)
+          when /^Given /     : @state.given(line)
+          when /^When /      : @state.event(line)
+          when /^Then /      : @state.outcome(line)
+          when /^And /       : @state.one_more_of_the_same(line)
+          else                 @state.other(line)
           end
-          @state.other(line)
         end
-        
+
         def init_story(title)
           @current_story_lines.clear
           add_story_line(title)
@@ -105,18 +102,24 @@ module Spec
           end
 
           def given(line)
-            @parser.create_given(line.gsub("Given ",""))
+            @parser.create_given(remove_tag_from(:given, line))
             @parser.transition_to(:given_state)
           end
           
           def event(line)
-            @parser.create_when(line.gsub("When ",""))
+            @parser.create_when(remove_tag_from(:when, line))
             @parser.transition_to(:when_state)
           end
           
           def outcome(line)
-            @parser.create_then(line.gsub("Then ",""))
+            @parser.create_then(remove_tag_from(:then, line))
             @parser.transition_to(:then_state)
+          end
+
+          def remove_tag_from(tag, line)
+            tokens = line.split
+            # validation of tag can go here
+            tokens[0].downcase == tag.to_s ? (tokens[1..-1].join(' ')) : line
           end
 
           def eof
@@ -172,7 +175,7 @@ module Spec
 
         class ScenarioState < State
           def one_more_of_the_same(line)
-            raise IllegalStepError.new("Scenario","And")
+            raise IllegalStepError.new("Scenario", "And")
           end
 
           def scenario(line)
@@ -182,31 +185,31 @@ module Spec
         
         class GivenState < State
           def one_more_of_the_same(line)
-            @parser.create_given(line.gsub("And ",""))
+            @parser.create_given(remove_tag_from(:and, line))
           end
           
           def given(line)
-            @parser.create_given(line.gsub("Given ",""))
+            @parser.create_given(remove_tag_from(:given, line))
           end
         end
         
         class WhenState < State
           def one_more_of_the_same(line)
-            @parser.create_when(line.gsub("And ",""))
+            @parser.create_when(remove_tag_from(:and ,line))
           end
 
           def event(line)
-            @parser.create_when(line.gsub("When ",""))
+            @parser.create_when(remove_tag_from(:when ,line))
           end
         end
 
         class ThenState < State
           def one_more_of_the_same(line)
-            @parser.create_then(line.gsub("And ",""))
+            @parser.create_then(remove_tag_from(:and ,line))
           end
 
           def outcome(line)
-            @parser.create_then(line.gsub("Then ",""))
+            @parser.create_then(remove_tag_from(:then ,line))
           end
         end
 
