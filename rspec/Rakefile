@@ -24,7 +24,8 @@ PKG_FILES = FileList[
   'lib/**/*.rb', 
   'spec/**/*.rb', 
   'examples/**/*',
-  'plugins/**/*'
+  'plugins/**/*',
+  'stories/**/*'
 ]
 
 task :default => [:verify_rcov]
