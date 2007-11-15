@@ -6,7 +6,13 @@ require 'tempfile'
 def ruby(args, stderr)
   config       = ::Config::CONFIG
   interpreter  = File::join(config['bindir'], config['ruby_install_name']) + config['EXEEXT']
-  `#{interpreter} #{args} 2> #{stderr}`
+  cmd = "#{interpreter} #{args} 2> #{stderr}"
+  #puts "\nCOMMAND: #{cmd}"
+  `#{cmd}`
+end
+
+def spec(args, stderr)
+  ruby("#{File.dirname(__FILE__) + '/../bin/spec'} #{args}", stderr)
 end
 
 steps_for :rspec_and_test_unit  do
@@ -15,19 +21,29 @@ steps_for :rspec_and_test_unit  do
     @path = File.join(File.dirname(__FILE__), relative_path)
   end
   When("I run it with the $interpreter") do |interpreter|
-    @stderr = Tempfile.new('rspec')
-    @stderr.close
-    @output = ruby(@path, @stderr.path)
+    stderr_file = Tempfile.new('rspec')
+    stderr_file.close
+    @stdout = case(interpreter)
+      when 'ruby interpreter' then ruby(@path, stderr_file.path)
+      when 'spec script' then spec(@path, stderr_file.path)
+      else raise "Unknown interpreter: #{interpreter}"
+    end
+    @stderr = IO.read(stderr_file.path)
     @exit_code = $?.to_i
   end
   Then("the exit code should be $exit_code") do |exit_code|
     if @exit_code != exit_code.to_i
-      stderr = IO.read(@stderr.path)
       raise "Did not exit with #{exit_code}, but with #{@exit_code}. Standard error:\n#{stderr}"
     end
   end
-  Then("the output should contain \"$line\"") do |line|
-    @output.should =~ /#{line}/m
+  Then("the $stream should contain \"$line\"") do |stream, line|
+    written = case(stream)
+      when 'stdout' then @stdout
+      when 'stderr' then @stderr
+      else raise "Unknown stream: #{stream}"
+    end
+    
+    written.should =~ /#{line}/m
   end
 end
 

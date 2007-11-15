@@ -1,4 +1,4 @@
-Story: Specs alongside tests
+Story: Spec and test together
 
   As an RSpec adopter with existing Test::Unit tests
   I want to run a few specs alongside my existing Test::Unit tests
@@ -7,11 +7,13 @@ Story: Specs alongside tests
   Scenario: Run with ruby
     Given the test file test/spec_and_test_together.rb
     When I run it with the ruby interpreter
-    Then the exit code should be 0
-    And the output should contain "1 tests, 1 assertions, 0 failures, 0 errors"
+    Then the exit code should be 256
+    And the stdout should contain "2 tests, 2 assertions, 1 failures, 0 errors"
+#    And the stdout should contain "2 examples, 1 failure"
 
   Scenario: Run with spec
     Given the test file test/spec_and_test_together.rb
     When I run it with the spec script
-    Then the exit code should be 0
-    And the output should contain "1 tests, 1 assertions, 0 failures, 0 errors"
+    Then the exit code should be 256
+    And the stdout should contain "2 examples, 1 failure"
+#    And the stdout should contain "2 tests, 2 assertions, 1 failures, 0 errors"
