@@ -29,7 +29,7 @@ PKG_FILES = FileList[
 ]
 
 task :default => [:verify_rcov]
-task :verify_rcov => [:spec, :spec_test_unit]
+task :verify_rcov => [:spec, :stories]
 
 desc "Run all specs"
 Spec::Rake::SpecTask.new do |t|
@@ -40,14 +40,9 @@ Spec::Rake::SpecTask.new do |t|
   t.rcov_opts = ['--exclude', 'spec\/spec,bin\/spec,examples,\/var\/lib\/gems,\/Library\/Ruby,\.autotest']
 end
 
-desc "Run all specs that verify Test::Unit interop"
-Spec::Rake::SpecTask.new(:spec_test_unit) do |t|
-  t.spec_files = FileList['examples/test_unit/**/*_spec.rb']
-  t.spec_opts = ['--options', 'spec.opts']
-  # TODO: combine rcov data with the :spec run
-#  t.rcov = true
-#  t.rcov_dir = '../doc/output/coverage'
-#  t.rcov_opts = ['--exclude', 'spec\/spec,bin\/spec,examples,\/var\/lib\/gems,\/Library\/Ruby,\.autotest']
+desc "Run all stories"
+task :stories do
+  ruby 'stories/all.rb'
 end
 
 desc "Run all specs and store html output in doc/output/report.html"
