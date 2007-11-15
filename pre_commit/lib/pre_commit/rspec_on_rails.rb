@@ -38,7 +38,7 @@ class PreCommit::RspecOnRails < PreCommit
     rake_sh "db:migrate"
     generate_rspec
 
-    rake_sh "spec"
+    rake_sh "spec:rcov"
     rake_sh "spec:plugins:rspec_on_rails"
     cleanup
   end
@@ -82,6 +82,9 @@ class PreCommit::RspecOnRails < PreCommit
     rm_rf 'vendor/plugins/rspec'
     rm_rf 'script/spec'
     rm_rf 'script/spec_server'
+    rm_rf 'spec/spec_helper.rb'
+    rm_rf 'spec/spec.opts'
+    rm_rf 'spec/rcov.opts'
   end
 
   def generate_rspec
