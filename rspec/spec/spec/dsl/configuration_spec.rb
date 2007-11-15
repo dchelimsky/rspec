@@ -50,8 +50,13 @@ module Spec
         @original_configuration = Spec::Runner.configuration
         spec_configuration = @config
         Spec::Runner.instance_eval {@configuration = spec_configuration}
-        @foobar_behaviour = Class.new(ExampleGroup)
-        ExampleGroupFactory.register(:foobar, @foobar_behaviour)
+        @example_group_class = Class.new(ExampleGroup) do
+          class << self
+            def this_class_has_special_methods
+            end
+          end
+        end
+        ExampleGroupFactory.register(:foobar, @example_group_class)
       end
 
       after do
@@ -60,10 +65,30 @@ module Spec
         ExampleGroupFactory.reset!
       end
 
-      it "should let you define modules to be included for a behaviour_type" do
+      it "should include the submitted module in ExampleGroup subclasses" do
+        mod = Module.new
+        @config.include mod
+        Class.new(@example_group_class).included_modules.should include(mod)
+      end
+
+      it "should let you define modules to be included for a specific type" do
         mod = Module.new
         @config.include mod, :behaviour_type => :foobar
-        @foobar_behaviour.included_modules.should include(mod)
+        Class.new(@example_group_class).included_modules.should include(mod)
+      end
+
+      it "should not include modules in a type they are not intended for" do
+        mod = Module.new
+        @other_example_group_class = Class.new(ExampleGroup)
+        ExampleGroupFactory.register(:baz, @other_example_group_class)
+
+        @config.include mod, :behaviour_type => :foobar
+
+        Class.new(@other_example_group_class).included_modules.should_not include(mod)
+      end
+      
+      it "should not extend the ExampleGroup baseclass (to enable the included hook to work properly)" do
+        pending("need to figure out how to best express this one")
       end
     end
 
