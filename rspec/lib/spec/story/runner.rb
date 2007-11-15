@@ -15,23 +15,30 @@ module Spec
         
         def story_runner
           unless @story_runner
-            scenario_runner = ScenarioRunner.new
-            Runner.register_exit_hook
-            world_creator = World
             @story_runner = StoryRunner.new(scenario_runner, world_creator)
             unless run_options.dry_run
-              reporter = ::Spec::Story::Reporter::PlainTextReporter.new($stdout)
-              scenario_runner.add_listener(reporter)
-              @story_runner.add_listener(reporter)
+              register_listener(::Spec::Story::Reporter::PlainTextReporter.new($stdout))
             end
             unless run_options.formatters.empty?
-              documenter = ::Spec::Story::Documenter::PlainTextDocumenter.new($stdout)
-              scenario_runner.add_listener(documenter)
-              @story_runner.add_listener(documenter)
-              world_creator.add_listener(documenter)
+              register_listener(::Spec::Story::Documenter::PlainTextDocumenter.new($stdout))
             end
+            Runner.register_exit_hook
           end
           @story_runner
+        end
+        
+        def scenario_runner
+          @scenario_runner ||= ScenarioRunner.new
+        end
+        
+        def world_creator
+          @world_creator ||= World
+        end
+        
+        def register_listener(listener)
+          story_runner.add_listener(listener)
+          world_creator.add_listener(listener)
+          scenario_runner.add_listener(listener)
         end
         
         def register_exit_hook
@@ -46,6 +53,7 @@ module Spec
         def dry_run
           run_options.dry_run
         end
+        
       end
     end
   end
