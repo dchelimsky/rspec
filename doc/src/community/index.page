@@ -195,6 +195,8 @@ In alphabetical order (by last name)
 ** Spec::Rails patches for spec_server
 * Nathan Sobo
 ** Specmate + drb fix
+* Nathan Sutton
+** Patch [#15659] GivenScenario fails when it is a RailsStory
 * Kouhei Sutou
 ** Patches for Emacs
 ** Handling of Interrupt
