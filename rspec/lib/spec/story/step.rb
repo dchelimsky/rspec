@@ -36,6 +36,8 @@ module Spec
         def assign_expression(name)
           expression = name.dup
           if String === expression
+            expression.gsub! '(', '\('
+            expression.gsub! ')', '\)'
             while expression =~ /(\$\w*)/
               expression.gsub!($1, "(.*)")
             end
