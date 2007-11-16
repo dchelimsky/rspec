@@ -1,37 +1,41 @@
-module Spec
+ module Spec
   module Story
     module Runner
 
       class StoryMediator
         def initialize(step_group, runner, options={})
           @step_group = step_group
-          @story_parts = []
+          @stories = []
           @runner = runner
           @options = options
         end
         
         def stories
-          @story_parts.collect { |p| p.to_proc }
+          @stories.collect { |p| p.to_proc }
         end
         
         def create_story(title, narrative)
-          @story_parts << StoryPart.new(title, narrative, @step_group, @options)
+          @stories << Story.new(title, narrative, @step_group, @options)
         end
         
         def create_scenario(title)
-          current_story_part.add_scenario ScenarioPart.new(title)
+          current_story.add_scenario Scenario.new(title)
         end
         
         def create_given(name)
-          current_scenario_part.add_step StepPart.new(:given, name)
+          current_scenario.add_step Step.new('Given', name)
+        end
+        
+        def create_given_scenario(name)
+          current_scenario.add_step Step.new('GivenScenario', name)
         end
         
         def create_when(name)
-          current_scenario_part.add_step StepPart.new(:when, name)
+          current_scenario.add_step Step.new('When', name)
         end
         
         def create_then(name)
-          current_scenario_part.add_step StepPart.new(:then, name)
+          current_scenario.add_step Step.new('Then', name)
         end
         
         def run_stories
@@ -39,15 +43,15 @@ module Spec
         end
         
         private
-        def current_story_part
-          @story_parts.last
+        def current_story
+          @stories.last
         end
         
-        def current_scenario_part
-          current_story_part.current_scenario_part
+        def current_scenario
+          current_story.current_scenario
         end
         
-        class StoryPart
+        class Story
           def initialize(title, narrative, step_group, options)
             @title = title
             @narrative = narrative
@@ -72,12 +76,12 @@ module Spec
             @scenarios << scenario
           end
           
-          def current_scenario_part
+          def current_scenario
             @scenarios.last
           end
         end
         
-        class ScenarioPart
+        class Scenario
           def initialize(name)
             @name = name
             @steps = []
@@ -98,14 +102,14 @@ module Spec
           end
         end
         
-        class StepPart
+        class Step
           def initialize(type, name)
             @type = type
             @name = name
           end
           
           def to_proc
-            type = @type.to_s.capitalize
+            type = @type
             name = @name
             lambda do
               send(type, name)

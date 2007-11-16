@@ -30,6 +30,10 @@ module Spec
         end
         return nil
       end
+
+      def GivenScenario(name, &block)
+        create_matcher(:given_scenario, name, &block)
+      end
       
       def Given(name, &block)
         create_matcher(:given, name, &block)
@@ -43,6 +47,7 @@ module Spec
         create_matcher(:then, name, &block)
       end
 
+      alias :given_scenario :GivenScenario
       alias :given :Given
       alias :when :When
       alias :then :Then
@@ -57,14 +62,14 @@ module Spec
       end
       
       def empty?
-        [:given, :when, :then].each do |type|
+        [:given_scenario, :given, :when, :then].each do |type|
           return false unless @hash_of_lists_of_steps[type].empty?
         end
         return true
       end
       
       def add_to(other_step_matchers)
-        [:given, :when, :then].each do |type|
+        [:given_scenario, :given, :when, :then].each do |type|
           other_step_matchers.add(type, @hash_of_lists_of_steps[type])
         end
       end

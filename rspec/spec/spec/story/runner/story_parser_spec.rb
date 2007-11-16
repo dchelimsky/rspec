@@ -132,6 +132,17 @@ module Spec
 					@parser.parse(["Story: s", "Scenario: s", "Given gift"])
 			  end
 			  
+			  it "should create a GivenScenario for GivenScenario" do
+          @story_mediator.should_receive(:create_given_scenario).with("previous")
+					@parser.parse(["Story: s", "Scenario: s", "GivenScenario previous"])
+			  end
+			  
+			  it "should transition to Given state after GivenScenario" do
+          @story_mediator.stub!(:create_given_scenario)
+					@parser.parse(["Story: s", "Scenario: s", "GivenScenario previous"])
+					@parser.instance_eval{@state}.should be_an_instance_of(StoryParser::GivenState)
+			  end
+			  
 			  it "should create a When for When" do
           @story_mediator.should_receive(:create_when).with("ever")
 					@parser.parse(["Story: s", "Scenario: s", "When ever"])

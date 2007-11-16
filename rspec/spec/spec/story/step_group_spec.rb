@@ -11,6 +11,12 @@ module Spec
         @step_group.find(:given, "this and that").should be_nil
       end
       
+      it "should create a given_scenario matcher" do
+        step = @step_group.given_scenario("this and that") {}
+        @step_group.find(:given_scenario, "this and that").should_not be_nil
+        @step_group.find(:given_scenario, "this and that").should equal(step)
+      end
+      
       it "should create a given matcher" do
         step = @step_group.given("this and that") {}
         @step_group.find(:given, "this and that").should equal(step)
@@ -43,6 +49,7 @@ module Spec
       it "should add it matchers to another StepGroup (with some of each type)" do
         source = StepGroup.new
         target = StepGroup.new
+        given_scenario = source.given_scenario("1") {}
         given = source.given("1") {}
         when1 = source.when("1") {}
         when2 = source.when("2") {}
@@ -50,6 +57,7 @@ module Spec
         then2 = source.then("2") {}
         then3 = source.then("3") {}
         source.add_to target
+        target.find(:given_scenario, "1").should equal(given_scenario)
         target.find(:given, "1").should equal(given)
         target.find(:when, "1").should equal(when1)
         target.find(:when, "2").should equal(when2)
