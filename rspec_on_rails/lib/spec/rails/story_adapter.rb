@@ -39,7 +39,7 @@ class Spec::Story::Runner::ScenarioRunner
 end
 
 class Spec::Story::GivenScenario
-  def perform(instance)
+  def perform(instance, name = nil)
     scenario = Spec::Story::Runner::StoryRunner.scenario_from_current_story @name
     runner = Spec::Story::Runner::ScenarioRunner.new
     runner.instance_variable_set(:@listeners,[])

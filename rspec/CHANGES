@@ -13,6 +13,7 @@ CMD-R runs all the specs in one file
 CMD-SHIFT-R runs an individual spec
 CMD-OPT-R runs any files or directories selected in the TextMate drawer
 
+* Applied [#15659] GivenScenario fails when it is a RailsStory (Patch from Nathan Sutton)
 * Fixed [#15639] rcov exclusion configuration. (Spec::Rails projects can configure rcov with spec/rcov.opts)
 * The rdoc formatter (--format rdoc) is gone. It was buggy and noone was using it.
 * Changed Spec::DSL::Behaviour to Spec::DSL::ExampleGroup
