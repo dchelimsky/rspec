@@ -40,7 +40,7 @@ module Spec
         :error_stream,
         :output_stream,
         # TODO: BT - Figure out a better name
-        :current_argv
+        :argv
       )
       attr_reader :colour, :differ_class, :files, :example_groups
 

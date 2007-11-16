@@ -10,7 +10,7 @@ module Spec
         begin
           DRb.start_service
           spec_server = DRbObject.new_with_uri("druby://localhost:8989")
-          spec_server.run(options.current_argv, options.error_stream, options.output_stream)
+          spec_server.run(options.argv, options.error_stream, options.output_stream)
         rescue DRb::DRbConnError => e
           options.error_stream.puts "No server is running"
         end

@@ -81,7 +81,7 @@ module Spec
             def tty?; true end
           end
           options = ::Spec::Runner::Options.new(err, out)
-          options.current_argv = argv
+          options.argv = argv
           Spec::Runner::DrbCommandLine.run(options)
           out.rewind; out.read
         end
