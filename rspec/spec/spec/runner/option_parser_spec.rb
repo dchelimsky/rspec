@@ -307,7 +307,7 @@ describe "OptionParser" do
       "some/spec.rb", "--diff", "--colour"
     ], @err, @out)
     Spec::Runner::DrbCommandLine.should_receive(:run).and_return do |options|
-      options.current_argv.should == ["some/spec.rb", "--diff", "--colour"]
+      options.argv.should == ["some/spec.rb", "--diff", "--colour"]
     end
     parse(["some/spec.rb", "--diff", "--drb", "--colour"])
   end
