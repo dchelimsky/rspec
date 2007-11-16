@@ -47,7 +47,19 @@ module Spec
           @runner.scenarios.first.name.should == "scenario name"
           @runner.scenarios.first.story.should == @runner.stories.first
         end
-        
+
+        it "should create a given scenario step if one matches" do
+          pending("need to untangle the dark mysteries of the story runner - something needs to get stubbed here") do
+            story = @mediator.create_story "title", "narrative"
+            @mediator.create_scenario "previous scenario"
+            @mediator.create_scenario "current scenario"
+            @mediator.create_given_scenario "previous scenario"
+            run_stories
+          
+            $story_mediator_spec_value.should == "previous scenario matched"
+          end
+        end
+                
         it "should create a given step if one matches" do
           @mediator.create_story "title", "narrative"
           @mediator.create_scenario "scenario"

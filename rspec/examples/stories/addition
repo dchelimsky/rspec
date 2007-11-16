@@ -24,3 +24,11 @@ Story: simple addition
     
     Then the sum should be 7
     Then it should snow
+    
+  Scenario: add three more
+    GivenScenario add two plus five
+    And an addend of 3
+    
+    When the addends are added
+    
+    Then the sum should be 10

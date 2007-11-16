@@ -29,13 +29,14 @@ module Spec
         def process_line(line)
           line.strip!
           case line
-          when /^Story: /    : @state.story(line)
-          when /^Scenario: / : @state.scenario(line)
-          when /^Given /     : @state.given(line)
-          when /^When /      : @state.event(line)
-          when /^Then /      : @state.outcome(line)
-          when /^And /       : @state.one_more_of_the_same(line)
-          else                 @state.other(line)
+          when /^Story: /         : @state.story(line)
+          when /^Scenario: /      : @state.scenario(line)
+          when /^Given /          : @state.given(line)
+          when /^GivenScenario /  : @state.given_scenario(line)
+          when /^When /           : @state.event(line)
+          when /^Then /           : @state.outcome(line)
+          when /^And /            : @state.one_more_of_the_same(line)
+          else                      @state.other(line)
           end
         end
 
@@ -61,6 +62,10 @@ module Spec
         
         def create_given(name)
           @story_mediator.create_given(name)
+        end
+        
+        def create_given_scenario(name)
+          @story_mediator.create_given_scenario(name)
         end
         
         def create_when(name)
@@ -103,6 +108,11 @@ module Spec
 
           def given(line)
             @parser.create_given(remove_tag_from(:given, line))
+            @parser.transition_to(:given_state)
+          end
+          
+          def given_scenario(line)
+            @parser.create_given_scenario(remove_tag_from(:givenscenario, line))
             @parser.transition_to(:given_state)
           end
           
