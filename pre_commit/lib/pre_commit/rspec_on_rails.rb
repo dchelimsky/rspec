@@ -1,9 +1,9 @@
 class PreCommit::RspecOnRails < PreCommit
   def pre_commit
     check_dependencies
-    railses = File.expand_path("vendor/rails")
     used_railses = []
-    Dir["#{railses}/*"].reverse.each do |rails_dir|
+    VENDOR_DEPS.each do |dependency|
+      rails_dir = File.expand_path(dependency[:checkout_path])
       rails_version = rails_version_from_dir(rails_dir)
       begin
         rspec_pre_commit(rails_version)
