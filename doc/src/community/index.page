@@ -40,6 +40,7 @@ In alphabetical order (by last name)
 ** Patch [#10698] Running with --drb executes specs twice (fix included)
 ** Initial code for 'switch between source and spec file' command in Spec::Mate (Patch [#10791])
 * Sinclair Bain
+** Patch (sort of) [#15608] Story problem if parenthesis used in Given, When, Then or And
 ** Patch [#11101] StringHelpers.starts_with?(prefix) assumes a string parameter for _prefix_
 ** Patch for bug [#10577] Rails with Oracle breaks 0.9.2
 * Ken Barker
