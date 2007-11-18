@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 describe "IvarProxy setup", :shared => true do
   before do
     @object = Object.new
-    @proxy = Spec::Rails::DSL::IvarProxy.new(@object)
+    @proxy = Spec::Rails::Example::IvarProxy.new(@object)
   end  
 end
 

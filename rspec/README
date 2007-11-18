@@ -16,7 +16,7 @@ can do things like:
 Spec::Mocks supports creating Mock Objects, Stubs, and adding Mock/Stub
 behaviour to your existing objects.
 
-Spec::Runner provides a very small but powerful DSL for writing executable
+Spec::Runner provides a very small but powerful Example for writing executable
 examples of how your code should work.
 
 Spec::Story provides a framework for expressing User Stories

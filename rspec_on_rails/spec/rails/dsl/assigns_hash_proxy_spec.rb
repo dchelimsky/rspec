@@ -5,7 +5,7 @@ describe "An AssignsHashProxy" do
     @object = Object.new
     @assigns = Hash.new
     @object.stub!(:assigns).and_return(@assigns)
-    @proxy = Spec::Rails::DSL::AssignsHashProxy.new(@object)
+    @proxy = Spec::Rails::Example::AssignsHashProxy.new(@object)
   end
 
   it "has [] accessor" do

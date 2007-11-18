@@ -1,9 +1,9 @@
 module Spec
   module Rails
-    module DSL
+    module Example
       # View Examples live in $RAILS_ROOT/spec/views/.
       #
-      # View Specs use Spec::Rails::DSL::ViewExample,
+      # View Specs use Spec::Rails::Example::ViewExample,
       # which provides access to views without invoking any of your controllers.
       # See Spec::Rails::Expectations::Matchers for information about specific
       # expectations that you can set on views.
@@ -30,7 +30,7 @@ module Spec
 
         def initialize(example) #:nodoc:
           super
-          @controller_class_name = "Spec::Rails::DSL::ViewExampleController"
+          @controller_class_name = "Spec::Rails::Example::ViewExampleController"
         end
 
         def ensure_that_flash_and_session_work_properly #:nodoc:
@@ -93,7 +93,7 @@ module Spec
         #   render('/people/list', :helpers => [MyHelper, MyOtherHelper])
         #   render(:partial => '/people/_address')
         #
-        # See Spec::Rails::DSL::ViewExample for more information.
+        # See Spec::Rails::Example::ViewExample for more information.
         def render(*args)
           options = Hash === args.last ? args.pop : {}
           options[:template] = args.first.to_s unless args.empty?
@@ -145,11 +145,11 @@ module Spec
           @controller.template
         end
 
-        Spec::DSL::ExampleGroupFactory.register(:view, self)
+        Spec::Example::ExampleGroupFactory.register(:view, self)
       end
 
       class ViewExampleController < ApplicationController #:nodoc:
-        include Spec::Rails::DSL::RenderObserver
+        include Spec::Rails::Example::RenderObserver
         attr_reader :template
 
         def add_helper_for(template_path)

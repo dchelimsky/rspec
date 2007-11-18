@@ -17,7 +17,7 @@ module Spec
           else
             world.errors.each do |e|
               case e
-              when Spec::DSL::ExamplePendingError
+              when Spec::Example::ExamplePendingError
                 @listeners.each { |l| l.scenario_pending(scenario.story.title, scenario.name, e.message) }
               else
                 @listeners.each { |l| l.scenario_failed(scenario.story.title, scenario.name, e) }

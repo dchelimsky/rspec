@@ -1,5 +1,5 @@
 module Spec
-  module DSL
+  module Example
     class ExampleSuite
       extend Forwardable
       attr_reader :examples, :example_group, :name

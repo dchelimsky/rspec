@@ -6,7 +6,7 @@ module Spec
       before do
         @options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
         @reporter = ::Spec::Runner::Reporter.new(@options)
-        @behaviour = Class.new(::Spec::DSL::ExampleGroup).describe("Some Examples")
+        @behaviour = Class.new(::Spec::Example::ExampleGroup).describe("Some Examples")
       end
 
       it "should report the file and line submitted with :expected_from" do
@@ -16,7 +16,7 @@ module Spec
           mock.rspec_verify
         end
         example = @behaviour.new(example_definition)
-        proxy = ::Spec::DSL::ExampleRunner.new(@options, example)
+        proxy = ::Spec::Example::ExampleRunner.new(@options, example)
         
         @reporter.should_receive(:example_finished) do |spec, error|
           error.backtrace.detect {|line| line =~ /\/path\/to\/blah.ext:37/}.should_not be_nil
@@ -31,7 +31,7 @@ module Spec
           mock.rspec_verify
         end
         example = @behaviour.new(example_definition)
-        proxy = ::Spec::DSL::ExampleRunner.new(@options, example)
+        proxy = ::Spec::Example::ExampleRunner.new(@options, example)
         @reporter.should_receive(:example_finished) do |spec, error|
           error.message.should == "recebi nada"
         end

@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
 module Spec
-  module DSL
+  module Example
     class FakeReporter < Spec::Runner::Reporter
       attr_reader :added_behaviour
       def add_example_group(description)
@@ -37,7 +37,7 @@ module Spec
     end
     
     describe ExampleGroup, ".it" do
-      it_should_behave_like "Spec::DSL::ExampleGroup"
+      it_should_behave_like "Spec::Example::ExampleGroup"
 
       it "should should create an example instance" do
         lambda {
@@ -47,7 +47,7 @@ module Spec
     end
 
     describe ExampleGroup, ".xit" do
-      it_should_behave_like "Spec::DSL::ExampleGroup"
+      it_should_behave_like "Spec::Example::ExampleGroup"
       
       before(:each) do
         Kernel.stub!(:warn)
@@ -66,7 +66,7 @@ module Spec
     end
 
     describe ExampleGroup, ".suite" do
-      it_should_behave_like "Spec::DSL::ExampleGroup"
+      it_should_behave_like "Spec::Example::ExampleGroup"
 
       it "should return an empty ExampleSuite when there is no description" do
         ExampleGroup.description.should be_nil
@@ -169,7 +169,7 @@ module Spec
     end
 
     describe ExampleGroup, ".description" do
-      it_should_behave_like "Spec::DSL::ExampleGroup"
+      it_should_behave_like "Spec::Example::ExampleGroup"
 
       it "should return the same description instance for each call" do
         @example_group.description.should eql(@example_group.description)
@@ -177,11 +177,11 @@ module Spec
     end
 
     describe ExampleGroup, ".run" do
-      it_should_behave_like "Spec::DSL::ExampleGroup"
+      it_should_behave_like "Spec::Example::ExampleGroup"
     end
     
     describe ExampleGroup, ".remove_after" do
-      it_should_behave_like "Spec::DSL::ExampleGroup"
+      it_should_behave_like "Spec::Example::ExampleGroup"
 
       it "should unregister a given after(:each) block" do
         after_all_ran = false
@@ -201,7 +201,7 @@ module Spec
     end
 
     describe ExampleGroup, ".include" do
-      it_should_behave_like "Spec::DSL::ExampleGroup"
+      it_should_behave_like "Spec::Example::ExampleGroup"
 
       it "should have accessible class methods from included module" do
         mod1_method_called = false
@@ -244,7 +244,7 @@ module Spec
     end
 
     describe ExampleGroup, ".number_of_examples" do
-      it_should_behave_like "Spec::DSL::ExampleGroup"
+      it_should_behave_like "Spec::Example::ExampleGroup"
 
       it "should count number of specs" do
         @example_group.examples.clear
@@ -290,7 +290,7 @@ module Spec
     end
 
     describe ExampleGroup, ".class_eval" do
-      it_should_behave_like "Spec::DSL::ExampleGroup"
+      it_should_behave_like "Spec::Example::ExampleGroup"
 
       it "should allow constants to be defined" do
         behaviour = Class.new(ExampleGroup).describe('example') do
@@ -364,17 +364,17 @@ module Spec
             block_ran = true
             raise "something wrong with my example"
           end
-        }.should raise_error(Spec::DSL::ExamplePendingError, "something")
+        }.should raise_error(Spec::Example::ExamplePendingError, "something")
         block_ran.should == true
       end
 
-      it "should raise Spec::DSL::PendingExampleFixedError when its block does not fail" do
+      it "should raise Spec::Example::PendingExampleFixedError when its block does not fail" do
         block_ran = false
         lambda {
           pending("something") do
             block_ran = true
           end
-        }.should raise_error(Spec::DSL::PendingExampleFixedError, "Expected pending 'something' to fail. No Error was raised.")
+        }.should raise_error(Spec::Example::PendingExampleFixedError, "Expected pending 'something' to fail. No Error was raised.")
         block_ran.should == true
       end
     end

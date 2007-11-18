@@ -4,7 +4,7 @@ ActionView::Base.cache_template_extensions = false
 
 module Spec
   module Rails
-    module DSL
+    module Example
       class RailsExample < Test::Unit::TestCase::ExampleGroup
         cattr_accessor(
           :fixture_path,
@@ -79,7 +79,7 @@ module Spec
           stubs.each {|k,v| m.stub!(k).and_return(v)}
           m
         end
-        Spec::DSL::ExampleGroupFactory.register(:default, self)
+        Spec::Example::ExampleGroupFactory.register(:default, self)
       end
     end
   end

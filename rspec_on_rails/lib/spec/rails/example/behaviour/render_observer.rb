@@ -2,7 +2,7 @@ require 'spec/mocks'
 
 module Spec
   module Rails
-    module DSL
+    module Example
       # Provides specialized mock-like behaviour for controller and view examples,
       # allowing you to mock or stub calls to render with specific arguments while
       # ignoring all other calls.
@@ -62,7 +62,7 @@ module Spec
   
         def unregister_verify_after_each #:nodoc:
           proc = verify_rendered_proc
-          Spec::DSL::ExampleGroup.remove_after(:each, &proc)
+          Spec::Example::ExampleGroup.remove_after(:each, &proc)
         end
 
         protected
@@ -77,7 +77,7 @@ module Spec
 
         def register_verify_after_each #:nodoc:
           proc = verify_rendered_proc
-          Spec::DSL::ExampleGroup.after(:each, &proc)
+          Spec::Example::ExampleGroup.after(:each, &proc)
         end
   
         def expect_render_mock_proxy #:nodoc:

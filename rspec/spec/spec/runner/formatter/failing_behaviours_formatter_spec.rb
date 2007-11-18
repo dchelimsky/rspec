@@ -11,7 +11,7 @@ module Spec
         end
         
         def description(s)
-          Spec::DSL::ExampleGroupDescription.new(s)
+          Spec::Example::ExampleGroupDescription.new(s)
         end
 
         it "should add example name for each failure" do

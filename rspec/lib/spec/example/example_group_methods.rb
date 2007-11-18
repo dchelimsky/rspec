@@ -1,5 +1,5 @@
 module Spec
-  module DSL
+  module Example
 
     # See http://rspec.rubyforge.org/documentation/before_and_after.html
     module ExampleGroupMethods
@@ -81,7 +81,7 @@ module Spec
         @predicate_matchers ||= {:exist => :exist?, :an_instance_of => :is_a?}
       end
 
-      # Creates an instance of Spec::DSL::Example and adds
+      # Creates an instance of Spec::Example::Example and adds
       # it to a collection of examples of the current behaviour.
       def it(description=:__generate_docstring, &block)
         examples << create_example(description, &block)

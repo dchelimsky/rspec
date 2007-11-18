@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 module Spec
-  module DSL
+  module Example
     ConfigurationSpec =
       describe Configuration, :shared => true do
         before(:each) do

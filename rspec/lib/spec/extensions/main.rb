@@ -16,7 +16,7 @@ module Spec
       # The reason for using different behaviour classes is to have different
       # matcher methods available from within the <tt>describe</tt> block.
       #
-      # See Spec::DSL::ExampleFactory#register for details about how to
+      # See Spec::Example::ExampleFactory#register for details about how to
       # register special implementations.
       #
       def describe(*args, &block)
@@ -24,7 +24,7 @@ module Spec
         raise ArgumentError unless block
         args << {} unless Hash === args.last
         args.last[:spec_path] = caller(0)[1]
-        example_group = Spec::DSL::ExampleGroupFactory.create_example_group(*args, &block)
+        example_group = Spec::Example::ExampleGroupFactory.create_example_group(*args, &block)
         example_group.register
         example_group
       end

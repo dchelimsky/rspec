@@ -9,7 +9,7 @@ end
 
 module Spec
   module Rails
-    module DSL
+    module Example
       describe HelperExample, :behaviour_type => :helper do
         helper_name :explicit
 

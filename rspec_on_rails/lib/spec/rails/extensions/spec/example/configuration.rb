@@ -1,7 +1,7 @@
 require 'spec/example/configuration'
 
 module Spec
-  module DSL
+  module Example
     class Configuration
       attr_writer :use_transactional_fixtures, :use_instantiated_fixtures, :global_fixtures
 

@@ -14,7 +14,7 @@ module Spec
   blocks.
 =end
     module World
-      include ::Spec::DSL::Pending
+      include ::Spec::Example::Pending
       include ::Spec::Matchers
       # store steps and listeners in the singleton metaclass.
       # This serves both to keep them out of the way of runtime Worlds
@@ -61,7 +61,7 @@ module Spec
             listeners.each { |l| l.step_succeeded(type, name, *args) }
           rescue Exception => e
             case e
-            when Spec::DSL::ExamplePendingError
+            when Spec::Example::ExamplePendingError
               @listeners.each { |l| l.step_pending(type, name, *args) }
             else
               @listeners.each { |l| l.step_failed(type, name, *args) }

@@ -1,9 +1,9 @@
 module Spec
   module Rails
-    module DSL
+    module Example
       # Controller Examples live in $RAILS_ROOT/spec/controllers/.
       #
-      # Controller Examples use Spec::Rails::DSL::ControllerExample, which supports running specs for
+      # Controller Examples use Spec::Rails::Example::ControllerExample, which supports running specs for
       # Controllers in two modes, which represent the tension between the more granular
       # testing common in TDD and the more high level testing built into
       # rails. BDD sits somewhere in between: we want to a balance between
@@ -69,7 +69,7 @@ module Spec
           #     integrate_views
           #     ...
           #
-          # See Spec::Rails::DSL::ControllerExample for more information about
+          # See Spec::Rails::Example::ControllerExample for more information about
           # Integration and Isolation modes.
           def integrate_views
             @integrate_views = true
@@ -159,7 +159,7 @@ module Spec
         end
 
         module ControllerInstanceMethods #:nodoc:
-          include Spec::Rails::DSL::RenderObserver
+          include Spec::Rails::Example::RenderObserver
 
           # === render(options = nil, deprecated_status = nil, &block)
           #
@@ -237,7 +237,7 @@ module Spec
           end
         end
 
-        Spec::DSL::ExampleGroupFactory.register(:controller, self)
+        Spec::Example::ExampleGroupFactory.register(:controller, self)
       end
     end
   end

@@ -1,5 +1,5 @@
 module Spec
-  module DSL
+  module Example
     class ExamplePendingError < StandardError
     end
 

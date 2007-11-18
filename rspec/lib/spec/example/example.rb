@@ -1,5 +1,5 @@
 module Spec
-  module DSL
+  module Example
     class Example
       # The global sequence number of this example
       attr_accessor :number, :description
@@ -18,7 +18,7 @@ module Spec
       private
       
         PENDING_EXAMPLE_BLOCK = lambda {
-          raise Spec::DSL::ExamplePendingError.new("Not Yet Implemented")
+          raise Spec::Example::ExamplePendingError.new("Not Yet Implemented")
         }
     end
   end

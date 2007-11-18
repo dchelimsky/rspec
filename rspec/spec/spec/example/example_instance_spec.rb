@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 module Spec
-  module DSL
+  module Example
     describe ExampleRunner, "#run", :shared => true do
       before(:each) do
         @options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
@@ -20,7 +20,7 @@ module Spec
     end
 
     describe ExampleRunner, "#run with blank passing example" do
-      it_should_behave_like "Spec::DSL::ExampleRunner#run"
+      it_should_behave_like "Spec::Example::ExampleRunner#run"
 
       before do
         @example = @example_group_class.create_example("example") {}
@@ -46,7 +46,7 @@ module Spec
 
     describe ExampleRunner, "#run with a failing example" do
       predicate_matchers[:is_a] = [:is_a?]
-      it_should_behave_like "Spec::DSL::ExampleRunner#run"
+      it_should_behave_like "Spec::Example::ExampleRunner#run"
 
       before do
         @e = @example_group_class.create_example("example") do
@@ -66,7 +66,7 @@ module Spec
     end
 
     describe ExampleRunner, "#run with a erroring example" do
-      it_should_behave_like "Spec::DSL::ExampleRunner#run"
+      it_should_behave_like "Spec::Example::ExampleRunner#run"
 
       before do
         @error = error = NonStandardError.new("in body")
@@ -99,7 +99,7 @@ module Spec
     end
 
     describe ExampleRunner, "#run where before_each fails" do
-      it_should_behave_like "Spec::DSL::ExampleRunner#run"
+      it_should_behave_like "Spec::Example::ExampleRunner#run"
 
       before do
         @example_ran = example_ran = false
@@ -133,7 +133,7 @@ module Spec
     end
 
     describe ExampleRunner, "#run where after_each fails" do
-      it_should_behave_like "Spec::DSL::ExampleRunner#run"
+      it_should_behave_like "Spec::Example::ExampleRunner#run"
 
       before do
         @example_ran = example_ran = false
@@ -156,7 +156,7 @@ module Spec
 
     describe ExampleRunner, "#run with use cases" do
       predicate_matchers[:is_a] = [:is_a?]
-      it_should_behave_like "Spec::DSL::ExampleRunner#run"
+      it_should_behave_like "Spec::Example::ExampleRunner#run"
 
       it "should run example block in scope of example" do
         scope_object = nil

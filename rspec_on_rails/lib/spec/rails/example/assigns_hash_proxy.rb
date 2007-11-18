@@ -1,6 +1,6 @@
 module Spec
   module Rails
-    module DSL
+    module Example
       class AssignsHashProxy #:nodoc:
         def initialize(object)
           @object = object

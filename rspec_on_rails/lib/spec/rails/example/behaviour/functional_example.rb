@@ -1,6 +1,6 @@
 module Spec
   module Rails
-    module DSL
+    module Example
       class FunctionalExample < RailsExample
         include ActionController::TestProcess
         include ActionController::Assertions

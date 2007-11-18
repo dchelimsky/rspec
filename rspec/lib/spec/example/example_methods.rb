@@ -1,8 +1,8 @@
 module Spec
-  module DSL
+  module Example
     module ExampleMethods
       include ::Spec::Matchers
-      include ::Spec::DSL::Pending
+      include ::Spec::Example::Pending
       
       attr_reader :example
       

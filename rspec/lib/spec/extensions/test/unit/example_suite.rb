@@ -1,5 +1,5 @@
 module Spec
-  module DSL
+  module Example
     class ExampleSuite
       alias_method :rspec_run, :run
       def run(*args)

@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
 module Spec
-  module DSL
+  module Example
     describe ExampleGroup, "with :shared => true" do
       before(:each) do
         @options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)

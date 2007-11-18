@@ -39,7 +39,7 @@ module Spec
         
         lambda do
           step.perform(Object.new, "doesn't exist")
-        end.should raise_error(Spec::DSL::ExamplePendingError, /Unimplemented/)
+        end.should raise_error(Spec::Example::ExamplePendingError, /Unimplemented/)
       end
       
       it 'should clear itself' do
