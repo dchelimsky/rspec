@@ -7,7 +7,7 @@ require 'spec/example'
 require 'spec/extensions'
 require 'spec/runner'
 require 'spec/story'
-require 'spec/test'
+require 'spec/extensions/test'
 module Spec
   class << self
     def run?
