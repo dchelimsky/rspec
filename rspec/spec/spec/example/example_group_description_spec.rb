@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
 module Spec
-  module DSL
+  module Example
     describe ExampleGroupDescription, " constructed with a single String" do
       before(:each) {@description = ExampleGroupDescription.new("abc")}
       
@@ -30,10 +30,10 @@ module Spec
       before(:each) {@description = ExampleGroupDescription.new(ExampleGroup)}
 
       it "should provide a String representation of that type (fully qualified) as its name" do
-        @description.description.should == "Spec::DSL::ExampleGroup"
+        @description.description.should == "Spec::Example::ExampleGroup"
       end
       it "should provide that type (fully qualified) as its type" do
-        @description.described_type.should == Spec::DSL::ExampleGroup
+        @description.described_type.should == Spec::Example::ExampleGroup
       end
     end
     
@@ -41,10 +41,10 @@ module Spec
       before(:each) {@description = ExampleGroupDescription.new(ExampleGroup, " behaving")}
       
       it "should include the type and second String in its name" do
-        @description.description.should == "Spec::DSL::ExampleGroup behaving"
+        @description.description.should == "Spec::Example::ExampleGroup behaving"
       end
       it "should provide that type (fully qualified) as its type" do
-        @description.described_type.should == Spec::DSL::ExampleGroup
+        @description.described_type.should == Spec::Example::ExampleGroup
       end
     end
 
@@ -52,7 +52,7 @@ module Spec
       before(:each) {@description = ExampleGroupDescription.new(ExampleGroup, "behaving")}
 
       it "should include the type and second String with a space in its name" do
-        @description.description.should == "Spec::DSL::ExampleGroup behaving"
+        @description.description.should == "Spec::Example::ExampleGroup behaving"
       end
     end
 
@@ -60,7 +60,7 @@ module Spec
       before(:each) {@description = ExampleGroupDescription.new(ExampleGroup, ".behaving")}
 
       it "should include the type and second String with a space in its name" do
-        @description.description.should == "Spec::DSL::ExampleGroup.behaving"
+        @description.description.should == "Spec::Example::ExampleGroup.behaving"
       end
     end
 
@@ -68,7 +68,7 @@ module Spec
       before(:each) {@description = ExampleGroupDescription.new(ExampleGroup, "#behaving")}
 
       it "should include the type and second String with a space in its name" do
-        @description.description.should == "Spec::DSL::ExampleGroup#behaving"
+        @description.description.should == "Spec::Example::ExampleGroup#behaving"
       end
     end
 

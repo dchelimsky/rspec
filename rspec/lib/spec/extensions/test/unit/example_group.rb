@@ -14,11 +14,11 @@ module Test
       #   end
       # end
       #
-      # See also Spec::DSL::ExampleGroup
+      # See also Spec::Example::ExampleGroup
       class ExampleGroup < TestCase
         remove_method :default_test if respond_to?(:default_test)
-        extend Spec::DSL::ExampleGroupMethods
-        include Spec::DSL::ExampleMethods
+        extend Spec::Example::ExampleGroupMethods
+        include Spec::Example::ExampleMethods
 
         def initialize(example) #:nodoc:
           @example = example

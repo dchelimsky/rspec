@@ -4,7 +4,7 @@
 
 module Spec
   module Rails
-    module DSL
+    module Example
       class IvarProxy #:nodoc:
 
         ##

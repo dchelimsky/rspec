@@ -1,5 +1,5 @@
 module Spec
-  module DSL
+  module Example
     class ExampleMatcher
       def initialize(example_group_name, example_name)
         @example_group_name = example_group_name

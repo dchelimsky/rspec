@@ -120,7 +120,7 @@ module Spec
         
         it 'should notify listeners when a scenario is pending' do
           # given
-          pending_error = Spec::DSL::ExamplePendingError.new('todo')
+          pending_error = Spec::Example::ExamplePendingError.new('todo')
           story = Story.new 'title', 'narrative' do end
           scenario = Scenario.new story, 'scenario1' do
           end

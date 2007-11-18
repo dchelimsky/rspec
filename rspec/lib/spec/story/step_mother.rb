@@ -17,7 +17,7 @@ module Spec
         if @steps.find(type, name).nil?
           @steps.add(type,
           Step.new(name) do
-            raise Spec::DSL::ExamplePendingError.new("Unimplemented step: #{name}")
+            raise Spec::Example::ExamplePendingError.new("Unimplemented step: #{name}")
           end
           )
         end

@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
 module Spec
-  module DSL
+  module Example
     class FakeReporter < Spec::Runner::Reporter
       attr_reader :added_behaviour
       def add_example_group(description)
@@ -38,7 +38,7 @@ module Spec
     end
 
     describe ExampleSuite, "#run without failure in example", :shared => true do
-      it_should_behave_like "Spec::DSL::ExampleSuite#run"
+      it_should_behave_like "Spec::Example::ExampleSuite#run"
 
       it "should not add an example failure to the TestResult" do
         suite = @behaviour.suite
@@ -47,7 +47,7 @@ module Spec
     end
 
     describe ExampleSuite, "#run with failure in example", :shared => true do
-      it_should_behave_like "Spec::DSL::ExampleSuite#run"
+      it_should_behave_like "Spec::Example::ExampleSuite#run"
       
       it "should add an example failure to the TestResult" do
         suite = @behaviour.suite
@@ -56,7 +56,7 @@ module Spec
     end
 
     describe ExampleSuite, "#run on dry run" do
-      it_should_behave_like "Spec::DSL::ExampleSuite#run"
+      it_should_behave_like "Spec::Example::ExampleSuite#run"
 
       before do
         @options.dry_run = true
@@ -84,7 +84,7 @@ module Spec
     end
 
     describe ExampleSuite, "#run with success" do
-      it_should_behave_like "Spec::DSL::ExampleSuite#run without failure in example"
+      it_should_behave_like "Spec::Example::ExampleSuite#run without failure in example"
 
       before do
         @special_behaviour = Class.new(ExampleGroup)
@@ -331,7 +331,7 @@ module Spec
     end
 
     describe ExampleSuite, "#run with pending example that has a failing assertion" do
-      it_should_behave_like "Spec::DSL::ExampleSuite#run without failure in example"
+      it_should_behave_like "Spec::Example::ExampleSuite#run without failure in example"
 
       before do
         @behaviour.it("should be pending") do
@@ -347,7 +347,7 @@ module Spec
     end
 
     describe ExampleSuite, "#run with pending example that does not have a failing assertion" do
-      it_should_behave_like "Spec::DSL::ExampleSuite#run with failure in example"
+      it_should_behave_like "Spec::Example::ExampleSuite#run with failure in example"
 
       before do
         @behaviour.it("should be pending") do
@@ -363,7 +363,7 @@ module Spec
     end
 
     describe ExampleSuite, "#run when before(:all) fails" do
-      it_should_behave_like "Spec::DSL::ExampleSuite#run"
+      it_should_behave_like "Spec::Example::ExampleSuite#run"
 
       before do
         ExampleGroup.before(:all) { raise NonStandardError, "before(:all) failure" }
@@ -415,7 +415,7 @@ module Spec
     end
 
     describe ExampleSuite, "#run when before(:each) fails" do
-      it_should_behave_like "Spec::DSL::ExampleSuite#run with failure in example"
+      it_should_behave_like "Spec::Example::ExampleSuite#run with failure in example"
 
       before do
         ExampleGroup.before(:each) { raise NonStandardError }
@@ -431,7 +431,7 @@ module Spec
     end
 
     describe ExampleSuite, "#run when any example fails" do
-      it_should_behave_like "Spec::DSL::ExampleSuite#run with failure in example"
+      it_should_behave_like "Spec::Example::ExampleSuite#run with failure in example"
 
       before do
         @behaviour.it("should") { raise NonStandardError }
@@ -447,7 +447,7 @@ module Spec
     end
 
     describe ExampleSuite, "#run when first after(:each) block fails" do
-      it_should_behave_like "Spec::DSL::ExampleSuite#run"
+      it_should_behave_like "Spec::Example::ExampleSuite#run"
 
       it "should add an example failure to the TestResult" do
         second_after_ran = false
@@ -488,7 +488,7 @@ module Spec
     end
 
     describe ExampleSuite, "#run when first before(:each) block fails" do
-      it_should_behave_like "Spec::DSL::ExampleSuite#run"
+      it_should_behave_like "Spec::Example::ExampleSuite#run"
 
       it "should add an example failure to the TestResult" do
         first_before_ran = false
@@ -530,7 +530,7 @@ module Spec
     end
 
     describe ExampleSuite, "#run when failure in after(:all)" do
-      it_should_behave_like "Spec::DSL::ExampleSuite#run"
+      it_should_behave_like "Spec::Example::ExampleSuite#run"
 
       before do
         ExampleGroup.after(:all) { raise NonStandardError, "in after(:all)" }

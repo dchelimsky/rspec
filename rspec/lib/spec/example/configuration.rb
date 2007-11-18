@@ -1,5 +1,5 @@
 module Spec
-  module DSL
+  module Example
     class Configuration
       # Chooses what mock framework to use. Example:
       #

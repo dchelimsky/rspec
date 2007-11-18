@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
 module Spec
-  module DSL
+  module Example
     class Fish
       def can_swim?(distance_in_yards)
         distance_in_yards < 1000

@@ -208,7 +208,7 @@ module Spec
       it_should_behave_like run_examples
       
       before do
-        @options.add_example_group Class.new(::Spec::DSL::ExampleGroup)
+        @options.add_example_group Class.new(::Spec::Example::ExampleGroup)
         @options.formatters << Formatter::BaseTextFormatter.new(@options, @out)
       end
 
@@ -280,7 +280,7 @@ module Spec
       it "runs all examples when options.examples is nil" do
         example_1_has_run = false
         example_2_has_run = false
-        @behaviour = Class.new(::Spec::DSL::ExampleGroup).describe("Some Examples") do
+        @behaviour = Class.new(::Spec::Example::ExampleGroup).describe("Some Examples") do
           it "runs 1" do
             example_1_has_run = true
           end
@@ -300,7 +300,7 @@ module Spec
       it "keeps all example_definitions when options.examples is empty" do
         example_1_has_run = false
         example_2_has_run = false
-        @behaviour = Class.new(::Spec::DSL::ExampleGroup).describe("Some Examples") do
+        @behaviour = Class.new(::Spec::Example::ExampleGroup).describe("Some Examples") do
           it "runs 1" do
             example_1_has_run = true
           end
@@ -322,7 +322,7 @@ module Spec
       it_should_behave_like options
 
       it "adds behaviour when behaviour has example_definitions and is not shared" do
-        @behaviour = Class.new(::Spec::DSL::ExampleGroup).describe("Some Examples") do
+        @behaviour = Class.new(::Spec::Example::ExampleGroup).describe("Some Examples") do
           it "uses this behaviour" do
           end
         end

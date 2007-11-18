@@ -8,7 +8,7 @@ module Spec
           @io = StringIO.new
           @options = Options.new(StringIO.new, @io)
           @formatter = @options.create_formatter(SpecdocFormatter)
-          @behaviour = Class.new(::Spec::DSL::ExampleGroup).describe("Some Examples")
+          @behaviour = Class.new(::Spec::Example::ExampleGroup).describe("Some Examples")
         end
 
         it "should produce standard summary without pending when pending has a 0 count" do
@@ -22,7 +22,7 @@ module Spec
         end
 
         it "should push context name" do
-          @formatter.add_example_group(Spec::DSL::ExampleGroupDescription.new("context"))
+          @formatter.add_example_group(Spec::Example::ExampleGroupDescription.new("context"))
           @io.string.should eql("\ncontext\n")
         end
 

@@ -1,5 +1,5 @@
 module Spec
-  module DSL
+  module Example
     describe Pending do
       
       it 'should raise an ExamplePendingError if no block is supplied' do

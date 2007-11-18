@@ -1,5 +1,5 @@
 module Spec
-  module DSL
+  module Example
     class ExampleGroupDescription
       module ClassMethods
         def generate_description(*args)

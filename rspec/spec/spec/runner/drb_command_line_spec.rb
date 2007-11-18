@@ -15,7 +15,7 @@ module Spec
       end    
     end
 
-    class DrbCommandLineSpec < ::Spec::DSL::ExampleGroup
+    class DrbCommandLineSpec < ::Spec::Example::ExampleGroup
       describe DrbCommandLine, "with local server"
 
       class CommandLineForSpec

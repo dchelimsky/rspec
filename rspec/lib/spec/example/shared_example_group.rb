@@ -1,5 +1,5 @@
 module Spec
-  module DSL
+  module Example
     class SharedExampleGroup < Module
       class << self
         def add_shared_example_group(example_group)
@@ -44,7 +44,7 @@ module Spec
       end
 
       def register
-        Spec::DSL::SharedExampleGroup.add_shared_example_group(self)
+        Spec::Example::SharedExampleGroup.add_shared_example_group(self)
       end
     end
   end

@@ -1,13 +1,13 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
 module Spec
-  module DSL
+  module Example
     describe Configuration, :shared => true do
       before(:each) { @config = Configuration.new }
     end
 
     describe Configuration, "#use_transactional_fixtures" do
-      it_should_behave_like "Spec::DSL::Configuration"
+      it_should_behave_like "Spec::Example::Configuration"
       
       it "should default to true" do
         @config.use_transactional_fixtures.should be(true)
@@ -25,7 +25,7 @@ module Spec
     end
 
     describe Configuration, "#use_instantiated_fixtures" do
-      it_should_behave_like "Spec::DSL::Configuration"
+      it_should_behave_like "Spec::Example::Configuration"
       
       it "should to false" do
         @config.use_instantiated_fixtures.should be(false)
@@ -43,7 +43,7 @@ module Spec
     end
 
     describe Configuration, "#fixture_path" do
-      it_should_behave_like "Spec::DSL::Configuration"
+      it_should_behave_like "Spec::Example::Configuration"
       
       it "should default to RAILS_ROOT + '/spec/fixtures'" do
         @config.fixture_path.should == RAILS_ROOT + '/spec/fixtures'
@@ -58,7 +58,7 @@ module Spec
     end
 
     describe Configuration, "#global_fixtures" do
-      it_should_behave_like "Spec::DSL::Configuration"
+      it_should_behave_like "Spec::Example::Configuration"
 
       it "should default to []" do
         @config.global_fixtures.should == []

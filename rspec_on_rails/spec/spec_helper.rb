@@ -18,7 +18,7 @@ end
 
 module Spec
   module Rails
-    module DSL
+    module Example
       class ViewExampleController
         set_view_path File.join(File.dirname(__FILE__), "..", "spec_resources", "views")
       end

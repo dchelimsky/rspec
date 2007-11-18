@@ -1,5 +1,5 @@
 module Spec
-  module DSL
+  module Example
     class ExampleRunner
       attr_reader :options, :example_group_instance, :errors
 
@@ -36,7 +36,7 @@ module Spec
       end
 
       def ok?
-        @errors.empty? || @errors.all? {|error| error.is_a?(Spec::DSL::ExamplePendingError)}
+        @errors.empty? || @errors.all? {|error| error.is_a?(Spec::Example::ExamplePendingError)}
       end
 
       def failed?

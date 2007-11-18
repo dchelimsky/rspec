@@ -1,22 +1,22 @@
 module Spec
-  module DSL
+  module Example
     class ExampleGroupFactory
       class << self
         def reset!
           @example_group_types = {
-            :default => Spec::DSL::ExampleGroup,
-            :shared => Spec::DSL::SharedExampleGroup
+            :default => Spec::Example::ExampleGroup,
+            :shared => Spec::Example::SharedExampleGroup
           }
         end
 
         # Registers an example group class +klass+ with the symbol
         # +type+. For example:
         #
-        #   Spec::DSL::ExampleGroupFactory.register(:farm, Spec::Farm::DSL::FarmExampleGroup)
+        #   Spec::Example::ExampleGroupFactory.register(:farm, Spec::Farm::Example::FarmExampleGroup)
         #
         # This will cause Main#describe from a file living in 
         # <tt>spec/farm</tt> to create example group instances of type
-        # Spec::Farm::DSL::FarmExampleGroup.
+        # Spec::Farm::Example::FarmExampleGroup.
         def register(id, behaviour)
           @example_group_types[id] = behaviour
         end
@@ -33,7 +33,7 @@ module Spec
         def get!(id=:default)
           example_group_class = get(id)
           unless example_group_class
-            raise "ExampleGroup #{id.inspect} is not registered. Use ::Spec::DSL::ExampleGroupFactory.register"
+            raise "ExampleGroup #{id.inspect} is not registered. Use ::Spec::Example::ExampleGroupFactory.register"
           end
           return example_group_class
         end  

@@ -1,9 +1,9 @@
 module Spec
   module Rails
-    module DSL
+    module Example
       # Helper Specs live in $RAILS_ROOT/spec/helpers/.
       #
-      # Helper Specs use Spec::Rails::DSL::HelperExample, which allows you to
+      # Helper Specs use Spec::Rails::Example::HelperExample, which allows you to
       # include your Helper directly in the context and write specs directly
       # against its methods.
       #
@@ -39,7 +39,7 @@ module Spec
         ActionController::Routing::Routes.named_routes.install(self)
 
         before(:all) do
-          @controller_class_name = 'Spec::Rails::DSL::HelperBehaviourController'
+          @controller_class_name = 'Spec::Rails::Example::HelperBehaviourController'
         end
 
         before(:each) do
@@ -67,7 +67,7 @@ module Spec
           false
         end
 
-        Spec::DSL::ExampleGroupFactory.register(:helper, self)
+        Spec::Example::ExampleGroupFactory.register(:helper, self)
       end
 
       class HelperBehaviourController < ApplicationController #:nodoc:

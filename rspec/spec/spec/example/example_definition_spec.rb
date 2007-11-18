@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
 module Spec
-  module DSL
+  module Example
     describe Example do
       it "should create an Example using the passed in block" do
         example = Example.new "example" do "success" end

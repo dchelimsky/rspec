@@ -23,7 +23,7 @@ module Spec
         
         if error.nil?
           example_passed(example)
-        elsif Spec::DSL::ExamplePendingError === error
+        elsif Spec::Example::ExamplePendingError === error
           example_pending(@example_group_names.last, example, error.message)
         else
           example_failed(example, error, failure_location)
@@ -123,7 +123,7 @@ module Spec
         end
         
         def pending_fixed?
-          @exception.is_a?(Spec::DSL::PendingExampleFixedError)
+          @exception.is_a?(Spec::Example::PendingExampleFixedError)
         end
 
         def expectation_not_met?
