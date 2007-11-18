@@ -10,7 +10,7 @@ require 'test/unit'
 require 'spec'
 
 require 'spec/rails/extensions'
-require 'spec/rails/dsl'
+require 'spec/rails/example'
 require 'spec/rails/version'
 require 'spec/rails/matchers'
 
