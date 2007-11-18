@@ -152,13 +152,115 @@ module Spec
           @out.should contain("2) story (scenario3): todo3")
         end
         
-        it 'should ignore uninteresting callbacks' do
+        it 'should document a story title and narrative' do
           # when
           @reporter.story_started 'story', 'narrative'
+          
+          # then
+          @out.should contain("Story: story\n\n  narrative")
+        end
+        
+        it 'should document a scenario name' do
+          # when
           @reporter.scenario_started 'story', 'scenario'
           
           # then
-          @out.should be_empty
+          @out.should contain("\n\nScenario: scenario")
+        end
+        
+        it 'should document a step by sentence-casing its name' do
+          # when
+          @reporter.step_succeeded :given, 'a context'
+          @reporter.step_succeeded :when, 'an event'
+          @reporter.step_succeeded :then, 'an outcome'
+          
+          # then
+          @out.should contain("\n\n  Given a context\n\n  When an event\n\n  Then an outcome")
+        end
+        
+        it 'should document additional givens using And' do
+          # when
+          @reporter.step_succeeded :given, 'step 1'
+          @reporter.step_succeeded :given, 'step 2'
+          @reporter.step_succeeded :given, 'step 3'
+          
+          # then
+          @out.should contain("  Given step 1\n  And step 2\n  And step 3")
+        end
+        
+        it 'should document additional events using And' do
+          # when
+          @reporter.step_succeeded :when, 'step 1'
+          @reporter.step_succeeded :when, 'step 2'
+          @reporter.step_succeeded :when, 'step 3'
+          
+          # then
+          @out.should contain("  When step 1\n  And step 2\n  And step 3")
+        end
+        
+        it 'should document additional outcomes using And' do
+          # when
+          @reporter.step_succeeded :then, 'step 1'
+          @reporter.step_succeeded :then, 'step 2'
+          @reporter.step_succeeded :then, 'step 3'
+          
+          # then
+          @out.should contain("  Then step 1\n  And step 2\n  And step 3")
+        end
+        
+        it 'should document a GivenScenario followed by a Given using And' do
+          # when
+          @reporter.step_succeeded :'given scenario', 'a scenario'
+          @reporter.step_succeeded :given, 'a context'
+          
+          # then
+          @out.should contain("  Given scenario a scenario\n  And a context")
+        end
+        
+        it "should append PENDING for the first pending step" do
+          @reporter.scenario_started('','')
+          @reporter.step_pending(:given, 'a context')
+          
+          @out.should contain('Given a context (PENDING)')
+        end
+        
+        it "should append PENDING for pending after already pending" do
+          @reporter.scenario_started('','')
+          @reporter.step_pending(:given, 'a context')
+          @reporter.step_pending(:when, 'I say hey')
+          
+          @out.should contain('When I say hey (PENDING)')
+        end
+        
+        it "should append FAILED for the first failiure" do
+          @reporter.scenario_started('','')
+          @reporter.step_failed(:given, 'a context')
+          
+          @out.should contain('Given a context (FAILED)')
+        end
+        
+        it "should append SKIPPED for the second failiure" do
+          @reporter.scenario_started('','')
+          @reporter.step_failed(:given, 'a context')
+          @reporter.step_failed(:when, 'I say hey')
+          
+          @out.should contain('When I say hey (SKIPPED)')
+        end
+        
+        it "should append SKIPPED for the a failiure after PENDING" do
+          @reporter.scenario_started('','')
+          @reporter.step_pending(:given, 'a context')
+          @reporter.step_failed(:when, 'I say hey')
+          
+          @out.should contain('When I say hey (SKIPPED)')
+        end
+        
+        it 'should print some white space after each story' do
+          # when
+          @reporter.story_ended 'title', 'narrative'
+          
+          # then
+          @out.should contain("\n\n")
         end
       end
     end
