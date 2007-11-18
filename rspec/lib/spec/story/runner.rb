@@ -19,9 +19,6 @@ module Spec
             unless run_options.dry_run
               register_listener(::Spec::Story::Reporter::PlainTextReporter.new($stdout))
             end
-            unless run_options.formatters.empty?
-              register_listener(::Spec::Story::Documenter::PlainTextDocumenter.new($stdout))
-            end
             Runner.register_exit_hook
           end
           @story_runner
@@ -37,9 +34,9 @@ module Spec
         
         # Use this to register a customer output formatter.
         def register_listener(listener)
-          story_runner.add_listener(listener)
-          world_creator.add_listener(listener)
-          scenario_runner.add_listener(listener)
+          story_runner.add_listener(listener) # run_started, story_started, story_ended, #run_ended
+          world_creator.add_listener(listener) # found_scenario, step_succeeded, step_failed, step_failed
+          scenario_runner.add_listener(listener) # scenario_started, scenario_succeeded, scenario_pending, scenario_failed
         end
         
         def register_exit_hook # :nodoc:

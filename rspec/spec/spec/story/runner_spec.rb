@@ -72,9 +72,9 @@ module Spec
         @runner_module::ScenarioRunner.stub!(:new).and_return(scenario_runner)
         
         # expect
-        world_creator.should_receive(:add_listener).with(an_instance_of(Documenter::PlainTextDocumenter))
-        story_runner.should_receive(:add_listener).with(an_instance_of(Documenter::PlainTextDocumenter))
-        scenario_runner.should_receive(:add_listener).with(an_instance_of(Documenter::PlainTextDocumenter))
+        world_creator.should_receive(:add_listener).with(an_instance_of(Reporter::PlainTextReporter))
+        story_runner.should_receive(:add_listener).with(an_instance_of(Reporter::PlainTextReporter))
+        scenario_runner.should_receive(:add_listener).with(an_instance_of(Reporter::PlainTextReporter))
         
         # when
         @runner_module.story_runner
