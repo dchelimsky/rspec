@@ -1,4 +1,4 @@
-require 'spec/dsl/configuration'
+require 'spec/example/configuration'
 
 module Spec
   module DSL

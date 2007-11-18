@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'spec/expectations'
 require 'spec/matchers'
-require 'spec/dsl/pending'
+require 'spec/example/pending'
 
 module Spec
   module Story

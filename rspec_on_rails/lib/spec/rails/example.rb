@@ -1,8 +1,8 @@
 dir = File.dirname(__FILE__)
 
-require 'spec/rails/dsl/ivar_proxy'
-require 'spec/rails/dsl/assigns_hash_proxy'
-require 'spec/rails/dsl/behaviour'
+require 'spec/rails/example/ivar_proxy'
+require 'spec/rails/example/assigns_hash_proxy'
+require 'spec/rails/example/behaviour'
 
 module Spec
   module Rails
