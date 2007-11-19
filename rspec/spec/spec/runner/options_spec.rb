@@ -22,14 +22,6 @@ module Spec
       end
     end
 
-    describe Options, "#formatters" do
-      it_should_behave_like options
-
-      it "defaults to empty array" do
-        @options.formatters.should == []
-      end
-    end
-
     describe Options, "#backtrace_tweaker" do
       it_should_behave_like options
 
@@ -135,16 +127,6 @@ module Spec
         @err.string.should match(/Couldn't find differ class Custom::MissingDiffer/n)
       end
     end
-
-    describe Options, "#parse_format" do
-      it_should_behave_like options
-      
-      it "with invalid class name, raises error" do
-        lambda do
-          @options.parse_format "Custom::BadFormatter"
-        end.should raise_error(NameError, /undefined local variable or method `bad_method'/)
-      end
-    end      
 
     describe Options, "#parse_example" do
       it_should_behave_like options

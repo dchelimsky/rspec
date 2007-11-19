@@ -124,10 +124,6 @@ module Spec
           set_spec_from_line_number
         end
 
-        if @options.formatters.empty?
-          @options.create_formatter(Formatter::ProgressBarFormatter)
-        end
-
         @options
       end
 

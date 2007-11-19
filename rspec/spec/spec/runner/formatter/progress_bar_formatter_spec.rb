@@ -92,9 +92,9 @@ EOE
       describe "ProgressBarFormatter outputting to custom out" do
         before(:each) do
           @out = mock("out")
-          @options = Options.new(StringIO.new, @out)
+          @options = mock('options')
           @out.stub!(:puts)
-          @formatter = @options.create_formatter(ProgressBarFormatter)
+          @formatter = ProgressBarFormatter.new(@options, @out)
           @formatter.class.send :public, :output_to_tty?
         end
 
