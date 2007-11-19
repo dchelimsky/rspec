@@ -16,8 +16,8 @@ module Spec
         def story_runner # :nodoc:
           unless @story_runner
             @story_runner = StoryRunner.new(scenario_runner, world_creator)
-            unless run_options.dry_run
-              register_listener(::Spec::Runner::Formatter::Story::PlainTextFormatter.new($stdout))
+            run_options.story_formatters.each do |formatter|
+              register_listener(formatter)
             end
             Runner.register_exit_hook
           end
