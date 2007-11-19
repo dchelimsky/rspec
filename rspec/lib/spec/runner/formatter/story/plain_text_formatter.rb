@@ -16,7 +16,20 @@ module Spec
             @count = count
             @output.puts "Running #@count scenarios:\n"
           end
+
+          def story_started(title, narrative)
+            @output.puts "Story: #{title}\n\n"
+            narrative.each_line do |line|
+              @output.print "  "
+              @output.print line
+            end
+          end
         
+          def story_ended(title, narrative)
+            @output.puts
+            @output.puts
+          end
+
           def scenario_started(story_title, scenario_name)
             @scenario_already_failed = false
             @output.print "\n\nScenario: #{scenario_name}"
@@ -60,14 +73,6 @@ module Spec
             end
           end
         
-          def story_started(title, narrative)
-            @output.puts "Story: #{title}\n\n"
-            narrative.each_line do |line|
-              @output.print "  "
-              @output.print line
-            end
-          end
-        
           def step_succeeded(type, description, *args)
             found_step(type, description, false, *args)
           end
@@ -82,11 +87,6 @@ module Spec
             found_step(type, description, true, *args)
             @output.print red(@scenario_ok ? " (FAILED)" : " (SKIPPED)")
             @scenario_ok = false
-          end
-
-          def story_ended(title, narrative)
-            @output.puts
-            @output.puts
           end
 
         private

@@ -95,10 +95,6 @@ module Spec
         @options.dry_run
       end
 
-      def from
-        example_group_instance.from
-      end
-
       def description
         return @example.description unless example_group_instance.use_generated_description?
         return Spec::Matchers.generated_description if Spec::Matchers.generated_description
