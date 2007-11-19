@@ -1,0 +1,1 @@
+require 'spec/runner/formatter/story/plain_text_formatter'
