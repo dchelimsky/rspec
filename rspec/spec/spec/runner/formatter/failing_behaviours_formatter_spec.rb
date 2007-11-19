@@ -6,8 +6,8 @@ module Spec
       describe "FailingBehavioursFormatter" do
         before(:each) do
           @io = StringIO.new
-          @options = Options.new(StringIO.new, @io)
-          @formatter = @options.create_formatter(FailingBehavioursFormatter)
+          options = mock('options')
+          @formatter = FailingBehavioursFormatter.new(options, @io)
         end
         
         def description(s)

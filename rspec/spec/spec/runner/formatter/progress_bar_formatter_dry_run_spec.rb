@@ -6,9 +6,9 @@ module Spec
       describe ProgressBarFormatter, "dry run" do
         before(:each) do
           @io = StringIO.new
-          @options = Options.new(StringIO.new, @io)
-          @formatter = @options.create_formatter(ProgressBarFormatter)
-          @options.dry_run = true
+          options = mock('options')
+          options.stub!(:dry_run).and_return(true)
+          @formatter = ProgressBarFormatter.new(options, @io)
         end
       
         it "should not produce summary on dry run" do
