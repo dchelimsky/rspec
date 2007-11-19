@@ -2,9 +2,9 @@ module Spec
   module Runner
     module Formatter
       module Story
-        class PlainTextFormatter
-          def initialize(out)
-            @out = out
+        class PlainTextFormatter < BaseTextFormatter
+          def initialize(options, where)
+            super
             @successful_scenario_count = 0
             @pending_scenario_count = 0
             @failed_scenarios = []
@@ -14,12 +14,12 @@ module Spec
         
           def run_started(count)
             @count = count
-            @out << "Running #@count scenarios:\n\n"
+            @output.puts "Running #@count scenarios:\n"
           end
         
           def scenario_started(story_title, scenario_name)
             @scenario_already_failed = false
-            @out << "\n\nScenario: #{scenario_name}"
+            @output.print "\n\nScenario: #{scenario_name}"
             @scenario_ok = true
           end
         
@@ -39,19 +39,19 @@ module Spec
           end
         
           def run_ended
-            @out << "\n\n#@count scenarios: #@successful_scenario_count succeeded, #{@failed_scenarios.size} failed, #@pending_scenario_count pending\n"
+            @output.puts "\n\n#@count scenarios: #@successful_scenario_count succeeded, #{@failed_scenarios.size} failed, #@pending_scenario_count pending"
             unless @pending_steps.empty?
-              @out << "\nPending Steps:\n"
+              @output.puts "\nPending Steps:"
               @pending_steps.each_with_index do |pending, i|
                 title, scenario_name, msg = pending
-                @out << "#{i+1}) #{title} (#{scenario_name}): #{msg}\n"
+                @output.puts "#{i+1}) #{title} (#{scenario_name}): #{msg}"
               end
             end
             unless @failed_scenarios.empty?
-              @out << "\nFAILURES:"
+              @output.print "\nFAILURES:"
               @failed_scenarios.each_with_index do |failure, i|
                 title, scenario_name, err = failure
-                @out << %[
+                @output.print %[
     #{i+1}) #{title} (#{scenario_name}) FAILED
     #{err.class}: #{err.message}
     #{err.backtrace.join("\n")}
@@ -61,40 +61,47 @@ module Spec
           end
         
           def story_started(title, narrative)
-            @out << "Story: #{title}\n\n"
+            @output.puts "Story: #{title}\n\n"
             narrative.each_line do |line|
-              @out << "  " << line
+              @output.print "  "
+              @output.print line
             end
           end
         
           def step_succeeded(type, description, *args)
-            found_step(type, description, *args)
+            found_step(type, description, false, *args)
           end
         
           def step_pending(type, description, *args)
-            found_step(type, description, *args)
-            @out << " (PENDING)"
+            found_step(type, description, false, *args)
+            @output.print " (PENDING)"
             @scenario_ok = false
           end
         
           def step_failed(type, description, *args)
-            found_step(type, description, *args)
-            @scenario_ok ? (@out << " (FAILED)") : (@out << " (SKIPPED)")
+            found_step(type, description, true, *args)
+            @output.print red(@scenario_ok ? " (FAILED)" : " (SKIPPED)")
             @scenario_ok = false
           end
 
           def story_ended(title, narrative)
-            @out << "\n\n"
+            @output.puts
+            @output.puts
           end
-        
-          def found_step(type, description, *args)
-            args_txt = args.empty? ? "" : " #{args.join ','}"
-            if type == @previous_type
-              @out << "\n  And "
+
+        private
+
+          def found_step(type, description, failed, *args)
+            text = if(type == @previous_type)
+              "\n  And "
             else
-              @out << "\n\n" << "  #{type.to_s.capitalize} "
+              "\n\n  #{type.to_s.capitalize} "
             end
-            @out << "#{description}#{args_txt}"
+            text << description
+            args = args.empty? ? "" : " #{args.join ','}"
+            text << args
+            @output.print(failed ? red(text) : green(text))
+
             if type == :'given scenario'
               @previous_type = :given
             else

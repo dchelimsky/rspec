@@ -5,7 +5,7 @@ module Spec
         'mtime' => lambda {|file_a, file_b| File.mtime(file_b) <=> File.mtime(file_a)}
       }
 
-      BUILT_IN_FORMATTERS = {
+      EXAMPLE_FORMATTERS = {
         'specdoc'  => Formatter::SpecdocFormatter,
         's'        => Formatter::SpecdocFormatter,
         'html'     => Formatter::HtmlFormatter,
@@ -19,6 +19,12 @@ module Spec
         'profile'  => Formatter::ProfileFormatter,
         'o'        => Formatter::ProfileFormatter,
         'textmate' => Formatter::TextMateFormatter,
+      }
+
+      STORY_FORMATTERS = {
+        'plain' => Formatter::Story::PlainTextFormatter,
+        'html'  => Formatter::Story::HtmlFormatter,
+        'h'     => Formatter::Story::HtmlFormatter
       }
 
       attr_accessor(
@@ -132,7 +138,15 @@ module Spec
       def formatters
         @format_options ||= [['progress', @output_stream]]
         @formatters ||= @format_options.map do |format, where|
-          formatter_type = BUILT_IN_FORMATTERS[format] || load_class(format, 'formatter', '--format')
+          formatter_type = EXAMPLE_FORMATTERS[format] || load_class(format, 'formatter', '--format')
+          formatter_type.new(self, where)
+        end
+      end
+
+      def story_formatters
+        @format_options ||= [['plain', @output_stream]]
+        @story_formatters ||= @format_options.map do |format, where|
+          formatter_type = STORY_FORMATTERS[format] || load_class(format, 'formatter', '--format')
           formatter_type.new(self, where)
         end
       end

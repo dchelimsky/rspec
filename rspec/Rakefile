@@ -42,7 +42,7 @@ end
 
 desc "Run all stories"
 task :stories do
-  ruby 'stories/all.rb'
+  ruby 'stories/all.rb --colour'
 end
 
 desc "Run all specs and store html output in doc/output/report.html"
