@@ -6,8 +6,8 @@ module Spec
       describe "FailingExamplesFormatter" do
         before(:each) do
           @io = StringIO.new
-          @options = Options.new(StringIO.new, @io)
-          @formatter = @options.create_formatter(FailingExamplesFormatter)
+          options = mock('options')
+          @formatter = FailingExamplesFormatter.new(options, @io)
           @behaviour = Class.new(::Spec::Example::ExampleGroup).describe("Some Examples")
         end
 

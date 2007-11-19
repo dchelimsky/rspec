@@ -7,8 +7,9 @@ module Spec
         
         before(:each) do
           @io = StringIO.new
-          @options = Options.new(StringIO.new, @io)
-          @formatter = @options.create_formatter(ProfileFormatter)
+          options = mock('options')
+          options.stub!(:colour).and_return(true)
+          @formatter = ProfileFormatter.new(options, @io)
         end
         
         it "should print a heading" do

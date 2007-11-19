@@ -6,8 +6,10 @@ module Spec
       describe "SpecdocFormatter" do
         before(:each) do
           @io = StringIO.new
-          @options = Options.new(StringIO.new, @io)
-          @formatter = @options.create_formatter(SpecdocFormatter)
+          @options = mock('options')
+          @options.stub!(:dry_run).and_return(false)
+          @options.stub!(:colour).and_return(false)
+          @formatter = SpecdocFormatter.new(@options, @io)
           @behaviour = Class.new(::Spec::Example::ExampleGroup).describe("Some Examples")
         end
 
@@ -71,6 +73,11 @@ module Spec
           @io.string.should =~ /Pending\:\nbehaviour example \(reason\)\n/
         end
 
+        it "should not produce summary on dry run" do
+          @options.should_receive(:dry_run).and_return(true)
+          @formatter.dump_summary(3, 2, 1, 0)
+          @io.string.should eql("")
+        end
       end
     end
   end
