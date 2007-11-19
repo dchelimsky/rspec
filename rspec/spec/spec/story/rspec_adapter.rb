@@ -1,3 +1,5 @@
+# TODO: get rid of this file. It breaks with the style in the rest of our code. (AH)
+
 # add ensure_that(..)
 module Spec::Expectations::ObjectExpectations
   def ensure_that(obj, expr)

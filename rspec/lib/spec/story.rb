@@ -1,6 +1,5 @@
 require 'spec/story/extensions'
 require 'spec/story/given_scenario'
-require 'spec/story/reporter'
 require 'spec/story/runner'
 require 'spec/story/scenario'
 require 'spec/story/step'
