@@ -37,12 +37,12 @@ Spec::Rake::SpecTask.new do |t|
   t.spec_opts = ['--options', 'spec.opts']
   t.rcov = true
   t.rcov_dir = '../doc/output/coverage'
-  t.rcov_opts = ['--exclude', 'spec\/spec,bin\/spec,examples,\/var\/lib\/gems,\/Library\/Ruby,\.autotest']
+  t.rcov_opts = ['--aggregate', 'rcov.bin', '--exclude', 'spec\/spec,bin\/spec,examples,\/var\/lib\/gems,\/Library\/Ruby,\.autotest']
 end
 
 desc "Run all stories"
 task :stories do
-  ruby 'stories/all.rb --colour'
+  ruby "stories/all.rb --colour --format plain --format html:story_server/prototype/rspec_stories.html"
 end
 
 desc "Run all specs and store html output in doc/output/report.html"
