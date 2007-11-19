@@ -46,7 +46,7 @@ describe "OptionParser" do
   end
 
   it "should print help to stdout if no args" do
-    pending() do
+    pending 'A regression since 1.0.8' do
       options = parse([])
       @out.rewind
       @out.read.should match(/Usage: spec \(FILE\|DIRECTORY\|GLOB\)\+ \[options\]/m)
@@ -60,7 +60,10 @@ describe "OptionParser" do
   end
 
   it "should print instructions about how to require missing formatter" do
-    lambda { options = parse(["--format", "Custom::MissingFormatter"]) }.should raise_error(NameError)
+    lambda do 
+      options = parse(["--format", "Custom::MissingFormatter"]) 
+      options.formatters
+    end.should raise_error(NameError)
     @err.string.should match(/Couldn't find formatter class Custom::MissingFormatter/n)
   end
 
@@ -131,6 +134,7 @@ describe "OptionParser" do
   it "should use html formatter with explicit output when format is html:test.html" do
     FileUtils.rm 'test.html' if File.exist?('test.html')
     options = parse(["--format", "html:test.html"])
+    options.formatters # creates the file
     File.should be_exist('test.html')
     options.formatters[0].class.should equal(Spec::Runner::Formatter::HtmlFormatter)
     options.formatters[0].close

@@ -28,7 +28,6 @@ module Spec
         :dry_run,
         :profile,
         :examples,
-        :formatters,
         :heckle_runner,
         :line_number,
         :loadby,
@@ -49,7 +48,6 @@ module Spec
         @output_stream = output_stream
         @backtrace_tweaker = QuietBacktraceTweaker.new
         @examples = []
-        @formatters = []
         @colour = false
         @profile = false
         @dry_run = false
@@ -127,15 +125,16 @@ module Spec
           where = @output_stream
           @out_used = true
         end
-
-        formatter_type = BUILT_IN_FORMATTERS[format] || load_class(format, 'formatter', '--format')
-        create_formatter(formatter_type, where)
+        @format_options ||= []
+        @format_options << [format, where]
       end
-
-      def create_formatter(formatter_type, where=@output_stream)
-        formatter = formatter_type.new(self, where)
-        @formatters << formatter
-        formatter
+      
+      def formatters
+        @format_options ||= [['progress', @output_stream]]
+        @formatters ||= @format_options.map do |format, where|
+          formatter_type = BUILT_IN_FORMATTERS[format] || load_class(format, 'formatter', '--format')
+          formatter_type.new(self, where)
+        end
       end
 
       def load_heckle_runner(heckle)
