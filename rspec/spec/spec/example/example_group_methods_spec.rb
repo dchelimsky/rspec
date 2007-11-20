@@ -5,7 +5,6 @@ module Spec
     describe "ExampleGroupMethods" do
       before do
         @options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
-        $rspec_options = @options
         @options.formatters << mock("formatter", :null_object => true)
         @options.backtrace_tweaker = mock("backtrace_tweaker", :null_object => true)
         @reporter = FakeReporter.new(@options)
@@ -58,7 +57,7 @@ module Spec
           it "should use ExampleGroupMethods before and after callbacks" do
           end
         end
-#        @example_group.examples.length.should == 1
+        @example_group.examples.length.should == 1
         @example_group.suite.run
         ExampleGroupMethods.count.should == 5
       end

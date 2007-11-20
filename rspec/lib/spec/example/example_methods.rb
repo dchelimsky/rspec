@@ -4,30 +4,30 @@ module Spec
       include ::Spec::Matchers
       include ::Spec::Example::Pending
       
-      attr_reader :example
+      attr_reader :_example
       
       def violated(message="")
         raise Spec::Expectations::ExpectationNotMetError.new(message)
       end
       
       def run
-        instance_eval(&example.example_block)
+        __send__(_example.method_name)
       end
       
       def description
-        example.description
+        _example.description
       end
       
       def description=(description)
-        example.description=(description)
+        _example.description=(description)
       end
             
       def use_generated_description?
-        example.description == :__generate_docstring
+        _example.description == :__generate_docstring
       end
 
       def copy_instance_variables_from(obj)
-        super(obj, [:@example, :@_result])
+        super(obj, [:@_example, :@_result])
       end
 
       def run_before_all

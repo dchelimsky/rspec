@@ -98,7 +98,7 @@ module Spec
       end
 
       def create_example(location)
-        example_group.create_example location
+        example_group.create_example location, nil
       end
 
       def description

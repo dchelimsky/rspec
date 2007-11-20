@@ -30,7 +30,7 @@ module Spec
 
         it "when having an error, should push failing spec name and failure number" do
           @formatter.example_failed(
-            @behaviour.create_example("spec"),
+            @behaviour.it("spec"),
             98,
             Reporter::Failure.new("c s", RuntimeError.new)
           )
@@ -39,7 +39,7 @@ module Spec
 
         it "when having an expectation failure, should push failing spec name and failure number" do
           @formatter.example_failed(
-            @behaviour.create_example("spec"),
+            @behaviour.it("spec"),
             98,
             Reporter::Failure.new("c s", Spec::Expectations::ExpectationNotMetError.new)
           )
@@ -57,7 +57,7 @@ module Spec
         end
 
         it "should push passing spec name" do
-          @formatter.example_passed(@behaviour.create_example("spec"))
+          @formatter.example_passed(@behaviour.it("spec"))
           @io.string.should eql("- spec\n")
         end
 

@@ -10,7 +10,7 @@ module Spec
       end
 
       it "should report the file and line submitted with :expected_from" do
-        example_definition = @behaviour.create_example "spec" do
+        example_definition = @behaviour.it "spec" do
           mock = Spec::Mocks::Mock.new("a mock")
           mock.should_receive(:message, :expected_from => "/path/to/blah.ext:37")
           mock.rspec_verify
@@ -25,7 +25,7 @@ module Spec
       end
 
       it "should use the message supplied with :message" do
-        example_definition = @behaviour.create_example "spec" do
+        example_definition = @behaviour.it "spec" do
           mock = Spec::Mocks::Mock.new("a mock")
           mock.should_receive(:message, :message => "recebi nada")
           mock.rspec_verify

@@ -85,7 +85,12 @@ module Spec
       # Creates an instance of Spec::Example::Example and adds
       # it to a collection of examples of the current behaviour.
       def it(description=:__generate_docstring, &block)
-        examples << create_example(description, &block)
+        block ||= Example::PENDING_EXAMPLE_BLOCK
+        method_name = "it - #{description}"
+        define_method(method_name, &block)
+        example = create_example(description, method_name)
+        examples << example
+        example
       end
       
       alias_method :specify, :it
@@ -107,8 +112,8 @@ module Spec
         examples.length
       end
 
-      def create_example(description, &block) #:nodoc:
-        Example.new(description, &block)
+      def create_example(description, method_name) #:nodoc:
+        Example.new(description, method_name)
       end
       
       # Registers a block to be executed before each example.
@@ -267,9 +272,7 @@ module Spec
             instance_method(method_name).arity == 0 ||
             instance_method(method_name).arity == -1
           )
-            example = create_example(method_name) do
-              __send__ method_name
-            end
+            example = create_example(method_name, method_name)
             suite << new(example)
           end
         end
