@@ -1,6 +1,7 @@
 module Spec
   module Example
     module ExampleMethods
+      extend ExampleGroupMethods
       include ::Spec::Matchers
       include ::Spec::Example::Pending
       
