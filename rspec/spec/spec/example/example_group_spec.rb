@@ -14,7 +14,8 @@ module Spec
         @options.backtrace_tweaker = mock("backtrace_tweaker", :null_object => true)
         @reporter = FakeReporter.new(@options)
         @options.reporter = @reporter
-        @example_group = Class.new(ExampleGroup).describe("example") do
+        @example_group = Class.new(ExampleGroup) do
+          describe("example")
           it "does nothing"
         end
         class << @example_group
@@ -68,7 +69,8 @@ module Spec
       end
 
       it "should return an ExampleSuite with Examples" do
-        behaviour = Class.new(ExampleGroup).describe('example') do
+        behaviour = Class.new(ExampleGroup) do
+          describe('example')
           it "should pass" do
             1.should == 1
           end
@@ -79,7 +81,8 @@ module Spec
       end
 
       it "should include methods that begin with test and has an arity of 0 in suite" do
-        behaviour = Class.new(ExampleGroup).describe('example') do
+        behaviour = Class.new(ExampleGroup) do
+          describe('example')
           def test_any_args(*args)
             true.should be_true
           end
@@ -101,7 +104,8 @@ module Spec
       end
 
       it "should include methods that begin with should and has an arity of 0 in suite" do
-        behaviour = Class.new(ExampleGroup).describe('example') do
+        behaviour = Class.new(ExampleGroup) do
+          describe('example')
           def shouldCamelCase
             true.should be_true
           end
@@ -132,7 +136,8 @@ module Spec
       end
 
       it "should not include methods that begin with test_ and has an arity > 0 in suite" do
-        behaviour = Class.new(ExampleGroup).describe('example') do
+        behaviour = Class.new(ExampleGroup) do
+          describe('example')
           def test_invalid(foo)
             1.should == 1
           end
@@ -145,7 +150,8 @@ module Spec
       end
 
       it "should not include methods that begin with should_ and has an arity > 0 in suite" do
-        behaviour = Class.new(ExampleGroup).describe('example') do
+        behaviour = Class.new(ExampleGroup) do
+          describe('example')
           def should_invalid(foo)
             1.should == 1
           end
@@ -286,7 +292,8 @@ module Spec
       it_should_behave_like "Spec::Example::ExampleGroup"
 
       it "should allow constants to be defined" do
-        behaviour = Class.new(ExampleGroup).describe('example') do
+        behaviour = Class.new(ExampleGroup) do
+          describe('example')
           FOO = 1
           it "should reference FOO" do
             FOO.should == 1
@@ -384,7 +391,9 @@ module Spec
       end
 
       it "should not run when there are no examples" do
-        behaviour = Class.new(ExampleGroup).describe("Foobar") {}
+        behaviour = Class.new(ExampleGroup) do
+          describe("Foobar")
+        end
         behaviour.examples.should be_empty
 
         reporter = mock("Reporter")
@@ -403,7 +412,7 @@ module Spec
       end
 
       it "should have access to the described_type" do
-        behaviour = Class.new(ExampleSubclass).describe(Array){}
+        behaviour = Class.new(ExampleSubclass) {describe(Array)}
         behaviour.send(:described_type).should == Array
       end
     end

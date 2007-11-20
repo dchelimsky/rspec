@@ -7,7 +7,9 @@ module Spec
         @options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
         @reporter = ::Spec::Runner::Reporter.new(@options)
         @options.reporter = @reporter
-        @example_group_class = Class.new(ExampleGroup).describe("Some Examples") {}
+        @example_group_class = Class.new(ExampleGroup) do
+          describe("Some Examples")
+        end
       end
 
       def create_runner(example_definition)

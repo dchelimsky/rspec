@@ -53,7 +53,8 @@ module Spec
           ExampleGroupMethods.count.should == 4
         end
 
-        @example_group = Class.new(ExampleGroup).describe("example") do
+        @example_group = Class.new(ExampleGroup) do
+          describe("example")
           it "should use ExampleGroupMethods before and after callbacks" do
           end
         end
