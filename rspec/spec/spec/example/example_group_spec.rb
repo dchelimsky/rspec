@@ -77,7 +77,7 @@ module Spec
         end
         suite = behaviour.suite
         suite.tests.length.should == 1
-        suite.tests.first.example.description.should == "should pass"
+        suite.tests.first._example.description.should == "should pass"
       end
 
       it "should include methods that begin with test and has an arity of 0 in suite" do
@@ -98,7 +98,7 @@ module Spec
         end
         suite = behaviour.suite
         suite.tests.length.should == 2
-        descriptions = suite.tests.collect {|test| test.example.description}.sort
+        descriptions = suite.tests.collect {|test| test._example.description}.sort
         descriptions.should == ["test_any_args", "test_something"]
         suite.run.should be_true
       end
@@ -128,7 +128,7 @@ module Spec
         behaviour = behaviour.dup
         suite = behaviour.suite
         suite.tests.length.should == 4
-        descriptions = suite.tests.collect {|test| test.example.description}.sort
+        descriptions = suite.tests.collect {|test| test._example.description}.sort
         descriptions.should include("shouldCamelCase")
         descriptions.should include("should_any_args")
         descriptions.should include("should_something")

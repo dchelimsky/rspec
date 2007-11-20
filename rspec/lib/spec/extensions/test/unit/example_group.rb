@@ -21,7 +21,7 @@ module Test
         include Spec::Example::ExampleMethods
 
         def initialize(example) #:nodoc:
-          @example = example
+          @_example = example
           @_result = ::Test::Unit::TestResult.new
         end
       end

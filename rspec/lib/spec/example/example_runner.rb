@@ -6,7 +6,7 @@ module Spec
       def initialize(options, example_group_instance)
         @options = options
         @example_group_instance = example_group_instance
-        @example = example_group_instance.example
+        @example = example_group_instance._example
         @errors = []
       end
       
