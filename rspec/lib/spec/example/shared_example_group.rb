@@ -36,7 +36,6 @@ module Spec
       end
 
       def included(mod) # :nodoc:
-        examples.each { |e| mod.examples << e; }
         before_each_parts.each   { |p| mod.before_each_parts << p }
         after_each_parts.each    { |p| mod.after_each_parts << p }
         before_all_parts.each    { |p| mod.before_all_parts << p }

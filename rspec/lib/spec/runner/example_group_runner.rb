@@ -30,7 +30,6 @@ module Spec
       def prepare
         reporter.start(number_of_examples)
         example_groups.reverse! if reverse
-        set_sequence_numbers
       end
 
       def finish
@@ -45,19 +44,6 @@ module Spec
       def reverse
         @options.reverse
       end
-
-      # Sets the #number on each Example
-      # TODO: BT - Remove this method. We should not be setting number on Example.
-      # Instead, Example order should be queried by its clients (the progress bar).
-      def set_sequence_numbers
-        number = 0
-        example_groups.each do |example_group|
-          example_group.examples.each do |example|
-            example.number = number
-            number += 1
-          end
-        end
-      end      
 
       def example_groups
         @options.example_groups

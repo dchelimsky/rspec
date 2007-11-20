@@ -88,9 +88,7 @@ module Spec
         block ||= Example::PENDING_EXAMPLE_BLOCK
         method_name = "it - #{description}"
         define_method(method_name, &block)
-        example = create_example(description, method_name)
-        examples << example
-        example
+        Example.new(description, method_name)
       end
       
       alias_method :specify, :it
@@ -105,7 +103,19 @@ module Spec
       end
 
       def examples #:nodoc:
-        @examples ||= []
+        examples = []
+        instance_methods.each do |method_name|
+          if method_name =~ /^it - (.*)/
+            examples << create_example($1, method_name)
+          elsif (is_test?(method_name) || is_spec?(method_name)) && (
+            instance_method(method_name).arity == 0 ||
+            instance_method(method_name).arity == -1
+          )
+            examples << create_example(method_name, method_name)
+          end
+        end
+        examples.sort! {|lt, gt| lt.method_name<=>gt.method_name}
+        rspec_options.reverse ? examples.reverse : examples
       end
       
       def number_of_examples #:nodoc:
@@ -193,7 +203,6 @@ module Spec
         customize_example
         suite = ExampleSuite.new(description, self)
         add_examples(suite)
-        add_examples_from_methods(suite)
         suite
       end
       
@@ -252,20 +261,8 @@ module Spec
       end
       
       def add_examples(suite)
-        ordered_examples.each do |example|
+        examples.each do |example|
           suite << new(example)
-        end
-      end
-      
-      def add_examples_from_methods(suite)
-        instance_methods.each do |method_name|
-          if (is_test?(method_name) || is_spec?(method_name)) && (
-            instance_method(method_name).arity == 0 ||
-            instance_method(method_name).arity == -1
-          )
-            example = create_example(method_name, method_name)
-            suite << new(example)
-          end
         end
       end
 
@@ -277,10 +274,6 @@ module Spec
         !(method_name =~ /^should(_not)?$/) && method_name =~ /^should/
       end
 
-      def ordered_examples
-        rspec_options.reverse ? examples.reverse : examples
-      end
-      
       def plugin_mock_framework
         case mock_framework = Spec::Runner.configuration.mock_framework
         when Module

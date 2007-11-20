@@ -25,7 +25,7 @@ module Spec
       after do
         ExampleGroupMethods.instance_variable_set("@before_all_parts", [])
         ExampleGroupMethods.instance_variable_set("@before_each_parts", [])
-#        ExampleGroupMethods.instance_variable_set("@example_parts", [])
+        ExampleGroupMethods.instance_variable_set("@example_parts", [])
         ExampleGroupMethods.instance_variable_set("@after_each_parts", [])
         ExampleGroupMethods.instance_variable_set("@after_all_parts", [])
       end
