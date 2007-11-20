@@ -12,7 +12,6 @@ module Spec
 
         ExampleMethods.before_all_parts.should == []
         ExampleMethods.before_each_parts.should == []
-#        ExampleMethods.example_parts.should == []
         ExampleMethods.after_each_parts.should == []
         ExampleMethods.after_all_parts.should == []
         def ExampleMethods.count
@@ -25,9 +24,9 @@ module Spec
       after do
         ExampleMethods.instance_variable_set("@before_all_parts", [])
         ExampleMethods.instance_variable_set("@before_each_parts", [])
-        ExampleMethods.instance_variable_set("@example_parts", [])
         ExampleMethods.instance_variable_set("@after_each_parts", [])
         ExampleMethods.instance_variable_set("@after_all_parts", [])
+        ExampleMethods.__send__(:remove_method, @example_method.method_name)
       end
 
       it "should pass before, after, and Examples to all ExampleGroup subclasses" do
@@ -39,27 +38,22 @@ module Spec
           ExampleMethods.count.should == 2
         end
 
-        # TODO: BT - Enable Example inheritance
-#        ExampleMethods.it "should run before(:all), before(:each), example, after(:each), after(:all) in order" do
-#          ExampleMethods.count.should == 3
-#        end
-
-        ExampleMethods.after(:each) do
+        @example_method = ExampleMethods.it "should run before(:all), before(:each), example, after(:each), after(:all) in order" do
           ExampleMethods.count.should == 3
         end
 
-        ExampleMethods.after(:all) do
+        ExampleMethods.after(:each) do
           ExampleMethods.count.should == 4
         end
 
-        @example_group = Class.new(ExampleGroup) do
-          describe("example")
-          it "should use ExampleMethods before and after callbacks" do
-          end
+        ExampleMethods.after(:all) do
+          ExampleMethods.count.should == 5
         end
+
+        @example_group = Class.new(ExampleGroup)
         @example_group.examples.length.should == 1
         @example_group.suite.run
-        ExampleMethods.count.should == 5
+        ExampleMethods.count.should == 6
       end
     end
   end
