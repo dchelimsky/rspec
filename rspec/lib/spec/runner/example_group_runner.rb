@@ -1,6 +1,6 @@
 module Spec
   module Runner
-    class BehaviourRunner
+    class ExampleGroupRunner
       def initialize(options)
         @options = options
       end
@@ -18,8 +18,8 @@ module Spec
       def run
         prepare
         success = true
-        example_groups.each do |behaviour|
-          success = success & behaviour.suite.run
+        example_groups.each do |example_group|
+          success = success & example_group.suite.run
         end
         return success
       ensure
@@ -47,6 +47,8 @@ module Spec
       end
 
       # Sets the #number on each Example
+      # TODO: BT - Remove this method. We should not be setting number on Example.
+      # Instead, Example order should be queried by its clients (the progress bar).
       def set_sequence_numbers
         number = 0
         example_groups.each do |example_group|
@@ -65,5 +67,7 @@ module Spec
         @options.number_of_examples
       end
     end
+    # TODO: BT - Deprecate BehaviourRunner?
+    BehaviourRunner = ExampleGroupRunner
   end
 end

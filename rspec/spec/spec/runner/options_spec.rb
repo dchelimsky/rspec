@@ -156,8 +156,8 @@ module Spec
       it_should_behave_like options
       
       it "should use the standard runner by default" do
-        runner = ::Spec::Runner::BehaviourRunner.new(@options)
-        ::Spec::Runner::BehaviourRunner.should_receive(:new).
+        runner = ::Spec::Runner::ExampleGroupRunner.new(@options)
+        ::Spec::Runner::ExampleGroupRunner.should_receive(:new).
           with(@options).
           and_return(runner)
         @options.user_input_for_runner = nil
@@ -166,21 +166,21 @@ module Spec
       end
 
       it "should use a custom runner when given" do
-        runner = Custom::BehaviourRunner.new(@options, nil)
-        Custom::BehaviourRunner.should_receive(:new).
+        runner = Custom::ExampleGroupRunner.new(@options, nil)
+        Custom::ExampleGroupRunner.should_receive(:new).
           with(@options, nil).
           and_return(runner)
-        @options.user_input_for_runner = "Custom::BehaviourRunner"
+        @options.user_input_for_runner = "Custom::ExampleGroupRunner"
 
         @options.run_examples
       end
 
       it "should use a custom runner with extra options" do
-        runner = Custom::BehaviourRunner.new(@options, 'something')
-        Custom::BehaviourRunner.should_receive(:new).
+        runner = Custom::ExampleGroupRunner.new(@options, 'something')
+        Custom::ExampleGroupRunner.should_receive(:new).
           with(@options, 'something').
           and_return(runner)
-        @options.user_input_for_runner = "Custom::BehaviourRunner:something"
+        @options.user_input_for_runner = "Custom::ExampleGroupRunner:something"
 
         @options.run_examples
       end
@@ -231,7 +231,7 @@ module Spec
 
       it "should cause #run_examples to return true and do nothing" do
         @options.examples_should_not_be_run
-        BehaviourRunner.should_not_receive(:new)
+        ExampleGroupRunner.should_not_receive(:new)
         
         @options.run_examples.should be_true
       end

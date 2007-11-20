@@ -322,8 +322,8 @@ describe "OptionParser" do
 
   it "should set an mtime comparator when --loadby mtime" do
     options = parse(["--loadby", 'mtime'])
-    runner = Spec::Runner::BehaviourRunner.new(options)
-    Spec::Runner::BehaviourRunner.should_receive(:new).
+    runner = Spec::Runner::ExampleGroupRunner.new(options)
+    Spec::Runner::ExampleGroupRunner.should_receive(:new).
       with(options).
       and_return(runner)
     runner.should_receive(:load_files).with(["most_recent_spec.rb", "command_line_spec.rb"])
@@ -338,8 +338,8 @@ describe "OptionParser" do
   end
 
   it "should use the standard runner by default" do
-    runner = ::Spec::Runner::BehaviourRunner.new(@parser.options)
-    ::Spec::Runner::BehaviourRunner.should_receive(:new).
+    runner = ::Spec::Runner::ExampleGroupRunner.new(@parser.options)
+    ::Spec::Runner::ExampleGroupRunner.should_receive(:new).
       with(@parser.options).
       and_return(runner)
     options = parse([])
@@ -347,20 +347,20 @@ describe "OptionParser" do
   end
 
   it "should use a custom runner when given" do
-    runner = Custom::BehaviourRunner.new(@parser.options, nil)
-    Custom::BehaviourRunner.should_receive(:new).
+    runner = Custom::ExampleGroupRunner.new(@parser.options, nil)
+    Custom::ExampleGroupRunner.should_receive(:new).
       with(@parser.options, nil).
       and_return(runner)
-    options = parse(["--runner", "Custom::BehaviourRunner"])
+    options = parse(["--runner", "Custom::ExampleGroupRunner"])
     options.run_examples
   end
 
   it "should use a custom runner with extra options" do
-    runner = Custom::BehaviourRunner.new(@parser.options, 'something')
-    Custom::BehaviourRunner.should_receive(:new).
+    runner = Custom::ExampleGroupRunner.new(@parser.options, 'something')
+    Custom::ExampleGroupRunner.should_receive(:new).
       with(@parser.options, 'something').
       and_return(runner)
-    options = parse(["--runner", "Custom::BehaviourRunner:something"])
+    options = parse(["--runner", "Custom::ExampleGroupRunner:something"])
     options.run_examples
   end
 end

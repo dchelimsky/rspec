@@ -72,7 +72,7 @@ module Spec
 
       def run_examples
         return true unless examples_should_be_run?
-        runner = custom_runner || BehaviourRunner.new(self)
+        runner = custom_runner || ExampleGroupRunner.new(self)
 
         runner.load_files(files_to_load)
         if example_groups.empty?
