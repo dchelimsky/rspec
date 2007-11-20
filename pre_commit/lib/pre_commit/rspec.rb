@@ -11,7 +11,6 @@ class PreCommit::Rspec < PreCommit
   
   def check_for_gem_dependencies
     gem 'rake'
-    gem 'rcov'
     gem 'webgen', '>= 0.4.2'
     gem 'RedCloth'
     gem 'syntax'
