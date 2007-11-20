@@ -197,15 +197,6 @@ module Spec
         suite
       end
       
-      # Sets the #number on each Example and returns the next number
-      def set_sequence_numbers(number) #:nodoc:
-        ordered_examples.each do |example|
-          example.number = number
-          number += 1
-        end
-        number
-      end
-
       def register
         rspec_options.add_example_group self
       end

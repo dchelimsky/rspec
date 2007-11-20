@@ -18,7 +18,7 @@ module Spec
       def run
         prepare
         success = true
-        behaviours.each do |behaviour|
+        example_groups.each do |behaviour|
           success = success & behaviour.suite.run
         end
         return success
@@ -29,7 +29,7 @@ module Spec
       protected
       def prepare
         reporter.start(number_of_examples)
-        behaviours.reverse! if reverse
+        example_groups.reverse! if reverse
         set_sequence_numbers
       end
 
@@ -49,12 +49,15 @@ module Spec
       # Sets the #number on each Example
       def set_sequence_numbers
         number = 0
-        behaviours.each do |behaviour|
-          number = behaviour.set_sequence_numbers(number)
+        example_groups.each do |example_group|
+          example_group.examples.each do |example|
+            example.number = number
+            number += 1
+          end
         end
       end      
 
-      def behaviours
+      def example_groups
         @options.example_groups
       end
 
