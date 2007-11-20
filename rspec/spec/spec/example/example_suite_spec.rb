@@ -22,7 +22,8 @@ module Spec
         @options.backtrace_tweaker = mock("backtrace_tweaker", :null_object => true)
         @reporter = FakeReporter.new(@options)
         @options.reporter = @reporter
-        @behaviour = Class.new(ExampleGroup).describe("example") do
+        @behaviour = Class.new(ExampleGroup) do
+          describe("example")
           it "does nothing" do
           end
         end
@@ -163,7 +164,8 @@ module Spec
         @special_behaviour.before(:all) { fiddle << "Example.before(:all, :behaviour_type => :special)" }
         @special_behaviour.prepend_before(:all) { fiddle << "Example.prepend_before(:all, :behaviour_type => :special)" }
 
-        behaviour = Class.new(ExampleGroup).describe("I'm not special", :behaviour_type => :not_special) do
+        behaviour = Class.new(ExampleGroup) do
+          describe("I'm not special", :behaviour_type => :not_special)
           it "does nothing"
         end
         suite = behaviour.suite
@@ -294,7 +296,8 @@ module Spec
       it "should include any predicate_matchers included using configuration" do
         $included_predicate_matcher_found = false
         Spec::Runner.configuration.predicate_matchers[:do_something] = :does_something?
-        behaviour = Class.new(ExampleGroup).describe('example') do
+        behaviour = Class.new(ExampleGroup) do
+          describe('example')
           it "should respond to do_something" do
             $included_predicate_matcher_found = respond_to?(:do_something)
           end
@@ -317,7 +320,8 @@ module Spec
           $included_module = nil
           Spec::Runner.configuration.mock_with mod
 
-          behaviour = Class.new(ExampleGroup).describe('example') do
+          behaviour = Class.new(ExampleGroup) do
+            describe('example')
             it "does nothing"
           end
           suite = behaviour.suite
@@ -555,7 +559,8 @@ module Spec
 
     describe ExampleSuite, "#size" do
       it "returns the number of examples in the behaviour" do
-        behaviour = Class.new(ExampleGroup).describe("Some Examples") do
+        behaviour = Class.new(ExampleGroup) do
+          describe("Some Examples")
           it("does something") {}
           it("does something else") {}
         end
@@ -566,7 +571,8 @@ module Spec
 
     describe ExampleSuite, "#empty?" do
       it "when there are examples; returns true" do
-        behaviour = Class.new(ExampleGroup).describe("Some Examples") do
+        behaviour = Class.new(ExampleGroup) do
+          describe("Some Examples")
           it("does something") {}
         end
         suite = behaviour.suite
@@ -576,7 +582,8 @@ module Spec
       end
 
       it "when there are no examples; returns true" do
-        behaviour = Class.new(ExampleGroup).describe("Some Examples") do
+        behaviour = Class.new(ExampleGroup) do
+          describe("Some Examples")
         end
         suite = behaviour.suite
         suite.size.should == 0
@@ -587,7 +594,8 @@ module Spec
 
     describe ExampleSuite, "#delete" do
       it "removes the passed in example" do
-        behaviour = Class.new(ExampleGroup).describe("Some Examples") do
+        behaviour = Class.new(ExampleGroup) do
+          describe("Some Examples")
           it("does something") {}
         end
         suite = behaviour.suite
