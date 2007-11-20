@@ -28,6 +28,9 @@ module Spec
             @reporter.step_failed('then', 'failed_step', 'en', 'to')
             @reporter.scenario_failed('story_title', 'failed_scenario_name', NameError.new('sup'))
             
+            @reporter.scenario_started('story_title', 'scenario_with_given_scenario_name')
+            @reporter.found_scenario('given scenario', 'succeeded_scenario_name')
+            
             @reporter.story_ended('story_title', 'narrative')
             @reporter.run_ended
           end

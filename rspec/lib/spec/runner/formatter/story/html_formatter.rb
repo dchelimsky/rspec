@@ -67,6 +67,9 @@ EOF
           </dl>
 EOF
           end
+          
+          def found_scenario(type, description)
+          end
 
           def scenario_succeeded(story_title, scenario_name)
             scenario_ended
