@@ -2,13 +2,6 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 
 module Spec
   module Example
-    class FakeReporter < Spec::Runner::Reporter
-      attr_reader :added_behaviour
-      def add_example_group(description)
-        @added_behaviour = description
-      end
-    end
-    
     describe ExampleSuite, "#run", :shared => true do
       before :all do
         @original_rspec_options = $rspec_options
