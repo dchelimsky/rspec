@@ -246,12 +246,12 @@ module Spec
       it_should_behave_like "Spec::Example::ExampleGroup"
 
       it "should count number of specs" do
-        @example_group.examples.clear
-        @example_group.it("one") {}
-        @example_group.it("two") {}
-        @example_group.it("three") {}
-        @example_group.it("four") {}
-        @example_group.number_of_examples.should == 4
+        proc do
+          @example_group.it("one") {}
+          @example_group.it("two") {}
+          @example_group.it("three") {}
+          @example_group.it("four") {}
+        end.should change {@example_group.number_of_examples}.by(4)
       end
     end
 

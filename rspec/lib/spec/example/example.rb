@@ -4,8 +4,7 @@ module Spec
       PENDING_EXAMPLE_BLOCK = lambda {
         raise Spec::Example::ExamplePendingError.new("Not Yet Implemented")
       }
-      # The global sequence number of this example
-      attr_accessor :number, :description
+      attr_accessor :description
       attr_reader :from, :method_name
 
       def initialize(description, method_name)

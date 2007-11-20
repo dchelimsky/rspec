@@ -51,7 +51,7 @@ module Spec
         end
 
         def example_started(example)
-          @current_example_number = example.number
+          @current_example_number += 1
         end
 
         def example_passed(example)
@@ -95,9 +95,18 @@ module Spec
         end
         
         def move_progress
-          percent_done = @example_count == 0 ? 100.0 : ((current_example_number + 1).to_f / @example_count.to_f * 1000).to_i / 10.0
           @output.puts "    <script type=\"text/javascript\">moveProgressBar('#{percent_done}');</script>"
           @output.flush
+        end
+
+        def percent_done
+          if @example_count == 0
+            100.0
+          else
+            (
+              (current_example_number).to_f / @example_count.to_f * 1000
+            ).to_i / 10.0
+          end
         end
 
         def dump_failure(counter, failure)
