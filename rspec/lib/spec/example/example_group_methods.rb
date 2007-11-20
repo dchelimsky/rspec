@@ -3,7 +3,6 @@ module Spec
 
     # See http://rspec.rubyforge.org/documentation/before_and_after.html
     module ExampleGroupMethods
-      extend self
       attr_accessor :description
 
       def inherited(klass)
@@ -249,7 +248,7 @@ module Spec
           superclass_first ? classes << current_class : classes.unshift(current_class)
           current_class = current_class.superclass
         end
-        superclass_first ? classes << ExampleGroupMethods : classes.unshift(ExampleGroupMethods)
+        superclass_first ? classes << ExampleMethods : classes.unshift(ExampleMethods)
 
         classes.each do |behaviour|
           yield behaviour
