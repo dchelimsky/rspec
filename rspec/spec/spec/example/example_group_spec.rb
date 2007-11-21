@@ -29,6 +29,21 @@ module Spec
         ExampleGroup.reset!
       end
     end
+
+    describe ExampleGroup, ".describe" do
+      it_should_behave_like "Spec::Example::ExampleGroup"
+      
+      it "should create a subclass of the ExampleGroup when passed a block" do
+        child_example_group = @example_group.describe("Another ExampleGroup") do
+          it "should pass" do
+            true.should be_true
+          end
+        end
+        child_example_group.superclass.should == @example_group
+        child_example_group.examples.length.should == 2
+        @options.example_groups.should include(child_example_group)
+      end
+    end
     
     describe ExampleGroup, ".it" do
       it_should_behave_like "Spec::Example::ExampleGroup"
@@ -412,7 +427,9 @@ module Spec
       end
 
       it "should have access to the described_type" do
-        behaviour = Class.new(ExampleSubclass) {describe(Array)}
+        behaviour = Class.new(ExampleSubclass) do
+          describe(Array)
+        end
         behaviour.send(:described_type).should == Array
       end
     end

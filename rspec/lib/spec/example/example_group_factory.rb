@@ -59,14 +59,15 @@ module Spec
             id = :default
           end
           superclass = get(id)
-          example_group_type = create_uniquely_named_class(superclass)
-          example_group_type.describe(*args, &block)
-          example_group_type
+          example_group_type = create_uniquely_named_class(superclass) do
+            describe(*args)
+            module_eval(&block) if block
+          end
         end
 
         protected
         
-        def create_uniquely_named_class(superclass)
+        def create_uniquely_named_class(superclass, &block)
           example_group_class = Class.new(superclass)
           @class_count ||= 0
           class_name = "Subclass_#{@class_count}"
@@ -74,6 +75,8 @@ module Spec
           superclass.instance_eval do
             const_set(class_name, example_group_class)
           end
+          example_group_class.instance_eval(&block)
+          example_group_class
         end
         
         def create_shared_example_group(*args, &block)

@@ -32,7 +32,8 @@ module Spec
       public :include
 
       def initialize(*args, &example_group_block)
-        describe(*args, &example_group_block)
+        describe(*args)
+        module_eval(&example_group_block)
       end
 
       def included(mod) # :nodoc:
