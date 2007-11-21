@@ -84,6 +84,12 @@ module Spec
           @story_mediator.should_receive(:create_scenario).with("bar")
 					@parser.parse(["Story: s", "Given foo", "Scenario: bar"])
 			  end
+			  
+			  it "should include Given: in the narrative" do
+          @story_mediator.should_receive(:create_story).with("s","Given: foo")
+          @story_mediator.should_receive(:create_scenario).with("bar")
+					@parser.parse(["Story: s", "Given: foo", "Scenario: bar"])
+			  end
 			  			  
 			  it "should include When in the narrative" do
           @story_mediator.should_receive(:create_story).with("s","When foo")
@@ -132,9 +138,19 @@ module Spec
 					@parser.parse(["Story: s", "Scenario: s", "Given gift"])
 			  end
 			  
+			  it "should create a Given for Given:" do
+          @story_mediator.should_receive(:create_given).with("gift")
+					@parser.parse(["Story: s", "Scenario: s", "Given: gift"])
+			  end
+			  
 			  it "should create a GivenScenario for GivenScenario" do
           @story_mediator.should_receive(:create_given_scenario).with("previous")
 					@parser.parse(["Story: s", "Scenario: s", "GivenScenario previous"])
+			  end
+			  
+			  it "should create a GivenScenario for GivenScenario:" do
+          @story_mediator.should_receive(:create_given_scenario).with("previous")
+					@parser.parse(["Story: s", "Scenario: s", "GivenScenario: previous"])
 			  end
 			  
 			  it "should transition to Given state after GivenScenario" do
@@ -143,14 +159,30 @@ module Spec
 					@parser.instance_eval{@state}.should be_an_instance_of(StoryParser::GivenState)
 			  end
 			  
+			  it "should transition to Given state after GivenScenario:" do
+          @story_mediator.stub!(:create_given_scenario)
+					@parser.parse(["Story: s", "Scenario: s", "GivenScenario: previous"])
+					@parser.instance_eval{@state}.should be_an_instance_of(StoryParser::GivenState)
+			  end
+			  
 			  it "should create a When for When" do
           @story_mediator.should_receive(:create_when).with("ever")
 					@parser.parse(["Story: s", "Scenario: s", "When ever"])
 			  end
 			  
+			  it "should create a When for When:" do
+          @story_mediator.should_receive(:create_when).with("ever")
+					@parser.parse(["Story: s", "Scenario: s", "When: ever"])
+			  end
+			  
 			  it "should create a Then for Then" do
           @story_mediator.should_receive(:create_then).with("and there")
 					@parser.parse(["Story: s", "Scenario: s", "Then and there"])
+			  end
+			  
+			  it "should create a Then for Then:" do
+          @story_mediator.should_receive(:create_then).with("and there")
+					@parser.parse(["Story: s", "Scenario: s", "Then: and there"])
 			  end
 			  
 			  it "should ignore other" do
@@ -184,7 +216,12 @@ module Spec
 			  
 			  it "should create a second Given for And" do
           @story_mediator.should_receive(:create_given).with("second")
-					@parser.parse(["Story: s", "Scenario: s", "Given first", "And second"])
+					@parser.parse(["Story: s", "Scenario: s", "Given: first", "And second"])
+			  end
+			  
+			  it "should create a second Given for And:" do
+          @story_mediator.should_receive(:create_given).with("second")
+					@parser.parse(["Story: s", "Scenario: s", "Given first", "And: second"])
 			  end
 			  
 			  it "should create a When for When" do
@@ -192,9 +229,19 @@ module Spec
 					@parser.parse(["Story: s", "Scenario: s", "Given first", "When ever"])
 			  end
 			  
+			  it "should create a When for When:" do
+          @story_mediator.should_receive(:create_when).with("ever")
+					@parser.parse(["Story: s", "Scenario: s", "Given first", "When: ever"])
+			  end
+			  
 			  it "should create a Then for Then" do
           @story_mediator.should_receive(:create_then).with("and there")
 					@parser.parse(["Story: s", "Scenario: s", "Given first", "Then and there"])
+			  end
+			  
+			  it "should create a Then for Then:" do
+          @story_mediator.should_receive(:create_then).with("and there")
+					@parser.parse(["Story: s", "Scenario: s", "Given first", "Then: and there"])
 			  end
 			  
 			  it "should ignore other" do
@@ -214,7 +261,7 @@ module Spec
 			  
 			  it "should create a Story for Story" do
           @story_mediator.should_receive(:create_story).with("number two","")
-					@parser.parse(["Story: s", "Scenario: s", "Given first", "When else", "Story: number two"])
+					@parser.parse(["Story: s", "Scenario: s", "Given first", "When: else", "Story: number two"])
 			  end
 			  
 			  it "should create a Scenario for Scenario" do
@@ -227,9 +274,19 @@ module Spec
 					@parser.parse(["Story: s", "Scenario: s", "Given first", "When else", "Given second"])
 			  end
 			  
+			  it "should create Given for Given:" do
+          @story_mediator.should_receive(:create_given).with("second")
+					@parser.parse(["Story: s", "Scenario: s", "Given first", "When else", "Given: second"])
+			  end
+			  
 			  it "should create a second When for When" do
           @story_mediator.should_receive(:create_when).with("ever")
 					@parser.parse(["Story: s", "Scenario: s", "Given first", "When else", "When ever"])
+			  end
+			  
+			  it "should create a second When for When:" do
+          @story_mediator.should_receive(:create_when).with("ever")
+					@parser.parse(["Story: s", "Scenario: s", "Given: first", "When: else", "When: ever"])
 			  end
 			  
 			  it "should create a second When for And" do
@@ -237,9 +294,19 @@ module Spec
 					@parser.parse(["Story: s", "Scenario: s", "Given first", "When else", "And ever"])
 			  end
 			  
+			  it "should create a second When for And:" do
+          @story_mediator.should_receive(:create_when).with("ever")
+					@parser.parse(["Story: s", "Scenario: s", "Given: first", "When: else", "And: ever"])
+			  end
+			  
 			  it "should create a Then for Then" do
           @story_mediator.should_receive(:create_then).with("and there")
 					@parser.parse(["Story: s", "Scenario: s", "Given first", "When else", "Then and there"])
+			  end
+			  
+			  it "should create a Then for Then:" do
+          @story_mediator.should_receive(:create_then).with("and there")
+					@parser.parse(["Story: s", "Scenario: s", "Given: first", "When: else", "Then: and there"])
 			  end
 			  
 			  it "should ignore other" do
@@ -273,21 +340,41 @@ module Spec
 					@parser.parse(["Story: s", "Scenario: s", "Given first", "When else", "Then what", "Given second"])
 			  end
 			  
+			  it "should create Given for Given:" do
+          @story_mediator.should_receive(:create_given).with("second")
+					@parser.parse(["Story: s", "Scenario: s", "Given: first", "When: else", "Then: what", "Given: second"])
+			  end
+			  
 			  it "should create When for When" do
           @story_mediator.should_receive(:create_when).with("ever")
 					@parser.parse(["Story: s", "Scenario: s", "Given first", "When else", "Then what", "When ever"])
 			  end
 			  
+			  it "should create When for When:" do
+          @story_mediator.should_receive(:create_when).with("ever")
+					@parser.parse(["Story: s", "Scenario: s", "Given: first", "When: else", "Then: what", "When: ever"])
+			  end
+
 			  it "should create a Then for Then" do
           @story_mediator.should_receive(:create_then).with("and there")
 					@parser.parse(["Story: s", "Scenario: s", "Given first", "When else", "Then what", "Then and there"])
 			  end
 			  
+			  it "should create a Then for Then:" do
+          @story_mediator.should_receive(:create_then).with("and there")
+					@parser.parse(["Story: s", "Scenario: s", "Given: first", "When: else", "Then: what", "Then: and there"])
+			  end
+
 			  it "should create a second Then for And" do
           @story_mediator.should_receive(:create_then).with("ever")
 					@parser.parse(["Story: s", "Scenario: s", "Given first", "When else", "Then what", "And ever"])
 			  end
 			  
+			  it "should create a second Then for And:" do
+          @story_mediator.should_receive(:create_then).with("ever")
+					@parser.parse(["Story: s", "Scenario: s", "Given: first", "When: else", "Then: what", "And: ever"])
+			  end
+
 			  it "should ignore other" do
 					@parser.parse(["Story: s", "Scenario: s", "Given first", "When else", "Then what", "this is ignored"])
 			  end
