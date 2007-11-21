@@ -28,10 +28,17 @@ module Spec
       #   end
       #
       def describe(*args, &example_group_block)
-        set_description(*args)
-        before_eval
-        module_eval(&example_group_block) if example_group_block
-        self
+        if example_group_block
+          Class.new(self) do
+            describe(*args)
+            register
+            module_eval(&example_group_block)
+          end
+        else
+          set_description(*args)
+          before_eval
+          self
+        end
       end
 
       # Use this to pull in examples from shared behaviours.

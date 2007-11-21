@@ -39,7 +39,8 @@ module Spec
       end
 
       it "should dump even if Interrupt exception is occurred" do
-        behaviour = Class.new(::Spec::Example::ExampleGroup).describe("behaviour") do
+        behaviour = Class.new(::Spec::Example::ExampleGroup) do
+          describe("behaviour")
           it "no error" do
           end
 
