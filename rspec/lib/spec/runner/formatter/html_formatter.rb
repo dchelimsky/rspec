@@ -138,6 +138,9 @@ module Spec
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta http-equiv="Expires" content="-1" />
   <meta http-equiv="Pragma" content="no-cache" />
+  <script src="javascripts/prototype.js" type="text/javascript"></script>
+  <script src="javascripts/scriptaculous.js" type="text/javascript"></script>
+  <script src="javascripts/application.js" type="text/javascript"></script>
   <style type="text/css">
   body {
     margin: 0;
