@@ -221,6 +221,11 @@ module Spec
             @out.string.should contain("  Given scenario a scenario\n  And a context")
           end
         
+          it 'should document steps with replaced params' do
+            @reporter.step_succeeded :given, 'a $coloured dog with $n legs', 'pink', 21
+            @out.string.should contain("  Given a pink dog with 21 legs")
+          end
+        
           it "should append PENDING for the first pending step" do
             @reporter.scenario_started('','')
             @reporter.step_pending(:given, 'a context')
