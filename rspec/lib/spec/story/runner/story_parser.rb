@@ -29,14 +29,14 @@ module Spec
         def process_line(line)
           line.strip!
           case line
-          when /^Story: /         : @state.story(line)
-          when /^Scenario: /      : @state.scenario(line)
-          when /^Given /          : @state.given(line)
-          when /^GivenScenario /  : @state.given_scenario(line)
-          when /^When /           : @state.event(line)
-          when /^Then /           : @state.outcome(line)
-          when /^And /            : @state.one_more_of_the_same(line)
-          else                      @state.other(line)
+          when /^Story: /           : @state.story(line)
+          when /^Scenario: /        : @state.scenario(line)
+          when /^Given:? /          : @state.given(line)
+          when /^GivenScenario:? /  : @state.given_scenario(line)
+          when /^When:? /           : @state.event(line)
+          when /^Then:? /           : @state.outcome(line)
+          when /^And:? /            : @state.one_more_of_the_same(line)
+          else                        @state.other(line)
           end
         end
 
@@ -129,7 +129,8 @@ module Spec
           def remove_tag_from(tag, line)
             tokens = line.split
             # validation of tag can go here
-            tokens[0].downcase == tag.to_s ? (tokens[1..-1].join(' ')) : line
+            tokens[0].downcase.match(/#{tag.to_s}:?/) ? 
+                                (tokens[1..-1].join(' ')) : line
           end
 
           def eof
