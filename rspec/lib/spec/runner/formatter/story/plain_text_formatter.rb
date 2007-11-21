@@ -97,9 +97,8 @@ module Spec
             else
               "\n\n  #{type.to_s.capitalize} "
             end
-            text << description
-            args = args.empty? ? "" : " #{args.join ','}"
-            text << args
+            i = -1
+            text << description.gsub(::Spec::Story::Step::PARAM_PATTERN) { |param| args[i+=1] }
             @output.print(failed ? red(text) : green(text))
 
             if type == :'given scenario'

@@ -3,6 +3,8 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 module Spec
   module Example
     describe 'Nested describes' do
+      parent = self
+      
       def count
         @count ||= 0
         @count = @count + 1
@@ -46,6 +48,8 @@ module Spec
       end
 
       describe 'nested describe child' do
+        self.superclass.should == parent
+        
         it "runs all before and after callbacks" do
           count.should == 5
         end
