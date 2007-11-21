@@ -61,6 +61,7 @@ module Spec
           superclass = get(id)
           example_group_type = create_uniquely_named_class(superclass) do
             describe(*args)
+            register
             module_eval(&block) if block
           end
         end
@@ -80,7 +81,9 @@ module Spec
         end
         
         def create_shared_example_group(*args, &block)
-          @example_group_types[:shared].new(*args, &block)
+          shared_example_group = @example_group_types[:shared].new(*args, &block)
+          shared_example_group.register
+          shared_example_group
         end
       end
       self.reset!

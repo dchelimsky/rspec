@@ -28,7 +28,21 @@ module Spec
       it "should raise when no description given to describe" do
         lambda { @main.describe do; end }.should raise_error(ArgumentError)
       end
-  
+
+      it "should registered ExampleGroups by default" do
+        example_group = @main.describe("The ExampleGroup") do
+        end
+
+        rspec_options.example_groups.should include(example_group)
+      end
+
+      it "should not run unregistered ExampleGroups" do
+        example_group = @main.describe("The ExampleGroup") do
+          unregister
+        end
+
+        rspec_options.example_groups.should_not include(example_group)
+      end
     end
   end
 end
