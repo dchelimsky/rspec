@@ -2,6 +2,8 @@ module Spec
   module Example
     module ExampleMethods
       extend ExampleGroupMethods
+      extend ModuleReopeningFix
+
       include ::Spec::Matchers
       include ::Spec::Example::Pending
       
