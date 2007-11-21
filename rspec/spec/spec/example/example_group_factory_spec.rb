@@ -36,7 +36,7 @@ module Spec
       end
     end    
 
-    describe ExampleGroupFactory do
+    describe ExampleGroupFactory, "#create_example_group" do
       it "should create a uniquely named class" do
         behaviour = Spec::Example::ExampleGroupFactory.create_example_group("behaviour")
         behaviour.name.should =~ /Spec::Example::ExampleGroup::Subclass_\d+/
@@ -93,9 +93,12 @@ module Spec
         behaviour.superclass.should == klass
       end
       
-      it "should create a Spec::Example::Example if :shared => true" do
-        Spec::Example::ExampleGroupFactory.create_example_group("name", :spec_path => '/blah/spec/models/blah.rb', :behaviour_type => :controller, :shared => true) {
-        }.should be_an_instance_of(Spec::Example::SharedExampleGroup)
+      it "should create and register a Spec::Example::Example if :shared => true" do
+        shared_example_group = Spec::Example::ExampleGroupFactory.create_example_group(
+          "name", :spec_path => '/blah/spec/models/blah.rb', :behaviour_type => :controller, :shared => true
+        ) {}
+        shared_example_group.should be_an_instance_of(Spec::Example::SharedExampleGroup)
+        SharedExampleGroup.shared_example_groups.should include(shared_example_group)
       end
 
       it "should favor the :behaviour_type over the :spec_path" do
@@ -105,6 +108,19 @@ module Spec
         Spec::Example::ExampleGroupFactory.register(:something_other_than_default, klass)
         behaviour = Spec::Example::ExampleGroupFactory.create_example_group("name", :spec_path => '/blah/spec/models/blah.rb', :behaviour_type => :something_other_than_default)
         behaviour.superclass.should == klass
+      end
+
+      it "should register ExampleGroup by default" do
+        example_group = Spec::Example::ExampleGroupFactory.create_example_group("The ExampleGroup") do
+        end
+        rspec_options.example_groups.should include(example_group)
+      end
+
+      it "should enable unregistering of ExampleGroups" do
+        example_group = Spec::Example::ExampleGroupFactory.create_example_group("The ExampleGroup") do
+          unregister
+        end
+        rspec_options.example_groups.should_not include(example_group)
       end
       
       after(:each) do
