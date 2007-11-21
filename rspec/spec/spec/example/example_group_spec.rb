@@ -3,6 +3,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 module Spec
   module Example
     describe ExampleGroup do
+      attr_reader :options, :example_group, :result, :reporter
       before :all do
         @original_rspec_options = $rspec_options
       end
@@ -10,15 +11,15 @@ module Spec
       before :each do
         @options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
         $rspec_options = @options
-        @options.formatters << mock("formatter", :null_object => true)
-        @options.backtrace_tweaker = mock("backtrace_tweaker", :null_object => true)
+        options.formatters << mock("formatter", :null_object => true)
+        options.backtrace_tweaker = mock("backtrace_tweaker", :null_object => true)
         @reporter = FakeReporter.new(@options)
-        @options.reporter = @reporter
+        options.reporter = reporter
         @example_group = Class.new(ExampleGroup) do
           describe("example")
           it "does nothing"
         end
-        class << @example_group
+        class << example_group
           public :include
         end
         @result = nil
@@ -261,6 +262,25 @@ module Spec
           suite = behaviour.suite
           suite.run
           Object.const_defined?(:FOO).should == false
+        end
+      end
+
+      describe ExampleGroup, '.register' do
+        it "should add ExampleGroup to set of ExampleGroups to be run" do
+          example_group.register
+          options.example_groups.should include(example_group)
+        end
+      end
+
+      describe ExampleGroup, '.unregister' do
+        before do
+          example_group.register
+          options.example_groups.should include(example_group)
+        end
+
+        it "should remove ExampleGroup from set of ExampleGroups to be run" do
+          example_group.unregister
+          options.example_groups.should_not include(example_group)
         end
       end
     end

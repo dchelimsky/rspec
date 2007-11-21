@@ -217,6 +217,10 @@ module Spec
         rspec_options.add_example_group self
       end
 
+      def unregister
+        rspec_options.remove_example_group self
+      end
+
       def run_before_each(example)
         execute_in_class_hierarchy(false) do |behaviour|
           example.eval_each_fail_fast(behaviour.before_each_parts)

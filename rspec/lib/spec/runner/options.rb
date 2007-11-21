@@ -70,6 +70,10 @@ module Spec
         @example_groups << example_group
       end
 
+      def remove_example_group(example_group)
+        @example_groups.delete(example_group)
+      end
+
       def run_examples
         return true unless examples_should_be_run?
         runner = custom_runner || ExampleGroupRunner.new(self)
