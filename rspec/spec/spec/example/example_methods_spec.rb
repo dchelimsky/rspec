@@ -2,7 +2,25 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 
 module Spec
   module Example
-    describe ExampleMethods do
+    module ModuleThatIsReopened
+    end
+
+    module ExampleMethods
+      include ModuleThatIsReopened
+    end
+
+    module ModuleThatIsReopened
+      def module_that_is_reopened_method
+      end
+    end
+
+    describe "ExampleMethods with an included module that is reopened" do
+      it "should have repoened methods" do
+        method(:module_that_is_reopened_method).should_not be_nil
+      end
+    end
+
+    describe ExampleMethods, " lifecycle" do
       before do
         @options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
         @options.formatters << mock("formatter", :null_object => true)

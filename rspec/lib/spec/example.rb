@@ -1,6 +1,7 @@
 require 'timeout'
 require 'forwardable'
 require 'spec/example/pending'
+require 'spec/example/module_reopening_fix'
 require 'spec/example/example_group_methods'
 require 'spec/example/example_methods'
 require 'spec/example/example_group'
