@@ -96,7 +96,8 @@ module Spec
         instance = Object.new
         
         # when
-        step.perform(instance, "an account with 3 dollars")
+        args = step.parse_args("an account with 3 dollars")
+        step.perform(instance, *args)
         
         # then
         $result.should == "3"
@@ -111,7 +112,7 @@ module Spec
         instance = Object.new
         
         # when
-        step.perform(instance, "an account with a balance of", 20)
+        step.perform(instance, 20)
         
         # then
         $result.should == 20
@@ -128,7 +129,8 @@ module Spec
         instance = Object.new
         
         # when
-        step.perform(instance, "a savings account with 3 dollars")
+        args = step.parse_args("a savings account with 3 dollars")
+        step.perform(instance, *args)
         
         # then
         $account_type.should == "savings"

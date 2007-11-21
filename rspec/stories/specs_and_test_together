@@ -6,28 +6,28 @@ Story: Spec and test together
 
   Scenario: Run with ruby
     Given the file test/spec_and_test_together.rb
-    When I run it with the ruby interpreter
-    Then the exit code should be 256
 
+    When I run it with the ruby interpreter
+
+    Then the exit code should be 256
     And the stdout should match "Loaded suite"
     And the stdout should match "test_should_fail_with_assert(NeighborlyTest)"
     And the stdout should match "test_should_fail_with_should(NeighborlyTest)"
     And the stdout should match "4 tests, 2 assertions, 1 failures, 1 errors"
-
     And the stdout should match "Test::Unit::AssertionFailedError in 'spec should fail with assert'"
     And the stdout should match "'spec should fail with should' FAILED"
     And the stdout should match "4 examples, 2 failures"
 
   Scenario: Run with spec
     Given the file test/spec_and_test_together.rb
-    When I run it with the spec script
-    Then the exit code should be 256
 
+    When I run it with the spec script
+
+    Then the exit code should be 256
 #    And the stdout should match "Loaded suite"
 #    And the stdout should match "test_should_fail_with_assert(NeighborlyTest)"
 #    And the stdout should match "test_should_fail_with_should(NeighborlyTest)"
 #    And the stdout should match "4 tests, 2 assertions, 1 failures, 1 errors"
-
     And the stdout should match "Test::Unit::AssertionFailedError in 'spec should fail with assert'"
     And the stdout should match "'spec should fail with should' FAILED"
     And the stdout should match "4 examples, 2 failures"

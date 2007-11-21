@@ -10,18 +10,14 @@ module Spec
         init_module(name, &block)
       end
 
-      def perform(instance, name, *args)
+      def perform(instance, *args)
         instance.extend(@mod)
-        if args.empty?
-          instance.__send__(@name, *parse_args(name))
-        else
-          instance.__send__(@name, *args)
-        end
+        instance.__send__(@name, *args)
       end
 
-      def init_module(expression, &block)
+      def init_module(name, &block)
         @mod = Module.new do
-          define_method expression.to_s, &block
+          define_method(name.to_s, &block)
         end
       end
 
@@ -29,12 +25,12 @@ module Spec
         !(matches = name.match(@expression)).nil?
       end
             
+      def parse_args(name)
+        name.match(@expression)[1..-1]
+      end
+
       private
       
-        def parse_args(name)
-          name.match(@expression)[1..-1]
-        end
-
         def assign_expression(name)
           expression = name.dup
           if String === expression
