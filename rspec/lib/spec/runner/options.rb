@@ -152,11 +152,8 @@ module Spec
       end
 
       def load_heckle_runner(heckle)
-        if [/mswin/, /java/].detect{|p| p =~ RUBY_PLATFORM}
-          require 'spec/runner/heckle_runner_unsupported'
-        else
-          require 'spec/runner/heckle_runner'
-        end
+        suffix = [/mswin/, /java/].detect{|p| p =~ RUBY_PLATFORM} ? '_unsupported' : ''
+        require "spec/runner/heckle_runner#{suffix}"
         @heckle_runner = HeckleRunner.new(heckle)
       end
 

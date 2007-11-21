@@ -149,7 +149,7 @@ EOF
         "/a/full/path/spec/helpers/mooky_helper_spec.rb".should be_a("helper spec")
       end
 
-      it "should suggest view" do
+      it "should suggest view spec" do
         "/a/full/path/spec/views/mooky/show.html.erb_spec.rb".should be_a("view spec")
       end
 

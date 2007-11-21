@@ -1,6 +1,8 @@
 module Spec
   module Story
     class Step
+      PARAM_PATTERN = /(\$\w*)/
+      
       attr_reader :name
       def initialize(name, &block)
         @name = name
@@ -38,7 +40,7 @@ module Spec
           if String === expression
             expression.gsub! '(', '\('
             expression.gsub! ')', '\)'
-            while expression =~ /(\$\w*)/
+            while expression =~ PARAM_PATTERN
               expression.gsub!($1, "(.*)")
             end
           end

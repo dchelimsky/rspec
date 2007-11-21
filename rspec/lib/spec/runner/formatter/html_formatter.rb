@@ -100,13 +100,11 @@ module Spec
         end
 
         def percent_done
-          if @example_count == 0
-            100.0
-          else
-            (
-              (current_example_number).to_f / @example_count.to_f * 1000
-            ).to_i / 10.0
+          result = 100.0
+          if @example_count != 0
+            result = ((current_example_number).to_f / @example_count.to_f * 1000).to_i / 10.0
           end
+          result
         end
 
         def dump_failure(counter, failure)

@@ -179,18 +179,33 @@ a {
 <div class="behaviour">
   <dl>
   <dt id="behaviour_1">Mocker</dt>
-    <script type="text/javascript">moveProgressBar('5.8');</script>
-    <dd class="spec passed"><span class="passed_spec_name">should be able to call mock()</span></dd>
     <script type="text/javascript">makeRed('rspec-header');</script>
     <script type="text/javascript">makeRed('behaviour_1');</script>
+    <script type="text/javascript">moveProgressBar('5.8');</script>
+    <dd class="spec pending_fixed">
+      <span class="failed_spec_name">has a bug we need to fix</span>
+      <div class="failure" id="failure_1">
+        <div class="message"><pre>Expected pending 'here is the bug' to fail. No Error was raised.</pre></div>
+        <div class="backtrace"><pre><a href="txmt://open?url=file:///Users/aslakhellesoy/scm/rspec/trunk/rspec/failing_examples/mocking_example.rb&line=33">./failing_examples/mocking_example.rb:33</a> :in `it - has a bug we need to fix'
+<a href="txmt://open?url=file:///Users/aslakhellesoy/scm/rspec/trunk/rspec/spec/spec/runner/formatter/spec_mate_formatter_spec.rb&line=52">./spec/spec/runner/formatter/spec_mate_formatter_spec.rb:52</a> :in `it - generates a new comparison file'
+<a href="txmt://open?url=file:///Users/aslakhellesoy/scm/rspec/trunk/rspec/spec/spec/runner/formatter/spec_mate_formatter_spec.rb&line=48">./spec/spec/runner/formatter/spec_mate_formatter_spec.rb:48</a> :in `it - generates a new comparison file'</pre></div>
+    <pre class="ruby"><code><span class="linenum">31</span>
+<span class="linenum">32</span>  <span class="ident">it</span> <span class="punct">&quot;</span><span class="string">has a bug we need to fix</span><span class="punct">&quot;</span> <span class="keyword">do</span>
+<span class="offending"><span class="linenum">33</span>    <span class="ident">pending</span> <span class="punct">&quot;</span><span class="string">here is the bug</span><span class="punct">&quot;</span> <span class="keyword">do</span></span>
+<span class="linenum">34</span>      <span class="comment"># Actually, no. It's fixed. This will fail because it passes :-)</span>
+<span class="linenum">35</span>      <span class="ident">mock</span> <span class="punct">=</span> <span class="ident">mock</span><span class="punct">(&quot;</span><span class="string">Bug</span><span class="punct">&quot;)</span></code></pre>
+      </div>
+    </dd>
     <script type="text/javascript">moveProgressBar('11.7');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should be able to call mock()</span></dd>
+    <script type="text/javascript">moveProgressBar('17.6');</script>
     <dd class="spec failed">
       <span class="failed_spec_name">should fail when expected message not received</span>
-      <div class="failure" id="failure_1">
+      <div class="failure" id="failure_2">
         <div class="message"><pre>Mock 'poke me' expected :poke with (any args) once, but received it 0 times</pre></div>
-        <div class="backtrace"><pre><a href="txmt://open?url=file:///Users/aslakhellesoy/scm/rspec/trunk/rspec/failing_examples/mocking_example.rb&line=13">./failing_examples/mocking_example.rb:13</a> 
-<a href="txmt://open?url=file:///Users/aslakhellesoy/scm/rspec/trunk/rspec/spec/spec/runner/formatter/spec_mate_formatter_spec.rb&line=52">./spec/spec/runner/formatter/spec_mate_formatter_spec.rb:52</a> 
-<a href="txmt://open?url=file:///Users/aslakhellesoy/scm/rspec/trunk/rspec/spec/spec/runner/formatter/spec_mate_formatter_spec.rb&line=48">./spec/spec/runner/formatter/spec_mate_formatter_spec.rb:48</a> </pre></div>
+        <div class="backtrace"><pre><a href="txmt://open?url=file:///Users/aslakhellesoy/scm/rspec/trunk/rspec/failing_examples/mocking_example.rb&line=13">./failing_examples/mocking_example.rb:13</a> :in `it - should fail when expected message not received'
+<a href="txmt://open?url=file:///Users/aslakhellesoy/scm/rspec/trunk/rspec/spec/spec/runner/formatter/spec_mate_formatter_spec.rb&line=52">./spec/spec/runner/formatter/spec_mate_formatter_spec.rb:52</a> :in `it - generates a new comparison file'
+<a href="txmt://open?url=file:///Users/aslakhellesoy/scm/rspec/trunk/rspec/spec/spec/runner/formatter/spec_mate_formatter_spec.rb&line=48">./spec/spec/runner/formatter/spec_mate_formatter_spec.rb:48</a> :in `it - generates a new comparison file'</pre></div>
     <pre class="ruby"><code><span class="linenum">11</span>  <span class="ident">it</span> <span class="punct">&quot;</span><span class="string">should fail when expected message not received</span><span class="punct">&quot;</span> <span class="keyword">do</span>
 <span class="linenum">12</span>    <span class="ident">mock</span> <span class="punct">=</span> <span class="ident">mock</span><span class="punct">(&quot;</span><span class="string">poke me</span><span class="punct">&quot;)</span>
 <span class="offending"><span class="linenum">13</span>    <span class="ident">mock</span><span class="punct">.</span><span class="ident">should_receive</span><span class="punct">(</span><span class="symbol">:poke</span><span class="punct">)</span></span>
@@ -198,14 +213,14 @@ a {
 <span class="linenum">15</span>  </code></pre>
       </div>
     </dd>
-    <script type="text/javascript">moveProgressBar('17.6');</script>
+    <script type="text/javascript">moveProgressBar('23.5');</script>
     <dd class="spec failed">
       <span class="failed_spec_name">should fail when messages are received out of order</span>
-      <div class="failure" id="failure_2">
+      <div class="failure" id="failure_3">
         <div class="message"><pre>Mock 'one two three' received :three out of order</pre></div>
-        <div class="backtrace"><pre><a href="txmt://open?url=file:///Users/aslakhellesoy/scm/rspec/trunk/rspec/failing_examples/mocking_example.rb&line=22">./failing_examples/mocking_example.rb:22</a> 
-<a href="txmt://open?url=file:///Users/aslakhellesoy/scm/rspec/trunk/rspec/spec/spec/runner/formatter/spec_mate_formatter_spec.rb&line=52">./spec/spec/runner/formatter/spec_mate_formatter_spec.rb:52</a> 
-<a href="txmt://open?url=file:///Users/aslakhellesoy/scm/rspec/trunk/rspec/spec/spec/runner/formatter/spec_mate_formatter_spec.rb&line=48">./spec/spec/runner/formatter/spec_mate_formatter_spec.rb:48</a> </pre></div>
+        <div class="backtrace"><pre><a href="txmt://open?url=file:///Users/aslakhellesoy/scm/rspec/trunk/rspec/failing_examples/mocking_example.rb&line=22">./failing_examples/mocking_example.rb:22</a> :in `it - should fail when messages are received out of order'
+<a href="txmt://open?url=file:///Users/aslakhellesoy/scm/rspec/trunk/rspec/spec/spec/runner/formatter/spec_mate_formatter_spec.rb&line=52">./spec/spec/runner/formatter/spec_mate_formatter_spec.rb:52</a> :in `it - generates a new comparison file'
+<a href="txmt://open?url=file:///Users/aslakhellesoy/scm/rspec/trunk/rspec/spec/spec/runner/formatter/spec_mate_formatter_spec.rb&line=48">./spec/spec/runner/formatter/spec_mate_formatter_spec.rb:48</a> :in `it - generates a new comparison file'</pre></div>
     <pre class="ruby"><code><span class="linenum">20</span>    <span class="ident">mock</span><span class="punct">.</span><span class="ident">should_receive</span><span class="punct">(</span><span class="symbol">:three</span><span class="punct">).</span><span class="ident">ordered</span>
 <span class="linenum">21</span>    <span class="ident">mock</span><span class="punct">.</span><span class="ident">one</span>
 <span class="offending"><span class="linenum">22</span>    <span class="ident">mock</span><span class="punct">.</span><span class="ident">three</span></span>
@@ -213,34 +228,19 @@ a {
 <span class="linenum">24</span>  <span class="keyword">end</span></code></pre>
       </div>
     </dd>
-    <script type="text/javascript">moveProgressBar('23.5');</script>
+    <script type="text/javascript">moveProgressBar('29.4');</script>
     <dd class="spec failed">
       <span class="failed_spec_name">should get yelled at when sending unexpected messages</span>
-      <div class="failure" id="failure_3">
+      <div class="failure" id="failure_4">
         <div class="message"><pre>Mock 'don't talk to me' expected :any_message_at_all with (any args) 0 times, but received it once</pre></div>
-        <div class="backtrace"><pre><a href="txmt://open?url=file:///Users/aslakhellesoy/scm/rspec/trunk/rspec/failing_examples/mocking_example.rb&line=28">./failing_examples/mocking_example.rb:28</a> 
-<a href="txmt://open?url=file:///Users/aslakhellesoy/scm/rspec/trunk/rspec/spec/spec/runner/formatter/spec_mate_formatter_spec.rb&line=52">./spec/spec/runner/formatter/spec_mate_formatter_spec.rb:52</a> 
-<a href="txmt://open?url=file:///Users/aslakhellesoy/scm/rspec/trunk/rspec/spec/spec/runner/formatter/spec_mate_formatter_spec.rb&line=48">./spec/spec/runner/formatter/spec_mate_formatter_spec.rb:48</a> </pre></div>
+        <div class="backtrace"><pre><a href="txmt://open?url=file:///Users/aslakhellesoy/scm/rspec/trunk/rspec/failing_examples/mocking_example.rb&line=28">./failing_examples/mocking_example.rb:28</a> :in `it - should get yelled at when sending unexpected messages'
+<a href="txmt://open?url=file:///Users/aslakhellesoy/scm/rspec/trunk/rspec/spec/spec/runner/formatter/spec_mate_formatter_spec.rb&line=52">./spec/spec/runner/formatter/spec_mate_formatter_spec.rb:52</a> :in `it - generates a new comparison file'
+<a href="txmt://open?url=file:///Users/aslakhellesoy/scm/rspec/trunk/rspec/spec/spec/runner/formatter/spec_mate_formatter_spec.rb&line=48">./spec/spec/runner/formatter/spec_mate_formatter_spec.rb:48</a> :in `it - generates a new comparison file'</pre></div>
     <pre class="ruby"><code><span class="linenum">26</span>  <span class="ident">it</span> <span class="punct">&quot;</span><span class="string">should get yelled at when sending unexpected messages</span><span class="punct">&quot;</span> <span class="keyword">do</span>
 <span class="linenum">27</span>    <span class="ident">mock</span> <span class="punct">=</span> <span class="ident">mock</span><span class="punct">(&quot;</span><span class="string">don't talk to me</span><span class="punct">&quot;)</span>
 <span class="offending"><span class="linenum">28</span>    <span class="ident">mock</span><span class="punct">.</span><span class="ident">should_not_receive</span><span class="punct">(</span><span class="symbol">:any_message_at_all</span><span class="punct">)</span></span>
 <span class="linenum">29</span>    <span class="ident">mock</span><span class="punct">.</span><span class="ident">any_message_at_all</span>
 <span class="linenum">30</span>  <span class="keyword">end</span></code></pre>
-      </div>
-    </dd>
-    <script type="text/javascript">moveProgressBar('29.4');</script>
-    <dd class="spec pending_fixed">
-      <span class="failed_spec_name">has a bug we need to fix</span>
-      <div class="failure" id="failure_4">
-        <div class="message"><pre>Expected pending 'here is the bug' to fail. No Error was raised.</pre></div>
-        <div class="backtrace"><pre><a href="txmt://open?url=file:///Users/aslakhellesoy/scm/rspec/trunk/rspec/failing_examples/mocking_example.rb&line=33">./failing_examples/mocking_example.rb:33</a> 
-<a href="txmt://open?url=file:///Users/aslakhellesoy/scm/rspec/trunk/rspec/spec/spec/runner/formatter/spec_mate_formatter_spec.rb&line=52">./spec/spec/runner/formatter/spec_mate_formatter_spec.rb:52</a> 
-<a href="txmt://open?url=file:///Users/aslakhellesoy/scm/rspec/trunk/rspec/spec/spec/runner/formatter/spec_mate_formatter_spec.rb&line=48">./spec/spec/runner/formatter/spec_mate_formatter_spec.rb:48</a> </pre></div>
-    <pre class="ruby"><code><span class="linenum">31</span>
-<span class="linenum">32</span>  <span class="ident">it</span> <span class="punct">&quot;</span><span class="string">has a bug we need to fix</span><span class="punct">&quot;</span> <span class="keyword">do</span>
-<span class="offending"><span class="linenum">33</span>    <span class="ident">pending</span> <span class="punct">&quot;</span><span class="string">here is the bug</span><span class="punct">&quot;</span> <span class="keyword">do</span></span>
-<span class="linenum">34</span>      <span class="comment"># Actually, no. It's fixed. This will fail because it passes :-)</span>
-<span class="linenum">35</span>      <span class="ident">mock</span> <span class="punct">=</span> <span class="ident">mock</span><span class="punct">(&quot;</span><span class="string">Bug</span><span class="punct">&quot;)</span></code></pre>
       </div>
     </dd>
   </dl>
@@ -251,30 +251,8 @@ a {
     <script type="text/javascript">makeRed('behaviour_2');</script>
     <script type="text/javascript">moveProgressBar('35.2');</script>
     <dd class="spec failed">
-      <span class="failed_spec_name">should print diff of different strings</span>
-      <div class="failure" id="failure_5">
-        <div class="message"><pre>expected: &quot;RSpec is a\nbehaviour driven development\nframework for Ruby\n&quot;,
-     got: &quot;RSpec is a\nbehavior driven development\nframework for Ruby\n&quot; (using ==)
-Diff:
-@@ -1,4 +1,4 @@
- RSpec is a
--behavior driven development
-+behaviour driven development
- framework for Ruby
-</pre></div>
-        <div class="backtrace"><pre><a href="txmt://open?url=file:///Users/aslakhellesoy/scm/rspec/trunk/rspec/failing_examples/diffing_spec.rb&line=13">./failing_examples/diffing_spec.rb:13</a> 
-<a href="txmt://open?url=file:///Users/aslakhellesoy/scm/rspec/trunk/rspec/spec/spec/runner/formatter/spec_mate_formatter_spec.rb&line=52">./spec/spec/runner/formatter/spec_mate_formatter_spec.rb:52</a> 
-<a href="txmt://open?url=file:///Users/aslakhellesoy/scm/rspec/trunk/rspec/spec/spec/runner/formatter/spec_mate_formatter_spec.rb&line=48">./spec/spec/runner/formatter/spec_mate_formatter_spec.rb:48</a> </pre></div>
-    <pre class="ruby"><code><span class="linenum">11</span><span class="ident">framework</span> <span class="keyword">for</span> <span class="constant">Ruby</span>
-<span class="linenum">12</span><span class="constant">EOF</span>
-<span class="offending"><span class="linenum">13</span>    <span class="ident">usa</span><span class="punct">.</span><span class="ident">should</span> <span class="punct">==</span> <span class="ident">uk</span></span>
-<span class="linenum">14</span>  <span class="keyword">end</span></code></pre>
-      </div>
-    </dd>
-    <script type="text/javascript">moveProgressBar('41.1');</script>
-    <dd class="spec failed">
       <span class="failed_spec_name">should print diff of different objects' pretty representation</span>
-      <div class="failure" id="failure_6">
+      <div class="failure" id="failure_5">
         <div class="message"><pre>expected &lt;Animal
 name=bob,
 species=tortoise
@@ -292,14 +270,36 @@ Diff:
 +species=tortoise
  &gt;
 </pre></div>
-        <div class="backtrace"><pre><a href="txmt://open?url=file:///Users/aslakhellesoy/scm/rspec/trunk/rspec/failing_examples/diffing_spec.rb&line=34">./failing_examples/diffing_spec.rb:34</a> 
-<a href="txmt://open?url=file:///Users/aslakhellesoy/scm/rspec/trunk/rspec/spec/spec/runner/formatter/spec_mate_formatter_spec.rb&line=52">./spec/spec/runner/formatter/spec_mate_formatter_spec.rb:52</a> 
-<a href="txmt://open?url=file:///Users/aslakhellesoy/scm/rspec/trunk/rspec/spec/spec/runner/formatter/spec_mate_formatter_spec.rb&line=48">./spec/spec/runner/formatter/spec_mate_formatter_spec.rb:48</a> </pre></div>
+        <div class="backtrace"><pre><a href="txmt://open?url=file:///Users/aslakhellesoy/scm/rspec/trunk/rspec/failing_examples/diffing_spec.rb&line=34">./failing_examples/diffing_spec.rb:34</a> :in `it - should print diff of different objects' pretty representation'
+<a href="txmt://open?url=file:///Users/aslakhellesoy/scm/rspec/trunk/rspec/spec/spec/runner/formatter/spec_mate_formatter_spec.rb&line=52">./spec/spec/runner/formatter/spec_mate_formatter_spec.rb:52</a> :in `it - generates a new comparison file'
+<a href="txmt://open?url=file:///Users/aslakhellesoy/scm/rspec/trunk/rspec/spec/spec/runner/formatter/spec_mate_formatter_spec.rb&line=48">./spec/spec/runner/formatter/spec_mate_formatter_spec.rb:48</a> :in `it - generates a new comparison file'</pre></div>
     <pre class="ruby"><code><span class="linenum">32</span>    <span class="ident">expected</span> <span class="punct">=</span> <span class="constant">Animal</span><span class="punct">.</span><span class="ident">new</span> <span class="punct">&quot;</span><span class="string">bob</span><span class="punct">&quot;,</span> <span class="punct">&quot;</span><span class="string">giraffe</span><span class="punct">&quot;</span>
 <span class="linenum">33</span>    <span class="ident">actual</span>   <span class="punct">=</span> <span class="constant">Animal</span><span class="punct">.</span><span class="ident">new</span> <span class="punct">&quot;</span><span class="string">bob</span><span class="punct">&quot;,</span> <span class="punct">&quot;</span><span class="string">tortoise</span><span class="punct">&quot;</span>
 <span class="offending"><span class="linenum">34</span>    <span class="ident">expected</span><span class="punct">.</span><span class="ident">should</span> <span class="ident">eql</span><span class="punct">(</span><span class="ident">actual</span><span class="punct">)</span></span>
 <span class="linenum">35</span>  <span class="keyword">end</span>
 <span class="linenum">36</span><span class="keyword">end</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('41.1');</script>
+    <dd class="spec failed">
+      <span class="failed_spec_name">should print diff of different strings</span>
+      <div class="failure" id="failure_6">
+        <div class="message"><pre>expected: &quot;RSpec is a\nbehaviour driven development\nframework for Ruby\n&quot;,
+     got: &quot;RSpec is a\nbehavior driven development\nframework for Ruby\n&quot; (using ==)
+Diff:
+@@ -1,4 +1,4 @@
+ RSpec is a
+-behavior driven development
++behaviour driven development
+ framework for Ruby
+</pre></div>
+        <div class="backtrace"><pre><a href="txmt://open?url=file:///Users/aslakhellesoy/scm/rspec/trunk/rspec/failing_examples/diffing_spec.rb&line=13">./failing_examples/diffing_spec.rb:13</a> :in `it - should print diff of different strings'
+<a href="txmt://open?url=file:///Users/aslakhellesoy/scm/rspec/trunk/rspec/spec/spec/runner/formatter/spec_mate_formatter_spec.rb&line=52">./spec/spec/runner/formatter/spec_mate_formatter_spec.rb:52</a> :in `it - generates a new comparison file'
+<a href="txmt://open?url=file:///Users/aslakhellesoy/scm/rspec/trunk/rspec/spec/spec/runner/formatter/spec_mate_formatter_spec.rb&line=48">./spec/spec/runner/formatter/spec_mate_formatter_spec.rb:48</a> :in `it - generates a new comparison file'</pre></div>
+    <pre class="ruby"><code><span class="linenum">11</span><span class="ident">framework</span> <span class="keyword">for</span> <span class="constant">Ruby</span>
+<span class="linenum">12</span><span class="constant">EOF</span>
+<span class="offending"><span class="linenum">13</span>    <span class="ident">usa</span><span class="punct">.</span><span class="ident">should</span> <span class="punct">==</span> <span class="ident">uk</span></span>
+<span class="linenum">14</span>  <span class="keyword">end</span></code></pre>
       </div>
     </dd>
   </dl>
@@ -315,11 +315,11 @@ Diff:
   <dl>
   <dt id="behaviour_4">A stubbed method on a class</dt>
     <script type="text/javascript">moveProgressBar('52.9');</script>
-    <dd class="spec passed"><span class="passed_spec_name">should return the stubbed value</span></dd>
-    <script type="text/javascript">moveProgressBar('58.8');</script>
-    <dd class="spec passed"><span class="passed_spec_name">should revert to the original method after each spec</span></dd>
-    <script type="text/javascript">moveProgressBar('64.7');</script>
     <dd class="spec passed"><span class="passed_spec_name">can stub! and mock the same message</span></dd>
+    <script type="text/javascript">moveProgressBar('58.8');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should return the stubbed value</span></dd>
+    <script type="text/javascript">moveProgressBar('64.7');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should revert to the original method after each spec</span></dd>
   </dl>
 </div>
 <div class="behaviour">

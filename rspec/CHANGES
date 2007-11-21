@@ -13,6 +13,7 @@ CMD-R runs all the specs in one file
 CMD-SHIFT-R runs an individual spec
 CMD-OPT-R runs any files or directories selected in the TextMate drawer
 
+* RSpec now bails immediately if there are examples with identical names.
 * Applied LH[#132]  Plain Text stories should support Given and Given: (Patch from Jarkko Laine)
 * Applied LH[#16] Have SimpleMatchers expose their description for specdocs (Patch from Bryan Helmkamp)
 * Stories now support --colour

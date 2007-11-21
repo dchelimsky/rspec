@@ -34,6 +34,11 @@ module Spec
             @reporter.story_ended('story_title', 'narrative')
             @reporter.run_ended
           end
+          
+          it "should create spans for params" do
+            @reporter.step_succeeded('given', 'a $coloured $animal', 'brown', 'dog')
+            @out.string.should == "                <li class=\"passed\">a <span class=\"param\">brown</span> <span class=\"param\">dog</span></li>\n"
+          end
         end
       end
     end

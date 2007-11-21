@@ -232,7 +232,7 @@ describe "OptionParser" do
     @err.string.should match(/You must specify one file, not a directory when using the --line option/n)
   end
 
-  it "should fail with error message if file is dir along with --line" do
+  it "should fail with error message if file does not exist along with --line" do
     spec_parser = mock("spec_parser")
     @parser.instance_variable_set('@spec_parser', spec_parser)
 
