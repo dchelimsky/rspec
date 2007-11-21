@@ -13,6 +13,7 @@ CMD-R runs all the specs in one file
 CMD-SHIFT-R runs an individual spec
 CMD-OPT-R runs any files or directories selected in the TextMate drawer
 
+* Applied LH[#16] Have SimpleMatchers expose their description for specdocs (Patch from Bryan Helmkamp)
 * Stories now support --colour
 * Changed the DSL modules to Example (i.e. Spec::Example instead of Spec::DSL)
 * Applied [#15608] Story problem if parenthesis used in Given, When, Then or And (Patch from Sinclair Bain)

@@ -1,6 +1,8 @@
 module Spec
   module Matchers
     class SimpleMatcher
+      attr_reader :description
+      
       def initialize(description, &match_block)
         @description = description
         @match_block = match_block
