@@ -23,9 +23,6 @@ module Spec
           @state.eof
         end
         
-        MARKERS = {
-        }
-        
         def process_line(line)
           line.strip!
           case line

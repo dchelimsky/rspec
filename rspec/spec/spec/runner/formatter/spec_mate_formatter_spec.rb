@@ -39,27 +39,27 @@ module Spec
         end
       end
 
-#      # Uncomment this spec temporarily in order to overwrite the expected with actual.
-#      # Use with care!!!
-#      describe TextMateFormatter, "functional spec file generator" do
-#        it_should_behave_like "Spec::Runner::Formatter::TextMateFormatter functional spec"
-#
-#        it "generates a new comparison file" do
-#          Dir.chdir(root) do
-#            args = ['failing_examples/mocking_example.rb', 'failing_examples/diffing_spec.rb', 'examples/stubbing_example.rb',  'examples/pending_example.rb', '--format', 'textmate', '--diff']
-#            err = StringIO.new
-#            out = StringIO.new
-#            Spec::Runner::CommandLine.run(
-#              ::Spec::Runner::OptionParser.parse(args, err, out)
-#            )
-#
-#            seconds = /\d+\.\d+ seconds/
-#            html = out.string.gsub seconds, 'x seconds'
-#
-#            File.open(expected_file, 'w') {|io| io.write(html)}
-#          end
-#        end
-#      end
+     # # Uncomment this spec temporarily in order to overwrite the expected with actual.
+     # # Use with care!!!
+     # describe TextMateFormatter, "functional spec file generator" do
+     #   it_should_behave_like "Spec::Runner::Formatter::TextMateFormatter functional spec"
+     # 
+     #   it "generates a new comparison file" do
+     #     Dir.chdir(root) do
+     #       args = ['failing_examples/mocking_example.rb', 'failing_examples/diffing_spec.rb', 'examples/pure/stubbing_example.rb',  'examples/pure/pending_example.rb', '--format', 'textmate', '--diff']
+     #       err = StringIO.new
+     #       out = StringIO.new
+     #       Spec::Runner::CommandLine.run(
+     #         ::Spec::Runner::OptionParser.parse(args, err, out)
+     #       )
+     # 
+     #       seconds = /\d+\.\d+ seconds/
+     #       html = out.string.gsub seconds, 'x seconds'
+     # 
+     #       File.open(expected_file, 'w') {|io| io.write(html)}
+     #     end
+     #   end
+     # end
 
       describe TextMateFormatter, "functional spec using --diff" do
         it_should_behave_like "Spec::Runner::Formatter::TextMateFormatter functional spec"

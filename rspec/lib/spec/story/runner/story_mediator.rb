@@ -92,7 +92,7 @@
             steps = @steps.collect { |step| step.to_proc }
             lambda do
               Scenario name do
-                steps.each { |scenario| instance_eval(&scenario) }
+                steps.each { |step| instance_eval(&step) }
               end
             end
           end

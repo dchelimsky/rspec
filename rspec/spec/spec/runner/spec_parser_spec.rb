@@ -113,11 +113,11 @@ describe "SpecParser" do
     @p.spec_name_for(File.open(__FILE__), 43).should == "SpecParserSubject described 7"
   end
   
-  it "should find context and described for type with modifications" do
+  it "should find example group" do
     @p.spec_name_for(File.open(__FILE__), 47).should == "described"
   end
   
-  it "should find context and described for type with modifications" do
+  it "should find example" do
     @p.spec_name_for(File.open(__FILE__), 50).should == "described 8"
   end
   

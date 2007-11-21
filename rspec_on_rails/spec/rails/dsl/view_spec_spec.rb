@@ -140,7 +140,7 @@ describe "A view that includes a partial using :collection and :spacer_template"
     response.should have_tag('hr#spacer')
   end
 
-  it "should render the partial w/ spacer_tamplate" do
+  it "should render the partial" do
     template.expect_render(:partial => 'partial',
                :collection => ['Alice', 'Bob'],
                :spacer_template => 'spacer')

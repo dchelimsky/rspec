@@ -374,7 +374,7 @@ module Spec
         spec_ran.should be_false
       end
 
-      it "should run after(:all)" do
+      it "should run ExampleGroup after(:all)" do
         after_all_ran = false
         ExampleGroup.after(:all) { after_all_ran = true }
         suite = @behaviour.suite
@@ -382,15 +382,7 @@ module Spec
         after_all_ran.should be_true
       end
 
-      it "should not run any example" do
-        spec_ran = false
-        @behaviour.it("test") {spec_ran = true}
-        suite = @behaviour.suite
-        suite.run
-        spec_ran.should be_false
-      end
-
-      it "should run after(:all)" do
+      it "should run behaviour after(:all)" do
         after_all_ran = false
         @behaviour.after(:all) { after_all_ran = true }
         suite = @behaviour.suite

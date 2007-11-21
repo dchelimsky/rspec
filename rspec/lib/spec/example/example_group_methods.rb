@@ -93,6 +93,7 @@ module Spec
       def it(description=:__generate_docstring, &block)
         block ||= Example::PENDING_EXAMPLE_BLOCK
         method_name = "it - #{description}"
+        raise "Duplicate example: '#{description}'" if description != :__generate_docstring && method_defined?(method_name)
         define_method(method_name, &block)
         Example.new(description, method_name)
       end

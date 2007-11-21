@@ -250,7 +250,7 @@ describe "have(n).items where target IS a collection" do
     [1,2,3].should have(3).items
   end
 
-  it "should reference the number of items IN the collection" do
+  it "should fail when the number of items IN the collection is not as expected" do
     lambda { [1,2,3].should have(7).items }.should fail_with("expected 7 items, got 3")
   end
 end
