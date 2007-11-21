@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 
 module Spec
   module Example
-    describe ExampleGroup, :shared => true do
+    describe ExampleGroup do
       before :all do
         @original_rspec_options = $rspec_options
       end
@@ -28,245 +28,240 @@ module Spec
         $rspec_options = @original_rspec_options
         ExampleGroup.reset!
       end
-    end
 
-    describe ExampleGroup, ".describe" do
-      it_should_behave_like "Spec::Example::ExampleGroup"
-      
-      it "should create a subclass of the ExampleGroup when passed a block" do
-        child_example_group = @example_group.describe("Another ExampleGroup") do
-          it "should pass" do
-            true.should be_true
+      describe ExampleGroup, ".describe" do
+        it "should create a subclass of the ExampleGroup when passed a block" do
+          child_example_group = @example_group.describe("Another ExampleGroup") do
+            it "should pass" do
+              true.should be_true
+            end
           end
+          child_example_group.superclass.should == @example_group
+          child_example_group.examples.length.should == 2
+          @options.example_groups.should include(child_example_group)
         end
-        child_example_group.superclass.should == @example_group
-        child_example_group.examples.length.should == 2
-        @options.example_groups.should include(child_example_group)
-      end
-    end
-    
-    describe ExampleGroup, ".it" do
-      it_should_behave_like "Spec::Example::ExampleGroup"
-
-      it "should should create an example instance" do
-        lambda {
-          @example_group.it("")
-        }.should change { @example_group.examples.length }.by(1)
-      end
-    end
-
-    describe ExampleGroup, ".xit" do
-      it_should_behave_like "Spec::Example::ExampleGroup"
-      
-      before(:each) do
-        Kernel.stub!(:warn)
-      end
-      
-      it "should NOT  should create an example instance" do
-        lambda {
-          @example_group.xit("")
-        }.should_not change(@example_group.examples, :length)
-      end
-      
-      it "should warn that it is disabled" do
-        Kernel.should_receive(:warn).with("Example disabled: foo")
-        @example_group.xit("foo")
-      end
-    end
-
-    describe ExampleGroup, ".suite" do
-      it_should_behave_like "Spec::Example::ExampleGroup"
-
-      it "should return an empty ExampleSuite when there is no description" do
-        ExampleGroup.description.should be_nil
-        ExampleGroup.suite.should be_instance_of(ExampleSuite)
-        ExampleGroup.suite.tests.should be_empty
       end
 
-      it "should return an ExampleSuite with Examples" do
-        behaviour = Class.new(ExampleGroup) do
-          describe('example')
-          it "should pass" do
-            1.should == 1
-          end
+      describe ExampleGroup, ".it" do
+        it "should should create an example instance" do
+          lambda {
+            @example_group.it("")
+          }.should change { @example_group.examples.length }.by(1)
         end
-        suite = behaviour.suite
-        suite.tests.length.should == 1
-        suite.tests.first._example.description.should == "should pass"
       end
 
-      it "should include methods that begin with test and has an arity of 0 in suite" do
-        behaviour = Class.new(ExampleGroup) do
-          describe('example')
-          def test_any_args(*args)
-            true.should be_true
-          end
-          def test_something
-            1.should == 1
-          end
-          def test
-            raise "This is not a real test"
-          end
-          def testify
-            raise "This is not a real test"
-          end
+      describe ExampleGroup, ".xit" do
+        before(:each) do
+          Kernel.stub!(:warn)
         end
-        suite = behaviour.suite
-        suite.tests.length.should == 2
-        descriptions = suite.tests.collect {|test| test._example.description}.sort
-        descriptions.should == ["test_any_args", "test_something"]
-        suite.run.should be_true
-      end
 
-      it "should include methods that begin with should and has an arity of 0 in suite" do
-        behaviour = Class.new(ExampleGroup) do
-          describe('example')
-          def shouldCamelCase
-            true.should be_true
-          end
-          def should_any_args(*args)
-            true.should be_true
-          end
-          def should_something
-            1.should == 1
-          end
-          def should_not_something
-            1.should_not == 2
-          end
-          def should
-            raise "This is not a real example"
-          end
-          def should_not
-            raise "This is not a real example"
-          end
+        it "should NOT  should create an example instance" do
+          lambda {
+            @example_group.xit("")
+          }.should_not change(@example_group.examples, :length)
         end
-        behaviour = behaviour.dup
-        suite = behaviour.suite
-        suite.tests.length.should == 4
-        descriptions = suite.tests.collect {|test| test._example.description}.sort
-        descriptions.should include("shouldCamelCase")
-        descriptions.should include("should_any_args")
-        descriptions.should include("should_something")
-        descriptions.should include("should_not_something")
-      end
 
-      it "should not include methods that begin with test_ and has an arity > 0 in suite" do
-        behaviour = Class.new(ExampleGroup) do
-          describe('example')
-          def test_invalid(foo)
-            1.should == 1
-          end
-          def testInvalidCamelCase(foo)
-            1.should == 1
-          end
+        it "should warn that it is disabled" do
+          Kernel.should_receive(:warn).with("Example disabled: foo")
+          @example_group.xit("foo")
         end
-        suite = behaviour.suite
-        suite.tests.length.should == 0
       end
 
-      it "should not include methods that begin with should_ and has an arity > 0 in suite" do
-        behaviour = Class.new(ExampleGroup) do
-          describe('example')
-          def should_invalid(foo)
-            1.should == 1
-          end
-          def shouldInvalidCamelCase(foo)
-            1.should == 1
-          end
-          def should_not_invalid(foo)
-            1.should == 1
-          end
+      describe ExampleGroup, ".suite" do
+        it "should return an empty ExampleSuite when there is no description" do
+          ExampleGroup.description.should be_nil
+          ExampleGroup.suite.should be_instance_of(ExampleSuite)
+          ExampleGroup.suite.tests.should be_empty
         end
-        suite = behaviour.suite
-        suite.tests.length.should == 0
+
+        it "should return an ExampleSuite with Examples" do
+          behaviour = Class.new(ExampleGroup) do
+            describe('example')
+            it "should pass" do
+              1.should == 1
+            end
+          end
+          suite = behaviour.suite
+          suite.tests.length.should == 1
+          suite.tests.first._example.description.should == "should pass"
+        end
+
+        it "should include methods that begin with test and has an arity of 0 in suite" do
+          behaviour = Class.new(ExampleGroup) do
+            describe('example')
+            def test_any_args(*args)
+              true.should be_true
+            end
+            def test_something
+              1.should == 1
+            end
+            def test
+              raise "This is not a real test"
+            end
+            def testify
+              raise "This is not a real test"
+            end
+          end
+          suite = behaviour.suite
+          suite.tests.length.should == 2
+          descriptions = suite.tests.collect {|test| test._example.description}.sort
+          descriptions.should == ["test_any_args", "test_something"]
+          suite.run.should be_true
+        end
+
+        it "should include methods that begin with should and has an arity of 0 in suite" do
+          behaviour = Class.new(ExampleGroup) do
+            describe('example')
+            def shouldCamelCase
+              true.should be_true
+            end
+            def should_any_args(*args)
+              true.should be_true
+            end
+            def should_something
+              1.should == 1
+            end
+            def should_not_something
+              1.should_not == 2
+            end
+            def should
+              raise "This is not a real example"
+            end
+            def should_not
+              raise "This is not a real example"
+            end
+          end
+          behaviour = behaviour.dup
+          suite = behaviour.suite
+          suite.tests.length.should == 4
+          descriptions = suite.tests.collect {|test| test._example.description}.sort
+          descriptions.should include("shouldCamelCase")
+          descriptions.should include("should_any_args")
+          descriptions.should include("should_something")
+          descriptions.should include("should_not_something")
+        end
+
+        it "should not include methods that begin with test_ and has an arity > 0 in suite" do
+          behaviour = Class.new(ExampleGroup) do
+            describe('example')
+            def test_invalid(foo)
+              1.should == 1
+            end
+            def testInvalidCamelCase(foo)
+              1.should == 1
+            end
+          end
+          suite = behaviour.suite
+          suite.tests.length.should == 0
+        end
+
+        it "should not include methods that begin with should_ and has an arity > 0 in suite" do
+          behaviour = Class.new(ExampleGroup) do
+            describe('example')
+            def should_invalid(foo)
+              1.should == 1
+            end
+            def shouldInvalidCamelCase(foo)
+              1.should == 1
+            end
+            def should_not_invalid(foo)
+              1.should == 1
+            end
+          end
+          suite = behaviour.suite
+          suite.tests.length.should == 0
+        end
       end
-    end
 
-    describe ExampleGroup, ".description" do
-      it_should_behave_like "Spec::Example::ExampleGroup"
-
-      it "should return the same description instance for each call" do
-        @example_group.description.should eql(@example_group.description)
+      describe ExampleGroup, ".description" do
+        it "should return the same description instance for each call" do
+          @example_group.description.should eql(@example_group.description)
+        end
       end
-    end
 
-    describe ExampleGroup, ".run" do
-      it_should_behave_like "Spec::Example::ExampleGroup"
-    end
-    
-    describe ExampleGroup, ".remove_after" do
-      it_should_behave_like "Spec::Example::ExampleGroup"
+      describe ExampleGroup, ".remove_after" do
+        it "should unregister a given after(:each) block" do
+          after_all_ran = false
+          @example_group.it("example") {}
+          proc = Proc.new { after_all_ran = true }
+          ExampleGroup.after(:each, &proc)
+          suite = @example_group.suite
+          suite.run
+          after_all_ran.should be_true
 
-      it "should unregister a given after(:each) block" do
-        after_all_ran = false
-        @example_group.it("example") {}
-        proc = Proc.new { after_all_ran = true }
-        ExampleGroup.after(:each, &proc)
-        suite = @example_group.suite
-        suite.run
-        after_all_ran.should be_true
-
-        after_all_ran = false
-        ExampleGroup.remove_after(:each, &proc)
-        suite = @example_group.suite
-        suite.run
-        after_all_ran.should be_false
+          after_all_ran = false
+          ExampleGroup.remove_after(:each, &proc)
+          suite = @example_group.suite
+          suite.run
+          after_all_ran.should be_false
+        end
       end
-    end
 
-    describe ExampleGroup, ".include" do
-      it_should_behave_like "Spec::Example::ExampleGroup"
+      describe ExampleGroup, ".include" do
+        it "should have accessible class methods from included module" do
+          mod1_method_called = false
+          mod1 = Module.new do
+            class_methods = Module.new do
+              define_method :mod1_method do
+                mod1_method_called = true
+              end
+            end
 
-      it "should have accessible class methods from included module" do
-        mod1_method_called = false
-        mod1 = Module.new do
-          class_methods = Module.new do
-            define_method :mod1_method do
-              mod1_method_called = true
+            metaclass.class_eval do
+              define_method(:included) do |receiver|
+                receiver.extend class_methods
+              end
             end
           end
 
-          metaclass.class_eval do
-            define_method(:included) do |receiver|
-              receiver.extend class_methods
+          mod2_method_called = false
+          mod2 = Module.new do
+            class_methods = Module.new do
+              define_method :mod2_method do
+                mod2_method_called = true
+              end
+            end
+
+            metaclass.class_eval do
+              define_method(:included) do |receiver|
+                receiver.extend class_methods
+              end
             end
           end
+
+          @example_group.include mod1, mod2
+
+          @example_group.mod1_method
+          @example_group.mod2_method
+          mod1_method_called.should be_true
+          mod2_method_called.should be_true
         end
-
-        mod2_method_called = false
-        mod2 = Module.new do
-          class_methods = Module.new do
-            define_method :mod2_method do
-              mod2_method_called = true
-            end
-          end
-
-          metaclass.class_eval do
-            define_method(:included) do |receiver|
-              receiver.extend class_methods
-            end
-          end
-        end
-
-        @example_group.include mod1, mod2
-
-        @example_group.mod1_method
-        @example_group.mod2_method
-        mod1_method_called.should be_true
-        mod2_method_called.should be_true
       end
-    end
 
-    describe ExampleGroup, ".number_of_examples" do
-      it_should_behave_like "Spec::Example::ExampleGroup"
+      describe ExampleGroup, ".number_of_examples" do
+        it "should count number of specs" do
+          proc do
+            @example_group.it("one") {}
+            @example_group.it("two") {}
+            @example_group.it("three") {}
+            @example_group.it("four") {}
+          end.should change {@example_group.number_of_examples}.by(4)
+        end
+      end
 
-      it "should count number of specs" do
-        proc do
-          @example_group.it("one") {}
-          @example_group.it("two") {}
-          @example_group.it("three") {}
-          @example_group.it("four") {}
-        end.should change {@example_group.number_of_examples}.by(4)
+      describe ExampleGroup, ".class_eval" do
+        it "should allow constants to be defined" do
+          behaviour = Class.new(ExampleGroup) do
+            describe('example')
+            FOO = 1
+            it "should reference FOO" do
+              FOO.should == 1
+            end
+          end
+          suite = behaviour.suite
+          suite.run
+          Object.const_defined?(:FOO).should == false
+        end
       end
     end
 
@@ -290,7 +285,7 @@ module Spec
 
       it "should allow class variables to be defined" do
         @@foo.should == 1
-      end      
+      end
     end
 
     class ExampleClassVariablePollutionSpec < ExampleGroup
@@ -300,23 +295,6 @@ module Spec
         proc do
           @@foo
         end.should raise_error
-      end
-    end
-
-    describe ExampleGroup, ".class_eval" do
-      it_should_behave_like "Spec::Example::ExampleGroup"
-
-      it "should allow constants to be defined" do
-        behaviour = Class.new(ExampleGroup) do
-          describe('example')
-          FOO = 1
-          it "should reference FOO" do
-            FOO.should == 1
-          end
-        end
-        suite = behaviour.suite
-        suite.run
-        Object.const_defined?(:FOO).should == false
       end
     end
 
@@ -393,7 +371,7 @@ module Spec
         block_ran.should == true
       end
     end
-    
+
     describe ExampleGroup, "#run" do
       before do
         @options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
@@ -417,7 +395,7 @@ module Spec
         suite.run
       end
     end
-    
+
     class ExampleSubclass < ExampleGroup
     end
 
