@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 
 module Spec
   module Example
-    describe "ExampleMethods" do
+    describe ExampleMethods do
       before do
         @options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
         @options.formatters << mock("formatter", :null_object => true)
