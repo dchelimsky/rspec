@@ -21,6 +21,11 @@ module Spec
         matcher.matches?("other")
         matcher.negative_failure_message.should =~ /expected not to get \"thing\", but got \"other\"/
       end
+      
+      it "should provide a description" do
+        matcher = simple_matcher("thing") do end
+        matcher.description.should =="thing"
+      end
     end
   end
 end
