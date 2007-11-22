@@ -2,23 +2,15 @@ module Spec
   module Example
     class SharedExampleGroup < Module
       class << self
-        def add_shared_example_group(example_group)
-          found_example_group = find_shared_example_group(example_group.description)
-          return if example_group.equal?(found_example_group)
-          if(
-            found_example_group and
-            File.expand_path(example_group.description[:spec_path]) == File.expand_path(found_example_group.description[:spec_path])
-          )
-            return
-          end
-          if found_example_group
-            raise ArgumentError.new("Shared Example '#{example_group.description}' already exists")
-          end
-          shared_example_groups << example_group
+        def add_shared_example_group(new_example_group)
+          guard_against_redefining_existing_example_group(new_example_group)
+          shared_example_groups << new_example_group
         end
 
         def find_shared_example_group(example_group_description)
-          shared_example_groups.find { |b| b.description == example_group_description }
+          shared_example_groups.find do |b|
+            b.description == example_group_description
+          end
         end
 
         def shared_example_groups
@@ -26,6 +18,19 @@ module Spec
           # from subclasses of Example in a centralized place. I'm not loving
           # this as a solution, but it works for now.
           $shared_example_groups ||= []
+        end
+
+        private
+        def guard_against_redefining_existing_example_group(new_example_group)
+          found_example_group = find_shared_example_group(new_example_group.description)
+          return unless found_example_group
+          return if new_example_group.equal?(found_example_group)
+          return if spec_path(new_example_group) == spec_path(found_example_group)
+          raise ArgumentError.new("Shared Example '#{new_example_group.description}' already exists")
+        end
+
+        def spec_path(example_group)
+          File.expand_path(example_group.description[:spec_path])
         end
       end
       include ExampleGroupMethods
