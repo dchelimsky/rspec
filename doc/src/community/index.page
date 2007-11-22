@@ -172,6 +172,8 @@ In alphabetical order (by last name)
 ** Spec::Rails patches for partials
 * James Mead
 ** Modified mocha to allow for its use outside of test/unit
+* Saimon Moore
+** Patch LH[#14] Adding support for by_at_least/by_at_most in Change matcher.
 * Curtis Miller
 ** [#13336] Helper directory incorrect for rake stats in statsetup task
 * Kyosuke MOROHASHI

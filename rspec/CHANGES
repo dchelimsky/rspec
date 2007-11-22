@@ -15,6 +15,7 @@ CMD-OPT-R runs any files or directories selected in the TextMate drawer
 
 rspec_on_rails users - don't forget to run script/generate rspec
 
+* Applied LH[#14] Adding support for by_at_least/by_at_most in Change matcher (Patch from Saimon Moore)
 * Applied LH[#12] Fix for TM when switching to alternate file (Patch from Trevor Squires)
 * Applied LH[#133] ExampleMatcher should match against before(:all) (Patch from Bob Cotton)
 * Applied LH[#134] Only load spec inside spec_helper.rb (Patch from Mark Van Holstyn)
