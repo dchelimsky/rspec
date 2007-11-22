@@ -200,6 +200,8 @@ In alphabetical order (by last name)
 ** Spec::Rails patches for spec_server
 * Nathan Sobo
 ** Specmate + drb fix
+* Trevor Squires
+** Patch LH[#12] Fix for TM when switching to alternate file
 * Nathan Sutton
 ** Patch [#15659] GivenScenario fails when it is a RailsStory
 * Kouhei Sutou
