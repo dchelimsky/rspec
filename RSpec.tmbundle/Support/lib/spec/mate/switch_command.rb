@@ -63,7 +63,7 @@ module Spec
 
       def content_for(file_type, relative_path)
         case file_type
-          when 'spec' then
+          when /spec$/ then
             spec(relative_path)
           else
             klass(relative_path)

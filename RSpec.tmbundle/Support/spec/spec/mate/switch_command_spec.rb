@@ -11,13 +11,13 @@ module Spec
       def matches?(actual)
         @actual = actual
         # Satisfy expectation here. Return false or raise an error if it's not met.
-        c = SwitchCommand.new
-        c.stub!(:rails?).and_return(@rails)
+        command = SwitchCommand.new
+        command.stub!(:rails?).and_return(@rails)
 
-        path = c.twin(@actual)
+        path = command.twin(@actual)
         path.should == @expected
 
-        path = c.twin(@expected)
+        path = command.twin(@expected)
         path.should == @actual
         true
       end
@@ -170,7 +170,7 @@ EOF
       end
 
       it "should create spec that requires a helper" do
-        SwitchCommand.new.content_for('spec', "spec/controllers/mooky_controller_spec.rb").split("\n")[0].should == 
+        SwitchCommand.new.content_for('controller spec', "spec/controllers/mooky_controller_spec.rb").split("\n")[0].should == 
           "require File.dirname(__FILE__) + '/../spec_helper'"
       end
     end
