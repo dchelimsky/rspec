@@ -14,7 +14,7 @@ module Spec
       end
       
       def run
-        instance_eval(&_example.implementation)
+        _example.run_in(self)
       end
       
       def description
