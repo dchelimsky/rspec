@@ -22,11 +22,11 @@ module Spec
 
         private
         def guard_against_redefining_existing_example_group(new_example_group)
-          found_example_group = find_shared_example_group(new_example_group.description)
-          return unless found_example_group
-          return if new_example_group.equal?(found_example_group)
-          return if spec_path(new_example_group) == spec_path(found_example_group)
-          raise ArgumentError.new("Shared Example '#{new_example_group.description}' already exists")
+          existing_example_group = find_shared_example_group(new_example_group.description)
+          return unless existing_example_group
+          return if new_example_group.equal?(existing_example_group)
+          return if spec_path(new_example_group) == spec_path(existing_example_group)
+          raise ArgumentError.new("Shared Example '#{existing_example_group.description}' already exists")
         end
 
         def spec_path(example_group)
