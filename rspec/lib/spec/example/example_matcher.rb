@@ -15,7 +15,7 @@ module Spec
       
       protected
       def matches_literal_example?(specified_example)
-        specified_example =~ /(^#{behaviour_regexp} #{example_regexp}$|^#{behaviour_regexp}$|^#{example_regexp}$)/
+        specified_example =~ /(^#{behaviour_regexp} #{example_regexp}$|^#{behaviour_regexp}$|^#{behaviour_with_before_all_regexp}$|^#{example_regexp}$)/
       end
 
       def matches_example_not_considering_modules?(specified_example)
@@ -24,6 +24,10 @@ module Spec
 
       def behaviour_regexp
         Regexp.escape(@example_group_name)
+      end
+
+      def behaviour_with_before_all_regexp
+        Regexp.escape("#{@example_group_name} before(:all)")
       end
 
       def behaviour_regexp_not_considering_modules
