@@ -39,6 +39,10 @@ module Spec
         def use(steps)
           step_mother.use(steps)
         end
+        
+        def step_names
+          @step_names ||= []
+        end
 
         def run_given_scenario_with_suspended_listeners(world, type, name, scenario)
           current_listeners = Array.new(listeners)
@@ -56,6 +60,11 @@ module Spec
             step_mother.store(type, Step.new(name, &block))
           end
           step = step_mother.find(type, name)
+          step_name = step.name
+          
+          step_names
+          step_names << "#{type.to_s.capitalize} #{step_name}"
+          
           # It's important to have access to the parsed args here, so
           # we can give them to the listeners. The HTML reporter needs
           # the args so it can style them. See the generated output in
@@ -63,13 +72,13 @@ module Spec
           args = step.parse_args(name) if args.empty?
           begin
             step.perform(world, *args) unless ::Spec::Story::Runner.dry_run
-            listeners.each { |l| l.step_succeeded(type, step.name, *args) }
+            listeners.each { |l| l.step_succeeded(type, step_name, *args) }
           rescue Exception => e
             case e
             when Spec::Example::ExamplePendingError
-              @listeners.each { |l| l.step_pending(type, step.name, *args) }
+              @listeners.each { |l| l.step_pending(type, step_name, *args) }
             else
-              @listeners.each { |l| l.step_failed(type, step.name, *args) }
+              @listeners.each { |l| l.step_failed(type, step_name, *args) }
             end
             errors << e
           end

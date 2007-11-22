@@ -88,6 +88,9 @@ module Spec
             @output.print red(@scenario_ok ? " (FAILED)" : " (SKIPPED)")
             @scenario_ok = false
           end
+          
+          def collected_steps(steps)
+          end
 
         private
 
@@ -106,10 +109,6 @@ module Spec
             else
               @previous_type = type
             end
-          end
-
-          def method_missing(meth, *args, &block)
-            # ignore unexpected callbacks
           end
         end
       end

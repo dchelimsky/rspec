@@ -28,6 +28,17 @@ module Spec
     <div id="container">
 EOF
           end
+
+          def collected_steps(steps)
+            unless steps.empty?
+              @output.puts "      <ul id=\"stock_steps\" style=\"display: none;\">"
+              steps.each do |step|
+                @output.puts "        <li>#{step}</li>"
+              end
+              @output.puts "      </ul>"
+            end
+          end
+
           def run_ended
             @output.puts <<-EOF
     </div>

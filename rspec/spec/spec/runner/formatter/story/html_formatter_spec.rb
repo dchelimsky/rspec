@@ -39,6 +39,16 @@ module Spec
             @reporter.step_succeeded('given', 'a $coloured $animal', 'brown', 'dog')
             @out.string.should == "                <li class=\"passed\">a <span class=\"param\">brown</span> <span class=\"param\">dog</span></li>\n"
           end
+          
+          it "should create a ul for collected_steps" do
+            @reporter.collected_steps(['Given a $coloured $animal', 'Given a $n legged eel'])
+            @out.string.should == (<<-EOF)
+      <ul id="stock_steps" style="display: none;">
+        <li>Given a $coloured $animal</li>
+        <li>Given a $n legged eel</li>
+      </ul>
+EOF
+          end
         end
       end
     end

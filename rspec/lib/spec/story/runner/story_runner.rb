@@ -49,6 +49,8 @@ module Spec
             end
             @listeners.each { |l| l.story_ended(story.title, story.narrative) }
           end
+          unique_steps = World.step_names.uniq.sort
+          @listeners.each { |l| l.collected_steps(unique_steps) }
           @listeners.each { |l| l.run_ended }
         end
         
