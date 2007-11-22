@@ -8,3 +8,7 @@ require 'spec/extensions/test/unit/autorunner'
 require 'spec/extensions/test/unit/rspectestresult'
 require 'spec/extensions/test/unit/ui/testrunnermediator'
 require 'spec/extensions/test/unit/ui/console/testrunner'
+
+Spec::Example::ExampleGroupFactory.register(
+  :default, Test::Unit::TestCase::ExampleGroup
+)
