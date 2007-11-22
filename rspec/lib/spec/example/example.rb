@@ -5,11 +5,11 @@ module Spec
         raise Spec::Example::ExamplePendingError.new("Not Yet Implemented")
       }
       attr_accessor :description
-      attr_reader :from, :method_name
+      attr_reader :from, :implementation
 
-      def initialize(description, method_name)
+      def initialize(description, &implementation)
         @from = caller(0)[3]
-        @method_name = method_name
+        @implementation = implementation
         @description = description
       end
       

@@ -179,29 +179,16 @@ a {
 <div class="behaviour">
   <dl>
   <dt id="behaviour_1">Mocker</dt>
+    <script type="text/javascript">moveProgressBar('5.8');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should be able to call mock()</span></dd>
     <script type="text/javascript">makeRed('rspec-header');</script>
     <script type="text/javascript">makeRed('behaviour_1');</script>
-    <script type="text/javascript">moveProgressBar('5.8');</script>
-    <dd class="spec pending_fixed">
-      <span class="failed_spec_name">has a bug we need to fix</span>
-      <div class="failure" id="failure_1">
-        <div class="message"><pre>Expected pending 'here is the bug' to fail. No Error was raised.</pre></div>
-        
-    <pre class="ruby"><code><span class="linenum">31</span>
-<span class="linenum">32</span>  <span class="ident">it</span> <span class="punct">&quot;</span><span class="string">has a bug we need to fix</span><span class="punct">&quot;</span> <span class="keyword">do</span>
-<span class="offending"><span class="linenum">33</span>    <span class="ident">pending</span> <span class="punct">&quot;</span><span class="string">here is the bug</span><span class="punct">&quot;</span> <span class="keyword">do</span></span>
-<span class="linenum">34</span>      <span class="comment"># Actually, no. It's fixed. This will fail because it passes :-)</span>
-<span class="linenum">35</span>      <span class="ident">mock</span> <span class="punct">=</span> <span class="ident">mock</span><span class="punct">(&quot;</span><span class="string">Bug</span><span class="punct">&quot;)</span></code></pre>
-      </div>
-    </dd>
     <script type="text/javascript">moveProgressBar('11.7');</script>
-    <dd class="spec passed"><span class="passed_spec_name">should be able to call mock()</span></dd>
-    <script type="text/javascript">moveProgressBar('17.6');</script>
     <dd class="spec failed">
       <span class="failed_spec_name">should fail when expected message not received</span>
-      <div class="failure" id="failure_2">
+      <div class="failure" id="failure_1">
         <div class="message"><pre>Mock 'poke me' expected :poke with (any args) once, but received it 0 times</pre></div>
-        <div class="backtrace"><pre>./failing_examples/mocking_example.rb:33:
+        <div class="backtrace"><pre>./failing_examples/mocking_example.rb:13:
 ./spec/spec/runner/formatter/html_formatter_spec.rb:18:
 ./spec/spec/runner/formatter/html_formatter_spec.rb:14:in `chdir'
 ./spec/spec/runner/formatter/html_formatter_spec.rb:14:</pre></div>
@@ -212,12 +199,12 @@ a {
 <span class="linenum">15</span>  </code></pre>
       </div>
     </dd>
-    <script type="text/javascript">moveProgressBar('23.5');</script>
+    <script type="text/javascript">moveProgressBar('17.6');</script>
     <dd class="spec failed">
       <span class="failed_spec_name">should fail when messages are received out of order</span>
-      <div class="failure" id="failure_3">
+      <div class="failure" id="failure_2">
         <div class="message"><pre>Mock 'one two three' received :three out of order</pre></div>
-        <div class="backtrace"><pre>./failing_examples/mocking_example.rb:13:
+        <div class="backtrace"><pre>./failing_examples/mocking_example.rb:22:
 ./spec/spec/runner/formatter/html_formatter_spec.rb:18:
 ./spec/spec/runner/formatter/html_formatter_spec.rb:14:in `chdir'
 ./spec/spec/runner/formatter/html_formatter_spec.rb:14:</pre></div>
@@ -228,12 +215,12 @@ a {
 <span class="linenum">24</span>  <span class="keyword">end</span></code></pre>
       </div>
     </dd>
-    <script type="text/javascript">moveProgressBar('29.4');</script>
+    <script type="text/javascript">moveProgressBar('23.5');</script>
     <dd class="spec failed">
       <span class="failed_spec_name">should get yelled at when sending unexpected messages</span>
-      <div class="failure" id="failure_4">
+      <div class="failure" id="failure_3">
         <div class="message"><pre>Mock 'don't talk to me' expected :any_message_at_all with (any args) 0 times, but received it once</pre></div>
-        <div class="backtrace"><pre>./failing_examples/mocking_example.rb:22:
+        <div class="backtrace"><pre>./failing_examples/mocking_example.rb:28:
 ./spec/spec/runner/formatter/html_formatter_spec.rb:18:
 ./spec/spec/runner/formatter/html_formatter_spec.rb:14:in `chdir'
 ./spec/spec/runner/formatter/html_formatter_spec.rb:14:</pre></div>
@@ -244,6 +231,19 @@ a {
 <span class="linenum">30</span>  <span class="keyword">end</span></code></pre>
       </div>
     </dd>
+    <script type="text/javascript">moveProgressBar('29.4');</script>
+    <dd class="spec pending_fixed">
+      <span class="failed_spec_name">has a bug we need to fix</span>
+      <div class="failure" id="failure_4">
+        <div class="message"><pre>Expected pending 'here is the bug' to fail. No Error was raised.</pre></div>
+        
+    <pre class="ruby"><code><span class="linenum">31</span>
+<span class="linenum">32</span>  <span class="ident">it</span> <span class="punct">&quot;</span><span class="string">has a bug we need to fix</span><span class="punct">&quot;</span> <span class="keyword">do</span>
+<span class="offending"><span class="linenum">33</span>    <span class="ident">pending</span> <span class="punct">&quot;</span><span class="string">here is the bug</span><span class="punct">&quot;</span> <span class="keyword">do</span></span>
+<span class="linenum">34</span>      <span class="comment"># Actually, no. It's fixed. This will fail because it passes :-)</span>
+<span class="linenum">35</span>      <span class="ident">mock</span> <span class="punct">=</span> <span class="ident">mock</span><span class="punct">(&quot;</span><span class="string">Bug</span><span class="punct">&quot;)</span></code></pre>
+      </div>
+    </dd>
   </dl>
 </div>
 <div class="behaviour">
@@ -252,8 +252,28 @@ a {
     <script type="text/javascript">makeRed('behaviour_2');</script>
     <script type="text/javascript">moveProgressBar('35.2');</script>
     <dd class="spec failed">
-      <span class="failed_spec_name">should print diff of different objects' pretty representation</span>
+      <span class="failed_spec_name">should print diff of different strings</span>
       <div class="failure" id="failure_5">
+        <div class="message"><pre>expected: &quot;RSpec is a\nbehaviour driven development\nframework for Ruby\n&quot;,
+     got: &quot;RSpec is a\nbehavior driven development\nframework for Ruby\n&quot; (using ==)
+Diff:
+@@ -1,4 +1,4 @@
+ RSpec is a
+-behavior driven development
++behaviour driven development
+ framework for Ruby
+</pre></div>
+        
+    <pre class="ruby"><code><span class="linenum">11</span><span class="ident">framework</span> <span class="keyword">for</span> <span class="constant">Ruby</span>
+<span class="linenum">12</span><span class="constant">EOF</span>
+<span class="offending"><span class="linenum">13</span>    <span class="ident">usa</span><span class="punct">.</span><span class="ident">should</span> <span class="punct">==</span> <span class="ident">uk</span></span>
+<span class="linenum">14</span>  <span class="keyword">end</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('41.1');</script>
+    <dd class="spec failed">
+      <span class="failed_spec_name">should print diff of different objects' pretty representation</span>
+      <div class="failure" id="failure_6">
         <div class="message"><pre>expected &lt;Animal
 name=bob,
 species=tortoise
@@ -271,7 +291,7 @@ Diff:
 +species=tortoise
  &gt;
 </pre></div>
-        <div class="backtrace"><pre>./failing_examples/mocking_example.rb:28:
+        <div class="backtrace"><pre>./failing_examples/mocking_example.rb:33:
 ./spec/spec/runner/formatter/html_formatter_spec.rb:18:
 ./spec/spec/runner/formatter/html_formatter_spec.rb:14:in `chdir'
 ./spec/spec/runner/formatter/html_formatter_spec.rb:14:</pre></div>
@@ -280,26 +300,6 @@ Diff:
 <span class="offending"><span class="linenum">34</span>    <span class="ident">expected</span><span class="punct">.</span><span class="ident">should</span> <span class="ident">eql</span><span class="punct">(</span><span class="ident">actual</span><span class="punct">)</span></span>
 <span class="linenum">35</span>  <span class="keyword">end</span>
 <span class="linenum">36</span><span class="keyword">end</span></code></pre>
-      </div>
-    </dd>
-    <script type="text/javascript">moveProgressBar('41.1');</script>
-    <dd class="spec failed">
-      <span class="failed_spec_name">should print diff of different strings</span>
-      <div class="failure" id="failure_6">
-        <div class="message"><pre>expected: &quot;RSpec is a\nbehaviour driven development\nframework for Ruby\n&quot;,
-     got: &quot;RSpec is a\nbehavior driven development\nframework for Ruby\n&quot; (using ==)
-Diff:
-@@ -1,4 +1,4 @@
- RSpec is a
--behavior driven development
-+behaviour driven development
- framework for Ruby
-</pre></div>
-        
-    <pre class="ruby"><code><span class="linenum">11</span><span class="ident">framework</span> <span class="keyword">for</span> <span class="constant">Ruby</span>
-<span class="linenum">12</span><span class="constant">EOF</span>
-<span class="offending"><span class="linenum">13</span>    <span class="ident">usa</span><span class="punct">.</span><span class="ident">should</span> <span class="punct">==</span> <span class="ident">uk</span></span>
-<span class="linenum">14</span>  <span class="keyword">end</span></code></pre>
       </div>
     </dd>
   </dl>
@@ -315,11 +315,11 @@ Diff:
   <dl>
   <dt id="behaviour_4">A stubbed method on a class</dt>
     <script type="text/javascript">moveProgressBar('52.9');</script>
-    <dd class="spec passed"><span class="passed_spec_name">can stub! and mock the same message</span></dd>
-    <script type="text/javascript">moveProgressBar('58.8');</script>
     <dd class="spec passed"><span class="passed_spec_name">should return the stubbed value</span></dd>
-    <script type="text/javascript">moveProgressBar('64.7');</script>
+    <script type="text/javascript">moveProgressBar('58.8');</script>
     <dd class="spec passed"><span class="passed_spec_name">should revert to the original method after each spec</span></dd>
+    <script type="text/javascript">moveProgressBar('64.7');</script>
+    <dd class="spec passed"><span class="passed_spec_name">can stub! and mock the same message</span></dd>
   </dl>
 </div>
 <div class="behaviour">

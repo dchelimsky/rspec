@@ -92,10 +92,12 @@ module Spec
       # it to a collection of examples of the current behaviour.
       def it(description=:__generate_docstring, &block)
         block ||= Example::PENDING_EXAMPLE_BLOCK
-        method_name = "it - #{description}"
-        raise "Duplicate example: '#{description}'" if description != :__generate_docstring && method_defined?(method_name)
-        define_method(method_name, &block)
-        Example.new(description, method_name)
+#        if description != :__generate_docstring && method_defined?(method_name)
+#          raise "Duplicate example: '#{description}'"
+#        end
+        example = create_example(description, &block)
+        example_objects << example
+        example
       end
       
       alias_method :specify, :it
@@ -105,23 +107,26 @@ module Spec
         Kernel.warn("Example disabled: #{description}")
       end
 
+      def add_example(example)
+        example_objects << example
+      end
+
       def described_type #:nodoc:
         description.described_type
       end
 
       def examples #:nodoc:
-        examples = []
-        instance_methods.each do |method_name|
-          if method_name =~ /^it - (.*)/
-            examples << create_example($1, method_name)
-          elsif (is_test?(method_name) || is_spec?(method_name)) && (
+        examples = example_objects.dup
+        instance_methods.sort.each do |method_name|
+          if (is_test?(method_name) || is_spec?(method_name)) && (
             instance_method(method_name).arity == 0 ||
             instance_method(method_name).arity == -1
           )
-            examples << create_example(method_name, method_name)
+            examples << create_example(method_name) do
+              __send__(method_name)
+            end
           end
         end
-        examples.sort! {|lt, gt| lt.method_name<=>gt.method_name}
         rspec_options.reverse ? examples.reverse : examples
       end
       
@@ -129,10 +134,6 @@ module Spec
         examples.length
       end
 
-      def create_example(description, method_name) #:nodoc:
-        Example.new(description, method_name)
-      end
-      
       # Registers a block to be executed before each example.
       # This method prepends +block+ to existing before blocks.
       def prepend_before(*args, &block)
@@ -246,6 +247,13 @@ module Spec
       end
 
     private
+      def create_example(description, &implementation) #:nodoc:
+        Example.new(description, &implementation)
+      end
+      
+      def example_objects
+        @example_objects ||= []
+      end
 
       def customize_example
         plugin_mock_framework
