@@ -91,10 +91,6 @@ module Spec
       # Creates an instance of Spec::Example::Example and adds
       # it to a collection of examples of the current behaviour.
       def it(description=:__generate_docstring, &block)
-        block ||= Example::PENDING_EXAMPLE_BLOCK
-#        if description != :__generate_docstring && method_defined?(method_name)
-#          raise "Duplicate example: '#{description}'"
-#        end
         example = create_example(description, &block)
         example_objects << example
         example
@@ -199,7 +195,7 @@ module Spec
       end
 
       # Only used from RSpec's own examples
-      def reset! # :nodoc:
+      def reset # :nodoc:
         @before_all_parts = nil
         @after_all_parts = nil
         @before_each_parts = nil

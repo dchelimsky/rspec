@@ -62,7 +62,7 @@ module Spec
       after do
         original_configuration = @original_configuration
         Spec::Runner.instance_eval {@configuration = original_configuration}
-        ExampleGroupFactory.reset!
+        ExampleGroupFactory.reset
       end
 
       it "should include the submitted module in ExampleGroup subclasses" do
@@ -107,7 +107,7 @@ module Spec
         end
 
         after do
-          ExampleGroupFactory.reset!
+          ExampleGroupFactory.reset
         end
       end
 

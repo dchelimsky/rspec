@@ -27,7 +27,7 @@ module Spec
 
       after :each do
         $rspec_options = @original_rspec_options
-        ExampleGroup.reset!
+        ExampleGroup.reset
       end
 
       describe ExampleGroup, ".describe" do
@@ -428,7 +428,7 @@ module Spec
 
     describe ExampleGroup, "subclasses" do
       after do
-        ExampleGroupFactory.reset!
+        ExampleGroupFactory.reset
       end
 
       it "should have access to the described_type" do

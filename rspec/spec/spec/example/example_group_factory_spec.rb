@@ -10,7 +10,7 @@ module Spec
       end
 
       after do
-        ExampleGroupFactory.reset!
+        ExampleGroupFactory.reset
       end
 
       it "should #get the default behaviour type when passed nil" do
@@ -38,22 +38,26 @@ module Spec
 
     describe ExampleGroupFactory, "#create_example_group" do
       it "should create a uniquely named class" do
-        behaviour = Spec::Example::ExampleGroupFactory.create_example_group("behaviour")
+        behaviour = Spec::Example::ExampleGroupFactory.create_example_group("behaviour") {}
         behaviour.name.should =~ /Spec::Example::ExampleGroup::Subclass_\d+/
       end
 
       it "should create a Spec::Example::Example subclass by default" do
-        behaviour = Spec::Example::ExampleGroupFactory.create_example_group("behaviour")
+        behaviour = Spec::Example::ExampleGroupFactory.create_example_group("behaviour") {}
         behaviour.superclass.should == Spec::Example::ExampleGroup
       end
 
       it "should create a Spec::Example::Example when :type => :default" do
-        behaviour = Spec::Example::ExampleGroupFactory.create_example_group("behaviour", :type => :default)
+        behaviour = Spec::Example::ExampleGroupFactory.create_example_group(
+          "behaviour", :type => :default
+        ) {}
         behaviour.superclass.should == Spec::Example::ExampleGroup
       end
 
       it "should create a Spec::Example::Example when :behaviour_type => :default" do
-        behaviour = Spec::Example::ExampleGroupFactory.create_example_group("behaviour", :behaviour_type => :default)
+        behaviour = Spec::Example::ExampleGroupFactory.create_example_group(
+          "behaviour", :behaviour_type => :default
+        ) {}
         behaviour.superclass.should == Spec::Example::ExampleGroup
       end
 
@@ -62,7 +66,9 @@ module Spec
           def initialize(*args, &block); end
         end
         Spec::Example::ExampleGroupFactory.register(:something_other_than_default, klass)
-        behaviour = Spec::Example::ExampleGroupFactory.create_example_group("behaviour", :type => :something_other_than_default)
+        behaviour = Spec::Example::ExampleGroupFactory.create_example_group(
+          "behaviour", :type => :something_other_than_default
+        ) {}
         behaviour.superclass.should == klass
       end
 
@@ -71,7 +77,9 @@ module Spec
           def initialize(*args, &block); end
         end
         Spec::Example::ExampleGroupFactory.register(:something_other_than_default, klass)
-        behaviour = Spec::Example::ExampleGroupFactory.create_example_group("behaviour", :behaviour_type => :something_other_than_default)
+        behaviour = Spec::Example::ExampleGroupFactory.create_example_group(
+          "behaviour", :behaviour_type => :something_other_than_default
+        ) {}
         behaviour.superclass.should == klass
       end
       
@@ -80,7 +88,9 @@ module Spec
           def initialize(*args, &block); end
         end
         Spec::Example::ExampleGroupFactory.register(:something_other_than_default, klass)
-        behaviour = Spec::Example::ExampleGroupFactory.create_example_group("behaviour", :spec_path => "./spec/something_other_than_default/some_spec.rb")
+        behaviour = Spec::Example::ExampleGroupFactory.create_example_group(
+          "behaviour", :spec_path => "./spec/something_other_than_default/some_spec.rb"
+        ) {}
         behaviour.superclass.should == klass
       end
       
@@ -89,7 +99,9 @@ module Spec
           def initialize(*args, &block); end
         end
         Spec::Example::ExampleGroupFactory.register(:something_other_than_default, klass)
-        behaviour = Spec::Example::ExampleGroupFactory.create_example_group("behaviour", :spec_path => "./spec\\something_other_than_default\\some_spec.rb")
+        behaviour = Spec::Example::ExampleGroupFactory.create_example_group(
+          "behaviour", :spec_path => "./spec\\something_other_than_default\\some_spec.rb"
+        ) {}
         behaviour.superclass.should == klass
       end
       
@@ -106,7 +118,9 @@ module Spec
           def initialize(*args, &block); end
         end
         Spec::Example::ExampleGroupFactory.register(:something_other_than_default, klass)
-        behaviour = Spec::Example::ExampleGroupFactory.create_example_group("name", :spec_path => '/blah/spec/models/blah.rb', :behaviour_type => :something_other_than_default)
+        behaviour = Spec::Example::ExampleGroupFactory.create_example_group(
+          "name", :spec_path => '/blah/spec/models/blah.rb', :behaviour_type => :something_other_than_default
+        ) {}
         behaviour.superclass.should == klass
       end
 
@@ -124,7 +138,7 @@ module Spec
       end
       
       after(:each) do
-        Spec::Example::ExampleGroupFactory.reset!
+        Spec::Example::ExampleGroupFactory.reset
       end
     end
   end

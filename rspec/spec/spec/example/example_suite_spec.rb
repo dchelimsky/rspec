@@ -27,7 +27,7 @@ module Spec
 
       after :each do
         $rspec_options = @original_rspec_options
-        ExampleGroup.reset!
+        ExampleGroup.reset
       end
     end
 
@@ -88,7 +88,7 @@ module Spec
       end
 
       after do
-        ExampleGroupFactory.reset!
+        ExampleGroupFactory.reset
       end
 
       it "should send reporter add_example_group" do
