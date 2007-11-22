@@ -24,6 +24,10 @@ module Test
           @_example = example
           @_result = ::Test::Unit::TestResult.new
         end
+
+        def run(ignored_result=nil)
+          super()
+        end
       end
     end
   end
