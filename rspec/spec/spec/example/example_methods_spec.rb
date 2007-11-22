@@ -44,10 +44,9 @@ module Spec
         ExampleMethods.instance_variable_set("@before_each_parts", [])
         ExampleMethods.instance_variable_set("@after_each_parts", [])
         ExampleMethods.instance_variable_set("@after_all_parts", [])
-        ExampleMethods.__send__(:remove_method, @example_method.method_name)
       end
 
-      it "should pass before, after, and Examples to all ExampleGroup subclasses" do
+      it "should pass before and after callbacks to all ExampleGroup subclasses" do
         ExampleMethods.before(:all) do
           ExampleMethods.count.should == 1
         end
@@ -56,22 +55,20 @@ module Spec
           ExampleMethods.count.should == 2
         end
 
-        @example_method = ExampleMethods.it "should run before(:all), before(:each), example, after(:each), after(:all) in order" do
+        ExampleMethods.after(:each) do
           ExampleMethods.count.should == 3
         end
 
-        ExampleMethods.after(:each) do
+        ExampleMethods.after(:all) do
           ExampleMethods.count.should == 4
         end
 
-        ExampleMethods.after(:all) do
-          ExampleMethods.count.should == 5
+        @example_group = Class.new(ExampleGroup) do
+          it "should use ExampleMethods callbacks" do
+          end
         end
-
-        @example_group = Class.new(ExampleGroup)
-        @example_group.examples.length.should == 1
         @example_group.suite.run
-        ExampleMethods.count.should == 6
+        ExampleMethods.count.should == 5
       end
     end
   end

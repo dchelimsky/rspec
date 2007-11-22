@@ -14,7 +14,7 @@ module Spec
       end
       
       def run
-        __send__(_example.method_name)
+        instance_eval(&_example.implementation)
       end
       
       def description

@@ -41,6 +41,9 @@ module Spec
         after_each_parts.each    { |p| mod.after_each_parts << p }
         before_all_parts.each    { |p| mod.before_all_parts << p }
         after_all_parts.each     { |p| mod.after_all_parts << p }
+        example_objects.each do |example|
+          mod.add_example example
+        end
       end
 
       def register
