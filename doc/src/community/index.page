@@ -232,6 +232,8 @@ In alphabetical order (by last name)
 * Jonathan Tron
 ** Patch for Spec::Rails resource_generator
 ** Patch for RSpec.tmbundle to make it work with RSpec installed as a plugin
+* Mark Van Holstyn
+** Patch [#134] Only load spec inside spec_helper.rb
 * Rupert Voelcker
 ** Patch [#13567] patch to allow stubs to yield consecutive values
 ** Patch [#13559] reverse version of route_for
