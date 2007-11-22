@@ -112,7 +112,7 @@ EOF
           def print_step(klass, type, description, *args)
             spans = args.map { |arg| "<span class=\"param\">#{arg}</span>" }
             i = -1
-            inner = description.gsub(::Spec::Story::Step::PARAM_PATTERN) { |param| spans[i+=1] }
+            inner = type.to_s.capitalize + ' ' + description.gsub(::Spec::Story::Step::PARAM_PATTERN) { |param| spans[i+=1] }
             @output.puts "                <li class=\"#{klass}\">#{inner}</li>"
           end
 

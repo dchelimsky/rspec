@@ -37,7 +37,7 @@ module Spec
           
           it "should create spans for params" do
             @reporter.step_succeeded('given', 'a $coloured $animal', 'brown', 'dog')
-            @out.string.should == "                <li class=\"passed\">a <span class=\"param\">brown</span> <span class=\"param\">dog</span></li>\n"
+            @out.string.should == "                <li class=\"passed\">Given a <span class=\"param\">brown</span> <span class=\"param\">dog</span></li>\n"
           end
           
           it "should create a ul for collected_steps" do

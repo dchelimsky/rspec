@@ -60,10 +60,9 @@ module Spec
             step_mother.store(type, Step.new(name, &block))
           end
           step = step_mother.find(type, name)
+
           step_name = step.name
-          
-          step_names
-          step_names << "#{type.to_s.capitalize} #{step_name}"
+          step_names << step_name
           
           # It's important to have access to the parsed args here, so
           # we can give them to the listeners. The HTML reporter needs
