@@ -13,6 +13,8 @@ CMD-R runs all the specs in one file
 CMD-SHIFT-R runs an individual spec
 CMD-OPT-R runs any files or directories selected in the TextMate drawer
 
+rspec_on_rails users - don't forget to run script/generate rspec
+
 * Applied LH[#134] Only load spec inside spec_helper.rb (Patch from Mark Van Holstyn)
 * RSpec now bails immediately if there are examples with identical names.
 * Applied LH[#132]  Plain Text stories should support Given and Given: (Patch from Jarkko Laine)
