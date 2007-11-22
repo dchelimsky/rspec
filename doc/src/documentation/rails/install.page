@@ -81,15 +81,15 @@ h2. Living on the Edge
 If you prefer to live dangerously you can get the HEAD of the trunk instead of installing from a tag.
 
 <pre>
-ruby script/plugin install http://rspec.rubyforge.org/svn/trunk/trunk/rspec
-ruby script/plugin install http://rspec.rubyforge.org/svn/trunk/trunk/rspec_on_rails
+ruby script/plugin install http://rspec.rubyforge.org/svn/trunk/rspec
+ruby script/plugin install http://rspec.rubyforge.org/svn/trunk/rspec_on_rails
 </pre>
 
 If your own project is in Subversion and you'd like Spec::Rails to always follow HEAD, install with -x:
 
 <pre>
-ruby script/plugin install -x http://rspec.rubyforge.org/svn/trunk/trunk/rspec
-ruby script/plugin install -x http://rspec.rubyforge.org/svn/trunk/trunk/rspec_on_rails
+ruby script/plugin install -x http://rspec.rubyforge.org/svn/trunk/rspec
+ruby script/plugin install -x http://rspec.rubyforge.org/svn/trunk/rspec_on_rails
 </pre>
 
 Or, if you prefer "Piston":http://piston.rubyforge.org/:
