@@ -1,6 +1,6 @@
 $:.push File.join(File.dirname(__FILE__), *%w[.. .. lib])
 require 'spec'
-require 'test/unit'
+require 'spec/extensions/test'
 
 describe "spec" do
   it "should pass with assert" do
