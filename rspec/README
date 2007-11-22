@@ -5,6 +5,10 @@ with Executable Scenarios and Executable Examples at the code level.
 
 RSpec ships with several modules:
 
+Spec::Story provides a framework for expressing User Stories
+
+Spec::Example provides a framework for expressing code Examples
+
 Spec::Matchers provides Expression Matchers for use with Spec::Expectations
 and Spec::Mocks.
 
@@ -15,11 +19,6 @@ can do things like:
   
 Spec::Mocks supports creating Mock Objects, Stubs, and adding Mock/Stub
 behaviour to your existing objects.
-
-Spec::Runner provides a very small but powerful Example for writing executable
-examples of how your code should work.
-
-Spec::Story provides a framework for expressing User Stories
 
 == Installation
 
