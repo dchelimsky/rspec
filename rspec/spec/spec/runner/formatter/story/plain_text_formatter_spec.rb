@@ -271,6 +271,11 @@ module Spec
             # then
             @out.string.should contain("\n\n")
           end
+          
+          it "should print nothing for collected_steps" do
+            @reporter.collected_steps(['Given a $coloured $animal', 'Given a $n legged eel'])
+            @out.string.should == ("")
+          end
         end
       end
     end
