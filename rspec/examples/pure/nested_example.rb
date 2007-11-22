@@ -22,6 +22,5 @@ describe Stack do
     it "should description" do
       @stack.should be_full
     end
-  end
-
+  end  
 end
