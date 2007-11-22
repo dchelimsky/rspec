@@ -47,10 +47,15 @@ module Spec
         matcher = ExampleMatcher.new("behaviour", "example")
         matcher.should match_description("example")
       end
-      
+
       it "should match behaviour only" do
         matcher = ExampleMatcher.new("behaviour", "example")
         matcher.should match_description("behaviour")
+      end
+
+      it "should match behaviour ending with before(:all)" do
+        matcher = ExampleMatcher.new("behaviour", "example")
+        matcher.should match_description("behaviour before(:all)")
       end
       
       it "should escape regexp chars" do
