@@ -9,7 +9,7 @@ module Spec
 
       def initialize(description, &implementation)
         @from = caller(0)[3]
-        @implementation = implementation
+        @implementation = implementation || PENDING_EXAMPLE_BLOCK
         @description = description
       end
       
