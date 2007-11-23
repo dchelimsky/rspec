@@ -85,7 +85,7 @@ module Spec
         @description = ExampleGroupDescription.new(ExampleGroup, :a => "b", :spec_path => "blah")
       end
 
-      it "should provide its options" do
+      it "should expose its options" do
         @description[:a].should == "b"
       end
       
@@ -93,5 +93,6 @@ module Spec
         @description[:spec_path].should == File.expand_path("blah")
       end
     end
+    
   end
 end
