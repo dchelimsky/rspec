@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 
 module Spec
   module Example
-    describe 'Nested describes' do
+    describe 'Nested Example Groups' do
       parent = self
       
       def count
@@ -47,10 +47,10 @@ module Spec
         count.should == 8
       end
 
-      describe 'nested describe child' do
+      describe 'nested example group' do
         self.superclass.should == parent
         
-        it "runs all before and after callbacks" do
+        it "should run all before and after callbacks" do
           count.should == 5
         end
       end
