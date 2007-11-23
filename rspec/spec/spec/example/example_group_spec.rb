@@ -4,11 +4,11 @@ module Spec
   module Example
     describe ExampleGroup do
       attr_reader :options, :example_group, :result, :reporter
-      before :all do
+      before(:all) do
         @original_rspec_options = $rspec_options
       end
 
-      before :each do
+      before(:each) do
         @options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
         $rspec_options = @options
         options.formatters << mock("formatter", :null_object => true)
@@ -25,7 +25,7 @@ module Spec
         @result = nil
       end
 
-      after :each do
+      after(:each) do
         $rspec_options = @original_rspec_options
         ExampleGroup.reset
       end
