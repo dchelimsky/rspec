@@ -75,3 +75,13 @@ module Custom
     end
   end  
 end
+
+def exception_from(&block)
+  exception = nil
+  begin
+    yield
+  rescue StandardError => e
+    exception = e
+  end
+  exception
+end

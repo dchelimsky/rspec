@@ -14,11 +14,11 @@ module Spec
           stories = story_runner.stories
           
           # then
-          ensure_that stories.size, is(2)
-          ensure_that stories[0].title, is('title1')
-          ensure_that stories[0].narrative, is('narrative1')
-          ensure_that stories[1].title, is('title2')
-          ensure_that stories[1].narrative, is('narrative2')
+          story_runner.should have(2).stories
+          stories.first.title.should == 'title1'
+          stories.first.narrative.should == 'narrative1'
+          stories.last.title.should == 'title2'
+          stories.last.narrative.should == 'narrative2'
         end
         
         it 'should gather all the scenarios in the stories' do
@@ -36,10 +36,10 @@ module Spec
           scenarios = story_runner.scenarios
           
           # then
-          ensure_that scenarios.size, is(3)
-          ensure_that scenarios[0].name, is('scenario1')
-          ensure_that scenarios[1].name, is('scenario2')
-          ensure_that scenarios[2].name, is('scenario3')
+          story_runner.should have(3).scenarios
+          scenarios[0].name.should == 'scenario1'
+          scenarios[1].name.should == 'scenario2'
+          scenarios[2].name.should == 'scenario3'
         end
         
         # captures worlds passed into a ScenarioRunner
@@ -64,7 +64,7 @@ module Spec
           
           # then
           worlds = scenario_world_catcher.worlds
-          ensure_that worlds.size, is(2)
+          scenario_world_catcher.should have(2).worlds
           worlds[0].should_not == worlds[1]
         end
         
@@ -85,7 +85,6 @@ module Spec
           story_runner.run_stories
           
           # then
-          # TODO verify_all
         end
         
         it 'should notify listeners of the scenario count when the run starts' do
@@ -112,7 +111,6 @@ module Spec
           story_runner.run_stories
           
           # then
-          # TODO verify_all
         end
         
         it 'should notify listeners when a story starts' do
@@ -141,7 +139,6 @@ module Spec
           story_runner.run_stories
           
           # then
-          # TODO verify_all
         end
         
         it 'should notify listeners when the run ends' do
@@ -163,7 +160,6 @@ module Spec
           story_runner.run_stories
           
           # then
-          # TODO verify_all
         end
         
         it 'should run a story in an instance of a specified class' do
