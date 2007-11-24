@@ -1,10 +1,25 @@
 module Spec
   module Example
+    
+    # TODO - This is mid-refactoring and will eventually live
+    # in the spec/interop/test/unit directory - only to be
+    # loaded when T::U is engaged.
+    module TestSuiteAdapterMethods
+      def suite
+        description = description ? description.description : "RSpec Description Suite"
+        customize_example
+        suite = ExampleSuite.new(description, self)
+        add_examples(suite)
+        suite
+      end
+    end
 
     # See http://rspec.rubyforge.org/documentation/before_and_after.html
     module ExampleGroupMethods
+      include TestSuiteAdapterMethods
+      
       attr_accessor :description
-
+      
       def inherited(klass)
         super
         unless klass.name.to_s == ""
@@ -202,13 +217,6 @@ module Spec
         @after_each_parts = nil
       end
       
-      def suite
-        description = description ? description.description : "RSpec Description Suite"
-        customize_example
-        suite = ExampleSuite.new(description, self)
-        add_examples(suite)
-        suite
-      end
       
       def register
         rspec_options.add_example_group self

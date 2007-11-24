@@ -1,4 +1,4 @@
-require 'spec/extensions/test'
+require 'spec/interop/test'
 
 ActionView::Base.cache_template_extensions = false
 

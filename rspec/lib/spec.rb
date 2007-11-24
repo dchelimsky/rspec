@@ -8,7 +8,7 @@ require 'spec/runner'
 require 'spec/story'
 
 if Object.const_defined?(:Test); \
-  require 'spec/extensions/test'; \
+  require 'spec/interop/test'; \
 end
 module Spec
   class << self
