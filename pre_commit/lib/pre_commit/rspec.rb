@@ -44,11 +44,11 @@ class PreCommit::Rspec < PreCommit
       'rspec/lib/spec/version.rb',
       'rspec_on_rails/lib/spec/rails/version.rb'
     ]
-    new_token = rand
+    build_time_utc = Time.now.utc.strftime('%Y%m%d%H%M%S')
     files.each do |path|
       abs_path = File.join(root_dir, path)
       content = File.open(abs_path).read
-      touched_content = content.gsub(/# RANDOM_TOKEN: (.*)\n/n, "# RANDOM_TOKEN: #{new_token}\n")
+      touched_content = content.gsub(/BUILD_TIME_UTC = (\d*)\n/n, "BUILD_TIME_UTC = #{build_time_utc}\n")
       File.open(abs_path, 'w') do |io|
         io.write touched_content
       end
