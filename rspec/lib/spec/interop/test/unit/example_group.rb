@@ -20,6 +20,16 @@ module Test
         extend Spec::Example::ExampleGroupMethods
         include Spec::Example::ExampleMethods
 
+        class << self
+          def suite
+            description = description ? description.description : "RSpec Description Suite"
+            customize_example
+            suite = Test::Unit::TestSuiteAdapter.new(description, self)
+            add_examples(suite)
+            suite
+          end
+        end
+
         def initialize(example) #:nodoc:
           @_example = example
           @_result = ::Test::Unit::TestResult.new
