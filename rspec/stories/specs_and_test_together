@@ -10,12 +10,8 @@ Story: Spec and test together
     When I run it with the ruby interpreter
 
     Then the exit code should be 256
-    # And the stdout should match "Loaded suite"
-    # And the stdout should match "test_should_fail_with_assert(NeighborlyTest)"
-    # And the stdout should match "test_should_fail_with_should(NeighborlyTest)"
-    # And the stdout should match "4 tests, 2 assertions, 1 failures, 1 errors"
-    # And the stdout should match "Test::Unit::AssertionFailedError in 'spec should fail with assert'"
-    And the stdout should match "'example should fail with should' FAILED"
+    And the stdout should match "Test::Unit::AssertionFailedError in 'An Example should fail with assert'"
+    And the stdout should match "'An Example should fail with should' FAILED"
     And the stdout should match "8 examples, 4 failures"
 
   Scenario: Run with spec
@@ -24,10 +20,6 @@ Story: Spec and test together
     When I run it with the spec script
 
     Then the exit code should be 256
-    # And the stdout should match "Loaded suite"
-    # And the stdout should match "test_should_fail_with_assert(NeighborlyTest)"
-    # And the stdout should match "test_should_fail_with_should(NeighborlyTest)"
-    # And the stdout should match "4 tests, 2 assertions, 1 failures, 1 errors"
-    # And the stdout should match "Test::Unit::AssertionFailedError in 'spec should fail with assert'"
-    And the stdout should match "'example should fail with should' FAILED"
+    And the stdout should match "Test::Unit::AssertionFailedError in 'An Example should fail with assert'"
+    And the stdout should match "'An Example should fail with should' FAILED"
     And the stdout should match "8 examples, 4 failures"
