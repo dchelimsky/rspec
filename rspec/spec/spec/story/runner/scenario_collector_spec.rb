@@ -15,11 +15,11 @@ module Spec
           scenarios = scenario_collector.scenarios
           
           # then
-          ensure_that scenarios.size, is(2)
-          ensure_that scenarios[0].name, is('scenario1')
-          ensure_that scenarios[0].story, is(story)
-          ensure_that scenarios[1].name, is('scenario2')
-          ensure_that scenarios[1].story, is(story)
+          scenario_collector.should have(2).scenarios
+          scenarios.first.name.should == 'scenario1'
+          scenarios.first.story.should equal(story)
+          scenarios.last.name.should == 'scenario2'
+          scenarios.last.story.should equal(story)
         end
       end
     end

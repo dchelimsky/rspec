@@ -1,5 +1,4 @@
 require File.dirname(__FILE__) + '/../../../../spec_helper.rb'
-require File.dirname(__FILE__) + '/../../../story/rspec_adapter.rb'
 
 module Spec
   module Runner
@@ -56,7 +55,7 @@ module Spec
             @reporter.run_ended
           
             # then
-            @out.string.should contain("3 scenarios: 1 succeeded, 2 failed")
+            @out.string.should include("3 scenarios: 1 succeeded, 2 failed")
           end
         
           it 'should summarize the number of pending scenarios when the run ends' do
@@ -71,7 +70,7 @@ module Spec
             @reporter.run_ended
           
             # then
-            @out.string.should contain("3 scenarios: 1 succeeded, 0 failed, 2 pending")
+            @out.string.should include("3 scenarios: 1 succeeded, 0 failed, 2 pending")
           end
         
           it "should only count the first failure in one scenario" do
@@ -87,7 +86,7 @@ module Spec
             @reporter.run_ended
           
             # then
-            @out.string.should contain("3 scenarios: 1 succeeded, 2 failed")
+            @out.string.should include("3 scenarios: 1 succeeded, 2 failed")
           end
         
           it "should only count the first pending in one scenario" do
@@ -103,7 +102,7 @@ module Spec
             @reporter.run_ended
           
             # then
-            @out.string.should contain("3 scenarios: 1 succeeded, 0 failed, 2 pending")
+            @out.string.should include("3 scenarios: 1 succeeded, 0 failed, 2 pending")
           end
         
           it "should only count a failure before the first pending in one scenario" do
@@ -119,7 +118,7 @@ module Spec
             @reporter.run_ended
           
             # then
-            @out.string.should contain("3 scenarios: 1 succeeded, 1 failed, 1 pending")
+            @out.string.should include("3 scenarios: 1 succeeded, 1 failed, 1 pending")
           end
         
           it 'should produce details of the first failure each failed scenario when the run ends' do
@@ -135,12 +134,12 @@ module Spec
             @reporter.run_ended
           
             # then
-            @out.string.should contain("FAILURES:\n")
-            @out.string.should contain("1) story (scenario2) FAILED")
-            @out.string.should contain("RuntimeError: oops2")
-            @out.string.should_not contain("RuntimeError: oops2 - this one should not appear")
-            @out.string.should contain("2) story (scenario3) FAILED")
-            @out.string.should contain("RuntimeError: oops3")
+            @out.string.should include("FAILURES:\n")
+            @out.string.should include("1) story (scenario2) FAILED")
+            @out.string.should include("RuntimeError: oops2")
+            @out.string.should_not include("RuntimeError: oops2 - this one should not appear")
+            @out.string.should include("2) story (scenario3) FAILED")
+            @out.string.should include("RuntimeError: oops3")
           end
         
           it 'should produce details of each pending step when the run ends' do
@@ -151,9 +150,9 @@ module Spec
             @reporter.run_ended
           
             # then
-            @out.string.should contain("Pending Steps:\n")
-            @out.string.should contain("1) story (scenario2): todo2")
-            @out.string.should contain("2) story (scenario3): todo3")
+            @out.string.should include("Pending Steps:\n")
+            @out.string.should include("1) story (scenario2): todo2")
+            @out.string.should include("2) story (scenario3): todo3")
           end
         
           it 'should document a story title and narrative' do
@@ -161,7 +160,7 @@ module Spec
             @reporter.story_started 'story', 'narrative'
           
             # then
-            @out.string.should contain("Story: story\n\n  narrative")
+            @out.string.should include("Story: story\n\n  narrative")
           end
         
           it 'should document a scenario name' do
@@ -169,7 +168,7 @@ module Spec
             @reporter.scenario_started 'story', 'scenario'
           
             # then
-            @out.string.should contain("\n\nScenario: scenario")
+            @out.string.should include("\n\nScenario: scenario")
           end
         
           it 'should document a step by sentence-casing its name' do
@@ -179,7 +178,7 @@ module Spec
             @reporter.step_succeeded :then, 'an outcome'
           
             # then
-            @out.string.should contain("\n\n  Given a context\n\n  When an event\n\n  Then an outcome")
+            @out.string.should include("\n\n  Given a context\n\n  When an event\n\n  Then an outcome")
           end
         
           it 'should document additional givens using And' do
@@ -189,7 +188,7 @@ module Spec
             @reporter.step_succeeded :given, 'step 3'
           
             # then
-            @out.string.should contain("  Given step 1\n  And step 2\n  And step 3")
+            @out.string.should include("  Given step 1\n  And step 2\n  And step 3")
           end
         
           it 'should document additional events using And' do
@@ -199,7 +198,7 @@ module Spec
             @reporter.step_succeeded :when, 'step 3'
           
             # then
-            @out.string.should contain("  When step 1\n  And step 2\n  And step 3")
+            @out.string.should include("  When step 1\n  And step 2\n  And step 3")
           end
         
           it 'should document additional outcomes using And' do
@@ -209,7 +208,7 @@ module Spec
             @reporter.step_succeeded :then, 'step 3'
           
             # then
-            @out.string.should contain("  Then step 1\n  And step 2\n  And step 3")
+            @out.string.should include("  Then step 1\n  And step 2\n  And step 3")
           end
         
           it 'should document a GivenScenario followed by a Given using And' do
@@ -218,19 +217,19 @@ module Spec
             @reporter.step_succeeded :given, 'a context'
           
             # then
-            @out.string.should contain("  Given scenario a scenario\n  And a context")
+            @out.string.should include("  Given scenario a scenario\n  And a context")
           end
         
           it 'should document steps with replaced params' do
             @reporter.step_succeeded :given, 'a $coloured dog with $n legs', 'pink', 21
-            @out.string.should contain("  Given a pink dog with 21 legs")
+            @out.string.should include("  Given a pink dog with 21 legs")
           end
         
           it "should append PENDING for the first pending step" do
             @reporter.scenario_started('','')
             @reporter.step_pending(:given, 'a context')
           
-            @out.string.should contain('Given a context (PENDING)')
+            @out.string.should include('Given a context (PENDING)')
           end
         
           it "should append PENDING for pending after already pending" do
@@ -238,14 +237,14 @@ module Spec
             @reporter.step_pending(:given, 'a context')
             @reporter.step_pending(:when, 'I say hey')
           
-            @out.string.should contain('When I say hey (PENDING)')
+            @out.string.should include('When I say hey (PENDING)')
           end
         
           it "should append FAILED for the first failiure" do
             @reporter.scenario_started('','')
             @reporter.step_failed(:given, 'a context')
           
-            @out.string.should contain('Given a context (FAILED)')
+            @out.string.should include('Given a context (FAILED)')
           end
         
           it "should append SKIPPED for the second failiure" do
@@ -253,7 +252,7 @@ module Spec
             @reporter.step_failed(:given, 'a context')
             @reporter.step_failed(:when, 'I say hey')
           
-            @out.string.should contain('When I say hey (SKIPPED)')
+            @out.string.should include('When I say hey (SKIPPED)')
           end
         
           it "should append SKIPPED for the a failiure after PENDING" do
@@ -261,7 +260,7 @@ module Spec
             @reporter.step_pending(:given, 'a context')
             @reporter.step_failed(:when, 'I say hey')
           
-            @out.string.should contain('When I say hey (SKIPPED)')
+            @out.string.should include('When I say hey (SKIPPED)')
           end
         
           it 'should print some white space after each story' do
@@ -269,7 +268,7 @@ module Spec
             @reporter.story_ended 'title', 'narrative'
           
             # then
-            @out.string.should contain("\n\n")
+            @out.string.should include("\n\n")
           end
           
           it "should print nothing for collected_steps" do

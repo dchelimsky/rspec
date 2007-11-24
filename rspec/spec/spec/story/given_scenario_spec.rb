@@ -20,7 +20,7 @@ module Spec
         step.perform(instance, nil)
         
         # then
-        ensure_that instance.scenario_ran, is(true)
+        instance.scenario_ran.should be_true
       end
     end
   end

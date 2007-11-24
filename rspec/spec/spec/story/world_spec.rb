@@ -223,8 +223,8 @@ module Spec
         end
         
         # then
-        ensure_that $first, is('first')
-        ensure_that $second, is('first')
+        $first.should == 'first'
+        $second.should == 'first'
       end
       
       it 'should invoke a reused step in the new object instance' do
@@ -314,7 +314,6 @@ module Spec
         end
         
         # then
-        # TODO verify_all
       end
       
       it 'should tell listeners but not execute the step in dry-run mode' do
@@ -336,7 +335,6 @@ module Spec
         end
         
         # then
-        # TODO verify_all
         $step_invoked.should be(false)
       end
         
@@ -369,7 +367,6 @@ module Spec
         world.GivenScenario 'a scenario'
         
         # then
-        # TODO verify_all
         $scenario_ran.should be_true
       end
       

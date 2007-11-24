@@ -38,7 +38,7 @@ module Spec
         options = @runner_module.run_options
         
         # then
-        ensure_that options.dry_run, is(true)
+        options.dry_run.should be_true
       end
 
       it 'should add a reporter to the runner classes' do

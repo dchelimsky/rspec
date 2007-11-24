@@ -1,5 +1,4 @@
 require File.dirname(__FILE__) + '/../../../../spec_helper.rb'
-require File.dirname(__FILE__) + '/../../../story/rspec_adapter.rb'
 
 module Spec
   module Runner
