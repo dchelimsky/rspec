@@ -3,7 +3,7 @@ require 'spec'
 # TODO - this should not be necessary, ay?
 require 'spec/interop/test'
 
-describe "example" do
+describe "An Example" do
   it "should pass with assert" do
     assert true
   end
@@ -21,7 +21,7 @@ describe "example" do
   end
 end
 
-class NeighborlyTest < Test::Unit::TestCase
+class ATest < Test::Unit::TestCase
   def test_should_pass_with_assert
     assert true
   end
