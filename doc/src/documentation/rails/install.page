@@ -13,15 +13,15 @@ h4. Installing the CURRENT release
 Each release is mirrored in tags/CURRENT, so you can simply point at this to get the latest release.
 
 <pre>
-ruby script/plugin install http://rspec.rubyforge.org/svn/trunk/tags/CURRENT/rspec
-ruby script/plugin install http://rspec.rubyforge.org/svn/trunk/tags/CURRENT/rspec_on_rails
+ruby script/plugin install http://rspec.rubyforge.org/svn/tags/CURRENT/rspec
+ruby script/plugin install http://rspec.rubyforge.org/svn/tags/CURRENT/rspec_on_rails
 </pre>
 
 If you're using svn for your project, install with -x.
 
 <pre>
-ruby script/plugin install -x http://rspec.rubyforge.org/svn/trunk/tags/CURRENT/rspec
-ruby script/plugin install -x http://rspec.rubyforge.org/svn/trunk/tags/CURRENT/rspec_on_rails
+ruby script/plugin install -x http://rspec.rubyforge.org/svn/tags/CURRENT/rspec
+ruby script/plugin install -x http://rspec.rubyforge.org/svn/tags/CURRENT/rspec_on_rails
 </pre>
 
 h4. No SVN?
@@ -43,15 +43,15 @@ mv rspec_on_rails-{version: } rspec_on_rails
 h4. Installing a specific release
 
 <pre>
-ruby script/plugin install http://rspec.rubyforge.org/svn/trunk/tags/{svn_tag: }/rspec
-ruby script/plugin install http://rspec.rubyforge.org/svn/trunk/tags/{svn_tag: }/rspec_on_rails
+ruby script/plugin install http://rspec.rubyforge.org/svn/tags/{svn_tag: }/rspec
+ruby script/plugin install http://rspec.rubyforge.org/svn/tags/{svn_tag: }/rspec_on_rails
 </pre>
 
 ... or (using svn externals) ...
 
 <pre>
-ruby script/plugin install -x http://rspec.rubyforge.org/svn/trunk/tags/{svn_tag: }/rspec
-ruby script/plugin install -x http://rspec.rubyforge.org/svn/trunk/tags/{svn_tag: }/rspec_on_rails
+ruby script/plugin install -x http://rspec.rubyforge.org/svn/tags/{svn_tag: }/rspec
+ruby script/plugin install -x http://rspec.rubyforge.org/svn/tags/{svn_tag: }/rspec_on_rails
 </pre>
 
 h4. Bootstrap
@@ -108,14 +108,14 @@ would be just lovely!
 h2. Releases 0.8.x to 0.9.x (not really recommended at this point)
 
 <pre>
-ruby script/plugin install http://rspec.rubyforge.org/svn/trunk/tags/REL_X_Y_Z/rspec
-ruby script/plugin install http://rspec.rubyforge.org/svn/trunk/tags/REL_X_Y_Z/rspec_on_rails/vendor/plugins/rspec_on_rails
+ruby script/plugin install http://rspec.rubyforge.org/svn/tags/REL_X_Y_Z/rspec
+ruby script/plugin install http://rspec.rubyforge.org/svn/tags/REL_X_Y_Z/rspec_on_rails/vendor/plugins/rspec_on_rails
 </pre>
 
 h2. Releases < 0.7.5 (REALLY NOT recommended at this point)
 
 <pre>
-ruby script/plugin install http://rspec.rubyforge.org/svn/trunk/tags/REL_X_Y_Z/rspec
-ruby script/plugin install http://rspec.rubyforge.org/svn/trunk/tags/REL_X_Y_Z/vendor/rspec_on_rails/vendor/plugins/rspec_on_rails
+ruby script/plugin install http://rspec.rubyforge.org/svn/tags/REL_X_Y_Z/rspec
+ruby script/plugin install http://rspec.rubyforge.org/svn/tags/REL_X_Y_Z/vendor/rspec_on_rails/vendor/plugins/rspec_on_rails
 </pre>
 
