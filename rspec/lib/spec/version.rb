@@ -6,12 +6,11 @@ module Spec
       TINY   = 0
       RELEASE_CANDIDATE = nil
 
-      BUILD_TIME_UTC = 20071124111351
-      REV = "$LastChangedRevision$".match(/LastChangedRevision: (\d+)/)[1]
+      BUILD_TIME_UTC = 20071124143559
 
       STRING = [MAJOR, MINOR, TINY].join('.')
       TAG = "REL_#{[MAJOR, MINOR, TINY, RELEASE_CANDIDATE].compact.join('_')}".upcase.gsub(/\.|-/, '_')
-      FULL_VERSION = "#{[MAJOR, MINOR, TINY, RELEASE_CANDIDATE].compact.join('.')} (r#{REV})"
+      FULL_VERSION = "#{[MAJOR, MINOR, TINY, RELEASE_CANDIDATE].compact.join('.')} (build #{BUILD_TIME_UTC})"
 
       NAME   = "RSpec"
       URL    = "http://rspec.rubyforge.org/"  
