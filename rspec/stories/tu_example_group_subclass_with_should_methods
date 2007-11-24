@@ -1,7 +1,7 @@
-Story: Test::Unit::TestCase::ExampleGroup subclass with should methods
+Story: Test::Unit::TestCase extended by rspec with should methods
 
   As an RSpec adopter with existing Test::Unit tests
-  I want to use should_* methods in a Test::Unit::TestCase::ExampleGroup subclass
+  I want to use should_* methods in a Test::Unit::TestCase
   So that I use RSpec with classes and methods that look more like RSpec examples
 
   Scenario: Run with ruby

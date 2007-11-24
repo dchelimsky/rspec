@@ -1,7 +1,6 @@
 module Spec
   module Example
     # The superclass for all regular RSpec examples.
-    # See also Test::Unit::TestCase::ExampleGroup
     class ExampleGroup
       extend Spec::Example::ExampleGroupMethods
       include Spec::Example::ExampleMethods
