@@ -1,6 +1,6 @@
 $:.push File.join(File.dirname(__FILE__), *%w[.. .. lib])
 require 'spec'
-require 'spec/extensions/test'
+require 'spec/interop/test'
 
 class MySpec < Test::Unit::TestCase::ExampleGroup
   def should_pass_with_should
