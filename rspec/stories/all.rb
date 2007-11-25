@@ -2,7 +2,7 @@ $LOAD_PATH.unshift File.expand_path("#{File.dirname(__FILE__)}/../lib")
 require 'spec'
 require 'rbconfig'
 require 'tempfile'
-require File.dirname(__FILE__) + '/smart_match'
+require File.join(File.dirname(__FILE__), *%w[resources matchers smart_match])
 
 module StoryHelper
   def ruby(args, stderr)
@@ -25,7 +25,7 @@ module StoryHelper
 end
 
 
-steps_for :rspec_and_test_unit do
+steps_for :running_rspec do
 
   Given("the file $relative_path") do |relative_path|
     @path = File.join(File.dirname(__FILE__), "resources", relative_path)
@@ -65,7 +65,7 @@ steps_for :rspec_and_test_unit do
   end
 end
 
-with_steps_for :rspec_and_test_unit do
+with_steps_for :running_rspec do
   Dir["#{File.dirname(__FILE__)}/**/*"].each do |file|
     run file if File.file?(file) && !(file =~ /\.rb$/)
   end
