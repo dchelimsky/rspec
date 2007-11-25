@@ -66,7 +66,7 @@ steps_for :rspec_and_test_unit do
 end
 
 with_steps_for :rspec_and_test_unit do
-  Dir["#{File.dirname(__FILE__)}/**"].each do |file|
+  Dir["#{File.dirname(__FILE__)}/**/*"].each do |file|
     run file if File.file?(file) && !(file =~ /\.rb$/)
   end
 end
