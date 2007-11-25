@@ -28,7 +28,7 @@ end
 steps_for :rspec_and_test_unit do
 
   Given("the file $relative_path") do |relative_path|
-    @path = File.join(File.dirname(__FILE__), relative_path)
+    @path = File.join(File.dirname(__FILE__), "resources", relative_path)
   end
   When("I run it with the $interpreter") do |interpreter|
     stderr_file = Tempfile.new('rspec')
