@@ -161,8 +161,8 @@ In alphabetical order (by last name)
 ** Patch for [#13370] Weird mock expectation error
 ** Patch for [#13065] Named routes throw a NoMethodError in Helper specs
 * Pat Maddox
-** [#14082] [PATCH] allow stubs to yield and return values
-** Patch [#14362] partially mocking objects that define == can blow up
+** [#10] Allow stubs to yield and return values
+** [#14362] partially mocking objects that define == can blow up
 ** Spec'ing routes (Rails)
 ** Accepting xhr requests (Rails)
 ** Multiple return values for stubs

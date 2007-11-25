@@ -376,6 +376,25 @@ module Spec
         lambda { @mock.foobar }.should_not raise_error(NameError)
         lambda { @mock.foobar }.should raise_error(MockExpectationError)
       end
+
+      it "should temporarily replace a method stub on a mock" do
+        @mock.stub!(:msg).and_return(:stub_value)
+        @mock.should_receive(:msg).with(:arg).and_return(:mock_value)
+        @mock.msg(:arg).should equal(:mock_value)
+        @mock.msg.should equal(:stub_value)
+        @mock.msg.should equal(:stub_value)
+        @mock.rspec_verify
+      end
+
+      it "should temporarily replace a method stub on a non-mock" do
+        non_mock = Object.new
+        non_mock.stub!(:msg).and_return(:stub_value)
+        non_mock.should_receive(:msg).with(:arg).and_return(:mock_value)
+        non_mock.msg(:arg).should equal(:mock_value)
+        non_mock.msg.should equal(:stub_value)
+        non_mock.msg.should equal(:stub_value)
+        non_mock.rspec_verify
+      end
     end
 
     describe "a mock message receiving a block" do

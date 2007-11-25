@@ -10,7 +10,7 @@ module Spec
         @expected_from = expected_from
         @sym = sym
         @method_block = method_block
-        @return_block = lambda {}
+        @return_block = nil
         @actual_received_count = 0
         @expected_received_count = expected_received_count
         @args_expectation = ArgumentExpectation.new([AnyArgsConstraint.new])
@@ -75,15 +75,21 @@ module Spec
         begin
           Kernel::raise @exception_to_raise unless @exception_to_raise.nil?
           Kernel::throw @symbol_to_throw unless @symbol_to_throw.nil?
-
+          
           if !@method_block.nil?
-            return invoke_method_block(args)
+            default_return_val = invoke_method_block(args)
           elsif @args_to_yield.size > 0
-            return invoke_with_yield(block)
-          elsif @consecutive
-            return invoke_consecutive_return_block(args, block)
+            default_return_val = invoke_with_yield(block)
           else
+            default_return_val = nil
+          end
+          
+          if @consecutive
+            return invoke_consecutive_return_block(args, block)
+          elsif @return_block
             return invoke_return_block(args, block)
+          else
+            return default_return_val
           end
         ensure
           @actual_received_count += 1
