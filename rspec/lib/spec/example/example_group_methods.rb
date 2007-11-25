@@ -1,25 +1,10 @@
 module Spec
   module Example
-    
-    # TODO - This is mid-refactoring and will eventually live
-    # in the spec/interop/test/unit directory - only to be
-    # loaded when T::U is engaged.
-    module TestSuiteAdapterMethods
-      def suite
-        description = description ? description.description : "RSpec Description Suite"
-        customize_example
-        suite = ExampleSuite.new(description, self)
-        add_examples(suite)
-        suite
-      end
-    end
 
     # See http://rspec.rubyforge.org/documentation/before_and_after.html
     module ExampleGroupMethods
-      include TestSuiteAdapterMethods
-      
       attr_accessor :description
-      
+
       def inherited(klass)
         super
         unless klass.name.to_s == ""
@@ -116,6 +101,33 @@ module Spec
       # Use this to temporarily disable an example.
       def xit(description=:__generate_docstring, opts={}, &block)
         Kernel.warn("Example disabled: #{description}")
+      end
+
+      def run(examples=examples_to_run)
+        customize_example
+        return true if examples.empty?
+
+        reporter.add_example_group(description)
+        before_and_after_all_example = new(nil)
+        success = run_before_all(before_and_after_all_example)
+        if success
+          example_group_instance = nil
+          examples.each do |example|
+            example_group_instance = new(example)
+            example_group_instance.copy_instance_variables_from(before_and_after_all_example)
+
+            runner = ExampleRunner.new(rspec_options, example_group_instance)
+            unless runner.run
+              success = false
+            end
+          end
+          before_and_after_all_example.copy_instance_variables_from(example_group_instance)
+        end
+
+        unless run_after_all(before_and_after_all_example)
+          success = false
+        end
+        return success
       end
 
       def add_example(example)
@@ -217,6 +229,9 @@ module Spec
         @after_each_parts = nil
       end
       
+      def suite
+        self
+      end
       
       def register
         rspec_options.add_example_group self
@@ -233,15 +248,29 @@ module Spec
       end
       
       def run_before_all(example)
-        execute_in_class_hierarchy(false) do |behaviour|
-          example.eval_each_fail_fast(behaviour.before_all_parts)
+        return true if dry_run
+        execute_in_class_hierarchy(false) do |example_group|
+          example.eval_each_fail_fast(example_group.before_all_parts)
         end
+        return true
+      rescue Exception => e
+        location = "before(:all)"
+        # The easiest is to report this as an example failure. We don't have an Example
+        # at this point, so we'll just create a placeholder.
+        reporter.example_finished(create_example(location), e, location)
+        return false
       end
 
       def run_after_all(example)
+        return true if dry_run
         execute_in_class_hierarchy(true) do |behaviour|
           example.eval_each_fail_slow(behaviour.after_all_parts)
         end
+        return true
+      rescue Exception => e
+        location = "after(:all)"
+        reporter.example_finished(create_example(location), e, location)
+        return false
       end
       
       def run_after_each(example)
@@ -253,6 +282,29 @@ module Spec
     private
       def create_example(description, &implementation) #:nodoc:
         Example.new(description, &implementation)
+      end
+
+      def examples_to_run
+        all_examples = examples
+        return all_examples unless specified_examples
+        return all_examples if specified_examples.empty?
+        return all_examples if specified_examples.index(description.to_s)
+        all_examples.reject! do |example|
+          matcher = ExampleMatcher.new(description.to_s, example.description)
+          !matcher.matches?(specified_examples)
+        end
+      end
+
+      def specified_examples
+        rspec_options.examples
+      end
+
+      def reporter
+        rspec_options.reporter
+      end
+
+      def dry_run
+        rspec_options.dry_run
       end
       
       def example_objects
@@ -283,12 +335,6 @@ module Spec
         klass.kind_of?(ExampleGroupMethods)
       end
       
-      def add_examples(suite)
-        examples.each do |example|
-          suite << new(example)
-        end
-      end
-
       def is_test?(method_name)
         method_name =~ /^test_./
       end

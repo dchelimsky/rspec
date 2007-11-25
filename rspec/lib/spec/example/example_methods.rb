@@ -33,20 +33,12 @@ module Spec
         super(obj, [:@_example, :@_result])
       end
 
-      def run_before_all
-        self.class.run_before_all(self)
-      end
-
       def run_before_each
         self.class.run_before_each(self)
       end
 
       def run_after_each
         self.class.run_after_each(self)
-      end
-
-      def run_after_all
-        self.class.run_after_all(self)
       end
 
       def eval_each_fail_fast(procs) #:nodoc:
