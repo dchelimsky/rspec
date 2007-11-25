@@ -14,6 +14,10 @@ module Test
         examples.length
       end
 
+      def delete(example)
+        examples.delete example
+      end
+
     end
 
   end

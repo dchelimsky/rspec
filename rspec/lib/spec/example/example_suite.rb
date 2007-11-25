@@ -46,10 +46,6 @@ module Spec
         examples.empty?
       end
 
-      def delete(example)
-        @examples.delete example
-      end
-
       protected
       def retain_specified_examples
         return unless specified_examples

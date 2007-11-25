@@ -562,17 +562,5 @@ module Spec
       end
     end
 
-    describe ExampleSuite, "#delete" do
-      it "removes the passed in example" do
-        behaviour = Class.new(ExampleGroup) do
-          describe("Some Examples")
-          it("does something") {}
-        end
-        suite = behaviour.suite
-        suite.delete(suite.examples.first)
-
-        suite.should be_empty
-      end
-    end
   end
 end
