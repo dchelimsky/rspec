@@ -1,4 +1,4 @@
-$:.push File.join(File.dirname(__FILE__), *%w[.. lib])
+$:.push File.join(File.dirname(__FILE__), *%w[.. .. .. lib])
 require 'spec'
 
 # Uncommenting next line will break the output story (no output!!)
