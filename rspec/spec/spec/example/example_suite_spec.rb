@@ -542,18 +542,6 @@ module Spec
       end
     end
 
-    describe ExampleSuite, "#size" do
-      it "returns the number of examples in the behaviour" do
-        behaviour = Class.new(ExampleGroup) do
-          describe("Some Examples")
-          it("does something") {}
-          it("does something else") {}
-        end
-        suite = behaviour.suite
-        suite.size.should == 2
-      end
-    end
-
     describe ExampleSuite, "#empty?" do
       it "when there are examples; returns true" do
         behaviour = Class.new(ExampleGroup) do
@@ -561,8 +549,6 @@ module Spec
           it("does something") {}
         end
         suite = behaviour.suite
-        suite.size.should be > 0
-
         suite.should_not be_empty
       end
 
@@ -571,7 +557,6 @@ module Spec
           describe("Some Examples")
         end
         suite = behaviour.suite
-        suite.size.should == 0
 
         suite.should be_empty
       end

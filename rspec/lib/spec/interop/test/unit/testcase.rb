@@ -32,7 +32,7 @@ module Test
           suite
         end
       end
-
+      
       def initialize(example) #:nodoc:
         @_example = example
         @_result = ::Test::Unit::TestResult.new

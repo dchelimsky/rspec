@@ -9,6 +9,11 @@ module Test
         return true unless args.empty?
         rspec_run
       end
+
+      def size
+        examples.length
+      end
+
     end
 
   end

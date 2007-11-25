@@ -42,12 +42,8 @@ module Spec
         examples << example
       end
 
-      def size
-        examples.length
-      end
-
       def empty?
-        size == 0
+        examples.empty?
       end
 
       def delete(example)
