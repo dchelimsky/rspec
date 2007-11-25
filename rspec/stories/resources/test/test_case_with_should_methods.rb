@@ -2,7 +2,7 @@ $:.push File.join(File.dirname(__FILE__), *%w[.. .. .. lib])
 require 'spec'
 require 'spec/interop/test'
 
-class MySpec < Test::Unit::TestCase
+class MySpec < Test::Unit::ExampleGroup
   def should_pass_with_should
     1.should == 1
   end

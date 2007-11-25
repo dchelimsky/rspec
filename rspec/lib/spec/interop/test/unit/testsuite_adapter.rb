@@ -1,25 +1,34 @@
 module Test
   module Unit
-    
-    # TODO - mid-refactoring - looking to eliminate ExampleSuite,
-    # so this will be a pure adapter between TestSuite and ExampleGroup
-    class TestSuiteAdapter < Spec::Example::ExampleSuite
-      alias_method :rspec_run, :run
+    class TestSuiteAdapter < TestSuite
+      attr_reader :example_group, :examples
+      alias_method :tests, :examples
+      def initialize(example_group)
+        @example_group = example_group
+        @examples = example_group.examples
+      end
+
+      def name
+        example_group.description.description
+      end
+
       def run(*args)
         return true unless args.empty?
-        rspec_run
+        example_group.run(examples)
       end
 
       def size
-        examples.length
+        example_group.number_of_examples
       end
 
       def delete(example)
         examples.delete example
       end
 
+      def empty?
+        examples.empty?
+      end
     end
-
   end
 end
 

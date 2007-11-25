@@ -21,7 +21,7 @@ describe "An Example" do
   end
 end
 
-class ATest < Test::Unit::TestCase
+class ATest < Test::Unit::ExampleGroup
   def test_should_pass_with_assert
     assert true
   end

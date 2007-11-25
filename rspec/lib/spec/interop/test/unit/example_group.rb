@@ -8,7 +8,7 @@ module Test
     # require 'test/unit'
     # require 'spec'
     #
-    # class MyTest < Test::Unit::TestCase
+    # class MyTest < Test::Unit::Example
     #   it "should work with Test::Unit assertions" do
     #     assert_equal 4, 2+1
     #   end
@@ -19,17 +19,13 @@ module Test
     # end
     #
     # See also Spec::Example::ExampleGroup
-    class TestCase
+    class ExampleGroup < Test::Unit::TestCase
       extend Spec::Example::ExampleGroupMethods
       include Spec::Example::ExampleMethods
 
       class << self
         def suite
-          description = description ? description.description : "RSpec Description Suite"
-          customize_example
-          suite = Test::Unit::TestSuiteAdapter.new(description, self)
-          add_examples(suite)
-          suite
+          Test::Unit::TestSuiteAdapter.new(self)
         end
       end
       
