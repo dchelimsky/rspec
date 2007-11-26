@@ -127,6 +127,7 @@ In alphabetical order (by last name)
 * Ryan Kinderman
 ** Patch [#12935] Remove requirement that mocha must be installed as a gem when used as mocking framework.
 * Josh Knowles
+** Patch [#147] Allow stories to use Spec::Matchers
 ** Patch [#10245] Patch to HTML escape the behavior name when using HTML Formatter
 ** Patch [#11221] Autotest support does not work w/o Rails Gem installed
 * Jens Krämer
