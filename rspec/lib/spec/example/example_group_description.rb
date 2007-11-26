@@ -15,13 +15,14 @@ module Spec
       extend ClassMethods
 
       attr_reader :text, :described_type, :options
+      alias_method :to_s, :text
       
       def initialize(*args)
         args, @options = args_and_options(*args)
-        init_example_group_type
-        init_spec_path
-        init_described_type(args)
-        init_text(*args)
+        set_type
+        expand_spec_path
+        @described_type = args.find{|arg| Module === arg}
+        @text = self.class.description_text(*args)
       end
   
       def [](key)
@@ -31,8 +32,6 @@ module Spec
       def []=(key, value)
         @options[key] = value
       end
-      
-      def to_s; @text; end
       
       def ==(value)
         case value
@@ -44,32 +43,24 @@ module Spec
       end
       
     private
-      def init_example_group_type
+      def set_type
         # NOTE - BE CAREFUL IF CHANGING THIS NEXT LINE:
         #   this line is as it is to satisfy JRuby - the original version
         #   read, simply: "if options[:example_group]", which passed against ruby, but failed against jruby
         if options[:example_group] && options[:example_group].ancestors.include?(ExampleGroup)
           proposed_type = parse_type(options[:example_group])
           if ExampleGroupFactory.get(proposed_type)
-            options[:behaviour_type] ||= proposed_type
+            options[:type] ||= proposed_type
           end
         end
       end
       
-      def init_spec_path
+      def expand_spec_path
         if options.has_key?(:spec_path)
           options[:spec_path] = File.expand_path(options[:spec_path])
         end
       end
       
-      def init_text(*args)
-        @text = self.class.description_text(*args)
-      end
-      
-      def init_described_type(args)
-        @described_type = args.find{|arg| Module === arg}
-      end
-    
       def parse_type(example_group)
         class_name = get_class_name(example_group)
         parsed_class_name = class_name.split("::").reverse[0].gsub('ExampleGroup', '')
