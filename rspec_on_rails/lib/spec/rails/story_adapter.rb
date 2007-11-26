@@ -9,9 +9,11 @@ require 'spec/rails'
 
 Test::Unit.run = true
 
+ActionController::Integration::Session.send(:include, Spec::Matchers)
+ActionController::Integration::Session.send(:include, Spec::Rails::Matchers)
+
 class RailsStory < ActionController::IntegrationTest
   self.use_transactional_fixtures = true
-  include Spec::Rails::Matchers
 
   def initialize #:nodoc:
     @_result = Test::Unit::TestResult.new
