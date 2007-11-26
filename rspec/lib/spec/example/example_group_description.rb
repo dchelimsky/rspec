@@ -2,7 +2,7 @@ module Spec
   module Example
     class ExampleGroupDescription
       module ClassMethods
-        def generate_description(*args)
+        def description_text(*args)
           description = args.shift.to_s
           until args.empty?
             suffix = args.shift.to_s
@@ -14,14 +14,14 @@ module Spec
       end
       extend ClassMethods
 
-      attr_reader :description, :described_type, :options
+      attr_reader :text, :described_type, :options
       
       def initialize(*args)
         args, @options = args_and_options(*args)
         init_example_group_type
         init_spec_path
         init_described_type(args)
-        init_description(*args)
+        init_text(*args)
       end
   
       def [](key)
@@ -32,14 +32,14 @@ module Spec
         @options[key] = value
       end
       
-      def to_s; @description; end
+      def to_s; @text; end
       
       def ==(value)
         case value
         when ExampleGroupDescription
-          @description == value.description
+          @text == value.text
         else
-          @description == value
+          @text == value
         end
       end
       
@@ -62,8 +62,8 @@ module Spec
         end
       end
       
-      def init_description(*args)
-        @description = self.class.generate_description(*args)
+      def init_text(*args)
+        @text = self.class.description_text(*args)
       end
       
       def init_described_type(args)

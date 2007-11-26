@@ -3,10 +3,11 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 module Spec
   module Example
     describe ExampleGroupDescription, " constructed with a single String" do
+      attr_reader :description
       before(:each) {@description = ExampleGroupDescription.new("abc")}
       
       it "should provide that string as its name" do
-        @description.description.should == "abc"
+        description.text.should == "abc"
       end
       it "should provide nil as its type" do
         @description.described_type.should be_nil
@@ -27,10 +28,11 @@ module Spec
     end
     
     describe ExampleGroupDescription, " constructed with a Type" do
+      attr_reader :description
       before(:each) {@description = ExampleGroupDescription.new(ExampleGroup)}
 
       it "should provide a String representation of that type (fully qualified) as its name" do
-        @description.description.should == "Spec::Example::ExampleGroup"
+        description.text.should == "Spec::Example::ExampleGroup"
       end
       it "should provide that type (fully qualified) as its type" do
         @description.described_type.should == Spec::Example::ExampleGroup
@@ -38,10 +40,11 @@ module Spec
     end
     
     describe ExampleGroupDescription, " constructed with a Type and a String" do
+      attr_reader :description
       before(:each) {@description = ExampleGroupDescription.new(ExampleGroup, " behaving")}
       
       it "should include the type and second String in its name" do
-        @description.description.should == "Spec::Example::ExampleGroup behaving"
+        description.text.should == "Spec::Example::ExampleGroup behaving"
       end
       it "should provide that type (fully qualified) as its type" do
         @description.described_type.should == Spec::Example::ExampleGroup
@@ -49,38 +52,43 @@ module Spec
     end
 
     describe ExampleGroupDescription, "constructed with a Type and a String not starting with a space" do
+      attr_reader :description
       before(:each) {@description = ExampleGroupDescription.new(ExampleGroup, "behaving")}
 
       it "should include the type and second String with a space in its name" do
-        @description.description.should == "Spec::Example::ExampleGroup behaving"
+        description.text.should == "Spec::Example::ExampleGroup behaving"
       end
     end
 
     describe ExampleGroupDescription, "constructed with a Type and a String starting with a ." do
+      attr_reader :description
       before(:each) {@description = ExampleGroupDescription.new(ExampleGroup, ".behaving")}
 
       it "should include the type and second String with a space in its name" do
-        @description.description.should == "Spec::Example::ExampleGroup.behaving"
+        description.text.should == "Spec::Example::ExampleGroup.behaving"
       end
     end
 
     describe ExampleGroupDescription, "constructed with a Type and a String starting with a #" do
+      attr_reader :description
       before(:each) {@description = ExampleGroupDescription.new(ExampleGroup, "#behaving")}
 
       it "should include the type and second String with a space in its name" do
-        @description.description.should == "Spec::Example::ExampleGroup#behaving"
+        description.text.should == "Spec::Example::ExampleGroup#behaving"
       end
     end
 
     describe ExampleGroupDescription, "constructed with String, Type, String" do
+      attr_reader :description
       before(:each) {@description = ExampleGroupDescription.new("A", Hash, "with one entry")}
 
       it "should include create a description with all arguments" do
-        @description.description.should == "A Hash with one entry"
+        description.text.should == "A Hash with one entry"
       end
     end
     
     describe ExampleGroupDescription, " constructed with options" do
+      attr_reader :description
       before(:each) do
         @description = ExampleGroupDescription.new(ExampleGroup, :a => "b", :spec_path => "blah")
       end
@@ -93,6 +101,5 @@ module Spec
         @description[:spec_path].should == File.expand_path("blah")
       end
     end
-    
   end
 end
