@@ -18,7 +18,7 @@ module Spec
       #     end
       #   end
       #
-      #   describe "ThingHelper behaviour" do
+      #   describe "ThingHelper example_group" do
       #     include ThingHelper
       #     it "should tell you the number of things" do
       #       Thing.should_receive(:count).and_return(37)

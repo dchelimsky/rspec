@@ -9,7 +9,7 @@ class DescriptionGenerationSpecController < ActionController::Base
   end
 end
 
-describe "Description generation", :behaviour_type => :controller do
+describe "Description generation", :type => :controller do
   controller_name :description_generation_spec
   before(:each) do
     Spec::Matchers.clear_generated_description

@@ -42,10 +42,10 @@ module Spec
 
         def teardown #:nodoc:
           super
-          ensure_that_base_view_path_is_not_set_across_behaviours
+          ensure_that_base_view_path_is_not_set_across_example_groups
         end
 
-        def ensure_that_base_view_path_is_not_set_across_behaviours #:nodoc:
+        def ensure_that_base_view_path_is_not_set_across_example_groups #:nodoc:
           ActionView::Base.base_view_path = nil
         end
 

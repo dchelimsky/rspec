@@ -10,7 +10,7 @@ Spec::Runner.configure do |config|
   config.use_instantiated_fixtures  = false
   config.fixture_path = RAILS_ROOT + '/spec/fixtures/'
 
-  # You can declare fixtures for each behaviour like this:
+  # You can declare fixtures for each example_group like this:
   #   describe "...." do
   #     fixtures :table_a, :table_b
   #

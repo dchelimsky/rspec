@@ -42,25 +42,25 @@ module Spec
       # If you want to restrict the inclusion to a subset of all the behaviours then
       # specify this in a Hash as the last argument:
       #
-      #   config.include(My::Pony, My::Horse, :behaviour_type => :farm)
+      #   config.include(My::Pony, My::Horse, :type => :farm)
       #
       # Only behaviours that have that type will get the modules included:
       #
-      #   describe "Downtown", :behaviour_type => :city do
+      #   describe "Downtown", :type => :city do
       #     # Will *not* get My::Pony and My::Horse included
       #   end
       #
-      #   describe "Old Mac Donald", :behaviour_type => :farm do
+      #   describe "Old Mac Donald", :type => :farm do
       #     # *Will* get My::Pony and My::Horse included
       #   end
       #
       def include(*args)
         args << {} unless Hash === args.last
         modules, options = args_and_options(*args)
-        required_behaviour_type = options[:behaviour_type]
-        required_behaviour_type = required_behaviour_type.to_sym if required_behaviour_type
+        required_example_group = get_type_from_options(options)
+        required_example_group = required_example_group.to_sym if required_example_group
         modules.each do |mod|
-          ExampleGroupFactory.get!(required_behaviour_type).send(:include, mod)
+          ExampleGroupFactory.get!(required_example_group).send(:include, mod)
         end
       end
 
@@ -80,24 +80,28 @@ module Spec
       # See #append_before for filtering semantics.
       def prepend_before(*args, &proc)
         scope, options = scope_and_options(*args)
-        behaviour_type = ExampleGroupFactory.get!(options[:behaviour_type])
-        behaviour_type.prepend_before(scope, &proc)
+        example_group = ExampleGroupFactory.get!(
+          get_type_from_options(options)
+        )
+        example_group.prepend_before(scope, &proc)
       end
       # Appends a global <tt>before</tt> block to all behaviours.
       #
       # If you want to restrict the block to a subset of all the behaviours then
       # specify this in a Hash as the last argument:
       #
-      #   config.prepend_before(:all, :behaviour_type => :farm)
+      #   config.prepend_before(:all, :type => :farm)
       #
       # or
       #
-      #   config.prepend_before(:behaviour_type => :farm)
+      #   config.prepend_before(:type => :farm)
       #
       def append_before(*args, &proc)
         scope, options = scope_and_options(*args)
-        behaviour_type = ExampleGroupFactory.get!(options[:behaviour_type])
-        behaviour_type.append_before(scope, &proc)
+        example_group = ExampleGroupFactory.get!(
+          get_type_from_options(options)
+        )
+        example_group.append_before(scope, &proc)
       end
       alias_method :before, :append_before
 
@@ -105,16 +109,20 @@ module Spec
       # See #append_before for filtering semantics.
       def prepend_after(*args, &proc)
         scope, options = scope_and_options(*args)
-        behaviour_type = ExampleGroupFactory.get!(options[:behaviour_type])
-        behaviour_type.prepend_after(scope, &proc)
+        example_group = ExampleGroupFactory.get!(
+          get_type_from_options(options)
+        )
+        example_group.prepend_after(scope, &proc)
       end
       alias_method :after, :prepend_after
       # Appends a global <tt>after</tt> block to all behaviours.
       # See #append_before for filtering semantics.
       def append_after(*args, &proc)
         scope, options = scope_and_options(*args)
-        behaviour_type = ExampleGroupFactory.get!(options[:behaviour_type])
-        behaviour_type.append_after(scope, &proc)
+        example_group = ExampleGroupFactory.get!(
+          get_type_from_options(options)
+        )
+        example_group.append_after(scope, &proc)
       end
 
     private
@@ -122,6 +130,10 @@ module Spec
       def scope_and_options(*args)
         args, options = args_and_options(*args)
         scope = (args[0] || :each), options
+      end
+
+      def get_type_from_options(options)
+        options[:type] || options[:behaviour_type]
       end
     
       def mock_framework_path(framework_name)

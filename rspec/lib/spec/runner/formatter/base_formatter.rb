@@ -17,9 +17,9 @@ module Spec
         def start(example_count)
         end
 
-        # This method is invoked at the beginning of the execution of each behaviour.
-        # +name+ is the name of the behaviour and +first+ is true if it is the
-        # first behaviour - otherwise it's false.
+        # This method is invoked at the beginning of the execution of each example_group.
+        # +name+ is the name of the example_group and +first+ is true if it is the
+        # first example_group - otherwise it's false.
         #
         # The next method to be invoked after this is #example_failed or #example_finished
         def add_example_group(name)
@@ -45,7 +45,7 @@ module Spec
         # +name+ is the name of the example.
         # +message+ is the message from the ExamplePendingError, if it exists, or the
         # default value of "Not Yet Implemented"
-        def example_pending(behaviour_name, example_name, message)
+        def example_pending(example_group_name, example_name, message)
         end
 
         # This method is invoked after all of the examples have executed. The next method

@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 require 'spec/mocks/errors'
 
-describe ActionView::Base, "with RSpec extensions", :behaviour_type => :view do  
+describe ActionView::Base, "with RSpec extensions", :type => :view do  
   it "should not raise when render has been received" do
     template.expect_render(:partial => "name")
     template.render :partial => "name"

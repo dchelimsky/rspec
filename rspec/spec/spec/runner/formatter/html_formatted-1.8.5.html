@@ -73,7 +73,7 @@ function makeYellow(element_id) {
   font-size: 1.2em;
 }
 
-.behaviour {
+.example_group {
   margin: 0 10px 5px;
   background: #fff;
 }
@@ -176,13 +176,13 @@ a {
 </div>
 
 <div class="results">
-<div class="behaviour">
+<div class="example_group">
   <dl>
-  <dt id="behaviour_1">Mocker</dt>
+  <dt id="example_group_1">Mocker</dt>
     <script type="text/javascript">moveProgressBar('5.8');</script>
     <dd class="spec passed"><span class="passed_spec_name">should be able to call mock()</span></dd>
     <script type="text/javascript">makeRed('rspec-header');</script>
-    <script type="text/javascript">makeRed('behaviour_1');</script>
+    <script type="text/javascript">makeRed('example_group_1');</script>
     <script type="text/javascript">moveProgressBar('11.7');</script>
     <dd class="spec failed">
       <span class="failed_spec_name">should fail when expected message not received</span>
@@ -249,10 +249,10 @@ a {
     </dd>
   </dl>
 </div>
-<div class="behaviour">
+<div class="example_group">
   <dl>
-  <dt id="behaviour_2">Running specs with --diff</dt>
-    <script type="text/javascript">makeRed('behaviour_2');</script>
+  <dt id="example_group_2">Running specs with --diff</dt>
+    <script type="text/javascript">makeRed('example_group_2');</script>
     <script type="text/javascript">moveProgressBar('35.2');</script>
     <dd class="spec failed">
       <span class="failed_spec_name">should print diff of different strings</span>
@@ -310,16 +310,16 @@ Diff:
     </dd>
   </dl>
 </div>
-<div class="behaviour">
+<div class="example_group">
   <dl>
-  <dt id="behaviour_3">A consumer of a stub</dt>
+  <dt id="example_group_3">A consumer of a stub</dt>
     <script type="text/javascript">moveProgressBar('47.0');</script>
     <dd class="spec passed"><span class="passed_spec_name">should be able to stub methods on any Object</span></dd>
   </dl>
 </div>
-<div class="behaviour">
+<div class="example_group">
   <dl>
-  <dt id="behaviour_4">A stubbed method on a class</dt>
+  <dt id="example_group_4">A stubbed method on a class</dt>
     <script type="text/javascript">moveProgressBar('52.9');</script>
     <dd class="spec passed"><span class="passed_spec_name">should return the stubbed value</span></dd>
     <script type="text/javascript">moveProgressBar('58.8');</script>
@@ -328,9 +328,9 @@ Diff:
     <dd class="spec passed"><span class="passed_spec_name">can stub! and mock the same message</span></dd>
   </dl>
 </div>
-<div class="behaviour">
+<div class="example_group">
   <dl>
-  <dt id="behaviour_5">A mock</dt>
+  <dt id="example_group_5">A mock</dt>
     <script type="text/javascript">moveProgressBar('70.5');</script>
     <dd class="spec passed"><span class="passed_spec_name">can stub!</span></dd>
     <script type="text/javascript">moveProgressBar('76.4');</script>
@@ -339,26 +339,26 @@ Diff:
     <dd class="spec passed"><span class="passed_spec_name">can stub! and mock the same message</span></dd>
   </dl>
 </div>
-<div class="behaviour">
+<div class="example_group">
   <dl>
-  <dt id="behaviour_6">pending example (using pending method)</dt>
-    <script type="text/javascript">makeYellow('behaviour_6');</script>
+  <dt id="example_group_6">pending example (using pending method)</dt>
+    <script type="text/javascript">makeYellow('example_group_6');</script>
     <script type="text/javascript">moveProgressBar('88.2');</script>
     <dd class="spec not_implemented"><span class="not_implemented_spec_name">should be reported as &quot;PENDING: for some reason&quot; (PENDING: for some reason)</span></dd>
   </dl>
 </div>
-<div class="behaviour">
+<div class="example_group">
   <dl>
-  <dt id="behaviour_7">pending example (with no block)</dt>
-    <script type="text/javascript">makeYellow('behaviour_7');</script>
+  <dt id="example_group_7">pending example (with no block)</dt>
+    <script type="text/javascript">makeYellow('example_group_7');</script>
     <script type="text/javascript">moveProgressBar('94.1');</script>
     <dd class="spec not_implemented"><span class="not_implemented_spec_name">should be reported as &quot;PENDING: Not Yet Implemented&quot; (PENDING: Not Yet Implemented)</span></dd>
   </dl>
 </div>
-<div class="behaviour">
+<div class="example_group">
   <dl>
-  <dt id="behaviour_8">pending example (with block for pending)</dt>
-    <script type="text/javascript">makeYellow('behaviour_8');</script>
+  <dt id="example_group_8">pending example (with block for pending)</dt>
+    <script type="text/javascript">makeYellow('example_group_8');</script>
     <script type="text/javascript">moveProgressBar('100.0');</script>
     <dd class="spec not_implemented"><span class="not_implemented_spec_name">should have a failing block, passed to pending, reported as &quot;PENDING: for some reason&quot; (PENDING: for some reason)</span></dd>
   </dl>

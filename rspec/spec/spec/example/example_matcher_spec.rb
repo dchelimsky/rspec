@@ -28,34 +28,34 @@ module Spec
     describe ExampleMatcher, "#matches?" do
       include ExampleMatcherSpecHelper
       
-      it "should match correct behaviour and example" do
-        matcher = ExampleMatcher.new("behaviour", "example")
-        matcher.should match_description("behaviour example")
+      it "should match correct example_group and example" do
+        matcher = ExampleMatcher.new("example_group", "example")
+        matcher.should match_description("example_group example")
       end
       
       it "should not match wrong example" do
-        matcher = ExampleMatcher.new("behaviour", "other example")
-        matcher.should_not match_description("behaviour example")
+        matcher = ExampleMatcher.new("example_group", "other example")
+        matcher.should_not match_description("example_group example")
       end
       
-      it "should not match wrong behaviour" do
-        matcher = ExampleMatcher.new("other behaviour", "example")
-        matcher.should_not match_description("behaviour example")
+      it "should not match wrong example_group" do
+        matcher = ExampleMatcher.new("other example_group", "example")
+        matcher.should_not match_description("example_group example")
       end
       
       it "should match example only" do
-        matcher = ExampleMatcher.new("behaviour", "example")
+        matcher = ExampleMatcher.new("example_group", "example")
         matcher.should match_description("example")
       end
 
-      it "should match behaviour only" do
-        matcher = ExampleMatcher.new("behaviour", "example")
-        matcher.should match_description("behaviour")
+      it "should match example_group only" do
+        matcher = ExampleMatcher.new("example_group", "example")
+        matcher.should match_description("example_group")
       end
 
-      it "should match behaviour ending with before(:all)" do
-        matcher = ExampleMatcher.new("behaviour", "example")
-        matcher.should match_description("behaviour before(:all)")
+      it "should match example_group ending with before(:all)" do
+        matcher = ExampleMatcher.new("example_group", "example")
+        matcher.should match_description("example_group before(:all)")
       end
       
       it "should escape regexp chars" do
@@ -63,7 +63,7 @@ module Spec
         matcher.should_not match_description("con p")
       end
       
-      it "should match when behaviour is modularized" do
+      it "should match when example_group is modularized" do
         matcher = ExampleMatcher.new("MyModule::MyClass", "example")
         matcher.should match_description("MyClass example")
       end      

@@ -122,8 +122,8 @@ module Custom
 end
 
 class FakeReporter < Spec::Runner::Reporter
-  attr_reader :added_behaviour
+  attr_reader :added_example_group
   def add_example_group(description)
-    @added_behaviour = description
+    @added_example_group = description
   end
 end

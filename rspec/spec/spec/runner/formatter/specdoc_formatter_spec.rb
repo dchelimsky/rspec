@@ -10,7 +10,7 @@ module Spec
           @options.stub!(:dry_run).and_return(false)
           @options.stub!(:colour).and_return(false)
           @formatter = SpecdocFormatter.new(@options, @io)
-          @behaviour = Class.new(::Spec::Example::ExampleGroup).describe("Some Examples")
+          @example_group = Class.new(::Spec::Example::ExampleGroup).describe("Some Examples")
         end
 
         it "should produce standard summary without pending when pending has a 0 count" do
@@ -30,7 +30,7 @@ module Spec
 
         it "when having an error, should push failing spec name and failure number" do
           @formatter.example_failed(
-            @behaviour.it("spec"),
+            @example_group.it("spec"),
             98,
             Reporter::Failure.new("c s", RuntimeError.new)
           )
@@ -39,7 +39,7 @@ module Spec
 
         it "when having an expectation failure, should push failing spec name and failure number" do
           @formatter.example_failed(
-            @behaviour.it("spec"),
+            @example_group.it("spec"),
             98,
             Reporter::Failure.new("c s", Spec::Expectations::ExpectationNotMetError.new)
           )
@@ -57,20 +57,20 @@ module Spec
         end
 
         it "should push passing spec name" do
-          @formatter.example_passed(@behaviour.it("spec"))
+          @formatter.example_passed(@example_group.it("spec"))
           @io.string.should eql("- spec\n")
         end
 
         it "should push pending example name and message" do
-          @formatter.example_pending('behaviour', 'example','reason')
+          @formatter.example_pending('example_group', 'example','reason')
           @io.string.should eql("- example (PENDING: reason)\n")
         end
 
         it "should dump pending" do
-          @formatter.example_pending('behaviour', 'example','reason')
+          @formatter.example_pending('example_group', 'example','reason')
           @io.rewind
           @formatter.dump_pending
-          @io.string.should =~ /Pending\:\nbehaviour example \(reason\)\n/
+          @io.string.should =~ /Pending\:\nexample_group example \(reason\)\n/
         end
 
         it "should not produce summary on dry run" do

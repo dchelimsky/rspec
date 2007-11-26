@@ -154,11 +154,11 @@ module Spec
         end
       end
 
-      describe Options, "#add_example_group affecting passed in behaviour" do
+      describe Options, "#add_example_group affecting passed in example_group" do
         it "runs all examples when options.examples is nil" do
           example_1_has_run = false
           example_2_has_run = false
-          @behaviour = Class.new(::Spec::Example::ExampleGroup).describe("Some Examples") do
+          @example_group = Class.new(::Spec::Example::ExampleGroup).describe("Some Examples") do
             it "runs 1" do
               example_1_has_run = true
             end
@@ -169,7 +169,7 @@ module Spec
 
           @options.examples = nil
 
-          @options.add_example_group @behaviour
+          @options.add_example_group @example_group
           @options.run_examples
           example_1_has_run.should be_true
           example_2_has_run.should be_true
@@ -178,7 +178,7 @@ module Spec
         it "keeps all example_definitions when options.examples is empty" do
           example_1_has_run = false
           example_2_has_run = false
-          @behaviour = Class.new(::Spec::Example::ExampleGroup).describe("Some Examples") do
+          @example_group = Class.new(::Spec::Example::ExampleGroup).describe("Some Examples") do
             it "runs 1" do
               example_1_has_run = true
             end
@@ -189,22 +189,22 @@ module Spec
 
           @options.examples = []
 
-          @options.add_example_group @behaviour
+          @options.add_example_group @example_group
           @options.run_examples
           example_1_has_run.should be_true
           example_2_has_run.should be_true
         end
       end
 
-      describe Options, "#add_example_group affecting behaviours" do
-        it "adds behaviour when behaviour has example_definitions and is not shared" do
-          @behaviour = Class.new(::Spec::Example::ExampleGroup).describe("Some Examples") do
-            it "uses this behaviour" do
+      describe Options, "#add_example_group affecting example_group" do
+        it "adds example_group when example_group has example_definitions and is not shared" do
+          @example_group = Class.new(::Spec::Example::ExampleGroup).describe("Some Examples") do
+            it "uses this example_group" do
             end
           end
 
           @options.number_of_examples.should == 0
-          @options.add_example_group @behaviour
+          @options.add_example_group @example_group
           @options.number_of_examples.should == 1
           @options.example_groups.length.should == 1
         end
@@ -253,7 +253,7 @@ module Spec
           @options.run_examples
         end
 
-        describe Options, "#run_examples when there are behaviours" do
+        describe Options, "#run_examples when there are example_group" do
           before do
             @options.add_example_group Class.new(::Spec::Example::ExampleGroup)
             @options.formatters << Formatter::BaseTextFormatter.new(@options, @out)
@@ -271,7 +271,7 @@ module Spec
           end
         end
 
-        describe Options, "#run_examples when there are no behaviours" do
+        describe Options, "#run_examples when there are no example_group" do
           before do
             @options.formatters << Formatter::BaseTextFormatter.new(@options, @out)
           end

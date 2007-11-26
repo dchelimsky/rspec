@@ -77,18 +77,18 @@ module Spec
 
       describe ExampleGroup, ".examples" do
         it "should return an ExampleSuite with Examples" do
-          behaviour = Class.new(ExampleGroup) do
+          example_group = Class.new(ExampleGroup) do
             describe('example')
             it "should pass" do
               1.should == 1
             end
           end
-          behaviour.examples.length.should == 1
-          behaviour.examples.first.description.should == "should pass"
+          example_group.examples.length.should == 1
+          example_group.examples.first.description.should == "should pass"
         end
 
         it "should include methods that begin with test and has an arity of 0 in suite" do
-          behaviour = Class.new(ExampleGroup) do
+          example_group = Class.new(ExampleGroup) do
             describe('example')
             def test_any_args(*args)
               true.should be_true
@@ -103,14 +103,14 @@ module Spec
               raise "This is not a real test"
             end
           end
-          behaviour.examples.length.should == 2
-          descriptions = behaviour.examples.collect {|example| example.description}.sort
+          example_group.examples.length.should == 2
+          descriptions = example_group.examples.collect {|example| example.description}.sort
           descriptions.should == ["test_any_args", "test_something"]
-          behaviour.run.should be_true
+          example_group.run.should be_true
         end
 
         it "should include methods that begin with should and has an arity of 0 in suite" do
-          behaviour = Class.new(ExampleGroup) do
+          example_group = Class.new(ExampleGroup) do
             describe('example')
             def shouldCamelCase
               true.should be_true
@@ -131,9 +131,9 @@ module Spec
               raise "This is not a real example"
             end
           end
-          behaviour = behaviour.dup
-          behaviour.examples.length.should == 4
-          descriptions = behaviour.examples.collect {|example| example.description}.sort
+          example_group = example_group.dup
+          example_group.examples.length.should == 4
+          descriptions = example_group.examples.collect {|example| example.description}.sort
           descriptions.should include("shouldCamelCase")
           descriptions.should include("should_any_args")
           descriptions.should include("should_something")
@@ -141,7 +141,7 @@ module Spec
         end
 
         it "should not include methods that begin with test_ and has an arity > 0 in suite" do
-          behaviour = Class.new(ExampleGroup) do
+          example_group = Class.new(ExampleGroup) do
             describe('example')
             def test_invalid(foo)
               1.should == 1
@@ -150,11 +150,11 @@ module Spec
               1.should == 1
             end
           end
-          behaviour.examples.length.should == 0
+          example_group.examples.length.should == 0
         end
 
         it "should not include methods that begin with should_ and has an arity > 0 in suite" do
-          behaviour = Class.new(ExampleGroup) do
+          example_group = Class.new(ExampleGroup) do
             describe('example')
             def should_invalid(foo)
               1.should == 1
@@ -166,7 +166,7 @@ module Spec
               1.should == 1
             end
           end
-          behaviour.examples.length.should == 0
+          example_group.examples.length.should == 0
         end
       end
 
@@ -246,14 +246,14 @@ module Spec
 
       describe ExampleGroup, ".class_eval" do
         it "should allow constants to be defined" do
-          behaviour = Class.new(ExampleGroup) do
+          example_group = Class.new(ExampleGroup) do
             describe('example')
             FOO = 1
             it "should reference FOO" do
               FOO.should == 1
             end
           end
-          behaviour.run
+          example_group.run
           Object.const_defined?(:FOO).should == false
         end
       end
@@ -356,9 +356,9 @@ module Spec
     end
 
     describe ExampleGroup, "#initialize" do
-      the_behaviour = self
-      it "should have copy of behaviour" do
-        the_behaviour.superclass.should == ExampleGroup
+      the_example_group = self
+      it "should have copy of example_group" do
+        the_example_group.superclass.should == ExampleGroup
       end
     end
 
@@ -427,14 +427,14 @@ module Spec
       end
 
       it"should not run when there are no examples" do
-        behaviour = Class.new(ExampleGroup) do
+        example_group = Class.new(ExampleGroup) do
           describe("Foobar")
         end
-        behaviour.examples.should be_empty
+        example_group.examples.should be_empty
 
         reporter = mock("Reporter")
         reporter.should_not_receive(:add_example_group)
-        behaviour.run
+        example_group.run
       end
 
       describe ExampleGroup, "#run when passed examples" do
@@ -476,10 +476,10 @@ module Spec
         it_should_behave_like "Spec::Example::ExampleGroup#run without failure in example"
         
         before do
-          @special_behaviour = Class.new(ExampleGroup)
-          ExampleGroupFactory.register(:special, @special_behaviour)
-          @not_special_behaviour = Class.new(ExampleGroup)
-          ExampleGroupFactory.register(:not_special, @not_special_behaviour)
+          @special_example_group = Class.new(ExampleGroup)
+          ExampleGroupFactory.register(:special, @special_example_group)
+          @not_special_example_group = Class.new(ExampleGroup)
+          ExampleGroupFactory.register(:not_special, @not_special_example_group)
         end
 
         after do
@@ -488,7 +488,7 @@ module Spec
 
         it "should send reporter add_example_group" do
           example_group.run
-          @reporter.added_behaviour.should == "example"
+          @reporter.added_example_group.should == "example"
         end
 
         it "should run example on run" do
@@ -536,49 +536,49 @@ module Spec
           context_instance_value_in.should == context_instance_value_out
         end
 
-        it "should not add global before callbacks for untargetted behaviours" do
+        it "should not add global before callbacks for untargetted example_group" do
           fiddle = []
 
           ExampleGroup.before(:all) { fiddle << "Example.before(:all)" }
           ExampleGroup.prepend_before(:all) { fiddle << "Example.prepend_before(:all)" }
-          @special_behaviour.before(:each) { fiddle << "Example.before(:each, :behaviour_type => :special)" }
-          @special_behaviour.prepend_before(:each) { fiddle << "Example.prepend_before(:each, :behaviour_type => :special)" }
-          @special_behaviour.before(:all) { fiddle << "Example.before(:all, :behaviour_type => :special)" }
-          @special_behaviour.prepend_before(:all) { fiddle << "Example.prepend_before(:all, :behaviour_type => :special)" }
+          @special_example_group.before(:each) { fiddle << "Example.before(:each, :type => :special)" }
+          @special_example_group.prepend_before(:each) { fiddle << "Example.prepend_before(:each, :type => :special)" }
+          @special_example_group.before(:all) { fiddle << "Example.before(:all, :type => :special)" }
+          @special_example_group.prepend_before(:all) { fiddle << "Example.prepend_before(:all, :type => :special)" }
 
-          behaviour = Class.new(ExampleGroup) do
-            describe("I'm not special", :behaviour_type => :not_special)
+          example_group = Class.new(ExampleGroup) do
+            describe("I'm not special", :type => :not_special)
             it "does nothing"
           end
-          behaviour.run
+          example_group.run
           fiddle.should == [
             'Example.prepend_before(:all)',
             'Example.before(:all)',
           ]
         end
 
-        it "should add global before callbacks for targetted behaviours" do
+        it "should add global before callbacks for targetted example_groups" do
           fiddle = []
 
           ExampleGroup.before(:all) { fiddle << "Example.before(:all)" }
           ExampleGroup.prepend_before(:all) { fiddle << "Example.prepend_before(:all)" }
-          @special_behaviour.before(:each) { fiddle << "special.before(:each, :behaviour_type => :special)" }
-          @special_behaviour.prepend_before(:each) { fiddle << "special.prepend_before(:each, :behaviour_type => :special)" }
-          @special_behaviour.before(:all) { fiddle << "special.before(:all, :behaviour_type => :special)" }
-          @special_behaviour.prepend_before(:all) { fiddle << "special.prepend_before(:all, :behaviour_type => :special)" }
-          @special_behaviour.append_before(:each) { fiddle << "special.append_before(:each, :behaviour_type => :special)" }
+          @special_example_group.before(:each) { fiddle << "special.before(:each, :type => :special)" }
+          @special_example_group.prepend_before(:each) { fiddle << "special.prepend_before(:each, :type => :special)" }
+          @special_example_group.before(:all) { fiddle << "special.before(:all, :type => :special)" }
+          @special_example_group.prepend_before(:all) { fiddle << "special.prepend_before(:all, :type => :special)" }
+          @special_example_group.append_before(:each) { fiddle << "special.append_before(:each, :type => :special)" }
 
-          behaviour = Class.new(@special_behaviour).describe("I'm a special behaviour") {}
-          behaviour.it("test") {true}
-          behaviour.run
+          example_group = Class.new(@special_example_group).describe("I'm a special example_group") {}
+          example_group.it("test") {true}
+          example_group.run
           fiddle.should == [
             'Example.prepend_before(:all)',
             'Example.before(:all)',
-            'special.prepend_before(:all, :behaviour_type => :special)',
-            'special.before(:all, :behaviour_type => :special)',
-            'special.prepend_before(:each, :behaviour_type => :special)',
-            'special.before(:each, :behaviour_type => :special)',
-            'special.append_before(:each, :behaviour_type => :special)',
+            'special.prepend_before(:all, :type => :special)',
+            'special.before(:all, :type => :special)',
+            'special.prepend_before(:each, :type => :special)',
+            'special.before(:each, :type => :special)',
+            'special.append_before(:each, :type => :special)',
           ]
         end
 
@@ -657,28 +657,28 @@ module Spec
           mod2 = Module.new
           mod3 = Module.new
           Spec::Runner.configuration.include(mod1, mod2)
-          Spec::Runner.configuration.include(mod3, :behaviour_type => :not_special)
+          Spec::Runner.configuration.include(mod3, :type => :not_special)
 
-          behaviour = Class.new(@special_behaviour).describe("I'm special", :behaviour_type => :special) do
+          example_group = Class.new(@special_example_group).describe("I'm special", :type => :special) do
             it "does nothing"
           end
-          behaviour.run
+          example_group.run
 
-          behaviour.included_modules.should include(mod1)
-          behaviour.included_modules.should include(mod2)
-          behaviour.included_modules.should_not include(mod3)
+          example_group.included_modules.should include(mod1)
+          example_group.included_modules.should include(mod2)
+          example_group.included_modules.should_not include(mod3)
         end
 
         it "should include any predicate_matchers included using configuration" do
           $included_predicate_matcher_found = false
           Spec::Runner.configuration.predicate_matchers[:do_something] = :does_something?
-          behaviour = Class.new(ExampleGroup) do
+          example_group = Class.new(ExampleGroup) do
             describe('example')
             it "should respond to do_something" do
               $included_predicate_matcher_found = respond_to?(:do_something)
             end
           end
-          behaviour.run
+          example_group.run
           $included_predicate_matcher_found.should be(true)
         end
 
@@ -695,11 +695,11 @@ module Spec
             $included_module = nil
             Spec::Runner.configuration.mock_with mod
 
-            behaviour = Class.new(ExampleGroup) do
+            example_group = Class.new(ExampleGroup) do
               describe('example')
               it "does nothing"
             end
-            behaviour.run
+            example_group.run
 
             $included_module.should_not be_nil
           ensure
@@ -759,7 +759,7 @@ module Spec
           after_all_ran.should be_true
         end
 
-        it "should run behaviour after(:all)" do
+        it "should run example_group after(:all)" do
           after_all_ran = false
           example_group.after(:all) { after_all_ran = true }
           example_group.run
@@ -903,10 +903,10 @@ module Spec
       end
 
       it"should have access to the described_type" do
-        behaviour = Class.new(ExampleSubclass) do
+        example_group = Class.new(ExampleSubclass) do
           describe(Array)
         end
-        behaviour.send(:described_type).should == Array
+        example_group.send(:described_type).should == Array
       end
     end
 
