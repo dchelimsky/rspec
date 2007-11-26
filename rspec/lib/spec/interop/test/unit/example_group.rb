@@ -8,7 +8,7 @@ module Test
     # require 'test/unit'
     # require 'spec'
     #
-    # class MyTest < Test::Unit::Example
+    # class MyTest < Test::Unit::ExampleGroup
     #   it "should work with Test::Unit assertions" do
     #     assert_equal 4, 2+1
     #   end
