@@ -143,7 +143,7 @@ module Spec
         @behaviour.it "calls prepend_before" do
         end
         
-        @behaviour.suite.run
+        @behaviour.run
         order.should == [
           :prepend__before_all,
           :special_prepend__before_all,
@@ -187,7 +187,7 @@ module Spec
         @behaviour.it "calls append_before" do
         end
 
-        @behaviour.suite.run
+        @behaviour.run
         order.should == [
           :append_before_all,
           :special_append_before_all,
@@ -231,7 +231,7 @@ module Spec
         @behaviour.it "calls prepend_after" do
         end
 
-        @behaviour.suite.run
+        @behaviour.run
         order.should == [
           :special_child_prepend__after_each,
           :special_prepend__after_each,
@@ -275,7 +275,7 @@ module Spec
         @behaviour.it "calls append_after" do
         end
 
-        @behaviour.suite.run
+        @behaviour.run
         order.should == [
           :special_child_append__after_each,
           :special_append__after_each,

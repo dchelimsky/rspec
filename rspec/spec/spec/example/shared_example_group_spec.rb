@@ -3,14 +3,15 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 module Spec
   module Example
     describe ExampleGroup, "with :shared => true" do
+      attr_reader :options, :original_rspec_options, :formatter, :example_group
       before(:each) do
         @options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
         @original_rspec_options = $rspec_options
-        $rspec_options = @options
+        $rspec_options = options
         @formatter = Spec::Mocks::Mock.new("formatter", :null_object => true)
-        @options.formatters << @formatter
+        options.formatters << formatter
         @example_group = Class.new(ExampleGroup).describe("example_group")
-        class << @example_group
+        class << example_group
           public :include
         end
       end
@@ -125,10 +126,10 @@ module Spec
         shared_example_group.it("shared example") {}
         shared_example_group.it("shared example 2") {}
 
-        @example_group.it("example") {}
-        @example_group.number_of_examples.should == 1
-        @example_group.it_should_behave_like("shared example_group")
-        @example_group.number_of_examples.should == 3
+        example_group.it("example") {}
+        example_group.number_of_examples.should == 1
+        example_group.it_should_behave_like("shared example_group")
+        example_group.number_of_examples.should == 3
       end
 
       it "should add examples to current example_group using include" do
@@ -162,10 +163,9 @@ module Spec
 
         example_ran = false
 
-        @example_group.it_should_behave_like("shared example_group")
-        @example_group.it("example") {example_ran = true}
-        suite = @example_group.suite
-        suite.run
+        example_group.it_should_behave_like("shared example_group")
+        example_group.it("example") {example_ran = true}
+        example_group.run
         example_ran.should be_true
         shared_example_ran.should be_true
       end
@@ -180,10 +180,9 @@ module Spec
 
         example_ran = false
 
-        @example_group.it_should_behave_like("shared example_group")
-        @example_group.it("example") {example_ran = true}
-        suite = @example_group.suite
-        suite.run
+        example_group.it_should_behave_like("shared example_group")
+        example_group.it("example") {example_ran = true}
+        example_group.run
         example_ran.should be_true
         shared_setup_ran.should be_true
         shared_teardown_ran.should be_true
@@ -199,10 +198,9 @@ module Spec
 
         example_ran = false
 
-        @example_group.it_should_behave_like("shared example_group")
-        @example_group.it("example") {example_ran = true}
-        suite = @example_group.suite
-        suite.run
+        example_group.it_should_behave_like("shared example_group")
+        example_group.it("example") {example_ran = true}
+        example_group.run
         example_ran.should be_true
         shared_before_all_run_count.should == 1
         shared_after_all_run_count.should == 1
@@ -231,15 +229,14 @@ module Spec
 
         shared_example_group.include mod2
 
-        @example_group.it_should_behave_like("shared example_group")
-        @example_group.include mod1
+        example_group.it_should_behave_like("shared example_group")
+        example_group.include mod1
 
-        @example_group.it("test") do
+        example_group.it("test") do
           mod1_method
           mod2_method
         end
-        suite = @example_group.suite
-        suite.run
+        example_group.run
         mod1_method_called.should be_true
         mod2_method_called.should be_true
       end
@@ -250,20 +247,19 @@ module Spec
             "this got defined in a shared example_group"
           end
         end
-        @example_group.it_should_behave_like("shared example_group xyz")
+        example_group.it_should_behave_like("shared example_group xyz")
         success = false
-        @example_group.it("should access a_shared_helper_method") do
+        example_group.it("should access a_shared_helper_method") do
           a_shared_helper_method
           success = true
         end
-        suite = @example_group.suite
-        suite.run
+        example_group.run
         success.should be_true
       end
 
       it "should raise when named shared example_group can not be found" do
         lambda {
-          @example_group.it_should_behave_like("non-existent shared example group")
+          example_group.it_should_behave_like("non-existent shared example group")
           violated
         }.should raise_error("Shared Example Group 'non-existent shared example group' can not be found")
       end

@@ -67,7 +67,7 @@ module Spec
           it "should use ExampleMethods callbacks" do
           end
         end
-        @example_group.suite.run
+        @example_group.run
         ExampleMethods.count.should == 5
       end
     end

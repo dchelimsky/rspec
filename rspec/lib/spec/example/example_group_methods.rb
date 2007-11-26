@@ -229,10 +229,6 @@ module Spec
         @after_each_parts = nil
       end
       
-      def suite
-        self
-      end
-      
       def register
         rspec_options.add_example_group self
       end
