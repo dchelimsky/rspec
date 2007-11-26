@@ -10,6 +10,7 @@ require 'spec/story'
 if Object.const_defined?(:Test); \
   require 'spec/interop/test'; \
 end
+
 module Spec
   class << self
     def run?

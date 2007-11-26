@@ -5,7 +5,7 @@ ActionView::Base.cache_template_extensions = false
 module Spec
   module Rails
     module Example
-      class RailsExampleGroup < Test::Unit::ExampleGroup
+      class RailsExampleGroup < Test::Unit::TestCase
         cattr_accessor(
           :fixture_path,
           :use_transactional_fixtures,

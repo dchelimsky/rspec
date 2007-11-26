@@ -8,7 +8,7 @@ module Test
     # require 'test/unit'
     # require 'spec'
     #
-    # class MyTest < Test::Unit::ExampleGroup
+    # class MyTest < Test::Unit::TestCase
     #   it "should work with Test::Unit assertions" do
     #     assert_equal 4, 2+1
     #   end
@@ -19,7 +19,7 @@ module Test
     # end
     #
     # See also Spec::Example::ExampleGroup
-    class ExampleGroup < Test::Unit::TestCase
+    class TestCase
       extend Spec::Example::ExampleGroupMethods
       include Spec::Example::ExampleMethods
 
