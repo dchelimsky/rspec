@@ -393,30 +393,6 @@ module Spec
       end
     end
 
-#    describe ExampleGroup, "#run" do
-#      before do
-#        @options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
-#        @original_rspec_options = $rspec_options
-#        $rspec_options = @options
-#      end
-#
-#      after do
-#        $rspec_options = @original_rspec_options
-#      end
-#
-#      it"should not run when there are no examples" do
-#        behaviour = Class.new(ExampleGroup) do
-#          describe("Foobar")
-#        end
-#        behaviour.examples.should be_empty
-#
-#        reporter = mock("Reporter")
-#        reporter.should_not_receive(:add_example_group)
-#        suite = behaviour.suite
-#        suite.run
-#      end
-#    end
-
     describe ExampleGroup, "#run without failure in example", :shared => true do
       it "should not add an example failure to the TestResult" do
         suite = example_group.suite
@@ -458,6 +434,29 @@ module Spec
       after :each do
         $rspec_options = @original_rspec_options
         ExampleGroup.reset
+      end
+
+      it"should not run when there are no examples" do
+        behaviour = Class.new(ExampleGroup) do
+          describe("Foobar")
+        end
+        behaviour.examples.should be_empty
+
+        reporter = mock("Reporter")
+        reporter.should_not_receive(:add_example_group)
+        suite = behaviour.suite
+        suite.run
+      end
+
+      describe ExampleGroup, "#run when passed examples" do
+        it "should only run the passed in examples" do
+          not_run_example = example_group.it("should not be run") do
+            raise "this example should not be run"
+          end
+          examples = example_group.examples
+          examples.delete(not_run_example)
+          example_group.suite.run(examples).should be_true
+        end
       end
 
       describe ExampleGroup, "#run on dry run" do
