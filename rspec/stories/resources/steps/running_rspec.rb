@@ -8,7 +8,9 @@ steps_for :running_rspec do
     stderr_file = Tempfile.new('rspec')
     stderr_file.close
     @stdout = case(interpreter)
-      when 'ruby interpreter' then ruby(@path, stderr_file.path)
+      when /^ruby interpreter/
+        args = interpreter.gsub('ruby interpreter','')
+        ruby("#{@path}#{args}", stderr_file.path)
       when 'spec script' then spec(@path, stderr_file.path)
       when 'CommandLine object' then cmdline(@path, stderr_file.path)
       else raise "Unknown interpreter: #{interpreter}"
