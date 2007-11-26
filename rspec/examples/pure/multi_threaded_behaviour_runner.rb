@@ -1,5 +1,4 @@
-
-class MultiThreadedBehaviourRunner < Spec::Runner::BehaviourRunner
+class MultiThreadedExampleGroupRunner < Spec::Runner::ExampleGroupRunner
   def initialize(options, arg)
     super(options)
     # configure these
@@ -10,13 +9,13 @@ class MultiThreadedBehaviourRunner < Spec::Runner::BehaviourRunner
   def run
     @threads = []
     q = Queue.new
-    behaviours.each { |b| q << b}
+    example_groups.each { |b| q << b}
     success = true
     @thread_count.times do
       @threads << Thread.new(q) do |queue|
         while not queue.empty?
-          behaviour = queue.pop
-          success &= behaviour.suite.run(nil)
+          example_group = queue.pop
+          success &= example_group.suite.run(nil)
         end
       end
       sleep @thread_wait
@@ -25,3 +24,5 @@ class MultiThreadedBehaviourRunner < Spec::Runner::BehaviourRunner
     success
   end
 end
+
+MultiThreadedBehaviourRunner = MultiThreadedExampleGroupRunner

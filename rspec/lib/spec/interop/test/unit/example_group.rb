@@ -34,7 +34,7 @@ module Test
         @_result = ::Test::Unit::TestResult.new
       end
       
-      def run(ignore=nil)
+      def run(ignore_this_argument=nil)
         super()
       end
     end

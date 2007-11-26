@@ -19,7 +19,7 @@ module Spec
         prepare
         success = true
         example_groups.each do |example_group|
-          success = success & example_group.suite.run
+          success = success & example_group.run
         end
         return success
       ensure

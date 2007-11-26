@@ -75,7 +75,7 @@ module Spec
         end
       end
 
-      describe ExampleGroup, ".suite" do
+      describe ExampleGroup, ".examples" do
         it "should return an ExampleSuite with Examples" do
           behaviour = Class.new(ExampleGroup) do
             describe('example')
@@ -83,9 +83,8 @@ module Spec
               1.should == 1
             end
           end
-          suite = behaviour.suite
-          suite.examples.length.should == 1
-          suite.examples.first.description.should == "should pass"
+          behaviour.examples.length.should == 1
+          behaviour.examples.first.description.should == "should pass"
         end
 
         it "should include methods that begin with test and has an arity of 0 in suite" do
@@ -104,11 +103,10 @@ module Spec
               raise "This is not a real test"
             end
           end
-          suite = behaviour.suite
-          suite.examples.length.should == 2
-          descriptions = suite.examples.collect {|example| example.description}.sort
+          behaviour.examples.length.should == 2
+          descriptions = behaviour.examples.collect {|example| example.description}.sort
           descriptions.should == ["test_any_args", "test_something"]
-          suite.run.should be_true
+          behaviour.run.should be_true
         end
 
         it "should include methods that begin with should and has an arity of 0 in suite" do
@@ -134,9 +132,8 @@ module Spec
             end
           end
           behaviour = behaviour.dup
-          suite = behaviour.suite
-          suite.examples.length.should == 4
-          descriptions = suite.examples.collect {|example| example.description}.sort
+          behaviour.examples.length.should == 4
+          descriptions = behaviour.examples.collect {|example| example.description}.sort
           descriptions.should include("shouldCamelCase")
           descriptions.should include("should_any_args")
           descriptions.should include("should_something")
@@ -153,8 +150,7 @@ module Spec
               1.should == 1
             end
           end
-          suite = behaviour.suite
-          suite.examples.length.should == 0
+          behaviour.examples.length.should == 0
         end
 
         it "should not include methods that begin with should_ and has an arity > 0 in suite" do
@@ -170,8 +166,7 @@ module Spec
               1.should == 1
             end
           end
-          suite = behaviour.suite
-          suite.examples.length.should == 0
+          behaviour.examples.length.should == 0
         end
       end
 
@@ -187,14 +182,12 @@ module Spec
           @example_group.it("example") {}
           proc = Proc.new { after_all_ran = true }
           ExampleGroup.after(:each, &proc)
-          suite = @example_group.suite
-          suite.run
+          @example_group.run
           after_all_ran.should be_true
 
           after_all_ran = false
           ExampleGroup.remove_after(:each, &proc)
-          suite = @example_group.suite
-          suite.run
+          @example_group.run
           after_all_ran.should be_false
         end
       end
@@ -260,8 +253,7 @@ module Spec
               FOO.should == 1
             end
           end
-          suite = behaviour.suite
-          suite.run
+          behaviour.run
           Object.const_defined?(:FOO).should == false
         end
       end
@@ -395,15 +387,13 @@ module Spec
 
     describe ExampleGroup, "#run without failure in example", :shared => true do
       it "should not add an example failure to the TestResult" do
-        suite = example_group.suite
-        suite.run.should be_true
+        example_group.run.should be_true
       end
     end
 
     describe ExampleGroup, "#run with failure in example", :shared => true do
       it "should add an example failure to the TestResult" do
-        suite = example_group.suite
-        suite.run.should be_false
+        example_group.run.should be_false
       end
     end
     
@@ -444,8 +434,7 @@ module Spec
 
         reporter = mock("Reporter")
         reporter.should_not_receive(:add_example_group)
-        suite = behaviour.suite
-        suite.run
+        behaviour.run
       end
 
       describe ExampleGroup, "#run when passed examples" do
@@ -455,7 +444,7 @@ module Spec
           end
           examples = example_group.examples
           examples.delete(not_run_example)
-          example_group.suite.run(examples).should be_true
+          example_group.run(examples).should be_true
         end
       end
 
@@ -470,8 +459,7 @@ module Spec
           ExampleGroup.before(:all) { before_all_ran = true }
           ExampleGroup.after(:all) { after_all_ran = true }
           example_group.it("should") {}
-          suite = example_group.suite
-          suite.run
+          example_group.run
           before_all_ran.should be_false
           after_all_ran.should be_false
         end
@@ -479,8 +467,7 @@ module Spec
         it "should not run example" do
           example_ran = false
           example_group.it("should") {example_ran = true}
-          suite = example_group.suite
-          suite.run
+          example_group.run
           example_ran.should be_false
         end
       end
@@ -500,16 +487,14 @@ module Spec
         end
 
         it "should send reporter add_example_group" do
-          suite = example_group.suite
-          suite.run
+          example_group.run
           @reporter.added_behaviour.should == "example"
         end
 
         it "should run example on run" do
           example_ran = false
           example_group.it("should") {example_ran = true}
-          suite = example_group.suite
-          suite.run
+          example_group.run
           example_ran.should be_true
         end
 
@@ -518,8 +503,7 @@ module Spec
           example_group.before(:all) {before_all_run_count_run_count += 1}
           example_group.it("test") {true}
           example_group.it("test2") {true}
-          suite = example_group.suite
-          suite.run
+          example_group.run
           before_all_run_count_run_count.should == 1
         end
 
@@ -528,8 +512,7 @@ module Spec
           example_group.after(:all) {after_all_run_count += 1}
           example_group.it("test") {true}
           example_group.it("test2") {true}
-          suite = example_group.suite
-          suite.run
+          example_group.run
           after_all_run_count.should == 1
           @reporter.rspec_verify
         end
@@ -540,8 +523,7 @@ module Spec
           example_group.before(:all) { @instance_var = context_instance_value_in }
           example_group.after(:all) { context_instance_value_out = @instance_var }
           example_group.it("test") {true}
-          suite = example_group.suite
-          suite.run
+          example_group.run
           context_instance_value_in.should == context_instance_value_out
         end
 
@@ -550,8 +532,7 @@ module Spec
           context_instance_value_out = ""
           example_group.before(:all) { @instance_var = context_instance_value_in }
           example_group.it("test") {context_instance_value_out = @instance_var}
-          suite = example_group.suite
-          suite.run
+          example_group.run
           context_instance_value_in.should == context_instance_value_out
         end
 
@@ -569,8 +550,7 @@ module Spec
             describe("I'm not special", :behaviour_type => :not_special)
             it "does nothing"
           end
-          suite = behaviour.suite
-          suite.run
+          behaviour.run
           fiddle.should == [
             'Example.prepend_before(:all)',
             'Example.before(:all)',
@@ -590,8 +570,7 @@ module Spec
 
           behaviour = Class.new(@special_behaviour).describe("I'm a special behaviour") {}
           behaviour.it("test") {true}
-          suite = behaviour.suite
-          suite.run
+          behaviour.run
           fiddle.should == [
             'Example.prepend_before(:all)',
             'Example.before(:all)',
@@ -611,8 +590,7 @@ module Spec
           example_group.before(:all) { fiddle << "before(:all)" }
           example_group.prepend_before(:each) { fiddle << "prepend_before(:each)" }
           example_group.before(:each) { fiddle << "before(:each)" }
-          suite = example_group.suite
-          suite.run
+          example_group.run
           fiddle.should == [
             'Example.prepend_before(:all)',
             'Example.before(:all)',
@@ -634,8 +612,7 @@ module Spec
           example_group.append_after(:all) { fiddle << "append_after(:all)" }
           ExampleGroup.after(:all) { fiddle << "Example.after(:all)" }
           ExampleGroup.append_after(:all) { fiddle << "Example.append_after(:all)" }
-          suite = example_group.suite
-          suite.run
+          example_group.run
           fiddle.should == [
             'after(:each)',
             'append_after(:each)',
@@ -670,8 +647,7 @@ module Spec
             mod1_method
             mod2_method
           end
-          suite = example_group.suite
-          suite.run
+          example_group.run
           mod1_method_called.should be_true
           mod2_method_called.should be_true
         end
@@ -686,8 +662,7 @@ module Spec
           behaviour = Class.new(@special_behaviour).describe("I'm special", :behaviour_type => :special) do
             it "does nothing"
           end
-          suite = behaviour.suite
-          suite.run
+          behaviour.run
 
           behaviour.included_modules.should include(mod1)
           behaviour.included_modules.should include(mod2)
@@ -703,8 +678,7 @@ module Spec
               $included_predicate_matcher_found = respond_to?(:do_something)
             end
           end
-          suite = behaviour.suite
-          suite.run
+          behaviour.run
           $included_predicate_matcher_found.should be(true)
         end
 
@@ -725,8 +699,7 @@ module Spec
               describe('example')
               it "does nothing"
             end
-            suite = behaviour.suite
-            suite.run
+            behaviour.run
 
             $included_module.should_not be_nil
           ensure
@@ -746,8 +719,7 @@ module Spec
 
         it "should send example_pending to formatter" do
           @formatter.should_receive(:example_pending).with("example", "should be pending", "Example fails")
-          suite = example_group.suite
-          suite.run
+          example_group.run
         end
       end
 
@@ -762,8 +734,7 @@ module Spec
 
         it "should send example_pending to formatter" do
           @formatter.should_receive(:example_pending).with("example", "should be pending", "Example passes")
-          suite = example_group.suite
-          suite.run
+          example_group.run
         end
       end
 
@@ -777,24 +748,21 @@ module Spec
         it "should not run any example" do
           spec_ran = false
           example_group.it("test") {spec_ran = true}
-          suite = example_group.suite
-          suite.run
+          example_group.run
           spec_ran.should be_false
         end
 
         it "should run ExampleGroup after(:all)" do
           after_all_ran = false
           ExampleGroup.after(:all) { after_all_ran = true }
-          suite = example_group.suite
-          suite.run
+          example_group.run
           after_all_ran.should be_true
         end
 
         it "should run behaviour after(:all)" do
           after_all_ran = false
           example_group.after(:all) { after_all_ran = true }
-          suite = example_group.suite
-          suite.run
+          example_group.run
           after_all_ran.should be_true
         end
 
@@ -806,8 +774,7 @@ module Spec
           end
 
           example_group.it("test") {true}
-          suite = example_group.suite
-          suite.run
+          example_group.run
         end
       end
 
@@ -821,8 +788,7 @@ module Spec
         it "should run after(:all)" do
           after_all_ran = false
           ExampleGroup.after(:all) { after_all_ran = true }
-          suite = example_group.suite
-          suite.run
+          example_group.run
           after_all_ran.should be_true
         end
       end
@@ -837,8 +803,7 @@ module Spec
         it "should run after(:all)" do
           after_all_ran = false
           ExampleGroup.after(:all) { after_all_ran = true }
-          suite = example_group.suite
-          suite.run
+          example_group.run
           after_all_ran.should be_true
         end
       end
@@ -868,8 +833,7 @@ module Spec
             error.message.should eql("first")
             location.should eql("after(:each)")
           end
-          suite = example_group.suite
-          suite.run
+          example_group.run
           example_group.first_after_ran.should be_true
           example_group.second_after_ran.should be_true
         end
@@ -901,8 +865,7 @@ module Spec
             location.should eql("before(:each)")
             example_not_implemented.should be_false
           end
-          suite = example_group.suite
-          suite.run
+          example_group.run
           example_group.first_before_ran.should be_true
           example_group.second_before_ran.should be_false
         end
@@ -916,8 +879,7 @@ module Spec
         end
 
         it "should return false" do
-          suite = example_group.suite
-          suite.run.should be_false
+          example_group.run.should be_false
         end
 
         it "should provide after(:all) as description" do
@@ -927,8 +889,7 @@ module Spec
             location.should eql("after(:all)")
           end
 
-          suite = example_group.suite
-          suite.run
+          example_group.run
         end
       end
     end

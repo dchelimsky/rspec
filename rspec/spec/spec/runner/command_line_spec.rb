@@ -85,13 +85,8 @@ module Spec
         b1 = Class.new(Spec::Example::ExampleGroup)
         b2 = Class.new(Spec::Example::ExampleGroup)
 
-        b1_suite = b1.suite
-        b1.should_receive(:suite).and_return(b1_suite)
-        b2_suite = b2.suite
-        b2.should_receive(:suite).and_return(b2_suite)
-
-        b2_suite.should_receive(:run).ordered
-        b1_suite.should_receive(:run).ordered
+        b2.should_receive(:run).ordered
+        b1.should_receive(:run).ordered
 
         options.add_example_group(b1)
         options.add_example_group(b2)
