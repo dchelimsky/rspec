@@ -82,7 +82,7 @@ In alphabetical order (by last name)
 * Steven Duncan
 ** Documentation for rake task
 * Eloy Duran
-** Patch [#11921] Adds the correct controller_name from derived_controller_name() to the ViewExampleController
+** Patch [#11921] Adds the correct controller_name from derived_controller_name() to the ViewExampleGroupController
 * Ienaga Eiji
 ** Patch [#12156] smooth open mate patch 
 * Lindsay Evans

@@ -10,7 +10,7 @@ end
 module Spec
   module Rails
     module Example
-      describe HelperExample, :behaviour_type => :helper do
+      describe HelperExampleGroup, :behaviour_type => :helper do
         helper_name :explicit
 
         it "should have direct access to methods defined in helpers" do
@@ -28,7 +28,7 @@ module Spec
       end
 
 
-      describe HelperExample, "#eval_erb", :behaviour_type => :helper do
+      describe HelperExampleGroup, "#eval_erb", :behaviour_type => :helper do
         helper_name :explicit
 
         it "should support methods that accept blocks" do
@@ -36,7 +36,7 @@ module Spec
         end
       end
 
-      describe HelperExample, ".fixtures", :behaviour_type => :helper do
+      describe HelperExampleGroup, ".fixtures", :behaviour_type => :helper do
         helper_name :explicit
         fixtures :animals
 
@@ -51,7 +51,7 @@ module Spec
         end
       end
 
-      describe HelperExample, "included modules", :behaviour_type => :helper do
+      describe HelperExampleGroup, "included modules", :behaviour_type => :helper do
         helpers = [
           ActionView::Helpers::ActiveRecordHelper,
           ActionView::Helpers::AssetTagHelper,
@@ -82,7 +82,7 @@ module Spec
       
       # TODO: BT - Helper Examples should proxy method_missing to a Rails View instance.
       # When that is done, remove this method
-      describe HelperExample, "#protect_against_forgery?", :behaviour_type => :helper do
+      describe HelperExampleGroup, "#protect_against_forgery?", :behaviour_type => :helper do
         it "should return false" do
           protect_against_forgery?.should be_false
         end
