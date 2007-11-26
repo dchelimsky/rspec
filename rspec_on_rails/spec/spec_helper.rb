@@ -19,7 +19,7 @@ end
 module Spec
   module Rails
     module Example
-      class ViewExampleController
+      class ViewExampleGroupController
         set_view_path File.join(File.dirname(__FILE__), "..", "spec_resources", "views")
       end
     end

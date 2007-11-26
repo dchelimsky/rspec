@@ -217,7 +217,7 @@ describe "A view with a form_tag", :behaviour_type => :view do
   end
 end
 
-describe "An instantiated ViewExampleController", :behaviour_type => :view do
+describe "An instantiated ViewExampleGroupController", :behaviour_type => :view do
   before do
     render "view_spec/foo/show"
   end
