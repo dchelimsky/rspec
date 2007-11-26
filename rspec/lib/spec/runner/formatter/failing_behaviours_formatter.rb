@@ -2,18 +2,18 @@ module Spec
   module Runner
     module Formatter
       class FailingBehavioursFormatter < BaseTextFormatter      
-        def add_example_group(behaviour_name)
-          if behaviour_name =~ /(.*) \(druby.*\)$/
-            @behaviour_name = $1
+        def add_example_group(example_group_name)
+          if example_group_name =~ /(.*) \(druby.*\)$/
+            @example_group_name = $1
           else
-            @behaviour_name = behaviour_name
+            @example_group_name = example_group_name
           end
         end
       
         def example_failed(example, counter, failure)
-          unless @behaviour_name.nil?
-            @output.puts @behaviour_name 
-            @behaviour_name = nil
+          unless @example_group_name.nil?
+            @output.puts @example_group_name
+            @example_group_name = nil
             @output.flush
           end
         end

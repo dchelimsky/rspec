@@ -13,7 +13,7 @@ module Spec
         end
         
         def add_example_group(example)
-          @behaviour = example
+          @example_group = example
         end
         
         def example_started(example)
@@ -22,7 +22,7 @@ module Spec
         
         def example_passed(example)
           super
-          @examples << [@behaviour, example, Time.now - @time]
+          @examples << [@example_group, example, Time.now - @time]
         end
         
         def start_dump

@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 Spec::Runner.configuration.global_fixtures = :people
 
-describe ExplicitHelper, :behaviour_type => :helper do
+describe ExplicitHelper, :type => :helper do
   it "should not require naming the helper if describe is passed a type" do
     method_in_explicit_helper.should match(/text from a method/)
   end
@@ -10,7 +10,7 @@ end
 module Spec
   module Rails
     module Example
-      describe HelperExampleGroup, :behaviour_type => :helper do
+      describe HelperExampleGroup, :type => :helper do
         helper_name :explicit
 
         it "should have direct access to methods defined in helpers" do
@@ -28,7 +28,7 @@ module Spec
       end
 
 
-      describe HelperExampleGroup, "#eval_erb", :behaviour_type => :helper do
+      describe HelperExampleGroup, "#eval_erb", :type => :helper do
         helper_name :explicit
 
         it "should support methods that accept blocks" do
@@ -36,7 +36,7 @@ module Spec
         end
       end
 
-      describe HelperExampleGroup, ".fixtures", :behaviour_type => :helper do
+      describe HelperExampleGroup, ".fixtures", :type => :helper do
         helper_name :explicit
         fixtures :animals
 
@@ -51,7 +51,7 @@ module Spec
         end
       end
 
-      describe HelperExampleGroup, "included modules", :behaviour_type => :helper do
+      describe HelperExampleGroup, "included modules", :type => :helper do
         helpers = [
           ActionView::Helpers::ActiveRecordHelper,
           ActionView::Helpers::AssetTagHelper,
@@ -82,7 +82,7 @@ module Spec
       
       # TODO: BT - Helper Examples should proxy method_missing to a Rails View instance.
       # When that is done, remove this method
-      describe HelperExampleGroup, "#protect_against_forgery?", :behaviour_type => :helper do
+      describe HelperExampleGroup, "#protect_against_forgery?", :type => :helper do
         it "should return false" do
           protect_against_forgery?.should be_false
         end
@@ -93,7 +93,7 @@ end
 
 module Bug11223
   # see http://rubyforge.org/tracker/index.php?func=detail&aid=11223&group_id=797&atid=3149
-  describe 'Accessing flash from helper spec', :behaviour_type => :helper do
+  describe 'Accessing flash from helper spec', :type => :helper do
     it 'should not raise an error' do
       lambda { flash['test'] }.should_not raise_error
     end

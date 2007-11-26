@@ -8,13 +8,13 @@ module Spec
         
         def initialize(options, output)
           super
-          @current_behaviour_number = 0
+          @current_example_group_number = 0
           @current_example_number = 0
         end
 
-        # The number of the currently running behaviour
-        def current_behaviour_number
-          @current_behaviour_number
+        # The number of the currently running example_group
+        def current_example_group_number
+          @current_example_group_number
         end
         
         # The number of the currently running example (a global counter)
@@ -31,16 +31,16 @@ module Spec
         end
 
         def add_example_group(name)
-          @behaviour_red = false
-          @behaviour_red = false
-          @current_behaviour_number += 1
-          unless current_behaviour_number == 1
+          @example_group_red = false
+          @example_group_red = false
+          @current_example_group_number += 1
+          unless current_example_group_number == 1
             @output.puts "  </dl>"
             @output.puts "</div>"
           end
-          @output.puts "<div class=\"behaviour\">"
+          @output.puts "<div class=\"example_group\">"
           @output.puts "  <dl>"
-          @output.puts "  <dt id=\"behaviour_#{current_behaviour_number}\">#{h(name)}</dt>"
+          @output.puts "  <dt id=\"example_group_#{current_example_group_number}\">#{h(name)}</dt>"
           @output.flush
         end
 
@@ -65,8 +65,8 @@ module Spec
           failure_style = failure.pending_fixed? ? 'pending_fixed' : 'failed'
           @output.puts "    <script type=\"text/javascript\">makeRed('rspec-header');</script>" unless @header_red
           @header_red = true
-          @output.puts "    <script type=\"text/javascript\">makeRed('behaviour_#{current_behaviour_number}');</script>" unless @behaviour_red
-          @behaviour_red = true
+          @output.puts "    <script type=\"text/javascript\">makeRed('example_group_#{current_example_group_number}');</script>" unless @example_group_red
+          @example_group_red = true
           move_progress
           @output.puts "    <dd class=\"spec #{failure_style}\">"
           @output.puts "      <span class=\"failed_spec_name\">#{h(example.description)}</span>"
@@ -79,9 +79,9 @@ module Spec
           @output.flush
         end
 
-        def example_pending(behaviour_name, example_name, message)
+        def example_pending(example_group_name, example_name, message)
           @output.puts "    <script type=\"text/javascript\">makeYellow('rspec-header');</script>" unless @header_red
-          @output.puts "    <script type=\"text/javascript\">makeYellow('behaviour_#{current_behaviour_number}');</script>" unless @behaviour_red
+          @output.puts "    <script type=\"text/javascript\">makeYellow('example_group_#{current_example_group_number}');</script>" unless @example_group_red
           move_progress
           @output.puts "    <dd class=\"spec not_implemented\"><span class=\"not_implemented_spec_name\">#{h(example_name)} (PENDING: #{h(message)})</span></dd>"
           @output.flush
@@ -231,7 +231,7 @@ EOF
   font-size: 1.2em;
 }
 
-.behaviour {
+.example_group {
   margin: 0 10px 5px;
   background: #fff;
 }

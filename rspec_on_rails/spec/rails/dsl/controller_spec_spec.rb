@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 require 'controller_spec_controller'
 
 ['integration', 'isolation'].each do |mode|
-  describe "A controller example running in #{mode} mode", :behaviour_type => :controller do
+  describe "A controller example running in #{mode} mode", :type => :controller do
     controller_name :controller_spec
     integrate_views if mode == 'integration'
   
@@ -113,7 +113,7 @@ require 'controller_spec_controller'
     end
   end
 
-  describe "Given a controller spec for RedirectSpecController running in #{mode} mode", :behaviour_type => :controller do
+  describe "Given a controller spec for RedirectSpecController running in #{mode} mode", :type => :controller do
     controller_name :redirect_spec
     integrate_views if mode == 'integration'
 
@@ -137,7 +137,7 @@ require 'controller_spec_controller'
   
   describe "Given a controller spec running in #{mode} mode" do
     example_group = describe "A controller spec"
-    # , :behaviour_type => :controller do
+    # , :type => :controller do
     # integrate_views if mode == 'integration'
     it "a spec in a context without controller_name set should fail with a useful warning" do
       pending("need a new way to deal with examples that should_raise")
@@ -151,7 +151,7 @@ require 'controller_spec_controller'
   
 end
 
-describe ControllerSpecController, :behaviour_type => :controller do
+describe ControllerSpecController, :type => :controller do
   it "should not require naming the controller if describe is passed a type" do
   end
 end

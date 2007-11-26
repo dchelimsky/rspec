@@ -6,16 +6,16 @@ module Spec
       before do
         @options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
         @reporter = ::Spec::Runner::Reporter.new(@options)
-        @behaviour = Class.new(::Spec::Example::ExampleGroup).describe("Some Examples")
+        @example_group = Class.new(::Spec::Example::ExampleGroup).describe("Some Examples")
       end
 
       it "should report the file and line submitted with :expected_from" do
-        example_definition = @behaviour.it "spec" do
+        example_definition = @example_group.it "spec" do
           mock = Spec::Mocks::Mock.new("a mock")
           mock.should_receive(:message, :expected_from => "/path/to/blah.ext:37")
           mock.rspec_verify
         end
-        example = @behaviour.new(example_definition)
+        example = @example_group.new(example_definition)
         proxy = ::Spec::Example::ExampleRunner.new(@options, example)
         
         @reporter.should_receive(:example_finished) do |spec, error|
@@ -25,12 +25,12 @@ module Spec
       end
 
       it "should use the message supplied with :message" do
-        example_definition = @behaviour.it "spec" do
+        example_definition = @example_group.it "spec" do
           mock = Spec::Mocks::Mock.new("a mock")
           mock.should_receive(:message, :message => "recebi nada")
           mock.rspec_verify
         end
-        example = @behaviour.new(example_definition)
+        example = @example_group.new(example_definition)
         proxy = ::Spec::Example::ExampleRunner.new(@options, example)
         @reporter.should_receive(:example_finished) do |spec, error|
           error.message.should == "recebi nada"

@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
 ['isolation','integration'].each do |mode|
-  describe "redirect_to behaviour", :behaviour_type => :controller do
+  describe "redirect_to behaviour", :type => :controller do
     if mode == 'integration'
       integrate_views
     end
@@ -84,7 +84,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
   end
 
   
-  describe "redirect_to with a controller spec in #{mode} mode and a custom request.host", :behaviour_type => :controller do
+  describe "redirect_to with a controller spec in #{mode} mode and a custom request.host", :type => :controller do
     if mode == 'integration'
       integrate_views
     end
@@ -99,7 +99,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
     end
   end
   
-  describe "Given a controller spec in #{mode} mode", :behaviour_type => :controller do
+  describe "Given a controller spec in #{mode} mode", :type => :controller do
     if mode == 'integration'
       integrate_views
     end
@@ -129,7 +129,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
     
   end
   
-  describe "Given a controller spec in #{mode} mode, should redirect_to should fail when", :behaviour_type => :controller do
+  describe "Given a controller spec in #{mode} mode, should redirect_to should fail when", :type => :controller do
     if mode == 'integration'
       integrate_views
     end

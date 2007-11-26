@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
-describe "A template with an implicit helper", :behaviour_type => :view do
+describe "A template with an implicit helper", :type => :view do
   before(:each) do
     render "view_spec/implicit_helper"
   end
@@ -19,7 +19,7 @@ describe "A template with an implicit helper", :behaviour_type => :view do
   end
 end
 
-describe "A template requiring an explicit helper", :behaviour_type => :view do
+describe "A template requiring an explicit helper", :type => :view do
   before(:each) do
     render "view_spec/explicit_helper", :helper => 'explicit'
   end
@@ -33,7 +33,7 @@ describe "A template requiring an explicit helper", :behaviour_type => :view do
   end
 end
 
-describe "A template requiring multiple explicit helpers", :behaviour_type => :view do
+describe "A template requiring multiple explicit helpers", :type => :view do
   before(:each) do
     render "view_spec/multiple_helpers", :helpers => ['explicit', 'more_explicit']
   end
@@ -48,7 +48,7 @@ describe "A template requiring multiple explicit helpers", :behaviour_type => :v
   end
 end
 
-describe "Message Expectations on helper methods", :behaviour_type => :view do
+describe "Message Expectations on helper methods", :type => :view do
   it "should work" do
     template.should_receive(:method_in_plugin_application_helper).and_return('alternate message 1')
     render "view_spec/implicit_helper"
@@ -62,7 +62,7 @@ describe "Message Expectations on helper methods", :behaviour_type => :view do
   end
 end
 
-describe "A template that includes a partial", :behaviour_type => :view do
+describe "A template that includes a partial", :type => :view do
   def render!
     render "view_spec/template_with_partial"
   end
@@ -123,7 +123,7 @@ describe "A template that includes a partial", :behaviour_type => :view do
   end
 end
 
-describe "A partial that includes a partial", :behaviour_type => :view do
+describe "A partial that includes a partial", :type => :view do
   it "should support expect_render with nested partial" do
     obj = Object.new
     template.expect_render(:partial => 'partial', :object => obj)
@@ -131,7 +131,7 @@ describe "A partial that includes a partial", :behaviour_type => :view do
   end
 end
 
-describe "A view that includes a partial using :collection and :spacer_template", :behaviour_type => :view  do
+describe "A view that includes a partial using :collection and :spacer_template", :type => :view  do
   it "should render the partial w/ spacer_tamplate" do
     render "view_spec/template_with_partial_using_collection"
     response.should have_tag('div',/method_in_partial/)
@@ -149,7 +149,7 @@ describe "A view that includes a partial using :collection and :spacer_template"
 
 end
 
-describe "A view that includes a partial using an array as partial_path", :behaviour_type => :view do
+describe "A view that includes a partial using an array as partial_path", :type => :view do
   before(:each) do
     module ActionView::Partials
       def render_template_with_partial_with_array_support(partial_path, local_assigns = nil, deprecated_local_assigns = nil)
@@ -182,14 +182,14 @@ describe "A view that includes a partial using an array as partial_path", :behav
   end
 end
 
-describe "Different types of renders (not :template)", :behaviour_type => :view do
+describe "Different types of renders (not :template)", :type => :view do
   it "should render partial with local" do
     render :partial => "view_spec/partial_with_local_variable", :locals => {:x => "Ender"}
     response.should have_tag('div', :content => "Ender")
   end
 end
 
-describe "A view", :behaviour_type => :view do
+describe "A view", :type => :view do
   before(:each) do
     session[:key] = "session"
     params[:key] = "params"
@@ -210,14 +210,14 @@ describe "A view", :behaviour_type => :view do
   end
 end
 
-describe "A view with a form_tag", :behaviour_type => :view do
+describe "A view with a form_tag", :type => :view do
   it "should render the right action" do
     render "view_spec/entry_form"
     response.should have_tag("form[action=?]","/view_spec/entry_form")
   end
 end
 
-describe "An instantiated ViewExampleGroupController", :behaviour_type => :view do
+describe "An instantiated ViewExampleGroupController", :type => :view do
   before do
     render "view_spec/foo/show"
   end

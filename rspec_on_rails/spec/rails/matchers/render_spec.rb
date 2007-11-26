@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 
 ['isolation','integration'].each do |mode|
   describe "response.should render_template (in #{mode} mode)",
-    :behaviour_type => :controller do
+    :type => :controller do
     controller_name :render_spec
     if mode == 'integration'
       integrate_views
@@ -84,7 +84,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
   end
 
   describe "response.should have_text (in #{mode} mode)",
-    :behaviour_type => :controller do
+    :type => :controller do
     controller_name :render_spec
     if mode == 'integration'
       integrate_views
@@ -116,7 +116,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
   end
 
   describe "response.should_not have_text (in #{mode} mode)",
-    :behaviour_type => :controller do
+    :type => :controller do
     controller_name :render_spec
     if mode == 'integration'
       integrate_views

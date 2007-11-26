@@ -87,7 +87,7 @@ unless defined?(SpecFailed)
   SpecFailed = Spec::Expectations::ExpectationNotMetError 
 end
 
-describe "should have_tag", :behaviour_type => :controller do
+describe "should have_tag", :type => :controller do
   include AssertSelectSpecHelpers
   controller_name :assert_select
   integrate_views
@@ -405,7 +405,7 @@ describe "should have_tag", :behaviour_type => :controller do
   end
 end
 
-describe "css_select", :behaviour_type => :controller do
+describe "css_select", :type => :controller do
   include AssertSelectSpecHelpers
   controller_name :assert_select
   integrate_views
@@ -456,7 +456,7 @@ describe "css_select", :behaviour_type => :controller do
   
 end
 
-describe "have_rjs behaviour", :behaviour_type => :controller do
+describe "have_rjs behaviour_type", :type => :controller do
   include AssertSelectSpecHelpers
   controller_name :assert_select
   integrate_views
@@ -631,7 +631,7 @@ describe "have_rjs behaviour", :behaviour_type => :controller do
   end
 end
 
-describe "send_email behaviour", :behaviour_type => :controller do
+describe "send_email behaviour_type", :type => :controller do
   include AssertSelectSpecHelpers
   controller_name :assert_select
   integrate_views
@@ -675,7 +675,7 @@ describe "send_email behaviour", :behaviour_type => :controller do
 end
 
 # describe "An rjs call to :visual_effect, a 'should have_rjs' spec with",
-#   :behaviour_type => :view do
+#   :type => :view do
 #     
 #   before do
 #     render 'rjs_spec/visual_effect'
@@ -700,7 +700,7 @@ end
 # end
 #   
 # describe "An rjs call to :visual_effect for a toggle, a 'should have_rjs' spec with",
-#   :behaviour_type => :view do
+#   :type => :view do
 #     
 #   before do
 #     render 'rjs_spec/visual_toggle_effect'
@@ -724,7 +724,7 @@ end
 #   
 # end
 
-describe "string.should have_tag", :behaviour_type => :helper do
+describe "string.should have_tag", :type => :helper do
   include AssertSelectSpecHelpers
 
   it "should find root element" do
@@ -756,7 +756,7 @@ describe "string.should have_tag", :behaviour_type => :helper do
   end
 end
 
-describe "have_tag", :behaviour_type => :controller do
+describe "have_tag", :type => :controller do
   include AssertSelectSpecHelpers
   controller_name :assert_select
   integrate_views

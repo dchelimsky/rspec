@@ -17,9 +17,9 @@ module Spec
           @io.string.should eql("Profiling enabled.\n")
         end
         
-        it "should set the current behaviour" do
+        it "should set the current example_group" do
           @formatter.add_example_group('Test')
-          @formatter.instance_variable_get("@behaviour").should == 'Test'
+          @formatter.instance_variable_get("@example_group").should == 'Test'
         end
         
         it "should record the current time when starting a new example" do
