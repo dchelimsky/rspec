@@ -1,5 +1,6 @@
 module Spec
   module Example
+    # This is a fix for ...Something in Ruby 1.8.6??... (Someone fill in here please - Aslak)
     module ModuleReopeningFix
       def child_modules
         @child_modules ||= []

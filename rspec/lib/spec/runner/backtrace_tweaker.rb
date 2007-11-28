@@ -19,7 +19,7 @@ module Spec
     class QuietBacktraceTweaker < BacktraceTweaker
       unless defined?(IGNORE_PATTERNS)
         root_dir = File.expand_path(File.join(__FILE__, '..', '..', '..', '..'))
-        spec_files = Dir["#{root_dir}/lib/spec/*"].map do |path| 
+        spec_files = Dir["#{root_dir}/lib/*"].map do |path| 
           subpath = path[root_dir.length..-1]
           /#{subpath}/
         end
