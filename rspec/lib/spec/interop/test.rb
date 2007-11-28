@@ -1,5 +1,5 @@
-require "test/unit"
-require "test/unit/testresult"
+require 'test/unit'
+require 'test/unit/testresult'
 
 require 'spec/interop/test/unit/testcase'
 require 'spec/interop/test/unit/testsuite_adapter'
