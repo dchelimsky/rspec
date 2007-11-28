@@ -90,8 +90,8 @@ module Spec
 
       # Creates an instance of Spec::Example::Example and adds
       # it to a collection of examples of the current behaviour.
-      def it(description=:__generate_docstring, &block)
-        example = create_example(description, &block)
+      def it(description=:__generate_docstring, &implementation)
+        example = create_example(description, &implementation)
         example_objects << example
         example
       end
@@ -238,8 +238,8 @@ module Spec
       end
 
       def run_before_each(example)
-        execute_in_class_hierarchy(false) do |behaviour|
-          example.eval_each_fail_fast(behaviour.before_each_parts)
+        execute_in_class_hierarchy(false) do |example_group|
+          example.eval_each_fail_fast(example_group.before_each_parts)
         end
       end
       
@@ -259,8 +259,8 @@ module Spec
 
       def run_after_all(example)
         return true if dry_run
-        execute_in_class_hierarchy(true) do |behaviour|
-          example.eval_each_fail_slow(behaviour.after_all_parts)
+        execute_in_class_hierarchy(true) do |example_group|
+          example.eval_each_fail_slow(example_group.after_all_parts)
         end
         return true
       rescue Exception => e
@@ -270,8 +270,8 @@ module Spec
       end
       
       def run_after_each(example)
-        execute_in_class_hierarchy(true) do |behaviour|
-          example.eval_each_fail_slow(behaviour.after_each_parts)
+        execute_in_class_hierarchy(true) do |example_group|
+          example.eval_each_fail_slow(example_group.after_each_parts)
         end
       end
 

@@ -279,7 +279,7 @@ module Spec
     end
 
     class ExampleModuleScopingSpec < ExampleGroup
-      describe ExampleGroup, " via a class definition"
+      describe ExampleGroup, "via a class definition"
 
       module Foo
         module Bar
@@ -302,7 +302,7 @@ module Spec
     end
 
     class ExampleClassVariablePollutionSpec < ExampleGroup
-      describe ExampleGroup, " via a class definition without a class variable"
+      describe ExampleGroup, "via a class definition without a class variable"
 
       it "should not retain class variables from other Example classes" do
         proc do
