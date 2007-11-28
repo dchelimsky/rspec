@@ -37,4 +37,20 @@ class ATest < Test::Unit::TestCase
   def test_should_fail_with_should
     1.should == 2
   end
+
+  def setup
+    @from_setup = 4
+  end
+
+  def test_should_fail_with_setup_method_variable
+    @from_setup.should == 40
+  end
+
+  before do
+    @from_before = 5
+  end
+
+  def test_should_fail_with_before_block_variable
+    @from_before.should == 50
+  end
 end

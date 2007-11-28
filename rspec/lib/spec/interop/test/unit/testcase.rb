@@ -27,6 +27,16 @@ module Test
         def suite
           Test::Unit::TestSuiteAdapter.new(self)
         end
+
+        def before_each_parts # :nodoc:
+          if @before_each_parts.nil?
+            @before_each_parts = []
+            @before_each_parts << lambda do
+              setup
+            end
+          end
+          @before_each_parts
+        end
       end
       
       def initialize(example) #:nodoc:

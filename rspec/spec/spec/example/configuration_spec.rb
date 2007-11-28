@@ -93,7 +93,7 @@ module Spec
     end
 
     ConfigurationCallbacksSpec =
-      describe Configuration, " callbacks", :shared => true do
+      describe Configuration, "callbacks", :shared => true do
         before do
           @config = Configuration.new
           @special_example_group = Class.new(ExampleGroup)

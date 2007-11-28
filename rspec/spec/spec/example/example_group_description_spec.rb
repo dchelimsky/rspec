@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 
 module Spec
   module Example
-    describe ExampleGroupDescription, " constructed with a single String" do
+    describe ExampleGroupDescription, "constructed with a single String" do
       attr_reader :description
       before(:each) {@description = ExampleGroupDescription.new("abc")}
       
@@ -27,7 +27,7 @@ module Spec
       end
     end
     
-    describe ExampleGroupDescription, " constructed with a Type" do
+    describe ExampleGroupDescription, "constructed with a Type" do
       attr_reader :description
       before(:each) {@description = ExampleGroupDescription.new(ExampleGroup)}
 
@@ -39,9 +39,9 @@ module Spec
       end
     end
     
-    describe ExampleGroupDescription, " constructed with a Type and a String" do
+    describe ExampleGroupDescription, "constructed with a Type and a String" do
       attr_reader :description
-      before(:each) {@description = ExampleGroupDescription.new(ExampleGroup, " behaving")}
+      before(:each) {@description = ExampleGroupDescription.new(ExampleGroup, "behaving")}
       
       it "should include the type and second String in its name" do
         description.text.should == "Spec::Example::ExampleGroup behaving"
@@ -87,7 +87,7 @@ module Spec
       end
     end
     
-    describe ExampleGroupDescription, " constructed with options" do
+    describe ExampleGroupDescription, "constructed with options" do
       attr_reader :description
       before(:each) do
         @description = ExampleGroupDescription.new(ExampleGroup, :a => "b", :spec_path => "blah")

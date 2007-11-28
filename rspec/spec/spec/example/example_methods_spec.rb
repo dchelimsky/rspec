@@ -20,7 +20,7 @@ module Spec
       end
     end
 
-    describe ExampleMethods, " lifecycle" do
+    describe ExampleMethods, "lifecycle" do
       before do
         @options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
         @options.formatters << mock("formatter", :null_object => true)
