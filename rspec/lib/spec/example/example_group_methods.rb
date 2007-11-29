@@ -283,7 +283,6 @@ module Spec
       def examples_to_run
         all_examples = examples
         return all_examples unless specified_examples?
-        return all_examples if specified_examples.index(description.to_s)
         all_examples.reject do |example|
           matcher = ExampleMatcher.new(description.to_s, example.description)
           !matcher.matches?(specified_examples)
