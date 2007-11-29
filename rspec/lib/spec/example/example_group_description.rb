@@ -3,13 +3,10 @@ module Spec
     class ExampleGroupDescription
       module ClassMethods
         def description_text(*args)
-          description = args.shift.to_s
-          until args.empty?
-            suffix = args.shift.to_s
-            description << " " unless suffix =~ /^\s|\.|#/
-            description << suffix
+          args.inject("") do |result, arg|
+            result << " " unless (result == "" || arg.to_s =~ /^\s|\.|#/)
+            result << arg.to_s
           end
-          description
         end
       end
       extend ClassMethods
