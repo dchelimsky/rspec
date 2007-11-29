@@ -37,7 +37,7 @@ module Spec
             expression.gsub! '(', '\('
             expression.gsub! ')', '\)'
             while expression =~ PARAM_PATTERN
-              expression.gsub!($1, "(.*)")
+              expression.gsub!($1, "(.*?)")
             end
           end
           @expression = Regexp.new("^#{expression}$")

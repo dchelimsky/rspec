@@ -4,63 +4,68 @@ module Spec
   module Story
     describe Step, "matching" do
       it "should match a text string" do
-        step_matcher = Step.new("this text") {}
-        step_matcher.matches?("this text").should be_true
+        step = Step.new("this text") {}
+        step.matches?("this text").should be_true
       end
       
       it "should not match a text string that does not start the same" do
-        step_matcher = Step.new("this text") {}
-        step_matcher.matches?("Xthis text").should be_false
+        step = Step.new("this text") {}
+        step.matches?("Xthis text").should be_false
       end
       
       it "should not match a text string that does not end the same" do
-        step_matcher = Step.new("this text") {}
-        step_matcher.matches?("this textX").should be_false
+        step = Step.new("this text") {}
+        step.matches?("this textX").should be_false
       end
       
       it "should match a text string with a param" do
-        step_matcher = Step.new("this $param text") {}
-        step_matcher.matches?("this anything text").should be_true
+        step = Step.new("this $param text") {}
+        step.matches?("this anything text").should be_true
+      end
+      
+      it "should not be greedy" do
+        step = Step.new("enter $value for $key") {}
+        step.parse_args("enter 3 for keys for a piano").should == ['3','keys for a piano']
       end
       
       it "should match a text string with 3 params" do
-        step_matcher = Step.new("1 $one 2 $two 3 $three 4") {}
-        step_matcher.matches?("1 a 2 b 3 c 4").should be_true
+        step = Step.new("1 $one 2 $two 3 $three 4") {}
+        step.matches?("1 a 2 b 3 c 4").should be_true
       end
       
       it "should match a text string with a param at the beginning" do
-        step_matcher = Step.new("$one 2 3") {}
-        step_matcher.matches?("a 2 3").should be_true
+        step = Step.new("$one 2 3") {}
+        step.matches?("a 2 3").should be_true
       end
       
       it "should match a text string with a param at the end" do
-        step_matcher = Step.new("1 2 $three") {}
-        step_matcher.matches?("1 2 c").should be_true
+        step = Step.new("1 2 $three") {}
+        step.matches?("1 2 c").should be_true
       end
       
       it "should not match a different string" do
-        step_matcher = Step.new("this text") {}
-        step_matcher.matches?("other text").should be_false
+        step = Step.new("this text") {}
+        step.matches?("other text").should be_false
       end
 
       it "should match a regexp" do
-        step_matcher = Step.new(/this text/) {}
-        step_matcher.matches?("this text").should be_true
+        step = Step.new(/this text/) {}
+        step.matches?("this text").should be_true
       end
       
       it "should match a regexp with a match group" do
-        step_matcher = Step.new(/this (.*) text/) {}
-        step_matcher.matches?("this anything text").should be_true
+        step = Step.new(/this (.*) text/) {}
+        step.matches?("this anything text").should be_true
       end
       
       it "should not match a non matching regexp" do
-        step_matcher = Step.new(/this (.*) text/) {}
-        step_matcher.matches?("other anything text").should be_false
+        step = Step.new(/this (.*) text/) {}
+        step.matches?("other anything text").should be_false
       end
       
       it "should not get bogged down by parens in strings" do
-        step_matcher = Step.new("before () after") {}
-        step_matcher.matches?("before () after").should be_true
+        step = Step.new("before () after") {}
+        step.matches?("before () after").should be_true
       end
       
     end
@@ -68,7 +73,7 @@ module Spec
     describe Step do
       it "should make complain with no block" do
         lambda {
-          step_matcher = Step.new("foo")
+          step = Step.new("foo")
         }.should raise_error
       end
       
