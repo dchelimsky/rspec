@@ -44,6 +44,17 @@ module Spec
     # Each attribute of this task may be a proc. This allows for lazy evaluation,
     # which is sometimes handy if you want to defer the evaluation of an attribute value
     # until the task is run (as opposed to when it is defined).
+    #
+    # This task can also be used to run existing Test::Unit tests and get RSpec
+    # output, for example like this:
+    #
+    #   require 'rubygems'
+    #   require 'spec/rake/spectask'
+    #   Spec::Rake::SpecTask.new do |t|
+    #     t.ruby_opts = ['-rtest/unit']
+    #     t.spec_files = FileList['test/**/*_test.rb']
+    #   end
+    #
     class SpecTask < ::Rake::TaskLib
       class << self
         def attr_accessor(*names)
