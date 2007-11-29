@@ -10,7 +10,6 @@ module Spec
       
       def matches?(actual)
         @actual = actual
-        return true if match_or_compare unless handling_predicate?
         if handling_predicate?
           begin
             return @result = actual.__send__(predicate, *@args)
@@ -28,8 +27,9 @@ module Spec
           rescue
             raise predicate_error
           end
+        else
+          return match_or_compare
         end
-        return false
       end
       
       def failure_message

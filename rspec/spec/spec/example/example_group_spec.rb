@@ -478,6 +478,28 @@ module Spec
           @examples_that_were_run = []
         end
 
+        describe ExampleGroup, "#run when specified_examples matches entire ExampleGroup" do
+          before do
+            examples_that_were_run = @examples_that_were_run
+            @example_group = Class.new(ExampleGroup) do
+              describe("the ExampleGroup")
+              it("should be run") do
+                examples_that_were_run << 'should be run'
+              end
+
+              it("should also be run") do
+                examples_that_were_run << 'should also be run'
+              end
+            end
+            options.examples = ["the ExampleGroup"]
+          end
+
+          it "should not run the Examples in the ExampleGroup" do
+            example_group.run
+            examples_that_were_run.should == ['should be run', 'should also be run']
+          end
+        end
+
         describe ExampleGroup, "#run when specified_examples matches only Example description" do
           before do
             examples_that_were_run = @examples_that_were_run
@@ -485,13 +507,14 @@ module Spec
               describe("example")
               it("should be run") do
                 examples_that_were_run << 'should be run'
-              end            end
+              end
+            end
             options.examples = ["should be run"]
           end
 
           it "should not run the example" do
             example_group.run
-              examples_that_were_run.should == ['should be run']
+            examples_that_were_run.should == ['should be run']
           end
         end
 
