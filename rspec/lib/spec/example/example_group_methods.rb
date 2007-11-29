@@ -141,16 +141,7 @@ module Spec
 
       def examples #:nodoc:
         examples = example_objects.dup
-        instance_methods.sort.each do |method_name|
-          if (is_test?(method_name) || is_spec?(method_name)) && (
-            instance_method(method_name).arity == 0 ||
-            instance_method(method_name).arity == -1
-          )
-            examples << create_example(method_name) do
-              __send__(method_name)
-            end
-          end
-        end
+        add_method_examples(examples)
         rspec_options.reverse ? examples.reverse : examples
       end
       
@@ -334,14 +325,6 @@ module Spec
         klass.kind_of?(ExampleGroupMethods)
       end
       
-      def is_test?(method_name)
-        method_name =~ /^test_./
-      end
-      
-      def is_spec?(method_name)
-        !(method_name =~ /^should(_not)?$/) && method_name =~ /^should/
-      end
-
       def plugin_mock_framework
         case mock_framework = Spec::Runner.configuration.mock_framework
         when Module
@@ -392,6 +375,28 @@ module Spec
           include described_type
         end
         self.description
+      end
+      
+      def add_method_examples(examples)
+        instance_methods.sort.each do |method_name|
+          if example_method?(method_name)
+            examples << create_example(method_name) do
+              __send__(method_name)
+            end
+          end
+        end
+      end
+      
+      def example_method?(method_name)
+        should_method?(method_name)
+      end
+      
+      def should_method?(method_name)
+        !(method_name =~ /^should(_not)?$/) && 
+        method_name =~ /^should/ && (
+          instance_method(method_name).arity == 0 ||
+          instance_method(method_name).arity == -1
+        )
       end
     end
     

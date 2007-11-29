@@ -87,7 +87,7 @@ module Spec
           example_group.examples.first.description.should == "should pass"
         end
 
-        it "should include methods that begin with test and has an arity of 0 in suite" do
+        it "should not include methods that begin with test (only when TU interop is loaded)" do
           example_group = Class.new(ExampleGroup) do
             describe('example')
             def test_any_args(*args)
@@ -103,9 +103,7 @@ module Spec
               raise "This is not a real test"
             end
           end
-          example_group.examples.length.should == 2
-          descriptions = example_group.examples.collect {|example| example.description}.sort
-          descriptions.should == ["test_any_args", "test_something"]
+          example_group.examples.length.should == 0
           example_group.run.should be_true
         end
 

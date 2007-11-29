@@ -30,6 +30,17 @@ module Test
         def suite
           Test::Unit::TestSuiteAdapter.new(self)
         end
+
+        def example_method?(method_name)
+          should_method?(method_name) || test_method?(method_name)
+        end
+
+        def test_method?(method_name)
+          method_name =~ /^test./ && (
+            instance_method(method_name).arity == 0 ||
+            instance_method(method_name).arity == -1
+          )
+        end
       end
 
       def initialize(example) #:nodoc:
@@ -40,7 +51,6 @@ module Test
       def run(ignore_this_argument=nil)
         super()
       end
-
     end
   end
 end
