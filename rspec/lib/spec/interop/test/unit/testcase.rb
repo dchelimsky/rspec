@@ -36,7 +36,7 @@ module Test
         self.class.before_each_parts << lambda do
           setup
         end
-
+        
         self.class.after_each_parts << lambda do
           teardown
         end

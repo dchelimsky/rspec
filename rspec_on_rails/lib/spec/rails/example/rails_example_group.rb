@@ -30,6 +30,15 @@ module Spec
           end
         end
 
+        # TODO - do NOT remove this override
+        # of the init in RSpec's core without
+        # running rspec_on_rails examples against
+        # sqlite3 and mysql.
+        def initialize(example) #:nodoc:
+          @_example = example
+          @_result = ::Test::Unit::TestResult.new
+        end
+
         before(:each) {setup}
         after(:each) {teardown}
 
