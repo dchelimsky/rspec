@@ -1,9 +1,6 @@
 require File.dirname(__FILE__) + '/spec_helper'
 require File.dirname(__FILE__) + '/stack'
 
-# TODO - this runs and does the right thing except for
-# output - "Stack" never appears. Getting close though.
-
 describe Stack do
   before(:each) do
     @stack = Stack.new
@@ -15,12 +12,25 @@ describe Stack do
     end
   end
   
-  describe "when full" do
-    before(:each) do
-      (1..10).each {|n| @stack.push n}
+  describe "when not empty" do
+    describe "- when almost full" do
+      before(:each) do
+        (1..9).each {|n| @stack.push n}
+      end
+      it "should not be full" do
+        @stack.should_not be_full
+      end
     end
-    it "should description" do
-      @stack.should be_full
-    end
-  end  
+    
+    describe "- when full" do
+      before(:each) do
+        (1..10).each {|n| @stack.push n}
+      end
+      it "should be full" do
+        @stack.should be_full
+      end
+    end  
+  end
+  
 end
+

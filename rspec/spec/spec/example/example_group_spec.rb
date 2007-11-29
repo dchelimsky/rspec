@@ -998,6 +998,15 @@ module Spec
         end
         example_group.send(:described_type).should == Array
       end
+      
+      it "should concat descriptions when nested" do
+        example_group = Class.new(ExampleSubclass) do
+          describe(Array)
+          $nested_group = describe("when empty") do
+          end
+        end
+        $nested_group.description.to_s.should == "Array when empty"
+      end
     end
 
     describe Enumerable do

@@ -29,6 +29,7 @@ module Spec
       #
       def describe(*args, &example_group_block)
         if example_group_block
+          args.unshift(description) unless description.nil?
           Class.new(self) do
             describe(*args)
             register
