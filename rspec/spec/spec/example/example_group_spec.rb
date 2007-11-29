@@ -472,6 +472,73 @@ module Spec
         end
       end
 
+      describe ExampleGroup, "#run with specified examples" do
+        attr_reader :examples_that_were_run
+        before do
+          @examples_that_were_run = []
+        end
+
+        describe ExampleGroup, "#run when specified_examples matches only Example description" do
+          before do
+            examples_that_were_run = @examples_that_were_run
+            @example_group = Class.new(ExampleGroup) do
+              describe("example")
+              it("should be run") do
+                examples_that_were_run << 'should be run'
+              end            end
+            options.examples = ["should be run"]
+          end
+
+          it "should not run the example" do
+            example_group.run
+              examples_that_were_run.should == ['should be run']
+          end
+        end
+
+        describe ExampleGroup, "#run when specified_examples does not match an Example description" do
+          before do
+            examples_that_were_run = @examples_that_were_run
+            @example_group = Class.new(ExampleGroup) do
+              describe("example")
+              it("should be something else") do
+                examples_that_were_run << 'should be something else'
+              end
+            end
+            options.examples = ["does not match anything"]
+          end
+
+          it "should not run the example" do
+            example_group.run
+            examples_that_were_run.should == []
+          end
+        end
+
+        describe ExampleGroup, "#run when specified_examples matches an Example description" do
+          before do
+            examples_that_were_run = @examples_that_were_run
+            @example_group = Class.new(ExampleGroup) do
+              describe("example")
+              it("should be run") do
+                examples_that_were_run << 'should be run'
+              end
+              it("should not be run") do
+                examples_that_were_run << 'should not be run'
+              end
+            end
+            options.examples = ["should be run"]
+          end
+
+          it "should run only the example, when there in only one" do
+            example_group.run
+            examples_that_were_run.should == ["should be run"]
+          end
+
+          it "should run only the one example" do
+            example_group.run
+            examples_that_were_run.should == ["should be run"]          end
+        end
+      end
+
       describe ExampleGroup, "#run with success" do
         it_should_behave_like "Spec::Example::ExampleGroup#run without failure in example"
         
