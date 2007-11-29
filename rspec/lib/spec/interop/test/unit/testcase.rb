@@ -31,12 +31,12 @@ module Test
           Test::Unit::TestSuiteAdapter.new(self)
         end
       end
-      
+
       def initialize(example) #:nodoc:
         @_example = example
         @_result = ::Test::Unit::TestResult.new
       end
-      
+
       def run(ignore_this_argument=nil)
         super()
       end
