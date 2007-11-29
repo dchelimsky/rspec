@@ -6,15 +6,15 @@ module Spec
       def initialize(options, example_group_instance)
         @options = options
         @example_group_instance = example_group_instance
-        @example = example_group_instance._example
         @errors = []
       end
       
       def run
-        reporter.example_started(@example)
+        example = example_group_instance._example
+        reporter.example_started(example)
         if dry_run
           example_group_instance.description = "NO NAME (Because of --dry-run)" if example_group_instance.use_generated_description?
-          return reporter.example_finished(@example, nil, example_group_instance.description)
+          return reporter.example_finished(example, nil, example_group_instance.description)
         end
 
         location = nil
@@ -28,12 +28,14 @@ module Spec
         end
 
         reporter.example_finished(
-          @example,
+          example,
           errors.first,
           location
         )
         ok?
       end
+
+      protected
 
       def ok?
         @errors.empty? || @errors.all? {|error| error.is_a?(Spec::Example::ExamplePendingError)}
@@ -43,9 +45,8 @@ module Spec
         !ok?
       end
 
-      protected
       def before_example
-        setup_mocks
+        example_group_instance.setup_mocks_for_rspec
         example_group_instance.run_before_each
         return ok?
       rescue Exception => e
@@ -65,9 +66,9 @@ module Spec
         example_group_instance.run_after_each
 
         begin
-          verify_mocks
+          example_group_instance.verify_mocks_for_rspec
         ensure
-          teardown_mocks
+          example_group_instance.teardown_mocks_for_rspec
         end
 
         return ok?
@@ -96,29 +97,12 @@ module Spec
       end
 
       def description
-        return @example.description unless example_group_instance.use_generated_description?
+        example = example_group_instance._example
+        return example.description unless example_group_instance.use_generated_description?
         return Spec::Matchers.generated_description if Spec::Matchers.generated_description
-        return "NO NAME (Because of Error raised in matcher)" if failed?
-        "NO NAME (Because there were no expectations)"
+        return failed? ? "NO NAME (Because of Error raised in matcher)" : "NO NAME (Because there were no expectations)"
       end
 
-      def setup_mocks
-        if example_group_instance.respond_to?(:setup_mocks_for_rspec)
-          example_group_instance.setup_mocks_for_rspec
-        end
-      end
-
-      def verify_mocks
-        if example_group_instance.respond_to?(:verify_mocks_for_rspec)
-          example_group_instance.verify_mocks_for_rspec
-        end
-      end
-
-      def teardown_mocks
-        if example_group_instance.respond_to?(:teardown_mocks_for_rspec)
-          example_group_instance.teardown_mocks_for_rspec
-        end
-      end
     end
   end
 end

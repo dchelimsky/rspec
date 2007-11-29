@@ -8,6 +8,7 @@ module Spec
         @reporter = ::Spec::Runner::Reporter.new(@options)
         @options.reporter = @reporter
         @example_group_class = Class.new(ExampleGroup) do
+          plugin_mock_framework
           describe("Some Examples")
         end
       end
