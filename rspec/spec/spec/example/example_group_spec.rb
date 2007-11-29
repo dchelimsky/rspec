@@ -76,7 +76,7 @@ module Spec
       end
 
       describe ExampleGroup, ".examples" do
-        it "should return an ExampleSuite with Examples" do
+        it "should have Examples" do
           example_group = Class.new(ExampleGroup) do
             describe('example')
             it "should pass" do
