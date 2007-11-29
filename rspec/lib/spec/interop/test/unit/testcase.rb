@@ -23,6 +23,9 @@ module Test
       extend Spec::Example::ExampleGroupMethods
       include Spec::Example::ExampleMethods
 
+      before(:each) {setup}
+      after(:each) {teardown}
+
       class << self
         def suite
           Test::Unit::TestSuiteAdapter.new(self)
@@ -32,19 +35,12 @@ module Test
       def initialize(example) #:nodoc:
         @_example = example
         @_result = ::Test::Unit::TestResult.new
-
-        self.class.before_each_parts << lambda do
-          setup
-        end
-        
-        self.class.after_each_parts << lambda do
-          teardown
-        end
       end
       
       def run(ignore_this_argument=nil)
         super()
       end
+
     end
   end
 end

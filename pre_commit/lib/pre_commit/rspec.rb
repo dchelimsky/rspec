@@ -79,7 +79,7 @@ class PreCommit::Rspec < PreCommit
 
   def update_dependencies
     Dir.chdir 'example_rails_app' do
-      rake_sh("-f Multirails.rake update_dependencies --trace")
+      rake_sh("-f Multirails.rake update_dependencies")
     end
   end
 
