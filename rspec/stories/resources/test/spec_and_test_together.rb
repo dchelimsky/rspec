@@ -39,7 +39,8 @@ class ATest < Test::Unit::TestCase
   end
 
   def setup
-    @from_setup = 4
+    @from_setup ||= 3
+    @from_setup += 1
   end
 
   def test_should_fail_with_setup_method_variable
@@ -47,7 +48,7 @@ class ATest < Test::Unit::TestCase
   end
 
   before do
-    @from_before = 5
+    @from_before = @from_setup + 1
   end
 
   def test_should_fail_with_before_block_variable
