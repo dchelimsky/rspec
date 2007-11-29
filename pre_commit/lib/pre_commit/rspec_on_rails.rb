@@ -299,9 +299,9 @@ class PreCommit::RspecOnRails < PreCommit
       :tagged? => true
     },
     {
-      :checkout_path => "vendor/rails/2.0.0-RC1",
-      :name =>  "rails 2.0.0-RC1",
-      :url => "http://dev.rubyonrails.org/svn/rails/tags/rel_2-0-0_RC1",
+      :checkout_path => "vendor/rails/2.0.0-RC2",
+      :name =>  "rails 2.0.0-RC2",
+      :url => "http://dev.rubyonrails.org/svn/rails/tags/rel_2-0-0_RC2",
       :tagged? => true
     },
     {
