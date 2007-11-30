@@ -13,7 +13,9 @@ module Spec
         example = example_group_instance._example
         reporter.example_started(example)
         if dry_run
-          example_group_instance.description = "NO NAME (Because of --dry-run)" if example_group_instance.use_generated_description?
+          if example_group_instance.use_generated_description?
+            example_group_instance.description = "NO NAME (Because of --dry-run)"
+          end
           return reporter.example_finished(example, nil, example_group_instance.description)
         end
 
