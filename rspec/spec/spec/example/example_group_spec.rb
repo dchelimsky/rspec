@@ -361,7 +361,7 @@ module Spec
     end
 
     describe ExampleGroup, "#pending" do
-      it"should raise a Pending error when its block fails" do
+      it "should raise a Pending error when its block fails" do
         block_ran = false
         lambda {
           pending("something") do
@@ -372,7 +372,7 @@ module Spec
         block_ran.should == true
       end
 
-      it"should raise Spec::Example::PendingExampleFixedError when its block does not fail" do
+      it "should raise Spec::Example::PendingExampleFixedError when its block does not fail" do
         block_ran = false
         lambda {
           pending("something") do
@@ -380,12 +380,6 @@ module Spec
           end
         }.should raise_error(Spec::Example::PendingExampleFixedError, "Expected pending 'something' to fail. No Error was raised.")
         block_ran.should == true
-      end
-    end
-
-    describe ExampleGroup, "#run without failure in example", :shared => true do
-      it "should not add an example failure to the TestResult" do
-        example_group.run.should be_true
       end
     end
 
@@ -424,7 +418,7 @@ module Spec
         ExampleGroup.reset
       end
 
-      it"should not run when there are no examples" do
+      it "should not run when there are no examples" do
         example_group = Class.new(ExampleGroup) do
           describe("Foobar")
         end
@@ -560,9 +554,7 @@ module Spec
         end
       end
 
-      describe ExampleGroup, "#run with success" do
-        it_should_behave_like "Spec::Example::ExampleGroup#run without failure in example"
-        
+      describe ExampleGroup, "#run with success" do        
         before do
           @special_example_group = Class.new(ExampleGroup)
           ExampleGroupFactory.register(:special, @special_example_group)
@@ -777,10 +769,15 @@ module Spec
                 $included_module = mod
               end
             end
+            
+            def teardown_mocks_for_rspec
+              $torn_down = true
+            end
           end
 
           begin
             $included_module = nil
+            $torn_down = true
             Spec::Runner.configuration.mock_with mod
 
             example_group = Class.new(ExampleGroup) do
@@ -790,6 +787,7 @@ module Spec
             example_group.run
 
             $included_module.should_not be_nil
+            $torn_down.should == true
           ensure
             Spec::Runner.configuration.mock_with :rspec
           end
@@ -797,8 +795,6 @@ module Spec
       end
 
       describe ExampleGroup, "#run with pending example that has a failing assertion" do
-        it_should_behave_like "Spec::Example::ExampleGroup#run without failure in example"
-        
         before do
           example_group.it("should be pending") do
             pending("Example fails") {false.should be_true}
@@ -947,10 +943,7 @@ module Spec
         
         it "should not run second before(:each)" do
           reporter.should_receive(:example_finished) do |name, error, location, example_not_implemented|
-            name.should eql("example")
             error.message.should eql("first")
-            location.should eql("before(:each)")
-            example_not_implemented.should be_false
           end
           example_group.run
           example_group.first_before_ran.should be_true
@@ -967,16 +960,6 @@ module Spec
 
         it "should return false" do
           example_group.run.should be_false
-        end
-
-        it "should provide after(:all) as description" do
-          @reporter.should_receive(:example_finished) do |example, error, location|
-            example.description.should eql("after(:all)")
-            error.message.should eql("in after(:all)")
-            location.should eql("after(:all)")
-          end
-
-          example_group.run
         end
       end
     end
