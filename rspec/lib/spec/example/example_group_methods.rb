@@ -1,9 +1,8 @@
 module Spec
   module Example
 
-    # See http://rspec.rubyforge.org/documentation/before_and_after.html
     module ExampleGroupMethods
-      attr_accessor :description
+      attr_reader :description
 
       def inherited(klass)
         super
@@ -108,7 +107,7 @@ module Spec
         customize_example
         return true if examples.empty?
 
-        reporter.add_example_group(description)
+        reporter.add_example_group(@description)
         before_and_after_all_example = new(nil)
         success = run_before_all(before_and_after_all_example)
         if success
@@ -135,7 +134,7 @@ module Spec
       end
 
       def described_type #:nodoc:
-        description.described_type
+        @description.described_type
       end
 
       def examples #:nodoc:
@@ -369,11 +368,11 @@ module Spec
           args << {} unless Hash === args.last
           args.last[:example_group] = self
         end
-        self.description = ExampleGroupDescription.new(*args)
+        @description = ExampleGroupDescription.new(*args)
         if described_type.class == Module
           include described_type
         end
-        self.description
+        @description
       end
       
       def add_method_examples(examples)
