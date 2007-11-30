@@ -151,7 +151,6 @@ module Spec
         @reporter.should_receive(:example_finished) do |example_definition, error, location|
           example_definition.should equal(@example_definition)
           error.message.should eql("in after_each")
-          location.should eql("after(:each)")
         end
         @runner.run
       end
@@ -160,22 +159,6 @@ module Spec
     describe ExampleRunner, "#run with use cases" do
       predicate_matchers[:is_a] = [:is_a?]
       it_should_behave_like "Spec::Example::ExampleRunner#run"
-
-      it "should run example block in scope of example" do
-        scope_object = nil
-        @example_definition = @example_group_class.it("should pass") do
-          self.instance_of?(Example).should == false
-          scope_object = self
-        end
-        @runner = create_runner(@example_definition)
-        @example_group_instance = @runner.example_group_instance
-
-        @reporter.should_receive(:example_finished).with(equal(@example_definition), nil, nil)
-        @runner.run
-        
-        scope_object.should == @example_group_instance
-        scope_object.should be_instance_of(@example_group_class)
-      end
 
       it "should report NO NAME when told to use generated description with --dry-run" do
         @options.dry_run = true

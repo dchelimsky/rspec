@@ -34,6 +34,7 @@ module Spec
       end
 
       def run_before_each
+        setup_mocks_for_rspec
         self.class.run_before_each(self)
       end
 
