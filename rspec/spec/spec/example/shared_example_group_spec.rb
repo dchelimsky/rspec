@@ -208,7 +208,7 @@ module Spec
 
       it "should include modules, included into shared example_group, into current example_group" do
         @formatter.should_receive(:add_example_group).with(any_args)
-        @formatter.should_receive(:example_finished).twice.with(any_args)
+#        @formatter.should_receive(:example_finished).twice.with(any_args)
 
         shared_example_group = make_shared_example_group("shared example_group") {}
         shared_example_group.it("shared example") { shared_example_ran = true }

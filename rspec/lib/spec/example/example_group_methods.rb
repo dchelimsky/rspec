@@ -117,8 +117,7 @@ module Spec
             example_group_instance = new(example)
             example_group_instance.copy_instance_variables_from(before_and_after_all_example)
 
-            runner = ExampleRunner.new(rspec_options, example_group_instance)
-            unless runner.run
+            unless example_group_instance.execute(rspec_options)
               success = false
             end
           end

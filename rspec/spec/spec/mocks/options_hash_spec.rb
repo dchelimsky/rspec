@@ -19,12 +19,11 @@ module Spec
           mock.rspec_verify
         end
         example = @example_group.new(example_definition)
-        proxy = ::Spec::Example::ExampleRunner.new(@options, example)
         
         @reporter.should_receive(:example_finished) do |spec, error|
           error.backtrace.detect {|line| line =~ /\/path\/to\/blah.ext:37/}.should_not be_nil
         end
-        proxy.run
+        example.execute(@options)
       end
 
       it "should use the message supplied with :message" do
@@ -34,11 +33,10 @@ module Spec
           mock.rspec_verify
         end
         example = @example_group.new(example_definition)
-        proxy = ::Spec::Example::ExampleRunner.new(@options, example)
         @reporter.should_receive(:example_finished) do |spec, error|
           error.message.should == "recebi nada"
         end
-        proxy.run
+        example.execute(@options)
       end
     end
   end

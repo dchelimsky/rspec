@@ -52,14 +52,8 @@ module Spec
         protected
 
         def determine_superclass(opts)
-          # new: replaces behaviour_type
           if opts[:type]
             id = opts[:type]
-
-          #backwards compatibility
-          elsif opts[:behaviour_type]
-            id = opts[:behaviour_type]
-
           elsif opts[:spec_path] =~ /spec(\\|\/)(#{@example_group_types.keys.join('|')})/
             id = $2.to_sym
           else

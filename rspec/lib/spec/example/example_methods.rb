@@ -8,6 +8,43 @@ module Spec
       include ::Spec::Example::Pending
       
       attr_reader :_example
+
+      def execute(options)
+        options.reporter.example_started(_example)
+        if options.dry_run
+          if use_generated_description?
+            _example.description = "NO NAME (Because of --dry-run)"
+          end
+          return options.reporter.example_finished(_example, nil, _example.description)
+        end
+
+        e = nil
+        Timeout.timeout(options.timeout) do
+          begin
+            run_before_each
+            run
+          rescue Exception => ex
+            e ||= ex
+          ensure
+            begin
+              Spec::Matchers.clear_generated_description
+              run_after_each
+              verify_mocks_for_rspec
+            rescue Exception => ex
+              e ||= ex
+            ensure
+              teardown_mocks_for_rspec
+            end
+          end
+        end
+
+        options.reporter.example_finished(
+          _example,
+          e,
+          _example.description
+        )
+        success = e.nil? || ExamplePendingError === e
+      end
       
       def violated(message="")
         raise Spec::Expectations::ExpectationNotMetError.new(message)
@@ -17,14 +54,6 @@ module Spec
         _example.run_in(self)
       end
       
-      def description
-        _example.description
-      end
-      
-      def description=(description)
-        _example.description=(description)
-      end
-            
       def use_generated_description?
         _example.description == :__generate_docstring
       end
