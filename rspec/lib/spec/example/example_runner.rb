@@ -1,7 +1,6 @@
 module Spec
   module Example
     class ExampleRunner
-      attr_reader :options, :example_group_instance, :errors
 
       def initialize(options, example_group_instance)
         @options = options
@@ -10,29 +9,27 @@ module Spec
       end
       
       def run
-        example = example_group_instance._example
+        example = @example_group_instance._example
         reporter.example_started(example)
         if dry_run
-          if example_group_instance.use_generated_description?
-            example_group_instance.description = "NO NAME (Because of --dry-run)"
+          if @example_group_instance.use_generated_description?
+            @example_group_instance.description = "NO NAME (Because of --dry-run)"
           end
-          return reporter.example_finished(example, nil, example_group_instance.description)
+          return reporter.example_finished(example, nil, @example_group_instance.description)
         end
 
-        location = nil
         Timeout.timeout(timeout) do
           before_each_ok = before_example
-          example_ok = run_example if before_each_ok
-          after_each_ok = after_example
-          example_group_instance.description = description
-          location = failure_location(before_each_ok, example_ok, after_each_ok)
+          run_example if before_each_ok
+          after_example
+          @example_group_instance.description = description
           Spec::Matchers.clear_generated_description
         end
 
         reporter.example_finished(
           example,
-          errors.first,
-          location
+          @errors.first,
+          description
         )
         ok?
       end
@@ -43,47 +40,30 @@ module Spec
         @errors.empty? || @errors.all? {|error| error.is_a?(Spec::Example::ExamplePendingError)}
       end
 
-      def failed?
-        !ok?
-      end
-
       def before_example
-        example_group_instance.setup_mocks_for_rspec
-        example_group_instance.run_before_each
-        return ok?
+        @example_group_instance.run_before_each
+        true
       rescue Exception => e
-        errors << e
-        return false
+        @errors << e
+        false
       end
 
       def run_example
-        example_group_instance.run
-        return true
+        @example_group_instance.run
       rescue Exception => e
-        errors << e
-        return false
+        @errors << e
       end
 
       def after_example
-        example_group_instance.run_after_each
+        @example_group_instance.run_after_each
 
         begin
-          example_group_instance.verify_mocks_for_rspec
+          @example_group_instance.verify_mocks_for_rspec
         ensure
-          example_group_instance.teardown_mocks_for_rspec
+          @example_group_instance.teardown_mocks_for_rspec
         end
-
-        return ok?
       rescue Exception => e
-        errors << e
-        return false
-      end
-
-      def failure_location(before_each_ok, example_ok, after_each_ok)
-        return 'before(:each)' unless before_each_ok
-        return description unless example_ok
-        return 'after(:each)' unless after_each_ok
-        return nil
+        @errors << e
       end
 
       def reporter
@@ -99,10 +79,10 @@ module Spec
       end
 
       def description
-        example = example_group_instance._example
-        return example.description unless example_group_instance.use_generated_description?
+        example = @example_group_instance._example
+        return example.description unless @example_group_instance.use_generated_description?
         return Spec::Matchers.generated_description if Spec::Matchers.generated_description
-        return failed? ? "NO NAME (Because of Error raised in matcher)" : "NO NAME (Because there were no expectations)"
+        return ok? ? "NO NAME (Because there were no expectations)" : "NO NAME (Because of Error raised in matcher)"
       end
 
     end

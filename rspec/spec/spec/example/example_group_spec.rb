@@ -919,7 +919,6 @@ module Spec
           reporter.should_receive(:example_finished) do |example, error, location|
             example.should equal(example)
             error.message.should eql("first")
-            location.should eql("after(:each)")
           end
           example_group.run
           example_group.first_after_ran.should be_true
