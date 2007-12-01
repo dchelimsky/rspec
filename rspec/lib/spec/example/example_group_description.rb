@@ -17,9 +17,21 @@ module Spec
       def initialize(*args)
         args, @options = args_and_options(*args)
         set_type
+        @described_type = assign_described_type(args)
         expand_spec_path
-        @described_type = args.find{|arg| Module === arg}
         @text = self.class.description_text(*args)
+      end
+      
+      def assign_described_type(args) # :nodoc:
+        args.each do |arg|
+          case arg
+          when ExampleGroupDescription
+            return arg.described_type
+          when Module
+            return arg
+          end
+        end
+        return nil
       end
   
       def [](key)
