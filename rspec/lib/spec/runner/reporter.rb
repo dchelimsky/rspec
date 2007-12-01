@@ -9,9 +9,9 @@ module Spec
         clear
       end
       
-      def add_example_group(name)
-        formatters.each{|f| f.add_example_group(name)}
-        @example_group_names << name
+      def add_example_group(example_group)
+        formatters.each{|f| f.add_example_group(example_group)}
+        @example_groups << example_group
       end
       
       def example_started(example)
@@ -24,7 +24,7 @@ module Spec
         if error.nil?
           example_passed(example)
         elsif Spec::Example::ExamplePendingError === error
-          example_pending(@example_group_names.last, example, error.message)
+          example_pending(@example_groups.last, example, error.message)
         else
           example_failed(example, error)
         end
@@ -32,7 +32,7 @@ module Spec
 
       def failure(name, error)
         backtrace_tweaker.tweak_backtrace(error)
-        example_name = "#{@example_group_names.last} #{name}"
+        example_name = "#{@example_groups.last} #{name}"
         failure = Failure.new(example_name, error)
         @failures << failure
         formatters.each do |f|
@@ -74,7 +74,7 @@ module Spec
       end
   
       def clear
-        @example_group_names = []
+        @example_groups = []
         @failures = []
         @pending_count = 0
         @examples = []
