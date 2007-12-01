@@ -11,32 +11,31 @@ module Spec
 
       def execute(options)
         options.reporter.example_started(_example)
-        if options.dry_run
-          return options.reporter.example_finished(_example, nil)
-        end
+        execution_error = nil
 
-        e = nil
-        Timeout.timeout(options.timeout) do
-          begin
-            run_before_each
-            _example.run_in(self)
-          rescue Exception => ex
-            e ||= ex
-          ensure
+        unless options.dry_run
+          Timeout.timeout(options.timeout) do
             begin
-              Spec::Matchers.clear_generated_description
-              run_after_each
-              verify_mocks_for_rspec
+              run_before_each
+              _example.run_in(self)
             rescue Exception => ex
-              e ||= ex
+              execution_error ||= ex
             ensure
-              teardown_mocks_for_rspec
+              begin
+                Spec::Matchers.clear_generated_description
+                run_after_each
+                verify_mocks_for_rspec
+              rescue Exception => ex
+                execution_error ||= ex
+              ensure
+                teardown_mocks_for_rspec
+              end
             end
           end
         end
 
-        options.reporter.example_finished(_example, e)
-        success = e.nil? || ExamplePendingError === e
+        options.reporter.example_finished(_example, execution_error)
+        success = execution_error.nil? || ExamplePendingError === execution_error
       end
       
       def violated(message="")

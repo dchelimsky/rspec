@@ -96,12 +96,16 @@ module Spec
         example_name = "#{@example_group_names.last} #{name}"
         failure = Failure.new(example_name, error)
         @failures << failure
-        formatters.each{|f| f.example_failed(name, @failures.length, failure)}
+        formatters.each do |f|
+          f.example_failed(name, @failures.length, failure)
+        end
       end
       
       def example_pending(behaviour_name, example_name, message="Not Yet Implemented")
         @pending_count += 1
-        formatters.each{|f| f.example_pending(behaviour_name, example_name, message)}
+        formatters.each do |f|
+          f.example_pending(behaviour_name, example_name, message)
+        end
       end
       
       class Failure
