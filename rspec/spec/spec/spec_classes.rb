@@ -96,6 +96,7 @@ module Spec
 end
 
 module Custom
+  require 'spec/runner/formatter/base_text_formatter'
   class Formatter < Spec::Runner::Formatter::BaseTextFormatter
     attr_reader :options, :where
     

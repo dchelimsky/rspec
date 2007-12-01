@@ -1,11 +1,9 @@
 require 'spec/version'
 require 'spec/matchers'
 require 'spec/expectations'
-require 'spec/translator'
 require 'spec/example'
 require 'spec/extensions'
 require 'spec/runner'
-require 'spec/story'
 
 if Object.const_defined?(:Test); \
   require 'spec/interop/test'; \

@@ -1,3 +1,5 @@
+require 'spec/runner/formatter/progress_bar_formatter'
+
 module Spec
   module Runner
     module Formatter

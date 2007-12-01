@@ -1,3 +1,5 @@
+require 'spec/story'
+
 module StoryHelper
   def ruby(args, stderr)
     config       = ::Config::CONFIG

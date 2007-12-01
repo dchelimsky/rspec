@@ -1,4 +1,5 @@
 require File.dirname(__FILE__) + '/../../../../spec_helper.rb'
+require 'spec/runner/formatter/story/plain_text_formatter'
 
 module Spec
   module Runner

@@ -1,4 +1,3 @@
-require 'spec/runner/formatter'
 require 'spec/runner/options'
 require 'spec/runner/option_parser'
 require 'spec/runner/example_group_runner'

@@ -1,4 +1,5 @@
 require 'erb'
+require 'spec/runner/formatter/base_text_formatter'
 
 module Spec
   module Runner
@@ -91,6 +92,8 @@ module Spec
         # could output links to images or other files produced during the specs.
         #
         def extra_failure_content(failure)
+          require 'spec/runner/formatter/snippet_extractor'
+          @snippet_extractor ||= SnippetExtractor.new
           "    <pre class=\"ruby\"><code>#{@snippet_extractor.snippet(failure.exception)}</code></pre>"
         end
         

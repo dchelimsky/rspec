@@ -1,9 +1,10 @@
 require File.dirname(__FILE__) + '/../../../spec_helper'
+require 'spec/runner/formatter/failing_behaviours_formatter'
 
 module Spec
   module Runner
     module Formatter
-      describe "FailingBehavioursFormatter" do
+      describe FailingBehavioursFormatter do
         before(:each) do
           @io = StringIO.new
           options = mock('options')
