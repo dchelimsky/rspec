@@ -134,7 +134,7 @@ module Spec
   module Matchers
     module ModuleMethods
       attr_accessor :generated_description
-      def clear_generated_description
+      def example_finished
         @generated_description = nil
       end
     end

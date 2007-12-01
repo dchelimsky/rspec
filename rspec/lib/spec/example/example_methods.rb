@@ -16,24 +16,34 @@ module Spec
         unless options.dry_run
           Timeout.timeout(options.timeout) do
             begin
-              run_before_each
+              before_example
               _example.run_in(self)
             rescue Exception => ex
               execution_error ||= ex
             end
             begin
-              Spec::Matchers.clear_generated_description
-              run_after_each
-              verify_mocks_for_rspec
+              after_example
             rescue Exception => ex
               execution_error ||= ex
             end
-            teardown_mocks_for_rspec
           end
         end
 
         options.reporter.example_finished(_example, execution_error)
         success = execution_error.nil? || ExamplePendingError === execution_error
+      end
+
+      def before_example
+        setup_mocks_for_rspec
+        self.class.run_before_each(self)
+      end
+
+      def after_example
+        self.class.run_after_each(self)
+        verify_mocks_for_rspec
+        Spec::Matchers.example_finished
+      ensure
+        teardown_mocks_for_rspec
       end
       
       def violated(message="")
@@ -42,15 +52,6 @@ module Spec
 
       def copy_instance_variables_from(obj)
         super(obj, [:@_example, :@_result])
-      end
-
-      def run_before_each
-        setup_mocks_for_rspec
-        self.class.run_before_each(self)
-      end
-
-      def run_after_each
-        self.class.run_after_each(self)
       end
 
       def eval_each_fail_fast(procs) #:nodoc:
