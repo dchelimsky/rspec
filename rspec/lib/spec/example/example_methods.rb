@@ -22,7 +22,7 @@ module Spec
         Timeout.timeout(options.timeout) do
           begin
             run_before_each
-            run
+            _example.run_in(self)
           rescue Exception => ex
             e ||= ex
           ensure
@@ -49,11 +49,7 @@ module Spec
       def violated(message="")
         raise Spec::Expectations::ExpectationNotMetError.new(message)
       end
-      
-      def run
-        _example.run_in(self)
-      end
-      
+
       def use_generated_description?
         _example.description == :__generate_docstring
       end
