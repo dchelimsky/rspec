@@ -10,9 +10,9 @@ module Spec
       
         def example_failed(example, counter, failure)
           message = if failure.expectation_not_met?
-            "- #{example.description} (FAILED - #{counter})"
+            "- #{example} (FAILED - #{counter})"
           else
-            "- #{example.description} (ERROR - #{counter})"
+            "- #{example} (ERROR - #{counter})"
           end
           
           @output.puts(failure.expectation_not_met? ? red(message) : magenta(message))
@@ -20,7 +20,7 @@ module Spec
         end
         
         def example_passed(example)
-          message = "- #{example.description}"
+          message = "- #{example}"
           @output.puts green(message)
           @output.flush
         end

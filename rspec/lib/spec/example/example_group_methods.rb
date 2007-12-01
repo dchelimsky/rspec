@@ -242,7 +242,7 @@ module Spec
       rescue Exception => e
         # The easiest is to report this as an example failure. We don't have an Example
         # at this point, so we'll just create a placeholder.
-        reporter.example_finished(create_example("before(:all)"), e)
+        reporter.failure("before(:all)", e)
         return false
       end
 
@@ -253,7 +253,7 @@ module Spec
         end
         return true
       rescue Exception => e
-        reporter.example_finished(create_example("after(:all)"), e)
+        reporter.failure("after(:all)", e)
         return false
       end
       

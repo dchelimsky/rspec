@@ -20,17 +20,15 @@ module Spec
               _example.run_in(self)
             rescue Exception => ex
               execution_error ||= ex
-            ensure
-              begin
-                Spec::Matchers.clear_generated_description
-                run_after_each
-                verify_mocks_for_rspec
-              rescue Exception => ex
-                execution_error ||= ex
-              ensure
-                teardown_mocks_for_rspec
-              end
             end
+            begin
+              Spec::Matchers.clear_generated_description
+              run_after_each
+              verify_mocks_for_rspec
+            rescue Exception => ex
+              execution_error ||= ex
+            end
+            teardown_mocks_for_rspec
           end
         end
 

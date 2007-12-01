@@ -7,7 +7,7 @@ module Spec
         end
       
         def example_failed(example, counter, failure)
-          @output.puts "#{@example_group_name} #{example.description}"
+          @output.puts "#{@example_group_name} #{example}"
           @output.flush
         end
 
