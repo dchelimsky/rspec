@@ -22,5 +22,22 @@ module Spec
         @example.run_in(context).should == "foo"
       end
     end
+
+    describe Example, "#description" do
+      it "should default to NO NAME when not passed anything" do
+        example = Example.new
+        example.description.should == "NO NAME"
+      end
+
+      it "should default to NO NAME description (Because of --dry-run) when passed nil" do
+        example = Example.new(nil)
+        example.description.should == "NO NAME"
+      end
+
+      it "should allow description to be overridden" do
+        example = Example.new("Test description")
+        example.description.should == "Test description"
+      end
+    end
   end
 end

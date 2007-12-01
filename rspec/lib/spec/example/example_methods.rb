@@ -12,11 +12,7 @@ module Spec
       def execute(options)
         options.reporter.example_started(_example)
         if options.dry_run
-          return options.reporter.example_finished(
-            _example,
-            nil,
-            _example.description
-          )
+          return options.reporter.example_finished(_example, nil)
         end
 
         e = nil
@@ -39,11 +35,7 @@ module Spec
           end
         end
 
-        options.reporter.example_finished(
-          _example,
-          e,
-          _example.description
-        )
+        options.reporter.example_finished(_example, e)
         success = e.nil? || ExamplePendingError === e
       end
       
