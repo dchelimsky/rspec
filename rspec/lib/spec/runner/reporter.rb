@@ -30,6 +30,17 @@ module Spec
         end
       end
 
+      def failure(name, error)
+        backtrace_tweaker.tweak_backtrace(error)
+        example_name = "#{@example_group_names.last} #{name}"
+        failure = Failure.new(example_name, error)
+        @failures << failure
+        formatters.each do |f|
+          f.example_failed(name, @failures.length, failure)
+        end
+      end
+      alias_method :example_failed, :failure
+
       def start(number_of_examples)
         clear
         @start_time = Time.new
@@ -87,24 +98,14 @@ module Spec
         return "0.0"
       end
       
-      def example_passed(name)
-        formatters.each{|f| f.example_passed(name)}
-      end
-
-      def example_failed(name, error)
-        backtrace_tweaker.tweak_backtrace(error)
-        example_name = "#{@example_group_names.last} #{name}"
-        failure = Failure.new(example_name, error)
-        @failures << failure
-        formatters.each do |f|
-          f.example_failed(name, @failures.length, failure)
-        end
+      def example_passed(example)
+        formatters.each{|f| f.example_passed(example)}
       end
       
-      def example_pending(behaviour_name, example_name, message="Not Yet Implemented")
+      def example_pending(example, example_name, message="Not Yet Implemented")
         @pending_count += 1
         formatters.each do |f|
-          f.example_pending(behaviour_name, example_name, message)
+          f.example_pending(example, example_name, message)
         end
       end
       
