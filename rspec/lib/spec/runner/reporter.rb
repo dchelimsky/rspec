@@ -18,7 +18,7 @@ module Spec
         formatters.each{|f| f.example_started(example)}
       end
       
-      def example_finished(example, error=nil, pending=false)
+      def example_finished(example, error=nil)
         @examples << example
         
         if error.nil?
