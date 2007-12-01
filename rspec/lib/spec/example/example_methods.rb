@@ -12,10 +12,11 @@ module Spec
       def execute(options)
         options.reporter.example_started(_example)
         if options.dry_run
-          if use_generated_description?
-            _example.description = "NO NAME (Because of --dry-run)"
-          end
-          return options.reporter.example_finished(_example, nil, _example.description)
+          return options.reporter.example_finished(
+            _example,
+            nil,
+            _example.description
+          )
         end
 
         e = nil
@@ -48,10 +49,6 @@ module Spec
       
       def violated(message="")
         raise Spec::Expectations::ExpectationNotMetError.new(message)
-      end
-
-      def use_generated_description?
-        _example.description == :__generate_docstring
       end
 
       def copy_instance_variables_from(obj)
