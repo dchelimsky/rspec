@@ -90,7 +90,7 @@ module Spec
 
       # Creates an instance of Spec::Example::Example and adds
       # it to a collection of examples of the current behaviour.
-      def it(description=:__generate_docstring, &implementation)
+      def it(description=nil, &implementation)
         example = create_example(description, &implementation)
         example_objects << example
         example
@@ -99,7 +99,7 @@ module Spec
       alias_method :specify, :it
       
       # Use this to temporarily disable an example.
-      def xit(description=:__generate_docstring, opts={}, &block)
+      def xit(description=nil, opts={}, &block)
         Kernel.warn("Example disabled: #{description}")
       end
 
@@ -240,10 +240,9 @@ module Spec
         end
         return true
       rescue Exception => e
-        location = "before(:all)"
         # The easiest is to report this as an example failure. We don't have an Example
         # at this point, so we'll just create a placeholder.
-        reporter.example_finished(create_example(location), e, location)
+        reporter.example_finished(create_example("before(:all)"), e)
         return false
       end
 
@@ -254,8 +253,7 @@ module Spec
         end
         return true
       rescue Exception => e
-        location = "after(:all)"
-        reporter.example_finished(create_example(location), e, location)
+        reporter.example_finished(create_example("after(:all)"), e)
         return false
       end
       

@@ -37,12 +37,12 @@ module Spec
     # 
     #   it "should report its name for dry run" do
     #     @options.dry_run = true
-    #     @reporter.should_receive(:example_finished).with(equal(@e), nil, "example")
+    #     @reporter.should_receive(:example_finished).with(equal(@e), nil)
     #     @runner.run
     #   end
     # 
     #   it "should report success" do
-    #     @reporter.should_receive(:example_finished).with(equal(@e), nil, nil)
+    #     @reporter.should_receive(:example_finished).with(equal(@e), nil)
     #     @runner.run
     #   end
     # end
@@ -61,8 +61,7 @@ module Spec
     #   it "should report failure due to failure" do
     #     @reporter.should_receive(:example_finished).with(
     #       equal(@e),
-    #       is_a(Spec::Expectations::ExpectationNotMetError),
-    #       "example"
+    #       is_a(Spec::Expectations::ExpectationNotMetError)
     #     )
     #     @runner.run
     #   end
@@ -82,8 +81,7 @@ module Spec
     #   it "should report failure due to error" do
     #     @reporter.should_receive(:example_finished).with(
     #       equal(@example_definition),
-    #       @error,
-    #       "example"
+    #       @error
     #     )
     #     @runner.run
     #   end
@@ -92,9 +90,8 @@ module Spec
     #     @example_group_class.after(:each) do
     #       raise("in after_each")
     #     end
-    #     @reporter.should_receive(:example_finished) do |example_definition, error, location|
+    #     @reporter.should_receive(:example_finished) do |example_definition, error|
     #       example_definition.should equal(@example_definition)
-    #       location.should eql("example")
     #       error.message.should eql("in body")
     #     end
     #     @runner.run
@@ -126,10 +123,9 @@ module Spec
     #   end
     # 
     #   it "should report failure location when in before_each" do
-    #     @reporter.should_receive(:example_finished) do |example_definition, error, location|
+    #     @reporter.should_receive(:example_finished) do |example_definition, error|
     #       example_definition.should equal(@example_definition)
     #       error.message.should eql("in before_each")
-    #       location.should eql("before(:each)")
     #     end
     #     @runner.run
     #   end
@@ -148,7 +144,7 @@ module Spec
     #   end
     # 
     #   it "should report failure location when in after_each" do
-    #     @reporter.should_receive(:example_finished) do |example_definition, error, location|
+    #     @reporter.should_receive(:example_finished) do |example_definition, error|
     #       example_definition.should equal(@example_definition)
     #       error.message.should eql("in after_each")
     #     end
@@ -162,14 +158,13 @@ module Spec
     # 
     #   it "should report NO NAME when told to use generated description with --dry-run" do
     #     @options.dry_run = true
-    #     example_definition = @example_group_class.it(:__generate_docstring) do
+    #     example_definition = @example_group_class.it() do
     #       5.should == 5
     #     end
     #     runner = create_runner(example_definition)
     # 
-    #     @reporter.should_receive(:example_finished) do |example_definition, error, location|
+    #     @reporter.should_receive(:example_finished) do |example_definition, error|
     #       example_definition.description.should == "NO NAME (Because of --dry-run)"
-    #       location.should == "NO NAME (Because of --dry-run)"
     #      end
     #     runner.run
     #   end
@@ -181,42 +176,40 @@ module Spec
     #     end
     #     runner = create_runner(example_definition)
     # 
-    #     @reporter.should_receive(:example_finished) do |example_definition, error, location|
+    #     @reporter.should_receive(:example_finished) do |example_definition, error|
     #       example_definition.description.should == "example name"
-    #       location.should == "example name"
     #      end
     #     runner.run
     #   end
     # 
     #   it "should report NO NAME when told to use generated description with no expectations" do
-    #     example_definition = @example_group_class.it(:__generate_docstring) {}
+    #     example_definition = @example_group_class.it() {}
     #     runner = create_runner(example_definition)
-    #     @reporter.should_receive(:example_finished) do |example, error, location|
+    #     @reporter.should_receive(:example_finished) do |example, error|
     #       example.description.should == "NO NAME (Because there were no expectations)"
     #     end
     #     runner.run
     #   end
     # 
     #   it "should report NO NAME when told to use generated description and matcher fails" do
-    #     example_definition = @example_group_class.it(:__generate_docstring) do
+    #     example_definition = @example_group_class.it() do
     #       5.should "" # Has no matches? method..
     #     end
     #     runner = create_runner(example_definition)
     # 
-    #     @reporter.should_receive(:example_finished) do |example, error, location|
+    #     @reporter.should_receive(:example_finished) do |example, error|
     #       example_definition.description.should == "NO NAME (Because of Error raised in matcher)"
-    #       location.should == "NO NAME (Because of Error raised in matcher)"
     #     end
     #     runner.run
     #   end
     # 
     #   it "should report generated description when told to and it is available" do
-    #     example_definition = @example_group_class.it(:__generate_docstring) {
+    #     example_definition = @example_group_class.it() {
     #       5.should == 5
     #     }
     #     runner = create_runner(example_definition)
     #     
-    #     @reporter.should_receive(:example_finished) do |example_definition, error, location|
+    #     @reporter.should_receive(:example_finished) do |example_definition, error|
     #       example_definition.description.should == "should == 5"
     #     end
     #     runner.run

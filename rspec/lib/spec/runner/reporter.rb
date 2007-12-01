@@ -18,7 +18,7 @@ module Spec
         formatters.each{|f| f.example_started(example)}
       end
       
-      def example_finished(example, error=nil, failure_location=nil, pending=false)
+      def example_finished(example, error=nil, pending=false)
         @examples << example
         
         if error.nil?
@@ -26,7 +26,7 @@ module Spec
         elsif Spec::Example::ExamplePendingError === error
           example_pending(@example_group_names.last, example, error.message)
         else
-          example_failed(example, error, failure_location)
+          example_failed(example, error)
         end
       end
 
@@ -91,8 +91,8 @@ module Spec
         formatters.each{|f| f.example_passed(name)}
       end
 
-      def example_failed(name, error, failure_location)
-        backtrace_tweaker.tweak_backtrace(error, failure_location)
+      def example_failed(name, error)
+        backtrace_tweaker.tweak_backtrace(error)
         example_name = "#{@example_group_names.last} #{name}"
         failure = Failure.new(example_name, error)
         @failures << failure

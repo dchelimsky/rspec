@@ -851,10 +851,9 @@ module Spec
         end
 
         it "should supply before(:all) as description" do
-          @reporter.should_receive(:example_finished) do |example, error, location|
+          @reporter.should_receive(:example_finished) do |example, error|
             example.description.should eql("before(:all)")
             error.message.should eql("before(:all) failure")
-            location.should eql("before(:all)")
           end
 
           example_group.it("test") {true}
@@ -912,7 +911,7 @@ module Spec
         end
         
         it "should run second after(:each) block" do
-          reporter.should_receive(:example_finished) do |example, error, location|
+          reporter.should_receive(:example_finished) do |example, error|
             example.should equal(example)
             error.message.should eql("first")
           end
@@ -942,7 +941,7 @@ module Spec
         end
         
         it "should not run second before(:each)" do
-          reporter.should_receive(:example_finished) do |name, error, location, example_not_implemented|
+          reporter.should_receive(:example_finished) do |name, error, example_not_implemented|
             error.message.should eql("first")
           end
           example_group.run
