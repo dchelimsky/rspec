@@ -941,7 +941,7 @@ module Spec
         end
         
         it "should not run second before(:each)" do
-          reporter.should_receive(:example_finished) do |name, error, example_not_implemented|
+          reporter.should_receive(:example_finished) do |name, error|
             error.message.should eql("first")
           end
           example_group.run

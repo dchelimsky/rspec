@@ -159,7 +159,7 @@ module Spec
         @formatter.should_receive(:example_pending).with(description("example_group"), "example", "reason")
         @formatter.should_receive(:add_example_group).with(description("example_group"))
         @reporter.add_example_group(description('example_group'))
-        @reporter.example_finished("example", Spec::Example::ExamplePendingError.new("reason"), false)
+        @reporter.example_finished("example", Spec::Example::ExamplePendingError.new("reason"))
       end
 
       it "should account for pending example in stats" do
@@ -170,7 +170,7 @@ module Spec
         @formatter.should_receive(:close).with(no_args)
         @formatter.should_receive(:add_example_group).with(description("example_group"))
         @reporter.add_example_group(description('example_group'))
-        @reporter.example_finished("example", Spec::Example::ExamplePendingError.new("reason"), false)
+        @reporter.example_finished("example", Spec::Example::ExamplePendingError.new("reason"))
         @reporter.dump
       end
     end
@@ -184,7 +184,7 @@ module Spec
         end
         @formatter.should_receive(:add_example_group).with(description("example_group"))
         @reporter.add_example_group(description('example_group'))
-        @reporter.example_finished("example", Spec::Example::PendingExampleFixedError.new("reason"), false)
+        @reporter.example_finished("example", Spec::Example::PendingExampleFixedError.new("reason"))
       end
     end
   end
