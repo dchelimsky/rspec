@@ -219,7 +219,7 @@ module Spec
     #     example_definition = @example_group_class.it("something")
     #     runner = create_runner(example_definition)
     # 
-    #     Spec::Matchers.should_receive(:clear_generated_description)
+    #     Spec::Matchers.should_receive(:example_finished)
     #     runner.run
     #   end
     # end
