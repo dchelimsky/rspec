@@ -104,26 +104,34 @@ module Spec
       end
 
       def run(examples=examples_to_run)
-        customize_example
         return true if examples.empty?
 
         reporter.add_example_group(@description)
-        before_and_after_all_example = new(nil)
-        success = run_before_all(before_and_after_all_example)
+        plugin_mock_framework
+        define_methods_from_predicate_matchers
+
+        before_and_after_all_example_group_instance = new(nil)
+        success = run_before_all(
+          before_and_after_all_example_group_instance
+        )
         if success
           example_group_instance = nil
           examples.each do |example|
             example_group_instance = new(example)
-            example_group_instance.copy_instance_variables_from(before_and_after_all_example)
+            example_group_instance.copy_instance_variables_from(
+              before_and_after_all_example_group_instance
+            )
 
             unless example_group_instance.execute(rspec_options)
               success = false
             end
           end
-          before_and_after_all_example.copy_instance_variables_from(example_group_instance)
+          before_and_after_all_example_group_instance.copy_instance_variables_from(
+            example_group_instance
+          )
         end
 
-        unless run_after_all(before_and_after_all_example)
+        unless run_after_all(before_and_after_all_example_group_instance)
           success = false
         end
         return success
@@ -297,12 +305,6 @@ module Spec
         @example_objects ||= []
       end
 
-      def customize_example
-        plugin_mock_framework
-        define_predicate_matchers predicate_matchers
-        define_predicate_matchers(Spec::Runner.configuration.predicate_matchers)
-      end
-
       def execute_in_class_hierarchy(superclass_first)
         classes = []
         current_class = self
@@ -331,8 +333,11 @@ module Spec
         end
       end
 
-      def define_predicate_matchers(definitions) # :nodoc:
-        definitions.each_pair do |matcher_method, method_on_object|
+      def define_methods_from_predicate_matchers # :nodoc:
+        all_predicate_matchers = predicate_matchers.merge(
+          Spec::Runner.configuration.predicate_matchers
+        )
+        all_predicate_matchers.each_pair do |matcher_method, method_on_object|
           define_method matcher_method do |*args|
             eval("be_#{method_on_object.to_s.gsub('?','')}(*args)")
           end
