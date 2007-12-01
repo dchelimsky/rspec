@@ -1,5 +1,6 @@
 require File.dirname(__FILE__) + '/../../../spec_helper'
 require 'hpricot' # Needed to compare generated with wanted HTML
+require 'spec/runner/formatter/text_mate_formatter'
 
 module Spec
   module Runner

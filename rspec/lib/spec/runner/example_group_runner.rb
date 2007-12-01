@@ -7,7 +7,7 @@ module Spec
 
       def load_files(files)
         # It's important that loading files (or choosing not to) stays the
-        # responsibility of the BehaviourRunner. Some implementations (like)
+        # responsibility of the ExampleGroupRunner. Some implementations (like)
         # the one using DRb may choose *not* to load files, but instead tell
         # someone else to do it over the wire.
         files.each do |file|

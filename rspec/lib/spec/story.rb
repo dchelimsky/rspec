@@ -1,3 +1,4 @@
+require 'spec'
 require 'spec/story/extensions'
 require 'spec/story/given_scenario'
 require 'spec/story/runner'

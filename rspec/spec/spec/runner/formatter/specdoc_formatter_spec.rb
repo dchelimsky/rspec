@@ -1,9 +1,10 @@
 require File.dirname(__FILE__) + '/../../../spec_helper.rb'
+require 'spec/runner/formatter/specdoc_formatter'
 
 module Spec
   module Runner
     module Formatter
-      describe "SpecdocFormatter" do
+      describe SpecdocFormatter do
         before(:each) do
           @io = StringIO.new
           @options = mock('options')

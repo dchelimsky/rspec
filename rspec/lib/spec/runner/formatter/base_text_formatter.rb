@@ -1,3 +1,5 @@
+require 'spec/runner/formatter/base_formatter'
+
 module Spec
   module Runner
     module Formatter
@@ -20,7 +22,6 @@ module Spec
           else
             @output = where
           end
-          @snippet_extractor = SnippetExtractor.new
           @pending_examples = []
         end
         

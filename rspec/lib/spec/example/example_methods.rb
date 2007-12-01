@@ -4,8 +4,8 @@ module Spec
       extend ExampleGroupMethods
       extend ModuleReopeningFix
 
-      include ::Spec::Matchers
-      include ::Spec::Example::Pending
+      include Matchers
+      include Pending
       
       attr_reader :_example
 
@@ -16,15 +16,16 @@ module Spec
         unless options.dry_run
           Timeout.timeout(options.timeout) do
             begin
+              setup_mocks_for_rspec
               before_example
               _example.run_in(self)
-            rescue Exception => ex
-              execution_error ||= ex
+            rescue Exception => e
+              execution_error ||= e
             end
             begin
               after_example
-            rescue Exception => ex
-              execution_error ||= ex
+            rescue Exception => e
+              execution_error ||= e
             end
           end
         end
@@ -34,7 +35,6 @@ module Spec
       end
 
       def before_example
-        setup_mocks_for_rspec
         self.class.run_before_each(self)
       end
 

@@ -1,4 +1,5 @@
 require 'erb'
+require 'spec/runner/formatter/base_text_formatter'
 
 module Spec
   module Runner
