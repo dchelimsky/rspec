@@ -358,6 +358,25 @@ module Spec
       it "should have copy of example_group" do
         the_example_group.superclass.should == ExampleGroup
       end
+
+      it "should set instance variables from passed in hash" do
+        instance_variables = {
+          '@foo' => 'bar',
+          '@test' => 1
+        }
+        example_group_instance = ExampleGroup.new(nil, instance_variables)
+        example_group_instance.instance_variable_get('@foo').should == 'bar'
+        example_group_instance.instance_variable_get('@test').should == 1
+      end
+
+      it "should overwrite @_example, even if its to be set" do
+        instance_variables = {
+          '@_example' => 'should not be this value'
+        }
+        example = Example.new
+        example_group_instance = ExampleGroup.new(example, instance_variables)
+        example_group_instance.instance_variable_get('@_example').should == example
+      end
     end
 
     describe ExampleGroup, "#pending" do
