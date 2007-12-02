@@ -7,5 +7,5 @@ Story: Nested example groups
   Scenario: Run with ruby
     Given the file spec/nested_group_spec.rb
     When I run it with the ruby interpreter -fs
-    # Then the stdout should match /Array when empty/
-    # And the stdout should match /Array with one item/
+    Then the stdout should match /Array when empty/
+    And the stdout should match /Array with one item/
