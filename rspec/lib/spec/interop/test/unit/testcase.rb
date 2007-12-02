@@ -43,7 +43,10 @@ module Test
         end
       end
 
-      def initialize(example) #:nodoc:
+      def initialize(example, instance_variables={}) #:nodoc:
+        instance_variables.each do |variable_name, value|
+          instance_variable_set variable_name, value
+        end
         @_example = example
         @_result = ::Test::Unit::TestResult.new
         # @method_name is important to set here because it "complies" with Test::Unit's interface.

@@ -5,7 +5,6 @@ require 'spec/runner/command_line'
 require 'spec/runner/drb_command_line'
 require 'spec/runner/backtrace_tweaker'
 require 'spec/runner/reporter'
-require 'spec/runner/extensions/object'
 require 'spec/runner/spec_parser'
 require 'spec/runner/class_and_arguments_parser'
 

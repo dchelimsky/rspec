@@ -110,28 +110,23 @@ module Spec
         plugin_mock_framework
         define_methods_from_predicate_matchers
 
-        before_and_after_all_example_group_instance = new(nil)
-        success = run_before_all(
-          before_and_after_all_example_group_instance
-        )
-        if success
-          example_group_instance = nil
-          examples.each do |example|
-            example_group_instance = new(example)
-            example_group_instance.copy_instance_variables_from(
-              before_and_after_all_example_group_instance
-            )
+        before_all_example_group_instance = new(nil)
+        success = run_before_all(before_all_example_group_instance)
+        before_all_instance_variables = before_all_example_group_instance.instance_variable_hash
 
+        after_all_instance_variables = before_all_instance_variables
+        if success
+          examples.each do |example|
+            example_group_instance = new(example, before_all_instance_variables)
             unless example_group_instance.execute(rspec_options)
               success = false
             end
+            after_all_instance_variables = example_group_instance.instance_variable_hash
           end
-          before_and_after_all_example_group_instance.copy_instance_variables_from(
-            example_group_instance
-          )
         end
 
-        unless run_after_all(before_and_after_all_example_group_instance)
+        after_all_example_group_instance = new(nil, after_all_instance_variables)
+        unless run_after_all(after_all_example_group_instance)
           success = false
         end
         return success

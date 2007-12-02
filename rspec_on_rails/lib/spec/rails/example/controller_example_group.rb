@@ -117,7 +117,7 @@ module Spec
 
         attr_reader :response, :request, :controller
 
-        def initialize(example)
+        def initialize(example, instance_variables={})
           super
           controller_class_name = self.class.controller_class_name
           if controller_class_name

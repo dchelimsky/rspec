@@ -1,3 +1,5 @@
+require File.expand_path("#{File.dirname(__FILE__)}/../helper")
+
 # This creates steps for :addition
 steps_for(:addition) do
   Given("an addend of $addend") do |addend|
