@@ -45,13 +45,16 @@ module Spec
       ensure
         teardown_mocks_for_rspec
       end
+
+      def instance_variable_hash
+        instance_variables.inject({}) do |variable_hash, variable_name|
+          variable_hash[variable_name] = instance_variable_get(variable_name)
+          variable_hash
+        end
+      end
       
       def violated(message="")
         raise Spec::Expectations::ExpectationNotMetError.new(message)
-      end
-
-      def copy_instance_variables_from(obj)
-        super(obj, [:@_example, :@_result])
       end
 
       def eval_each_fail_fast(procs) #:nodoc:

@@ -28,7 +28,7 @@ module Spec
           ensure_that_flash_and_session_work_properly
         end
 
-        def initialize(example) #:nodoc:
+        def initialize(example, instance_variables={}) #:nodoc:
           super
           @controller_class_name = "Spec::Rails::Example::ViewExampleGroupController"
         end
