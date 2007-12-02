@@ -95,9 +95,9 @@ module Spec
         example_objects << example
         example
       end
-      
+
       alias_method :specify, :it
-      
+
       # Use this to temporarily disable an example.
       def xit(description=nil, opts={}, &block)
         Kernel.warn("Example disabled: #{description}")
@@ -105,31 +105,16 @@ module Spec
 
       def run(examples=examples_to_run)
         return true if examples.empty?
+        return dry_run(examples) if dry_run?
 
         reporter.add_example_group(@description)
         plugin_mock_framework
         define_methods_from_predicate_matchers
 
-        before_all_example_group_instance = new(nil)
-        success = run_before_all(before_all_example_group_instance)
-        before_all_instance_variables = before_all_example_group_instance.instance_variable_hash
-
-        after_all_instance_variables = before_all_instance_variables
-        if success
-          examples.each do |example|
-            example_group_instance = new(example, before_all_instance_variables)
-            unless example_group_instance.execute(rspec_options)
-              success = false
-            end
-            after_all_instance_variables = example_group_instance.instance_variable_hash
-          end
-        end
-
-        after_all_example_group_instance = new(nil, after_all_instance_variables)
-        unless run_after_all(after_all_example_group_instance)
-          success = false
-        end
-        return success
+        success, before_all_instance_variables = run_before_all
+        success, after_all_instance_variables  = run_instances(success, before_all_instance_variables, examples)
+        success                                = run_after_all(success, after_all_instance_variables)
+        success
       end
 
       def add_example(example)
@@ -145,7 +130,7 @@ module Spec
         add_method_examples(examples)
         rspec_options.reverse ? examples.reverse : examples
       end
-      
+
       def number_of_examples #:nodoc:
         examples.length
       end
@@ -221,7 +206,7 @@ module Spec
         @before_each_parts = nil
         @after_each_parts = nil
       end
-      
+
       def register
         rspec_options.add_example_group self
       end
@@ -235,31 +220,7 @@ module Spec
           example.eval_each_fail_fast(example_group.before_each_parts)
         end
       end
-      
-      def run_before_all(example)
-        return true if dry_run
-        execute_in_class_hierarchy(false) do |example_group|
-          example.eval_each_fail_fast(example_group.before_all_parts)
-        end
-        return true
-      rescue Exception => e
-        # The easiest is to report this as an example failure. We don't have an Example
-        # at this point, so we'll just create a placeholder.
-        reporter.failure("before(:all)", e)
-        return false
-      end
 
-      def run_after_all(example)
-        return true if dry_run
-        execute_in_class_hierarchy(true) do |example_group|
-          example.eval_each_fail_slow(example_group.after_all_parts)
-        end
-        return true
-      rescue Exception => e
-        reporter.failure("after(:all)", e)
-        return false
-      end
-      
       def run_after_each(example)
         execute_in_class_hierarchy(true) do |example_group|
           example.eval_each_fail_slow(example_group.after_each_parts)
@@ -267,6 +228,52 @@ module Spec
       end
 
     private
+      def dry_run(examples)
+        examples.each do |example|
+          rspec_options.reporter.example_started(example)
+          rspec_options.reporter.example_finished(example)
+        end
+        return true
+      end
+
+      def run_before_all
+        example_group_instance = new(nil)
+        begin
+          execute_in_class_hierarchy(false) do |example_group|
+            example_group_instance.eval_each_fail_fast(example_group.before_all_parts)
+          end
+          return [true, example_group_instance.instance_variable_hash]
+        rescue Exception => e
+          # The easiest is to report this as an example failure. We don't have an Example
+          # at this point, so we'll just create a placeholder.
+          reporter.failure("before(:all)", e)
+          return [false, example_group_instance.instance_variable_hash]
+        end
+      end
+
+      def run_instances(success, instance_variables, examples)
+        return [success, instance_variables] unless success
+
+        after_all_instance_variables = instance_variables
+        examples.each do |example|
+          example_group_instance = new(example, instance_variables)
+          success &= example_group_instance.execute(rspec_options)
+          after_all_instance_variables = example_group_instance.instance_variable_hash
+        end
+        return [success, after_all_instance_variables]
+      end
+
+      def run_after_all(success, instance_variables)
+        example = new(nil, instance_variables)
+        execute_in_class_hierarchy(true) do |example_group|
+          example.eval_each_fail_slow(example_group.after_all_parts)
+        end
+        return success
+      rescue Exception => e
+        reporter.failure("after(:all)", e)
+        return false
+      end
+
       def create_example(description, &implementation) #:nodoc:
         Example.new(description, &implementation)
       end
@@ -292,10 +299,10 @@ module Spec
         rspec_options.reporter
       end
 
-      def dry_run
+      def dry_run?
         rspec_options.dry_run
       end
-      
+
       def example_objects
         @example_objects ||= []
       end
@@ -313,11 +320,11 @@ module Spec
           yield behaviour
         end
       end
-      
+
       def is_example_group?(klass)
         klass.kind_of?(ExampleGroupMethods)
       end
-      
+
       def plugin_mock_framework
         case mock_framework = Spec::Runner.configuration.mock_framework
         when Module
@@ -372,7 +379,7 @@ module Spec
         end
         @description
       end
-      
+
       def add_method_examples(examples)
         instance_methods.sort.each do |method_name|
           if example_method?(method_name)
@@ -382,19 +389,19 @@ module Spec
           end
         end
       end
-      
+
       def example_method?(method_name)
         should_method?(method_name)
       end
-      
+
       def should_method?(method_name)
-        !(method_name =~ /^should(_not)?$/) && 
+        !(method_name =~ /^should(_not)?$/) &&
         method_name =~ /^should/ && (
           instance_method(method_name).arity == 0 ||
           instance_method(method_name).arity == -1
         )
       end
     end
-    
+
   end
 end
