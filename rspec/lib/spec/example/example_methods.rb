@@ -52,6 +52,12 @@ module Spec
           variable_hash
         end
       end
+
+      def set_instance_variables_from_hash(instance_variables)
+        instance_variables.each do |variable_name, value|
+          instance_variable_set variable_name, value
+        end
+      end
       
       def violated(message="")
         raise Spec::Expectations::ExpectationNotMetError.new(message)
