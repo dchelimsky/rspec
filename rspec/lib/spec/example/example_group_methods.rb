@@ -112,7 +112,7 @@ module Spec
         define_methods_from_predicate_matchers
 
         success, before_all_instance_variables = run_before_all
-        success, after_all_instance_variables  = run_instances(success, before_all_instance_variables, examples)
+        success, after_all_instance_variables  = execute_examples(success, before_all_instance_variables, examples)
         success                                = run_after_all(success, after_all_instance_variables)
         success
       end
@@ -251,7 +251,7 @@ module Spec
         end
       end
 
-      def run_instances(success, instance_variables, examples)
+      def execute_examples(success, instance_variables, examples)
         return [success, instance_variables] unless success
 
         after_all_instance_variables = instance_variables
