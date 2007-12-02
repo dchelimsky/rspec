@@ -11,22 +11,20 @@ module Spec
 
       def execute(options)
         options.reporter.example_started(_example)
+        
         execution_error = nil
-
-        unless options.dry_run
-          Timeout.timeout(options.timeout) do
-            begin
-              setup_mocks_for_rspec
-              before_example
-              _example.run_in(self)
-            rescue Exception => e
-              execution_error ||= e
-            end
-            begin
-              after_example
-            rescue Exception => e
-              execution_error ||= e
-            end
+        Timeout.timeout(options.timeout) do
+          begin
+            setup_mocks_for_rspec
+            before_example
+            _example.run_in(self)
+          rescue Exception => e
+            execution_error ||= e
+          end
+          begin
+            after_example
+          rescue Exception => e
+            execution_error ||= e
           end
         end
 
