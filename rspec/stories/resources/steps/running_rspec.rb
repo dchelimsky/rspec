@@ -1,7 +1,10 @@
 steps_for :running_rspec do
 
   Given("the file $relative_path") do |relative_path|
-    @path = File.join(File.dirname(__FILE__), "..", "..", "resources", relative_path)
+    @path = File.expand_path(File.join(File.dirname(__FILE__), "..", "..", "resources", relative_path))
+    unless File.exist?(@path)
+      raise "could not find file at #{@path}"
+    end
   end
   
   When("I run it with the $interpreter") do |interpreter|
@@ -11,7 +14,9 @@ steps_for :running_rspec do
       when /^ruby interpreter/
         args = interpreter.gsub('ruby interpreter','')
         ruby("#{@path}#{args}", stderr_file.path)
-      when 'spec script' then spec(@path, stderr_file.path)
+      when /^spec script/
+        args = interpreter.gsub('spec script','')
+        spec("#{@path}#{args}", stderr_file.path)
       when 'CommandLine object' then cmdline(@path, stderr_file.path)
       else raise "Unknown interpreter: #{interpreter}"
     end
