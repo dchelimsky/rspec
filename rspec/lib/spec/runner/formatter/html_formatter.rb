@@ -31,7 +31,7 @@ module Spec
           @output.flush
         end
 
-        def add_example_group(name)
+        def add_example_group(example_group_description)
           @example_group_red = false
           @example_group_red = false
           @current_example_group_number += 1
@@ -41,7 +41,7 @@ module Spec
           end
           @output.puts "<div class=\"example_group\">"
           @output.puts "  <dl>"
-          @output.puts "  <dt id=\"example_group_#{current_example_group_number}\">#{h(name)}</dt>"
+          @output.puts "  <dt id=\"example_group_#{current_example_group_number}\">#{h(example_group_description)}</dt>"
           @output.flush
         end
 
@@ -80,7 +80,7 @@ module Spec
           @output.flush
         end
 
-        def example_pending(example_group_name, example_name, message)
+        def example_pending(example_group_description, example_name, message)
           @output.puts "    <script type=\"text/javascript\">makeYellow('rspec-header');</script>" unless @header_red
           @output.puts "    <script type=\"text/javascript\">makeYellow('example_group_#{current_example_group_number}');</script>" unless @example_group_red
           move_progress

@@ -107,7 +107,7 @@ module Spec
         return true if examples.empty?
         return dry_run(examples) if dry_run?
 
-        reporter.add_example_group(@description)
+        reporter.add_example_group(description)
         plugin_mock_framework
         define_methods_from_predicate_matchers
 
@@ -122,7 +122,7 @@ module Spec
       end
 
       def described_type #:nodoc:
-        @description.described_type
+        description.described_type
       end
 
       def examples #:nodoc:
@@ -377,7 +377,7 @@ module Spec
         if described_type.class == Module
           include described_type
         end
-        @description
+        description
       end
 
       def add_method_examples(examples)
