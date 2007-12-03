@@ -1,2 +1,3 @@
 *.svn
 example_rails_app/vendor/rails/*
+log
