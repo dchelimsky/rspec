@@ -134,8 +134,16 @@ module Spec
   module Matchers
     module ModuleMethods
       attr_accessor :generated_description
-      def example_finished
-        @generated_description = nil
+
+      def clear_generated_description
+        self.generated_description = nil
+      end
+
+      def capture_generated_description
+        yield
+        description = generated_description
+        clear_generated_description
+        description
       end
     end
     extend ModuleMethods

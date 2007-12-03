@@ -1,14 +1,10 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 describe "Matchers should be able to generate their own descriptions" do
-  before(:each) do
-    Spec::Matchers.example_finished
+  after(:each) do
+    Spec::Matchers.clear_generated_description
   end
 
-  after(:each) do
-    Spec::Matchers.example_finished
-  end
-  
   it "should == expected" do
     "this".should == "this"
     Spec::Matchers.generated_description.should == "should == \"this\""

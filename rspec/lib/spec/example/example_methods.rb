@@ -68,7 +68,6 @@ module Spec
       def after_example
         self.class.run_after_each(self)
         verify_mocks_for_rspec
-        Spec::Matchers.example_finished
       ensure
         teardown_mocks_for_rspec
       end
