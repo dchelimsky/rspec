@@ -1,3 +1,6 @@
 *.svn
 example_rails_app/vendor/rails/*
 log
+RSpec.tmbundle/Support/coverage
+doc/output
+rspec/story_server/prototype/rspec_stories.html
