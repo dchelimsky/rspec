@@ -13,8 +13,10 @@ module Spec
       end
 
       def run_in(context)
-        return_value = context.instance_eval(&@implementation)
-        @matcher_description = Matchers.generated_description
+        return_value = nil
+        @matcher_description = Matchers.capture_generated_description do
+          return_value = context.instance_eval(&@implementation)
+        end
         return_value
       end
       

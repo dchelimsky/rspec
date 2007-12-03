@@ -11,12 +11,9 @@ end
 
 describe "Description generation", :type => :controller do
   controller_name :description_generation_spec
-  before(:each) do
-    Spec::Matchers.example_finished
-  end
-
+  
   after(:each) do
-    Spec::Matchers.example_finished
+    Spec::Matchers.clear_generated_description
   end
 
   it "should generate description for render_template" do
