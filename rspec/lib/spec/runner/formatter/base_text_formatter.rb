@@ -25,8 +25,8 @@ module Spec
           @pending_examples = []
         end
         
-        def example_pending(example_group_name, example_name, message)
-          @pending_examples << ["#{example_group_name} #{example_name}", message]
+        def example_pending(example_group_description, example_name, message)
+          @pending_examples << ["#{example_group_description} #{example_name}", message]
         end
         
         def dump_failure(counter, failure)

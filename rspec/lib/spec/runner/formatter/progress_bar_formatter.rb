@@ -4,7 +4,7 @@ module Spec
   module Runner
     module Formatter
       class ProgressBarFormatter < BaseTextFormatter
-        def add_example_group(name)
+        def add_example_group(example_group_description)
         end
       
         def example_failed(example, counter, failure)
@@ -17,7 +17,7 @@ module Spec
           @output.flush
         end
       
-        def example_pending(example_group_name, example_name, message)
+        def example_pending(example_group_description, example_name, message)
           super
           @output.print yellow('P')
           @output.flush

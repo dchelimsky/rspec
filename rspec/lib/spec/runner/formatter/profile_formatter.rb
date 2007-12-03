@@ -14,8 +14,8 @@ module Spec
           @output.puts "Profiling enabled."
         end
         
-        def add_example_group(example)
-          @example_group = example
+        def add_example_group(example_group_description)
+          @example_group_description = example_group_description
         end
         
         def example_started(example)
@@ -24,7 +24,7 @@ module Spec
         
         def example_passed(example)
           super
-          @examples << [@example_group, example, Time.now - @time]
+          @examples << [@example_group_description, example, Time.now - @time]
         end
         
         def start_dump

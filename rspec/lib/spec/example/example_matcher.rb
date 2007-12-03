@@ -1,8 +1,8 @@
 module Spec
   module Example
     class ExampleMatcher
-      def initialize(example_group_name, example_name)
-        @example_group_name = example_group_name
+      def initialize(example_group_description, example_name)
+        @example_group_description = example_group_description
         @example_name = example_name
       end
       
@@ -23,15 +23,15 @@ module Spec
       end
 
       def behaviour_regexp
-        Regexp.escape(@example_group_name)
+        Regexp.escape(@example_group_description)
       end
 
       def behaviour_with_before_all_regexp
-        Regexp.escape("#{@example_group_name} before(:all)")
+        Regexp.escape("#{@example_group_description} before(:all)")
       end
 
       def behaviour_regexp_not_considering_modules
-        Regexp.escape(@example_group_name.split('::').last)
+        Regexp.escape(@example_group_description.split('::').last)
       end
 
       def example_regexp
