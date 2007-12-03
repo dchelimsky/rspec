@@ -4,3 +4,9 @@ log
 RSpec.tmbundle/Support/coverage
 doc/output
 rspec/story_server/prototype/rspec_stories.html
+example_rails_app/config/database.yml
+example_rails_app/db/schema.rb
+example_rails_app/log
+example_rails_app/coverage
+example_rails_app/stories/all.rb
+example_rails_app/stories/helper.rb

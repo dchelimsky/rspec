@@ -51,7 +51,7 @@ class PreCommit::RspecOnRails < PreCommit
   end
 
   def revert_routes
-    output = silent_sh("svn revert config/routes.rb")
+    output = silent_sh("cp config/routes.rb.bak config/routes.rb")
     raise "Error reverting routes.rb" if shell_error?(output)
   end
 
@@ -67,13 +67,13 @@ class PreCommit::RspecOnRails < PreCommit
 
   def install_rspec_on_rails_plugin
     rm_rf 'vendor/plugins/rspec_on_rails'
-    output = silent_sh("svn export ../rspec_on_rails vendor/plugins/rspec_on_rails")
+    output = silent_sh("cp -R ../rspec_on_rails vendor/plugins/")
     raise "Error installing rspec_on_rails" if shell_error?(output)
   end
 
   def install_rspec_plugin
     rm_rf 'vendor/plugins/rspec'
-    output = silent_sh("svn export ../rspec vendor/plugins/rspec")
+    output = silent_sh("cp -R ../rspec vendor/plugins/")
     raise "Error installing rspec" if shell_error?(output)
   end
 
@@ -170,8 +170,8 @@ class PreCommit::RspecOnRails < PreCommit
     EOF
     puts notice.gsub(/^    /, '')
     rake_sh "db:migrate", 'VERSION' => (purchase_migration_version.to_i - 1)
-    output = silent_sh("svn revert config/routes.rb")
-    raise "svn revert failed: #{output}" if error_code?
+    output = silent_sh("cp config/routes.rb.bak config/routes.rb")
+    raise "revert failed: #{output}" if error_code?
   end
 
   def rm_generated_purchase_files

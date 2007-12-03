@@ -39,7 +39,6 @@ class PreCommit::Rspec < PreCommit
   end
   
   def touch_revision_storing_files
-    # See http://svnbook.red-bean.com/en/1.0/ch07s02.html - the section on svn:keywords
     files = [
       'rspec/lib/spec/version.rb',
       'rspec_on_rails/lib/spec/rails/version.rb'
