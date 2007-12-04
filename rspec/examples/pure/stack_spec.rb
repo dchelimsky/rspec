@@ -1,40 +1,6 @@
 require File.dirname(__FILE__) + '/spec_helper'
 require File.dirname(__FILE__) + "/stack"
-
-describe "non-empty Stack", :shared => true do
-  # NOTE that this one auto-generates the description "should not be empty"
-  it { @stack.should_not be_empty }
-  
-  it "should return the top item when sent #peek" do
-    @stack.peek.should == @last_item_added
-  end
-
-  it "should NOT remove the top item when sent #peek" do
-    @stack.peek.should == @last_item_added
-    @stack.peek.should == @last_item_added
-  end
-  
-  it "should return the top item when sent #pop" do
-    @stack.pop.should == @last_item_added
-  end
-  
-  it "should remove the top item when sent #pop" do
-    @stack.pop.should == @last_item_added
-    unless @stack.empty?
-      @stack.pop.should_not == @last_item_added
-    end
-  end
-end
-
-describe "non-full Stack", :shared => true do
-  # NOTE that this one auto-generates the description "should not be full"
-  it { @stack.should_not be_full }
-
-  it "should add to the top when sent #push" do
-    @stack.push "newly added top item"
-    @stack.peek.should == "newly added top item"
-  end
-end
+require File.dirname(__FILE__) + '/shared_stack_examples'
 
 describe Stack, " (empty)" do
   before(:each) do
