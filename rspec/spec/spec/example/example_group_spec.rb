@@ -587,8 +587,8 @@ module Spec
 
         it "should send reporter add_example_group" do
           example_group.run
-          @reporter.added_example_group.should == "example"
-        end
+          reporter.example_groups.should == [example_group]
+        end 
 
         it "should run example on run" do
           example_ran = false
@@ -701,9 +701,6 @@ module Spec
         end
 
         it "should order after callbacks from local to global" do
-          @reporter.should_receive(:add_example_group).with any_args()
-          @reporter.should_receive(:example_finished).with any_args()
-
           fiddle = []
           example_group.after(:each) { fiddle << "after(:each)" }
           example_group.append_after(:each) { fiddle << "append_after(:each)" }
@@ -723,9 +720,6 @@ module Spec
         end
 
         it "should have accessible instance methods from included module" do
-          @reporter.should_receive(:add_example_group).with any_args()
-          @reporter.should_receive(:example_finished).with any_args()
-
           mod1_method_called = false
           mod1 = Module.new do
             define_method :mod1_method do

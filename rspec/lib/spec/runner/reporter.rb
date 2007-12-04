@@ -1,7 +1,7 @@
 module Spec
   module Runner
     class Reporter
-      attr_reader :options
+      attr_reader :options, :example_groups
       
       def initialize(options)
         @options = options
@@ -9,9 +9,11 @@ module Spec
         clear
       end
       
-      def add_example_group(example_group_description)
-        formatters.each{|f| f.add_example_group(example_group_description)}
-        @example_group_descriptions << example_group_description
+      def add_example_group(example_group)
+        formatters.each do |f|
+          f.add_example_group(example_group.description)
+        end
+        example_groups << example_group
       end
       
       def example_started(example)
@@ -24,7 +26,7 @@ module Spec
         if error.nil?
           example_passed(example)
         elsif Spec::Example::ExamplePendingError === error
-          example_pending(@example_group_descriptions.last, example, error.message)
+          example_pending(example_groups.last, example, error.message)
         else
           example_failed(example, error)
         end
@@ -32,7 +34,7 @@ module Spec
 
       def failure(name, error)
         backtrace_tweaker.tweak_backtrace(error)
-        example_name = "#{@example_group_descriptions.last} #{name}"
+        example_name = "#{example_groups.last.description} #{name}"
         failure = Failure.new(example_name, error)
         @failures << failure
         formatters.each do |f|
@@ -74,7 +76,7 @@ module Spec
       end
   
       def clear
-        @example_group_descriptions = []
+        @example_groups = []
         @failures = []
         @pending_count = 0
         @examples = []
@@ -102,10 +104,10 @@ module Spec
         formatters.each{|f| f.example_passed(example)}
       end
       
-      def example_pending(example, example_name, message="Not Yet Implemented")
+      def example_pending(example_group, example_name, message="Not Yet Implemented")
         @pending_count += 1
         formatters.each do |f|
-          f.example_pending(example, example_name, message)
+          f.example_pending(example_group.description, example_name, message)
         end
       end
       

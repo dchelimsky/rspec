@@ -105,9 +105,9 @@ module Spec
 
       def run(examples=examples_to_run)
         return true if examples.empty?
+        reporter.add_example_group(self)
         return dry_run(examples) if dry_run?
 
-        reporter.add_example_group(description)
         plugin_mock_framework
         define_methods_from_predicate_matchers
 
