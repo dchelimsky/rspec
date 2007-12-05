@@ -29,7 +29,7 @@ module Spec
       def describe(*args, &example_group_block)
         if example_group_block
           args.unshift(description) unless description.nil?
-          Class.new(self) do
+          self.subclass("Subclass") do
             describe(*args)
             register
             module_eval(&example_group_block)
