@@ -71,17 +71,6 @@ module Spec
         ) {}
         example_group.superclass.should == klass
       end
-
-      it "should create specified type when :type => :something_other_than_default" do
-        klass = Class.new(ExampleGroup) do
-          def initialize(*args, &block); end
-        end
-        Spec::Example::ExampleGroupFactory.register(:something_other_than_default, klass)
-        example_group = Spec::Example::ExampleGroupFactory.create_example_group(
-          "example_group", :type => :something_other_than_default
-        ) {}
-        example_group.superclass.should == klass
-      end
       
       it "should create a type indicated by :spec_path" do
         klass = Class.new(ExampleGroup) do

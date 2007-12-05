@@ -39,6 +39,7 @@ module Spec
       def initialize(*args, &example_group_block)
         describe(*args)
         module_eval(&example_group_block)
+        self.class.add_shared_example_group(self)
       end
 
       def included(mod) # :nodoc:
@@ -49,10 +50,6 @@ module Spec
         example_objects.each do |example|
           mod.add_example example
         end
-      end
-
-      def register
-        Spec::Example::SharedExampleGroup.add_shared_example_group(self)
       end
     end
   end

@@ -38,14 +38,13 @@ module Spec
           return example_group_class
         end  
 
-        # Dynamically creates a class 
         def create_example_group(*args, &block)
           opts = Hash === args.last ? args.last : {}
           if opts[:shared]
-            return create_shared_example_group(*args, &block)
+            @example_group_types[:shared].new(*args, &block)
           else
             superclass = determine_superclass(opts)
-            create_example_group_class(superclass, *args, &block)
+            superclass.describe(*args, &block)
           end
         end
 
@@ -62,35 +61,6 @@ module Spec
           get(id)
         end
 
-        def create_example_group_class(superclass, *args, &block)
-          create_uniquely_named_class(superclass) do
-            describe(*args)
-            register
-            module_eval(&block)
-          end
-        end
-        
-        def create_uniquely_named_class(superclass, &block)
-          example_group_class = Class.new(superclass)
-          class_name = "Subclass_#{class_count}"
-          superclass.instance_eval do
-            const_set(class_name, example_group_class)
-          end
-          example_group_class.instance_eval(&block)
-          example_group_class
-        end
-        
-        def create_shared_example_group(*args, &block)
-          shared_example_group = @example_group_types[:shared].new(*args, &block)
-          shared_example_group.register
-          shared_example_group
-        end
-
-        def class_count
-          @class_count ||= 0
-          @class_count += 1
-          @class_count
-        end
       end
       self.reset
     end
