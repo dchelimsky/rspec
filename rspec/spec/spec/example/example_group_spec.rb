@@ -155,16 +155,30 @@ module Spec
           example_group = Class.new(ExampleGroup) do
             describe('example')
             def should_invalid(foo)
-              1.should == 1
+              1.should == 2
             end
             def shouldInvalidCamelCase(foo)
-              1.should == 1
+              1.should == 3
             end
             def should_not_invalid(foo)
+              1.should == 4
+            end
+            def should_valid
               1.should == 1
             end
           end
-          example_group.examples.length.should == 0
+          example_group.examples.length.should == 1
+          example_group.run.should be_true
+        end
+
+        it "should run should_methods" do
+          example_group = Class.new(ExampleGroup) do
+            def should_valid
+              1.should == 2
+            end
+          end
+          example_group.examples.length.should == 1
+          example_group.run.should be_false
         end
       end
 
