@@ -103,7 +103,8 @@ In alphabetical order (by last name)
 ** Patch [#12066] Docfix for mocks/mocks.page
 ** Patch [#12300] rr integration
 * Bryan Helmkamp
-** Patch LH [#16] Have SimpleMatchers expose their description for specdocs
+** Patch LH[#163] Generate a comment about alternate mocking frameworks
+** Patch LH[#16] Have SimpleMatchers expose their description for specdocs
 ** Patch [#14399] Show pending reasons in HTML report
 ** Patch [#14095] Don't have ./script/generate rspec create previous_failures.txt
 * Chris Hoffman
@@ -157,13 +158,8 @@ In alphabetical order (by last name)
 ** Patch [#10631] redirect_to matcher doesn't respect request.host
 * Riley Lynch
 ** Patches for the rake task
-* Dan Manges
-** Fixed visibility problem for ActionController::Base#render in Spec::Rails
-* Mike Mangino
-** Patch [#14043] Change output ordering to show pending before errors
-** Patch for [#13370] Weird mock expectation error
-** Patch for [#13065] Named routes throw a NoMethodError in Helper specs
 * Pat Maddox
+** Patch [#136]  example summary shows up when running stories
 ** [#10] Allow stubs to yield and return values
 ** [#14362] partially mocking objects that define == can blow up
 ** Spec'ing routes (Rails)
@@ -171,6 +167,12 @@ In alphabetical order (by last name)
 ** Multiple return values for stubs
 ** Port of scaffold_resource to rspec_scaffold (Rails)
 ** Contexts should call Module::included when they include a module
+* Dan Manges
+** Fixed visibility problem for ActionController::Base#render in Spec::Rails
+* Mike Mangino
+** Patch [#14043] Change output ordering to show pending before errors
+** Patch for [#13370] Weird mock expectation error
+** Patch for [#13065] Named routes throw a NoMethodError in Helper specs
 * Micah Martin
 ** Spec::Rails patches for partials
 * James Mead
