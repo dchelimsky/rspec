@@ -85,7 +85,7 @@ module Spec
       #     end
       #   end
       def predicate_matchers
-        @predicate_matchers ||= {:exist => :exist?, :an_instance_of => :is_a?}
+        @predicate_matchers ||= {:an_instance_of => :is_a?}
       end
 
       # Creates an instance of Spec::Example::Example and adds
