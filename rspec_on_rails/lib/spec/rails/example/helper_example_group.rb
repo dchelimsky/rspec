@@ -33,7 +33,9 @@ module Spec
           end
         end
 
-        ActionView::Base.included_modules.each do |mod|
+        # Reverse the load order so that custom helpers which
+        # are defined last are also loaded last.
+        ActionView::Base.included_modules.reverse.each do |mod|
           include mod if mod.parents.include?(ActionView::Helpers)
         end
         ActionController::Routing::Routes.named_routes.install(self)
