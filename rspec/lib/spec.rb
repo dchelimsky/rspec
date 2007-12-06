@@ -23,18 +23,18 @@ module Spec
     end
     attr_writer :run
     
-    def story_mode?
-      Spec.const_defined?(:Story)
-    end
-
     def exit?; \
       !Object.const_defined?(:Test) || Test::Unit.run?; \
     end
   end
 end
 
+# TODO - checking for Story here is a hack to make sure that
+# the example summary doesn't appear when running stories. What
+# we should really be doing is making sure only the right formatters
+# get loaded.
 at_exit do \
-  unless $! || Spec.story_mode? || Spec.run?; \
+  unless $! || Spec.const_defined?(:Story) || Spec.run?; \
     success = Spec.run; \
     exit success if Spec.exit?; \
   end \
