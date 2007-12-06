@@ -15,8 +15,10 @@ CMD-OPT-R runs any files or directories selected in the TextMate drawer
 
 rspec_on_rails users - don't forget to run script/generate rspec
 
-* Applied [#142] verify_rcov fails with latest rcov (Patch from Kyle Hargraves)
-* Applied [#10] Allow stubs to yield and return values (Patch from Pat Maddox)
+* Applied LH[#15] Reverse loading of ActionView::Base helper modules (Patch from Mark Van Holstyn)
+* Applied LH[#149] Update contribute page to point towards lighthouse (Patch from Josh Knowles)
+* Applied LH[#142] verify_rcov fails with latest rcov (Patch from Kyle Hargraves)
+* Applied LH[#10] Allow stubs to yield and return values (Patch from Pat Maddox)
 * Fixed LH[#139] version.rb in trunk missing svn last changed number
 * Applied LH[#14] Adding support for by_at_least/by_at_most in Change matcher (Patch from Saimon Moore)
 * Applied LH[#12] Fix for TM when switching to alternate file (Patch from Trevor Squires)
