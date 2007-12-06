@@ -60,7 +60,7 @@ module Spec
         required_example_group = get_type_from_options(options)
         required_example_group = required_example_group.to_sym if required_example_group
         modules.each do |mod|
-          ExampleGroupFactory.get!(required_example_group).send(:include, mod)
+          ExampleGroupFactory.get(required_example_group).send(:include, mod)
         end
       end
 
@@ -80,7 +80,7 @@ module Spec
       # See #append_before for filtering semantics.
       def prepend_before(*args, &proc)
         scope, options = scope_and_options(*args)
-        example_group = ExampleGroupFactory.get!(
+        example_group = ExampleGroupFactory.get(
           get_type_from_options(options)
         )
         example_group.prepend_before(scope, &proc)
@@ -98,7 +98,7 @@ module Spec
       #
       def append_before(*args, &proc)
         scope, options = scope_and_options(*args)
-        example_group = ExampleGroupFactory.get!(
+        example_group = ExampleGroupFactory.get(
           get_type_from_options(options)
         )
         example_group.append_before(scope, &proc)
@@ -109,7 +109,7 @@ module Spec
       # See #append_before for filtering semantics.
       def prepend_after(*args, &proc)
         scope, options = scope_and_options(*args)
-        example_group = ExampleGroupFactory.get!(
+        example_group = ExampleGroupFactory.get(
           get_type_from_options(options)
         )
         example_group.prepend_after(scope, &proc)
@@ -119,7 +119,7 @@ module Spec
       # See #append_before for filtering semantics.
       def append_after(*args, &proc)
         scope, options = scope_and_options(*args)
-        example_group = ExampleGroupFactory.get!(
+        example_group = ExampleGroupFactory.get(
           get_type_from_options(options)
         )
         example_group.append_after(scope, &proc)

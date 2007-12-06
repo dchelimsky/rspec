@@ -17,6 +17,10 @@ module Spec
         ExampleGroupFactory.get(nil).should == ExampleGroup
       end
 
+      it "should #get the default ExampleGroup for unregistered non-nil values" do
+        ExampleGroupFactory.get(:does_not_exist).should == ExampleGroup
+      end
+
       it "should #get custom type for :foobar" do
         ExampleGroupFactory.get(:foobar).should == @example_group
       end
@@ -25,15 +29,6 @@ module Spec
         ExampleGroupFactory.get(@example_group).should == @example_group
       end
 
-      it "should #get nil for unregistered non-nil values" do
-        ExampleGroupFactory.get(:does_not_exist).should be_nil
-      end
-
-      it "should raise error for #get! with unknown key" do
-        proc do
-          ExampleGroupFactory.get!(:does_not_exist)
-        end.should raise_error
-      end
     end    
 
     describe ExampleGroupFactory, "#create_example_group" do

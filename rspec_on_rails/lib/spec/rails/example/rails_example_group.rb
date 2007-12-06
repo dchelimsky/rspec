@@ -76,7 +76,7 @@ module Spec
           stubs.each {|k,v| m.stub!(k).and_return(v)}
           m
         end
-        Spec::Example::ExampleGroupFactory.register(:default, self)
+        Spec::Example::ExampleGroupFactory.default(self)
       end
     end
   end

@@ -3,10 +3,8 @@ module Spec
     class ExampleGroupFactory
       class << self
         def reset
-          @example_group_types = {
-            :default => Spec::Example::ExampleGroup,
-            :shared => Spec::Example::SharedExampleGroup
-          }
+          @example_group_types = nil
+          default(ExampleGroup)
         end
 
         # Registers an example group class +klass+ with the symbol
@@ -17,31 +15,29 @@ module Spec
         # This will cause Main#describe from a file living in 
         # <tt>spec/farm</tt> to create example group instances of type
         # Spec::Farm::Example::FarmExampleGroup.
-        def register(id, behaviour)
-          @example_group_types[id] = behaviour
+        def register(id, example_group_class)
+          @example_group_types[id] = example_group_class
+        end
+        
+        # Sets the default ExampleGroup class
+        def default(example_group_class)
+          old = @example_group_types
+          @example_group_types = Hash.new(example_group_class)
+          @example_group_types.merge(old) if old
         end
 
-        def get(id=:default)
-          id ||= :default
+        def get(id=nil)
           if @example_group_types.values.include?(id)
-            return id
+            id
           else
-            return @example_group_types[id]
+            @example_group_types[id]
           end
         end
         
-        def get!(id=:default)
-          example_group_class = get(id)
-          unless example_group_class
-            raise "ExampleGroup #{id.inspect} is not registered. Use ::Spec::Example::ExampleGroupFactory.register"
-          end
-          return example_group_class
-        end  
-
         def create_example_group(*args, &block)
           opts = Hash === args.last ? args.last : {}
           if opts[:shared]
-            @example_group_types[:shared].new(*args, &block)
+            SharedExampleGroup.new(*args, &block)
           else
             superclass = determine_superclass(opts)
             superclass.describe(*args, &block)
@@ -51,12 +47,10 @@ module Spec
         protected
 
         def determine_superclass(opts)
-          if opts[:type]
-            id = opts[:type]
+          id = if opts[:type]
+            opts[:type]
           elsif opts[:spec_path] =~ /spec(\\|\/)(#{@example_group_types.keys.join('|')})/
-            id = $2.to_sym
-          else
-            id = :default
+            $2 == '' ? nil : $2.to_sym
           end
           get(id)
         end

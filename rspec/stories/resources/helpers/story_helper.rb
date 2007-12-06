@@ -1,13 +1,8 @@
 require 'spec/story'
+require File.dirname(__FILE__) + '/../../../spec/ruby_forker'
 
 module StoryHelper
-  def ruby(args, stderr)
-    config       = ::Config::CONFIG
-    interpreter  = File::join(config['bindir'], config['ruby_install_name']) + config['EXEEXT']
-    cmd = "#{interpreter} #{args} 2> #{stderr}"
-    #puts "\nCOMMAND: #{cmd}"
-    `#{cmd}`
-  end
+  include RubyForker
 
   def spec(args, stderr)
     ruby("#{File.dirname(__FILE__) + '/../../../bin/spec'} #{args}", stderr)

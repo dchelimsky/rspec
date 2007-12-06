@@ -1,6 +1,4 @@
 require 'stringio'
-require 'rbconfig'
-require 'tmpdir'
 
 dir = File.dirname(__FILE__)
 lib_path = File.expand_path("#{dir}/../lib")
