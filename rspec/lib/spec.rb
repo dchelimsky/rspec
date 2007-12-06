@@ -22,6 +22,10 @@ module Spec
       result; \
     end
     attr_writer :run
+    
+    def story_mode?
+      Spec.const_defined?(:Story)
+    end
 
     def exit?; \
       !Object.const_defined?(:Test) || Test::Unit.run?; \
@@ -30,7 +34,7 @@ module Spec
 end
 
 at_exit do \
-  unless $! || Spec.run?; \
+  unless $! || Spec.story_mode? || Spec.run?; \
     success = Spec.run; \
     exit success if Spec.exit?; \
   end \
