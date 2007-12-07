@@ -10,3 +10,4 @@ example_rails_app/log
 example_rails_app/coverage
 example_rails_app/stories/all.rb
 example_rails_app/stories/helper.rb
+.DS_Store

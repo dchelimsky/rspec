@@ -85,6 +85,8 @@ In alphabetical order (by last name)
 ** Patch [#11921] Adds the correct controller_name from derived_controller_name() to the ViewExampleGroupController
 * Ienaga Eiji
 ** Patch [#12156] smooth open mate patch 
+* Martin Emde
+** Fix describe Object, "description contains a # in it"
 * Lindsay Evans
 ** Patch for Spec::Rails on Windows
 * Nicholas Evans
