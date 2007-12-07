@@ -376,6 +376,22 @@ module Spec
         description
       end
 
+      # Subclasses of ExampleGroup will include their ancestors
+      # in the description. Use +clear_description+ for subclasses
+      # that are intended for use as base classes for other groups.
+      # For example, the various ExampleGroup types in rspec_on_rails
+      # use this so you don't see Spec::Rails::Example::ModelExampleGroup
+      # in the output you get from running the examples.
+      # 
+      # == Example
+      #
+      #   class MySpecialExampleGroupBaseClass < Spec::Example::ExampleGroup
+      #     class << self
+      #       def inherited(sub)
+      #         clear_description
+      #       end
+      #     end
+      #   end
       def clear_description
         set_description()
       end
