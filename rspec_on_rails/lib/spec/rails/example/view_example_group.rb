@@ -24,6 +24,12 @@ module Spec
       #     end
       #   end
       class ViewExampleGroup < FunctionalExampleGroup
+        class << self
+          def inherited(sub)
+            clear_description
+          end
+        end
+
         before(:each) do
           ensure_that_flash_and_session_work_properly
         end

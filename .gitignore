@@ -10,4 +10,10 @@ example_rails_app/log
 example_rails_app/coverage
 example_rails_app/stories/all.rb
 example_rails_app/stories/helper.rb
+example_rails_app/script/spec
+example_rails_app/script/spec_server
+example_rails_app/spec/rcov.opts
+example_rails_app/spec/spec.opts
+example_rails_app/spec/spec_helper.rb
+example_rails_app/vendor
 .DS_Store

@@ -8,6 +8,11 @@ module Spec
       # to ActiveRecord::Base.
       class ModelExampleGroup < RailsExampleGroup
         Spec::Example::ExampleGroupFactory.register(:model, self)
+        class << self
+          def inherited(sub)
+            clear_description
+          end
+        end
       end
     end
   end

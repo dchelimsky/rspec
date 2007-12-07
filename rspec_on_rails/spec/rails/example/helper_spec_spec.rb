@@ -99,3 +99,17 @@ module Bug11223
     end
   end
 end
+
+module Spec
+  module Rails
+    module Example
+      describe HelperExampleGroup do
+        it "should clear its name from the description" do
+          group = describe("foo", :type => :helper) do
+          end
+          group.description.to_s.should == "foo"
+        end
+      end
+    end
+  end
+end

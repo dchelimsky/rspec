@@ -998,7 +998,7 @@ module Spec
         ExampleGroupFactory.reset
       end
 
-      it"should have access to the described_type" do
+      it "should have access to the described_type" do
         example_group = Class.new(ExampleSubclass) do
           describe(Array)
         end
@@ -1012,6 +1012,19 @@ module Spec
           end
         end
         $nested_group.description.to_s.should == "Array when empty"
+      end
+      
+      it "should clear the description" do
+        example_group = Class.new(ExampleSubclass) do
+          describe("1") do
+            clear_description
+            describe("2") do
+              $nested_group = describe("3") do
+              end
+            end
+          end
+        end
+        $nested_group.description.to_s.should == "2 3"
       end
     end
 
