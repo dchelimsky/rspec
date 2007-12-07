@@ -62,11 +62,9 @@ module Spec
       #     response.code.should == "501"
       #   end
       class ControllerExampleGroup < FunctionalExampleGroup
+        clear_description
         class << self
-          def inherited(sub)
-            clear_description
-          end
-          
+                    
           # Use this to instruct RSpec to render views in your controller examples (Integration Mode).
           #
           #   describe ThingController do

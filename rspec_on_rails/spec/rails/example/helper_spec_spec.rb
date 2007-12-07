@@ -106,8 +106,11 @@ module Spec
       describe HelperExampleGroup do
         it "should clear its name from the description" do
           group = describe("foo", :type => :helper) do
+            $nested_group = describe("bar") do
+            end
           end
           group.description.to_s.should == "foo"
+          $nested_group.description.to_s.should == "foo bar"
         end
       end
     end

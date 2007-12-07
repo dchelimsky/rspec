@@ -26,11 +26,8 @@ module Spec
       #     end
       #   end
       class HelperExampleGroup < FunctionalExampleGroup
+        clear_description
         class << self
-          def inherited(sub)
-            clear_description
-          end
-
           # The helper name....
           def helper_name(name=nil)
             send :include, "#{name}_helper".camelize.constantize
