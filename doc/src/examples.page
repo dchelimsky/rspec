@@ -3,6 +3,17 @@ title: Examples
 ---
 h2. Examples
 
-Here is an example of an RSpec spec:
+Here is an example of a spec for a Stack. We start with a group of shared examples.
+These won't get run directly, but can be included by, and run in the context of
+other example groups.
 
-<ruby file="../rspec/examples/pure/stack_spec.rb" />
+<ruby file="../rspec/examples/pure/shared_stack_examples.rb" />
+
+And here is the group that runs them. Note the nesting, which is a new feature in
+RSpec 1.1.
+
+<ruby file="../rspec/examples/pure/stack_spec_with_nested_example_groups.rb" />
+
+And here is what you see when you run these examples in TextMate:
+
+<img src="images/stack_example_tm_report.jpg" />
