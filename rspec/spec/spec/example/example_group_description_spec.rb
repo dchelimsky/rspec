@@ -69,11 +69,27 @@ module Spec
       end
     end
 
+    describe ExampleGroupDescription, "constructed with a Type and a String containing a ." do
+      before(:each) {@description = ExampleGroupDescription.new(ExampleGroup, "calling a.b")}
+
+      it "should include the type and second String with a space in its name" do
+        @description.text.should == "Spec::Example::ExampleGroup calling a.b"
+      end
+    end
+
     describe ExampleGroupDescription, "constructed with a Type and a String starting with a #" do
       before(:each) {@description = ExampleGroupDescription.new(ExampleGroup, "#behaving")}
 
       it "should include the type and second String with a space in its name" do
         @description.text.should == "Spec::Example::ExampleGroup#behaving"
+      end
+    end
+
+    describe ExampleGroupDescription, "constructed with a Type and a String containing a #" do
+      before(:each) {@description = ExampleGroupDescription.new(ExampleGroup, "is #1")}
+
+      it "should include the type and second String with a space in its name" do
+        @description.text.should == "Spec::Example::ExampleGroup is #1"
       end
     end
 

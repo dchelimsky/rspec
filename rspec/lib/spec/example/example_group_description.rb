@@ -5,7 +5,7 @@ module Spec
       module ClassMethods
         def description_text(*args)
           args.inject("") do |result, arg|
-            result << " " unless (result == "" || arg.to_s =~ /^\s|\.|#/)
+            result << " " unless (result == "" || arg.to_s =~ /^(\s|\.|#)/)
             result << arg.to_s
           end
         end
