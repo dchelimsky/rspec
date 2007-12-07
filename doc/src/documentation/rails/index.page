@@ -22,18 +22,18 @@ For those of us coming from a history with TDD, and now BDD, the existing suppor
 presents some problems related to dependencies across specs. To that end, RSpec
 supports 4 types of specs. This is largely inspired by Test::Rails, which is
 the rails testing framework built into "ZenTest":http://zentest.rubyforge.org. 
-We've also built in first class mocking
-and stubbing support in order to break dependencies across these different concerns.
+We've also built in first class mocking and stubbing support in order to
+break dependencies across these different concerns.
 
-h2. Different Contexts for different Contexts
+h2. Different Types of Example Groups
 
-Spec::Rails supports different Context subclasses for the following types of specs:
+Spec::Rails supports different ExampleGroup subclasses for the following types of specs:
 
 h3. Model Examples
 
-These are the equivalent of unit tests in Rails'' built in testing. Ironically
+These are the equivalent of unit tests in Rails' built in testing. Ironically
 (for the traditional TDD'er) these are the only specs that we feel should actually interact
-with the database. "Learn more...":writing/models.html.
+with the database. "Learn more ...":writing/models.html.
 
 h3. Controller Examples
 
@@ -44,20 +44,20 @@ set expectations about what templates get rendered. "Learn more...":writing/cont
 
 h3. View Examples
 
-This is the other half of Rails'' functional testing. View specs allow
-you to set up assigns (thanks to ZenTest). "Learn more...":writing/views.html.
+This is the other half of Rails' functional testing. View specs allow
+you to set up assigns (thanks to ZenTest). "Learn more ...":writing/views.html.
 
 h3. Helper Examples
 
-... let you specify directly methods that live in your helpers. "Learn more...":writing/helpers.html.
+... let you specify directly methods that live in your helpers. "Learn more ...":writing/helpers.html.
 
-h3. Integration Examples
+h3. User Stories for Integration Testing
 
-We also plan to support "Integration Examples":writing/integration.html in the future.
-
-For the time being we recommend that you use either
-"rails integration testing":http://weblog.jamisbuck.org/2006/3/9/integration-testing-in-rails-1-1
- or another framework like "watir":http://wtr.rubyforge.org/ or "selenium":http://www.openqa.org/selenium/.
+RSpec 1.1 introduces a Story Runner for running Scenarios related to User Stories.
+This release ships with a new (and somewhat experimental) rails-specific extension
+that supports running scenarios for you rails app. This RailsStory derives from
+ActionController::IntegrationTest, which gives you access to all the services of
+Rails Integration Testing within RSpec Stories/Scenarios. "Learn more ...":writing/stories.html.
 
 h2. Fixtures
 

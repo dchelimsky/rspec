@@ -36,16 +36,16 @@ documentation/rails/install.page:
   orderInfo: 105
 documentation/rails/writing:
   orderInfo: 10
+documentation/rails/writing/stories.page:
+  orderInfo: 115
 documentation/rails/writing/models.page:
-  orderInfo: 20
+  orderInfo: 120
 documentation/rails/writing/views.page:
-  orderInfo: 30
+  orderInfo: 130
 documentation/rails/writing/controllers.page:
-  orderInfo: 40
+  orderInfo: 140
 documentation/rails/writing/helpers.page:
-  orderInfo: 50
-documentation/rails/writing/integration.page:
-  orderInfo: 60   
+  orderInfo: 150
 documentation/rails/generators.page:
   orderInfo: 120  
 documentation/rails/runners.page:
