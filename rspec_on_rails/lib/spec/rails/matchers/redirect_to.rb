@@ -40,7 +40,6 @@ module Spec
 
         def path_hash(url)
           path = url.sub(%r{^\w+://#{@request.host}}, "").split("?", 2)[0]
-          path = path.split("/")[1..-1] if ::Rails::VERSION::MINOR < 2
           ActionController::Routing::Routes.recognize_path path
         end
 
