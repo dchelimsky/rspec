@@ -376,6 +376,10 @@ module Spec
         description
       end
 
+      def clear_description
+        set_description()
+      end
+
       def add_method_examples(examples)
         instance_methods.sort.each do |method_name|
           if example_method?(method_name)

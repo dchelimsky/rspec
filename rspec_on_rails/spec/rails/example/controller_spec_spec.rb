@@ -153,5 +153,19 @@ end
 
 describe ControllerSpecController, :type => :controller do
   it "should not require naming the controller if describe is passed a type" do
+  end  
+end
+
+module Spec
+  module Rails
+    module Example
+      describe ControllerExampleGroup do
+        it "should clear its name from the description" do
+          group = describe("foo", :type => :controller) do
+          end
+          group.description.to_s.should == "foo"
+        end
+      end
+    end
   end
 end
