@@ -12,9 +12,7 @@ require File.expand_path("#{dir}/../spec_resources/helpers/more_explicit_helper"
 require File.expand_path("#{dir}/../spec_resources/helpers/view_spec_helper")
 require File.expand_path("#{dir}/../spec_resources/helpers/plugin_application_helper")
 
-if Rails::VERSION::MINOR >= 2
-  ActionController::Routing.controller_paths << "#{dir}/../spec_resources/controllers"
-end
+ActionController::Routing.controller_paths << "#{dir}/../spec_resources/controllers"
 
 module Spec
   module Rails
