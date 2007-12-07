@@ -18,7 +18,7 @@ gem install rspec
 or if you want an older version:
 
 <pre>
-gem install rspec -v 0.9.4
+gem install rspec -v 1.0.8
 </pre>  
 
 h3. Ruby on Rails projects
@@ -34,13 +34,13 @@ h3. Subversion
 Check it out:
 
 <pre>
-svn checkout svn://rubyforge.org/var/svn/rspec/trunk rspec_trunk
+svn checkout http://rspec.rubyforge.org/svn/trunk rspec_trunk
 </pre>
 
 or
 
 <pre>
-svn checkout svn://rubyforge.org/var/svn/rspec/tags/{svn_tag: }/rspec rspec_{svn_tag: }
+svn checkout http://rspec.rubyforge.org/svn/tags/{svn_tag: }/rspec rspec_{svn_tag: }
 </pre>
 
 See the "README":rdoc/files/README.html for details about how to build it.

@@ -20,23 +20,16 @@ those who wish to make personal contributions
 While we don't wish to restrict the content on either list, we do ask that
 off topic posts are so marked ([OT] in the subject line).
 
-Also, please use the tracker to submit Requests For Enhancement (see below), not
-the mailing lists. While we're happy to engage in conversation about ongoing
-development, we're not always available, in town, on line, etc and the best
-way to ensure that your concerns stay on our radar is to put them in the
-tracker, which we review regularly.
+h2. Feature Requests and Bug Reports
 
-h2. Requests For Enhancement (RFEs)
-
-Please use the tracker for all RFEs.
-
-For Feature Requests, Patches and Bugs, please be sure to assign appropriate
-tags (featurerequest, bug, patch, expectations, mocks, runner, rails plugin, 
-RSpec.tmbundle, etc)
+Use the "Lighthouse":http://rspec.lighthouseapp.com/ for all
+feature requests, bug reports and patches. Please be sure to assign appropriate
+tags (featurerequest, bug, patch, expectations, mocks, runner, rails, textmate,
+etc)
 
 "Lighthouse tracker":http://rspec.lighthouseapp.com/
 
-Wherever feasible, please please please submit a complete spec we can run - something like:
+Wherever feasible, submit a complete spec we can run - something like:
 
 <ruby>
 describe "My Problem" do
@@ -50,17 +43,20 @@ end
 
 This will make us more likely to look at it quickly.
 
-h3. Feature Requests
-
-Interested in a new feature that you would find useful but don't wish
-to develop yourself? Please submit it in a Feature Request.
+If you're reporting a bug, make sure you include the following:
+* rspec version (either a versioned release or svn revision number)
+* rails version (if you're using the rspec_on_rails plugin)
+* any other relevant versions, OSes, etc
+* a failing spec AND code - we need to be able to reproduce the failure. While code snippets are better than nothing, what we really prefer is modifications to RSpec's own specs, as a unified diff file.
 
 h3. Patches
 
 Interested in a new feature that you've already written or want to write?
-Please submit a patch, but please follow these guidelines.
+We want your patches!
 
-* patch against svn://rubyforge.org/var/svn/rspec/trunk (do not patch against a released gem)
+Here are some guidelines.
+
+* patch against http://rspec.rubyforge.org/svn/trunk (not a released gem)
 * include specs!
 * include docs!
 * run "rake pre_commit" on your patched source
@@ -68,15 +64,5 @@ Please submit a patch, but please follow these guidelines.
 * create a new ticket in the "Lighthouse tracker":http://rspec.lighthouseapp.com/
 * attach the diff file to the ticket (DON'T FORGET TO ASSIGN THE "patch" tag)
 
-%{font-weight:bold; color:red}WARNING:% When you add new files, you have to 'svn add' them before
-running pre_commit.
-
-h3. Bugs
-
-We LOVE to hear about bugs that you find, but we can't address them
-if we can't reproduce them. If you submit a Bug report, be sure to include:
-
-* rspec version (either a versioned release or svn revision number)
-* rails version (if you're using the rspec_on_rails plugin)
-* any other relevant versions, OSes, etc
-* a failing spec AND code - we need to be able to reproduce the failure. While code snippets are better than nothing, what we really prefer is modifications to RSpec's own specs, as a unified diff file.
+%{font-weight:bold; color:red}WARNING:% When you add new files, you have to
+'svn add' them before running pre_commit.
