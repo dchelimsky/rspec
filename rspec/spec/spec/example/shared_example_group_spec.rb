@@ -122,9 +122,10 @@ module Spec
       end
 
       it "should add examples to current example_group using it_should_behave_like" do
-        shared_example_group = make_shared_example_group("shared example_group") {}
-        shared_example_group.it("shared example") {}
-        shared_example_group.it("shared example 2") {}
+        shared_example_group = make_shared_example_group("shared example_group") do
+          it("shared example") {}
+          it("shared example 2") {}
+        end
 
         example_group.it("example") {}
         example_group.number_of_examples.should == 1
@@ -158,8 +159,9 @@ module Spec
 
       it "should run shared examples" do
         shared_example_ran = false
-        shared_example_group = make_shared_example_group("shared example_group") {}
-        shared_example_group.it("shared example") { shared_example_ran = true }
+        shared_example_group = make_shared_example_group("shared example_group") do
+          it("shared example") { shared_example_ran = true }
+        end
 
         example_ran = false
 
@@ -173,10 +175,11 @@ module Spec
       it "should run setup and teardown from shared example_group" do
         shared_setup_ran = false
         shared_teardown_ran = false
-        shared_example_group = make_shared_example_group("shared example_group") {}
-        shared_example_group.before { shared_setup_ran = true }
-        shared_example_group.after { shared_teardown_ran = true }
-        shared_example_group.it("shared example") { shared_example_ran = true }
+        shared_example_group = make_shared_example_group("shared example_group") do
+          before { shared_setup_ran = true }
+          after { shared_teardown_ran = true }
+          it("shared example") { shared_example_ran = true }
+        end
 
         example_ran = false
 
@@ -191,10 +194,11 @@ module Spec
       it "should run before(:all) and after(:all) only once from shared example_group" do
         shared_before_all_run_count = 0
         shared_after_all_run_count = 0
-        shared_example_group = make_shared_example_group("shared example_group") {}
-        shared_example_group.before(:all) { shared_before_all_run_count += 1}
-        shared_example_group.after(:all) { shared_after_all_run_count += 1}
-        shared_example_group.it("shared example") { shared_example_ran = true }
+        shared_example_group = make_shared_example_group("shared example_group") do
+          before(:all) { shared_before_all_run_count += 1}
+          after(:all) { shared_after_all_run_count += 1}
+          it("shared example") { shared_example_ran = true }
+        end
 
         example_ran = false
 

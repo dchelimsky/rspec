@@ -5,8 +5,7 @@ module Spec
         'mtime' => lambda {|file_a, file_b| File.mtime(file_b) <=> File.mtime(file_a)}
       }
 
-      EXAMPLE_FORMATTERS = {
-        # Load these lazily for better speed
+      EXAMPLE_FORMATTERS = { # Load these lazily for better speed
            'specdoc' => ['spec/runner/formatter/specdoc_formatter',            'Formatter::SpecdocFormatter'],
                  's' => ['spec/runner/formatter/specdoc_formatter',            'Formatter::SpecdocFormatter'],
               'html' => ['spec/runner/formatter/html_formatter',               'Formatter::HtmlFormatter'],
