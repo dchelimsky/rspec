@@ -38,18 +38,12 @@ module Spec
 
       def initialize(*args, &example_group_block)
         describe(*args)
-        module_eval(&example_group_block)
+        @example_group_block = example_group_block
         self.class.add_shared_example_group(self)
       end
 
       def included(mod) # :nodoc:
-        before_each_parts.each   { |p| mod.before_each_parts << p }
-        after_each_parts.each    { |p| mod.after_each_parts << p }
-        before_all_parts.each    { |p| mod.before_all_parts << p }
-        after_all_parts.each     { |p| mod.after_all_parts << p }
-        example_objects.each do |example|
-          mod.add_example example
-        end
+        mod.module_eval(&@example_group_block)
       end
     end
   end

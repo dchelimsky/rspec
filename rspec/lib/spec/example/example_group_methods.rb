@@ -117,10 +117,6 @@ module Spec
         success
       end
 
-      def add_example(example)
-        example_objects << example
-      end
-
       def described_type #:nodoc:
         description.described_type
       end

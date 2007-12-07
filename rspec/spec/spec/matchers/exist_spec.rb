@@ -40,6 +40,9 @@ describe "should exist," do
       lambda { @imaginary.should exist }.should fail
     end
     
+    it "should pass if target doesn't exist" do
+      lambda { @real.should_not exist }.should fail
+    end
   end
 
   describe "outside of a behavior" do

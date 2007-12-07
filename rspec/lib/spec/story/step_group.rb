@@ -16,7 +16,7 @@ module Spec
         @step_group
       end
       
-      def initialize(init_defaults=true,&block)
+      def initialize(init_defaults=true, &block)
         @hash_of_lists_of_steps = Hash.new {|h, k| h[k] = []}
         if init_defaults
           self.class.steps.add_to(self)
@@ -51,7 +51,6 @@ module Spec
       alias :given :Given
       alias :when :When
       alias :then :Then
-      
       
       def add(type, steps)
         (@hash_of_lists_of_steps[type] << steps).flatten!
