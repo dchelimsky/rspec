@@ -58,7 +58,7 @@ namespace :spec do
   
   namespace :plugins do
     desc "Runs the examples for rspec_on_rails"
-    Spec::Rake::SpecTask.new(:rspec_on_rails => spec_prereq) do |t|
+    Spec::Rake::SpecTask.new(:rspec_on_rails) do |t|
       t.spec_opts = ['--options', "\"#{RAILS_ROOT}/spec/spec.opts\""]
       t.spec_files = FileList['vendor/plugins/rspec_on_rails/spec/**/*_spec.rb']
     end
