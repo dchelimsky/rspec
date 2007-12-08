@@ -22,7 +22,7 @@ module Spec
     <meta http-equiv="Pragma" content="no-cache" />
     <script src="javascripts/prototype.js" type="text/javascript"></script>
     <script src="javascripts/scriptaculous.js" type="text/javascript"></script>
-    <script src="javascripts/application.js" type="text/javascript"></script>
+    <script src="javascripts/rspec.js" type="text/javascript"></script>
     <link href="stylesheets/rspec.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
