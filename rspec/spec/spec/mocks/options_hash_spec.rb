@@ -3,21 +3,15 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 module Spec
   module Mocks
     describe "calling :should_receive with an options hash" do
-      attr_reader :options, :reporter, :example_group
+      it_should_behave_like "sandboxed rspec_options"
+      attr_reader :reporter, :example_group
       before do
-        @options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
-        @original_rspec_options = $rspec_options
-        $rspec_options = @options
         @reporter = ::Spec::Runner::Reporter.new(options)
         @example_group = Class.new(::Spec::Example::ExampleGroup) do
           plugin_mock_framework
           describe("Some Examples")
         end
         reporter.add_example_group example_group
-      end
-
-      after do
-        $rspec_options = @original_rspec_options
       end
 
       it "should report the file and line submitted with :expected_from" do

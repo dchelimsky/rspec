@@ -3,14 +3,9 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 module Spec
   module Example
     describe ExampleGroup, " class methods" do
-      attr_reader :options, :example_group, :result, :reporter
-      before(:all) do
-        @original_rspec_options = $rspec_options
-      end
-
+      it_should_behave_like "sandboxed rspec_options"
+      attr_reader :example_group, :result, :reporter
       before(:each) do
-        @options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
-        $rspec_options = @options
         options.formatters << mock("formatter", :null_object => true)
         options.backtrace_tweaker = mock("backtrace_tweaker", :null_object => true)
         @reporter = FakeReporter.new(@options)
@@ -26,7 +21,6 @@ module Spec
       end
 
       after(:each) do
-        $rspec_options = @original_rspec_options
         ExampleGroup.reset
       end
 
@@ -566,14 +560,9 @@ module Spec
     end
     
     describe ExampleGroup, "#run" do
-      attr_reader :example_group, :options, :formatter, :reporter
-      before :all do
-        @original_rspec_options = $rspec_options
-      end
-
+      it_should_behave_like "sandboxed rspec_options"
+      attr_reader :example_group, :formatter, :reporter
       before :each do
-        @options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
-        $rspec_options = options
         @formatter = mock("formatter", :null_object => true)
         options.formatters << formatter
         options.backtrace_tweaker = mock("backtrace_tweaker", :null_object => true)
@@ -590,7 +579,6 @@ module Spec
       end
 
       after :each do
-        $rspec_options = @original_rspec_options
         ExampleGroup.reset
       end
 

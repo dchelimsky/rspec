@@ -7,7 +7,7 @@ module Spec
         def add_example_group(example_group)
           super
           output.puts
-          output.puts "#{example_group.description_parts.join(' ')}:"
+          output.puts "#{example_group.description}:"
           output.flush
         end
       

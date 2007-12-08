@@ -5,10 +5,10 @@ module Spec
   module Runner
     module Formatter
       describe SpecdocFormatter do
+        it_should_behave_like "sandboxed rspec_options"
         attr_reader :io, :options, :formatter, :example_group
         before(:each) do
           @io = StringIO.new
-          @options = mock('options')
           options.stub!(:dry_run).and_return(false)
           options.stub!(:colour).and_return(false)
           @formatter = SpecdocFormatter.new(options, io)

@@ -21,7 +21,7 @@ module Spec
         def example_passed(example)
           super
           @example_times << [
-            example_group.description_parts.join(' '),
+            example_group.description,
             example,
             Time.now - @time
           ]
