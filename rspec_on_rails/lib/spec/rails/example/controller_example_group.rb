@@ -62,7 +62,6 @@ module Spec
       #     response.code.should == "501"
       #   end
       class ControllerExampleGroup < FunctionalExampleGroup
-        clear_description
         class << self
                     
           # Use this to instruct RSpec to render views in your controller examples (Integration Mode).
