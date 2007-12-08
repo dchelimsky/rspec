@@ -12,73 +12,111 @@ module Spec
           options.stub!(:dry_run).and_return(false)
           options.stub!(:colour).and_return(false)
           @formatter = SpecdocFormatter.new(options, io)
-          @example_group = Class.new(::Spec::Example::ExampleGroup).describe("Some Examples")
+          @example_group = Class.new(::Spec::Example::ExampleGroup).describe("ExampleGroup")
         end
 
-        it "should produce standard summary without pending when pending has a 0 count" do
-          formatter.dump_summary(3, 2, 1, 0)
-          io.string.should eql("\nFinished in 3 seconds\n\n2 examples, 1 failure\n")
-        end
+        describe SpecdocFormatter, "where ExampleGroup has no superclasss with a description" do
+          before do
+            formatter.add_example_group(example_group)
+          end
 
-        it "should produce standard summary" do
-          formatter.dump_summary(3, 2, 1, 4)
-          io.string.should eql("\nFinished in 3 seconds\n\n2 examples, 1 failure, 4 pending\n")
-        end
+          it "should produce standard summary without pending when pending has a 0 count" do
+            formatter.dump_summary(3, 2, 1, 0)
+            io.string.should have_example_group_output("\nFinished in 3 seconds\n\n2 examples, 1 failure\n")
+          end
 
-        it "should push context name" do
-          formatter.add_example_group(Class.new(ExampleGroup).describe("context"))
-          io.string.should eql("\ncontext\n")
-        end
+          it "should produce standard summary" do
+            formatter.dump_summary(3, 2, 1, 4)
+            io.string.should have_example_group_output("\nFinished in 3 seconds\n\n2 examples, 1 failure, 4 pending\n")
+          end
 
-        it "when having an error, should push failing spec name and failure number" do
-          formatter.example_failed(
+          it "should push ExampleGroup name" do
+            io.string.should eql("\nExampleGroup:\n")
+          end
+
+          it "when having an error, should push failing spec name and failure number" do
+            formatter.example_failed(
             example_group.it("spec"),
             98,
             Reporter::Failure.new("c s", RuntimeError.new)
-          )
-          io.string.should eql("- spec (ERROR - 98)\n")
-        end
+            )
+            io.string.should have_example_group_output("- spec (ERROR - 98)\n")
+          end
 
-        it "when having an expectation failure, should push failing spec name and failure number" do
-          formatter.example_failed(
+          it "when having an expectation failure, should push failing spec name and failure number" do
+            formatter.example_failed(
             example_group.it("spec"),
             98,
             Reporter::Failure.new("c s", Spec::Expectations::ExpectationNotMetError.new)
-          )
-          io.string.should eql("- spec (FAILED - 98)\n")
+            )
+            io.string.should have_example_group_output("- spec (FAILED - 98)\n")
+          end
+
+          it "should push nothing on start" do
+            formatter.start(5)
+            io.string.should have_example_group_output("")
+          end
+
+          it "should push nothing on start dump" do
+            formatter.start_dump
+            io.string.should have_example_group_output("")
+          end
+
+          it "should push passing spec name" do
+            formatter.example_passed(example_group.it("spec"))
+            io.string.should have_example_group_output("- spec\n")
+          end
+
+          it "should push pending example name and message" do
+            formatter.example_pending('example_group', 'example', 'reason')
+            io.string.should have_example_group_output("- example (PENDING: reason)\n")
+          end
+
+          it "should dump pending" do
+            formatter.example_pending('example_group', 'example', 'reason')
+            io.rewind
+            formatter.dump_pending
+            io.string.should =~ /Pending\:\nexample_group example \(reason\)\n/
+          end
+
+          def have_example_group_output(expected_output)
+            ::Spec::Matchers::SimpleMatcher.new(expected_output) do |actual|
+              actual == "\nExampleGroup:\n#{expected_output}"
+            end
+          end
         end
 
-        it "should push nothing on start" do
-          formatter.start(5)
-          io.string.should eql("")
-        end
+        describe SpecdocFormatter, "where ExampleGroup has one superclass with a description" do
+          attr_reader :child_example_group
+          before do
+            @child_example_group = Class.new(example_group).describe("Child ExampleGroup")
+            formatter.add_example_group(child_example_group)
+          end
 
-        it "should push nothing on start dump" do
-          formatter.start_dump
-          io.string.should eql("")
-        end
+          it "when having an error, should push failing spec name and failure number" do
+            formatter.example_failed(
+              example_group.it("spec"),
+              98,
+              Reporter::Failure.new("c s", RuntimeError.new)
+            )
+            io.string.should have_example_group_output("-- spec (ERROR - 98)\n")
+          end
 
-        it "should push passing spec name" do
-          formatter.example_passed(example_group.it("spec"))
-          io.string.should eql("- spec\n")
-        end
+          it "when having an expectation failure, should push failing spec name and failure number" do
+            formatter.example_failed(
+              example_group.it("spec"),
+              98,
+              Reporter::Failure.new("c s", Spec::Expectations::ExpectationNotMetError.new)
+            )
+            io.string.should have_example_group_output("-- spec (FAILED - 98)\n")
+          end
 
-        it "should push pending example name and message" do
-          formatter.example_pending('example_group', 'example','reason')
-          io.string.should eql("- example (PENDING: reason)\n")
-        end
-
-        it "should dump pending" do
-          formatter.example_pending('example_group', 'example','reason')
-          io.rewind
-          formatter.dump_pending
-          io.string.should =~ /Pending\:\nexample_group example \(reason\)\n/
-        end
-
-        it "should not produce summary on dry run" do
-          options.should_receive(:dry_run).and_return(true)
-          formatter.dump_summary(3, 2, 1, 0)
-          io.string.should eql("")
+          def have_example_group_output(expected_output)
+            expected_full_output = "\nExampleGroup:\n- Child ExampleGroup:\n#{expected_output}"
+            ::Spec::Matchers::SimpleMatcher.new(expected_full_output) do |actual|
+              actual == expected_full_output
+            end
+          end
         end
       end
     end

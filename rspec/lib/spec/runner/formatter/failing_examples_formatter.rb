@@ -5,6 +5,7 @@ module Spec
     module Formatter
       class FailingExamplesFormatter < BaseTextFormatter      
         def add_example_group(example_group)
+          super
           @example_group_description = example_group.description
         end
       

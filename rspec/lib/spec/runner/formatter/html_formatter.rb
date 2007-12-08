@@ -32,6 +32,7 @@ module Spec
         end
 
         def add_example_group(example_group)
+          super
           example_group_description = example_group.description
           @example_group_red = false
           @example_group_red = false

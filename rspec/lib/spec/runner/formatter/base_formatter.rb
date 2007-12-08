@@ -3,6 +3,7 @@ module Spec
     module Formatter
       # Baseclass for formatters that implements all required methods as no-ops. 
       class BaseFormatter
+        attr_accessor :example_group
         def initialize(options, where)
           @options = options
           @where = where
@@ -23,6 +24,7 @@ module Spec
         #
         # The next method to be invoked after this is #example_failed or #example_finished
         def add_example_group(example_group)
+          @example_group = example_group
         end
 
         # This method is invoked when an +example+ starts.
