@@ -93,6 +93,10 @@ module Spec
           
           def collected_steps(steps)
           end
+          
+          def method_missing(sym, *args, &block) #:nodoc:
+            # noop - ignore unknown messages
+          end
 
         private
 
