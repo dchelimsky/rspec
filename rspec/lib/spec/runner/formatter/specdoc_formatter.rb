@@ -4,9 +4,9 @@ module Spec
   module Runner
     module Formatter
       class SpecdocFormatter < BaseTextFormatter      
-        def add_example_group(example_group_description)
+        def add_example_group(example_group)
           @output.puts
-          @output.puts example_group_description
+          @output.puts example_group.description
           @output.flush
         end
       

@@ -22,7 +22,7 @@ module Spec
         # first example_group - otherwise it's false.
         #
         # The next method to be invoked after this is #example_failed or #example_finished
-        def add_example_group(example_group_description)
+        def add_example_group(example_group)
         end
 
         # This method is invoked when an +example+ starts.

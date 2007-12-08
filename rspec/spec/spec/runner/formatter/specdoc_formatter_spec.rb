@@ -26,7 +26,7 @@ module Spec
         end
 
         it "should push context name" do
-          formatter.add_example_group("context")
+          formatter.add_example_group(Class.new(ExampleGroup).describe("context"))
           io.string.should eql("\ncontext\n")
         end
 
