@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 
 module Spec
   module Example
-    describe ExampleGroup do
+    describe ExampleGroup, " class methods" do
       attr_reader :options, :example_group, :result, :reporter
       before(:all) do
         @original_rspec_options = $rspec_options
@@ -182,16 +182,9 @@ module Spec
         end
       end
 
-      describe ExampleGroup, ".description" do
-        it "should return the same description instance for each call" do
-          @example_group.description.should eql(@example_group.description)
-        end
-      end
-
       describe ExampleGroup, ".set_description" do
         attr_reader :example_group
         before do
-          @example_group = Class.new(ExampleGroup)
           class << example_group
             public :set_description
           end
@@ -299,22 +292,6 @@ module Spec
           end
         end
 
-#        describe ExampleGroup, ".set_description(ExampleGroup, String)" do
-#          attr_reader :super_description, :nested_description
-#          before do
-#            @super_description = example_group.set_description(Hash)
-#            @nested_description = example_group.set_description(super_description, "with one entry")
-#          end
-#
-#          specify ".described_type should return the .described_type from the parent" do
-#            nested_description.described_type.should == Hash
-#          end
-#
-#          specify ".description should return its parent's .type then its String" do
-#            nested_description.description.should == "Hash with one entry"
-#          end
-#        end
-
         describe ExampleGroup, ".set_description(Hash representing options)" do
           before(:each) do
             example_group.set_description(:a => "b", :spec_path => "blah")
@@ -324,38 +301,34 @@ module Spec
             example_group.spec_path.should == File.expand_path("blah")
           end
         end
+      end
 
-#        describe ExampleGroup, "from a parent ExampleGroup with described type" do
-#          before do
-#            @parent = example_group.set_description(Array)
-#          end
-#
-#          it ".described_type should return its own type when .set_description passed a type" do
-#            child = example_group.set_description(@parent, Hash)
-#            child.described_type.should == Hash
-#          end
-#
-#          it ".described_type should return its parent type when .set_description not passed a type" do
-#            child = example_group.set_description(@parent)
-#            child.described_type.should == Array
-#          end
-#        end
-#
-#        describe ExampleGroup, "from a nested ExampleGroup without described type" do
-#          before do
-#            @parent = example_group.set_description("Not a type")
-#          end
-#
-#          it ".described_type should return its type when .set_description passed a type" do
-#            child = example_group.set_description(@parent, Hash)
-#            child.described_type.should == Hash
-#          end
-#
-#          it ".described_type should return its parent's type when .set_description not passed a type" do
-#            child = example_group.set_description(@parent)
-#            child.described_type.should == nil
-#          end
-#        end
+      describe ExampleGroup, ".description" do
+        it "should return the same description instance for each call" do
+          @example_group.description.should eql(@example_group.description)
+        end
+      end
+      
+      describe ExampleGroup, ".full_description" do
+        it "returns an Array of the .description when superclasses do not have a description" do
+          example_group.full_description.should == [example_group.description]
+        end
+
+        it "returns an Array of the superclass .descriptions and .description when superclasses have description" do
+          child_example_group = Class.new(example_group)
+          child_example_group.describe("Child", ExampleGroup)
+          child_example_group.description.should_not be_empty
+
+          grand_child_example_group = Class.new(child_example_group)
+          grand_child_example_group.describe("GrandChild", ExampleGroup)
+          grand_child_example_group.description.should_not be_empty
+
+          grand_child_example_group.full_description.should == [
+            example_group.description,
+            child_example_group.description,
+            grand_child_example_group.description
+          ]
+        end
       end
 
       describe ExampleGroup, ".remove_after" do
