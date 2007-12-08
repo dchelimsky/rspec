@@ -5,7 +5,7 @@ module Spec
     module Formatter
       class FailingExamplesFormatter < BaseTextFormatter      
         def example_failed(example, counter, failure)
-          @output.puts "#{example_group.description_parts.join(' ')} #{example}"
+          @output.puts "#{example_group.description} #{example}"
           @output.flush
         end
 

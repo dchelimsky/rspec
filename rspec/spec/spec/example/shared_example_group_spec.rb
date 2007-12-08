@@ -3,11 +3,9 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 module Spec
   module Example
     describe ExampleGroup, "with :shared => true" do
-      attr_reader :options, :original_rspec_options, :formatter, :example_group
+      it_should_behave_like "sandboxed rspec_options"
+      attr_reader :formatter, :example_group
       before(:each) do
-        @options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
-        @original_rspec_options = $rspec_options
-        $rspec_options = options
         @formatter = Spec::Mocks::Mock.new("formatter", :null_object => true)
         options.formatters << formatter
         @example_group = Class.new(ExampleGroup).describe("example_group")
@@ -17,7 +15,6 @@ module Spec
       end
 
       after(:each) do
-        $rspec_options = @original_rspec_options
         @formatter.rspec_verify
         @example_group = nil
         $shared_example_groups.clear unless $shared_example_groups.nil?

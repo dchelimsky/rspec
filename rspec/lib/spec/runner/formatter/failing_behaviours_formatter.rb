@@ -6,17 +6,17 @@ module Spec
       class FailingBehavioursFormatter < BaseTextFormatter
         def add_example_group(example_group)
           super
-          @example_group_description_partss = example_group.description_parts
+          @example_group_description_parts = example_group.description_parts
         end
 
         def example_failed(example, counter, failure)
-          if @example_group_description_partss
-            description_partss = @example_group_description_partss.collect do |description|
+          if @example_group_description_parts
+            description_partss = @example_group_description_parts.collect do |description|
               description =~ /(.*) \(druby.*\)$/ ? $1 : description
             end
             @output.puts description_partss.join(' ')
             @output.flush
-            @example_group_description_partss = nil
+            @example_group_description_parts = nil
           end
         end
 
