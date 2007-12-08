@@ -22,18 +22,6 @@ module Spec
         @text = self.class.description_text(*args)
       end
       
-      def assign_described_type(args) # :nodoc:
-        args.reverse.each do |arg|
-          case arg
-          when ExampleGroupDescription
-            return arg.described_type unless arg.described_type.nil?
-          when Module
-            return arg
-          end
-        end
-        return nil
-      end
-  
       def [](key)
         @options[key]
       end
@@ -52,6 +40,18 @@ module Spec
       end
       
     private
+
+      def assign_described_type(args) # :nodoc:
+        args.reverse.each do |arg|
+          case arg
+          when ExampleGroupDescription
+            return arg.described_type unless arg.described_type.nil?
+          when Module
+            return arg
+          end
+        end
+        return nil
+      end
       
       def expand_spec_path
         if options.has_key?(:spec_path)
