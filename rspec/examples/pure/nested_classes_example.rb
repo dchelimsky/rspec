@@ -34,15 +34,3 @@ class FullStackExamples < StackExamples
     @stack.should be_full
   end
 end
-
-# TODO
-# The output from this should read:
-# 
-# Stack when empty
-# - should be empty
-# 
-# Stack when almost full
-# - should not be full
-# 
-# Stack when full
-# - should be full
