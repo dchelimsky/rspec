@@ -5,14 +5,17 @@ module Spec
   module Runner
     module Formatter
       describe FailingBehavioursFormatter do
+        attr_reader :example_group
+
         before(:each) do
           @io = StringIO.new
           options = mock('options')
           @formatter = FailingBehavioursFormatter.new(options, @io)
+          @example_group = Class.new(::Spec::Example::ExampleGroup)
         end
         
         def description(s)
-          Spec::Example::ExampleGroupDescription.new(s)
+          Spec::Example::ExampleGroupDescription.new(example_group, s)
         end
 
         it "should add example name for each failure" do

@@ -2,7 +2,7 @@ module Spec
   module Example
     # TODO Make this class a tree structure and walk up the tree to get described_type etc.
     class ExampleGroupDescription #:nodoc:
-      module ClassMethods
+      class << self
         def description_text(*args)
           args.inject("") do |result, arg|
             result << " " unless (result == "" || arg.to_s =~ /^(\s|\.|#)/)
@@ -10,12 +10,12 @@ module Spec
           end
         end
       end
-      extend ClassMethods
 
-      attr_reader :text, :described_type, :options
+      attr_reader :example_group, :text, :described_type, :options
       alias_method :to_s, :text
       
-      def initialize(*args)
+      def initialize(example_group, *args)
+        @example_group = example_group
         args, @options = args_and_options(*args)
         @described_type = assign_described_type(args)
         expand_spec_path
@@ -28,6 +28,10 @@ module Spec
       
       def []=(key, value)
         @options[key] = value
+      end
+
+      def text_parts
+        [text]
       end
       
       def ==(value)
@@ -45,7 +49,7 @@ module Spec
         args.reverse.each do |arg|
           case arg
           when ExampleGroupDescription
-            return arg.described_type unless arg.described_type.nil?
+            return arg.described_type if arg.described_type
           when Module
             return arg
           end
