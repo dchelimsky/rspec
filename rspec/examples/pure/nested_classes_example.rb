@@ -15,10 +15,7 @@ class EmptyStackExamples < StackExamples
   end
 end
 
-class NonEmptyStackExamples < StackExamples
-end
-
-class AlmostFullStackExamples < NonEmptyStackExamples
+class AlmostFullStackExamples < StackExamples
   describe("when almost full")
   before(:each) do
     (1..9).each {|n| @stack.push n}
@@ -28,7 +25,7 @@ class AlmostFullStackExamples < NonEmptyStackExamples
   end
 end
 
-class FullStackExamples < NonEmptyStackExamples
+class FullStackExamples < StackExamples
   describe("when full")
   before(:each) do
     (1..10).each {|n| @stack.push n}
