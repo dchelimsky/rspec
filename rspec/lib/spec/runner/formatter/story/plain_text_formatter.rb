@@ -34,7 +34,7 @@ module Spec
 
           def scenario_started(story_title, scenario_name)
             @scenario_already_failed = false
-            @output.print "\n\nScenario: #{scenario_name}"
+            @output.print "\n\n  Scenario: #{scenario_name}"
             @scenario_ok = true
           end
         
@@ -98,9 +98,9 @@ module Spec
 
           def found_step(type, description, failed, *args)
             text = if(type == @previous_type)
-              "\n  And "
+              "\n    And "
             else
-              "\n\n  #{type.to_s.capitalize} "
+              "\n\n    #{type.to_s.capitalize} "
             end
             i = -1
             text << description.gsub(::Spec::Story::Step::PARAM_PATTERN) { |param| args[i+=1] }
