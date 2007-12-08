@@ -142,23 +142,19 @@ module Spec
       
       def formatters
         @format_options ||= [['progress', @output_stream]]
-        @formatters ||= @format_options.map do |format, where|
-          formatter_type = if EXAMPLE_FORMATTERS[format]
-            require EXAMPLE_FORMATTERS[format][0]
-            eval(EXAMPLE_FORMATTERS[format][1], binding, __FILE__, __LINE__)
-          else
-            load_class(format, 'formatter', '--format')
-          end
-          formatter_type.new(self, where)
-        end
+        @formatters ||= load_formatters(@format_options, EXAMPLE_FORMATTERS)
       end
 
       def story_formatters
         @format_options ||= [['plain', @output_stream]]
-        @story_formatters ||= @format_options.map do |format, where|
-          formatter_type = if STORY_FORMATTERS[format]
-            require STORY_FORMATTERS[format][0]
-            eval(STORY_FORMATTERS[format][1], binding, __FILE__, __LINE__)
+        @formatters ||= load_formatters(@format_options, STORY_FORMATTERS)
+      end
+      
+      def load_formatters(format_options, formatters)
+        format_options.map do |format, where|
+          formatter_type = if formatters[format]
+            require formatters[format][0]
+            eval(formatters[format][1], binding, __FILE__, __LINE__)
           else
             load_class(format, 'formatter', '--format')
           end

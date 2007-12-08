@@ -16,7 +16,7 @@ module Spec
     end
 
     def run; \
-      return true if run?; \
+      return true if run? || Spec.const_defined?(:Story); \
       result = rspec_options.run_examples; \
       @run = true; \
       result; \
