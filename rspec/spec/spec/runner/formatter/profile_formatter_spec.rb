@@ -19,7 +19,7 @@ module Spec
         end
         
         it "should set the current example_group" do
-          @formatter.add_example_group('Test')
+          @formatter.add_example_group(Class.new(ExampleGroup).describe('Test'))
           @formatter.instance_variable_get("@example_group_description").should == 'Test'
         end
         
@@ -33,7 +33,7 @@ module Spec
         it "should correctly record a passed example" do
           now = Time.now
           Time.stub!(:now).and_return(now)
-          @formatter.add_example_group('Test')
+          @formatter.add_example_group(Class.new(ExampleGroup).describe('Test'))
           @formatter.example_started('when foo')
           Time.stub!(:now).and_return(now+1)
           @formatter.example_passed('when foo')

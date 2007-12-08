@@ -14,8 +14,8 @@ module Spec
           @output.puts "Profiling enabled."
         end
         
-        def add_example_group(example_group_description)
-          @example_group_description = example_group_description
+        def add_example_group(example_group)
+          @example_group_description = example_group.description
         end
         
         def example_started(example)

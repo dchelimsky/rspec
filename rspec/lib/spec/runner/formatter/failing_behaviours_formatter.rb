@@ -4,7 +4,8 @@ module Spec
   module Runner
     module Formatter
       class FailingBehavioursFormatter < BaseTextFormatter      
-        def add_example_group(example_group_description)
+        def add_example_group(example_group)
+          example_group_description = example_group.description
           if example_group_description =~ /(.*) \(druby.*\)$/
             @example_group_description = $1
           else

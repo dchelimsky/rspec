@@ -11,7 +11,7 @@ module Spec
       
       def add_example_group(example_group)
         formatters.each do |f|
-          f.add_example_group(example_group.description)
+          f.add_example_group(example_group)
         end
         example_groups << example_group
       end
