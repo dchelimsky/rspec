@@ -54,7 +54,7 @@ module Spec
           end
         
           def run_ended
-            @output.puts "\n\n#@count scenarios: #@successful_scenario_count succeeded, #{@failed_scenarios.size} failed, #@pending_scenario_count pending"
+            @output.puts "#@count scenarios: #@successful_scenario_count succeeded, #{@failed_scenarios.size} failed, #@pending_scenario_count pending"
             unless @pending_steps.empty?
               @output.puts "\nPending Steps:"
               @pending_steps.each_with_index do |pending, i|
