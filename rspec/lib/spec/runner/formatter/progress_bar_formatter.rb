@@ -4,10 +4,6 @@ module Spec
   module Runner
     module Formatter
       class ProgressBarFormatter < BaseTextFormatter
-        def add_example_group(example_group)
-          super
-        end
-
         def example_failed(example, counter, failure)
           @output.print colourise('F', failure)
           @output.flush
