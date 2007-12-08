@@ -98,22 +98,32 @@ module Spec
       end
 
       it "should NOT complain when adding the same shared example_group in same file with different absolute path" do
-        shared_example_group_1 = Class.new(ExampleGroup).describe("shared example_group", :shared => true)
-        shared_example_group_2 = Class.new(ExampleGroup).describe("shared example_group", :shared => true)
-
-        shared_example_group_1.description[:spec_path] = "/my/spec/a/../shared.rb"
-        shared_example_group_2.description[:spec_path] = "/my/spec/b/../shared.rb"
+        shared_example_group_1 = Class.new(ExampleGroup).describe(
+          "shared example_group",
+          :shared => true,
+          :spec_path => "/my/spec/a/../shared.rb"
+        )
+        shared_example_group_2 = Class.new(ExampleGroup).describe(
+          "shared example_group",
+          :shared => true,
+          :spec_path => "/my/spec/b/../shared.rb"
+        )
 
         SharedExampleGroup.add_shared_example_group(shared_example_group_1)
         SharedExampleGroup.add_shared_example_group(shared_example_group_2)
       end
 
       it "should complain when adding a different shared example_group with the same name in a different file with the same basename" do
-        shared_example_group_1 = Class.new(ExampleGroup).describe("shared example_group", :shared => true)
-        shared_example_group_2 = Class.new(ExampleGroup).describe("shared example_group", :shared => true)
-
-        shared_example_group_1.description[:spec_path] = "/my/spec/a/shared.rb"
-        shared_example_group_2.description[:spec_path] = "/my/spec/b/shared.rb"
+        shared_example_group_1 = Class.new(ExampleGroup).describe(
+          "shared example_group",
+          :shared => true,
+          :spec_path => "/my/spec/a/shared.rb"
+        )
+        shared_example_group_2 = Class.new(ExampleGroup).describe(
+          "shared example_group",
+          :shared => true,
+          :spec_path => "/my/spec/b/shared.rb"
+        )
 
         SharedExampleGroup.add_shared_example_group(shared_example_group_1)
         lambda do

@@ -25,15 +25,6 @@ module Spec
           @description.described_type.should be_nil
         end
 
-        specify "#[] should be nil" do
-          @description[:key].should be_nil
-        end
-
-        specify "#[]= should set the value" do
-          @description[:key] = :value
-          @description[:key].should == :value
-        end
-
         specify "#== should compare against the #text" do
           @description.should == "abc"
         end
@@ -152,12 +143,8 @@ module Spec
           @description = ExampleGroupDescription.new(example_group, ExampleGroup, :a => "b", :spec_path => "blah")
         end
 
-        specify "#[] should delegate to its #options" do
-          @description[:a].should == "b"
-        end
-
-        it "#[:spec_path] should expand the passed in :spec_path option passed into the constructor" do
-          @description[:spec_path].should == File.expand_path("blah")
+        it "#spec_path should expand the passed in :spec_path option passed into the constructor" do
+          @description.spec_path.should == File.expand_path("blah")
         end
       end
 

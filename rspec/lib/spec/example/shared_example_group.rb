@@ -30,7 +30,7 @@ module Spec
         end
 
         def spec_path(example_group)
-          File.expand_path(example_group.description[:spec_path])
+          File.expand_path(example_group.description.spec_path)
         end
       end
       include ExampleGroupMethods
