@@ -126,6 +126,15 @@ module Spec
         success
       end
 
+      def full_description #:nodoc:
+        description_array = description ? [description] : []
+        if superclass.respond_to?(:full_description)
+          superclass.full_description + description_array
+        else
+          description_array
+        end
+      end
+
       def examples #:nodoc:
         examples = example_objects.dup
         add_method_examples(examples)
