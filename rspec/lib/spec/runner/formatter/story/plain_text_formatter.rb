@@ -16,7 +16,7 @@ module Spec
         
           def run_started(count)
             @count = count
-            @output.puts "Running #@count scenarios:\n"
+            @output.puts "Running #@count scenarios\n\n"
           end
 
           def story_started(title, narrative)
