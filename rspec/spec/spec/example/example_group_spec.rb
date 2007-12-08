@@ -202,7 +202,7 @@ module Spec
             example_group.set_description("abc")
           end
 
-          specify ".text should return the String passed into .set_description" do
+          specify ".description should return the String passed into .set_description" do
             example_group.description.should == "abc"
           end
 
@@ -216,7 +216,7 @@ module Spec
             example_group.set_description(ExampleGroup)
           end
 
-          specify ".text should return a String representation of that type (fully qualified) as its name" do
+          specify ".description should return a String representation of that type (fully qualified) as its name" do
             example_group.description.should == "Spec::Example::ExampleGroup"
           end
 
@@ -230,7 +230,7 @@ module Spec
             example_group.set_description("behaving", ExampleGroup)
           end
 
-          specify ".text should return String then space then Type" do
+          specify ".description should return String then space then Type" do
             example_group.description.should == "behaving Spec::Example::ExampleGroup"
           end
 
@@ -244,7 +244,7 @@ module Spec
             example_group.set_description(ExampleGroup, "behaving")
           end
 
-          specify ".text should return the Type then space then String" do
+          specify ".description should return the Type then space then String" do
             example_group.description.should == "Spec::Example::ExampleGroup behaving"
           end
         end
@@ -254,7 +254,7 @@ module Spec
             example_group.set_description(ExampleGroup, ".behaving")
           end
 
-          specify ".text should return the Type then String" do
+          specify ".description should return the Type then String" do
             example_group.description.should == "Spec::Example::ExampleGroup.behaving"
           end
         end
@@ -264,7 +264,7 @@ module Spec
             example_group.set_description(ExampleGroup, "calling a.b")
           end
 
-          specify ".text should return the Type then space then String" do
+          specify ".description should return the Type then space then String" do
             example_group.description.should == "Spec::Example::ExampleGroup calling a.b"
           end
         end
@@ -284,7 +284,7 @@ module Spec
             example_group.set_description(ExampleGroup, "is #1")
           end
 
-          specify ".text should return the Type then space then String" do
+          specify ".description should return the Type then space then String" do
             example_group.description.should == "Spec::Example::ExampleGroup is #1"
           end
         end
@@ -294,7 +294,7 @@ module Spec
             example_group.set_description("A", Hash, "with one entry")
           end
 
-          specify ".text should return the first String then space then Type then second String" do
+          specify ".description should return the first String then space then Type then second String" do
             example_group.description.should == "A Hash with one entry"
           end
         end
@@ -310,8 +310,8 @@ module Spec
 #            nested_description.described_type.should == Hash
 #          end
 #
-#          specify ".text should return its parent's .type then its String" do
-#            nested_description.text.should == "Hash with one entry"
+#          specify ".description should return its parent's .type then its String" do
+#            nested_description.description.should == "Hash with one entry"
 #          end
 #        end
 
