@@ -34,7 +34,7 @@ EOF
 
           formatter.add_example_group(grand_child_example_group)
           formatter.example_failed("failure", nil, Reporter::Failure.new(nil, RuntimeError.new))
-          io.string.should == "Parent : Child : GrandChild\n"
+          io.string.should == "Parent Child GrandChild\n"
         end
 
         it "should remove druby url, which is used by Spec::Distributed" do

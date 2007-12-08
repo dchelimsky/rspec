@@ -21,8 +21,8 @@ module Spec
           @formatter.example_failed(example_group_2.it("e 3"), nil, Reporter::Failure.new(nil, RuntimeError.new))
           @io.string.should eql(<<-EOF
 eg 1 e 1
-eg 1 : eg 2 e 2
-eg 1 : eg 2 e 3
+eg 1 eg 2 e 2
+eg 1 eg 2 e 3
 EOF
 )
         end

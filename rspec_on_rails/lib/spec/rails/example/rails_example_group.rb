@@ -6,6 +6,7 @@ module Spec
   module Rails
     module Example
       class RailsExampleGroup < Test::Unit::TestCase
+        clear_description
         cattr_accessor(
           :fixture_path,
           :use_transactional_fixtures,
