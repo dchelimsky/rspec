@@ -2,6 +2,7 @@ module Spec
   module Rails
     module Example
       class FunctionalExampleGroup < RailsExampleGroup
+        clear_description
         include ActionController::TestProcess
         include ActionController::Assertions
 

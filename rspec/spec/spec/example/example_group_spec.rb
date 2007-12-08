@@ -305,13 +305,13 @@ module Spec
 
       describe ExampleGroup, ".description" do
         it "should return the same description instance for each call" do
-          @example_group.description.should eql(@example_group.description)
+          example_group.description.should eql(example_group.description)
         end
       end
       
-      describe ExampleGroup, ".full_description" do
+      describe ExampleGroup, ".description_parts" do
         it "returns an Array of the .description when superclasses do not have a description" do
-          example_group.full_description.should == [example_group.description]
+          example_group.description_parts.should == [example_group.description]
         end
 
         it "returns an Array of the superclass .descriptions and .description when superclasses have description" do
@@ -323,10 +323,10 @@ module Spec
           grand_child_example_group.describe("GrandChild", ExampleGroup)
           grand_child_example_group.description.should_not be_empty
 
-          grand_child_example_group.full_description.should == [
-            example_group.description,
-            child_example_group.description,
-            grand_child_example_group.description
+          grand_child_example_group.description_parts.should == [
+            example_group.description_text,
+            child_example_group.description_text,
+            grand_child_example_group.description_text
           ]
         end
       end
@@ -1134,6 +1134,7 @@ module Spec
     end
 
     class ExampleSubclass < ExampleGroup
+      clear_description
     end
 
     describe ExampleGroup, "subclasses" do

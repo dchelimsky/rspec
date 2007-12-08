@@ -33,7 +33,7 @@ module Spec
 
         def add_example_group(example_group)
           super
-          example_group_description = example_group.description
+          example_group_description = example_group.description_parts.join(' ')
           @example_group_red = false
           @example_group_red = false
           @current_example_group_number += 1

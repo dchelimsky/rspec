@@ -3,7 +3,7 @@ module Spec
     module Formatter
       # Baseclass for formatters that implements all required methods as no-ops. 
       class BaseFormatter
-        attr_accessor :example_group
+        attr_accessor :example_group, :options, :where
         def initialize(options, where)
           @options = options
           @where = where

@@ -11,7 +11,7 @@ module Spec
         end
       end
       
-      attr_reader :description, :described_type, :spec_path
+      attr_reader :description_text, :described_type, :spec_path
 
       def inherited(klass)
         super
@@ -37,7 +37,6 @@ module Spec
       #
       def describe(*args, &example_group_block)
         if example_group_block
-          args.unshift(description) unless description.nil?
           self.subclass("Subclass") do
             describe(*args)
             register
@@ -126,10 +125,14 @@ module Spec
         success
       end
 
-      def full_description #:nodoc:
-        description_array = description ? [description] : []
-        if superclass.respond_to?(:full_description)
-          superclass.full_description + description_array
+      def description
+        description_parts.join(' ').strip
+      end
+
+      def description_parts #:nodoc:
+        description_array = description_text ? [description_text] : []
+        if respond_to?(:superclass) && superclass.respond_to?(:description_parts)
+          superclass.description_parts + description_array
         else
           description_array
         end
@@ -380,7 +383,7 @@ module Spec
 
       def set_description(*args)
         args, options = args_and_options(*args)
-        @description = ExampleGroupMethods.description_text(*args)
+        @description_text = ExampleGroupMethods.description_text(*args)
         @described_type = get_described_type(args)
         @spec_path = File.expand_path(options[:spec_path]) if options[:spec_path]
         if described_type.class == Module

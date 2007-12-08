@@ -15,7 +15,7 @@ module Spec
           @example_group = Class.new(::Spec::Example::ExampleGroup).describe("ExampleGroup")
         end
 
-        describe SpecdocFormatter, "where ExampleGroup has no superclasss with a description" do
+        describe "where ExampleGroup has no superclasss with a description" do
           before do
             formatter.add_example_group(example_group)
           end
@@ -86,7 +86,7 @@ module Spec
           end
         end
 
-        describe SpecdocFormatter, "where ExampleGroup has two superclasses with a description" do
+        describe "where ExampleGroup has two superclasses with a description" do
           attr_reader :child_example_group, :grand_child_example_group
           before do
             @child_example_group = Class.new(example_group).describe("Child ExampleGroup")
@@ -100,7 +100,7 @@ module Spec
               98,
               Reporter::Failure.new("c s", RuntimeError.new)
             )
-            io.string.should have_example_group_output("-- spec (ERROR - 98)\n")
+            io.string.should have_example_group_output("- spec (ERROR - 98)\n")
           end
 
           specify "when having an expectation failure, should push failing spec name and failure number" do
@@ -109,11 +109,11 @@ module Spec
               98,
               Reporter::Failure.new("c s", Spec::Expectations::ExpectationNotMetError.new)
             )
-            io.string.should have_example_group_output("-- spec (FAILED - 98)\n")
+            io.string.should have_example_group_output("- spec (FAILED - 98)\n")
           end
 
           def have_example_group_output(expected_output)
-            expected_full_output = "\nExampleGroup:\n- Child ExampleGroup:\n-- GrandChild ExampleGroup:\n#{expected_output}"
+            expected_full_output = "\nExampleGroup Child ExampleGroup GrandChild ExampleGroup:\n#{expected_output}"
             ::Spec::Matchers::SimpleMatcher.new(expected_full_output) do |actual|
               actual == expected_full_output
             end
