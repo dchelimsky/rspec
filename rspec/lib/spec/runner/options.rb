@@ -23,6 +23,7 @@ module Spec
 
       STORY_FORMATTERS = {
         'plain' => ['spec/runner/formatter/story/plain_text_formatter', 'Formatter::Story::PlainTextFormatter'],
+            'p' => ['spec/runner/formatter/story/plain_text_formatter', 'Formatter::Story::PlainTextFormatter'],
          'html' => ['spec/runner/formatter/story/html_formatter',       'Formatter::Story::HtmlFormatter'],
             'h' => ['spec/runner/formatter/story/html_formatter',       'Formatter::Story::HtmlFormatter']
       }
@@ -155,9 +156,12 @@ module Spec
       def story_formatters
         @format_options ||= [['plain', @output_stream]]
         @story_formatters ||= @format_options.map do |format, where|
-          # We don't support custom ones yet
-          require STORY_FORMATTERS[format][0]
-          formatter_type = eval(STORY_FORMATTERS[format][1], binding, __FILE__, __LINE__)
+          formatter_type = if STORY_FORMATTERS[format]
+            require STORY_FORMATTERS[format][0]
+            eval(STORY_FORMATTERS[format][1], binding, __FILE__, __LINE__)
+          else
+            load_class(format, 'formatter', '--format')
+          end
           formatter_type.new(self, where)
         end
       end
