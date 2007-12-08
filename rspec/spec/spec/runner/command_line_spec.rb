@@ -3,9 +3,17 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 module Spec
   module Runner
     describe CommandLine, ".run" do
+      attr_reader :options, :err, :out
       before do
         @err = StringIO.new
         @out = StringIO.new
+        @options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
+        @original_rspec_options = $rspec_options
+        $rspec_options = @options
+      end
+
+      after do
+        $rspec_options = @original_rspec_options
       end
 
       it "should run directory" do
@@ -45,7 +53,7 @@ module Spec
           end
 
           it "should interrupt" do
-            raise Interrupt
+            raise Interrupt, "I'm interrupting"
           end
         end
 

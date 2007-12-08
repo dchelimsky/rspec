@@ -24,8 +24,6 @@ module Spec
       #     end
       #   end
       class ViewExampleGroup < FunctionalExampleGroup
-        clear_description
-
         before(:each) do
           ensure_that_flash_and_session_work_properly
         end

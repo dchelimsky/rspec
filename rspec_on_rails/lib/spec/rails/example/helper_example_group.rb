@@ -26,7 +26,6 @@ module Spec
       #     end
       #   end
       class HelperExampleGroup < FunctionalExampleGroup
-        clear_description
         class << self
           # The helper name....
           def helper_name(name=nil)

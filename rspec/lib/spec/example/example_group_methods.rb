@@ -10,15 +10,12 @@ module Spec
           end
         end
       end
-      
+
       attr_reader :description_text, :described_type, :spec_path
 
       def inherited(klass)
         super
-        unless klass.name.to_s == ""
-          klass.describe(klass.name)
-          klass.register
-        end
+        klass.register
       end
 
       # Makes the describe/it syntax available from a class. For example:
@@ -39,7 +36,6 @@ module Spec
         if example_group_block
           self.subclass("Subclass") do
             describe(*args)
-            register
             module_eval(&example_group_block)
           end
         else
@@ -397,26 +393,6 @@ module Spec
           return arg if arg.is_a?(Module)
         end
         return nil
-      end
-
-      # Subclasses of ExampleGroup will include their ancestors
-      # in the description. Use +clear_description+ for subclasses
-      # that are intended for use as base classes for other groups.
-      # For example, the various ExampleGroup types in rspec_on_rails
-      # use this so you don't see Spec::Rails::Example::ModelExampleGroup
-      # in the output you get from running the examples.
-      # 
-      # == Example
-      #
-      #   class MySpecialExampleGroupBaseClass < Spec::Example::ExampleGroup
-      #     class << self
-      #       def inherited(sub)
-      #         clear_description
-      #       end
-      #     end
-      #   end
-      def clear_description
-        set_description()
       end
 
       def add_method_examples(examples)

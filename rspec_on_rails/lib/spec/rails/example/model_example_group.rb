@@ -7,7 +7,6 @@ module Spec
       # provides support for fixtures and some custom expectations via extensions
       # to ActiveRecord::Base.
       class ModelExampleGroup < RailsExampleGroup
-        clear_description
         Spec::Example::ExampleGroupFactory.register(:model, self)
       end
     end
