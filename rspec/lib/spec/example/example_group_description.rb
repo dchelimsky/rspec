@@ -11,23 +11,19 @@ module Spec
         end
       end
 
-      attr_reader :example_group, :text, :described_type, :options
+      attr_reader :example_group, :text, :described_type, :spec_path
       alias_method :to_s, :text
       
       def initialize(example_group, *args)
         @example_group = example_group
-        args, @options = args_and_options(*args)
+        args, options = args_and_options(*args)
         @described_type = assign_described_type(args)
-        expand_spec_path
+        assign_spec_path options[:spec_path]
         @text = self.class.description_text(*args)
       end
       
       def text_parts
         [text]
-      end
-
-      def spec_path
-        options[:spec_path]
       end
       
       def ==(value)
@@ -53,12 +49,11 @@ module Spec
         return nil
       end
       
-      def expand_spec_path
-        if options.has_key?(:spec_path)
-          options[:spec_path] = File.expand_path(options[:spec_path])
+      def assign_spec_path(spec_path)
+        if spec_path
+          @spec_path = File.expand_path(spec_path)
         end
       end
-  
     end
   end
 end
