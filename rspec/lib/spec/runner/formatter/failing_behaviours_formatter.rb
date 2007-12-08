@@ -3,22 +3,20 @@ require 'spec/runner/formatter/base_text_formatter'
 module Spec
   module Runner
     module Formatter
-      class FailingBehavioursFormatter < BaseTextFormatter      
+      class FailingBehavioursFormatter < BaseTextFormatter
         def add_example_group(example_group)
           super
-          example_group_description = example_group.description
-          if example_group_description =~ /(.*) \(druby.*\)$/
-            @example_group_description = $1
-          else
-            @example_group_description = example_group_description
-          end
+          @example_group_full_descriptions = example_group.full_description
         end
-      
+
         def example_failed(example, counter, failure)
-          unless @example_group_description.nil?
-            @output.puts @example_group_description
-            @example_group_description = nil
+          if @example_group_full_descriptions
+            full_descriptions = @example_group_full_descriptions.collect do |description|
+              description =~ /(.*) \(druby.*\)$/ ? $1 : description
+            end
+            @output.puts full_descriptions.join(' : ')
             @output.flush
+            @example_group_full_descriptions = nil
           end
         end
 

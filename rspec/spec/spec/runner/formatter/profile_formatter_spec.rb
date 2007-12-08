@@ -18,11 +18,6 @@ module Spec
           @io.string.should eql("Profiling enabled.\n")
         end
         
-        it "should set the current example_group" do
-          @formatter.add_example_group(Class.new(ExampleGroup).describe('Test'))
-          @formatter.instance_variable_get("@example_group_description").should == 'Test'
-        end
-        
         it "should record the current time when starting a new example" do
           now = Time.now
           Time.stub!(:now).and_return(now)
@@ -33,20 +28,28 @@ module Spec
         it "should correctly record a passed example" do
           now = Time.now
           Time.stub!(:now).and_return(now)
-          @formatter.add_example_group(Class.new(ExampleGroup).describe('Test'))
+          parent_example_group = Class.new(ExampleGroup).describe('Parent')
+          child_example_group = Class.new(parent_example_group).describe('Child')
+
+          @formatter.add_example_group(child_example_group)
+          
           @formatter.example_started('when foo')
           Time.stub!(:now).and_return(now+1)
           @formatter.example_passed('when foo')
-          @formatter.instance_variable_get("@examples").should == [['Test', 'when foo', 1.0]]
+
+          @formatter.start_dump
+          @io.string.should include('Parent : Child')
         end
         
         it "should sort the results in descending order" do
-          @formatter.instance_variable_set("@examples", [['a', 'a', 0.1], ['b', 'b', 0.3], ['c', 'c', 0.2]])
+          @formatter.instance_variable_set("@example_times", [['a', 'a', 0.1], ['b', 'b', 0.3], ['c', 'c', 0.2]])
           @formatter.start_dump
-          @formatter.instance_variable_get("@examples").should == [ ['b', 'b', 0.3], ['c', 'c', 0.2], ['a', 'a', 0.1]]
+          @formatter.instance_variable_get("@example_times").should == [ ['b', 'b', 0.3], ['c', 'c', 0.2], ['a', 'a', 0.1]]
         end
         
         it "should print the top 10 results" do
+          example_group = Class.new(::Spec::Example::ExampleGroup).describe("ExampleGroup")
+          @formatter.add_example_group(example_group)
           @formatter.instance_variable_set("@time", Time.now)
           
           15.times do 
