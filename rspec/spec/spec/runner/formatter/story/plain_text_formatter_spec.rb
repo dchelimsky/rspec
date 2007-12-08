@@ -169,7 +169,7 @@ module Spec
             @reporter.scenario_started 'story', 'scenario'
           
             # then
-            @out.string.should include("\n\nScenario: scenario")
+            @out.string.should include("\n\n  Scenario: scenario")
           end
         
           it 'should document a step by sentence-casing its name' do
@@ -179,7 +179,7 @@ module Spec
             @reporter.step_succeeded :then, 'an outcome'
           
             # then
-            @out.string.should include("\n\n  Given a context\n\n  When an event\n\n  Then an outcome")
+            @out.string.should include("\n\n    Given a context\n\n    When an event\n\n    Then an outcome")
           end
         
           it 'should document additional givens using And' do
@@ -189,7 +189,7 @@ module Spec
             @reporter.step_succeeded :given, 'step 3'
           
             # then
-            @out.string.should include("  Given step 1\n  And step 2\n  And step 3")
+            @out.string.should include("    Given step 1\n    And step 2\n    And step 3")
           end
         
           it 'should document additional events using And' do
@@ -199,7 +199,7 @@ module Spec
             @reporter.step_succeeded :when, 'step 3'
           
             # then
-            @out.string.should include("  When step 1\n  And step 2\n  And step 3")
+            @out.string.should include("    When step 1\n    And step 2\n    And step 3")
           end
         
           it 'should document additional outcomes using And' do
@@ -209,7 +209,7 @@ module Spec
             @reporter.step_succeeded :then, 'step 3'
           
             # then
-            @out.string.should include("  Then step 1\n  And step 2\n  And step 3")
+            @out.string.should include("    Then step 1\n    And step 2\n    And step 3")
           end
         
           it 'should document a GivenScenario followed by a Given using And' do
@@ -218,7 +218,7 @@ module Spec
             @reporter.step_succeeded :given, 'a context'
           
             # then
-            @out.string.should include("  Given scenario a scenario\n  And a context")
+            @out.string.should include("    Given scenario a scenario\n    And a context")
           end
         
           it 'should document steps with replaced params' do
