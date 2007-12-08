@@ -16,6 +16,13 @@ class RailsStory < ActionController::IntegrationTest
   self.use_transactional_fixtures = true
 
   def initialize #:nodoc:
+    # TODO - eliminate this hack, which is here to stop
+    # Rails Stories from dumping the example summary.
+    Spec::Runner::Options.class_eval do
+      def examples_should_be_run?
+        false
+      end
+    end
     @_result = Test::Unit::TestResult.new
   end
 end
