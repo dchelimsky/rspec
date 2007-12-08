@@ -188,6 +188,176 @@ module Spec
         end
       end
 
+      describe ExampleGroup, ".set_description" do
+        attr_reader :example_group
+        before do
+          @example_group = Class.new(ExampleGroup)
+          class << example_group
+            public :set_description
+          end
+        end
+
+        describe ExampleGroup, ".set_description(String)" do
+          before(:each) do
+            example_group.set_description("abc")
+          end
+
+          specify ".text should return the String passed into .set_description" do
+            example_group.description.should == "abc"
+          end
+
+          specify ".described_type should provide nil as its type" do
+            example_group.described_type.should be_nil
+          end
+        end
+
+        describe ExampleGroup, ".set_description(Type)" do
+          before(:each) do
+            example_group.set_description(ExampleGroup)
+          end
+
+          specify ".text should return a String representation of that type (fully qualified) as its name" do
+            example_group.description.should == "Spec::Example::ExampleGroup"
+          end
+
+          specify ".described_type should return the passed in type" do
+            example_group.described_type.should == Spec::Example::ExampleGroup
+          end
+        end
+
+        describe ExampleGroup, ".set_description(String, Type)" do
+          before(:each) do
+            example_group.set_description("behaving", ExampleGroup)
+          end
+
+          specify ".text should return String then space then Type" do
+            example_group.description.should == "behaving Spec::Example::ExampleGroup"
+          end
+
+          specify ".described_type should return the passed in type" do
+            example_group.described_type.should == Spec::Example::ExampleGroup
+          end
+        end
+
+        describe ExampleGroup, ".set_description(Type, String not starting with a space)" do
+          before(:each) do
+            example_group.set_description(ExampleGroup, "behaving")
+          end
+
+          specify ".text should return the Type then space then String" do
+            example_group.description.should == "Spec::Example::ExampleGroup behaving"
+          end
+        end
+
+        describe ExampleGroup, ".set_description(Type, String starting with .)" do
+          before(:each) do
+            example_group.set_description(ExampleGroup, ".behaving")
+          end
+
+          specify ".text should return the Type then String" do
+            example_group.description.should == "Spec::Example::ExampleGroup.behaving"
+          end
+        end
+
+        describe ExampleGroup, ".set_description(Type, String containing .)" do
+          before(:each) do
+            example_group.set_description(ExampleGroup, "calling a.b")
+          end
+
+          specify ".text should return the Type then space then String" do
+            example_group.description.should == "Spec::Example::ExampleGroup calling a.b"
+          end
+        end
+
+        describe ExampleGroup, ".set_description(Type, String starting with .)" do
+          before(:each) do
+            example_group.set_description(ExampleGroup, ".behaving")
+          end
+
+          specify "should return the Type then String" do
+            example_group.description.should == "Spec::Example::ExampleGroup.behaving"
+          end
+        end
+
+        describe ExampleGroup, ".set_description(Type, String containing .)" do
+          before(:each) do
+            example_group.set_description(ExampleGroup, "is #1")
+          end
+
+          specify ".text should return the Type then space then String" do
+            example_group.description.should == "Spec::Example::ExampleGroup is #1"
+          end
+        end
+
+        describe ExampleGroup, ".set_description(String, Type, String)" do
+          before(:each) do
+            example_group.set_description("A", Hash, "with one entry")
+          end
+
+          specify ".text should return the first String then space then Type then second String" do
+            example_group.description.should == "A Hash with one entry"
+          end
+        end
+
+#        describe ExampleGroup, ".set_description(ExampleGroup, String)" do
+#          attr_reader :super_description, :nested_description
+#          before do
+#            @super_description = example_group.set_description(Hash)
+#            @nested_description = example_group.set_description(super_description, "with one entry")
+#          end
+#
+#          specify ".described_type should return the .described_type from the parent" do
+#            nested_description.described_type.should == Hash
+#          end
+#
+#          specify ".text should return its parent's .type then its String" do
+#            nested_description.text.should == "Hash with one entry"
+#          end
+#        end
+
+        describe ExampleGroup, ".set_description(Hash representing options)" do
+          before(:each) do
+            example_group.set_description(:a => "b", :spec_path => "blah")
+          end
+
+          it ".spec_path should expand the passed in :spec_path option passed into the constructor" do
+            example_group.spec_path.should == File.expand_path("blah")
+          end
+        end
+
+#        describe ExampleGroup, "from a parent ExampleGroup with described type" do
+#          before do
+#            @parent = example_group.set_description(Array)
+#          end
+#
+#          it ".described_type should return its own type when .set_description passed a type" do
+#            child = example_group.set_description(@parent, Hash)
+#            child.described_type.should == Hash
+#          end
+#
+#          it ".described_type should return its parent type when .set_description not passed a type" do
+#            child = example_group.set_description(@parent)
+#            child.described_type.should == Array
+#          end
+#        end
+#
+#        describe ExampleGroup, "from a nested ExampleGroup without described type" do
+#          before do
+#            @parent = example_group.set_description("Not a type")
+#          end
+#
+#          it ".described_type should return its type when .set_description passed a type" do
+#            child = example_group.set_description(@parent, Hash)
+#            child.described_type.should == Hash
+#          end
+#
+#          it ".described_type should return its parent's type when .set_description not passed a type" do
+#            child = example_group.set_description(@parent)
+#            child.described_type.should == nil
+#          end
+#        end
+      end
+
       describe ExampleGroup, ".remove_after" do
         it "should unregister a given after(:each) block" do
           after_all_ran = false

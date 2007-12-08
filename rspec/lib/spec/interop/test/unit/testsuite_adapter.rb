@@ -9,7 +9,7 @@ module Test
       end
 
       def name
-        example_group.description.text
+        example_group.description
       end
 
       def run(*args)
