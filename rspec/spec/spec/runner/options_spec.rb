@@ -13,32 +13,32 @@ module Spec
         Spec::Expectations.differ = nil
       end
 
-      describe Options, "#examples" do
-        it "defaults to empty array" do
+      describe "#examples" do
+        it "should default to empty array" do
           @options.examples.should == []
         end
       end
 
-      describe Options, "#backtrace_tweaker" do
-        it "defaults to QuietBacktraceTweaker" do
+      describe "#backtrace_tweaker" do
+        it "should default to QuietBacktraceTweaker" do
           @options.backtrace_tweaker.class.should == QuietBacktraceTweaker
         end
       end
 
-      describe Options, "#dry_run" do
-        it "defaults to false" do
+      describe "#dry_run" do
+        it "should default to false" do
           @options.dry_run.should == false
         end
       end
 
-      describe Options, "#context_lines" do
-        it "defaults to 3" do
+      describe "#context_lines" do
+        it "should default to 3" do
           @options.context_lines.should == 3
         end
       end
 
-      describe Options, "#parse_diff with nil" do
-        before do
+      describe "#parse_diff with nil" do
+        before(:each) do
           @options.parse_diff nil
         end
 
@@ -52,8 +52,8 @@ module Spec
         end
       end
 
-      describe Options, "#parse_diff with 'unified'" do
-        before do
+      describe "#parse_diff with 'unified'" do
+        before(:each) do
           @options.parse_diff 'unified'
         end
 
@@ -68,8 +68,8 @@ module Spec
         end
       end
 
-      describe Options, "#parse_diff with 'context'" do
-        before do
+      describe "#parse_diff with 'context'" do
+        before(:each) do
           @options.parse_diff 'context'
         end
 
@@ -84,8 +84,8 @@ module Spec
         end
       end
 
-      describe Options, "#parse_diff with Custom::Differ" do
-        before do
+      describe "#parse_diff with Custom::Differ" do
+        before(:each) do
           @options.parse_diff 'Custom::Differ'
         end
 
@@ -101,14 +101,14 @@ module Spec
         end
       end
 
-      describe Options, "#parse_diff with missing class name" do
+      describe "#parse_diff with missing class name" do
         it "should raise error" do
           lambda { @options.parse_diff "Custom::MissingDiffer" }.should raise_error(NameError)
           @err.string.should match(/Couldn't find differ class Custom::MissingDiffer/n)
         end
       end
 
-      describe Options, "#parse_example" do
+      describe "#parse_example" do
         it "with argument thats not a file path, sets argument as the example" do
           example = "something or other"
           File.file?(example).should == false
@@ -130,7 +130,7 @@ module Spec
         end
       end
 
-      describe Options, "#examples_should_not_be_run" do
+      describe "#examples_should_not_be_run" do
         it "should cause #run_examples to return true and do nothing" do
           @options.examples_should_not_be_run
           ExampleGroupRunner.should_not_receive(:new)
@@ -139,7 +139,7 @@ module Spec
         end
       end
 
-      describe Options, "#load_class" do
+      describe "#load_class" do
         it "should raise error when not class name" do
           lambda do
             @options.send(:load_class, 'foo', 'fruit', '--food')
@@ -147,14 +147,14 @@ module Spec
         end
       end
 
-      describe Options, "#reporter" do
+      describe "#reporter" do
         it "returns a Reporter" do
           @options.reporter.should be_instance_of(Reporter)
           @options.reporter.options.should === @options
         end
       end
 
-      describe Options, "#add_example_group affecting passed in example_group" do
+      describe "#add_example_group affecting passed in example_group" do
         it "runs all examples when options.examples is nil" do
           example_1_has_run = false
           example_2_has_run = false
@@ -196,7 +196,7 @@ module Spec
         end
       end
 
-      describe Options, "#add_example_group affecting example_group" do
+      describe "#add_example_group affecting example_group" do
         it "adds example_group when example_group has example_definitions and is not shared" do
           @example_group = Class.new(::Spec::Example::ExampleGroup).describe("Some Examples") do
             it "uses this example_group" do
@@ -210,7 +210,7 @@ module Spec
         end
       end
 
-      describe Options, "#remove_example_group" do
+      describe "#remove_example_group" do
         it "should remove the ExampleGroup from the list of ExampleGroups" do
           @example_group = Class.new(::Spec::Example::ExampleGroup).describe("Some Examples") do
           end
@@ -222,7 +222,7 @@ module Spec
         end
       end
 
-      describe Options, "#run_examples" do
+      describe "#run_examples" do
         it "should use the standard runner by default" do
           runner = ::Spec::Runner::ExampleGroupRunner.new(@options)
           ::Spec::Runner::ExampleGroupRunner.should_receive(:new).
@@ -253,8 +253,8 @@ module Spec
           @options.run_examples
         end
 
-        describe Options, "#run_examples when there are example_group" do
-          before do
+        describe "#run_examples when there are example_group" do
+          before(:each) do
             @options.add_example_group Class.new(::Spec::Example::ExampleGroup)
             @options.formatters << Formatter::BaseTextFormatter.new(@options, @out)
           end
@@ -271,8 +271,8 @@ module Spec
           end
         end
 
-        describe Options, "#run_examples when there are no example_group" do
-          before do
+        describe "#run_examples when there are no example_group" do
+          before(:each) do
             @options.formatters << Formatter::BaseTextFormatter.new(@options, @out)
           end
 

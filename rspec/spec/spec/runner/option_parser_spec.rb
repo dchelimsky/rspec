@@ -1,4 +1,5 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
+require 'fileutils'
 
 describe "OptionParser" do
   before(:each) do
@@ -126,9 +127,19 @@ describe "OptionParser" do
     options.formatters[0].class.should equal(Spec::Runner::Formatter::HtmlFormatter)
   end
 
+  it "should use html story formatter when format is h" do
+    options = parse(["--format", "h"])
+    options.story_formatters[0].class.should equal(Spec::Runner::Formatter::Story::HtmlFormatter)
+  end
+
   it "should use html formatter when format is html" do
     options = parse(["--format", "html"])
     options.formatters[0].class.should equal(Spec::Runner::Formatter::HtmlFormatter)
+  end
+
+  it "should use html story formatter when format is html" do
+    options = parse(["--format", "html"])
+    options.story_formatters[0].class.should equal(Spec::Runner::Formatter::Story::HtmlFormatter)
   end
 
   it "should use html formatter with explicit output when format is html:test.html" do
