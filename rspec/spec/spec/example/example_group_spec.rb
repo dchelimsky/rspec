@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 
 module Spec
   module Example
-    describe ExampleGroup, " class methods" do
+    describe ExampleGroup do
       it_should_behave_like "sandboxed rspec_options"
       attr_reader :example_group, :result, :reporter
       before(:each) do
@@ -24,7 +24,7 @@ module Spec
         ExampleGroup.reset
       end
 
-      describe ExampleGroup, ".describe" do
+      describe ".describe" do
         attr_reader :child_example_group
         before do
           @child_example_group = @example_group.describe("Another ExampleGroup") do
@@ -44,7 +44,7 @@ module Spec
         end
       end
 
-      describe ExampleGroup, ".it" do
+      describe ".it" do
         it "should should create an example instance" do
           lambda {
             @example_group.it("")
@@ -52,7 +52,7 @@ module Spec
         end
       end
 
-      describe ExampleGroup, ".xit" do
+      describe ".xit" do
         before(:each) do
           Kernel.stub!(:warn)
         end
@@ -69,7 +69,7 @@ module Spec
         end
       end
 
-      describe ExampleGroup, ".examples" do
+      describe ".examples" do
         it "should have Examples" do
           example_group = Class.new(ExampleGroup) do
             describe('example')
@@ -1151,7 +1151,7 @@ module Spec
         ["4", "2", "1"].each(&block)
       end
 
-      it"should be included in examples because it is a module" do
+      it "should be included in examples because it is a module" do
         map{|e| e.to_i}.should == [4,2,1]
       end
     end
@@ -1161,8 +1161,18 @@ module Spec
         ["4", "2", "1"].each(&block)
       end
 
-      it"should be included in examples because it is a module" do
+      it "should be included in examples because it is a module" do
         map{|e| e.to_i}.should == [4,2,1]
+      end
+    end
+    
+    describe Enumerable do
+      describe "as the parent of nested example groups" do
+        it "should be included in examples because it is a module" do
+          pending("need to make sure nested groups know the described type") do
+            map{|e| e.to_i}.should == [4,2,1]
+          end
+        end
       end
     end
 
