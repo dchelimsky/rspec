@@ -10,7 +10,7 @@
 #require '/home/btakita/workspace/rspec/rspec/spec/spec/story/runner_spec.rb'
 #require '/home/btakita/workspace/rspec/rspec/spec/spec/story/given_scenario_spec.rb'
 #require '/home/btakita/workspace/rspec/rspec/spec/spec/story/step_mother_spec.rb'
-require '/home/btakita/workspace/rspec/rspec/spec/spec/story/world_spec.rb'
+# require '/home/btakita/workspace/rspec/rspec/spec/spec/story/world_spec.rb'
 #require '/home/btakita/workspace/rspec/rspec/spec/spec/story/extensions_spec.rb'
 #require '/home/btakita/workspace/rspec/rspec/spec/spec/story/runner/story_parser_spec.rb'
 #require '/home/btakita/workspace/rspec/rspec/spec/spec/story/runner/story_mediator_spec.rb'

@@ -11,7 +11,7 @@ module Spec
         end
       end
 
-      attr_reader :description_text, :described_type_value, :spec_path
+      attr_reader :description_text, :description_args, :spec_path
 
       def inherited(klass)
         super
@@ -118,7 +118,6 @@ module Spec
         success, before_all_instance_variables = run_before_all
         success, after_all_instance_variables  = execute_examples(success, before_all_instance_variables, examples)
         success                                = run_after_all(success, after_all_instance_variables)
-        success
       end
 
       def description
@@ -126,20 +125,26 @@ module Spec
       end
 
       def described_type
-        execute_in_class_hierarchy(false) do |example_group|
-          if example_group.described_type_value
-            return example_group.described_type_value
-          end
-        end
-        return nil
+        description_parts.find {|part| part.is_a?(Module)}
       end
 
       def description_parts #:nodoc:
         parts = []
-        execute_in_class_hierarchy(false) do |example_group|
-          parts << example_group.description_text if example_group.description_text
+        execute_in_class_hierarchy do |example_group|
+          parts << example_group.description_args
         end
-        parts
+        parts.flatten.compact
+      end
+
+      def set_description(*args)
+        args, options = args_and_options(*args)
+        @description_args = args
+        @description_text = ExampleGroupMethods.description_text(*args)
+        @spec_path = File.expand_path(options[:spec_path]) if options[:spec_path]
+        if described_type.class == Module
+          include described_type
+        end
+        self
       end
 
       def examples #:nodoc:
@@ -233,13 +238,13 @@ module Spec
       end
 
       def run_before_each(example)
-        execute_in_class_hierarchy(false) do |example_group|
+        execute_in_class_hierarchy do |example_group|
           example.eval_each_fail_fast(example_group.before_each_parts)
         end
       end
 
       def run_after_each(example)
-        execute_in_class_hierarchy(true) do |example_group|
+        execute_in_class_hierarchy(:superclass_first) do |example_group|
           example.eval_each_fail_slow(example_group.after_each_parts)
         end
       end
@@ -256,7 +261,7 @@ module Spec
       def run_before_all
         example_group_instance = new(nil)
         begin
-          execute_in_class_hierarchy(false) do |example_group|
+          execute_in_class_hierarchy do |example_group|
             example_group_instance.eval_each_fail_fast(example_group.before_all_parts)
           end
           return [true, example_group_instance.instance_variable_hash]
@@ -282,7 +287,7 @@ module Spec
 
       def run_after_all(success, instance_variables)
         example = new(nil, instance_variables)
-        execute_in_class_hierarchy(true) do |example_group|
+        execute_in_class_hierarchy(:superclass_first) do |example_group|
           example.eval_each_fail_slow(example_group.after_all_parts)
         end
         return success
@@ -324,7 +329,7 @@ module Spec
         @example_objects ||= []
       end
 
-      def execute_in_class_hierarchy(superclass_first)
+      def execute_in_class_hierarchy(superclass_first=false)
         classes = []
         current_class = self
         while is_example_group?(current_class)
@@ -383,24 +388,6 @@ module Spec
       end
 
       def before_eval
-      end
-
-      def set_description(*args)
-        args, options = args_and_options(*args)
-        @description_text = ExampleGroupMethods.description_text(*args)
-        @described_type_value = get_described_type(args)
-        @spec_path = File.expand_path(options[:spec_path]) if options[:spec_path]
-        if described_type.class == Module
-          include described_type
-        end
-        self
-      end
-
-      def get_described_type(args) # :nodoc:
-        args.reverse.each do |arg|
-          return arg if arg.is_a?(Module)
-        end
-        return nil
       end
 
       def add_method_examples(examples)

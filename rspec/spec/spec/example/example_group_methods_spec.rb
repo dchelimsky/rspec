@@ -318,11 +318,11 @@ module Spec
       end
 
       describe "#description_parts" do
-        it "returns an Array of the .description when superclasses do not have a description" do
+        it "should return an Array of the current class description args" do
           example_group.description_parts.should == [example_group.description]
         end
 
-        it "returns an Array of the superclass .descriptions and .description when superclasses have description" do
+        it "should return an Array of the description args from each class in the hierarchy" do
           child_example_group = Class.new(example_group)
           child_example_group.describe("Child", ExampleGroup)
           child_example_group.description.should_not be_empty
@@ -332,9 +332,11 @@ module Spec
           grand_child_example_group.description.should_not be_empty
 
           grand_child_example_group.description_parts.should == [
-            example_group.description_text,
-            child_example_group.description_text,
-            grand_child_example_group.description_text
+            "ExampleGroup",
+            "Child",
+            Spec::Example::ExampleGroup,
+            "GrandChild",
+            Spec::Example::ExampleGroup
           ]
         end
       end
