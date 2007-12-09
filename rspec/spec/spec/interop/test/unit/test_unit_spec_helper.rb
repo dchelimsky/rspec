@@ -9,5 +9,6 @@ describe "Test::Unit interop", :shared => true do
     if !$?.success? || output.include?("FAILED") || output.include?("Error")
       raise output
     end
+    output
   end  
 end
