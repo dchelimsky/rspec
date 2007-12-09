@@ -46,8 +46,12 @@ module Spec
         mod.module_eval(&@example_group_block)
       end
 
-      def description_parts #:nodoc:
-        [description_text]
+      def execute_in_class_hierarchy(superclass_first=false)
+        classes = [self]
+        superclass_first ? classes << ExampleMethods : classes.unshift(ExampleMethods)
+        classes.each do |example_group|
+          yield example_group
+        end
       end
     end
   end
