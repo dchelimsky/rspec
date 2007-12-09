@@ -122,16 +122,15 @@ module Spec
       end
 
       def description
-        description_parts.join(' ').strip
+        ExampleGroupMethods.description_text(*description_parts)
       end
 
       def description_parts #:nodoc:
-        description_array = description_text ? [description_text] : []
-        if respond_to?(:superclass) && superclass.respond_to?(:description_parts)
-          superclass.description_parts + description_array
-        else
-          description_array
+        parts = []
+        execute_in_class_hierarchy(false) do |example_group|
+          parts << example_group.description_text if example_group.description_text
         end
+        parts
       end
 
       def examples #:nodoc:
@@ -220,7 +219,7 @@ module Spec
         rspec_options.add_example_group self
       end
 
-      def unregister
+      def unregister #:nodoc:
         rspec_options.remove_example_group self
       end
 
@@ -325,8 +324,8 @@ module Spec
         end
         superclass_first ? classes << ExampleMethods : classes.unshift(ExampleMethods)
 
-        classes.each do |behaviour|
-          yield behaviour
+        classes.each do |example_group|
+          yield example_group
         end
       end
 

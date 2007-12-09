@@ -45,6 +45,10 @@ module Spec
       def included(mod) # :nodoc:
         mod.module_eval(&@example_group_block)
       end
+
+      def description_parts #:nodoc:
+        [description_text]
+      end
     end
   end
 end
