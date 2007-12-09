@@ -11,7 +11,7 @@ module Spec
         end
       end
 
-      attr_reader :description_text, :described_type, :spec_path
+      attr_reader :description_text, :described_type_value, :spec_path
 
       def inherited(klass)
         super
@@ -123,6 +123,15 @@ module Spec
 
       def description
         ExampleGroupMethods.description_text(*description_parts)
+      end
+
+      def described_type
+        execute_in_class_hierarchy(false) do |example_group|
+          if example_group.described_type_value
+            return example_group.described_type_value
+          end
+        end
+        return nil
       end
 
       def description_parts #:nodoc:
@@ -379,7 +388,7 @@ module Spec
       def set_description(*args)
         args, options = args_and_options(*args)
         @description_text = ExampleGroupMethods.description_text(*args)
-        @described_type = get_described_type(args)
+        @described_type_value = get_described_type(args)
         @spec_path = File.expand_path(options[:spec_path]) if options[:spec_path]
         if described_type.class == Module
           include described_type
