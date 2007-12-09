@@ -338,6 +338,25 @@ module Spec
           ]
         end
       end
+      
+      describe "#described_type" do
+        it "should return passed in type" do
+          child_example_group = Class.new(example_group) do
+            describe Object
+          end
+          child_example_group.described_type.should == Object
+        end
+
+        it "should return #described_type of superclass when no passed in type" do
+          parent_example_group = Class.new(ExampleGroup) do
+            describe Object
+          end
+          child_example_group = Class.new(parent_example_group) do
+            describe "not a type"
+          end
+          child_example_group.described_type.should == Object
+        end
+      end
 
       describe "#remove_after" do
         it "should unregister a given after(:each) block" do

@@ -49,6 +49,10 @@ module Spec
       def description_parts #:nodoc:
         [description_text]
       end
+
+      def described_type
+        described_type_value
+      end
     end
   end
 end
