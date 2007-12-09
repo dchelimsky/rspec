@@ -46,9 +46,9 @@ module Spec
         mod.module_eval(&@example_group_block)
       end
 
-      def execute_in_class_hierarchy(superclass_first=false)
+      def execute_in_class_hierarchy(superclass_last=false)
         classes = [self]
-        superclass_first ? classes << ExampleMethods : classes.unshift(ExampleMethods)
+        superclass_last ? classes << ExampleMethods : classes.unshift(ExampleMethods)
         classes.each do |example_group|
           yield example_group
         end

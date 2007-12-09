@@ -329,14 +329,14 @@ module Spec
         @example_objects ||= []
       end
 
-      def execute_in_class_hierarchy(superclass_first=false)
+      def execute_in_class_hierarchy(superclass_last=false)
         classes = []
         current_class = self
         while is_example_group?(current_class)
-          superclass_first ? classes << current_class : classes.unshift(current_class)
+          superclass_last ? classes << current_class : classes.unshift(current_class)
           current_class = current_class.superclass
         end
-        superclass_first ? classes << ExampleMethods : classes.unshift(ExampleMethods)
+        superclass_last ? classes << ExampleMethods : classes.unshift(ExampleMethods)
 
         classes.each do |example_group|
           yield example_group
