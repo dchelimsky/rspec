@@ -36,7 +36,7 @@ module Test
         end
 
         def test_method?(method_name)
-          method_name =~ /^test./ && (
+          method_name =~ /^test[_A-Z]./ && (
             instance_method(method_name).arity == 0 ||
             instance_method(method_name).arity == -1
           )
