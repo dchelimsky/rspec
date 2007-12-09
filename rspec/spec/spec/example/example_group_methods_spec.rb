@@ -304,17 +304,17 @@ module Spec
 
         it "should not add a space when description_text begins with #" do
           child_example_group = Class.new(example_group) do
-            describe("#foobar")
+            describe("#foobar", "Does something")
           end
-          child_example_group.description.should == "ExampleGroup#foobar"
+          child_example_group.description.should == "ExampleGroup#foobar Does something"
         end
 
         it "should not add a space when description_text begins with ." do
           child_example_group = Class.new(example_group) do
-            describe(".foobar")
+            describe(".foobar", "Does something")
           end
-          child_example_group.description.should == "ExampleGroup.foobar"
-        end        
+          child_example_group.description.should == "ExampleGroup.foobar Does something"
+        end
       end
 
       describe "#description_parts" do
@@ -351,7 +351,7 @@ module Spec
 
         it "should return #described_type of superclass when no passed in type" do
           parent_example_group = Class.new(ExampleGroup) do
-            describe Object
+            describe Object, "#foobar"
           end
           child_example_group = Class.new(parent_example_group) do
             describe "not a type"

@@ -11,10 +11,10 @@ module Spec
 
         def example_failed(example, counter, failure)
           if @example_group_description_parts
-            description_partss = @example_group_description_parts.collect do |description|
+            description_parts = @example_group_description_parts.collect do |description|
               description =~ /(.*) \(druby.*\)$/ ? $1 : description
             end
-            @output.puts description_partss.join(' ')
+            @output.puts ::Spec::Example::ExampleGroupMethods.description_text(*description_parts)
             @output.flush
             @example_group_description_parts = nil
           end
