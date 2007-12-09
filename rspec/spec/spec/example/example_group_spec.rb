@@ -123,6 +123,38 @@ module Spec
         reporter.should_not_receive(:add_example_group)
         example_group.run
       end
+      
+      describe "when before_each fails" do
+        before(:each) do
+          $example_ran = $after_each_ran = false
+          @example_group = describe("Foobar") do
+            before(:each) {raise}
+            it "should not be run" do
+              $example_ran = true
+            end
+            after(:each) do
+              $after_each_ran = true
+            end
+          end
+        end
+
+        it "should not run example block" do
+          example_group.run
+          $example_ran.should be_false
+        end
+        
+        it "should run after_each" do
+          example_group.run
+          $after_each_ran.should be_true
+        end
+
+        it "should report failure location when in before_each" do
+          reporter.should_receive(:example_finished) do |example_group, error|
+            error.message.should eql("in before_each")
+          end
+          example_group.run
+        end
+      end
 
       describe ExampleGroup, "#run when passed examples" do
         it "should only run the passed in examples" do
@@ -165,7 +197,7 @@ module Spec
           @examples_that_were_run = []
         end
 
-        describe ExampleGroup, "#run when specified_examples matches entire ExampleGroup" do
+        describe "when specified_examples matches entire ExampleGroup" do
           before do
             examples_that_were_run = @examples_that_were_run
             @example_group = Class.new(ExampleGroup) do
