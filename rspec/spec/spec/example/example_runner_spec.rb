@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 module Spec
   module Example
-    # describe ExampleRunner, "#run", :shared => true do
+    # describe "Spec::Example::ExampleRunner", "#run", :shared => true do
     #   before(:each) do
     #     @options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
     #     @reporter = ::Spec::Runner::Reporter.new(@options)
@@ -15,7 +15,7 @@ module Spec
     # 
     #   def create_runner(example_definition)
     #     example = @example_group_class.new(example_definition)
-    #     runner = ExampleRunner.new(@options, example)
+    #     runner = ExampleGroup.new(@options, example)
     #     runner.stub!(:verify_mocks)
     #     runner.stub!(:teardown_mocks)
     #     runner
@@ -96,39 +96,6 @@ module Spec
     #     end
     #     @runner.run
     #   end      
-    # end
-    # 
-    # describe ExampleRunner, "#run where before_each fails" do
-    #   it_should_behave_like "Spec::Example::ExampleRunner#run"
-    # 
-    #   before do
-    #     @example_ran = example_ran = false
-    #     @example_definition = @example_group_class.it("should not run") do
-    #       example_ran = true
-    #     end
-    #     @runner = create_runner(@example_definition)
-    #     @example_group_class.before(:each) {raise NonStandardError, "in before_each"}
-    #   end
-    # 
-    #   it "should not run example block if before_each fails" do
-    #     @runner.run
-    #     @example_ran.should == false
-    #   end
-    # 
-    #   it "should run after_each block" do
-    #     after_each_ran = false
-    #     @example_group_class.after(:each) {after_each_ran = true}
-    #     @runner.run
-    #     after_each_ran.should == true
-    #   end
-    # 
-    #   it "should report failure location when in before_each" do
-    #     @reporter.should_receive(:example_finished) do |example_definition, error|
-    #       example_definition.should equal(@example_definition)
-    #       error.message.should eql("in before_each")
-    #     end
-    #     @runner.run
-    #   end
     # end
     # 
     # describe ExampleRunner, "#run where after_each fails" do
