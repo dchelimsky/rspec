@@ -6,19 +6,19 @@ module Spec
       }
 
       EXAMPLE_FORMATTERS = { # Load these lazily for better speed
-           'specdoc' => ['spec/runner/formatter/specdoc_formatter',            'Formatter::SpecdocFormatter'],
-                 's' => ['spec/runner/formatter/specdoc_formatter',            'Formatter::SpecdocFormatter'],
-              'html' => ['spec/runner/formatter/html_formatter',               'Formatter::HtmlFormatter'],
-                 'h' => ['spec/runner/formatter/html_formatter',               'Formatter::HtmlFormatter'],
-          'progress' => ['spec/runner/formatter/progress_bar_formatter',       'Formatter::ProgressBarFormatter'],
-                 'p' => ['spec/runner/formatter/progress_bar_formatter',       'Formatter::ProgressBarFormatter'],
-  'failing_examples' => ['spec/runner/formatter/failing_examples_formatter',   'Formatter::FailingExamplesFormatter'],
-                 'e' => ['spec/runner/formatter/failing_examples_formatter',   'Formatter::FailingExamplesFormatter'],
-'failing_behaviours' => ['spec/runner/formatter/failing_behaviours_formatter', 'Formatter::FailingBehavioursFormatter'],
-                 'b' => ['spec/runner/formatter/failing_behaviours_formatter', 'Formatter::FailingBehavioursFormatter'],
-           'profile' => ['spec/runner/formatter/profile_formatter',            'Formatter::ProfileFormatter'],
-                 'o' => ['spec/runner/formatter/profile_formatter',            'Formatter::ProfileFormatter'],
-          'textmate' => ['spec/runner/formatter/text_mate_formatter',          'Formatter::TextMateFormatter']
+               'specdoc' => ['spec/runner/formatter/specdoc_formatter',                'Formatter::SpecdocFormatter'],
+                     's' => ['spec/runner/formatter/specdoc_formatter',                'Formatter::SpecdocFormatter'],
+                  'html' => ['spec/runner/formatter/html_formatter',                   'Formatter::HtmlFormatter'],
+                     'h' => ['spec/runner/formatter/html_formatter',                   'Formatter::HtmlFormatter'],
+              'progress' => ['spec/runner/formatter/progress_bar_formatter',           'Formatter::ProgressBarFormatter'],
+                     'p' => ['spec/runner/formatter/progress_bar_formatter',           'Formatter::ProgressBarFormatter'],
+      'failing_examples' => ['spec/runner/formatter/failing_examples_formatter',       'Formatter::FailingExamplesFormatter'],
+                     'e' => ['spec/runner/formatter/failing_examples_formatter',       'Formatter::FailingExamplesFormatter'],
+'failing_example_groups' => ['spec/runner/formatter/failing_example_groups_formatter', 'Formatter::FailingExampleGroupsFormatter'],
+                     'g' => ['spec/runner/formatter/failing_example_groups_formatter', 'Formatter::FailingExampleGroupsFormatter'],
+               'profile' => ['spec/runner/formatter/profile_formatter',                'Formatter::ProfileFormatter'],
+                     'o' => ['spec/runner/formatter/profile_formatter',                'Formatter::ProfileFormatter'],
+              'textmate' => ['spec/runner/formatter/text_mate_formatter',              'Formatter::TextMateFormatter']
       }
 
       STORY_FORMATTERS = {

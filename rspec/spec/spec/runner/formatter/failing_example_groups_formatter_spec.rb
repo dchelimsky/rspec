@@ -1,16 +1,16 @@
 require File.dirname(__FILE__) + '/../../../spec_helper'
-require 'spec/runner/formatter/failing_behaviours_formatter'
+require 'spec/runner/formatter/failing_example_groups_formatter'
 
 module Spec
   module Runner
     module Formatter
-      describe FailingBehavioursFormatter do
+      describe FailingExampleGroupsFormatter do
         attr_reader :example_group, :formatter, :io
 
         before(:each) do
           @io = StringIO.new
           options = mock('options')
-          @formatter = FailingBehavioursFormatter.new(options, io)
+          @formatter = FailingExampleGroupsFormatter.new(options, io)
           @example_group = Class.new(::Spec::Example::ExampleGroup)
         end
         
