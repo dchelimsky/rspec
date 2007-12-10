@@ -15,22 +15,22 @@ module Spec
       
       protected
       def matches_literal_example?(specified_example)
-        specified_example =~ /(^#{behaviour_regexp} #{example_regexp}$|^#{behaviour_regexp}$|^#{behaviour_with_before_all_regexp}$|^#{example_regexp}$)/
+        specified_example =~ /(^#{example_group_regex} #{example_regexp}$|^#{example_group_regex}$|^#{example_group_with_before_all_regexp}$|^#{example_regexp}$)/
       end
 
       def matches_example_not_considering_modules?(specified_example)
-        specified_example =~ /(^#{behaviour_regexp_not_considering_modules} #{example_regexp}$|^#{behaviour_regexp_not_considering_modules}$|^#{example_regexp}$)/
+        specified_example =~ /(^#{example_group_regex_not_considering_modules} #{example_regexp}$|^#{example_group_regex_not_considering_modules}$|^#{example_regexp}$)/
       end
 
-      def behaviour_regexp
+      def example_group_regex
         Regexp.escape(@example_group_description)
       end
 
-      def behaviour_with_before_all_regexp
+      def example_group_with_before_all_regexp
         Regexp.escape("#{@example_group_description} before(:all)")
       end
 
-      def behaviour_regexp_not_considering_modules
+      def example_group_regex_not_considering_modules
         Regexp.escape(@example_group_description.split('::').last)
       end
 

@@ -13,7 +13,7 @@ module Spec
         @heckle_class = heckle_class
       end
       
-      # Runs all the behaviours held by +rspec_options+ once for each of the
+      # Runs all the example groups held by +rspec_options+ once for each of the
       # methods in the matched classes.
       def heckle_with
         if @filter =~ /(.*)[#\.](.*)/

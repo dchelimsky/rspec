@@ -38,18 +38,18 @@ module SharedExampleGroupExample
   # end
 
   describe OneThing do
-    # ... then you can include the behaviour like this, which 
+    # ... then you can include the example group like this, which 
     # feels more like what you might say ...
     it_should_behave_like "All Things"
     before(:each) { @thing = OneThing.new }
     
-    it "should have access to helper methods defined in the shared behaviour" do
+    it "should have access to helper methods defined in the shared example group" do
       helper_method.should == "helper method"
     end
   end
 
   describe AnotherThing do
-    # ... or you can include the behaviour like this, which
+    # ... or you can include the example group like this, which
     # feels more like the programming language we love.
     it_should_behave_like AllThings
     
@@ -57,7 +57,7 @@ module SharedExampleGroupExample
   end
 
   describe YetAnotherThing do
-    # ... or you can include the behaviour like this, which
+    # ... or you can include the example group like this, which
     # feels more like the programming language we love.
     include AllThings
     

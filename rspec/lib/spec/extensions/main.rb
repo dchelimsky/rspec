@@ -8,10 +8,10 @@ module Spec
       # <tt>spec/helpers</tt>, <tt>spec/views</tt> and
       # <tt>spec/controllers</tt>.
       #
-      # It is also possible to override autodiscovery of the behaviour class
-      # with an options Hash as the last argument:
+      # It is also possible to override autodiscovery of the example group
+      # type with an options Hash as the last argument:
       #
-      #   describe "name", :behaviour_type => :something_special do ...
+      #   describe "name", :type => :something_special do ...
       #
       # The reason for using different behaviour classes is to have different
       # matcher methods available from within the <tt>describe</tt> block.
