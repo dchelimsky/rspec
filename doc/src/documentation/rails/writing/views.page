@@ -1,7 +1,13 @@
----
+--- 
 title: Views
----
-h2. Spec::Rails - Specifying Views
+order: 2
+filter:
+  - erb
+  - coderay
+  - textile
+--- 
+
+h2. <%= @page.title %>
 
 View Examples live in $RAILS_ROOT/spec/views/.
 
@@ -25,7 +31,7 @@ Use assigns[:key] to set instance variables to be used in the view. We highly re
 you exploit the mock framework here rather than providing real model objects in order to
 keep the view specs isolated from changes to your models.
 
-<ruby>
+<coderay>
 # example
 article = mock_model(Article)
 article.should_receive(:author).and_return("Joe")
@@ -34,26 +40,26 @@ assigns[:article] = article
 assigns[:articles] = [article]
 
 # template
-<% for article in @articles -%>
+<%% for article in @articles -%>
 <!-- etc -->
-</ruby>
+</coderay>
 
 h3. flash, params and session
 
 Use flash[:key], params[:key] and session[:key] to set values in the example that can
 be accessed by the view.
 
-<ruby>
+<coderay>
 # example
 flash[:notice] = "Message in flash"
 params[:account_id] = "1234"
 session[:user_id] = "5678"
 
 # template
-<%= flash[:notice] %>
-<%= params[:account_id] %>
-<%= session[:user_id] %>
-</ruby>
+<%%= flash[:notice] %>
+<%%= params[:account_id] %>
+<%%= session[:user_id] %>
+</coderay>
 
 h2. Expectations
 
@@ -73,17 +79,17 @@ fact, because some calls will be passed through while others will not. This is e
 you use <code>stub_render</code> because, as with all Method Stubs, you will get very little feedback
 about what is going on.
 
-<ruby>
+<coderay>
 template.expect_render(:partial => 'person', :object => @person) #auto-verified
 template.stub_render(:partial => 'person', :object => @person)   #not verified
-</ruby>
+</coderay>
 
 
 h3. response.should have_tag
 
 This wraps assert_select and is available in both View Examples and Controller Examples run in integration mode.
 
-<ruby>
+<coderay>
 response.should have_tag('div') #passes if any div tags appear
 response.should have_tag('div#interesting_div')
 response.should have_tag('div', 'expected content')
@@ -95,7 +101,7 @@ response.should have_tag('ul') do
   with_tag('li', 'list item 2')
   with_tag('li', 'list item 3')
 end
-</ruby>
+</coderay>
 
 Note that any of the hash values can be either Strings or Regexps and will be
 evaluated accordingly.
@@ -104,13 +110,13 @@ h2. Mocking and stubbing helpers
 
 If you wish to mock or stub helper methods, this must be done on the <tt>template</tt> object:
 
-<ruby>
+<coderay>
 template.should_receive(:current_user).and_return(mock("user"))
-</ruby>
+</coderay>
 
 %{color:red;font-weight:bold}WARNING:% Do NOT use mocks on the template object for expecting partials.
 Instead, use expect_render or stub_render, described above.
 
 h2. Sample View Examples
 
-<ruby file="../example_rails_app/spec/views/person/list_view_spec.rb"/>
+<coderay><%= IO.read "../example_rails_app/spec/views/person/list_view_spec.rb" %></coderay>

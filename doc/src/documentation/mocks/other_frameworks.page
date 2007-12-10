@@ -1,7 +1,13 @@
----
+--- 
 title: Other Mock/Stub Frameworks
----
-h2. Other Mock/Stub Frameworks
+order: 4
+filter:
+  - erb
+  - coderay
+  - textile
+--- 
+
+h2. <%= @page.title %>
 
 If you prefer to use a mocking framework other than RSpec's built in framework, you
 can do this quite simply. RSpec currently supports use of the following frameworks
@@ -16,11 +22,11 @@ RSpec's own, tend to add methods to Object that might or might not work well tog
 choose a mock framework other than rspec, simply add the following to spec/spec_helper.rb
 (or any file that gets loaded when you run your examples):
 
-<ruby>
+<coderay>
 Spec::Runner.configure do |config|
   config.mock_with :rr
 end
-</ruby>
+</coderay>
 
 Valid options are <code>:flexmock</code>, <code>:mocha</code>, <code>:rspec</code> (of course),
 and <code>:rr</code>.
@@ -31,7 +37,7 @@ If you have a different framework that is not supported directly by RSpec, you c
 choose that framework instead by creating an adapter and telling RSpec where to find it.
 Here is RSpec's own adapter as an example:
 
-<ruby file="../rspec/plugins/mock_frameworks/rspec.rb"/>
+<coderay><%= IO.read "../rspec/plugins/mock_frameworks/rspec.rb" %></coderay>
 
 This file must require any libraries or resources that implement the framework, and then define
 a <code>Spec::Plugins::MockFramework</code> module with the following methods:
@@ -46,11 +52,11 @@ to static resources like class-level mock expectations, etc.
 
 Once you have defined your adapter, you can then tell RSpec to use your adapter like so:
 
-<ruby>
+<coderay>
 Spec::Runner.configure do |config|
   config.mock_with '/path/to/my/adapater.rb'
 end
-</ruby>
+</coderay>
 
 
 

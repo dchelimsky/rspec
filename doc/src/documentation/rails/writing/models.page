@@ -1,7 +1,13 @@
----
+--- 
 title: Models
----
-h2. Spec::Rails - Specifying Models
+order: 1
+filter:
+  - erb
+  - coderay
+  - textile
+--- 
+
+h2. <%= @page.title %>
 
 Model Examples live in $RAILS_ROOT/spec/models/ and provide access to fixtures.
 
@@ -12,22 +18,22 @@ See "Spec::Rails::Expectations":../../../rdoc-rails/index.html for more detail.
 
 h3. Records
 
-<ruby>
+<coderay>
 Model.should have(:no).records
 Model.should have(1).record
 Model.should have(3).records
-</ruby>
+</coderay>
 
 This is a shortcut for <code>Model.find(:all).length.should == 3</code>.
 
 h3. Errors
 
-<ruby>
+<coderay>
 model.should have(:no).errors_on(:attribute)
 model.should have(1).error_on(:attribute)
 model.should have(3).errors_on(:attribute)
-</ruby>
+</coderay>
 
 h2. Sample Model Examples
 
-<ruby file="../example_rails_app/spec/models/person_spec.rb"/>
+<coderay><%= IO.read "../example_rails_app/spec/models/person_spec.rb" %></coderay>

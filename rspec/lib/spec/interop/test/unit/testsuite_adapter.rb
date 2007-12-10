@@ -14,7 +14,7 @@ module Test
 
       def run(*args)
         return true unless args.empty?
-        example_group.run(examples)
+        example_group.run
       end
 
       def size

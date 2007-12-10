@@ -1,15 +1,20 @@
----
+--- 
 title: Before and After
----
+order: 1
+filter:
+  - erb
+  - coderay
+  - textile
+--- 
 
-h2. Before and After
+h2. <%= @page.title %>
 
 h3. before(:each) and after(:each)
 
 RSpec provides methods that let you set up and tear down state before(:each)
 and after(:each) example.
 
-<ruby>
+<coderay>
 describe Account do
   before(:each) do
     @account = Account.new
@@ -27,7 +32,7 @@ describe Account do
     @account = nil
   end
 end
-</ruby>
+</coderay>
 
 Note that after(:each) is rarely needed, and should only really be used when concerned
 that some state might be leaking into your other examples.
@@ -38,7 +43,7 @@ For expensive operations, like opening browsers using Spec::Ui, RSpec also allow
 you to set up and tear down state before(:all) and after(:all) examples in any
 given behaviour.
 
-<ruby>
+<coderay>
 describe "Search page" do
   before(:all) do
     @browser = Watir::Browser.new
@@ -52,7 +57,7 @@ describe "Search page" do
     @browser.kill! rescue nil
   end
 end
-</ruby>
+</coderay>
 
 h3. Global after and before blocks
 
@@ -60,27 +65,27 @@ Sometimes you have some generic code you want to run before or after every singl
 examples. Such global before and after blocks can be defined in the RSpec configuration, which
 typically lives in a spec_helper.rb file that is required from other spec files. Example: 
 
-<ruby>
+<coderay>
 Spec::Runner.configure do |config|
   config.before(:all) {}
   config.before(:each) {}
   config.after(:all) {}
   config.after(:each) {}
 end
-</ruby>
+</coderay>
 
 Global before blocks get run before local ones. Global after blocks get run after local ones.
 
 You can also specify that a before or after block should only be weaved into certain behaviours,
 in a similar way to how global includes are declared:
 
-<ruby>
+<coderay>
 Spec::Runner.configure do |config|
   config.before(:each, :behaviour_type => :controller) do
     login_aslak
   end
 end
-</ruby>
+</coderay>
 
 h3. When before and after raise errors
 

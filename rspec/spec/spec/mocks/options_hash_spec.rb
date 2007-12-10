@@ -25,7 +25,7 @@ module Spec
         reporter.should_receive(:example_finished) do |spec, error|
           error.backtrace.detect {|line| line =~ /\/path\/to\/blah.ext:37/}.should_not be_nil
         end
-        example.execute(options)
+        example.execute(options, {})
       end
 
       it "should use the message supplied with :message" do
@@ -38,7 +38,7 @@ module Spec
         @reporter.should_receive(:example_finished) do |spec, error|
           error.message.should == "recebi nada"
         end
-        example.execute(@options)
+        example.execute(@options, {})
       end
     end
   end

@@ -56,20 +56,6 @@ module Spec
         SharedExampleGroup.shared_example_groups.should_not include(example_group)
       end
 
-      it "should raise if run when shared" do
-        example_group = make_shared_example_group("context") {}
-        $example_ran = false
-        example_group.it("test") {$example_ran = true}
-        lambda { example_group.run }.should raise_error
-        $example_ran.should be_false
-      end
-
-      it "should contain examples when shared" do
-        shared_example_group = make_shared_example_group("shared example_group") {}
-        shared_example_group.it("shared example") {}
-        shared_example_group.number_of_examples.should == 1
-      end
-
       it "should complain when adding a second shared example_group with the same description" do
         describe "shared example_group", :shared => true do
         end
@@ -220,8 +206,9 @@ module Spec
       it "should include modules, included into shared example_group, into current example_group" do
         @formatter.should_receive(:add_example_group).with(any_args)
 
-        shared_example_group = make_shared_example_group("shared example_group") {}
-        shared_example_group.it("shared example") { shared_example_ran = true }
+        shared_example_group = make_shared_example_group("shared example_group") do
+          it("shared example") { shared_example_ran = true }
+        end
 
         mod1_method_called = false
         mod1 = Module.new do

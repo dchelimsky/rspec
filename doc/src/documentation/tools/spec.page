@@ -1,6 +1,13 @@
----
-title: Runner
----
+--- 
+title: Command Line
+order: 1
+filter:
+  - erb
+  - coderay
+  - textile
+--- 
+
+h2. <%= @page.title %>
 
 h2. Executing examples directly
 
@@ -26,7 +33,7 @@ that are found are loaded. To see this in action, cd to the RSpec install direct
 <pre>
 $ spec examples
 
-{execute: ruby docspec.rb examples}
+<%= `ruby docspec.rb examples` %>
 </pre>
 
 Very simple and to the point. Passing examples are indicated by a '.',
@@ -36,7 +43,7 @@ well as an unexpected exception being raised.  Here are examples of both:
 <pre>
 $ spec failing_examples/team_spec.rb
 
-{execute: ruby docspec.rb failing_examples/pure/team_spec.rb}
+<%= `ruby docspec.rb failing_examples/predicate_example.rb` %>
 </pre>
 
 h2. Command line options
@@ -46,7 +53,7 @@ When you run <tt>spec</tt> with the <tt>--help</tt> option it prints a help mess
 <pre>
 $ spec --help
 
-{execute: ruby docspec.rb --help}
+<%= `ruby docspec.rb --help` %>
 </pre>
 
 The command line options can be passed to customize the output and behaviour of RSpec.

@@ -1,6 +1,12 @@
----
-title: Writing 
----
+--- 
+title: Writing
+order: 2
+filter:
+  - erb
+  - coderay
+  - textile
+--- 
+
 h2. Introduction to Writing Examples using Spec::Rails
 
 Spec::Rails supports 4 different types of Executable Examples:
@@ -27,11 +33,11 @@ you will not get the correct ExampleGroup subclass. If you prefer to disregard
 this convention, you can get the correct ExampleGroup subclass by passing a
 hash to the describe method:
 
-<ruby>
+<coderay>
 describe "some model", :behaviour_type => :model do
   ...
 end
-</ruby>
+</coderay>
 
 This works with <code>:model, :view, :controller and :helper</code>.
 

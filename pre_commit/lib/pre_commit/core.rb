@@ -8,7 +8,7 @@ class PreCommit::Core < PreCommit
     clobber
     rake_invoke :verify_rcov
     rake_invoke :spec_html
-    webgen
+    webby
     rake_invoke :failing_examples_with_html
     rdoc
     rdoc_rails
@@ -19,11 +19,11 @@ class PreCommit::Core < PreCommit
     rm_rf 'translated_specs'
   end
 
-  def webgen
+  def webby
     Dir.chdir '../doc' do
-      output = silent_sh('webgen 2>&1')
+      output = silent_sh('rake rebuild 2>&1')
       if shell_error?(output)
-        raise "ERROR while running webgen: #{output}"
+        raise "ERROR while generating web site: #{output}"
       end
 
       spec_page = File.expand_path('output/documentation/tools/spec.html')
