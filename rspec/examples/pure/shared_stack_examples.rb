@@ -1,6 +1,6 @@
 require File.join(File.dirname(__FILE__), *%w[spec_helper])
 
-describe "non-empty Stack", :shared => true do
+shared_examples_for "non-empty Stack" do
 
   it { @stack.should_not be_empty }
   
@@ -26,7 +26,7 @@ describe "non-empty Stack", :shared => true do
   
 end
 
-describe "non-full Stack", :shared => true do
+shared_examples_for "non-full Stack" do
 
   it { @stack.should_not be_full }
 
