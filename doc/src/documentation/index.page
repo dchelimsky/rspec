@@ -51,11 +51,12 @@ Here's how the example might look with some more code filled in:
 end
 </ruby>
 
-The <code>#describe</code> method returns a <code>Behaviour</code> object, which represents
-a particular behaviour of the system that you wish to describe. Technically,
-a <code>Behaviour</code> is the equivalent of a fixture in xUnit-speak. It
-is a metaphor for the context in which you will execute your example - a set of
-known objects in a known starting state.
+The <code>#describe</code> method returns an <code>ExampleGroup</code> object,
+which contains a group of examples of a particular behaviour of the system
+that you wish to describe. Technically, an <code>ExampleGroup</code> is the
+equivalent of a fixture in xUnit-speak. It is a metaphor for the context in
+which you will execute your example - a set of known objects in a known
+starting state.
 
 The <code>#it</code> method returns an <code>Example</code> object, which represents
 an example of the behaviour your are trying to describe.
@@ -67,8 +68,9 @@ resources _after_ each example.
 
 h2. #before and #after
 
-You can use <code>#before</code> and/or <code>#after</code> to define
-code that executes before and after each example or only once per Behaviour:
+You can use <code>#before</code> and/or <code>#after</code> to define code
+that executes before and after each example or only once per
+<code>ExampleGroup</code>:
 
 <ruby>describe Thing do
   before(:all) do
@@ -131,7 +133,7 @@ end
 
 h2. Reusable Helper Methods
 
-You can include helper methods in multiple Behaviours by expressing them within
+You can include helper methods in multiple ExampleGroups by expressing them within
 a module, and then including that module in your Behaviour:
 
 <ruby>module AccountExampleHelperMethods
@@ -153,15 +155,16 @@ describe "A new account" do
 end
 </ruby>
 
-h2. Shared behaviors
+h2. Shared Example Groups
 
-You can create shared behaviors and include those behaviors into other behaviors.
+You can create shared example groups and include those groups into other groups.
 
-Suppose you have some behavior that applies to all editions of your product, both large and small. 
+Suppose you have some behavior that applies to all editions of your product,
+both large and small.
 
 First, factor out the "shared" behavior:
 
-<ruby>describe "AllEditions", :shared => true do
+<ruby>describe "all editions", :shared => true do
   it "should behave like all editions" do
   end
 end
@@ -171,21 +174,22 @@ then when you need define the behavior for the Large and Small editions,
 reference the shared behavior using the 'it_should_behave_like' method.
 
 <ruby>describe "SmallEdition" do
-  it_should_behave_like "AllEditions"
+  it_should_behave_like "all editions"
 
   it "should also behave like a small edition" do
   end
 end
 
 describe "LargeEdition" do
-  it_should_behave_like "AllEditions"
+  it_should_behave_like "all editions"
 
   it "should also behave like a large edition" do
   end
 end
 </ruby>
 
-it_should_behave_like will search for a Behavior by its description string, in this case, "AllEditions"
+it_should_behave_like will search for an ExampleGroup by its description string, in
+this case, "all editions"
 
 All of the following are included from a shared behavior:
 
@@ -193,13 +197,14 @@ All of the following are included from a shared behavior:
 * before(:each)
 * after(:each)
 * after(:all)
-* any included modules
+* all included modules
+* all methods
 
-Shared behaviors may not extend classes.
+Shared example groups may not extend classes.
 
-Multiple shared behaviors may be referenced in one (non-shared) behaviour.
+Multiple shared example groups may be referenced in one (non-shared) group.
 
-Shared behaviours may be included in other shared behaviours:
+Shared example groups may be included in other shared groups:
 
 <ruby>describe "All Employees", :shared => true do
   it "should be payable" do
