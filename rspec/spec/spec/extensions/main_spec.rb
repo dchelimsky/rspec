@@ -29,9 +29,7 @@ module Spec
       end
 
       it "should registered ExampleGroups by default" do
-        example_group = @main.describe("The ExampleGroup") do
-        end
-
+        example_group = @main.describe("The ExampleGroup") do end
         rspec_options.example_groups.should include(example_group)
       end
 
@@ -41,6 +39,11 @@ module Spec
         end
 
         rspec_options.example_groups.should_not include(example_group)
+      end
+      
+      it "should create a shared ExampleGroup with shared_examples_for" do
+        group = @main.shared_examples_for "all things" do end
+        group.should be_an_instance_of(Spec::Example::SharedExampleGroup)
       end
     end
   end

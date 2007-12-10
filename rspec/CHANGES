@@ -15,6 +15,7 @@ CMD-OPT-R runs any files or directories selected in the TextMate drawer
 
 rspec_on_rails users - don't forget to run script/generate rspec
 
+* Added shared_examples_for method, which you can (should) use instead of describe Foo, :shared => true
 * Applied LH[#168] Fix describe Object, "description contains a # in it" (Patch from Martin Emde)
 * Applied LH[#15] Reverse loading of ActionView::Base helper modules (Patch from Mark Van Holstyn)
 * Applied LH[#149] Update contribute page to point towards lighthouse (Patch from Josh Knowles)

@@ -21,7 +21,7 @@ module SharedExampleGroupExample
   
   # A SharedExampleGroup is a module, so you can assign
   # it to a constant if you want ....
-  AllThings = describe "All Things", :shared => true do
+  AllThings = shared_examples_for "All Things" do
     def helper_method
       "helper method"
     end

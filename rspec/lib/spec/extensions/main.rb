@@ -27,6 +27,11 @@ module Spec
         Spec::Example::ExampleGroupFactory.create_example_group(*args, &block)
       end
       alias :context :describe
+      
+      # Shortcut for creating a shared example group
+      def shared_examples_for(name, &block)
+        describe(name, :shared => true, &block)
+      end
 
     private
     
