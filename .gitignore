@@ -1,4 +1,5 @@
 *.svn
+rspec/pkg
 example_rails_app/vendor/rails/*
 log
 RSpec.tmbundle/Support/coverage
