@@ -3,7 +3,7 @@ require 'spec/runner/formatter/base_text_formatter'
 module Spec
   module Runner
     module Formatter
-      class FailingBehavioursFormatter < BaseTextFormatter
+      class FailingExampleGroupsFormatter < BaseTextFormatter
         def add_example_group(example_group)
           super
           @example_group_description_parts = example_group.description_parts
