@@ -1,8 +1,12 @@
----
-title: Home
+--- 
+title:  Overview
+filter:
+  - erb
+  - coderay
+  - textile
 --- 
 
-h2. Overview
+h2. <%= @page.title %>
 
 RSpec is a Behaviour Driven Development framework for Ruby. It provides two
 frameworks for writing and executing examples of how your Ruby application should
@@ -40,7 +44,7 @@ Story: transfer from savings to checking account
 Each Given, When and Then is a Step. The Ands are each the same kind as the previous Step.
 Steps get defined in Ruby like this (detail left out for brevity):
 
-<ruby>
+<coderay>
 steps_for(:accounts) do
   Given("my $account_type account balance is $amount") do |account_type, amount|
     create_account(account_type, amount)
@@ -52,15 +56,15 @@ steps_for(:accounts) do
     get_account(account_type).should have_a_balance_of(amount)
   end
 end
-</ruby>
+</coderay>
 
 Then run the Story like this:
 
-<ruby>
+<coderay>
 with_steps_for :accounts do
   run 'path/to/file/with/story'
 end
-</ruby>
+</coderay>
 
 h2. Spec Framework
 
@@ -72,7 +76,7 @@ h2. Spec Framework
   Start with a very simple example that expresses
   some basic desired behaviour.
 </p>
-<ruby>
+<coderay>
 # bowling_spec.rb
 require 'bowling'
 
@@ -86,7 +90,7 @@ describe Bowling do
     @bowling.score.should == 0
   end
 end
-</ruby>
+</coderay>
 <p>
   Run the example and watch it fail.
 </p>
@@ -100,7 +104,7 @@ end
   Now write
   just enough code to make it pass.
 </p>
-<ruby>
+<coderay>
 # bowling.rb
 class Bowling
   def hit(pins)
@@ -110,7 +114,7 @@ class Bowling
     0
   end
 end
-</ruby>
+</coderay>
 <p>
 Run the example and bask in the joy that is green.
 </p>

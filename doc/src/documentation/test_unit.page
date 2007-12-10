@@ -1,6 +1,12 @@
----
-title: Test::Unit Cheat Sheet
----
+--- 
+title: Test::Unit
+order: 4
+filter:
+  - erb
+  - coderay
+  - textile
+--- 
+
 h2. Coming from Test::Unit to RSpec
 
 RSpec's expectation API is a superset of Test::Unit's assertion API. Use this table to
@@ -40,10 +46,10 @@ of you who are making a switch.
 
 Consider this example:
 
-<ruby>words = "the words"
+<coderay>words = "the words"
 assert_equals("the words", words) #passes
 assert_same("the words", words) #fails
-</ruby>
+</coderay>
 
 xUnit frameworks traditionally use method names like <code>#assert_equals</code> to
 imply object equivalence (objects with the same values) and method names like <code>#assert_same</code> to
@@ -55,22 +61,22 @@ java, for example, we override <code>Object#equals(other)</code> to describe obj
 whereas we use <code>==</code> to describe object identity. In Ruby, we do just the opposite.
 In fact, Ruby provides us with four ways to express equality:
 
-<ruby>a == b
+<coderay>a == b
 a === b
 a.equal?(b)
 a.eql?(b)
-</ruby>
+</coderay>
 
 Each of these has its own semantics, which can (and often do) vary from class to class. In
 order to minimize the translation required to understand what an example might be expressing,
 we chose to express these directly in RSpec. If you understand Ruby equality, then you
 can understand what RSpec examples are describing:
 
-<ruby>a.should == b      #passes if a == b
+<coderay>a.should == b      #passes if a == b
 a.should === b     #passes if a === b
 a.should equal(b)  #passes if a.equal?(b)
 a.should eql(b)    #passes if a.eql?(b)
-</ruby>
+</coderay>
 
 See "http://www.ruby-doc.org/core/classes/Object.html#M001057":http://www.ruby-doc.org/core/classes/Object.html#M001057 for
 more information about equality in Ruby.

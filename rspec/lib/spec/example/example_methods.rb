@@ -4,14 +4,19 @@ module Spec
       extend ExampleGroupMethods
       extend ModuleReopeningFix
 
-      def execute(options)
-        options.reporter.example_started(_example)
+      PENDING_EXAMPLE_BLOCK = lambda {
+        raise Spec::Example::ExamplePendingError.new("Not Yet Implemented")
+      }
+
+      def execute(options, instance_variables)
+        options.reporter.example_started(self)
+        set_instance_variables_from_hash(instance_variables)
         
         execution_error = nil
         Timeout.timeout(options.timeout) do
           begin
             before_example
-            _example.run_in(self)
+            run_with_description_capturing
           rescue Exception => e
             execution_error ||= e
           end
@@ -22,7 +27,7 @@ module Spec
           end
         end
 
-        options.reporter.example_finished(_example, execution_error)
+        options.reporter.example_finished(self, execution_error)
         success = execution_error.nil? || ExamplePendingError === execution_error
       end
 
@@ -55,10 +60,31 @@ module Spec
         raise first_exception if first_exception
       end
 
+      def description
+        @_defined_description || @_matcher_description || "NO NAME"
+      end
+      alias_method :to_s, :description
+      
+      def set_instance_variables_from_hash(instance_variables)
+        instance_variables.each do |variable_name, value|
+          unless ['@_implementation', '@_defined_description', '@_matcher_description', '@method_name'].index(variable_name)
+            instance_variable_set variable_name, value
+          end
+        end
+      end
+
+      def run_with_description_capturing
+        return_value = nil
+        
+        @_matcher_description = Matchers.capture_generated_description do
+          return_value = instance_eval(&(@_implementation || PENDING_EXAMPLE_BLOCK))
+        end
+        return_value
+      end
+      
       protected
       include Matchers
       include Pending
-      attr_reader :_example
       
       def before_example
         setup_mocks_for_rspec
@@ -70,12 +96,6 @@ module Spec
         verify_mocks_for_rspec
       ensure
         teardown_mocks_for_rspec
-      end
-
-      def set_instance_variables_from_hash(instance_variables)
-        instance_variables.each do |variable_name, value|
-          instance_variable_set variable_name, value
-        end
       end
     end
   end

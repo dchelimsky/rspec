@@ -1,15 +1,29 @@
+--- 
+extension: html
+filter:    erb
+--- 
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{lang:}">
   <head>
-    <title>RSpec-{version: }: {title: }</title>
-    <link href="{relocatable: default.css}" rel="stylesheet" type="text/css" media="screen"/>
-    <link href="{relocatable: breadcrumbs.css}" rel="stylesheet" type="text/css" media="screen"/>
+    <title>RSpec-<%= rspec_version %>: {title: }</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="description" content="RSpec, {title: }, BDD, behaviour driven development, behavior driven development, TDD, test driven development, Ruby, Rails, testing, watir, selenium"/>
+
+    <!--- Blueprint CSS Framework
+    <link rel="stylesheet" href="/css/blueprint/screen.css" type="text/css" media="screen, projection" />
+    <link rel="stylesheet" href="/css/blueprint/print.css" type="text/css" media="print" /-->
+
+    <!-- CodeRay syntax highlighting CSS -->
+    <link rel="stylesheet" href="/css/coderay.css" type="text/css" />
+
+    <!-- Homepage CSS -->
+    <link rel="stylesheet" href="/css/breadcrumbs.css" type="text/css" media="screen, projection" />
+    <link rel="stylesheet" href="/css/default.css" type="text/css" media="screen, projection" />
+
     <style><!--
     div.breadcrumbs ul li {
-    	background-image: url({relocatable: images/arrow.gif});
+    	background-image: url(/images/arrow.gif);
     }
     --></style>
   </head>
@@ -17,15 +31,13 @@
 
 <div id="container">
   <div id="header">
-    <h1>RSpec {version: }</h1>
+    <h1>RSpec <%= rspec_version %></h1>
   </div>
 
-  <div class="breadcrumb-menu">
-    {menu: {menuStyle: breadcrumbs}}
-  </div>
+  <%= breadcrumb_menu(@page) %>
 
   <div id="content">
-    {block: }
+    <%= @content %>
     
     <div id="footer">
       Webdesign by <a href="http://www.oswd.org/user/profile/id/9462">JM</a>

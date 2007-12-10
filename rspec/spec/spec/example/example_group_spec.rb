@@ -35,32 +35,6 @@ module Spec
       end
     end
 
-    describe ExampleGroup, "#initialize" do
-      the_example_group = self
-      it "should have copy of example_group" do
-        the_example_group.superclass.should == ExampleGroup
-      end
-
-      it "should set instance variables from passed in hash" do
-        instance_variables = {
-          '@foo' => 'bar',
-          '@test' => 1
-        }
-        example_group_instance = ExampleGroup.new(nil, instance_variables)
-        example_group_instance.instance_variable_get('@foo').should == 'bar'
-        example_group_instance.instance_variable_get('@test').should == 1
-      end
-
-      it "should overwrite @_example, even if its to be set" do
-        instance_variables = {
-          '@_example' => 'should not be this value'
-        }
-        example = Example.new
-        example_group_instance = ExampleGroup.new(example, instance_variables)
-        example_group_instance.instance_variable_get('@_example').should == example
-      end
-    end
-
     describe ExampleGroup, "#pending" do
       it "should raise a Pending error when its block fails" do
         block_ran = false
@@ -153,17 +127,6 @@ module Spec
             error.message.should eql("in before_each")
           end
           example_group.run
-        end
-      end
-
-      describe ExampleGroup, "#run when passed examples" do
-        it "should only run the passed in examples" do
-          not_run_example = example_group.it("should not be run") do
-            raise "this example should not be run"
-          end
-          examples = example_group.examples
-          examples.delete(not_run_example)
-          example_group.run(examples).should be_true
         end
       end
 

@@ -1,7 +1,13 @@
----
+--- 
 title: Mock Object behaviour on Real Objects
----
-h2. Mock Object behaviour on Real Objects
+order: 3
+filter:
+  - erb
+  - coderay
+  - textile
+--- 
+
+h2. <%= @page.title %>
 
 RSpec allows you to add mock object behaviour to real objects, so you can set
 "message expectations":message_expectations.html and "method stubs":stubs.html
@@ -10,9 +16,9 @@ on any object in your system.
 One common use of this support is isolating examples from ActiveRecord (and
 therefore the database) in Ruby on Rails examples.
 
-<ruby>
+<coderay>
 MyModel.should_receive(:find).with(id).and_return(@mock_model_instance)
-</ruby>
+</coderay>
 
 Controlling the behaviour of the class level methods (for example, having them
 return a mock object instead of a real instance of the model class) allows you

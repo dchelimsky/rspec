@@ -11,7 +11,8 @@ class PreCommit::Rspec < PreCommit
   
   def check_for_gem_dependencies
     gem 'rake'
-    gem 'webgen', '>= 0.4.2'
+    gem 'webby'
+    gem 'coderay'
     gem 'RedCloth'
     gem 'syntax'
     gem 'diff-lcs'

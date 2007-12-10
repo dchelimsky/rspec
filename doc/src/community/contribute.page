@@ -1,6 +1,11 @@
----
+--- 
 title: Contribute
----
+order: 1
+filter:
+  - erb
+  - coderay
+  - textile
+--- 
 
 h2. Contribute to RSpec
 
@@ -31,7 +36,7 @@ etc)
 
 Wherever feasible, submit a complete spec we can run - something like:
 
-<ruby>
+<coderay>
 describe "My Problem" do
   it "can be reproduced as follows" do
     # Why doesn't this work?
@@ -39,7 +44,7 @@ describe "My Problem" do
     true.should be_true
   end
 end
-</ruby>
+</coderay>
 
 This will make us more likely to look at it quickly.
 

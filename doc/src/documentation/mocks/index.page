@@ -1,7 +1,13 @@
----
+--- 
 title: Mock Objects
----
-h2. Mock Objects
+order: 6
+filter:
+  - erb
+  - coderay
+  - textile
+--- 
+
+h2. <%= @page.title %>
 
 Mock objects are imitation objects that give you declarative control over
 their behaviour in the course of the execution of an example. Defining
@@ -21,16 +27,16 @@ h3. Creating a mock object
 
 You create a mock object with the <code>mock</code> method:
 
-<ruby>
+<coderay>
 my_mock = mock(<name>)
-</ruby>
+</coderay>
 
 This creates a new mock with the given <code>name</code> (a string) and registers it. 
 When the example finishes, all registered mocks are verified.
 
-<ruby>
+<coderay>
 my_mock = mock(<name>, <stubs_and_options>)
-</ruby>
+</coderay>
 
 As above, but allows you to set stub return values for specific messages and
 options that tweak the mock's behaviour. Currently the only supported option
@@ -38,9 +44,9 @@ is <code>:null_object</code>. Setting this to true instructs the mock to
 ignore (quietly consume) any messages it hasn't been told to expect - and
 return itself.
 
-<ruby>
+<coderay>
 my_mock = mock("blah", :null_object => true)
-</ruby>
+</coderay>
 
 h3. Notes
 
