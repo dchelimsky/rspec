@@ -116,7 +116,7 @@ Still, it might prove useful for very expensive operations if you know what you 
 
 h2. Helper Methods
 
-You can write helper methods directly within a Behaviour:
+You can write helper methods directly within an Example Group:
 
 <ruby>describe "..." do
 
@@ -134,7 +134,7 @@ end
 h2. Reusable Helper Methods
 
 You can include helper methods in multiple ExampleGroups by expressing them within
-a module, and then including that module in your Behaviour:
+a module, and then including that module in your ExampleGroup:
 
 <ruby>module AccountExampleHelperMethods
   def helper_method
