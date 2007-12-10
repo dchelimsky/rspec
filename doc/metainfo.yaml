@@ -17,6 +17,8 @@ documentation/specs.page:
   orderInfo: 30
 documentation/mocks/:
   orderInfo: 40
+documentation/mocks/index.page:
+  orderInfo: 1
 documentation/mocks/message_expectations.page:
   orderInfo: 102
 documentation/mocks/partial_mocks.page:
@@ -26,7 +28,6 @@ documentation/mocks/stubs.page:
 documentation/mocks/other_frameworks.page:
   orderInfo: 105
 documentation/before_and_after.page:
-  title: Before and After
   orderInfo: 22
 documentation/rails/:
   orderInfo: 50
@@ -36,6 +37,8 @@ documentation/rails/install.page:
   orderInfo: 105
 documentation/rails/writing:
   orderInfo: 10
+documentation/rails/writing/index.page:
+  orderInfo: 1
 documentation/rails/writing/stories.page:
   orderInfo: 115
 documentation/rails/writing/models.page:
