@@ -1,15 +1,14 @@
 ---
-title: Stubs
+title: Method Stubs
 ---
 h2. Method Stubs
 
-In addition to the more standard <a href="mocks.html">Mock Object framework</a>, RSpec also supports
-stubbing return values to messages on any object (including Classes and mocks!). Stubs do not support any
-arguments. You simply set up a return value and forget about it. If you need more control, take a
-look at <a href="partial_mocks.html">partial mocking</a>.
+A method stub is an implementation of a method that returns a canned response.
 
-The main difference between a stub and a mock is that mocks verify interactions that you
-expect, while stubs just sit there and return values.
+The main difference between a method stub and a "message
+expectation":message_expectations.html is that message expectations verify
+interactions that you expect, while method stubs just sit there and return
+values.
 
 h3. Setting an explicit return value
 
@@ -27,8 +26,8 @@ my_instance.stub!(:msg).and_return { ... }
 MyClass.stub!(:msg).and_return { ... }
 </ruby>
 
-While this is possible, it is generally to be avoided. Calculating a value to return defeats
-the declarative nature of stubs.
+While this is possible, it is generally to be avoided. Calculating a value to
+return defeats the declarative nature of stubs.
 
 h3. Multiple return values
 
@@ -41,10 +40,10 @@ This will return "1" the first time it is called and 2 every subsequent call. Li
 calculated return values, this is a little un-stubby, but it can be a handy feature
 once in a while.
 
-h3. Mixing stubs and mock messages
+h3. Mixing method stubs and message expectations
 
-In some cases it can be helpful to stub a default return value, but set a mock expectation
-for a specific set of args. For example:
+In some cases it can be helpful to stub a default return value, but set a
+message expectation for a specific set of args. For example:
 
 <ruby>
 A.stub!(:msg).and_return(:default_value)
