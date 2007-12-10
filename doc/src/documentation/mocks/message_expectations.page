@@ -1,31 +1,10 @@
 ---
-title: Mock Objects
+title: Message Expectations
 ---
-h2. Mock Objects
+h2. Message Expectations
 
-This page describes RSpec's built-in mocking API.
-
-h3. Creating a mock
-
-<ruby>
-my_mock = mock(<name>)
-</ruby>
-
-This creates a new mock with the given <code>name</code> (a string) and registers it. 
-When the specification finishes, all registered mocks are verified.
-
-<ruby>
-my_mock = mock(<name>, <options>)
-</ruby>
-
-As above, but allows you to specific options to tweak the mock's behaviour.
-The <code>options</code> argument is a hash. Currently the only supported option
-is <code>:null_object</code>. Setting this to true instructs the mock to ignore 
-(quietly consume) any messages it hasn't been told to expect - and return itself.  i.e.
-
-<ruby>
-my_mock = mock("blah", :null_object => true)
-</ruby>
+A message expectation (a.k.a. mock method) is an expectation that an object
+should receive a specific message during the execution of an example.
 
 h3. Expecting Messages
 

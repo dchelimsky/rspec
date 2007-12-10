@@ -17,7 +17,7 @@ documentation/specs.page:
   orderInfo: 30
 documentation/mocks/:
   orderInfo: 40
-documentation/mocks/mocks.page:
+documentation/mocks/message_expectations.page:
   orderInfo: 102
 documentation/mocks/partial_mocks.page:
   orderInfo: 103
