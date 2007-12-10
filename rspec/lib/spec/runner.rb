@@ -142,7 +142,7 @@ module Spec
   # You can also assign the shared behaviour to a module and include that
   #
   #  AllEditions = describe "All Editions", :shared => true do
-  #    it "all editions behaviour" ...
+  #    it "should do all editions stuff" ...
   #  end
   #
   #  describe SmallEdition do

@@ -4,12 +4,12 @@ module Spec
     class SpecParser
       def spec_name_for(io, line_number)
         source  = io.read
-        behaviour, behaviour_line = behaviour_at_line(source, line_number)
+        example_group, example_group_line = example_group_at_line(source, line_number)
         example, example_line = example_at_line(source, line_number)
-        if behaviour && example && (behaviour_line < example_line)
-          "#{behaviour} #{example}"
-        elsif behaviour
-          behaviour
+        if example_group && example && (example_group_line < example_line)
+          "#{example_group} #{example}"
+        elsif example_group
+          example_group
         else
           nil
         end
@@ -17,7 +17,7 @@ module Spec
 
     protected
 
-      def behaviour_at_line(source, line_number)
+      def example_group_at_line(source, line_number)
         find_above(source, line_number, /^\s*(context|describe)\s+(.*)\s+do/)
       end
 

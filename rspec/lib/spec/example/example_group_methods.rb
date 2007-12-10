@@ -45,8 +45,8 @@ module Spec
         end
       end
 
-      # Use this to pull in examples from shared behaviours.
-      # See Spec::Runner for information about shared behaviours.
+      # Use this to pull in examples from shared example groups.
+      # See Spec::Runner for information about shared example groups.
       def it_should_behave_like(shared_example_group)
         case shared_example_group
         when SharedExampleGroup
@@ -93,7 +93,7 @@ module Spec
       end
 
       # Creates an instance of Spec::Example::Example and adds
-      # it to a collection of examples of the current behaviour.
+      # it to a collection of examples of the current example group.
       def it(description=nil, &implementation)
         example = create_example(description, &implementation)
         example_objects << example
