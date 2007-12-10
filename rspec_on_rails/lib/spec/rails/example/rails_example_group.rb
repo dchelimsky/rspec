@@ -37,15 +37,17 @@ module Spec
         # methods stubbed out.
         # Additional methods may be easily stubbed (via add_stubs) if +stubs+ is passed.
         def mock_model(model_class, options_and_stubs = {})
-          null = options_and_stubs.delete(:null_object)
-          stubs = options_and_stubs
+          # null = options_and_stubs.delete(:null_object)
+          # stubs = options_and_stubs
           id = @@model_id
           @@model_id += 1
-          m = mock("#{model_class.name}_#{id}", :null_object => null)
-          m.stub!(:id).and_return(id)
-          m.stub!(:to_param).and_return(id.to_s)
-          m.stub!(:new_record?).and_return(false)
-          m.stub!(:errors).and_return(stub("errors", :count => 0))
+          options_and_stubs = {
+            :id => id,
+            :to_param => id.to_s,
+            :new_record? => false,
+            :errors => stub("errors", :count => 0)
+          }.merge(options_and_stubs)
+          m = mock("#{model_class.name}_#{id}", options_and_stubs)
           m.send(:__mock_proxy).instance_eval <<-CODE
             def @target.is_a?(other)
               #{model_class}.ancestors.include?(other)
@@ -60,7 +62,6 @@ module Spec
               #{model_class}
             end
           CODE
-          add_stubs(m, stubs)
           yield m if block_given?
           m
         end
