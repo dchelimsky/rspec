@@ -6,9 +6,10 @@ module Spec
       # Creates a new mock with a +name+ (that will be used in error messages only)
       # == Options:
       # * <tt>:null_object</tt> - if true, the mock object acts as a forgiving null object allowing any message to be sent to it.
-      def initialize(name, options={})
+      def initialize(name, stubs_and_options={})
         @name = name
-        @options = options
+        @options = parse_options(stubs_and_options)
+        assign_stubs(stubs_and_options)
       end
       
       # This allows for comparing the mock to other objects that proxy
@@ -32,6 +33,18 @@ module Spec
       def inspect
         "#<#{self.class}:#{sprintf '0x%x', self.object_id} @name=#{@name.inspect}>"
       end
+      
+      private
+      
+        def parse_options(options)
+          options.has_key?(:null_object) ? {:null_object => options.delete(:null_object)} : {}
+        end
+        
+        def assign_stubs(stubs)
+          stubs.each_pair do |message, response|
+            stub!(message).and_return(response)
+          end
+        end
     end
   end
 end
