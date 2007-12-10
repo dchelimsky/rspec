@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 
 module Spec
   module Mocks
-    describe "a Mock expectation" do
+    describe Mock do
 
       before(:each) do
         @mock = mock("test mock")
@@ -394,6 +394,11 @@ module Spec
         non_mock.msg.should equal(:stub_value)
         non_mock.msg.should equal(:stub_value)
         non_mock.rspec_verify
+      end
+      
+      it "should assign stub return values" do
+        mock = Mock.new('name', :message => :response)
+        mock.message.should == :response
       end
     end
 
