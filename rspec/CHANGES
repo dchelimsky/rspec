@@ -1,4 +1,4 @@
-== Version 1.1.0 (in SVN)
+== Version 1.1.0-RC1
 
 Textmate Bundle users - this release adds a new RSpec bundle that highlights describe, it, before and after and
 provides navigation to descriptions and examples (rather than classes and methods). When you first install this,
