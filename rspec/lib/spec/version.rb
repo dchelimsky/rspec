@@ -4,7 +4,7 @@ module Spec
       MAJOR  = 1
       MINOR  = 1
       TINY   = 0
-      RELEASE_CANDIDATE = 1
+      RELEASE_CANDIDATE = "RC1"
 
       BUILD_TIME_UTC = 20071211031906
 
