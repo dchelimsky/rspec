@@ -6,27 +6,13 @@ module Spec
   module Rails
     module Example
       class RailsExampleGroup < Test::Unit::TestCase
-        cattr_accessor(
-          :fixture_path,
-          :use_transactional_fixtures,
-          :use_instantiated_fixtures,
-          :global_fixtures
-        )
-        
         class << self
-          def before_eval #:nodoc:
+          def inherited(klass)
             super
-            configure
-          end
-          
-          def configure
-            self.fixture_table_names = []
-            self.fixture_class_names = {}
             self.use_transactional_fixtures = Spec::Runner.configuration.use_transactional_fixtures
             self.use_instantiated_fixtures = Spec::Runner.configuration.use_instantiated_fixtures
             self.fixture_path = Spec::Runner.configuration.fixture_path
-            self.global_fixtures = Spec::Runner.configuration.global_fixtures
-            self.fixtures(self.global_fixtures) if self.global_fixtures
+            self.fixtures(*Spec::Runner.configuration.global_fixtures)
           end
         end
 

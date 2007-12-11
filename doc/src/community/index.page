@@ -52,6 +52,8 @@ In alphabetical order (by last name)
 * Ken Barker
 ** Patch [#10921] Allow verify_rcov to accept greater than threshold coverage %'s via configuration
 ** Patch [#10920] Added support for not implemented examples
+* Jonathon Barnes
+** Tighter integration with Test::Unit for ActiveRecord fixtures. Speed up fixtures.
 * François Beausoleil
 ** Patch [#10260] Spec::Mocks::Mock#inspect returns way too much data
 * Wilson Bilkovich
@@ -126,6 +128,8 @@ In alphabetical order (by last name)
 ** Patch [#13814] RSpec on Rails w/ fixture-scenarios
 ** Patches for coloured progress<br>
 ** Assorted Rails patches
+* Nick Kallen
+** Tighter integration with Test::Unit for ActiveRecord fixtures. Speed up fixtures.
 * Erik Kastner
 ** Patch to rename file_list to spec_file_list in spectask.rake (to avoid conflicts w/ other tools)
 * Brandon Keepers
@@ -175,6 +179,7 @@ In alphabetical order (by last name)
 ** Multiple return values for stubs
 ** Port of scaffold_resource to rspec_scaffold (Rails)
 ** Contexts should call Module::included when they include a module
+** Tighter integration with Test::Unit for ActiveRecord fixtures. Speed up fixtures.
 * Dan Manges
 ** Fixed visibility problem for ActionController::Base#render in Spec::Rails
 * Mike Mangino

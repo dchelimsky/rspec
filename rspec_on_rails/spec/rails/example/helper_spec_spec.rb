@@ -1,5 +1,5 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
-Spec::Runner.configuration.global_fixtures = :people
+Test::Unit::TestCase.fixtures :people
 
 describe ExplicitHelper, :type => :helper do
   it "should not require naming the helper if describe is passed a type" do
