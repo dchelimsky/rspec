@@ -71,9 +71,11 @@ module Webby
       <div class="breadcrumbs">
         <ul>
         <% page.path_from_root.each do |p| %>
-          <li>
-            <%= p.link %>
-          </li>
+          <% if p != page %>
+            <li><%= p.link %></li>
+          <% else %>
+            <li class="selected"><span><%= p.title %></span></li>
+          <% end %>
         <% end %>
         </ul>
       </div>

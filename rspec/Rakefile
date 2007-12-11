@@ -94,6 +94,7 @@ spec = Gem::Specification.new do |s|
   s.author = "RSpec Development Team"
   s.email = "rspec-devel@rubyforge.org"
   s.homepage = "http://rspec.rubyforge.org"
+  s.platform = Gem::Platform::RUBY
   s.rubyforge_project = "rspec"
 end
 
