@@ -40,6 +40,9 @@ class PreCommit::RspecOnRails < PreCommit
 
     rake_sh "spec:rcov"
     rake_sh "spec:plugins:rspec_on_rails"
+    rake_sh "db:test:prepare"
+    sh "ruby vendor/plugins/rspec_on_rails/stories/transactions_should_rollback.rb"
+    sh "ruby vendor/plugins/rspec_on_rails/stories/all.rb"
     cleanup
   end
 
