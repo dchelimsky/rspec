@@ -1,6 +1,6 @@
 steps_for :people do
   When "I add a Person" do
-    Person.create(:name => "Foo")
+    Person.create!(:name => "Foo")
   end
   Then "there should be one person" do
     Person.count.should == 1

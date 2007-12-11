@@ -7,7 +7,7 @@ Story "transactions should rollback", %{
 }, :type => RailsStory do
   Scenario "add one Person" do
     When "I add a Person" do
-      Person.create(:name => "Foo")
+      Person.create!(:name => "Foo")
     end
   end
   
