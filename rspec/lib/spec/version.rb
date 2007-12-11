@@ -7,7 +7,7 @@ module Spec
       RELEASE_CANDIDATE = "RC1"
 
       BUILD_TIME_UTC = 20071211031906
-
+      
       STRING = [MAJOR, MINOR, TINY].join('.')
       TAG = "REL_#{[MAJOR, MINOR, TINY, RELEASE_CANDIDATE].compact.join('_')}".upcase.gsub(/\.|-/, '_')
       FULL_VERSION = "#{[MAJOR, MINOR, TINY, RELEASE_CANDIDATE].compact.join('.')} (build #{BUILD_TIME_UTC})"
