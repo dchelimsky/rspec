@@ -63,8 +63,9 @@ module Spec
         @diff_format  = :unified
         @files = []
         @example_groups = []
-        @user_input_for_runner = nil
         @examples_run = false
+        @examples_should_be_run = nil
+        @user_input_for_runner = nil
       end
 
       def add_example_group(example_group)
