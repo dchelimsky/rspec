@@ -220,14 +220,12 @@ task :pkg => :package_tmbundle
 
 desc "Publish gem+tgz+zip on RubyForge. You must make sure lib/version.rb is aligned with the CHANGELOG file"
 task :publish_packages => [:verify_user, :package] do
-  require File.dirname(__FILE__) + '/../spec_ui/lib/spec/ui/version'
   release_files = FileList[
     "pkg/#{PKG_FILE_NAME}.gem",
     "pkg/#{PKG_FILE_NAME}.tgz",
     "pkg/rspec_on_rails-#{PKG_VERSION}.tgz",
     "pkg/#{PKG_FILE_NAME}.zip",
-    "pkg/RSpec-#{PKG_VERSION}.tmbundle.tgz",
-    "../spec_ui/pkg/spec_ui-#{Spec::Ui::VERSION::STRING}.gem"
+    "pkg/RSpec-#{PKG_VERSION}.tmbundle.tgz"
   ]
   unless Spec::VERSION::RELEASE_CANDIDATE
     require 'meta_project'
