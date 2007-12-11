@@ -25,10 +25,13 @@ module Spec
           end
         end        
 
-        if ::Dispatcher.respond_to?(:cleanup_application)
-          ::Dispatcher.cleanup_application
+        if ActionController.const_defined?(:Dispatcher)
+          dispatcher = ::ActionController::Dispatcher.new($stdout)
+          dispatcher.cleanup_application(true)
         elsif ::Dispatcher.respond_to?(:reset_application!)
           ::Dispatcher.reset_application!
+        else
+          raise "Application reloading failed"
         end
         ::Dependencies.mechanism = :load
         require_dependency('application.rb') unless Object.const_defined?(:ApplicationController)
