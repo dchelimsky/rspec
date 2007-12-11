@@ -62,11 +62,6 @@ Spec::Rake::SpecTask.new('failing_examples') do |t|
   t.spec_files = FileList['failing_examples/**/*_spec.rb']
 end
 
-desc 'Generate HTML documentation for website'
-task :webgen do
-  core.webgen
-end
-
 desc 'Generate RDoc'
 rd = Rake::RDocTask.new do |rdoc|
   rdoc.rdoc_dir = '../doc/output/rdoc'
