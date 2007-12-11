@@ -31,10 +31,6 @@ h2. The Core Team
 
 h2. Contributors
 
-<img src="../images/ali_westside.jpg" />
-
-h3. RSpec!
-
 In alphabetical order (by last name)
 
 * Daniel De Aguiar
@@ -155,6 +151,8 @@ In alphabetical order (by last name)
 ** Patch [#12719] rspec_on_rails should not include pagination helper
 * Evan Light
 ** Patch [#13913] Scenario should treat no code block as pending
+* Mikko Lehtonen
+** Patch LH[#178] small annoyances running specs with warnings enabled
 * Will Leinweber
 ** Patch [#13339] Add the ability for spec_parser to parse describes with :behaviour_type set (with Dav Yaginuma)
 * Ian Leitch

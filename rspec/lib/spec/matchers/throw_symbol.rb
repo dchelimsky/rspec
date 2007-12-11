@@ -4,6 +4,7 @@ module Spec
     class ThrowSymbol #:nodoc:
       def initialize(expected=nil)
         @expected = expected
+        @actual = nil
       end
       
       def matches?(proc)

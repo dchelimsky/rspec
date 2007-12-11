@@ -1,3 +1,6 @@
+== Version 1.1.0 (in SVN)
+
+* Applied LH[#178] small annoyances running specs with warnings enabled (Patch from Mikko Lehtonen)
 * Tighter integration with Rails fixtures. Take advantage of fixture caching to get performance improvements (Thanks to Pat Maddox, Nick Kallen, Jonathan Barnes, and Curtis)
 
 == Version 1.1.0-RC1
