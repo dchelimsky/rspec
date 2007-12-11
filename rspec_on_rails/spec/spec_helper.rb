@@ -1,5 +1,5 @@
 dir = File.dirname(__FILE__)
-$LOAD_PATH.unshift(File.expand_path("#{dir}/../../../../../rspec/lib"))
+$LOAD_PATH.unshift(File.expand_path("#{dir}/../rspec/lib"))
 $LOAD_PATH.unshift(File.expand_path("#{dir}/../spec_resources/controllers"))
 $LOAD_PATH.unshift(File.expand_path("#{dir}/../spec_resources/helpers"))
 require File.expand_path("#{dir}/../../../../spec/spec_helper")
