@@ -9,10 +9,12 @@ module Spec
         class << self
           def inherited(klass)
             super
-            self.use_transactional_fixtures = Spec::Runner.configuration.use_transactional_fixtures
-            self.use_instantiated_fixtures = Spec::Runner.configuration.use_instantiated_fixtures
-            self.fixture_path = Spec::Runner.configuration.fixture_path
-            self.fixtures(*Spec::Runner.configuration.global_fixtures)
+            if defined?(ActiveRecord::Base)
+              self.use_transactional_fixtures = Spec::Runner.configuration.use_transactional_fixtures
+              self.use_instantiated_fixtures = Spec::Runner.configuration.use_instantiated_fixtures
+              self.fixture_path = Spec::Runner.configuration.fixture_path
+              self.fixtures(*Spec::Runner.configuration.global_fixtures)
+            end
           end
         end
 
