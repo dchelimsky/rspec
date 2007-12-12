@@ -536,7 +536,7 @@ module Spec
 
         it "should supply before(:all) as description" do
           @reporter.should_receive(:failure) do |example, error|
-            example.should eql("before(:all)")
+            example.description.should eql("before(:all)")
             error.message.should eql("before(:all) failure")
           end
 

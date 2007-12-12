@@ -10,8 +10,8 @@ Story: Spec and test together
     When I run it with the ruby interpreter
 
     Then the exit code should be 256
-    And the stdout should match /Test::Unit::AssertionFailedError in 'An Example should fail with assert\(Test::Unit::TestCase::Subclass_\d+\)'/
-    And the stdout should match /'An Example should fail with should\(Test::Unit::TestCase::Subclass_\d+\)' FAILED/
+    And the stdout should match "Test::Unit::AssertionFailedError in 'An Example should fail with assert'"
+    And the stdout should match "'An Example should fail with should' FAILED"
     And the stdout should match "10 examples, 6 failures"
     And the stdout should match /expected: 40,\s*got: 4/m
     And the stdout should match /expected: 50,\s*got: 5/m
@@ -21,8 +21,8 @@ Story: Spec and test together
     When I run it with the spec script
 
     Then the exit code should be 256
-    And the stdout should match /Test::Unit::AssertionFailedError in 'An Example should fail with assert\(Test::Unit::TestCase::Subclass_\d+\)'/
-    And the stdout should match /'An Example should fail with should\(Test::Unit::TestCase::Subclass_\d+\)' FAILED/
+    And the stdout should match "Test::Unit::AssertionFailedError in 'An Example should fail with assert'"
+    And the stdout should match "'An Example should fail with should' FAILED"
     And the stdout should match "10 examples, 6 failures"
     And the stdout should match /expected: 40,\s*got: 4/m
     And the stdout should match /expected: 50,\s*got: 5/m

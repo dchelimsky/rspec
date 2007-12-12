@@ -32,13 +32,13 @@ module Spec
         end
       end
 
-      def failure(name, error)
+      def failure(example, error)
         backtrace_tweaker.tweak_backtrace(error)
-        example_name = "#{example_groups.last.description} #{name}"
+        example_name = "#{example_groups.last.description} #{example.description}"
         failure = Failure.new(example_name, error)
         @failures << failure
         formatters.each do |f|
-          f.example_failed(name, @failures.length, failure)
+          f.example_failed(example, @failures.length, failure)
         end
       end
       alias_method :example_failed, :failure
@@ -104,10 +104,10 @@ module Spec
         formatters.each{|f| f.example_passed(example)}
       end
       
-      def example_pending(example_group, example_name, message="Not Yet Implemented")
+      def example_pending(example_group, example, message="Not Yet Implemented")
         @pending_count += 1
         formatters.each do |f|
-          f.example_pending(example_group.description, example_name, message)
+          f.example_pending(example_group.description, example, message)
         end
       end
       

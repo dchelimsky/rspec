@@ -68,12 +68,12 @@ module Spec
           end
 
           it "should push pending example name and message" do
-            formatter.example_pending('example_group', 'example', 'reason')
+            formatter.example_pending('example_group', ExampleGroup.new("example"), 'reason')
             io.string.should have_example_group_output("- example (PENDING: reason)\n")
           end
 
           it "should dump pending" do
-            formatter.example_pending('example_group', 'example', 'reason')
+            formatter.example_pending('example_group', ExampleGroup.new("example"), 'reason')
             io.rewind
             formatter.dump_pending
             io.string.should =~ /Pending\:\nexample_group example \(reason\)\n/

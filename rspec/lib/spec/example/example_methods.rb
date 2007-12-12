@@ -63,7 +63,6 @@ module Spec
       def description
         @_defined_description || @_matcher_description || "NO NAME"
       end
-      alias_method :to_s, :description
       
       def set_instance_variables_from_hash(instance_variables)
         instance_variables.each do |variable_name, value|
