@@ -24,7 +24,7 @@ module Spec
         end
         
         it "should produce standard summary" do
-          @formatter.example_pending("example_group", "example", "message")
+          @formatter.example_pending("example_group", ExampleGroup.new("example"), "message")
           @io.rewind
           @formatter.dump_summary(3, 2, 1, 1)
           @io.string.should eql(%Q|
@@ -84,7 +84,7 @@ EOE
         end
         
         it "should dump pending" do
-          @formatter.example_pending("example_group", "example", "message")
+          @formatter.example_pending("example_group", ExampleGroup.new("example"), "message")
           @formatter.dump_pending
           @io.string.should =~ /Pending\:\nexample_group example \(message\)\n/
         end

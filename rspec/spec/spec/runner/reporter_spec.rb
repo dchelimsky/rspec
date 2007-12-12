@@ -57,22 +57,27 @@ module Spec
 
       it "should handle multiple examples with the same name" do
         error=RuntimeError.new
+        passing = ExampleGroup.new("example")
+        failing = ExampleGroup.new("example")
+
         formatter.should_receive(:add_example_group).exactly(2).times
-        formatter.should_receive(:example_passed).with("example").exactly(2).times
-        formatter.should_receive(:example_failed).with("example", 1, failure)
-        formatter.should_receive(:example_failed).with("example", 2, failure)
+        formatter.should_receive(:example_passed).with(passing).exactly(2).times
+        formatter.should_receive(:example_failed).with(failing, 1, failure)
+        formatter.should_receive(:example_failed).with(failing, 2, failure)
         formatter.should_receive(:dump_failure).exactly(2).times
         formatter.should_receive(:start_dump)
         formatter.should_receive(:dump_pending)
         formatter.should_receive(:close).with(no_args)
         formatter.should_receive(:dump_summary).with(anything(), 4, 2, 0)
         backtrace_tweaker.should_receive(:tweak_backtrace).twice
+
         reporter.add_example_group(create_example_group("example_group"))
-        reporter.example_finished("example")
-        reporter.example_finished("example", error)
+        reporter.example_finished(passing)
+        reporter.example_finished(failing, error)
+
         reporter.add_example_group(create_example_group("example_group"))
-        reporter.example_finished("example")
-        reporter.example_finished("example", error)
+        reporter.example_finished(passing)
+        reporter.example_finished(failing, error)
         reporter.dump
       end
 
@@ -129,17 +134,18 @@ module Spec
         it "should delegate to backtrace tweaker" do
           formatter.should_receive(:example_failed)
           backtrace_tweaker.should_receive(:tweak_backtrace)
-          reporter.example_finished("spec", RuntimeError.new)
+          reporter.example_finished(ExampleGroup.new("example"), RuntimeError.new)
         end
 
         it "should account for failing example in stats" do
-          formatter.should_receive(:example_failed).with("example", 1, failure)
+          example = ExampleGroup.new("example")
+          formatter.should_receive(:example_failed).with(example, 1, failure)
           formatter.should_receive(:start_dump)
           formatter.should_receive(:dump_pending)
           formatter.should_receive(:dump_failure).with(1, anything())
           formatter.should_receive(:dump_summary).with(anything(), 1, 1, 0)
           formatter.should_receive(:close).with(no_args)
-          reporter.example_finished("example", RuntimeError.new)
+          reporter.example_finished(example, RuntimeError.new)
           reporter.dump
         end
 
@@ -147,21 +153,23 @@ module Spec
 
       describe Reporter, "reporting one pending example (ExamplePendingError)" do
         it "should tell formatter example is pending" do
-          formatter.should_receive(:example_pending).with(example_group.description, "example", "reason")
+          example = ExampleGroup.new("example")
+          formatter.should_receive(:example_pending).with(example_group.description, example, "reason")
           formatter.should_receive(:add_example_group).with(example_group)
           reporter.add_example_group(example_group)
-          reporter.example_finished("example", Spec::Example::ExamplePendingError.new("reason"))
+          reporter.example_finished(example, Spec::Example::ExamplePendingError.new("reason"))
         end
 
         it "should account for pending example in stats" do
-          formatter.should_receive(:example_pending).with(example_group.description, "example", "reason")
+          example = ExampleGroup.new("example")
+          formatter.should_receive(:example_pending).with(example_group.description, example, "reason")
           formatter.should_receive(:start_dump)
           formatter.should_receive(:dump_pending)
           formatter.should_receive(:dump_summary).with(anything(), 1, 0, 1)
           formatter.should_receive(:close).with(no_args)
           formatter.should_receive(:add_example_group).with(example_group)
           reporter.add_example_group(example_group)
-          reporter.example_finished("example", Spec::Example::ExamplePendingError.new("reason"))
+          reporter.example_finished(example, Spec::Example::ExamplePendingError.new("reason"))
           reporter.dump
         end
       end
@@ -173,7 +181,7 @@ module Spec
           end
           formatter.should_receive(:add_example_group).with(example_group)
           reporter.add_example_group(example_group)
-          reporter.example_finished("example", Spec::Example::PendingExampleFixedError.new("reason"))
+          reporter.example_finished(ExampleGroup.new("example"), Spec::Example::PendingExampleFixedError.new("reason"))
         end
       end
     end

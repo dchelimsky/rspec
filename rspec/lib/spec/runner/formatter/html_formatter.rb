@@ -58,7 +58,7 @@ module Spec
 
         def example_passed(example)
           move_progress
-          @output.puts "    <dd class=\"spec passed\"><span class=\"passed_spec_name\">#{h(example)}</span></dd>"
+          @output.puts "    <dd class=\"spec passed\"><span class=\"passed_spec_name\">#{h(example.description)}</span></dd>"
           @output.flush
         end
 
@@ -71,7 +71,7 @@ module Spec
           @example_group_red = true
           move_progress
           @output.puts "    <dd class=\"spec #{failure_style}\">"
-          @output.puts "      <span class=\"failed_spec_name\">#{h(example.to_s)}</span>"
+          @output.puts "      <span class=\"failed_spec_name\">#{h(example.description)}</span>"
           @output.puts "      <div class=\"failure\" id=\"failure_#{counter}\">"
           @output.puts "        <div class=\"message\"><pre>#{h(failure.exception.message)}</pre></div>" unless failure.exception.nil?
           @output.puts "        <div class=\"backtrace\"><pre>#{format_backtrace(failure.exception.backtrace)}</pre></div>" unless failure.exception.nil?
@@ -81,11 +81,11 @@ module Spec
           @output.flush
         end
 
-        def example_pending(example_group_description, example_name, message)
+        def example_pending(example_group_description, example, message)
           @output.puts "    <script type=\"text/javascript\">makeYellow('rspec-header');</script>" unless @header_red
           @output.puts "    <script type=\"text/javascript\">makeYellow('example_group_#{current_example_group_number}');</script>" unless @example_group_red
           move_progress
-          @output.puts "    <dd class=\"spec not_implemented\"><span class=\"not_implemented_spec_name\">#{h(example_name)} (PENDING: #{h(message)})</span></dd>"
+          @output.puts "    <dd class=\"spec not_implemented\"><span class=\"not_implemented_spec_name\">#{h(example.description)} (PENDING: #{h(message)})</span></dd>"
           @output.flush
         end
 

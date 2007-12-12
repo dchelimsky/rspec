@@ -260,15 +260,15 @@ module Spec
       end
 
       def run_before_all
-        example_group_instance = new("before(:all)")
+        before_all = new("before(:all)")
         begin
           execute_in_class_hierarchy do |example_group|
-            example_group_instance.eval_each_fail_fast(example_group.before_all_parts)
+            before_all.eval_each_fail_fast(example_group.before_all_parts)
           end
-          return [true, example_group_instance.instance_variable_hash]
+          return [true, before_all.instance_variable_hash]
         rescue Exception => e
-          reporter.failure("before(:all)", e)
-          return [false, example_group_instance.instance_variable_hash]
+          reporter.failure(before_all, e)
+          return [false, before_all.instance_variable_hash]
         end
       end
 
@@ -284,14 +284,14 @@ module Spec
       end
 
       def run_after_all(success, instance_variables)
-        example = new("after(:all)")
-        example.set_instance_variables_from_hash(instance_variables)
+        after_all = new("after(:all)")
+        after_all.set_instance_variables_from_hash(instance_variables)
         execute_in_class_hierarchy(:superclass_first) do |example_group|
-          example.eval_each_fail_slow(example_group.after_all_parts)
+          after_all.eval_each_fail_slow(example_group.after_all_parts)
         end
         return success
       rescue Exception => e
-        reporter.failure("after(:all)", e)
+        reporter.failure(after_all, e)
         return false
       end
 
@@ -339,7 +339,7 @@ module Spec
       end
 
       def is_example_group?(klass)
-        klass.kind_of?(ExampleGroupMethods)
+        Module === klass && klass.kind_of?(ExampleGroupMethods)
       end
 
       def plugin_mock_framework
