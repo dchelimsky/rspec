@@ -256,6 +256,8 @@ In alphabetical order (by last name)
 * Mark Van Holstyn
 ** Patch LH[#15] Reverse loading of ActionView::Base helper modules
 ** Patch [#134] Only load spec inside spec_helper.rb
+* Mike Vincent
+** Patch LH[#181] Regression on generators due to internal changes in rails edge
 * Rupert Voelcker
 ** Patch [#13567] patch to allow stubs to yield consecutive values
 ** Patch [#13559] reverse version of route_for

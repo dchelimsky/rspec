@@ -1,3 +1,5 @@
+require File.join(File.dirname(__FILE__), *%w[.. helpers rails_identifier])
+
 class RspecScaffoldGenerator < Rails::Generator::NamedBase
   default_options :skip_migration => false
   
@@ -28,13 +30,12 @@ class RspecScaffoldGenerator < Rails::Generator::NamedBase
       @controller_class_name = "#{@controller_class_nesting}::#{@controller_class_name_without_nesting}"
     end
     
-    if ActionView::Base.const_defined?('DEFAULT_TEMPLATE_HANDLER_PREFERENCE') &&
-       ActionView::Base::DEFAULT_TEMPLATE_HANDLER_PREFERENCE.include?(:erb) then
-      @resource_generator = "scaffold"
-      @default_file_extension = "html.erb"
-    else
+    if RailsIdentifier.using_legacy_templates?
       @resource_generator = "scaffold_resource"
       @default_file_extension = "rhtml"
+		else
+      @resource_generator = "scaffold"
+      @default_file_extension = "html.erb"
     end
     
     if ActionController::Base.respond_to?(:resource_action_separator)
