@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '<%= '/..' * class_nesting_depth %>/../../spec_helper'
 
 describe "/<%= class_name.underscore %>/<%= action %>" do
-  before do
+  before(:each) do
     render '<%= class_name.underscore %>/<%= action %>'
   end
   
