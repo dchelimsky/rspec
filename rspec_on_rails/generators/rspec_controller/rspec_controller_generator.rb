@@ -1,6 +1,8 @@
 require 'rails_generator/generators/components/controller/controller_generator'
+require File.join(File.dirname(__FILE__), *%w[.. helpers rails_identifier])
 
 class RspecControllerGenerator < ControllerGenerator
+
   def manifest
     record do |m|
       # Check for class naming collisions.
@@ -14,11 +16,10 @@ class RspecControllerGenerator < ControllerGenerator
       m.directory File.join('spec/helpers', class_path)
       m.directory File.join('spec/views', class_path, file_name)
 
-      if ActionView::Base.const_defined?('DEFAULT_TEMPLATE_HANDLER_PREFERENCE') &&
-         ActionView::Base::DEFAULT_TEMPLATE_HANDLER_PREFERENCE.include?(:erb) then
-        @default_file_extension = "html.erb"
-      else
+			if RailsIdentifier.using_legacy_templates?
         @default_file_extension = "rhtml"
+      else
+        @default_file_extension = "html.erb"
       end
 
       # Controller spec, class, and helper.

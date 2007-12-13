@@ -1,5 +1,6 @@
 == Version 1.1.0 (in SVN)
 
+* Applied patch from Mike Vincent to handle generators rails > 2.0.1. Closes LH[#181]
 * Formatter.pending signature changed so it gets passed an ExampleGroup instance instead of the name ( LH[#180])
 * Fixed LH[#180] Spec::Rails::Example::ModelExampleGroup and friends show up in rspec/rails output
 * Spec::Rails no longer loads ActiveRecord extensions if it's disablet in config/boot.rb
