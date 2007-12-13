@@ -64,6 +64,9 @@ class RspecScaffoldGenerator < Rails::Generator::NamedBase
       m.directory File.join('spec/views', controller_class_path, controller_file_name)
       
       # Controller spec, class, and helper.
+      m.template 'rspec_scaffold:routing_spec.rb',
+        File.join('spec/controllers', controller_class_path, "#{controller_file_name}_routing_spec.rb")
+
       m.template 'rspec_scaffold:controller_spec.rb',
         File.join('spec/controllers', controller_class_path, "#{controller_file_name}_controller_spec.rb")
 
