@@ -198,30 +198,38 @@ describe <%= controller_class_name %>Controller do
       @<%= file_name %> = mock_model(<%= class_name %>, :to_param => "1")
       <%= class_name %>.stub!(:new).and_return(@<%= file_name %>)
     end
+    
+    describe "with successful save" do
   
-    def post_with_successful_save
-      @<%= file_name %>.should_receive(:save).and_return(true)
-      post :create, :<%= file_name %> => {}
-    end
+      def do_post
+        @<%= file_name %>.should_receive(:save).and_return(true)
+        post :create, :<%= file_name %> => {}
+      end
   
-    def post_with_failed_save
-      @<%= file_name %>.should_receive(:save).and_return(false)
-      post :create, :<%= file_name %> => {}
-    end
-  
-    it "should create a new <%= file_name %>" do
-      <%= class_name %>.should_receive(:new).with({}).and_return(@<%= file_name %>)
-      post_with_successful_save
-    end
+      it "should create a new <%= file_name %>" do
+        <%= class_name %>.should_receive(:new).with({}).and_return(@<%= file_name %>)
+        do_post
+      end
 
-    it "should redirect to the new <%= file_name %> on successful save" do
-      post_with_successful_save
-      response.should redirect_to(<%= table_name.singularize %>_url("1"))
+      it "should redirect to the new <%= file_name %>" do
+        do_post
+        response.should redirect_to(<%= table_name.singularize %>_url("1"))
+      end
+      
     end
+    
+    describe "with failed save" do
 
-    it "should re-render 'new' on failed save" do
-      post_with_failed_save
-      response.should render_template('new')
+      def do_post
+        @<%= file_name %>.should_receive(:save).and_return(false)
+        post :create, :<%= file_name %> => {}
+      end
+  
+      it "should re-render 'new'" do
+        do_post
+        response.should render_template('new')
+      end
+      
     end
   end
 
@@ -231,40 +239,48 @@ describe <%= controller_class_name %>Controller do
       @<%= file_name %> = mock_model(<%= class_name %>, :to_param => "1")
       <%= class_name %>.stub!(:find).and_return(@<%= file_name %>)
     end
-  
-    def put_with_successful_update
-      @<%= file_name %>.should_receive(:update_attributes).and_return(true)
-      put :update, :id => "1"
-    end
-  
-    def put_with_failed_update
-      @<%= file_name %>.should_receive(:update_attributes).and_return(false)
-      put :update, :id => "1"
-    end
-  
-    it "should find the <%= file_name %> requested" do
-      <%= class_name %>.should_receive(:find).with("1").and_return(@<%= file_name %>)
-      put_with_successful_update
-    end
+    
+    describe "with successful update" do
 
-    it "should update the found <%= file_name %>" do
-      put_with_successful_update
-      assigns(:<%= file_name %>).should equal(@<%= file_name %>)
-    end
+      def do_put
+        @<%= file_name %>.should_receive(:update_attributes).and_return(true)
+        put :update, :id => "1"
+      end
 
-    it "should assign the found <%= file_name %> for the view" do
-      put_with_successful_update
-      assigns(:<%= file_name %>).should equal(@<%= file_name %>)
-    end
+      it "should find the <%= file_name %> requested" do
+        <%= class_name %>.should_receive(:find).with("1").and_return(@<%= file_name %>)
+        do_put
+      end
 
-    it "should redirect to the <%= file_name %> on successful update" do
-      put_with_successful_update
-      response.should redirect_to(<%= table_name.singularize %>_url("1"))
-    end
+      it "should update the found <%= file_name %>" do
+        do_put
+        assigns(:<%= file_name %>).should equal(@<%= file_name %>)
+      end
 
-    it "should re-render 'edit' on failed update" do
-      put_with_failed_update
-      response.should render_template('edit')
+      it "should assign the found <%= file_name %> for the view" do
+        do_put
+        assigns(:<%= file_name %>).should equal(@<%= file_name %>)
+      end
+
+      it "should redirect to the <%= file_name %>" do
+        do_put
+        response.should redirect_to(<%= table_name.singularize %>_url("1"))
+      end
+
+    end
+    
+    describe "with failed update" do
+
+      def do_put
+        @<%= file_name %>.should_receive(:update_attributes).and_return(false)
+        put :update, :id => "1"
+      end
+
+      it "should re-render 'edit'" do
+        do_put
+        response.should render_template('edit')
+      end
+
     end
   end
 
