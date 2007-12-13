@@ -189,6 +189,7 @@ class PreCommit::RspecOnRails < PreCommit
       spec/models/purchase_spec.rb
       spec/helpers/purchases_helper_spec.rb
       spec/controllers/purchases_controller_spec.rb
+      spec/controllers/purchases_routing_spec.rb
       spec/fixtures/purchases.yml
       spec/views/purchases
     }
