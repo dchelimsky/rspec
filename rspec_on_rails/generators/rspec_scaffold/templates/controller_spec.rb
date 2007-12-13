@@ -62,7 +62,7 @@ end
 
 describe <%= controller_class_name %>Controller, "handling GET /<%= table_name %>" do
 
-  before do
+  before(:each) do
     @<%= file_name %> = mock_model(<%= class_name %>)
     <%= class_name %>.stub!(:find).and_return([@<%= file_name %>])
   end
@@ -94,7 +94,7 @@ end
 
 describe <%= controller_class_name %>Controller, "handling GET /<%= table_name %>.xml" do
 
-  before do
+  before(:each) do
     @<%= file_name %> = mock_model(<%= class_name %>, :to_xml => "XML")
     <%= class_name %>.stub!(:find).and_return(@<%= file_name %>)
   end
@@ -123,7 +123,7 @@ end
 
 describe <%= controller_class_name %>Controller, "handling GET /<%= table_name %>/1" do
 
-  before do
+  before(:each) do
     @<%= file_name %> = mock_model(<%= class_name %>)
     <%= class_name %>.stub!(:find).and_return(@<%= file_name %>)
   end
@@ -155,7 +155,7 @@ end
 
 describe <%= controller_class_name %>Controller, "handling GET /<%= table_name %>/1.xml" do
 
-  before do
+  before(:each) do
     @<%= file_name %> = mock_model(<%= class_name %>, :to_xml => "XML")
     <%= class_name %>.stub!(:find).and_return(@<%= file_name %>)
   end
@@ -184,7 +184,7 @@ end
 
 describe <%= controller_class_name %>Controller, "handling GET /<%= table_name %>/new" do
 
-  before do
+  before(:each) do
     @<%= file_name %> = mock_model(<%= class_name %>)
     <%= class_name %>.stub!(:new).and_return(@<%= file_name %>)
   end
@@ -221,7 +221,7 @@ end
 
 describe <%= controller_class_name %>Controller, "handling GET /<%= table_name %>/1/edit" do
 
-  before do
+  before(:each) do
     @<%= file_name %> = mock_model(<%= class_name %>)
     <%= class_name %>.stub!(:find).and_return(@<%= file_name %>)
   end
@@ -253,7 +253,7 @@ end
 
 describe <%= controller_class_name %>Controller, "handling POST /<%= table_name %>" do
 
-  before do
+  before(:each) do
     @<%= file_name %> = mock_model(<%= class_name %>, :to_param => "1")
     <%= class_name %>.stub!(:new).and_return(@<%= file_name %>)
   end
@@ -286,7 +286,7 @@ end
 
 describe <%= controller_class_name %>Controller, "handling PUT /<%= table_name %>/1" do
 
-  before do
+  before(:each) do
     @<%= file_name %> = mock_model(<%= class_name %>, :to_param => "1")
     <%= class_name %>.stub!(:find).and_return(@<%= file_name %>)
   end
@@ -329,7 +329,7 @@ end
 
 describe <%= controller_class_name %>Controller, "handling DELETE /<%= table_name %>/1" do
 
-  before do
+  before(:each) do
     @<%= file_name %> = mock_model(<%= class_name %>, :destroy => true)
     <%= class_name %>.stub!(:find).and_return(@<%= file_name %>)
   end

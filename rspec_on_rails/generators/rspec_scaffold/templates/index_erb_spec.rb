@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '<%= '/..' * class_nesting_depth %>/../../spec_
 describe "/<%= table_name %>/index.<%= default_file_extension %>" do
   include <%= controller_class_name %>Helper
   
-  before do
+  before(:each) do
 <% [98,99].each do |id| -%>
     <%= file_name %>_<%= id %> = mock_model(<%= class_name %>)
 <% for attribute in attributes -%>
