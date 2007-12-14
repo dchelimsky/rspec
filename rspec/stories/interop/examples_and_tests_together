@@ -7,10 +7,10 @@ Story: Spec and test together
   Scenario: Run with ruby
     Given the file test/spec_and_test_together.rb
 
-    When I run it with the ruby interpreter
+    When I run it with the ruby interpreter -fs
 
     Then the exit code should be 256
-    And PENDING the stdout should match "ATest"
+    And the stdout should match "ATest"
     And the stdout should match "Test::Unit::AssertionFailedError in 'An Example should fail with assert'"
     And the stdout should match "'An Example should fail with should' FAILED"
     And the stdout should match "10 examples, 6 failures"
@@ -19,7 +19,7 @@ Story: Spec and test together
   Scenario: Run with spec
     Given the file test/spec_and_test_together.rb
 
-    When I run it with the spec script
+    When I run it with the spec script -fs
 
     Then the exit code should be 256
     Ands the stdout should match "ATest"
