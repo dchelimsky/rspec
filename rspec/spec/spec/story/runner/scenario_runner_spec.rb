@@ -94,7 +94,7 @@ module Spec
           # then
         end
         
-        it 'should notify listeners when a scenario raises an error' do
+        it 'should notify listeners ONCE when a scenario raises an error' do
           # given
           error = RuntimeError.new('oops')
           story = Story.new 'title', 'narrative' do end
@@ -106,8 +106,8 @@ module Spec
           world = stub_everything
           
           # expect
-          world.should_receive(:errors).twice.and_return([error])
-          mock_listener.should_receive(:scenario_failed).with('title', 'scenario1', error)
+          world.should_receive(:errors).twice.and_return([error, error])
+          mock_listener.should_receive(:scenario_failed).with('title', 'scenario1', error).once
           
           # when
           scenario_runner.run scenario, world
@@ -127,9 +127,9 @@ module Spec
           world = stub_everything
           
           # expect
-          world.should_receive(:errors).twice.and_return([pending_error])
+          world.should_receive(:errors).twice.and_return([pending_error, pending_error])
           mock_listener.should_receive(:scenario_started).with('title', 'scenario1')
-          mock_listener.should_receive(:scenario_pending).with('title', 'scenario1', 'todo')
+          mock_listener.should_receive(:scenario_pending).with('title', 'scenario1', 'todo').once
           
           # when
           scenario_runner.run scenario, world
