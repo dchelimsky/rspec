@@ -1,4 +1,4 @@
-== Version 1.1.0 (in SVN)
+== Version 1.1.0
 
 * Applied patch from Mike Vincent to handle generators rails > 2.0.1. Closes LH[#181]
 * Formatter.pending signature changed so it gets passed an ExampleGroup instance instead of the name ( LH[#180])
