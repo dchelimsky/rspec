@@ -31,7 +31,7 @@ module Spec
           end
 
           it "should push ExampleGroup name" do
-            io.string.should eql("\nExampleGroup:\n")
+            io.string.should eql("\nExampleGroup\n")
           end
 
           it "when having an error, should push failing spec name and failure number" do
@@ -80,8 +80,9 @@ module Spec
           end
 
           def have_example_group_output(expected_output)
-            ::Spec::Matchers::SimpleMatcher.new(expected_output) do |actual|
-              actual == "\nExampleGroup:\n#{expected_output}"
+            expected = "\nExampleGroup\n#{expected_output}"
+            ::Spec::Matchers::SimpleMatcher.new(expected) do |actual|
+              actual == expected
             end
           end
         end
@@ -100,7 +101,7 @@ module Spec
               98,
               Reporter::Failure.new("c s", RuntimeError.new)
             )
-            io.string.should have_example_group_output("- spec (ERROR - 98)\n")
+            io.string.should have_nested_example_group_output("- spec (ERROR - 98)\n")
           end
 
           specify "when having an expectation failure, should push failing spec name and failure number" do
@@ -109,11 +110,11 @@ module Spec
               98,
               Reporter::Failure.new("c s", Spec::Expectations::ExpectationNotMetError.new)
             )
-            io.string.should have_example_group_output("- spec (FAILED - 98)\n")
+            io.string.should have_nested_example_group_output("- spec (FAILED - 98)\n")
           end
 
-          def have_example_group_output(expected_output)
-            expected_full_output = "\nExampleGroup Child ExampleGroup GrandChild ExampleGroup:\n#{expected_output}"
+          def have_nested_example_group_output(expected_output)
+            expected_full_output = "\nExampleGroup Child ExampleGroup GrandChild ExampleGroup\n#{expected_output}"
             ::Spec::Matchers::SimpleMatcher.new(expected_full_output) do |actual|
               actual == expected_full_output
             end

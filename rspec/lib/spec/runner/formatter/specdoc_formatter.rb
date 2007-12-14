@@ -7,7 +7,11 @@ module Spec
         def add_example_group(example_group)
           super
           output.puts
-          output.puts "#{example_group.description}:"
+          if example_group.description.nil? || example_group.description == ""
+            output.puts example_group.to_s
+          else
+            output.puts example_group.description
+          end
           output.flush
         end
       
