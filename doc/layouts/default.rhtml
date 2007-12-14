@@ -6,7 +6,7 @@ filter:    erb
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{lang:}">
   <head>
-    <title>RSpec-<%= rspec_version %>: {title: }</title>
+    <title>RSpec-<%= rspec_version %>: <%= @page.title %></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="description" content="RSpec, {title: }, BDD, behaviour driven development, behavior driven development, TDD, test driven development, Ruby, Rails, testing, watir, selenium"/>
 
@@ -41,6 +41,18 @@ filter:    erb
     
     <div id="footer">
       Webdesign by <a href="http://www.oswd.org/user/profile/id/9462">JM</a>
+      <div style="float:right;align">
+        <table border="0" padding="2">
+          <tr>
+            <td valign="top" align="right">
+              <a href="http://engineyard.com">Hosted by our<br/>good friends at<br/>Engine Yard</a>
+            </td>
+            <td>
+              <a href="http://engineyard.com"><img src="images/ey-logo.gif" border="0"></a>
+            </td>
+          </tr>
+        </table>
+      </div>
       <SCRIPT type='text/javascript' language='JavaScript' src='http://www.ohloh.net/projects/4386;badge_js'></SCRIPT>
     </div>
   </div>
