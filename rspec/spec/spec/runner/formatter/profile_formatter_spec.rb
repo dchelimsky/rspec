@@ -35,7 +35,7 @@ module Spec
           
           formatter.example_started('when foo')
           Time.stub!(:now).and_return(now+1)
-          formatter.example_passed('when foo')
+          formatter.example_passed(stub('foo', :description => 'i like ice cream'))
 
           formatter.start_dump
           io.string.should include('Parent Child')
@@ -53,7 +53,7 @@ module Spec
           formatter.instance_variable_set("@time", Time.now)
           
           15.times do 
-            formatter.example_passed('foo')
+            formatter.example_passed(stub('foo', :description => 'i like ice cream'))
           end
           
           io.should_receive(:print).exactly(10)

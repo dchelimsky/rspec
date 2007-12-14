@@ -22,7 +22,7 @@ module Spec
           super
           @example_times << [
             example_group.description,
-            example,
+            example.description,
             Time.now - @time
           ]
         end
