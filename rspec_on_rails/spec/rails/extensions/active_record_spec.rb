@@ -1,10 +1,7 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
-class Thing < ActiveRecord::Base
-  validates_presence_of :name
-end
-
 describe "A model" do
+  fixtures :things
   it "should tell you its required fields" do
     Thing.new.should have(1).error_on(:name)
   end

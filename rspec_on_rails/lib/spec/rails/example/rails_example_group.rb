@@ -6,18 +6,6 @@ module Spec
   module Rails
     module Example
       class RailsExampleGroup < Test::Unit::TestCase
-        class << self
-          def inherited(klass)
-            super
-            if defined?(ActiveRecord::Base)
-              self.use_transactional_fixtures = Spec::Runner.configuration.use_transactional_fixtures
-              self.use_instantiated_fixtures = Spec::Runner.configuration.use_instantiated_fixtures
-              self.fixture_path = Spec::Runner.configuration.fixture_path
-              self.fixtures(*Spec::Runner.configuration.global_fixtures)
-            end
-          end
-        end
-
         include Spec::Rails::Matchers
 
         @@model_id = 1000
