@@ -1,5 +1,7 @@
 == Version 1.1.0
 
+The "tell me a story and go nest yourself" release.
+
 * Applied patch from Mike Vincent to handle generators rails > 2.0.1. Closes LH[#181]
 * Formatter.pending signature changed so it gets passed an ExampleGroup instance instead of the name ( LH[#180])
 * Fixed LH[#180] Spec::Rails::Example::ModelExampleGroup and friends show up in rspec/rails output
