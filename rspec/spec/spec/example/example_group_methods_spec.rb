@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 
 module Spec
   module Example
-    describe ExampleGroupMethods do
+    describe 'ExampleGroupMethods' do
       it_should_behave_like "sandboxed rspec_options"
       attr_reader :example_group, :result, :reporter
       before(:each) do
@@ -340,7 +340,7 @@ module Spec
           ]
         end
       end
-      
+
       describe "#described_type" do
         it "should return passed in type" do
           child_example_group = Class.new(example_group) do

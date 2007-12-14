@@ -9,6 +9,8 @@
 
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
+require "rubygems"
+gem 'soap4r', "=1.5.6"
 
 Rails::Initializer.run do |config|
   # Settings in config/environments/* take precedence those specified here
