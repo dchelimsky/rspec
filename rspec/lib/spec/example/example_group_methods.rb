@@ -11,7 +11,7 @@ module Spec
         end
       end
 
-      attr_reader :description_text, :description_args, :spec_path
+      attr_reader :description_text, :description_args, :description_options, :spec_path
 
       def inherited(klass)
         super
@@ -140,6 +140,7 @@ module Spec
       def set_description(*args)
         args, options = args_and_options(*args)
         @description_args = args
+        @description_options = options
         @description_text = ExampleGroupMethods.description_text(*args)
         @spec_path = File.expand_path(options[:spec_path]) if options[:spec_path]
         if described_type.class == Module

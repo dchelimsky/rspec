@@ -294,6 +294,11 @@ module Spec
           it ".spec_path should expand the passed in :spec_path option passed into the constructor" do
             example_group.spec_path.should == File.expand_path("blah")
           end
+
+          it ".description_options should return all the options passed in" do
+            example_group.description_options.should == {:a => "b", :spec_path => "blah"}
+          end
+
         end
       end
 

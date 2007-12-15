@@ -66,6 +66,7 @@ In alphabetical order (by last name)
 ** Patch [#12010] Nicer failure message formatting
 ** Patch [#14923] Nested shared behaviours get executed twice
 * Bob Cotton
+** Patch LH[#186] reintroduce ExampleGroup.description_options
 ** Patch LH[#134] ExampleMatcher should match against before(:all)
 ** Patch [#13118] Rinda support for Spec::Distributed
 ** Support for context_setup and context_teardown (now before(:all) and after(:all))
