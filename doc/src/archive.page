@@ -11,5 +11,5 @@ h2. <%= @page.title %>
 
 Here are docs for previous versions.
 
-"1.0.8":/1.0.8/
+"1.0.8":/1.0.8/index.html
 
