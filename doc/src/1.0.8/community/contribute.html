@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <title>RSpec-1.0.8: Contribute</title>
+    <link href="../default.css" rel="stylesheet" type="text/css" media="screen"/>
+    <link href="../breadcrumbs.css" rel="stylesheet" type="text/css" media="screen"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="RSpec, Contribute, BDD, behaviour driven development, behavior driven development, TDD, test driven development, Ruby, Rails, testing, watir, selenium"/>
+    <style><!--
+    div.breadcrumbs ul li {
+    	background-image: url(../images/arrow.gif);
+    }
+    --></style>
+  </head>
+<body>
+
+<div id="container">
+  <div id="header">
+    <h1>RSpec 1.0.8</h1>
+  </div>
+
+  <div class="breadcrumb-menu">
+    <div class="breadcrumbs">
+  <ul>
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="index.html">Community</a></li>
+    <li class="selected"><span>Contribute</span></li>
+  </ul>
+</div>
+<div class="menu">
+  <ul>
+  </ul>
+</div>
+
+  </div>
+
+  <div id="content">
+    <h2>Contribute to RSpec</h2>
+
+
+	<p>There are several ways in which you can contribute to RSpec.</p>
+
+
+	<h2>Mailing Lists</h2>
+
+
+	<p>One easy way you can contribute is to join and participate in our mailing lists:</p>
+
+
+	<p><a href="http://rubyforge.org/mail/?group_id=797">http://rubyforge.org/mail/?group_id=797</a></p>
+
+
+	<ul>
+	<li>rspec-users is for anyone who use RSpec to discuss any topics related to
+the use of the tools</li>
+		<li>rspec-devel is for those interested in the ongoing development of RSpec and
+those who wish to make personal contributions</li>
+	</ul>
+
+
+	<p>While we don&#8217;t wish to restrict the content on either list, we do ask that
+off topic posts are so marked ([OT] in the subject line).</p>
+
+
+	<p>Also, please use the tracker to submit Requests For Enhancement (see below), not
+the mailing lists. While we&#8217;re happy to engage in conversation about ongoing
+development, we&#8217;re not always available, in town, on line, etc and the best
+way to ensure that your concerns stay on our radar is to put them in the
+tracker, which we review regularly.</p>
+
+
+	<h2>Requests For Enhancement (RFEs)</h2>
+
+
+	<p>Please use the tracker for all RFEs.</p>
+
+
+	<p>For Feature Requests, Patches and Bugs, please be sure to select the appropriate
+category (expectations, mocks, runner, rails plugin, or RSpec.tmbundle)</p>
+
+
+	<p><a href="http://rubyforge.org/tracker/?group_id=797">RubyForge tracker</a></p>
+
+
+	<p>Wherever feasible, please please please submit a complete spec we can run &#8211; something like:</p>
+
+
+<pre class="ruby"><code><span class="ident">describe</span> <span class="punct">&quot;</span><span class="string">My Problem</span><span class="punct">&quot;</span> <span class="keyword">do</span>
+  <span class="ident">it</span> <span class="punct">&quot;</span><span class="string">can be reproduced as follows</span><span class="punct">&quot;</span> <span class="keyword">do</span>
+    <span class="comment"># Why doesn't this work?</span>
+    <span class="comment"># (This is just a silly example)</span>
+    <span class="constant">true</span><span class="punct">.</span><span class="ident">should</span> <span class="ident">be_true</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+</code></pre>
+
+	<p>This will make us more likely to look at it quickly.</p>
+
+
+	<h3>Feature Requests</h3>
+
+
+	<p>Interested in a new feature that you would find useful but don&#8217;t wish
+to develop yourself? Please submit it in a Feature Request.</p>
+
+
+	<h3>Patches</h3>
+
+
+	<p>Interested in a new feature that you&#8217;ve already written or want to write?
+Please submit a patch, but please follow these guidelines.</p>
+
+
+	<ul>
+	<li>patch against svn://rubyforge.org/var/svn/rspec/trunk (do not patch against a released gem)</li>
+		<li>include specs!</li>
+		<li>include docs!</li>
+		<li>run &#8220;rake pre_commit&#8221; on your patched source</li>
+		<li>create a patch with &#8220;svn diff &gt; something_rather_descriptive.diff&#8221; </li>
+		<li>create a new ticket in the <a href="http://rubyforge.org/tracker/?group_id=797">RubyForge tracker</a></li>
+		<li>attach the diff file to the ticket (DON&#8217;T <span class="caps">FORGET TO TICK THE CHECKBOX OR YOUR PATCH WILL GET LOST</span>)</li>
+	</ul>
+
+
+	<h3>Bugs</h3>
+
+
+	<p>We <span class="caps">LOVE</span> to hear about bugs that you find, but we can&#8217;t address them
+if we can&#8217;t reproduce them. If you submit a Bug report, be sure to include:</p>
+
+
+	<ul>
+	<li>rspec version (either a versioned release or svn revision number)</li>
+		<li>rails version (if you&#8217;re using the rspec_on_rails plugin)</li>
+		<li>any other relevant versions, OSes, etc</li>
+		<li>a failing spec <span class="caps">AND</span> code &#8211; we need to be able to reproduce the failure. While code snippets are better than nothing, what we really prefer is modifications to RSpec&#8217;s own specs, as a unified diff file.</li>
+	</ul>
+    
+    <div id="footer">
+      Webdesign by <a href="http://www.oswd.org/user/profile/id/9462">JM</a>
+      <SCRIPT type='text/javascript' language='JavaScript' src='http://www.ohloh.net/projects/4386;badge_js'></SCRIPT>
+    </div>
+  </div>
+</div>
+
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-1889510-1";
+urchinTracker();
+</script>
+</body>
+</html>

@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: Spec::Runner::SpecParser</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">Spec::Runner::SpecParser</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../../files/lib/spec/runner/spec_parser_rb.html">
+                lib/spec/runner/spec_parser.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                <a href="../../Object.html">
+                Object
+               </a>
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+Parses a spec file and finds the nearest example for a given line number.
+</p>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000239">behaviour_at_line</a>&nbsp;&nbsp;
+      <a href="#M000240">example_at_line</a>&nbsp;&nbsp;
+      <a href="#M000241">find_above</a>&nbsp;&nbsp;
+      <a href="#M000242">lines_above_reversed</a>&nbsp;&nbsp;
+      <a href="#M000243">parse_description</a>&nbsp;&nbsp;
+      <a href="#M000238">spec_name_for</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000238" class="method-detail">
+        <a name="M000238"></a>
+
+        <div class="method-heading">
+          <a href="#M000238" class="method-signature">
+          <span class="method-name">spec_name_for</span><span class="method-args">(io, line_number)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000238-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000238-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/spec/runner/spec_parser.rb, line 5</span>
+ 5:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">spec_name_for</span>(<span class="ruby-identifier">io</span>, <span class="ruby-identifier">line_number</span>)
+ 6:         <span class="ruby-identifier">source</span>  = <span class="ruby-identifier">io</span>.<span class="ruby-identifier">read</span>
+ 7:         <span class="ruby-identifier">behaviour</span>, <span class="ruby-identifier">behaviour_line</span> = <span class="ruby-identifier">behaviour_at_line</span>(<span class="ruby-identifier">source</span>, <span class="ruby-identifier">line_number</span>)
+ 8:         <span class="ruby-identifier">example</span>, <span class="ruby-identifier">example_line</span> = <span class="ruby-identifier">example_at_line</span>(<span class="ruby-identifier">source</span>, <span class="ruby-identifier">line_number</span>)
+ 9:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">behaviour</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">example</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">behaviour_line</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">example_line</span>)
+10:           <span class="ruby-node">&quot;#{behaviour} #{example}&quot;</span>
+11:         <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">behaviour</span>
+12:           <span class="ruby-identifier">behaviour</span>
+13:         <span class="ruby-keyword kw">else</span>
+14:           <span class="ruby-keyword kw">nil</span>
+15:         <span class="ruby-keyword kw">end</span>
+16:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Protected Instance methods</h3>
+
+      <div id="method-M000239" class="method-detail">
+        <a name="M000239"></a>
+
+        <div class="method-heading">
+          <a href="#M000239" class="method-signature">
+          <span class="method-name">behaviour_at_line</span><span class="method-args">(source, line_number)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000239-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000239-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/spec/runner/spec_parser.rb, line 20</span>
+20:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">behaviour_at_line</span>(<span class="ruby-identifier">source</span>, <span class="ruby-identifier">line_number</span>)
+21:         <span class="ruby-identifier">find_above</span>(<span class="ruby-identifier">source</span>, <span class="ruby-identifier">line_number</span>, <span class="ruby-regexp re">/^\s*(context|describe)\s+(.*)\s+do/</span>)
+22:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000240" class="method-detail">
+        <a name="M000240"></a>
+
+        <div class="method-heading">
+          <a href="#M000240" class="method-signature">
+          <span class="method-name">example_at_line</span><span class="method-args">(source, line_number)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000240-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000240-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/spec/runner/spec_parser.rb, line 24</span>
+24:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">example_at_line</span>(<span class="ruby-identifier">source</span>, <span class="ruby-identifier">line_number</span>)
+25:         <span class="ruby-identifier">find_above</span>(<span class="ruby-identifier">source</span>, <span class="ruby-identifier">line_number</span>, <span class="ruby-regexp re">/^\s*(specify|it)\s+(.*)\s+do/</span>)
+26:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000241" class="method-detail">
+        <a name="M000241"></a>
+
+        <div class="method-heading">
+          <a href="#M000241" class="method-signature">
+          <span class="method-name">find_above</span><span class="method-args">(source, line_number, pattern)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns the context/describe or specify/it name and the line number
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000241-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000241-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/spec/runner/spec_parser.rb, line 29</span>
+29:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">find_above</span>(<span class="ruby-identifier">source</span>, <span class="ruby-identifier">line_number</span>, <span class="ruby-identifier">pattern</span>)
+30:         <span class="ruby-identifier">lines_above_reversed</span>(<span class="ruby-identifier">source</span>, <span class="ruby-identifier">line_number</span>).<span class="ruby-identifier">each_with_index</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">line</span>, <span class="ruby-identifier">n</span><span class="ruby-operator">|</span>
+31:           <span class="ruby-keyword kw">return</span> [<span class="ruby-identifier">parse_description</span>(<span class="ruby-identifier">$2</span>), <span class="ruby-identifier">line_number</span><span class="ruby-operator">-</span><span class="ruby-identifier">n</span>] <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">line</span> <span class="ruby-operator">=~</span> <span class="ruby-identifier">pattern</span>
+32:         <span class="ruby-keyword kw">end</span>
+33:         <span class="ruby-keyword kw">nil</span>
+34:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000242" class="method-detail">
+        <a name="M000242"></a>
+
+        <div class="method-heading">
+          <a href="#M000242" class="method-signature">
+          <span class="method-name">lines_above_reversed</span><span class="method-args">(source, line_number)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000242-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000242-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/spec/runner/spec_parser.rb, line 36</span>
+36:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">lines_above_reversed</span>(<span class="ruby-identifier">source</span>, <span class="ruby-identifier">line_number</span>)
+37:         <span class="ruby-identifier">lines</span> = <span class="ruby-identifier">source</span>.<span class="ruby-identifier">split</span>(<span class="ruby-value str">&quot;\n&quot;</span>)
+38:         <span class="ruby-identifier">lines</span>[<span class="ruby-value">0</span><span class="ruby-operator">...</span><span class="ruby-identifier">line_number</span>].<span class="ruby-identifier">reverse</span>
+39:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000243" class="method-detail">
+        <a name="M000243"></a>
+
+        <div class="method-heading">
+          <a href="#M000243" class="method-signature">
+          <span class="method-name">parse_description</span><span class="method-args">(str)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000243-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000243-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/spec/runner/spec_parser.rb, line 41</span>
+41:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">parse_description</span>(<span class="ruby-identifier">str</span>)
+42:         <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">str</span>[<span class="ruby-value">1</span><span class="ruby-operator">..</span><span class="ruby-value">-2</span>] <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">str</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/^['&quot;].*['&quot;]$/</span>
+43:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">matches</span> = <span class="ruby-regexp re">/^(.*)\s*,\s*['&quot;](.*)['&quot;]$/</span>.<span class="ruby-identifier">match</span>(<span class="ruby-identifier">str</span>)
+44:           <span class="ruby-keyword kw">return</span> <span class="ruby-operator">::</span><span class="ruby-constant">Spec</span><span class="ruby-operator">::</span><span class="ruby-constant">DSL</span><span class="ruby-operator">::</span><span class="ruby-constant">Description</span>.<span class="ruby-identifier">generate_description</span>(<span class="ruby-identifier">matches</span>[<span class="ruby-value">1</span>], <span class="ruby-identifier">matches</span>[<span class="ruby-value">2</span>])
+45:         <span class="ruby-keyword kw">end</span>
+46:         <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">str</span>
+47:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>File: README</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+  <div id="fileHeader">
+    <h1>README</h1>
+    <table class="header-table">
+    <tr class="top-aligned-row">
+      <td><strong>Path:</strong></td>
+      <td>README
+      </td>
+    </tr>
+    <tr class="top-aligned-row">
+      <td><strong>Last Update:</strong></td>
+      <td>Mon Aug 13 00:28:35 -0500 2007</td>
+    </tr>
+    </table>
+  </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <h2>RSpec</h2>
+<p>
+RSpec is a Behaviour Definition Framework intended for use in Behaviour
+Driven Development. RSpec plays the same role that a unit testing framework
+would play in a <a href="../classes/Test.html">Test</a> Driven Development
+environment, but does so using words and structures that better support
+BDD.
+</p>
+<p>
+RSpec ships with four modules:
+</p>
+<p>
+<a href="../classes/Spec/Matchers.html">Spec::Matchers</a> provides
+Expression Matchers for use with <a
+href="../classes/Spec/Expectations.html">Spec::Expectations</a> and <a
+href="../classes/Spec/Mocks.html">Spec::Mocks</a>.
+</p>
+<p>
+<a href="../classes/Spec/Expectations.html">Spec::Expectations</a> supports
+setting expectations on your objects so you can do things like:
+</p>
+<pre>
+  result.should equal(expected_result)
+</pre>
+<p>
+<a href="../classes/Spec/Mocks.html">Spec::Mocks</a> supports creating Mock
+Objects, Stubs, and adding Mock/Stub behaviour to your existing objects.
+</p>
+<p>
+<a href="../classes/Spec/Runner.html">Spec::Runner</a> provides a very
+small but powerful DSL for writing executable examples of how your code
+should work.
+</p>
+<h2>Installation</h2>
+<p>
+The simplest approach is to install the gem:
+</p>
+<pre>
+  gem install -r rspec #mac users must sudo
+</pre>
+<h2>Building the RSpec gem</h2>
+<p>
+If you prefer to build the gem locally, check out source from
+svn://rubyforge.org/var/svn/rspec/trunk. Then do the following:
+</p>
+<pre>
+  rake gem
+  gem install pkg/rspec-0.x.x.gem (you may have to sudo)
+</pre>
+<h2>Running RSpec&#8216;s specs</h2>
+<p>
+In order to run RSpec&#8216;s full suite of specs (rake pre_commit) you
+must install the following gems:
+</p>
+<ul>
+<li>rake # Runs the build script
+
+</li>
+<li>rcov # Verifies that the code is 100% covered by specs
+
+</li>
+<li>webgen # Generates the static HTML website
+
+</li>
+<li>RedCloth # Required by webgen
+
+</li>
+<li>syntax # Required by our own custom webgen extension to highlight ruby code
+
+</li>
+<li>diff-lcs # Required if you use the &#8212;diff switch
+
+</li>
+<li>win32console # Required by the &#8212;colour switch if you&#8216;re on
+Windows
+
+</li>
+<li>meta_project # Required in order to make releases at RubyForge
+
+</li>
+<li>heckle # Required if you use the &#8212;heckle switch
+
+</li>
+<li>hpricot # Used for parsing HTML from the HTML output formatter in
+RSpec&#8216;s own specs
+
+</li>
+</ul>
+<p>
+Once those are all installed, you should be able to run the suite with the
+following steps:
+</p>
+<ul>
+<li>svn co svn://rubyforge.org/var/svn/rspec/trunk rspec
+
+</li>
+<li>cd rspec
+
+</li>
+<li>rake install_dependencies
+
+</li>
+<li>cd example_rails_app
+
+</li>
+<li>export RSPEC_RAILS_VERSION=1.2.3
+
+</li>
+<li>rake rspec:generate_mysql_config
+
+</li>
+<li>mysql -u root &lt; db/mysql_setup.sql
+
+</li>
+<li>cd ..
+
+</li>
+<li>rake pre_commit
+
+</li>
+</ul>
+<p>
+Note that RSpec itself - once built - doesn&#8216;t have any dependencies
+outside the Ruby core and stdlib - with a few exceptions:
+</p>
+<ul>
+<li>The spec command line uses diff-lcs when &#8212;diff is specified.
+
+</li>
+<li>The spec command line uses heckle when &#8212;heckle is specified.
+
+</li>
+<li>The <a href="../classes/Spec/Rake/SpecTask.html">Spec::Rake::SpecTask</a>
+needs <a href="../classes/RCov.html">RCov</a> if <a
+href="../classes/RCov.html">RCov</a> is enabled in the task.
+
+</li>
+</ul>
+<p>
+See <a href="http://rspec.rubyforge.org">rspec.rubyforge.org</a> for
+further documentation.
+</p>
+
+    </div>
+
+
+   </div>
+
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

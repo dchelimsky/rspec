@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <title>RSpec-1.0.8: Editors Overview</title>
+    <link href="../../../../default.css" rel="stylesheet" type="text/css" media="screen"/>
+    <link href="../../../../breadcrumbs.css" rel="stylesheet" type="text/css" media="screen"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="RSpec, Editors Overview, BDD, behaviour driven development, behavior driven development, TDD, test driven development, Ruby, Rails, testing, watir, selenium"/>
+    <style><!--
+    div.breadcrumbs ul li {
+    	background-image: url(../../../../images/arrow.gif);
+    }
+    --></style>
+  </head>
+<body>
+
+<div id="container">
+  <div id="header">
+    <h1>RSpec 1.0.8</h1>
+  </div>
+
+  <div class="breadcrumb-menu">
+    <div class="breadcrumbs">
+  <ul>
+    <li><a href="../../../../index.html">Home</a></li>
+    <li><a href="../../../index.html">Documentation</a></li>
+    <li><a href="../../index.html">Tools</a></li>
+    <li><a href="../index.html">Extensions</a></li>
+    <li class="selected"><span>Editors</span></li>
+  </ul>
+</div>
+<div class="menu">
+  <ul>
+    <li><a href="textmate.html">TextMate</a></li>
+  </ul>
+</div>
+
+  </div>
+
+  <div id="content">
+    <h2>Editors Overview</h2>
+
+
+	<p>RSpec&#8217;s commandline <span class="caps">API</span> and pluggable formatters makes it very easy to integrate it with external tools
+such as text editors (including IDEs). Below we describe the general steps you need to perform to write
+an RSpec plugin for your editor.</p>
+
+
+	<p>The RSpec team maintains a TextMate bundle which does exactly this. You may want to look at its source if
+you&#8217;re about to write a plugin for a new editor.</p>
+
+
+	<p>We&#8217;d be happy to accept more editor plugins into RSpec. Please see <a href="../../../../community/contribute.html">Contribute</a> for
+details. Or, if you&#8217;re a developer of an editor, perhaps you want to bundle it with the editor.</p>
+
+
+	<h3>Launch RSpec from the <span class="caps">IDE</span></h3>
+
+
+	<p>Most advanced editors provide a mechanism to launch external processes by hitting a keystroke.
+Depending on your editor, you may want to launch RSpec directly via the <code>spec</code> spec command
+(which must be on your $PATH). Alternatively, if your editor makes it possible to run Ruby scripts
+directly, you may execute RSpec via <code>Spec::Runner::CommandLine.run</code> (which has a similar <span class="caps">API</span> to
+the <code>spec</code> command, except you can call it straight from Ruby without forking a new Ruby process).</p>
+
+
+	<h3>Tell RSpec what spec(s) to run</h3>
+
+
+	<p>You may want to assign different keystrokes to run your specs. You could run All specs in your project, 
+the ones in the currently open file or just the one you have focussed in the editor.
+RSpec&#8217;s commandline <span class="caps">API</span> has a <code>--line</code> option which will make RSpec run the spec at the current
+line (it also works if the line is inside the spec).
+Most editors provide a way to query the current file and the line of the cursor when launching an external
+process, and you can use this to feed the right argument to the&#8212;line option.</p>
+
+
+	<h3>Make the backtrace work with your editor</h3>
+
+
+	<p>When a spec fails, the backtrace is displayed in the error message. The backtrace contains lines with 
+file paths and line numbers. Most editors have a mechanism that will open the file and put the 
+cursor on the right line when such a line is clicked &#8211; provided the line is on a format that the editor
+understands.</p>
+
+
+	<p>It is possible to customise the backtrace lines of RSpec&#8217;s output to achieve this. All you need to do is
+to implement your own Formatter class, typically by subclassing 
+<a href="../rdoc/classes/Spec/Runner/Formatter/ProgressBarFormatter.html">ProgressBarFormatter</a> or <a href="../rdoc/classes/Spec/Runner/Formatter/HtmlFormatter.html">HtmlFormatter</a>
+(depending on what your editor understands). In your formatter class you 
+can override the <code>backtrace_line</code> method to make the output be something that works with your editor.
+Example:</p>
+
+
+<pre class="ruby"><code><span class="ident">require</span> <span class="punct">'</span><span class="string">spec/runner/formatter/progress_bar_formatter</span><span class="punct">'</span>
+
+<span class="comment"># Example of a formatter with custom bactrace printing. Run me with:</span>
+<span class="comment"># ruby bin/spec failing_examples -r examples/custom_formatter.rb -f CustomFormatter</span>
+<span class="keyword">class </span><span class="class">CustomFormatter</span> <span class="punct">&lt;</span> <span class="constant">Spec</span><span class="punct">::</span><span class="constant">Runner</span><span class="punct">::</span><span class="constant">Formatter</span><span class="punct">::</span><span class="constant">ProgressBarFormatter</span>
+  <span class="keyword">def </span><span class="method">backtrace_line</span><span class="punct">(</span><span class="ident">line</span><span class="punct">)</span>
+    <span class="ident">line</span><span class="punct">.</span><span class="ident">gsub</span><span class="punct">(/</span><span class="regex">([^:]*<span class="escape">\.</span>rb):(<span class="escape">\d</span>*)</span><span class="punct">/)</span> <span class="keyword">do</span>
+      <span class="punct">&quot;</span><span class="string">&lt;a href=<span class="escape">\&quot;</span>file://<span class="expr">#{File.expand_path($1)}</span><span class="escape">\&quot;</span>&gt;<span class="expr">#{$1}</span>:<span class="expr">#{$2}</span>&lt;/a&gt; </span><span class="punct">&quot;</span>
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+</code></pre>
+
+	<p>Then, when the editor plugin launches RSpec, just make sure it uses the <code>--formatter</code> 
+option to specify <strong>your</strong> custom formatter. Note that you will probably have to use <code>--require</code> 
+too, so that the code for your custom formatter is loaded. See <code>spec --help</code> for details.</p>
+    
+    <div id="footer">
+      Webdesign by <a href="http://www.oswd.org/user/profile/id/9462">JM</a>
+      <SCRIPT type='text/javascript' language='JavaScript' src='http://www.ohloh.net/projects/4386;badge_js'></SCRIPT>
+    </div>
+  </div>
+</div>
+
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-1889510-1";
+urchinTracker();
+</script>
+</body>
+</html>

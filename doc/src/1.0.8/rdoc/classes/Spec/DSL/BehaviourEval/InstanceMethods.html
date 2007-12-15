@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Module: Spec::DSL::BehaviourEval::InstanceMethods</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Module</strong></td>
+          <td class="class-name-in-header">Spec::DSL::BehaviourEval::InstanceMethods</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../../../files/lib/spec/dsl/behaviour_eval_rb.html">
+                lib/spec/dsl/behaviour_eval.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000282">inspect</a>&nbsp;&nbsp;
+      <a href="#M000283">pending</a>&nbsp;&nbsp;
+      <a href="#M000281">violated</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000282" class="method-detail">
+        <a name="M000282"></a>
+
+        <div class="method-heading">
+          <a href="#M000282" class="method-signature">
+          <span class="method-name">inspect</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000282-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000282-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/spec/dsl/behaviour_eval.rb, line 212</span>
+212:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">inspect</span>
+213:           <span class="ruby-value str">&quot;[RSpec example]&quot;</span>
+214:         <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000283" class="method-detail">
+        <a name="M000283"></a>
+
+        <div class="method-heading">
+          <a href="#M000283" class="method-signature">
+          <span class="method-name">pending</span><span class="method-args">(message) {|| ...}</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000283-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000283-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/spec/dsl/behaviour_eval.rb, line 216</span>
+216:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">pending</span>(<span class="ruby-identifier">message</span>)
+217:           <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">block_given?</span>
+218:             <span class="ruby-keyword kw">begin</span>
+219:               <span class="ruby-keyword kw">yield</span>
+220:             <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">Exception</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
+221:               <span class="ruby-identifier">raise</span> <span class="ruby-constant">Spec</span><span class="ruby-operator">::</span><span class="ruby-constant">DSL</span><span class="ruby-operator">::</span><span class="ruby-constant">ExamplePendingError</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">message</span>)
+222:             <span class="ruby-keyword kw">end</span>
+223:             <span class="ruby-identifier">raise</span> <span class="ruby-constant">Spec</span><span class="ruby-operator">::</span><span class="ruby-constant">DSL</span><span class="ruby-operator">::</span><span class="ruby-constant">PendingFixedError</span>.<span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;Expected pending '#{message}' to fail. No Error was raised.&quot;</span>)
+224:           <span class="ruby-keyword kw">else</span>
+225:             <span class="ruby-identifier">raise</span> <span class="ruby-constant">Spec</span><span class="ruby-operator">::</span><span class="ruby-constant">DSL</span><span class="ruby-operator">::</span><span class="ruby-constant">ExamplePendingError</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">message</span>)
+226:           <span class="ruby-keyword kw">end</span>
+227:         <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000281" class="method-detail">
+        <a name="M000281"></a>
+
+        <div class="method-heading">
+          <a href="#M000281" class="method-signature">
+          <span class="method-name">violated</span><span class="method-args">(message=&quot;&quot;)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000281-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000281-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/spec/dsl/behaviour_eval.rb, line 208</span>
+208:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">violated</span>(<span class="ruby-identifier">message</span>=<span class="ruby-value str">&quot;&quot;</span>)
+209:           <span class="ruby-identifier">raise</span> <span class="ruby-constant">Spec</span><span class="ruby-operator">::</span><span class="ruby-constant">Expectations</span><span class="ruby-operator">::</span><span class="ruby-constant">ExpectationNotMetError</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">message</span>)
+210:         <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>
