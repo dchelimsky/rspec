@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <title>RSpec-1.0.8: Spec::Rails</title>
+    <link href="../../default.css" rel="stylesheet" type="text/css" media="screen"/>
+    <link href="../../breadcrumbs.css" rel="stylesheet" type="text/css" media="screen"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="RSpec, Spec::Rails, BDD, behaviour driven development, behavior driven development, TDD, test driven development, Ruby, Rails, testing, watir, selenium"/>
+    <style><!--
+    div.breadcrumbs ul li {
+    	background-image: url(../../images/arrow.gif);
+    }
+    --></style>
+  </head>
+<body>
+
+<div id="container">
+  <div id="header">
+    <h1>RSpec 1.0.8</h1>
+  </div>
+
+  <div class="breadcrumb-menu">
+    <div class="breadcrumbs">
+  <ul>
+    <li><a href="../../index.html">Home</a></li>
+    <li><a href="../index.html">Documentation</a></li>
+    <li class="selected"><span>Rails</span></li>
+  </ul>
+</div>
+<div class="menu">
+  <ul>
+    <li><a href="writing/index.html">Writing</a></li>
+    <li><a href="generators.html">Generators</a></li>
+    <li><a href="install.html">Installation</a></li>
+    <li><a href="runners.html">Runners</a></li>
+    <li><a href="../../rdoc-rails/index.html">RDoc</a></li>
+  </ul>
+</div>
+
+  </div>
+
+  <div id="content">
+    <h2>Spec::Rails &#8211; Overview</h2>
+
+
+	<p>A Rails plugin that brings RSpec to Rails.</p>
+
+
+	<h3>Features</h3>
+
+
+	<ul>
+	<li>Use RSpec to independently specify models, views, controllers and helpers.</li>
+		<li>Integrated fixture loading.</li>
+		<li>Special generators for models and controllers that generate specs instead of tests.</li>
+		<li>Special RSpec matchers for even more readable specs.</li>
+	</ul>
+
+
+	<h3>Vision</h3>
+
+
+	<p>For people for whom <span class="caps">TDD</span> is a brand new concept, the testing support built into Rails is a huge
+leap forward. The fact that it&#8217;s built right in is fantastic, and Rails
+apps are generally much easier to maintain than they would have been without such support.</p>
+
+
+	<p>For those of us coming from a history with <span class="caps">TDD</span>, and now <span class="caps">BDD</span>, the existing support
+presents some problems related to dependencies across specs. To that end, RSpec
+supports 4 types of specs. This is largely inspired by Test::Rails, which is
+the rails testing framework built into <a href="http://zentest.rubyforge.org">ZenTest</a>. 
+We&#8217;ve also built in first class mocking
+and stubbing support in order to break dependencies across these different concerns.</p>
+
+
+	<h2>Different Contexts for different Contexts</h2>
+
+
+	<p>Spec::Rails supports different Context subclasses for the following types of specs:</p>
+
+
+	<h3>Model Examples</h3>
+
+
+	<p>These are the equivalent of unit tests in Rails&#8217;&#8217; built in testing. Ironically
+(for the traditional <span class="caps">TDD</span>&#8217;er) these are the only specs that we feel should actually interact
+with the database. <a href="writing/models.html">Learn more&#8230;</a>.</p>
+
+
+	<h3>Controller Examples</h3>
+
+
+	<p>These align somewhat with functional tests in rails, except
+that they do not actually render views (though you can force rendering of views
+if you prefer). Instead of setting expectations about what goes on a page, you
+set expectations about what templates get rendered. <a href="writing/controllers.html">Learn more&#8230;</a>.</p>
+
+
+	<h3>View Examples</h3>
+
+
+	<p>This is the other half of Rails&#8217;&#8217; functional testing. View specs allow
+you to set up assigns (thanks to ZenTest). <a href="writing/views.html">Learn more&#8230;</a>.</p>
+
+
+	<h3>Helper Examples</h3>
+
+
+	<p>... let you specify directly methods that live in your helpers. <a href="writing/helpers.html">Learn more&#8230;</a>.</p>
+
+
+	<h3>Integration Examples</h3>
+
+
+	<p>We also plan to support <a href="writing/integration.html">Integration Examples</a> in the future.</p>
+
+
+	<p>For the time being we recommend that you use either
+<a href="http://weblog.jamisbuck.org/2006/3/9/integration-testing-in-rails-1-1">rails integration testing</a>
+ or another framework like <a href="http://wtr.rubyforge.org/">watir</a> or <a href="http://www.openqa.org/selenium/">selenium</a>.</p>
+
+
+	<h2>Fixtures</h2>
+
+
+	<p>You can use fixture in any of your specs, be they model, view, controller, or helper. If you have fixtures that you want to use
+globally, you can set them in spec/spec_helper.rb. See that file for more information.</p>
+
+
+	<h2>Naming conventions</h2>
+
+
+	<p>For clarity and consistency, RSpec uses a slightly different naming convention
+for directories and Rake tasks than what you get from the Test::Unit testing built into rails.</p>
+
+
+<pre class="ruby"><code><span class="ident">project</span>
+  <span class="punct">|</span>
+  <span class="punct">+--</span><span class="ident">app</span>
+  <span class="punct">|</span>
+  <span class="punct">+--</span><span class="ident">components</span>
+  <span class="punct">|</span>
+  <span class="punct">+--...</span>
+  <span class="punct">|</span>
+  <span class="punct">+--</span><span class="ident">spec</span>
+      <span class="punct">|</span>
+      <span class="punct">+--</span> <span class="ident">spec_helper</span><span class="punct">.</span><span class="ident">rb</span>
+      <span class="punct">|</span>
+      <span class="punct">+--</span> <span class="ident">controllers</span>
+      <span class="punct">|</span>
+      <span class="punct">+--</span> <span class="ident">helpers</span>
+      <span class="punct">|</span>
+      <span class="punct">+--</span> <span class="ident">models</span>
+      <span class="punct">|</span>
+      <span class="punct">+--</span> <span class="ident">views</span>
+</code></pre>
+
+	<p>The Rake tasks are named accordingly.</p>
+    
+    <div id="footer">
+      Webdesign by <a href="http://www.oswd.org/user/profile/id/9462">JM</a>
+      <SCRIPT type='text/javascript' language='JavaScript' src='http://www.ohloh.net/projects/4386;badge_js'></SCRIPT>
+    </div>
+  </div>
+</div>
+
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-1889510-1";
+urchinTracker();
+</script>
+</body>
+</html>

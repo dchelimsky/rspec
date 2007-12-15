@@ -1,0 +1,873 @@
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    <html lang='en' xml:lang='en' xmlns='http://www.w3.org/1999/xhtml'>
+      <head>
+        <title>lib/spec/mocks/message_expectation.rb - C0 code coverage information</title>
+        <style type='text/css'>body { background-color: rgb(240, 240, 245); }</style>
+        <style type='text/css'>span.cross-ref-title {
+ font-size: 140%;
+}
+span.cross-ref a {
+ text-decoration: none;
+}
+span.cross-ref {
+ background-color:#f3f7fa;
+ border: 1px dashed #333;
+ margin: 1em;
+ padding: 0.5em;
+ overflow: hidden;
+}
+a.crossref-toggle {
+ text-decoration: none;
+}
+span.marked0 {
+ background-color: rgb(185, 210, 200);
+ display: block;
+}
+span.marked1 {
+ background-color: rgb(190, 215, 205);
+ display: block;
+}
+span.inferred0 {
+ background-color: rgb(175, 200, 200);
+ display: block;
+}
+span.inferred1 {
+ background-color: rgb(180, 205, 205);
+ display: block;
+}
+span.uncovered0 {
+ background-color: rgb(225, 110, 110);
+ display: block;
+}
+span.uncovered1 {
+ background-color: rgb(235, 120, 120);
+ display: block;
+}
+span.overview {
+ border-bottom: 8px solid black;
+}
+div.overview {
+ border-bottom: 8px solid black;
+}
+body {
+ font-family: verdana, arial, helvetica;
+}
+div.footer {
+ font-size: 68%;
+ margin-top: 1.5em;
+}
+h1, h2, h3, h4, h5, h6 {
+ margin-bottom: 0.5em;
+}
+h5 {
+ margin-top: 0.5em;
+}
+.hidden {
+ display: none;
+}
+div.separator {
+ height: 10px;
+}
+/* Commented out for better readability, esp. on IE */
+/*
+table tr td, table tr th {
+ font-size: 68%;
+}
+td.value table tr td {
+ font-size: 11px;
+}
+*/
+table.percent_graph {
+ height: 12px;
+ border: #808080 1px solid;
+ empty-cells: show;
+}
+table.percent_graph td.covered {
+ height: 10px;
+ background: #00f000;
+}
+table.percent_graph td.uncovered {
+ height: 10px;
+ background: #e00000;
+}
+table.percent_graph td.NA {
+ height: 10px;
+ background: #eaeaea;
+}
+table.report {
+ border-collapse: collapse;
+ width: 100%;
+}
+table.report td.heading {
+ background: #dcecff;
+ border: #d0d0d0 1px solid;
+ font-weight: bold;
+ text-align: center;
+}
+table.report td.heading:hover {
+ background: #c0ffc0;
+}
+table.report td.text {
+ border: #d0d0d0 1px solid;
+}
+table.report td.value,
+table.report td.lines_total,
+table.report td.lines_code {
+ text-align: right;
+ border: #d0d0d0 1px solid;
+}
+table.report tr.light {
+ background-color: rgb(240, 240, 245);
+}
+table.report tr.dark {
+ background-color: rgb(230, 230, 235);
+}
+</style>
+        <script type='text/javascript'>
+// <![CDATA[
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make cross-references hidden by default
+  document.writeln( "<style type=\"text/css\">span.cross-ref { display: none }</style>" )
+  // ]]>
+</script>
+        <style type='text/css'>span.run0 {
+  background-color: rgb(178, 204, 255);
+  display: block;
+}
+span.run1 {
+  background-color: rgb(178, 206, 255);
+  display: block;
+}
+span.run2 {
+  background-color: rgb(178, 209, 255);
+  display: block;
+}
+span.run3 {
+  background-color: rgb(178, 211, 255);
+  display: block;
+}
+span.run4 {
+  background-color: rgb(178, 214, 255);
+  display: block;
+}
+span.run5 {
+  background-color: rgb(178, 218, 255);
+  display: block;
+}
+span.run6 {
+  background-color: rgb(178, 220, 255);
+  display: block;
+}
+span.run7 {
+  background-color: rgb(178, 223, 255);
+  display: block;
+}
+span.run8 {
+  background-color: rgb(178, 225, 255);
+  display: block;
+}
+span.run9 {
+  background-color: rgb(178, 228, 255);
+  display: block;
+}
+span.run10 {
+  background-color: rgb(178, 232, 255);
+  display: block;
+}
+span.run11 {
+  background-color: rgb(178, 234, 255);
+  display: block;
+}
+span.run12 {
+  background-color: rgb(178, 237, 255);
+  display: block;
+}
+span.run13 {
+  background-color: rgb(178, 239, 255);
+  display: block;
+}
+span.run14 {
+  background-color: rgb(178, 242, 255);
+  display: block;
+}
+span.run15 {
+  background-color: rgb(178, 246, 255);
+  display: block;
+}
+span.run16 {
+  background-color: rgb(178, 248, 255);
+  display: block;
+}
+span.run17 {
+  background-color: rgb(178, 251, 255);
+  display: block;
+}
+span.run18 {
+  background-color: rgb(178, 253, 255);
+  display: block;
+}
+span.run19 {
+  background-color: rgb(178, 255, 253);
+  display: block;
+}
+span.run20 {
+  background-color: rgb(178, 255, 249);
+  display: block;
+}
+span.run21 {
+  background-color: rgb(178, 255, 247);
+  display: block;
+}
+span.run22 {
+  background-color: rgb(178, 255, 244);
+  display: block;
+}
+span.run23 {
+  background-color: rgb(178, 255, 242);
+  display: block;
+}
+span.run24 {
+  background-color: rgb(178, 255, 239);
+  display: block;
+}
+span.run25 {
+  background-color: rgb(178, 255, 235);
+  display: block;
+}
+span.run26 {
+  background-color: rgb(178, 255, 233);
+  display: block;
+}
+span.run27 {
+  background-color: rgb(178, 255, 230);
+  display: block;
+}
+span.run28 {
+  background-color: rgb(178, 255, 228);
+  display: block;
+}
+span.run29 {
+  background-color: rgb(178, 255, 225);
+  display: block;
+}
+span.run30 {
+  background-color: rgb(178, 255, 221);
+  display: block;
+}
+span.run31 {
+  background-color: rgb(178, 255, 219);
+  display: block;
+}
+span.run32 {
+  background-color: rgb(178, 255, 216);
+  display: block;
+}
+span.run33 {
+  background-color: rgb(178, 255, 214);
+  display: block;
+}
+span.run34 {
+  background-color: rgb(178, 255, 211);
+  display: block;
+}
+span.run35 {
+  background-color: rgb(178, 255, 207);
+  display: block;
+}
+span.run36 {
+  background-color: rgb(178, 255, 205);
+  display: block;
+}
+span.run37 {
+  background-color: rgb(178, 255, 202);
+  display: block;
+}
+span.run38 {
+  background-color: rgb(178, 255, 200);
+  display: block;
+}
+span.run39 {
+  background-color: rgb(178, 255, 197);
+  display: block;
+}
+span.run40 {
+  background-color: rgb(178, 255, 193);
+  display: block;
+}
+span.run41 {
+  background-color: rgb(178, 255, 191);
+  display: block;
+}
+span.run42 {
+  background-color: rgb(178, 255, 188);
+  display: block;
+}
+span.run43 {
+  background-color: rgb(178, 255, 186);
+  display: block;
+}
+span.run44 {
+  background-color: rgb(178, 255, 183);
+  display: block;
+}
+span.run45 {
+  background-color: rgb(178, 255, 179);
+  display: block;
+}
+span.run46 {
+  background-color: rgb(179, 255, 178);
+  display: block;
+}
+span.run47 {
+  background-color: rgb(182, 255, 178);
+  display: block;
+}
+span.run48 {
+  background-color: rgb(184, 255, 178);
+  display: block;
+}
+span.run49 {
+  background-color: rgb(187, 255, 178);
+  display: block;
+}
+span.run50 {
+  background-color: rgb(191, 255, 178);
+  display: block;
+}
+span.run51 {
+  background-color: rgb(193, 255, 178);
+  display: block;
+}
+span.run52 {
+  background-color: rgb(196, 255, 178);
+  display: block;
+}
+span.run53 {
+  background-color: rgb(198, 255, 178);
+  display: block;
+}
+span.run54 {
+  background-color: rgb(201, 255, 178);
+  display: block;
+}
+span.run55 {
+  background-color: rgb(205, 255, 178);
+  display: block;
+}
+span.run56 {
+  background-color: rgb(207, 255, 178);
+  display: block;
+}
+span.run57 {
+  background-color: rgb(210, 255, 178);
+  display: block;
+}
+span.run58 {
+  background-color: rgb(212, 255, 178);
+  display: block;
+}
+span.run59 {
+  background-color: rgb(215, 255, 178);
+  display: block;
+}
+span.run60 {
+  background-color: rgb(219, 255, 178);
+  display: block;
+}
+span.run61 {
+  background-color: rgb(221, 255, 178);
+  display: block;
+}
+span.run62 {
+  background-color: rgb(224, 255, 178);
+  display: block;
+}
+span.run63 {
+  background-color: rgb(226, 255, 178);
+  display: block;
+}
+span.run64 {
+  background-color: rgb(229, 255, 178);
+  display: block;
+}
+span.run65 {
+  background-color: rgb(233, 255, 178);
+  display: block;
+}
+span.run66 {
+  background-color: rgb(235, 255, 178);
+  display: block;
+}
+span.run67 {
+  background-color: rgb(238, 255, 178);
+  display: block;
+}
+span.run68 {
+  background-color: rgb(240, 255, 178);
+  display: block;
+}
+span.run69 {
+  background-color: rgb(243, 255, 178);
+  display: block;
+}
+span.run70 {
+  background-color: rgb(247, 255, 178);
+  display: block;
+}
+span.run71 {
+  background-color: rgb(249, 255, 178);
+  display: block;
+}
+span.run72 {
+  background-color: rgb(252, 255, 178);
+  display: block;
+}
+span.run73 {
+  background-color: rgb(255, 255, 178);
+  display: block;
+}
+span.run74 {
+  background-color: rgb(255, 252, 178);
+  display: block;
+}
+span.run75 {
+  background-color: rgb(255, 248, 178);
+  display: block;
+}
+span.run76 {
+  background-color: rgb(255, 246, 178);
+  display: block;
+}
+span.run77 {
+  background-color: rgb(255, 243, 178);
+  display: block;
+}
+span.run78 {
+  background-color: rgb(255, 240, 178);
+  display: block;
+}
+span.run79 {
+  background-color: rgb(255, 238, 178);
+  display: block;
+}
+span.run80 {
+  background-color: rgb(255, 234, 178);
+  display: block;
+}
+span.run81 {
+  background-color: rgb(255, 232, 178);
+  display: block;
+}
+span.run82 {
+  background-color: rgb(255, 229, 178);
+  display: block;
+}
+span.run83 {
+  background-color: rgb(255, 226, 178);
+  display: block;
+}
+span.run84 {
+  background-color: rgb(255, 224, 178);
+  display: block;
+}
+span.run85 {
+  background-color: rgb(255, 220, 178);
+  display: block;
+}
+span.run86 {
+  background-color: rgb(255, 218, 178);
+  display: block;
+}
+span.run87 {
+  background-color: rgb(255, 215, 178);
+  display: block;
+}
+span.run88 {
+  background-color: rgb(255, 212, 178);
+  display: block;
+}
+span.run89 {
+  background-color: rgb(255, 210, 178);
+  display: block;
+}
+span.run90 {
+  background-color: rgb(255, 206, 178);
+  display: block;
+}
+span.run91 {
+  background-color: rgb(255, 204, 178);
+  display: block;
+}
+span.run92 {
+  background-color: rgb(255, 201, 178);
+  display: block;
+}
+span.run93 {
+  background-color: rgb(255, 198, 178);
+  display: block;
+}
+span.run94 {
+  background-color: rgb(255, 196, 178);
+  display: block;
+}
+span.run95 {
+  background-color: rgb(255, 192, 178);
+  display: block;
+}
+span.run96 {
+  background-color: rgb(255, 189, 178);
+  display: block;
+}
+span.run97 {
+  background-color: rgb(255, 187, 178);
+  display: block;
+}
+span.run98 {
+  background-color: rgb(255, 184, 178);
+  display: block;
+}
+span.run99 {
+  background-color: rgb(255, 182, 178);
+  display: block;
+}
+span.run100 {
+  background-color: rgb(255, 178, 178);
+  display: block;
+}
+</style>
+      </head>
+      <body>
+        <h3>C0 code coverage information</h3>
+        <p>Generated on Mon Dec 10 22:22:22 -0600 2007 with <a href='http://eigenclass.org/hiki/rcov'>rcov 0.8.1.2</a>
+        </p>
+        <hr /><pre><span class='marked0'>Code reported as executed by Ruby looks like this...
+</span><span class='marked1'>and this: this line is also marked as covered.
+</span><span class='inferred0'>Lines considered as run by rcov, but not reported by Ruby, look like this,
+</span><span class='inferred1'>and this: these lines were inferred by rcov (using simple heuristics).
+</span><span class='uncovered0'>Finally, here&apos;s a line marked as not executed.
+</span></pre>                       
+    <table class='report'>
+      <thead>
+        <tr>
+          <td class='heading'>Name</td>
+          <td class='heading'>Total lines</td>
+          <td class='heading'>Lines of code</td>
+          <td class='heading'>Total coverage</td>
+          <td class='heading'>Code coverage</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class='light'>
+          <td>
+            <a href='lib-spec-mocks-message_expectation_rb.html'>lib/spec/mocks/message_expectation.rb</a>
+          </td>
+          <td class='lines_total'>
+            <tt>242</tt>
+          </td>
+          <td class='lines_code'>
+            <tt>193</tt>
+          </td>
+          <td>
+            <table cellspacing='0' cellpadding='0' align='right'>
+              <tr>
+                <td>
+                  <tt class='coverage_total'>100.0%</tt>&nbsp;</td>
+                <td>
+                  <table cellspacing='0' class='percent_graph' cellpadding='0' width='100'>
+                    <tr>
+                      <td class='covered' width='100' />
+                      <td class='uncovered' width='0' />
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+          <td>
+            <table cellspacing='0' cellpadding='0' align='right'>
+              <tr>
+                <td>
+                  <tt class='coverage_code'>100.0%</tt>&nbsp;</td>
+                <td>
+                  <table cellspacing='0' class='percent_graph' cellpadding='0' width='100'>
+                    <tr>
+                      <td class='covered' width='100' />
+                      <td class='uncovered' width='0' />
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table><pre><span class="marked1"><a name="line1"></a>  1 module Spec
+</span><span class="marked0"><a name="line2"></a>  2   module Mocks
+</span><span class="inferred1"><a name="line3"></a>  3 
+</span><span class="marked0"><a name="line4"></a>  4     class BaseExpectation
+</span><span class="marked1"><a name="line5"></a>  5       attr_reader :sym
+</span><span class="inferred0"><a name="line6"></a>  6       
+</span><span class="marked1"><a name="line7"></a>  7       def initialize(error_generator, expectation_ordering, expected_from, sym, method_block, expected_received_count=1, opts={})
+</span><span class="marked0"><a name="line8"></a>  8         @error_generator = error_generator
+</span><span class="marked1"><a name="line9"></a>  9         @error_generator.opts = opts
+</span><span class="marked0"><a name="line10"></a> 10         @expected_from = expected_from
+</span><span class="marked1"><a name="line11"></a> 11         @sym = sym
+</span><span class="marked0"><a name="line12"></a> 12         @method_block = method_block
+</span><span class="marked1"><a name="line13"></a> 13         @return_block = lambda {}
+</span><span class="marked0"><a name="line14"></a> 14         @received_count = 0
+</span><span class="marked1"><a name="line15"></a> 15         @expected_received_count = expected_received_count
+</span><span class="marked0"><a name="line16"></a> 16         @args_expectation = ArgumentExpectation.new([AnyArgsConstraint.new])
+</span><span class="marked1"><a name="line17"></a> 17         @consecutive = false
+</span><span class="marked0"><a name="line18"></a> 18         @exception_to_raise = nil
+</span><span class="marked1"><a name="line19"></a> 19         @symbol_to_throw = nil
+</span><span class="marked0"><a name="line20"></a> 20         @order_group = expectation_ordering
+</span><span class="marked1"><a name="line21"></a> 21         @at_least = nil
+</span><span class="marked0"><a name="line22"></a> 22         @at_most = nil
+</span><span class="marked1"><a name="line23"></a> 23         @args_to_yield = nil
+</span><span class="inferred0"><a name="line24"></a> 24       end
+</span><span class="inferred1"><a name="line25"></a> 25       
+</span><span class="marked0"><a name="line26"></a> 26       def expected_args
+</span><span class="marked1"><a name="line27"></a> 27         @args_expectation.args
+</span><span class="marked0"><a name="line28"></a> 28       end
+</span><span class="inferred1"><a name="line29"></a> 29 
+</span><span class="marked0"><a name="line30"></a> 30       def and_return(*values, &amp;return_block)
+</span><span class="marked1"><a name="line31"></a> 31         Kernel::raise AmbiguousReturnError unless @method_block.nil?
+</span><span class="marked0"><a name="line32"></a> 32         if values.size == 0
+</span><span class="marked1"><a name="line33"></a> 33           value = nil
+</span><span class="marked0"><a name="line34"></a> 34         elsif values.size == 1
+</span><span class="marked1"><a name="line35"></a> 35           value = values[0]
+</span><span class="inferred0"><a name="line36"></a> 36         else
+</span><span class="marked1"><a name="line37"></a> 37           value = values
+</span><span class="marked0"><a name="line38"></a> 38           @consecutive = true
+</span><span class="inferred1"><a name="line39"></a> 39           @expected_received_count = values.size if @expected_received_count != :any &amp;&amp;
+</span><span class="marked0"><a name="line40"></a> 40                                                     @expected_received_count &lt; values.size
+</span><span class="inferred1"><a name="line41"></a> 41         end
+</span><span class="marked0"><a name="line42"></a> 42         @return_block = block_given? ? return_block : lambda { value }
+</span><span class="inferred1"><a name="line43"></a> 43       end
+</span><span class="inferred0"><a name="line44"></a> 44       
+</span><span class="inferred1"><a name="line45"></a> 45       # :call-seq:
+</span><span class="inferred0"><a name="line46"></a> 46       #   and_raise()
+</span><span class="inferred1"><a name="line47"></a> 47       #   and_raise(Exception) #any exception class
+</span><span class="inferred0"><a name="line48"></a> 48       #   and_raise(exception) #any exception object
+</span><span class="inferred1"><a name="line49"></a> 49       #
+</span><span class="inferred0"><a name="line50"></a> 50       # == Warning
+</span><span class="inferred1"><a name="line51"></a> 51       #
+</span><span class="inferred0"><a name="line52"></a> 52       # When you pass an exception class, the MessageExpectation will
+</span><span class="inferred1"><a name="line53"></a> 53       # raise an instance of it, creating it with +new+. If the exception
+</span><span class="inferred0"><a name="line54"></a> 54       # class initializer requires any parameters, you must pass in an
+</span><span class="inferred1"><a name="line55"></a> 55       # instance and not the class.
+</span><span class="marked0"><a name="line56"></a> 56       def and_raise(exception=Exception)
+</span><span class="marked1"><a name="line57"></a> 57         @exception_to_raise = exception
+</span><span class="marked0"><a name="line58"></a> 58       end
+</span><span class="inferred1"><a name="line59"></a> 59       
+</span><span class="marked0"><a name="line60"></a> 60       def and_throw(symbol)
+</span><span class="marked1"><a name="line61"></a> 61         @symbol_to_throw = symbol
+</span><span class="marked0"><a name="line62"></a> 62       end
+</span><span class="inferred1"><a name="line63"></a> 63       
+</span><span class="marked0"><a name="line64"></a> 64       def and_yield(*args)
+</span><span class="marked1"><a name="line65"></a> 65         @args_to_yield = args
+</span><span class="marked0"><a name="line66"></a> 66       end
+</span><span class="inferred1"><a name="line67"></a> 67   
+</span><span class="marked0"><a name="line68"></a> 68       def matches(sym, args)
+</span><span class="marked1"><a name="line69"></a> 69         @sym == sym and @args_expectation.check_args(args)
+</span><span class="marked0"><a name="line70"></a> 70       end
+</span><span class="inferred1"><a name="line71"></a> 71       
+</span><span class="marked0"><a name="line72"></a> 72       def invoke(args, block)
+</span><span class="marked1"><a name="line73"></a> 73         @order_group.handle_order_constraint self
+</span><span class="inferred0"><a name="line74"></a> 74 
+</span><span class="marked1"><a name="line75"></a> 75         begin
+</span><span class="marked0"><a name="line76"></a> 76           if @exception_to_raise.class == Class
+</span><span class="marked1"><a name="line77"></a> 77             @exception_instance_to_raise = @exception_to_raise.new
+</span><span class="inferred0"><a name="line78"></a> 78           else 
+</span><span class="marked1"><a name="line79"></a> 79             @exception_instance_to_raise = @exception_to_raise
+</span><span class="inferred0"><a name="line80"></a> 80           end
+</span><span class="marked1"><a name="line81"></a> 81           Kernel::raise @exception_to_raise unless @exception_to_raise.nil?
+</span><span class="marked0"><a name="line82"></a> 82           Kernel::throw @symbol_to_throw unless @symbol_to_throw.nil?
+</span><span class="inferred1"><a name="line83"></a> 83 
+</span><span class="marked0"><a name="line84"></a> 84           if !@method_block.nil?
+</span><span class="marked1"><a name="line85"></a> 85             return invoke_method_block(args)
+</span><span class="marked0"><a name="line86"></a> 86           elsif !@args_to_yield.nil?
+</span><span class="marked1"><a name="line87"></a> 87             return invoke_with_yield(block)
+</span><span class="marked0"><a name="line88"></a> 88           elsif @consecutive
+</span><span class="marked1"><a name="line89"></a> 89             return invoke_consecutive_return_block(args, block)
+</span><span class="inferred0"><a name="line90"></a> 90           else
+</span><span class="marked1"><a name="line91"></a> 91             return invoke_return_block(args, block)
+</span><span class="inferred0"><a name="line92"></a> 92           end
+</span><span class="inferred1"><a name="line93"></a> 93         ensure
+</span><span class="marked0"><a name="line94"></a> 94           @received_count += 1
+</span><span class="inferred1"><a name="line95"></a> 95         end
+</span><span class="inferred0"><a name="line96"></a> 96       end
+</span><span class="inferred1"><a name="line97"></a> 97       
+</span><span class="marked0"><a name="line98"></a> 98       protected
+</span><span class="inferred1"><a name="line99"></a> 99 
+</span><span class="marked0"><a name="line100"></a>100       def invoke_method_block(args)
+</span><span class="marked1"><a name="line101"></a>101         begin
+</span><span class="marked0"><a name="line102"></a>102           @method_block.call(*args)
+</span><span class="inferred1"><a name="line103"></a>103         rescue =&gt; detail
+</span><span class="marked0"><a name="line104"></a>104           @error_generator.raise_block_failed_error @sym, detail.message
+</span><span class="inferred1"><a name="line105"></a>105         end
+</span><span class="marked0"><a name="line106"></a>106       end
+</span><span class="inferred1"><a name="line107"></a>107       
+</span><span class="marked0"><a name="line108"></a>108       def invoke_with_yield(block)
+</span><span class="marked1"><a name="line109"></a>109         if block.nil?
+</span><span class="marked0"><a name="line110"></a>110           @error_generator.raise_missing_block_error @args_to_yield
+</span><span class="inferred1"><a name="line111"></a>111         end
+</span><span class="marked0"><a name="line112"></a>112         if block.arity &gt; -1 &amp;&amp; @args_to_yield.length != block.arity
+</span><span class="marked1"><a name="line113"></a>113           @error_generator.raise_wrong_arity_error @args_to_yield, block.arity
+</span><span class="inferred0"><a name="line114"></a>114         end
+</span><span class="marked1"><a name="line115"></a>115         block.call(*@args_to_yield)
+</span><span class="inferred0"><a name="line116"></a>116       end
+</span><span class="inferred1"><a name="line117"></a>117       
+</span><span class="marked0"><a name="line118"></a>118       def invoke_consecutive_return_block(args, block)
+</span><span class="marked1"><a name="line119"></a>119         args &lt;&lt; block unless block.nil?
+</span><span class="marked0"><a name="line120"></a>120         value = @return_block.call(*args)
+</span><span class="inferred1"><a name="line121"></a>121         
+</span><span class="marked0"><a name="line122"></a>122         index = [@received_count, value.size-1].min
+</span><span class="marked1"><a name="line123"></a>123         value[index]
+</span><span class="inferred0"><a name="line124"></a>124       end
+</span><span class="inferred1"><a name="line125"></a>125       
+</span><span class="marked0"><a name="line126"></a>126       def invoke_return_block(args, block)
+</span><span class="marked1"><a name="line127"></a>127         args &lt;&lt; block unless block.nil?
+</span><span class="marked0"><a name="line128"></a>128         value = @return_block.call(*args)
+</span><span class="inferred1"><a name="line129"></a>129     
+</span><span class="marked0"><a name="line130"></a>130         value
+</span><span class="inferred1"><a name="line131"></a>131       end
+</span><span class="inferred0"><a name="line132"></a>132     end
+</span><span class="inferred1"><a name="line133"></a>133     
+</span><span class="marked0"><a name="line134"></a>134     class MessageExpectation &lt; BaseExpectation
+</span><span class="inferred1"><a name="line135"></a>135       
+</span><span class="marked0"><a name="line136"></a>136       def matches_name_but_not_args(sym, args)
+</span><span class="marked1"><a name="line137"></a>137         @sym == sym and not @args_expectation.check_args(args)
+</span><span class="marked0"><a name="line138"></a>138       end
+</span><span class="inferred1"><a name="line139"></a>139        
+</span><span class="marked0"><a name="line140"></a>140       def verify_messages_received        
+</span><span class="marked1"><a name="line141"></a>141         return if @expected_received_count == :any
+</span><span class="marked0"><a name="line142"></a>142         return if (@at_least) &amp;&amp; (@received_count &gt;= @expected_received_count)
+</span><span class="marked1"><a name="line143"></a>143         return if (@at_most) &amp;&amp; (@received_count &lt;= @expected_received_count)
+</span><span class="marked0"><a name="line144"></a>144         return if @expected_received_count == @received_count
+</span><span class="inferred1"><a name="line145"></a>145     
+</span><span class="marked0"><a name="line146"></a>146         begin
+</span><span class="marked1"><a name="line147"></a>147           @error_generator.raise_expectation_error(@sym, @expected_received_count, @received_count, *@args_expectation.args)
+</span><span class="inferred0"><a name="line148"></a>148         rescue =&gt; error
+</span><span class="marked1"><a name="line149"></a>149           error.backtrace.insert(0, @expected_from)
+</span><span class="marked0"><a name="line150"></a>150           Kernel::raise error
+</span><span class="inferred1"><a name="line151"></a>151         end
+</span><span class="inferred0"><a name="line152"></a>152       end
+</span><span class="inferred1"><a name="line153"></a>153 
+</span><span class="marked0"><a name="line154"></a>154       def with(*args, &amp;block)
+</span><span class="marked1"><a name="line155"></a>155         @method_block = block if block
+</span><span class="marked0"><a name="line156"></a>156         @args_expectation = ArgumentExpectation.new(args)
+</span><span class="marked1"><a name="line157"></a>157         self
+</span><span class="inferred0"><a name="line158"></a>158       end
+</span><span class="inferred1"><a name="line159"></a>159       
+</span><span class="marked0"><a name="line160"></a>160       def exactly(n)
+</span><span class="marked1"><a name="line161"></a>161         set_expected_received_count :exactly, n
+</span><span class="marked0"><a name="line162"></a>162         self
+</span><span class="inferred1"><a name="line163"></a>163       end
+</span><span class="inferred0"><a name="line164"></a>164       
+</span><span class="marked1"><a name="line165"></a>165       def at_least(n)
+</span><span class="marked0"><a name="line166"></a>166         set_expected_received_count :at_least, n
+</span><span class="marked1"><a name="line167"></a>167         self
+</span><span class="inferred0"><a name="line168"></a>168       end
+</span><span class="inferred1"><a name="line169"></a>169       
+</span><span class="marked0"><a name="line170"></a>170       def at_most(n)
+</span><span class="marked1"><a name="line171"></a>171         set_expected_received_count :at_most, n
+</span><span class="marked0"><a name="line172"></a>172         self
+</span><span class="inferred1"><a name="line173"></a>173       end
+</span><span class="inferred0"><a name="line174"></a>174 
+</span><span class="marked1"><a name="line175"></a>175       def times(&amp;block)
+</span><span class="marked0"><a name="line176"></a>176         @method_block = block if block
+</span><span class="marked1"><a name="line177"></a>177         self
+</span><span class="inferred0"><a name="line178"></a>178       end
+</span><span class="inferred1"><a name="line179"></a>179   
+</span><span class="marked0"><a name="line180"></a>180       def any_number_of_times(&amp;block)
+</span><span class="marked1"><a name="line181"></a>181         @method_block = block if block
+</span><span class="marked0"><a name="line182"></a>182         @expected_received_count = :any
+</span><span class="marked1"><a name="line183"></a>183         self
+</span><span class="inferred0"><a name="line184"></a>184       end
+</span><span class="inferred1"><a name="line185"></a>185   
+</span><span class="marked0"><a name="line186"></a>186       def never
+</span><span class="marked1"><a name="line187"></a>187         @expected_received_count = 0
+</span><span class="marked0"><a name="line188"></a>188         self
+</span><span class="inferred1"><a name="line189"></a>189       end
+</span><span class="inferred0"><a name="line190"></a>190   
+</span><span class="marked1"><a name="line191"></a>191       def once(&amp;block)
+</span><span class="marked0"><a name="line192"></a>192         @method_block = block if block
+</span><span class="marked1"><a name="line193"></a>193         @expected_received_count = 1
+</span><span class="marked0"><a name="line194"></a>194         self
+</span><span class="inferred1"><a name="line195"></a>195       end
+</span><span class="inferred0"><a name="line196"></a>196   
+</span><span class="marked1"><a name="line197"></a>197       def twice(&amp;block)
+</span><span class="marked0"><a name="line198"></a>198         @method_block = block if block
+</span><span class="marked1"><a name="line199"></a>199         @expected_received_count = 2
+</span><span class="marked0"><a name="line200"></a>200         self
+</span><span class="inferred1"><a name="line201"></a>201       end
+</span><span class="inferred0"><a name="line202"></a>202   
+</span><span class="marked1"><a name="line203"></a>203       def ordered(&amp;block)
+</span><span class="marked0"><a name="line204"></a>204         @method_block = block if block
+</span><span class="marked1"><a name="line205"></a>205         @order_group.register(self)
+</span><span class="marked0"><a name="line206"></a>206         @ordered = true
+</span><span class="marked1"><a name="line207"></a>207         self
+</span><span class="inferred0"><a name="line208"></a>208       end
+</span><span class="inferred1"><a name="line209"></a>209       
+</span><span class="marked0"><a name="line210"></a>210       def negative_expectation_for?(sym)
+</span><span class="marked1"><a name="line211"></a>211         return false
+</span><span class="marked0"><a name="line212"></a>212       end
+</span><span class="inferred1"><a name="line213"></a>213       
+</span><span class="marked0"><a name="line214"></a>214       protected
+</span><span class="marked1"><a name="line215"></a>215         def set_expected_received_count(relativity, n)
+</span><span class="marked0"><a name="line216"></a>216           @at_least = (relativity == :at_least)
+</span><span class="marked1"><a name="line217"></a>217           @at_most = (relativity == :at_most)
+</span><span class="marked0"><a name="line218"></a>218           @expected_received_count = 1 if n == :once
+</span><span class="marked1"><a name="line219"></a>219           @expected_received_count = 2 if n == :twice
+</span><span class="marked0"><a name="line220"></a>220           @expected_received_count = n if n.kind_of? Numeric
+</span><span class="inferred1"><a name="line221"></a>221         end
+</span><span class="inferred0"><a name="line222"></a>222       
+</span><span class="inferred1"><a name="line223"></a>223     end
+</span><span class="inferred0"><a name="line224"></a>224     
+</span><span class="marked1"><a name="line225"></a>225     class NegativeMessageExpectation &lt; MessageExpectation
+</span><span class="marked0"><a name="line226"></a>226       def initialize(message, expectation_ordering, expected_from, sym, method_block)
+</span><span class="marked1"><a name="line227"></a>227         super(message, expectation_ordering, expected_from, sym, method_block, 0)
+</span><span class="marked0"><a name="line228"></a>228       end
+</span><span class="inferred1"><a name="line229"></a>229       
+</span><span class="marked0"><a name="line230"></a>230       def negative_expectation_for?(sym)
+</span><span class="marked1"><a name="line231"></a>231         return @sym == sym
+</span><span class="marked0"><a name="line232"></a>232       end
+</span><span class="inferred1"><a name="line233"></a>233     end
+</span><span class="inferred0"><a name="line234"></a>234     
+</span><span class="marked1"><a name="line235"></a>235     class MethodStub &lt; BaseExpectation
+</span><span class="marked0"><a name="line236"></a>236       def initialize(message, expectation_ordering, expected_from, sym, method_block)
+</span><span class="marked1"><a name="line237"></a>237         super(message, expectation_ordering, expected_from, sym, method_block, 0)
+</span><span class="marked0"><a name="line238"></a>238         @expected_received_count = :any
+</span><span class="inferred1"><a name="line239"></a>239       end
+</span><span class="inferred0"><a name="line240"></a>240     end
+</span><span class="inferred1"><a name="line241"></a>241   end
+</span><span class="inferred0"><a name="line242"></a>242 end
+</span></pre><hr />    <p>Generated using the <a href='http://eigenclass.org/hiki.rb?rcov'>rcov code coverage analysis tool for Ruby</a> version 0.8.1.2.</p><p>
+          <a href='http://validator.w3.org/check/referer'>
+            <img src='http://www.w3.org/Icons/valid-xhtml10' height='31' alt='Valid XHTML 1.0!' width='88' />
+          </a>
+          <a href='http://jigsaw.w3.org/css-validator/check/referer'>
+            <img src='http://jigsaw.w3.org/css-validator/images/vcss' alt='Valid CSS!' style='border:0;width:88px;height:31px' />
+          </a>
+        </p>
+      </body>
+    </html>

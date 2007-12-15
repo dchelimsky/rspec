@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Module: Spec::Rails::DSL::RenderObserver</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Module</strong></td>
+          <td class="class-name-in-header">Spec::Rails::DSL::RenderObserver</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../../../files/lib/spec/rails/dsl/behaviour/render_observer_rb.html">
+                lib/spec/rails/dsl/behaviour/render_observer.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+Provides specialized mock-like behaviour for controller and view examples,
+allowing you to mock or stub calls to render with specific arguments while
+ignoring all other calls.
+</p>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000027">expect_render</a>&nbsp;&nbsp;
+      <a href="#M000028">stub_render</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000027" class="method-detail">
+        <a name="M000027"></a>
+
+        <div class="method-heading">
+          <a href="#M000027" class="method-signature">
+          <span class="method-name">expect_render</span><span class="method-args">(opts={})</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Similar to mocking <tt>render</tt> with the exception that calls to
+<tt>render</tt> with any other options are passed on to the receiver (i.e.
+controller in controller examples, template in view examples).
+</p>
+<p>
+This is necessary because <a href="../../Rails.html">Rails</a> uses the
+<tt>render</tt> method on both controllers and templates as a dispatcher to
+render different kinds of things, sometimes resulting in many calls to the
+render method within one request. This approach makes it impossible to use
+a normal mock object, which is designed to observe all incoming messages
+with a given name.
+</p>
+<p>
+<tt><a href="RenderObserver.html#M000027">expect_render</a></tt> is
+auto-verifying, so failures will be reported without requiring you to
+explicitly request verification.
+</p>
+<p>
+Also, <tt><a href="RenderObserver.html#M000027">expect_render</a></tt> uses
+parts of RSpec&#8216;s mock expectation framework. Because it wraps only a
+subset of the framework, using this will create no conflict with other mock
+frameworks if you choose to use them. Additionally, the object returned by
+<a href="RenderObserver.html#M000027">expect_render</a> is an RSpec mock
+object, which means that you can call any of the chained methods available
+in RSpec&#8216;s mocks.
+</p>
+<h2>Controller Examples</h2>
+<pre>
+  controller.expect_render(:partial =&gt; 'thing', :object =&gt; thing)
+  controller.expect_render(:partial =&gt; 'thing', :collection =&gt; things).once
+
+  controller.stub_render(:partial =&gt; 'thing', :object =&gt; thing)
+  controller.stub_render(:partial =&gt; 'thing', :collection =&gt; things).twice
+</pre>
+<h2>View Examples</h2>
+<pre>
+  template.expect_render(:partial =&gt; 'thing', :object =&gt; thing)
+  template.expect_render(:partial =&gt; 'thing', :collection =&gt; things)
+
+  template.stub_render(:partial =&gt; 'thing', :object =&gt; thing)
+  template.stub_render(:partial =&gt; 'thing', :collection =&gt; things)
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000027-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000027-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/spec/rails/dsl/behaviour/render_observer.rb, line 46</span>
+46:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">expect_render</span>(<span class="ruby-identifier">opts</span>={})
+47:           <span class="ruby-identifier">expectation</span> = <span class="ruby-identifier">expect_render_mock_proxy</span>.<span class="ruby-identifier">should_receive</span>(<span class="ruby-identifier">:render</span>, <span class="ruby-identifier">:expected_from</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">caller</span>(<span class="ruby-value">1</span>)[<span class="ruby-value">0</span>]).<span class="ruby-identifier">with</span>(<span class="ruby-identifier">opts</span>)
+48:           <span class="ruby-identifier">register_verify_after_each</span>
+49:           <span class="ruby-identifier">expectation</span>
+50:         <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000028" class="method-detail">
+        <a name="M000028"></a>
+
+        <div class="method-heading">
+          <a href="#M000028" class="method-signature">
+          <span class="method-name">stub_render</span><span class="method-args">(opts={})</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+This is exactly like <a
+href="RenderObserver.html#M000027">expect_render</a>, with the exception
+that the call to render will not be verified. Use this if you are trying to
+isolate your example from a complicated render operation but don&#8216;t
+care whether it is called or not.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000028-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000028-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/spec/rails/dsl/behaviour/render_observer.rb, line 55</span>
+55:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">stub_render</span>(<span class="ruby-identifier">opts</span>={})
+56:           <span class="ruby-identifier">expect_render_mock_proxy</span>.<span class="ruby-identifier">should_receive</span>(<span class="ruby-identifier">:render</span>, <span class="ruby-identifier">:expected_from</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">caller</span>(<span class="ruby-value">1</span>)[<span class="ruby-value">0</span>]).<span class="ruby-identifier">with</span>(<span class="ruby-identifier">opts</span>).<span class="ruby-identifier">any_number_of_times</span>
+57:         <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Module: Spec::DSL</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Module</strong></td>
+          <td class="class-name-in-header">Spec::DSL</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../files/lib/spec/dsl/behaviour_rb.html">
+                lib/spec/dsl/behaviour.rb
+                </a>
+        <br />
+                <a href="../../files/lib/spec/dsl/behaviour_callbacks_rb.html">
+                lib/spec/dsl/behaviour_callbacks.rb
+                </a>
+        <br />
+                <a href="../../files/lib/spec/dsl/behaviour_eval_rb.html">
+                lib/spec/dsl/behaviour_eval.rb
+                </a>
+        <br />
+                <a href="../../files/lib/spec/dsl/behaviour_factory_rb.html">
+                lib/spec/dsl/behaviour_factory.rb
+                </a>
+        <br />
+                <a href="../../files/lib/spec/dsl/composite_proc_builder_rb.html">
+                lib/spec/dsl/composite_proc_builder.rb
+                </a>
+        <br />
+                <a href="../../files/lib/spec/dsl/configuration_rb.html">
+                lib/spec/dsl/configuration.rb
+                </a>
+        <br />
+                <a href="../../files/lib/spec/dsl/description_rb.html">
+                lib/spec/dsl/description.rb
+                </a>
+        <br />
+                <a href="../../files/lib/spec/dsl/errors_rb.html">
+                lib/spec/dsl/errors.rb
+                </a>
+        <br />
+                <a href="../../files/lib/spec/dsl/example_rb.html">
+                lib/spec/dsl/example.rb
+                </a>
+        <br />
+                <a href="../../files/lib/spec/dsl/example_matcher_rb.html">
+                lib/spec/dsl/example_matcher.rb
+                </a>
+        <br />
+                <a href="../../files/lib/spec/dsl/example_should_raise_handler_rb.html">
+                lib/spec/dsl/example_should_raise_handler.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+
+
+   </div>
+
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+    <div id="class-list">
+      <h3 class="section-bar">Classes and Modules</h3>
+
+      Module <a href="DSL/BehaviourCallbacks.html" class="link">Spec::DSL::BehaviourCallbacks</a><br />
+Module <a href="DSL/BehaviourEval.html" class="link">Spec::DSL::BehaviourEval</a><br />
+Class <a href="DSL/Behaviour.html" class="link">Spec::DSL::Behaviour</a><br />
+Class <a href="DSL/BehaviourFactory.html" class="link">Spec::DSL::BehaviourFactory</a><br />
+Class <a href="DSL/CompositeProcBuilder.html" class="link">Spec::DSL::CompositeProcBuilder</a><br />
+Class <a href="DSL/Configuration.html" class="link">Spec::DSL::Configuration</a><br />
+Class <a href="DSL/Description.html" class="link">Spec::DSL::Description</a><br />
+Class <a href="DSL/EvalModule.html" class="link">Spec::DSL::EvalModule</a><br />
+Class <a href="DSL/Example.html" class="link">Spec::DSL::Example</a><br />
+Class <a href="DSL/ExampleMatcher.html" class="link">Spec::DSL::ExampleMatcher</a><br />
+Class <a href="DSL/ExamplePendingError.html" class="link">Spec::DSL::ExamplePendingError</a><br />
+Class <a href="DSL/ExampleShouldRaiseHandler.html" class="link">Spec::DSL::ExampleShouldRaiseHandler</a><br />
+Class <a href="DSL/PendingFixedError.html" class="link">Spec::DSL::PendingFixedError</a><br />
+
+    </div>
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

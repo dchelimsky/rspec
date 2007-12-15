@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <title>RSpec-1.0.8: Other Mock/Stub Frameworks</title>
+    <link href="../../default.css" rel="stylesheet" type="text/css" media="screen"/>
+    <link href="../../breadcrumbs.css" rel="stylesheet" type="text/css" media="screen"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="RSpec, Other Mock/Stub Frameworks, BDD, behaviour driven development, behavior driven development, TDD, test driven development, Ruby, Rails, testing, watir, selenium"/>
+    <style><!--
+    div.breadcrumbs ul li {
+    	background-image: url(../../images/arrow.gif);
+    }
+    --></style>
+  </head>
+<body>
+
+<div id="container">
+  <div id="header">
+    <h1>RSpec 1.0.8</h1>
+  </div>
+
+  <div class="breadcrumb-menu">
+    <div class="breadcrumbs">
+  <ul>
+    <li><a href="../../index.html">Home</a></li>
+    <li><a href="../index.html">Documentation</a></li>
+    <li><a href="index.html">Mocks</a></li>
+    <li class="selected"><span>Other Mock/Stub Frameworks</span></li>
+  </ul>
+</div>
+<div class="menu">
+  <ul>
+  </ul>
+</div>
+
+  </div>
+
+  <div id="content">
+    <h2>Other Mock/Stub Frameworks</h2>
+
+
+	<p>If you prefer to use a mocking framework other than RSpec&#8217;s built in framework, you
+can do this quite simply. RSpec currently supports use of the following frameworks
+out of the box (in alphabetical order):</p>
+
+
+	<ul>
+	<li><a href="http://flexmock.rubyforge.org/">flexmock</a></li>
+		<li><a href="http://mocha.rubyforge.org">mocha</a></li>
+		<li><a href="http://rubyforge.org/projects/pivotalrb/">rr</a></li>
+	</ul>
+
+
+	<p>RSpec supports use of a single framework per project, because these frameworks (including)
+RSpec&#8217;s own, tend to add methods to Object that might or might not work well together. To
+choose a mock framework other than rspec, simply add the following to spec/spec_helper.rb
+(or any file that gets loaded when you run your examples):</p>
+
+
+<pre class="ruby"><code><span class="constant">Spec</span><span class="punct">::</span><span class="constant">Runner</span><span class="punct">.</span><span class="ident">configure</span> <span class="keyword">do</span> <span class="punct">|</span><span class="ident">config</span><span class="punct">|</span>
+  <span class="ident">config</span><span class="punct">.</span><span class="ident">mock_with</span> <span class="symbol">:rr</span>
+<span class="keyword">end</span>
+</code></pre>
+
+	<p>Valid options are <code>:flexmock</code>, <code>:mocha</code>, <code>:rspec</code> (of course),
+and <code>:rr</code>.</p>
+
+
+	<h2>Even more &#8220;other&#8221; frameworks</h2>
+
+
+	<p>If you have a different framework that is not supported directly by RSpec, you can easily
+choose that framework instead by creating an adapter and telling RSpec where to find it.
+Here is RSpec&#8217;s own adapter as an example:</p>
+
+
+<pre class="ruby"><code><span class="ident">require</span> <span class="constant">File</span><span class="punct">.</span><span class="ident">expand_path</span><span class="punct">(</span><span class="constant">File</span><span class="punct">.</span><span class="ident">join</span><span class="punct">(</span><span class="constant">File</span><span class="punct">.</span><span class="ident">dirname</span><span class="punct">(</span><span class="constant">__FILE__</span><span class="punct">),</span> <span class="punct">&quot;</span><span class="string">..</span><span class="punct">&quot;,</span> <span class="punct">&quot;</span><span class="string">..</span><span class="punct">&quot;,</span> <span class="punct">&quot;</span><span class="string">lib</span><span class="punct">&quot;,</span> <span class="punct">&quot;</span><span class="string">spec</span><span class="punct">&quot;,</span> <span class="punct">&quot;</span><span class="string">mocks</span><span class="punct">&quot;))</span>
+
+<span class="keyword">module </span><span class="module">Spec</span>
+  <span class="keyword">module </span><span class="module">Plugins</span>
+    <span class="keyword">module </span><span class="module">MockFramework</span>
+      <span class="ident">include</span> <span class="constant">Spec</span><span class="punct">::</span><span class="constant">Mocks</span><span class="punct">::</span><span class="constant">SpecMethods</span>
+      <span class="keyword">def </span><span class="method">setup_mocks_for_rspec</span>
+        <span class="global">$rspec_mocks</span> <span class="punct">||=</span> <span class="constant">Spec</span><span class="punct">::</span><span class="constant">Mocks</span><span class="punct">::</span><span class="constant">Space</span><span class="punct">.</span><span class="ident">new</span>
+      <span class="keyword">end</span>
+      <span class="keyword">def </span><span class="method">verify_mocks_for_rspec</span>
+        <span class="global">$rspec_mocks</span><span class="punct">.</span><span class="ident">verify_all</span>
+      <span class="keyword">end</span>
+      <span class="keyword">def </span><span class="method">teardown_mocks_for_rspec</span>
+        <span class="global">$rspec_mocks</span><span class="punct">.</span><span class="ident">reset_all</span>
+      <span class="keyword">end</span>
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+</code></pre>
+
+	<p>This file must require any libraries or resources that implement the framework, and then define
+a <code>Spec::Plugins::MockFramework</code> module with the following methods:</p>
+
+
+	<ul>
+	<li><code>setup_mocks_for_rspec</code> is called before each example is run.</li>
+		<li><code>verify_mocks_for_rspec</code> is called after each example is run. Use this if you want
+RSpec to automatically verify your mocks after each example. You must supply this method either
+way, but you can leave it empty if your framework doesn&#8217;t support auto-verification.</li>
+		<li><code>teardown_mocks_for_rspec</code> is guaranteed to be run after each example even when there
+are errors. Use this to ensure that there is no state shared across example, clearing out changes
+to static resources like class-level mock expectations, etc.</li>
+	</ul>
+
+
+	<p>Once you have defined your adapter, you can then tell RSpec to use your adapter like so:</p>
+
+
+<pre class="ruby"><code><span class="constant">Spec</span><span class="punct">::</span><span class="constant">Runner</span><span class="punct">.</span><span class="ident">configure</span> <span class="keyword">do</span> <span class="punct">|</span><span class="ident">config</span><span class="punct">|</span>
+  <span class="ident">config</span><span class="punct">.</span><span class="ident">mock_with</span> <span class="punct">'</span><span class="string">/path/to/my/adapater.rb</span><span class="punct">'</span>
+<span class="keyword">end</span>
+</code></pre>
+    
+    <div id="footer">
+      Webdesign by <a href="http://www.oswd.org/user/profile/id/9462">JM</a>
+      <SCRIPT type='text/javascript' language='JavaScript' src='http://www.ohloh.net/projects/4386;badge_js'></SCRIPT>
+    </div>
+  </div>
+</div>
+
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-1889510-1";
+urchinTracker();
+</script>
+</body>
+</html>

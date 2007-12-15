@@ -1,0 +1,492 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: Spec::Mocks::MessageExpectation</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">Spec::Mocks::MessageExpectation</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../../files/lib/spec/mocks/message_expectation_rb.html">
+                lib/spec/mocks/message_expectation.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                <a href="BaseExpectation.html">
+                BaseExpectation
+               </a>
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000053">any_number_of_times</a>&nbsp;&nbsp;
+      <a href="#M000050">at_least</a>&nbsp;&nbsp;
+      <a href="#M000051">at_most</a>&nbsp;&nbsp;
+      <a href="#M000049">exactly</a>&nbsp;&nbsp;
+      <a href="#M000046">matches_name_but_not_args</a>&nbsp;&nbsp;
+      <a href="#M000058">negative_expectation_for?</a>&nbsp;&nbsp;
+      <a href="#M000054">never</a>&nbsp;&nbsp;
+      <a href="#M000055">once</a>&nbsp;&nbsp;
+      <a href="#M000057">ordered</a>&nbsp;&nbsp;
+      <a href="#M000059">set_expected_received_count</a>&nbsp;&nbsp;
+      <a href="#M000052">times</a>&nbsp;&nbsp;
+      <a href="#M000056">twice</a>&nbsp;&nbsp;
+      <a href="#M000047">verify_messages_received</a>&nbsp;&nbsp;
+      <a href="#M000048">with</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000053" class="method-detail">
+        <a name="M000053"></a>
+
+        <div class="method-heading">
+          <a href="#M000053" class="method-signature">
+          <span class="method-name">any_number_of_times</span><span class="method-args">(&amp;block)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000053-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000053-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/spec/mocks/message_expectation.rb, line 180</span>
+180:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">any_number_of_times</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+181:         <span class="ruby-ivar">@method_block</span> = <span class="ruby-identifier">block</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">block</span>
+182:         <span class="ruby-ivar">@expected_received_count</span> = <span class="ruby-identifier">:any</span>
+183:         <span class="ruby-keyword kw">self</span>
+184:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000050" class="method-detail">
+        <a name="M000050"></a>
+
+        <div class="method-heading">
+          <a href="#M000050" class="method-signature">
+          <span class="method-name">at_least</span><span class="method-args">(n)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000050-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000050-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/spec/mocks/message_expectation.rb, line 165</span>
+165:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">at_least</span>(<span class="ruby-identifier">n</span>)
+166:         <span class="ruby-identifier">set_expected_received_count</span> <span class="ruby-identifier">:at_least</span>, <span class="ruby-identifier">n</span>
+167:         <span class="ruby-keyword kw">self</span>
+168:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000051" class="method-detail">
+        <a name="M000051"></a>
+
+        <div class="method-heading">
+          <a href="#M000051" class="method-signature">
+          <span class="method-name">at_most</span><span class="method-args">(n)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000051-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000051-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/spec/mocks/message_expectation.rb, line 170</span>
+170:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">at_most</span>(<span class="ruby-identifier">n</span>)
+171:         <span class="ruby-identifier">set_expected_received_count</span> <span class="ruby-identifier">:at_most</span>, <span class="ruby-identifier">n</span>
+172:         <span class="ruby-keyword kw">self</span>
+173:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000049" class="method-detail">
+        <a name="M000049"></a>
+
+        <div class="method-heading">
+          <a href="#M000049" class="method-signature">
+          <span class="method-name">exactly</span><span class="method-args">(n)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000049-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000049-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/spec/mocks/message_expectation.rb, line 160</span>
+160:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">exactly</span>(<span class="ruby-identifier">n</span>)
+161:         <span class="ruby-identifier">set_expected_received_count</span> <span class="ruby-identifier">:exactly</span>, <span class="ruby-identifier">n</span>
+162:         <span class="ruby-keyword kw">self</span>
+163:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000046" class="method-detail">
+        <a name="M000046"></a>
+
+        <div class="method-heading">
+          <a href="#M000046" class="method-signature">
+          <span class="method-name">matches_name_but_not_args</span><span class="method-args">(sym, args)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000046-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000046-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/spec/mocks/message_expectation.rb, line 136</span>
+136:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">matches_name_but_not_args</span>(<span class="ruby-identifier">sym</span>, <span class="ruby-identifier">args</span>)
+137:         <span class="ruby-ivar">@sym</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">sym</span> <span class="ruby-keyword kw">and</span> <span class="ruby-keyword kw">not</span> <span class="ruby-ivar">@args_expectation</span>.<span class="ruby-identifier">check_args</span>(<span class="ruby-identifier">args</span>)
+138:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000058" class="method-detail">
+        <a name="M000058"></a>
+
+        <div class="method-heading">
+          <a href="#M000058" class="method-signature">
+          <span class="method-name">negative_expectation_for?</span><span class="method-args">(sym)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000058-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000058-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/spec/mocks/message_expectation.rb, line 210</span>
+210:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">negative_expectation_for?</span>(<span class="ruby-identifier">sym</span>)
+211:         <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">false</span>
+212:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000054" class="method-detail">
+        <a name="M000054"></a>
+
+        <div class="method-heading">
+          <a href="#M000054" class="method-signature">
+          <span class="method-name">never</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000054-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000054-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/spec/mocks/message_expectation.rb, line 186</span>
+186:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">never</span>
+187:         <span class="ruby-ivar">@expected_received_count</span> = <span class="ruby-value">0</span>
+188:         <span class="ruby-keyword kw">self</span>
+189:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000055" class="method-detail">
+        <a name="M000055"></a>
+
+        <div class="method-heading">
+          <a href="#M000055" class="method-signature">
+          <span class="method-name">once</span><span class="method-args">(&amp;block)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000055-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000055-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/spec/mocks/message_expectation.rb, line 191</span>
+191:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">once</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+192:         <span class="ruby-ivar">@method_block</span> = <span class="ruby-identifier">block</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">block</span>
+193:         <span class="ruby-ivar">@expected_received_count</span> = <span class="ruby-value">1</span>
+194:         <span class="ruby-keyword kw">self</span>
+195:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000057" class="method-detail">
+        <a name="M000057"></a>
+
+        <div class="method-heading">
+          <a href="#M000057" class="method-signature">
+          <span class="method-name">ordered</span><span class="method-args">(&amp;block)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000057-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000057-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/spec/mocks/message_expectation.rb, line 203</span>
+203:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">ordered</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+204:         <span class="ruby-ivar">@method_block</span> = <span class="ruby-identifier">block</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">block</span>
+205:         <span class="ruby-ivar">@order_group</span>.<span class="ruby-identifier">register</span>(<span class="ruby-keyword kw">self</span>)
+206:         <span class="ruby-ivar">@ordered</span> = <span class="ruby-keyword kw">true</span>
+207:         <span class="ruby-keyword kw">self</span>
+208:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000052" class="method-detail">
+        <a name="M000052"></a>
+
+        <div class="method-heading">
+          <a href="#M000052" class="method-signature">
+          <span class="method-name">times</span><span class="method-args">(&amp;block)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000052-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000052-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/spec/mocks/message_expectation.rb, line 175</span>
+175:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">times</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+176:         <span class="ruby-ivar">@method_block</span> = <span class="ruby-identifier">block</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">block</span>
+177:         <span class="ruby-keyword kw">self</span>
+178:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000056" class="method-detail">
+        <a name="M000056"></a>
+
+        <div class="method-heading">
+          <a href="#M000056" class="method-signature">
+          <span class="method-name">twice</span><span class="method-args">(&amp;block)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000056-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000056-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/spec/mocks/message_expectation.rb, line 197</span>
+197:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">twice</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+198:         <span class="ruby-ivar">@method_block</span> = <span class="ruby-identifier">block</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">block</span>
+199:         <span class="ruby-ivar">@expected_received_count</span> = <span class="ruby-value">2</span>
+200:         <span class="ruby-keyword kw">self</span>
+201:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000047" class="method-detail">
+        <a name="M000047"></a>
+
+        <div class="method-heading">
+          <a href="#M000047" class="method-signature">
+          <span class="method-name">verify_messages_received</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000047-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000047-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/spec/mocks/message_expectation.rb, line 140</span>
+140:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">verify_messages_received</span>        
+141:         <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@expected_received_count</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">:any</span>
+142:         <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">if</span> (<span class="ruby-ivar">@at_least</span>) <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-ivar">@received_count</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-ivar">@expected_received_count</span>)
+143:         <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">if</span> (<span class="ruby-ivar">@at_most</span>) <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-ivar">@received_count</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-ivar">@expected_received_count</span>)
+144:         <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@expected_received_count</span> <span class="ruby-operator">==</span> <span class="ruby-ivar">@received_count</span>
+145:     
+146:         <span class="ruby-keyword kw">begin</span>
+147:           <span class="ruby-ivar">@error_generator</span>.<span class="ruby-identifier">raise_expectation_error</span>(<span class="ruby-ivar">@sym</span>, <span class="ruby-ivar">@expected_received_count</span>, <span class="ruby-ivar">@received_count</span>, <span class="ruby-operator">*</span><span class="ruby-ivar">@args_expectation</span>.<span class="ruby-identifier">args</span>)
+148:         <span class="ruby-keyword kw">rescue</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">error</span>
+149:           <span class="ruby-identifier">error</span>.<span class="ruby-identifier">backtrace</span>.<span class="ruby-identifier">insert</span>(<span class="ruby-value">0</span>, <span class="ruby-ivar">@expected_from</span>)
+150:           <span class="ruby-constant">Kernel</span><span class="ruby-operator">::</span><span class="ruby-identifier">raise</span> <span class="ruby-identifier">error</span>
+151:         <span class="ruby-keyword kw">end</span>
+152:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000048" class="method-detail">
+        <a name="M000048"></a>
+
+        <div class="method-heading">
+          <a href="#M000048" class="method-signature">
+          <span class="method-name">with</span><span class="method-args">(*args, &amp;block)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000048-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000048-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/spec/mocks/message_expectation.rb, line 154</span>
+154:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">with</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+155:         <span class="ruby-ivar">@method_block</span> = <span class="ruby-identifier">block</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">block</span>
+156:         <span class="ruby-ivar">@args_expectation</span> = <span class="ruby-constant">ArgumentExpectation</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">args</span>)
+157:         <span class="ruby-keyword kw">self</span>
+158:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Protected Instance methods</h3>
+
+      <div id="method-M000059" class="method-detail">
+        <a name="M000059"></a>
+
+        <div class="method-heading">
+          <a href="#M000059" class="method-signature">
+          <span class="method-name">set_expected_received_count</span><span class="method-args">(relativity, n)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000059-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000059-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/spec/mocks/message_expectation.rb, line 215</span>
+215:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">set_expected_received_count</span>(<span class="ruby-identifier">relativity</span>, <span class="ruby-identifier">n</span>)
+216:           <span class="ruby-ivar">@at_least</span> = (<span class="ruby-identifier">relativity</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">:at_least</span>)
+217:           <span class="ruby-ivar">@at_most</span> = (<span class="ruby-identifier">relativity</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">:at_most</span>)
+218:           <span class="ruby-ivar">@expected_received_count</span> = <span class="ruby-value">1</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">n</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">:once</span>
+219:           <span class="ruby-ivar">@expected_received_count</span> = <span class="ruby-value">2</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">n</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">:twice</span>
+220:           <span class="ruby-ivar">@expected_received_count</span> = <span class="ruby-identifier">n</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">n</span>.<span class="ruby-identifier">kind_of?</span> <span class="ruby-constant">Numeric</span>
+221:         <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>
