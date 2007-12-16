@@ -11,5 +11,7 @@ h2. <%= @page.title %>
 
 Here are docs for previous versions.
 
-"1.0.8":/1.0.8/index.html
-
+<p>
+<a href="http://rspec.rubyforge.org/REL_1_0_8" target="_blank">1.0.8</a><br/>
+<a href="http://rspec.rubyforge.org/REL_0_9_4" target="_blank">0.9.4</a>
+</p>
