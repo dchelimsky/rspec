@@ -170,6 +170,7 @@ In alphabetical order (by last name)
 * Riley Lynch
 ** Patches for the rake task
 * Pat Maddox
+** Story Mediator - the glue that binds the plain text story parser with the rest of the system
 ** Patch [#136]  example summary shows up when running stories
 ** [#10] Allow stubs to yield and return values
 ** [#14362] partially mocking objects that define == can blow up
