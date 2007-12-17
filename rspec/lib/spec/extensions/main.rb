@@ -2,7 +2,7 @@ module Spec
   module Extensions
     module Main
       # Creates and returns a class that includes the ExampleGroupMethods
-      # module. The ExampleGroup sub-class depends on the directory of the file
+      # module. Which ExampleGroup type is created depends on the directory of the file
       # calling this method. For example, Spec::Rails will use different
       # classes for specs living in <tt>spec/models</tt>,
       # <tt>spec/helpers</tt>, <tt>spec/views</tt> and
@@ -28,9 +28,57 @@ module Spec
       end
       alias :context :describe
       
-      # Shortcut for creating a shared example group
-      def shared_examples_for(name, &block)
+      # Creates an example group that can be shared by other example groups
+      #
+      # == Examples
+      #
+      #  share_examples_for "All Editions" do
+      #    it "all editions behaviour" ...
+      #  end
+      #
+      #  describe SmallEdition do
+      #    it_should_behave_like "All Editions"
+      #  
+      #    it "should do small edition stuff" do
+      #      ...
+      #    end
+      #  end
+      def share_examples_for(name, &block)
         describe(name, :shared => true, &block)
+      end
+      
+      alias :shared_examples_for :share_examples_for
+      
+      # Creates a Shared Example Group and assigns it to a constant
+      #
+      #  share_examples_as :AllEditions do
+      #    it "should do all editions stuff" ...
+      #  end
+      #
+      #  describe SmallEdition do
+      #    it_should_behave_like AllEditions
+      #  
+      #    it "should do small edition stuff" do
+      #      ...
+      #    end
+      #  end
+      #
+      # And, for those of you who prefer to use something more like Ruby, you
+      # can just include the module directly
+      #
+      #  describe SmallEdition do
+      #    include AllEditions
+      #  
+      #    it "should do small edition stuff" do
+      #      ...
+      #    end
+      #  end
+      def share_examples_as(name, &block)
+        begin
+          Object.const_set(name, share_examples_for(name, &block))
+        rescue NameError => e
+          raise NameError.new(e.message + "\nThe first argument to share_examples_as must be a legal name for a constant\n")
+        end
       end
 
     private
