@@ -122,7 +122,12 @@ module Spec
       end
 
       def description
-        ExampleGroupMethods.description_text(*description_parts)
+        result = ExampleGroupMethods.description_text(*description_parts)
+        if result.nil? || result == ""
+          return to_s
+        else
+          result
+        end
       end
 
       def described_type
