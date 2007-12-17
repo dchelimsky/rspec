@@ -320,6 +320,16 @@ module Spec
           end
           child_example_group.description.should == "ExampleGroup.foobar Does something"
         end
+        
+        it "should return the class name if nil" do
+          example_group.set_description(nil)
+          example_group.description.should =~ /Class:/
+        end
+        
+        it "should return the class name if nil" do
+          example_group.set_description("")
+          example_group.description.should =~ /Class:/
+        end
       end
 
       describe "#description_parts" do
