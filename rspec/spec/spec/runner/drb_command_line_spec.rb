@@ -43,17 +43,17 @@ module Spec
           DRb.stop_service
         end
 
-        xit "should run against local server" do
+        it "should run against local server" do
           out = run_spec_via_druby(['--version'])
           out.should =~ /RSpec/n
         end
 
-        xit "should output green colorized text when running with --colour option" do
+        it "should output green colorized text when running with --colour option" do
           out = run_spec_via_druby(["--colour", @dummy_spec_filename])
           out.should =~ /\e\[32m/n
         end
 
-        xit "should output red colorized text when running with -c option" do
+        it "should output red colorized text when running with -c option" do
           out = run_spec_via_druby(["-c", @dummy_spec_filename])
           out.should =~ /\e\[31m/n
         end
