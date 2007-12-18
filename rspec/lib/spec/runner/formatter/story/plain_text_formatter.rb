@@ -43,6 +43,7 @@ module Spec
           end
         
           def scenario_failed(story_title, scenario_name, err)
+            @options.backtrace_tweaker.tweak_backtrace(err)
             @failed_scenarios << [story_title, scenario_name, err] unless @scenario_already_failed
             @scenario_already_failed = true
           end

@@ -80,6 +80,7 @@ In alphabetical order (by last name)
 * Ryan Davis
 ** Patch for integration with autotest
 * Ian Dees
+** Patch LH[#183] quiet the Story Runner backtrace
 ** Patch [#11917] Cleaner Spec::Ui error for failed Selenium connection
 * James Deville
 ** Patch [#13451] Add a null_object option to mock_model
