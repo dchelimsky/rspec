@@ -1,6 +1,6 @@
 == Version 1.1.1 (In SCM)
 
-* Added share_examples_as method which creates a constant you can include using Ruby's include
+* Added share_as method which creates a constant you can include using Ruby's include
 * Applied patch from Bob Cotton to reintroduce ExampleGroup.description_options. Closes LH[#186]
 
 == Version 1.1.0

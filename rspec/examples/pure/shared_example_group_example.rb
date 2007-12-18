@@ -33,7 +33,7 @@ module SharedExampleGroupExample
 
   # A SharedExampleGroup is also module. If you create one like this
   # it gets assigned to the constant AllThings
-  share_examples_as :MostThings do
+  share_as :MostThings do
     def helper_method
       "helper method"
     end

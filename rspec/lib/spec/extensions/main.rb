@@ -51,7 +51,7 @@ module Spec
       
       # Creates a Shared Example Group and assigns it to a constant
       #
-      #  share_examples_as :AllEditions do
+      #  share_as :AllEditions do
       #    it "should do all editions stuff" ...
       #  end
       #
@@ -73,11 +73,11 @@ module Spec
       #      ...
       #    end
       #  end
-      def share_examples_as(name, &block)
+      def share_as(name, &block)
         begin
           Object.const_set(name, share_examples_for(name, &block))
         rescue NameError => e
-          raise NameError.new(e.message + "\nThe first argument to share_examples_as must be a legal name for a constant\n")
+          raise NameError.new(e.message + "\nThe first argument to share_as must be a legal name for a constant\n")
         end
       end
 
