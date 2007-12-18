@@ -71,9 +71,9 @@ module Spec
     #{i+1}) #{title} (#{scenario_name}) FAILED
     #{err.class}: #{err.message}
     #{err.backtrace.join("\n")}
-    ]
+]
               end
-            end
+            end            
           end
         
           def step_succeeded(type, description, *args)
