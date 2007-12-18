@@ -1,6 +1,8 @@
-== Version 1.1.1 (In SCM)
+== Version 1.1.1
 
-* Added share_as method which creates a constant you can include using Ruby's include
+Bug fix release.
+
+* Fix regression in 1.1.0 that caused transactions to not get rolled back between examples.
 * Applied patch from Bob Cotton to reintroduce ExampleGroup.description_options. Closes LH[#186]
 
 == Version 1.1.0
