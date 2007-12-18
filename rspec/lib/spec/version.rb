@@ -3,7 +3,7 @@ module Spec
     unless defined? MAJOR
       MAJOR  = 1
       MINOR  = 1
-      TINY   = 0
+      TINY   = 1
       RELEASE_CANDIDATE = nil
 
       BUILD_TIME_UTC = 20071217181808
