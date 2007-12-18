@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '<%= '/..' * class_nesting_depth %>/../spec_helper'
 
 describe <%= controller_class_name %>Controller do
-  describe "#route_for" do
+  describe "route generation" do
 
     it "should map { :controller => '<%= table_name %>', :action => 'index' } to /<%= table_name %>" do
       route_for(:controller => "<%= table_name %>", :action => "index").should == "/<%= table_name %>"
@@ -28,7 +28,7 @@ describe <%= controller_class_name %>Controller do
     end
   end
 
-  describe "#params_from" do
+  describe "route recognition" do
 
     it "should generate params { :controller => '<%= table_name %>', action => 'index' } from GET /<%= table_name %>" do
       params_from(:get, "/<%= table_name %>").should == {:controller => "<%= table_name %>", :action => "index"}
