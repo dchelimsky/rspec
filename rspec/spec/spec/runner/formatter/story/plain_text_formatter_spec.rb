@@ -9,8 +9,11 @@ module Spec
           before :each do
             # given
             @out = StringIO.new
+            @tweaker = mock('tweaker')
+            @tweaker.stub!(:tweak_backtrace)
             @options = mock('options')
             @options.stub!(:colour).and_return(false)
+            @options.stub!(:backtrace_tweaker).and_return(@tweaker)
             @formatter = PlainTextFormatter.new(@options, @out)
           end
         
