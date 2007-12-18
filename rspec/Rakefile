@@ -126,7 +126,7 @@ task :clobber do
   core.clobber
 end
 
-task :release => [:clobber, :verify_committed, :verify_user, :spec, :publish_packages, :tag, :publish_website, :publish_news]
+task :release => [:clobber, :verify_committed, :verify_user, :spec, :publish_packages, :tag, :publish_news]
 
 desc "Verifies that there is no uncommitted code"
 task :verify_committed do
