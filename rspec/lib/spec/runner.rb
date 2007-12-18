@@ -141,7 +141,7 @@ module Spec
   #
   # You can also assign the shared group to a module and include that
   #
-  #  share_examples_as :AllEditions do
+  #  share_as :AllEditions do
   #    it "should do all editions stuff" ...
   #  end
   #
