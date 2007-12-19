@@ -8,8 +8,8 @@ module Spec
           @expected = expected
         end
 
-        def matches?(response)
-          @actual = response.body
+        def matches?(response_or_text)
+          @actual = response_or_text.respond_to?(:body) ? response_or_text.body : response_or_text
           return actual =~ expected if Regexp === expected
           return actual == expected unless Regexp === expected
         end
