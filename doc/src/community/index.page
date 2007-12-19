@@ -138,6 +138,7 @@ In alphabetical order (by last name)
 * Ryan Kinderman
 ** Patch [#12935] Remove requirement that mocha must be installed as a gem when used as mocking framework.
 * Josh Knowles
+** Patch LH[#193] support 'string_or_response.should have_text(...)'
 ** Patch [#149]  Update contribute page to point towards lighthouse
 ** Patch [#147] Allow stories to use Spec::Matchers
 ** Patch [#10245] Patch to HTML escape the behavior name when using HTML Formatter
