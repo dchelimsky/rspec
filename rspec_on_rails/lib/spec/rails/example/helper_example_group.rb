@@ -38,7 +38,6 @@ module Spec
         ActionView::Base.included_modules.reverse.each do |mod|
           include mod if mod.parents.include?(ActionView::Helpers)
         end
-        ActionController::Routing::Routes.named_routes.install(self)
 
         before(:all) do
           @controller_class_name = 'Spec::Rails::Example::HelperBehaviourController'
