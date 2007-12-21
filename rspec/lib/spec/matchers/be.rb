@@ -124,8 +124,9 @@ module Spec
         def parse_expected(expected)
           if Symbol === expected
             @handling_predicate = true
-            ["be_an_","be_a_","be_"].each do |@prefix|
-              if expected.starts_with?(@prefix)
+            ["be_an_","be_a_","be_"].each do |prefix|
+              if expected.starts_with?(prefix)
+                @prefix = prefix
                 return "#{expected.to_s.sub(@prefix,"")}".to_sym
               end
             end
