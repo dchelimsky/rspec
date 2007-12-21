@@ -26,14 +26,14 @@ module Spec
         def process_line(line)
           line.strip!
           case line
-          when /^Story: /           : @state.story(line)
-          when /^Scenario: /        : @state.scenario(line)
-          when /^Given:? /          : @state.given(line)
-          when /^GivenScenario:? /  : @state.given_scenario(line)
-          when /^When:? /           : @state.event(line)
-          when /^Then:? /           : @state.outcome(line)
-          when /^And:? /            : @state.one_more_of_the_same(line)
-          else                        @state.other(line)
+          when /^Story: /           then @state.story(line)
+          when /^Scenario: /        then @state.scenario(line)
+          when /^Given:? /          then @state.given(line)
+          when /^GivenScenario:? /  then @state.given_scenario(line)
+          when /^When:? /           then @state.event(line)
+          when /^Then:? /           then @state.outcome(line)
+          when /^And:? /            then @state.one_more_of_the_same(line)
+          else                           @state.other(line)
           end
         end
 
