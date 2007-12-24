@@ -183,14 +183,18 @@ module Spec
           it 'should produce details of each pending step when the run ends' do
             # when
             @formatter.run_started(2)
-            @formatter.scenario_pending('story', 'scenario2', 'todo2')
-            @formatter.scenario_pending('story', 'scenario3', 'todo3')
+            @formatter.story_started('story 1', 'narrative')
+            @formatter.scenario_started('story 1', 'scenario 1')
+            @formatter.step_pending(:given, 'todo 1', [])
+            @formatter.story_started('story 2', 'narrative')
+            @formatter.scenario_started('story 2', 'scenario 2')
+            @formatter.step_pending(:given, 'todo 2', [])
             @formatter.run_ended
           
             # then
             @out.string.should include("Pending Steps:\n")
-            @out.string.should include("1) story (scenario2): todo2")
-            @out.string.should include("2) story (scenario3): todo3")
+            @out.string.should include("1) story 1 (scenario 1): todo 1")
+            @out.string.should include("2) story 2 (scenario 2): todo 2")
           end
         
           it 'should document a story title and narrative' do
