@@ -149,6 +149,8 @@ In alphabetical order (by last name)
 ** Patch to get RSpec to work w/ Heckle +/- 1.2
 * Jarkko Laine
 ** LH[#132] Plain Text stories should support Given and Given: 
+* Alexander Lang
+** Patch [#198] clean up story steps after each story
 * Matthijs Langenberg
 ** Patch [#12682] Not correctly aliasing original 'stub!' and 'should_receive' methods for ApplicationController
 ** Patch [#12719] rspec_on_rails should not include pagination helper
