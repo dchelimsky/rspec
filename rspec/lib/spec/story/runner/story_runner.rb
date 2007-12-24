@@ -48,6 +48,7 @@ module Spec
               @scenario_runner.run(scenario, world)
             end
             @listeners.each { |l| l.story_ended(story.title, story.narrative) }
+            World.step_mother.clear
           end
           unique_steps = World.step_names.uniq.sort
           @listeners.each { |l| l.collected_steps(unique_steps) }
