@@ -213,6 +213,43 @@ module Spec
           # then
           $scenario.name.should == 'first scenario'
         end
+        
+        it "should clean the steps between stories" do
+          #given
+          story_runner = StoryRunner.new(ScenarioRunner.new)
+          result = mock 'result'
+          
+          step1 = Step.new('step') do
+            result.one
+          end
+          steps1 = StepGroup.new
+          steps1.add :when, step1
+          
+          story_runner.Story 'title', 'narrative', :steps => steps1 do
+            Scenario 'first scenario' do
+              When 'step'
+            end
+          end
+          
+          step2 = Step.new('step') do
+            result.two
+          end
+          steps2 = StepGroup.new
+          steps2.add :when, step2
+          
+          story_runner.Story 'title2', 'narrative', :steps => steps2 do
+            Scenario 'second scenario' do
+              When 'step'
+            end
+          end
+          
+          #then
+          result.should_receive(:one)
+          result.should_receive(:two)
+          
+          #when
+          story_runner.run_stories
+        end
       end
     end
   end

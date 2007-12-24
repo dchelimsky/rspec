@@ -1,5 +1,6 @@
 == Trunk
 
+* Applied patch from Alexander Lang to clean up story steps after each story. Closes LH[#198].
 * Applied patch from Josh Knowles to support 'string_or_response.should have_text(...)'. Closes LH[#193].
 * Applied patch from Ian Dees to quiet the Story Runner backtrace. Closes LH[#183].
 
