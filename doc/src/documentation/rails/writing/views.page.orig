@@ -106,20 +106,6 @@ end
 Note that any of the hash values can be either Strings or Regexps and will be
 evaluated accordingly.
 
-h3. response[:capture].should have_tag
-
-This way you can access content that has been captured with <tt>content_for</tt>.
-
-<ruby>
-# example
-response[:sidebar].should have_tag('div')
-
-# template
-<% content_for :sidebar do %>
-  <div><p>Sidebar content here</p></div>
-<% end %>
-</ruby>
-
 h2. Mocking and stubbing helpers
 
 If you wish to mock or stub helper methods, this must be done on the <tt>template</tt> object:
