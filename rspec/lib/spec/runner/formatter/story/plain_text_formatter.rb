@@ -20,6 +20,7 @@ module Spec
           end
 
           def story_started(title, narrative)
+            @current_story_title = title
             @output.puts "Story: #{title}\n\n"
             narrative.each_line do |line|
               @output.print "  "
@@ -33,6 +34,7 @@ module Spec
           end
 
           def scenario_started(story_title, scenario_name)
+            @current_scenario_name = scenario_name
             @scenario_already_failed = false
             @output.print "\n\n  Scenario: #{scenario_name}"
             @scenario_ok = true
@@ -49,7 +51,6 @@ module Spec
           end
         
           def scenario_pending(story_title, scenario_name, msg)
-            @pending_steps << [story_title, scenario_name, msg]
             @pending_scenario_count += 1 unless @scenario_already_failed
             @scenario_already_failed = true
           end
@@ -59,8 +60,8 @@ module Spec
             unless @pending_steps.empty?
               @output.puts "\nPending Steps:"
               @pending_steps.each_with_index do |pending, i|
-                title, scenario_name, msg = pending
-                @output.puts "#{i+1}) #{title} (#{scenario_name}): #{msg}"
+                story_name, scenario_name, msg = pending
+                @output.puts "#{i+1}) #{story_name} (#{scenario_name}): #{msg}"
               end
             end
             unless @failed_scenarios.empty?
@@ -82,6 +83,7 @@ module Spec
         
           def step_pending(type, description, *args)
             found_step(type, description, false, *args)
+            @pending_steps << [@current_story_title, @current_scenario_name, description]
             @output.print " (PENDING)"
             @scenario_ok = false
           end
