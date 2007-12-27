@@ -19,7 +19,7 @@ into controllers will not cause view specs to fail.
 As noted in the "introduction":index.html, these are great benefits
 but they could hide bugs that exist in the interaction between a controller and its
 view. We strongly recommend combining these isolated view specs with some sort of
-high level "integration":integration.html testing.
+high level integration testing, ideally using "RSpec stories":stories.html
 
 Here are some of the methods available to you, but see "Spec::Rails::Expectations":../../../rdoc-rails/index.html for more detail.
 
