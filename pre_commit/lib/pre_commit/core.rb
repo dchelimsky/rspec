@@ -4,7 +4,7 @@ class PreCommit::Core < PreCommit
     website
   end
 
-  def website
+  def website(run_webby=true)
     clobber
     rake_invoke :verify_rcov
     rake_invoke :spec_html

@@ -1,5 +1,6 @@
 == Trunk
 
+* Fixed regression in 1.1 that caused failing examples to fail to generate their own names. Closes LH[#209].
 * Applied doc patch from Jens Krämer for capturing content_for
 * Applied patch from Alexander Lang to clean up story steps after each story. Closes LH[#198].
 * Applied patch from Josh Knowles to support 'string_or_response.should have_text(...)'. Closes LH[#193].
@@ -19,7 +20,7 @@ The "tell me a story and go nest yourself" release.
 * Applied patch from Mike Vincent to handle generators rails > 2.0.1. Closes LH[#181]
 * Formatter.pending signature changed so it gets passed an ExampleGroup instance instead of the name ( LH[#180])
 * Fixed LH[#180] Spec::Rails::Example::ModelExampleGroup and friends show up in rspec/rails output
-* Spec::Rails no longer loads ActiveRecord extensions if it's disablet in config/boot.rb
+* Spec::Rails no longer loads ActiveRecord extensions if it's disabled in config/boot.rb
 * Applied LH[#178] small annoyances running specs with warnings enabled (Patch from Mikko Lehtonen)
 * Tighter integration with Rails fixtures. Take advantage of fixture caching to get performance improvements (Thanks to Pat Maddox, Nick Kallen, Jonathan Barnes, and Curtis)
 

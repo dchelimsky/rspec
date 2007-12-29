@@ -115,9 +115,9 @@ This way you can access content that has been captured with <tt>content_for</tt>
 response[:sidebar].should have_tag('div')
 
 # template
-<% content_for :sidebar do %>
+&lt;% content_for :sidebar do %>
   <div><p>Sidebar content here</p></div>
-<% end %>
+&lt;% end %>
 </ruby>
 
 h2. Mocking and stubbing helpers
