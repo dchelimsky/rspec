@@ -39,6 +39,8 @@ module Spec
                                                     @expected_received_count < values.size
         end
         @return_block = block_given? ? return_block : lambda { value }
+        # Ruby 1.9 - see where this is used below
+        @ignore_args = !block_given?
       end
       
       # :call-seq:
@@ -128,9 +130,14 @@ module Spec
       
       def invoke_return_block(args, block)
         args << block unless block.nil?
-        value = @return_block.call(*args)
-    
-        value
+        # Ruby 1.9 - when we set @return_block to return values
+        # regardless of arguments, any arguments will result in
+        # a "wrong number of arguments" error
+        if @ignore_args
+          @return_block.call()
+        else
+          @return_block.call(*args)
+        end
       end
     end
     
