@@ -70,6 +70,22 @@ module Spec
         @example_group.run
         ExampleMethods.count.should == 5
       end
+      
+      describe "run_with_description_capturing" do
+        before(:each) do
+          @example_group = Class.new(ExampleGroup) do end
+          @example = @example_group.new("foo", &(lambda { 2.should == 2 }))
+          @example.run_with_description_capturing
+        end
+      
+        it "should provide the generated description" do
+          @example.instance_eval { @_matcher_description }.should == "should == 2"
+        end
+      
+        it "should clear the global generated_description" do
+          Spec::Matchers.generated_description.should == nil
+        end
+      end
     end
   end
 end

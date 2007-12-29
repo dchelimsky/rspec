@@ -139,14 +139,8 @@ module Spec
       def clear_generated_description
         self.generated_description = nil
       end
-
-      def capture_generated_description
-        yield
-        description = generated_description
-        clear_generated_description
-        description
-      end
     end
+
     extend ModuleMethods
 
     def method_missing(sym, *args, &block) # :nodoc:
