@@ -73,12 +73,12 @@ module Spec
       end
 
       def run_with_description_capturing
-        return_value = nil
-        
-        @_matcher_description = Matchers.capture_generated_description do
-          return_value = instance_eval(&(@_implementation || PENDING_EXAMPLE_BLOCK))
+        begin
+          return instance_eval(&(@_implementation || PENDING_EXAMPLE_BLOCK))
+        ensure
+          @_matcher_description = Spec::Matchers.generated_description
+          Spec::Matchers.clear_generated_description
         end
-        return_value
       end
       
       protected
