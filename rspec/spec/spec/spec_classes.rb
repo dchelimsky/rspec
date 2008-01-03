@@ -51,6 +51,9 @@ module Spec
           [1]
         end
         
+        def items
+          @items_in_collection_with_size_method
+        end
       end
 
       class HandCodedMock

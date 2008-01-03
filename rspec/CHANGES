@@ -1,5 +1,6 @@
 == Trunk
 
+* Applied patch from Josh Knowles using ActiveSupport's Inflector (when available) to make 'should have' read a bit better. Closes LH[#197].
 * Fixed regression in 1.1 that caused failing examples to fail to generate their own names. Closes LH[#209].
 * Applied doc patch from Jens Krämer for capturing content_for
 * Applied patch from Alexander Lang to clean up story steps after each story. Closes LH[#198].
