@@ -47,6 +47,25 @@ describe "should have(n).items" do
   end
 end
 
+describe 'should have(1).item when Inflector is defined' do
+  include HaveSpecHelper
+  
+  before do
+    unless Object.const_defined?(:Inflector)
+      class Inflector
+        def self.pluralize(string)
+          string.to_s + 's'
+        end
+      end
+    end
+  end
+  
+  it 'should pluralize the collection name' do
+    owner = create_collection_owner_with(1)
+    owner.should have(1).item
+  end
+end
+
 describe "should have(n).items where result responds to items but returns something other than a collection" do
   it "should provide a meaningful error" do
     owner = Class.new do
