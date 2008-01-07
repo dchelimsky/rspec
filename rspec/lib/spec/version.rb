@@ -6,7 +6,7 @@ module Spec
       TINY   = 1
       RELEASE_CANDIDATE = nil
 
-      BUILD_TIME_UTC = 20080103183026
+      BUILD_TIME_UTC = 20080106234643
 
       STRING = [MAJOR, MINOR, TINY].join('.')
       TAG = "REL_#{[MAJOR, MINOR, TINY, RELEASE_CANDIDATE].compact.join('_')}".upcase.gsub(/\.|-/, '_')

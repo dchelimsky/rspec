@@ -38,9 +38,8 @@ In order to run RSpec's full suite of specs (rake pre_commit) you must install t
 
 * rake          # Runs the build script
 * rcov          # Verifies that the code is 100% covered by specs
-* webgen        # Generates the static HTML website
-* RedCloth      # Required by webgen
-* syntax        # Required by our own custom webgen extension to highlight ruby code
+* webby         # Generates the static HTML website
+* syntax        # Required to highlight ruby code
 * diff-lcs      # Required if you use the --diff switch
 * win32console  # Required by the --colour switch if you're on Windows
 * meta_project  # Required in order to make releases at RubyForge
