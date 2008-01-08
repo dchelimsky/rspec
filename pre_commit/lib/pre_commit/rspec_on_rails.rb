@@ -1,12 +1,13 @@
 class PreCommit::RspecOnRails < PreCommit
   def pre_commit
+    install_plugins
     check_dependencies
     used_railses = []
     VENDOR_DEPS.each do |dependency|
       rails_dir = File.expand_path(dependency[:checkout_path])
       rails_version = rails_version_from_dir(rails_dir)
       begin
-        rspec_pre_commit(rails_version)
+        rspec_pre_commit(rails_version, false)
         used_railses << rails_version
       rescue => e
         unless rails_version == 'edge'
@@ -14,6 +15,7 @@ class PreCommit::RspecOnRails < PreCommit
         end
       end
     end
+    uninstall_plugins
     puts "All specs passed against the following released versions of Rails: #{used_railses.join(", ")}"
     unless used_railses.include?('edge')
       puts "There were errors running pre_commit against edge"
@@ -24,33 +26,36 @@ class PreCommit::RspecOnRails < PreCommit
     File.basename(rails_dir)
   end
 
-  def rspec_pre_commit(rails_version=ENV['RSPEC_RAILS_VERSION'])
+  def rspec_pre_commit(rails_version=ENV['RSPEC_RAILS_VERSION'],uninstall=true)
     puts "#####################################################"
     puts "running pre_commit against rails #{rails_version}"
     puts "#####################################################"
     ENV['RSPEC_RAILS_VERSION'] = rails_version
-    cleanup
-    install_plugins
-    create_purchase
-    generate_login_controller
+    cleanup(uninstall)
     ensure_db_config
     clobber_sqlite_data
-    rake_sh "db:migrate"
+    install_plugins
     generate_rspec
 
-    rake_sh "spec:rcov"
+    create_purchase
+    generate_login_controller
+    rake_sh "db:migrate"
+
+    rake_sh "spec"
     rake_sh "spec:plugins:rspec_on_rails"
+    
+    # TODO - why is this necessary? Shouldn't the specs leave
+    # a clean DB?
     rake_sh "db:test:prepare"
-    sh "ruby vendor/plugins/rspec_on_rails/stories/transactions_should_rollback.rb"
     sh "ruby vendor/plugins/rspec_on_rails/stories/all.rb"
-    cleanup
+    cleanup(uninstall)
   end
 
-  def cleanup
+  def cleanup(uninstall=true)
     revert_routes
     rm_generated_login_controller_files
     destroy_purchase
-    uninstall_plugins
+    uninstall_plugins if uninstall
   end
 
   def revert_routes
@@ -282,15 +287,9 @@ class PreCommit::RspecOnRails < PreCommit
 
   VENDOR_DEPS = [
     {
-      :checkout_path => "vendor/rails/1.2.3",
-      :name =>  "rails 1.2.3",
-      :url => "http://dev.rubyonrails.org/svn/rails/tags/rel_1-2-3",
-      :tagged? => true
-    },
-    {
-      :checkout_path => "vendor/rails/1.2.5",
-      :name =>  "rails 1.2.5",
-      :url => "http://dev.rubyonrails.org/svn/rails/tags/rel_1-2-5",
+      :checkout_path => "vendor/rails/2.0.2",
+      :name =>  "rails 2.0.2",
+      :url => "http://dev.rubyonrails.org/svn/rails/tags/rel_2-0-2",
       :tagged? => true
     },
     {
@@ -300,9 +299,9 @@ class PreCommit::RspecOnRails < PreCommit
       :tagged? => true
     },
     {
-      :checkout_path => "vendor/rails/2.0.2",
-      :name =>  "rails 2.0.2",
-      :url => "http://dev.rubyonrails.org/svn/rails/tags/rel_2-0-2",
+      :checkout_path => "vendor/rails/1.2.3",
+      :name =>  "rails 1.2.3",
+      :url => "http://dev.rubyonrails.org/svn/rails/tags/rel_1-2-3",
       :tagged? => true
     },
     {
