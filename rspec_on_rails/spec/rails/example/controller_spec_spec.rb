@@ -88,6 +88,11 @@ require 'controller_spec_controller'
       params_from(:get, '/controller_spec/some_action').should == {:controller => "controller_spec", :action => "some_action"}
     end
     
+    it "should expose instance vars through the assigns hash" do
+      get 'action_setting_the_assigns_hash'
+      assigns[:indirect_assigns_key].should == :indirect_assigns_key_value
+    end
+    
     it "should expose the assigns hash directly" do
       get 'action_setting_the_assigns_hash'
       assigns[:direct_assigns_key].should == :direct_assigns_key_value
