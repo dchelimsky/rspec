@@ -37,9 +37,8 @@ class PreCommit::RspecOnRails < PreCommit
     install_plugins
     generate_rspec
 
-    create_purchase
     generate_login_controller
-    rake_sh "db:migrate"
+    create_purchase
 
     rake_sh "spec"
     rake_sh "spec:plugins:rspec_on_rails"
