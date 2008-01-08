@@ -70,12 +70,12 @@ class PreCommit::RspecOnRails < PreCommit
 
   def install_rspec_on_rails_plugin
     rm_rf 'vendor/plugins/rspec_on_rails'
-    link_or_copy '../rspec_on_rails', 'vendor/plugins/'
+    copy '../rspec_on_rails', 'vendor/plugins/'
   end
 
   def install_rspec_plugin
     rm_rf 'vendor/plugins/rspec'
-    link_or_copy '../rspec', 'vendor/plugins/'
+    copy '../rspec', 'vendor/plugins/'
   end
 
   def uninstall_plugins
@@ -88,14 +88,9 @@ class PreCommit::RspecOnRails < PreCommit
     rm_rf 'spec/rcov.opts'
   end
   
-  def link_or_copy(source, target)
-    if RUBY_PLATFORM =~ /win32/
-      output = silent_sh("cp -R #{File.expand_path(source)} #{File.expand_path(target)}")
-      raise "Error installing rspec" if shell_error?(output)
-    else
-      output = silent_sh("ln -s #{File.expand_path(source)} #{File.expand_path(target)}")
-      raise "Error installing rspec" if shell_error?(output)
-    end
+  def copy(source, target)
+    output = silent_sh("cp -R #{File.expand_path(source)} #{File.expand_path(target)}")
+    raise "Error installing rspec" if shell_error?(output)
   end
   
   def generate_rspec
