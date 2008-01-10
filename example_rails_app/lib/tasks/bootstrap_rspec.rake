@@ -70,6 +70,10 @@ namespace :rspec do
   task :rm_generated_login_controller_files do
     pre_commit.rm_generated_login_controller_files
   end
+  
+  task :cleanup do
+    pre_commit.cleanup
+  end
 
   def pre_commit
     PreCommit::RspecOnRails.new(self)
