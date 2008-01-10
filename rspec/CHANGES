@@ -1,12 +1,13 @@
 == Trunk
 
+* Applied patch from idl to add spec/lib to rake stats. Closes #226.
 * calling setup_fixtures and teardown_fixtures for Rails >= r8570. Closes #219.
-* Applied patch from Josh Knowles using ActiveSupport's Inflector (when available) to make 'should have' read a bit better. Closes LH[#197].
-* Fixed regression in 1.1 that caused failing examples to fail to generate their own names. Closes LH[#209].
+* Applied patch from Josh Knowles using ActiveSupport's Inflector (when available) to make 'should have' read a bit better. Closes #197.
+* Fixed regression in 1.1 that caused failing examples to fail to generate their own names. Closes #209.
 * Applied doc patch from Jens Krämer for capturing content_for
-* Applied patch from Alexander Lang to clean up story steps after each story. Closes LH[#198].
-* Applied patch from Josh Knowles to support 'string_or_response.should have_text(...)'. Closes LH[#193].
-* Applied patch from Ian Dees to quiet the Story Runner backtrace. Closes LH[#183].
+* Applied patch from Alexander Lang to clean up story steps after each story. Closes #198.
+* Applied patch from Josh Knowles to support 'string_or_response.should have_text(...)'. Closes #193.
+* Applied patch from Ian Dees to quiet the Story Runner backtrace. Closes #183.
 
 == Version 1.1.1
 
