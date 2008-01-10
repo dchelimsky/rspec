@@ -74,14 +74,16 @@ namespace :spec do
   # Setup specs for stats
   task :statsetup do
     require 'code_statistics'
-    ::STATS_DIRECTORIES << %w(Model\ specs spec/models)
-    ::STATS_DIRECTORIES << %w(View\ specs spec/views)
-    ::STATS_DIRECTORIES << %w(Controller\ specs spec/controllers)
-    ::STATS_DIRECTORIES << %w(Helper\ specs spec/helpers)
-    ::CodeStatistics::TEST_TYPES << "Model specs"
-    ::CodeStatistics::TEST_TYPES << "View specs"
-    ::CodeStatistics::TEST_TYPES << "Controller specs"
-    ::CodeStatistics::TEST_TYPES << "Helper specs"
+    ::STATS_DIRECTORIES << %w(Model\ specs spec/models) if File.exist?('spec/models')
+    ::STATS_DIRECTORIES << %w(View\ specs spec/views) if File.exist?('spec/views')
+    ::STATS_DIRECTORIES << %w(Controller\ specs spec/controllers) if File.exist?('spec/controllers')
+    ::STATS_DIRECTORIES << %w(Helper\ specs spec/helpers) if File.exist?('spec/helpers')
+    ::STATS_DIRECTORIES << %w(Library\ specs spec/lib) if File.exist?('spec/lib')
+    ::CodeStatistics::TEST_TYPES << "Model specs" if File.exist?('spec/models')
+    ::CodeStatistics::TEST_TYPES << "View specs" if File.exist?('spec/views')
+    ::CodeStatistics::TEST_TYPES << "Controller specs" if File.exist?('spec/controllers')
+    ::CodeStatistics::TEST_TYPES << "Helper specs" if File.exist?('spec/helpers')
+    ::CodeStatistics::TEST_TYPES << "Library specs" if File.exist?('spec/lib')
     ::STATS_DIRECTORIES.delete_if {|a| a[0] =~ /test/}
   end
 
