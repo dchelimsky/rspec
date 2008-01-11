@@ -1,29 +1,23 @@
 require 'autotest'
 
+Autotest.add_hook :initialize do |at|
+  at.clear_mappings
+  # watch out: Ruby bug (1.8.6):
+  # %r(/) != /\//
+  at.add_mapping(%r%^spec/.*\.rb$%) { |filename, _| 
+    filename 
+  }
+  at.add_mapping(%r%^lib/(.*)\.rb$%) { |_, m| 
+    ["spec/#{m[1]}_spec.rb"]
+  }
+  at.add_mapping(%r%^spec/(spec_helper|shared/.*)\.rb$%) { 
+    at.files_matching %r%^spec/.*_spec\.rb$%
+  }
+end
+
 class RspecCommandError < StandardError; end
 
 class Autotest::Rspec < Autotest
-  
-  def initialize(kernel=Kernel, separator=File::SEPARATOR, alt_separator=File::ALT_SEPARATOR) # :nodoc:
-    super()
-    @kernel, @separator, @alt_separator = kernel, separator, alt_separator
-    @spec_command = spec_command
-
-    # watch out: Ruby bug (1.8.6):
-    # %r(/) != /\//
-    # since Ruby compares the REGEXP source, not the resulting pattern
-    @test_mappings = {
-      %r%^spec/.*\.rb$% => kernel.proc { |filename, _| 
-        filename 
-      },
-      %r%^lib/(.*)\.rb$% => kernel.proc { |_, m| 
-        ["spec/#{m[1]}_spec.rb"] 
-      },
-      %r%^spec/(spec_helper|shared/.*)\.rb$% => kernel.proc { 
-        files_matching %r%^spec/.*_spec\.rb$% 
-      }
-    }
-  end
   
   def tests_for_file(filename)
     super.select { |f| @files.has_key? f }
@@ -59,7 +53,7 @@ class Autotest::Rspec < Autotest
   end
 
   def make_test_cmd(files_to_test)
-    return "#{ruby} -S #{@spec_command} #{add_options_if_present} #{files_to_test.keys.flatten.join(' ')}"
+    return "#{ruby} -S #{spec_command} #{add_options_if_present} #{files_to_test.keys.flatten.join(' ')}"
   end
   
   def add_options_if_present
@@ -71,7 +65,7 @@ class Autotest::Rspec < Autotest
   # that in ~/.autotest to provide a different spec command
   # then the default paths provided.
   def spec_command
-    spec_commands.each do |command|
+    @spec_command ||= spec_commands.each do |command|
       if File.exists?(command)
         return @alt_separator ? (command.gsub @separator, @alt_separator) : command
       end

@@ -25,55 +25,55 @@ $:.push(*Dir["vendor/rails/*/lib"])
 require 'active_support'
 require 'autotest/rspec'
 
-class Autotest::RailsRspec < Autotest::Rspec
-
-  def initialize # :nodoc:
-    super
-    @exceptions = %r%^\./(?:coverage|db|doc|log|public|script|vendor\/rails|previous_failures.txt)%
-    @test_mappings = {
-      %r%^(test|spec)/fixtures/(.*).yml$% => proc { |_, m|
-        ["spec/models/#{m[2].singularize}_spec.rb"] + files_matching(%r%^spec\/views\/#{m[2]}/.*_spec\.rb$%)
-      },
-      %r%^spec/(models|controllers|views|helpers|lib)/.*rb$% => proc { |filename, _|
-        filename
-      },
-      %r%^app/models/(.*)\.rb$% => proc { |_, m|
-        ["spec/models/#{m[1]}_spec.rb"]
-      },
-      %r%^app/views/(.*)$% => proc { |_, m|
-        files_matching %r%^spec/views/#{m[1]}_spec.rb$%
-      },
-      %r%^app/controllers/(.*)\.rb$% => proc { |_, m|
-        ["spec/controllers/#{m[1]}_spec.rb"]
-      },
-      %r%^app/helpers/(.*)_helper\.rb$% => proc { |_, m|
-        if m[1] == "application" then
-          files_matching(%r%^spec/(views|helpers)/.*_spec\.rb$%)
-        else
-          ["spec/helpers/#{m[1]}_helper_spec.rb"] + files_matching(%r%^spec\/views\/#{m[1]}/.*_spec\.rb$%)
-        end
-      },
-      %r%^app/helpers/application_helper\.rb$% => proc {
-        files_matching %r%^spec/(views|helpers)/.*_spec\.rb$%
-      },
-      %r%^app/controllers/application\.rb$% => proc { |_, m|
-        files_matching %r%^spec/controllers/.*_spec\.rb$%
-      },
-      %r%^config/routes\.rb$% => proc {
-        files_matching %r%^spec/(controllers|views|helpers)/.*_spec\.rb$%
-      },
-      %r%^config/database\.yml$% => proc { |_, m|
-        files_matching %r%^spec/models/.*_spec\.rb$%
-      },
-      %r%^(spec/(spec_helper|shared/.*)|config/(boot|environment(s/test)?))\.rb$% => proc {
-        files_matching %r%^spec/(models|controllers|views|helpers)/.*_spec\.rb$%
-      },
-      %r%^lib/(.*)\.rb$% => proc { |_, m|
-        ["spec/lib/#{m[1]}_spec.rb"]
-      },
-    }    
+Autotest.add_hook :initialize do |at|
+  %w{config coverage db doc log public script vendor/rails vendor/plugins previous_failures.txt}.each do |exception|
+    at.add_exception(exception)
   end
   
+  at.clear_mappings
+  
+  at.add_mapping(%r%^(test|spec)/fixtures/(.*).yml$%) { |_, m|
+    ["spec/models/#{m[2].singularize}_spec.rb"] + at.files_matching(%r%^spec\/views\/#{m[2]}/.*_spec\.rb$%)
+  }
+  at.add_mapping(%r%^spec/(models|controllers|views|helpers|lib)/.*rb$%) { |filename, _|
+    filename
+  }
+  at.add_mapping(%r%^app/models/(.*)\.rb$%) { |_, m|
+    ["spec/models/#{m[1]}_spec.rb"]
+  }
+  at.add_mapping(%r%^app/views/(.*)$%) { |_, m|
+    at.files_matching %r%^spec/views/#{m[1]}_spec.rb$%
+  }
+  at.add_mapping(%r%^app/controllers/(.*)\.rb$%) { |_, m|
+    if m[1] == "application"
+      at.files_matching %r%^spec/controllers/.*_spec\.rb$%
+    else
+      ["spec/controllers/#{m[1]}_spec.rb"]
+    end
+  }
+  at.add_mapping(%r%^app/helpers/(.*)_helper\.rb$%) { |_, m|
+    if m[1] == "application" then
+      at.files_matching(%r%^spec/(views|helpers)/.*_spec\.rb$%)
+    else
+      ["spec/helpers/#{m[1]}_helper_spec.rb"] + at.files_matching(%r%^spec\/views\/#{m[1]}/.*_spec\.rb$%)
+    end
+  }
+  at.add_mapping(%r%^config/routes\.rb$%) {
+    at.files_matching %r%^spec/(controllers|views|helpers)/.*_spec\.rb$%
+  }
+  at.add_mapping(%r%^config/database\.yml$%) { |_, m|
+    at.files_matching %r%^spec/models/.*_spec\.rb$%
+  }
+  at.add_mapping(%r%^(spec/(spec_helper|shared/.*)|config/(boot|environment(s/test)?))\.rb$%) {
+    at.files_matching %r%^spec/(models|controllers|views|helpers)/.*_spec\.rb$%
+  }
+  at.add_mapping(%r%^lib/(.*)\.rb$%) { |_, m|
+    ["spec/lib/#{m[1]}_spec.rb"]
+  }
+end
+
+class Autotest::RailsRspec < Autotest::Rspec
+
   def spec_command
     "script/spec"
   end
