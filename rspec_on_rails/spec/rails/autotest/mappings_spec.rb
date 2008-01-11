@@ -4,6 +4,7 @@ require File.join(File.dirname(__FILE__), "..", "..", "..", "lib", "autotest", "
 describe Autotest::RailsRspec, "file mapping" do
   before(:each) do
     @autotest = Autotest::RailsRspec.new
+    @autotest.hook :initialize
     @autotest.output = StringIO.new
     @autotest.files.clear
     @autotest.last_mtime = Time.at(0)
@@ -36,4 +37,5 @@ describe Autotest::RailsRspec, "file mapping" do
   it "should map view.html.erb" do
     ensure_mapping(['spec/views/things/index.html.erb_spec.rb'], 'app/views/things/index.html.erb')
   end
+  
 end
