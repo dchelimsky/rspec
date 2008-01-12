@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../../../../spec_helper'
 require File.dirname(__FILE__) + '/../../../../ruby_forker'
 
-describe "Test::Unit interop", :shared => true do
+module TestUnitSpecHelper
   include RubyForker
   
   def run_script(file_name)
