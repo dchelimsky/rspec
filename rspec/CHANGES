@@ -11,6 +11,7 @@ Minor bug fixes/enhancements.
 * Applied patch from Alexander Lang to clean up story steps after each story. Closes #198.
 * Applied patch from Josh Knowles to support 'string_or_response.should have_text(...)'. Closes #193.
 * Applied patch from Ian Dees to quiet the Story Runner backtrace. Closes #183.
+* Complete support for defining steps with regexp 'names'.
 
 == Version 1.1.1
 
