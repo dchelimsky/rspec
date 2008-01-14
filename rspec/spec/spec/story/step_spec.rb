@@ -68,6 +68,18 @@ module Spec
         step.matches?("before () after").should be_true
       end
       
+      it "should match any option of an alteration" do
+        step = Step.new(/(he|she) is cool/) {}
+        step.matches?("he is cool").should be_true
+        step.matches?("she is cool").should be_true
+      end
+      
+      it "should match alteration as well as a variable" do
+        step = Step.new(/(he|she) is (.*)/) {}
+        step.matches?("he is cool").should be_true
+        step.parse_args("he is cool").should == ['he', 'cool']
+      end
+      
     end
     
     describe Step do
@@ -140,6 +152,25 @@ module Spec
         # then
         $account_type.should == "savings"
         $amount.should == "3"
+      end
+
+      it "should perform itself when defined with a regexp with 2 parameters" do
+        # given
+        $pronoun = nil
+        $adjective = nil
+        step = Step.new /(he|she) is (.*)/ do |pronoun, adjective|
+          $pronoun = pronoun
+          $adjective = adjective
+        end
+        instance = Object.new
+        
+        # when
+        args = step.parse_args("he is cool")
+        step.perform(instance, *args)
+        
+        # then
+        $pronoun.should == "he"
+        $adjective.should == "cool"
       end
 
     end

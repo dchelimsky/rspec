@@ -267,6 +267,11 @@ module Spec
             @out.string.should include("  Given a pink dog with 21 legs")
           end
         
+          it 'should document regexp steps with replaced params' do
+            @formatter.step_succeeded :given, /a (pink|blue) dog with (.*) legs/, 'pink', 21
+            @out.string.should include("  Given a pink dog with 21 legs")
+          end
+        
           it "should append PENDING for the first pending step" do
             @formatter.scenario_started('','')
             @formatter.step_pending(:given, 'a context')

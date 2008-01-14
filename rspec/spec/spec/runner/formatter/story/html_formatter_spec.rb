@@ -40,6 +40,11 @@ module Spec
             @out.string.should == "                <li class=\"passed\">Given a <span class=\"param\">brown</span> <span class=\"param\">dog</span></li>\n"
           end
           
+          it 'should create spanes for params in regexp steps' do
+            @reporter.step_succeeded :given, /a (pink|blue) (.*)/, 'brown', 'dog'
+            @out.string.should == "                <li class=\"passed\">Given a <span class=\"param\">brown</span> <span class=\"param\">dog</span></li>\n"
+          end
+
           it "should create a ul for collected_steps" do
             @reporter.collected_steps(['Given a $coloured $animal', 'Given a $n legged eel'])
             @out.string.should == (<<-EOF)

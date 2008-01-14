@@ -50,7 +50,7 @@ module Spec
             @listeners.each { |l| l.story_ended(story.title, story.narrative) }
             World.step_mother.clear
           end
-          unique_steps = World.step_names.uniq.sort
+          unique_steps = (World.step_names.collect {|n| Regexp === n ? n.source : n.to_s}).uniq.sort
           @listeners.each { |l| l.collected_steps(unique_steps) }
           @listeners.each { |l| l.run_ended }
         end

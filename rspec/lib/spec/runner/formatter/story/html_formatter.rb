@@ -112,11 +112,18 @@ EOF
           
           def print_step(klass, type, description, *args)
             spans = args.map { |arg| "<span class=\"param\">#{arg}</span>" }
+            if (description.kind_of? Regexp)
+              desc_string = description.source
+              arg_regexp = ::Spec::Story::Step::PARAM_OR_GROUP_PATTERN
+            else
+              desc_string = description.to_s
+              arg_regexp = ::Spec::Story::Step::PARAM_PATTERN
+            end
+           
             i = -1
-            inner = type.to_s.capitalize + ' ' + description.gsub(::Spec::Story::Step::PARAM_PATTERN) { |param| spans[i+=1] }
+            inner = type.to_s.capitalize + ' ' + desc_string.gsub(arg_regexp) { |param| spans[i+=1] }
             @output.puts "                <li class=\"#{klass}\">#{inner}</li>"
           end
-
         end
       end
     end

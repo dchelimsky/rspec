@@ -104,13 +104,20 @@ module Spec
         private
 
           def found_step(type, description, failed, *args)
+            if (description.kind_of? Regexp)
+              desc_string = description.source
+              arg_regexp = ::Spec::Story::Step::PARAM_OR_GROUP_PATTERN
+            else 
+              desc_string = description.to_s
+              arg_regexp = ::Spec::Story::Step::PARAM_PATTERN 
+            end
             text = if(type == @previous_type)
               "\n    And "
             else
               "\n\n    #{type.to_s.capitalize} "
             end
             i = -1
-            text << description.gsub(::Spec::Story::Step::PARAM_PATTERN) { |param| args[i+=1] }
+            text << desc_string.gsub(arg_regexp) { |param| args[i+=1] }
             @output.print(failed ? red(text) : green(text))
 
             if type == :'given scenario'
