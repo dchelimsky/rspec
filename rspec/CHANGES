@@ -1,5 +1,8 @@
-== Trunk
+== Version 1.1.2
 
+Minor bug fixes/enhancements.
+
+* RSpec's Autotest subclasses compatible with ZenTest-3.8.0 (thanks to Ryan Davis for making it easier on Autotest subs).
 * Applied patch from idl to add spec/lib to rake stats. Closes #226.
 * calling setup_fixtures and teardown_fixtures for Rails >= r8570. Closes #219.
 * Applied patch from Josh Knowles using ActiveSupport's Inflector (when available) to make 'should have' read a bit better. Closes #197.

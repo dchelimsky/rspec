@@ -150,15 +150,15 @@ HERE
     end
       
     it "should map all filenames in spec/ which end in .rb" do
-      @rspec_autotest.test_mappings.should have_key(%r%^spec/.*\.rb$%)
+      @rspec_autotest.instance_eval{@test_mappings}.should have_key(%r%^spec/.*\.rb$%)
     end
     
     it "should map all names in lib which end in .rb to the corresponding ones in spec/" do
-      @rspec_autotest.test_mappings.should have_key(%r%^lib/(.*)\.rb$%)
+      @rspec_autotest.instance_eval{@test_mappings}.should have_key(%r%^lib/(.*)\.rb$%)
     end
     
     it "should find all files in spec/shares/* and the spec helper in spec/spec_helper"  do
-      @rspec_autotest.test_mappings.should have_key(%r%^spec/(spec_helper|shared/.*)\.rb$%)
+      @rspec_autotest.instance_eval{@test_mappings}.should have_key(%r%^spec/(spec_helper|shared/.*)\.rb$%)
     end
   end
   
