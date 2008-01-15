@@ -104,13 +104,8 @@ module Spec
         private
 
           def found_step(type, description, failed, *args)
-            if (description.kind_of? Regexp)
-              desc_string = description.source
-              arg_regexp = ::Spec::Story::Step::PARAM_OR_GROUP_PATTERN
-            else 
-              desc_string = description.to_s
-              arg_regexp = ::Spec::Story::Step::PARAM_PATTERN 
-            end
+            desc_string = description.step_name
+            arg_regexp = description.arg_regexp
             text = if(type == @previous_type)
               "\n    And "
             else
