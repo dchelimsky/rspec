@@ -100,7 +100,7 @@ module Webby
             <%= p.link %>
           </li>
         <% end %>
-        <% if page.url == '/index.html'  %>
+        <% if page.url == '/'  %>
           <li>
             <a href="/rdoc/">RDoc</a>
           </li>

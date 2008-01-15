@@ -28,14 +28,14 @@ h3. Creating a mock object
 You create a mock object with the <code>mock</code> method:
 
 <coderay>
-my_mock = mock(<name>)
+my_mock = mock(name)
 </coderay>
 
 This creates a new mock with the given <code>name</code> (a string) and registers it. 
 When the example finishes, all registered mocks are verified.
 
 <coderay>
-my_mock = mock(<name>, <stubs_and_options>)
+my_mock = mock(name, stubs_and_options)
 </coderay>
 
 As above, but allows you to set stub return values for specific messages and
