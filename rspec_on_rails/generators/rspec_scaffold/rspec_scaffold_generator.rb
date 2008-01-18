@@ -30,7 +30,7 @@ class RspecScaffoldGenerator < Rails::Generator::NamedBase
       @controller_class_name = "#{@controller_class_nesting}::#{@controller_class_name_without_nesting}"
     end
     
-    if RailsIdentifier.using_legacy_templates?
+    if Rails::VERSION::STRING < "2.0.0"
       @resource_generator = "scaffold_resource"
       @default_file_extension = "rhtml"
 		else

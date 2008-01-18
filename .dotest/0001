@@ -1,0 +1,87 @@
+From 86f930e9bedb7e66bc024eb96a1c53efd237ed7d Mon Sep 17 00:00:00 2001
+From: David Chelimsky <dchelimsky@gmail.com>
+Date: Fri, 18 Jan 2008 04:59:38 -0600
+Subject: using Rails::VERSION::STRING to decide whether to use rhtml or html.erb, and whether to use ScaffoldGenerator or ScaffoldResourceGenerator. Closes #237 and #234.
+
+---
+ rspec/lib/spec/version.rb                          |    2 +-
+ .../rspec_controller/rspec_controller_generator.rb |    2 +-
+ .../rspec_scaffold/rspec_scaffold_generator.rb     |    2 +-
+ rspec_on_rails/lib/spec/rails/version.rb           |    2 +-
+ rspec_on_rails/spec/rails/matchers/render_spec.rb  |    7 +++----
+ 5 files changed, 7 insertions(+), 8 deletions(-)
+
+diff --git a/rspec/lib/spec/version.rb b/rspec/lib/spec/version.rb
+index f83a4c6971a4fe843ab9e3051d39cfb8ad19bdbf..c86a09cb3ce083f8d7e00c68a1baf53f435002a0 100644
+--- a/rspec/lib/spec/version.rb
++++ b/rspec/lib/spec/version.rb
+@@ -6,7 +6,7 @@ module Spec
+       TINY   = 2
+       RELEASE_CANDIDATE = nil
+ 
+-      BUILD_TIME_UTC = 20080114022430
++      BUILD_TIME_UTC = 20080118105447
+ 
+       STRING = [MAJOR, MINOR, TINY].join('.')
+       TAG = "REL_#{[MAJOR, MINOR, TINY, RELEASE_CANDIDATE].compact.join('_')}".upcase.gsub(/\.|-/, '_')
+diff --git a/rspec_on_rails/generators/rspec_controller/rspec_controller_generator.rb b/rspec_on_rails/generators/rspec_controller/rspec_controller_generator.rb
+index d21c2156a5ab3274bb2892a90fb36f11de434e02..036afab405cdda8297503ae7bd6227f3257b91b1 100755
+--- a/rspec_on_rails/generators/rspec_controller/rspec_controller_generator.rb
++++ b/rspec_on_rails/generators/rspec_controller/rspec_controller_generator.rb
+@@ -16,7 +16,7 @@ class RspecControllerGenerator < ControllerGenerator
+       m.directory File.join('spec/helpers', class_path)
+       m.directory File.join('spec/views', class_path, file_name)
+ 
+-			if RailsIdentifier.using_legacy_templates?
++			if Rails::VERSION::STRING < "2.0.0"
+         @default_file_extension = "rhtml"
+       else
+         @default_file_extension = "html.erb"
+diff --git a/rspec_on_rails/generators/rspec_scaffold/rspec_scaffold_generator.rb b/rspec_on_rails/generators/rspec_scaffold/rspec_scaffold_generator.rb
+index 19d09cb1324ba0b22fff1281c41deb5c1c8df23c..c54ea77c8eb473b531a25a88ab6c59480fd186b2 100644
+--- a/rspec_on_rails/generators/rspec_scaffold/rspec_scaffold_generator.rb
++++ b/rspec_on_rails/generators/rspec_scaffold/rspec_scaffold_generator.rb
+@@ -30,7 +30,7 @@ class RspecScaffoldGenerator < Rails::Generator::NamedBase
+       @controller_class_name = "#{@controller_class_nesting}::#{@controller_class_name_without_nesting}"
+     end
+     
+-    if RailsIdentifier.using_legacy_templates?
++    if Rails::VERSION::STRING < "2.0.0"
+       @resource_generator = "scaffold_resource"
+       @default_file_extension = "rhtml"
+ 		else
+diff --git a/rspec_on_rails/lib/spec/rails/version.rb b/rspec_on_rails/lib/spec/rails/version.rb
+index 47043a07ec13d0315e1f8b675dd065b778959829..c2f58d30de288bff251139e5ef48eff1ec3941fa 100644
+--- a/rspec_on_rails/lib/spec/rails/version.rb
++++ b/rspec_on_rails/lib/spec/rails/version.rb
+@@ -1,7 +1,7 @@
+ module Spec
+   module Rails
+     module VERSION #:nodoc:
+-      BUILD_TIME_UTC = 20080114022430
++      BUILD_TIME_UTC = 20080118105447
+     end
+   end
+ end
+diff --git a/rspec_on_rails/spec/rails/matchers/render_spec.rb b/rspec_on_rails/spec/rails/matchers/render_spec.rb
+index 5dbf576f162fd765c8bf05e944f039b6793d070d..ed78a4c089e2e65177b15684a1ce47317d967a3d 100644
+--- a/rspec_on_rails/spec/rails/matchers/render_spec.rb
++++ b/rspec_on_rails/spec/rails/matchers/render_spec.rb
+@@ -30,11 +30,10 @@ require File.dirname(__FILE__) + '/../../spec_helper'
+ 
+     it "should match an rjs template" do
+       xhr :post, 'some_action'
+-      if ActionView::Base.const_defined?('DEFAULT_TEMPLATE_HANDLER_PREFERENCE') ||
+-				 ActionView::Base.respond_to?(:handler_for_extension) then
+-        response.should render_template('render_spec/some_action')
+-      else
++      if Rails::VERSION::STRING < "2.0.0"
+         response.should render_template('render_spec/some_action.rjs')
++      else
++        response.should render_template('render_spec/some_action')
+       end
+     end
+ 
+-- 
+1.5.3
+
