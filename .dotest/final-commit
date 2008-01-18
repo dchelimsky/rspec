@@ -1,1 +1,0 @@
-using Rails::VERSION::STRING to decide whether to use rhtml or html.erb, and whether to use ScaffoldGenerator or ScaffoldResourceGenerator. Closes #237 and #234.

@@ -1,5 +1,0 @@
-Author: David Chelimsky
-Email: dchelimsky@gmail.com
-Subject: using Rails::VERSION::STRING to decide whether to use rhtml or html.erb, and whether to use ScaffoldGenerator or ScaffoldResourceGenerator. Closes #237 and #234.
-Date: Fri, 18 Jan 2008 04:59:38 -0600
-
