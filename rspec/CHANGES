@@ -1,5 +1,6 @@
 == Version 1.1.3
 
+* Applied patch from kakutani ensuring that base_view_path gets cleared after each view example. Closes #235.
 * More tweaks to regexp step names
 
 == Version 1.1.2
