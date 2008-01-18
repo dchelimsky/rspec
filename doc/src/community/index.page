@@ -123,6 +123,7 @@ In alphabetical order (by last name)
 * Jake Howerton
 ** Port of Kevin Clark's ARTS to RSpec
 * Shintaro Kakutani
+** Patch LH[#235] ActionView::Base.base_view_path isn't clear against Rails 2.0.2
 ** Patch [#13814] RSpec on Rails w/ fixture-scenarios
 ** Patches for coloured progress<br>
 ** Assorted Rails patches
