@@ -243,6 +243,20 @@ module Spec
           group.description.to_s.should == "foo"
           $nested_group.description.to_s.should == "foo bar"
         end
+
+        it "should clear ActionView::Base.base_view_path on teardown" do
+          ViewExampleGroup.class_eval do
+            alias_method(:ensure_that_base_view_path_is_not_set_across_example_groups_orig,
+              :ensure_that_base_view_path_is_not_set_across_example_groups)
+            define_method(:ensure_that_base_view_path_is_not_set_across_example_groups){
+              $base_view_path_cleared = true
+              ensure_that_base_view_path_is_not_set_across_example_groups_orig
+            }
+          end
+          describe("base_view_path_cleared flag", :type => :view) do
+            it { $base_view_path_cleared.should be_true }
+          end
+        end
       end
     end
   end

@@ -28,6 +28,10 @@ module Spec
           ensure_that_flash_and_session_work_properly
         end
 
+        after(:each) do
+          ensure_that_base_view_path_is_not_set_across_example_groups
+        end
+
         def initialize(defined_description, &implementation) #:nodoc:
           super
           @controller_class_name = "Spec::Rails::Example::ViewExampleGroupController"
@@ -38,11 +42,6 @@ module Spec
           @controller.send :assign_shortcuts, @request, @response
           @session = @controller.session
           @controller.class.send :public, :flash
-        end
-
-        def teardown #:nodoc:
-          super
-          ensure_that_base_view_path_is_not_set_across_example_groups
         end
 
         def ensure_that_base_view_path_is_not_set_across_example_groups #:nodoc:
