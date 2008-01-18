@@ -1,5 +1,4 @@
 require 'rails_generator/generators/components/controller/controller_generator'
-require File.join(File.dirname(__FILE__), *%w[.. helpers rails_identifier])
 
 class RspecControllerGenerator < ControllerGenerator
 
