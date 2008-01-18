@@ -1,5 +1,3 @@
-require File.join(File.dirname(__FILE__), *%w[.. helpers rails_identifier])
-
 class RspecScaffoldGenerator < Rails::Generator::NamedBase
   default_options :skip_migration => false
   
