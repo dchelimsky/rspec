@@ -30,11 +30,10 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 
     it "should match an rjs template" do
       xhr :post, 'some_action'
-      if ActionView::Base.const_defined?('DEFAULT_TEMPLATE_HANDLER_PREFERENCE') ||
-				 ActionView::Base.respond_to?(:handler_for_extension) then
-        response.should render_template('render_spec/some_action')
-      else
+      if Rails::VERSION::STRING < "2.0.0"
         response.should render_template('render_spec/some_action.rjs')
+      else
+        response.should render_template('render_spec/some_action')
       end
     end
 
