@@ -39,14 +39,18 @@ module Spec
 
       private
       
-        def assign_expression(name)
-          expression = name.dup
-          if String === expression
+        def assign_expression(string_or_regexp)
+          if String === string_or_regexp
+            expression = string_or_regexp.dup
             expression.gsub! '(', '\('
             expression.gsub! ')', '\)'
-            while expression =~ PARAM_PATTERN
-              expression.gsub!($1, "(.*?)")
-            end
+          elsif Regexp === string_or_regexp
+            expression = string_or_regexp.source
+          else
+            expression = string_or_regexp.to_s
+          end
+          while expression =~ PARAM_PATTERN
+            expression.gsub!($1, "(.*?)")
           end
           @expression = Regexp.new("^#{expression}$")
         end
