@@ -16,8 +16,9 @@ module Spec
       def inherited(klass)
         super
         klass.register
+        Spec::Runner.register_at_exit_hook
       end
-
+      
       # Makes the describe/it syntax available from a class. For example:
       #
       #   class StackSpec < Spec::ExampleGroup

@@ -36,6 +36,7 @@ module Test
 
           alias_method :finished_without_rspec, :finished
           def finished_with_rspec(elapsed_time)
+            @ran_test ||= false
             if @ran_test
               finished_without_rspec(elapsed_time)
             end
