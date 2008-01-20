@@ -9,7 +9,7 @@ Story: Spec and test together
 
     When I run it with the ruby interpreter -fs
 
-    Then PENDING the exit code should be 256
+    Then the exit code should be 256
     And the stdout should match "ATest"
     And the stdout should match "Test::Unit::AssertionFailedError in 'An Example should fail with assert'"
     And the stdout should match "'An Example should fail with should' FAILED"

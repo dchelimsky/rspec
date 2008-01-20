@@ -188,6 +188,11 @@ module Spec
         $spec_runner_at_exit_hook_registered ||= nil
         unless $spec_runner_at_exit_hook_registered
           at_exit do
+            # NOTE - there are no specs that will fail
+            # if this is removed, but there are stories that will.
+            if Object.const_defined?(:Test)
+              Test::Unit.run = true
+            end
             unless $! || Spec.run?; \
               success = Spec.run; \
               exit success if Spec.exit?; \
