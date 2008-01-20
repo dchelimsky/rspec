@@ -12,7 +12,7 @@ module Spec
 
       it "should run directory" do
         file = File.dirname(__FILE__) + '/../../../examples/pure'
-        Spec::Runner::CommandLine.run(OptionParser.parse([file], @err, @out))
+        Spec::Runner::CommandLine.run(OptionParser.parse([file,"-p","**/*.rb"], @err, @out))
 
         @out.rewind
         @out.read.should =~ /\d+ examples, 0 failures, 3 pending/n

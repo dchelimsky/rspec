@@ -12,6 +12,11 @@ describe "OptionParser" do
     @parser.parse(args)
     @parser.options
   end
+  
+  it "should accept files to include" do
+    options = parse(["--pattern", "foo"])
+    options.filename_pattern.should == "foo"
+  end
 
   it "should accept dry run option" do
     options = parse(["--dry-run"])

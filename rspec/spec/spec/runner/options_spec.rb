@@ -18,7 +18,45 @@ module Spec
           @options.examples.should == []
         end
       end
-
+      
+      describe "#include_pattern" do
+        it "should default to '**/*_spec.rb'" do
+          @options.filename_pattern.should == "**/*_spec.rb"
+        end
+      end
+      
+      describe "#files_to_load" do
+        before(:each) do
+          @options.filename_pattern = "**/*_foo.rb"
+        end
+        
+        it "should load files following pattern" do
+          file = File.expand_path(File.dirname(__FILE__) + "/resources/a_foo.rb")
+          @options.files << file
+          @options.files_to_load.should include(file)
+        end
+        
+        it "should load files not following pattern if named explicitly" do
+          file = File.expand_path(File.dirname(__FILE__) + "/resources/a_bar.rb")
+          @options.files << file
+          @options.files_to_load.should include(file)
+        end
+        
+        it "should load files in directories not following pattern" do
+          dir = File.expand_path(File.dirname(__FILE__) + "/resources")
+          file = "#{dir}/a_foo.rb"
+          @options.files << dir
+          @options.files_to_load.should include(file)
+        end
+        
+        it "should not load files in directories not following pattern" do
+          dir = File.expand_path(File.dirname(__FILE__) + "/resources")
+          file = "#{dir}/a_bar.rb"
+          @options.files << dir
+          @options.files_to_load.should_not include(file)
+        end
+      end
+      
       describe "#backtrace_tweaker" do
         it "should default to QuietBacktraceTweaker" do
           @options.backtrace_tweaker.class.should == QuietBacktraceTweaker
@@ -253,7 +291,7 @@ module Spec
           @options.run_examples
         end
 
-        describe "#run_examples when there are example_group" do
+        describe "when there are examples" do
           before(:each) do
             @options.add_example_group Class.new(::Spec::Example::ExampleGroup)
             @options.formatters << Formatter::BaseTextFormatter.new(@options, @out)
@@ -271,7 +309,7 @@ module Spec
           end
         end
 
-        describe "#run_examples when there are no example_group" do
+        describe "when there are no examples" do
           before(:each) do
             @options.formatters << Formatter::BaseTextFormatter.new(@options, @out)
           end
