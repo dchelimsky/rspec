@@ -46,8 +46,6 @@ module Spec
             expression.gsub! ')', '\)'
           elsif Regexp === string_or_regexp
             expression = string_or_regexp.source
-          else
-            expression = string_or_regexp.to_s
           end
           while expression =~ PARAM_PATTERN
             expression.gsub!($1, "(.*?)")
