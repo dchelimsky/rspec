@@ -15,7 +15,10 @@ module Spec
       attr_reader :options
 
       OPTIONS = {
-        :pattern => ["-p", "--pattern [PATTERN]","Load files matching this pattern. Defaults to '**/*_spec.rb'"],
+        :pattern => ["-p", "--pattern [PATTERN]","Limit files loaded to those matching this pattern. Defaults to '**/*_spec.rb'",
+                                                 "Separate multiple patterns with commas.",
+                                                 "Applies only to directories named on the command line (files",
+                                                 "named explicitly on the command line will be loaded regardless)."],
         :diff =>    ["-D", "--diff [FORMAT]", "Show diff of objects that are expected to be equal when they are not",
                                              "Builtin formats: unified|u|context|c",
                                              "You can also specify a custom differ class",

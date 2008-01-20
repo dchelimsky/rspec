@@ -181,7 +181,9 @@ module Spec
         result = []
         sorted_files.each do |file|
           if File.directory?(file)
-            result += Dir[File.expand_path("#{file}/#{filename_pattern}")]
+            filename_pattern.split(",").each do |pattern|
+              result += Dir[File.expand_path("#{file}/#{pattern.strip}")]
+            end
           elsif File.file?(file)
             result << file
           else
