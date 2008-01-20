@@ -4,7 +4,7 @@ describe "Test::Unit::TestCase" do
   include TestUnitSpecHelper
   
   before(:each) do
-    @dir = File.dirname(__FILE__)
+    @dir = File.dirname(__FILE__) + "/resources"
   end
   
   describe "with passing test case" do

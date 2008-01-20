@@ -4,7 +4,7 @@ describe "ExampleGroup with test/unit/interop" do
   include TestUnitSpecHelper
   
   before(:each) do
-    @dir = File.dirname(__FILE__)
+    @dir = File.dirname(__FILE__) + "/resources"
   end
   
   describe "with passing examples" do
