@@ -7,6 +7,7 @@ ant
 # put JRuby's bin dir on your PATH
 jruby -S gem install rake --no-ri --no-rdoc
 jruby -S gem install diff-lcs
+jruby -S gem install syntax
 cd ../testsuites/rspec
 mkdir target
 jruby -S rake checkout_code
