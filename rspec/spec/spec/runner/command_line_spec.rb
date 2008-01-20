@@ -35,8 +35,9 @@ module Spec
       end
 
       it "should return true when in --generate-options mode" do
+        # NOTE - this used to say /dev/null but jruby hangs on that for some reason
         Spec::Runner::CommandLine.run(
-          OptionParser.parse(['--generate-options', '/dev/null'], @err, @out)
+          OptionParser.parse(['--generate-options', '/tmp/foo'], @err, @out)
         ).should be_true
       end
 
