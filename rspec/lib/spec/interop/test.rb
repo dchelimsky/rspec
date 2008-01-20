@@ -8,3 +8,5 @@ require 'spec/interop/test/unit/testresult'
 require 'spec/interop/test/unit/ui/console/testrunner'
 
 Spec::Example::ExampleGroupFactory.default(Test::Unit::TestCase)
+
+Test::Unit.run = true

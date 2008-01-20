@@ -40,8 +40,6 @@ module Spec
         end
         
         def register_exit_hook # :nodoc:
-          # TODO - when story runner uses test/unit runners like example runner does we can kill
-          # this and also the assorted Kernel.stub!(:at_exit) in examples
           at_exit do
             Runner.story_runner.run_stories unless $!
           end
