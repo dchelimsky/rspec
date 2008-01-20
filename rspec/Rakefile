@@ -34,7 +34,7 @@ task :verify_rcov => [:spec, :stories]
 desc "Run all specs"
 Spec::Rake::SpecTask.new do |t|
   t.spec_files = FileList['spec/**/*_spec.rb']
-  t.spec_opts = ['--options', 'spec.opts']
+  t.spec_opts = ['--options', 'spec/spec.opts']
   unless ENV['NO_RCOV']
     t.rcov = true
     t.rcov_dir = '../doc/output/coverage'

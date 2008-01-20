@@ -1,0 +1,4 @@
+Autotest.add_hook :initialize do |at|
+  at.add_exception("spec/interop/test/unit/testsuite_adapter_spec_with_test_unit.rb")
+  at.add_exception("spec/interop/test/unit/testcase_spec_with_test_unit.rb")
+end

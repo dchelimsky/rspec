@@ -28,10 +28,3 @@ module Spec
     end
   end
 end
-
-at_exit do \
-  unless $! || Spec.run?; \
-    success = Spec.run; \
-    exit success if Spec.exit?; \
-  end \
-end
