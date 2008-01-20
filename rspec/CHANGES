@@ -1,5 +1,6 @@
 == Version 1.1.3 (trunk)
 
+* Added --pattern (-p for short) option to control what files get loaded. Defaults to '**/*_spec.rb'
 * Exit with non-0 exit code if examples *or tests* (in test/unit interop mode) fail. Closes #203.
 * Moved at_exit hook to a method in Spec::Runner which only runs if specs get loaded. Closes #242.
 * Applied patch from kakutani ensuring that base_view_path gets cleared after each view example. Closes #235.
