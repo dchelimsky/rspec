@@ -29,6 +29,7 @@ module Spec
       }
 
       attr_accessor(
+        :filename_pattern,
         :backtrace_tweaker,
         :context_lines,
         :diff_format,
@@ -53,6 +54,7 @@ module Spec
       def initialize(error_stream, output_stream)
         @error_stream = error_stream
         @output_stream = output_stream
+        @filename_pattern = "**/*_spec.rb"
         @backtrace_tweaker = QuietBacktraceTweaker.new
         @examples = []
         @colour = false
@@ -175,6 +177,20 @@ module Spec
         end
       end
 
+      def files_to_load
+        result = []
+        sorted_files.each do |file|
+          if File.directory?(file)
+            result += Dir[File.expand_path("#{file}/#{filename_pattern}")]
+          elsif File.file?(file)
+            result << file
+          else
+            raise "File or directory not found: #{file}"
+          end
+        end
+        result
+      end
+      
       protected
       def examples_should_be_run?
         return @examples_should_be_run unless @examples_should_be_run.nil?
@@ -203,20 +219,6 @@ module Spec
           @error_stream.puts "Make sure the --require option is specified *before* #{option}"
           if $_spec_spec ; raise e ; else exit(1) ; end
         end
-      end
-      
-      def files_to_load
-        result = []
-        sorted_files.each do |file|
-          if test ?d, file
-            result += Dir[File.expand_path("#{file}/**/*.rb")]
-          elsif test ?f, file
-            result << file
-          else
-            raise "File or directory not found: #{file}"
-          end
-        end
-        result
       end
       
       def custom_runner

@@ -15,6 +15,7 @@ module Spec
       attr_reader :options
 
       OPTIONS = {
+        :pattern => ["-p", "--pattern [PATTERN]"],
         :diff =>    ["-D", "--diff [FORMAT]", "Show diff of objects that are expected to be equal when they are not",
                                              "Builtin formats: unified|u|context|c",
                                              "You can also specify a custom differ class",
@@ -89,6 +90,7 @@ module Spec
 
         self.banner = "Usage: spec (FILE|DIRECTORY|GLOB)+ [options]"
         self.separator ""
+        on(*OPTIONS[:pattern]) {|pattern| @options.filename_pattern = pattern}
         on(*OPTIONS[:diff]) {|diff| @options.parse_diff(diff)}
         on(*OPTIONS[:colour]) {@options.colour = true}
         on(*OPTIONS[:example]) {|example| @options.parse_example(example)}
