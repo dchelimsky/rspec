@@ -82,4 +82,88 @@ require File.dirname(__FILE__) + '/../../spec_helper'
       end.should fail_with("expected \"some_action\", got nil")
     end
   end
+  
+  describe "response.should_not render_template (in #{mode} mode)",
+    :type => :controller do
+    controller_name :render_spec
+    if mode == 'integration'
+      integrate_views
+    end
+    
+    it "should pass when the action renders nothing" do
+      post 'action_that_renders_nothing'
+      response.should_not render_template('action_that_renders_nothing')
+    end
+    
+    it "should pass when the action renders nothing (symbol)" do
+      post 'action_that_renders_nothing'
+      response.should_not render_template(:action_that_renders_nothing)
+    end
+    
+    it "should pass when the action does not render the template" do
+      post 'some_action'
+      response.should_not render_template('some_other_template')
+    end
+    
+    it "should pass when the action does not render the template (symbol)" do
+      post 'some_action'
+      response.should_not render_template(:some_other_template)
+    end
+    
+    it "should pass when the action does not render the template (named with controller)" do
+      post 'some_action'
+      response.should_not render_template('render_spec/some_other_template')
+    end
+    
+    it "should pass when the action renders the template with a different controller" do
+      post 'action_which_renders_template_from_other_controller'
+      response.should_not render_template('action_with_template')
+    end
+    
+    it "should pass when the action renders the template (named with controller) with a different controller" do
+      post 'action_which_renders_template_from_other_controller'
+      response.should_not render_template('render_spec/action_with_template')
+    end
+    
+    it "should pass when TEXT is rendered" do
+      post 'text_action'
+      response.should_not render_template('some_action')
+    end
+    
+    it "should fail when the action renders the template" do
+      post 'some_action'
+      lambda do
+        response.should_not render_template('some_action')
+      end.should fail_with("expected not to render \"some_action\", but did")
+    end
+    
+    it "should fail when the action renders the template (symbol)" do
+      post 'some_action'
+      lambda do
+        response.should_not render_template(:some_action)
+      end.should fail_with("expected not to render \"some_action\", but did")
+    end
+    
+    it "should fail when the action renders the template (named with controller)" do
+      post 'some_action'
+      lambda do
+        response.should_not render_template('render_spec/some_action')
+      end.should fail_with("expected not to render \"render_spec/some_action\", but did")
+    end
+    
+    it "should fail when the action renders the partial" do
+      post 'action_with_partial'
+      lambda do
+        response.should_not render_template('_a_partial')
+      end.should fail_with("expected not to render \"_a_partial\", but did")
+    end
+    
+    it "should fail when the action renders the partial (named with controller)" do
+      post 'action_with_partial'
+      lambda do
+        response.should_not render_template('render_spec/_a_partial')
+      end.should fail_with("expected not to render \"render_spec/_a_partial\", but did")
+    end
+        
+  end
 end

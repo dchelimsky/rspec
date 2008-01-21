@@ -18,6 +18,10 @@ module Spec
           "expected #{@expected.inspect}, got #{@actual.inspect}"
         end
         
+        def negative_failure_message
+          "expected not to render #{@expected.inspect}, but did"
+        end
+        
         def description
           "render template #{@expected.inspect}"
         end

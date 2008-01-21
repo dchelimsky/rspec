@@ -19,4 +19,8 @@ class RenderSpecController < ApplicationController
   def action_with_partial
     render :partial => "a_partial"
   end
+  
+  def action_that_renders_nothing
+    render :nothing => true
+  end
 end
