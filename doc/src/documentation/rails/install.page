@@ -16,7 +16,9 @@ See special instructions below if you want to install the HEAD of the trunk, or 
 
 h4. Installing the CURRENT release
 
-Each release is mirrored in tags/CURRENT, so you can simply point at this to get the latest release.
+Each time a release is made it will be mirrored in tags/CURRENT, so you can simply point at this to 
+get the latest release. Note that if you do this with -x (svn:externals) you'll automatically
+get the latest release when you do an svn up.
 
 <pre>
 ruby script/plugin install http://rspec.rubyforge.org/svn/tags/CURRENT/rspec
@@ -49,15 +51,15 @@ mv rspec_on_rails-<%= rspec_version %> rspec_on_rails
 h4. Installing a specific release
 
 <pre>
-ruby script/plugin install http://rspec.rubyforge.org/svn/tags/{<%= svn_tag %>: }/rspec
-ruby script/plugin install http://rspec.rubyforge.org/svn/tags/{<%= svn_tag %>: }/rspec_on_rails
+ruby script/plugin install http://rspec.rubyforge.org/svn/tags/<%= svn_tag %>/rspec
+ruby script/plugin install http://rspec.rubyforge.org/svn/tags/<%= svn_tag %>/rspec_on_rails
 </pre>
 
 ... or (using svn externals) ...
 
 <pre>
-ruby script/plugin install -x http://rspec.rubyforge.org/svn/tags/{<%= svn_tag %>: }/rspec
-ruby script/plugin install -x http://rspec.rubyforge.org/svn/tags/{<%= svn_tag %>: }/rspec_on_rails
+ruby script/plugin install -x http://rspec.rubyforge.org/svn/tags/<%= svn_tag %>/rspec
+ruby script/plugin install -x http://rspec.rubyforge.org/svn/tags/<%= svn_tag %>/rspec_on_rails
 </pre>
 
 h4. Bootstrap
