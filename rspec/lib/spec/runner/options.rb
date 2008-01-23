@@ -103,10 +103,14 @@ module Spec
 
       def colour=(colour)
         @colour = colour
-        begin; \
-          require 'Win32/Console/ANSI' if @colour && PLATFORM =~ /win32/; \
-        rescue LoadError ; \
-          raise "You must gem install win32console to use colour on Windows" ; \
+        if @colour && RUBY_PLATFORM =~ /win32/ ;\
+          begin ;\
+            require 'rubygems' ;\
+            require 'Win32/Console/ANSI' ;\
+          rescue LoadError ;\
+            warn "You must 'gem install win32console' to use colour on Windows" ;\
+            @colour = false ;\
+          end
         end
       end
 

@@ -1,5 +1,6 @@
 == Version 1.1.3 (trunk)
 
+* Applied patch from Luis Lavena: No coloured output on Windows due missing RUBYOPT. Closes #244.
 * Applied patch from Craig Demyanovich to add support for "should_not render_template" to rspec_on_rails. Closes #241.
 * Added --pattern (-p for short) option to control what files get loaded. Defaults to '**/*_spec.rb'
 * Exit with non-0 exit code if examples *or tests* (in test/unit interop mode) fail. Closes #203.
