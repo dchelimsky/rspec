@@ -47,6 +47,14 @@ require 'controller_spec_controller'
       get 'action_with_partial_with_locals', :thing => "something"
     end
     
+    it "should yield to render :update" do
+      template = stub("template")
+      controller.expect_render(:update).and_yield(template)
+      template.should_receive(:replace).with(:bottom, "replace_me", :partial => "non_existent_partial")
+      get 'action_with_render_update'
+      puts response.body
+    end
+    
     it "should allow a path relative to RAILS_ROOT/app/views/ when specifying a partial" do
       get 'action_with_partial'
       response.should render_template("controller_spec/_partial")
