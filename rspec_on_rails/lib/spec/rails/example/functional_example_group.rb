@@ -31,8 +31,8 @@ module Spec
         # :call-seq:
         #   assigns()
         #
-        # Hash of instance variables to values that are made available to views.
-        # == Examples
+        # Hash of instance variables to values that are made available to
+        # views. == Examples
         #
         #   #in thing_controller.rb
         #   def new
@@ -43,8 +43,8 @@ module Spec
         #   get 'new'
         #   assigns[:registration].should == Thing.new
         #--
-        # NOTE - Even though docs say only use assigns[:key] format, but allowing assigns(:key)
-        # in order to avoid breaking old specs.
+        # NOTE - Even though docs only use assigns[:key] format, this supports
+        # assigns(:key) in order to avoid breaking old specs.
         #++
         def assigns(key = nil)
           if key.nil?

@@ -181,16 +181,26 @@ module Spec
               end
             end
 
-            if expect_render_mock_proxy.send(:__mock_proxy).send(:find_matching_expectation, :render, options)
-              expect_render_mock_proxy.render(options)
+            if matching_message_expectation_exists(options)
+              expect_render_mock_proxy.render(options, &block)
               @performed_render = true
             else
-              unless expect_render_mock_proxy.send(:__mock_proxy).send(:find_matching_method_stub, :render, options)
+              unless matching_stub_exists(options)
                 super(options, deprecated_status, &block)
               end
             end
           end
-
+          
+          private
+            def matching_message_expectation_exists(options)
+              expect_render_mock_proxy.send(:__mock_proxy).send(:find_matching_expectation, :render, options)
+            end
+          
+            def matching_stub_exists(options)
+              expect_render_mock_proxy.send(:__mock_proxy).send(:find_matching_method_stub, :render, options)
+            end
+          
+          public
           if self.respond_to?(:should_receive) && self.respond_to?(:stub!)
             self.send :alias_method, :orig_should_receive, :should_receive
             self.send :alias_method, :orig_stub!, :stub!

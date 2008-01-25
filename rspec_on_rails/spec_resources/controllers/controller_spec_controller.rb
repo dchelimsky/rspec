@@ -45,5 +45,12 @@ class ControllerSpecController < ActionController::Base
     flash[:before_reset] = 'available'
     reset_session
   end
+  
+  def action_with_render_update
+    render :update do |page|
+      page.replace :bottom, 'replace_me',
+                            :partial => 'non_existent_partial'
+    end
+  end
 end
 
