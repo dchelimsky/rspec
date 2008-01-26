@@ -40,10 +40,11 @@ class PreCommit::Rspec < PreCommit
     end
   end
   
+  # TODO - move me up to the project root
   def touch_revision_storing_files
     files = [
-      'rspec/lib/spec/version.rb',
-      'rspec_on_rails/lib/spec/rails/version.rb'
+      'lib/spec/version.rb',
+      '../rspec_on_rails/lib/spec/rails/version.rb'
     ]
     build_time_utc = Time.now.utc.strftime('%Y%m%d%H%M%S')
     files.each do |path|
