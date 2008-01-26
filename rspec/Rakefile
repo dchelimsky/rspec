@@ -22,10 +22,13 @@ PKG_FILE_NAME = "#{PKG_NAME}-#{PKG_VERSION}"
 PKG_FILES = FileList[
   '[A-Z]*',
   'lib/**/*.rb', 
-  'spec/**/*.rb', 
+  'spec/**/*',
   'examples/**/*',
+  'failing_examples/**/*',
   'plugins/**/*',
-  'stories/**/*'
+  'stories/**/*',
+  'pre_commit/**/*',
+  'rake_tasks/**/*'
 ]
 
 task :default => [:verify_rcov]
