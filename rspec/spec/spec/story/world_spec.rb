@@ -298,12 +298,18 @@ module Spec
         World.add_listener(mock_listener2)
 
         # expect
+        mock_listener1.should_receive(:step_upcoming).with(:given, 'a context')
         mock_listener1.should_receive(:step_succeeded).with(:given, 'a context')
+        mock_listener1.should_receive(:step_upcoming).with(:when, 'an event')
         mock_listener1.should_receive(:step_succeeded).with(:when, 'an event')
+        mock_listener1.should_receive(:step_upcoming).with(:then, 'an outcome')
         mock_listener1.should_receive(:step_succeeded).with(:then, 'an outcome')
 
+        mock_listener2.should_receive(:step_upcoming).with(:given, 'a context')
         mock_listener2.should_receive(:step_succeeded).with(:given, 'a context')
+        mock_listener2.should_receive(:step_upcoming).with(:when, 'an event')
         mock_listener2.should_receive(:step_succeeded).with(:when, 'an event')
+        mock_listener2.should_receive(:step_upcoming).with(:then, 'an outcome')
         mock_listener2.should_receive(:step_succeeded).with(:then, 'an outcome')
 
         # when
@@ -325,6 +331,7 @@ module Spec
         world = World.create
 
         # expect
+        mock_listener.should_receive(:step_upcoming).with(:given, 'a context')
         mock_listener.should_receive(:step_succeeded).with(:given, 'a context')
 
         # when

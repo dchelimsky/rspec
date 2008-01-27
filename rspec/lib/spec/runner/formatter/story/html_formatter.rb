@@ -98,6 +98,9 @@ EOF
             scenario_ended
           end
 
+          def step_upcoming(type, description, *args)
+          end
+
           def step_succeeded(type, description, *args)
             print_step('passed', type, description, *args) # TODO: uses succeeded CSS class
           end
