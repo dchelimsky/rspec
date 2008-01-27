@@ -9,7 +9,7 @@ class PreCommit::RspecOnRails < PreCommit
       begin
         rspec_pre_commit(rails_version, false)
         used_railses << rails_version
-      rescue => e
+      rescue Exception => e
         unless rails_version == 'edge'
           raise e
         end
