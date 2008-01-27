@@ -76,7 +76,10 @@ module Spec
               end
             end            
           end
-        
+
+          def step_upcoming(type, description, *args)
+          end
+                  
           def step_succeeded(type, description, *args)
             found_step(type, description, false, *args)
           end

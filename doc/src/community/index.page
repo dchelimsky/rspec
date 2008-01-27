@@ -136,6 +136,8 @@ In alphabetical order (by last name)
 * Brandon Keepers
 ** Patch [#15465] Edge rails #8115 changed plugin loading, causing conflict between rspec and rails plugin
 ** Patch [#13881] Dynamically include Helpers that are included on ActionView::Base
+* Kero
+** Patch to add step_upcoming to story listeners.
 * Rich Kilmer
 ** Underscore syntactic sugar
 * Ryan Kinderman

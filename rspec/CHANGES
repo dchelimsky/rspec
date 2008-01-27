@@ -1,5 +1,6 @@
 == Version 1.1.3 (trunk)
 
+* Applied patch from Kero to add step_upcoming to story listeners. Closes #253.
 * Fixed bug where the wrong named error was not always caught by "should raise_error"
 * Applied patch from Luis Lavena: No coloured output on Windows due missing RUBYOPT. Closes #244.
 * Applied patch from Craig Demyanovich to add support for "should_not render_template" to rspec_on_rails. Closes #241.
