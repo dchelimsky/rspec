@@ -16,7 +16,7 @@ describe "Mock" do
     @mock.rspec_verify
     begin
       @mock.foobar
-    rescue => e
+    rescue Exception => e
       e.message.should == "Mock 'test mock' received unexpected message :foobar with (no args)"
     end
   end 
