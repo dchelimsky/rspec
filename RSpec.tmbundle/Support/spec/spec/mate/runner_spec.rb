@@ -1,9 +1,10 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
-describe "Spec::Mate::Runner", :shared => true do
+share_as :RunnerSpecHelper do
   before(:each) do
     @first_failing_spec  = /fixtures\/example_failing_spec\.rb&line=3/n
     @second_failing_spec  = /fixtures\/example_failing_spec\.rb&line=7/n
+    @fixtures_path = File.expand_path(File.dirname(__FILE__)) + '/../../../fixtures'
     
     set_env
     load File.dirname(__FILE__) + '/../../../lib/spec/mate.rb'
@@ -18,32 +19,30 @@ describe "Spec::Mate::Runner", :shared => true do
 end
 
 describe "Spec::Mate::Runner#run_file" do
-  it_should_behave_like "Spec::Mate::Runner"
+  include RunnerSpecHelper
   
   it "should run whole file when only file specified" do
-    ENV['TM_FILEPATH'] = File.expand_path(File.dirname(__FILE__)) + '/../../../fixtures/example_failing_spec.rb'
+    ENV['TM_FILEPATH'] = "#{@fixtures_path}/example_failing_spec.rb"
 
-    out = StringIO.new
-    @spec_mate.run_file(out)
-    out.rewind
-    html = out.read
+    @spec_mate.run_file(@test_runner_io)
+    @test_runner_io.rewind
+    html = @test_runner_io.read
     html.should =~ @first_failing_spec
     html.should =~ @second_failing_spec
   end
 end
 
 describe "Spec::Mate::Runner#run_files" do
-  it_should_behave_like "Spec::Mate::Runner"
+  include RunnerSpecHelper
 
   it "should run all selected files" do
     ENV['TM_SELECTED_FILES'] = ['example_failing_spec.rb', 'example_passing_spec.rb'].map do |f|
-      "'" + File.expand_path(File.dirname(__FILE__)) + "/../../../fixtures/#{f}'"
+      "'#{@fixtures_path}/#{f}'"
     end.join(" ")
 
-    out = StringIO.new
-    @spec_mate.run_files(out)
-    out.rewind
-    html = out.read
+    @spec_mate.run_files(@test_runner_io)
+    @test_runner_io.rewind
+    html = @test_runner_io.read
 
     html.should =~ @first_failing_spec
     html.should =~ @second_failing_spec
@@ -53,28 +52,26 @@ describe "Spec::Mate::Runner#run_files" do
 end
 
 describe "Spec::Mate::Runner#run_focused" do
-  it_should_behave_like "Spec::Mate::Runner"
+  include RunnerSpecHelper
 
   it "should run first spec when file and line 4 specified" do
-    ENV['TM_FILEPATH'] = File.expand_path(File.dirname(__FILE__)) + '/../../../fixtures/example_failing_spec.rb'
+    ENV['TM_FILEPATH'] = "#{@fixtures_path}/example_failing_spec.rb"
     ENV['TM_LINE_NUMBER'] = '4'
 
-    out = StringIO.new
-    @spec_mate.run_focussed(out)
-    out.rewind
-    html = out.read
+    @spec_mate.run_focussed(@test_runner_io)
+    @test_runner_io.rewind
+    html = @test_runner_io.read
     html.should =~ @first_failing_spec
     html.should_not =~ @second_failing_spec
   end
 
   it "should run first spec when file and line 8 specified" do
-    ENV['TM_FILEPATH'] = File.expand_path(File.dirname(__FILE__)) + '/../../../fixtures/example_failing_spec.rb'
+    ENV['TM_FILEPATH'] = "#{@fixtures_path}/example_failing_spec.rb"
     ENV['TM_LINE_NUMBER'] = '8'
 
-    out = StringIO.new
-    @spec_mate.run_focussed(out)
-    out.rewind
-    html = out.read
+    @spec_mate.run_focussed(@test_runner_io)
+    @test_runner_io.rewind
+    html = @test_runner_io.read
 
     html.should_not =~ @first_failing_spec
     html.should =~ @second_failing_spec
@@ -82,20 +79,19 @@ describe "Spec::Mate::Runner#run_focused" do
 end
 
 describe "Spec::Mate::Runner error cases" do
-  it_should_behave_like "Spec::Mate::Runner"
+  include RunnerSpecHelper
 
   it "should raise exception when TM_PROJECT_DIRECTORY points to bad location" do
     ENV['TM_PROJECT_DIRECTORY'] = __FILE__ # bad on purpose
     lambda do
-      load File.dirname(__FILE__) + '/../../../lib/spec/mate.rb'
-    end.should_not raise_error
+      load "/../../../lib/spec/mate.rb"
+    end.should raise_error(LoadError)
   end
   
   it "should raise exception when TM_RSPEC_HOME points to bad location" do
-    ENV['TM_PROJECT_DIRECTORY'] = __FILE__ # bad on purpose
     ENV['TM_RSPEC_HOME'] = __FILE__ # bad on purpose
     lambda do
-      load File.dirname(__FILE__) + '/../lib/spec_mate.rb'
-    end.should raise_error
+      load "/../../../lib/spec/mate.rb"
+    end.should raise_error(LoadError)
   end
 end
