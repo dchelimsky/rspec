@@ -43,14 +43,14 @@ class PreCommit::Rspec < PreCommit
   # TODO - move me up to the project root
   def touch_revision_storing_files
     files = [
-      'lib/spec/version.rb',
-      '../rspec_on_rails/lib/spec/rails/version.rb'
+      'rspec/lib/spec/version.rb',
+      'rspec_on_rails/lib/spec/rails/version.rb'
     ]
     build_time_utc = Time.now.utc.strftime('%Y%m%d%H%M%S')
     files.each do |path|
       abs_path = File.join(root_dir, path)
       content = File.open(abs_path).read
-      touched_content = content.gsub(/BUILD_TIME_UTC = (\d*)\n/n, "BUILD_TIME_UTC = #{build_time_utc}\n")
+      touched_content = content.gsub(/BUILD_TIME_UTC = (\d*)/, "BUILD_TIME_UTC = #{build_time_utc}")
       File.open(abs_path, 'w') do |io|
         io.write touched_content
       end
