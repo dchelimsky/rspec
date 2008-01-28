@@ -2,7 +2,9 @@ module Spec
   module Mate
     class Runner
       def run_files(stdout, options={})
-        files = ENV['TM_SELECTED_FILES'].split(" ").map{|p| p[1..-2]}
+        files = ENV['TM_SELECTED_FILES'].split(" ").map do |path|
+          File.expand_path(path[1..-2])
+        end
         options.merge!({:files => files})
         run(stdout, options)
       end
@@ -17,10 +19,6 @@ module Spec
         run(stdout, options)
       end
 
-      def single_file
-        ENV['TM_FILEPATH'][ENV['TM_PROJECT_DIRECTORY'].length+1..-1]
-      end
-
       def run(stdout, options)
         argv = options[:files].dup
         argv << '--format'
@@ -30,9 +28,18 @@ module Spec
           argv << options[:line]
         end
         argv += ENV['TM_RSPEC_OPTS'].split(" ") if ENV['TM_RSPEC_OPTS']
-        Dir.chdir(ENV['TM_PROJECT_DIRECTORY']) do
+        Dir.chdir(project_directory) do
           ::Spec::Runner::CommandLine.run(::Spec::Runner::OptionParser.parse(argv, STDERR, stdout))
         end
+      end
+
+      protected
+      def single_file
+        File.expand_path(ENV['TM_FILEPATH'])
+      end
+
+      def project_directory
+        File.expand_path(ENV['TM_PROJECT_DIRECTORY'])
       end
     end
   end

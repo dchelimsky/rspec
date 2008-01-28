@@ -11,7 +11,7 @@ module Spec
         end
       end
 
-      attr_reader :description_text, :description_args, :description_options, :spec_path
+      attr_reader :description_text, :description_args, :description_options, :spec_path, :registration_backtrace
 
       def inherited(klass)
         super
@@ -238,6 +238,7 @@ module Spec
       end
 
       def register
+        @registration_backtrace = caller
         rspec_options.add_example_group self
       end
 

@@ -88,7 +88,6 @@ module Spec
         @out_stream = out
         @options = Options.new(@error_stream, @out_stream)
 
-        @spec_parser = SpecParser.new
         @file_factory = File
 
         self.banner = "Usage: spec (FILE|DIRECTORY|GLOB)+ [options]"
@@ -202,8 +201,7 @@ module Spec
         if @options.examples.empty?
           if @options.files.length == 1
             if @file_factory.file?(@options.files[0])
-              source = @file_factory.open(@options.files[0])
-              example = @spec_parser.spec_name_for(source, @options.line_number)
+              example = SpecParser.new.spec_name_for(@options.files[0], @options.line_number)
               @options.parse_example(example)
             elsif @file_factory.directory?(@options.files[0])
               @error_stream.puts "You must specify one file, not a directory when using the --line option"
