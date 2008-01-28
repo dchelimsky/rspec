@@ -2,14 +2,29 @@ module Spec
   module Runner
     # Parses a spec file and finds the nearest example for a given line number.
     class SpecParser
-      def spec_name_for(io, line_number)
-        source  = io.read
-        example_group, example_group_line = example_group_at_line(source, line_number)
-        example, example_line = example_at_line(source, line_number)
-        if example_group && example && (example_group_line < example_line)
-          "#{example_group} #{example}"
-        elsif example_group
-          example_group
+      attr_reader :best_match
+
+      def initialize
+        @best_match = {}
+      end
+
+      def spec_name_for(file, line_number)
+        best_match.clear
+        file = File.expand_path(file)
+        require file
+        rspec_options.example_groups.each do |example_group|
+          consider_example_groups_for_best_match example_group, file, line_number
+
+          example_group.examples.each do |example|
+            consider_example_for_best_match example, example_group, file, line_number
+          end
+        end
+        if best_match[:example_group]
+          if best_match[:example]
+            "#{best_match[:example_group].description} #{best_match[:example].description}"
+          else
+            best_match[:example_group].description
+          end
         else
           nil
         end
@@ -17,36 +32,46 @@ module Spec
 
     protected
 
-      def example_group_at_line(source, line_number)
-        find_above(source, line_number, /^\s*(context|describe)\s+(.*)\s+do/)
+      def consider_example_groups_for_best_match(example_group, file, line_number)
+        parsed_backtrace = parse_backtrace(example_group.registration_backtrace)
+        parsed_backtrace.each do |example_file, example_line|
+          if(
+            file == example_file &&
+            example_line <= line_number &&
+            example_line > best_match[:line].to_i
+          )
+            best_match.clear
+            best_match[:example_group] = example_group
+            best_match[:line] = example_line
+          end
+        end
       end
 
-      def example_at_line(source, line_number)
-        find_above(source, line_number, /^\s*(specify|it)\s+(.*)\s+do/)
+      def consider_example_for_best_match(example, example_group, file, line_number)
+        backtrace = eval(
+          %Q|caller|,
+          example.instance_variable_get(:@_implementation)
+        )
+        parsed_backtrace = parse_backtrace(backtrace)
+        parsed_backtrace.each do |example_file, example_line|
+          if(
+            file == example_file &&
+            example_line <= line_number &&
+            example_line > best_match[:line].to_i
+          )
+            best_match.clear
+            best_match[:example_group] = example_group
+            best_match[:example] = example
+            best_match[:line] = example_line
+          end
+        end
       end
 
-      # Returns the context/describe or specify/it name and the line number
-      def find_above(source, line_number, pattern)
-        lines_above_reversed(source, line_number).each_with_index do |line, n|
-          return [parse_description($2), line_number-n] if line =~ pattern
+      def parse_backtrace(backtrace)
+        backtrace.collect do |trace_line|
+          split_line = trace_line.split(':')
+          [split_line[0], Integer(split_line[1])]
         end
-        nil
-      end
-
-      def lines_above_reversed(source, line_number)
-        lines = source.split("\n")
-        lines[0...line_number].reverse
-      end
-      
-      def parse_description(str)
-        return str[1..-2] if str =~ /^['"].*['"]$/
-        if matches = /^['"](.*)['"](,.*)?$/.match(str)
-          return ::Spec::Example::ExampleGroupMethods.description_text(matches[1])
-        end
-        if matches = /^(.*)\s*,\s*['"](.*)['"](,.*)?$/.match(str)
-          return ::Spec::Example::ExampleGroupMethods.description_text(matches[1], matches[2])
-        end
-        return str
       end
     end
   end

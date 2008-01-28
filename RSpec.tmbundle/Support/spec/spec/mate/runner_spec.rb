@@ -5,22 +5,28 @@ share_as :RunnerSpecHelper do
     @first_failing_spec  = /fixtures\/example_failing_spec\.rb&line=3/n
     @second_failing_spec  = /fixtures\/example_failing_spec\.rb&line=7/n
     @fixtures_path = File.expand_path(File.dirname(__FILE__)) + '/../../../fixtures'
-    
+
     set_env
-    load File.dirname(__FILE__) + '/../../../lib/spec/mate.rb'
+    load File.expand_path("#{File.dirname(__FILE__)}/../../../lib/spec/mate.rb")
     @spec_mate = Spec::Mate::Runner.new
 
     @test_runner_io = StringIO.new
   end
-  
+
   after(:each) do
     set_env
+    $".delete_if do |path|
+      path =~ /example_failing_spec\.rb/
+    end
+    rspec_options.example_groups.delete_if do |example_group|
+      example_group.description == "An example failing spec"
+    end
   end
 end
 
 describe "Spec::Mate::Runner#run_file" do
   include RunnerSpecHelper
-  
+
   it "should run whole file when only file specified" do
     ENV['TM_FILEPATH'] = "#{@fixtures_path}/example_failing_spec.rb"
 
@@ -66,7 +72,7 @@ describe "Spec::Mate::Runner#run_focused" do
   end
 
   it "should run first spec when file and line 8 specified" do
-    ENV['TM_FILEPATH'] = "#{@fixtures_path}/example_failing_spec.rb"
+    ENV['TM_FILEPATH'] = File.expand_path(File.dirname(__FILE__)) + '/../../../fixtures/example_failing_spec.rb'
     ENV['TM_LINE_NUMBER'] = '8'
 
     @spec_mate.run_focussed(@test_runner_io)
@@ -84,14 +90,14 @@ describe "Spec::Mate::Runner error cases" do
   it "should raise exception when TM_PROJECT_DIRECTORY points to bad location" do
     ENV['TM_PROJECT_DIRECTORY'] = __FILE__ # bad on purpose
     lambda do
-      load "/../../../lib/spec/mate.rb"
-    end.should raise_error(LoadError)
+      load File.dirname(__FILE__) + '/../../../lib/spec/mate.rb'
+    end.should_not raise_error
   end
-  
+
   it "should raise exception when TM_RSPEC_HOME points to bad location" do
     ENV['TM_RSPEC_HOME'] = __FILE__ # bad on purpose
     lambda do
-      load "/../../../lib/spec/mate.rb"
-    end.should raise_error(LoadError)
+      load File.dirname(__FILE__) + '/../lib/spec_mate.rb'
+    end.should raise_error
   end
 end

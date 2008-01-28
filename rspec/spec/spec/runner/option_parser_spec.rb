@@ -221,16 +221,15 @@ describe "OptionParser" do
 
   it "should support --line to identify spec" do
     spec_parser = mock("spec_parser")
-    @parser.instance_variable_set('@spec_parser', spec_parser)
+    ::Spec::Runner::SpecParser.should_receive(:new).and_return {spec_parser}
 
     file_factory = mock("File")
     file_factory.should_receive(:file?).and_return(true)
-    file_factory.should_receive(:open).and_return("fake_io")
     @parser.instance_variable_set('@file_factory', file_factory)
 
-    spec_parser.should_receive(:spec_name_for).with("fake_io", 169).and_return("some spec")
+    spec_parser.should_receive(:spec_name_for).with("some_file", 169).and_return("some spec")
 
-    options = parse(["some file", "--line", "169"])
+    options = parse(["some_file", "--line", "169"])
     options.examples.should eql(["some spec"])
     File.rspec_verify
   end

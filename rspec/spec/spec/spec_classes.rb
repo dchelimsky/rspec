@@ -122,6 +122,10 @@ module Custom
     def initialize(options)
       @options = options
     end
+
+    def diff_as_object(target, expected)
+      ""
+    end
   end
 end
 
