@@ -81,6 +81,10 @@ module Spec
           Spec::Matchers.clear_generated_description
         end
       end
+
+      def implementation_backtrace
+        eval("caller", @_implementation)
+      end
       
       protected
       include Matchers

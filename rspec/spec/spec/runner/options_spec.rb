@@ -88,8 +88,7 @@ module Spec
         end
       
       end
-      
-      
+
       describe "#backtrace_tweaker" do
         it "should default to QuietBacktraceTweaker" do
           @options.backtrace_tweaker.class.should == QuietBacktraceTweaker
