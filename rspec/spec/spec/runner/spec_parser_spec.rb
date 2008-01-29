@@ -4,7 +4,8 @@ describe "SpecParser" do
   attr_reader :parser, :file
   before(:each) do
     @parser = Spec::Runner::SpecParser.new
-    @file = "#{File.dirname(__FILE__)}/spec_parser_fixture.rb"
+    @file = "#{File.dirname(__FILE__)}/spec_parser/spec_parser_fixture.rb"
+    require file
   end
 
   it "should find spec name for 'specify' at same line" do

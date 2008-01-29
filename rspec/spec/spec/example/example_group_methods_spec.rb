@@ -459,20 +459,29 @@ module Spec
 
       describe '#register' do
         it "should add ExampleGroup to set of ExampleGroups to be run" do
-          example_group.register
+          options.example_groups.delete(example_group)
+          options.example_groups.should_not include(example_group)
+          
+          example_group.register {}
           options.example_groups.should include(example_group)
         end
       end
 
       describe '#unregister' do
         before do
-          example_group.register
           options.example_groups.should include(example_group)
         end
 
         it "should remove ExampleGroup from set of ExampleGroups to be run" do
           example_group.unregister
           options.example_groups.should_not include(example_group)
+        end
+      end
+
+      describe "#registration_backtrace" do
+        it "returns the backtrace of where the ExampleGroup was registered" do
+          example_group = Class.new(ExampleGroup)
+          example_group.registration_backtrace.join("\n").should include("#{__FILE__}:#{__LINE__-1}")
         end
       end
     end

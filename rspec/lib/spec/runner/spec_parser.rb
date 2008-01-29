@@ -11,7 +11,6 @@ module Spec
       def spec_name_for(file, line_number)
         best_match.clear
         file = File.expand_path(file)
-        require file
         rspec_options.example_groups.each do |example_group|
           consider_example_groups_for_best_match example_group, file, line_number
 
@@ -35,11 +34,7 @@ module Spec
       def consider_example_groups_for_best_match(example_group, file, line_number)
         parsed_backtrace = parse_backtrace(example_group.registration_backtrace)
         parsed_backtrace.each do |example_file, example_line|
-          if(
-            file == example_file &&
-            example_line <= line_number &&
-            example_line > best_match[:line].to_i
-          )
+          if is_best_match?(file, line_number, example_file, example_line)
             best_match.clear
             best_match[:example_group] = example_group
             best_match[:line] = example_line
@@ -48,23 +43,21 @@ module Spec
       end
 
       def consider_example_for_best_match(example, example_group, file, line_number)
-        backtrace = eval(
-          %Q|caller|,
-          example.instance_variable_get(:@_implementation)
-        )
-        parsed_backtrace = parse_backtrace(backtrace)
+        parsed_backtrace = parse_backtrace(example.implementation_backtrace)
         parsed_backtrace.each do |example_file, example_line|
-          if(
-            file == example_file &&
-            example_line <= line_number &&
-            example_line > best_match[:line].to_i
-          )
+          if is_best_match?(file, line_number, example_file, example_line)
             best_match.clear
             best_match[:example_group] = example_group
             best_match[:example] = example
             best_match[:line] = example_line
           end
         end
+      end
+
+      def is_best_match?(file, line_number, example_file, example_line)
+        file == File.expand_path(example_file) &&
+        example_line <= line_number &&
+        example_line > best_match[:line].to_i
       end
 
       def parse_backtrace(backtrace)

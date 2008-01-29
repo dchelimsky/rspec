@@ -86,6 +86,7 @@ module Spec
         if example_groups.empty?
           true
         else
+          set_spec_from_line_number if line_number
           success = runner.run
           @examples_run = true
           heckle if heckle_runner
@@ -255,6 +256,30 @@ module Spec
       def default_differ
         require 'spec/expectations/differs/default'
         self.differ_class = Spec::Expectations::Differs::Default
+      end
+
+      def set_spec_from_line_number
+        if examples.empty?
+          if files.length == 1
+            if File.directory?(files[0])
+              error_stream.puts "You must specify one file, not a directory when using the --line option"
+              exit(1) if stderr?
+            else
+              example = SpecParser.new.spec_name_for(files[0], line_number)
+              @examples = [example]
+            end
+          else
+            error_stream.puts "Only one file can be specified when using the --line option: #{files.inspect}"
+            exit(3) if stderr?
+          end
+        else
+          error_stream.puts "You cannot use both --line and --example"
+          exit(4) if stderr?
+        end
+      end
+
+      def stderr?
+        @error_stream == $stderr
       end
     end
   end

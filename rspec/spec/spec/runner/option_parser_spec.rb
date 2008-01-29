@@ -219,61 +219,58 @@ describe "OptionParser" do
     @err.string.should match(/Couldn't find differ class Custom::MissingFormatter/n)
   end
 
-  it "should support --line to identify spec" do
-    spec_parser = mock("spec_parser")
-    ::Spec::Runner::SpecParser.should_receive(:new).and_return {spec_parser}
+  describe "when attempting a focussed spec" do
+    attr_reader :file, :dir
+    before do
+      @original_rspec_options = $rspec_options
+      @file = "#{File.dirname(__FILE__)}/spec_parser/spec_parser_fixture.rb"
+      @dir = File.dirname(file)
+    end
 
-    file_factory = mock("File")
-    file_factory.should_receive(:file?).and_return(true)
-    @parser.instance_variable_set('@file_factory', file_factory)
+    after do
+      $rspec_options = @original_rspec_options
+    end
 
-    spec_parser.should_receive(:spec_name_for).with("some_file", 169).and_return("some spec")
+    def parse(args)
+      options = super
+      $rspec_options = options
+      options.filename_pattern = "*_fixture.rb"
+      options
+    end
 
-    options = parse(["some_file", "--line", "169"])
-    options.examples.should eql(["some spec"])
-    File.rspec_verify
-  end
+    it "should support --line to identify spec" do
+      options = parse([file, "--line", "13"])
+      options.line_number.should == 13
+      options.examples.should be_empty
+      options.run_examples
+      options.examples.should eql(["d"])
+    end
 
-  it "should fail with error message if file is dir along with --line" do
-    spec_parser = mock("spec_parser")
-    @parser.instance_variable_set('@spec_parser', spec_parser)
+    it "should fail with error message if file is dir along with --line" do
+      options = parse([dir, "--line", "169"])
+      options.line_number.should == 169
+      options.run_examples
+      @err.string.should match(/You must specify one file, not a directory when using the --line option/n)
+    end
 
-    file_factory = mock("File")
-    file_factory.should_receive(:file?).and_return(false)
-    file_factory.should_receive(:directory?).and_return(true)
-    @parser.instance_variable_set('@file_factory', file_factory)
+    it "should fail with error message if file does not exist along with --line" do
+      options = parse(["some file", "--line", "169"])
+      proc do
+        options.run_examples
+      end.should raise_error
+    end
 
-    options = parse(["some file", "--line", "169"])
-    @err.string.should match(/You must specify one file, not a directory when using the --line option/n)
-  end
+    it "should fail with error message if more than one files are specified along with --line" do
+      options = parse([file, file, "--line", "169"])
+      options.run_examples
+      @err.string.should match(/Only one file can be specified when using the --line option/n)
+    end
 
-  it "should fail with error message if file does not exist along with --line" do
-    spec_parser = mock("spec_parser")
-    @parser.instance_variable_set('@spec_parser', spec_parser)
-
-    file_factory = mock("File")
-    file_factory.should_receive(:file?).and_return(false)
-    file_factory.should_receive(:directory?).and_return(false)
-    @parser.instance_variable_set('@file_factory', file_factory)
-
-    options = parse(["some file", "--line", "169"])
-    @err.string.should match(/some file does not exist/n)
-  end
-
-  it "should fail with error message if more than one files are specified along with --line" do
-    spec_parser = mock("spec_parser")
-    @parser.instance_variable_set('@spec_parser', spec_parser)
-
-    options = parse(["some file", "some other file", "--line", "169"])
-    @err.string.should match(/Only one file can be specified when using the --line option/n)
-  end
-
-  it "should fail with error message if --example and --line are used simultaneously" do
-    spec_parser = mock("spec_parser")
-    @parser.instance_variable_set('@spec_parser', spec_parser)
-
-    options = parse(["some file", "--example", "some example", "--line", "169"])
-    @err.string.should match(/You cannot use both --line and --example/n)
+    it "should fail with error message if --example and --line are used simultaneously" do
+      options = parse([file, "--example", "some example", "--line", "169"])
+      options.run_examples
+      @err.string.should match(/You cannot use both --line and --example/n)
+    end
   end
 
   if [/mswin/, /java/].detect{|p| p =~ RUBY_PLATFORM}

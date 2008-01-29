@@ -128,10 +128,6 @@ module Spec
           blk.call(file) if blk
         end
 
-        if @options.line_number
-          set_spec_from_line_number
-        end
-
         @options
       end
 
@@ -197,35 +193,8 @@ module Spec
         exit if stdout?
       end      
 
-      def set_spec_from_line_number
-        if @options.examples.empty?
-          if @options.files.length == 1
-            if @file_factory.file?(@options.files[0])
-              example = SpecParser.new.spec_name_for(@options.files[0], @options.line_number)
-              @options.parse_example(example)
-            elsif @file_factory.directory?(@options.files[0])
-              @error_stream.puts "You must specify one file, not a directory when using the --line option"
-              exit(1) if stderr?
-            else
-              @error_stream.puts "#{@options.files[0]} does not exist"
-              exit(2) if stderr?
-            end
-          else
-            @error_stream.puts "Only one file can be specified when using the --line option: #{@options.files.inspect}"
-            exit(3) if stderr?
-          end
-        else
-          @error_stream.puts "You cannot use both --line and --example"
-          exit(4) if stderr?
-        end
-      end
-
       def stdout?
         @out_stream == $stdout
-      end
-
-      def stderr?
-        @error_stream == $stderr
       end
     end
   end
