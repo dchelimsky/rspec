@@ -28,9 +28,7 @@ module Spec
       end
   
       def stub_found_files autotest
-        mtime = Time.at(0)
-        found_files = Hash.new {|h,k| h[k] = mtime}
-        @specs.each {|s| found_files[s]}
+        found_files = @specs.inject({}){|h,f| h[f] = Time.at(0)}
         autotest.stub!(:find_files).and_return(found_files)
       end
 
