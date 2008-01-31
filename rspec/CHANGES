@@ -2,6 +2,7 @@
 
 Maintenance release.
 
+* Tightened up exceptions list in autotest/rails_spec. Closes #264.
 * Applied patch from Ryan Davis for ZenTest-3.9.0 compatibility
 * Applied patch from Kero to add step_upcoming to story listeners. Closes #253.
 * Fixed bug where the wrong named error was not always caught by "should raise_error"
