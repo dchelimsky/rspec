@@ -1,5 +1,6 @@
 == Version 1.1.4 (trunk)
 
+* Applied patch from Coda Hale to get rspec calling autotest's :red hook. Closes #279.
 * Applied patch from Ian White to get rspec working with edge rails (8804). Closes #271.
 
 == Version 1.1.3
