@@ -36,8 +36,8 @@ describe <%= controller_class_name %>Controller do
   describe "handling GET /<%= table_name %>.xml" do
 
     before(:each) do
-      @<%= file_name %> = mock_model(<%= class_name %>, :to_xml => "XML")
-      <%= class_name %>.stub!(:find).and_return(@<%= file_name %>)
+      @<%= file_name.pluralize %> = mock("Array of <%= class_name.pluralize %>", :to_xml => "XML")
+      <%= class_name %>.stub!(:find).and_return(@<%= file_name.pluralize %>)
     end
   
     def do_get
@@ -51,12 +51,12 @@ describe <%= controller_class_name %>Controller do
     end
 
     it "should find all <%= table_name %>" do
-      <%= class_name %>.should_receive(:find).with(:all).and_return([@<%= file_name %>])
+      <%= class_name %>.should_receive(:find).with(:all).and_return(@<%= file_name.pluralize %>)
       do_get
     end
   
     it "should render the found <%= table_name %> as xml" do
-      @<%= file_name %>.should_receive(:to_xml).and_return("XML")
+      @<%= file_name.pluralize %>.should_receive(:to_xml).and_return("XML")
       do_get
       response.body.should == "XML"
     end
