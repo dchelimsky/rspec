@@ -21,17 +21,15 @@ class Autotest::Rspec < Autotest
 
   def initialize
     super
-
     self.failed_results_re = /^\d+\)\n(?:\e\[\d*m)?(?:.*?Error in )?'([^\n]*)'(?: FAILED)?(?:\e\[\d*m)?\n(.*?)\n\n/m
     self.completed_re = /\Z/ # FIX: some sort of summary line at the end?
   end
-
+  
   def consolidate_failures(failed)
     filters = Hash.new { |h,k| h[k] = [] }
-    failed.each do |spec, failed_trace|
-      if f = test_files_for(failed).find { |f| failed_trace =~ Regexp.new(f) } then
-        filters[f] << spec
-        break
+    failed.each do |spec, trace|
+      if trace =~ /\n(.*):[\d]+:\Z/
+        filters[$1] << spec
       end
     end
     return filters
@@ -41,7 +39,7 @@ class Autotest::Rspec < Autotest
     return "#{ruby} -S #{spec_command} #{add_options_if_present} #{files_to_test.keys.flatten.join(' ')}"
   end
   
-  def add_options_if_present
+  def add_options_if_present # :nodoc:
     File.exist?("spec/spec.opts") ? "-O spec/spec.opts " : ""
   end
 

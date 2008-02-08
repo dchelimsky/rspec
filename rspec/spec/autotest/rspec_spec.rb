@@ -49,7 +49,7 @@ HERE
   describe Rspec, "selection of rspec command" do
     include AutotestHelper
     
-    before :each do
+    before(:each) do
       common_setup
       @rspec_autotest = Rspec.new
     end
@@ -83,7 +83,7 @@ HERE
   describe Rspec, "selection of rspec command (windows compatibility issues)" do
     include AutotestHelper
     
-    before :each do
+    before(:each) do
       common_setup
     end
     
@@ -104,7 +104,7 @@ HERE
   end
 
   describe Rspec, "adding spec.opts --options" do 
-    before :each do
+    before(:each) do
       @rspec_autotest = Rspec.new
     end
 
@@ -120,7 +120,7 @@ HERE
   end  
   
   describe Rspec do
-    before :each do
+    before(:each) do
       @rspec_autotest = Rspec.new
       @rspec_autotest.stub!(:ruby).and_return "ruby"
       @rspec_autotest.stub!(:add_options_if_present).and_return "-O spec/spec.opts"
@@ -167,7 +167,7 @@ HERE
   describe Rspec, "consolidating failures" do
     include AutotestHelper
     
-    before :each do
+    before(:each) do
       common_setup
       @rspec_autotest = Rspec.new
       
@@ -182,13 +182,13 @@ HERE
     
     it "should return a hash with the spec filename => spec name for each failure or error" do
       @rspec_autotest.stub!(:test_files_for).and_return "./spec/autotest/rspec_spec.rb"
-      foo = [
+      failures = [
         [
           "false should be false", 
-          "expected: true,\n     got: false (using ==)\n./spec/autotest/rspec_spec.rb:203:"
+          "expected: true,\n     got: false (using ==)\n#{@spec_file}:203:"
         ]
       ]
-      @rspec_autotest.consolidate_failures(foo).should == {@spec_file => ["false should be false"]}
+      @rspec_autotest.consolidate_failures(failures).should == {@spec_file => ["false should be false"]}
     end
     
   end
