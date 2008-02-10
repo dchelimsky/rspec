@@ -34,7 +34,9 @@ module Spec
       #   end
       #
       def describe(*args, &example_group_block)
+        args << {} unless Hash === args.last
         if example_group_block
+          args.last[:spec_path] = eval("caller(0)[1]", example_group_block) unless args.last[:spec_path]
           self.subclass("Subclass") do
             describe(*args)
             module_eval(&example_group_block)

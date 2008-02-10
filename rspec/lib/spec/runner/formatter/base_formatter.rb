@@ -19,8 +19,7 @@ module Spec
         end
 
         # This method is invoked at the beginning of the execution of each example_group.
-        # +name+ is the name of the example_group and +first+ is true if it is the
-        # first example_group - otherwise it's false.
+        # +example_group+ is the example_group.
         #
         # The next method to be invoked after this is #example_failed or #example_finished
         def add_example_group(example_group)
