@@ -36,12 +36,8 @@ module Spec
         
         def create_example_group(*args, &block)
           opts = Hash === args.last ? args.last : {}
-          if opts[:shared]
-            SharedExampleGroup.new(*args, &block)
-          else
-            superclass = determine_superclass(opts)
-            superclass.describe(*args, &block)
-          end
+          superclass = determine_superclass(opts)
+          superclass.describe(*args, &block)
         end
 
         protected
