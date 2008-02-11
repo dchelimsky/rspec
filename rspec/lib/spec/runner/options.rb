@@ -177,9 +177,11 @@ module Spec
       end
 
       def number_of_examples
-        @example_groups.inject(0) do |sum, example_group|
-          sum + example_group.number_of_examples
+        total = 0
+        @example_groups.each do |example_group|
+          total += example_group.number_of_examples
         end
+        total
       end
 
       def files_to_load
