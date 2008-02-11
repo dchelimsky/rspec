@@ -109,6 +109,7 @@ module Spec
       def xit(description=nil, opts={}, &block)
         Kernel.warn("Example disabled: #{description}")
       end
+      alias_method :xspecify, :xit
 
       def run
         examples = examples_to_run
