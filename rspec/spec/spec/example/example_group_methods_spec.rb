@@ -52,20 +52,25 @@ module Spec
         end
       end
 
-      describe "#xit" do
+      describe "#xit and #xspecify" do
         before(:each) do
           Kernel.stub!(:warn)
         end
 
-        it "should NOT  should create an example instance" do
+        it "should NOT create an example instance" do
           lambda {
             @example_group.xit("")
+          }.should_not change(@example_group.examples, :length)
+
+          lambda {
+            @example_group.xspecify("")
           }.should_not change(@example_group.examples, :length)
         end
 
         it "should warn that it is disabled" do
-          Kernel.should_receive(:warn).with("Example disabled: foo")
+          Kernel.should_receive(:warn).with("Example disabled: foo").twice
           @example_group.xit("foo")
+          @example_group.xspecify("foo")
         end
       end
 

@@ -1,3 +1,5 @@
+* ExampleGroupMethods#xspecify aliases #xit
+
 == Version 1.1.4 (trunk)
 
 * Applied patch from Bob Cotton: Nested ExampleGroups do not have a spec_path. Closes #224.
