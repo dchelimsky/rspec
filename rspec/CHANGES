@@ -1,5 +1,3 @@
-* ExampleGroupMethods#xspecify aliases #xit
-
 == Version 1.1.4 (trunk)
 
 * Applied patch from Bob Cotton: Nested ExampleGroups do not have a spec_path. Closes #224.
@@ -7,6 +5,8 @@
 * Allow any type of render in view specs. Closes #57.
 * Applied patch from Coda Hale to get rspec calling autotest's :red hook. Closes #279.
 * Applied patch from Ian White to get rspec working with edge rails (8804). Closes #271.
+* ExampleGroupMethods#xspecify aliases #xit
+* A SharedExampleGroup can be created within another ExampleGroup.
 
 == Version 1.1.3
 
