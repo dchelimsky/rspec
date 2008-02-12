@@ -29,6 +29,12 @@ module Spec
         ExampleGroupFactory.get(@example_group).should == @example_group
       end
 
+      it "should get the custom type after setting the default" do
+        @example_group2 = Class.new(ExampleGroup)
+        ExampleGroupFactory.default(@example_group2)
+        ExampleGroupFactory.get(:foobar).should == @example_group
+      end
+
     end    
 
     describe ExampleGroupFactory, "#create_example_group" do
