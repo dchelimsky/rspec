@@ -193,7 +193,13 @@ module Spec
           @mock.something
         }.should raise_error(MockExpectationError, "Mock 'test mock' expected :something with (1) but received it with (no args)")
       end
-      
+
+      it "should return value from block by default" do
+        @mock.stub!(:method_that_yields).and_yield
+        @mock.method_that_yields { :returned_obj }.should == :returned_obj
+        @mock.rspec_verify
+      end
+
       it "should yield 0 args to blocks that take a variable number of arguments" do
         @mock.should_receive(:yield_back).with(no_args()).once.and_yield
         a = nil

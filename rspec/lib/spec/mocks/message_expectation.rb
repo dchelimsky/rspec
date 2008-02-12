@@ -112,12 +112,14 @@ module Spec
         if block.nil?
           @error_generator.raise_missing_block_error @args_to_yield
         end
+        value = nil
         @args_to_yield.each do |args_to_yield_this_time|
           if block.arity > -1 && args_to_yield_this_time.length != block.arity
             @error_generator.raise_wrong_arity_error args_to_yield_this_time, block.arity
           end
-          block.call(*args_to_yield_this_time)
+          value = block.call(*args_to_yield_this_time)
         end
+        value
       end
       
       def invoke_consecutive_return_block(args, block)
