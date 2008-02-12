@@ -81,7 +81,7 @@ in a similar way to how global includes are declared:
 
 <coderay>
 Spec::Runner.configure do |config|
-  config.before(:each, :behaviour_type => :controller) do
+  config.before(:each, :type => :controller) do
     login_aslak
   end
 end
