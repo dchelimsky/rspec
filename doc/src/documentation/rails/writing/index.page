@@ -34,7 +34,7 @@ this convention, you can get the correct ExampleGroup subclass by passing a
 hash to the describe method:
 
 <coderay>
-describe "some model", :behaviour_type => :model do
+describe "some model", :type => :model do
   ...
 end
 </coderay>
