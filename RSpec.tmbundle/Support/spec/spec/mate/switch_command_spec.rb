@@ -137,6 +137,11 @@ EOF
         "/a/full/path/spec/views/mooky/show.rhtml_spec.rb")
       end
       
+      it "should work with lib dir in rails" do
+        "/a/full/path/lib/foo/mooky.rb".should twin(
+        "/a/full/path/spec/lib/foo/mooky_spec.rb")
+      end
+      
       it "should suggest controller spec" do
         "/a/full/path/spec/controllers/mooky_controller_spec.rb".should be_a("controller spec")
       end

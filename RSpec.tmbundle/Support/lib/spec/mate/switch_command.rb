@@ -23,17 +23,25 @@ module Spec
           
           case parent
             when 'lib', 'app' then
-              path = path.gsub(/\/app\//, "/spec/")
-              path = path.gsub(/\/lib\//, "/spec/")
+              if rails?(prefix)
+                path = path.gsub(/\/app\//, "/spec/")
+                path = path.gsub(/\/lib\//, "/spec/lib/")
+              else
+                path = path.gsub(/\/lib\//, "/spec/")
+              end
               path = path.gsub(/\.rb$/, "_spec.rb")
               path = path.gsub(/\.erb$/, ".erb_spec.rb")
               path = path.gsub(/\.rhtml$/, ".rhtml_spec.rb")
             when 'spec' then
-              new_parent = rails?(prefix) ? "app" : "lib"
               path = path.gsub(/\.rhtml_spec\.rb$/, ".rhtml")
               path = path.gsub(/\.erb_spec\.rb$/, ".erb")
               path = path.gsub(/_spec\.rb$/, ".rb")
-              path = path.gsub(/\/spec\//, "/#{new_parent}/")
+              if rails?(prefix)
+                path = path.gsub(/\/spec\/lib\//, "/lib/")
+                path = path.gsub(/\/spec\//, "/app/")
+              else
+                path = path.gsub(/\/spec\//, "/lib/")
+              end
           end
           return path
         end
