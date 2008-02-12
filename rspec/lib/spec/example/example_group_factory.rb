@@ -23,7 +23,7 @@ module Spec
         def default(example_group_class)
           old = @example_group_types
           @example_group_types = Hash.new(example_group_class)
-          @example_group_types.merge(old) if old
+          @example_group_types.merge!(old) if old
         end
 
         def get(id=nil)
