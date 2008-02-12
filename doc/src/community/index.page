@@ -98,6 +98,8 @@ In alphabetical order (by last name)
 ** Patch [#12156] smooth open mate patch 
 * Martin Emde
 ** Fix describe Object, "description contains a # in it"
+* Dayo Esho
+** Patch LH[#217] and_yield clobbers return value from block
 * Lindsay Evans
 ** Patch for Spec::Rails on Windows
 * Nicholas Evans
