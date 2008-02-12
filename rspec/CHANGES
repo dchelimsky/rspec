@@ -1,5 +1,6 @@
 == Version 1.1.4 (trunk)
 
+* Applied patch from Dayo Esho: and_yield clobbers return value from block. Closes #217.
 * Applied patch from Bob Cotton:  ExampleGroupFactory.default resets previously registered types. Closes #222.
 * Applied patch from Mike Williams to support the lib directory in rails apps with the Textmate Alternate File command. Closes #276.
 * ExampleGroupMethods#xspecify aliases #xit
