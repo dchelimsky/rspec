@@ -1,5 +1,6 @@
 == Version 1.1.4 (trunk)
 
+* Applied patch from Mike Williams to support the lib directory in rails apps with the Textmate Alternate File command. Closes #276.
 * Applied patch from Bob Cotton: Nested ExampleGroups do not have a spec_path. Closes #224.
 * Applied patch from Wincent Colaiuta to invert sense of "spec --diff". Closes #281.
 * Allow any type of render in view specs. Closes #57.

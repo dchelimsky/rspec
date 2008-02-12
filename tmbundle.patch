@@ -1,0 +1,50 @@
+Index: lib/spec/mate/switch_command.rb
+===================================================================
+--- lib/spec/mate/switch_command.rb	(revision 3285)
++++ lib/spec/mate/switch_command.rb	(working copy)
+@@ -23,17 +23,25 @@
+           
+           case parent
+             when 'lib', 'app' then
+-              path = path.gsub(/\/app\//, "/spec/")
+-              path = path.gsub(/\/lib\//, "/spec/")
++              if rails?(prefix)
++                path = path.gsub(/\/app\//, "/spec/")
++                path = path.gsub(/\/lib\//, "/spec/lib/")
++              else
++                path = path.gsub(/\/lib\//, "/spec/")
++              end
+               path = path.gsub(/\.rb$/, "_spec.rb")
+               path = path.gsub(/\.erb$/, ".erb_spec.rb")
+               path = path.gsub(/\.rhtml$/, ".rhtml_spec.rb")
+             when 'spec' then
+-              new_parent = rails?(prefix) ? "app" : "lib"
+               path = path.gsub(/\.rhtml_spec\.rb$/, ".rhtml")
+               path = path.gsub(/\.erb_spec\.rb$/, ".erb")
+               path = path.gsub(/_spec\.rb$/, ".rb")
+-              path = path.gsub(/\/spec\//, "/#{new_parent}/")
++              if rails?(prefix)
++                path = path.gsub(/\/spec\/lib\//, "/lib/")
++                path = path.gsub(/\/spec\//, "/app/")
++              else
++                path = path.gsub(/\/spec\//, "/lib/")
++              end
+           end
+           return path
+         end
+Index: spec/spec/mate/switch_command_spec.rb
+===================================================================
+--- spec/spec/mate/switch_command_spec.rb	(revision 3285)
++++ spec/spec/mate/switch_command_spec.rb	(working copy)
+@@ -137,6 +137,11 @@
+         "/a/full/path/spec/views/mooky/show.rhtml_spec.rb")
+       end
+       
++      it "should work with lib files in rails" do
++        "/a/full/path/lib/foo/mooky.rb".should twin(
++        "/a/full/path/spec/lib/foo/mooky_spec.rb")
++      end
++      
+       it "should suggest controller spec" do
+         "/a/full/path/spec/controllers/mooky_controller_spec.rb".should be_a("controller spec")
+       end

@@ -291,6 +291,7 @@ In alphabetical order (by last name)
 ** Patch LH[#271] Since @template.finder, isolation mode doesn't work
 ** Patch for [#11545] Rspec doesn't handle should_receive on ActiveRecord associations
 * Mike Williams
+** Patch LH[#276] to support the lib directory in rails apps with the Textmate Alternate File command.
 ** Core patches for arbitrary comparisons like 5.should_be < 6
 * Chad Wooley
 ** Patch to mocks to make it possible to specify raised exception instance
