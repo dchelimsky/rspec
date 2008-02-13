@@ -24,17 +24,6 @@ module Spec
           io.string.should include("b 2")
         end
 
-        it "should add the spec path for each failure" do
-          example_group_1 = Class.new(ExampleGroup).describe("b 1", :spec_path => "/path/to/b/1")
-          example_group_2 = Class.new(ExampleGroup).describe("b 2", :spec_path => "/path/to/b/2")
-          formatter.add_example_group(example_group_1)
-          formatter.example_failed("e 1", nil, Reporter::Failure.new(nil, RuntimeError.new))
-          formatter.add_example_group(example_group_2)
-          formatter.example_failed("e 2", nil, Reporter::Failure.new(nil, RuntimeError.new))
-          io.string.should include("/path/to/b/1")
-          io.string.should include("/path/to/b/2")
-        end
-        
         it "should delimit ExampleGroup superclass descriptions with :" do
           parent_example_group = Class.new(example_group).describe("Parent")
           child_example_group = Class.new(parent_example_group).describe("#child_method")
