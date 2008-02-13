@@ -12,7 +12,10 @@ module Spec
           options.stub!(:dry_run).and_return(false)
           options.stub!(:colour).and_return(false)
           @formatter = SpecdocFormatter.new(options, io)
-          @example_group = Class.new(::Spec::Example::ExampleGroup).describe("ExampleGroup")
+          @example_group = ::Spec::Example::ExampleGroup.describe("ExampleGroup") do
+            specify "example" do
+            end
+          end
         end
 
         describe "where ExampleGroup has no superclasss with a description" do
@@ -68,15 +71,15 @@ module Spec
           end
 
           it "should push pending example name and message" do
-            formatter.example_pending('example_group', ExampleGroup.new("example"), 'reason')
+            formatter.example_pending(example_group.examples.first, 'reason')
             io.string.should have_example_group_output("- example (PENDING: reason)\n")
           end
 
           it "should dump pending" do
-            formatter.example_pending('example_group', ExampleGroup.new("example"), 'reason')
+            formatter.example_pending(example_group.examples.first, 'reason')
             io.rewind
             formatter.dump_pending
-            io.string.should =~ /Pending\:\nexample_group example \(reason\)\n/
+            io.string.should =~ /Pending\:\nExampleGroup example \(reason\)\n/
           end
 
           def have_example_group_output(expected_output)

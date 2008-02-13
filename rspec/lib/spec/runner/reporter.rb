@@ -26,7 +26,7 @@ module Spec
         if error.nil?
           example_passed(example)
         elsif Spec::Example::ExamplePendingError === error
-          example_pending(example_groups.last, example, error.message)
+          example_pending(example, error.message)
         else
           example_failed(example, error)
         end
@@ -34,8 +34,7 @@ module Spec
 
       def failure(example, error)
         backtrace_tweaker.tweak_backtrace(error)
-        example_name = "#{example_groups.last.description} #{example.description}"
-        failure = Failure.new(example_name, error)
+        failure = Failure.new(example.__full_description, error)
         @failures << failure
         formatters.each do |f|
           f.example_failed(example, @failures.length, failure)
@@ -104,10 +103,10 @@ module Spec
         formatters.each{|f| f.example_passed(example)}
       end
       
-      def example_pending(example_group, example, message="Not Yet Implemented")
+      def example_pending(example, message="Not Yet Implemented")
         @pending_count += 1
         formatters.each do |f|
-          f.example_pending(example_group.description, example, message)
+          f.example_pending(example, message)
         end
       end
       
