@@ -27,6 +27,26 @@ A B b3
 EOF
 )
         end
+
+        it "should add spec path for each failing Example that has a spec_path" do
+          example_group_1 = Class.new(ExampleGroup).describe("A", :spec_path => "/path/to/a")
+          example_group_2 = Class.new(example_group_1).describe("B", :spec_path => "/path/to/b")
+
+          @formatter.add_example_group(example_group_1)
+          @formatter.example_failed(example_group_1.it("a1"){}, nil, Reporter::Failure.new(nil, RuntimeError.new))
+          @formatter.add_example_group(example_group_2)
+          @formatter.example_failed(example_group_2.it("b2"){}, nil, Reporter::Failure.new(nil, RuntimeError.new))
+          @formatter.example_failed(example_group_2.it("b3"){}, nil, Reporter::Failure.new(nil, RuntimeError.new))
+          @io.string.should eql(<<-EOF
+A a1
+/path/to/a
+A B b2
+/path/to/b
+A B b3
+/path/to/b
+EOF
+)
+        end
       end
     end
   end

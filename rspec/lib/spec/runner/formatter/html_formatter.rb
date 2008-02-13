@@ -81,7 +81,7 @@ module Spec
           @output.flush
         end
 
-        def example_pending(example_group_description, example, message)
+        def example_pending(example, message)
           @output.puts "    <script type=\"text/javascript\">makeYellow('rspec-header');</script>" unless @header_red
           @output.puts "    <script type=\"text/javascript\">makeYellow('example_group_#{current_example_group_number}');</script>" unless @example_group_red
           move_progress
