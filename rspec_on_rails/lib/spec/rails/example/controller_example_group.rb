@@ -106,7 +106,7 @@ module Spec
             end
             EOE
           end
-          @controller.metaclass.class_eval do
+          (class << @controller; self; end).class_eval do
             def controller_path #:nodoc:
               self.class.name.underscore.gsub('_controller', '')
             end
@@ -171,19 +171,19 @@ module Spec
             unless block_given?
               unless integrate_views?
                 if @template.respond_to?(:finder)
-                  @template.finder.metaclass.class_eval do
+                  (class << @template.finder; self; end).class_eval do
                     define_method :file_exists? do
                       true
                     end
                   end
                 else
-                  @template.metaclass.class_eval do
+                  (class << @template; self; end).class_eval do
                     define_method :file_exists? do
                       true
                     end
                   end
                 end
-                @template.metaclass.class_eval do
+                (class << @template; self; end).class_eval do
                   define_method :render_file do |*args|
                     @first_render ||= args[0]
                   end

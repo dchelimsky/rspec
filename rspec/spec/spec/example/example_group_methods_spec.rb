@@ -425,6 +425,7 @@ module Spec
         it "should have accessible class methods from included module" do
           mod1_method_called = false
           mod1 = Module.new do
+            extend Spec::MetaClass
             class_methods = Module.new do
               define_method :mod1_method do
                 mod1_method_called = true
@@ -440,6 +441,7 @@ module Spec
 
           mod2_method_called = false
           mod2 = Module.new do
+            extend Spec::MetaClass
             class_methods = Module.new do
               define_method :mod2_method do
                 mod2_method_called = true

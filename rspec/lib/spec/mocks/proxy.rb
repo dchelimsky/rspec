@@ -88,15 +88,15 @@ module Spec
       end
       
       def define_expected_method(sym)
-        if target_responds_to?(sym) && !metaclass.method_defined?(munge(sym))
+        if target_responds_to?(sym) && !target_metaclass.method_defined?(munge(sym))
           munged_sym = munge(sym)
-          metaclass.instance_eval do
+          target_metaclass.instance_eval do
             alias_method munged_sym, sym if method_defined?(sym.to_s)
           end
           @proxied_methods << sym
         end
         
-        metaclass_eval(<<-EOF, __FILE__, __LINE__)
+        target_metaclass.class_eval(<<-EOF, __FILE__, __LINE__)
           def #{sym}(*args, &block)
             __mock_proxy.message_received :#{sym}, *args, &block
           end
@@ -125,12 +125,8 @@ module Spec
         @proxied_methods.clear
       end
 
-      def metaclass_eval(str, filename, lineno)
-        metaclass.class_eval(str, filename, lineno)
-      end
-      
-      def metaclass
-        (class << @target; self; end)
+      def target_metaclass
+        class << @target; self; end
       end
 
       def verify_expectations
@@ -142,7 +138,7 @@ module Spec
       def reset_proxied_methods
         @proxied_methods.each do |sym|
           munged_sym = munge(sym)
-          metaclass.instance_eval do
+          target_metaclass.instance_eval do
             if method_defined?(munged_sym.to_s)
               alias_method sym, munged_sym
               undef_method munged_sym
