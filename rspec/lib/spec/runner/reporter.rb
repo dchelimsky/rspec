@@ -34,7 +34,7 @@ module Spec
 
       def failure(example, error)
         backtrace_tweaker.tweak_backtrace(error)
-        failure = Failure.new(example.__full_description, error)
+        failure = Failure.new(example, error)
         @failures << failure
         formatters.each do |f|
           f.example_failed(example, @failures.length, failure)
@@ -90,6 +90,7 @@ module Spec
           index + 1
         end
       end
+
       def dump_pending
         formatters.each{|f| f.dump_pending}
       end
@@ -111,20 +112,20 @@ module Spec
       end
       
       class Failure
-        attr_reader :exception
+        attr_reader :example, :exception
         
-        def initialize(example_name, exception)
-          @example_name = example_name
+        def initialize(example, exception)
+          @example = example
           @exception = exception
         end
 
         def header
           if expectation_not_met?
-            "'#{@example_name}' FAILED"
+            "'#{example_name}' FAILED"
           elsif pending_fixed?
-            "'#{@example_name}' FIXED"
+            "'#{example_name}' FIXED"
           else
-            "#{@exception.class.name} in '#{@example_name}'"
+            "#{@exception.class.name} in '#{example_name}'"
           end
         end
         
@@ -136,6 +137,10 @@ module Spec
           @exception.is_a?(Spec::Expectations::ExpectationNotMetError)
         end
 
+        protected
+        def example_name
+          @example.__full_description
+        end
       end
     end
   end

@@ -16,7 +16,6 @@ module Spec
               description =~ /(.*) \(druby.*\)$/ ? $1 : description
             end
             @output.puts ::Spec::Example::ExampleGroupMethods.description_text(*description_parts)
-            @output.puts(example_group.spec_path) if example_group.spec_path
 
             @output.flush
             @example_group = nil
