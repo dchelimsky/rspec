@@ -163,7 +163,7 @@ module Spec
           rescue
             return
           end
-          template.metaclass.class_eval do
+          (class << template; self; end).class_eval do
             include helper_module
           end
         end
