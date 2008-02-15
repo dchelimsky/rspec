@@ -5,6 +5,7 @@ Note: we've removed the metaclass method from Object. There were some generated 
 used it, and they will now break. Just replace the metaclass call with (class << self; self; end)
 and all will be well.
 
+* Applied patch from Patrick Ritchie to support --drb in spec.opts. Closes #274, #293.
 * Applied patch from Rick Olson to get rspec_on_rails working with rails edge (>= 8862)
 * Moved metaclass method from Object to an internal module which gets included where it is needed.
 * Applied patch from Dayo Esho: and_yield clobbers return value from block. Closes #217.

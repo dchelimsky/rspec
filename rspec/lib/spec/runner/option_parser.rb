@@ -141,6 +141,10 @@ module Spec
       def parse_options_file(options_file)
         option_file_args = IO.readlines(options_file).map {|l| l.chomp.split " "}.flatten
         @argv.push(*option_file_args)
+        # TODO - this is a brute force solution to http://rspec.lighthouseapp.com/projects/5645/tickets/293.
+        # Let's look for a cleaner way. Might not be one. But let's look. If not, perhaps
+        # this can be moved to a different method to indicate the special handling for drb?
+        parse_drb(@argv)
       end
 
       def parse_generate_options
@@ -170,9 +174,9 @@ module Spec
         @options.examples_should_not_be_run
       end
 
-      def parse_drb
+      def parse_drb(argv = nil)
+        argv ||= @options.argv # TODO - see note about about http://rspec.lighthouseapp.com/projects/5645/tickets/293
         is_drb = false
-        argv = @options.argv
         is_drb ||= argv.delete(OPTIONS[:drb][0])
         is_drb ||= argv.delete(OPTIONS[:drb][1])
         return nil unless is_drb
