@@ -162,12 +162,16 @@ module Spec
         module ControllerInstanceMethods #:nodoc:
           include Spec::Rails::Example::RenderObserver
 
-          # === render(options = nil, deprecated_status = nil, &block)
+          # === render(options = nil, deprecated_status_or_extra_options = nil, &block)
           #
           # This gets added to the controller's singleton meta class,
           # allowing Controller Examples to run in two modes, freely switching
           # from context to context.
-          def render(options=nil, deprecated_status=nil, &block)
+          def render(options=nil, deprecated_status_or_extra_options=nil, &block)
+            if ::Rails::VERSION::STRING >= '2.0.0' && deprecated_status_or_extra_options.nil?
+              deprecated_status_or_extra_options = {}
+            end
+              
             unless block_given?
               unless integrate_views?
                 if @template.respond_to?(:finder)
@@ -196,7 +200,7 @@ module Spec
               @performed_render = true
             else
               unless matching_stub_exists(options)
-                super(options, deprecated_status, &block)
+                super(options, deprecated_status_or_extra_options, &block)
               end
             end
           end
