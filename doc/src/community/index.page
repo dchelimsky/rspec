@@ -214,6 +214,8 @@ In alphabetical order (by last name)
 ** [#13336] Helper directory incorrect for rake stats in statsetup task
 * Kyosuke MOROHASHI
 ** Patch [#11807] Daemonize spec_server and rake tasks to manage them.
+* Rick Olson
+** Patch to get rspec_on_rails working with rails edge (>= 8862)
 * Bret Pettichord
 ** Patch [#10473] obj.should exist (new matcher)
 * Carl Porth
