@@ -14,7 +14,6 @@ and all will be well.
 * Applied patch from Bob Cotton: Nested ExampleGroups do not have a spec_path. Closes #224.
 * Applied patch from Wincent Colaiuta to invert sense of "spec --diff". Closes #281.
 * Allow any type of render in view specs. Closes #57.
-* Applied patch from Coda Hale to get rspec calling autotest's :red hook. Closes #279.
 * Applied patch from Ian White to get rspec working with edge rails (8804). Closes #271.
 
 == Version 1.1.3
