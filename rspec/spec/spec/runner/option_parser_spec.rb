@@ -297,6 +297,12 @@ describe "OptionParser" do
     options.formatters.first.should be_instance_of(::Spec::Runner::Formatter::ProgressBarFormatter)
   end
 
+  it "should run parse drb after parsing options" do
+    @parser.stub!(:parse_drb)
+    @parser.should_receive(:parse_drb).with(["--drb"])
+    options = parse(["--options", File.dirname(__FILE__) + "/spec_drb.opts"])
+  end
+
   it "should read spaced and multi-line options from file when --options is specified" do
     options = parse(["--options", File.dirname(__FILE__) + "/spec_spaced.opts"])
     options.diff_format.should_not be_nil

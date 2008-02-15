@@ -232,6 +232,8 @@ In alphabetical order (by last name)
 * Luke Redpath
 ** TextMate bundle
 ** Readable HTML output!
+* Patrick Ritchie
+** Patch LH[#274] support --drb in spec.opts
 * Steve Ross
 ** Patch [#9132] Rakefile spec:doc can fail without preparing database
 * Nick Sieger
