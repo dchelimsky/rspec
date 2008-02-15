@@ -1,5 +1,11 @@
 == Version 1.1.4 (trunk)
 
+Maintenance release.
+Note: we've removed the metaclass method from Object. There were some generated specs that
+used it, and they will now break. Just replace the metaclass call with (class << self; self; end)
+and all will be well.
+
+* Moved metaclass method from Object to an internal module which gets included where it is needed.
 * Applied patch from Dayo Esho: and_yield clobbers return value from block. Closes #217.
 * Applied patch from Bob Cotton:  ExampleGroupFactory.default resets previously registered types. Closes #222.
 * Applied patch from Mike Williams to support the lib directory in rails apps with the Textmate Alternate File command. Closes #276.
