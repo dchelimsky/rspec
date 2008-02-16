@@ -120,6 +120,7 @@ In alphabetical order (by last name)
 ** Patch [#12066] Docfix for mocks/mocks.page
 ** Patch [#12300] rr integration
 * Bryan Helmkamp
+** Patch LH[#162] Tweak format of generated spec.opts to be more obvious
 ** Patch LH[#163] Generate a comment about alternate mocking frameworks
 ** Patch LH[#16] Have SimpleMatchers expose their description for specdocs
 ** Patch [#14399] Show pending reasons in HTML report
