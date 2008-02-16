@@ -22,15 +22,14 @@ class Autotest::Rspec < Autotest
   def initialize
     super
     self.failed_results_re = /^\d+\)\n(?:\e\[\d*m)?(?:.*?Error in )?'([^\n]*)'(?: FAILED)?(?:\e\[\d*m)?\n(.*?)\n\n/m
-    self.completed_re = /\Z/ # FIX: some sort of summary line at the end?
+    self.completed_re = /\n(?:\e\[\d*m)?\d* examples?/m
   end
   
   def consolidate_failures(failed)
-    filters = Hash.new { |h,k| h[k] = [] }
-    failed.each do |spec, failed_trace|
-      if f = test_files_for(failed).find { |f| failed_trace =~ Regexp.new(f) } then
-        filters[f] << spec
-        break
+    filters = new_hash_of_arrays
+    failed.each do |spec, trace|
+      if trace =~ /\n(\.\/)?(.*\.rb):[\d]+:\Z?/
+        filters[$2] << spec
       end
     end
     return filters
