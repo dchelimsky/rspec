@@ -111,6 +111,8 @@ In alphabetical order (by last name)
 ** Patch for file mappings for rspec/autotest integration
 * James Edward Gray II
 ** Patch to improve syntax highlighting in TextMate
+* Coda Hale
+** Patch [#279] Autotest never calls the :red hook
 * Kyle Hargraves
 ** Patch [#142] verify_rcov fails with latest rcov
 ** Patch [#10951] Odd instance variable name in rspec_model template
