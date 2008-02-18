@@ -50,9 +50,26 @@ module Spec
               end
             end
           end
-          
         end
         
+        # Returns an instance of ActionView::Base with the helper being spec'd
+        # included.
+        #
+        # == Example
+        #
+        #   describe PersonHelper do
+        #     it "should write a link to person with the name" do
+        #       assigns[:person] = mock_model(Person, :full_name => "Full Name", :id => 37, :new_record? => false)
+        #       helper.link_to_person.should == %{<a href="/people/37">Full Name</a>}
+        #     end
+        #   end
+        #
+        #   module PersonHelper
+        #     def link_to_person
+        #       link_to person.full_name, url_for(person)
+        #     end
+        #   end
+        #
         def helper
           self.class.helper
         end
