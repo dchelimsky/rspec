@@ -150,8 +150,8 @@ module Spec
         end
 
         protected
-        def _controller_ivar_proxy
-          @controller_ivar_proxy ||= AssignsHashProxy.new @controller
+        def _assigns_hash_proxy
+          @_assigns_hash_proxy ||= AssignsHashProxy.new @controller
         end
 
         private
