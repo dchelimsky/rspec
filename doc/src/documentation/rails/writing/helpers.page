@@ -11,7 +11,7 @@ h2. <%= @page.title %>
 
 Helper Examples live in $RAILS_ROOT/spec/helpers/.
 
-Writing specs for your helpers is a snap. Just tell the context the name of the
+Writing specs for your helpers is a snap. Just tell the Example Group the name of the
 helper ...
 
 <coderay>
@@ -20,10 +20,15 @@ describe RegistrationHelper do
 end
 </coderay>
 
-... and then you can reference the methods directly because they are actually included
-in the specs!
+... and the Example Group will expose an object that includes the helper.
 
+h2. Conveniences
 
-h2. Sample Helpers Examples
+h3. assigns
+
+Use assigns[:key] to set instance variables to be used in the view that
+includes the helper. See example below.
+
+h2. Example Helper Spec
 
 <coderay><%= IO.read "../example_rails_app/spec/helpers/people_helper_spec.rb" %></coderay>
