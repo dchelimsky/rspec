@@ -4,6 +4,7 @@ Spec::Runner.configuration.global_fixtures = :people
 describe ExplicitHelper, :type => :helper do
   it "should not require naming the helper if describe is passed a type" do
     method_in_explicit_helper.should match(/text from a method/)
+    helper.method_in_explicit_helper.should match(/text from a method/)
   end
 end
 
@@ -13,8 +14,12 @@ module Spec
       describe HelperExampleGroup, :type => :helper do
         helper_name :explicit
 
-        it "should have direct access to methods defined in helpers" do
+        it "DEPRECATED should have direct access to methods defined in helpers" do
           method_in_explicit_helper.should =~ /text from a method/
+        end
+
+        it "should expose the helper with the #helper method" do
+          helper.method_in_explicit_helper.should =~ /text from a method/
         end
 
         it "should have access to named routes" do
@@ -23,7 +28,8 @@ module Spec
         end
 
         it "should fail if the helper method deson't exist" do
-          lambda { non_existant_helper_method }.should raise_error(NameError)
+          lambda { non_existent_helper_method }.should raise_error(NameError)
+          lambda { helper.non_existent_helper_method }.should raise_error(NameError)
         end
       end
 
@@ -50,6 +56,13 @@ module Spec
           lachie.class.should == Person
         end
       end
+      
+      describe "methods from standard helpers", :type => :helper do
+        helper_name :explicit
+        it "should be exposed to the helper" do
+          helper.link_to("Foo","http://bar").should have_tag("a")
+        end
+      end
 
       describe HelperExampleGroup, "included modules", :type => :helper do
         helpers = [
@@ -74,9 +87,10 @@ module Spec
         helpers << ActionView::Helpers::PaginationHelper rescue nil       #removed for 2.0
         helpers << ActionView::Helpers::JavaScriptMacrosHelper rescue nil #removed for 2.0
         helpers.each do |helper_module|
-          it "should include #{helper_module}" do
-            self.class.ancestors.should include(helper_module)
-          end
+          # it "should include #{helper_module}" do
+          #   self.class.ancestors.should include(helper_module)
+          #   helper.class.ancestors.should include(helper_module)
+          # end
         end
       end
       
@@ -85,6 +99,7 @@ module Spec
       describe HelperExampleGroup, "#protect_against_forgery?", :type => :helper do
         it "should return false" do
           protect_against_forgery?.should be_false
+          helper.protect_against_forgery?.should be_false
         end
       end
     end

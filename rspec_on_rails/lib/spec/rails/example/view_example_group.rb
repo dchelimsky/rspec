@@ -147,6 +147,11 @@ module Spec
         end
 
         Spec::Example::ExampleGroupFactory.register(:view, self)
+
+        protected
+        def _assigns_hash_proxy
+          @_assigns_hash_proxy ||= AssignsHashProxy.new @controller
+        end
       end
 
       class ViewExampleGroupController < ApplicationController #:nodoc:
