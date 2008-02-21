@@ -41,9 +41,9 @@ module Spec
         
         def register_exit_hook # :nodoc:
           at_exit do
-            Runner.story_runner.run_stories unless $!
+            exit Runner.story_runner.run_stories unless $!
           end
-          # TODO exit with non-zero status if run fails
+          
         end
         
         def dry_run
