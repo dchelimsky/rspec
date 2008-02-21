@@ -190,6 +190,8 @@ In alphabetical order (by last name)
 ** Patch [#10631] redirect_to matcher doesn't respect request.host
 * Riley Lynch
 ** Patches for the rake task
+* Ben Mabey
+** Patch for story runner exit code.
 * Pat Maddox
 ** Story Mediator - the glue that binds the plain text story parser with the rest of the system
 ** Patch [#136]  example summary shows up when running stories

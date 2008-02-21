@@ -19,8 +19,10 @@ module Spec
               @listeners.each { |l| l.scenario_pending(scenario.story.title, scenario.name, e.message) }
             else
               @listeners.each { |l| l.scenario_failed(scenario.story.title, scenario.name, e) }
+              return false
             end
           end
+          true
         end
         
         def add_listener(listener)
