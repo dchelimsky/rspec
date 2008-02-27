@@ -12,12 +12,10 @@ module Spec
       end
       
       def failure_message
-        raise @error if @error
         "expected ##{predicate}(#{@args[0].inspect}) to return true, got false"
       end
       
       def negative_failure_message
-        raise @error if @error
         "expected ##{predicate}(#{@args[0].inspect}) to return false, got true"
       end
       
