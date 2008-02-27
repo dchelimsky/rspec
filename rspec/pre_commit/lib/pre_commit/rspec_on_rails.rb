@@ -114,6 +114,7 @@ class PreCommit::RspecOnRails < PreCommit
       You can get rake to generate this file for you using either of:
         rake rspec:generate_mysql_config
         rake rspec:generate_sqlite3_config
+        rake rspec:generate_postgres_config
 
       If you use mysql, you'll need to create dev and test
       databases and users for each. To do this, standing
@@ -135,6 +136,10 @@ class PreCommit::RspecOnRails < PreCommit
 
   def generate_sqlite3_config
     copy 'config/database.sqlite3.yml', 'config/database.yml'
+  end
+
+  def generate_postgres_config
+    copy 'config/database.pgsql.yml', 'config/database.yml'
   end
 
   def clobber_db_config
