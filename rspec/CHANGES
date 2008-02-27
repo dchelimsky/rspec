@@ -1,5 +1,6 @@
 == Version 1.1.4 (trunk)
 
+
 Maintenance release.
 Note: we've removed the metaclass method from Object. There were some generated specs that
 used it, and they will now break. Just replace the metaclass call with (class << self; self; end)
