@@ -5,6 +5,7 @@ Note: we've removed the metaclass method from Object. There were some generated 
 used it, and they will now break. Just replace the metaclass call with (class << self; self; end)
 and all will be well.
 
+* Applied patch from Ryan Davis to add eval of block passed to raise_error matcher. Closes #321.
 * alias :context :describe in example_group_methods. Closes #312.
 * Applied patch from Ben Mabey to make the Story runner exit with a non-0 exit code on failing stories. Closes #228.
 * Added #helper and #assigns to helper specs.
