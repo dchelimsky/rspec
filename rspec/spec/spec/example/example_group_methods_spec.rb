@@ -24,51 +24,53 @@ module Spec
         ExampleGroup.reset
       end
 
-      describe "#describe" do
-        describe "when creating an ExampleGroup" do
-          attr_reader :child_example_group
-          before do
-            @child_example_group = @example_group.describe("Another ExampleGroup") do
-              it "should pass" do
-                true.should be_true
+      ["describe","context"].each do |method|
+        describe "#{method}" do
+          describe "when creating an ExampleGroup" do
+            attr_reader :child_example_group
+            before do
+              @child_example_group = @example_group.send method, "Another ExampleGroup" do
+                it "should pass" do
+                  true.should be_true
+                end
               end
             end
+
+            it "should create a subclass of the ExampleGroup when passed a block" do
+              child_example_group.superclass.should == @example_group
+              @options.example_groups.should include(child_example_group)
+            end
+
+            it "should not inherit examples" do
+              child_example_group.examples.length.should == 1
+            end
           end
 
-          it "should create a subclass of the ExampleGroup when passed a block" do
-            child_example_group.superclass.should == @example_group
-            @options.example_groups.should include(child_example_group)
-          end
-
-          it "should not inherit examples" do
-            child_example_group.examples.length.should == 1
-          end
-        end
-
-        describe "when creating a SharedExampleGroup" do
-          attr_reader :name, :shared_example_group
-          before do
-            @name = "A Shared ExampleGroup"
-            @shared_example_group = @example_group.describe(name, :shared => true) do
-              it "should pass" do
-                true.should be_true
+          describe "when creating a SharedExampleGroup" do
+            attr_reader :name, :shared_example_group
+            before do
+              @name = "A Shared ExampleGroup"
+              @shared_example_group = @example_group.send method, name, :shared => true do
+                it "should pass" do
+                  true.should be_true
+                end
               end
             end
-          end
 
-          after do
-            SharedExampleGroup.shared_example_groups.delete_if do |registered_shared_example_group|
-              registered_shared_example_group == shared_example_group
+            after do
+              SharedExampleGroup.shared_example_groups.delete_if do |registered_shared_example_group|
+                registered_shared_example_group == shared_example_group
+              end
+            end
+
+            it "should create a SharedExampleGroup" do
+              SharedExampleGroup.find_shared_example_group(name).should == shared_example_group
             end
           end
 
-          it "should create a SharedExampleGroup" do
-            SharedExampleGroup.find_shared_example_group(name).should == shared_example_group
-          end
         end
-
       end
-
+    
       describe "#it" do
         it "should should create an example instance" do
           lambda {

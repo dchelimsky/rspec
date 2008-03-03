@@ -52,6 +52,7 @@ module Spec
           self
         end
       end
+      alias :context :describe
 
       # Use this to pull in examples from shared example groups.
       # See Spec::Runner for information about shared example groups.
