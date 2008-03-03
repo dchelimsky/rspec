@@ -8,14 +8,7 @@ module Spec
           StoryParser.stub!(:new).and_return(@parser = mock("parser"))
           @parser.stub!(:parse).and_return([])
           File.stub!(:read).with("path").and_return("this\nand that")
-          
-          @listeners = World.listeners.dup
-          World.listeners.clear
         end
-        
-        after(:each) do
-          World.listeners.replace(@listeners)
-        end 
 
         it "should provide access to steps" do
           runner = PlainTextStoryRunner.new("path")
@@ -29,7 +22,7 @@ module Spec
         
         it "should parse a story file" do
           runner = PlainTextStoryRunner.new("path")
-
+          
           during {
             runner.run
           }.expect {

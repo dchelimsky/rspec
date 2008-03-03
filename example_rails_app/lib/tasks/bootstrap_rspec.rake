@@ -31,6 +31,11 @@ namespace :rspec do
     pre_commit.generate_sqlite3_config
   end
 
+  desc "configures config/database.yml for postgres"
+  task :generate_postgres_config do
+    pre_commit.generate_postgres_config
+  end
+
   desc "deletes config/database.yml"
   task :clobber_db_config do
     pre_commit.clobber_db_config

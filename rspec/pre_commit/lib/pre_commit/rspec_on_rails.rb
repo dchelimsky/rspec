@@ -68,18 +68,14 @@ class PreCommit::RspecOnRails < PreCommit
   end
 
   def install_plugins
-    install_rspec_on_rails_plugin
-    install_rspec_plugin
+    install_plugin :rspec_on_rails
+    install_plugin :rspec
   end
-
-  def install_rspec_on_rails_plugin
-    rm_rf 'vendor/plugins/rspec_on_rails'
-    copy '../rspec_on_rails', 'vendor/plugins/'
-  end
-
-  def install_rspec_plugin
-    rm_rf 'vendor/plugins/rspec'
-    copy '../rspec', 'vendor/plugins/'
+  
+  def install_plugin(plugin)
+    rm_rf "vendor/plugins/#{plugin}" if File.exist?("vendor/plugins/#{plugin}")
+    FileUtils.mkdir_p("vendor/plugins") unless File.directory?("vendor/plugins")
+    copy "../#{plugin}", "vendor/plugins"
   end
 
   def uninstall_plugins
@@ -114,6 +110,7 @@ class PreCommit::RspecOnRails < PreCommit
       You can get rake to generate this file for you using either of:
         rake rspec:generate_mysql_config
         rake rspec:generate_sqlite3_config
+        rake rspec:generate_postgres_config
 
       If you use mysql, you'll need to create dev and test
       databases and users for each. To do this, standing
@@ -135,6 +132,10 @@ class PreCommit::RspecOnRails < PreCommit
 
   def generate_sqlite3_config
     copy 'config/database.sqlite3.yml', 'config/database.yml'
+  end
+
+  def generate_postgres_config
+    copy 'config/database.pgsql.yml', 'config/database.yml'
   end
 
   def clobber_db_config

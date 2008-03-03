@@ -81,7 +81,8 @@ In alphabetical order (by last name)
 ** Initial Rails support
 ** Diffing enhancements for Objects and custom formats
 * Ryan Davis
-** Patch for integration with autotest
+** Patch LH[#321] Add eval of block passed to raise_error matcher
+** Assorted patches for integration with autotest
 * Ian Dees
 ** Patch LH[#183] quiet the Story Runner backtrace
 ** Patch [#11917] Cleaner Spec::Ui error for failed Selenium connection

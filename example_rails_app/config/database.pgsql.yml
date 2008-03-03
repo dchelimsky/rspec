@@ -1,0 +1,8 @@
+development:
+  adapter: postgresql
+  database: rspec_dev
+  username: pgsql
+test:
+  adapter: postgresql
+  database: rspec_test
+  username: pgsql

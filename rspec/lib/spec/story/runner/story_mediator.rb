@@ -109,7 +109,8 @@
           end
           
           def to_proc
-            type, name = @type, @name
+            type = @type
+            name = @name
             lambda do
               send(type, name)
             end
