@@ -64,7 +64,7 @@
             title = @title
             narrative = @narrative
             scenarios = @scenarios.collect { |scenario| scenario.to_proc }
-            options = @options.merge(:steps => @step_group)
+            options = @options.merge(:steps_for => @step_group)
             lambda do
               Story title, narrative, options do
                 scenarios.each { |scenario| instance_eval(&scenario) }

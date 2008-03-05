@@ -263,7 +263,7 @@ module Spec
           steps1 = StepGroup.new
           steps1.add :when, step1
           
-          story_runner.Story 'title', 'narrative', :steps => steps1 do
+          story_runner.Story 'title', 'narrative', :steps_for => steps1 do
             Scenario 'first scenario' do
               When 'step'
             end
@@ -275,7 +275,7 @@ module Spec
           steps2 = StepGroup.new
           steps2.add :when, step2
           
-          story_runner.Story 'title2', 'narrative', :steps => steps2 do
+          story_runner.Story 'title2', 'narrative', :steps_for => steps2 do
             Scenario 'second scenario' do
               When 'step'
             end
