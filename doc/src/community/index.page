@@ -88,6 +88,8 @@ In alphabetical order (by last name)
 ** Patch [#11917] Cleaner Spec::Ui error for failed Selenium connection
 * Craig Demyanovich 
 ** Patch LH[#241] Add support for should_not render_template
+** Zach Dennis
+** Patch LH[#324] Consolidate :steps_for and :steps
 * James Deville
 ** Patch [#13451] Add a null_object option to mock_model
 ** Patch for [#13065] Named routes throw a NoMethodError in Helper specs
