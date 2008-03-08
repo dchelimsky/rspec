@@ -1,6 +1,7 @@
 class CreateMockables < ActiveRecord::Migration
   def self.up
     create_table :mockable_models do |t|
+      t.column :name, :string
     end
     create_table :associated_models do |t|
       t.column :mockable_model_id, :integer
