@@ -5,6 +5,7 @@ Note: we've removed the metaclass method from Object. There were some generated 
 used it, and they will now break. Just replace the metaclass call with (class << self; self; end)
 and all will be well.
 
+* Added stub_model method which creates a real model instance with :id stubbed and data access prohibited.
 * Applied patch from Antti Tarvainen to fix bug where heckle runs rspec runs heckle runs rspec etc. Closes #280.
 * Applied patch from Zach Dennis to merge :steps functionality to :steps_for. Closes #324.
 * Applied patch from Pat Maddox to handle redirect_to w/ SSL. Closes #320.
