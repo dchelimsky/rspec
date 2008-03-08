@@ -339,6 +339,28 @@ module Spec
             @options.run_examples
             @options.examples_run?.should be_true
           end
+
+          describe "when using heckle runner" do
+            before(:each) do
+              @heckle_runner_mock = mock("HeckleRunner")
+              @options.heckle_runner = @heckle_runner_mock
+            end
+            
+            it "should heckle" do
+              @heckle_runner_mock.should_receive(:heckle_with)
+              @options.run_examples
+            end
+            
+            it "shouldn't heckle recursively" do
+              heckled = false
+              @heckle_runner_mock.should_receive(:heckle_with) {
+                heckled.should == false
+                heckled = true
+                @options.run_examples
+              }
+              @options.run_examples
+            end
+          end
         end
 
         describe "when there are no examples" do
