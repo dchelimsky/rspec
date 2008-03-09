@@ -1,15 +1,5 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
-
-class MockableModel < ActiveRecord::Base
-  has_one :associated_model
-end
-
-class SubMockableModel < MockableModel
-end
-
-class AssociatedModel < ActiveRecord::Base
-  belongs_to :mockable_model
-end
+require File.dirname(__FILE__) + '/ar_classes'
 
 describe "mock_model", :type => :view do
   before(:each) do
