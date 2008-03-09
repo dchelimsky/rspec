@@ -242,9 +242,9 @@ module Spec
       end
       
       def heckle
-        returns = self.heckle_runner.heckle_with
+        heckle_runner = self.heckle_runner
         self.heckle_runner = nil
-        returns
+        heckle_runner.heckle_with
       end
       
       def sorted_files
