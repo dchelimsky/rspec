@@ -17,6 +17,12 @@ require 'controller_spec_controller'
       session.should equal(session_before)
     end
   
+    it "should keep the same data in the session before and after the action" do
+      session[:foo] = :bar
+      get 'action_with_template'
+      session[:foo].should == :bar
+    end
+  
     it "should ensure controller.session is NOT nil before the action" do
       controller.session.should_not be_nil
       get 'action_with_template'
