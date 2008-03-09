@@ -11,9 +11,9 @@ module Spec
           raise "Can't determine controller class for #{@controller_class_name}" if @controller_class.nil?
 
           @controller = @controller_class.new
-
           @request = ActionController::TestRequest.new
           @response = ActionController::TestResponse.new
+          @response.session = @request.session
         end
 
         def params
@@ -25,7 +25,7 @@ module Spec
         end
 
         def session
-          request.session
+          @response.session
         end
 
         # :call-seq:
