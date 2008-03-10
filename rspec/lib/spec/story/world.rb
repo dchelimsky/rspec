@@ -1,4 +1,3 @@
-require 'rubygems'
 require 'spec/expectations'
 require 'spec/matchers'
 require 'spec/example/pending'
