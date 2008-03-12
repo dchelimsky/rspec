@@ -108,6 +108,32 @@ module Spec
         "duck_type"
       end
     end
+    
+    class HashIncludingConstraint
+      def initialize(expected)
+        @expected = expected
+      end
+      
+      def ==(actual)
+        @expected.each do | key, value |
+          # check key for case that value evaluates to nil
+          return false unless actual.has_key?(key) && actual[key] == value
+        end
+        true
+      rescue NoMethodError => ex
+        return false
+      end
+      
+      def matches?(value)
+        self == value
+      end
+      
+      def description
+        "hash_including(#{@expected.inspect.sub(/^\{/,"").sub(/\}$/,"")})"
+      end
+      
+    end
+    
 
     class ArgumentExpectation
       attr_reader :args

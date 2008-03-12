@@ -75,6 +75,14 @@ module Spec
           @mock.msg(37)
         end.should raise_error(MockExpectationError, "Mock 'test mock' expected :msg with (no args) but received it with (37)")
       end
+      
+      it "should fail hash_including with missing key" do
+         lambda do
+           @mock.should_receive(:msg).with(hash_including(:a => 1))
+           @mock.msg({})
+         end.should raise_error(MockExpectationError, "Mock 'test mock' expected :msg with (hash_including(:a=>1)) but received it with ({})")
+      end
+            
     end
       
     describe "failing deprecated MockArgumentConstraints" do

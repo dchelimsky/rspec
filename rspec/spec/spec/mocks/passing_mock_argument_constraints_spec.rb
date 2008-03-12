@@ -109,6 +109,12 @@ module Spec
         @mock.should_receive(:random_call).with(no_args)
         @mock.random_call()
       end
+      
+      it "should match hash with hash_including same hash" do
+        @mock.should_receive(:random_call).with(hash_including(:a => 1))
+        @mock.random_call(:a => 1)
+      end
+        
     end
     
     describe Methods, "handling non-constraint arguments" do
