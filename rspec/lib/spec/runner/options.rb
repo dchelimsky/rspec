@@ -82,7 +82,11 @@ module Spec
         return true unless examples_should_be_run?
         runner = custom_runner || ExampleGroupRunner.new(self)
 
-        runner.load_files(files_to_load)
+        unless @files_loaded
+          runner.load_files(files_to_load)
+          @files_loaded = true
+        end
+
         if example_groups.empty?
           true
         else
