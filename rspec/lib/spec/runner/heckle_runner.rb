@@ -1,6 +1,5 @@
 begin
   require 'rubygems'
-  gem 'heckle'
   require 'heckle'
 rescue LoadError ; raise "You must gem install heckle to use --heckle" ; end
 
