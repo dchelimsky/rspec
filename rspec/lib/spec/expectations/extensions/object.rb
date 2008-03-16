@@ -28,11 +28,7 @@ module Spec
       # NOTE that this does NOT support receiver.should != expected.
       # Instead, use receiver.should_not == expected
       def should(matcher = :default_parameter, &block)
-        if :default_parameter == matcher
-          Spec::Matchers::PositiveOperatorMatcher.new(self)
-        else
-          ExpectationMatcherHandler.handle_matcher(self, matcher, &block)
-        end
+        ExpectationMatcherHandler.handle_matcher(self, matcher, &block)
       end
 
       # :call-seq:
@@ -55,11 +51,7 @@ module Spec
       #
       # See Spec::Matchers for more information about matchers
       def should_not(matcher = :default_parameter, &block)
-        if :default_parameter == matcher
-          Spec::Matchers::NegativeOperatorMatcher.new(self)
-        else
-          NegativeExpectationMatcherHandler.handle_matcher(self, matcher, &block)
-        end
+        NegativeExpectationMatcherHandler.handle_matcher(self, matcher, &block)
       end
 
     end
