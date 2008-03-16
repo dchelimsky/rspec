@@ -58,7 +58,6 @@ require 'controller_spec_controller'
       controller.expect_render(:update).and_yield(template)
       template.should_receive(:replace).with(:bottom, "replace_me", :partial => "non_existent_partial")
       get 'action_with_render_update'
-      puts response.body
     end
     
     it "should allow a path relative to RAILS_ROOT/app/views/ when specifying a partial" do
@@ -175,6 +174,17 @@ end
 describe ControllerSpecController, :type => :controller do
   it "should not require naming the controller if describe is passed a type" do
   end  
+end
+
+describe "A controller spec with controller_name set", :type => :controller do
+  controller_name :controller_spec
+  
+  describe "nested" do
+    it "should inherit the controller name" do
+      get 'action_with_template'
+      response.should be_success
+    end
+  end
 end
 
 module Spec

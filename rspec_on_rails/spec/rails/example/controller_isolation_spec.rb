@@ -42,8 +42,6 @@ describe "a controller spec running in integration mode", :type => :controller d
   end
   
   describe "nested" do
-    controller_name :controller_spec
-    
     it "should render a template" do
       get 'action_with_template'
       response.should be_success
@@ -51,7 +49,6 @@ describe "a controller spec running in integration mode", :type => :controller d
     end
     
     describe "with integrate_views turned off" do
-      controller_name :controller_spec
       integrate_views false
       
       it "should not care if the template doesn't exist" do
