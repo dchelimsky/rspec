@@ -72,11 +72,17 @@ module Spec
           #
           # See Spec::Rails::Example::ControllerExampleGroup for more information about
           # Integration and Isolation modes.
-          def integrate_views
-            @integrate_views = true
+          def integrate_views(integrate_views = true)
+            @integrate_views = integrate_views
           end
+          
           def integrate_views? # :nodoc:
             @integrate_views
+          end
+          
+          def inherited(klass) # :nodoc:
+            klass.integrate_views(integrate_views?)
+            super
           end
 
           # You MUST provide a controller_name within the context of
