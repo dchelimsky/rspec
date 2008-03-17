@@ -61,7 +61,7 @@ module Spec
         #   stub_model(Person)
         #   stub_model(Person, :id => 37)
         #   stub_model(Person) do |person|
-        #     model.first_name = "David"
+        #     person.first_name = "David"
         #   end
         def stub_model(model_class, stubs = {})
           id = @@model_id
