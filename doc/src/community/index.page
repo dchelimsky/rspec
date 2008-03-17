@@ -198,6 +198,7 @@ In alphabetical order (by last name)
 * Ben Mabey
 ** Patch for story runner exit code.
 * Pat Maddox
+** Patch [#335] get integrate_views and controller_name to work in nested example groups.
 ** Patch [#320] handle redirect_to w/ SSL
 ** Story Mediator - the glue that binds the plain text story parser with the rest of the system
 ** Patch [#136]  example summary shows up when running stories

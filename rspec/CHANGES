@@ -5,6 +5,8 @@ Note: we've removed the metaclass method from Object. There were some generated 
 used it, and they will now break. Just replace the metaclass call with (class << self; self; end)
 and all will be well.
 
+* Patch from Pat Maddox to get integrate_views to work in nested example groups.
+* Patch from Pat Maddox to get controller_name to work in nested example groups.
 * Patch from Corey Haines to add include_text matcher (rspec_on_rails)
 * Patch from Antti Tarvainen to stop files from being loaded repeatedly when running heckle. Closes #333.
 * Fixed bug in which session object in example was not the same instance used in the controller. Closes #331. 
