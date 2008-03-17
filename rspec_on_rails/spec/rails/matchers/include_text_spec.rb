@@ -49,9 +49,15 @@ describe "include_text", :type => :controller do
 
       it "should fail when a template is rendered" do
         post 'some_action'
+        failure_message = case mode
+        when 'isolation'
+          /expected to find \"this is the text for this action\" in \"render_spec\/some_action\"/
+        when 'integration'
+          /expected to find \"this is the text for this action\" in \"\"/
+        end
         lambda {
           response.should include_text("this is the text for this action")
-        }.should fail_with(/expected to find \"this is the text for this action\" in \"render_spec\/some_action\"/)
+        }.should fail_with(failure_message)
       end
 
       it "should pass using should_not with incorrect text" do
