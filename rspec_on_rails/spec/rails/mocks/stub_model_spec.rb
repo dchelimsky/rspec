@@ -6,12 +6,24 @@ describe "stub_model" do
     stub_model(MockableModel).id.should be >= 1000
   end
   
+  it "should say it is not a new record by default" do
+    stub_model(MockableModel).should_not be_new_record
+  end
+  
   it "should accept a stub id" do
-    stub_model(MockableModel, :id => 3).id.should == 3
+    stub_model(MockableModel, :id => 37).id.should == 37
+  end
+  
+  it "should say it is a new record when id is set to nil" do
+    stub_model(MockableModel, :id => nil).should be_new_record
   end
   
   it "should accept a stub anything" do
     stub_model(MockableModel, :foo => "bar").foo.should == "bar"
+  end
+  
+  it "should accept a stub for save" do
+    stub_model(MockableModel, :save => false).save.should be(false)
   end
   
   it "should raise when hitting the db" do
