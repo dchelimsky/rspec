@@ -5,6 +5,7 @@ Note: we've removed the metaclass method from Object. There were some generated 
 used it, and they will now break. Just replace the metaclass call with (class << self; self; end)
 and all will be well.
 
+* Added as_new_record to stub_model e.g. stub_model(Foo).as_new_record
 * Improved stub_model such that new_record? does "the right thing"
 * Patch from Pat Maddox to get integrate_views to work in nested example groups.
 * Patch from Pat Maddox to get controller_name to work in nested example groups.

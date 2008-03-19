@@ -90,6 +90,10 @@ module Spec
               def new_record?
                 id.nil?
               end
+              def as_new_record
+                self.id = nil
+                self
+              end
             end
             stubs.each do |k,v|
               if model.has_attribute?(k)
