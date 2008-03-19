@@ -20,13 +20,11 @@ module Spec
         
         include Spec::Rails::Matchers
 
-        @@model_id = 1000
         # Creates a mock object instance for a +model_class+ with common
-        # methods stubbed out.
-        # Additional methods may be easily stubbed (via add_stubs) if +stubs+ is passed.
+        # methods stubbed out. Additional methods may be easily stubbed (via
+        # add_stubs) if +stubs+ is passed.
         def mock_model(model_class, options_and_stubs = {})
-          id = @@model_id
-          @@model_id += 1
+          id = next_id
           options_and_stubs = {
             :id => id,
             :to_param => id.to_s,
@@ -84,11 +82,7 @@ module Spec
         #     model.first_name = "David"
         #   end
         def stub_model(model_class, stubs = {})
-          id = @@model_id
-          @@model_id += 1
-          stubs = {
-            :id => id
-          }.merge(stubs)
+          stubs = {:id => next_id}.merge(stubs)
           returning model_class.new do |model|
             model.id = stubs.delete(:id)
             (class << model; self; end).class_eval do
@@ -124,6 +118,12 @@ module Spec
           m
         end
         Spec::Example::ExampleGroupFactory.default(self)
+        
+        private
+          @@model_id = 1000
+          def next_id
+            @@model_id += 1
+          end
       end
     end
   end
