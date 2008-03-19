@@ -54,23 +54,31 @@ module Spec
         
         # :call-seq:
         #   stub_model(Model)
+        #   stub_model(Model).as_new_record
         #   stub_model(Model, hash_of_stubs)
         #
         # Creates an instance of +Model+ that is prohibited from accessing the
         # database. For each key in +hash_of_stubs+, if the model has a
         # matching attribute (determined by asking it, which it answers based
         # on schema.rb) are simply assigned the submitted values. If the model
-        # does not have a matching attribute, the key/value pair is assigned as
-        # a stub return value using RSpec's mocking/stubbing framework.
+        # does not have a matching attribute, the key/value pair is assigned
+        # as a stub return value using RSpec's mocking/stubbing framework.
         #
         # new_record? is overridden to return the result of id.nil? This means
-        # that by default new_record? will return false. If you explicitly set
-        # :id => nil, the object will behave as you would expect, and return
-        # true for new_record?
+        # that by default new_record? will return false. If  you want the
+        # object to behave as a new record, sending it +as_new_record+ will
+        # set the id to nil. You can also explicitly set :id => nil, in which
+        # case new_record? will return true, but using +as_new_record+ makes
+        # the example a bit more descriptive.
+        #
+        # While you can use stub_model in any example (model, view,
+        # controller, helper), it is especially useful in view examples,
+        # which are inherently more state-based than interaction-based.
         #
         # == Examples
         #
         #   stub_model(Person)
+        #   stub_model(Person).as_new_record
         #   stub_model(Person, :id => 37)
         #   stub_model(Person) do |person|
         #     model.first_name = "David"
