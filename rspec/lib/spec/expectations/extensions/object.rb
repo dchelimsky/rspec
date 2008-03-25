@@ -27,7 +27,7 @@ module Spec
       #
       # NOTE that this does NOT support receiver.should != expected.
       # Instead, use receiver.should_not == expected
-      def should(matcher = :default_parameter, &block)
+      def should(matcher=:use_operator_matcher, &block)
         ExpectationMatcherHandler.handle_matcher(self, matcher, &block)
       end
 
@@ -50,7 +50,7 @@ module Spec
       #     => Passes unless (receiver =~ regexp)
       #
       # See Spec::Matchers for more information about matchers
-      def should_not(matcher = :default_parameter, &block)
+      def should_not(matcher=:use_operator_matcher, &block)
         NegativeExpectationMatcherHandler.handle_matcher(self, matcher, &block)
       end
 

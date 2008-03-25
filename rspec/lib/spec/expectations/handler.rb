@@ -12,7 +12,7 @@ module Spec
       class << self
         include MatcherHandlerHelper
         def handle_matcher(actual, matcher, &block)
-          if :default_parameter == matcher
+          if :use_operator_matcher == matcher
             return Spec::Matchers::PositiveOperatorMatcher.new(actual)
           end
 
@@ -31,7 +31,7 @@ module Spec
       class << self
         include MatcherHandlerHelper
         def handle_matcher(actual, matcher, &block)
-          if :default_parameter == matcher
+          if :use_operator_matcher == matcher
             return Spec::Matchers::NegativeOperatorMatcher.new(actual)
           end
           
