@@ -8,7 +8,7 @@ class PreCommit::Core < PreCommit
     clobber
     rake_invoke :verify_rcov
     rake_invoke :spec_html
-    webby
+    # webby
     rake_invoke :failing_examples_with_html
     rdoc
     rdoc_rails

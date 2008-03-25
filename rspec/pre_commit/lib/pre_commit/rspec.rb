@@ -12,7 +12,7 @@ class PreCommit::Rspec < PreCommit
   def check_for_gem_dependencies
     require "rubygems"
     gem 'rake'
-    gem 'webby'
+    # gem 'webby'
     gem 'coderay'
     gem 'RedCloth'
     gem 'syntax'
