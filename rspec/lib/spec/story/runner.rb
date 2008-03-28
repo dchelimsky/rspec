@@ -45,7 +45,6 @@ module Spec
         end
         
         def register_exit_hook # :nodoc:
-          puts caller(0)[1]
           at_exit do
             exit Runner.story_runner.run_stories unless $!
           end

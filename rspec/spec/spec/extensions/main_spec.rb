@@ -70,6 +70,10 @@ module Spec
           end.should raise_error(NameError, /The first argument to share_as must be a legal name for a constant/)
         end
         
+        it "should reopen an existing module if already created" do
+          
+        end
+        
       end
     end
   end
