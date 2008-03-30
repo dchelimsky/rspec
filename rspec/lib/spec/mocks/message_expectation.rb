@@ -72,11 +72,17 @@ module Spec
       end
       
       def invoke(args, block)
+        if @expected_received_count == 0
+          @actual_received_count += 1
+          @error_generator.raise_expectation_error @sym, @expected_received_count, @actual_received_count, *args
+        end
+        
         @order_group.handle_order_constraint self
 
         begin
           Kernel::raise @exception_to_raise unless @exception_to_raise.nil?
           Kernel::throw @symbol_to_throw unless @symbol_to_throw.nil?
+          
           
           if !@method_block.nil?
             default_return_val = invoke_method_block(args)
