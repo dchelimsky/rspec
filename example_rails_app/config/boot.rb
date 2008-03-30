@@ -10,6 +10,14 @@ unless defined?(RAILS_ROOT)
   RAILS_ROOT = root_path
 end
 
+module Rails
+  class << self
+    def vendor_rails?
+      true
+    end
+  end
+end
+
 ENV['RSPEC_RAILS_VERSION'] ||= "edge"
 puts "running against rails #{ENV['RSPEC_RAILS_VERSION']}"
 
