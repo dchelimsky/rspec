@@ -156,13 +156,17 @@ module Spec
       end
        
       def verify_messages_received        
-        return if ignoring_args? || matches_exact_count? ||
-           matches_at_least_count? || matches_at_most_count?
+        return if expected_messages_received?
     
         generate_error
       rescue Spec::Mocks::MockExpectationError => error
         error.backtrace.insert(0, @expected_from)
         Kernel::raise error
+      end
+      
+      def expected_messages_received?
+        ignoring_args? || matches_exact_count? ||
+           matches_at_least_count? || matches_at_most_count?
       end
       
       def ignoring_args?
