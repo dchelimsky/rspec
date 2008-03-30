@@ -75,8 +75,18 @@ module Spec
         @mock.rspec_verify
       end
       
-      it "should raise exception if args dont match when method called" do
+      it "should raise exception if args don't match when method called" do
         @mock.should_receive(:something).with("a","b","c").and_return("booh")
+        lambda {
+          @mock.something("a","d","c")
+          violated
+        }.should raise_error(MockExpectationError, "Mock 'test mock' expected :something with (\"a\", \"b\", \"c\") but received it with (\"a\", \"d\", \"c\")")
+      end
+           
+      it "should raise exception if args don't match when method called even when the method is stubbed" do
+        pending("need to do some refactoring before trying to get this to pass")
+        @mock.stub!(:something)
+        @mock.should_receive(:something).with("a","b","c")
         lambda {
           @mock.something("a","d","c")
           violated
@@ -400,6 +410,7 @@ module Spec
         mock = Mock.new('name', :message => :response)
         mock.message.should == :response
       end
+      
     end
     
     describe "a mock message receiving a block" do
