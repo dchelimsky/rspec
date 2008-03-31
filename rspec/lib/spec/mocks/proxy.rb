@@ -63,19 +63,14 @@ module Spec
       def message_received(sym, *args, &block)
         if expectation = find_matching_expectation(sym, *args)
           expectation.invoke(args, block)
-        elsif stub = find_matching_method_stub(sym, *args)
+        elsif (stub = find_matching_method_stub(sym, *args))
           if expectation = find_almost_matching_expectation(sym, *args)
-            if expectation.expected_messages_received?
-              stub.invoke([], block)
-            else
-              expectation.advise(args, block)
-              stub.invoke([], block)
-            end
-          else
-            stub.invoke([], block)
+            expectation.advise(args, block) unless expectation.expected_messages_received?
           end
+          stub.invoke([], block)
         elsif expectation = find_almost_matching_expectation(sym, *args)
-          raise_unexpected_message_args_error(expectation, *args) unless has_negative_expectation?(sym) unless null_object?
+          expectation.advise(args, block) if null_object? unless expectation.expected_messages_received?
+          raise_unexpected_message_args_error(expectation, *args) unless (has_negative_expectation?(sym) or null_object?)
         else
           @target.send :method_missing, sym, *args, &block
         end
