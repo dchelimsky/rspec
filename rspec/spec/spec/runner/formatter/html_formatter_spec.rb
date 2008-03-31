@@ -33,7 +33,7 @@ module Spec
               if opt == '--diff'
                 # Uncomment this line temporarily in order to overwrite the expected with actual.
                 # Use with care!!!
-                File.open(expected_file, 'w') {|io| io.write(html)}
+                # File.open(expected_file, 'w') {|io| io.write(html)}
 
                 doc = Hpricot(html)
                 backtraces = doc.search("div.backtrace").collect {|e| e.at("/pre").inner_html}

@@ -155,7 +155,7 @@ module Spec
         @sym == sym and not @args_expectation.check_args(args)
       end
        
-      def verify_messages_received        
+      def verify_messages_received   
         return if expected_messages_received?
     
         generate_error
@@ -185,8 +185,20 @@ module Spec
         @expected_received_count == @actual_received_count
       end
       
+      def similar_messages
+        @similar_messages ||= []
+      end
+
+      def advise(args, block)
+        similar_messages << args
+      end
+      
       def generate_error
-        @error_generator.raise_expectation_error(@sym, @expected_received_count, @actual_received_count, *@args_expectation.args)
+        if similar_messages.empty?
+          @error_generator.raise_expectation_error(@sym, @expected_received_count, @actual_received_count, *@args_expectation.args)
+        else
+          @error_generator.raise_unexpected_message_args_error(self, *@similar_messages.first)
+        end
       end
 
       def with(*args, &block)

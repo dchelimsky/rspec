@@ -84,12 +84,11 @@ module Spec
       end
            
       it "should raise exception if args don't match when method called even when the method is stubbed" do
-        pending("need to do some refactoring before trying to get this to pass")
         @mock.stub!(:something)
         @mock.should_receive(:something).with("a","b","c")
         lambda {
           @mock.something("a","d","c")
-          violated
+          @mock.rspec_verify
         }.should raise_error(MockExpectationError, "Mock 'test mock' expected :something with (\"a\", \"b\", \"c\") but received it with (\"a\", \"d\", \"c\")")
       end
            

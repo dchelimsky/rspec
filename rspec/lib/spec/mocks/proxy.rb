@@ -64,7 +64,16 @@ module Spec
         if expectation = find_matching_expectation(sym, *args)
           expectation.invoke(args, block)
         elsif stub = find_matching_method_stub(sym, *args)
-          stub.invoke([], block)
+          if expectation = find_almost_matching_expectation(sym, *args)
+            if expectation.expected_messages_received?
+              stub.invoke([], block)
+            else
+              expectation.advise(args, block)
+              stub.invoke([], block)
+            end
+          else
+            stub.invoke([], block)
+          end
         elsif expectation = find_almost_matching_expectation(sym, *args)
           raise_unexpected_message_args_error(expectation, *args) unless has_negative_expectation?(sym) unless null_object?
         else
