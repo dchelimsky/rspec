@@ -1,6 +1,0 @@
-development:
-  adapter: sqlite3
-  database: db/development.sqlite3.db
-test:
-  adapter: sqlite3
-  database: ":memory:"

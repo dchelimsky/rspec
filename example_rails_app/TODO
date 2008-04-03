@@ -1,7 +1,0 @@
-integration spec'ing (derived from ActionController::IntegrationTest)
-
-== with_text
-    this is mostly useful for nested expectations on have_tag
-    
-== response.should return_code???? (Aslak: better: respond_with(501))
-    

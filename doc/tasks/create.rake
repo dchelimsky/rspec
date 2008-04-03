@@ -1,4 +1,0 @@
-
-Rake::WebbyTask.new
-
-# EOF

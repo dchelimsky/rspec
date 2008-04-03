@@ -1,9 +1,0 @@
---- 
-title: CHANGES
-order: 3
-filter:
-  - erb
-  - coderay
-  - textile
----
-<pre><%= IO.read '../rspec/CHANGES' %></pre>
