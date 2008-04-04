@@ -58,7 +58,7 @@ class PreCommit::Rspec < PreCommit
   end
   
   def pre_commit_core
-    Dir.chdir 'rspec' do
+    Dir.chdir 'example_rails_app/vendor/plugins/rspec' do
       rake = (PLATFORM == "i386-mswin32") ? "rake.bat" : "rake"
       system("#{rake} pre_commit --verbose --trace")
       raise "RSpec Core pre_commit failed" if error_code?
