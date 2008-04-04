@@ -183,7 +183,6 @@ class PreCommit::RspecOnRails < PreCommit
       app/models/purchase.rb
       app/controllers/purchases_controller.rb
       app/views/purchases
-      db/migrate/#{purchase_migration_version}_create_purchases.rb
       spec/models/purchase_spec.rb
       spec/helpers/purchases_helper_spec.rb
       spec/controllers/purchases_controller_spec.rb
@@ -194,6 +193,7 @@ class PreCommit::RspecOnRails < PreCommit
     generated_files.each do |file|
       rm_rf file
     end
+    Dir['db/migrate/*_create_purchases.rb'].each {|f| rm_rf f}
     puts "#####################################################"
   end
   

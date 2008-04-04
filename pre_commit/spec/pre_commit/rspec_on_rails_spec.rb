@@ -9,7 +9,7 @@ include FileUtils
 describe "PreCommit::RSpecOnRails" do
   before do
     @original_dir = File.expand_path(FileUtils.pwd)
-    @rails_app_dir = File.expand_path(File.dirname(__FILE__) + "/../../../example_rails_app/")
+    @rails_app_dir = File.expand_path(File.dirname(__FILE__) + "/../../../../../..")
 
     Dir.chdir(@rails_app_dir)
     @pre_commit = PreCommit::RspecOnRails.new(nil)
@@ -32,5 +32,17 @@ describe "PreCommit::RSpecOnRails" do
       lambda { @pre_commit.generate_purchase }.should_not raise_error
     end
   end
-  
+
+  describe "rm_generated_purchase_files" do
+    before(:each) do
+      Dir['db/migrate/*_create_purchases.rb'].each {|f| rm_rf f}
+      @pre_commit.generate_purchase
+    end
+    
+    it "should remove the migration file" do
+      lambda {
+        @pre_commit.rm_generated_purchase_files
+      }.should change { Dir['db/migrate/*'].size }.by(-1)
+    end
+  end
 end
