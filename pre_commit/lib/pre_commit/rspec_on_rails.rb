@@ -46,7 +46,7 @@ class PreCommit::RspecOnRails < PreCommit
     # TODO - why is this necessary? Shouldn't the specs leave
     # a clean DB?
     rake_sh "db:test:prepare"
-    sh "ruby vendor/plugins/rspec_on_rails/stories/all.rb"
+    sh "ruby vendor/plugins/rspec-rails/stories/all.rb"
     cleanup(uninstall)
   end
 
@@ -68,19 +68,9 @@ class PreCommit::RspecOnRails < PreCommit
   end
 
   def install_plugins
-    install_plugin :rspec_on_rails
-    install_plugin :rspec
   end
   
-  def install_plugin(plugin)
-    rm_rf "vendor/plugins/#{plugin}" if File.exist?("vendor/plugins/#{plugin}")
-    FileUtils.mkdir_p("vendor/plugins") unless File.directory?("vendor/plugins")
-    copy "../#{plugin}", "vendor/plugins"
-  end
-
   def uninstall_plugins
-    rm_rf 'vendor/plugins/rspec_on_rails'
-    rm_rf 'vendor/plugins/rspec'
     rm_rf 'script/spec'
     rm_rf 'script/spec_server'
     rm_rf 'spec/spec_helper.rb'

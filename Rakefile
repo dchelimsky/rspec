@@ -197,10 +197,10 @@ end
 desc "Package the Rails plugin"
 task :package_rspec_on_rails do
   mkdir 'pkg' rescue nil
-  rm_rf 'pkg/rspec_on_rails' rescue nil
-  `svn export ../rspec_on_rails pkg/rspec_on_rails-#{PKG_VERSION}`
+  rm_rf 'pkg/rspec-rails' rescue nil
+  `svn export ../rspec-rails pkg/rspec_on_rails-#{PKG_VERSION}`
   Dir.chdir 'pkg' do
-    `tar cvzf rspec_on_rails-#{PKG_VERSION}.tgz rspec_on_rails-#{PKG_VERSION}`
+    `tar cvzf rspec-rails-#{PKG_VERSION}.tgz rspec-rails-#{PKG_VERSION}`
   end
 end
 task :pkg => :package_rspec_on_rails
@@ -221,7 +221,7 @@ task :publish_packages => [:verify_user, :package] do
   release_files = FileList[
     "pkg/#{PKG_FILE_NAME}.gem",
     "pkg/#{PKG_FILE_NAME}.tgz",
-    "pkg/rspec_on_rails-#{PKG_VERSION}.tgz",
+    "pkg/rspec-rails-#{PKG_VERSION}.tgz",
     "pkg/#{PKG_FILE_NAME}.zip",
     "pkg/RSpec-#{PKG_VERSION}.tmbundle.tgz"
   ]

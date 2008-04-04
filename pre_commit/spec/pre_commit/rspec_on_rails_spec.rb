@@ -16,11 +16,6 @@ describe "PreCommit::RSpecOnRails" do
   end
   
   describe "pre_commit" do
-    before(:each) do
-      rm_rf('vendor/plugins/rspec_on_rails')
-      system("svn export ../rspec_on_rails vendor/plugins/rspec_on_rails")
-    end
-
     after do
       rm('db/migrate/888_create_purchases.rb', :force => true)
       @pre_commit.destroy_purchase
@@ -38,14 +33,4 @@ describe "PreCommit::RSpecOnRails" do
     end
   end
   
-  describe "install_plugin" do
-    before(:each) do
-      rm_rf('vendor/plugins')
-    end
-
-    it "should create the plugins dir if none exists" do
-      @pre_commit.install_plugin :rspec_on_rails
-      File.directory?('vendor/plugins/rspec_on_rails').should be_true
-    end
-  end
 end
