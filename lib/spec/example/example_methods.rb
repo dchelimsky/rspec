@@ -3,6 +3,8 @@ module Spec
     module ExampleMethods
       extend ExampleGroupMethods
       extend ModuleReopeningFix
+      include ModuleInclusionWarnings
+      
 
       PENDING_EXAMPLE_BLOCK = lambda {
         raise Spec::Example::ExamplePendingError.new("Not Yet Implemented")
