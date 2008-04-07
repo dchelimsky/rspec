@@ -38,6 +38,7 @@ module Spec
             @scenario_already_failed = false
             @output.print "\n\n  Scenario: #{scenario_name}"
             @scenario_ok = true
+            @scenario_pending = false
           end
         
           def scenario_succeeded(story_title, scenario_name)
@@ -52,6 +53,7 @@ module Spec
         
           def scenario_pending(story_title, scenario_name, msg)
             @pending_scenario_count += 1 unless @scenario_already_failed
+            @scenario_pending = true
             @scenario_already_failed = true
           end
         
@@ -81,19 +83,24 @@ module Spec
           end
                   
           def step_succeeded(type, description, *args)
-            found_step(type, description, false, *args)
+            found_step(type, description, false, false, *args)
           end
         
           def step_pending(type, description, *args)
-            found_step(type, description, false, *args)
+            found_step(type, description, false, true, *args)
             @pending_steps << [@current_story_title, @current_scenario_name, description]
-            @output.print " (PENDING)"
+            @output.print yellow(" (PENDING)")
+            @scenario_pending = true
             @scenario_ok = false
           end
         
           def step_failed(type, description, *args)
-            found_step(type, description, true, *args)
-            @output.print red(@scenario_ok ? " (FAILED)" : " (SKIPPED)")
+            found_step(type, description, true, @scenario_pending, *args)
+            if @scenario_pending
+              @output.print yellow(" (SKIPPED)")
+            else
+              @output.print red(@scenario_ok ? " (FAILED)" : " (SKIPPED)")
+            end
             @scenario_ok = false
           end
           
@@ -106,7 +113,7 @@ module Spec
 
         private
 
-          def found_step(type, description, failed, *args)
+          def found_step(type, description, failed, pending, *args)
             desc_string = description.step_name
             arg_regexp = description.arg_regexp
             text = if(type == @previous_type)
@@ -116,7 +123,11 @@ module Spec
             end
             i = -1
             text << desc_string.gsub(arg_regexp) { |param| args[i+=1] }
-            @output.print(failed ? red(text) : green(text))
+            if pending
+              @output.print yellow(text)
+            else
+              @output.print(failed ? red(text) : green(text))
+            end
 
             if type == :'given scenario'
               @previous_type = :given
