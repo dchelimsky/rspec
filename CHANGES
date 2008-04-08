@@ -1,10 +1,12 @@
 == Version 1.1.4 (trunk)
 
 Maintenance release.
-Note: we've removed the metaclass method from Object. There were some generated specs that
-used it, and they will now break. Just replace the metaclass call with (class << self; self; end)
-and all will be well.
 
+Note: we've removed the metaclass method from Object. There were some
+generated specs that used it, and they will now break. Just replace the
+metaclass call with (class << self; self; end) and all will be well.
+
+* pending steps print out yellow in stories (patch from Kyle Hargraves)
 * mock.should_not_receive(:anything) fails fast (once again)
 * Added as_new_record to stub_model e.g. stub_model(Foo).as_new_record
 * Improved stub_model such that new_record? does "the right thing"
