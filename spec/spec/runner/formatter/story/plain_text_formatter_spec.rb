@@ -302,12 +302,106 @@ module Spec
             @out.string.should include('When I say hey (SKIPPED)')
           end
 
-          it "should append SKIPPED for the a failiure after PENDING" do
+          it "should append SKIPPED for a failure after PENDING" do
             @formatter.scenario_started('','')
             @formatter.step_pending(:given, 'a context')
             @formatter.step_failed(:when, 'I say hey')
 
             @out.string.should include('When I say hey (SKIPPED)')
+          end
+
+          it "should print steps which succeeded in green" do
+            @out.stub!(:tty?).and_return(true)
+            @options.stub!(:colour).and_return(true)
+
+            @formatter.scenario_started('','')
+            @formatter.step_succeeded(:given, 'a context')
+
+            @out.string.should =~ /\e\[32m[\n\s]+Given a context\e\[0m/m
+          end
+
+          it "should print failed steps in red" do
+            @out.stub!(:tty?).and_return(true)
+            @options.stub!(:colour).and_return(true)
+
+            @formatter.scenario_started('','')
+            @formatter.step_failed(:given, 'a context')
+
+            @out.string.should =~ /\e\[31m[\n\s]+Given a context\e\[0m/m
+          end
+
+          it "should print ' (FAILED)' in red" do
+            @out.stub!(:tty?).and_return(true)
+            @options.stub!(:colour).and_return(true)
+
+            @formatter.scenario_started('','')
+            @formatter.step_failed(:given, 'a context')
+
+            @out.string.should =~ /\e\[31m \(FAILED\)\e\[0m/
+          end
+
+          it "should print pending steps in yellow" do
+            @out.stub!(:tty?).and_return(true)
+            @options.stub!(:colour).and_return(true)
+
+            @formatter.scenario_started('','')
+            @formatter.step_pending(:given, 'a context')
+
+            @out.string.should =~ /\e\[33m[\n\s]+Given a context\e\[0m/m
+          end
+
+          it "should print ' (PENDING)' in yellow" do
+            @out.stub!(:tty?).and_return(true)
+            @options.stub!(:colour).and_return(true)
+
+            @formatter.scenario_started('','')
+            @formatter.step_pending(:given, 'a context')
+
+            @out.string.should =~ /\e\[33m \(PENDING\)\e\[0m/
+          end
+
+          it "should print skipped steps in yellow if the scenario is already pending" do
+            @out.stub!(:tty?).and_return(true)
+            @options.stub!(:colour).and_return(true)
+
+            @formatter.scenario_started('','')
+            @formatter.step_pending(:given, 'a context')
+            @formatter.step_failed(:when, 'I say hey')
+
+            @out.string.should =~ /\e\[33m[\n\s]+When I say hey\e\[0m/m
+          end
+
+          it "should print ' (SKIPPED)' in yellow if the scenario is already pending" do
+            @out.stub!(:tty?).and_return(true)
+            @options.stub!(:colour).and_return(true)
+
+            @formatter.scenario_started('','')
+            @formatter.step_pending(:given, 'a context')
+            @formatter.step_failed(:when, 'I say hey')
+
+            @out.string.should =~ /\e\[33m \(SKIPPED\)\e\[0m/
+          end
+
+          it "should print skipped steps in red if the scenario has already failed" do
+            @out.stub!(:tty?).and_return(true)
+            @options.stub!(:colour).and_return(true)
+
+            @formatter.scenario_started('','')
+            @formatter.step_failed(:given, 'a context')
+            @formatter.step_failed(:when, 'I say hey')
+
+            @out.string.should =~ /\e\[31m[\n\s]+When I say hey\e\[0m/m
+          end
+
+          it "should print ' (SKIPPED)' in red if the scenario has already failed" do
+            @out.stub!(:tty?).and_return(true)
+            @options.stub!(:colour).and_return(true)
+
+            @formatter.scenario_started('','')
+            @formatter.step_failed(:given, 'a context')
+            @formatter.step_failed(:when, 'I say hey')
+
+            @out.string.should =~ /\e\[31m \(SKIPPED\)\e\[0m/m
           end
 
           it 'should print some white space after each story' do
