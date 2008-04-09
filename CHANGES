@@ -6,6 +6,7 @@ Note: we've removed the metaclass method from Object. There were some
 generated specs that used it, and they will now break. Just replace the
 metaclass call with (class << self; self; end) and all will be well.
 
+* Setting mock_model object id with stubs hash - patch from Adam Meehan
 * pending steps print out yellow in stories (patch from Kyle Hargraves)
 * Deprecation warnings for specs that assume auto-inclusion of modules. Closes #326 (patch from Scott Taylor)
 * mock.should_not_receive(:anything) fails fast (once again)
