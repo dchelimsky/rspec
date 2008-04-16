@@ -58,7 +58,7 @@ class PreCommit::RspecOnRails < PreCommit
   end
 
   def revert_routes
-    output = silent_sh("cp config/routes.rb.bak config/routes.rb")
+    output = silent_sh("cp config/routes.rb.restore config/routes.rb")
     raise "Error reverting routes.rb" if shell_error?(output)
   end
 
@@ -171,7 +171,7 @@ class PreCommit::RspecOnRails < PreCommit
     EOF
     puts notice.gsub(/^    /, '')
     rake_sh "db:migrate", 'VERSION' => (purchase_migration_version.to_i - 1)
-    output = silent_sh("cp config/routes.rb.bak config/routes.rb")
+    output = silent_sh("cp config/routes.rb.restore config/routes.rb")
     raise "revert failed: #{output}" if error_code?
   end
 
