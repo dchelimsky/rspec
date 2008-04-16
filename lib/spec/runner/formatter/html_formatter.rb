@@ -12,6 +12,10 @@ module Spec
           @current_example_group_number = 0
           @current_example_number = 0
         end
+        
+        def method_missing(sym, *args)
+          # no-op
+        end
 
         # The number of the currently running example_group
         def current_example_group_number
