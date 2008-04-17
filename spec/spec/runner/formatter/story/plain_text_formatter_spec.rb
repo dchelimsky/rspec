@@ -267,9 +267,19 @@ module Spec
             @out.string.should include("  Given a pink dog with 21 legs")
           end
 
+          it 'should document steps that include dollar signs ($)' do
+            @formatter.step_succeeded :given, 'kicks that cost $$amount', 50
+            @out.string.should include("Given kicks that cost $50")
+          end
+
           it 'should document regexp steps with replaced params' do
             @formatter.step_succeeded :given, /a (pink|blue) dog with (.*) legs/, 'pink', 21
             @out.string.should include("  Given a pink dog with 21 legs")
+          end
+
+          it 'should document regex steps that include dollar signs ($)' do
+            @formatter.step_succeeded :given, /kicks that cost \$(\d+)/, 50
+            @out.string.should include("Given kicks that cost $50")
           end
 
           it "should append PENDING for the first pending step" do
