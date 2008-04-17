@@ -42,6 +42,16 @@ module Spec
         step = Step.new("1 2 $three") {}
         step.matches?("1 2 c").should be_true
       end
+
+      it "should match a text string with a dollar sign ($)" do
+        step = Step.new("show me the $$money") {}
+        step.matches?("show me the $kwan").should be_true
+      end
+
+      it "should match a string with an escaped dollar sign" do
+        step = Step.new("show me the \$money") {}
+        step.matches?("show me the $kwan").should be_true
+      end
       
       it "should not match a different string" do
         step = Step.new("this text") {}
@@ -101,7 +111,16 @@ module Spec
         step.matches?("he is very cool").should be_true
         step.parse_args("he is very cool").should == ['he', 'very', 'cool']
       end
-      
+
+      it "should match a regex with a dollar sign ($)" do
+        step = Step.new(/show me the \$\d+/) {}
+        step.matches?("show me the $123").should be_true
+      end
+
+      it "should match a regex with a dollar sign and named variable" do
+        step = Step.new(/show me the \$$money/) {}
+        step.matches?("show me the $123").should be_true
+      end
     end
     
     describe Step do
