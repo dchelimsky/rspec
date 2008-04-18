@@ -7,8 +7,6 @@ require 'rake/rdoctask'
 require 'rake/testtask'
 require 'spec/version'
 dir = File.dirname(__FILE__)
-$LOAD_PATH.unshift(File.expand_path("#{dir}/pre_commit/lib"))
-require "pre_commit"
 
 # Some of the tasks are in separate files since they are also part of the website documentation
 load File.dirname(__FILE__) + '/rake_tasks/examples.rake'
@@ -27,7 +25,6 @@ PKG_FILES = FileList[
   'failing_examples/**/*',
   'plugins/**/*',
   'stories/**/*',
-  'pre_commit/**/*',
   'rake_tasks/**/*'
 ]
 
@@ -157,14 +154,6 @@ task :tag do
   create_current_cmd = "svn cp #{to} #{current} -m \"Copy #{Spec::VERSION::TAG} to tags/CURRENT\""
   `#{create_current_cmd}` ; "ERROR: #{create_current_cmd}" unless $? == 0
 end
-
-desc "Run this task before you commit. You should see 'OK TO COMMIT'"
-task(:pre_commit) {core.pre_commit}
-
-desc "Build the website, but do not publish it"
-task(:website) {core.website}
-
-task(:rdoc_rails) {core.rdoc_rails}
 
 task :verify_user do
   raise "RUBYFORGE_USER environment variable not set!" unless ENV['RUBYFORGE_USER']
