@@ -92,6 +92,7 @@ module Spec
       end
       
       def define_expected_method(sym)
+        visibility_string = "#{visibility(sym)} :#{sym}"
         if target_responds_to?(sym) && !target_metaclass.method_defined?(munge(sym))
           munged_sym = munge(sym)
           target_metaclass.instance_eval do
@@ -104,6 +105,7 @@ module Spec
           def #{sym}(*args, &block)
             __mock_proxy.message_received :#{sym}, *args, &block
           end
+          #{visibility_string}
         EOF
       end
 
@@ -111,6 +113,18 @@ module Spec
         return @target.send(munge(:respond_to?),sym) if @already_proxied_respond_to
         return @already_proxied_respond_to = true if sym == :respond_to?
         return @target.respond_to?(sym)
+      end
+
+      def visibility(sym)
+        if Mock === @target
+          'public'
+        elsif target_metaclass.private_method_defined?(sym)
+          'private'
+        elsif target_metaclass.protected_method_defined?(sym)
+          'protected'
+        else
+          'public'
+        end
       end
 
       def munge(sym)
