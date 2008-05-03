@@ -25,6 +25,7 @@ metaclass call with (class << self; self; end) and all will be well.
 * ExampleGroupMethods#xspecify aliases #xit
 * A SharedExampleGroup can be created within another ExampleGroup.
 * Applied patch from Bob Cotton: Nested ExampleGroups do not have a spec_path. Closes #224.
+* Add before_suite and after_suite callbacks to ExampleGroupMethods and Options
 
 == Version 1.1.3
 
