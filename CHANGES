@@ -1,4 +1,4 @@
-== Version 1.1.4 (trunk)
+== Version 1.1.4
 
 Maintenance release.
 
@@ -6,30 +6,18 @@ Note: we've removed the metaclass method from Object. There were some
 generated specs that used it, and they will now break. Just replace the
 metaclass call with (class << self; self; end) and all will be well.
 
-* Setting mock_model object id with stubs hash - patch from Adam Meehan
 * pending steps print out yellow in stories (patch from Kyle Hargraves)
 * Deprecation warnings for specs that assume auto-inclusion of modules. Closes #326 (patch from Scott Taylor)
 * mock.should_not_receive(:anything) fails fast (once again)
-* Added as_new_record to stub_model e.g. stub_model(Foo).as_new_record
-* Improved stub_model such that new_record? does "the right thing"
-* Patch from Pat Maddox to get integrate_views to work in nested example groups.
-* Patch from Pat Maddox to get controller_name to work in nested example groups.
-* Patch from Corey Haines to add include_text matcher (rspec_on_rails)
 * Patch from Antti Tarvainen to stop files from being loaded repeatedly when running heckle. Closes #333.
 * Fixed bug in which session object in example was not the same instance used in the controller. Closes #331. 
-* Added stub_model method which creates a real model instance with :id stubbed and data access prohibited.
 * Applied patch from Antti Tarvainen to fix bug where heckle runs rspec runs heckle runs rspec etc. Closes #280.
 * Applied patch from Zach Dennis to merge :steps functionality to :steps_for. Closes #324.
-* Applied patch from Pat Maddox to handle redirect_to w/ SSL. Closes #320.
 * Applied patch from Ryan Davis to add eval of block passed to raise_error matcher. Closes #321.
 * alias :context :describe in example_group_methods. Closes #312.
 * Applied patch from Ben Mabey to make the Story runner exit with a non-0 exit code on failing stories. Closes #228.
-* Added #helper and #assigns to helper specs.
-* Applied patch from Bryan Helmkamp to tweak format of generated spec.opts to be more obvious. Closes #162.
-* Tweaked list of exceptions (ignores) for autotest with rspec_on_rails.
 * Applied patch from Coda Hale to get the :red hook called in autotest. Closes #279.
 * Applied patch from Patrick Ritchie to support --drb in spec.opts. Closes #274, #293.
-* Applied patch from Rick Olson to get rspec_on_rails working with rails edge (>= 8862)
 * Moved metaclass method from Object to an internal module which gets included where it is needed.
 * Applied patch from Dayo Esho: and_yield clobbers return value from block. Closes #217.
 * Applied patch from Bob Cotton:  ExampleGroupFactory.default resets previously registered types. Closes #222.
@@ -37,9 +25,6 @@ metaclass call with (class << self; self; end) and all will be well.
 * ExampleGroupMethods#xspecify aliases #xit
 * A SharedExampleGroup can be created within another ExampleGroup.
 * Applied patch from Bob Cotton: Nested ExampleGroups do not have a spec_path. Closes #224.
-* Applied patch from Wincent Colaiuta to invert sense of "spec --diff". Closes #281.
-* Allow any type of render in view specs. Closes #57.
-* Applied patch from Ian White to get rspec working with edge rails (8804). Closes #271.
 
 == Version 1.1.3
 
