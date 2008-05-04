@@ -67,6 +67,7 @@ module Spec
         @diff_format  = :unified
         @files = []
         @example_groups = []
+        @result = nil
         @examples_run = false
         @examples_should_be_run = nil
         @user_input_for_runner = nil
@@ -84,6 +85,7 @@ module Spec
 
       def run_examples
         return true unless examples_should_be_run?
+        success = true
         begin
           before_suite_parts.each do |part|
             part.call
@@ -106,7 +108,7 @@ module Spec
           end
         ensure
           after_suite_parts.each do |part|
-            part.call
+            part.call(success)
           end
         end
       end
