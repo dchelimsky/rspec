@@ -102,5 +102,41 @@ module Spec
         lambda { o.stub!(:bar) }.should_not raise_error(NoMethodError)
       end
     end
+
+    describe "Method visibility when using partial mocks" do
+      class MockableClass
+        def public_method
+          private_method
+          protected_method
+        end
+        protected
+        def protected_method; end
+        private
+        def private_method; end
+      end
+
+      before(:each) do
+        @object = MockableClass.new
+      end
+
+      it 'should keep public methods public' do
+        @object.should_receive(:public_method)
+        @object.public_methods.should include('public_method')
+        @object.public_method
+      end
+
+      it 'should keep private methods private' do
+        @object.should_receive(:private_method)
+        @object.private_methods.should include('private_method')
+        @object.public_method
+      end
+
+      it 'should keep protected methods protected' do
+        @object.should_receive(:protected_method)
+        @object.protected_methods.should include('protected_method')
+        @object.public_method
+      end
+
+    end
   end
 end
