@@ -119,8 +119,8 @@ module Spec
 
       def run
         examples = examples_to_run
-        return true if examples.empty?
         reporter.add_example_group(self)
+        return true if examples.empty?
         return dry_run(examples) if dry_run?
 
         plugin_mock_framework
