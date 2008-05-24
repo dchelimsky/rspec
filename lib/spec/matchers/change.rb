@@ -114,7 +114,7 @@ EOF
     #
     #   string = "string"
     #   lambda {
-    #     string.reverse
+    #     string.reverse!
     #   }.should change { string }.from("string").to("gnirts")
     #
     #   lambda {
