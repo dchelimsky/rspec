@@ -1,18 +1,4 @@
-require 'spec/mocks/methods'
-require 'spec/mocks/argument_constraint_matchers'
-require 'spec/mocks/spec_methods'
-require 'spec/mocks/proxy'
-require 'spec/mocks/any_instance'
-require 'spec/mocks/mock'
-require 'spec/mocks/argument_expectation'
-require 'spec/mocks/message_expectation'
-require 'spec/mocks/order_group'
-require 'spec/mocks/errors'
-require 'spec/mocks/error_generator'
-require 'spec/mocks/extensions/object'
-require 'spec/mocks/extensions/class'
-require 'spec/mocks/space'
-
+require 'spec/mocks/framework'
 
 module Spec
   # == Mocks and Stubs

@@ -28,6 +28,7 @@ metaclass call with (class << self; self; end) and all will be well.
 * Add before_suite and after_suite callbacks to ExampleGroupMethods and Options. Closes #210.
 * The after(:suite) callback lambda is passed a boolean representing whether the suite passed or failed
 * Added IndentedTextFormatter. Closes #366.
+* decoupled mock framework from global extensions used by rspec - supports use of flexmock or mocha w/ rails
 
 == Version 1.1.3
 
