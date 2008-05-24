@@ -182,8 +182,31 @@ module Spec
             # then
             success.should == true
           end
-          
-          
+        end
+
+        describe "when a scenario has an empty body" do
+          before(:each) do
+            @story = Story.new 'title', 'narrative' do end
+            @scenario = Scenario.new @story, 'scenario'
+            @scenario_runner = ScenarioRunner.new
+            @world = stub_everything
+          end
+
+          it "should mark the scenario as pending" do
+            mock_listener = stub('listener', :scenario_started => true)
+            @scenario_runner.add_listener mock_listener
+
+            mock_listener.should_receive(:scenario_pending).with('title', 'scenario', '')
+            @scenario_runner.run @scenario, @world
+          end
+
+          it "should return true" do
+            # when
+            success = @scenario_runner.run @scenario, @world
+
+            # then
+            success.should == true
+          end
         end
       end
     end
