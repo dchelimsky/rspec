@@ -1,17 +1,17 @@
 require File.dirname(__FILE__) + '/../../../spec_helper.rb'
-require 'spec/runner/formatter/indented_text_formatter'
+require 'spec/runner/formatter/nested_text_formatter'
 
 module Spec
   module Runner
     module Formatter
-      describe IndentedTextFormatter do
+      describe NestedTextFormatter do
         it_should_behave_like "sandboxed rspec_options"
         attr_reader :io, :options, :formatter, :example_group
         before(:each) do
           @io = StringIO.new
           options.stub!(:dry_run).and_return(false)
           options.stub!(:colour).and_return(false)
-          @formatter = IndentedTextFormatter.new(options, io)
+          @formatter = NestedTextFormatter.new(options, io)
           @example_group = ::Spec::Example::ExampleGroup.describe("ExampleGroup") do
             specify "example" do
             end

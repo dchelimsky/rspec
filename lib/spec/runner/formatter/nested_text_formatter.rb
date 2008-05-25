@@ -3,7 +3,7 @@ require 'spec/runner/formatter/base_text_formatter'
 module Spec
   module Runner
     module Formatter
-      class IndentedTextFormatter < BaseTextFormatter
+      class NestedTextFormatter < BaseTextFormatter
         def add_example_group(example_group)
           super
           if example_group.description_args && !example_group.description_args.empty?
