@@ -186,6 +186,16 @@ describe "OptionParser" do
     options = parse(["--format", "specdoc"])
     options.formatters[0].class.should equal(Spec::Runner::Formatter::SpecdocFormatter)
   end
+
+  it "should use nested text formatter when format is s" do
+    options = parse(["--format", "n"])
+    options.formatters[0].class.should equal(Spec::Runner::Formatter::NestedTextFormatter)
+  end
+
+  it "should use nested text formatter when format is nested" do
+    options = parse(["--format", "nested"])
+    options.formatters[0].class.should equal(Spec::Runner::Formatter::NestedTextFormatter)
+  end
   
   it "should support diff option when format is not specified" do
     options = parse(["--diff"])
