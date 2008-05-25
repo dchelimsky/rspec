@@ -75,11 +75,35 @@ module Spec
                 def add_example_group
                   example_group.description_args.should_not be_nil
                   @child_example_group = Class.new(example_group).describe("Child ExampleGroup")
-                  formatter.add_example_group(child_example_group)
                 end
 
-                it "should push ExampleGroup name with two spaces of indentation" do
-                  io.string.should eql("  Child ExampleGroup\n")
+                describe "and parent ExampleGroups have not been printed" do
+                  before do
+                    formatter.add_example_group(child_example_group)
+                  end
+
+                  it "should push ExampleGroup name with two spaces of indentation" do
+                    expected_output = <<-OUT
+                    ExampleGroup
+                      Child ExampleGroup
+                    OUT
+                    io.string.should == expected_output.gsub(/^                    /, '')
+                  end
+                end
+
+                describe "and parent ExampleGroups have been printed" do
+                  before do
+                    formatter.add_example_group(example_group)
+                    io.string = ""
+                    formatter.add_example_group(child_example_group)
+                  end
+
+                  it "should print only the indented ExampleGroup" do
+                    expected_output = <<-OUT
+                      Child ExampleGroup
+                    OUT
+                    io.string.should == expected_output.gsub(/^                    /, '')
+                  end
                 end
               end
 
@@ -89,25 +113,70 @@ module Spec
                   example_group.description_args.should_not be_nil
                   @child_example_group = Class.new(example_group).describe("Child ExampleGroup")
                   @grand_child_example_group = Class.new(child_example_group).describe("GrandChild ExampleGroup")
-                  formatter.add_example_group(grand_child_example_group)
                 end
 
-                it "should push ExampleGroup name with two spaces of indentation" do
-                  io.string.should eql("    GrandChild ExampleGroup\n")
+                describe "and parent ExampleGroups have not been printed" do
+                  before do
+                    formatter.add_example_group(grand_child_example_group)
+                  end
+
+                  it "should print the entire nested ExampleGroup heirarchy" do
+                    expected_output = <<-OUT
+                    ExampleGroup
+                      Child ExampleGroup
+                        GrandChild ExampleGroup
+                    OUT
+                    io.string.should == expected_output.gsub(/^                    /, '')
+                  end
+                end
+
+                describe "and parent ExampleGroups have been printed" do
+                  before do
+                    formatter.add_example_group(child_example_group)
+                    io.string = ""
+                    formatter.add_example_group(grand_child_example_group)
+                  end
+
+                  it "should print only the indented ExampleGroup" do
+                    expected_output = <<-OUT
+                        GrandChild ExampleGroup
+                    OUT
+                    io.string.should == expected_output.gsub(/^                    /, '')
+                  end
                 end
               end
             end
 
             describe "when ExampleGroup description_args is nil" do
               attr_reader :child_example_group
-              def add_example_group
-                @child_example_group = Class.new(example_group)
-                child_example_group.description_args.should be_nil
-                formatter.add_example_group(child_example_group)
+
+              describe "and parent ExampleGroups have not been printed" do
+                def add_example_group
+                  @child_example_group = Class.new(example_group)
+                  child_example_group.description_args.should be_nil
+                  formatter.add_example_group(child_example_group)
+                end
+
+                it "should render only the parent ExampleGroup" do
+                  expected_output = <<-OUT
+                  ExampleGroup
+                  OUT
+                  io.string.should == expected_output.gsub(/^                  /, '')
+                end
               end
 
-              it "should not render anything" do
-                io.string.should eql("")
+              describe "and parent ExampleGroups have been printed" do
+                def add_example_group
+                  @child_example_group = Class.new(example_group)
+                  child_example_group.description_args.should be_nil
+                  formatter.add_example_group(example_group)
+                  io.string = ""
+                  formatter.add_example_group(child_example_group)
+                end
+
+                it "should not render anything" do
+                  io.string.should == ""
+                end
               end
             end
 
@@ -119,7 +188,7 @@ module Spec
               end
 
               it "should not render anything" do
-                io.string.should eql("")
+                io.string.should == ""
               end
             end
           end
@@ -174,6 +243,8 @@ module Spec
                     Reporter::Failure.new("c s", RuntimeError.new)
                   )
                   expected_output = <<-OUT
+                  ExampleGroup
+                    Child ExampleGroup
                       GrandChild ExampleGroup
                         spec (ERROR - 98)
                   OUT
@@ -189,6 +260,8 @@ module Spec
                     Reporter::Failure.new("c s", Spec::Expectations::ExpectationNotMetError.new)
                   )
                   expected_output = <<-OUT
+                  ExampleGroup
+                    Child ExampleGroup
                       GrandChild ExampleGroup
                         spec (FAILED - 98)
                   OUT
