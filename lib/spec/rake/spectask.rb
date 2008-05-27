@@ -155,30 +155,23 @@ module Spec
               # ruby [ruby_opts] -Ilib -S rcov [rcov_opts] bin/spec -- examples [spec_opts]
               # or
               # ruby [ruby_opts] -Ilib bin/spec examples [spec_opts]
-              cmd = "#{File.join(Config::CONFIG['bindir'], Config::CONFIG['ruby_install_name'])} "
-
-              rb_opts = ruby_opts.clone
-              rb_opts << "-I\"#{lib_path}\""
-              rb_opts << "-S rcov" if rcov
-              rb_opts << "-w" if warning
-              cmd << rb_opts.join(" ")
-              cmd << " "
-              cmd << rcov_option_list
-              cmd << %[ -o "#{rcov_dir}" ] if rcov
-              cmd << %Q|"#{spec_script}"|
-              cmd << " "
-              cmd << "-- " if rcov
-              cmd << spec_file_list.collect { |fn| %["#{fn}"] }.join(' ')
-              cmd << " "
-              cmd << spec_option_list
+              cmd_parts = [RUBY]
+              cmd_parts += ruby_opts
+              cmd_parts << %[-I"#{lib_path}"]
+              cmd_parts << "-S rcov" if rcov
+              cmd_parts << "-w" if warning
+              cmd_parts << rcov_option_list
+              cmd_parts << %[-o "#{rcov_dir}"] if rcov
+              cmd_parts << %["#{spec_script}"]
+              cmd_parts << "--" if rcov
+              cmd_parts += spec_file_list.collect { |fn| %["#{fn}"] }
+              cmd_parts << spec_option_list
               if out
-                cmd << " "
-                cmd << %Q| > "#{out}"|
+                cmd_parts << %[> "#{out}"]
                 STDERR.puts "The Spec::Rake::SpecTask#out attribute is DEPRECATED and will be removed in a future version. Use --format FORMAT:WHERE instead."
               end
-              if verbose
-                puts cmd
-              end
+              cmd = cmd_parts.join(" ")
+              puts cmd if verbose
               unless system(cmd)
                 STDERR.puts failure_message if failure_message
                 raise("Command #{cmd} failed") if fail_on_error
@@ -232,4 +225,3 @@ module Spec
     end
   end
 end
-
