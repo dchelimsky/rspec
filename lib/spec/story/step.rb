@@ -42,8 +42,7 @@ module Spec
         def assign_expression(string_or_regexp)
           if String === string_or_regexp
             expression = string_or_regexp.dup
-            expression.gsub! '(', '\('
-            expression.gsub! ')', '\)'
+            %w<? ( ) [ ] { } ^ !>.each {|c| expression.gsub! c, "\\#{c}"}
           elsif Regexp === string_or_regexp
             expression = string_or_regexp.source
           end

@@ -88,6 +88,11 @@ module Spec
         step.matches?("before () after").should be_true
       end
       
+      it "should not get bogged down by regular expression special characters in strings" do
+        step = Step.new("These characters should work ? ( ) [ ] { } ^ !") {}
+        step.matches?("These characters should work ? ( ) [ ] { } ^ !").should be_true
+      end
+      
       it "should match any option of an alteration" do
         step = Step.new(/(he|she) is cool/) {}
         step.matches?("he is cool").should be_true
