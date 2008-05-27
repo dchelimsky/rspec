@@ -29,7 +29,7 @@ metaclass call with (class << self; self; end) and all will be well.
 * The after(:suite) callback lambda is passed a boolean representing whether the suite passed or failed
 * Added NestedTextFormatter. Closes #366.
 * decoupled mock framework from global extensions used by rspec - supports use of flexmock or mocha w/ rails
-* Applied patch from Roman Chernyatchik to allow the user to pass in the rails version into spectask. Closes #325, #370
+* Applied patch from Roman Chernyatchik to allow the user to pass in the ruby version into spectask. Closes #325, #370
 
 == Version 1.1.3
 
