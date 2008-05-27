@@ -121,38 +121,34 @@ task :todo do
   egrep /(FIXME|TODO|TBD)/
 end
 
-task :clobber do
-  core.clobber
-end
-
-task :release => [:clobber, :verify_committed, :verify_user, :spec, :publish_packages, :tag, :publish_news]
+task :release => [:verify_committed, :verify_user, :spec, :publish_packages, :tag, :publish_news]
 
 desc "Verifies that there is no uncommitted code"
 task :verify_committed do
-  IO.popen('svn stat') do |io|
-    io.each_line do |line|
-      raise "\n!!! Do a svn commit first !!!\n\n" if line =~ /^\s*M\s*/
-    end
-  end
+  # IO.popen('git status') do |io|
+  #   io.each_line do |line|
+  #     raise "\n!!! Do a git commit first !!!\n\n" if line =~ /^#\s*modified:/
+  #   end
+  # end
 end
 
 desc "Creates a tag in svn"
 task :tag do
-  from = `svn info #{File.dirname(__FILE__)}`.match(/URL: (.*)\/rspec/n)[1]
-  to = from.gsub(/trunk/, "tags/#{Spec::VERSION::TAG}")
-  current = from.gsub(/trunk/, "tags/CURRENT")
-
-  puts "Creating tag in SVN"
-  tag_cmd = "svn cp #{from} #{to} -m \"Tag release #{Spec::VERSION::FULL_VERSION}\""
-  `#{tag_cmd}` ; raise "ERROR: #{tag_cmd}" unless $? == 0
-
-  puts "Removing CURRENT"
-  remove_current_cmd = "svn rm #{current} -m \"Remove tags/CURRENT\""
-  `#{remove_current_cmd}` ; raise "ERROR: #{remove_current_cmd}" unless $? == 0
-
-  puts "Re-Creating CURRENT"
-  create_current_cmd = "svn cp #{to} #{current} -m \"Copy #{Spec::VERSION::TAG} to tags/CURRENT\""
-  `#{create_current_cmd}` ; "ERROR: #{create_current_cmd}" unless $? == 0
+  # from = `svn info #{File.dirname(__FILE__)}`.match(/URL: (.*)\/rspec/n)[1]
+  # to = from.gsub(/trunk/, "tags/#{Spec::VERSION::TAG}")
+  # current = from.gsub(/trunk/, "tags/CURRENT")
+  # 
+  # puts "Creating tag in SVN"
+  # tag_cmd = "svn cp #{from} #{to} -m \"Tag release #{Spec::VERSION::FULL_VERSION}\""
+  # `#{tag_cmd}` ; raise "ERROR: #{tag_cmd}" unless $? == 0
+  # 
+  # puts "Removing CURRENT"
+  # remove_current_cmd = "svn rm #{current} -m \"Remove tags/CURRENT\""
+  # `#{remove_current_cmd}` ; raise "ERROR: #{remove_current_cmd}" unless $? == 0
+  # 
+  # puts "Re-Creating CURRENT"
+  # create_current_cmd = "svn cp #{to} #{current} -m \"Copy #{Spec::VERSION::TAG} to tags/CURRENT\""
+  # `#{create_current_cmd}` ; "ERROR: #{create_current_cmd}" unless $? == 0
 end
 
 task :verify_user do
@@ -186,8 +182,9 @@ end
 desc "Package the Rails plugin"
 task :package_rspec_on_rails do
   mkdir 'pkg' rescue nil
-  rm_rf 'pkg/rspec-rails' rescue nil
-  `svn export ../rspec-rails pkg/rspec_on_rails-#{PKG_VERSION}`
+  rm_rf "pkg/rspec-rails-#{PKG_VERSION}" rescue nil
+  `git clone ../rspec-rails pkg/rspec-rails-#{PKG_VERSION}`
+  rm_rf "pkg/rspec-rails-#{PKG_VERSION}/.git"
   Dir.chdir 'pkg' do
     `tar cvzf rspec-rails-#{PKG_VERSION}.tgz rspec-rails-#{PKG_VERSION}`
   end
@@ -197,16 +194,17 @@ task :pkg => :package_rspec_on_rails
 desc "Package the RSpec.tmbundle"
 task :package_tmbundle do
   mkdir 'pkg' rescue nil
-  rm_rf 'pkg/RSpec.tmbundle' rescue nil
-  `svn export ../RSpec.tmbundle pkg/RSpec.tmbundle`
+  rm_rf "pkg/RSpec-#{PKG_VERSION}.tmbundle" rescue nil
+  `git clone ../../../../RSpec.tmbundle pkg/RSpec-#{PKG_VERSION}.tmbundle`
+  rm_rf "pkg/RSpec-#{PKG_VERSION}.tmbundle/.git"
   Dir.chdir 'pkg' do
-    `tar cvzf RSpec-#{PKG_VERSION}.tmbundle.tgz RSpec.tmbundle`
+    `tar cvzf RSpec-#{PKG_VERSION}.tmbundle.tgz RSpec-#{PKG_VERSION}.tmbundle`
   end
 end
 task :pkg => :package_tmbundle
 
 desc "Publish gem+tgz+zip on RubyForge. You must make sure lib/version.rb is aligned with the CHANGELOG file"
-task :publish_packages => [:verify_user, :package] do
+task :publish_packages => [:verify_user, :package, :pkg] do
   release_files = FileList[
     "pkg/#{PKG_FILE_NAME}.gem",
     "pkg/#{PKG_FILE_NAME}.tgz",
@@ -261,8 +259,4 @@ task :publish_news => [:verify_user] do
   else
     puts "** Not publishing news to RubyForge - this is a prerelease"
   end
-end
-
-def core
-  PreCommit::Core.new(self)
 end
