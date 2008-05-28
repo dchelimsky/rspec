@@ -1,3 +1,7 @@
+== Version 1.1.5 (in git)
+
+* Added additional characters to be escaped in step strings (patch from jrcahoon). Closes #417.
+
 == Version 1.1.4
 
 Maintenance release.
