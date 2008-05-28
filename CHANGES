@@ -2,6 +2,7 @@
 
 * Added additional characters to be escaped in step strings (patch from Jake Cahoon). Closes #417.
 * Disable color codes on STDOUT when STDOUT.tty? is false (patch from Tim Pope). Closes #413.
+* mock(:null_object=>true) plays nice with HTML (patch from Gerrit Kaiser). Closes #230.
 
 == Version 1.1.4
 
