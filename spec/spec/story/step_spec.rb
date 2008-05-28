@@ -129,7 +129,7 @@ module Spec
     end
     
     describe Step do
-      it "should make complain with no block" do
+      it "should complain with no block" do
         lambda {
           step = Step.new("foo")
         }.should raise_error
