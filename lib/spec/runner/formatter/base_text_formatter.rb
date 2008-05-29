@@ -15,6 +15,11 @@ module Spec
           super
           if where.is_a?(String)
             @output = File.open(where, 'w')
+          elsif where == STDOUT
+            @output = Kernel
+            def @output.flush
+              STDOUT.flush
+            end
           else
             @output = where
           end
@@ -76,7 +81,7 @@ module Spec
         end
         
         def close
-          if IO === @output && @output != STDOUT
+          if IO === @output
             @output.close 
           end
         end
@@ -107,7 +112,7 @@ module Spec
 
         def output_to_tty?
           begin
-            @output.tty?
+            @output == Kernel || @output.tty?
           rescue NoMethodError
             false
           end

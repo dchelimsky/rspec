@@ -320,26 +320,6 @@ module Spec
             @out.string.should include('When I say hey (SKIPPED)')
           end
 
-          it "should use colour codes on a tty" do
-            @out.stub!(:tty?).and_return(true)
-            @options.stub!(:colour).and_return(true)
-
-            @formatter.scenario_started('','')
-            @formatter.step_succeeded(:given, 'a context')
-
-            @out.string.should =~ /\e/m
-          end
-
-          it "should not use colour codes on a non-tty" do
-            @out.stub!(:tty?).and_return(false)
-            @options.stub!(:colour).and_return(true)
-
-            @formatter.scenario_started('','')
-            @formatter.step_succeeded(:given, 'a context')
-
-            @out.string.should_not =~ /\e/m
-          end
-
           it "should print steps which succeeded in green" do
             @out.stub!(:tty?).and_return(true)
             @options.stub!(:colour).and_return(true)
