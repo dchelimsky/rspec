@@ -12,14 +12,19 @@ module Spec
       end
 
       def perform(instance, *args)
+        raise Spec::Example::ExamplePendingError.new("Not Yet Implemented") if @pending
         instance.extend(@mod)
         instance.__send__(sanitize(@name), *args)
       end
 
       def init_module(name, &block)
-        sanitized_name = sanitize(name)
-        @mod = Module.new do
-          define_method(sanitized_name, &block)
+        if block
+          sanitized_name = sanitize(name)
+          @mod = Module.new do
+            define_method(sanitized_name, &block)
+          end
+        else
+          @pending = true
         end
       end
       

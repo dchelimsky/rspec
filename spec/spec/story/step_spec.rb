@@ -129,10 +129,11 @@ module Spec
     end
     
     describe Step do
-      it "should complain with no block" do
+      it "should be pending with no block" do
+        step = Step.new("foo")
         lambda {
-          step = Step.new("foo")
-        }.should raise_error
+          step.perform(Object.new)
+        }.should raise_error(Spec::Example::ExamplePendingError)
       end
       
       it "should perform itself on an object" do
