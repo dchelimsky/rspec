@@ -133,7 +133,7 @@ module Spec
         step = Step.new("foo")
         lambda {
           step.perform(Object.new)
-        }.should raise_error(Spec::Example::ExamplePendingError)
+        }.should raise_error(Spec::Example::ExamplePendingError, "Not Yet Implemented")
       end
       
       it "should perform itself on an object" do
