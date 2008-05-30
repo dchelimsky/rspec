@@ -126,6 +126,31 @@ module Spec
         step = Step.new(/show me the \$$money/) {}
         step.matches?("show me the $123").should be_true
       end
+      
+      it "should match a multiline regex" do
+        step = Step.new(/.* should have text.$text/) {}
+        step.matches?(<<TEXT).should be_true
+          should have text
+          this is the text
+          and so is this
+TEXT
+      end
+      
+      it "should match the beginning of the string, not the line" do
+        step = Step.new(/should have text/) {}
+        step.matches?(<<TEXT).should be_false
+whatever
+should have text
+TEXT
+      end
+
+      it "should match the end of the string, not the line" do
+        step = Step.new(/should have text/) {}
+        step.matches?(<<TEXT).should be_false
+should have text
+whatever
+TEXT
+      end
     end
     
     describe Step do

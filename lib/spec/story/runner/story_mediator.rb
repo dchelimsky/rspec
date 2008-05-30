@@ -38,6 +38,14 @@
           current_scenario.add_step Step.new('Then', name)
         end
         
+        def last_step
+          current_scenario.last_step
+        end
+        
+        def add_to_last(name)
+          last_step.name << name
+        end
+        
         def run_stories
           stories.each { |story| @runner.instance_eval(&story) }
         end
@@ -100,9 +108,15 @@
           def add_step(step)
             @steps << step
           end
+          
+          def last_step
+            @steps.last
+          end
         end
         
         class Step
+          attr_reader :name
+          
           def initialize(type, name)
             @type = type
             @name = name

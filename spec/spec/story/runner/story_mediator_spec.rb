@@ -126,6 +126,16 @@ module Spec
           @runner.stories.first[:foo].should == :bar
         end
         
+        it "should description" do
+          @mediator = StoryMediator.new @step_group, @runner, :foo => :bar
+          @mediator.create_story "title", "narrative"
+          @mediator.create_scenario "scenario"
+          @mediator.create_given "something"
+          given = @mediator.last_step
+          @mediator.add_to_last " else"
+          given.name.should == "something else"
+        end
+        
       end
       
     end
