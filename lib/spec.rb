@@ -6,8 +6,8 @@ require 'spec/extensions'
 require 'spec/runner'
 require 'spec/adapters'
 
-if Object.const_defined?(:Test); \
-  require 'spec/interop/test'; \
+if Object.const_defined?(:Test)
+  require 'spec/interop/test'
 end
 
 module Spec
@@ -16,16 +16,16 @@ module Spec
       @run || rspec_options.examples_run?
     end
 
-    def run; \
-      return true if run?; \
-      result = rspec_options.run_examples; \
-      @run = true; \
-      result; \
+    def run
+      return true if run?
+      result = rspec_options.run_examples
+      @run = true
+      result
     end
     attr_writer :run
     
-    def exit?; \
-      !Object.const_defined?(:Test) || Test::Unit.run?; \
+    def exit?
+      !Object.const_defined?(:Test) || Test::Unit.run?
     end
   end
 end
