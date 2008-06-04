@@ -1,5 +1,10 @@
 require File.dirname(__FILE__) + '/../../../spec_helper'
-require 'hpricot' # Needed to compare generated with wanted HTML
+begin
+  require 'hpricot' # Needed to compare generated with wanted HTML
+rescue LoadError
+  warn "hpricot not loaded -- skipping HtmlFormatter specs"
+  return
+end
 require 'spec/runner/formatter/html_formatter'
 
 module Spec
