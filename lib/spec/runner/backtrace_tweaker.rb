@@ -40,7 +40,7 @@ module Spec
       
       def tweak_backtrace(error)
         return if error.backtrace.nil?
-        error.backtrace.collect! do |message|
+        tweaked = error.backtrace.collect do |message|
           clean_up_double_slashes(message)
           kept_lines = message.split("\n").select do |line|
             IGNORE_PATTERNS.each do |ignore|
@@ -49,7 +49,7 @@ module Spec
           end
           kept_lines.empty?? nil : kept_lines.join("\n")
         end
-        error.backtrace.compact!
+        error.set_backtrace(tweaked.select {|line| line})
       end
     end
   end
