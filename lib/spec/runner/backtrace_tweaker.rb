@@ -9,9 +9,11 @@ module Spec
     class NoisyBacktraceTweaker < BacktraceTweaker
       def tweak_backtrace(error)
         return if error.backtrace.nil?
-        error.backtrace.each do |line|
+        tweaked = error.backtrace.collect do |line|
           clean_up_double_slashes(line)
+          line
         end
+        error.set_backtrace(tweaked)
       end
     end
 
