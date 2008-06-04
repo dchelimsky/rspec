@@ -171,7 +171,7 @@ HERE
       common_setup
       @rspec_autotest = Rspec.new
       
-      @spec_file = "spec/autotest/rspec_spec.rb"
+      @spec_file = "spec/autotest/some_spec.rb"
       @rspec_autotest.instance_variable_set("@files", {@spec_file => Time.now})
       @rspec_autotest.stub!(:find_files_to_test).and_return true
     end
@@ -181,7 +181,7 @@ HERE
     end
     
     it "should return a hash with the spec filename => spec name for each failure or error" do
-      @rspec_autotest.stub!(:test_files_for).and_return "spec/autotest/rspec_spec.rb"
+      @rspec_autotest.stub!(:test_files_for).and_return "spec/autotest/some_spec.rb"
       failures = [
         [
           "false should be false", 
@@ -191,6 +191,18 @@ HERE
       @rspec_autotest.consolidate_failures(failures).should == {
         @spec_file => ["false should be false"]
       }
+    end
+    
+    it "should not include the subject file" do
+      subject_file = "lib/autotest/some.rb"
+      @rspec_autotest.stub!(:test_files_for).and_return "spec/autotest/some_spec.rb"
+      failures = [
+        [
+          "false should be false", 
+          "expected: true,\n     got: false (using ==)\n#{subject_file}:143:\n#{@spec_file}:203:"
+        ]
+      ]
+      @rspec_autotest.consolidate_failures(failures).keys.should_not include(subject_file)
     end
     
   end

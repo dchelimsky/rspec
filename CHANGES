@@ -4,6 +4,7 @@
 * Disable color codes on STDOUT when STDOUT.tty? is false (patch from Tim Pope). Closes #413.
 * mock(:null_object=>true) plays nice with HTML (patch from Gerrit Kaiser). Closes #230.
 * a step definition with no block is treated as pending
+* make sure consolidate_failures only grabs _spec files. Closes #369
 
 == Version 1.1.4
 

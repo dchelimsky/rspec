@@ -28,7 +28,7 @@ class Autotest::Rspec < Autotest
   def consolidate_failures(failed)
     filters = new_hash_of_arrays
     failed.each do |spec, trace|
-      if trace =~ /\n(\.\/)?(.*\.rb):[\d]+:\Z?/
+      if trace =~ /\n(\.\/)?(.*spec\.rb):[\d]+:\Z?/
         filters[$2] << spec
       end
     end
