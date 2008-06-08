@@ -258,7 +258,7 @@ module Spec
       end
 
       def registration_backtrace
-        eval("caller", registration_binding_block.binding)
+        eval("caller", registration_binding_block)
       end
 
       def run_before_each(example)
