@@ -4,6 +4,7 @@ steps_for :multiline_steps do
   end
 
   When "I have a When with the same two lines:$text" do |text|
+    text.should == @text
   end
 
   Then "it should match:$text" do |text|

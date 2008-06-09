@@ -1,7 +1,7 @@
-Story: story parser should handle multiline text
+Story: multiline steps in plain text stories
 
-	As an rspec user
-	I want to write steps in stories that have multiline arguments
+	As a plain text story writer
+	I want to write steps with multiline arguments
 	
 	Scenario: two lines
 	
@@ -20,3 +20,4 @@ Story: story parser should handle multiline text
  	  	This is the first line
 			plus this is the second line
 			
+			# And here is another comment
