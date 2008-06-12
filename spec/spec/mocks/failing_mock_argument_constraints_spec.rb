@@ -82,6 +82,13 @@ module Spec
            @mock.msg({})
          end.should raise_error(MockExpectationError, "Mock 'test mock' expected :msg with (hash_including(:a=>1)) but received it with ({})")
       end
+
+      it "should fail with block constraints" do
+        lambda do
+          @mock.should_receive(:msg).with {|arg| arg.should == :received }
+          @mock.msg :no_msg_for_you
+        end.should raise_error(Spec::Expectations::ExpectationNotMetError, /expected: :received.*\s*.*got: :no_msg_for_you/)
+      end
             
     end
       

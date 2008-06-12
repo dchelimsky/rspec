@@ -195,7 +195,7 @@ module Spec
       
       def check_args(args)
         if @constraints_block
-          @constraints_block.call(args)
+          @constraints_block.call(*args)
           return true
         end
         
