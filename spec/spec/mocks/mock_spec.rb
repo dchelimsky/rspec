@@ -472,14 +472,6 @@ module Spec
         @calls.should == 7
       end
     
-      it "should call the block after #with" do
-        @mock.should_receive(:foo).with(:arg) { add_call }
-        
-        @mock.foo(:arg)
-    
-        @calls.should == 1
-      end
-    
       it "should call the block after #ordered" do
         @mock.should_receive(:foo).ordered { add_call }
         @mock.should_receive(:bar).ordered { add_call }

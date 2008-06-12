@@ -202,8 +202,7 @@ module Spec
       end
 
       def with(*args, &block)
-        @method_block = block if block
-        @args_expectation = ArgumentExpectation.new(args)
+        @args_expectation = ArgumentExpectation.new(args, &block)
         self
       end
       

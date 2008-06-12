@@ -143,8 +143,10 @@ module Spec
       @@constraint_classes[:boolean] = BooleanArgConstraint
       @@constraint_classes[:string] = StringArgConstraint
       
-      def initialize(args)
+      def initialize(args, &block)
         @args = args
+        @constraints_block = block
+        
         if [:any_args] == args
           @expected_params = nil
           warn_deprecated(:any_args.inspect, "any_args()")
@@ -192,6 +194,11 @@ module Spec
       end
       
       def check_args(args)
+        if @constraints_block
+          @constraints_block.call(args)
+          return true
+        end
+        
         return true if @expected_params.nil?
         return true if @expected_params == args
         return constraints_match?(args)
