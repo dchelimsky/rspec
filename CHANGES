@@ -6,6 +6,8 @@
 * a step definition with no block is treated as pending
 * make sure consolidate_failures only grabs _spec files. Closes #369
 * Simplifying ExampleGroupMethods#registration_backtrace. (From Wilson Bilkovich - http://metaclass.org/2008/6/7/calling-in-the-dark)
+* Use 127.0.0.1 instead of localhost for drb (thanks Ola Bini)
+* html story formatter correctly colors story/scenario red if step fails (Patch from Joseph Wilk). Closes #300
 
 == Version 1.1.4
 
