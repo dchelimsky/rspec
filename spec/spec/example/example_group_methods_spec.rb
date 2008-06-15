@@ -128,8 +128,11 @@ module Spec
             def testify
               raise "This is not a real test"
             end
+            def should_something
+              # forces the run
+            end
           end
-          example_group.examples.length.should == 0
+          example_group.examples.length.should == 1
           example_group.run.should be_true
         end
 
@@ -516,6 +519,22 @@ module Spec
         it "returns the backtrace of where the ExampleGroup was registered" do
           example_group = Class.new(ExampleGroup)
           example_group.registration_backtrace.join("\n").should include("#{__FILE__}:#{__LINE__-1}")
+        end
+      end
+      
+      describe "#run" do
+        it "should add_example_group if there are any examples to run" do
+          example_group = Class.new(ExampleGroup) do
+            it "should do something" do end
+          end
+          reporter.should_receive(:add_example_group)
+          example_group.run
+        end
+
+        it "should NOT add_example_group if there are no examples to run" do
+          example_group = Class.new(ExampleGroup) do end
+          reporter.should_not_receive(:add_example_group)
+          example_group.run
         end
       end
     end

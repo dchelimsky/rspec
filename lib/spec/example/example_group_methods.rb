@@ -119,7 +119,7 @@ module Spec
 
       def run
         examples = examples_to_run
-        reporter.add_example_group(self)
+        reporter.add_example_group(self) unless examples_to_run.empty?
         return true if examples.empty?
         return dry_run(examples) if dry_run?
 
