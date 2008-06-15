@@ -125,11 +125,11 @@ task :release => [:verify_committed, :verify_user, :spec, :publish_packages, :ta
 
 desc "Verifies that there is no uncommitted code"
 task :verify_committed do
-  # IO.popen('git status') do |io|
-  #   io.each_line do |line|
-  #     raise "\n!!! Do a git commit first !!!\n\n" if line =~ /^#\s*modified:/
-  #   end
-  # end
+  IO.popen('git status') do |io|
+    io.each_line do |line|
+      raise "\n!!! Do a git commit first !!!\n\n" if line =~ /^#\s*modified:/
+    end
+  end
 end
 
 desc "Creates a tag in svn"
