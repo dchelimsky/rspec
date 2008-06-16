@@ -537,6 +537,36 @@ module Spec
           example_group.run
         end
       end
+
+      describe "#matcher_class=" do 
+        it "should call new and matches? on the class used for matching examples" do 
+          example_group = Class.new(ExampleGroup) do
+            it "should do something" do end
+            class << self
+              def specified_examples
+                ["something"]
+              end
+              def to_s
+                "TestMatcher"
+              end
+            end
+          end
+
+          matcher = mock("matcher")
+          matcher.should_receive(:matches?).with(["something"]).any_number_of_times
+          
+          matcher_class = Class.new
+          matcher_class.should_receive(:new).with("TestMatcher", "should do something").twice.and_return(matcher)
+
+          begin 
+            ExampleGroupMethods.matcher_class = matcher_class
+
+            example_group.run
+          ensure 
+            ExampleGroupMethods.matcher_class = ExampleMatcher
+          end
+        end
+      end
     end
   end
 end
