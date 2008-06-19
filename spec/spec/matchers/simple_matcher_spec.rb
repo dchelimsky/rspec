@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 module Spec
   module Matchers
     describe SimpleMatcher do
-      it "should match pass match arg to block" do
+      it "should pass match arg to block" do
         actual = nil
         matcher = simple_matcher("message") do |given| actual = given end
         matcher.matches?("foo")
@@ -14,6 +14,24 @@ module Spec
         matcher = simple_matcher("thing") do end
         matcher.matches?("other")
         matcher.failure_message.should =~ /expected \"thing\" but got \"other\"/
+      end
+      
+      context "with arity of 2" do
+        it "should support a custom failure message" do
+          matcher = simple_matcher("thing") do |given, messenger|
+            messenger.failure_message = "custom message"
+          end
+          matcher.matches?("other")
+          matcher.failure_message.should == "custom message"
+        end
+
+        it "should support a custom negative failure message" do
+          matcher = simple_matcher("thing") do |given, messenger|
+            messenger.negative_failure_message = "custom message"
+          end
+          matcher.matches?("other")
+          matcher.negative_failure_message.should == "custom message"
+        end
       end
       
       it "should provide a stock negative failure message" do
