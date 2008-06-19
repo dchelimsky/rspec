@@ -1,12 +1,9 @@
 module Spec
   module Matchers
     class SimpleMatcher
-      attr_reader :description
-      
       def initialize(description, &match_block)
-        @description = description
+        @messenger = Messenger.new(description)
         @match_block = match_block
-        @messenger = Messenger.new
       end
 
       def matches?(actual)
@@ -16,37 +13,38 @@ module Spec
           @match_block.call(@actual)
       end
 
-      def failure_message()
-        return @messenger.failure_message(@description, @actual)
+      def failure_message
+        @messenger.failure_message(@actual)
       end
         
-      def negative_failure_message()
-        return @messenger.negative_failure_message(@description, @actual)
+      def negative_failure_message
+        @messenger.negative_failure_message(@actual)
+      end
+      
+      def description
+        @messenger.description
+      end
+
+      class Messenger
+        attr_accessor :description
+        attr_writer :failure_message, :negative_failure_message
+
+        def initialize(description)
+          @description = description
+        end
+
+        def failure_message(actual)
+          @failure_message || %[expected #{@description.inspect} but got #{actual.inspect}]
+        end
+
+        def negative_failure_message(actual)
+          @negative_failure_message || %[expected not to get #{@description.inspect}, but got #{actual.inspect}]
+        end
       end
     end
-    
+
     def simple_matcher(message, &match_block)
       SimpleMatcher.new(message, &match_block)
-    end
-    
-    class Messenger
-      def failure_message=(message)
-        @custom_message = message
-      end
-      
-      def negative_failure_message=(message)
-        @custom_negative_message = message
-      end
-      
-      def failure_message(description, actual)
-        @custom_message ? @custom_message :
-          %[expected #{description.inspect} but got #{actual.inspect}]
-      end
-      
-      def negative_failure_message(description, actual)
-        @custom_negative_message ? @custom_negative_message :
-          %[expected not to get #{description.inspect}, but got #{actual.inspect}]
-      end
     end
   end
 end

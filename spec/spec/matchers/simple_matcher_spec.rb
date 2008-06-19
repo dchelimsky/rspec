@@ -28,7 +28,7 @@ module Spec
       end
     end
 
-    context "with arity of 2" do
+    describe "with arity of 2" do
       it "should support a custom failure message" do
         matcher = simple_matcher("thing") do |given, messenger|
           messenger.failure_message = "custom message"
@@ -43,6 +43,14 @@ module Spec
         end
         matcher.matches?("other")
         matcher.negative_failure_message.should == "custom message"
+      end
+      
+      it "should support a custom description" do
+        matcher = simple_matcher("thing") do |given, messenger|
+          messenger.description = "custom message"
+        end
+        matcher.matches?("description")
+        matcher.description.should == "custom message"
       end
     end
     
