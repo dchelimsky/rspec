@@ -11,12 +11,9 @@ module Spec
 
       def matches?(actual)
         @actual = actual
-        case @match_block.arity
-        when 1
-          return @match_block.call(@actual)
-        when 2
-          return @match_block.call(@actual, @messenger)
-        end
+        @match_block.arity == 2 ?
+          @match_block.call(@actual, @messenger) :
+          @match_block.call(@actual)
       end
 
       def failure_message()
