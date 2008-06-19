@@ -88,7 +88,7 @@ spec = Gem::Specification.new do |s|
   s.extra_rdoc_files = rd.rdoc_files.reject { |fn| fn =~ /\.rb$|^EXAMPLES.rd$/ }.to_a
 
   s.bindir = 'bin'
-  s.executables = ['spec', 'spec_translator']
+  s.executables = ['spec', 'spec_translator', 'autospec']
   s.default_executable = 'spec'
   s.author = "RSpec Development Team"
   s.email = "rspec-devel@rubyforge.org"

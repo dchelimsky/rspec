@@ -1,5 +1,11 @@
 == Version 1.1.5 (in git)
 
+IMPORTANT: use the new 'autospec' command instead of 'autotest'. We changed
+the way autotest discovers rspec so the autotest executable won't
+automatically load rspec anymore. This allows rspec to live side by side other
+spec frameworks without always co-opting autotest through autotest's discovery
+mechanism.
+
 * Added additional characters to be escaped in step strings (patch from Jake Cahoon). Closes #417.
 * Disable color codes on STDOUT when STDOUT.tty? is false (patch from Tim Pope). Closes #413.
 * mock(:null_object=>true) plays nice with HTML (patch from Gerrit Kaiser). Closes #230.
@@ -10,6 +16,7 @@
 * html story formatter correctly colors story/scenario red if step fails (Patch from Joseph Wilk). Closes #300
 * plain text story formatter correctly colors story/scenario red if step fails (Patch from Joseph Wilk). Closes #439
 * quiet deprecation warning on inflector - patch from RSL. Closes #430
+* added autospec executable
 
 == Version 1.1.4
 
