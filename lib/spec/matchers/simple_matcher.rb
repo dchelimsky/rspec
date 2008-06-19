@@ -43,6 +43,11 @@ module Spec
     # itself, giving you access to set custom failure messages in favor of the
     # defaults.
     #
+    # If you set custom messages, you don't have to pass the description
+    # argument to the simple_matcher method, but you must then provide any
+    # messages that might get invoked directly to the matcher (see Example
+    # with custom messages, below)
+    #
     # The match_block should return a boolean: true indicates a match, which
     # will pass if you use +should+ and fail if you use +should_not+. false
     # indicates no match, which will do the reverse: fail if you use +should+
@@ -53,7 +58,7 @@ module Spec
     # def be_even
     #   simple_matcher("an even number") { |given| given % 2 == 0 }
     # end
-    #       
+    #         
     # describe 2 do
     #   it "should be even" do
     #     2.should be_even
@@ -66,8 +71,10 @@ module Spec
     # == Example with custom messages
     #
     # def rhyme_with(expected)
-    #   simple_matcher("") do |given, messenger|
-    #     messenger.failure_message = "expected #{given.inspect} to rhyme with #{expected.inspect}"
+    #   simple_matcher do |given, matcher|
+    #     matcher.description = "string rhymer"
+    #     matcher.failure_message = "expected #{given.inspect} to rhyme with #{expected.inspect}"
+    #     matcher.negative_failure_message = "expected #{given.inspect} not to rhyme with #{expected.inspect}"
     #     actual.rhymes_with? expected
     #   end
     # end
@@ -80,8 +87,8 @@ module Spec
     #   end
     # end
     #
-    # The resulting failure message would be 'expected "pecan" to rhyme with "be gone"'.
-    # (Grandma Rita would be proud!)
+    # The resulting failure message would be 'expected "pecan" to rhyme with
+    # "be gone"'. (Grandma Rita would be proud!)
     def simple_matcher(description=nil, &match_block)
       SimpleMatcher.new(description, &match_block)
     end
