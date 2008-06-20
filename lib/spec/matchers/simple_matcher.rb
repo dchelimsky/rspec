@@ -10,9 +10,12 @@ module Spec
 
       def matches?(actual)
         @actual = actual
-        @match_block.arity == 2 ?
-          @match_block.call(@actual, self) :
+        case @match_block.arity
+        when 2
+          @match_block.call(@actual, self)
+        else
           @match_block.call(@actual)
+        end
       end
       
       def description
@@ -50,15 +53,20 @@ module Spec
     #
     # The match_block should return a boolean: true indicates a match, which
     # will pass if you use +should+ and fail if you use +should_not+. false
-    # indicates no match, which will do the reverse: fail if you use +should+
-    # and pass if you use +should_not+.
+    # (or nil) indicates no match, which will do the reverse: fail if you use
+    # +should+ and pass if you use +should_not+.
+    #
+    # An error in the +match_block+ will bubble up, resulting in a failure.
+    # This includes ExpectationNotMet errors (raised by +should+ and
+    # +should_not+), so you can wrap other expectations in a +simple_matcher+
+    # and they'll "do the right thing."
     #
     # == Example with default messages
     #
     # def be_even
     #   simple_matcher("an even number") { |given| given % 2 == 0 }
     # end
-    #         
+    #           
     # describe 2 do
     #   it "should be even" do
     #     2.should be_even
@@ -82,8 +90,8 @@ module Spec
     # describe "pecan" do
     #   it "should rhyme with 'be gone'" do
     #     nut = "pecan"
-    #     reed.extend Rhymer
-    #     reed.should rhyme_with("be gone")
+    #     nut.extend Rhymer
+    #     nut.should rhyme_with("be gone")
     #   end
     # end
     #

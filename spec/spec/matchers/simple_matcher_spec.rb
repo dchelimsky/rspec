@@ -26,6 +26,15 @@ module Spec
         matcher = simple_matcher("thing") do end
         matcher.description.should =="thing"
       end
+      
+      it "should fail if a wrapped 'should' fails" do
+        matcher = simple_matcher("should fail") do
+          2.should == 3
+        end
+        lambda do
+          matcher.matches?("anything").should be_true
+        end.should fail_with(/expected: 3/)
+      end
     end
     
     describe "with arity of 2" do

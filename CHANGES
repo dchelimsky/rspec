@@ -17,6 +17,8 @@ mechanism.
 * plain text story formatter correctly colors story/scenario red if step fails (Patch from Joseph Wilk). Closes #439
 * quiet deprecation warning on inflector - patch from RSL. Closes #430
 * added autospec executable
+* added configurable messages to simple_matcher
+* should and should_not return true on success
 
 == Version 1.1.4
 
