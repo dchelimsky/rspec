@@ -11,8 +11,8 @@ module Spec
       }
     
       def self.engine
-        if const_defined?(:RUBY_ENGINE)
-          return RUBY_ENGINE
+        if Object.const_defined?('RUBY_ENGINE')
+          return Object.const_get('RUBY_ENGINE')
         else
           return 'mri'
         end
