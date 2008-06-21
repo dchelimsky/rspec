@@ -18,6 +18,17 @@ module Spec
         }.should raise_error(ExamplePendingError, /TODO/)
       end
       
+      it 'should raise an ExamplePendingError if a supplied block fails as expected with a mock' do
+        pending("http://rspec.lighthouseapp.com/projects/5645/tickets/444")
+        lambda {
+          include Pending
+          pending "TODO" do
+            m = mock('thing')
+            m.should_receive(:foo)
+          end
+        }.should raise_error(ExamplePendingError, /TODO/)
+      end
+      
       it 'should raise a PendingExampleFixedError if a supplied block starts working' do
         lambda {
           include Pending
