@@ -19,12 +19,12 @@ module Spec
       end
       
       it 'should raise an ExamplePendingError if a supplied block fails as expected with a mock' do
-        pending("http://rspec.lighthouseapp.com/projects/5645/tickets/444")
         lambda {
           include Pending
           pending "TODO" do
             m = mock('thing')
             m.should_receive(:foo)
+            m.rspec_verify
           end
         }.should raise_error(ExamplePendingError, /TODO/)
       end
