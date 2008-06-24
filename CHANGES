@@ -6,6 +6,7 @@ automatically load rspec anymore. This allows rspec to live side by side other
 spec frameworks without always co-opting autotest through autotest's discovery
 mechanism.
 
+* Consider MinGW as valid RUBY_PLATFORM for --colour option. (patch from Luis Lavena). Closes #406.
 * Added additional characters to be escaped in step strings (patch from Jake Cahoon). Closes #417.
 * Disable color codes on STDOUT when STDOUT.tty? is false (patch from Tim Pope). Closes #413.
 * mock(:null_object=>true) plays nice with HTML (patch from Gerrit Kaiser). Closes #230.

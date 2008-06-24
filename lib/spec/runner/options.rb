@@ -125,7 +125,7 @@ module Spec
 
       def colour=(colour)
         @colour = colour
-        if @colour && RUBY_PLATFORM =~ /win32/ ;\
+        if @colour && RUBY_PLATFORM =~ /mswin|mingw/ ;\
           begin ;\
             require 'rubygems' ;\
             require 'Win32/Console/ANSI' ;\
