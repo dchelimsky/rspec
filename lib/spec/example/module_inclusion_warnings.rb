@@ -22,7 +22,8 @@ module Spec
         end
       end
       
-      def respond_to?(sym)
+      # NOTE - we don't need the second arg, but extenders do: http://www.ruby-doc.org/core/classes/Object.html#M000604
+      def respond_to?(sym, include_private_data=false)
         MethodDispatcher.new(self.class.described_module).respond_to?(sym) ? true : super
       end
       
