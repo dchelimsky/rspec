@@ -44,7 +44,7 @@ module Spec
       NAME   = "RSpec"
       URL    = "http://rspec.rubyforge.org/"  
 
-      DESCRIPTION = "#{NAME}-#{FULL_VERSION} - BDD for Ruby\n#{URL}"
+      SUMMARY = "#{NAME}-#{FULL_VERSION} - BDD for Ruby\n#{URL}"
     end
   end
 end

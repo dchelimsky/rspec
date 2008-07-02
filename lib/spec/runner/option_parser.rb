@@ -186,7 +186,7 @@ module Spec
       end
 
       def parse_version
-        @out_stream.puts ::Spec::VERSION::DESCRIPTION
+        @out_stream.puts ::Spec::VERSION::SUMMARY
         exit if stdout?
       end
 
