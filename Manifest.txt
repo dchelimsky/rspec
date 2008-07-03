@@ -196,6 +196,7 @@ lib/spec/story/step_mother.rb
 lib/spec/story/story.rb
 lib/spec/story/world.rb
 lib/spec/translator.rb
+lib/spec/version.rb
 plugins/mock_frameworks/flexmock.rb
 plugins/mock_frameworks/mocha.rb
 plugins/mock_frameworks/rr.rb

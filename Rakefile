@@ -1,9 +1,10 @@
 # -*- ruby -*-
 
+$:.unshift(File.join(File.dirname(__FILE__), 'lib'))
 require 'rubygems'
 require 'hoe'
-require './lib/spec'
-require './lib/spec/rake/spectask'
+require 'spec/version'
+require 'spec/rake/spectask'
 
 class Hoe
   def extra_deps
