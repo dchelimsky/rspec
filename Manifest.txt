@@ -1,7 +1,6 @@
 .autotest
 .gitignore
 History.txt
-MIT-LICENSE
 Manifest.txt
 README.txt
 Rakefile

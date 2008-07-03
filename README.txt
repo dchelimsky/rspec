@@ -1,16 +1,22 @@
-== RSpec
+= RSpec
 
-RSpec is a Behaviour Driven Development framework with tools to express User Stories
-with Executable Scenarios and Executable Examples at the code level.
+* http://rspec.info
+* http://rspec.info/rdoc/
+* http://github.com/dchelimsky/rspec-rails/wikis
+* mailto:rspec-devel@rubyforge.org
 
-RSpec ships with several modules:
+== DESCRIPTION:
 
-Spec::Story provides a framework for expressing User Stories and Scenarios
+RSpec is a Behaviour Driven Development framework with tools to express User
+Stories with Executable Scenarios and Executable Examples at the code level.
 
-Spec::Example provides a framework for expressing Isolated Examples
+== FEATURES:
 
-Spec::Matchers provides Expression Matchers for use with Spec::Expectations
-and Spec::Mocks.
+* Spec::Story provides a framework for expressing User Stories and Scenarios
+* Spec::Example provides a framework for expressing Isolated Examples
+* Spec::Matchers provides Expression Matchers for use with Spec::Expectations and Spec::Mocks.
+
+== SYNOPSIS:
 
 Spec::Expectations supports setting expectations on your objects so you
 can do things like:
@@ -20,17 +26,38 @@ can do things like:
 Spec::Mocks supports creating Mock Objects, Stubs, and adding Mock/Stub
 behaviour to your existing objects.
 
-== Installation
+== INSTALL:
 
-The simplest approach is to install the gem (as root in some environments):
+  [sudo] gem install rspec
 
-  gem install -r rspec
-
-== Building the RSpec gem
-
-If you prefer to build the gem locally:
+ or
 
   git clone git://github.com/dchelimsky/rspec.git
   cd rspec
   rake gem
-  gem install pkg/rspec-0.x.x.gem #as root
+  rake install_gem
+
+== LICENSE:
+
+(The MIT License)
+
+Copyright (c) 2005-2008 The RSpec Development Team
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
