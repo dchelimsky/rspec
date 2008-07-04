@@ -12,9 +12,7 @@ module Spec
       class << self
         include MatcherHandlerHelper
         def handle_matcher(actual, matcher, &block)
-          if :use_operator_matcher == matcher
-            return Spec::Matchers::PositiveOperatorMatcher.new(actual)
-          end
+          return Spec::Matchers::PositiveOperatorMatcher.new(actual) if matcher.nil?
 
           unless matcher.respond_to?(:matches?)
             raise InvalidMatcherError, "Expected a matcher, got #{matcher.inspect}."
@@ -32,9 +30,7 @@ module Spec
       class << self
         include MatcherHandlerHelper
         def handle_matcher(actual, matcher, &block)
-          if :use_operator_matcher == matcher
-            return Spec::Matchers::NegativeOperatorMatcher.new(actual)
-          end
+          return Spec::Matchers::NegativeOperatorMatcher.new(actual) if matcher.nil?
           
           unless matcher.respond_to?(:matches?)
             raise InvalidMatcherError, "Expected a matcher, got #{matcher.inspect}."
