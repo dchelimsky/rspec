@@ -20,6 +20,7 @@ mechanism.
 * added autospec executable
 * added configurable messages to simple_matcher
 * should and should_not return true on success
+* use hoe for build/release
 
 === Version 1.1.4
 
