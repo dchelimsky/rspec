@@ -21,6 +21,7 @@ mechanism.
 * added configurable messages to simple_matcher
 * should and should_not return true on success
 * use hoe for build/release
+* bye, bye translator
 
 === Version 1.1.4
 
