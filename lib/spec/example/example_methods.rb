@@ -63,7 +63,7 @@ module Spec
       end
 
       def description
-        @_defined_description || @_matcher_description || "NO NAME"
+        @_defined_description || ::Spec::Matchers.generated_description || "NO NAME"
       end
 
       def __full_description
@@ -80,12 +80,7 @@ module Spec
       end
 
       def run_with_description_capturing
-        begin
-          return instance_eval(&(@_implementation || PENDING_EXAMPLE_BLOCK))
-        ensure
-          @_matcher_description = Spec::Matchers.generated_description
-          Spec::Matchers.clear_generated_description
-        end
+        return instance_eval(&(@_implementation || PENDING_EXAMPLE_BLOCK))
       end
 
       def implementation_backtrace

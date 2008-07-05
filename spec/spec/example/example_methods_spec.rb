@@ -84,18 +84,28 @@ module Spec
         end
 
         describe "run_with_description_capturing" do
-          before(:each) do
-            @example_group = Class.new(ExampleGroup) do end
-            @example = @example_group.new("foo", &(lambda { 2.should == 2 }))
-            @example.run_with_description_capturing
+          describe "with a given description" do
+            before(:each) do
+              @example_group = Class.new(ExampleGroup) do end
+              @example = @example_group.new("given description", &(lambda { 2.should == 2 }))
+              @example.run_with_description_capturing
+            end
+
+            it "should provide the generated description" do
+              @example.description.should == "given description"
+            end
           end
 
-          it "should provide the generated description" do
-            @example.instance_eval { @_matcher_description }.should == "should == 2"
-          end
+          describe "with a generated description" do
+            before(:each) do
+              @example_group = Class.new(ExampleGroup) do end
+              @example = @example_group.it { 2.should == 2 }
+              @example.run_with_description_capturing
+            end
 
-          it "should clear the global generated_description" do
-            Spec::Matchers.generated_description.should == nil
+            it "should provide the generated description" do
+              @example.description.should == "should == 2"
+            end
           end
         end
       end

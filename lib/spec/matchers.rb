@@ -134,10 +134,16 @@ module Spec
   #
   module Matchers
     module ModuleMethods
-      attr_accessor :generated_description
+      attr_accessor :last_matcher, :last_should
 
       def clear_generated_description
-        self.generated_description = nil
+        self.last_matcher = nil
+        self.last_should = nil
+      end
+      
+      def generated_description
+        last_should.nil? ? nil :
+          "#{last_should} #{last_matcher.respond_to?(:description) ? last_matcher.description : 'NO NAME'}"
       end
     end
 

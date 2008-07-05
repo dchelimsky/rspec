@@ -12,6 +12,7 @@ module Spec
       class << self
         include MatcherHandlerHelper
         def handle_matcher(actual, matcher, &block)
+          ::Spec::Matchers.last_should = "should"
           return Spec::Matchers::PositiveOperatorMatcher.new(actual) if matcher.nil?
 
           unless matcher.respond_to?(:matches?)
@@ -19,7 +20,7 @@ module Spec
           end
           
           match = matcher.matches?(actual, &block)
-          ::Spec::Matchers.generated_description = "should #{describe_matcher(matcher)}"
+          ::Spec::Matchers.last_matcher = matcher
           Spec::Expectations.fail_with(matcher.failure_message) unless match
           match
         end
@@ -30,6 +31,7 @@ module Spec
       class << self
         include MatcherHandlerHelper
         def handle_matcher(actual, matcher, &block)
+          ::Spec::Matchers.last_should = "should not"
           return Spec::Matchers::NegativeOperatorMatcher.new(actual) if matcher.nil?
           
           unless matcher.respond_to?(:matches?)
@@ -46,7 +48,7 @@ EOF
 )
           end
           match = matcher.matches?(actual, &block)
-          ::Spec::Matchers.generated_description = "should not #{describe_matcher(matcher)}"
+          ::Spec::Matchers.last_matcher = matcher
           Spec::Expectations.fail_with(matcher.negative_failure_message) if match
           match
         end
