@@ -83,27 +83,21 @@ module Spec
           ExampleMethods.count.should == 7
         end
 
-        describe "run_with_description_capturing" do
+        describe "eval_block" do
           describe "with a given description" do
-            before(:each) do
+            it "should provide the given description" do
               @example_group = Class.new(ExampleGroup) do end
-              @example = @example_group.new("given description", &(lambda { 2.should == 2 }))
-              @example.run_with_description_capturing
-            end
-
-            it "should provide the generated description" do
+              @example = @example_group.it("given description") { 2.should == 2 }
+              @example.eval_block
               @example.description.should == "given description"
             end
           end
 
-          describe "with a generated description" do
-            before(:each) do
+          describe "with no given description" do
+            it "should provide the generated description" do
               @example_group = Class.new(ExampleGroup) do end
               @example = @example_group.it { 2.should == 2 }
-              @example.run_with_description_capturing
-            end
-
-            it "should provide the generated description" do
+              @example.eval_block
               @example.description.should == "should == 2"
             end
           end

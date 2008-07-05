@@ -18,7 +18,7 @@ module Spec
         Timeout.timeout(options.timeout) do
           begin
             before_example
-            run_with_description_capturing
+            eval_block
           rescue Exception => e
             execution_error ||= e
           end
@@ -79,7 +79,7 @@ module Spec
         end
       end
 
-      def run_with_description_capturing
+      def eval_block
         return instance_eval(&(@_implementation || PENDING_EXAMPLE_BLOCK))
       end
 
