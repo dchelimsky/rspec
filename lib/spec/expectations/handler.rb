@@ -2,15 +2,8 @@ module Spec
   module Expectations
     class InvalidMatcherError < ArgumentError; end        
     
-    module MatcherHandlerHelper
-      def describe_matcher(matcher)
-        matcher.respond_to?(:description) ? matcher.description : "[#{matcher.class.name} does not provide a description]"
-      end
-    end
-    
     class ExpectationMatcherHandler        
       class << self
-        include MatcherHandlerHelper
         def handle_matcher(actual, matcher, &block)
           ::Spec::Matchers.last_should = "should"
           return Spec::Matchers::PositiveOperatorMatcher.new(actual) if matcher.nil?
@@ -29,7 +22,6 @@ module Spec
 
     class NegativeExpectationMatcherHandler
       class << self
-        include MatcherHandlerHelper
         def handle_matcher(actual, matcher, &block)
           ::Spec::Matchers.last_should = "should not"
           return Spec::Matchers::NegativeOperatorMatcher.new(actual) if matcher.nil?
