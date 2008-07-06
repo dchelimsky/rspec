@@ -4,9 +4,8 @@ Story: before suite
 	
 	Scenario: one time set-up
 	
-		Given the file ../resources/spec/before_suite_example.rb
+		Given the file ../resources/spec/before_blocks_example.rb
 		
     When I run it with the ruby interpreter
 
-		Then the stdout should match /defined in before suite/
-		
+		Then the stdout should match "3 examples, 0 failures"
