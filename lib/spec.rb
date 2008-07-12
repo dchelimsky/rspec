@@ -20,7 +20,6 @@ module Spec
       return true if run?
       Runner.options.run_examples
     end
-    attr_writer :run
     
     def exit?
       !Object.const_defined?(:Test) || Test::Unit.run?

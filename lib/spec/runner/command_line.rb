@@ -18,7 +18,6 @@ module Spec
             $rspec_options = instance_rspec_options
             return $rspec_options.run_examples
           ensure
-            ::Spec.run = true
             $rspec_options = orig_rspec_options
           end
         end
