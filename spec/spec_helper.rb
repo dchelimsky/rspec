@@ -97,4 +97,10 @@ describe "sandboxed rspec_options", :shared => true do
   after(:each) do
     Spec::Runner.init_options(@original_rspec_options)
   end
+
+  def run_with(options)
+    Spec::Runner.init_options(options)
+    Spec::Runner::CommandLine.run(options)
+  end
+
 end

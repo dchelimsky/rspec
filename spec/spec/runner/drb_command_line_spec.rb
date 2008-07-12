@@ -3,6 +3,8 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 module Spec
   module Runner
     describe DrbCommandLine, "without running local server" do
+      it_should_behave_like "sandboxed rspec_options"
+      
       unless Config::CONFIG['ruby_install_name'] == 'jruby'
         it "should print error when there is no running local server" do
           err = StringIO.new
@@ -15,12 +17,16 @@ module Spec
       end    
     end
 
-    class DrbCommandLineSpec < ::Spec::Example::ExampleGroup
-      describe DrbCommandLine, "with local server"
+    describe "with local server" do
 
       class CommandLineForSpec
         def self.run(argv, stderr, stdout)
-          exit Spec::Runner::CommandLine.run(OptionParser.parse(argv, stderr, stdout))
+          orig_options = Spec::Runner.options
+          tmp_options = OptionParser.parse(argv, stderr, stdout)
+          Spec::Runner.init_options(tmp_options)
+          Spec::Runner::CommandLine.run(tmp_options)
+        ensure
+          Spec::Runner.init_options(orig_options)
         end
       end
       
@@ -86,7 +92,8 @@ module Spec
           out.rewind; out.read
         end
       end
-
+      
     end
+
   end
 end

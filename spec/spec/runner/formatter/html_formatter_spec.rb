@@ -6,6 +6,7 @@ module Spec
   module Runner
     module Formatter
       describe HtmlFormatter do
+        it_should_behave_like "sandboxed rspec_options"
         ['--diff', '--dry-run'].each do |opt|
           def jruby?
             PLATFORM == 'java'
@@ -22,7 +23,7 @@ module Spec
               args = ['failing_examples/mocking_example.rb', 'failing_examples/diffing_spec.rb', 'examples/pure/stubbing_example.rb',  'examples/pure/pending_example.rb', '--format', 'html', opt]
               err = StringIO.new
               out = StringIO.new
-              CommandLine.run(
+              run_with(
                 OptionParser.parse(args, err, out)
               )
 

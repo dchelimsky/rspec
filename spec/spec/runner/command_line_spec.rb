@@ -9,10 +9,10 @@ module Spec
         @err = options.error_stream
         @out = options.output_stream
       end
-
+      
       it "should run directory" do
         file = File.dirname(__FILE__) + '/../../../examples/pure'
-        Spec::Runner::CommandLine.run(OptionParser.parse([file,"-p","**/*.rb"], @err, @out))
+        run_with(OptionParser.parse([file,"-p","**/*.rb"], @err, @out))
 
         @out.rewind
         @out.read.should =~ /\d+ examples, 0 failures, 3 pending/n
@@ -20,7 +20,7 @@ module Spec
 
       it "should run file" do
         file = File.dirname(__FILE__) + '/../../../failing_examples/predicate_example.rb'
-        Spec::Runner::CommandLine.run(OptionParser.parse([file], @err, @out))
+        run_with(OptionParser.parse([file], @err, @out))
 
         @out.rewind
         @out.read.should =~ /2 examples, 1 failure/n
@@ -130,7 +130,7 @@ module Spec
         options.reporter.should_receive(:add_example_group).with(example_group)
 
         options.add_example_group example_group
-        Spec::Runner::CommandLine.run(OptionParser.parse([], @err, @out))
+        run_with(options)
 
         should_has_run.should be_true
         should_not_has_run.should be_false
