@@ -6,6 +6,9 @@ automatically load rspec anymore. This allows rspec to live side by side other
 spec frameworks without always co-opting autotest through autotest's discovery
 mechanism.
 
+ALSO IMPORTANT: $rspec_options is gone. If you were using this for anything
+(like your own runners), use Spec::Runner.options instead.
+
 * Consider MinGW as valid RUBY_PLATFORM for --colour option. (patch from Luis Lavena). Closes #406.
 * Added additional characters to be escaped in step strings (patch from Jake Cahoon). Closes #417.
 * Disable color codes on STDOUT when STDOUT.tty? is false (patch from Tim Pope). Closes #413.
