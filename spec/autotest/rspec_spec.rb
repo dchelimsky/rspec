@@ -37,62 +37,6 @@ HERE
   end
 
   describe Rspec do
-    describe "selection of rspec command" do
-      include AutotestHelper
-    
-      before(:each) do
-        common_setup
-        @rspec_autotest = Rspec.new
-      end
-    
-      it "should try to find the spec command if it exists in ./bin and use it above everything else" do
-        File.stub!(:exists?).and_return true
-
-        spec_path = File.expand_path("#{File.dirname(__FILE__)}/../../bin/spec")
-        File.should_receive(:exists?).with(spec_path).and_return true
-        @rspec_autotest.spec_command.should == spec_path
-      end
-
-      it "should otherwise select the default spec command in gem_dir/bin/spec" do
-        @rspec_autotest.stub!(:spec_commands).and_return ["/foo/spec"]
-        Config::CONFIG.stub!(:[]).and_return "/foo"
-        File.should_receive(:exists?).with("/foo/spec").and_return(true)
-
-        @rspec_autotest.spec_command.should == "/foo/spec"
-      end
-    
-      it "should raise an error if no spec command is found at all" do
-        File.stub!(:exists?).and_return false
-      
-        lambda {
-          @rspec_autotest.spec_command
-        }.should raise_error(RspecCommandError, "No spec command could be found!")
-      end
-    end
-    
-    describe "selection of rspec command (windows compatibility issues)" do
-      include AutotestHelper
-    
-      before(:each) do
-        common_setup
-      end
-    
-      it "should use the ALT_SEPARATOR if it is non-nil" do
-        @rspec_autotest = Rspec.new
-        spec_command = File.expand_path("#{File.dirname(__FILE__)}/../../bin/spec")
-        @rspec_autotest.stub!(:spec_commands).and_return [spec_command]
-        @rspec_autotest.spec_command(@windows_alt_separator).should == spec_command.gsub('/', @windows_alt_separator)
-      end
-    
-      it "should not use the ALT_SEPATOR if it is nil" do
-        @windows_alt_separator = nil
-        @rspec_autotest = Rspec.new
-        spec_command = File.expand_path("#{File.dirname(__FILE__)}/../../bin/spec")
-        @rspec_autotest.stub!(:spec_commands).and_return [spec_command]
-        @rspec_autotest.spec_command.should == spec_command
-      end
-    end
-
     describe "adding spec.opts --options" do 
       before(:each) do
         @rspec_autotest = Rspec.new
@@ -116,7 +60,6 @@ HERE
         @rspec_autotest.stub!(:add_options_if_present).and_return "-O spec/spec.opts"
       
         @ruby = @rspec_autotest.ruby
-        @spec_command = @rspec_autotest.spec_command
         @options = @rspec_autotest.add_options_if_present
         @files_to_test = {
           :spec => ["file_one", "file_two"]
@@ -126,16 +69,9 @@ HERE
         @files_to_test.stub!(:keys).and_return @files_to_test[:spec]
         @to_test = @files_to_test.keys.flatten.join ' '
       end
-
-      it "should contain the various commands, ordered by preference" do
-        Rspec.new.spec_commands.should == [
-          File.expand_path("#{File.dirname(__FILE__)}/../../bin/spec"),
-          "#{Config::CONFIG['bindir']}/spec"
-        ]
-      end
     
       it "should make the apropriate test command" do
-        @rspec_autotest.make_test_cmd(@files_to_test).should == "#{@ruby} -S #{@spec_command} #{@options} #{@to_test}"
+        @rspec_autotest.make_test_cmd(@files_to_test).should == "#{@ruby} -S #{@to_test} #{@options}"
       end
     end
   

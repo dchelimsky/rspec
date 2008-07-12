@@ -36,37 +36,10 @@ class Autotest::Rspec < Autotest
   end
 
   def make_test_cmd(files_to_test)
-    return "#{ruby} -S #{spec_command} #{add_options_if_present} #{files_to_test.keys.flatten.join(' ')}"
+    return "#{ruby} -S #{files_to_test.keys.flatten.join(' ')} #{add_options_if_present}"
   end
   
   def add_options_if_present # :nodoc:
     File.exist?("spec/spec.opts") ? "-O spec/spec.opts " : ""
-  end
-
-  # Finds the proper spec command to use.  Precendence is set in the
-  # lazily-evaluated method spec_commands.  Alias + Override that in
-  # ~/.autotest to provide a different spec command then the default
-  # paths provided.
-  def spec_command(separator=File::ALT_SEPARATOR)
-    unless defined? @spec_command then
-      @spec_command = spec_commands.find { |cmd| File.exists? cmd }
-
-      raise RspecCommandError, "No spec command could be found!" unless @spec_command
-
-      @spec_command.gsub! File::SEPARATOR, separator if separator
-    end
-    @spec_command
-  end
-
-  # Autotest will look for spec commands in the following
-  # locations, in this order:
-  #
-  #   * bin/spec
-  #   * default spec bin/loader installed in Rubygems
-  def spec_commands
-    [
-      File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'bin', 'spec')),
-      File.join(Config::CONFIG['bindir'], 'spec')
-    ]
   end
 end
