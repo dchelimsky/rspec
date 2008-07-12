@@ -21,59 +21,10 @@ module Spec
     def fail_with(message)
       raise_error(Spec::Expectations::ExpectationNotMetError, message)
     end
-
-    class Pass
-      def matches?(proc, &block)
-        begin
-          proc.call
-          true
-        rescue Exception => @error
-          false
-        end
-      end
-
-      def failure_message
-        @error.message + "\n" + @error.backtrace.join("\n")
-      end
-    end
-
-    def pass
-      Pass.new
-    end
-    
-    class CorrectlyOrderedMockExpectation
-      def initialize(&event)
-        @event = event
-      end
-      
-      def expect(&expectations)
-        expectations.call
-        @event.call
-      end
-    end
-    
-    def during(&block)
-      CorrectlyOrderedMockExpectation.new(&block) 
-    end
   end
 end
 
 class NonStandardError < Exception; end
-
-module Custom
-  class ExampleGroupRunner
-    attr_reader :options, :arg
-    def initialize(options, arg)
-      @options, @arg = options, arg
-    end
-
-    def load_files(files)
-    end
-
-    def run
-    end
-  end  
-end
 
 def exception_from(&block)
   exception = nil
