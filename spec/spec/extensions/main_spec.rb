@@ -25,7 +25,7 @@ module Spec
 
       it "should registered ExampleGroups by default" do
         example_group = @main.describe("The ExampleGroup") do end
-        Spec.options.example_groups.should include(example_group)
+        Spec::Runner.options.example_groups.should include(example_group)
       end
 
       it "should not run unregistered ExampleGroups" do
@@ -33,7 +33,7 @@ module Spec
           unregister
         end
 
-        Spec.options.example_groups.should_not include(example_group)
+        Spec::Runner.options.example_groups.should_not include(example_group)
       end
       
       it "should create a shared ExampleGroup with share_examples_for" do

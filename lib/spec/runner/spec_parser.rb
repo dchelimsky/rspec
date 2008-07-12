@@ -11,7 +11,7 @@ module Spec
       def spec_name_for(file, line_number)
         best_match.clear
         file = File.expand_path(file)
-        Spec.options.example_groups.each do |example_group|
+        Spec::Runner.options.example_groups.each do |example_group|
           consider_example_groups_for_best_match example_group, file, line_number
 
           example_group.examples.each do |example|

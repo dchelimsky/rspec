@@ -10,7 +10,7 @@ module Spec
     module Runner
       class << self
         def run_options # :nodoc:
-          Spec.options
+          Spec::Runner.options
         end
         
         def story_runner # :nodoc:

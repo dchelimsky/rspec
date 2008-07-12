@@ -196,6 +196,20 @@ module Spec
           $spec_runner_at_exit_hook_registered = true
         end
       end
+
+      def options
+        $rspec_options ||= begin; \
+          parser = ::Spec::Runner::OptionParser.new(STDERR, STDOUT); \
+          parser.order!(ARGV); \
+          $rspec_options = parser.options; \
+        end
+        $rspec_options
+      end
+
+      def init_options(options)
+        $rspec_options = options if $rspec_options.nil?
+      end
+
     end
   end
 end
