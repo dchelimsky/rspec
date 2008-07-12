@@ -198,10 +198,10 @@ module Spec
       end
 
       def options # :nodoc:
-        @options ||= begin; \
-          parser = ::Spec::Runner::OptionParser.new(STDERR, STDOUT); \
-          parser.order!(ARGV); \
-          parser.options; \
+        @options ||= begin
+          parser = ::Spec::Runner::OptionParser.new(STDERR, STDOUT)
+          parser.order!(ARGV)
+          parser.options
         end
       end
       
