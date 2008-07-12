@@ -13,6 +13,16 @@ require spec_classes_path unless $LOAD_PATH.include?(spec_classes_path)
 require File.dirname(__FILE__) + '/../lib/spec/expectations/differs/default'
 
 module Spec
+  module Runner
+    class << self
+      attr_writer :options
+    end
+  end
+  
+  module Example
+    class NonStandardError < Exception; end
+  end
+
   module Matchers
     def fail
       raise_error(Spec::Expectations::ExpectationNotMetError)
@@ -21,19 +31,17 @@ module Spec
     def fail_with(message)
       raise_error(Spec::Expectations::ExpectationNotMetError, message)
     end
-  end
-end
 
-class NonStandardError < Exception; end
-
-def exception_from(&block)
-  exception = nil
-  begin
-    yield
-  rescue StandardError => e
-    exception = e
+    def exception_from(&block)
+      exception = nil
+      begin
+        yield
+      rescue StandardError => e
+        exception = e
+      end
+      exception
+    end
   end
-  exception
 end
 
 share_as :SandboxedOptions do
@@ -53,11 +61,3 @@ share_as :SandboxedOptions do
     ::Spec::Runner::CommandLine.run(options)
   end
 end unless Object.const_defined?(:SandboxedOptions)
-
-module Spec
-  module Runner
-    class << self
-      attr_writer :options
-    end
-  end
-end
