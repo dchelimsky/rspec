@@ -12,11 +12,6 @@ module Spec
         $rspec_story_steps = @original_rspec_story_steps
       end
 
-      it "should create an Options object" do
-        @main.send(:rspec_options).should be_instance_of(Spec::Runner::Options)
-        @main.send(:rspec_options).should === $rspec_options
-      end
-  
       specify {@main.should respond_to(:describe)}
       specify {@main.should respond_to(:context)}
 
@@ -30,7 +25,7 @@ module Spec
 
       it "should registered ExampleGroups by default" do
         example_group = @main.describe("The ExampleGroup") do end
-        rspec_options.example_groups.should include(example_group)
+        Spec.options.example_groups.should include(example_group)
       end
 
       it "should not run unregistered ExampleGroups" do
@@ -38,7 +33,7 @@ module Spec
           unregister
         end
 
-        rspec_options.example_groups.should_not include(example_group)
+        Spec.options.example_groups.should_not include(example_group)
       end
       
       it "should create a shared ExampleGroup with share_examples_for" do

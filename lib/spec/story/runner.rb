@@ -10,8 +10,7 @@ module Spec
     module Runner
       class << self
         def run_options # :nodoc:
-          rspec_options
-          # @run_options ||= ::Spec::Runner::OptionParser.parse(ARGV, $stderr, $stdout)
+          Spec.options
         end
         
         def story_runner # :nodoc:

@@ -125,14 +125,14 @@ module Spec
         it "should register ExampleGroup by default" do
           example_group = Spec::Example::ExampleGroupFactory.create_example_group("The ExampleGroup") do
           end
-          rspec_options.example_groups.should include(example_group)
+          Spec.options.example_groups.should include(example_group)
         end
 
         it "should enable unregistering of ExampleGroups" do
           example_group = Spec::Example::ExampleGroupFactory.create_example_group("The ExampleGroup") do
             unregister
           end
-          rspec_options.example_groups.should_not include(example_group)
+          Spec.options.example_groups.should_not include(example_group)
         end
 
         after(:each) do

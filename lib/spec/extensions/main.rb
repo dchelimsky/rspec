@@ -80,21 +80,6 @@ module Spec
           raise NameError.new(e.message + "\nThe first argument to share_as must be a legal name for a constant\n")
         end
       end
-
-    private
-    
-      def rspec_options
-        $rspec_options ||= begin; \
-          parser = ::Spec::Runner::OptionParser.new(STDERR, STDOUT); \
-          parser.order!(ARGV); \
-          $rspec_options = parser.options; \
-        end
-        $rspec_options
-      end
-      
-      def init_rspec_options(options)
-        $rspec_options = options if $rspec_options.nil?
-      end
     end
   end
 end

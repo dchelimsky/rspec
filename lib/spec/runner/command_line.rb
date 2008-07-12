@@ -12,8 +12,8 @@ module Spec
           # swapping of $rspec_options. That is all here to enable rspec to run against itself
           # and maintain coverage in a single process. Therefore, DO NOT mess with this stuff
           # unless you know what you are doing!
-          init_rspec_options(instance_rspec_options)
-          orig_rspec_options = rspec_options
+          Spec.init_options(instance_rspec_options)
+          orig_rspec_options = Spec.options
           begin
             $rspec_options = instance_rspec_options
             return $rspec_options.run_examples
