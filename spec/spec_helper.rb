@@ -89,18 +89,25 @@ describe "sandboxed rspec_options", :shared => true do
   attr_reader :options
 
   before(:each) do
-    @original_rspec_options = Spec::Runner.options
-    @options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
-    Spec::Runner.init_options(@options)
+    @original_rspec_options = ::Spec::Runner.options
+    ::Spec::Runner.options = @options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
   end
 
   after(:each) do
-    Spec::Runner.init_options(@original_rspec_options)
+    ::Spec::Runner.options = @original_rspec_options
   end
 
   def run_with(options)
-    Spec::Runner.init_options(options)
-    Spec::Runner::CommandLine.run(options)
+    ::Spec::Runner.options = options
+    ::Spec::Runner::CommandLine.run(options)
   end
 
+end
+
+module Spec
+  module Runner
+    class << self
+      attr_writer :options
+    end
+  end
 end

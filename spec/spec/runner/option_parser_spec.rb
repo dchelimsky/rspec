@@ -231,19 +231,19 @@ describe "OptionParser" do
   
   describe "when attempting a focussed spec" do
     attr_reader :file, :dir
-    before do
+    before(:each) do
       @original_rspec_options = Spec::Runner.options
       @file = "#{File.dirname(__FILE__)}/spec_parser/spec_parser_fixture.rb"
       @dir = File.dirname(file)
     end
   
-    after do
-      Spec::Runner.init_options(@original_rspec_options)
+    after(:each) do
+      Spec::Runner.options = @original_rspec_options
     end
   
     def parse(args)
       options = super
-      Spec::Runner.init_options(options)
+      Spec::Runner.options = options
       options.filename_pattern = "*_fixture.rb"
       options
     end

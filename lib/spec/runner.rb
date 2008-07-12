@@ -197,16 +197,12 @@ module Spec
         end
       end
 
-      def options
-        @rspec_options ||= begin; \
+      def options # :nodoc:
+        @options ||= begin; \
           parser = ::Spec::Runner::OptionParser.new(STDERR, STDOUT); \
           parser.order!(ARGV); \
           parser.options; \
         end
-      end
-
-      def init_options(options)
-        @rspec_options = options
       end
 
     end
