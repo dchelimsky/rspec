@@ -88,16 +88,13 @@ end
 describe "sandboxed rspec_options", :shared => true do
   attr_reader :options
 
-  before(:all) do
-    @original_rspec_options = $rspec_options
-  end
-
   before(:each) do
+    @original_rspec_options = Spec::Runner.options
     @options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
-    $rspec_options = options
+    Spec::Runner.init_options(@options)
   end
 
-  after do
-    $rspec_options = @original_rspec_options
+  after(:each) do
+    Spec::Runner.init_options(@original_rspec_options)
   end
 end

@@ -23,9 +23,9 @@ module Spec
 
       describe "lifecycle" do
         before do
-          @original_rspec_options = $rspec_options
+          @original_rspec_options = Spec::Runner.options
           @options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
-          $rspec_options = @options
+          Spec::Runner.init_options(@options)
           @options.formatters << mock("formatter", :null_object => true)
           @options.backtrace_tweaker = mock("backtrace_tweaker", :null_object => true)
           @reporter = FakeReporter.new(@options)
@@ -43,7 +43,7 @@ module Spec
         end
 
         after do
-          $rspec_options = @original_rspec_options
+          Spec::Runner.init_options(@original_rspec_options)
           ExampleMethods.instance_variable_set("@before_all_parts", [])
           ExampleMethods.instance_variable_set("@before_each_parts", [])
           ExampleMethods.instance_variable_set("@after_each_parts", [])

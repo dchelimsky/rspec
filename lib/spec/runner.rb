@@ -198,16 +198,15 @@ module Spec
       end
 
       def options
-        $rspec_options ||= begin; \
+        @rspec_options ||= begin; \
           parser = ::Spec::Runner::OptionParser.new(STDERR, STDOUT); \
           parser.order!(ARGV); \
-          $rspec_options = parser.options; \
+          parser.options; \
         end
-        $rspec_options
       end
 
       def init_options(options)
-        $rspec_options = options if $rspec_options.nil?
+        @rspec_options = options
       end
 
     end
