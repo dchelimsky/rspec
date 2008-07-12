@@ -54,7 +54,7 @@ module Spec
         :argv
       )
       attr_reader :colour, :differ_class, :files, :example_groups
-
+      
       def initialize(error_stream, output_stream)
         @error_stream = error_stream
         @output_stream = output_stream
@@ -89,14 +89,20 @@ module Spec
         return true unless examples_should_be_run?
         success = true
         begin
-          before_suite_parts.each do |part|
-            part.call
-          end
           runner = custom_runner || ExampleGroupRunner.new(self)
 
           unless @files_loaded
             runner.load_files(files_to_load)
             @files_loaded = true
+          end
+
+          # TODO - this has to happen after the files get loaded,
+          # otherwise the before_suite_parts are not populated
+          # from the configuration. There is no spec for this
+          # directly, but stories/configuration/before_blocks.story
+          # will fail if this happens before the files are loaded.
+          before_suite_parts.each do |part|
+            part.call
           end
 
           if example_groups.empty?
