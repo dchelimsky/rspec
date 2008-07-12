@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 module Spec
   module Runner
     describe CommandLine, ".run" do
-      it_should_behave_like "sandboxed rspec_options"
+      include SandboxedOptions
       attr_reader :options, :err, :out
       before do
         @err = options.error_stream

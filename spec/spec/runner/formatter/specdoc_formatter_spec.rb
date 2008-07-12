@@ -5,7 +5,7 @@ module Spec
   module Runner
     module Formatter
       describe SpecdocFormatter do
-        it_should_behave_like "sandboxed rspec_options"
+        include SandboxedOptions
         attr_reader :io, :options, :formatter, :example_group
         before(:each) do
           @io = StringIO.new

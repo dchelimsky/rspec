@@ -6,7 +6,7 @@ module Spec
   module Runner
     module Formatter
       describe TextMateFormatter do
-        it_should_behave_like "sandboxed rspec_options"
+        include SandboxedOptions
         attr_reader :root, :suffix, :expected_file
         before do
           @root = File.expand_path(File.dirname(__FILE__) + '/../../../..')

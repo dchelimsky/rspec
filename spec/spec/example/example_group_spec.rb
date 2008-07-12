@@ -65,7 +65,7 @@ module Spec
     end
 
     describe ExampleGroup, "#run" do
-      it_should_behave_like "sandboxed rspec_options"
+      include SandboxedOptions
       attr_reader :example_group, :formatter, :reporter
       before :each do
         @formatter = mock("formatter", :null_object => true)

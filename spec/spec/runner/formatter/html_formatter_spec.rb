@@ -6,7 +6,7 @@ module Spec
   module Runner
     module Formatter
       describe HtmlFormatter do
-        it_should_behave_like "sandboxed rspec_options"
+        include SandboxedOptions
         ['--diff', '--dry-run'].each do |opt|
           def jruby?
             PLATFORM == 'java'

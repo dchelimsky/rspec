@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 module Spec
   module Example
     describe 'ExampleGroupMethods' do
-      it_should_behave_like "sandboxed rspec_options"
+      include SandboxedOptions
       attr_reader :example_group, :result, :reporter
       before(:each) do
         options.formatters << mock("formatter", :null_object => true)

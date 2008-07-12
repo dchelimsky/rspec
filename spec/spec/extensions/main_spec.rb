@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 module Spec
   module Extensions
     describe Main do
-      it_should_behave_like "sandboxed rspec_options"
+      include SandboxedOptions
       before(:each) do
         @main = Class.new do; include Main; end
       end

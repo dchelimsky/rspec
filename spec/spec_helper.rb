@@ -85,7 +85,7 @@ def exception_from(&block)
   exception
 end
 
-describe "sandboxed rspec_options", :shared => true do
+share_as :SandboxedOptions do
   attr_reader :options
 
   before(:each) do
@@ -101,8 +101,7 @@ describe "sandboxed rspec_options", :shared => true do
     ::Spec::Runner.options = options
     ::Spec::Runner::CommandLine.run(options)
   end
-
-end
+end unless Object.const_defined?(:SandboxedOptions)
 
 module Spec
   module Runner

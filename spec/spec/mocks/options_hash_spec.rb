@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 module Spec
   module Mocks
     describe "calling :should_receive with an options hash" do
-      it_should_behave_like "sandboxed rspec_options"
+      include SandboxedOptions
       attr_reader :reporter, :example_group
       before do
         @reporter = ::Spec::Runner::Reporter.new(options)
