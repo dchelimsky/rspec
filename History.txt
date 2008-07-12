@@ -25,6 +25,7 @@ ALSO IMPORTANT: $rspec_options is gone. If you were using this for anything
 * should and should_not return true on success
 * use hoe for build/release
 * bye, bye translator
+* autotest/rspec uses ruby command instead of spec command (no need for spec command unless loading directories)
 
 === Version 1.1.4
 
