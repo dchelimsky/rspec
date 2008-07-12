@@ -23,10 +23,10 @@ module Spec
         def self.run(argv, stderr, stdout)
           orig_options = Spec::Runner.options
           tmp_options = OptionParser.parse(argv, stderr, stdout)
-          Spec::Runner.options = tmp_options
+          Spec::Runner.use tmp_options
           Spec::Runner::CommandLine.run(tmp_options)
         ensure
-          Spec::Runner.options = orig_options
+          Spec::Runner.use orig_options
         end
       end
       

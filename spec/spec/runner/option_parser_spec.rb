@@ -253,12 +253,12 @@ describe "OptionParser" do
     end
   
     after(:each) do
-      Spec::Runner.options = @original_rspec_options
+      Spec::Runner.use @original_rspec_options
     end
   
     def parse(args)
       options = super
-      Spec::Runner.options = options
+      Spec::Runner.use options
       options.filename_pattern = "*_fixture.rb"
       options
     end

@@ -204,6 +204,10 @@ module Spec
           parser.options; \
         end
       end
+      
+      def use options
+        @options = options
+      end
 
     end
   end

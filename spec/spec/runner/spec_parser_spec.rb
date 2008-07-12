@@ -4,14 +4,14 @@ describe "SpecParser" do
   attr_reader :parser, :file
   before(:each) do
     @original_rspec_options = Spec::Runner.options
-    Spec::Runner.options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
+    Spec::Runner.use ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
     @parser = Spec::Runner::SpecParser.new
     @file = "#{File.dirname(__FILE__)}/spec_parser/spec_parser_fixture.rb"
     load file
   end
 
   after(:each) do
-    Spec::Runner.options = @original_rspec_options
+    Spec::Runner.use @original_rspec_options
   end
 
   it "should find spec name for 'specify' at same line" do

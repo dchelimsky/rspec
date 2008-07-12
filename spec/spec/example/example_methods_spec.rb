@@ -25,7 +25,7 @@ module Spec
         before do
           @original_rspec_options = Spec::Runner.options
           @options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
-          Spec::Runner.options = @options
+          Spec::Runner.use @options
           @options.formatters << mock("formatter", :null_object => true)
           @options.backtrace_tweaker = mock("backtrace_tweaker", :null_object => true)
           @reporter = FakeReporter.new(@options)
@@ -43,7 +43,7 @@ module Spec
         end
 
         after do
-          Spec::Runner.options = @original_rspec_options
+          Spec::Runner.use @original_rspec_options
           ExampleMethods.instance_variable_set("@before_all_parts", [])
           ExampleMethods.instance_variable_set("@before_each_parts", [])
           ExampleMethods.instance_variable_set("@after_each_parts", [])
