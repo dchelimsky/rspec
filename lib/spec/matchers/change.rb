@@ -27,9 +27,9 @@ EOF
       end
       
       def execute_change
-        @before = @block.nil? ? @receiver.send(@message) : @block.call
+        @before = @block.nil? ? @receiver.__send__(@message) : @block.call
         @target.call
-        @after = @block.nil? ? @receiver.send(@message) : @block.call
+        @after = @block.nil? ? @receiver.__send__(@message) : @block.call
       end
       
       def failure_message

@@ -8,7 +8,7 @@ module Spec
       end
       
       def matches?(target)
-        target.send(predicate, *@args)
+        target.__send__(predicate, *@args)
       end
       
       def failure_message

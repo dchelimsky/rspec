@@ -57,7 +57,7 @@ module Spec
       def __delegate_method_missing_to_target(operator, expected)
         @operator = operator
         ::Spec::Matchers.last_matcher = self
-        return true if @target.send(operator, expected)
+        return true if @target.__send__(operator, expected)
         return fail_with_message("expected: #{expected.inspect},\n     got: #{@target.inspect} (using #{operator})") if ['==','===', '=~'].include?(operator)
         return fail_with_message("expected: #{operator} #{expected.inspect},\n     got: #{operator.gsub(/./, ' ')} #{@target.inspect}")
       end
@@ -69,7 +69,7 @@ module Spec
       def __delegate_method_missing_to_target(operator, expected)
         @operator = operator
         ::Spec::Matchers.last_matcher = self
-        return true unless @target.send(operator, expected)
+        return true unless @target.__send__(operator, expected)
         return fail_with_message("expected not: #{operator} #{expected.inspect},\n         got: #{operator.gsub(/./, ' ')} #{@target.inspect}")
       end
 

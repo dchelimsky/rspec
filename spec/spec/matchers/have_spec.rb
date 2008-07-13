@@ -324,3 +324,32 @@ describe "have(n).things on an object which is not a collection nor contains one
     lambda { Object.new.should have(2).things }.should raise_error(NoMethodError, /undefined method `things' for #<Object:/)
   end
 end
+
+describe Spec::Matchers::Have, "for a collection owner that implements #send" do
+  include HaveSpecHelper
+
+  before(:each) do
+    @collection = Object.new
+    def @collection.floozles; [1,2] end
+    def @collection.send(*args); raise "DOH! Library developers shouldn't use #send!" end
+  end
+  
+  it "should work in the straightforward case" do
+    lambda {
+      @collection.should have(2).floozles
+    }.should_not raise_error
+  end
+
+  it "should work when doing automatic pluralization" do
+    lambda {
+      @collection.should have_at_least(1).floozle
+    }.should_not raise_error
+  end
+
+  it "should blow up when the owner doesn't respond to that method" do
+    lambda {
+      @collection.should have(99).problems
+    }.should raise_error(NoMethodError, /problems/)
+  end
+  
+end
