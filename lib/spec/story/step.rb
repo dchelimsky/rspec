@@ -19,11 +19,11 @@ module Spec
       end
 
       def matches?(name)
-        !(matches = name.match(@expression)).nil?
+        !(name.strip =~ @expression).nil?
       end
             
       def parse_args(name)
-        name.match(@expression)[1..-1]
+        name.strip.match(@expression)[1..-1]
       end
 
       private

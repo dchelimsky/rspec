@@ -2,10 +2,15 @@ require File.dirname(__FILE__) + '/story_helper'
 
 module Spec
   module Story
-    describe Step, "matching" do
+    describe Step, "#matching" do
       it "should match a text string" do
         step = Step.new("this text") {}
         step.matches?("this text").should be_true
+      end
+      
+      it "should match a text string that has additional line returns" do
+        step = Step.new("this text") {}
+        step.matches?("this text\n\n").should be_true
       end
       
       it "should not match a text string that does not start the same" do
@@ -133,7 +138,7 @@ module Spec
       end
       
       it "should match a multiline regex" do
-        step = Step.new(/.* should have text.$text/) {}
+        step = Step.new(/.*should have text.$text/) {}
         step.matches?(<<TEXT).should be_true
           should have text
           this is the text
@@ -155,6 +160,18 @@ TEXT
 should have text
 whatever
 TEXT
+      end
+    end
+    
+    describe Step, "#parse_args" do
+      it "should return an empty array for a text string with no parameters" do
+        step = Step.new("this text") {}
+        step.parse_args("this text").should == []
+      end
+      
+      it "should return an empty array for a text string with additional line returns and no parameters" do
+        step = Step.new("this text") {}
+        step.parse_args("this text\n\n").should == []
       end
     end
     
