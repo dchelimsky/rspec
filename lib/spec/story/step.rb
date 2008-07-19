@@ -60,7 +60,7 @@ module Spec
           expression = string_or_regexp.source
         end
         while expression =~ PARAM_PATTERN
-          expression.gsub!($2, "(.*?)")
+          expression.sub!($2, "(.*?)")
         end
         @expression = Regexp.new("\\A#{expression}\\Z", Regexp::MULTILINE)
       end

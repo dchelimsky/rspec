@@ -32,6 +32,11 @@ module Spec
         step = Step.new("1 $one 2 $two 3 $three 4") {}
         step.matches?("1 a 2 b 3 c 4").should be_true
       end
+
+      it "should match a text string with two params sharing a prefix" do
+        step = Step.new("I am cool $n times out of $n_total")
+        step.matches?("I am cool 3 times out of 7").should be_true
+      end
       
       it "should match a text string with a param at the beginning" do
         step = Step.new("$one 2 3") {}
