@@ -44,6 +44,12 @@ module Spec
           @instance.rspec_verify
         end.should_not raise_error
       end
+
+      it "should handle multiple stubbed methods" do
+        @instance.stub!(:msg1 => 1, :msg2 => 2)
+        @instance.msg1.should == 1
+        @instance.msg2.should == 2
+      end
       
       it "should clear itself when verified" do
         @instance.stub!(:this_should_go).and_return(:blah)
