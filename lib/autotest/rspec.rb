@@ -36,6 +36,7 @@ class Autotest::Rspec < Autotest
   end
 
   def make_test_cmd(files_to_test)
+    return '' if files_to_test.empty?
     return "#{ruby} -S #{files_to_test.keys.flatten.join(' ')} #{add_options_if_present}"
   end
   
