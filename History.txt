@@ -26,7 +26,7 @@ ALSO IMPORTANT: $rspec_options is gone. If you were using this for anything
 * use hoe for build/release
 * bye, bye translator
 * autotest/rspec uses ruby command instead of spec command (no need for spec command unless loading directories)
-* Avoid 'invalid option -O' in autotest (patch from Jonathan del Strother)
+* Avoid 'invalid option -O' in autotest (patch from Jonathan del Strother). Closes #486.
 
 === Version 1.1.4
 
