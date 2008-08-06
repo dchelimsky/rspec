@@ -70,8 +70,12 @@ HERE
         @to_test = @files_to_test.keys.flatten.join ' '
       end
     
-      it "should make the apropriate test command" do
+      it "should make the appropriate test command" do
         @rspec_autotest.make_test_cmd(@files_to_test).should == "#{@ruby} -S #{@to_test} #{@options}"
+      end
+
+      it "should return a blank command for no files" do
+        @rspec_autotest.make_test_cmd({}).should == ''
       end
     end
   
