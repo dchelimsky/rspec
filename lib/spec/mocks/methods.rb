@@ -28,6 +28,14 @@ module Spec
       def rspec_reset #:nodoc:
         __mock_proxy.reset
       end
+      
+      def as_null_object
+        __mock_proxy.act_as_null_object
+      end
+      
+      def null_object?
+        __mock_proxy.null_object?
+      end
 
     private
 

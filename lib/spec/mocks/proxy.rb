@@ -20,6 +20,11 @@ module Spec
       def null_object?
         @options[:null_object]
       end
+      
+      def act_as_null_object
+        @options[:null_object] = true
+        @target
+      end
 
       def add_message_expectation(expected_from, sym, opts={}, &block)
         __add sym

@@ -36,5 +36,13 @@ module Spec
         @mock.message(:unexpected_arg)
       end
     end
+    
+    describe "as_null_object" do
+      it "should set the object to null_object" do
+        obj = mock('anything').as_null_object
+        
+        obj.should be_null_object
+      end
+    end
   end
 end
