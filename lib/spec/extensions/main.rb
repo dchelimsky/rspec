@@ -23,7 +23,7 @@ module Spec
         raise ArgumentError if args.empty?
         raise ArgumentError unless block
         args << {} unless Hash === args.last
-        args.last[:spec_path] = caller(0)[1]
+        args.last[:spec_path] = File.expand_path(caller(0)[1])
         Spec::Example::ExampleGroupFactory.create_example_group(*args, &block)
       end
       alias :context :describe
