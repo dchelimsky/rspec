@@ -8,7 +8,7 @@ require 'spec/dsl'
 
 module Spec
   def self.test_unit_defined?
-    Object.const_defined?(:Test) && Test.const_defined?(:Unit)
+    Object.const_defined?(:Test) && Test.const_defined?(:Unit) && Test::Unit.respond_to?(:run?)
   end
 
   def self.run?
