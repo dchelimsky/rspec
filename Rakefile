@@ -25,8 +25,7 @@ end
   Rake.application.instance_variable_get('@tasks').delete(task)
 end
 
-task :default => :verify_rcov
-task :verify_rcov => [:spec, :stories]
+task :default => [:spec, :stories]
 
 # # Some of the tasks are in separate files since they are also part of the website documentation
 load File.dirname(__FILE__) + '/rake_tasks/examples.rake'
