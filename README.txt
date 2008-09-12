@@ -2,7 +2,7 @@
 
 * http://rspec.info
 * http://rspec.info/rdoc/
-* http://github.com/dchelimsky/rspec-rails/wikis
+* http://github.com/dchelimsky/rspec/wikis
 * mailto:rspec-devel@rubyforge.org
 
 == DESCRIPTION:
