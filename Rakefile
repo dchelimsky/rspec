@@ -25,7 +25,8 @@ end
   Rake.application.instance_variable_get('@tasks').delete(task)
 end
 
-task :default => [:spec, :stories]
+task :verify_rcov => [:spec, :stories]
+task :default => :verify_rcov
 
 # # Some of the tasks are in separate files since they are also part of the website documentation
 load File.dirname(__FILE__) + '/rake_tasks/examples.rake'
@@ -40,7 +41,7 @@ Spec::Rake::SpecTask.new do |t|
   unless ENV['NO_RCOV']
     t.rcov = true
     t.rcov_dir = 'coverage'
-    t.rcov_opts = ['--exclude', 'lib/spec.rb,lib/spec/runner.rb,spec\/spec,bin\/spec,examples,\/var\/lib\/gems,\/Library\/Ruby,\.autotest']
+    t.rcov_opts = ['--exclude', "lib/spec.rb,lib/spec/runner.rb,spec\/spec,bin\/spec,examples,\/var\/lib\/gems,\/Library\/Ruby,\.autotest,#{ENV['GEM_HOME']}"]
   end
 end
 
