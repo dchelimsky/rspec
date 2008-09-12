@@ -24,6 +24,8 @@ module Spec
         @block = block
         self
       end
+      
+      private :method_missing
     
       def matches?(collection_owner)
         if collection_owner.respond_to?(@collection_name)

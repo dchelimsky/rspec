@@ -351,5 +351,14 @@ describe Spec::Matchers::Have, "for a collection owner that implements #send" do
       @collection.should have(99).problems
     }.should raise_error(NoMethodError, /problems/)
   end
-  
+end
+
+module Spec
+  module Matchers
+    describe Have do
+      it "should have method_missing as private" do
+        Have.private_instance_methods.should include("method_missing")
+      end
+    end
+  end
 end
