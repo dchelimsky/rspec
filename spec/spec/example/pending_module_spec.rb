@@ -59,11 +59,23 @@ module Spec
         
         another_caller(obj).should == two_calls_ago
       end
+      
+      it "should have the message provided" do
+        PendingError.new("a message").message.should == "a message"
+      end
+      
+      it "should use a 'PendingError' as it's default message" do
+        PendingError.new.message.should == "Spec::Example::PendingError"
+      end
     end
     
     describe ExamplePendingError do
       it "should have PendingError as it's super class" do
         ExamplePendingError.superclass.should equal(PendingError)
+      end
+      
+      it "should use a 'ExamplePendingError' as it's default message" do
+        ExamplePendingError.new.message.should == "Spec::Example::ExamplePendingError"
       end
     end
     

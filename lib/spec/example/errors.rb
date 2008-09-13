@@ -1,7 +1,7 @@
 module Spec
   module Example
     class PendingError < StandardError
-      def initialize(a_message)
+      def initialize(a_message=nil)
         super(a_message)
         @pending_caller = caller[2]
       end
