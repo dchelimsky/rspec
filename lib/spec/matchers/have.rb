@@ -67,7 +67,7 @@ EOF
       end
       
       def respond_to?(sym)
-        @expected.respond_to?(sym) || super(sym)
+        @expected.respond_to?(sym) || super
       end
     
       private
