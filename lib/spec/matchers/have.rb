@@ -14,22 +14,6 @@ module Spec
         }
       end
     
-      def method_missing(sym, *args, &block)
-        @collection_name = sym
-        if inflector = (defined?(ActiveSupport::Inflector) ? ActiveSupport::Inflector : (defined?(Inflector) ? Inflector : nil))
-          @plural_collection_name = inflector.pluralize(sym.to_s)
-        end
-        @args = args
-        @block = block
-        self
-      end
-      
-      private :method_missing
-      
-      def respond_to?(sym)
-        @expected.respond_to?(sym) || super(sym)
-      end
-    
       def matches?(collection_owner)
         if collection_owner.respond_to?(@collection_name)
           collection = collection_owner.__send__(@collection_name, *@args, &@block)
@@ -82,7 +66,21 @@ EOF
         "have #{relative_expectation} #{@collection_name}"
       end
       
+      def respond_to?(sym)
+        @expected.respond_to?(sym) || super(sym)
+      end
+    
       private
+      
+      def method_missing(sym, *args, &block)
+        @collection_name = sym
+        if inflector = (defined?(ActiveSupport::Inflector) ? ActiveSupport::Inflector : (defined?(Inflector) ? Inflector : nil))
+          @plural_collection_name = inflector.pluralize(sym.to_s)
+        end
+        @args = args
+        @block = block
+        self
+      end
       
       def relative_expectation
         "#{relativities[@relativity]}#{@expected}"
