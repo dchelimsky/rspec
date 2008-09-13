@@ -23,6 +23,12 @@ module Spec
         @at_most = nil
         @args_to_yield = []
       end
+
+      def deep_clone
+        cloned = clone
+        cloned.instance_variable_set(:@args_to_yield, @args_to_yield.clone)
+        cloned
+      end
       
       def expected_args
         @args_expectation.args
