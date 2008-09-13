@@ -1,6 +1,11 @@
 module Spec
   module Runner
     class Reporter
+      PENDING_FORMATTER_DEPRECATION_MESSAGE = <<-HERE
+        Formatter deprecation: pending_example now takes three arguments, not two.
+        See http://rspec.info/deprecation_warnings for more info
+      HERE
+      
       attr_reader :options, :example_groups
       
       def initialize(options)
@@ -106,11 +111,24 @@ module Spec
       
       def example_pending(example, pending_caller, message="Not Yet Implemented")
         @pending_count += 1
-        formatters.each do |f|
-          f.example_pending(example, message, pending_caller)
+        formatters.each do |formatter|
+          if pending_method_deprecated_on_formatter?(formatter)
+            warn_with_deprecation_message PENDING_FORMATTER_DEPRECATION_MESSAGE
+            formatter.example_pending(example, message)
+          else
+            formatter.example_pending(example, message, pending_caller)
+          end
         end
       end
       
+      def pending_method_deprecated_on_formatter?(formatter)
+        formatter.method(:example_pending).arity == 2
+      end
+      
+      def warn_with_deprecation_message(message)
+        Kernel.warn(message)
+      end
+
       class Failure
         attr_reader :example, :exception
         
