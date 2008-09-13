@@ -21,8 +21,8 @@ module Spec
           @pending_examples = []
         end
         
-        def example_pending(example, message)
-          @pending_examples << [example.__full_description, message]
+        def example_pending(example, message, pending_caller)
+          @pending_examples << [example.__full_description, message, pending_caller]
         end
         
         def dump_failure(counter, failure)
@@ -70,6 +70,7 @@ module Spec
             @output.puts "Pending:"
             @pending_examples.each do |pending_example|
               @output.puts "#{pending_example[0]} (#{pending_example[1]})" 
+              @output.puts "  Called from #{pending_example[2]}"
             end
           end
           @output.flush

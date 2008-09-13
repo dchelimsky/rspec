@@ -26,7 +26,7 @@ module Spec
         if error.nil?
           example_passed(example)
         elsif Spec::Example::ExamplePendingError === error
-          example_pending(example, error.message)
+          example_pending(example, error.pending_caller, error.message)
         else
           example_failed(example, error)
         end
@@ -104,10 +104,10 @@ module Spec
         formatters.each{|f| f.example_passed(example)}
       end
       
-      def example_pending(example, message="Not Yet Implemented")
+      def example_pending(example, pending_caller, message="Not Yet Implemented")
         @pending_count += 1
         formatters.each do |f|
-          f.example_pending(example, message)
+          f.example_pending(example, message, pending_caller)
         end
       end
       

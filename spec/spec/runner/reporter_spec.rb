@@ -155,24 +155,29 @@ module Spec
       end
 
       describe Reporter, "reporting one pending example (ExamplePendingError)" do
+        before :each do
+          @pending_error = Spec::Example::ExamplePendingError.new("reason")
+          @pending_caller = @pending_error.pending_caller
+        end
+        
         it "should tell formatter example is pending" do
           example = ExampleGroup.new("example")
-          formatter.should_receive(:example_pending).with(example, "reason")
+          formatter.should_receive(:example_pending).with(example, "reason", @pending_caller)
           formatter.should_receive(:add_example_group).with(example_group)
           reporter.add_example_group(example_group)
-          reporter.example_finished(example, Spec::Example::ExamplePendingError.new("reason"))
+          reporter.example_finished(example, @pending_error)
         end
 
         it "should account for pending example in stats" do
           example = ExampleGroup.new("example")
-          formatter.should_receive(:example_pending).with(example, "reason")
+          formatter.should_receive(:example_pending).with(example, "reason", @pending_caller)
           formatter.should_receive(:start_dump)
           formatter.should_receive(:dump_pending)
           formatter.should_receive(:dump_summary).with(anything(), 1, 0, 1)
           formatter.should_receive(:close).with(no_args)
           formatter.should_receive(:add_example_group).with(example_group)
           reporter.add_example_group(example_group)
-          reporter.example_finished(example, Spec::Example::ExamplePendingError.new("reason"))
+          reporter.example_finished(example, @pending_error)
           reporter.dump
         end
       end
