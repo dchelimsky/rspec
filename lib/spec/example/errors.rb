@@ -1,9 +1,9 @@
 module Spec
   module Example
-    class ExamplePendingError < StandardError
-    end
+    class PendingError < StandardError; end
+    
+    class ExamplePendingError < PendingError; end
 
-    class PendingExampleFixedError < StandardError
-    end
+    class PendingExampleFixedError < PendingError; end
   end
 end

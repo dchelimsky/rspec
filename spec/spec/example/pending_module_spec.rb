@@ -38,5 +38,23 @@ module Spec
         }.should raise_error(PendingExampleFixedError, /TODO/)
       end
     end
+    
+    describe PendingError do
+      it "should have StandardError as it's super class" do
+        PendingError.superclass.should equal(StandardError)
+      end
+    end
+    
+    describe ExamplePendingError do
+      it "should have PendingError as it's super class" do
+        ExamplePendingError.superclass.should equal(PendingError)
+      end
+    end
+    
+    describe PendingExampleFixedError do
+      it "should have PendingError as it's super class" do
+        PendingExampleFixedError.superclass.should equal(PendingError)
+      end
+    end
   end
 end
