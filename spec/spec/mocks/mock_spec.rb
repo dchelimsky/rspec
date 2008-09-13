@@ -413,6 +413,13 @@ module Spec
         non_mock.msg.should equal(:stub_value)
         non_mock.rspec_verify
       end
+
+      it "should return the stubbed value when no new value specified" do
+        @mock.stub!(:msg).and_return(:stub_value)
+        @mock.should_receive(:msg)
+        @mock.msg.should equal(:stub_value)
+        @mock.rspec_verify
+      end
       
       it "should assign stub return values" do
         mock = Mock.new('name', :message => :response)
