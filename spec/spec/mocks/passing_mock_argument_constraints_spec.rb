@@ -133,7 +133,11 @@ module Spec
     end
     
     describe Methods, "handling non-constraint arguments" do
-
+      
+      before(:each) do
+        @mock = Mock.new("test mock")
+      end
+      
       it "should match non special symbol (can be removed when deprecated symbols are removed)" do
         @mock.should_receive(:random_call).with(:some_symbol)
         @mock.random_call(:some_symbol)

@@ -234,7 +234,7 @@ module Spec
             options.examples = ["should be run"]
           end
 
-          it "should run only the example, when there in only one" do
+          it "should run only the example, when there is only one" do
             example_group.run
             examples_that_were_run.should == ["should be run"]
           end

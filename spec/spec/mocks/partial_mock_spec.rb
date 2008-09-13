@@ -74,6 +74,8 @@ module Spec
       end
       
       it "should use report nil in the error message" do
+        allow_message_expectations_on_nil
+        
         @this_will_resolve_to_nil.should_receive(:foobar)
         lambda do
           @this_will_resolve_to_nil.rspec_verify

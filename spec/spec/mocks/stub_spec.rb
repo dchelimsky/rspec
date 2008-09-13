@@ -14,6 +14,7 @@ module Spec
           end
         end
         @instance = @class.new
+        @stub = Object.new
       end
 
       it "should return expected value when expected message is received" do
