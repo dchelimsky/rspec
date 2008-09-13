@@ -29,7 +29,7 @@ module Spec
             end
           end
           example = example_group.examples.first
-          @formatter.example_pending(example, "message")
+          @formatter.example_pending(example, "message", "#{__FILE__}:#{__LINE__}")
           @io.rewind
           @formatter.dump_summary(3, 2, 1, 1)
           @io.string.should eql(%Q|
@@ -94,9 +94,27 @@ EOE
             end
           end
           example = example_group.examples.first
-          @formatter.example_pending(example, "message")
+          @formatter.example_pending(example, "message", "#{__FILE__}:#{__LINE__}")
           @formatter.dump_pending
           @io.string.should =~ /Pending\:\nexample_group example \(message\)\n/
+        end
+        
+        it "should dump pending with file and line number" do
+          example_group = ExampleGroup.describe("example_group") do
+            specify "example" do
+            end
+          end
+          example = example_group.examples.first
+          file = __FILE__
+          line = __LINE__ + 1
+          @formatter.example_pending(example, "message", "#{__FILE__}:#{__LINE__}")
+          @formatter.dump_pending
+          @io.string.should ==(<<-HERE)
+P
+Pending:
+example_group example (message)
+  Called from #{file}:#{line}
+HERE
         end
       end
       
