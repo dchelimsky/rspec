@@ -83,8 +83,8 @@ module Spec
           @formatter.should have_inteface_for(:example_failed).with(3).arguments
         end
         
-        it "should have example_pending as an interface with two arguments" do
-          @formatter.should have_inteface_for(:example_pending).with(2).arguments
+        it "should have example_pending as an interface with three arguments" do
+          @formatter.should have_inteface_for(:example_pending).with(3).arguments
         end
         
         it "should have start_dump as an interface with zero arguments" do
