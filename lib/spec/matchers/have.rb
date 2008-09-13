@@ -1,6 +1,5 @@
 module Spec
   module Matchers
-    
     class Have #:nodoc:
       def initialize(expected, relativity=:exactly)
         @expected = (expected == :no ? 0 : expected)
@@ -26,6 +25,10 @@ module Spec
       end
       
       private :method_missing
+      
+      def respond_to?(sym)
+        @expected.respond_to?(sym) || super(sym)
+      end
     
       def matches?(collection_owner)
         if collection_owner.respond_to?(@collection_name)
