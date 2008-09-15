@@ -3,7 +3,8 @@ module Spec
 
     class BaseExpectation
       attr_reader :sym
-      attr_writer :expected_received_count, :method_block, :expected_from
+      attr_writer :expected_received_count, :method_block, :expected_from, :args_to_yield
+      protected :expected_received_count=, :method_block=, :expected_from=, :args_to_yield=
       
       def initialize(error_generator, expectation_ordering, expected_from, sym, method_block, expected_received_count=1, opts={})
         @error_generator = error_generator
@@ -23,11 +24,14 @@ module Spec
         @at_most = nil
         @args_to_yield = []
       end
-
-      def deep_clone
-        cloned = clone
-        cloned.instance_variable_set(:@args_to_yield, @args_to_yield.clone)
-        cloned
+      
+      def build_child(expected_from, method_block, expected_received_count)
+        child = clone
+        child.expected_from = expected_from
+        child.method_block = method_block
+        child.expected_received_count = expected_received_count
+        child.args_to_yield = @args_to_yield.clone
+        child
       end
       
       def expected_args
