@@ -31,6 +31,7 @@ module Spec
         if existing_stub = @stubs.detect {|s| s.sym == sym }
           expectation = existing_stub.deep_clone
           expectation.expected_received_count = 1
+          expectation.method_block = block if block_given?
         else
           expectation = MessageExpectation.new(@error_generator, @expectation_ordering, expected_from, sym, block_given? ? block : nil, 1, opts)
         end
