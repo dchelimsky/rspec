@@ -463,6 +463,15 @@ module Spec
         @calls.should == 1
       end
     
+      it "should call the block after #should_receive after a similar stub" do
+        @mock.stub!(:foo).and_return(:bar)
+        @mock.should_receive(:foo) { add_call }
+    
+        @mock.foo
+    
+        @calls.should == 1
+      end
+    
       it "should call the block after #once" do
         @mock.should_receive(:foo).once { add_call }
     
