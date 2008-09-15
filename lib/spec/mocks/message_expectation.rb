@@ -3,7 +3,7 @@ module Spec
 
     class BaseExpectation
       attr_reader :sym
-      attr_writer :expected_received_count, :method_block
+      attr_writer :expected_received_count, :method_block, :expected_from
       
       def initialize(error_generator, expectation_ordering, expected_from, sym, method_block, expected_received_count=1, opts={})
         @error_generator = error_generator

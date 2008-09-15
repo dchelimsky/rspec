@@ -23,6 +23,18 @@ module Spec
         end
       end
       
+      it "should report line number of expectation of unreceived message after #should_receive after similar stub" do
+        @mock.stub!(:wont_happen)
+        expected_error_line = __LINE__; @mock.should_receive(:wont_happen).with("x", 3)
+        begin
+          @mock.rspec_verify
+          violated
+        rescue MockExpectationError => e
+          # NOTE - this regexp ended w/ $, but jruby adds extra info at the end of the line
+          e.backtrace[0].should match(/#{File.basename(__FILE__)}:#{expected_error_line}/)
+        end
+      end
+      
       it "should pass when not receiving message specified as not to be received" do
         @mock.should_not_receive(:not_expected)
         @mock.rspec_verify
