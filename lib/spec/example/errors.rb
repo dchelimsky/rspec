@@ -1,16 +1,15 @@
 module Spec
   module Example
-    class PendingError < StandardError
+    class ExamplePendingError < StandardError
       def initialize(a_message=nil)
-        super(a_message)
+        super
         @pending_caller = caller[2]
       end
       
       attr_reader :pending_caller
     end
-    
-    class ExamplePendingError < PendingError; end
 
-    class PendingExampleFixedError < PendingError; end
+    class PendingExampleFixedError < StandardError
+    end
   end
 end
