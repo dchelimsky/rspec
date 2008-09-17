@@ -9,7 +9,7 @@ module Spec
           @formatter = BaseFormatter.new(@options, @where)
         end
         
-        class HaveIntefaceMatcher
+        class HaveInterfaceMatcher
           def initialize(method)
             @method = method
           end
@@ -63,48 +63,48 @@ module Spec
           end
         end
         
-        def have_inteface_for(method)
-          HaveIntefaceMatcher.new(method)
+        def have_interface_for(method)
+          HaveInterfaceMatcher.new(method)
         end
         
         it "should have start as an interface with one argument"do
-          @formatter.should have_inteface_for(:start).with(1).argument
+          @formatter.should have_interface_for(:start).with(1).argument
         end
         
         it "should have add_example_group as an interface with one argument" do
-          @formatter.should have_inteface_for(:add_example_group).with(1).argument
+          @formatter.should have_interface_for(:add_example_group).with(1).argument
         end
         
         it "should have example_started as an interface with one argument" do
-          @formatter.should have_inteface_for(:example_started).with(1).argument
+          @formatter.should have_interface_for(:example_started).with(1).argument
         end
         
         it "should have example_failed as an interface with three arguments" do
-          @formatter.should have_inteface_for(:example_failed).with(3).arguments
+          @formatter.should have_interface_for(:example_failed).with(3).arguments
         end
         
         it "should have example_pending as an interface with three arguments" do
-          @formatter.should have_inteface_for(:example_pending).with(3).arguments
+          @formatter.should have_interface_for(:example_pending).with(3).arguments
         end
         
         it "should have start_dump as an interface with zero arguments" do
-          @formatter.should have_inteface_for(:start_dump).with(0).arguments
+          @formatter.should have_interface_for(:start_dump).with(0).arguments
         end
         
         it "should have dump_failure as an interface with two arguments" do
-          @formatter.should have_inteface_for(:dump_failure).with(2).arguments
+          @formatter.should have_interface_for(:dump_failure).with(2).arguments
         end
         
         it "should have dump_summary as an interface with two arguments" do
-          @formatter.should have_inteface_for(:dump_failure).with(2).arguments
+          @formatter.should have_interface_for(:dump_failure).with(2).arguments
         end
 
         it "should have dump_pending as an interface with zero arguments" do
-          @formatter.should have_inteface_for(:dump_pending).with(0).arguments
+          @formatter.should have_interface_for(:dump_pending).with(0).arguments
         end
 
         it "should have close  as an interface with zero arguments" do
-          @formatter.should have_inteface_for(:close).with(0).arguments
+          @formatter.should have_interface_for(:close).with(0).arguments
         end
       end
     end
