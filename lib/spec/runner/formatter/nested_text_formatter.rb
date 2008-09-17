@@ -40,7 +40,7 @@ module Spec
           output.flush
         end
 
-        def example_pending(example, message)
+        def example_pending(example, message, pending_caller)
           super
           output.puts yellow("#{current_indentation}#{example.description} (PENDING: #{message})")
           output.flush
