@@ -29,7 +29,7 @@ module Spec
       def add_message_expectation(expected_from, sym, opts={}, &block)
         __add sym
         if existing_stub = @stubs.detect {|s| s.sym == sym }
-          expectation = existing_stub.build_child(expected_from, block_given?? block : nil, 1)
+          expectation = existing_stub.build_child(expected_from, block_given?? block : nil, 1, opts)
         else
           expectation = MessageExpectation.new(@error_generator, @expectation_ordering, expected_from, sym, block_given? ? block : nil, 1, opts)
         end

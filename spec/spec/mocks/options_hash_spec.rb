@@ -21,6 +21,15 @@ module Spec
           m.rspec_verify
         }.should raise_error("recebi nada")
       end
+      
+      it "should use the message supplied with :message after a similar stub" do
+        lambda {
+          m = Spec::Mocks::Mock.new("a mock")
+          m.stub!(:message)
+          m.should_receive(:message, :message => "from mock")
+          m.rspec_verify
+        }.should raise_error("from mock")
+      end
     end
   end
 end
