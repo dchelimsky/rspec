@@ -126,7 +126,7 @@ module Spec
       end
 
       def called_max_times?
-        @expected_received_count == :any ||
+        @expected_received_count != :any &&
           @actual_received_count >= @expected_received_count
       end
       
