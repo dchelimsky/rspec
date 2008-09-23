@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
 ENV['RSPEC'] = 'true'
 ENV['AUTOTEST'] = 'true'
-system ("autotest", *ARGV)
+system("autotest", *ARGV)
