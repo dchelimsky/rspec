@@ -107,7 +107,7 @@ module Spec
       # A message to print to stderr when there are failures.
       attr_accessor :failure_message
 
-      # Where RSpec's output is written. Defaults to STDOUT.
+      # Where RSpec's output is written. Defaults to $stdout.
       # DEPRECATED. Use --format FORMAT:WHERE in spec_opts.
       attr_accessor :out
 

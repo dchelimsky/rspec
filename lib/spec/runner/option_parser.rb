@@ -38,7 +38,7 @@ module Spec
                                                        "(does not work for dynamically generated specs)"],
         :format => ["-f", "--format FORMAT[:WHERE]","Specifies what format to use for output. Specify WHERE to tell",
                                                     "the formatter where to write the output. All built-in formats",
-                                                    "expect WHERE to be a file name, and will write to STDOUT if it's",
+                                                    "expect WHERE to be a file name, and will write to $stdout if it's",
                                                     "not specified. The --format option may be specified several times",
                                                     "if you want several outputs",
                                                     " ",

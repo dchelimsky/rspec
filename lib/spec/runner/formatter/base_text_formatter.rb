@@ -77,7 +77,7 @@ module Spec
         end
         
         def close
-          if IO === @output && @output != STDOUT
+          if IO === @output && @output != $stdout
             @output.close 
           end
         end

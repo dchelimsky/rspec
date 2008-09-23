@@ -199,7 +199,7 @@ module Spec
 
       def options # :nodoc:
         @options ||= begin
-          parser = ::Spec::Runner::OptionParser.new(STDERR, STDOUT)
+          parser = ::Spec::Runner::OptionParser.new($stderr, $stdout)
           parser.order!(ARGV)
           parser.options
         end
