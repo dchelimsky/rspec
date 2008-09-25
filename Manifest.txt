@@ -283,6 +283,7 @@ spec/spec/mocks/mock_ordering_spec.rb
 spec/spec/mocks/mock_space_spec.rb
 spec/spec/mocks/mock_spec.rb
 spec/spec/mocks/multiple_return_value_spec.rb
+spec/spec/mocks/nil_expectation_warning_spec.rb
 spec/spec/mocks/null_object_mock_spec.rb
 spec/spec/mocks/once_counts_spec.rb
 spec/spec/mocks/options_hash_spec.rb
