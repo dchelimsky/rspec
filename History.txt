@@ -29,6 +29,7 @@ ALSO IMPORTANT: $rspec_options is gone. If you were using this for anything
 * Avoid 'invalid option -O' in autotest (patch from Jonathan del Strother). Closes #486.
 * Fix: Unimplemented step with new line throws error (patch from Ben Mabey). Closes #494.
 * Only use color codes on tty; override for autospec (patch from Tim Pope). Closes #413.
+* Warn when setting mock expectations on nil (patch from Ben Mabey). Closes #521.
 
 === Version 1.1.4
 
