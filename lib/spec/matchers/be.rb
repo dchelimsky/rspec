@@ -23,9 +23,6 @@ module Spec
             rcov_error_report = "http://eigenclass.org/hiki.rb?rcov-0.8.0"
           end
 
-          # This supports should_exist > target.exists? in the old world.
-          # We should consider deprecating that ability as in the new world
-          # you can't write "should exist" unless you have your own custom matcher.
           begin
             return @result = actual.__send__(present_tense_predicate, *@args)
           rescue
