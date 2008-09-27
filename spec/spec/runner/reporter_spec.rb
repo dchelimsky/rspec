@@ -236,7 +236,7 @@ module Spec
           end
           
           def warning_message
-            Spec::Runner::Reporter::PENDING_FORMATTER_DEPRECATION_MESSAGE
+            Spec::Runner::Reporter::EXAMPLE_PENDING_DEPRECATION_WARNING
           end
           
           it "should raise a warning with a warning message of the file and line number of the formatter" do

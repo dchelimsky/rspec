@@ -9,6 +9,11 @@ mechanism.
 ALSO IMPORTANT: $rspec_options is gone. If you were using this for anything
 (like your own runners), use Spec::Runner.options instead.
 
+ADDITIONALLY IMPORTANT: If you have any custom formatters, you'll need to
+modify #example_pending to accept three arguments instead of just two. See the
+rdoc for Spec::Runner::Formatter::BaseFormatter#example_pending for more
+information.
+
 * Consider MinGW as valid RUBY_PLATFORM for --colour option. (patch from Luis Lavena). Closes #406.
 * Added additional characters to be escaped in step strings (patch from Jake Cahoon). Closes #417.
 * Disable color codes on STDOUT when STDOUT.tty? is false (patch from Tim Pope). Closes #413.

@@ -1,11 +1,6 @@
 module Spec
   module Runner
     class Reporter
-      PENDING_FORMATTER_DEPRECATION_MESSAGE = <<-HERE
-        Formatter deprecation: pending_example now takes three arguments, not two.
-        See http://rspec.info/deprecation_warnings for more info
-      HERE
-      
       attr_reader :options, :example_groups
       
       def initialize(options)
@@ -108,12 +103,23 @@ module Spec
       def example_passed(example)
         formatters.each{|f| f.example_passed(example)}
       end
+
+      EXAMPLE_PENDING_DEPRECATION_WARNING = <<-WARNING
+        DEPRECATION NOTICE: RSpec's formatters have changed example_pending
+        to accept three arguments instead of just two. Please see the rdoc
+        for Spec::Runner::Formatter::BaseFormatter#example_pending
+        for more information.
+          
+        Please update any custom formatters to accept the third argument
+        to example_pending. Support for example_pending with two arguments
+        and this warning message will be removed after the RSpec 1.1.5 release.
+      WARNING
       
       def example_pending(example, pending_caller, message="Not Yet Implemented")
         @pending_count += 1
         formatters.each do |formatter|
-          if pending_method_deprecated_on_formatter?(formatter)
-            warn_with_deprecation_message PENDING_FORMATTER_DEPRECATION_MESSAGE
+          if formatter_uses_deprecated_example_pending_method?(formatter)
+            Kernel.warn EXAMPLE_PENDING_DEPRECATION_WARNING
             formatter.example_pending(example, message)
           else
             formatter.example_pending(example, message, pending_caller)
@@ -121,14 +127,10 @@ module Spec
         end
       end
       
-      def pending_method_deprecated_on_formatter?(formatter)
+      def formatter_uses_deprecated_example_pending_method?(formatter)
         formatter.method(:example_pending).arity == 2
       end
       
-      def warn_with_deprecation_message(message)
-        Kernel.warn(message)
-      end
-
       class Failure
         attr_reader :example, :exception
         
