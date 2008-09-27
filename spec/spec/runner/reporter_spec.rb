@@ -181,37 +181,23 @@ module Spec
           reporter.dump
         end
         
-        describe "warning messages for formatters which have example_pending's arity of 2" do
+        describe "to formatters which have example_pending's arity of 2 (which is now deprecated)" do
           before :each do
-            Kernel.stub!(:warn)
-            default_formatter = @formatter
-            
-            @file = __FILE__
-            @line = __LINE__ + 3
-            
-            @deprecated_formatter = Class.new(default_formatter.class) do
+            Kernel.stub!(:warn).with(Spec::Runner::Reporter::EXAMPLE_PENDING_DEPRECATION_WARNING)
+          
+            @deprecated_formatter = Class.new(@formatter.class) do
+              attr_reader :example_passed_to_method, :message_passed_to_method
+
               def example_pending(example_passed_to_method, message_passed_to_method)
                 @example_passed_to_method = example_passed_to_method
                 @message_passed_to_method = message_passed_to_method
               end
-              
-              attr_reader :example_passed_to_method
-              attr_reader :message_passed_to_method
-              
             end.new(options, formatter_output)
             
             options.formatters << @deprecated_formatter
           end
           
-          it "should not raise an error" do
-            lambda {
-              example = ExampleGroup.new("example")
-              reporter.add_example_group(example_group)
-              reporter.example_finished(example, @pending_error)
-            }.should_not raise_error
-          end
-          
-          it "should use correct example" do
+          it "should pass the correct example to the formatter" do
             example = ExampleGroup.new("example")
             reporter.add_example_group(example_group)
             reporter.example_finished(example, @pending_error)
@@ -219,28 +205,16 @@ module Spec
             @deprecated_formatter.example_passed_to_method.should == example
           end
           
-          it "should use correct pending error message" do
+          it "should pass the correct pending error message to the formatter" do
             example = ExampleGroup.new("example")
             reporter.add_example_group(example_group)
             reporter.example_finished(example, @pending_error)
             
-            @deprecated_formatter.message_passed_to_method.should == "reason"
+            @deprecated_formatter.message_passed_to_method.should ==  @pending_error.message
           end
           
-          it "should raise a warning (calling Kernel.warn)" do
-            Kernel.should_receive(:warn)
-
-            example = ExampleGroup.new("example")
-            reporter.add_example_group(example_group)
-            reporter.example_finished(example, @pending_error)
-          end
-          
-          def warning_message
-            Spec::Runner::Reporter::EXAMPLE_PENDING_DEPRECATION_WARNING
-          end
-          
-          it "should raise a warning with a warning message of the file and line number of the formatter" do
-            Kernel.should_receive(:warn).with(warning_message)
+          it "should raise a deprecation warning" do
+            Kernel.should_receive(:warn).with(Spec::Runner::Reporter::EXAMPLE_PENDING_DEPRECATION_WARNING)
             
             example = ExampleGroup.new("example")
             reporter.add_example_group(example_group)
