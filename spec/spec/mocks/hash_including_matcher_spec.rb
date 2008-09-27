@@ -24,6 +24,10 @@ module Spec
         it "should not match a hash with an incorrect value" do
           hash_including(:a => 1, :b => 2).should_not == {:a => 1, :b => 3}
         end
+        
+        it "should not match when values are nil but keys are different" do
+          hash_including(:a => nil).should_not == {:b => nil}
+        end
 
         it "should describe itself properly" do
           HashIncludingConstraint.new(:a => 1).description.should == "hash_including(:a=>1)"

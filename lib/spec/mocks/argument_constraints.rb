@@ -103,7 +103,6 @@ module Spec
 
         def ==(actual)
           @expected.each do | key, value |
-            # check key for case that value evaluates to nil
             return false unless actual.has_key?(key) && actual[key] == value
           end
           true
