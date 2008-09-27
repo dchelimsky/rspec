@@ -123,7 +123,6 @@ module Spec
           @mock.random_call(123)
         end.should raise_error(MockExpectationError)
       end
-      
 
     end
   end

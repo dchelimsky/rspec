@@ -29,7 +29,7 @@ module Spec
       end
       
       def warn_constraint_symbol_deprecated(deprecated_method, instead)
-        Kernel.warn "The #{deprecated_method} constraint is deprecated. Use #{instead} instead."
+        Kernel.warn "The #{deprecated_method} constraint is deprecated and will be removed after RSpec 1.1.5. Use #{instead} instead."
       end
       
       def constraint_for(arg)
