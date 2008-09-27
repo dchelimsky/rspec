@@ -1,6 +1,6 @@
 require 'spec/mocks/framework'
 require 'spec/mocks/methods'
-require 'spec/mocks/argument_constraint_matchers'
+require 'spec/mocks/argument_constraints'
 require 'spec/mocks/spec_methods'
 require 'spec/mocks/proxy'
 require 'spec/mocks/mock'

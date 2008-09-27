@@ -134,7 +134,7 @@ lib/spec/matchers/satisfy.rb
 lib/spec/matchers/simple_matcher.rb
 lib/spec/matchers/throw_symbol.rb
 lib/spec/mocks.rb
-lib/spec/mocks/argument_constraint_matchers.rb
+lib/spec/mocks/argument_constraints.rb
 lib/spec/mocks/argument_expectation.rb
 lib/spec/mocks/error_generator.rb
 lib/spec/mocks/errors.rb

@@ -17,7 +17,7 @@ module Spec
         @return_block = nil
         @actual_received_count = 0
         @expected_received_count = expected_received_count
-        @args_expectation = ArgumentExpectation.new([AnyArgsConstraint.new])
+        @args_expectation = ArgumentExpectation.new([ArgumentConstraints::AnyArgsConstraint.new])
         @consecutive = false
         @exception_to_raise = nil
         @symbol_to_throw = nil
@@ -89,7 +89,7 @@ module Spec
       end
   
       def matches(sym, args)
-        @sym == sym and @args_expectation.check_args(args)
+        @sym == sym and @args_expectation.args_match?(args)
       end
       
       def invoke(args, block)
@@ -178,7 +178,7 @@ module Spec
     class MessageExpectation < BaseExpectation
       
       def matches_name_but_not_args(sym, args)
-        @sym == sym and not @args_expectation.check_args(args)
+        @sym == sym and not @args_expectation.args_match?(args)
       end
        
       def verify_messages_received   
