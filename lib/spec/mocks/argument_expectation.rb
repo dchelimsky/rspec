@@ -5,9 +5,9 @@ module Spec
       attr_reader :args
       @@constraint_classes = Hash.new
       @@constraint_classes[:anything] = ArgumentConstraints::AnyArgConstraint
-      @@constraint_classes[:numeric] = ArgumentConstraints::NumericArgConstraint
       @@constraint_classes[:boolean] = ArgumentConstraints::BooleanArgConstraint
-      @@constraint_classes[:string] = ArgumentConstraints::StringArgConstraint
+      @@constraint_classes[:numeric] = ArgumentConstraints::Deprecated::NumericArgConstraint
+      @@constraint_classes[:string] = ArgumentConstraints::Deprecated::StringArgConstraint
       
       def initialize(args, &block)
         @args = args
