@@ -300,7 +300,6 @@ spec/spec/runner/command_line_spec.rb
 spec/spec/runner/drb_command_line_spec.rb
 spec/spec/runner/empty_file.txt
 spec/spec/runner/examples.txt
-spec/spec/runner/execution_context_spec.rb
 spec/spec/runner/failed.txt
 spec/spec/runner/formatter/failing_example_groups_formatter_spec.rb
 spec/spec/runner/formatter/failing_examples_formatter_spec.rb
