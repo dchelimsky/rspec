@@ -13,9 +13,9 @@ module Spec
       def matches?(event_proc)
         raise_block_syntax_error if block_given?
         
-        evaluate_value_before_event
+        @before = evaluate_value_proc
         event_proc.call
-        evaluate_value_after_event
+        @after = evaluate_value_proc
         
         return false if @from unless @from == @before
         return false if @to unless @to == @after
@@ -32,12 +32,8 @@ MESSAGE
         )
       end
       
-      def evaluate_value_before_event
-        @before = @value_proc.call
-      end
-      
-      def evaluate_value_after_event
-        @after = @value_proc.call
+      def evaluate_value_proc
+        @value_proc.call
       end
       
       def failure_message
