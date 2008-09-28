@@ -35,6 +35,8 @@ information.
 * Fix: Unimplemented step with new line throws error (patch from Ben Mabey). Closes #494.
 * Only use color codes on tty; override for autospec (patch from Tim Pope). Closes #413.
 * Warn when setting mock expectations on nil (patch from Ben Mabey). Closes #521.
+* Support argument constraints as values in the hash_including contstraint. Thanks to Pirkka Hartikainen for failing code examples and the fix. Buttons up #501.
+
 
 === Version 1.1.4
 
