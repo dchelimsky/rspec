@@ -19,6 +19,7 @@ Hoe.new('rspec', Spec::VERSION::STRING) do |p|
   p.description = "Behaviour Driven Development for Ruby."
   p.rubyforge_name = 'rspec'
   p.developer('RSpec Development Team', 'rspec-devel@rubyforge.org')
+  p.spec_extras = { :to_ruby => lambda { |str| File.open("rspec.gemspec", "w+"){ |f| f.puts str } } }
 end
 
 ['audit','test','test_deps','default','publish_docs','post_blog'].each do |task|
