@@ -61,7 +61,7 @@ module Spec
 
         def ==(actual)
           @expected.each do | key, value |
-            return false unless actual.has_key?(key) && actual[key] == value
+            return false unless actual.has_key?(key) && value == actual[key]
           end
           true
         rescue NoMethodError => ex

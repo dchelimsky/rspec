@@ -24,9 +24,7 @@ module Spec
             end
 
             it "should match a string against anything()" do
-              pending("fix to http://rspec.lighthouseapp.com/projects/5645/tickets/501") do
-                hash_including(:a => anything, :b => 2).should == {:a => "1", :b => 2}
-              end
+              hash_including(:a => anything, :b => 2).should == {:a => "1", :b => 2}
             end
           end
         end
