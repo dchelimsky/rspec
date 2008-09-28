@@ -16,7 +16,7 @@ module Spec
       
         def example_pending(example, message, pending_caller)
           super
-          @output.print yellow('P')
+          @output.print yellow('*')
           @output.flush
         end
         

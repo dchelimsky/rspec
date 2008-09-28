@@ -110,7 +110,7 @@ EOE
           @formatter.example_pending(example, "message", "#{__FILE__}:#{__LINE__}")
           @formatter.dump_pending
           @io.string.should ==(<<-HERE)
-P
+*
 Pending:
 example_group example (message)
   Called from #{file}:#{line}
