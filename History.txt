@@ -36,7 +36,18 @@ information.
 * Only use color codes on tty; override for autospec (patch from Tim Pope). Closes #413.
 * Warn when setting mock expectations on nil (patch from Ben Mabey). Closes #521.
 * Support argument constraints as values in the hash_including contstraint. Thanks to Pirkka Hartikainen for failing code examples and the fix. Buttons up #501.
-
+* mock(:null_object=>true) plays nice with HTML (patch from Gerrit Kaiser)
+* Consider MinGW as valid RUBY_PLATFORM for --colour option. (patch from Luis Lavena). Closes #406.
+* Add 2nd arg to respond_to? to align w/ core Ruby rdoc: http://www.ruby-doc.org/core/classes/Object.html#M000604
+* quiet backtrace tweaker filters individual lines out of multiline (ala Rails) error messages (Pat Maddox)
+* added ability to stub multiple methods in one stub! call (Pat Maddox)
+* story progress bar formatter and more colourful summaries from the plain text story formatter (Joseph Wilk)
+* Avoid ruby invocation errors when autotesting (Jonathan del Strother)
+* added mock('foo').as_null_object
+* add file and line number to pending_example for formatters (Scott Taylor)
+* return last stubbed value for mock expectation with no explicit return (Pat Maddox)
+* Fixed bug when should_receive(:foo).any_number_of_times is called after similar stub (Pat Maddox)
+* Warning messages now issued when expectations are set on nil (Ben Mabey)
 
 === Version 1.1.4
 
