@@ -24,12 +24,12 @@ module Spec
         else
           collection_owner.__send__(@collection_name, *@args, &@block)
         end
-        @actual = collection.size if collection.respond_to?(:size)
-        @actual = collection.length if collection.respond_to?(:length)
-        raise not_a_collection if @actual.nil?
-        return @actual >= @expected if @relativity == :at_least
-        return @actual <= @expected if @relativity == :at_most
-        return @actual == @expected
+        @given = collection.size if collection.respond_to?(:size)
+        @given = collection.length if collection.respond_to?(:length)
+        raise not_a_collection if @given.nil?
+        return @given >= @expected if @relativity == :at_least
+        return @given <= @expected if @relativity == :at_most
+        return @given == @expected
       end
       
       def not_a_collection
@@ -37,12 +37,12 @@ module Spec
       end
     
       def failure_message
-        "expected #{relative_expectation} #{@collection_name}, got #{@actual}"
+        "expected #{relative_expectation} #{@collection_name}, got #{@given}"
       end
 
       def negative_failure_message
         if @relativity == :exactly
-          return "expected target not to have #{@expected} #{@collection_name}, got #{@actual}"
+          return "expected target not to have #{@expected} #{@collection_name}, got #{@given}"
         elsif @relativity == :at_most
           return <<-EOF
 Isn't life confusing enough?
