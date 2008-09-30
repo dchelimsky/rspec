@@ -9,11 +9,11 @@ module Spec
         @constraints_block = block
         
         if ArgumentConstraints::AnyArgsConstraint === args.first
-          @expected_args = nil
+          @match_any_args = true
         elsif ArgumentConstraints::NoArgsConstraint === args.first
-          @expected_args = []
+          @constraints = []
         else
-          @expected_args = args.collect {|arg| constraint_for(arg)}
+          @constraints = args.collect {|arg| constraint_for(arg)}
         end
       end
       
@@ -28,8 +28,19 @@ module Spec
       end
       
       def args_match?(given_args)
-        return @constraints_block.call(*given_args) if @constraints_block
-        @expected_args.nil? || @expected_args == given_args
+        match_any_args? || constraints_block_matches?(given_args) || constraints_match?(given_args)
+      end
+      
+      def constraints_block_matches?(given_args)
+        @constraints_block ? @constraints_block.call(*given_args) : nil
+      end
+      
+      def constraints_match?(given_args)
+        @constraints == given_args
+      end
+      
+      def match_any_args?
+        @match_any_args
       end
       
     end
