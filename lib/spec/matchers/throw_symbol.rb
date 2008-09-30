@@ -7,9 +7,9 @@ module Spec
         @actual = nil
       end
       
-      def matches?(proc)
+      def matches?(given_proc)
         begin
-          proc.call
+          given_proc.call
         rescue NameError => e
           raise e unless e.message =~ /uncaught throw/
           @actual = e.name.to_sym
@@ -56,7 +56,7 @@ module Spec
     #   should_not throw_symbol()
     #   should_not throw_symbol(:sym)
     #
-    # Given a Symbol argument, matches if a proc throws the specified Symbol.
+    # Given a Symbol argument, matches if the given proc throws the specified Symbol.
     #
     # Given no argument, matches if a proc throws any Symbol.
     #

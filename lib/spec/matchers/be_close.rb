@@ -7,13 +7,13 @@ module Spec
         @delta = delta
       end
       
-      def matches?(actual)
-        @actual = actual
-        (@actual - @expected).abs < @delta
+      def matches?(given)
+        @given = given
+        (@given - @expected).abs < @delta
       end
       
       def failure_message
-        "expected #{@expected} +/- (< #{@delta}), got #{@actual}"
+        "expected #{@expected} +/- (< #{@delta}), got #{@given}"
       end
       
       def description
@@ -25,7 +25,7 @@ module Spec
     #   should be_close(expected, delta)
     #   should_not be_close(expected, delta)
     #
-    # Passes if actual == expected +/- delta
+    # Passes if given == expected +/- delta
     #
     # == Example
     #

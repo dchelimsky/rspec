@@ -2,26 +2,26 @@ module Spec
   module Matchers
     
     class Match #:nodoc:
-      def initialize(expected)
-        @expected = expected
+      def initialize(regexp)
+        @regexp = regexp
       end
       
-      def matches?(actual)
-        @actual = actual
-        return true if actual =~ @expected
+      def matches?(given)
+        @given = given
+        return true if given =~ @regexp
         return false
       end
       
       def failure_message
-        return "expected #{@actual.inspect} to match #{@expected.inspect}", @expected, @actual
+        return "expected #{@given.inspect} to match #{@regexp.inspect}", @regexp, @given
       end
       
       def negative_failure_message
-        return "expected #{@actual.inspect} not to match #{@expected.inspect}", @expected, @actual
+        return "expected #{@given.inspect} not to match #{@regexp.inspect}", @regexp, @given
       end
       
       def description
-        "match #{@expected.inspect}"
+        "match #{@regexp.inspect}"
       end
     end
     
@@ -29,7 +29,7 @@ module Spec
     #   should match(regexp)
     #   should_not match(regexp)
     #
-    # Given a Regexp, passes if actual =~ regexp
+    # Given a Regexp, passes if given =~ regexp
     #
     # == Examples
     #

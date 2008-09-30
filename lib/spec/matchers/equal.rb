@@ -6,17 +6,17 @@ module Spec
         @expected = expected
       end
   
-      def matches?(actual)
-        @actual = actual
-        @actual.equal?(@expected)
+      def matches?(given)
+        @given = given
+        @given.equal?(@expected)
       end
 
       def failure_message
-        return "expected #{@expected.inspect}, got #{@actual.inspect} (using .equal?)", @expected, @actual
+        return "expected #{@expected.inspect}, got #{@given.inspect} (using .equal?)", @expected, @given
       end
 
       def negative_failure_message
-        return "expected #{@actual.inspect} not to equal #{@expected.inspect} (using .equal?)", @expected, @actual
+        return "expected #{@given.inspect} not to equal #{@expected.inspect} (using .equal?)", @expected, @given
       end
       
       def description
@@ -28,7 +28,7 @@ module Spec
     #   should equal(expected)
     #   should_not equal(expected)
     #
-    # Passes if actual and expected are the same object (object identity).
+    # Passes if given and expected are the same object (object identity).
     #
     # See http://www.ruby-doc.org/core/classes/Object.html#M001057 for more information about equality in Ruby.
     #

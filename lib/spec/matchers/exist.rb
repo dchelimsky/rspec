@@ -1,17 +1,22 @@
 module Spec
   module Matchers
     class Exist
-      def matches? actual
-        @actual = actual
-        @actual.exist?
+      def matches?(given)
+        @given = given
+        @given.exist?
       end
       def failure_message
-        "expected #{@actual.inspect} to exist, but it doesn't."
+        "expected #{@given.inspect} to exist, but it doesn't."
       end
       def negative_failure_message
-        "expected #{@actual.inspect} to not exist, but it does."
+        "expected #{@given.inspect} to not exist, but it does."
       end
     end
+    # :call-seq:
+    #   should exist
+    #   should_not exist
+    #
+    # Passes if given.exist?
     def exist; Exist.new; end
   end
 end

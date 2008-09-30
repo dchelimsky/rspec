@@ -7,10 +7,10 @@ module Spec
         @expecteds = expecteds
       end
       
-      def matches?(actual)
-        @actual = actual
+      def matches?(given)
+        @given = given
         @expecteds.each do |expected|
-          return false unless actual.include?(expected)
+          return false unless given.include?(expected)
         end
         true
       end
@@ -29,7 +29,7 @@ module Spec
       
       private
         def _message(maybe_not="")
-          "expected #{@actual.inspect} #{maybe_not}to include #{_pretty_print(@expecteds)}"
+          "expected #{@given.inspect} #{maybe_not}to include #{_pretty_print(@expecteds)}"
         end
         
         def _pretty_print(array)
@@ -51,7 +51,7 @@ module Spec
     #   should include(expected)
     #   should_not include(expected)
     #
-    # Passes if actual includes expected. This works for
+    # Passes if given includes expected. This works for
     # collections and Strings. You can also pass in multiple args
     # and it will only pass if all args are found in collection.
     #
