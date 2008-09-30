@@ -3,11 +3,6 @@ module Spec
     
     class ArgumentExpectation
       attr_reader :args
-      @@constraint_classes = Hash.new
-      @@constraint_classes[:anything] = ArgumentConstraints::AnyArgConstraint
-      @@constraint_classes[:boolean] = ArgumentConstraints::BooleanArgConstraint
-      @@constraint_classes[:numeric] = ArgumentConstraints::Deprecated::NumericArgConstraint
-      @@constraint_classes[:string] = ArgumentConstraints::Deprecated::StringArgConstraint
       
       def initialize(args, &block)
         @args = args
@@ -22,13 +17,9 @@ module Spec
         end
       end
       
-      def warn_constraint_symbol_deprecated(deprecated_method, instead)
-        Kernel.warn "The #{deprecated_method} constraint is deprecated and will be removed after RSpec 1.1.5. Use #{instead} instead."
-      end
-      
       def constraint_for(arg)
-        return ArgumentConstraints::MatcherConstraint.new(arg) if is_matcher?(arg)
-        return ArgumentConstraints::RegexpArgConstraint.new(arg) if arg.is_a?(Regexp)
+        return ArgumentConstraints::MatcherConstraint.new(arg)   if is_matcher?(arg)
+        return ArgumentConstraints::RegexpConstraint.new(arg) if arg.is_a?(Regexp)
         return ArgumentConstraints::EqualityProxy.new(arg)
       end
       
@@ -37,11 +28,7 @@ module Spec
       end
       
       def args_match?(given_args)
-        if @constraints_block
-          @constraints_block.call(*given_args)
-          return true
-        end
-        
+        return @constraints_block.call(*given_args) if @constraints_block
         @expected_args.nil? || @expected_args == given_args
       end
       

@@ -34,7 +34,7 @@ module Spec
         end
       end
 
-      class RegexpArgConstraint
+      class RegexpConstraint
         def initialize(regexp)
           @regexp = regexp
         end
@@ -45,7 +45,7 @@ module Spec
         end
       end
 
-      class BooleanArgConstraint
+      class BooleanConstraint
         def initialize(ignore)
         end
 
@@ -73,7 +73,7 @@ module Spec
         end
       end
       
-      class DuckTypeArgConstraint
+      class DuckTypeConstraint
         def initialize(*methods_to_respond_to)
           @methods_to_respond_to = methods_to_respond_to
         end
@@ -100,26 +100,6 @@ module Spec
 
         def ==(expected)
           @given == expected
-        end
-      end
-
-      module Deprecated
-        class NumericArgConstraint
-          def initialize(ignore)
-          end
-
-          def ==(value)
-            value.is_a?(Numeric)
-          end
-        end
-
-        class StringArgConstraint
-          def initialize(ignore)
-          end
-
-          def ==(value)
-            String === value
-          end
         end
       end
 
@@ -161,7 +141,7 @@ module Spec
       #   display.should_receive(:present_names).with(duck_type(:length, :each))
       #   => passes
       def duck_type(*args)
-        DuckTypeArgConstraint.new(*args)
+        DuckTypeConstraint.new(*args)
       end
 
       # :call-seq:
@@ -169,7 +149,7 @@ module Spec
       #
       # Passes if the argument is boolean.
       def boolean
-        BooleanArgConstraint.new(nil)
+        BooleanConstraint.new(nil)
       end
       
       # :call-seq:
