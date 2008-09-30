@@ -5,15 +5,15 @@ require File.dirname(__FILE__) + '/spec_helper'
 describe "Examples with no descriptions" do
   
   # description is auto-generated as "should equal(5)" based on the last #should
-  it do
+  specify do
     3.should equal(3)
     5.should equal(5)
   end
   
-  it { 3.should be < 5 }
+  specify { 3.should be < 5 }
   
-  it { ["a"].should include("a") }
+  specify { ["a"].should include("a") }
   
-  it { [1,2,3].should respond_to(:size) }
+  specify { [1,2,3].should respond_to(:size) }
   
 end
