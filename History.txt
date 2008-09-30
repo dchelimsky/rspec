@@ -1,3 +1,7 @@
+=== Development
+
+* removed deprecated mock argument constraint symbols
+
 === Version 1.1.5
 
 IMPORTANT: use the new 'autospec' command instead of 'autotest'. We changed

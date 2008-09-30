@@ -13,50 +13,6 @@ module Spec
       end
     end
     
-    describe Methods, "handling argument constraints with DEPRECATED symbols" do
-      it_should_behave_like "mock argument constraints"
-
-      it "should accept true as boolean" do
-        @mock.should_receive(:random_call).with(:boolean)
-        @mock.random_call(true)
-      end
-      
-      it "should accept false as boolean" do
-        @mock.should_receive(:random_call).with(:boolean)
-        @mock.random_call(false)
-      end
-
-      it "should accept fixnum as numeric" do
-        @mock.should_receive(:random_call).with(:numeric)
-        @mock.random_call(1)
-      end
-
-      it "should accept float as numeric" do
-        @mock.should_receive(:random_call).with(:numeric)
-        @mock.random_call(1.5)
-      end
-
-      it "should accept string as anything" do
-        @mock.should_receive(:random_call).with("a", :anything, "c")
-        @mock.random_call("a", "whatever", "c")
-      end
-
-      it "should match string" do
-        @mock.should_receive(:random_call).with(:string)
-        @mock.random_call("a string")
-      end
-      
-      it "should match no args against any_args" do
-        @mock.should_receive(:random_call).with(:any_args)
-        @mock.random_call("a string")
-      end
-      
-      it "should match no args against no_args" do
-        @mock.should_receive(:random_call).with(:no_args)
-        @mock.random_call
-      end
-    end
-
     describe Methods, "handling argument constraints" do
       it_should_behave_like "mock argument constraints"
 
