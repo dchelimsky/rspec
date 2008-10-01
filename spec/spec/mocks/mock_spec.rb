@@ -425,6 +425,12 @@ module Spec
         @mock.rspec_verify
       end
 
+      it "should raise an error when a previously stubbed method has a negative expectation" do
+        @mock.stub!(:msg).and_return(:stub_value)
+        @mock.should_not_receive(:msg).and_return(:mock_value)
+        lambda {@mock.msg(:arg)}.should raise_error(MockExpectationError)
+      end
+
       it "should temporarily replace a method stub on a non-mock" do
         non_mock = Object.new
         non_mock.stub!(:msg).and_return(:stub_value)
