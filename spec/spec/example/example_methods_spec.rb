@@ -101,6 +101,16 @@ module Spec
               @example.description.should == "should == 2"
             end
           end
+          
+          describe "with no implementation" do
+            it "should raise an ExamplePendingError" do
+              lambda {
+                @example_group = Class.new(ExampleGroup) do end
+                @example = @example_group.it
+                @example.eval_block
+              }.should raise_error(Spec::Example::ExamplePendingError, "Not Yet Implemented")
+            end
+          end
         end
       end
 
