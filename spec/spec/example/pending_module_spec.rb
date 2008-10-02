@@ -88,5 +88,76 @@ module Spec
         ExamplePendingError.new.message.should == "Spec::Example::ExamplePendingError"
       end
     end
+    
+    describe DefaultPendingError do
+      def rspec_root
+        File.expand_path(__FILE__.gsub("/spec/spec/example/pending_module_spec.rb", "/lib"))
+      end
+      
+      it "should have the root rspec path" do
+        DefaultPendingError::RSPEC_ROOT_LIB.should == rspec_root
+      end
+      
+      it "should be a kind_of? Exception" do
+        DefaultPendingError.new([]).should be_a_kind_of(::Exception)
+      end
+      
+      it "should have the error provided" do
+        DefaultPendingError.new([], "foobar").message.should == "foobar"
+      end
+      
+      it "should use a 'Spec::Example::DefaultPendingError' as it's default message" do
+        error = DefaultPendingError.new([])
+        error.message.should == "Spec::Example::DefaultPendingError"
+      end
+      
+      describe "pending_caller" do
+        def new_error(call_stack)
+          DefaultPendingError.new(call_stack)
+        end
+        
+        it "should select an element out of the call stack" do
+          call_stack = ["foo/bar.rb:18"]
+          error = new_error(call_stack)
+          
+          error.pending_caller.should == "foo/bar.rb:18"
+        end
+        
+        it "should actually report the element from the call stack" do
+          call_stack = ["bar.rb:18"]
+          error = new_error(call_stack)
+          
+          error.pending_caller.should == "bar.rb:18"
+        end
+        
+        it "should not use an element with the rspec root path" do
+          call_stack = ["#{rspec_root}:8"]
+          error = new_error(call_stack)
+          
+          error.pending_caller.should be_nil
+        end
+        
+        it "should select the first in the call stack which isn't in the rspec root" do
+          call_stack = [
+            "#{rspec_root}/foo.rb:2",
+            "#{rspec_root}/foo/bar.rb:18",
+            "path1.rb:22",
+            "path2.rb:33"
+          ]
+          
+          error = new_error(call_stack)
+          error.pending_caller.should == "path1.rb:22"
+        end
+        
+        it "should cache the caller" do
+          call_stack = mock 'call stack'
+          call_stack.should_receive(:detect).once
+          
+          error = new_error(call_stack)
+          error.pending_caller
+          error.pending_caller
+        end
+      end
+    end
   end
 end
