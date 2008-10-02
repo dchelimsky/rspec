@@ -105,11 +105,33 @@ module Spec
           end
           
           describe "with no implementation" do
-            it "should raise an ExamplePendingError" do
+            it "should raise an DefaultPendingError" do
               lambda {
                 @example = @example_group.it
                 @example.eval_block
-              }.should raise_error(Spec::Example::ExamplePendingError, "Not Yet Implemented")
+              }.should raise_error(Spec::Example::DefaultPendingError, "Not Yet Implemented")
+            end
+            
+            def extract_error(&blk)
+              begin
+                blk.call
+              rescue Exception => e
+                return e
+              end
+              
+              nil
+            end
+            
+            it "should use the proper file and line number for the DefaultPendingError" do
+              file = __FILE__
+              line_number = __LINE__ + 3
+              
+              error = extract_error do
+                @example = @example_group.it
+                @example.eval_block
+              end
+              
+              error.pending_caller.should == "#{file}:#{line_number}"
             end
           end
         end
