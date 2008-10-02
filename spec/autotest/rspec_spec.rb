@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + "/../autotest_helper"
+require File.dirname(__FILE__) + "/autotest_helper"
 
 class Autotest
   

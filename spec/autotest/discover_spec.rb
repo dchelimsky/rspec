@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + "/../autotest_helper"
+require File.dirname(__FILE__) + "/autotest_helper"
 
 module DiscoveryHelper
   def load_discovery
