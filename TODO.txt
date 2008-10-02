@@ -4,4 +4,6 @@
 
 == Future
 
-* do SOMETHING with the website 
+* do SOMETHING with the website
+* extract spec/story to rspec-stories (new gem)
+* remove the ruby engine adapter unless Rubinius team plans to use it
