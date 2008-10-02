@@ -1,6 +1,7 @@
 === Development
 
 * removed deprecated mock argument constraint symbols
+* fixed bug where negative message expectations following stubs resulted in false (negative) positives (Pat Maddox).Closes #548.
 
 === Version 1.1.5
 
