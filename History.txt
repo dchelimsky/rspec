@@ -1,10 +1,15 @@
 === Development
 
-* removed deprecated mock argument constraint symbols
-* fixed bug where negative message expectations following stubs resulted in false (negative) positives (Pat Maddox). Closes #548.
-* fixed bug where Not Yet Implemented examples report incorrect caller (Scott Taylor). Closes #547.
+* 2 bug fixes
 
-=== Version 1.1.5
+	* fixed bug where negative message expectations following stubs resulted in false (negative) positives (Pat Maddox). Closes #548.
+	* fixed bug where Not Yet Implemented examples report incorrect caller (Scott Taylor). Closes #547.
+
+* 1 minor enhancement
+
+	* removed deprecated mock argument constraint symbols
+
+=== Version 1.1.5 / 2008-09-28
 
 IMPORTANT: use the new 'autospec' command instead of 'autotest'. We changed
 the way autotest discovers rspec so the autotest executable won't
