@@ -9,20 +9,20 @@ module Spec
       attr_reader :pending_caller
     end
     
-    class DefaultPendingError < ExamplePendingError
-      DEFAULT_PENDING_MESSAGE = "Not Yet Implemented"
+    class NotYetImplementedError < ExamplePendingError
+      MESSAGE = "Not Yet Implemented"
       RSPEC_ROOT_LIB = File.expand_path(File.dirname(__FILE__) + "/../..")
       
-      def initialize(call_stack)
-        super(DEFAULT_PENDING_MESSAGE)
-        @pending_caller = find_pending_caller(call_stack)
+      def initialize(backtrace)
+        super(MESSAGE)
+        @pending_caller = find_pending_caller(backtrace)
       end
       
     private
       
-      def find_pending_caller(call_stack)
-        call_stack.detect do |trace|
-          !trace.include?(RSPEC_ROOT_LIB)
+      def find_pending_caller(backtrace)
+        backtrace.detect do |line|
+          !line.include?(RSPEC_ROOT_LIB)
         end
       end
     end

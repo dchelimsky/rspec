@@ -89,26 +89,26 @@ module Spec
       end
     end
     
-    describe DefaultPendingError do
+    describe NotYetImplementedError do
       def rspec_root
         File.expand_path(__FILE__.gsub("/spec/spec/example/pending_module_spec.rb", "/lib"))
       end
       
       it "should have the root rspec path" do
-        DefaultPendingError::RSPEC_ROOT_LIB.should == rspec_root
+        NotYetImplementedError::RSPEC_ROOT_LIB.should == rspec_root
       end
       
       it "should be a kind_of? Exception" do
-        DefaultPendingError.new([]).should be_a_kind_of(::Exception)
+        NotYetImplementedError.new([]).should be_a_kind_of(::Exception)
       end
       
       it "should always have the error 'Not Yet Implemented'" do
-        DefaultPendingError.new([]).message.should == "Not Yet Implemented"
+        NotYetImplementedError.new([]).message.should == "Not Yet Implemented"
       end
       
       describe "pending_caller" do
         def new_error(call_stack)
-          DefaultPendingError.new(call_stack)
+          NotYetImplementedError.new(call_stack)
         end
         
         it "should select an element out of the call stack" do

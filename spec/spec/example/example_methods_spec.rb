@@ -105,11 +105,11 @@ module Spec
           end
           
           describe "with no implementation" do
-            it "should raise an DefaultPendingError" do
+            it "should raise an NotYetImplementedError" do
               lambda {
                 @example = @example_group.it
                 @example.eval_block
-              }.should raise_error(Spec::Example::DefaultPendingError, "Not Yet Implemented")
+              }.should raise_error(Spec::Example::NotYetImplementedError, "Not Yet Implemented")
             end
             
             def extract_error(&blk)
@@ -122,7 +122,7 @@ module Spec
               nil
             end
             
-            it "should use the proper file and line number for the DefaultPendingError" do
+            it "should use the proper file and line number for the NotYetImplementedError" do
               file = __FILE__
               line_number = __LINE__ + 3
               
