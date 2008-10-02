@@ -10,10 +10,11 @@ module Spec
     end
     
     class DefaultPendingError < ExamplePendingError
+      DEFAULT_PENDING_MESSAGE = "Not Yet Implemented"
       RSPEC_ROOT_LIB = File.expand_path(File.dirname(__FILE__) + "/../..")
       
-      def initialize(call_stack, message = nil)
-        super(message)
+      def initialize(call_stack)
+        super(DEFAULT_PENDING_MESSAGE)
         @pending_caller = find_pending_caller(call_stack)
       end
       

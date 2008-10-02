@@ -14,7 +14,7 @@ module Spec
     private
       
       def pending_implementation
-        error = DefaultPendingError.new(caller, "Not Yet Implemented")
+        error = DefaultPendingError.new(caller)
         lambda { raise(error) }
       end
     end

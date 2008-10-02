@@ -102,13 +102,8 @@ module Spec
         DefaultPendingError.new([]).should be_a_kind_of(::Exception)
       end
       
-      it "should have the error provided" do
-        DefaultPendingError.new([], "foobar").message.should == "foobar"
-      end
-      
-      it "should use a 'Spec::Example::DefaultPendingError' as it's default message" do
-        error = DefaultPendingError.new([])
-        error.message.should == "Spec::Example::DefaultPendingError"
+      it "should always have the error 'Not Yet Implemented'" do
+        DefaultPendingError.new([]).message.should == "Not Yet Implemented"
       end
       
       describe "pending_caller" do
