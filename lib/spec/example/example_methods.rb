@@ -7,7 +7,7 @@ module Spec
       
 
       PENDING_EXAMPLE_BLOCK = lambda {
-        raise Spec::Example::ExamplePendingError.new("Not Yet Implemented")
+        raise(Spec::Example::ExamplePendingError, "Not Yet Implemented")
       }
 
       def execute(options, instance_variables)
