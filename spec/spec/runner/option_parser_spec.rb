@@ -91,7 +91,7 @@ describe "OptionParser" do
   it "should print version to stdout" do
     options = parse(["--version"])
     @out.rewind
-    @out.read.should match(/rspec version \d+\.\d+\.\d+/n)
+    @out.read.should match(/rspec \d+\.\d+\.\d+/n)
   end
   
   it "should require file when require specified" do

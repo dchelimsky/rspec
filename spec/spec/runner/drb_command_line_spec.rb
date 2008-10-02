@@ -51,7 +51,7 @@ module Spec
 
         it "should run against local server" do
           out = run_spec_via_druby(['--version'])
-          out.should =~ /rspec version \d+\.\d+\.\d+.*/n
+          out.should =~ /rspec \d+\.\d+\.\d+.*/n
         end
 
         it "should output green colorized text when running with --colour option" do
