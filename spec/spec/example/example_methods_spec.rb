@@ -84,9 +84,12 @@ module Spec
         end
 
         describe "eval_block" do
+          before(:each) do
+            @example_group = Class.new(ExampleGroup)
+          end
+          
           describe "with a given description" do
             it "should provide the given description" do
-              @example_group = Class.new(ExampleGroup) do end
               @example = @example_group.it("given description") { 2.should == 2 }
               @example.eval_block
               @example.description.should == "given description"
@@ -95,7 +98,6 @@ module Spec
 
           describe "with no given description" do
             it "should provide the generated description" do
-              @example_group = Class.new(ExampleGroup) do end
               @example = @example_group.it { 2.should == 2 }
               @example.eval_block
               @example.description.should == "should == 2"
@@ -105,7 +107,6 @@ module Spec
           describe "with no implementation" do
             it "should raise an ExamplePendingError" do
               lambda {
-                @example_group = Class.new(ExampleGroup) do end
                 @example = @example_group.it
                 @example.eval_block
               }.should raise_error(Spec::Example::ExamplePendingError, "Not Yet Implemented")
