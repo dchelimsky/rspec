@@ -107,50 +107,41 @@ module Spec
       end
       
       describe "pending_caller" do
-        def new_error(backtrace)
-          NotYetImplementedError.new(backtrace)
-        end
-        
         it "should select an element out of the backtrace" do
-          backtrace = ["foo/bar.rb:18"]
-          error = new_error(backtrace)
+          error = NotYetImplementedError.new(["foo/bar.rb:18"])
           
           error.pending_caller.should == "foo/bar.rb:18"
         end
         
         it "should actually report the element from the backtrace" do
-          backtrace = ["bar.rb:18"]
-          error = new_error(backtrace)
+          error = NotYetImplementedError.new(["bar.rb:18"])
           
           error.pending_caller.should == "bar.rb:18"
         end
         
         it "should not use an element with the rspec root path" do
-          backtrace = ["#{rspec_root}:8"]
-          error = new_error(backtrace)
+          error = NotYetImplementedError.new(["#{rspec_root}:8"])
           
           error.pending_caller.should be_nil
         end
         
-        it "should select the first in the backtrace which isn't in the rspec root" do
-          backtrace = [
+        it "should select the first line in the backtrace which isn't in the rspec root" do
+          error = NotYetImplementedError.new([
             "#{rspec_root}/foo.rb:2",
             "#{rspec_root}/foo/bar.rb:18",
             "path1.rb:22",
             "path2.rb:33"
-          ]
+          ])
           
-          error = new_error(backtrace)
           error.pending_caller.should == "path1.rb:22"
         end
         
         it "should cache the caller" do
-          backtrace = mock 'backtrace'
+          backtrace = mock('backtrace')
           backtrace.should_receive(:detect).once
           
-          error = new_error(backtrace)
-          error.pending_caller
-          error.pending_caller
+          error = NotYetImplementedError.new(backtrace)
+          error.pending_caller.should == error.pending_caller
         end
       end
     end

@@ -1,12 +1,12 @@
 module Spec
   module Example
     class ExamplePendingError < StandardError
-      def initialize(a_message=nil)
-        super
+      attr_reader :pending_caller
+
+      def initialize(message=nil)
+        super(message)
         @pending_caller = caller[2]
       end
-      
-      attr_reader :pending_caller
     end
     
     class NotYetImplementedError < ExamplePendingError
@@ -15,15 +15,13 @@ module Spec
       
       def initialize(backtrace)
         super(MESSAGE)
-        @pending_caller = find_pending_caller(backtrace)
+        @pending_caller = pending_caller_from(backtrace)
       end
       
     private
       
-      def find_pending_caller(backtrace)
-        backtrace.detect do |line|
-          !line.include?(RSPEC_ROOT_LIB)
-        end
+      def pending_caller_from(backtrace)
+        backtrace.detect {|line| !line.include?(RSPEC_ROOT_LIB) }
       end
     end
 
