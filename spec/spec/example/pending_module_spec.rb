@@ -37,6 +37,30 @@ module Spec
           end
         }.should raise_error(PendingExampleFixedError, /TODO/)
       end
+      
+      it "should have the correct file and line number for pending given with a block which fails" do
+        file = __FILE__
+        line_number = __LINE__ + 3
+        begin
+          include Pending
+          pending do
+            raise
+          end
+        rescue => error
+          error.pending_caller.should == "#{file}:#{line_number}"
+        end
+      end
+      
+      it "should have the correct file and line number for pending given with no block" do
+        file = __FILE__
+        line_number = __LINE__ + 3
+        begin
+          include Pending
+          pending("TODO")
+        rescue => error
+          error.pending_caller.should == "#{file}:#{line_number}"
+        end
+      end
     end
     
     describe ExamplePendingError do
@@ -64,6 +88,5 @@ module Spec
         ExamplePendingError.new.message.should == "Spec::Example::ExamplePendingError"
       end
     end
-    
   end
 end
