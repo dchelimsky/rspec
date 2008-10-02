@@ -98,10 +98,6 @@ module Spec
         NotYetImplementedError::RSPEC_ROOT_LIB.should == rspec_root
       end
       
-      it "should be a kind_of? Exception" do
-        NotYetImplementedError.new([]).should be_a_kind_of(::Exception)
-      end
-      
       it "should always have the error 'Not Yet Implemented'" do
         NotYetImplementedError.new([]).message.should == "Not Yet Implemented"
       end
