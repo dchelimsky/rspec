@@ -4,7 +4,7 @@ module Spec
       attr_reader :pending_caller
 
       def initialize(message=nil)
-        super(message)
+        super
         @pending_caller = caller[2]
       end
     end
