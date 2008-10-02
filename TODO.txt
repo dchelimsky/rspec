@@ -1,1 +1,7 @@
+== 1.1.6
 
+* resolve windows tty/colorization issue
+
+== Future
+
+* do SOMETHING with the website 
