@@ -33,7 +33,7 @@ module Spec
         end
         
         def create_story_runner
-          StoryRunner.new(scenario_runner, world_creator)
+          Runner::StoryRunner.new(scenario_runner, world_creator)
         end
         
         # Use this to register a customer output formatter.
