@@ -75,7 +75,7 @@ module Spec
       end
 
       def eval_block
-        return instance_eval(&@_implementation)
+        instance_eval(&@_implementation)
       end
 
       def implementation_backtrace
