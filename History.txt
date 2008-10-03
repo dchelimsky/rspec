@@ -1,9 +1,9 @@
-=== Development
+=== Version 1.1.8 / 2008-10-03
 
 * 2 bug fixes
 
   * restore colorized output in linux and windows (cygwin only) w/ autotest. Fixes #413.
-  * autospec now works on windows. Fixes #554.
+  * autospec no longer hangs on windows. Fixes #554.
 
 === Version 1.1.7 / 2008-10-02
 
