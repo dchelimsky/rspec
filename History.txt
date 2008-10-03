@@ -2,7 +2,7 @@
 
 * 1 bug fix
 
-  * restore colorized output in windows w/ autotest. Fixes #413.
+  * restore colorized output in linux w/ autotest. Fixes #413.
 
 === Version 1.1.7 / 2008-10-02
 
