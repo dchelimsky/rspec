@@ -66,12 +66,18 @@ describe "OptionParser" do
     options.colour.should == false
   end
   
-  it "should print help to stdout if no args" do
-    pending 'A regression since 1.0.8' do
-      options = parse([])
-      @out.rewind
-      @out.read.should match(/Usage: spec \(FILE\|DIRECTORY\|GLOB\)\+ \[options\]/m)
-    end
+  it "should print help to stdout if no args and tty?" do
+    @out.stub!(:tty?).and_return(true)
+    options = parse([])
+    @out.rewind
+    @out.read.should match(/Usage: spec \(FILE\|DIRECTORY\|GLOB\)\+ \[options\]/m)
+  end
+  
+  it "should not print help to stdout if no args and NOT tty?" do
+    @out.stub!(:tty?).and_return(false)
+    options = parse([])
+    @out.rewind
+    @out.read.should == ""
   end
   
   it "should print help to stdout" do
