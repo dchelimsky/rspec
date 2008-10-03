@@ -1,3 +1,4 @@
 #!/usr/bin/env ruby
-ENV['RSPEC'] = 'true'
+ENV['RSPEC'] = 'true'     # allows autotest to discover rspec
+ENV['AUTOTEST'] = 'true'  # allows autotest to run w/ color on windows
 system("autotest", *ARGV)

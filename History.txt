@@ -1,3 +1,9 @@
+=== Development
+
+* 1 bug fix
+
+  * restore colorized output in windows w/ autotest. Fixes #413.
+
 === Version 1.1.7 / 2008-10-02
 
 * no changes since 1.1.6, but releasing rspec-1.1.7 to align versions with rspec-rails-1.1.7
