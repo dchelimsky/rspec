@@ -18,10 +18,12 @@ Hoe.new('rspec', Spec::VERSION::STRING) do |p|
   p.url = 'http://rspec.info/'
   p.description = "Behaviour Driven Development for Ruby."
   p.rubyforge_name = 'rspec'
+  p.extra_dev_deps = ['diff-lcs',['spicycode-rcov','>= 0.8.1.3'],'syntax']
   p.developer('RSpec Development Team', 'rspec-devel@rubyforge.org')
+  p.remote_rdoc_dir = "rspec/#{Spec::VERSION::STRING}"
 end
 
-['audit','test','test_deps','default','publish_docs','post_blog'].each do |task|
+['audit','test','test_deps','default','post_blog'].each do |task|
   Rake.application.instance_variable_get('@tasks').delete(task)
 end
 

@@ -13,12 +13,12 @@
 
 * 2 bug fixes
 
-	* fixed bug where negative message expectations following stubs resulted in false (negative) positives (Mathias Meyer). Closes #548.
-	* fixed bug where Not Yet Implemented examples report incorrect caller (Scott Taylor). Closes #547.
+  * fixed bug where negative message expectations following stubs resulted in false (negative) positives (Mathias Meyer). Closes #548.
+  * fixed bug where Not Yet Implemented examples report incorrect caller (Scott Taylor). Closes #547.
 
 * 1 minor enhancement
 
-	* removed deprecated mock argument constraint symbols
+  * removed deprecated mock argument constraint symbols
 
 === Version 1.1.5 / 2008-09-28
 
