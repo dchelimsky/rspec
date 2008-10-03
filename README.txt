@@ -2,6 +2,7 @@
 
 * http://rspec.info
 * http://rspec.info/rdoc/
+* http://rubyforge.org/projects/rspec
 * http://github.com/dchelimsky/rspec/wikis
 * mailto:rspec-devel@rubyforge.org
 
