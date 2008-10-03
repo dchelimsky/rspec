@@ -34,7 +34,7 @@ module Spec
                                                           "an example name directly, causing RSpec to run just the example",
                                                           "matching that name"],
         :specification => ["-s", "--specification [NAME]", "DEPRECATED - use -e instead", "(This will be removed when autotest works with -e)"],
-        :line => ["-l", "--line LINE_NUMBER", Integer, "Execute behaviout or specification at given line.",
+        :line => ["-l", "--line LINE_NUMBER", Integer, "Execute behaviour or specification at given line.",
                                                        "(does not work for dynamically generated specs)"],
         :format => ["-f", "--format FORMAT[:WHERE]","Specifies what format to use for output. Specify WHERE to tell",
                                                     "the formatter where to write the output. All built-in formats",
