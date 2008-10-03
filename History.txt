@@ -1,8 +1,9 @@
 === Development
 
-* 1 bug fix
+* 2 bug fixes
 
   * restore colorized output in linux w/ autotest. Fixes #413.
+  * autospec now works on windows. Fixes #554.
 
 === Version 1.1.7 / 2008-10-02
 
