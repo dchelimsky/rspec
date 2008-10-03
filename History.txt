@@ -2,7 +2,7 @@
 
 * 2 bug fixes
 
-  * restore colorized output in linux w/ autotest. Fixes #413.
+  * restore colorized output in linux and windows (cygwin only) w/ autotest. Fixes #413.
   * autospec now works on windows. Fixes #554.
 
 === Version 1.1.7 / 2008-10-02
