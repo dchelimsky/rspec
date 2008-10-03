@@ -45,7 +45,10 @@ module Test
 
       def initialize(defined_description, &implementation)
         @_defined_description = defined_description
-        @_implementation = implementation
+        
+        # TODO - examples fail in rspec-rails if we remove "|| pending_implementation"
+        #      - find a way to fail without it in rspec's code examples
+        @_implementation = implementation || pending_implementation
 
         @_result = ::Test::Unit::TestResult.new
         # @method_name is important to set here because it "complies" with Test::Unit's interface.
@@ -55,6 +58,13 @@ module Test
 
       def run(ignore_this_argument=nil)
         super()
+      end
+
+    private
+
+      def pending_implementation
+        error = Spec::Example::NotYetImplementedError.new(caller)
+        lambda { raise(error) }
       end
     end
   end
