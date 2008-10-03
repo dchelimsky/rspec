@@ -204,15 +204,14 @@ rake_tasks/failing_examples_with_html.rake
 rake_tasks/verify_rcov.rake
 rspec.gemspec
 spec/README.jruby
+spec/autotest/autotest_helper.rb
+spec/autotest/autotest_matchers.rb
 spec/autotest/discover_spec.rb
 spec/autotest/rspec_spec.rb
-spec/autotest_helper.rb
-spec/autotest_matchers.rb
 spec/rspec_suite.rb
 spec/ruby_forker.rb
 spec/spec.opts
 spec/spec/adapters/ruby_engine_spec.rb
-spec/spec/example/base_formatter_spec.rb
 spec/spec/example/configuration_spec.rb
 spec/spec/example/example_group/described_module_spec.rb
 spec/spec/example/example_group/warning_messages_spec.rb
@@ -300,6 +299,7 @@ spec/spec/runner/drb_command_line_spec.rb
 spec/spec/runner/empty_file.txt
 spec/spec/runner/examples.txt
 spec/spec/runner/failed.txt
+spec/spec/runner/formatter/base_formatter_spec.rb
 spec/spec/runner/formatter/failing_example_groups_formatter_spec.rb
 spec/spec/runner/formatter/failing_examples_formatter_spec.rb
 spec/spec/runner/formatter/html_formatted-1.8.4.html
