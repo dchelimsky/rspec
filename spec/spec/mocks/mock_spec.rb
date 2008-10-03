@@ -456,6 +456,15 @@ module Spec
         @mock.rspec_verify
       end
 
+      it "should yield values when given argument constraints" do
+        File.stub!(:open).and_yield(:stub_value)
+        File.should_receive(:open).with(/mocked/).and_yield(:first_call).and_yield(:second_call)
+        yielded_args = []
+        File.open("this be mocked yo") {|v| yielded_args << v }
+        yielded_args.should == [:first_call, :second_call]
+        File.rspec_verify
+      end
+
       it "should assign stub return values" do
         mock = Mock.new('name', :message => :response)
         mock.message.should == :response

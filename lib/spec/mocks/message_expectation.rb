@@ -3,8 +3,8 @@ module Spec
 
     class BaseExpectation
       attr_reader :sym
-      attr_writer :expected_received_count, :method_block, :expected_from, :args_to_yield
-      protected :expected_received_count=, :method_block=, :expected_from=, :args_to_yield=
+      attr_writer :expected_received_count, :method_block, :expected_from
+      protected :expected_received_count=, :method_block=, :expected_from=
       attr_accessor :error_generator
       protected :error_generator, :error_generator=
       
@@ -35,7 +35,7 @@ module Spec
         new_gen = error_generator.clone
         new_gen.opts = opts
         child.error_generator = new_gen
-        child.args_to_yield = @args_to_yield.clone
+        child.clone_args_to_yield @args_to_yield
         child
       end
       
@@ -84,6 +84,11 @@ module Spec
       end
       
       def and_yield(*args)
+        if @args_to_yield_were_cloned
+          @args_to_yield.clear
+          @args_to_yield_were_cloned = false
+        end
+        
         @args_to_yield << args
         self
       end
@@ -172,6 +177,11 @@ module Spec
         else
           @return_block.call(*args)
         end
+      end
+
+      def clone_args_to_yield(args)
+        @args_to_yield = args.clone
+        @args_to_yield_were_cloned = true
       end
     end
     
