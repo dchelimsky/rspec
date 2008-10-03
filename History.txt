@@ -1,3 +1,11 @@
+=== Maintenance
+
+* 3 bug fixes
+
+  * spec command prints help when no arguments (tty only)
+  * fixed typo in help. Fixes #73.
+  * fixed bug where should_receive..and_yield after similar stub added the args_to_yield to the stub's original args_to_yield (Pat Maddox)
+
 === Version 1.1.8 / 2008-10-03
 
 * 2 bug fixes
