@@ -60,6 +60,10 @@ module Spec
       def description
         @_defined_description || ::Spec::Matchers.generated_description || "NO NAME"
       end
+      
+      def options
+        @_options
+      end
 
       def __full_description
         "#{self.class.description} #{self.description}"

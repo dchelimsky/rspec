@@ -159,5 +159,14 @@ module Spec
         end
       end
     end
+
+    describe "#options" do
+      it "should expose the options hash" do
+        example_group = Class.new(ExampleGroup)
+        example = example_group.example "name", :this => 'that' do; end
+        example.options[:this].should == 'that'
+      end
+    end
+
   end
 end

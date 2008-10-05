@@ -112,8 +112,8 @@ module Spec
 
       # Creates an instance of the current example group class and adds it to
       # a collection of examples of the current example group.
-      def example(description=nil, &implementation)
-        e = new(description, &implementation)
+      def example(description=nil, options={}, &implementation)
+        e = new(description, options, &implementation)
         example_objects << e
         e
       end
