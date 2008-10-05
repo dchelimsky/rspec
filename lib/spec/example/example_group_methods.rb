@@ -14,6 +14,7 @@ module Spec
       end
 
       attr_reader :description_text, :description_args, :description_options, :spec_path, :registration_binding_block
+      alias :options :description_options
 
       def inherited(klass)
         super

@@ -27,7 +27,7 @@ module Spec
       end
 
       ["describe","context"].each do |method|
-        describe "#{method}" do
+        describe "##{method}" do
           describe "when creating an ExampleGroup" do
             attr_reader :child_example_group
             before do
@@ -567,6 +567,13 @@ module Spec
           ensure 
             ExampleGroupMethods.matcher_class = ExampleMatcher
           end
+        end
+      end
+
+      describe "#options" do
+        it "should expose the options hash" do
+          group = describe("group", :this => 'hash') {}
+          group.options[:this].should == 'hash'
         end
       end
     end
