@@ -117,7 +117,7 @@ module Spec
       end
 
       def order!(argv, &blk)
-        @argv = (argv.empty? && @out_stream.tty?) ? ['--help'] : argv 
+        @argv = (argv.empty? && Spec.spec_command?) ? ['--help'] : argv 
         @options.argv = @argv.dup
         return if parse_generate_options
         return if parse_drb
@@ -129,7 +129,7 @@ module Spec
 
         @options
       end
-
+      
       protected
       def invoke_requires(requires)
         requires.split(",").each do |file|

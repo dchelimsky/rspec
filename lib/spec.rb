@@ -24,5 +24,9 @@ module Spec
     def exit?
       !Object.const_defined?(:Test) || Test::Unit.run?
     end
+
+    def spec_command?
+      $0.split('/').last == 'spec'
+    end
   end
 end
