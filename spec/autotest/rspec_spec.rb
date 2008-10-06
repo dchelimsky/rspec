@@ -96,7 +96,11 @@ HERE
         @rspec_autotest.should map_specs([@spec_file]).to(@spec_file)
       end
     
-      it "should only find the file if the file is being tracked (in @file)"  do
+      it "should ignore files in spec dir that aren't specs" do
+        @rspec_autotest.should map_specs([]).to("spec/spec_helper.rb")
+      end
+    
+      it "should ignore untracked files (in @file)"  do
         @rspec_autotest.should map_specs([]).to("lib/untracked_file")
       end
     end
