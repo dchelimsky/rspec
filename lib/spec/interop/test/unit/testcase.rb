@@ -43,7 +43,7 @@ module Test
         end
       end
 
-      def initialize(defined_description, &implementation)
+      def initialize(defined_description, options={}, &implementation)
         @_defined_description = defined_description
         
         # TODO - examples fail in rspec-rails if we remove "|| pending_implementation"

@@ -42,4 +42,11 @@ describe "ExampleGroup with test/unit/interop" do
       $?.should == 256
     end
   end
+  
+  describe "options hash" do
+    it "should be exposed" do
+      output = ruby("#{@dir}/spec_with_options_hash.rb")
+      output.should include("1 example, 0 failures")
+    end
+  end
 end
