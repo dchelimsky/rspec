@@ -1,7 +1,3 @@
-== 1.1.6
-
-* resolve windows tty/colorization issue
-
 == Future
 
 * do SOMETHING with the website
@@ -11,4 +7,4 @@
   * continue to support Spec 'spec' and 'autospec' as aliases for a reasonable time
 * separate the underlying framework from the DSL
   * be able to do everything with classes and methods
-
+* tweak raise_error rdoc to show only one arg
