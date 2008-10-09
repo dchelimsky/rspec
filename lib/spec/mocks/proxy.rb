@@ -15,7 +15,7 @@ module Spec
         $rspec_mocks.add(nil) unless $rspec_mocks.nil?
       end
 
-      def initialize(target, name, options={})
+      def initialize(target, name=nil, options={})
         @target = target
         @name = name
         @error_generator = ErrorGenerator.new target, name
@@ -87,8 +87,7 @@ module Spec
         expectation = find_matching_expectation(sym, *args)
         stub = find_matching_method_stub(sym, *args)
 
-        if (stub && expectation && expectation.called_max_times?) ||
-            (stub && !expectation)
+        if (stub && expectation && expectation.called_max_times?) || (stub && !expectation)
           if expectation = find_almost_matching_expectation(sym, *args)
             expectation.advise(args, block) unless expectation.expected_messages_received?
           end
@@ -201,7 +200,7 @@ module Spec
       end
       
       def proxy_for_nil_class?
-        @name == "NilClass"
+        @target.nil?
       end
       
       def reset_nil_expectations_warning

@@ -43,7 +43,7 @@ module Spec
         if Mock === self
           @mock_proxy ||= Proxy.new(self, @name, @options)
         else
-          @mock_proxy ||= Proxy.new(self, self.class.name)
+          @mock_proxy ||= Proxy.new(self)
         end
       end
     end
