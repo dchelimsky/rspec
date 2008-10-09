@@ -99,6 +99,7 @@ module Spec
       
       def invoke(args, block)
         if @expected_received_count == 0
+          @failed_fast = true
           @actual_received_count += 1
           @error_generator.raise_expectation_error @sym, @expected_received_count, @actual_received_count, *args
         end
@@ -183,6 +184,10 @@ module Spec
         @args_to_yield = args.clone
         @args_to_yield_were_cloned = true
       end
+      
+      def failed_fast?
+        @failed_fast
+      end
     end
     
     class MessageExpectation < BaseExpectation
@@ -192,7 +197,7 @@ module Spec
       end
        
       def verify_messages_received   
-        return if expected_messages_received?
+        return if expected_messages_received? || failed_fast?
     
         generate_error
       rescue Spec::Mocks::MockExpectationError => error

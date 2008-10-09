@@ -28,7 +28,6 @@ module Spec
       end
             
       it "should_not_receive should mock out the method" do
-        pending("example raises the expected error, yet fails")
         @object.should_not_receive(:fuhbar)
         lambda do
           @object.fuhbar
@@ -73,7 +72,6 @@ module Spec
       end
       
       it "should_not_receive should also take a String argument" do
-        pending("example raises the expected error, yet fails")
         @object.should_not_receive('foobar')
         lambda do
           @object.foobar   
