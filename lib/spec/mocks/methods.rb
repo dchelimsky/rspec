@@ -30,7 +30,7 @@ module Spec
       end
       
       def as_null_object
-        __mock_proxy.act_as_null_object
+        __mock_proxy.as_null_object
       end
       
       def null_object?

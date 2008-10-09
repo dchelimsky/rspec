@@ -31,7 +31,7 @@ module Spec
         @options[:null_object]
       end
       
-      def act_as_null_object
+      def as_null_object
         @options[:null_object] = true
         @target
       end
