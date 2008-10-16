@@ -65,19 +65,12 @@ module Spec
       
       # Use this to pull in examples from shared example groups.
       # See Spec::Runner for information about shared example groups.
-      def it_should_behave_like(shared_example_group)
-        case shared_example_group
-        when SharedExampleGroup
-          include shared_example_group
-        else
-          example_group = SharedExampleGroup.find_shared_example_group(shared_example_group)
-          unless example_group
-            raise RuntimeError.new("Shared Example Group '#{shared_example_group}' can not be found")
-          end
-          include(example_group)
+      def it_should_behave_like(*shared_example_groups)
+        shared_example_groups.each do |group|
+          include_shared_example_group(group)
         end
       end
-
+      
       # :call-seq:
       #   predicate_matchers[matcher_name] = method_on_object
       #   predicate_matchers[matcher_name] = [method1_on_object, method2_on_object]
@@ -441,6 +434,20 @@ module Spec
           instance_method(method_name).arity == -1
         )
       end
+
+      def include_shared_example_group(shared_example_group)
+        case shared_example_group
+        when SharedExampleGroup
+          include shared_example_group
+        else
+          example_group = SharedExampleGroup.find_shared_example_group(shared_example_group)
+          unless example_group
+            raise RuntimeError.new("Shared Example Group '#{shared_example_group}' can not be found")
+          end
+          include(example_group)
+        end
+      end
+
     end
 
   end

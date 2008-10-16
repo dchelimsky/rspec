@@ -126,6 +126,21 @@ module Spec
         example_group.number_of_examples.should == 3
       end
 
+      it "should add examples to from two shared groups" do
+        shared_example_group_1 = make_shared_example_group("shared example_group 1") do
+          it("shared example 1") {}
+        end
+
+        shared_example_group_1 = make_shared_example_group("shared example_group 2") do
+          it("shared example 2") {}
+        end
+
+        example_group.it("example") {}
+        example_group.number_of_examples.should == 1
+        example_group.it_should_behave_like("shared example_group 1", "shared example_group 2")
+        example_group.number_of_examples.should == 3
+      end
+
       it "should add examples to current example_group using include" do
         shared_example_group = describe "all things", :shared => true do
           it "should do stuff" do end
