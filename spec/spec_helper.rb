@@ -48,9 +48,9 @@ module Spec
   end
 end
 
-share_as :SandboxedOptions do
+def with_sandboxed_options
   attr_reader :options
-
+  
   before(:each) do
     @original_rspec_options = ::Spec::Runner.options
     ::Spec::Runner.use(@options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new))
@@ -59,4 +59,6 @@ share_as :SandboxedOptions do
   after(:each) do
     ::Spec::Runner.use(@original_rspec_options)
   end
-end unless Object.const_defined?(:SandboxedOptions)
+  
+  yield
+end
