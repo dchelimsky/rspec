@@ -35,6 +35,10 @@ module Spec
       end
       exception
     end
+
+    def run_with(options)
+      ::Spec::Runner::CommandLine.run(options)
+    end
   end
 end
 
@@ -48,9 +52,5 @@ share_as :SandboxedOptions do
 
   after(:each) do
     ::Spec::Runner.use(@original_rspec_options)
-  end
-
-  def run_with(options)
-    ::Spec::Runner::CommandLine.run(options)
   end
 end unless Object.const_defined?(:SandboxedOptions)
