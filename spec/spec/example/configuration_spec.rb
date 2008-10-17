@@ -44,7 +44,7 @@ module Spec
 
       describe "#include" do
 
-        before do
+        before(:each) do
           @original_configuration = Spec::Runner.configuration
           spec_configuration = @config
           Spec::Runner.instance_eval {@configuration = spec_configuration}
@@ -57,7 +57,7 @@ module Spec
           ExampleGroupFactory.register(:foobar, @example_group_class)
         end
 
-        after do
+        after(:each) do
           original_configuration = @original_configuration
           Spec::Runner.instance_eval {@configuration = original_configuration}
           ExampleGroupFactory.reset
@@ -86,7 +86,45 @@ module Spec
         end
 
       end
-    
+      
+      describe "#extend" do
+        
+        before(:each) do
+          @original_configuration = Spec::Runner.configuration
+          Spec::Runner.instance_eval {@configuration = @config}
+          @example_group_class = Class.new(ExampleGroup) {}
+          ExampleGroupFactory.register(:foobar, @example_group_class)
+        end
+
+        after(:each) do
+          original_configuration = @original_configuration
+          Spec::Runner.instance_eval {@configuration = @original_configuration}
+          ExampleGroupFactory.reset
+        end
+        
+        it "should extend all groups" do
+          mod = Module.new
+          ExampleGroup.should_receive(:extend).with(mod)
+          Spec::Runner.configuration.extend mod
+        end
+        
+        it "should extend specified groups" do
+          mod = Module.new
+          @example_group_class.should_receive(:extend).with(mod)
+          Spec::Runner.configuration.extend mod, :type => :foobar
+        end
+        
+        it "should not extend non-specified groups" do
+          @other_example_group_class = Class.new(ExampleGroup)
+          ExampleGroupFactory.register(:baz, @other_example_group_class)
+
+          mod = Module.new
+          @other_example_group_class.should_not_receive(:extend)          
+
+          Spec::Runner.configuration.extend mod, :type => :foobar
+        end
+        
+      end
     end
 
     describe Configuration do

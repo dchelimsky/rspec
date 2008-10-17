@@ -67,12 +67,21 @@ module Spec
       #   end
       #
       def include(*args)
+        include_or_extend(:include, *args)
+      end
+      
+      def extend(*args)
+        include_or_extend(:extend, *args)
+      end
+      
+      def include_or_extend(*args)
+        action = args.shift
         args << {} unless Hash === args.last
         modules, options = args_and_options(*args)
         required_example_group = get_type_from_options(options)
         required_example_group = required_example_group.to_sym if required_example_group
         modules.each do |mod|
-          ExampleGroupFactory.get(required_example_group).send(:include, mod)
+          ExampleGroupFactory.get(required_example_group).send(action, mod)
         end
       end
 
