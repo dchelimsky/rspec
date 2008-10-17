@@ -98,7 +98,7 @@ module Spec
       end
 
       it "should pass its ExampleGroup to the reporter" do
-        example_group = Class.new(::Spec::Example::ExampleGroup).describe("example_group") do
+        example_group = describe("example_group") do
           it "should" do
           end
         end
@@ -115,15 +115,15 @@ module Spec
         options = ::Spec::Runner::Options.new(@err, @out)
         ::Spec::Runner::Options.should_receive(:new).with(@err, @out).and_return(options)
 
-        options.examples << "example_group should"
-        should_has_run = false
-        should_not_has_run = false
-        example_group = Class.new(::Spec::Example::ExampleGroup).describe("example_group") do
-          it "should" do
-            should_has_run = true
+        options.examples << "example group expected example"
+        expected_example_was_run = false
+        unexpected_example_was_run = false
+        example_group = describe("example group") do
+          it "expected example" do
+            expected_example_was_run = true
           end
-          it "should not" do
-            should_not_has_run = true
+          it "unexpected example" do
+            unexpected_example_was_run = true
           end
         end
 
@@ -132,8 +132,8 @@ module Spec
         options.add_example_group example_group
         run_with(options)
 
-        should_has_run.should be_true
-        should_not_has_run.should be_false
+        expected_example_was_run.should be_true
+        unexpected_example_was_run.should be_false
       end
     end
   end

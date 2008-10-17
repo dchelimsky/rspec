@@ -35,6 +35,12 @@ module Spec
       end
       exception
     end
+    
+    def run_group(group, options)
+      options.example_groups << group
+      runner = ::Spec::Runner::ExampleGroupRunner.new(options)
+      runner.run
+    end
 
     def run_with(options)
       ::Spec::Runner::CommandLine.run(options)
