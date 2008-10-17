@@ -3,7 +3,6 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 module Spec
   module Extensions
     describe Main do
-      include SandboxedOptions
       before(:each) do
         @main = Class.new do; include Main; end
       end
@@ -15,24 +14,21 @@ module Spec
       specify {@main.should respond_to(:describe)}
       specify {@main.should respond_to(:context)}
 
-      it "should raise when no block given to describe" do
+      it "should raise when no block is given to describe" do
         lambda { @main.describe "foo" }.should raise_error(ArgumentError)
       end
 
-      it "should raise when no description given to describe" do
+      it "should raise when no description is given to describe" do
         lambda { @main.describe do; end }.should raise_error(ArgumentError)
       end
 
-      it "should registered ExampleGroups by default" do
+      it "should run registered ExampleGroups" do
         example_group = @main.describe("The ExampleGroup") do end
         Spec::Runner.options.example_groups.should include(example_group)
       end
 
       it "should not run unregistered ExampleGroups" do
-        example_group = @main.describe("The ExampleGroup") do
-          unregister
-        end
-
+        example_group = @main.describe("The ExampleGroup") { unregister }
         Spec::Runner.options.example_groups.should_not include(example_group)
       end
       
@@ -45,7 +41,6 @@ module Spec
         before(:each) do
           $share_as_examples_example_module_number ||= 1
           $share_as_examples_example_module_number += 1
-          t = Time.new.to_i
           @group_name = "Group#{$share_as_examples_example_module_number}"
         end
 
