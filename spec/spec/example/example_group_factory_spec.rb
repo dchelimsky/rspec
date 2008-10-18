@@ -6,34 +6,34 @@ module Spec
       describe "#get" do
         attr_reader :example_group
         before do
-          @example_group = Class.new(ExampleGroup)
-          ExampleGroupFactory.register(:registered_type, @example_group)
+          @example_group_class = Class.new(ExampleGroup)
+          ExampleGroupFactory.register(:registered_type, @example_group_class)
         end
 
         after do
           ExampleGroupFactory.reset
         end
 
-        it "should #get the default ExampleGroup type when passed nil" do
+        it "should return the default ExampleGroup type for nil" do
           ExampleGroupFactory.get(nil).should == ExampleGroup
         end
 
-        it "should #get the default ExampleGroup for unregistered non-nil values" do
+        it "should return the default ExampleGroup for an unregistered non-nil value" do
           ExampleGroupFactory.get(:does_not_exist).should == ExampleGroup
         end
 
-        it "should #get custom type for :registered_type" do
-          ExampleGroupFactory.get(:registered_type).should == @example_group
+        it "should return custom type if registered" do
+          ExampleGroupFactory.get(:registered_type).should == @example_group_class
         end
 
-        it "should #get the actual type when that is passed in" do
-          ExampleGroupFactory.get(@example_group).should == @example_group
+        it "should return the actual type when that is what is submitted" do
+          ExampleGroupFactory.get(@example_group_class).should == @example_group_class
         end
 
         it "should get the custom type after setting the default" do
-          @example_group2 = Class.new(ExampleGroup)
-          ExampleGroupFactory.default(@example_group2)
-          ExampleGroupFactory.get(:registered_type).should == @example_group
+          @alternate_example_group_class = Class.new(ExampleGroup)
+          ExampleGroupFactory.default(@alternate_example_group_class)
+          ExampleGroupFactory.get(:registered_type).should == @example_group_class
         end
       end
 
@@ -57,15 +57,8 @@ module Spec
           example_group.superclass.should == Spec::Example::ExampleGroup
         end
 
-        describe "when :type => :default" do
-          it "should create a Spec::Example::Example" do
-            example_group = Spec::Example::ExampleGroupFactory.create_example_group(
-            "example_group", :type => :default
-            ) {}
-            example_group.superclass.should == Spec::Example::ExampleGroup
-          end
-
-          it "should create a Spec::Example::Example" do
+        describe "with :type => :default" do
+          it "should create a Spec::Example::ExampleGroup" do
             example_group = Spec::Example::ExampleGroupFactory.create_example_group(
             "example_group", :type => :default
             ) {}
@@ -73,8 +66,8 @@ module Spec
           end
         end
 
-        describe "when :type => :something_other_than_default" do
-          it "should create specified type" do
+        describe "with :type => :something_other_than_default" do
+          it "should create the specified type" do
             Spec::Example::ExampleGroupFactory.register(:something_other_than_default, parent_example_group)
             non_default_example_group = Spec::Example::ExampleGroupFactory.create_example_group(
               "example_group", :type => :something_other_than_default
@@ -100,15 +93,14 @@ module Spec
           custom_example_group.superclass.should == parent_example_group
         end
 
-        describe "when :shared => true" do
-          attr_reader :shared_example_group
-          before do
-            @shared_example_group = Spec::Example::ExampleGroupFactory.create_example_group(
+        describe "with :shared => true" do
+          def shared_example_group
+            @shared_example_group ||= Spec::Example::ExampleGroupFactory.create_example_group(
               "name", :spec_path => '/blah/spec/models/blah.rb', :type => :controller, :shared => true
             ) {}
           end
 
-          it "should create and register a Spec::Example::Example" do
+          it "should create and register a Spec::Example::SharedExampleGroup" do
             shared_example_group.should be_an_instance_of(Spec::Example::SharedExampleGroup)
             SharedExampleGroup.shared_example_groups.should include(shared_example_group)
           end
