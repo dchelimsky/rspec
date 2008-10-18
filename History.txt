@@ -1,8 +1,13 @@
 === Maintenance
 
-* 1 major enhancement
+WARNING: This release removes implicit inclusion of modules in example groups.
+This means that if you have 'describe MyModule do', MyModule will not be
+included in the group.
+
+* 2 major enhancements
 
 	* Add extend to configuration (thanks to advice from Chad Fowler)
+	* Modules are no longer implicitly included in example groups
 
 * 3 minor enhancements
 

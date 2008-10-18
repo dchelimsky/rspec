@@ -3,7 +3,6 @@ module Spec
     module ExampleMethods
       extend ExampleGroupMethods
       extend ModuleReopeningFix
-      include ModuleInclusionWarnings
       
       def execute(options, instance_variables)
         options.reporter.example_started(self)

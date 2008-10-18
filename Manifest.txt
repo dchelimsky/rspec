@@ -214,8 +214,6 @@ spec/ruby_forker.rb
 spec/spec.opts
 spec/spec/adapters/ruby_engine_spec.rb
 spec/spec/example/configuration_spec.rb
-spec/spec/example/example_group/described_module_spec.rb
-spec/spec/example/example_group/warning_messages_spec.rb
 spec/spec/example/example_group_class_definition_spec.rb
 spec/spec/example/example_group_factory_spec.rb
 spec/spec/example/example_group_methods_spec.rb

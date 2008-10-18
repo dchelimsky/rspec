@@ -674,48 +674,6 @@ module Spec
       end
     end
 
-    describe Enumerable do
-      before(:each) do
-        Kernel.stub!(:warn)
-      end
-      
-      def each(&block)
-        ["4", "2", "1"].each(&block)
-      end
-
-      it "should be included in examples because it is a module" do
-        map{|e| e.to_i}.should == [4,2,1]
-      end
-    end
-
-    describe "An", Enumerable, "as a second argument" do
-      before(:each) do
-        Kernel.stub!(:warn)
-      end
-      
-      def each(&block)
-        ["4", "2", "1"].each(&block)
-      end
-
-      it "should be included in examples because it is a module" do
-        map{|e| e.to_i}.should == [4,2,1]
-      end
-    end
-
-    describe Enumerable do
-      describe "as the parent of nested example groups" do
-        before(:each) do
-          Kernel.stub!(:warn)
-        end
-        
-        it "should be included in examples because it is a module" do
-          pending("need to make sure nested groups know the described type") do
-            map{|e| e.to_i}.should == [4,2,1]
-          end
-        end
-      end
-    end
-
     describe String do
       it "should not be included in examples because it is not a module" do
         lambda{self.map}.should raise_error(NoMethodError, /undefined method `map' for/)
