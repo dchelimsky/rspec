@@ -56,3 +56,22 @@ def with_sandboxed_options
   
   yield
 end
+
+def with_sandboxed_config
+  attr_reader :config
+  
+  before(:each) do
+    @config = ::Spec::Example::Configuration.new
+    @original_configuration = ::Spec::Runner.configuration
+    spec_configuration = @config
+    ::Spec::Runner.instance_eval {@configuration = spec_configuration}
+  end
+  
+  after(:each) do
+    original_configuration = @original_configuration
+    ::Spec::Runner.instance_eval {@configuration = original_configuration}
+    ::Spec::Example::ExampleGroupFactory.reset
+  end
+  
+  yield
+end
