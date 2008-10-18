@@ -167,6 +167,8 @@ module Spec
             descriptions.should include("should_any_args")
             descriptions.should include("should_something")
             descriptions.should include("should_not_something")
+            descriptions.should_not include("should")
+            descriptions.should_not include("should_not")
           end
 
           it "should not include methods that begin with test_ and has an arity > 0 in suite" do
