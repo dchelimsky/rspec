@@ -2,19 +2,19 @@ require File.dirname(__FILE__) + "/../../../spec_helper"
 
 module Spec
   module Example
-    module AModuleAutomaticallyIncluded
+    module IncludedModule
       def call_method
         @method_called = true
-        return "a string"
+        "a string"
       end
       
       def method_called?
-        @method_called ? true : false
+        @method_called ||= false
       end
     end
     
-    describe "Including modules in an example group" do
-      describe AModuleAutomaticallyIncluded do
+    describe IncludedModule do
+      describe "included implicitly" do
         before :each do
           Kernel.stub!(:warn)
         end
@@ -34,13 +34,8 @@ module Spec
           self.should_not respond_to(:adsfadfadadf_a_method_which_does_not_exist)
         end
         
-        it "should respond_to? a method in Spec::ExampleGroup" do
-          self.should respond_to(:describe)
-        end
-        
-        it "should issue a warning with Kernel.warn" do
-          Kernel.should_receive(:warn)
-          self.call_method
+        it "should respond_to? methods in Spec::ExampleMethods" do
+          self.should respond_to(:implementation_backtrace)
         end
         
         it "should issue a warning when the example calls the method which is automatically included" do
@@ -54,8 +49,8 @@ module Spec
         end
       end
       
-      describe AModuleAutomaticallyIncluded, "which is also manually included" do
-        include AModuleAutomaticallyIncluded
+      describe "included explicitly" do
+        include IncludedModule
         
         before :each do
           Kernel.stub!(:warn)
@@ -66,7 +61,7 @@ module Spec
           self.should respond_to(:call_method)
         end
         
-        it "should not issue a warning, since the module is manually included" do
+        it "should not issue a warning" do
           Kernel.should_not_receive(:warn)
           self.method_called?
         end

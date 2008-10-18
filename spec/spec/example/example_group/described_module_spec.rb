@@ -6,7 +6,7 @@ module Spec
     class   AClass;   end
 
     describe "With", AModule do
-      it "should have the described_type as 'AModule'" do
+      it "should have the described_module as 'AModule'" do
         self.class.described_module.should == AModule
       end
     end
