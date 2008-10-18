@@ -10,31 +10,36 @@ module Spec
       after(:each) do
         $rspec_story_steps = @original_rspec_story_steps
       end
+      
+      [:describe, :context].each do |method|
+        describe "##{method}" do
+          specify {@main.should respond_to(method)}
 
-      specify {@main.should respond_to(:describe)}
-      specify {@main.should respond_to(:context)}
+          it "should raise when no block is given to #{method}" do
+            lambda { @main.__send__ method, "foo" }.should raise_error(ArgumentError)
+          end
 
-      it "should raise when no block is given to describe" do
-        lambda { @main.describe "foo" }.should raise_error(ArgumentError)
-      end
+          it "should raise when no description is given to #{method}" do
+            lambda { @main.__send__ method do; end }.should raise_error(ArgumentError)
+          end
 
-      it "should raise when no description is given to describe" do
-        lambda { @main.describe do; end }.should raise_error(ArgumentError)
-      end
+          it "should run registered ExampleGroups" do
+            example_group = @main.__send__ method, "The ExampleGroup" do end
+            Spec::Runner.options.example_groups.should include(example_group)
+          end
 
-      it "should run registered ExampleGroups" do
-        example_group = @main.describe("The ExampleGroup") do end
-        Spec::Runner.options.example_groups.should include(example_group)
-      end
-
-      it "should not run unregistered ExampleGroups" do
-        example_group = @main.describe("The ExampleGroup") { unregister }
-        Spec::Runner.options.example_groups.should_not include(example_group)
+          it "should not run unregistered ExampleGroups" do
+            example_group = @main.__send__ method, "The ExampleGroup" do unregister; end
+            Spec::Runner.options.example_groups.should_not include(example_group)
+          end
+        end
       end
       
-      it "should create a shared ExampleGroup with share_examples_for" do
-        group = @main.share_examples_for "all things" do end
-        group.should be_an_instance_of(Spec::Example::SharedExampleGroup)
+      describe "#share_examples_for" do
+        it "should create a shared ExampleGroup" do
+          group = @main.share_examples_for "all things" do end
+          group.should be_an_instance_of(Spec::Example::SharedExampleGroup)
+        end
       end
       
       describe "#share_as" do

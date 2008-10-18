@@ -31,8 +31,8 @@ module SharedExampleGroupExample
     end
   end
 
-  # A SharedExampleGroup is also module. If you create one like this
-  # it gets assigned to the constant AllThings
+  # A SharedExampleGroup is also a module. If you create one like this it gets
+  # assigned to the constant MostThings
   share_as :MostThings do
     def helper_method
       "helper method"
