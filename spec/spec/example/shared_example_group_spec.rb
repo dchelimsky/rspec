@@ -239,7 +239,7 @@ module Spec
             end
           end
 
-          shared_example_group.include mod2
+          shared_example_group.__send__ :include, mod2
 
           example_group.it_should_behave_like("shared example_group")
           example_group.include mod1

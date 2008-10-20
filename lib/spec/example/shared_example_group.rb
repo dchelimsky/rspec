@@ -30,9 +30,9 @@ module Spec
           File.expand_path(example_group.spec_path)
         end
       end
+
       extend ClassMethods
       include ExampleGroupMethods
-      public :include
 
       def initialize(*args, &example_group_block)
         describe(*args)
