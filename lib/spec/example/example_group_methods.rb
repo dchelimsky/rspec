@@ -345,8 +345,7 @@ module Spec
       def should_method?(method_name)
         !(method_name =~ /^should(_not)?$/) &&
         method_name =~ /^should/ && (
-          instance_method(method_name).arity == 0 ||
-          instance_method(method_name).arity == -1
+          [-1,0].include?(instance_method(method_name).arity)
         )
       end
 

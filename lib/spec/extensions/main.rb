@@ -16,7 +16,7 @@ module Spec
       # The reason for using different behaviour classes is to have different
       # matcher methods available from within the <tt>describe</tt> block.
       #
-      # See Spec::Example::ExampleFactory#register for details about how to
+      # See Spec::Example::ExampleGroupFactory#register for details about how to
       # register special implementations.
       #
       def describe(*args, &block)
