@@ -17,7 +17,7 @@ module Spec
         after(:each) do
           @formatter.rspec_verify
           @example_group = nil
-          $shared_example_groups.clear unless $shared_example_groups.nil?
+          Spec::Example::SharedExampleGroup.shared_example_groups.clear
         end
 
         def make_shared_example_group(name, opts=nil, &block)

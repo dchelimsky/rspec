@@ -1,7 +1,7 @@
 module Spec
   module Example
     class SharedExampleGroup < Module
-      class << self
+      module ClassMethods
         def add_shared_example_group(new_example_group)
           guard_against_redefining_existing_example_group(new_example_group)
           shared_example_groups << new_example_group
@@ -14,10 +14,7 @@ module Spec
         end
 
         def shared_example_groups
-          # TODO - this needs to be global, or at least accessible from
-          # from subclasses of Example in a centralized place. I'm not loving
-          # this as a solution, but it works for now.
-          $shared_example_groups ||= []
+          @shared_example_groups ||= []
         end
 
         private
@@ -33,6 +30,7 @@ module Spec
           File.expand_path(example_group.spec_path)
         end
       end
+      extend ClassMethods
       include ExampleGroupMethods
       public :include
 
