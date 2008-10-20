@@ -289,19 +289,18 @@ module Spec
       def each_ancestor(superclass_last=false)
         classes = []
         current_class = self
-        while is_example_group?(current_class)
+        while is_example_group_class?(current_class)
           superclass_last ? classes << current_class : classes.unshift(current_class)
           current_class = current_class.superclass
         end
-        superclass_last ? classes << ExampleMethods : classes.unshift(ExampleMethods)
 
         classes.each do |example_group|
           yield example_group
         end
       end
 
-      def is_example_group?(klass)
-        Module === klass && klass.kind_of?(ExampleGroupMethods)
+      def is_example_group_class?(klass)
+        klass.kind_of?(ExampleGroupMethods) && klass.included_modules.include?(ExampleMethods)
       end
 
       def plugin_mock_framework

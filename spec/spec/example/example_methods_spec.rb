@@ -22,116 +22,113 @@ module Spec
       end
 
       describe "lifecycle" do
-        before do
-          @original_rspec_options = Spec::Runner.options
-          @options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
-          Spec::Runner.use @options
-          @options.formatters << mock("formatter", :null_object => true)
-          @options.backtrace_tweaker = mock("backtrace_tweaker", :null_object => true)
-          @reporter = FakeReporter.new(@options)
-          @options.reporter = @reporter
-
-          ExampleMethods.before_all_parts.should == []
-          ExampleMethods.before_each_parts.should == []
-          ExampleMethods.after_each_parts.should == []
-          ExampleMethods.after_all_parts.should == []
-          def ExampleMethods.count
-            @count ||= 0
-            @count = @count + 1
-            @count
-          end
-        end
-
-        after do
-          Spec::Runner.use @original_rspec_options
-          ExampleMethods.instance_variable_set("@before_all_parts", [])
-          ExampleMethods.instance_variable_set("@before_each_parts", [])
-          ExampleMethods.instance_variable_set("@after_each_parts", [])
-          ExampleMethods.instance_variable_set("@after_all_parts", [])
-        end
-
-        it "should pass before and after callbacks to all ExampleGroup subclasses" do
-          ExampleMethods.before(:suite) do
-            ExampleMethods.count.should == 1
-          end
-
-          ExampleMethods.before(:all) do
-            ExampleMethods.count.should == 2
-          end
-
-          ExampleMethods.before(:each) do
-            ExampleMethods.count.should == 3
-          end
-
-          ExampleMethods.after(:each) do
-            ExampleMethods.count.should == 4
-          end
-
-          ExampleMethods.after(:all) do
-            ExampleMethods.count.should == 5
-          end
-
-          ExampleMethods.after(:suite) do
-            ExampleMethods.count.should == 6
-          end
-
-          @example_group = Class.new(ExampleGroup) do
-            it "should use ExampleMethods callbacks" do
-            end
-          end
-          @options.run_examples
-          ExampleMethods.count.should == 7
-        end
-
-        describe "eval_block" do
-          before(:each) do
-            @example_group = Class.new(ExampleGroup)
-          end
-          
-          describe "with a given description" do
-            it "should provide the given description" do
-              @example = @example_group.it("given description") { 2.should == 2 }
-              @example.eval_block
-              @example.description.should == "given description"
-            end
-          end
-
-          describe "with no given description" do
-            it "should provide the generated description" do
-              @example = @example_group.it { 2.should == 2 }
-              @example.eval_block
-              @example.description.should == "should == 2"
-            end
-          end
-          
-          describe "with no implementation" do
-            it "should raise an NotYetImplementedError" do
-              lambda {
-                @example = @example_group.it
-                @example.eval_block
-              }.should raise_error(Spec::Example::NotYetImplementedError, "Not Yet Implemented")
-            end
+        with_sandboxed_options do
+          before do
+            @options.formatters << mock("formatter", :null_object => true)
+            @options.backtrace_tweaker = mock("backtrace_tweaker", :null_object => true)
+            @reporter = FakeReporter.new(@options)
+            @options.reporter = @reporter
             
-            def extract_error(&blk)
-              begin
-                blk.call
-              rescue Exception => e
-                return e
-              end
-              
-              nil
+            ExampleGroup.before_all_parts.should == []
+            ExampleGroup.before_each_parts.should == []
+            ExampleGroup.after_each_parts.should == []
+            ExampleGroup.after_all_parts.should == []
+            def ExampleGroup.count
+              @count ||= 0
+              @count = @count + 1
+              @count
             end
-            
-            it "should use the proper file and line number for the NotYetImplementedError" do
-              file = __FILE__
-              line_number = __LINE__ + 3
-              
-              error = extract_error do
-                @example = @example_group.it
+          end
+
+          after do
+            ExampleGroup.instance_variable_set("@before_all_parts", [])
+            ExampleGroup.instance_variable_set("@before_each_parts", [])
+            ExampleGroup.instance_variable_set("@after_each_parts", [])
+            ExampleGroup.instance_variable_set("@after_all_parts", [])
+          end
+
+          it "should pass before and after callbacks to all ExampleGroup subclasses" do
+            ExampleGroup.before(:suite) do
+              ExampleGroup.count.should == 1
+            end
+
+            ExampleGroup.before(:all) do
+              ExampleGroup.count.should == 2
+            end
+
+            ExampleGroup.before(:each) do
+              ExampleGroup.count.should == 3
+            end
+
+            ExampleGroup.after(:each) do
+              ExampleGroup.count.should == 4
+            end
+
+            ExampleGroup.after(:all) do
+              ExampleGroup.count.should == 5
+            end
+
+            ExampleGroup.after(:suite) do
+              ExampleGroup.count.should == 6
+            end
+
+            Class.new(ExampleGroup) do
+              it "should use ExampleMethods callbacks" do end
+            end
+            @options.run_examples
+            ExampleGroup.count.should == 7
+          end
+
+          describe "eval_block" do
+            before(:each) do
+              @example_group = Class.new(ExampleGroup)
+            end
+          
+            describe "with a given description" do
+              it "should provide the given description" do
+                @example = @example_group.it("given description") { 2.should == 2 }
                 @example.eval_block
+                @example.description.should == "given description"
               end
+            end
+
+            describe "with no given description" do
+              it "should provide the generated description" do
+                @example = @example_group.it { 2.should == 2 }
+                @example.eval_block
+                @example.description.should == "should == 2"
+              end
+            end
+          
+            describe "with no implementation" do
+              it "should raise an NotYetImplementedError" do
+                lambda {
+                  @example = @example_group.it
+                  @example.eval_block
+                }.should raise_error(Spec::Example::NotYetImplementedError, "Not Yet Implemented")
+              end
+            
+              def extract_error(&blk)
+                begin
+                  blk.call
+                rescue Exception => e
+                  return e
+                end
               
-              error.pending_caller.should == "#{file}:#{line_number}"
+                nil
+              end
+            
+              it "should use the proper file and line number for the NotYetImplementedError" do
+                file = __FILE__
+                line_number = __LINE__ + 3
+              
+                error = extract_error do
+                  @example = @example_group.it
+                  @example.eval_block
+                end
+              
+                error.pending_caller.should == "#{file}:#{line_number}"
+              end
             end
           end
         end
