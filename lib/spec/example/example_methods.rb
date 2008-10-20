@@ -1,7 +1,14 @@
 module Spec
   module Example
     module ExampleMethods
-      extend ExampleGroupMethods
+      
+      class << self
+        # FIXME - this is defined on ExampleGroupMethods too - why in both places?
+        attr_reader :description_args
+      end
+      
+      # FIXME - this is included in ExampleGroupMethods too - why in both places?
+      extend BeforeAndAfterHooks
       extend ModuleReopeningFix
       
       def execute(options, instance_variables)

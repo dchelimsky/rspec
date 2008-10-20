@@ -1,4 +1,5 @@
 require 'timeout'
+require 'spec/example/before_and_after_hooks'
 require 'spec/example/pending'
 require 'spec/example/module_reopening_fix'
 require 'spec/example/example_group_methods'
