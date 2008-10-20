@@ -15,7 +15,7 @@ module Spec
         end
       end
 
-      attr_reader :description_text, :description_options, :spec_path, :registration_binding_block
+      attr_reader :description_text, :description_options, :spec_path
       alias :options :description_options
       
       def description_args
@@ -200,7 +200,7 @@ module Spec
       end
 
       def registration_backtrace
-        eval("caller", registration_binding_block)
+        eval("caller", @registration_binding_block)
       end
 
       def run_before_each(example)
