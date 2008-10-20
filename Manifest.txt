@@ -86,6 +86,7 @@ lib/spec/adapters/ruby_engine.rb
 lib/spec/adapters/ruby_engine/mri.rb
 lib/spec/adapters/ruby_engine/rubinius.rb
 lib/spec/example.rb
+lib/spec/example/before_and_after_hooks.rb
 lib/spec/example/configuration.rb
 lib/spec/example/errors.rb
 lib/spec/example/example_group.rb
@@ -93,7 +94,6 @@ lib/spec/example/example_group_factory.rb
 lib/spec/example/example_group_methods.rb
 lib/spec/example/example_matcher.rb
 lib/spec/example/example_methods.rb
-lib/spec/example/module_inclusion_warnings.rb
 lib/spec/example/module_reopening_fix.rb
 lib/spec/example/pending.rb
 lib/spec/example/shared_example_group.rb
@@ -233,6 +233,7 @@ spec/spec/extensions/main_spec.rb
 spec/spec/interop/test/unit/resources/spec_that_fails.rb
 spec/spec/interop/test/unit/resources/spec_that_passes.rb
 spec/spec/interop/test/unit/resources/spec_with_errors.rb
+spec/spec/interop/test/unit/resources/spec_with_options_hash.rb
 spec/spec/interop/test/unit/resources/test_case_that_fails.rb
 spec/spec/interop/test/unit/resources/test_case_that_passes.rb
 spec/spec/interop/test/unit/resources/test_case_with_errors.rb
