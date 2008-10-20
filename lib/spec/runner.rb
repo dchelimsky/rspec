@@ -185,15 +185,14 @@ module Spec
       end
       
       def register_at_exit_hook # :nodoc:
-        @spec_runner_at_exit_hook_registered ||= nil
-        unless @spec_runner_at_exit_hook_registered
+        unless @already_registered_at_exit_hook
           at_exit do
             unless $! || Spec.run?
               success = Spec.run
               exit success if Spec.exit?
             end
           end
-          @spec_runner_at_exit_hook_registered = true
+          @already_registered_at_exit_hook = true
         end
       end
 
