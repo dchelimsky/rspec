@@ -110,9 +110,9 @@ module Spec
       describe Configuration do
             
         before(:each) do
-          @special_example_group = Class.new(ExampleGroup)
-          @special_child_example_group = Class.new(@special_example_group)
-          @nonspecial_example_group = Class.new(ExampleGroup)
+          @special_example_group = Class.new(ExampleGroup).describe("special_example_group")
+          @special_child_example_group = Class.new(@special_example_group).describe("special_child_example_group")
+          @nonspecial_example_group = Class.new(ExampleGroup).describe("nonspecial_example_group")
           ExampleGroupFactory.register(:special, @special_example_group)
           ExampleGroupFactory.register(:special_child, @special_child_example_group)
           ExampleGroupFactory.register(:non_special, @nonspecial_example_group)

@@ -18,13 +18,13 @@ module Spec
         execution_error = nil
         Timeout.timeout(options.timeout) do
           begin
-            before_example
+            before_each_example
             eval_block
           rescue Exception => e
             execution_error ||= e
           end
           begin
-            after_example
+            after_each_example
           rescue Exception => e
             execution_error ||= e
           end
@@ -96,12 +96,12 @@ module Spec
       include Matchers
       include Pending
       
-      def before_example
+      def before_each_example
         setup_mocks_for_rspec
         self.class.run_before_each(self)
       end
 
-      def after_example
+      def after_each_example
         self.class.run_after_each(self)
         verify_mocks_for_rspec
       ensure

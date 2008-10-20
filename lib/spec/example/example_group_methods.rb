@@ -153,7 +153,7 @@ module Spec
 
       def description_parts #:nodoc:
         parts = []
-        execute_in_class_hierarchy do |example_group|
+        each_ancestor do |example_group|
           parts << example_group.description_args
         end
         parts.flatten.compact
@@ -200,13 +200,13 @@ module Spec
       end
 
       def run_before_each(example)
-        execute_in_class_hierarchy do |example_group|
+        each_ancestor do |example_group|
           example.eval_each_fail_fast(example_group.before_each_parts)
         end
       end
 
       def run_after_each(example)
-        execute_in_class_hierarchy(:superclass_first) do |example_group|
+        each_ancestor(:superclass_first) do |example_group|
           example.eval_each_fail_slow(example_group.after_each_parts)
         end
       end
@@ -223,7 +223,7 @@ module Spec
       def run_before_all
         before_all = new("before(:all)")
         begin
-          execute_in_class_hierarchy do |example_group|
+          each_ancestor do |example_group|
             before_all.eval_each_fail_fast(example_group.before_all_parts)
           end
           return [true, before_all.instance_variable_hash]
@@ -247,7 +247,7 @@ module Spec
       def run_after_all(success, instance_variables)
         after_all = new("after(:all)")
         after_all.set_instance_variables_from_hash(instance_variables)
-        execute_in_class_hierarchy(:superclass_first) do |example_group|
+        each_ancestor(:superclass_first) do |example_group|
           after_all.eval_each_fail_slow(example_group.after_all_parts)
         end
         return success
@@ -286,7 +286,7 @@ module Spec
         @example_objects ||= []
       end
 
-      def execute_in_class_hierarchy(superclass_last=false)
+      def each_ancestor(superclass_last=false)
         classes = []
         current_class = self
         while is_example_group?(current_class)
