@@ -293,7 +293,7 @@ module Spec
           superclass_last ? classes << current_class : classes.unshift(current_class)
           current_class = current_class.superclass
         end
-
+        
         classes.each do |example_group|
           yield example_group
         end

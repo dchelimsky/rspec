@@ -14,6 +14,7 @@ included in the group.
   * mingw indicates windows too (thanks to Luis Lavena for the tip)
 	* improved output for partial mock expecation failures
 	* it_should_behave_like now accepts n names of shared groups
+	* eliminated redundant inclusion/extension of ExampleGroupMethods
 
 * 5 bug fixes
 

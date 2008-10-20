@@ -2,11 +2,6 @@ module Spec
   module Example
     module ExampleMethods
       
-      class << self
-        # FIXME - this is defined on ExampleGroupMethods too - why in both places?
-        attr_reader :description_args
-      end
-      
       extend ModuleReopeningFix
       
       def execute(options, instance_variables)

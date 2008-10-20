@@ -45,11 +45,7 @@ module Spec
       end
 
       def each_ancestor(superclass_last=false)
-        classes = [self]
-        superclass_last ? classes << ExampleMethods : classes.unshift(ExampleMethods)
-        classes.each do |example_group|
-          yield example_group
-        end
+        yield self
       end
     end
   end
