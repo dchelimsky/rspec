@@ -59,7 +59,7 @@ OUT
 
                 describe "when ExampleGroup has no parents with description args" do
                   before do
-                    example_group.superclass.description_args.should be_nil
+                    example_group.superclass.description_args.should be_empty
                   end
 
                   it "should push ExampleGroup name" do
@@ -146,7 +146,7 @@ OUT
                 describe "and parent ExampleGroups have not been printed" do
                   def add_example_group
                     @child_example_group = Class.new(example_group)
-                    child_example_group.description_args.should be_nil
+                    child_example_group.description_args.should be_empty
                     formatter.add_example_group(child_example_group)
                   end
 
@@ -160,7 +160,7 @@ OUT
                 describe "and parent ExampleGroups have been printed" do
                   def add_example_group
                     @child_example_group = Class.new(example_group)
-                    child_example_group.description_args.should be_nil
+                    child_example_group.description_args.should be_empty
                     formatter.add_example_group(example_group)
                     io.string = ""
                     formatter.add_example_group(child_example_group)

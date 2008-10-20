@@ -15,8 +15,12 @@ module Spec
         end
       end
 
-      attr_reader :description_text, :description_args, :description_options, :spec_path, :registration_binding_block
+      attr_reader :description_text, :description_options, :spec_path, :registration_binding_block
       alias :options :description_options
+      
+      def description_args
+        @description_args ||= []
+      end
 
       def inherited(klass)
         super
@@ -153,8 +157,8 @@ module Spec
 
       def description_parts #:nodoc:
         parts = []
-        each_ancestor do |example_group|
-          parts << example_group.description_args
+        each_ancestor_example_group_class do |example_group_class|
+          parts << example_group_class.description_args
         end
         parts.flatten.compact
       end
@@ -200,14 +204,14 @@ module Spec
       end
 
       def run_before_each(example)
-        each_ancestor do |example_group|
-          example.eval_each_fail_fast(example_group.before_each_parts)
+        each_ancestor_example_group_class do |example_group_class|
+          example.eval_each_fail_fast(example_group_class.before_each_parts)
         end
       end
 
       def run_after_each(example)
-        each_ancestor(:superclass_first) do |example_group|
-          example.eval_each_fail_slow(example_group.after_each_parts)
+        each_ancestor_example_group_class(:superclass_first) do |example_group_class|
+          example.eval_each_fail_slow(example_group_class.after_each_parts)
         end
       end
 
@@ -223,8 +227,8 @@ module Spec
       def run_before_all
         before_all = new("before(:all)")
         begin
-          each_ancestor do |example_group|
-            before_all.eval_each_fail_fast(example_group.before_all_parts)
+          each_ancestor_example_group_class do |example_group_class|
+            before_all.eval_each_fail_fast(example_group_class.before_all_parts)
           end
           return [true, before_all.instance_variable_hash]
         rescue Exception => e
@@ -247,8 +251,8 @@ module Spec
       def run_after_all(success, instance_variables)
         after_all = new("after(:all)")
         after_all.set_instance_variables_from_hash(instance_variables)
-        each_ancestor(:superclass_first) do |example_group|
-          after_all.eval_each_fail_slow(example_group.after_all_parts)
+        each_ancestor_example_group_class(:superclass_first) do |example_group_class|
+          after_all.eval_each_fail_slow(example_group_class.after_all_parts)
         end
         return success
       rescue Exception => e
@@ -286,7 +290,7 @@ module Spec
         @example_objects ||= []
       end
 
-      def each_ancestor(superclass_last=false)
+      def each_ancestor_example_group_class(superclass_last=false)
         classes = []
         current_class = self
         while is_example_group_class?(current_class)
