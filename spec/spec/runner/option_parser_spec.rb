@@ -28,6 +28,12 @@ describe "OptionParser" do
     @parser.options
   end
   
+  it "should leave the submitted argv alone" do
+    args = ["--pattern", "foo"]
+    @parser.order!(args)
+    args.should == ["--pattern", "foo"]
+  end
+  
   it "should accept files to include" do
     options = parse(["--pattern", "foo"])
     options.filename_pattern.should == "foo"
