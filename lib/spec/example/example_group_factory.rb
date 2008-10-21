@@ -7,6 +7,13 @@ module Spec
           default(ExampleGroup)
         end
 
+        def all_registered?(example_group_classes)
+          example_group_classes.each do |example_group_class|
+            return false unless registered_or_ancestor_of_registered? example_group_class
+          end
+          return true
+        end
+
         # Registers an example group class +klass+ with the symbol +type+. For
         # example:
         #
@@ -46,7 +53,7 @@ module Spec
           superclass.describe(*args, &block)
         end
 
-        protected
+      protected
 
         def determine_superclass(opts)
           key = if opts[:type]
@@ -55,6 +62,16 @@ module Spec
             $2 == '' ? nil : $2.to_sym
           end
           get(key)
+        end
+        
+      private
+        
+        def registered_or_ancestor_of_registered? example_group_class
+          registered_types.any? {|registered_type| registered_type.ancestors.include? example_group_class}
+        end
+        
+        def registered_types
+          @example_group_types.values
         end
 
       end

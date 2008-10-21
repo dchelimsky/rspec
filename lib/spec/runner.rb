@@ -187,7 +187,7 @@ module Spec
       def register_at_exit_hook # :nodoc:
         unless @already_registered_at_exit_hook
           at_exit do
-            unless $! || Spec.run?
+            unless $! || Spec.run? || Spec::Example::ExampleGroupFactory.all_registered?(options.example_groups)
               success = Spec.run
               exit success if Spec.exit?
             end

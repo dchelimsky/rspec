@@ -9,20 +9,21 @@ included in the group.
 	* Add extend to configuration (thanks to advice from Chad Fowler)
 	* Modules are no longer implicitly included in example groups
 
-* 3 minor enhancements
+* 4 minor enhancements
 
   * mingw indicates windows too (thanks to Luis Lavena for the tip)
 	* improved output for partial mock expecation failures
 	* it_should_behave_like now accepts n names of shared groups
 	* eliminated redundant inclusion/extension of ExampleGroupMethods
 
-* 5 bug fixes
+* 6 bug fixes
 
   * spec command with no arguments prints help
   * fixed typo in help. Fixes #73.
   * fixed bug where should_receive..and_yield after similar stub added the args_to_yield to the stub's original args_to_yield (Pat Maddox)
   * fixed bug where rspec-autotest (autospec) was loading non-spec files in spec directory. Fixes #559.
 	* fixed bug where should_not_receive was reporting twice
+	* fixed bug where rspec tries to run examples just because it is required (even if there are no examples loaded). Fixes #575.
 
 === Version 1.1.8 / 2008-10-03
 
