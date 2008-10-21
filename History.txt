@@ -1,4 +1,4 @@
-=== Maintenance
+=== Version 1.1.9 / 2008-10-20
 
 WARNING: This release removes implicit inclusion of modules in example groups.
 This means that if you have 'describe MyModule do', MyModule will not be
