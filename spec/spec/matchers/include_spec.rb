@@ -43,3 +43,22 @@ describe "should_not include(expected)" do
     }.should fail_with("expected \"abc\" not to include \"c\"")
   end
 end
+
+describe "should include(:key => value)" do
+  it "should pass if target is a Hash and includes the key/value pair" do
+    {:key => 'value'}.should include(:key => 'value')
+  end
+  it "should pass if target is a Hash and includes the key/value pair among others" do
+    {:key => 'value', :other => 'different'}.should include(:key => 'value')
+  end
+  it "should fail if target is a Hash and has a different value for key" do
+    lambda {
+      {:key => 'different'}.should include(:key => 'value')
+    }.should fail_with(%Q|expected {:key=>"different"} to include {:key=>"value"}|)
+  end
+  it "should fail if target is a Hash and has a different key" do
+    lambda {
+      {:other => 'value'}.should include(:key => 'value')
+    }.should fail_with(%Q|expected {:other=>"value"} to include {:key=>"value"}|)
+  end
+end

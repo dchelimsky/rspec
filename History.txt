@@ -1,5 +1,9 @@
 === Maintenance
 
+* 1 minor enhancement
+
+  * hash.should include(:key => 'value') #when you don't care about the whole hash
+
 * 1 bug fix
 
   * fix --help output (had inaccurate info about 'nested' formatter)

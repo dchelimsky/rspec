@@ -10,7 +10,14 @@ module Spec
       def matches?(given)
         @given = given
         @expecteds.each do |expected|
-          return false unless given.include?(expected)
+          case given
+          when Hash
+            expected.each_pair do |k,v|
+              return false unless given[k] == v
+            end
+          else
+            return false unless given.include?(expected)
+          end
         end
         true
       end
