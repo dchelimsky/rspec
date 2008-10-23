@@ -1,3 +1,9 @@
+=== Maintenance
+
+* 1 bug fix
+
+  * fix --help output (had inaccurate info about 'nested' formatter)
+
 === Version 1.1.9 / 2008-10-20
 
 WARNING: This release removes implicit inclusion of modules in example groups.

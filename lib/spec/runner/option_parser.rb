@@ -46,7 +46,7 @@ module Spec
                                                     "progress|p               : Text progress",
                                                     "profile|o                : Text progress with profiling of 10 slowest examples",
                                                     "specdoc|s                : Example doc as text",
-                                                    "indented|i               : Example doc as indented text",
+                                                    "nested|n                 : Example doc as indented text",
                                                     "html|h                   : A nice HTML report",
                                                     "failing_examples|e       : Write all failing examples - input for --example",
                                                     "failing_example_groups|g : Write all failing example groups - input for --example",
