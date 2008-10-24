@@ -1,4 +1,3 @@
-(in /Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec)
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
