@@ -23,7 +23,7 @@ module Spec
           run_with(OptionParser.parse([file], @err, @out))
 
           @out.rewind
-          @out.read.should =~ /2 examples, 1 failure/n
+          @out.read.should =~ /3 examples, 2 failures/n
         end
 
         it "should raise when file does not exist" do
