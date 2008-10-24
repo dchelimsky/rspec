@@ -18,7 +18,7 @@ Hoe.new('rspec', Spec::VERSION::STRING) do |p|
   p.url = 'http://rspec.info/'
   p.description = "Behaviour Driven Development for Ruby."
   p.rubyforge_name = 'rspec'
-  p.extra_dev_deps = ['diff-lcs',['spicycode-rcov','>= 0.8.1.3'],'syntax']
+  p.extra_dev_deps = ['diff-lcs','syntax']
   p.developer('RSpec Development Team', 'rspec-devel@rubyforge.org')
   p.remote_rdoc_dir = "rspec/#{Spec::VERSION::STRING}"
 end

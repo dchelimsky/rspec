@@ -1,12 +1,13 @@
-=== Maintenance
+=== Version 1.1.10 / 2008-10-24
 
 * 1 minor enhancement
 
   * hash.should include(:key => 'value') #when you don't care about the whole hash
 
-* 1 bug fix
+* 2 bug fixes
 
   * fix --help output (had inaccurate info about 'nested' formatter)
+  * eliminate spicycode-rcov dev dependency for rubygems < 1.3
 
 === Version 1.1.9 / 2008-10-20
 

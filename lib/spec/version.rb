@@ -3,7 +3,7 @@ module Spec
     unless defined? MAJOR
       MAJOR  = 1
       MINOR  = 1
-      TINY   = 9
+      TINY   = 10
 
       STRING = [MAJOR, MINOR, TINY].join('.')
 

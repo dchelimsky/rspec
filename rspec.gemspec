@@ -1,12 +1,13 @@
+(in /Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec)
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
   s.name = %q{rspec}
-  s.version = "1.1.9"
+  s.version = "1.1.10"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["RSpec Development Team"]
-  s.date = %q{2008-10-20}
+  s.date = %q{2008-10-24}
   s.description = %q{Behaviour Driven Development for Ruby.}
   s.email = ["rspec-devel@rubyforge.org"]
   s.executables = ["autospec", "spec"]
@@ -18,7 +19,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{rspec}
   s.rubygems_version = %q{1.3.0}
-  s.summary = %q{rspec 1.1.9}
+  s.summary = %q{rspec 1.1.10}
 
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
@@ -26,19 +27,17 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
       s.add_development_dependency(%q<diff-lcs>, [">= 0"])
-      s.add_development_dependency(%q<spicycode-rcov>, [">= 0.8.1.3"])
       s.add_development_dependency(%q<syntax>, [">= 0"])
-      s.add_development_dependency(%q<hoe>, [">= 1.8.0"])
+      s.add_development_dependency(%q<spicycode-rcov>, [">= 0.8.1.3"])
+      s.add_development_dependency(%q<hoe>, [">= 1.8.1"])
     else
       s.add_dependency(%q<diff-lcs>, [">= 0"])
-      s.add_dependency(%q<spicycode-rcov>, [">= 0.8.1.3"])
       s.add_dependency(%q<syntax>, [">= 0"])
-      s.add_dependency(%q<hoe>, [">= 1.8.0"])
+      s.add_dependency(%q<hoe>, [">= 1.8.1"])
     end
   else
     s.add_dependency(%q<diff-lcs>, [">= 0"])
-    s.add_dependency(%q<spicycode-rcov>, [">= 0.8.1.3"])
     s.add_dependency(%q<syntax>, [">= 0"])
-    s.add_dependency(%q<hoe>, [">= 1.8.0"])
+    s.add_dependency(%q<hoe>, [">= 1.8.1"])
   end
 end
