@@ -673,11 +673,5 @@ module Spec
         $nested_group.description.to_s.should == "Array when empty"
       end
     end
-
-    describe String do
-      it "should not be included in examples because it is not a module" do
-        lambda{self.map}.should raise_error(NoMethodError, /undefined method `map' for/)
-      end
-    end
   end
 end
