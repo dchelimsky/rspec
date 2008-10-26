@@ -28,7 +28,11 @@ module Spec
           if @expected_symbol.nil?
             return !@caught_symbol.nil?
           else
-            return @caught_symbol == @expected_symbol && @caught_arg == @expected_arg
+            if @expected_arg.nil?
+              return @caught_symbol == @expected_symbol
+            else
+              return @caught_symbol == @expected_symbol && @caught_arg == @expected_arg
+            end
           end
         end
       end

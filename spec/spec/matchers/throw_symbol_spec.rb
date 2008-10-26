@@ -9,6 +9,9 @@ module Spec
         it "should match if any Symbol is thrown" do
           @matcher.matches?(lambda{ throw :sym }).should be_true
         end
+        it "should match if any Symbol is thrown with an arg" do
+          @matcher.matches?(lambda{ throw :sym, "argument" }).should be_true
+        end
         it "should not match if no Symbol is thrown" do
           @matcher.matches?(lambda{ }).should be_false
         end
@@ -27,6 +30,9 @@ module Spec
       
         it "should match if correct Symbol is thrown" do
           @matcher.matches?(lambda{ throw :sym }).should be_true
+        end
+        it "should match if correct Symbol is thrown with an arg" do
+          @matcher.matches?(lambda{ throw :sym, "argument" }).should be_true
         end
         it "should not match if no Symbol is thrown" do
           @matcher.matches?(lambda{ }).should be_false
