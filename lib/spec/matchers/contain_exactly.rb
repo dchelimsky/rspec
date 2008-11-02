@@ -22,10 +22,6 @@ module Spec
         _message
       end
 
-      def description
-        "contain exactly #{_pretty_print(@expecteds)}"
-      end
-
       private
       def _message(maybe_not="")
         message =  "expected collection contained:  #{@expecteds.sort.inspect}\n"
@@ -35,19 +31,6 @@ module Spec
         message
       end
 
-      def _pretty_print(array)
-        result = ""
-        array.each_with_index do |item, index|
-          if index < (array.length - 2)
-            result << "#{item.inspect}, "
-          elsif index < (array.length - 1)
-            result << "#{item.inspect} and "
-          else
-            result << "#{item.inspect}"
-          end
-        end
-        result
-      end
     end
 
     # :call-seq:
