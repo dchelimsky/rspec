@@ -51,6 +51,26 @@ describe "should contain_exactly(with, multiple, args)" do
     }.should fail_with(message)
   end
   
+  it "should accurately report extra elements when there are duplicates" do
+    message =  "expected collection contained:  [1, 5]\n"
+    message += "actual collection contained:    [1, 1, 1, 5]\n"
+    message += "the extra elements were:        [1, 1]\n"
+    
+    lambda {
+      [1,1,1,5].should contain_exactly(1,5)
+    }.should fail_with(message)
+  end
+
+  it "should accurately report missing elements when there are duplicates" do
+    message =  "expected collection contained:  [1, 1, 5]\n"
+    message += "actual collection contained:    [1, 5]\n"
+    message += "the missing elements were:      [1]\n"
+    
+    lambda {
+      [1,5].should contain_exactly(1,1,5)
+    }.should fail_with(message)
+  end
+  
 end
 
 describe "should_not contain_exactly(with, multiple, args)" do

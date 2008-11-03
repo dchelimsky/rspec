@@ -8,13 +8,9 @@ module Spec
       end
 
       def matches?(givens)
-        @givens = givens
-        @extra_items = @givens.reject do |object|
-          @expecteds.include?(object)
-        end
-        @missing_items = @expecteds.reject do |object|
-          @givens.include?(object)
-        end
+        @givens = givens        
+        @extra_items = difference_between_arrays(@givens, @expecteds)
+        @missing_items = difference_between_arrays(@expecteds, @givens)
         @extra_items.empty? and @missing_items.empty?
       end
 
@@ -23,6 +19,17 @@ module Spec
       end
 
       private
+
+      def difference_between_arrays(array_1, array_2)
+        difference = array_1.dup
+        array_2.each do |element|
+          if index = difference.index(element)
+            difference.delete_at(index)
+          end
+        end
+        difference
+      end
+
       def _message(maybe_not="")
         message =  "expected collection contained:  #{@expecteds.sort.inspect}\n"
         message += "actual collection contained:    #{@givens.sort.inspect}\n"
