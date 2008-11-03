@@ -17,26 +17,44 @@ module Spec
       def failure_message
         _message
       end
+      
+      def description
+        "contain exactly #{_pretty_print(@expecteds)}"
+      end
 
       private
 
-      def difference_between_arrays(array_1, array_2)
-        difference = array_1.dup
-        array_2.each do |element|
-          if index = difference.index(element)
-            difference.delete_at(index)
+        def difference_between_arrays(array_1, array_2)
+          difference = array_1.dup
+          array_2.each do |element|
+            if index = difference.index(element)
+              difference.delete_at(index)
+            end
           end
+          difference
         end
-        difference
-      end
 
-      def _message(maybe_not="")
-        message =  "expected collection contained:  #{@expecteds.sort.inspect}\n"
-        message += "actual collection contained:    #{@givens.sort.inspect}\n"
-        message += "the missing elements were:      #{@missing_items.sort.inspect}\n" unless @missing_items.empty?
-        message += "the extra elements were:        #{@extra_items.sort.inspect}\n" unless @extra_items.empty?
-        message
-      end
+        def _message(maybe_not="")
+          message =  "expected collection contained:  #{@expecteds.sort.inspect}\n"
+          message += "actual collection contained:    #{@givens.sort.inspect}\n"
+          message += "the missing elements were:      #{@missing_items.sort.inspect}\n" unless @missing_items.empty?
+          message += "the extra elements were:        #{@extra_items.sort.inspect}\n" unless @extra_items.empty?
+          message
+        end
+
+        def _pretty_print(array)
+          result = ""
+          array.each_with_index do |item, index|
+            if index < (array.length - 2)
+              result << "#{item.inspect}, "
+            elsif index < (array.length - 1)
+              result << "#{item.inspect} and "
+            else
+              result << "#{item.inspect}"
+            end
+          end
+          result
+        end
 
     end
 
