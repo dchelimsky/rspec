@@ -122,7 +122,7 @@ module Spec
 
           it "should create and register a Spec::Example::SharedExampleGroup" do
             shared_example_group.should be_an_instance_of(Spec::Example::SharedExampleGroup)
-            SharedExampleGroup.shared_example_groups.should include(shared_example_group)
+            SharedExampleGroup.should include(shared_example_group)
           end
         end
 

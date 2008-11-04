@@ -17,12 +17,11 @@ module Spec
         after(:each) do
           @formatter.rspec_verify
           @example_group = nil
-          Spec::Example::SharedExampleGroup.shared_example_groups.clear
+          Spec::Example::SharedExampleGroup.clear_shared_example_groups
         end
         
         describe "#register" do
           before(:each) do
-            Spec::Example::SharedExampleGroup.stub!(:new)
             Spec::Example::SharedExampleGroup.stub!(:add_shared_example_group)
           end
 
@@ -40,37 +39,7 @@ module Spec
           end
         end
 
-        def non_shared_example_group()
-          @non_shared_example_group ||= Class.new(ExampleGroup)
-        end
-
-        it "accepts an optional options hash" do
-          lambda { Class.new(ExampleGroup).describe("context") }.should_not raise_error(Exception)
-          lambda { Class.new(ExampleGroup).describe("context", :shared => true) }.should_not raise_error(Exception)
-        end
-
-        it "should return all shared example_groups" do
-          b1 = SharedExampleGroup.register("b1") {}
-          b2 = SharedExampleGroup.register("b2") {}
-
-          b1.should_not be(nil)
-          b2.should_not be(nil)
-
-          SharedExampleGroup.find_shared_example_group("b1").should equal(b1)
-          SharedExampleGroup.find_shared_example_group("b2").should equal(b2)
-        end
-
-        it "should register as shared example_group" do
-          example_group = SharedExampleGroup.register("example_group") {}
-          SharedExampleGroup.shared_example_groups.should include(example_group)
-        end
-
-        it "should not be shared when not configured as shared" do
-          example_group = non_shared_example_group
-          SharedExampleGroup.shared_example_groups.should_not include(example_group)
-        end
-
-        it "should complain when adding a second shared example_group with the same description" do
+        it "complains when adding a second shared example_group with the same description" do
           describe "shared example_group", :shared => true do
           end
           lambda do
@@ -78,14 +47,17 @@ module Spec
             end
           end.should raise_error(ArgumentError)
         end
-
-        it "should NOT complain when adding the same shared example_group instance again" do
-          shared_example_group = Class.new(ExampleGroup).describe("shared example_group", :shared => true)
-          SharedExampleGroup.add_shared_example_group(shared_example_group)
-          SharedExampleGroup.add_shared_example_group(shared_example_group)
+        
+        it "does NOT add the same group twice" do
+          lambda do
+            2.times do
+              describe "shared example_group which gets loaded twice", :shared => true do
+              end
+            end
+          end.should change {Spec::Example::SharedExampleGroup.count}.by(1)
         end
 
-        it "should NOT complain when adding the same shared example_group again (i.e. file gets reloaded)" do
+        it "does NOT complain when adding the same shared example_group again (i.e. file gets reloaded)" do
           lambda do
             2.times do
               describe "shared example_group which gets loaded twice", :shared => true do
@@ -94,7 +66,7 @@ module Spec
           end.should_not raise_error(ArgumentError)
         end
 
-        it "should NOT complain when adding the same shared example_group in same file with different absolute path" do
+        it "does NOT complain when adding the same shared example_group in same file with different absolute path" do
           shared_example_group_1 = Class.new(ExampleGroup).describe(
             "shared example_group",
             :shared => true,
@@ -110,7 +82,7 @@ module Spec
           SharedExampleGroup.add_shared_example_group(shared_example_group_2)
         end
 
-        it "should complain when adding a different shared example_group with the same name in a different file with the same basename" do
+        it "complains when adding a different shared example_group with the same name in a different file with the same basename" do
           shared_example_group_1 = Class.new(ExampleGroup).describe(
             "shared example_group",
             :shared => true,
@@ -128,7 +100,7 @@ module Spec
           end.should raise_error(ArgumentError, /already exists/)
         end
 
-        it "should add examples to current example_group using it_should_behave_like" do
+        it "adds examples to current example_group using it_should_behave_like" do
           shared_example_group = SharedExampleGroup.register("shared example_group") do
             it("shared example") {}
             it("shared example 2") {}
@@ -140,7 +112,7 @@ module Spec
           example_group.number_of_examples.should == 3
         end
 
-        it "should add examples to from two shared groups" do
+        it "adds examples to from two shared groups" do
           shared_example_group_1 = SharedExampleGroup.register("shared example_group 1") do
             it("shared example 1") {}
           end
@@ -155,7 +127,7 @@ module Spec
           example_group.number_of_examples.should == 3
         end
 
-        it "should add examples to current example_group using include" do
+        it "adds examples to current example_group using include" do
           shared_example_group = describe "all things", :shared => true do
             it "should do stuff" do end
           end
@@ -167,7 +139,7 @@ module Spec
           example_group.number_of_examples.should == 1
         end
 
-        it "should add examples to current example_group using it_should_behave_like with a module" do
+        it "adds examples to current example_group using it_should_behave_like with a module" do
           AllThings = describe "all things", :shared => true do
             it "should do stuff" do end
           end
@@ -179,7 +151,7 @@ module Spec
           example_group.number_of_examples.should == 1
         end
 
-        it "should run shared examples" do
+        it "runs shared examples" do
           shared_example_ran = false
           shared_example_group = SharedExampleGroup.register("shared example_group") do
             it("shared example") { shared_example_ran = true }
@@ -194,12 +166,12 @@ module Spec
           shared_example_ran.should be_true
         end
 
-        it "should run setup and teardown from shared example_group" do
+        it "runs before(:each) and after(:each) from shared example_group" do
           shared_setup_ran = false
           shared_teardown_ran = false
           shared_example_group = SharedExampleGroup.register("shared example_group") do
-            before { shared_setup_ran = true }
-            after { shared_teardown_ran = true }
+            before(:each) { shared_setup_ran = true }
+            after(:each)  { shared_teardown_ran = true }
             it("shared example") { shared_example_ran = true }
           end
 
@@ -218,7 +190,7 @@ module Spec
           shared_after_all_run_count = 0
           shared_example_group = SharedExampleGroup.register("shared example_group") do
             before(:all) { shared_before_all_run_count += 1}
-            after(:all) { shared_after_all_run_count += 1}
+            after(:all)  { shared_after_all_run_count += 1}
             it("shared example") { shared_example_ran = true }
           end
 

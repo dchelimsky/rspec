@@ -4,7 +4,7 @@ module Spec
       module ClassMethods
         def add_shared_example_group(new_example_group)
           guard_against_redefining_existing_example_group(new_example_group)
-          shared_example_groups << new_example_group
+          shared_example_groups << new_example_group unless shared_example_groups.any? {|g| g.description == new_example_group.description}
           new_example_group
         end
 
@@ -12,16 +12,28 @@ module Spec
           shared_example_groups.find {|b| b.description == example_group_description}
         end
 
-        def shared_example_groups
-          @shared_example_groups ||= []
-        end
-        
         def register(*args, &block)
           add_shared_example_group new(*args, &block)
         end
+        
+        def clear_shared_example_groups
+          shared_example_groups.clear
+        end
+        
+        def include?(group)
+          shared_example_groups.include?(group)
+        end
+        
+        def count
+          shared_example_groups.length
+        end
 
       private
-
+      
+        def shared_example_groups
+          @shared_example_groups ||= []
+        end
+      
         def guard_against_redefining_existing_example_group(new_example_group)
           existing_example_group = find_shared_example_group(new_example_group.description)
           return unless existing_example_group

@@ -50,7 +50,7 @@ module Spec
 
             describe "when creating a SharedExampleGroup" do
               attr_reader :name, :shared_example_group
-              before do
+              before(:each) do
                 @name = "A Shared ExampleGroup"
                 @shared_example_group = @example_group.send method, name, :shared => true do
                   it "should pass" do
@@ -59,10 +59,8 @@ module Spec
                 end
               end
 
-              after do
-                SharedExampleGroup.shared_example_groups.delete_if do |registered_shared_example_group|
-                  registered_shared_example_group == shared_example_group
-                end
+              after(:each) do
+                SharedExampleGroup.clear_shared_example_groups
               end
 
               it "should create a SharedExampleGroup" do
