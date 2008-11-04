@@ -42,7 +42,6 @@ module Spec
       def share_examples_for(name, &block)
         describe(name, :shared => true, &block)
       end
-    
       alias :shared_examples_for :share_examples_for
     
       # Creates a Shared Example Group and assigns it to a constant

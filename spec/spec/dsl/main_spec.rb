@@ -9,22 +9,12 @@ module Spec
 
       [:describe, :context].each do |method|
         describe "##{method}" do
-          it "should raise when no block is given to #{method}" do
-            lambda { @main.__send__ method, "foo" }.should raise_error(ArgumentError)
-          end
-
-          it "should raise when no description is given to #{method}" do
-            lambda { @main.__send__ method do; end }.should raise_error(ArgumentError)
-          end
-
-          it "should run registered ExampleGroups" do
-            example_group = @main.__send__ method, "The ExampleGroup" do end
-            Spec::Runner.options.example_groups.should include(example_group)
-          end
-
-          it "should not run unregistered ExampleGroups" do
-            example_group = @main.__send__ method, "The ExampleGroup" do unregister; end
-            Spec::Runner.options.example_groups.should_not include(example_group)
+          it "should delegate to Spec::Example::ExampleGroupFactory.create_example_group" do
+            block = lambda {}
+            Spec::Example::ExampleGroupFactory.should_receive(:create_example_group).with(
+              "The ExampleGroup", &block
+            )
+            example_group = @main.__send__ method, "The ExampleGroup", &block
           end
         end
       end

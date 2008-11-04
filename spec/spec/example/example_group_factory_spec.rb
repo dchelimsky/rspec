@@ -62,6 +62,20 @@ module Spec
             Spec::Example::ExampleGroupFactory.create_example_group do; end
           }.should raise_error(ArgumentError)
         end
+        
+        it "should raise when no block is given" do
+          lambda { Spec::Example::ExampleGroupFactory.create_example_group "foo" }.should raise_error(ArgumentError)
+        end
+
+        it "should run registered ExampleGroups" do
+          example_group = Spec::Example::ExampleGroupFactory.create_example_group "The ExampleGroup" do end
+          Spec::Runner.options.example_groups.should include(example_group)
+        end
+
+        it "should not run unregistered ExampleGroups" do
+          example_group = Spec::Example::ExampleGroupFactory.create_example_group "The ExampleGroup" do unregister; end
+          Spec::Runner.options.example_groups.should_not include(example_group)
+        end
 
         describe "with :type => :default" do
           it "should create a Spec::Example::ExampleGroup" do
