@@ -59,7 +59,7 @@ module Spec
       alias :context :describe
       
       def create_shared_example_group(args, example_group_block)
-        SharedExampleGroup.new(*args, &example_group_block)
+        SharedExampleGroup.register(*args, &example_group_block)
       end
       
       def create_nested_example_group(args, example_group_block)

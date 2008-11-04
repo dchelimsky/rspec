@@ -16,8 +16,8 @@ module Spec
           @shared_example_groups ||= []
         end
         
-        def register(name, &block)
-          add_shared_example_group new(name, &block)
+        def register(*args, &block)
+          add_shared_example_group new(*args, &block)
         end
 
       private
@@ -41,7 +41,6 @@ module Spec
       def initialize(*args, &example_group_block)
         describe(*args)
         @example_group_block = example_group_block
-        self.class.add_shared_example_group(self)
       end
 
       def included(mod) # :nodoc:
