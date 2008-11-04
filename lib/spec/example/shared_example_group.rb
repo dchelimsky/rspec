@@ -17,7 +17,8 @@ module Spec
           @shared_example_groups ||= []
         end
 
-        private
+      private
+
         def guard_against_redefining_existing_example_group(new_example_group)
           existing_example_group = find_shared_example_group(new_example_group.description)
           return unless existing_example_group

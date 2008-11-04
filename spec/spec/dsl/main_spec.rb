@@ -14,15 +14,20 @@ module Spec
             Spec::Example::ExampleGroupFactory.should_receive(:create_example_group).with(
               "The ExampleGroup", &block
             )
-            example_group = @main.__send__ method, "The ExampleGroup", &block
+            @main.__send__ method, "The ExampleGroup", &block
           end
         end
       end
-    
-      describe "#share_examples_for" do
-        it "should create a shared ExampleGroup" do
-          group = @main.share_examples_for "all things" do end
-          group.should be_an_instance_of(Spec::Example::SharedExampleGroup)
+      
+      [:share_examples_for, :shared_examples_for].each do |method|
+        describe "##{method}" do
+          it "should create a shared ExampleGroup" do
+            block = lambda {}
+            Spec::Example::SharedExampleGroup.should_receive(:new).with(
+              "shared group", &block
+            )
+            @main.__send__ method, "shared group", &block
+          end
         end
       end
     

@@ -70,7 +70,7 @@ module Spec
       #  end
       def share_as(name, &block)
         begin
-          Object.const_set(name, share_examples_for(name, &block))
+          Object.const_set(name, Spec::Example::SharedExampleGroup.new(name, &block))
         rescue NameError => e
           raise NameError.new(e.message + "\nThe first argument to share_as must be a legal name for a constant\n")
         end
