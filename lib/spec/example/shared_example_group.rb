@@ -8,9 +8,7 @@ module Spec
         end
 
         def find_shared_example_group(example_group_description)
-          shared_example_groups.find do |b|
-            b.description == example_group_description
-          end
+          shared_example_groups.find {|b| b.description == example_group_description}
         end
 
         def shared_example_groups
