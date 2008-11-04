@@ -3,8 +3,9 @@ module Spec
     class SharedExampleGroup < Module
       module ClassMethods
         def add_shared_example_group(new_example_group)
-          guard_against_redefining_existing_example_group(new_example_group)
-          shared_example_groups << new_example_group unless shared_example_groups.any? {|g| g.description == new_example_group.description}
+          unless already_registered?(new_example_group)
+            shared_example_groups << new_example_group
+          end
           new_example_group
         end
 
@@ -34,11 +35,11 @@ module Spec
           @shared_example_groups ||= []
         end
       
-        def guard_against_redefining_existing_example_group(new_example_group)
+        def already_registered?(new_example_group)
           existing_example_group = find_shared_example_group(new_example_group.description)
-          return unless existing_example_group
-          return if new_example_group.equal?(existing_example_group)
-          return if spec_path(new_example_group) == spec_path(existing_example_group)
+          return false unless existing_example_group
+          return true if new_example_group.equal?(existing_example_group)
+          return true if spec_path(new_example_group) == spec_path(existing_example_group)
           raise ArgumentError.new("Shared Example '#{existing_example_group.description}' already exists")
         end
 
