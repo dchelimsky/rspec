@@ -40,7 +40,7 @@ module Spec
       #    end
       #  end
       def share_examples_for(name, &block)
-        Spec::Example::SharedExampleGroup.new(name, &block)
+        Spec::Example::SharedExampleGroup.register(name, &block)
       end
       alias :shared_examples_for :share_examples_for
     

@@ -14,6 +14,10 @@ module Spec
         def shared_example_groups
           @shared_example_groups ||= []
         end
+        
+        def register(name, &block)
+          add_shared_example_group new(name, &block)
+        end
 
       private
 

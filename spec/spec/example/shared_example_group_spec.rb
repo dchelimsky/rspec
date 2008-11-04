@@ -19,6 +19,26 @@ module Spec
           @example_group = nil
           Spec::Example::SharedExampleGroup.shared_example_groups.clear
         end
+        
+        describe "#register" do
+          before(:each) do
+            Spec::Example::SharedExampleGroup.stub!(:new)
+            Spec::Example::SharedExampleGroup.stub!(:add_shared_example_group)
+          end
+
+          it "creates a new shared example group with the submitted args" do
+            block = lambda {}
+            Spec::Example::SharedExampleGroup.should_receive(:new).with("share me", &block)
+            Spec::Example::SharedExampleGroup.register("share me", &block)
+          end
+
+          it "registers the shared example group" do
+            group = Object.new
+            Spec::Example::SharedExampleGroup.should_receive(:new).and_return(group)
+            Spec::Example::SharedExampleGroup.should_receive(:add_shared_example_group).with(group)
+            Spec::Example::SharedExampleGroup.register "share me" do end
+          end
+        end
 
         def non_shared_example_group()
           @non_shared_example_group ||= Class.new(ExampleGroup)
