@@ -38,17 +38,17 @@ module Spec
           @group_name = "Group#{$share_as_examples_example_module_number}"
         end
 
-        it "should create a shared ExampleGroup" do
+        it "registers a shared ExampleGroup" do
+          Spec::Example::SharedExampleGroup.should_receive(:register)
           group = @main.share_as @group_name do end
-          group.should be_an_instance_of(Spec::Example::SharedExampleGroup)
         end
       
-        it "should create a constant that points to a Module" do
+        it "creates a constant that points to a Module" do
           group = @main.share_as @group_name do end
           Object.const_get(@group_name).should equal(group)
         end
       
-        it "should bark if you pass it something not-constantizable" do
+        it "complains if you pass it a not-constantizable name" do
           lambda do
             @group = @main.share_as "Non Constant" do end
           end.should raise_error(NameError, /The first argument to share_as must be a legal name for a constant/)
