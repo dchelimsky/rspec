@@ -5,6 +5,7 @@ module Spec
         def add_shared_example_group(new_example_group)
           guard_against_redefining_existing_example_group(new_example_group)
           shared_example_groups << new_example_group
+          new_example_group
         end
 
         def find_shared_example_group(example_group_description)
