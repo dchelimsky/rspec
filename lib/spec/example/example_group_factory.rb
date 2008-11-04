@@ -56,10 +56,6 @@ module Spec
           superclass.describe(*args, &block)
         end
         
-        def create_shared_example_group(name, &block)
-          Spec::Example::SharedExampleGroup.add_shared_example_group Spec::Example::SharedExampleGroup.new(name, &block)
-        end
-
       protected
 
         def determine_superclass(opts)

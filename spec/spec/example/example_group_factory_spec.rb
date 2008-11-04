@@ -152,26 +152,6 @@ module Spec
         end
       end
       
-      describe "#create_shared_example_group" do
-        before(:each) do
-          Spec::Example::SharedExampleGroup.stub!(:new)
-          Spec::Example::SharedExampleGroup.stub!(:add_shared_example_group)
-        end
-        
-        it "creates a new shared example group with the submitted args" do
-          block = lambda {}
-          Spec::Example::SharedExampleGroup.should_receive(:new).with("share me", &block)
-          Spec::Example::ExampleGroupFactory.create_shared_example_group("share me", &block)
-        end
-        
-        it "registers the shared example group" do
-          group = Object.new
-          Spec::Example::SharedExampleGroup.should_receive(:new).and_return(group)
-          Spec::Example::SharedExampleGroup.should_receive(:add_shared_example_group).with(group)
-          Spec::Example::ExampleGroupFactory.create_shared_example_group "share me" do end
-        end
-      end
-
       describe "#all_registered?" do
         before(:each) do
           @unregistered_parent = Class.new(ExampleGroup)
