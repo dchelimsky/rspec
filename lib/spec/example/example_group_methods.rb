@@ -64,7 +64,7 @@ module Spec
       
       def create_nested_example_group(args, example_group_block)
         self.subclass("Subclass") do
-          describe(*args)
+          set_description(*args)
           module_eval(&example_group_block)
         end
       end

@@ -5,6 +5,7 @@ require 'spec/extensions'
 require 'spec/runner'
 require 'spec/adapters'
 require 'spec/version'
+require 'spec/dsl'
 
 if Object.const_defined?(:Test)
   require 'spec/interop/test'

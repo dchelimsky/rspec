@@ -48,8 +48,11 @@ module Spec
         end
         
         def create_example_group(*args, &block)
-          opts = Hash === args.last ? args.last : {}
-          superclass = determine_superclass(opts)
+          raise ArgumentError if args.empty?
+          raise ArgumentError unless block
+          args << {} unless Hash === args.last
+          args.last[:spec_path] ||= File.expand_path(caller(0)[2])
+          superclass = determine_superclass(args.last)
           superclass.describe(*args, &block)
         end
 

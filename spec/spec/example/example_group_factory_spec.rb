@@ -57,6 +57,12 @@ module Spec
           example_group.superclass.should == Spec::Example::ExampleGroup
         end
 
+        it "should raise when no description is given" do
+          lambda {
+            Spec::Example::ExampleGroupFactory.create_example_group do; end
+          }.should raise_error(ArgumentError)
+        end
+
         describe "with :type => :default" do
           it "should create a Spec::Example::ExampleGroup" do
             example_group = Spec::Example::ExampleGroupFactory.create_example_group(

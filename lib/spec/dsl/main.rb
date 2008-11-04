@@ -1,5 +1,5 @@
 module Spec
-  module Extensions
+  module DSL
     module Main
       # Creates and returns a class that includes the ExampleGroupMethods
       # module. Which ExampleGroup type is created depends on the directory of the file
@@ -20,14 +20,10 @@ module Spec
       # register special implementations.
       #
       def describe(*args, &block)
-        raise ArgumentError if args.empty?
-        raise ArgumentError unless block
-        args << {} unless Hash === args.last
-        args.last[:spec_path] = File.expand_path(caller(0)[1])
         Spec::Example::ExampleGroupFactory.create_example_group(*args, &block)
       end
       alias :context :describe
-      
+    
       # Creates an example group that can be shared by other example groups
       #
       # == Examples
@@ -46,9 +42,9 @@ module Spec
       def share_examples_for(name, &block)
         describe(name, :shared => true, &block)
       end
-      
+    
       alias :shared_examples_for :share_examples_for
-      
+    
       # Creates a Shared Example Group and assigns it to a constant
       #
       #  share_as :AllEditions do
@@ -84,4 +80,4 @@ module Spec
   end
 end
 
-include Spec::Extensions::Main
+include Spec::DSL::Main
