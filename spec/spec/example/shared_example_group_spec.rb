@@ -17,25 +17,21 @@ module Spec
         after(:each) do
           @formatter.rspec_verify
           @example_group = nil
-          Spec::Example::SharedExampleGroup.clear_shared_example_groups
+          Spec::Example::SharedExampleGroup.clear
         end
         
         describe "#register" do
-          before(:each) do
-            Spec::Example::SharedExampleGroup.stub!(:add_shared_example_group)
-          end
-
           it "creates a new shared example group with the submitted args" do
             block = lambda {}
-            Spec::Example::SharedExampleGroup.should_receive(:new).with("share me", &block)
+            group = SharedExampleGroup.new("shared group") do end
+            Spec::Example::SharedExampleGroup.should_receive(:new).with("share me", &block).and_return(group)
             Spec::Example::SharedExampleGroup.register("share me", &block)
           end
 
           it "registers the shared example group" do
-            group = Object.new
-            Spec::Example::SharedExampleGroup.should_receive(:new).and_return(group)
-            Spec::Example::SharedExampleGroup.should_receive(:add_shared_example_group).with(group)
-            Spec::Example::SharedExampleGroup.register "share me" do end
+            lambda do
+              Spec::Example::SharedExampleGroup.register "share me" do end
+            end.should change {Spec::Example::SharedExampleGroup.count}.by(1)
           end
         end
 
@@ -67,36 +63,30 @@ module Spec
         end
 
         it "does NOT complain when adding the same shared example_group in same file with different absolute path" do
-          shared_example_group_1 = Class.new(ExampleGroup).describe(
+          SharedExampleGroup.register(
             "shared example_group",
             :shared => true,
             :spec_path => "/my/spec/a/../shared.rb"
           )
-          shared_example_group_2 = Class.new(ExampleGroup).describe(
+          SharedExampleGroup.register(
             "shared example_group",
             :shared => true,
             :spec_path => "/my/spec/b/../shared.rb"
           )
-
-          SharedExampleGroup.add_shared_example_group(shared_example_group_1)
-          SharedExampleGroup.add_shared_example_group(shared_example_group_2)
         end
 
         it "complains when adding a different shared example_group with the same name in a different file with the same basename" do
-          shared_example_group_1 = Class.new(ExampleGroup).describe(
+          SharedExampleGroup.register(
             "shared example_group",
             :shared => true,
             :spec_path => "/my/spec/a/shared.rb"
           )
-          shared_example_group_2 = Class.new(ExampleGroup).describe(
-            "shared example_group",
-            :shared => true,
-            :spec_path => "/my/spec/b/shared.rb"
-          )
-
-          SharedExampleGroup.add_shared_example_group(shared_example_group_1)
           lambda do
-            SharedExampleGroup.add_shared_example_group(shared_example_group_2)
+            SharedExampleGroup.register(
+              "shared example_group",
+              :shared => true,
+              :spec_path => "/my/spec/b/shared.rb"
+            )
           end.should raise_error(ArgumentError, /already exists/)
         end
 

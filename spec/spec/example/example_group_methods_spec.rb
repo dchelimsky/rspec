@@ -60,11 +60,11 @@ module Spec
               end
 
               after(:each) do
-                SharedExampleGroup.clear_shared_example_groups
+                SharedExampleGroup.clear
               end
 
               it "should create a SharedExampleGroup" do
-                SharedExampleGroup.find_shared_example_group(name).should == shared_example_group
+                SharedExampleGroup.find(name).should == shared_example_group
               end
             end
 

@@ -48,9 +48,9 @@ module Spec
           options = args.last
           options[:spec_path] = eval("caller(0)[1]", example_group_block) unless options[:spec_path]
           if options[:shared]
-            create_shared_example_group(args, example_group_block)
+            create_shared_example_group(*args, &example_group_block)
           else
-            create_nested_example_group(args, example_group_block)
+            create_nested_example_group(*args, &example_group_block)
           end
         else
           set_description(*args)
@@ -58,11 +58,11 @@ module Spec
       end
       alias :context :describe
       
-      def create_shared_example_group(args, example_group_block)
+      def create_shared_example_group(*args, &example_group_block)
         SharedExampleGroup.register(*args, &example_group_block)
       end
       
-      def create_nested_example_group(args, example_group_block)
+      def create_nested_example_group(*args, &example_group_block)
         self.subclass("Subclass") do
           set_description(*args)
           module_eval(&example_group_block)
@@ -354,7 +354,7 @@ module Spec
         when SharedExampleGroup
           include shared_example_group
         else
-          example_group = SharedExampleGroup.find_shared_example_group(shared_example_group)
+          example_group = SharedExampleGroup.find(shared_example_group)
           unless example_group
             raise RuntimeError.new("Shared Example Group '#{shared_example_group}' can not be found")
           end

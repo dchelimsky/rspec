@@ -2,22 +2,17 @@ module Spec
   module Example
     class SharedExampleGroup < Module
       module ClassMethods
-        def add_shared_example_group(new_example_group)
-          unless already_registered?(new_example_group)
-            shared_example_groups << new_example_group
-          end
+        def register(*args, &block)
+          new_example_group = new(*args, &block)
+          shared_example_groups << new_example_group unless already_registered?(new_example_group)
           new_example_group
         end
-
-        def find_shared_example_group(example_group_description)
+        
+        def find(example_group_description)
           shared_example_groups.find {|b| b.description == example_group_description}
         end
 
-        def register(*args, &block)
-          add_shared_example_group new(*args, &block)
-        end
-        
-        def clear_shared_example_groups
+        def clear
           shared_example_groups.clear
         end
         
@@ -36,7 +31,7 @@ module Spec
         end
       
         def already_registered?(new_example_group)
-          existing_example_group = find_shared_example_group(new_example_group.description)
+          existing_example_group = find(new_example_group.description)
           return false unless existing_example_group
           return true if new_example_group.equal?(existing_example_group)
           return true if spec_path(new_example_group) == spec_path(existing_example_group)
