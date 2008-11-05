@@ -26,6 +26,7 @@ class Autotest
         @rspec_autotest.stub!(:add_options_if_present).and_return "-O spec/spec.opts"
       
         @ruby = @rspec_autotest.ruby
+        @spec_cmd = File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'bin', 'spec'))
         @options = @rspec_autotest.add_options_if_present
         @files_to_test = {
           :spec => ["file_one", "file_two"]
@@ -37,7 +38,7 @@ class Autotest
       end
     
       it "should make the appropriate test command" do
-        @rspec_autotest.make_test_cmd(@files_to_test).should == "#{@ruby} -S #{@to_test} #{@options}"
+        @rspec_autotest.make_test_cmd(@files_to_test).should == "#{@ruby} #{@spec_cmd} #{@to_test} #{@options}"
       end
 
       it "should return a blank command for no files" do
