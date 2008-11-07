@@ -1,3 +1,6 @@
+require 'spec/matchers/generated_descriptions'
+require 'spec/matchers/errors'
+require 'spec/matchers/method_missing'
 require 'spec/matchers/simple_matcher'
 require 'spec/matchers/be'
 require 'spec/matchers/be_close'
@@ -132,31 +135,5 @@ module Spec
   #     config.include(CustomGameMatchers)
   #   end
   #
-  module Matchers
-    module ModuleMethods
-      attr_accessor :last_matcher, :last_should
-
-      def clear_generated_description
-        self.last_matcher = nil
-        self.last_should = nil
-      end
-      
-      def generated_description
-        last_should.nil? ? nil :
-          "#{last_should} #{last_matcher.respond_to?(:description) ? last_matcher.description : 'NO NAME'}"
-      end
-    end
-
-    extend ModuleMethods
-
-    def method_missing(sym, *args, &block) # :nodoc:
-      return Matchers::Be.new(sym, *args) if sym.starts_with?("be_")
-      return Matchers::Has.new(sym, *args) if sym.starts_with?("have_")
-      super
-    end
-
-    class MatcherError < StandardError
-    end
-    
-  end
+  module Matchers; end
 end
