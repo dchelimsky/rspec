@@ -68,7 +68,7 @@ module Spec
     private  
       
       def scope_and_options(*args)
-        args, options = args_and_options(*args)
+        args, options = Spec::Example.args_and_options(*args)
         scope = (args[0] || :each), options
       end
 

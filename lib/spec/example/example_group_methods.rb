@@ -160,7 +160,7 @@ module Spec
       end
 
       def set_description(*args)
-        args, options = args_and_options(*args)
+        args, options = Spec::Example.args_and_options(*args)
         @description_args = args
         @description_options = options
         @description_text = ExampleGroupMethods.description_text(*args)

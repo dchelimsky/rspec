@@ -77,7 +77,7 @@ module Spec
       def include_or_extend(*args)
         action = args.shift
         args << {} unless Hash === args.last
-        modules, options = args_and_options(*args)
+        modules, options = Spec::Example.args_and_options(*args)
         required_example_group = get_type_from_options(options)
         required_example_group = required_example_group.to_sym if required_example_group
         modules.each do |mod|
@@ -151,7 +151,7 @@ module Spec
     private
 
       def scope_and_options(*args)
-        args, options = args_and_options(*args)
+        args, options = Spec::Example.args_and_options(*args)
         scope = (args[0] || :each), options
       end
 
