@@ -150,11 +150,6 @@ module Spec
 
     private
 
-      def scope_and_options(*args)
-        args, options = Spec::Example.args_and_options(*args)
-        scope = (args[0] || :each), options
-      end
-
       def get_type_from_options(options)
         options[:type] || options[:behaviour_type]
       end
