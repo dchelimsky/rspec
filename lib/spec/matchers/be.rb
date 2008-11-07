@@ -38,15 +38,15 @@ it reads really poorly.
         end
       end
       
+      def description
+        "#{prefix_to_sentence}#{comparison} #{expected_to_sentence}#{args_to_sentence}".gsub(/\s+/,' ')
+      end
+
       [:==, :<, :<=, :>=, :>, :===].each do |method|
         define_method method do |expected|
           compare_to(expected, :using => method)
           self
         end
-      end
-
-      def description
-        "#{prefix_to_sentence}#{comparison} #{expected_to_sentence}#{args_to_sentence}".gsub(/\s+/,' ')
       end
 
       private
