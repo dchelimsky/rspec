@@ -7,20 +7,23 @@ module Spec
         @args = args
       end
       
-      def matches?(given)
-        @given = given
-        return match_or_compare unless handling_predicate?
-        begin
-          @result = given.__send__(predicate, *@args)
+      def matches?(actual)
+        @actual = actual
+        handling_predicate? ? run_predicate_on(actual) : match_or_compare(actual)
+      end
+      
+      def run_predicate_on(actual)
+        @result = begin
+          actual.__send__(predicate, *@args)
         rescue
-          @result = given.__send__(present_tense_predicate, *@args)
+          actual.__send__(present_tense_predicate, *@args)
         end
       end
       
       def failure_message
         handling_predicate? ?
           "expected #{predicate}#{args_to_s} to return true, got #{@result.inspect}" :
-          "expected #{@comparison_method} #{expected}, got #{@given.inspect}".gsub('  ',' ')
+          "expected #{@comparison_method} #{expected}, got #{@actual.inspect}".gsub('  ',' ')
       end
       
       def negative_failure_message
@@ -50,9 +53,13 @@ it reads really poorly.
       end
 
       private
-        def match_or_compare
-          return @given if TrueClass === @expected
-          return @given.__send__(comparison_method, @expected)
+        def match_or_compare(actual)
+          case @expected
+          when TrueClass
+            @actual
+          else
+            @actual.__send__(comparison_method, @expected)
+          end
         end
       
         def comparison_method
@@ -159,7 +166,7 @@ it reads really poorly.
     #   should_not be_nil
     #   should_not be_arbitrary_predicate(*args)
     #
-    # Given true, false, or nil, will pass if given value is
+    # Given true, false, or nil, will pass if actual value is
     # true, false or nil (respectively). Given no args means
     # the caller should satisfy an if condition (to be or not to be). 
     #
