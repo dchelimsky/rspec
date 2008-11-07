@@ -38,17 +38,17 @@ module Spec
         raise Spec::Expectations::ExpectationNotMetError.new(message)
       end
 
-      def eval_each_fail_fast(procs) #:nodoc:
-        procs.each do |proc|
-          instance_eval(&proc)
+      def eval_each_fail_fast(examples) #:nodoc:
+        examples.each do |example|
+          instance_eval(&example)
         end
       end
 
-      def eval_each_fail_slow(procs) #:nodoc:
+      def eval_each_fail_slow(examples) #:nodoc:
         first_exception = nil
-        procs.each do |proc|
+        examples.each do |example|
           begin
-            instance_eval(&proc)
+            instance_eval(&example)
           rescue Exception => e
             first_exception ||= e
           end
