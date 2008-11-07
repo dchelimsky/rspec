@@ -7,9 +7,11 @@ module Spec
           default(ExampleGroup)
         end
 
-        def all_registered?(example_group_classes)
+        def registered_or_ancestor_of_registered?(example_group_classes)
           example_group_classes.each do |example_group_class|
-            return false unless registered_or_ancestor_of_registered? example_group_class
+            return false unless registered_types.any? do |registered_type|
+              registered_type.ancestors.include? example_group_class
+            end
           end
           return true
         end
@@ -68,10 +70,6 @@ module Spec
         end
         
       private
-        
-        def registered_or_ancestor_of_registered? example_group_class
-          registered_types.any? {|registered_type| registered_type.ancestors.include? example_group_class}
-        end
         
         def registered_types
           @example_group_types.values

@@ -152,7 +152,7 @@ module Spec
         end
       end
       
-      describe "#all_registered?" do
+      describe "#registered_or_ancestor_of_registered?" do
         before(:each) do
           @unregistered_parent = Class.new(ExampleGroup)
           @registered_child = Class.new(@unregistered_parent)
@@ -161,19 +161,19 @@ module Spec
         end
         
         it "should return true for empty list" do
-          Spec::Example::ExampleGroupFactory.all_registered?([]).should be_true
+          Spec::Example::ExampleGroupFactory.registered_or_ancestor_of_registered?([]).should be_true
         end
         
         it "should return true for a registered example group class" do
-          Spec::Example::ExampleGroupFactory.all_registered?([@registered_child]).should be_true
+          Spec::Example::ExampleGroupFactory.registered_or_ancestor_of_registered?([@registered_child]).should be_true
         end
 
         it "should return true for an ancestor of a registered example_group_classes" do
-          Spec::Example::ExampleGroupFactory.all_registered?([@unregistered_parent]).should be_true
+          Spec::Example::ExampleGroupFactory.registered_or_ancestor_of_registered?([@unregistered_parent]).should be_true
         end
 
         it "should return false for a subclass of a registered example_group_class" do
-          Spec::Example::ExampleGroupFactory.all_registered?([@unregistered_grandchild]).should be_false
+          Spec::Example::ExampleGroupFactory.registered_or_ancestor_of_registered?([@unregistered_grandchild]).should be_false
         end
 
         after(:each) do
