@@ -85,6 +85,8 @@ lib/spec/adapters.rb
 lib/spec/adapters/ruby_engine.rb
 lib/spec/adapters/ruby_engine/mri.rb
 lib/spec/adapters/ruby_engine/rubinius.rb
+lib/spec/dsl.rb
+lib/spec/dsl/main.rb
 lib/spec/example.rb
 lib/spec/example/before_and_after_hooks.rb
 lib/spec/example/configuration.rb
@@ -106,9 +108,7 @@ lib/spec/expectations/extensions/string_and_symbol.rb
 lib/spec/expectations/handler.rb
 lib/spec/extensions.rb
 lib/spec/extensions/class.rb
-lib/spec/extensions/main.rb
 lib/spec/extensions/metaclass.rb
-lib/spec/extensions/object.rb
 lib/spec/interop/test.rb
 lib/spec/interop/test/unit/autorunner.rb
 lib/spec/interop/test/unit/testcase.rb
@@ -121,11 +121,14 @@ lib/spec/matchers/be_close.rb
 lib/spec/matchers/change.rb
 lib/spec/matchers/eql.rb
 lib/spec/matchers/equal.rb
+lib/spec/matchers/errors.rb
 lib/spec/matchers/exist.rb
+lib/spec/matchers/generated_descriptions.rb
 lib/spec/matchers/has.rb
 lib/spec/matchers/have.rb
 lib/spec/matchers/include.rb
 lib/spec/matchers/match.rb
+lib/spec/matchers/method_missing.rb
 lib/spec/matchers/operator_matcher.rb
 lib/spec/matchers/raise_error.rb
 lib/spec/matchers/respond_to.rb
@@ -213,6 +216,7 @@ spec/rspec_suite.rb
 spec/ruby_forker.rb
 spec/spec.opts
 spec/spec/adapters/ruby_engine_spec.rb
+spec/spec/dsl/main_spec.rb
 spec/spec/example/configuration_spec.rb
 spec/spec/example/example_group_class_definition_spec.rb
 spec/spec/example/example_group_factory_spec.rb
@@ -229,7 +233,6 @@ spec/spec/example/subclassing_example_group_spec.rb
 spec/spec/expectations/differs/default_spec.rb
 spec/spec/expectations/extensions/object_spec.rb
 spec/spec/expectations/fail_with_spec.rb
-spec/spec/extensions/main_spec.rb
 spec/spec/interop/test/unit/resources/spec_that_fails.rb
 spec/spec/interop/test/unit/resources/spec_that_passes.rb
 spec/spec/interop/test/unit/resources/spec_with_errors.rb
