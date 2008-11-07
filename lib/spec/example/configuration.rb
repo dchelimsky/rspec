@@ -47,29 +47,44 @@ module Spec
       #   include(My::Helpers, :type => :key)
       #
       # Declares modules to be included in multiple example groups
-      # (<tt>describe</tt> blocks). With no :type, the modules listed will be
-      # included in all example groups. Use :type to restrict the inclusion to
-      # a subset of example groups. The value assigned to :type should be a
-      # key that maps to a class that is either a subclass of
-      # Spec::Example::ExampleGroup or extends Spec::Example::ExampleGroupMethods
-      # and includes Spec::Example::ExampleMethods
+      # (<tt>describe</tt> blocks). With no <tt>:type</tt>, the modules listed
+      # will be included in all example groups.
       #
-      #   config.include(My::Pony, My::Horse, :type => :farm)
+      # Use <tt>:type</tt> to restrict
+      # the inclusion to a subset of example groups. The value assigned to
+      # <tt>:type</tt> should be a key that maps to a class that is either a
+      # subclass of Spec::Example::ExampleGroup or extends
+      # Spec::Example::ExampleGroupMethods and includes
+      # Spec::Example::ExampleMethods.
+      #
+      # For example, the rspec-rails gem/plugin extends Test::Unit::TestCase
+      # with Spec::Example::ExampleGroupMethods and includes
+      # Spec::Example::ExampleMethods in it. So if you have a module of helper
+      # methods for controller examples, you could do this:
+      #
+      #   config.include(ControllerExampleHelpers, :type => :controller)
       #
       # Only example groups that have that type will get the modules included:
       #
-      #   describe "Downtown", :type => :city do
-      #     # Will *not* get My::Pony and My::Horse included
+      #   describe Account, :type => :model do
+      #     # Will *not* include ControllerExampleHelpers
       #   end
       #
-      #   describe "Old Mac Donald", :type => :farm do
-      #     # *Will* get My::Pony and My::Horse included
+      #   describe AccountsController, :type => :controller do
+      #     # *Will* include ControllerExampleHelpers
       #   end
       #
       def include(*args)
         include_or_extend(:include, *args)
       end
       
+      # :call-seq:
+      #   extend(Some::Helpers)
+      #   extend(Some::Helpers, More::Helpers)
+      #   extend(My::Helpers, :type => :key)
+      #
+      # Works just like #include, but extends the example groups
+      # with the modules rather than including them.
       def extend(*args)
         include_or_extend(:extend, *args)
       end
