@@ -74,17 +74,6 @@ module Spec
         include_or_extend(:extend, *args)
       end
       
-      def include_or_extend(*args)
-        action = args.shift
-        args << {} unless Hash === args.last
-        modules, options = Spec::Example.args_and_options(*args)
-        required_example_group = get_type_from_options(options)
-        required_example_group = required_example_group.to_sym if required_example_group
-        modules.each do |mod|
-          ExampleGroupFactory.get(required_example_group).send(action, mod)
-        end
-      end
-
       # Defines global predicate matchers. Example:
       #
       #   config.predicate_matchers[:swim] = :can_swim?
@@ -100,11 +89,7 @@ module Spec
       # Prepends a global <tt>before</tt> block to all example groups.
       # See #append_before for filtering semantics.
       def prepend_before(*args, &proc)
-        scope, options = Spec::Example.scope_and_options(*args)
-        example_group = ExampleGroupFactory.get(
-          get_type_from_options(options)
-        )
-        example_group.prepend_before(scope, &proc)
+        callback(:prepend_before, *args, &proc)
       end
       
       # Appends a global <tt>before</tt> block to all example groups.
@@ -119,36 +104,41 @@ module Spec
       #   config.prepend_before(:type => :farm)
       #
       def append_before(*args, &proc)
-        scope, options = Spec::Example.scope_and_options(*args)
-        example_group = ExampleGroupFactory.get(
-          get_type_from_options(options)
-        )
-        example_group.append_before(scope, &proc)
+        callback(:append_before, *args, &proc)
       end
       alias_method :before, :append_before
 
       # Prepends a global <tt>after</tt> block to all example groups.
       # See #append_before for filtering semantics.
       def prepend_after(*args, &proc)
-        scope, options = Spec::Example.scope_and_options(*args)
-        example_group = ExampleGroupFactory.get(
-          get_type_from_options(options)
-        )
-        example_group.prepend_after(scope, &proc)
+        callback(:prepend_after, *args, &proc)
       end
       alias_method :after, :prepend_after
       
       # Appends a global <tt>after</tt> block to all example groups.
       # See #append_before for filtering semantics.
       def append_after(*args, &proc)
-        scope, options = Spec::Example.scope_and_options(*args)
-        example_group = ExampleGroupFactory.get(
-          get_type_from_options(options)
-        )
-        example_group.append_after(scope, &proc)
+        callback(:append_after, *args, &proc)
       end
 
     private
+    
+      def include_or_extend(*args)
+        action = args.shift
+        args << {} unless Hash === args.last
+        modules, options = Spec::Example.args_and_options(*args)
+        required_example_group = get_type_from_options(options)
+        required_example_group = required_example_group.to_sym if required_example_group
+        modules.each do |mod|
+          ExampleGroupFactory.get(required_example_group).send(action, mod)
+        end
+      end
+
+      def callback(sym, *args, &proc)
+        scope, options = Spec::Example.scope_and_options(*args)
+        example_group = ExampleGroupFactory.get(get_type_from_options(options))
+        example_group.__send__(sym, scope, &proc)
+      end
 
       def get_type_from_options(options)
         options[:type] || options[:behaviour_type]
