@@ -100,7 +100,7 @@ module Spec
       # Prepends a global <tt>before</tt> block to all example groups.
       # See #append_before for filtering semantics.
       def prepend_before(*args, &proc)
-        scope, options = scope_and_options(*args)
+        scope, options = Spec::Example.scope_and_options(*args)
         example_group = ExampleGroupFactory.get(
           get_type_from_options(options)
         )
@@ -119,7 +119,7 @@ module Spec
       #   config.prepend_before(:type => :farm)
       #
       def append_before(*args, &proc)
-        scope, options = scope_and_options(*args)
+        scope, options = Spec::Example.scope_and_options(*args)
         example_group = ExampleGroupFactory.get(
           get_type_from_options(options)
         )
@@ -130,7 +130,7 @@ module Spec
       # Prepends a global <tt>after</tt> block to all example groups.
       # See #append_before for filtering semantics.
       def prepend_after(*args, &proc)
-        scope, options = scope_and_options(*args)
+        scope, options = Spec::Example.scope_and_options(*args)
         example_group = ExampleGroupFactory.get(
           get_type_from_options(options)
         )
@@ -141,7 +141,7 @@ module Spec
       # Appends a global <tt>after</tt> block to all example groups.
       # See #append_before for filtering semantics.
       def append_after(*args, &proc)
-        scope, options = scope_and_options(*args)
+        scope, options = Spec::Example.scope_and_options(*args)
         example_group = ExampleGroupFactory.get(
           get_type_from_options(options)
         )
