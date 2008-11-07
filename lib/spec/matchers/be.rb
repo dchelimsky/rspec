@@ -9,29 +9,18 @@ module Spec
       
       def matches?(given)
         @given = given
-        if handling_predicate?
-          begin
-            return @result = given.__send__(predicate, *@args)
-          rescue => predicate_error
-            # This clause should be empty, but rcov will not report it as covered
-            # unless something (anything) is executed within the clause
-            rcov_error_report = "http://eigenclass.org/hiki.rb?rcov-0.8.0"
-          end
-
-          begin
-            return @result = given.__send__(present_tense_predicate, *@args)
-          rescue
-            raise predicate_error
-          end
-        else
-          return match_or_compare
+        return match_or_compare unless handling_predicate?
+        begin
+          @result = given.__send__(predicate, *@args)
+        rescue
+          @result = given.__send__(present_tense_predicate, *@args)
         end
       end
       
       def failure_message
         handling_predicate? ?
           "expected #{predicate}#{args_to_s} to return true, got #{@result.inspect}" :
-          "expected #{@comparison} #{expected}, got #{@given.inspect}".gsub('  ',' ')
+          "expected #{@comparison_method} #{expected}, got #{@given.inspect}".gsub('  ',' ')
       end
       
       def negative_failure_message
@@ -39,29 +28,19 @@ module Spec
           "expected #{predicate}#{args_to_s} to return false, got #{@result.inspect}"
         else
           message = <<-MESSAGE
-'should_not be #{@comparison} #{expected}' not only FAILED,
+'should_not be #{@comparison_method} #{expected}' not only FAILED,
 it reads really poorly.
           MESSAGE
           
-          raise message << ([:===,:==].include?(@comparison) ?
+          raise message << ([:===,:==].include?(@comparison_method) ?
             "Why don't you try expressing it without the \"be\"?" :
             "Why don't you try expressing it in the positive?")
         end
       end
       
-      MATCHING_OPERATORS = [:==, :<, :<=, :>=, :>, :===]
-      
-      def match_or_compare
-        return @given if TrueClass === @expected
-        MATCHING_OPERATORS.each do |operator|
-          return @given.__send__(operator, @expected) if comparing?(operator)
-        end
-        return @given.equal?(@expected)
-      end
-      
-      MATCHING_OPERATORS.each do |operator|
-        define_method operator do |expected|
-          compare_to(expected, :using => operator)
+      [:==, :<, :<=, :>=, :>, :===].each do |method|
+        define_method method do |expected|
+          compare_to(expected, :using => method)
           self
         end
       end
@@ -71,16 +50,21 @@ it reads really poorly.
       end
 
       private
+        def match_or_compare
+          return @given if TrueClass === @expected
+          return @given.__send__(comparison_method, @expected)
+        end
+      
+        def comparison_method
+          @comparison_method || :equal?
+        end
+      
         def expected
           @expected
         end
 
-        def comparing?(operator)
-          @comparison.nil? ? false : operator == @comparison
-        end
-
         def compare_to(expected, opts)
-          @expected, @comparison = expected, opts[:using]
+          @expected, @comparison_method = expected, opts[:using]
         end
 
         def set_expected(expected)
@@ -139,7 +123,7 @@ it reads really poorly.
         end
         
         def comparison
-          @comparison.nil? ? " " : "be #{@comparison.to_s} "
+          @comparison_method.nil? ? " " : "be #{@comparison_method.to_s} "
         end
         
         def expected_to_sentence
