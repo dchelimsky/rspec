@@ -121,7 +121,7 @@ describe "should be_nil" do
   it "should fail when actual is not nil" do
     lambda {
       :not_nil.should be_nil
-    }.should fail_with("expected nil, got :not_nil")
+    }.should fail_with("expected nil? to return true, got false")
   end
 end
 
@@ -133,7 +133,7 @@ describe "should_not be_nil" do
   it "should fail when actual is nil" do
     lambda {
       nil.should_not be_nil
-    }.should fail_with("expected not nil, got nil")
+    }.should fail_with("expected nil? to return false, got true")
   end
 end
 
@@ -195,7 +195,7 @@ describe "should be ===" do
   end
 
   it "should fail when === operator returns false" do
-    lambda { Hash.should be === "not a hash" }.should fail_with(%[expected === "not a hash", got Hash])
+    lambda { Hash.should be === "not a hash" }.should fail_with(%[expected === not a hash, got Hash])
   end
 end
 
@@ -206,11 +206,11 @@ describe "should be" do
   end
 
   it "should fail if actual is false" do
-    lambda {false.should be}.should fail_with("expected if to be satisfied, got false")
+    lambda {false.should be}.should fail_with("expected true, got false")
   end
 
   it "should fail if actual is nil" do
-    lambda {nil.should be}.should fail_with("expected if to be satisfied, got nil")
+    lambda {nil.should be}.should fail_with("expected true, got nil")
   end
 end
 
@@ -220,6 +220,15 @@ describe "should be(value)" do
   end
   it "should fail if !actual.equal?(value)" do
     lambda { 5.should be(6) }.should fail_with("expected 6, got 5")
+  end
+end
+
+describe "'should be' with operator" do
+  it "should include 'be' in the description" do
+    (be > 6).description.should =~ /be > 6/
+    (be >= 6).description.should =~ /be >= 6/
+    (be <= 6).description.should =~ /be <= 6/
+    (be < 6).description.should =~ /be < 6/
   end
 end
 

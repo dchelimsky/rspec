@@ -3,13 +3,8 @@ module Spec
     
     class Be #:nodoc:
       def initialize(*args)
-        if args.empty?
-          @expected = :satisfy_if
-        else
-          @expected = parse_expected(args.shift)
-        end
+        @expected = args.empty? ? true : set_expected(args.shift)
         @args = args
-        @comparison = ""
       end
       
       def matches?(given)
@@ -34,106 +29,104 @@ module Spec
       end
       
       def failure_message
-        return "expected #{@comparison}#{expected}, got #{@given.inspect}" unless handling_predicate?
-        return "expected #{predicate}#{args_to_s} to return true, got #{@result.inspect}"
+        handling_predicate? ?
+          "expected #{predicate}#{args_to_s} to return true, got #{@result.inspect}" :
+          "expected #{@comparison} #{expected}, got #{@given.inspect}".gsub('  ',' ')
       end
       
       def negative_failure_message
-        return "expected not #{expected}, got #{@given.inspect}" unless handling_predicate?
-        return "expected #{predicate}#{args_to_s} to return false, got #{@result.inspect}"
-      end
-      
-      def expected
-        return "if to be satisfied" if @expected == :satisfy_if
-        return true if @expected == :true
-        return false if @expected == :false
-        return "nil" if @expected == :nil
-        return @expected.inspect
+        handling_predicate? ?
+          "expected #{predicate}#{args_to_s} to return false, got #{@result.inspect}" :
+          "expected not #{expected}, got #{@given.inspect}"
       end
       
       def match_or_compare
-        return @given ? true : false if @expected == :satisfy_if
-        return @given == true if @expected == :true
-        return @given == false if @expected == :false
-        return @given.nil? if @expected == :nil
-        return @given < @expected if @less_than
-        return @given <= @expected if @less_than_or_equal
-        return @given >= @expected if @greater_than_or_equal
-        return @given > @expected if @greater_than
-        return @given == @expected if @double_equal
-        return @given === @expected if @triple_equal
+        return @given if TrueClass === @expected
+        [:==, :<, :<=, :>=, :>, :===].each do |operator|
+          return @given.__send__(operator, @expected) if comparing?(operator)
+        end
         return @given.equal?(@expected)
       end
       
       def ==(expected)
-        @prefix = "be "
-        @double_equal = true
-        @comparison = "== "
-        @expected = expected
+        compare_to(expected, :using => :==)
         self
       end
-
+      
       def ===(expected)
-        @prefix = "be "
-        @triple_equal = true
-        @comparison = "=== "
-        @expected = expected
+        compare_to(expected, :using => :===)
         self
       end
 
       def <(expected)
-        @prefix = "be "
-        @less_than = true
-        @comparison = "< "
-        @expected = expected
+        compare_to(expected, :using => :<)
         self
       end
 
       def <=(expected)
-        @prefix = "be "
-        @less_than_or_equal = true
-        @comparison = "<= "
-        @expected = expected
+        compare_to(expected, :using => :<=)
         self
       end
 
       def >=(expected)
-        @prefix = "be "
-        @greater_than_or_equal = true
-        @comparison = ">= "
-        @expected = expected
+        compare_to(expected, :using => :>=)
         self
       end
 
       def >(expected)
-        @prefix = "be "
-        @greater_than = true
-        @comparison = "> "
-        @expected = expected
+        compare_to(expected, :using => :>)
         self
       end
       
       def description
-        "#{prefix_to_sentence}#{comparison}#{expected_to_sentence}#{args_to_sentence}"
+        "#{prefix_to_sentence}#{comparison} #{expected_to_sentence}#{args_to_sentence}".gsub(/\s+/,' ')
       end
 
       private
-        def parse_expected(expected)
-          if Symbol === expected
-            @handling_predicate = true
-            ["be_an_","be_a_","be_"].each do |prefix|
-              if expected.starts_with?(prefix)
-                @prefix = prefix
-                return "#{expected.to_s.sub(@prefix,"")}".to_sym
-              end
-            end
-          end
-          @prefix = ""
-          return expected
+        def expected
+          @expected
+        end
+
+        def comparing?(operator)
+          @comparison.nil? ? false : operator == @comparison
+        end
+
+        def compare_to(expected, opts)
+          @expected, @comparison = expected, opts[:using]
+        end
+
+        def set_expected(expected)
+          Symbol === expected ? parse_expected(expected) : expected
         end
         
+        def parse_expected(expected)
+          ["be_an_","be_a_","be_"].each do |prefix|
+            handling_predicate!
+            if expected.starts_with?(prefix)
+              set_prefix(prefix)
+              expected = expected.to_s.sub(prefix,"")
+              [true, false, nil].each do |val|
+                return val if val.to_s == expected
+              end
+              return expected.to_sym
+            end
+          end
+        end
+        
+        def handling_predicate!
+          @handling_predicate = true
+        end
+        
+        def set_prefix(prefix)
+          @prefix = prefix
+        end
+        
+        def prefix
+          @prefix
+        end
+
         def handling_predicate?
-          return false if [:true, :false, :nil].include?(@expected)
+          return false if [true, false, nil].include?(@expected)
           return @handling_predicate
         end
 
@@ -152,7 +145,7 @@ module Spec
         end
         
         def comparison
-          @comparison
+          @comparison.nil? ? " " : "be #{@comparison.to_s} "
         end
         
         def expected_to_sentence
@@ -181,7 +174,6 @@ module Spec
     end
  
     # :call-seq:
-    #   should be
     #   should be_true
     #   should be_false
     #   should be_nil
@@ -203,7 +195,6 @@ module Spec
     #
     # == Examples 
     #
-    #   target.should be
     #   target.should be_true
     #   target.should be_false
     #   target.should be_nil
