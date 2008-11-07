@@ -47,7 +47,7 @@ module Spec
       include ExampleGroupMethods
 
       def initialize(*args, &example_group_block)
-        describe(*args)
+        set_description(*args)
         @example_group_block = example_group_block
       end
 
