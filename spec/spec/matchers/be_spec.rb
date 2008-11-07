@@ -199,6 +199,14 @@ describe "should be ===" do
   end
 end
 
+describe "should_not with operators" do
+  it "should coach user to stop using operators with should_not" do
+    lambda {
+      5.should_not be < 6
+    }.should raise_error(/not only FAILED,\nit reads really poorly./m)
+  end
+end
+
 describe "should be" do
   it "should pass if actual is true or a set value" do
     true.should be

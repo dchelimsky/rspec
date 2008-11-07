@@ -35,49 +35,37 @@ module Spec
       end
       
       def negative_failure_message
-        handling_predicate? ?
-          "expected #{predicate}#{args_to_s} to return false, got #{@result.inspect}" :
-          "expected not #{expected}, got #{@given.inspect}"
+        if handling_predicate?
+          "expected #{predicate}#{args_to_s} to return false, got #{@result.inspect}"
+        else
+          message = <<-MESSAGE
+'should_not be #{@comparison} #{expected}' not only FAILED,
+it reads really poorly.
+          MESSAGE
+          
+          raise message << ([:===,:==].include?(@comparison) ?
+            "Why don't you try expressing it without the \"be\"?" :
+            "Why don't you try expressing it in the positive?")
+        end
       end
+      
+      MATCHING_OPERATORS = [:==, :<, :<=, :>=, :>, :===]
       
       def match_or_compare
         return @given if TrueClass === @expected
-        [:==, :<, :<=, :>=, :>, :===].each do |operator|
+        MATCHING_OPERATORS.each do |operator|
           return @given.__send__(operator, @expected) if comparing?(operator)
         end
         return @given.equal?(@expected)
       end
       
-      def ==(expected)
-        compare_to(expected, :using => :==)
-        self
-      end
-      
-      def ===(expected)
-        compare_to(expected, :using => :===)
-        self
+      MATCHING_OPERATORS.each do |operator|
+        define_method operator do |expected|
+          compare_to(expected, :using => operator)
+          self
+        end
       end
 
-      def <(expected)
-        compare_to(expected, :using => :<)
-        self
-      end
-
-      def <=(expected)
-        compare_to(expected, :using => :<=)
-        self
-      end
-
-      def >=(expected)
-        compare_to(expected, :using => :>=)
-        self
-      end
-
-      def >(expected)
-        compare_to(expected, :using => :>)
-        self
-      end
-      
       def description
         "#{prefix_to_sentence}#{comparison} #{expected_to_sentence}#{args_to_sentence}".gsub(/\s+/,' ')
       end
@@ -113,10 +101,6 @@ module Spec
           end
         end
         
-        def handling_predicate!
-          @handling_predicate = true
-        end
-        
         def set_prefix(prefix)
           @prefix = prefix
         end
@@ -125,8 +109,12 @@ module Spec
           @prefix
         end
 
+        def handling_predicate!
+          @handling_predicate = true
+        end
+        
         def handling_predicate?
-          return false if [true, false, nil].include?(@expected)
+          return false if [true, false, nil].include?(expected)
           return @handling_predicate
         end
 
@@ -139,9 +127,15 @@ module Spec
         end
         
         def args_to_s
-          return "" if @args.empty?
-          inspected_args = @args.collect{|a| a.inspect}
-          return "(#{inspected_args.join(', ')})"
+          @args.empty? ? "" : parenthesize(inspected_args.join(', '))
+        end
+        
+        def parenthesize(string)
+          return "(#{string})"
+        end
+        
+        def inspected_args
+          @args.collect{|a| a.inspect}
         end
         
         def comparison
@@ -149,11 +143,11 @@ module Spec
         end
         
         def expected_to_sentence
-          split_words(@expected)
+          split_words(expected)
         end
         
         def prefix_to_sentence
-          split_words(@prefix)
+          split_words(prefix)
         end
 
         def split_words(sym)
