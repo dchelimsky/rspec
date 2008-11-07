@@ -104,7 +104,7 @@ module Spec
       # Prepends a global <tt>before</tt> block to all example groups.
       # See #append_before for filtering semantics.
       def prepend_before(*args, &proc)
-        callback(:prepend_before, *args, &proc)
+        add_callback(:prepend_before, *args, &proc)
       end
       
       # Appends a global <tt>before</tt> block to all example groups.
@@ -119,21 +119,21 @@ module Spec
       #   config.prepend_before(:type => :farm)
       #
       def append_before(*args, &proc)
-        callback(:append_before, *args, &proc)
+        add_callback(:append_before, *args, &proc)
       end
       alias_method :before, :append_before
 
       # Prepends a global <tt>after</tt> block to all example groups.
       # See #append_before for filtering semantics.
       def prepend_after(*args, &proc)
-        callback(:prepend_after, *args, &proc)
+        add_callback(:prepend_after, *args, &proc)
       end
       alias_method :after, :prepend_after
       
       # Appends a global <tt>after</tt> block to all example groups.
       # See #append_before for filtering semantics.
       def append_after(*args, &proc)
-        callback(:append_after, *args, &proc)
+        add_callback(:append_after, *args, &proc)
       end
 
     private
@@ -149,7 +149,7 @@ module Spec
         end
       end
 
-      def callback(sym, *args, &proc)
+      def add_callback(sym, *args, &proc)
         scope, options = Spec::Example.scope_and_options(*args)
         example_group = ExampleGroupFactory.get(get_type_from_options(options))
         example_group.__send__(sym, scope, &proc)
