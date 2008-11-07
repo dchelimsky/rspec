@@ -144,13 +144,9 @@ module Spec
 
       def description
         result = ExampleGroupMethods.description_text(*description_parts)
-        if result.nil? || result == ""
-          return to_s
-        else
-          result
-        end
+        (result.nil? || result == "") ? to_s : result
       end
-
+      
       def described_type
         description_parts.find {|part| part.is_a?(Module)}
       end

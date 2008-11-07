@@ -7,7 +7,7 @@ module Spec
           default(ExampleGroup)
         end
 
-        def registered_or_ancestor_of_registered?(example_group_classes)
+        def registered_or_ancestor_of_registered?(example_group_classes) # :nodoc:
           example_group_classes.each do |example_group_class|
             return false unless registered_types.any? do |registered_type|
               registered_type.ancestors.include? example_group_class
