@@ -168,6 +168,68 @@ module Spec
           example.subject.should equal(expected)
         end
       end
+
+      describe "#should" do
+        with_sandboxed_options do
+
+          attr_reader :example_group, :example, :success
+
+          before do
+            @example_group = Class.new(ExampleGroup) do
+              def subject; @actual; end
+              before(:each) { @actual = 'expected' }
+              it { should eql('expected') }
+            end
+            @example = @example_group.examples.first
+
+            @success = example_group.run
+          end
+
+          it "should create an example using the description from the matcher" do
+            example.description.should == 'should eql "expected"'
+          end
+
+          it "should test the matcher returned from the block" do
+            success.should be_true
+          end
+
+          after do
+            ExampleGroup.reset
+          end
+
+        end
+      end
+
+      describe "#should_not" do
+        with_sandboxed_options do
+
+          attr_reader :example_group, :example, :success
+
+          before do
+            @example_group = Class.new(ExampleGroup) do
+              def subject; @actual; end
+              before(:each) { @actual = 'expected' }
+              it { should_not eql('unexpected') }
+            end
+            @example = @example_group.examples.first
+
+            @success = example_group.run
+          end
+
+          it "should create an example using the description from the matcher" do
+            example.description.should == 'should not eql "unexpected"'
+          end
+
+          it "should test the matcher returned from the block" do
+            success.should be_true
+          end
+
+          after do
+            ExampleGroup.reset
+          end
+
+        end
+      end
     end
 
     describe "#options" do

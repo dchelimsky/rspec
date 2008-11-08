@@ -89,6 +89,14 @@ module Spec
         @subject ||= instance_variable_get(subject_variable_name)
       end
 
+      def should(matcher)
+        subject.should(matcher)
+      end
+
+      def should_not(matcher)
+        subject.should_not(matcher)
+      end
+
       protected
       include Matchers
       include Pending
