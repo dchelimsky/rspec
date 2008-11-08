@@ -155,6 +155,19 @@ module Spec
           example.__full_description.should == "An ExampleGroup should do something"
         end
       end
+      
+      describe "#subject" do
+        it "should return an instance variable named after the described type" do
+          example_group = Class.new(ExampleGroup).describe(ObjectSpace) do
+            it "should have a subject" do
+            end
+          end
+          expected = 'instance'
+          example = example_group.examples.first
+          example.instance_variable_set("@object_space", expected)
+          example.subject.should equal(expected)
+        end
+      end
     end
 
     describe "#options" do

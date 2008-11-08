@@ -84,7 +84,11 @@ module Spec
       def implementation_backtrace
         eval("caller", @_implementation)
       end
-      
+
+      def subject
+        @subject ||= instance_variable_get(subject_variable_name)
+      end
+
       protected
       include Matchers
       include Pending
@@ -99,6 +103,18 @@ module Spec
         verify_mocks_for_rspec
       ensure
         teardown_mocks_for_rspec
+      end
+
+      def subject_variable_name
+        '@' << underscore(self.class.described_type.name)
+      end
+
+      def underscore(camel_cased_word)
+        camel_cased_word.to_s.gsub(/::/, '/').
+          gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
+          gsub(/([a-z\d])([A-Z])/,'\1_\2').
+          tr("-", "_").
+          downcase
       end
     end
   end
