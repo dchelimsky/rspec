@@ -1,44 +1,35 @@
 module Spec
   module Matchers
     class BaseOperatorMatcher
-      attr_reader :generated_description
-      
       def initialize(given)
         @given = given
       end
 
       def ==(expected)
-        @expected = expected
         __delegate_method_missing_to_given("==", expected)
       end
 
       def ===(expected)
-        @expected = expected
         __delegate_method_missing_to_given("===", expected)
       end
 
       def =~(expected)
-        @expected = expected
         __delegate_method_missing_to_given("=~", expected)
       end
 
       def >(expected)
-        @expected = expected
         __delegate_method_missing_to_given(">", expected)
       end
 
       def >=(expected)
-        @expected = expected
         __delegate_method_missing_to_given(">=", expected)
       end
 
       def <(expected)
-        @expected = expected
         __delegate_method_missing_to_given("<", expected)
       end
 
       def <=(expected)
-        @expected = expected
         __delegate_method_missing_to_given("<=", expected)
       end
 
@@ -55,6 +46,7 @@ module Spec
     class PositiveOperatorMatcher < BaseOperatorMatcher #:nodoc:
 
       def __delegate_method_missing_to_given(operator, expected)
+        @expected = expected
         @operator = operator
         ::Spec::Matchers.last_matcher = self
         return true if @given.__send__(operator, expected)
@@ -67,6 +59,7 @@ module Spec
     class NegativeOperatorMatcher < BaseOperatorMatcher #:nodoc:
 
       def __delegate_method_missing_to_given(operator, expected)
+        @expected = expected
         @operator = operator
         ::Spec::Matchers.last_matcher = self
         return true unless @given.__send__(operator, expected)
