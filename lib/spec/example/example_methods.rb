@@ -86,7 +86,7 @@ module Spec
       end
 
       def subject
-        @subject ||= instance_variable_get(subject_variable_name)
+        @subject ||= instance_variable_get(subject_variable_name) || self.class.described_type.new
       end
 
       def should(matcher)
@@ -118,7 +118,7 @@ module Spec
       end
 
       def underscore(camel_cased_word)
-        camel_cased_word.to_s.gsub(/::/, '/').
+        camel_cased_word.to_s.gsub(/::/, '_').
           gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
           gsub(/([a-z\d])([A-Z])/,'\1_\2').
           tr("-", "_").

@@ -1,5 +1,9 @@
 === Maintenance
 
+* 1 major enhancement
+
+  * it { should matcher } - syntax support from Joe Ferris
+
 * 1 minor enhancement
 
   * should throw_symbol accepts an optional argument: should throw_symbol(:sym, arg)

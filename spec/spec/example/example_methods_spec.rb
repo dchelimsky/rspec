@@ -171,32 +171,54 @@ module Spec
 
       describe "#should" do
         with_sandboxed_options do
+          class Thing; end
 
-          attr_reader :example_group, :example, :success
+          
+          describe "in an ExampleGroup with the ivar defined in before" do
+            
+            attr_reader :example, :success
 
-          before do
-            @example_group = Class.new(ExampleGroup) do
-              def subject; @actual; end
-              before(:each) { @actual = 'expected' }
-              it { should eql('expected') }
+            before(:each) do
+              example_group = Class.new(ExampleGroup).describe(Thing) do
+                before(:each) { @spec_example_thing = 'expected' }
+                it { should eql('expected') }
+              end
+              @example = example_group.examples.first
+              @success = example_group.run
+
             end
-            @example = @example_group.examples.first
 
-            @success = example_group.run
+            it "should create an example using the description from the matcher" do
+              example.description.should == 'should eql "expected"'
+            end
+
+            it "should test the matcher returned from the block" do
+              success.should be_true
+            end
+
+            after(:each) do
+              ExampleGroup.reset
+            end
+
           end
 
-          it "should create an example using the description from the matcher" do
-            example.description.should == 'should eql "expected"'
-          end
+          describe "in an ExampleGroup using an implicit ivar" do
 
-          it "should test the matcher returned from the block" do
-            success.should be_true
-          end
+            it "should create an example using the description from the matcher" do
+              example_group = Class.new(ExampleGroup) do
+                describe(Thing)
+                it { should eql(Thing.new) }
+              end
+              example = example_group.examples.first
+              example_group.run
+              example.description.should =~ /should eql #<Spec::Example::Thing/
+            end
 
-          after do
-            ExampleGroup.reset
-          end
+            after(:each) do
+              ExampleGroup.reset
+            end
 
+          end
         end
       end
 
