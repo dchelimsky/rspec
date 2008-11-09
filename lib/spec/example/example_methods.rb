@@ -86,7 +86,8 @@ module Spec
       end
 
       def subject
-        @subject ||= (instance_variable_get(subject_variable_name) || self.class.subject || self.class.described_type.new)
+        @subject ||= (instance_variable_get(subject_variable_name) || self.class.subject ||
+          (described_class ? described_class.new : nil))
       end
 
       def should(matcher=nil)
@@ -118,7 +119,15 @@ module Spec
       end
 
       def subject_variable_name
-        '@' << underscore(self.class.described_type.name)
+        '@' << (described_class ? underscore(described_class.name) : '__this_does_not_exist')
+      end
+      
+      def described_class
+        Class === described_type ? described_type : nil
+      end
+      
+      def described_type
+        self.class.described_type
       end
 
       def underscore(camel_cased_word)

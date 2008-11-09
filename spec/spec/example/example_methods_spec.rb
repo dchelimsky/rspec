@@ -158,14 +158,25 @@ module Spec
       
       describe "#subject" do
         it "should return an instance variable named after the described type" do
-          example_group = Class.new(ExampleGroup).describe(ObjectSpace) do
-            it "should have a subject" do
-            end
+          example_group = describe(Array) do
+            example {}
           end
-          expected = 'instance'
           example = example_group.examples.first
-          example.instance_variable_set("@object_space", expected)
-          example.subject.should equal(expected)
+          example.subject.should == []
+        end
+        
+        it "should not barf on a module (as opposed to a class)" do
+          example_group = Class.new(ExampleGroup).describe(ObjectSpace) do
+            example {}
+          end
+          example_group.examples.first.subject.should be_nil
+        end
+        
+        it "should not barf on a string" do
+          example_group = describe('foo') do
+            example {}
+          end
+          example_group.examples.first.subject.should be_nil
         end
       end
 
@@ -176,7 +187,6 @@ module Spec
               true
             end
           end
-
           
           describe "in an ExampleGroup with the ivar defined in before" do
             attr_reader :example, :success
