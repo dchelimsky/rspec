@@ -202,7 +202,7 @@ module Spec
             reporter.add_example_group(example_group)
             reporter.example_finished(example, @pending_error)
             
-            @deprecated_formatter.example_passed_to_method.should == example
+            (@deprecated_formatter.example_passed_to_method == example).should be_true
           end
           
           it "should pass the correct pending error message to the formatter" do
