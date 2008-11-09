@@ -86,11 +86,15 @@ module Spec
       end
 
       def subject
-        @subject ||= instance_variable_get(subject_variable_name) || self.class.described_type.new
+        @subject ||= (instance_variable_get(subject_variable_name) || self.class.subject || self.class.described_type.new)
       end
 
-      def should(matcher)
-        subject.should(matcher)
+      def should(matcher=nil)
+        if matcher
+          subject.should(matcher)
+        else
+          subject.should
+        end
       end
 
       def should_not(matcher)

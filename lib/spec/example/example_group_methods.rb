@@ -148,7 +148,15 @@ module Spec
       end
       
       def described_type
-        description_parts.find {|part| part.is_a?(Module)}
+        description_parts.reverse.find {|part| part.is_a?(Module)}
+      end
+      
+      def subject(&block)
+        if block
+          @_subject_block = block
+        else
+          @_subject_block.call if @_subject_block
+        end
       end
 
       def description_parts #:nodoc:

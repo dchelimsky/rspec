@@ -171,21 +171,23 @@ module Spec
 
       describe "#should" do
         with_sandboxed_options do
-          class Thing; end
+          class Thing
+            def ==(other)
+              true
+            end
+          end
 
           
           describe "in an ExampleGroup with the ivar defined in before" do
-            
             attr_reader :example, :success
 
             before(:each) do
-              example_group = Class.new(ExampleGroup).describe(Thing) do
+              example_group = describe(Thing, "1") do
                 before(:each) { @spec_example_thing = 'expected' }
                 it { should eql('expected') }
               end
               @example = example_group.examples.first
               @success = example_group.run
-
             end
 
             it "should create an example using the description from the matcher" do
@@ -195,30 +197,36 @@ module Spec
             it "should test the matcher returned from the block" do
               success.should be_true
             end
-
-            after(:each) do
-              ExampleGroup.reset
-            end
-
           end
 
-          describe "in an ExampleGroup using an implicit ivar" do
-
+          describe "in an ExampleGroup with the subject defined using #subject" do
             it "should create an example using the description from the matcher" do
-              example_group = Class.new(ExampleGroup) do
-                describe(Thing)
-                it { should eql(Thing.new) }
+              example_group = describe(Thing, "2") do
+                subject {'this is the subject'}
+                it { should eql('this is the subject') }
               end
               example = example_group.examples.first
               example_group.run
-              example.description.should =~ /should eql #<Spec::Example::Thing/
+              example.description.should =~ /should eql "this is the subject"/
             end
-
-            after(:each) do
-              ExampleGroup.reset
-            end
-
           end
+          
+          describe "in an ExampleGroup using an implicit ivar" do
+            it "should create an example using the description from the matcher" do
+              example_group = describe(Thing, "3") do
+                it { should == Thing.new }
+              end
+              example = example_group.examples.first
+              success = example_group.run
+              example.description.should =~ /should == #<Spec::Example::Thing/
+              success.should be_true
+            end
+          end
+          
+          after(:each) do
+            ExampleGroup.reset
+          end
+          
         end
       end
 
