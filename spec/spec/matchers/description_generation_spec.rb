@@ -151,3 +151,17 @@ describe "Matchers should be able to generate their own descriptions" do
     end.new
   end
 end
+
+describe "a Matcher with no description" do
+  def matcher
+     Class.new do
+       def matches?(ignore); true; end
+       def failure_message; ""; end
+     end.new
+  end
+  
+  it "should provide a helpful message when used in a string-less example block" do
+    5.should matcher
+    Spec::Matchers.generated_description.should =~ /When you call.*description method/m
+  end
+end
