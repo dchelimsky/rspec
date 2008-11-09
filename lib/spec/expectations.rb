@@ -2,6 +2,7 @@ require 'spec/matchers'
 require 'spec/expectations/errors'
 require 'spec/expectations/extensions'
 require 'spec/expectations/handler'
+require 'spec/expectations/wrap_expectation'
 
 module Spec
   

@@ -1,3 +1,4 @@
+.autotest
 History.txt
 License.txt
 Manifest.txt
@@ -106,6 +107,7 @@ lib/spec/expectations/extensions.rb
 lib/spec/expectations/extensions/object.rb
 lib/spec/expectations/extensions/string_and_symbol.rb
 lib/spec/expectations/handler.rb
+lib/spec/expectations/wrap_expectation.rb
 lib/spec/extensions.rb
 lib/spec/extensions/class.rb
 lib/spec/extensions/metaclass.rb
@@ -233,6 +235,7 @@ spec/spec/example/subclassing_example_group_spec.rb
 spec/spec/expectations/differs/default_spec.rb
 spec/spec/expectations/extensions/object_spec.rb
 spec/spec/expectations/fail_with_spec.rb
+spec/spec/expectations/wrap_expectation_spec.rb
 spec/spec/interop/test/unit/resources/spec_that_fails.rb
 spec/spec/interop/test/unit/resources/spec_that_passes.rb
 spec/spec/interop/test/unit/resources/spec_with_errors.rb

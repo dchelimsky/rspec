@@ -1,8 +1,9 @@
 === Maintenance
 
-* 1 major enhancement
+* 2 major enhancements
 
   * it { should matcher } - syntax support from Joe Ferris
+  * wrap_expectation (for wrapping multiple expectations and/or t/u assertions)
 
 * 1 minor enhancement
 
