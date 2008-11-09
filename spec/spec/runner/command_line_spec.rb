@@ -11,7 +11,7 @@ module Spec
         end
       
         it "should run directory" do
-          file = File.dirname(__FILE__) + '/../../../examples/pure'
+          file = File.dirname(__FILE__) + '/../../../examples/passing'
           run_with(OptionParser.parse([file,"-p","**/*_spec.rb,**/*_example.rb"], @err, @out))
 
           @out.rewind
@@ -19,7 +19,7 @@ module Spec
         end
 
         it "should run file" do
-          file = File.dirname(__FILE__) + '/../../../failing_examples/predicate_example.rb'
+          file = File.dirname(__FILE__) + '/../../../examples/failing/predicate_example.rb'
           run_with(OptionParser.parse([file], @err, @out))
 
           @out.rewind
