@@ -13,10 +13,16 @@ module Spec
       end
       
       def run_predicate_on(actual)
-        @result = begin
-          actual.__send__(predicate, *@args)
-        rescue
-          actual.__send__(present_tense_predicate, *@args)
+        begin
+          return @result = actual.__send__(predicate, *@args)
+        rescue NameError => predicate_missing_error
+          "this needs to be here or rcov will not count this branch even though it's executed in a code example"
+        end
+
+        begin
+          return @result = actual.__send__(present_tense_predicate, *@args)
+        rescue NameError
+          raise predicate_missing_error
         end
       end
       

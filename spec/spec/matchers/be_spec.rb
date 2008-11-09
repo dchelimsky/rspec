@@ -7,7 +7,7 @@ describe "should be_predicate" do
   end
 
   it "should pass when actual returns true for :predicates? (present tense)" do
-    actual = stub("actual", :exists? => true)
+    actual = stub("actual", :exists? => true, :exist? => true)
     actual.should be_exist
   end
 
@@ -21,7 +21,23 @@ describe "should be_predicate" do
   it "should fail when actual does not respond to :predicate?" do
     lambda {
       Object.new.should be_happy
-    }.should raise_error(NameError)
+    }.should raise_error(NameError, /happy\?/)
+  end
+  
+  it "should fail on error other than NameError" do
+    actual = stub("actual")
+    actual.should_receive(:foo?).and_raise("aaaah")
+    lambda {
+      actual.should be_foo
+    }.should raise_error(/aaaah/)
+  end
+  
+  it "should fail on error other than NameError (with the present tense predicate)" do
+    actual = Object.new
+    actual.should_receive(:foos?).and_raise("aaaah")
+    lambda {
+      actual.should be_foo
+    }.should raise_error(/aaaah/)
   end
 end
 
