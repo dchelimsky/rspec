@@ -17,3 +17,8 @@ describe "Examples with no descriptions" do
   specify { [1,2,3].should respond_to(:size) }
   
 end
+
+describe Fixnum, "1" do
+  subject { 1 }
+  it { should == 1 }
+end
