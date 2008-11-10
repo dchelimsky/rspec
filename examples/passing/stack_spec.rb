@@ -7,8 +7,9 @@ describe Stack, " (empty)" do
     @stack = Stack.new
   end
   
-  # NOTE that this one auto-generates the description "should be empty"
-  it { @stack.should be_empty }
+  # This uses @stack (because the described class is Stack) auto-generates the
+  # description "should be empty"
+  it { should be_empty }
   
   it_should_behave_like "non-full Stack"
   

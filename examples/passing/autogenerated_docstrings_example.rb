@@ -18,7 +18,8 @@ describe "Examples with no descriptions" do
   
 end
 
-describe Fixnum, "1" do
+describe "the number 1" do
   subject { 1 }
   it { should == 1 }
+  it { should be < 2}
 end

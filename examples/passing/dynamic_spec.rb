@@ -1,8 +1,8 @@
 require File.dirname(__FILE__) + '/spec_helper'
 
-describe "Some integers" do
+describe "The square root" do
   (1..10).each do |n|
-    it "The root of #{n} square should be #{n}" do
+    it "of #{n*n} should be #{n}" do
       Math.sqrt(n*n).should == n
     end
   end
