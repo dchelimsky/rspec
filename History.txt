@@ -1,8 +1,9 @@
 === Maintenance
 
-* 2 major enhancements
+* 3 major enhancements
 
-  * it { should matcher } - syntax support from Joe Ferris
+  * it { should matcher } - support for implicit receiver of #should (Joe Ferris of thoughtbot)
+  * subject { ... } - works in conjunction with implicit receiver of #should
   * wrap_expectation (for wrapping multiple expectations and/or t/u assertions)
 
 * 1 minor enhancement
