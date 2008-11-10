@@ -54,6 +54,7 @@ module Spec
           raise ArgumentError unless block
           args << {} unless Hash === args.last
           args.last[:spec_path] ||= File.expand_path(caller(0)[2])
+          args.last[:example_group_backtrace] = caller if Spec::Runner.options.line_number
           superclass = determine_superclass(args.last)
           superclass.describe(*args, &block)
         end

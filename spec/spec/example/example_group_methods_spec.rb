@@ -516,13 +516,6 @@ module Spec
             options.example_groups.should_not include(example_group)
           end
         end
-
-        describe "#registration_backtrace" do
-          it "returns the backtrace of where the ExampleGroup was registered" do
-            example_group = Class.new(ExampleGroup)
-            example_group.registration_backtrace.join("\n").should include("#{__FILE__}:#{__LINE__-1}")
-          end
-        end
       
         describe "#run" do
           it "should add_example_group if there are any examples to run" do

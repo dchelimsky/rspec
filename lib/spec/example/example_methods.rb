@@ -81,8 +81,8 @@ module Spec
         instance_eval(&@_implementation)
       end
 
-      def implementation_backtrace
-        eval("caller", @_implementation)
+      def example_backtrace
+        @example_backtrace
       end
 
       def subject

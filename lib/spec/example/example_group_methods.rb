@@ -15,7 +15,7 @@ module Spec
         end
       end
 
-      attr_reader :description_text, :description_options, :spec_path
+      attr_reader :description_text, :description_options, :spec_path, :example_group_backtrace
       alias :options :description_options
       
       def description_args
@@ -24,7 +24,7 @@ module Spec
 
       def inherited(klass)
         super
-        klass.register {}
+        klass.register
         Spec::Runner.register_at_exit_hook
       end
       
@@ -172,6 +172,7 @@ module Spec
         @description_args = args
         @description_options = options
         @description_text = ExampleGroupMethods.description_text(*args)
+        @example_group_backtrace = options[:example_group_backtrace]
         @spec_path = File.expand_path(options[:spec_path]) if options[:spec_path]
         self
       end
@@ -194,17 +195,12 @@ module Spec
         @after_each_parts = nil
       end
 
-      def register(&registration_binding_block)
-        @registration_binding_block = registration_binding_block
+      def register
         Spec::Runner.options.add_example_group self
       end
 
       def unregister #:nodoc:
         Spec::Runner.options.remove_example_group self
-      end
-
-      def registration_backtrace
-        eval("caller", @registration_binding_block)
       end
 
       def run_before_each(example)
