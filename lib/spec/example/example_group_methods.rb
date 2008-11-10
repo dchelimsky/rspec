@@ -151,6 +151,18 @@ module Spec
         description_parts.reverse.find {|part| part.is_a?(Module)}
       end
       
+      # Defines an explicit subject for an example group which can then be the
+      # implicit receiver (through delegation) of calls to +should+.
+      #
+      # == Examples
+      #
+      #   describe CheckingAccount, "with $50" do
+      #     subject { CheckingAccount.new(:amount => 50, :currency => :USD) }
+      #     it { should have_a_balance_of(50, :USD)}
+      #     it { should_not be_overdrawn}
+      #   end
+      #
+      # See +ExampleMethods#should+ for more information about this approach.
       def subject(&block)
         if block
           @_subject_block = block

@@ -159,7 +159,7 @@ module Spec
 
         protected
         def example_name
-          @example.__full_description
+          @example.full_description
         end
       end
     end

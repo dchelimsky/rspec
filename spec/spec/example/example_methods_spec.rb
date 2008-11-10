@@ -171,14 +171,14 @@ module Spec
         end
       end
 
-      describe "#__full_description" do
+      describe "#full_description" do
         it "should return the full description of the ExampleGroup and Example" do
           example_group = Class.new(ExampleGroup).describe("An ExampleGroup") do
             it "should do something" do
             end
           end
           example = example_group.examples.first
-          example.__full_description.should == "An ExampleGroup should do something"
+          example.full_description.should == "An ExampleGroup should do something"
         end
       end
       
