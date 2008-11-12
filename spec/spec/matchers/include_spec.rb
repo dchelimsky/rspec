@@ -17,6 +17,9 @@ describe "should include(expected)" do
     lambda {
       "abc".should include("d")
     }.should fail_with("expected \"abc\" to include \"d\"")
+    lambda {
+      {:key => 'value'}.should include(:other)
+    }.should fail_with(%Q|expected {:key=>"value"} to include :other|)
   end
 end
 
@@ -49,6 +52,9 @@ describe "should_not include(expected)" do
     lambda {
       "abc".should_not include("c")
     }.should fail_with("expected \"abc\" not to include \"c\"")
+    lambda {
+      {:key => 'value'}.should_not include(:key)
+    }.should fail_with(%Q|expected {:key=>"value"} not to include :key|)
   end
 end
 
