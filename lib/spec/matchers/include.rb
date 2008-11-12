@@ -12,8 +12,12 @@ module Spec
         @expecteds.each do |expected|
           case given
           when Hash
-            expected.each_pair do |k,v|
-              return false unless given[k] == v
+            if expected.is_a?(Hash)
+              expected.each_pair do |k,v|
+                return false unless given[k] == v
+              end
+            else
+              return given.has_key?(expected)
             end
           else
             return false unless given.include?(expected)

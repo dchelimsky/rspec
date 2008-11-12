@@ -5,6 +5,10 @@ describe "should include(expected)" do
     [1,2,3].should include(3)
     "abc".should include("a")
   end
+  
+  it 'should pass if target is a Hash and has the expected as a key' do
+    {:key => 'value'}.should include(:key)
+  end
 
   it "should fail if target does not include expected" do
     lambda {
@@ -32,6 +36,10 @@ describe "should_not include(expected)" do
   it "should pass if target does not include expected" do
     [1,2,3].should_not include(4)
     "abc".should_not include("d")
+  end
+  
+  it 'should pass if target is a Hash and does not have the expected as a key' do
+    {:other => 'value'}.should_not include(:key)
   end
 
   it "should fail if target includes expected" do
