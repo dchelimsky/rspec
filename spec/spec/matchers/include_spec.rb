@@ -27,11 +27,21 @@ describe "should include(with, multiple, args)" do
   it "should pass if target includes all items" do
     [1,2,3].should include(1,2,3)
   end
+  
+  it 'should pass if target is a Hash including all items as keys' do
+    {:key => 'value', :other => 'value'}.should include(:key, :other)
+  end
 
   it "should fail if target does not include any one of the items" do
     lambda {
       [1,2,3].should include(1,2,4)
     }.should fail_with("expected [1, 2, 3] to include 1, 2 and 4")
+  end
+  
+  it 'should pass if target is a Hash missing any item as a key' do
+    lambda {
+      {:key => 'value'}.should include(:key, :other)
+    }.should fail_with(%Q|expected {:key=>"value"} to include :key and :other|)
   end
 end
 

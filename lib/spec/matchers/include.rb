@@ -17,7 +17,7 @@ module Spec
                 return false unless given[k] == v
               end
             else
-              return given.has_key?(expected)
+              return false unless given.has_key?(expected)
             end
           else
             return false unless given.include?(expected)
