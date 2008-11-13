@@ -5,8 +5,9 @@ module Spec
       extend ModuleReopeningFix
       
       def subject # :nodoc:
-        @subject ||= (instance_variable_get(subject_variable_name) || self.class.subject ||
-          (described_class ? described_class.new : nil))
+        @subject ||= ( instance_variable_get(subject_variable_name) ||
+                       instance_eval(&self.class.subject_block) ||
+                       (described_class ? described_class.new : nil) )
       end
 
       # When +should+ is called with no explicit receiver, the call is

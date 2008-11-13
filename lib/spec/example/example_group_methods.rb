@@ -164,13 +164,13 @@ module Spec
       #
       # See +ExampleMethods#should+ for more information about this approach.
       def subject(&block)
-        if block
-          @_subject_block = block
-        else
-          @_subject_block.call if @_subject_block
-        end
+        @_subject_block = block
       end
-
+      
+      def subject_block
+        @_subject_block || lambda {nil}
+      end
+      
       def description_parts #:nodoc:
         parts = []
         each_ancestor_example_group_class do |example_group_class|

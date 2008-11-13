@@ -183,26 +183,37 @@ module Spec
       end
       
       describe "#subject" do
-        it "should return an instance variable named after the described type" do
-          example_group = describe(Array) do
-            example {}
+        with_sandboxed_options do
+          it "should return an instance variable named after the described type" do
+            example_group = Class.new(ExampleGroup).describe(Array) do
+              example {}
+            end
+            example = example_group.examples.first
+            example.subject.should == []
           end
-          example = example_group.examples.first
-          example.subject.should == []
-        end
-        
-        it "should not barf on a module (as opposed to a class)" do
-          example_group = Class.new(ExampleGroup).describe(ObjectSpace) do
-            example {}
+      
+          it "should not barf on a module (as opposed to a class)" do
+            example_group = Class.new(ExampleGroup).describe(ObjectSpace) do
+              example {}
+            end
+            example_group.examples.first.subject.should be_nil
           end
-          example_group.examples.first.subject.should be_nil
-        end
-        
-        it "should not barf on a string" do
-          example_group = describe('foo') do
-            example {}
+      
+          it "should not barf on a string" do
+            example_group = Class.new(ExampleGroup).describe('foo') do
+              example {}
+            end
+            example_group.examples.first.subject.should be_nil
           end
-          example_group.examples.first.subject.should be_nil
+      
+          it "should interact with the same scope as the before block" do
+            example_group = Class.new(ExampleGroup) do
+              subject { @foo = 'foo'}
+              example { should == @foo}
+              it { should == 'foo'}
+            end
+            example_group.run.should be_true
+          end
         end
       end
 
