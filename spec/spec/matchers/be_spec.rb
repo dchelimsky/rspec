@@ -279,3 +279,15 @@ describe "arbitrary predicate with DelegateClass" do
     delegate.should be_large
   end
 end
+
+describe "be_a, be_an" do
+  it "should pass when class matches" do
+    "foobar".should be_a(String)
+    [1,2,3].should be_an(Array)
+  end
+
+  it "should fail when class does not match" do
+    "foobar".should_not be_a(Hash)
+    [1,2,3].should_not be_an(Integer)
+  end
+end

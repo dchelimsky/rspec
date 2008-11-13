@@ -199,5 +199,13 @@ it reads really poorly.
     def be(*args)
       Matchers::Be.new(*args)
     end
+
+    def be_a(*args)
+      be_kind_of(*args)
+    end
+
+    def be_an(*args)
+      be_kind_of(*args)
+    end
   end
 end
