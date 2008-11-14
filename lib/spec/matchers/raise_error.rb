@@ -47,20 +47,16 @@ module Spec
       def verify_message
         case @expected_message
         when nil
-          return true
+          true
         when Regexp
-          return @expected_message =~ @given_error.message
+          @expected_message =~ @given_error.message
         else
-          return @expected_message == @given_error.message
+          @expected_message == @given_error.message
         end
       end
       
       def failure_message
-        if @eval_block
-          return @given_error.message
-        else
-          return "expected #{expected_error}#{given_error}"
-        end
+        @eval_block ? @given_error.message : "expected #{expected_error}#{given_error}"
       end
 
       def negative_failure_message
