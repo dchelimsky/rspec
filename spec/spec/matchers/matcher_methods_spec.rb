@@ -34,9 +34,6 @@ This module should provide the following methods, each of which returns a Matche
       it "include" do
         include(:value).should be_an_instance_of(Include)
       end
-      it "match" do
-        match(:value).should be_an_instance_of(Match)
-      end
       it "raise_error" do
         raise_error.should be_an_instance_of(RaiseError)
         raise_error(NoMethodError).should be_an_instance_of(RaiseError)
