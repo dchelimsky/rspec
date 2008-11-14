@@ -16,9 +16,6 @@ This module should provide the following methods, each of which returns a Matche
       it "be_arbitrary_predicate" do
         be_arbitrary_predicate.should be_an_instance_of(Be)
       end
-      it "be_close" do
-        be_close(1,2).should be_an_instance_of(BeClose)
-      end
       it "change" do
         change("target", :message).should be_an_instance_of(Change)
       end
