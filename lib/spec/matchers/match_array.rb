@@ -1,7 +1,7 @@
 module Spec
   module Matchers
 
-    class ContainExactly #:nodoc:
+    class MatchArray #:nodoc:
 
       def initialize(expecteds)
         @expecteds = expecteds
@@ -59,21 +59,20 @@ module Spec
     end
 
     # :call-seq:
-    #   should contain_exactly(expected)
+    #   should =~ expected
     #
     # Passes if givens contains all of the expected regardless of order. 
     # This works for collections. Pass in multiple args  and it will only 
     # pass if all args are found in collection.
     #
-    # NOTE: there is no should_not version of contain_exactly
+    # NOTE: there is no should_not version of array.should =~ other_array
     # 
     # == Examples
     #
-    #   [1,2,3].should contain_exactly(1,2,3) # => would pass
-    #   [1,2,3].should contain_exactly(2,3,1) # => would pass
-    #   [1,2,3,4].should contain_exactly(1,2,3) # => would fail
-    #   [1,2,3].should contain_exactly(1,2,3,4) # => would fail
-
-    OperatorMatcher.register(Array, '=~', Spec::Matchers::ContainExactly)
+    #   [1,2,3].should =~ [1,2,3] # => would pass
+    #   [1,2,3].should =~ [2,3,1] # => would pass
+    #   [1,2,3,4].should [1,2,3] # => would fail
+    #   [1,2,3].should [1,2,3,4] # => would fail
+    OperatorMatcher.register(Array, '=~', Spec::Matchers::MatchArray)
   end
 end

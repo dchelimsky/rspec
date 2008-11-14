@@ -73,7 +73,7 @@ describe "array.should =~ other_array" do
 
 end
 
-describe "should_not contain_exactly(with, multiple, args)" do
+describe "should_not [:with, :multiple, :args]" do
   it "should not exist" do
     lambda {
       [1,2,3].should_not =~ [1,2,3]
