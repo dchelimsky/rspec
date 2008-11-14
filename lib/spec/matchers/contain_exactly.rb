@@ -3,7 +3,7 @@ module Spec
 
     class ContainExactly #:nodoc:
 
-      def initialize(*expecteds)
+      def initialize(expecteds)
         @expecteds = expecteds
       end
 
@@ -73,8 +73,7 @@ module Spec
     #   [1,2,3].should contain_exactly(2,3,1) # => would pass
     #   [1,2,3,4].should contain_exactly(1,2,3) # => would fail
     #   [1,2,3].should contain_exactly(1,2,3,4) # => would fail
-    def contain_exactly(*expected)
-      Matchers::ContainExactly.new(*expected)
-    end
+
+    OperatorMatcher.register(Array, '=~', Spec::Matchers::ContainExactly)
   end
 end

@@ -108,8 +108,8 @@ describe "Matchers should be able to generate their own descriptions" do
     Spec::Matchers.generated_description.should == "should include 3"
   end
 
-  it "should contain exactly" do
-    [1,2,3].should contain_exactly(1,2,3)
+  it "array.should =~ [1,2,3]" do
+    [1,2,3].should =~ [1,2,3]
     Spec::Matchers.generated_description.should == "should contain exactly 1, 2 and 3"
   end
   
