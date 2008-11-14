@@ -52,7 +52,7 @@ describe "should_not have_sym(*args)" do
   end
 end
 
-describe Spec::Matchers::Has do
+describe "has" do
   it "should work when the target implements #send" do
     o = {:a => "A"}
     def o.send(*args); raise "DOH! Library developers shouldn't use #send!" end
