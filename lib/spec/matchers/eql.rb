@@ -15,9 +15,9 @@ module Spec
     #   5.should_not eql(3)
     def eql(expected)
       simple_matcher do |actual, matcher|
-        matcher.failure_message = "expected #{expected.inspect}, got #{actual.inspect} (using .eql?)", expected, actual
+        matcher.failure_message          = "expected #{expected.inspect}, got #{actual.inspect} (using .eql?)", expected, actual
         matcher.negative_failure_message = "expected #{actual.inspect} not to equal #{expected.inspect} (using .eql?)", expected, actual
-        matcher.description = "eql #{expected.inspect}"
+        matcher.description              = "eql #{expected.inspect}"
         actual.eql?(expected)
       end
     end
