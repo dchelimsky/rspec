@@ -19,9 +19,6 @@ This module should provide the following methods, each of which returns a Matche
       it "change" do
         change("target", :message).should be_an_instance_of(Change)
       end
-      it "equal" do
-        equal(:expected).should be_an_instance_of(Equal)
-      end
       it "have" do
         have(0).should be_an_instance_of(Have)
       end
