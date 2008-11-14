@@ -32,20 +32,26 @@ module Spec
       end
     
       describe "#share_as" do
-        before(:each) do
-          $share_as_examples_example_module_number ||= 1
-          $share_as_examples_example_module_number += 1
-          @group_name = "Group#{$share_as_examples_example_module_number}"
+        class << self
+          def next_group_name
+            @group_number ||= 0
+            @group_number += 1
+            "Group#{@group_number}"
+          end
         end
-
+        
+        def group_name
+          @group_name ||= self.class.next_group_name
+        end
+        
         it "registers a shared ExampleGroup" do
           Spec::Example::SharedExampleGroup.should_receive(:register)
-          group = @main.share_as @group_name do end
+          group = @main.share_as group_name do end
         end
       
         it "creates a constant that points to a Module" do
-          group = @main.share_as @group_name do end
-          Object.const_get(@group_name).should equal(group)
+          group = @main.share_as group_name do end
+          Object.const_get(group_name).should equal(group)
         end
       
         it "complains if you pass it a not-constantizable name" do
