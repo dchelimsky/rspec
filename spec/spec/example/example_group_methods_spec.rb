@@ -16,12 +16,8 @@ module Spec
             describe("ExampleGroup")
             it "does nothing"
           end
-          class << example_group
-            public :include
-          end
-          @result = nil
         end
-
+        
         after(:each) do
           ExampleGroup.reset
         end
@@ -29,36 +25,37 @@ module Spec
         ["describe","context"].each do |method|
           describe "##{method}" do
             describe "when creating an ExampleGroup" do
-              attr_reader :child_example_group
               before(:each) do
-                @child_example_group = @example_group.send method, "Another ExampleGroup" do
-                  it "should pass" do
-                    true.should be_true
-                  end
+                @parent_example_group = Class.new(ExampleGroup) do
+                  example "first example" do; end
+                end
+                @child_example_group = @parent_example_group.__send__ method, "Child" do
+                  example "second example" do; end
                 end
               end
 
               it "should create a subclass of the ExampleGroup when passed a block" do
-                child_example_group.superclass.should == @example_group
-                @options.example_groups.should include(child_example_group)
+                @child_example_group.superclass.should == @parent_example_group
+                options.example_groups.should include(@child_example_group)
               end
 
               it "should not inherit examples" do
-                child_example_group.examples.length.should == 1
+                @child_example_group.should have(1).examples
               end
             end
 
             describe "when creating a SharedExampleGroup" do
-              attr_reader :name, :shared_example_group
               before(:each) do
-                @name = "A Shared ExampleGroup"
-                @shared_example_group = @example_group.send method, name, :shared => true do; end
+                @shared_example_group = @example_group.send method, "A Shared ExampleGroup", :shared => true do; end
               end
 
-              after(:each) { SharedExampleGroup.clear }
+              after(:each) do
+                SharedExampleGroup.instance_eval{@shared_example_groups}.delete @shared_example_group
+              end
 
               it "should create a SharedExampleGroup" do
-                SharedExampleGroup.find(name).should == shared_example_group
+                @shared_example_group.should_not be_nil
+                SharedExampleGroup.find("A Shared ExampleGroup").should == @shared_example_group
               end
             end
 
@@ -364,7 +361,11 @@ module Spec
           end
 
           it "should return an Array of the description args from each class in the hierarchy" do
-            child_example_group = Class.new(example_group)
+            parent_example_group = Class.new(ExampleGroup) do
+              describe("Parent")
+            end
+            
+            child_example_group = Class.new(parent_example_group)
             child_example_group.describe("Child", ExampleGroup)
             child_example_group.description.should_not be_empty
 
@@ -373,7 +374,7 @@ module Spec
             grand_child_example_group.description.should_not be_empty
 
             grand_child_example_group.description_parts.should == [
-              "ExampleGroup",
+              "Parent",
               "Child",
               Spec::Example::ExampleGroup,
               "GrandChild",
@@ -404,27 +405,31 @@ module Spec
         describe "#remove_after" do
           it "should unregister a given after(:each) block" do
             after_all_ran = false
-            @example_group.specify("example") {}
             proc = Proc.new { after_all_ran = true }
-            @example_group.after(:each, &proc)
-            @example_group.run
+
+            example_group = Class.new(ExampleGroup) do
+              specify("example") {}
+              after(:each, &proc)
+            end
+
+            example_group.run
             after_all_ran.should be_true
 
             after_all_ran = false
-            @example_group.remove_after(:each, &proc)
-            @example_group.run
+            example_group.remove_after(:each, &proc)
+            example_group.run
             after_all_ran.should be_false
           end
         end
 
         describe "#include" do
           it "should have accessible class methods from included module" do
-            mod1_method_called = false
-            mod1 = Module.new do
+            mod_method_called = false
+            mod = Module.new do
               extend Spec::MetaClass
               class_methods = Module.new do
-                define_method :mod1_method do
-                  mod1_method_called = true
+                define_method :mod_method do
+                  mod_method_called = true
                 end
               end
 
@@ -435,33 +440,15 @@ module Spec
               end
             end
 
-            mod2_method_called = false
-            mod2 = Module.new do
-              extend Spec::MetaClass
-              class_methods = Module.new do
-                define_method :mod2_method do
-                  mod2_method_called = true
-                end
-              end
+            @example_group.__send__ :include, mod
 
-              metaclass.class_eval do
-                define_method(:included) do |receiver|
-                  receiver.extend class_methods
-                end
-              end
-            end
-
-            @example_group.include mod1, mod2
-
-            @example_group.mod1_method
-            @example_group.mod2_method
-            mod1_method_called.should be_true
-            mod2_method_called.should be_true
+            @example_group.mod_method
+            mod_method_called.should be_true
           end
         end
 
         describe "#number_of_examples" do
-          it "should count number of specs" do
+          it "should count number of examples" do
             proc do
               @example_group.it("one") {}
               @example_group.it("two") {}
@@ -474,32 +461,31 @@ module Spec
         describe "#class_eval" do
           it "should allow constants to be defined" do
             example_group = Class.new(ExampleGroup) do
-              describe('example')
               FOO = 1
               it "should reference FOO" do
                 FOO.should == 1
               end
             end
-            example_group.run
+            success = example_group.run
+            success.should be_true
             Object.const_defined?(:FOO).should == false
           end
         end
 
         describe '#register' do
+          after(:each) do
+            example_group.unregister
+          end
           it "should add ExampleGroup to set of ExampleGroups to be run" do
-            options.example_groups.delete(example_group)
-            options.example_groups.should_not include(example_group)
-          
-            example_group.register {}
+            example_group.register
             options.example_groups.should include(example_group)
           end
         end
 
         describe '#unregister' do
-          before do
-            options.example_groups.should include(example_group)
+          before(:each) do
+            example_group.register
           end
-
           it "should remove ExampleGroup from set of ExampleGroups to be run" do
             example_group.unregister
             options.example_groups.should_not include(example_group)
@@ -507,18 +493,22 @@ module Spec
         end
       
         describe "#run" do
-          it "should add_example_group if there are any examples to run" do
-            example_group = Class.new(ExampleGroup) do
-              it "should do something" do end
+          describe "given an example group with at least one example" do
+            it "should call add_example_group" do
+              example_group = Class.new(ExampleGroup) do
+                example("anything") {}
+              end
+              reporter.should_receive(:add_example_group)
+              example_group.run
             end
-            reporter.should_receive(:add_example_group)
-            example_group.run
           end
 
-          it "should NOT add_example_group if there are no examples to run" do
-            example_group = Class.new(ExampleGroup) do end
-            reporter.should_not_receive(:add_example_group)
-            example_group.run
+          describe "given an example group with no examples" do
+            it "should NOT call add_example_group" do
+              example_group = Class.new(ExampleGroup) do end
+              reporter.should_not_receive(:add_example_group)
+              example_group.run
+            end
           end
         end
 
