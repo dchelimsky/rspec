@@ -30,7 +30,7 @@ module Spec
           describe "##{method}" do
             describe "when creating an ExampleGroup" do
               attr_reader :child_example_group
-              before do
+              before(:each) do
                 @child_example_group = @example_group.send method, "Another ExampleGroup" do
                   it "should pass" do
                     true.should be_true
@@ -52,16 +52,10 @@ module Spec
               attr_reader :name, :shared_example_group
               before(:each) do
                 @name = "A Shared ExampleGroup"
-                @shared_example_group = @example_group.send method, name, :shared => true do
-                  it "should pass" do
-                    true.should be_true
-                  end
-                end
+                @shared_example_group = @example_group.send method, name, :shared => true do; end
               end
 
-              after(:each) do
-                SharedExampleGroup.clear
-              end
+              after(:each) { SharedExampleGroup.clear }
 
               it "should create a SharedExampleGroup" do
                 SharedExampleGroup.find(name).should == shared_example_group
@@ -70,52 +64,48 @@ module Spec
 
           end
         end
-    
-        describe "#it" do
-          it "should should create an example instance" do
-            lambda {
-              @example_group.it("")
-            }.should change { @example_group.examples.length }.by(1)
+        
+        [:specify, :it].each do |method|
+          describe "##{method.to_s}" do
+            it "should should create an example" do
+              lambda {
+                @example_group.__send__(method, "")
+              }.should change { @example_group.examples.length }.by(1)
+            end
           end
         end
+        
+        [:xit, :xspecify].each do |method|
+          describe "##{method.to_s}" do
+            before(:each) do
+              Kernel.stub!(:warn)
+            end
 
-        describe "#xit and #xspecify" do
-          before(:each) do
-            Kernel.stub!(:warn)
-          end
+            it "should NOT create an example" do
+              lambda {
+                @example_group.__send__(method,"")
+              }.should_not change(@example_group.examples, :length)
+            end
 
-          it "should NOT create an example instance" do
-            lambda {
-              @example_group.xit("")
-            }.should_not change(@example_group.examples, :length)
-
-            lambda {
-              @example_group.xspecify("")
-            }.should_not change(@example_group.examples, :length)
-          end
-
-          it "should warn that it is disabled" do
-            Kernel.should_receive(:warn).with("Example disabled: foo").twice
-            @example_group.xit("foo")
-            @example_group.xspecify("foo")
+            it "should warn that the example is disabled" do
+              Kernel.should_receive(:warn).with("Example disabled: foo")
+              @example_group.__send__(method,"foo")
+            end
           end
         end
+        
 
         describe "#examples" do
           it "should have Examples" do
             example_group = Class.new(ExampleGroup) do
-              describe('example')
-              it "should pass" do
-                1.should == 1
-              end
+              it "should exist" do; end
             end
             example_group.examples.length.should == 1
-            example_group.examples.first.description.should == "should pass"
+            example_group.examples.first.description.should == "should exist"
           end
 
           it "should not include methods that begin with test (only when TU interop is loaded)" do
             example_group = Class.new(ExampleGroup) do
-              describe('example')
               def test_any_args(*args)
                 true.should be_true
               end
@@ -138,7 +128,6 @@ module Spec
 
           it "should include methods that begin with should and has an arity of 0 in suite" do
             example_group = Class.new(ExampleGroup) do
-              describe('example')
               def shouldCamelCase
                 true.should be_true
               end
@@ -158,20 +147,21 @@ module Spec
                 raise "This is not a real example"
               end
             end
-            example_group = example_group.dup
-            example_group.examples.length.should == 4
-            descriptions = example_group.examples.collect {|example| example.description}.sort
-            descriptions.should include("shouldCamelCase")
-            descriptions.should include("should_any_args")
-            descriptions.should include("should_something")
-            descriptions.should include("should_not_something")
-            descriptions.should_not include("should")
-            descriptions.should_not include("should_not")
+            example_group.should have(4).examples
+            descriptions = example_group.examples.collect {|example| example.description}
+            descriptions.should include(
+              "shouldCamelCase",
+              "should_any_args",
+              "should_something",
+              "should_not_something")
+            descriptions.should_not include(
+              "should",
+              "should_not"
+            )
           end
 
           it "should not include methods that begin with test_ and has an arity > 0 in suite" do
             example_group = Class.new(ExampleGroup) do
-              describe('example')
               def test_invalid(foo)
                 1.should == 1
               end
@@ -179,12 +169,11 @@ module Spec
                 1.should == 1
               end
             end
-            example_group.examples.length.should == 0
+            example_group.should have(:no).examples
           end
 
           it "should not include methods that begin with should_ and has an arity > 0 in suite" do
             example_group = Class.new(ExampleGroup) do
-              describe('example')
               def should_invalid(foo)
                 1.should == 2
               end
@@ -198,7 +187,7 @@ module Spec
                 1.should == 1
               end
             end
-            example_group.examples.length.should == 1
+            example_group.should have(1).examples
             example_group.run.should be_true
           end
 
@@ -208,7 +197,7 @@ module Spec
                 1.should == 2
               end
             end
-            example_group.examples.length.should == 1
+            example_group.should have(1).examples
             example_group.run.should be_false
           end
         end
@@ -221,7 +210,7 @@ module Spec
             end
           end
 
-          describe "#set_description(String)" do
+          describe "given a String" do
             before(:each) do
               example_group.set_description("abc")
             end
@@ -235,7 +224,7 @@ module Spec
             end
           end
 
-          describe "#set_description(Type)" do
+          describe "given a Class" do
             before(:each) do
               example_group.set_description(ExampleGroup)
             end
@@ -249,7 +238,7 @@ module Spec
             end
           end
 
-          describe "#set_description(String, Type)" do
+          describe "given a String and a Class" do
             before(:each) do
               example_group.set_description("behaving", ExampleGroup)
             end
@@ -263,7 +252,7 @@ module Spec
             end
           end
 
-          describe "#set_description(Type, String not starting with a space)" do
+          describe "given a Class and a String (starting with an alpha char)" do
             before(:each) do
               example_group.set_description(ExampleGroup, "behaving")
             end
@@ -273,7 +262,7 @@ module Spec
             end
           end
 
-          describe "#set_description(Type, String starting with .)" do
+          describe "given a Class and a String (starting with a '.')" do
             before(:each) do
               example_group.set_description(ExampleGroup, ".behaving")
             end
@@ -415,14 +404,14 @@ module Spec
         describe "#remove_after" do
           it "should unregister a given after(:each) block" do
             after_all_ran = false
-            @example_group.it("example") {}
+            @example_group.specify("example") {}
             proc = Proc.new { after_all_ran = true }
-            ExampleGroup.after(:each, &proc)
+            @example_group.after(:each, &proc)
             @example_group.run
             after_all_ran.should be_true
 
             after_all_ran = false
-            ExampleGroup.remove_after(:each, &proc)
+            @example_group.remove_after(:each, &proc)
             @example_group.run
             after_all_ran.should be_false
           end
