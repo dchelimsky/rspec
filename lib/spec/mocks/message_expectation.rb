@@ -39,11 +39,6 @@ module Spec
         child
       end
       
-      def error_generator_opts=(opts={})
-        @error_generator.opts = opts
-      end
-      protected :error_generator_opts=
-      
       def expected_args
         @args_expectation.args
       end
