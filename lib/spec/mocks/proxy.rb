@@ -98,7 +98,7 @@ module Spec
           expectation.advise(args, block) if null_object? unless expectation.expected_messages_received?
           raise_unexpected_message_args_error(expectation, *args) unless (has_negative_expectation?(sym) or null_object?)
         else
-          @target.send :method_missing, sym, *args, &block
+          @target.__send__ :method_missing, sym, *args, &block
         end
       end
 
@@ -146,7 +146,7 @@ module Spec
       end
 
       def target_responds_to?(sym)
-        return @target.send(munge(:respond_to?),sym) if @already_proxied_respond_to
+        return @target.__send__(munge(:respond_to?),sym) if @already_proxied_respond_to
         return @already_proxied_respond_to = true if sym == :respond_to?
         return @target.respond_to?(sym, true)
       end

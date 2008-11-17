@@ -124,11 +124,11 @@ HERE
           @options = mock('options')
           @out.stub!(:puts)
           @formatter = ProgressBarFormatter.new(@options, @out)
-          @formatter.class.send :public, :output_to_tty?
+          @formatter.class.__send__ :public, :output_to_tty?
         end
 
         after(:each) do
-          @formatter.class.send :protected, :output_to_tty?
+          @formatter.class.__send__ :protected, :output_to_tty?
         end
 
         it "should not throw NoMethodError on output_to_tty?" do

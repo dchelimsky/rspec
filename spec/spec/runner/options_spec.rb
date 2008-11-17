@@ -212,7 +212,7 @@ module Spec
       describe "#load_class" do
         it "should raise error when not class name" do
           lambda do
-            @options.send(:load_class, 'foo', 'fruit', '--food')
+            @options.__send__(:load_class, 'foo', 'fruit', '--food')
           end.should raise_error('"foo" is not a valid class name')
         end
       end

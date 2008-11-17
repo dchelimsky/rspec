@@ -46,7 +46,7 @@ module Spec
 
             describe "when creating a SharedExampleGroup" do
               before(:each) do
-                @shared_example_group = @example_group.send method, "A Shared ExampleGroup", :shared => true do; end
+                @shared_example_group = @example_group.__send__ method, "A Shared ExampleGroup", :shared => true do; end
               end
 
               after(:each) do

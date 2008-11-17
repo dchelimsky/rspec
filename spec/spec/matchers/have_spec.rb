@@ -70,7 +70,7 @@ describe 'should have(1).item when ActiveSupport::Inflector is defined' do
   
   after(:each) do
     if @active_support_was_not_defined
-      Object.send :remove_const, :ActiveSupport
+      Object.__send__ :remove_const, :ActiveSupport
     end
   end
 end
@@ -96,7 +96,7 @@ describe 'should have(1).item when Inflector is defined' do
 
   after(:each) do
     if @inflector_was_not_defined
-      Object.send :remove_const, :Inflector
+      Object.__send__ :remove_const, :Inflector
     end
   end
 end

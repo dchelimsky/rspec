@@ -12,5 +12,5 @@ module StoryHelper
     ruby("#{File.dirname(__FILE__) + '/../../resources/helpers/cmdline.rb'} #{args}", stderr)
   end
   
-  Spec::Story::World.send :include, self
+  Spec::Story::World.__send__ :include, self
 end

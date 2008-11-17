@@ -145,7 +145,7 @@ module Spec
         required_example_group = get_type_from_options(options)
         required_example_group = required_example_group.to_sym if required_example_group
         modules.each do |mod|
-          ExampleGroupFactory.get(required_example_group).send(action, mod)
+          ExampleGroupFactory.get(required_example_group).__send__(action, mod)
         end
       end
 

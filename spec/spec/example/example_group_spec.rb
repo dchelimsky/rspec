@@ -661,7 +661,7 @@ module Spec
         example_group = Class.new(ExampleSubclass) do
           describe(Array)
         end
-        example_group.send(:described_type).should == Array
+        example_group.__send__(:described_type).should == Array
       end
 
       it "should concat descriptions when nested" do
