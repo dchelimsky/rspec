@@ -3,11 +3,11 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 class LiarLiarPantsOnFire
   include Spec::MetaClass
   extend Spec::MetaClass
-  def respond_to?(sym)
+  def respond_to?(sym, incl_private=false)
     true
   end
   
-  def self.respond_to?(sym)
+  def self.respond_to?(sym, incl_private=false)
     true
   end
 end
@@ -31,3 +31,4 @@ describe 'should_receive' do
     LiarLiarPantsOnFire.metaclass.instance_methods.should_not include("something")
   end
 end
+

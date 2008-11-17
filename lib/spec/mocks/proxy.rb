@@ -125,14 +125,18 @@ module Spec
       
       def define_expected_method(sym)
         visibility_string = "#{visibility(sym)} :#{sym}"
-        if target_responds_to?(sym) && !target_metaclass.method_defined?(munge(sym))
-          munged_sym = munge(sym)
-          target_metaclass.instance_eval do
-            alias_method munged_sym, sym if method_defined?(sym.to_s)
+        if !@proxied_methods.include?(sym)
+          if target_responds_to?(sym) && !target_metaclass.method_defined?(munge(sym))
+            munged_sym = munge(sym)
+            target_metaclass.instance_eval do
+              alias_method munged_sym, sym if method_defined?(sym.to_s)
+            end
+            @proxied_methods << sym
+          elsif target_metaclass.method_defined?(munge(sym))
+            @proxied_methods << sym
           end
-          @proxied_methods << sym
         end
-        
+
         target_metaclass.class_eval(<<-EOF, __FILE__, __LINE__)
           def #{sym}(*args, &block)
             __mock_proxy.message_received :#{sym}, *args, &block
@@ -144,7 +148,7 @@ module Spec
       def target_responds_to?(sym)
         return @target.send(munge(:respond_to?),sym) if @already_proxied_respond_to
         return @already_proxied_respond_to = true if sym == :respond_to?
-        return @target.respond_to?(sym)
+        return @target.respond_to?(sym, true)
       end
 
       def visibility(sym)
@@ -193,7 +197,7 @@ module Spec
               alias_method sym, munged_sym
               undef_method munged_sym
             else
-              undef_method sym
+              remove_method sym
             end
           end
         end
