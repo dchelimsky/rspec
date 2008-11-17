@@ -16,9 +16,7 @@ module BugReport600
     end
 
     it "should restore the original method" do
-      pending("fix to bug report: http://rspec.lighthouseapp.com/projects/5645/tickets/600") do
-        ExampleClass.method_that_uses_define_method
-      end
+      ExampleClass.method_that_uses_define_method
     end
   end
 end

@@ -11,10 +11,11 @@
   * should throw_symbol accepts an optional argument: should throw_symbol(:sym, arg)
   * fixed --line for jruby (Zach Moazeni)
   
-* 2 bug fixex
+* 2 bug fixes
 
   * fixed bug where {:a => 1, :b => 2}.should include(:a, :b) failed (Yossef Mendelssohn)
   * only try to load Test::Unit if Test::Unit is defined
+  * Allow stubs on parent and child classes simultaneously (Jim Lindley). Fixes #600.
 
 === Version 1.1.11 / 2008-10-24
 
