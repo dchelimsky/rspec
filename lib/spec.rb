@@ -7,7 +7,11 @@ require 'spec/adapters'
 require 'spec/version'
 require 'spec/dsl'
 
-if Object.const_defined?(:Test)
+def test_unit_defined?
+  Object.const_defined?(:Test) && Test.const_defined?(:Unit)
+end
+
+if test_unit_defined?
   require 'spec/interop/test'
 end
 
@@ -23,7 +27,7 @@ module Spec
     end
     
     def exit?
-      !Object.const_defined?(:Test) || Test::Unit.run?
+      !test_unit_defined? || Test::Unit.run?
     end
 
     def spec_command?

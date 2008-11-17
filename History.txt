@@ -11,9 +11,10 @@
   * should throw_symbol accepts an optional argument: should throw_symbol(:sym, arg)
   * fixed --line for jruby (Zach Moazeni)
   
-* 1 bug fix
+* 2 bug fixex
 
   * fixed bug where {:a => 1, :b => 2}.should include(:a, :b) failed (Yossef Mendelssohn)
+  * only try to load Test::Unit if Test::Unit is defined
 
 === Version 1.1.11 / 2008-10-24
 
