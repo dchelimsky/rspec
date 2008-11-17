@@ -7,16 +7,12 @@ require 'spec/adapters'
 require 'spec/version'
 require 'spec/dsl'
 
-def test_unit_defined?
-  Object.const_defined?(:Test) && Test.const_defined?(:Unit)
-end
-
-if test_unit_defined?
-  require 'spec/interop/test'
-end
-
 module Spec
   class << self
+    def test_unit_defined?
+      Object.const_defined?(:Test) && Test.const_defined?(:Unit)
+    end
+
     def run?
       Runner.options.examples_run?
     end
@@ -34,4 +30,8 @@ module Spec
       $0.split('/').last == 'spec'
     end
   end
+end
+
+if Spec::test_unit_defined?
+  require 'spec/interop/test'
 end
