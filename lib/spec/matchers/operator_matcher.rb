@@ -1,6 +1,6 @@
 module Spec
   module Matchers
-    class BaseOperatorMatcher
+    class OperatorMatcher
       def initialize(actual)
         @actual = actual
       end
@@ -23,7 +23,7 @@ module Spec
 
     end
 
-    class PositiveOperatorMatcher < BaseOperatorMatcher #:nodoc:
+    class PositiveOperatorMatcher < OperatorMatcher #:nodoc:
 
       def __delegate_operator(actual, operator, expected)
         return true if actual.__send__(operator, expected)
@@ -36,7 +36,7 @@ module Spec
 
     end
 
-    class NegativeOperatorMatcher < BaseOperatorMatcher #:nodoc:
+    class NegativeOperatorMatcher < OperatorMatcher #:nodoc:
 
       def __delegate_operator(actual, operator, expected)
         return true unless actual.__send__(operator, expected)
