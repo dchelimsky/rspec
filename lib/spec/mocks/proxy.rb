@@ -125,14 +125,12 @@ module Spec
       
       def define_expected_method(sym)
         visibility_string = "#{visibility(sym)} :#{sym}"
-        if !@proxied_methods.include?(sym)
-          if target_responds_to?(sym) && !target_metaclass.method_defined?(munge(sym))
+        unless @proxied_methods.include?(sym)
+          if target_responds_to?(sym)
             munged_sym = munge(sym)
             target_metaclass.instance_eval do
               alias_method munged_sym, sym if method_defined?(sym.to_s)
             end
-            @proxied_methods << sym
-          elsif target_metaclass.method_defined?(munge(sym))
             @proxied_methods << sym
           end
         end
