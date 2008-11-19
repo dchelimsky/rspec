@@ -21,7 +21,7 @@ class Autotest::Rspec < Autotest
 
   def initialize
     super
-    self.failed_results_re = /^\d+\)\n(?:\e\[\d*m)?(?:.*?Error in )?'([^\n]*)'(?: FAILED)?(?:\e\[\d*m)?\n(.*?)\n\n/m
+    self.failed_results_re = /^\d+\)\n(?:\e\[\d*m)?(?:.*?in )?'([^\n]*)'(?: FAILED)?(?:\e\[\d*m)?\n(.*?)\n\n/m
     self.completed_re = /\n(?:\e\[\d*m)?\d* examples?/m
   end
   

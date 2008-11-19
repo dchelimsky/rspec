@@ -45,6 +45,7 @@ examples/passing/predicate_example.rb
 examples/passing/priority.txt
 examples/passing/shared_example_group_example.rb
 examples/passing/shared_stack_examples.rb
+examples/passing/simple_matcher_example.rb
 examples/passing/spec_helper.rb
 examples/passing/stack.rb
 examples/passing/stack_spec.rb
@@ -186,6 +187,7 @@ spec/README.jruby
 spec/autotest/autotest_helper.rb
 spec/autotest/autotest_matchers.rb
 spec/autotest/discover_spec.rb
+spec/autotest/failed_results_re_spec.rb
 spec/autotest/rspec_spec.rb
 spec/rspec_suite.rb
 spec/ruby_forker.rb
@@ -250,6 +252,7 @@ spec/spec/mocks/bug_report_10263_spec.rb
 spec/spec/mocks/bug_report_11545_spec.rb
 spec/spec/mocks/bug_report_15719_spec.rb
 spec/spec/mocks/bug_report_496.rb
+spec/spec/mocks/bug_report_600_spec.rb
 spec/spec/mocks/bug_report_7611_spec.rb
 spec/spec/mocks/bug_report_7805_spec.rb
 spec/spec/mocks/bug_report_8165_spec.rb
@@ -348,6 +351,7 @@ stories/example_groups/stories.rb
 stories/helper.rb
 stories/interop/examples_and_tests_together
 stories/interop/stories.rb
+stories/interop/test_but_not_test_unit
 stories/interop/test_case_with_should_methods
 stories/mock_framework_integration/stories.rb
 stories/mock_framework_integration/use_flexmock.story
@@ -362,6 +366,7 @@ stories/resources/spec/spec_with_flexmock.rb
 stories/resources/steps/running_rspec.rb
 stories/resources/stories/failing_story.rb
 stories/resources/test/spec_and_test_together.rb
+stories/resources/test/spec_including_test_but_not_unit.rb
 stories/resources/test/test_case_with_should_methods.rb
 stories/stories/multiline_steps.story
 stories/stories/steps/multiline_steps.rb

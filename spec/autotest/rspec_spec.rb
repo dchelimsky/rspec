@@ -2,40 +2,6 @@ require File.dirname(__FILE__) + "/autotest_helper"
 
 class Autotest
   
-  module AutotestHelper
-    def rspec_output
-      <<-HERE
-.............PPF
-
-1)
-'false should be false' FAILED
-expected: true,
-     got: false (using ==)
-./spec/autotest/rspec_spec.rb:203:
-
-Finished in 0.158674 seconds
-
-16 examples, 1 failure, 2 pending
-
-Pending:
-Autotest::Rspec handling failed results should return an array of failed examples and errors (TODO)
-Autotest::Rspec tests/specs for a given file should find all the specs for a given file (TODO)
-HERE
-    end
-    
-    def common_setup
-      @proc = mock Proc
-      @kernel = mock Kernel
-      @kernel.stub!(:proc).and_return @proc
-
-      File.stub!(:exists).and_return true
-      @windows_alt_separator = "\\"
-      @posix_separator = '/'
-
-      @rspec_output = rspec_output
-    end
-  end
-
   describe Rspec do
     describe "adding spec.opts --options" do 
       before(:each) do
@@ -106,10 +72,7 @@ HERE
     end
   
     describe "consolidating failures" do
-      include AutotestHelper
-    
       before(:each) do
-        common_setup
         @rspec_autotest = Rspec.new
       
         @spec_file = "spec/autotest/some_spec.rb"
