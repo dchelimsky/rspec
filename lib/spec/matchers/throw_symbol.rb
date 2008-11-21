@@ -21,9 +21,17 @@ module Spec
             end
             @caught_symbol = @expected_symbol unless @caught_arg == :nothing_thrown
           end
+
+        # Ruby 1.8 uses NameError with `symbol'
         rescue NameError => e
-          raise e unless e.message =~ /uncaught throw/
+          raise e unless e.message =~ /uncaught throw `(.*)'/
           @caught_symbol = e.name.to_sym
+
+        # Ruby 1.9 uses ArgumentError with :symbol
+        rescue ArgumentError => e
+          raise e unless e.message =~ /uncaught throw :(.*)/
+          @caught_symbol = $1.to_sym
+
         ensure
           if @expected_symbol.nil?
             return !@caught_symbol.nil?
@@ -31,6 +39,8 @@ module Spec
             if @expected_arg.nil?
               return @caught_symbol == @expected_symbol
             else
+              # puts [@caught_symbol, @expected_symbol].inspect
+              # puts [@caught_arg, @expected_arg].inspect
               return @caught_symbol == @expected_symbol && @caught_arg == @expected_arg
             end
           end
