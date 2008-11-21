@@ -23,14 +23,10 @@ module Spec
           end
 
         # Ruby 1.8 uses NameError with `symbol'
-        rescue NameError => e
-          raise e unless e.message =~ /uncaught throw `(.*)'/
-          @caught_symbol = e.name.to_sym
-
         # Ruby 1.9 uses ArgumentError with :symbol
-        rescue ArgumentError => e
-          raise e unless e.message =~ /uncaught throw :(.*)/
-          @caught_symbol = $1.to_sym
+        rescue NameError, ArgumentError => e
+          raise e unless e.message =~ /uncaught throw (`|\:)([a-zA-Z0-9_]*)(')?/
+          @caught_symbol = $2.to_sym
 
         ensure
           if @expected_symbol.nil?
