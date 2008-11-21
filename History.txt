@@ -10,10 +10,11 @@
   * subject { ... } - works in conjunction with implicit receiver of #should
   * wrap_expectation (for wrapping multiple expectations and/or t/u assertions)
 
-* 2 minor enhancements
+* 3 minor enhancements
 
   * should throw_symbol accepts an optional argument: should throw_symbol(:sym, arg)
   * fixed --line for jruby (Zach Moazeni)
+  * assorted small changes to support Ruby 1.9 (got a way to go)
   
 * 3 bug fixes
 

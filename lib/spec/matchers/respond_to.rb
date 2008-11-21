@@ -26,7 +26,8 @@ module Spec
       end
       
       def description
-        "respond to ##{@names.to_s}"
+        # Ruby 1.9 returns the same thing for array.to_s as array.inspect, so just use array.inspect here
+        "respond to #{@names.inspect}"
       end
     end
     
