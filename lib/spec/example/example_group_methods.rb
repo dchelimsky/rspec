@@ -46,7 +46,8 @@ module Spec
         args << {} unless Hash === args.last
         if example_group_block
           options = args.last
-          options[:spec_path] = eval("caller(0)[1]", example_group_block) unless options[:spec_path]
+          # Ruby 1.9 - the next line uses example_group_block.binding instead of example_group_block
+          options[:spec_path] = eval("caller(0)[1]", example_group_block.binding) unless options[:spec_path]
           if options[:shared]
             create_shared_example_group(*args, &example_group_block)
           else
