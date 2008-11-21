@@ -43,7 +43,7 @@ module Spec
       end
 
       def consider_example_for_best_match(example, example_group, file, line_number)
-        parsed_backtrace = parse_backtrace(example.example_backtrace)
+        parsed_backtrace = parse_backtrace(example.backtrace)
         parsed_backtrace.each do |example_file, example_line|
           if is_best_match?(file, line_number, example_file, example_line)
             best_match.clear

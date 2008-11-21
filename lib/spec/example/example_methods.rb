@@ -114,8 +114,8 @@ module Spec
         instance_eval(&@_implementation)
       end
 
-      def example_backtrace
-        @example_backtrace
+      def backtrace
+        @backtrace
       end
 
       private

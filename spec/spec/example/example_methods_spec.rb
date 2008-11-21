@@ -134,7 +134,7 @@ module Spec
         end
       end
 
-      describe "#example_backtrace" do        
+      describe "#backtrace" do        
         describe "with line_number set" do
           with_sandboxed_options do
             before do
@@ -148,7 +148,7 @@ module Spec
               end
               
               example = example_group.examples.first
-              example.example_backtrace.join("\n").should include("#{__FILE__}:#{__LINE__-5}")
+              example.backtrace.join("\n").should include("#{__FILE__}:#{__LINE__-5}")
             end
           end
         end
@@ -165,7 +165,7 @@ module Spec
                 end
               end
               example = example_group.examples.first
-              example.example_backtrace.should be_nil
+              example.backtrace.should be_nil
             end
           end
         end
