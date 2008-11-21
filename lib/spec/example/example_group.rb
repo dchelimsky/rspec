@@ -10,7 +10,7 @@ module Spec
         @_options = options
         @_defined_description = defined_description
         @_implementation = implementation || pending_implementation
-        @backtrace = caller if Spec::Runner.options.line_number
+        @_backtrace = caller if Spec::Runner.options.line_number
       end
       
     private

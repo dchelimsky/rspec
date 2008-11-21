@@ -116,7 +116,7 @@ module Spec
 
       # Provides the backtrace up to where this example was declared.
       def backtrace
-        @backtrace
+        @_backtrace
       end
       
       def implementation_backtrace
