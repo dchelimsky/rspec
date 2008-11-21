@@ -357,7 +357,12 @@ module Spec
   module Matchers
     describe Have do
       it "should have method_missing as private" do
-        Have.private_instance_methods.should include("method_missing")
+        with_ruby '1.8' do
+          Have.private_instance_methods.should include("method_missing")
+        end
+        with_ruby '1.9' do
+          Have.private_instance_methods.should include(:method_missing)
+        end
       end
       
       describe "respond_to?" do

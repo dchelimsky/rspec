@@ -39,6 +39,10 @@ module Spec
     def run_with(options)
       ::Spec::Runner::CommandLine.run(options)
     end
+
+    def with_ruby(version)
+      yield if RUBY_PLATFORM =~ Regexp.compile("^#{version}")
+    end
   end
 end
 
