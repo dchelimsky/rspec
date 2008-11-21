@@ -4,7 +4,7 @@ module Spec
       
       extend ModuleReopeningFix
       
-      def subject # :nodoc:
+      def subject # :nodoc: this is somewhat experimental
         @subject ||= ( instance_variable_get(subject_variable_name) ||
                        instance_eval(&self.class.subject_block) ||
                        (described_class ? described_class.new : nil) )
@@ -64,20 +64,20 @@ module Spec
         success = execution_error.nil? || ExamplePendingError === execution_error
       end
 
-      def instance_variable_hash
+      def instance_variable_hash # :nodoc:
         instance_variables.inject({}) do |variable_hash, variable_name|
           variable_hash[variable_name] = instance_variable_get(variable_name)
           variable_hash
         end
       end
 
-      def eval_each_fail_fast(examples) #:nodoc:
+      def eval_each_fail_fast(examples) # :nodoc:
         examples.each do |example|
           instance_eval(&example)
         end
       end
 
-      def eval_each_fail_slow(examples) #:nodoc:
+      def eval_each_fail_slow(examples) # :nodoc:
         first_exception = nil
         examples.each do |example|
           begin
@@ -110,12 +110,21 @@ module Spec
         end
       end
 
-      def eval_block
+      def eval_block # :nodoc:
         instance_eval(&@_implementation)
       end
 
+      # Provides the backtrace up to where this example was declared.
       def backtrace
         @backtrace
+      end
+      
+      def implementation_backtrace
+        Kernel.warn <<-WARNING
+ExampleMethods#implementation_backtrace is deprecated and will be removed
+from a future version. Please use ExampleMethods#backtrace instead.
+WARNING
+        backtrace
       end
 
       private

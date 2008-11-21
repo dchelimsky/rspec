@@ -1,17 +1,21 @@
 === Maintenance
 
+* 1 deprecation
+
+  * deprecated ExampleMethods#implementation_backtrace - use ExampleMethods#backtrace instead
+
 * 3 major enhancements
 
   * it { should matcher } - support for implicit receiver of #should (Joe Ferris of thoughtbot)
   * subject { ... } - works in conjunction with implicit receiver of #should
   * wrap_expectation (for wrapping multiple expectations and/or t/u assertions)
 
-* 1 minor enhancement
+* 2 minor enhancements
 
   * should throw_symbol accepts an optional argument: should throw_symbol(:sym, arg)
   * fixed --line for jruby (Zach Moazeni)
   
-* 2 bug fixes
+* 3 bug fixes
 
   * fixed bug where {:a => 1, :b => 2}.should include(:a, :b) failed (Yossef Mendelssohn)
   * only try to load Test::Unit if Test::Unit is defined
