@@ -548,6 +548,16 @@ module Spec
             group.options[:this].should == 'hash'
           end
         end
+
+        describe "#backtrace" do        
+          it "returns the backtrace from where the example group was defined" do
+            example_group = Class.new(ExampleGroup).describe("foo") do
+              example "bar" do; end
+            end
+            example_group.example_group_backtrace.join("\n").should include("#{__FILE__}:#{__LINE__-3}")
+          end
+        end
+
       end
     end
   end

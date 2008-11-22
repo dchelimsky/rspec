@@ -185,7 +185,7 @@ module Spec
         @description_args = args
         @description_options = options
         @description_text = ExampleGroupMethods.description_text(*args)
-        @example_group_backtrace = options[:example_group_backtrace]
+        @example_group_backtrace = caller(1)
         @spec_path = File.expand_path(options[:spec_path]) if options[:spec_path]
         self
       end

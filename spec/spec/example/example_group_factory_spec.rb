@@ -148,17 +148,6 @@ module Spec
         end
         
         
-        describe "setting example_group_backtrace" do
-          with_sandboxed_options do
-            it "sets the backtrace where the example group was defined" do
-              example_group = Spec::Example::ExampleGroupFactory.create_example_group("The ExampleGroup") do      
-              end
-              example_group.example_group_backtrace.join("\n").should include("#{__FILE__}:#{__LINE__-2}")
-            end
-          end
-          
-        end
-
         after(:each) do
           Spec::Example::ExampleGroupFactory.reset
         end
