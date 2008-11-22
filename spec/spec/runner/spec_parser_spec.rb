@@ -7,7 +7,6 @@ describe "SpecParser" do
     before do
       @parser = Spec::Runner::SpecParser.new
       @file = "#{File.dirname(__FILE__)}/spec_parser/spec_parser_fixture.rb"
-      options.line_number = mock("this isn't used because we specify line number below")
       load file
     end
 

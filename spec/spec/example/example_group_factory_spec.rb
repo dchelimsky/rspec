@@ -150,18 +150,10 @@ module Spec
         
         describe "setting example_group_backtrace" do
           with_sandboxed_options do
-            it "should set the backtrace where the example group was defined if line number is set" do
-              options.line_number = mock("irrelevant line number")
+            it "sets the backtrace where the example group was defined" do
               example_group = Spec::Example::ExampleGroupFactory.create_example_group("The ExampleGroup") do      
               end
               example_group.example_group_backtrace.join("\n").should include("#{__FILE__}:#{__LINE__-2}")
-            end
-            
-            it "should not set the backtrace where the example group was defined if line number is not set" do
-              options.line_number = nil
-              example_group = Spec::Example::ExampleGroupFactory.create_example_group("The ExampleGroup") do      
-              end
-              example_group.example_group_backtrace.should be_nil
             end
           end
           
