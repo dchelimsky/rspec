@@ -138,12 +138,11 @@ module Spec
         with_sandboxed_options do
           it "returns the backtrace from where the example was defined" do
             example_group = Class.new(ExampleGroup) do
-              example "should be instantiated in order to be asserted" do
-              end
+              example "of something" do; end
             end
             
             example = example_group.examples.first
-            example.backtrace.join("\n").should include("#{__FILE__}:#{__LINE__-5}")
+            example.backtrace.join("\n").should include("#{__FILE__}:#{__LINE__-4}")
           end
         end
       end
@@ -161,11 +160,13 @@ module Spec
             example.implementation_backtrace
           end
           
-          it "delegates to #backtrace" do
-            example_group = Class.new(ExampleGroup) {}
-            example = example_group.example("") {}
-            example.should_receive(:backtrace)
-            example.implementation_backtrace
+          it "returns the backtrace from where the example was defined" do
+            example_group = Class.new(ExampleGroup) do
+              example "of something" do; end
+            end
+            
+            example = example_group.examples.first
+            example.backtrace.join("\n").should include("#{__FILE__}:#{__LINE__-4}")
           end
         end
       end

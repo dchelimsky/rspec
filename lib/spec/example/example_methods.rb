@@ -119,6 +119,7 @@ module Spec
         @_backtrace
       end
       
+      # Deprecated - use +backtrace()+
       def implementation_backtrace
         Kernel.warn <<-WARNING
 ExampleMethods#implementation_backtrace is deprecated and will be removed

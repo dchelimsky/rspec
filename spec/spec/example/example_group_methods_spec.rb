@@ -554,6 +554,24 @@ module Spec
             example_group = Class.new(ExampleGroup).describe("foo") do
               example "bar" do; end
             end
+            example_group.backtrace.join("\n").should include("#{__FILE__}:#{__LINE__-3}")
+          end
+        end
+
+        describe "#example_group_backtrace (deprecated)" do        
+          before(:each) do
+            Kernel.stub!(:warn)
+          end
+          it "sends a deprecation warning" do
+            example_group = Class.new(ExampleGroup) {}
+            Kernel.should_receive(:warn).with(/#example_group_backtrace.*deprecated.*#backtrace instead/m)
+            example_group.example_group_backtrace
+          end
+
+          it "returns the backtrace from where the example group was defined" do
+            example_group = Class.new(ExampleGroup).describe("foo") do
+              example "bar" do; end
+            end
             example_group.example_group_backtrace.join("\n").should include("#{__FILE__}:#{__LINE__-3}")
           end
         end

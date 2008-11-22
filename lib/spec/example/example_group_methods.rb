@@ -15,8 +15,22 @@ module Spec
         end
       end
 
-      attr_reader :description_text, :description_options, :spec_path, :example_group_backtrace
+      attr_reader :description_text, :description_options, :spec_path
       alias :options :description_options
+      
+      # Provides the backtrace up to where this example_group was declared.
+      def backtrace
+        @backtrace
+      end
+
+      # Deprecated - use +backtrace()+
+      def example_group_backtrace
+        Kernel.warn <<-WARNING
+ExampleGroupMethods#example_group_backtrace is deprecated and will be removed
+from a future version. Please use ExampleGroupMethods#backtrace instead.
+WARNING
+        backtrace
+      end
       
       def description_args
         @description_args ||= []
@@ -185,7 +199,7 @@ module Spec
         @description_args = args
         @description_options = options
         @description_text = ExampleGroupMethods.description_text(*args)
-        @example_group_backtrace = caller(1)
+        @backtrace = caller(1)
         @spec_path = File.expand_path(options[:spec_path]) if options[:spec_path]
         self
       end

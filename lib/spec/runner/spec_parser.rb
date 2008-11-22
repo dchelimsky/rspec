@@ -32,7 +32,7 @@ module Spec
     protected
 
       def consider_example_group_for_best_match(example_group, file, line_number)
-        parsed_backtrace = parse_backtrace(example_group.example_group_backtrace)
+        parsed_backtrace = parse_backtrace(example_group.backtrace)
         parsed_backtrace.each do |example_file, example_line|
           if is_best_match?(file, line_number, example_file, example_line)
             best_match.clear

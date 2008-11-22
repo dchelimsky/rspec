@@ -1,8 +1,9 @@
 === Maintenance
 
-* 1 deprecation
+* 2 deprecations
 
   * deprecated ExampleMethods#implementation_backtrace - use ExampleMethods#backtrace instead
+  * deprecated ExampleGroupMethods#example_group_backtrace - use ExampleGroupMethods#backtrace instead
 
 * 3 major enhancements
 
