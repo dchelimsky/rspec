@@ -88,17 +88,6 @@ EOE
 EOE
         end
         
-        it "should dump pending" do
-          example_group = ExampleGroup.describe("example_group") do
-            specify "example" do
-            end
-          end
-          example = example_group.examples.first
-          @formatter.example_pending(example, "message", "#{__FILE__}:#{__LINE__}")
-          @formatter.dump_pending
-          @io.string.should =~ /Pending\:\nexample_group example \(message\)\n/
-        end
-        
         it "should dump pending with file and line number" do
           example_group = ExampleGroup.describe("example_group") do
             specify "example" do
@@ -112,8 +101,9 @@ EOE
           @io.string.should ==(<<-HERE)
 *
 Pending:
+
 example_group example (message)
-  Called from #{file}:#{line}
+#{file}:#{line}
 HERE
         end
       end

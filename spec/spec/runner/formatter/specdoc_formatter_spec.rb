@@ -141,7 +141,7 @@ module Spec
                 formatter.example_pending(example_group.examples.first, 'reason', "#{__FILE__}:#{__LINE__}")
                 io.rewind
                 formatter.dump_pending
-                io.string.should =~ /Pending\:\nExampleGroup example \(reason\)\n/
+                io.string.should =~ /Pending\:\n\nExampleGroup example \(reason\)\n/
               end
             end
 

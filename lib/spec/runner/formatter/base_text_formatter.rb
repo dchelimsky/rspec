@@ -69,8 +69,8 @@ module Spec
             @output.puts
             @output.puts "Pending:"
             @pending_examples.each do |pending_example|
-              @output.puts "#{pending_example[0]} (#{pending_example[1]})" 
-              @output.puts "  Called from #{pending_example[2]}"
+              @output.puts "\n#{pending_example[0]} (#{pending_example[1]})"
+              @output.puts "#{pending_example[2]}\n"
             end
           end
           @output.flush
