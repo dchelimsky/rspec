@@ -51,9 +51,13 @@ module Test
         @_implementation = implementation || pending_implementation
 
         @_result = ::Test::Unit::TestResult.new
-        # @method_name is important to set here because it "complies" with Test::Unit's interface.
+        # @method_name is important to set here because it complies with Test::Unit's interface.
         # Some Test::Unit extensions depend on @method_name being present.
         @method_name = @_defined_description
+
+        # TODO - this is necessary to run single examples in rspec-rails, but I haven't
+        # found a good way to write a failing example just within rspec core
+        @_backtrace = caller
       end
 
       def run(ignore_this_argument=nil)
