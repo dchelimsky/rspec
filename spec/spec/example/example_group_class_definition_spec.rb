@@ -3,8 +3,12 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 module Spec
   module Example
     class ExampleGroupSubclass < ExampleGroup
-      class << self
-        attr_accessor :examples_ran
+      def self.examples_ran
+        @examples_ran
+      end
+
+      def self.examples_ran=(examples_ran)
+        @examples_ran = examples_ran
       end
 
       @@class_variable = :class_variable

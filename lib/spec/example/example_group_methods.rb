@@ -3,15 +3,19 @@ module Spec
 
     module ExampleGroupMethods
       include Spec::Example::BeforeAndAfterHooks
+      
+      def self.matcher_class
+        @matcher_class
+      end
+      
+      def self.matcher_class=(matcher_class)
+        @matcher_class = matcher_class
+      end
 
-      class << self
-        attr_accessor :matcher_class
-
-        def description_text(*args)
-          args.inject("") do |result, arg|
-            result << " " unless (result == "" || arg.to_s =~ /^(\s|\.|#)/)
-            result << arg.to_s
-          end
+      def self.description_text(*args)
+        args.inject("") do |result, arg|
+          result << " " unless (result == "" || arg.to_s =~ /^(\s|\.|#)/)
+          result << arg.to_s
         end
       end
 
@@ -65,7 +69,7 @@ WARNING
           if options[:shared]
             create_shared_example_group(*args, &example_group_block)
           else
-            create_nested_example_group(*args, &example_group_block)
+            create_subclass(*args, &example_group_block)
           end
         else
           set_description(*args)
@@ -73,11 +77,11 @@ WARNING
       end
       alias :context :describe
       
-      def create_shared_example_group(*args, &example_group_block)
+      def create_shared_example_group(*args, &example_group_block) # :nodoc:
         SharedExampleGroup.register(*args, &example_group_block)
       end
       
-      def create_nested_example_group(*args, &example_group_block)
+      def create_subclass(*args, &example_group_block) # :nodoc:
         self.subclass("Subclass") do
           set_description(*args)
           module_eval(&example_group_block)

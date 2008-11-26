@@ -23,25 +23,23 @@ module Test
       extend Spec::Example::ExampleGroupMethods
       include Spec::Example::ExampleMethods
 
+      def self.suite
+        Test::Unit::TestSuiteAdapter.new(self)
+      end
+
+      def self.example_method?(method_name)
+        should_method?(method_name) || test_method?(method_name)
+      end
+
+      def self.test_method?(method_name)
+        method_name =~ /^test[_A-Z]./ && (
+          instance_method(method_name).arity == 0 ||
+          instance_method(method_name).arity == -1
+        )
+      end
+
       before(:each) {setup}
       after(:each) {teardown}
-
-      class << self
-        def suite
-          Test::Unit::TestSuiteAdapter.new(self)
-        end
-
-        def example_method?(method_name)
-          should_method?(method_name) || test_method?(method_name)
-        end
-
-        def test_method?(method_name)
-          method_name =~ /^test[_A-Z]./ && (
-            instance_method(method_name).arity == 0 ||
-            instance_method(method_name).arity == -1
-          )
-        end
-      end
 
       def initialize(defined_description, options={}, &implementation)
         @_defined_description = defined_description

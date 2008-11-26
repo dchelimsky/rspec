@@ -56,12 +56,10 @@ module Spec
     #   end
     #
     class SpecTask < ::Rake::TaskLib
-      class << self
-        def attr_accessor(*names)
-          super(*names)
-          names.each do |name|
-            module_eval "def #{name}() evaluate(@#{name}) end" # Allows use of procs
-          end
+      def self.attr_accessor(*names)
+        super(*names)
+        names.each do |name|
+          module_eval "def #{name}() evaluate(@#{name}) end" # Allows use of procs
         end
       end
 

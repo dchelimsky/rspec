@@ -1,26 +1,24 @@
 module Spec
   module Example
-    class << self
-      def args_and_options(*args)
-        with_options_from(args) do |options|
-          return args, options
-        end
+    def self.args_and_options(*args)
+      with_options_from(args) do |options|
+        return args, options
       end
+    end
 
-      def scope_from(*args)
-        args[0] || :each
-      end
+    def self.scope_from(*args)
+      args[0] || :each
+    end
 
-      def scope_and_options(*args)
-        args, options = args_and_options(*args)
-        return scope_from(*args), options
-      end
+    def self.scope_and_options(*args)
+      args, options = args_and_options(*args)
+      return scope_from(*args), options
+    end
 
-    private
-      
-      def with_options_from(args)
-        yield Hash === args.last ? args.pop : {} if block_given?
-      end
+  private
+    
+    def self.with_options_from(args)
+      yield Hash === args.last ? args.pop : {} if block_given?
     end
   end
 end

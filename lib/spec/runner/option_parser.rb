@@ -4,12 +4,10 @@ require 'stringio'
 module Spec
   module Runner
     class OptionParser < ::OptionParser
-      class << self
-        def parse(args, err, out)
-          parser = new(err, out)
-          parser.parse(args)
-          parser.options
-        end
+      def self.parse(args, err, out)
+        parser = new(err, out)
+        parser.parse(args)
+        parser.options
       end
 
       attr_reader :options

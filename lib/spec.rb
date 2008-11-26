@@ -8,27 +8,25 @@ require 'spec/version'
 require 'spec/dsl'
 
 module Spec
-  class << self
-    def test_unit_defined?
-      Object.const_defined?(:Test) && Test.const_defined?(:Unit)
-    end
+  def self.test_unit_defined?
+    Object.const_defined?(:Test) && Test.const_defined?(:Unit)
+  end
 
-    def run?
-      Runner.options.examples_run?
-    end
+  def self.run?
+    Runner.options.examples_run?
+  end
 
-    def run
-      return true if run?
-      Runner.options.run_examples
-    end
-    
-    def exit?
-      !test_unit_defined? || Test::Unit.run?
-    end
+  def self.run
+    return true if run?
+    Runner.options.run_examples
+  end
+  
+  def self.exit?
+    !test_unit_defined? || Test::Unit.run?
+  end
 
-    def spec_command?
-      $0.split('/').last == 'spec'
-    end
+  def self.spec_command?
+    $0.split('/').last == 'spec'
   end
 end
 

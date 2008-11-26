@@ -426,14 +426,13 @@ module Spec
           it "should have accessible class methods from included module" do
             mod_method_called = false
             mod = Module.new do
-              extend Spec::MetaClass
               class_methods = Module.new do
                 define_method :mod_method do
                   mod_method_called = true
                 end
               end
 
-              metaclass.class_eval do
+              self.class.class_eval do
                 define_method(:included) do |receiver|
                   receiver.extend class_methods
                 end
@@ -516,13 +515,11 @@ module Spec
           it "should call new and matches? on the class used for matching examples" do 
             example_group = Class.new(ExampleGroup) do
               it "should do something" do end
-              class << self
-                def specified_examples
-                  ["something"]
-                end
-                def to_s
-                  "TestMatcher"
-                end
+              def self.specified_examples
+                ["something"]
+              end
+              def self.to_s
+                "TestMatcher"
               end
             end
 

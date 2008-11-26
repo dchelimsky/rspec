@@ -1,7 +1,7 @@
 module Spec
   module Example
     class ExampleGroupFactory
-      class << self
+      module ClassMethods
         def reset
           @example_group_types = nil
           default(ExampleGroup)
@@ -76,6 +76,7 @@ module Spec
         end
 
       end
+      extend ClassMethods
       self.reset
     end
   end

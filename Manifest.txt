@@ -84,7 +84,6 @@ lib/spec/expectations/handler.rb
 lib/spec/expectations/wrap_expectation.rb
 lib/spec/extensions.rb
 lib/spec/extensions/class.rb
-lib/spec/extensions/metaclass.rb
 lib/spec/interop/test.rb
 lib/spec/interop/test/unit/autorunner.rb
 lib/spec/interop/test/unit/testcase.rb

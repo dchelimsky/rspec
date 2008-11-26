@@ -449,10 +449,8 @@ module Spec
 
           it "should use a mock framework set up in config" do
             mod = Module.new do
-              class << self
-                def included(mod)
-                  $included_module = mod
-                end
+              def self.included(mod)
+                $included_module = mod
               end
 
               def teardown_mocks_for_rspec

@@ -32,12 +32,10 @@ module Spec
       end
     
       describe "#share_as" do
-        class << self
-          def next_group_name
-            @group_number ||= 0
-            @group_number += 1
-            "Group#{@group_number}"
-          end
+        def self.next_group_name
+          @group_number ||= 0
+          @group_number += 1
+          "Group#{@group_number}"
         end
         
         def group_name
