@@ -1,7 +1,6 @@
 require 'spec/matchers'
 require 'spec/expectations'
 require 'spec/example'
-require 'spec/extensions'
 require 'spec/runner'
 require 'spec/adapters'
 require 'spec/version'

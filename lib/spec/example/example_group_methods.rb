@@ -13,13 +13,13 @@ module Spec
       end
 
       def self.description_text(*args)
-        args.inject("") do |result, arg|
-          result << " " unless (result == "" || arg.to_s =~ /^(\s|\.|#)/)
-          result << arg.to_s
+        args.inject("") do |description, arg|
+          description << " " unless (description == "" || arg.to_s =~ /^(\s|\.|#)/)
+          description << arg.to_s
         end
       end
 
-      attr_reader :description_text, :description_options, :spec_path
+      attr_reader :description_options, :spec_path
       alias :options :description_options
       
       # Provides the backtrace up to where this example_group was declared.
@@ -82,10 +82,28 @@ WARNING
       end
       
       def create_subclass(*args, &example_group_block) # :nodoc:
-        self.subclass("Subclass") do
+        subclass("Subclass") do
           set_description(*args)
           module_eval(&example_group_block)
         end
+      end
+      
+      # Creates a new subclass of self, with a name "under" our own name.
+      # Example:
+      #
+      #   x = Foo::Bar.subclass('Zap'){}
+      #   x.name # => Foo::Bar::Zap_1
+      #   x.superclass.name # => Foo::Bar
+      def subclass(base_name, &body) # :nodoc:
+        @class_count ||= 0
+        @class_count += 1
+        klass = Class.new(self)
+        class_name = "#{base_name}_#{@class_count}"
+        instance_eval do
+          const_set(class_name, klass)
+        end
+        klass.instance_eval(&body)
+        klass
       end
       
       # Use this to pull in examples from shared example groups.
