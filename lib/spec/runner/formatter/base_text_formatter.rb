@@ -14,6 +14,7 @@ module Spec
         def initialize(options, where)
           super
           if where.is_a?(String)
+            FileUtils.mkdir_p(File.dirname(where))
             @output = File.open(where, 'w')
           else
             @output = where

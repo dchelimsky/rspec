@@ -17,12 +17,13 @@
   * fixed --line for jruby (Zach Moazeni)
   * assorted small changes to support Ruby 1.9 (got a way to go)
   
-* 3 bug fixes
+* 4 bug fixes
 
   * fixed bug where {:a => 1, :b => 2}.should include(:a, :b) failed (Yossef Mendelssohn)
   * only try to load Test::Unit if Test::Unit is defined (not just Test)
   * Allow stubs on parent and child classes simultaneously (Jim Lindley). Fixes #600.
-
+  * BaseTextFormatter will now create the directory in a WHERE string (Adam Anderson). Fixes #616.
+  
 === Version 1.1.11 / 2008-10-24
 
 * 1 major enhancement
