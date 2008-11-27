@@ -5,11 +5,12 @@
   * deprecated ExampleMethods#implementation_backtrace - use ExampleMethods#backtrace instead
   * deprecated ExampleGroupMethods#example_group_backtrace - use ExampleGroupMethods#backtrace instead
 
-* 3 major enhancements
+* 4 major enhancements
 
   * it { should matcher } - support for implicit receiver of #should (Joe Ferris of thoughtbot)
   * subject { ... } - works in conjunction with implicit receiver of #should
   * wrap_expectation (for wrapping multiple expectations and/or t/u assertions)
+  * added array.should =~ [1,2,3] # passes if array contains exactly the same elements in any order
 
 * 4 minor enhancements
 
