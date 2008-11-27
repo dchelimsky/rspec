@@ -3,23 +3,27 @@ module Spec
 
     class MatchArray #:nodoc:
 
-      def initialize(expecteds)
-        @expecteds = expecteds
+      def initialize(expected)
+        @expected = expected
       end
 
-      def matches?(givens)
-        @givens = givens        
-        @extra_items = difference_between_arrays(@givens, @expecteds)
-        @missing_items = difference_between_arrays(@expecteds, @givens)
-        @extra_items.empty? and @missing_items.empty?
+      def matches?(actual)
+        @actual = actual        
+        @extra_items = difference_between_arrays(@actual, @expected)
+        @missing_items = difference_between_arrays(@expected, @actual)
+        @extra_items.empty? && @missing_items.empty?
       end
 
       def failure_message
-        _message
+        message =  "expected collection contained:  #{@expected.sort.inspect}\n"
+        message += "actual collection contained:    #{@actual.sort.inspect}\n"
+        message += "the missing elements were:      #{@missing_items.sort.inspect}\n" unless @missing_items.empty?
+        message += "the extra elements were:        #{@extra_items.sort.inspect}\n" unless @extra_items.empty?
+        message
       end
       
       def description
-        "contain exactly #{_pretty_print(@expecteds)}"
+        "contain exactly #{_pretty_print(@expected)}"
       end
 
       private
@@ -32,14 +36,6 @@ module Spec
             end
           end
           difference
-        end
-
-        def _message(maybe_not="")
-          message =  "expected collection contained:  #{@expecteds.sort.inspect}\n"
-          message += "actual collection contained:    #{@givens.sort.inspect}\n"
-          message += "the missing elements were:      #{@missing_items.sort.inspect}\n" unless @missing_items.empty?
-          message += "the extra elements were:        #{@extra_items.sort.inspect}\n" unless @extra_items.empty?
-          message
         end
 
         def _pretty_print(array)
@@ -61,7 +57,7 @@ module Spec
     # :call-seq:
     #   should =~ expected
     #
-    # Passes if givens contains all of the expected regardless of order. 
+    # Passes if actual contains all of the expected regardless of order. 
     # This works for collections. Pass in multiple args  and it will only 
     # pass if all args are found in collection.
     #
@@ -69,10 +65,11 @@ module Spec
     # 
     # == Examples
     #
-    #   [1,2,3].should =~ [1,2,3] # => would pass
-    #   [1,2,3].should =~ [2,3,1] # => would pass
-    #   [1,2,3,4].should [1,2,3] # => would fail
-    #   [1,2,3].should [1,2,3,4] # => would fail
+    #   [1,2,3].should   =~ [1,2,3]   # => would pass
+    #   [1,2,3].should   =~ [2,3,1]   # => would pass
+    #   [1,2,3,4].should =~ [1,2,3]   # => would fail
+    #   [1,2,2,3].should =~ [1,2,3]   # => would fail
+    #   [1,2,3].should   =~ [1,2,3,4] # => would fail
     OperatorMatcher.register(Array, '=~', Spec::Matchers::MatchArray)
   end
 end
