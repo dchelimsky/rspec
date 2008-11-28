@@ -25,6 +25,8 @@
   * only try to load Test::Unit if Test::Unit is defined (not just Test)
   * Allow stubs on parent and child classes simultaneously (Jim Lindley). Fixes #600.
   * BaseTextFormatter will now create the directory in a WHERE string (Adam Anderson). Fixes #616.
+  * Removed incorrect -S flag on autospec commands. Added explicit spec command for ruby to run, guarantee running rspec (raggi). Closes #507.
+  * Check whether test/unit has really been loaded before calling a method it defines (Brian Donovan). Closes #503.
   
 === Version 1.1.11 / 2008-10-24
 
