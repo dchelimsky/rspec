@@ -99,9 +99,7 @@ WARNING
         @class_count += 1
         klass = Class.new(self)
         class_name = "#{base_name}_#{@class_count}"
-        instance_eval do
-          const_set(class_name, klass)
-        end
+        const_set(class_name, klass)
         klass.instance_eval(&body)
         klass
       end
