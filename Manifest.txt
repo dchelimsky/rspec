@@ -1,3 +1,4 @@
+.DS_Store
 .autotest
 History.txt
 License.txt
@@ -101,6 +102,7 @@ lib/spec/matchers/has.rb
 lib/spec/matchers/have.rb
 lib/spec/matchers/include.rb
 lib/spec/matchers/match.rb
+lib/spec/matchers/match_array.rb
 lib/spec/matchers/method_missing.rb
 lib/spec/matchers/operator_matcher.rb
 lib/spec/matchers/raise_error.rb
@@ -231,6 +233,7 @@ spec/spec/matchers/handler_spec.rb
 spec/spec/matchers/has_spec.rb
 spec/spec/matchers/have_spec.rb
 spec/spec/matchers/include_spec.rb
+spec/spec/matchers/match_array_spec.rb
 spec/spec/matchers/match_spec.rb
 spec/spec/matchers/matcher_methods_spec.rb
 spec/spec/matchers/mock_constraint_matchers_spec.rb
@@ -319,6 +322,7 @@ spec/spec/runner/spec_parser_spec.rb
 spec/spec/runner/spec_spaced.opts
 spec/spec/runner_spec.rb
 spec/spec/spec_classes.rb
+spec/spec/spec_spec.rb
 spec/spec/story/builders.rb
 spec/spec/story/extensions/main_spec.rb
 spec/spec/story/extensions_spec.rb
