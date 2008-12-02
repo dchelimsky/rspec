@@ -3,7 +3,6 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 module Spec
   module Mocks
     describe Mock do
-
       before(:each) do
         @mock = mock("test mock")
       end
@@ -227,7 +226,7 @@ module Spec
       it "should yield 0 args to blocks that take a variable number of arguments" do
         @mock.should_receive(:yield_back).with(no_args()).once.and_yield
         a = nil
-        @mock.yield_back {|*a|}
+        @mock.yield_back {|*x| a = x}
         a.should == []
         @mock.rspec_verify
       end
@@ -245,7 +244,7 @@ module Spec
       it "should yield one arg to blocks that take a variable number of arguments" do
         @mock.should_receive(:yield_back).with(no_args()).once.and_yield(99)
         a = nil
-        @mock.yield_back {|*a|}
+        @mock.yield_back {|*x| a = x}
         a.should == [99]
         @mock.rspec_verify
       end
@@ -264,7 +263,7 @@ module Spec
       it "should yield many args to blocks that take a variable number of arguments" do
         @mock.should_receive(:yield_back).with(no_args()).once.and_yield(99, 27, "go")
         a = nil
-        @mock.yield_back {|*a|}
+        @mock.yield_back {|*x| a = x}
         a.should == [99, 27, "go"]
         @mock.rspec_verify
       end
@@ -283,7 +282,7 @@ module Spec
       it "should yield single value" do
         @mock.should_receive(:yield_back).with(no_args()).once.and_yield(99)
         a = nil
-        @mock.yield_back {|a|}
+        @mock.yield_back {|x| a = x}
         a.should == 99
         @mock.rspec_verify
       end
@@ -302,7 +301,7 @@ module Spec
       it "should yield two values" do
         @mock.should_receive(:yield_back).with(no_args()).once.and_yield('wha', 'zup')
         a, b = nil
-        @mock.yield_back {|a,b|}
+        @mock.yield_back {|x,y| a=x; b=y}
         a.should == 'wha'
         b.should == 'zup'
         @mock.rspec_verify

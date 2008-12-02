@@ -145,7 +145,7 @@ module Spec
               end
             end
             example_group.should have(4).examples
-            descriptions = example_group.examples.collect {|example| example.description}
+            descriptions = example_group.examples.collect {|example| example.description.to_s}
             descriptions.should include(
               "shouldCamelCase",
               "should_any_args",
