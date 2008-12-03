@@ -4,14 +4,12 @@ module Spec
       
       it 'should raise an ExamplePendingError if no block is supplied' do
         lambda {
-          include Pending
           pending "TODO"
         }.should raise_error(ExamplePendingError, /TODO/)
       end
       
       it 'should raise an ExamplePendingError if a supplied block fails as expected' do
         lambda {
-          include Pending
           pending "TODO" do
             raise "oops"
           end
@@ -20,7 +18,6 @@ module Spec
       
       it 'should raise an ExamplePendingError if a supplied block fails as expected with a mock' do
         lambda {
-          include Pending
           pending "TODO" do
             m = mock('thing')
             m.should_receive(:foo)
@@ -31,7 +28,6 @@ module Spec
       
       it 'should raise a PendingExampleFixedError if a supplied block starts working' do
         lambda {
-          include Pending
           pending "TODO" do
             # success!
           end
@@ -40,9 +36,8 @@ module Spec
       
       it "should have the correct file and line number for pending given with a block which fails" do
         file = __FILE__
-        line_number = __LINE__ + 3
+        line_number = __LINE__ + 2
         begin
-          include Pending
           pending do
             raise
           end
@@ -53,9 +48,8 @@ module Spec
       
       it "should have the correct file and line number for pending given with no block" do
         file = __FILE__
-        line_number = __LINE__ + 3
+        line_number = __LINE__ + 2
         begin
-          include Pending
           pending("TODO")
         rescue => error
           error.pending_caller.should == "#{file}:#{line_number}"
