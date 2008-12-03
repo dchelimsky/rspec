@@ -1,4 +1,3 @@
-.DS_Store
 .autotest
 History.txt
 License.txt
@@ -201,6 +200,7 @@ spec/spec/example/example_group_spec.rb
 spec/spec/example/example_matcher_spec.rb
 spec/spec/example/example_methods_spec.rb
 spec/spec/example/example_runner_spec.rb
+spec/spec/example/helper_method_spec.rb
 spec/spec/example/nested_example_group_spec.rb
 spec/spec/example/pending_module_spec.rb
 spec/spec/example/predicate_matcher_spec.rb
