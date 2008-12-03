@@ -18,6 +18,7 @@
   * fixed --line for jruby (Zach Moazeni)
   * assorted small changes to support Ruby 1.9 (got a way to go)
   * removed all instances of class << self - I do know who I am
+  * SpecParser can't handle backtrace paths with colons (John-Mason P. Shackelford). Closes #505.
   
 * 4 bug fixes
 
