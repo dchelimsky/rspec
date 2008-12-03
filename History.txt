@@ -12,7 +12,7 @@
   * wrap_expectation (for wrapping multiple expectations and/or t/u assertions)
   * added array.should =~ [1,2,3] # passes if array contains exactly the same elements in any order (Jeff Dean and Pat Maddox)
 
-* 4 minor enhancements
+* 5 minor enhancements
 
   * should throw_symbol accepts an optional argument: should throw_symbol(:sym, arg)
   * fixed --line for jruby (Zach Moazeni)
