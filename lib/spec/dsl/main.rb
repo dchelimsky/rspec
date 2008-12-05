@@ -20,6 +20,11 @@ module Spec
       # register special implementations.
       #
       def describe(*args, &block)
+        if (RUBY_VERSION.to_f == 1.9) && self.class.to_s == "Module"
+          original_block = block
+          context = self
+          block = lambda {include context;instance_eval(&original_block)}
+        end
         Spec::Example::add_spec_path_to(args)
         Spec::Example::ExampleGroupFactory.create_example_group(*args, &block)
       end

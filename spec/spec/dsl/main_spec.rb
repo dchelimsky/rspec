@@ -30,6 +30,38 @@ module Spec
           end
         end
       end
+
+      describe "#describe; with RUBY_VERSION = 1.9" do
+        it "should include an enclosing module into the block's scope" do
+          v = RUBY_VERSION
+          RUBY_VERSION = "1.9"
+          class ::Module
+            alias_method :original_included, :included
+            def included(mod)
+              $foo_bar_included = (self == Foo::Bar)
+              $mod = mod
+            end
+          end
+          module Foo;module Bar;class Baz;end;end;end
+          module Foo
+            module Bar
+              block = lambda {$in_block = self}
+              __send__(:describe, "The ExampleGroup", &block)
+            end
+          end
+          $foo_bar_included.should be_true
+          $in_block.should == $mod
+          $mod = nil
+          $in_block = nil
+          $foo_bar_included = nil
+          RUBY_VERSION = v
+          class ::Module
+            alias_method :included, :original_included
+            remove_method :original_included
+          end
+        end
+      end
+
     
       describe "#share_as" do
         def self.next_group_name
