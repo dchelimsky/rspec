@@ -8,24 +8,42 @@
 
 == DESCRIPTION:
 
-RSpec is a Behaviour Driven Development framework with tools to express User
-Stories with Executable Scenarios and Executable Examples at the code level.
+RSpec is a Behaviour Driven Development framework with tools to express executable code examples.
 
 == FEATURES:
 
-* Spec::Story provides a framework for expressing User Stories and Scenarios
-* Spec::Example provides a framework for expressing Isolated Examples
-* Spec::Matchers provides Expression Matchers for use with Spec::Expectations and Spec::Mocks.
+* Spec::Example provides a framework for expressing executable code examples
+* Spec::Expectations adds #should and #should_not to every object
+* Spec::Matchers provides Expression Matchers for use with #should and #should_not
+* Spec::Mocks is a full featured mocking/stubbing library
 
 == SYNOPSIS:
 
-Spec::Expectations supports setting expectations on your objects so you
-can do things like:
+describe Account do
+  context "transfering money" do
+    it "deposits transfer amount to the other account" do
+      source = Account.new(50, :USD)
+      target = mock('target account')
+      target.should_receive(:deposit).with(Money.new(5, :USD))
+      source.transfer(5, :USD).to(target)
+    end
 
-  result.should equal(expected_result)
-  
-Spec::Mocks supports creating Mock Objects, Stubs, and adding Mock/Stub
-behaviour to your existing objects.
+    it "reduces its balance by the transfer amount" do
+      source = Account.new(50, :USD)
+      target = stub('target account')
+      source.transfer(5, :USD).to(target)
+      source.balance.should == Money.new(45, :USD)
+    end
+  end
+end
+
+$ spec spec/account_spec.rb --format nested
+Account
+  transfering money
+    deposits transfer amount to the other account
+    reduces its balance by the transfer amount
+    
+2 examples, 0 failures
 
 == INSTALL:
 
