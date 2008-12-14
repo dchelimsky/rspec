@@ -73,6 +73,25 @@ module Spec
         end
       end
       
+      class HashNotIncludingConstraint
+        def initialize(*expected)
+          @expected = expected
+        end
+
+        def ==(actual)
+          @expected.each do | key |
+            return false if actual.has_key?(key)
+          end
+          true
+        rescue NoMethodError => ex
+          return false
+        end
+
+        def description
+          "hash_not_including(#{@expected.inspect.sub(/^\[/,"").sub(/\]$/,"")})"
+        end
+      end
+      
       class DuckTypeConstraint
         def initialize(*methods_to_respond_to)
           @methods_to_respond_to = methods_to_respond_to
@@ -159,6 +178,14 @@ module Spec
       # pairs. If the hash includes other keys, it will still pass.
       def hash_including(expected={})
         HashIncludingConstraint.new(expected)
+      end
+      
+      # :call-seq:
+      #   object.should_receive(:message).with(hash_not_including(:key1, :key2))
+      #
+      # Passes if the argument is a hash that doesn't include the specified key(s)
+      def hash_not_including(*expected)
+        HashNotIncludingConstraint.new(*expected)
       end
     end
   end
