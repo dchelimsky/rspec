@@ -23,7 +23,7 @@ module Spec
         describe "##{method}" do
           it "should create a shared ExampleGroup" do
             block = lambda {}
-            Spec::Example::SharedExampleGroup.should_receive(:register).with(
+            Spec::Example::ExampleGroupFactory.should_receive(:create_shared_example_group).with(
               "shared group", &block
             )
             @main.__send__ method, "shared group", &block

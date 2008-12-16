@@ -58,6 +58,12 @@ module Spec
           superclass.describe(*args, &block)
         end
         
+        def create_shared_example_group(*args, &block)
+          args << {} unless Hash === args.last
+          args.last[:spec_path] ||= File.expand_path(caller(0)[2])
+          SharedExampleGroup.register(*args, &block)
+        end
+        
       protected
 
         def determine_superclass(opts)

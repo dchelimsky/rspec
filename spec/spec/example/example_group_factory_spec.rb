@@ -153,6 +153,14 @@ module Spec
         end
       end
       
+      describe "#create_shared_example_group" do
+        it "registers a new shared example group" do
+          shared_example_group = Spec::Example::ExampleGroupFactory.create_shared_example_group("something shared") {}
+          shared_example_group.should be_an_instance_of(Spec::Example::SharedExampleGroup)
+          SharedExampleGroup.should include(shared_example_group)
+        end
+      end
+
       describe "#registered_or_ancestor_of_registered?" do
         before(:each) do
           @unregistered_parent = Class.new(ExampleGroup)
