@@ -1,5 +1,5 @@
 module Spec
-  # == ExampleGroups and Code Examples
+  # == Example Groups and Code Examples
   #
   # A Code Example is an executable example of how a bit of code is expected
   # to behave.
@@ -17,9 +17,10 @@ module Spec
   #  
   # == Before and After
   #  
-  # You can use before() and after() to extract common code within an Example
-  # Group. Both methods take an optional scope argument so you can run the
-  # block before :each example or before :all examples
+  # You can use the <tt>before()</tt> and <tt>after()</tt> methods to extract
+  # common code within an Example Group. Both methods take an optional scope
+  # argument so you can run the block before :each example or before :all
+  # examples
   #  
   #   describe "..." do
   #     before :all do
@@ -53,16 +54,16 @@ module Spec
   # each of the examples.
   #  
   # It is also possible to specify a <tt>before :all</tt> and <tt>after
-  # :all</tt> block that will run only once for each behaviour, respectively
-  # before the first <code>before :each</code> and after the last <code>after
-  # :each</code>. The use of these is generally discouraged, because it
-  # introduces dependencies between the examples. Still, it might prove useful
-  # for very expensive operations if you know what you are doing.
+  # :all</tt> block that will run only once for each example group, before the
+  # first <code>before :each</code> and after the last <code>after
+  # :each</code> respectively. The use of these is generally discouraged,
+  # because it introduces dependencies between the examples. Still, it might
+  # prove useful for very expensive operations if you know what you are doing.
   #  
   # == Local helper methods
   #  
-  # You can include local helper methods by simply expressing them within a
-  # context:
+  # You can include local helper methods by simply expressing them within an
+  # example group:
   #  
   #   describe "..." do
   #    
@@ -78,8 +79,9 @@ module Spec
   #  
   # == Included helper methods
   #  
-  # You can include helper methods in multiple contexts by expressing them
-  # within a module, and then including that module in your context:
+  # You can include helper methods in multiple example groups by expressing
+  # them within a module, and then including that module in your example
+  # groups:
   #  
   #   module AccountExampleHelperMethods
   #     def helper_method
@@ -101,7 +103,7 @@ module Spec
   #  
   # == Shared Example Groups
   #  
-  # You can define a shared Example Group, that may be used on other groups
+  # You can define a shared example group, that may be used on other groups
   #
   #  share_examples_for "All Editions" do
   #    it "all editions behaviour" ...
