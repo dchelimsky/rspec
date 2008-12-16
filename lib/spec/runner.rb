@@ -164,48 +164,68 @@ module Spec
   #    end
   #  end
   module Runner
-    def self.configuration # :nodoc:
-      @configuration ||= Spec::Example::Configuration.new
-    end
+    class << self
+      def configuration # :nodoc:
+        @configuration ||= Spec::Example::Configuration.new
+      end
 
-    # Use this to configure various configurable aspects of
-    # RSpec:
-    #
-    #   Spec::Runner.configure do |configuration|
-    #     # Configure RSpec here
-    #   end
-    #
-    # The yielded <tt>configuration</tt> object is a
-    # Spec::Example::Configuration instance. See its RDoc
-    # for details about what you can do with it.
-    #
-    def self.configure
-      yield configuration
-    end
+      # Use this to configure various configurable aspects of
+      # RSpec:
+      #
+      #   Spec::Runner.configure do |configuration|
+      #     # Configure RSpec here
+      #   end
+      #
+      # The yielded <tt>configuration</tt> object is a
+      # Spec::Example::Configuration instance. See its RDoc
+      # for details about what you can do with it.
+      #
+      def configure
+        yield configuration
+      end
     
-    def self.register_at_exit_hook # :nodoc:
-      unless @already_registered_at_exit_hook
-        at_exit do
-          unless $! || Spec.run? || Spec::Example::ExampleGroupFactory.registered_or_ancestor_of_registered?(options.example_groups)
-            success = Spec.run
-            exit success if Spec.exit?
+      def register_at_exit_hook # :nodoc:
+        unless @already_registered_at_exit_hook
+          at_exit do
+            unless $! || run? || Spec::Example::ExampleGroupFactory.registered_or_ancestor_of_registered?(options.example_groups)
+              success = run
+              exit success if exit?
+            end
           end
+          @already_registered_at_exit_hook = true
         end
-        @already_registered_at_exit_hook = true
       end
-    end
 
-    def self.options # :nodoc:
-      @options ||= begin
-        parser = ::Spec::Runner::OptionParser.new($stderr, $stdout)
-        parser.order!(ARGV)
-        parser.options
+      def options # :nodoc:
+        @options ||= begin
+          parser = ::Spec::Runner::OptionParser.new($stderr, $stdout)
+          parser.order!(ARGV)
+          parser.options
+        end
       end
-    end
     
-    def self.use options
-      @options = options
-    end
+      def use options
+        @options = options
+      end
 
+      def test_unit_defined?
+        Object.const_defined?(:Test) && Test.const_defined?(:Unit) && Test::Unit.respond_to?(:run?)
+      end
+
+      def run?
+        Runner.options.examples_run?
+      end
+
+      def run
+        return true if run?
+        options.run_examples
+      end
+
+      def exit?
+        !test_unit_defined? || Test::Unit.run?
+      end
+    end
   end
 end
+
+require 'spec/interop/test' if Spec::Runner::test_unit_defined?

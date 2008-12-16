@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../spec_helper.rb'
 
-describe Spec, "#exit?" do
+describe Spec::Runner, "#exit?" do
   describe "when ::Test is absent during loading but present when running exit?" do
     # believe it or not, this can happen when ActiveSupport is loaded after RSpec is, 
     # since it loads active_support/core_ext/test/unit/assertions.rb which defines
@@ -11,7 +11,7 @@ describe Spec, "#exit?" do
     end
     
     it "does not attempt to access the non-loaded test/unit library" do
-      lambda { Spec.exit? }.should_not raise_error
+      lambda { Spec::Runner.exit? }.should_not raise_error
     end
     
     after(:each) do
