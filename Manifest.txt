@@ -56,10 +56,6 @@ init.rb
 lib/autotest/discover.rb
 lib/autotest/rspec.rb
 lib/spec.rb
-lib/spec/adapters.rb
-lib/spec/adapters/ruby_engine.rb
-lib/spec/adapters/ruby_engine/mri.rb
-lib/spec/adapters/ruby_engine/rubinius.rb
 lib/spec/dsl.rb
 lib/spec/dsl/main.rb
 lib/spec/example.rb
@@ -190,7 +186,6 @@ spec/autotest/rspec_spec.rb
 spec/rspec_suite.rb
 spec/ruby_forker.rb
 spec/spec.opts
-spec/spec/adapters/ruby_engine_spec.rb
 spec/spec/dsl/main_spec.rb
 spec/spec/example/configuration_spec.rb
 spec/spec/example/example_group_class_definition_spec.rb
@@ -259,6 +254,7 @@ spec/spec/mocks/bug_report_8165_spec.rb
 spec/spec/mocks/bug_report_8302_spec.rb
 spec/spec/mocks/failing_mock_argument_constraints_spec.rb
 spec/spec/mocks/hash_including_matcher_spec.rb
+spec/spec/mocks/hash_not_including_matcher_spec.rb
 spec/spec/mocks/mock_ordering_spec.rb
 spec/spec/mocks/mock_space_spec.rb
 spec/spec/mocks/mock_spec.rb
