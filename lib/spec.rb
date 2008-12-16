@@ -22,10 +22,6 @@ module Spec
   def self.exit?
     !test_unit_defined? || Test::Unit.run?
   end
-
-  def self.spec_command?
-    $0.split('/').last == 'spec'
-  end
 end
 
 if Spec::test_unit_defined?

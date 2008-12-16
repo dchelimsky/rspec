@@ -4,10 +4,16 @@ require 'stringio'
 module Spec
   module Runner
     class OptionParser < ::OptionParser
-      def self.parse(args, err, out)
-        parser = new(err, out)
-        parser.parse(args)
-        parser.options
+      class << self
+        def parse(args, err, out)
+          parser = new(err, out)
+          parser.parse(args)
+          parser.options
+        end
+
+        def spec_command?
+          $0.split('/').last == 'spec'
+        end
       end
 
       attr_reader :options
@@ -113,10 +119,10 @@ module Spec
         on(*OPTIONS[:version])          {parse_version}
         on_tail(*OPTIONS[:help])        {parse_help}
       end
-
+      
       def order!(argv, &blk)
         @argv = argv.dup
-        @argv = (@argv.empty? && Spec.spec_command?) ? ['--help'] : @argv 
+        @argv = (@argv.empty? && self.class.spec_command?) ? ['--help'] : @argv 
         @options.argv = @argv.dup
         return if parse_generate_options
         return if parse_drb

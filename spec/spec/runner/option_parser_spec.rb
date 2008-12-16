@@ -73,14 +73,14 @@ describe "OptionParser" do
   end
   
   it "should print help to stdout if no args and spec_comand?" do
-    Spec.stub!(:spec_command?).and_return(true)
+    Spec::Runner::OptionParser.stub!(:spec_command?).and_return(true)
     options = parse([])
     @out.rewind
     @out.read.should match(/Usage: spec \(FILE\|DIRECTORY\|GLOB\)\+ \[options\]/m)
   end
     
   it "should not print help to stdout if no args and NOT spec_command?" do
-    Spec.stub!(:spec_command?).and_return(false)
+    Spec::Runner::OptionParser.stub!(:spec_command?).and_return(false)
     options = parse([])
     @out.rewind
     @out.read.should == ""
