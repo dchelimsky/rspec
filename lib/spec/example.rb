@@ -1,29 +1,31 @@
 module Spec
   module Example
-    def self.args_and_options(*args)
-      with_options_from(args) do |options|
-        return args, options
+    class << self
+      def args_and_options(*args)
+        with_options_from(args) do |options|
+          return args, options
+        end
       end
-    end
 
-    def self.scope_from(*args)
-      args[0] || :each
-    end
+      def scope_from(*args)
+        args[0] || :each
+      end
 
-    def self.scope_and_options(*args)
-      args, options = args_and_options(*args)
-      return scope_from(*args), options
-    end
+      def scope_and_options(*args)
+        args, options = args_and_options(*args)
+        return scope_from(*args), options
+      end
 
-    def self.add_spec_path_to(args)
-      args << {} unless Hash === args.last
-      args.last[:spec_path] ||= File.expand_path(caller(0)[2])
-    end
+      def add_spec_path_to(args)
+        args << {} unless Hash === args.last
+        args.last[:spec_path] ||= caller(0)[2]
+      end
 
-  private
+    private
     
-    def self.with_options_from(args)
-      yield Hash === args.last ? args.pop : {} if block_given?
+      def with_options_from(args)
+        yield Hash === args.last ? args.pop : {} if block_given?
+      end
     end
   end
 end

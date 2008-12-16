@@ -42,6 +42,10 @@ module Spec
               it "should not inherit examples" do
                 @child_example_group.should have(1).examples
               end
+              
+              it "records the spec path" do
+                @child_example_group.spec_path.should =~ /#{__FILE__}:#{__LINE__ - 15}/
+              end
             end
 
             describe "when creating a SharedExampleGroup" do

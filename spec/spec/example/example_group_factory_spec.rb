@@ -113,7 +113,7 @@ module Spec
           custom_example_group.superclass.should == parent_example_group
         end
         
-        it "sets the spec_path from the caller's caller" do
+        it "sets the spec_path from the caller" do
           options = {}
           shared_example_group = Spec::Example::ExampleGroupFactory.create_example_group("foo", options) {}
           options[:spec_path].should =~ /#{__FILE__}:#{__LINE__ - 1}/
@@ -165,7 +165,7 @@ module Spec
           SharedExampleGroup.should include(shared_example_group)
         end
         
-        it "sets the spec_path from the caller's caller" do
+        it "sets the spec_path from the caller" do
           options = {}
           shared_example_group = Spec::Example::ExampleGroupFactory.create_shared_example_group("foo", options) {}
           options[:spec_path].should =~ /#{__FILE__}:#{__LINE__ - 1}/

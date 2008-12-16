@@ -61,11 +61,9 @@ WARNING
       #   end
       #
       def describe(*args, &example_group_block)
-        args << {} unless Hash === args.last
         if example_group_block
+          Spec::Example::add_spec_path_to(args)
           options = args.last
-          # Ruby 1.9 - the next line uses example_group_block.binding instead of example_group_block
-          options[:spec_path] = eval("caller(0)[1]", example_group_block.binding) unless options[:spec_path]
           if options[:shared]
             create_shared_example_group(*args, &example_group_block)
           else

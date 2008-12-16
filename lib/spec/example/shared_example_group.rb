@@ -34,11 +34,11 @@ module Spec
           existing_example_group = find(new_example_group.description)
           return false unless existing_example_group
           return true if new_example_group.equal?(existing_example_group)
-          return true if spec_path(new_example_group) == spec_path(existing_example_group)
+          return true if expanded_path(new_example_group) == expanded_path(existing_example_group)
           raise ArgumentError.new("Shared Example '#{existing_example_group.description}' already exists")
         end
 
-        def spec_path(example_group)
+        def expanded_path(example_group)
           File.expand_path(example_group.spec_path)
         end
       end
