@@ -5,12 +5,14 @@
   * deprecated ExampleMethods#implementation_backtrace - use ExampleMethods#backtrace instead
   * deprecated ExampleGroupMethods#example_group_backtrace - use ExampleGroupMethods#backtrace instead
 
-* 4 major enhancements
+* 6 major enhancements
 
   * it { should matcher } - support for implicit receiver of #should (Joe Ferris of thoughtbot)
   * subject { ... } - works in conjunction with implicit receiver of #should
   * wrap_expectation (for wrapping multiple expectations and/or t/u assertions)
   * added array.should =~ [1,2,3] # passes if array contains exactly the same elements in any order (Jeff Dean and Pat Maddox)
+  * hash_including mock argument matcher can now accept just keys, key/value pairs, or both (David Krmpotic)
+  * added hash_not_including mock argument matcher (David Krmpotic). Closes #634.
 
 * 5 minor enhancements
 
