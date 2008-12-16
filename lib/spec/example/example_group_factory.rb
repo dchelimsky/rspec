@@ -52,15 +52,13 @@ module Spec
         def create_example_group(*args, &block)
           raise ArgumentError if args.empty?
           raise ArgumentError unless block
-          args << {} unless Hash === args.last
-          args.last[:spec_path] ||= File.expand_path(caller(0)[2])
+          Spec::Example::add_spec_path_to(args)
           superclass = determine_superclass(args.last)
           superclass.describe(*args, &block)
         end
         
         def create_shared_example_group(*args, &block)
-          args << {} unless Hash === args.last
-          args.last[:spec_path] ||= File.expand_path(caller(0)[2])
+          Spec::Example::add_spec_path_to(args)
           SharedExampleGroup.register(*args, &block)
         end
         

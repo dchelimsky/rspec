@@ -20,6 +20,7 @@ module Spec
       # register special implementations.
       #
       def describe(*args, &block)
+        Spec::Example::add_spec_path_to(args)
         Spec::Example::ExampleGroupFactory.create_example_group(*args, &block)
       end
       alias :context :describe
@@ -39,11 +40,12 @@ module Spec
       #      ...
       #    end
       #  end
-      def share_examples_for(name, &block)
-        Spec::Example::ExampleGroupFactory.create_shared_example_group(name, &block)
+      def share_examples_for(*args, &block)
+        Spec::Example::add_spec_path_to(args)
+        Spec::Example::ExampleGroupFactory.create_shared_example_group(*args, &block)
       end
       alias :shared_examples_for :share_examples_for
-    
+      
       # Creates a Shared Example Group and assigns it to a constant
       #
       #  share_as :AllEditions do
@@ -70,7 +72,9 @@ module Spec
       #  end
       def share_as(name, &block)
         begin
-          Object.const_set(name, Spec::Example::SharedExampleGroup.register(name, &block))
+          args = [name]
+          Spec::Example::add_spec_path_to(args)
+          Object.const_set(name, Spec::Example::ExampleGroupFactory.create_shared_example_group(*args, &block))
         rescue NameError => e
           raise NameError.new(e.message + "\nThe first argument to share_as must be a legal name for a constant\n")
         end

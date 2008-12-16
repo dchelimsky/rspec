@@ -112,6 +112,12 @@ module Spec
           ) {}
           custom_example_group.superclass.should == parent_example_group
         end
+        
+        it "sets the spec_path from the caller's caller" do
+          options = {}
+          shared_example_group = Spec::Example::ExampleGroupFactory.create_example_group("foo", options) {}
+          options[:spec_path].should =~ /#{__FILE__}:#{__LINE__ - 1}/
+        end
 
         describe "with :shared => true" do
           def shared_example_group
@@ -147,7 +153,6 @@ module Spec
           Spec::Runner.options.example_groups.should_not include(example_group)
         end
         
-        
         after(:each) do
           Spec::Example::ExampleGroupFactory.reset
         end
@@ -158,6 +163,12 @@ module Spec
           shared_example_group = Spec::Example::ExampleGroupFactory.create_shared_example_group("something shared") {}
           shared_example_group.should be_an_instance_of(Spec::Example::SharedExampleGroup)
           SharedExampleGroup.should include(shared_example_group)
+        end
+        
+        it "sets the spec_path from the caller's caller" do
+          options = {}
+          shared_example_group = Spec::Example::ExampleGroupFactory.create_shared_example_group("foo", options) {}
+          options[:spec_path].should =~ /#{__FILE__}:#{__LINE__ - 1}/
         end
       end
 

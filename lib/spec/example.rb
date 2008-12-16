@@ -15,6 +15,11 @@ module Spec
       return scope_from(*args), options
     end
 
+    def self.add_spec_path_to(args)
+      args << {} unless Hash === args.last
+      args.last[:spec_path] ||= File.expand_path(caller(0)[2])
+    end
+
   private
     
     def self.with_options_from(args)

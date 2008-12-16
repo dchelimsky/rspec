@@ -12,7 +12,7 @@ module Spec
           it "should delegate to Spec::Example::ExampleGroupFactory.create_example_group" do
             block = lambda {}
             Spec::Example::ExampleGroupFactory.should_receive(:create_example_group).with(
-              "The ExampleGroup", &block
+              "The ExampleGroup", hash_including(:spec_path), &block
             )
             @main.__send__ method, "The ExampleGroup", &block
           end
@@ -24,7 +24,7 @@ module Spec
           it "should create a shared ExampleGroup" do
             block = lambda {}
             Spec::Example::ExampleGroupFactory.should_receive(:create_shared_example_group).with(
-              "shared group", &block
+              "shared group", hash_including(:spec_path), &block
             )
             @main.__send__ method, "shared group", &block
           end
@@ -43,8 +43,11 @@ module Spec
         end
         
         it "registers a shared ExampleGroup" do
-          Spec::Example::SharedExampleGroup.should_receive(:register)
-          group = @main.share_as group_name do end
+          block = lambda {}
+          Spec::Example::ExampleGroupFactory.should_receive(:create_shared_example_group).with(
+            group_name, hash_including(:spec_path), &block
+          )
+          @main.share_as group_name, &block
         end
       
         it "creates a constant that points to a Module" do
