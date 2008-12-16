@@ -2,7 +2,6 @@ require 'spec/matchers'
 require 'spec/expectations'
 require 'spec/example'
 require 'spec/runner'
-require 'spec/adapters'
 require 'spec/version'
 require 'spec/dsl'
 
