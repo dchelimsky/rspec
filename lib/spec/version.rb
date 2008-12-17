@@ -4,7 +4,7 @@ module Spec
       MAJOR  = 1
       MINOR  = 1
       TINY   = 11
-      MINESCULE = 1
+      MINESCULE = 2
       
 
       STRING = [MAJOR, MINOR, TINY, MINESCULE].join('.')
