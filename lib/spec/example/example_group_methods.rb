@@ -42,7 +42,7 @@ WARNING
 
       def inherited(klass)
         super
-        klass.register
+        Spec::Runner.options.add_example_group klass
         Spec::Runner.register_at_exit_hook
       end
       
@@ -161,18 +161,18 @@ WARNING
       alias_method :xit, :xexample
       alias_method :xspecify, :xexample
 
-      def run
-        examples = examples_to_run
-        reporter.add_example_group(self) unless examples_to_run.empty?
+      def run(run_options=Spec::Runner.options)
+        examples = examples_to_run(run_options)
+        run_options.reporter.add_example_group(self) unless examples.empty?
         return true if examples.empty?
-        return dry_run(examples) if dry_run?
+        return dry_run(examples, run_options) if run_options.dry_run?
 
         plugin_mock_framework
         define_methods_from_predicate_matchers
 
-        success, before_all_instance_variables = run_before_all
-        success, after_all_instance_variables  = execute_examples(success, before_all_instance_variables, examples)
-        success                                = run_after_all(success, after_all_instance_variables)
+        success, before_all_instance_variables = run_before_all(run_options)
+        success, after_all_instance_variables  = execute_examples(success, before_all_instance_variables, examples, run_options)
+        success                                = run_after_all(success, after_all_instance_variables, run_options)
       end
 
       def description
@@ -222,10 +222,10 @@ WARNING
         self
       end
       
-      def examples #:nodoc:
+      def examples(run_options=nil) #:nodoc:
         examples = example_objects.dup
         add_method_examples(examples)
-        Spec::Runner.options.reverse ? examples.reverse : examples
+        (run_options && run_options.reverse) ? examples.reverse : examples
       end
 
       def number_of_examples #:nodoc:
@@ -238,14 +238,6 @@ WARNING
         @after_all_parts = nil
         @before_each_parts = nil
         @after_each_parts = nil
-      end
-
-      def register
-        Spec::Runner.options.add_example_group self
-      end
-
-      def unregister #:nodoc:
-        Spec::Runner.options.remove_example_group self
       end
 
       def run_before_each(example)
@@ -261,15 +253,14 @@ WARNING
       end
 
     private
-      def dry_run(examples)
+      def dry_run(examples, run_options)
         examples.each do |example|
-          Spec::Runner.options.reporter.example_started(example)
-          Spec::Runner.options.reporter.example_finished(example)
+          run_options.reporter.example_started(example)
+          run_options.reporter.example_finished(example)
         end
-        return true
       end
 
-      def run_before_all
+      def run_before_all(run_options)
         before_all = new("before(:all)")
         begin
           each_ancestor_example_group_class do |example_group_class|
@@ -277,23 +268,23 @@ WARNING
           end
           return [true, before_all.instance_variable_hash]
         rescue Exception => e
-          reporter.failure(before_all, e)
+          run_options.reporter.failure(before_all, e)
           return [false, before_all.instance_variable_hash]
         end
       end
 
-      def execute_examples(success, instance_variables, examples)
+      def execute_examples(success, instance_variables, examples, run_options)
         return [success, instance_variables] unless success
 
         after_all_instance_variables = instance_variables
         examples.each do |example_group_instance|
-          success &= example_group_instance.execute(Spec::Runner.options, instance_variables)
+          success &= example_group_instance.execute(run_options, instance_variables)
           after_all_instance_variables = example_group_instance.instance_variable_hash
         end
         return [success, after_all_instance_variables]
       end
 
-      def run_after_all(success, instance_variables)
+      def run_after_all(success, instance_variables, run_options)
         after_all = new("after(:all)")
         after_all.set_instance_variables_from_hash(instance_variables)
         each_ancestor_example_group_class(:superclass_first) do |example_group_class|
@@ -301,34 +292,22 @@ WARNING
         end
         return success
       rescue Exception => e
-        reporter.failure(after_all, e)
+        run_options.reporter.failure(after_all, e)
         return false
       end
 
-      def examples_to_run
-        all_examples = examples
-        return all_examples unless specified_examples?
+      def examples_to_run(run_options)
+        all_examples = examples(run_options)
+        return all_examples unless specified_examples?(run_options)
         all_examples.reject do |example|
           matcher = ExampleGroupMethods.matcher_class.
             new(description.to_s, example.description)
-          !matcher.matches?(specified_examples)
+          !matcher.matches?(run_options.examples)
         end
       end
 
-      def specified_examples?
-        specified_examples && !specified_examples.empty?
-      end
-
-      def specified_examples
-        Spec::Runner.options.examples
-      end
-
-      def reporter
-        Spec::Runner.options.reporter
-      end
-
-      def dry_run?
-        Spec::Runner.options.dry_run
+      def specified_examples?(run_options)
+        run_options.examples && !run_options.examples.empty?
       end
 
       def example_objects

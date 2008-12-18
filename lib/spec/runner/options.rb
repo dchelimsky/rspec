@@ -111,7 +111,7 @@ module Spec
             true
           else
             set_spec_from_line_number if line_number
-            success = runner.run
+            success = runner.run(self)
             @examples_run = true
             heckle if heckle_runner
             success
@@ -226,6 +226,10 @@ module Spec
           end
         end
         result
+      end
+      
+      def dry_run?
+        @dry_run == true
       end
       
       protected
