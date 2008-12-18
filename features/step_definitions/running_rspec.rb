@@ -1,5 +1,5 @@
 Given /^the file (.*)$/ do |relative_path|
-  @path = File.expand_path(File.join(File.dirname(__FILE__), "..", "..", "stories", "resources", relative_path))
+  @path = File.expand_path(File.join(File.dirname(__FILE__), "..", "support", relative_path))
   unless File.exist?(@path)
     raise "could not find file at #{@path}"
   end

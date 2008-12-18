@@ -1,6 +1,6 @@
 require 'tempfile'
 require File.dirname(__FILE__) + '/../../spec/ruby_forker'
-require File.dirname(__FILE__) + '/../../stories/resources/matchers/smart_match'
+require File.dirname(__FILE__) + '/matchers/smart_match'
 
 require 'spec/expectations'
 require 'spec/matchers'
@@ -15,7 +15,7 @@ module RspecWorld
   end
 
   def cmdline(args, stderr)
-    ruby("#{File.dirname(__FILE__) + '/../../stories/resources/helpers/cmdline.rb'} #{args}", stderr)
+    ruby("#{File.dirname(__FILE__) + '/helpers/cmdline.rb'} #{args}", stderr)
   end
 end
 

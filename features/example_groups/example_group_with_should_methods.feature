@@ -5,13 +5,13 @@ Feature: Spec::ExampleGroup with should methods
   So that I use RSpec with classes and methods that look more like RSpec examples
 
   Scenario: Run with ruby
-    Given the file spec/example_group_with_should_methods.rb
+    Given the file ../../resources/spec/example_group_with_should_methods.rb
     When I run it with the ruby interpreter
     Then the exit code should be 256
     And the stdout should match "2 examples, 1 failure"
 
   Scenario: Run with spec
-  Given the file spec/example_group_with_should_methods.rb
+  Given the file ../../resources/spec/example_group_with_should_methods.rb
     When I run it with the spec script
     Then the exit code should be 256
     And the stdout should match "2 examples, 1 failure"

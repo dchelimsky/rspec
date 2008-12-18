@@ -1,4 +1,4 @@
-$:.push File.join(File.dirname(__FILE__), *%w[.. .. .. lib])
+$:.push File.join(File.dirname(__FILE__), *%w[.. .. lib])
 require 'spec'
 
 describe "Running an Example" do

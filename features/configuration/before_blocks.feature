@@ -5,7 +5,7 @@ Story: before suite
 	
 	Scenario: running with ruby
 	
-		Given the file ../resources/spec/before_blocks_example.rb
+		Given the file ../../resources/spec/before_blocks_example.rb
 		
     When I run it with the ruby interpreter
 
@@ -13,7 +13,7 @@ Story: before suite
 		
 	Scenario: running with spec
 
-		Given the file ../resources/spec/before_blocks_example.rb
+		Given the file ../../resources/spec/before_blocks_example.rb
 
     When I run it with the spec script
 

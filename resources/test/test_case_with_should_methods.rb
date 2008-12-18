@@ -1,9 +1,9 @@
-$:.push File.join(File.dirname(__FILE__), *%w[.. .. .. lib])
+$:.push File.join(File.dirname(__FILE__), *%w[.. .. lib])
 require 'test/unit'
 require 'spec'
 require 'spec/interop/test'
 
-class MySpec < Test::Unit::TestCase
+class MyTest < Test::Unit::TestCase
   def should_pass_with_should
     1.should == 1
   end

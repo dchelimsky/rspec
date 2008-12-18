@@ -5,7 +5,7 @@ Feature: Spec and test together
   So that I can experience a smooth, gradual migration path
 
   Scenario: Run with ruby
-    Given the file test/spec_and_test_together.rb
+    Given the file ../../resources/test/spec_and_test_together.rb
 
     When I run it with the ruby interpreter -fs
 
@@ -18,7 +18,7 @@ Feature: Spec and test together
     And the stdout should match /expected: 50,\s*got: 5/m
     
   Scenario: Run with spec
-    Given the file test/spec_and_test_together.rb
+    Given the file ../../resources/test/spec_and_test_together.rb
 
     When I run it with the spec script -fs
 
