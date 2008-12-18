@@ -32,10 +32,10 @@ task :verify_rcov => [:spec, :features]
 task :default => :verify_rcov
 
 # # Some of the tasks are in separate files since they are also part of the website documentation
-load File.dirname(__FILE__) + '/rake_tasks/examples.rake'
-load File.dirname(__FILE__) + '/rake_tasks/examples_with_rcov.rake'
-load File.dirname(__FILE__) + '/rake_tasks/failing_examples_with_html.rake'
-load File.dirname(__FILE__) + '/rake_tasks/verify_rcov.rake'
+load File.dirname(__FILE__) + '/resources/rake/examples.rake'
+load File.dirname(__FILE__) + '/resources/rake/examples_with_rcov.rake'
+load File.dirname(__FILE__) + '/resources/rake/failing_examples_with_html.rake'
+load File.dirname(__FILE__) + '/resources/rake/verify_rcov.rake'
 
 desc "Run all specs"
 Spec::Rake::SpecTask.new do |t|
