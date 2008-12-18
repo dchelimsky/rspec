@@ -160,7 +160,7 @@ module Spec
       end
     
       def mock_framework_path(framework_name)
-        File.expand_path(File.join(File.dirname(__FILE__), "..", "..", "..", "plugins", "mock_frameworks", framework_name))
+        File.expand_path(File.join(File.dirname(__FILE__), "..", "..", "plugins", "mock_frameworks", framework_name))
       end
     end
   end
