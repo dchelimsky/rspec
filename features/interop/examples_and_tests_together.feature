@@ -1,4 +1,4 @@
-Story: Spec and test together
+Feature: Spec and test together
 
   As an RSpec adopter with existing Test::Unit tests
   I want to run a few specs alongside my existing Test::Unit tests
@@ -16,13 +16,14 @@ Story: Spec and test together
     And the stdout should match "10 examples, 6 failures"
     And the stdout should match /expected: 40,\s*got: 4/m
     And the stdout should match /expected: 50,\s*got: 5/m
+    
   Scenario: Run with spec
     Given the file test/spec_and_test_together.rb
 
     When I run it with the spec script -fs
 
     Then the exit code should be 256
-    Ands the stdout should match "ATest"
+    And the stdout should match "ATest"
     And the stdout should match "Test::Unit::AssertionFailedError in 'An Example should fail with assert'"
     And the stdout should match "'An Example should fail with should' FAILED"
     And the stdout should match "10 examples, 6 failures"

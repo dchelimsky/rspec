@@ -28,7 +28,7 @@ end
   Rake.application.instance_variable_get('@tasks').delete(task)
 end
 
-task :verify_rcov => [:spec, :features, :stories]
+task :verify_rcov => [:spec, :features]
 task :default => :verify_rcov
 
 # # Some of the tasks are in separate files since they are also part of the website documentation
@@ -50,11 +50,6 @@ end
 
 desc "Run Cucumber features"
 Cucumber::Rake::Task.new do; end
-
-desc "Run all stories"
-task :stories do
-  ruby "stories/all.rb --colour --format plain"
-end
 
 desc "Run failing examples (see failure output)"
 Spec::Rake::SpecTask.new('failing_examples') do |t|
