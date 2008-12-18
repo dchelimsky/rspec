@@ -20,7 +20,7 @@ module Spec
       # register special implementations.
       #
       def describe(*args, &block)
-        if (RUBY_VERSION.to_f == 1.9) && self.class.to_s == "Module"
+        if (Spec::Ruby.version.to_f == 1.9) && self.class.to_s == "Module"
           original_block = block
           context = self
           block = lambda {include context;instance_eval(&original_block)}

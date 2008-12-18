@@ -33,8 +33,7 @@ module Spec
 
       describe "#describe; with RUBY_VERSION = 1.9" do
         it "should include an enclosing module into the block's scope" do
-          v = RUBY_VERSION
-          RUBY_VERSION = "1.9"
+          Spec::Ruby.stub!(:version).and_return("1.9")
           class ::Module
             alias_method :original_included, :included
             def included(mod)
@@ -54,7 +53,6 @@ module Spec
           $mod = nil
           $in_block = nil
           $foo_bar_included = nil
-          RUBY_VERSION = v
           class ::Module
             alias_method :included, :original_included
             remove_method :original_included
