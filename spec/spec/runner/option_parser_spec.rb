@@ -1,20 +1,7 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
+require File.dirname(__FILE__) + '/resources/custom_example_group_runner'
+
 require 'fileutils'
-
-module Custom
-  class ExampleGroupRunner
-    attr_reader :options, :arg
-    def initialize(options, arg)
-      @options, @arg = options, arg
-    end
-
-    def load_files(files)
-    end
-
-    def run
-    end
-  end  
-end
 
 describe "OptionParser" do
   before(:each) do
