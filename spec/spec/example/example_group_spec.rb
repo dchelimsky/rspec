@@ -174,7 +174,7 @@ module Spec
                   examples_that_were_run << 'should also be run'
                 end
               end
-              options.examples = ["the ExampleGroup"]
+              options.parse_example "the ExampleGroup"
             end
 
             it "should not run the Examples in the ExampleGroup" do
@@ -192,7 +192,7 @@ module Spec
                   examples_that_were_run << 'should be run'
                 end
               end
-              options.examples = ["should be run"]
+              options.parse_example "should be run"
             end
 
             it "should not run the example" do
@@ -210,7 +210,7 @@ module Spec
                   examples_that_were_run << 'should be something else'
                 end
               end
-              options.examples = ["does not match anything"]
+              options.parse_example "does not match anything"
             end
 
             it "should not run the example" do
@@ -231,7 +231,7 @@ module Spec
                   examples_that_were_run << 'should not be run'
                 end
               end
-              options.examples = ["should be run"]
+              options.parse_example "should be run"
             end
 
             it "should run only the example, when there is only one" do

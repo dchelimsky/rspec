@@ -40,7 +40,6 @@ module Spec
         :diff_format,
         :dry_run,
         :profile,
-        :examples,
         :heckle_runner,
         :line_number,
         :loadby,
@@ -56,7 +55,7 @@ module Spec
         # TODO: BT - Figure out a better name
         :argv
       )
-      attr_reader :colour, :differ_class, :files, :example_groups
+      attr_reader :colour, :differ_class, :files, :examples, :example_groups
       
       def initialize(error_stream, output_stream)
         @error_stream = error_stream
@@ -163,7 +162,7 @@ module Spec
 
       def parse_example(example)
         if(File.file?(example))
-          @examples = File.open(example).read.split("\n")
+          @examples = [File.open(example).read.split("\n")].flatten
         else
           @examples = [example]
         end
@@ -209,11 +208,8 @@ module Spec
       end
 
       def number_of_examples
-        total = 0
-        @example_groups.each do |example_group|
-          total += example_group.number_of_examples
-        end
-        total
+        return examples.size unless examples.empty?
+        @example_groups.inject(0) {|sum, group| sum + group.number_of_examples}
       end
 
       def files_to_load
