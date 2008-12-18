@@ -5,6 +5,7 @@ require 'rubygems'
 require 'hoe'
 require 'spec/version'
 require 'spec/rake/spectask'
+require 'cucumber/rake/task'
 
 class Hoe
   def extra_deps
@@ -19,6 +20,7 @@ Hoe.new('rspec', Spec::VERSION::STRING) do |p|
   p.description = "Behaviour Driven Development for Ruby."
   p.rubyforge_name = 'rspec'
   p.developer('RSpec Development Team', 'rspec-devel@rubyforge.org')
+  p.extra_deps = [["cucumber",">= 0.1.13"]]
   p.remote_rdoc_dir = "rspec/#{Spec::VERSION::STRING}"
 end
 
@@ -26,7 +28,7 @@ end
   Rake.application.instance_variable_get('@tasks').delete(task)
 end
 
-task :verify_rcov => [:spec, :stories]
+task :verify_rcov => [:spec, :features, :stories]
 task :default => :verify_rcov
 
 # # Some of the tasks are in separate files since they are also part of the website documentation
@@ -45,6 +47,9 @@ Spec::Rake::SpecTask.new do |t|
     t.rcov_opts = ['--text-report', '--exclude', "lib/spec.rb,lib/spec/runner.rb,spec\/spec,bin\/spec,examples,\/var\/lib\/gems,\/Library\/Ruby,\.autotest,#{ENV['GEM_HOME']}"]
   end
 end
+
+desc "Run Cucumber features"
+Cucumber::Rake::Task.new do; end
 
 desc "Run all stories"
 task :stories do
