@@ -1,4 +1,4 @@
-Story: Spec::ExampleGroup with should methods
+Feature: Spec::ExampleGroup with should methods
 
   As an RSpec adopter accustomed to classes and methods
   I want to use should_* methods in an ExampleGroup

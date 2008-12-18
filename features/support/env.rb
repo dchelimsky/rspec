@@ -15,7 +15,7 @@ module RspecWorld
   end
 
   def cmdline(args, stderr)
-    ruby("#{File.dirname(__FILE__) + '/../../resources/helpers/cmdline.rb'} #{args}", stderr)
+    ruby("#{File.dirname(__FILE__) + '/../../stories/resources/helpers/cmdline.rb'} #{args}", stderr)
   end
 end
 

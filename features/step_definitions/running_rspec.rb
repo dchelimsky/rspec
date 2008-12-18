@@ -1,5 +1,5 @@
 Given /^the file (.*)$/ do |relative_path|
-  @path = File.expand_path(File.join(File.dirname(__FILE__), "..", "resources", relative_path))
+  @path = File.expand_path(File.join(File.dirname(__FILE__), "..", "..", "stories", "resources", relative_path))
   unless File.exist?(@path)
     raise "could not find file at #{@path}"
   end
@@ -29,4 +29,20 @@ Then /^the (.*) should match (.*)$/ do |stream, string_or_regex|
     else raise "Unknown stream: #{stream}"
   end
   written.should smart_match(string_or_regex)
+end
+
+Then /^the (.*) should not match (.*)$/ do |stream, string_or_regex|
+  written = case(stream)
+    when 'stdout' then @stdout
+    when 'stderr' then @stderr
+    else raise "Unknown stream: #{stream}"
+  end
+  written.should_not smart_match(string_or_regex)
+end
+
+
+Then /^the exit code should be (\d+)$/ do |exit_code|
+  if @exit_code != exit_code.to_i
+    raise "Did not exit with #{exit_code}, but with #{@exit_code}. Standard error:\n#{@stderr}"
+  end
 end

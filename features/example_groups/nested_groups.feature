@@ -1,4 +1,4 @@
-Story: Nested example groups
+Feature: Nested example groups
 
   As an RSpec user
   I want to nest examples groups

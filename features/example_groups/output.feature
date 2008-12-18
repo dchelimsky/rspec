@@ -1,4 +1,4 @@
-Story: Getting correct output
+Feature: Getting correct output
 
   As an RSpec user
   I want to see output only once
