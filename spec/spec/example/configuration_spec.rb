@@ -150,7 +150,7 @@ module Spec
             @example_group.it "calls prepend_before" do
             end
         
-            @example_group.run
+            @example_group.run(Spec::Runner.options)
             order.should == [
               :prepend__before_all,
               :special_prepend__before_all,
@@ -193,7 +193,7 @@ module Spec
             @example_group.it "calls append_before" do
             end
 
-            @example_group.run
+            @example_group.run(Spec::Runner.options)
             order.should == [
               :append_before_all,
               :special_append_before_all,
@@ -236,7 +236,7 @@ module Spec
             @example_group.it "calls prepend_after" do
             end
 
-            @example_group.run
+            @example_group.run(Spec::Runner.options)
             order.should == [
               :special_child_prepend__after_each,
               :special_prepend__after_each,
@@ -279,7 +279,7 @@ module Spec
             @example_group.it "calls append_after" do
             end
 
-            @example_group.run
+            @example_group.run(Spec::Runner.options)
             order.should == [
               :special_child_append__after_each,
               :special_append__after_each,

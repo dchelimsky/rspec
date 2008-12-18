@@ -212,7 +212,7 @@ module Spec
               example { should == @foo}
               it { should == 'foo'}
             end
-            example_group.run.should be_true
+            example_group.run(options).should be_true
           end
         end
       end
@@ -234,7 +234,7 @@ module Spec
                 it { should eql('expected') }
               end
               @example = example_group.examples.first
-              @success = example_group.run
+              @success = example_group.run(options)
             end
 
             it "should create an example using the description from the matcher" do
@@ -253,7 +253,7 @@ module Spec
                 it { should eql('this is the subject') }
               end
               example = example_group.examples.first
-              example_group.run
+              example_group.run(options)
               example.description.should =~ /should eql "this is the subject"/
             end
           end
@@ -264,7 +264,7 @@ module Spec
                 it { should == Thing.new }
               end
               example = example_group.examples.first
-              success = example_group.run
+              success = example_group.run(options)
               example.description.should =~ /should == #<Spec::Example::Thing/
               success.should be_true
             end
@@ -290,7 +290,7 @@ module Spec
             end
             @example = @example_group.examples.first
 
-            @success = example_group.run
+            @success = example_group.run(options)
           end
 
           it "should create an example using the description from the matcher" do

@@ -161,7 +161,7 @@ WARNING
       alias_method :xit, :xexample
       alias_method :xspecify, :xexample
 
-      def run(run_options=Spec::Runner.options)
+      def run(run_options)
         examples = examples_to_run(run_options)
         run_options.reporter.add_example_group(self) unless examples.empty?
         return true if examples.empty?
