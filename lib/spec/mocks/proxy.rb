@@ -39,13 +39,13 @@ module Spec
       def add_message_expectation(expected_from, sym, opts={}, &block)        
         __add sym
         warn_if_nil_class sym
-        if existing_stub = @stubs.detect {|s| s.sym == sym }
+        if existing_stub = self.stubs.detect {|s| s.sym == sym }
           expectation = existing_stub.build_child(expected_from, block_given?? block : nil, 1, opts)
         else
           expectation = MessageExpectation.new(@error_generator, @expectation_ordering, expected_from, sym, block_given? ? block : nil, 1, opts)
         end
-        @expectations << expectation
-        @expectations.last
+        expectations << expectation
+        expectations.last
       end
 
       def add_negative_message_expectation(expected_from, sym, &block)
@@ -59,6 +59,16 @@ module Spec
         __add sym
         @stubs.unshift MessageExpectation.new(@error_generator, @expectation_ordering, expected_from, sym, nil, :any, opts)
         @stubs.first
+      end
+      
+      def expectations
+        @expectations.each {|e| e.stubbed = false }
+        @expectations
+      end
+      
+      def stubs
+        @stubs.each {|s| s.stubbed = true }
+        @stubs
       end
 
       def verify #:nodoc:
