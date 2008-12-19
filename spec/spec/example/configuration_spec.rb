@@ -3,46 +3,38 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 module Spec
   module Example
     describe Configuration do
-
-      describe "#mock_with" do
-
-        before(:each) do
-          @config = Configuration.new
-          @example_group = mock("example_group")
-        end
-
-        it "should default mock framework to rspec" do
-          @config.mock_framework.should =~ /\/adapters\/mock_frameworks\/rspec$/
-        end
-
-        it "should set rspec mocking explicitly" do
-          @config.mock_with(:rspec)
-          @config.mock_framework.should =~ /\/adapters\/mock_frameworks\/rspec$/
-        end
-
-        it "should set mocha" do
-          @config.mock_with(:mocha)
-          @config.mock_framework.should =~ /\/adapters\/mock_frameworks\/mocha$/
-        end
-
-        it "should set flexmock" do
-          @config.mock_with(:flexmock)
-          @config.mock_framework.should =~ /\/adapters\/mock_frameworks\/flexmock$/
-        end
-
-        it "should set rr" do
-          @config.mock_with(:rr)
-          @config.mock_framework.should =~ /\/adapters\/mock_frameworks\/rr$/
-        end
-
-        it "should set an arbitrary adapter module" do
-          adapter = Module.new
-          @config.mock_with(adapter)
-          @config.mock_framework.should == adapter
-        end
-      end
-
       with_sandboxed_config do
+        describe "#mock_with" do
+          it "should default mock framework to rspec" do
+            config.mock_framework.should =~ /\/adapters\/mock_frameworks\/rspec$/
+          end
+
+          it "should set rspec mocking explicitly" do
+            config.mock_with(:rspec)
+            config.mock_framework.should =~ /\/adapters\/mock_frameworks\/rspec$/
+          end
+
+          it "should set mocha" do
+            config.mock_with(:mocha)
+            config.mock_framework.should =~ /\/adapters\/mock_frameworks\/mocha$/
+          end
+
+          it "should set flexmock" do
+            config.mock_with(:flexmock)
+            config.mock_framework.should =~ /\/adapters\/mock_frameworks\/flexmock$/
+          end
+
+          it "should set rr" do
+            config.mock_with(:rr)
+            config.mock_framework.should =~ /\/adapters\/mock_frameworks\/rr$/
+          end
+
+          it "should set an arbitrary adapter module" do
+            adapter = Module.new
+            config.mock_with(adapter)
+            config.mock_framework.should == adapter
+          end
+        end
 
         describe "#include" do
           
@@ -106,9 +98,9 @@ module Spec
         
         end
       end
-
-      describe Configuration do
-            
+      
+      describe "ordering methods: " do
+        
         before(:each) do
           @special_example_group = Class.new(ExampleGroup).describe("special_example_group")
           @special_child_example_group = Class.new(@special_example_group).describe("special_child_example_group")
@@ -149,7 +141,7 @@ module Spec
             end
             @example_group.it "calls prepend_before" do
             end
-        
+      
             @example_group.run(Spec::Runner.options)
             order.should == [
               :prepend__before_all,
