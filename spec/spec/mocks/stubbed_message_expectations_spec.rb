@@ -7,7 +7,7 @@ module Spec
         mock_obj = mock("mock", :msg => nil)
         mock_obj.msg
         mock_obj.should_receive(:msg)
-        lambda { mock_obj.rspec_verify }.should raise_error
+        lambda { mock_obj.rspec_verify }.should raise_error(Spec::Mocks::MockExpectationError)
       end
     end
   end

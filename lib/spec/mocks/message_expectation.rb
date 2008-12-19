@@ -5,7 +5,7 @@ module Spec
       attr_reader :sym
       attr_writer :expected_received_count, :method_block, :expected_from
       protected :expected_received_count=, :method_block=, :expected_from=
-      attr_accessor :error_generator, :stubbed
+      attr_accessor :error_generator
       protected :error_generator, :error_generator=
       
       def initialize(error_generator, expectation_ordering, expected_from, sym, method_block, expected_received_count=1, opts={})
@@ -32,7 +32,7 @@ module Spec
         child.expected_from = expected_from
         child.method_block = method_block
         child.expected_received_count = expected_received_count
-        child.instance_eval { @actual_received_count = 0 }
+        child.clear_actual_received_count!
         new_gen = error_generator.clone
         new_gen.opts = opts
         child.error_generator = new_gen
@@ -89,10 +89,6 @@ module Spec
         self
       end
       
-      def stubbed?
-        @stubbed
-      end
-  
       def matches(sym, args)
         @sym == sym and @args_expectation.args_match?(args)
       end
@@ -211,7 +207,7 @@ module Spec
       end
       
       def ignoring_args?
-        (@expected_received_count == :any) && !self.stubbed?
+        @expected_received_count == :any
       end
       
       def matches_at_least_count?
@@ -313,6 +309,10 @@ module Spec
             when :twice
               2
           end
+        end
+        
+        def clear_actual_received_count!
+          @actual_received_count = 0
         end
       
     end
