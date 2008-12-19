@@ -273,7 +273,17 @@ module Spec
             end
           end
 
-          describe "#set_description(Type, String containing .)" do
+          describe "#set_description(Class, String starting with #)" do
+            before(:each) do
+              example_group.set_description(ExampleGroup, "#behaving")
+            end
+
+            specify "should return the Class then String" do
+              example_group.description.should == "Spec::Example::ExampleGroup#behaving"
+            end
+          end
+
+          describe "#set_description(Class, String containing .)" do
             before(:each) do
               example_group.set_description(ExampleGroup, "calling a.b")
             end
@@ -283,17 +293,7 @@ module Spec
             end
           end
 
-          describe "#set_description(Type, String starting with .)" do
-            before(:each) do
-              example_group.set_description(ExampleGroup, ".behaving")
-            end
-
-            specify "should return the Type then String" do
-              example_group.description.should == "Spec::Example::ExampleGroup.behaving"
-            end
-          end
-
-          describe "#set_description(Type, String containing .)" do
+          describe "#set_description(Class, String containing #)" do
             before(:each) do
               example_group.set_description(ExampleGroup, "is #1")
             end
