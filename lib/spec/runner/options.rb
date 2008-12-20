@@ -299,7 +299,7 @@ module Spec
               error_stream.puts "You must specify one file, not a directory when using the --line option"
               exit(1) if stderr?
             else
-              example = SpecParser.new.spec_name_for(files[0], line_number)
+              example = SpecParser.new(self).spec_name_for(files[0], line_number)
               @examples = [example]
             end
           else

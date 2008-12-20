@@ -5,7 +5,7 @@ describe "SpecParser" do
     attr_reader :parser, :file
     
     before do
-      @parser = Spec::Runner::SpecParser.new
+      @parser = Spec::Runner::SpecParser.new(options)
       @file = "#{File.dirname(__FILE__)}/spec_parser/spec_parser_fixture.rb"
       load file
     end
