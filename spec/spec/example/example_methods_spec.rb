@@ -23,20 +23,22 @@ module Spec
 
       describe "lifecycle" do
         with_sandboxed_options do
-          before do
-            @options.formatters << mock("formatter", :null_object => true)
-            @options.backtrace_tweaker = mock("backtrace_tweaker", :null_object => true)
-            @reporter = FakeReporter.new(@options)
-            @options.reporter = @reporter
+          with_sandboxed_config do
+            before do
+              @options.formatters << mock("formatter", :null_object => true)
+              @options.backtrace_tweaker = mock("backtrace_tweaker", :null_object => true)
+              @reporter = FakeReporter.new(@options)
+              @options.reporter = @reporter
             
-            ExampleGroup.before_all_parts.should == []
-            ExampleGroup.before_each_parts.should == []
-            ExampleGroup.after_each_parts.should == []
-            ExampleGroup.after_all_parts.should == []
-            def ExampleGroup.count
-              @count ||= 0
-              @count = @count + 1
-              @count
+              ExampleGroup.before_all_parts.should == []
+              ExampleGroup.before_each_parts.should == []
+              ExampleGroup.after_each_parts.should == []
+              ExampleGroup.after_all_parts.should == []
+              def ExampleGroup.count
+                @count ||= 0
+                @count = @count + 1
+                @count
+              end
             end
           end
 
