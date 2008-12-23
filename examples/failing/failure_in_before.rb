@@ -4,7 +4,7 @@ describe "This example" do
     NonExistentClass.new
   end
   
-  it "should be listed as failing in setup" do
+  it "should be listed as failing in each" do
   end
   
 end
