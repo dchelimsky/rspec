@@ -129,7 +129,12 @@ module Spec
 
       def examples_should_not_be_run
         @examples_should_be_run = false
-      end      
+      end
+      
+      def predicate_matchers
+        # TODO - don't like this dependency - perhaps store these in here instead?
+        Spec::Runner.configuration.predicate_matchers
+      end
 
       def colour=(colour)
         @colour = colour

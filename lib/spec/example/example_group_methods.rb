@@ -123,7 +123,7 @@ WARNING
       # a predicate on your class. RSpec provides a couple of these
       # out of the box:
       #
-      #   exist (or state expectations)
+      #   exist (for state expectations)
       #     File.should exist("path/to/file")
       #
       #   an_instance_of (for mock argument constraints)
@@ -173,7 +173,7 @@ WARNING
         return dry_run(examples, run_options) if run_options.dry_run?
 
         plugin_mock_framework
-        define_methods_from_predicate_matchers
+        define_methods_from_predicate_matchers(run_options)
 
         success, before_all_instance_variables = run_before_all(run_options)
         success, after_all_instance_variables  = execute_examples(success, before_all_instance_variables, examples, run_options)
@@ -346,9 +346,9 @@ WARNING
         end
       end
 
-      def define_methods_from_predicate_matchers # :nodoc:
+      def define_methods_from_predicate_matchers(run_options) # :nodoc:
         all_predicate_matchers = predicate_matchers.merge(
-          Spec::Runner.configuration.predicate_matchers
+          run_options.predicate_matchers
         )
         all_predicate_matchers.each_pair do |matcher_method, method_on_object|
           define_method matcher_method do |*args|
