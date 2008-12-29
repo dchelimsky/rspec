@@ -1,6 +1,5 @@
 module Spec
   module Matchers
-    
     # wraps an expectation in a block that will return true if the
     # expectation passes and false if it fails (without bubbling up
     # the failure).
