@@ -108,7 +108,6 @@ WARNING
       end
       
       # Use this to pull in examples from shared example groups.
-      # See Spec::Runner for information about shared example groups.
       def it_should_behave_like(*shared_example_groups)
         shared_example_groups.each do |group|
           include_shared_example_group(group)
@@ -172,7 +171,7 @@ WARNING
         return true if examples.empty?
         return dry_run(examples, run_options) if run_options.dry_run?
 
-        plugin_mock_framework
+        plugin_mock_framework(run_options)
         define_methods_from_predicate_matchers(run_options)
 
         success, before_all_instance_variables = run_before_all(run_options)
@@ -336,12 +335,12 @@ WARNING
         klass.kind_of?(ExampleGroupMethods) && klass.included_modules.include?(ExampleMethods)
       end
 
-      def plugin_mock_framework
-        case mock_framework = Spec::Runner.configuration.mock_framework
+      def plugin_mock_framework(run_options)
+        case mock_framework = run_options.mock_framework
         when Module
           include mock_framework
         else
-          require Spec::Runner.configuration.mock_framework
+          require mock_framework
           include Spec::Plugins::MockFramework
         end
       end

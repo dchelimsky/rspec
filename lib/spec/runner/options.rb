@@ -135,6 +135,11 @@ module Spec
         # TODO - don't like this dependency - perhaps store these in here instead?
         Spec::Runner.configuration.predicate_matchers
       end
+      
+      def mock_framework
+        # TODO - don't like this dependency - perhaps store this in here instead?
+        Spec::Runner.configuration.mock_framework
+      end
 
       def colour=(colour)
         @colour = colour
