@@ -2,22 +2,22 @@ module Spec
   module Example
 
     module ExampleGroupMethods
-      include Spec::Example::BeforeAndAfterHooks
-      
-      def self.matcher_class
-        @matcher_class
-      end
-      
-      def self.matcher_class=(matcher_class)
-        @matcher_class = matcher_class
-      end
+      class << self
+        attr_accessor :matcher_class
 
-      def self.description_text(*args)
-        args.inject("") do |description, arg|
-          description << " " unless (description == "" || arg.to_s =~ /^(\s|\.|#)/)
-          description << arg.to_s
+        def description_text(*args)
+          args.inject("") do |description, arg|
+            description << " " unless (description == "" || arg.to_s =~ /^(\s|\.|#)/)
+            description << arg.to_s
+          end
+        end
+
+        def example_group_creation_listeners
+          @example_group_creation_listeners ||= []
         end
       end
+
+      include Spec::Example::BeforeAndAfterHooks
 
       attr_reader :description_options, :spec_path
       alias :options :description_options
@@ -42,8 +42,13 @@ WARNING
 
       def inherited(klass)
         super
-        Spec::Runner.options.add_example_group klass
-        Spec::Runner.register_at_exit_hook
+        register_example_group(klass)
+      end
+      
+      def register_example_group(klass)
+        ExampleGroupMethods.example_group_creation_listeners.each do |l|
+          l.register_example_group(klass)
+        end
       end
       
       # Makes the describe/it syntax available from a class. For example:

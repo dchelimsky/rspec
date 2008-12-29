@@ -10,6 +10,16 @@ require 'spec/runner/class_and_arguments_parser'
 
 module Spec
   module Runner
+    
+    class ExampleGroupCreationListener
+      def register_example_group(klass)
+        Spec::Runner.options.add_example_group klass
+        Spec::Runner.register_at_exit_hook
+      end
+    end
+    
+    Spec::Example::ExampleGroupMethods.example_group_creation_listeners << ExampleGroupCreationListener.new
+    
     class << self
       def configuration # :nodoc:
         @configuration ||= Spec::Example::Configuration.new
