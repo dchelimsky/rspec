@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 module Spec
-  module Example
+  module Runner
     describe Configuration do
       with_sandboxed_options do
         with_sandboxed_config do
@@ -41,7 +41,7 @@ module Spec
           
             before(:each) do
               @example_group_class = Class.new(ExampleGroup) {}
-              ExampleGroupFactory.register(:foobar, @example_group_class)
+              Spec::Example::ExampleGroupFactory.register(:foobar, @example_group_class)
             end
 
             it "should include the submitted module in ExampleGroup subclasses" do
@@ -59,7 +59,7 @@ module Spec
             it "should not include modules in a type they are not intended for" do
               mod = Module.new
               @other_example_group_class = Class.new(ExampleGroup)
-              ExampleGroupFactory.register(:baz, @other_example_group_class)
+              Spec::Example::ExampleGroupFactory.register(:baz, @other_example_group_class)
 
               config.include mod, :type => :foobar
 
@@ -72,7 +72,7 @@ module Spec
         
             before(:each) do
               @example_group_class = Class.new(ExampleGroup) {}
-              ExampleGroupFactory.register(:foobar, @example_group_class)
+              Spec::Example::ExampleGroupFactory.register(:foobar, @example_group_class)
             end
 
             it "should extend all groups" do
@@ -89,7 +89,7 @@ module Spec
       
             it "should not extend non-specified groups" do
               @other_example_group_class = Class.new(ExampleGroup)
-              ExampleGroupFactory.register(:baz, @other_example_group_class)
+              Spec::Example::ExampleGroupFactory.register(:baz, @other_example_group_class)
 
               mod = Module.new
               @other_example_group_class.should_not_receive(:extend)          
@@ -106,9 +106,9 @@ module Spec
             @special_example_group = Class.new(ExampleGroup).describe("special_example_group")
             @special_child_example_group = Class.new(@special_example_group).describe("special_child_example_group")
             @nonspecial_example_group = Class.new(ExampleGroup).describe("nonspecial_example_group")
-            ExampleGroupFactory.register(:special, @special_example_group)
-            ExampleGroupFactory.register(:special_child, @special_child_example_group)
-            ExampleGroupFactory.register(:non_special, @nonspecial_example_group)
+            Spec::Example::ExampleGroupFactory.register(:special, @special_example_group)
+            Spec::Example::ExampleGroupFactory.register(:special_child, @special_child_example_group)
+            Spec::Example::ExampleGroupFactory.register(:non_special, @nonspecial_example_group)
             @example_group = @special_child_example_group.describe "Special Example Group"
             @unselected_example_group = Class.new(@nonspecial_example_group).describe "Non Special Example Group"
           end

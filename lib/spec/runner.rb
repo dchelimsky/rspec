@@ -1,3 +1,4 @@
+require 'spec/runner/configuration'
 require 'spec/runner/options'
 require 'spec/runner/option_parser'
 require 'spec/runner/example_group_runner'
@@ -22,7 +23,7 @@ module Spec
     
     class << self
       def configuration # :nodoc:
-        @configuration ||= Spec::Example::Configuration.new
+        @configuration ||= Spec::Runner::Configuration.new
       end
 
       # Use this to configure various configurable aspects of
@@ -33,7 +34,7 @@ module Spec
       #   end
       #
       # The yielded <tt>configuration</tt> object is a
-      # Spec::Example::Configuration instance. See its RDoc
+      # Spec::Runner::Configuration instance. See its RDoc
       # for details about what you can do with it.
       #
       def configure

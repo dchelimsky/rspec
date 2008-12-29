@@ -65,7 +65,7 @@ def with_sandboxed_config
   attr_reader :config
   
   before(:each) do
-    @config = ::Spec::Example::Configuration.new
+    @config = ::Spec::Runner::Configuration.new
     @original_configuration = ::Spec::Runner.configuration
     spec_configuration = @config
     ::Spec::Runner.instance_eval {@configuration = spec_configuration}

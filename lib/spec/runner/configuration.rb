@@ -1,5 +1,5 @@
 module Spec
-  module Example
+  module Runner
     class Configuration
       # Chooses what mock framework to use. Example:
       #
@@ -145,13 +145,13 @@ module Spec
         required_example_group = get_type_from_options(options)
         required_example_group = required_example_group.to_sym if required_example_group
         modules.each do |mod|
-          ExampleGroupFactory.get(required_example_group).__send__(action, mod)
+          Spec::Example::ExampleGroupFactory.get(required_example_group).__send__(action, mod)
         end
       end
 
       def add_callback(sym, *args, &proc)
         scope, options = Spec::Example.scope_and_options(*args)
-        example_group = ExampleGroupFactory.get(get_type_from_options(options))
+        example_group = Spec::Example::ExampleGroupFactory.get(get_type_from_options(options))
         example_group.__send__(sym, scope, &proc)
       end
 

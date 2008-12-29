@@ -182,6 +182,5 @@ require 'spec/example/example_group'
 require 'spec/example/shared_example_group'
 require 'spec/example/example_group_factory'
 require 'spec/example/errors'
-require 'spec/example/configuration'
 require 'spec/example/example_matcher'
 
