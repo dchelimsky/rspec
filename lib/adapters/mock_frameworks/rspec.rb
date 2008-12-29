@@ -3,7 +3,7 @@ require 'spec/mocks/framework'
 require 'spec/mocks/extensions'
 
 module Spec
-  module Plugins
+  module Adapters
     module MockFramework
       include Spec::Mocks::ExampleMethods
       def setup_mocks_for_rspec

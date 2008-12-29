@@ -341,7 +341,7 @@ WARNING
           include mock_framework
         else
           require mock_framework
-          include Spec::Plugins::MockFramework
+          include Spec::Adapters::MockFramework
         end
       end
 

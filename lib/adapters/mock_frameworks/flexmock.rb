@@ -6,7 +6,7 @@
 require 'flexmock/rspec'
 
 module Spec
-  module Plugins
+  module Adapters
     module MockFramework
       include FlexMock::MockContainer
       def setup_mocks_for_rspec

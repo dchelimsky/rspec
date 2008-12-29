@@ -4,7 +4,7 @@ patterns = ::Spec::Runner::QuietBacktraceTweaker::IGNORE_PATTERNS
 patterns.push(RR::Errors::BACKTRACE_IDENTIFIER)
 
 module Spec
-  module Plugins
+  module Adapters
     module MockFramework
       include RR::Extensions::InstanceMethods
       def setup_mocks_for_rspec

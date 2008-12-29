@@ -2,7 +2,7 @@ require 'mocha/standalone'
 require 'mocha/object'
 
 module Spec
-  module Plugins
+  module Adapters
     module MockFramework
       include Mocha::Standalone
       def setup_mocks_for_rspec
