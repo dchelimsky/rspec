@@ -138,14 +138,13 @@ module Spec
 
     private
     
-      def include_or_extend(*args)
-        action = args.shift
-        args << {} unless Hash === args.last
+      def include_or_extend(action, *args)
         modules, options = Spec::Example.args_and_options(*args)
-        required_example_group = get_type_from_options(options)
-        required_example_group = required_example_group.to_sym if required_example_group
-        modules.each do |mod|
-          Spec::Example::ExampleGroupFactory.get(required_example_group).__send__(action, mod)
+        [get_type_from_options(options)].flatten.each do |required_example_group|
+          required_example_group = required_example_group.to_sym if required_example_group
+          modules.each do |mod|
+            Spec::Example::ExampleGroupFactory.get(required_example_group).__send__(action, mod)
+          end
         end
       end
 

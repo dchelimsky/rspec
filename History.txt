@@ -14,7 +14,7 @@
   * hash_including mock argument matcher can now accept just keys, key/value pairs, or both (David Krmpotic)
   * added hash_not_including mock argument matcher (David Krmpotic). Closes #634.
 
-* 6 minor enhancements
+* 7 minor enhancements
 
   * should throw_symbol accepts an optional argument: should throw_symbol(:sym, arg)
   * fixed --line for jruby (Zach Moazeni)
@@ -22,6 +22,7 @@
   * removed all instances of class << self - I do know who I am
   * SpecParser can't handle backtrace paths with colons (John-Mason P. Shackelford). Closes #505.
   * html formatter (and subsequently the textmate formatter) header fills in completely when running a single example
+  * config.include now accepts an array of types (config.include(Helpers, :type => [:view, :controller]))
   
 * 8 bug fixes
 

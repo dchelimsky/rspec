@@ -65,6 +65,17 @@ module Spec
 
               Class.new(@other_example_group_class).included_modules.should_not include(mod)
             end
+            
+            it "accepts an Array of types" do
+              mod = Module.new
+              @other_example_group_class = Class.new(ExampleGroup)
+              Spec::Example::ExampleGroupFactory.register(:baz, @other_example_group_class)
+
+              config.include mod, :type => [:foobar, :baz]
+
+              Class.new(@example_group_class).included_modules.should include(mod)
+              Class.new(@other_example_group_class).included_modules.should include(mod)
+            end
 
           end
       
