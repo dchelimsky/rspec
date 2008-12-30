@@ -13,7 +13,7 @@ module Spec
     #
     #   def eat_cheese(cheese)
     #     simple_matcher do |mouse, matcher|
-    #       matcher.negative_failure_message = "expected #{mouse} not to eat cheese"
+    #       matcher.failure_message = "expected #{mouse} to eat cheese"
     #       wrap_expectation do |matcher|
     #         assert_eats_cheese(mouse)
     #       end
