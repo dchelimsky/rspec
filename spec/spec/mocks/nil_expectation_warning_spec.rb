@@ -6,7 +6,7 @@ module Spec
     describe "an expectation set on nil" do
       
       it "should issue a warning with file and line number information" do
-        expected_warning = "An expectation of :foo was set on nil. Called from #{__FILE__}:#{__LINE__+3}. Use allow_message_expectations_on_nil to disable warnings."
+        expected_warning = %r%An expectation of :foo was set on nil. Called from #{__FILE__}:#{__LINE__+3}(:in `block \(2 levels\) in <module:Mocks>')?. Use allow_message_expectations_on_nil to disable warnings.%
         Kernel.should_receive(:warn).with(expected_warning)
 
         nil.should_receive(:foo)
