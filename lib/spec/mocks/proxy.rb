@@ -60,7 +60,7 @@ module Spec
         @stubs.unshift MessageExpectation.new(@error_generator, @expectation_ordering, expected_from, sym, nil, :any, opts)
         @stubs.first
       end
-
+      
       def verify #:nodoc:
         verify_expectations
       ensure

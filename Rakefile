@@ -5,6 +5,7 @@ require 'rubygems'
 require 'hoe'
 require 'spec/version'
 require 'spec/rake/spectask'
+require 'cucumber/rake/task'
 
 class Hoe
   def extra_deps
@@ -19,6 +20,7 @@ Hoe.new('rspec', Spec::VERSION::STRING) do |p|
   p.description = "Behaviour Driven Development for Ruby."
   p.rubyforge_name = 'rspec'
   p.developer('RSpec Development Team', 'rspec-devel@rubyforge.org')
+  p.extra_deps = [["cucumber",">= 0.1.13"]]
   p.remote_rdoc_dir = "rspec/#{Spec::VERSION::STRING}"
 end
 
@@ -26,14 +28,14 @@ end
   Rake.application.instance_variable_get('@tasks').delete(task)
 end
 
-task :verify_rcov => [:spec, :stories]
+task :verify_rcov => [:spec, :features]
 task :default => :verify_rcov
 
 # # Some of the tasks are in separate files since they are also part of the website documentation
-load File.dirname(__FILE__) + '/rake_tasks/examples.rake'
-load File.dirname(__FILE__) + '/rake_tasks/examples_with_rcov.rake'
-load File.dirname(__FILE__) + '/rake_tasks/failing_examples_with_html.rake'
-load File.dirname(__FILE__) + '/rake_tasks/verify_rcov.rake'
+load File.dirname(__FILE__) + '/resources/rake/examples.rake'
+load File.dirname(__FILE__) + '/resources/rake/examples_with_rcov.rake'
+load File.dirname(__FILE__) + '/resources/rake/failing_examples_with_html.rake'
+load File.dirname(__FILE__) + '/resources/rake/verify_rcov.rake'
 
 desc "Run all specs"
 Spec::Rake::SpecTask.new do |t|
@@ -42,14 +44,12 @@ Spec::Rake::SpecTask.new do |t|
   unless ENV['NO_RCOV']
     t.rcov = true
     t.rcov_dir = 'coverage'
-    t.rcov_opts = ['--text-report', '--exclude', "lib/spec.rb,lib/spec/runner.rb,spec\/spec,bin\/spec,examples,\/var\/lib\/gems,\/Library\/Ruby,\.autotest,#{ENV['GEM_HOME']}"]
+    t.rcov_opts = ['--text-report', '--exclude', "lib/spec.rb,lib/spec/runner.rb,spec\/spec,bin\/spec,examples,\/gems,\/Library\/Ruby,\.autotest,#{ENV['GEM_HOME']}"]
   end
 end
 
-desc "Run all stories"
-task :stories do
-  ruby "stories/all.rb --colour --format plain"
-end
+desc "Run Cucumber features"
+Cucumber::Rake::Task.new do; end
 
 desc "Run failing examples (see failure output)"
 Spec::Rake::SpecTask.new('failing_examples') do |t|

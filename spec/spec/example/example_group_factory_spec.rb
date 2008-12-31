@@ -73,7 +73,7 @@ module Spec
         end
 
         it "should not run unregistered ExampleGroups" do
-          example_group = Spec::Example::ExampleGroupFactory.create_example_group "The ExampleGroup" do unregister; end
+          example_group = Spec::Example::ExampleGroupFactory.create_example_group "The ExampleGroup" do Spec::Runner.options.remove_example_group self; end
           Spec::Runner.options.example_groups.should_not include(example_group)
         end
 
@@ -148,7 +148,7 @@ module Spec
 
         it "should enable unregistering of ExampleGroups" do
           example_group = Spec::Example::ExampleGroupFactory.create_example_group("The ExampleGroup") do
-            unregister
+            Spec::Runner.options.remove_example_group self
           end
           Spec::Runner.options.example_groups.should_not include(example_group)
         end

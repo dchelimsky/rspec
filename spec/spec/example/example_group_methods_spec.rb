@@ -124,7 +124,7 @@ module Spec
               end
             end
             example_group.examples.length.should == 1
-            example_group.run.should be_true
+            example_group.run(options).should be_true
           end
 
           it "should include methods that begin with should and has an arity of 0 in suite" do
@@ -189,7 +189,7 @@ module Spec
               end
             end
             example_group.should have(1).examples
-            example_group.run.should be_true
+            example_group.run(options).should be_true
           end
 
           it "should run should_methods" do
@@ -199,7 +199,7 @@ module Spec
               end
             end
             example_group.should have(1).examples
-            example_group.run.should be_false
+            example_group.run(options).should be_false
           end
         end
 
@@ -273,7 +273,17 @@ module Spec
             end
           end
 
-          describe "#set_description(Type, String containing .)" do
+          describe "#set_description(Class, String starting with #)" do
+            before(:each) do
+              example_group.set_description(ExampleGroup, "#behaving")
+            end
+
+            specify "should return the Class then String" do
+              example_group.description.should == "Spec::Example::ExampleGroup#behaving"
+            end
+          end
+
+          describe "#set_description(Class, String containing .)" do
             before(:each) do
               example_group.set_description(ExampleGroup, "calling a.b")
             end
@@ -283,17 +293,7 @@ module Spec
             end
           end
 
-          describe "#set_description(Type, String starting with .)" do
-            before(:each) do
-              example_group.set_description(ExampleGroup, ".behaving")
-            end
-
-            specify "should return the Type then String" do
-              example_group.description.should == "Spec::Example::ExampleGroup.behaving"
-            end
-          end
-
-          describe "#set_description(Type, String containing .)" do
+          describe "#set_description(Class, String containing #)" do
             before(:each) do
               example_group.set_description(ExampleGroup, "is #1")
             end
@@ -416,12 +416,12 @@ module Spec
               after(:each, &proc)
             end
 
-            example_group.run
+            example_group.run(options)
             after_all_ran.should be_true
 
             after_all_ran = false
             example_group.remove_after(:each, &proc)
-            example_group.run
+            example_group.run(options)
             after_all_ran.should be_false
           end
         end
@@ -469,7 +469,7 @@ module Spec
                 FOO.should == 1
               end
             end
-            success = example_group.run
+            success = example_group.run(options)
             success.should be_true
             Object.const_defined?(:FOO).should == false
           end
@@ -477,20 +477,20 @@ module Spec
 
         describe '#register' do
           after(:each) do
-            example_group.unregister
+            Spec::Runner.options.remove_example_group example_group
           end
           it "should add ExampleGroup to set of ExampleGroups to be run" do
-            example_group.register
+            Spec::Runner.options.add_example_group example_group
             options.example_groups.should include(example_group)
           end
         end
 
         describe '#unregister' do
           before(:each) do
-            example_group.register
+            Spec::Runner.options.add_example_group example_group
           end
           it "should remove ExampleGroup from set of ExampleGroups to be run" do
-            example_group.unregister
+            Spec::Runner.options.remove_example_group example_group
             options.example_groups.should_not include(example_group)
           end
         end
@@ -502,7 +502,7 @@ module Spec
                 example("anything") {}
               end
               reporter.should_receive(:add_example_group)
-              example_group.run
+              example_group.run(options)
             end
           end
 
@@ -510,7 +510,7 @@ module Spec
             it "should NOT call add_example_group" do
               example_group = Class.new(ExampleGroup) do end
               reporter.should_not_receive(:add_example_group)
-              example_group.run
+              example_group.run(options)
             end
           end
         end
@@ -531,12 +531,12 @@ module Spec
             matcher.should_receive(:matches?).with(["something"]).any_number_of_times
           
             matcher_class = Class.new
-            matcher_class.should_receive(:new).with("TestMatcher", "should do something").twice.and_return(matcher)
+            matcher_class.should_receive(:new).with("TestMatcher", "should do something").and_return(matcher)
 
             begin 
               ExampleGroupMethods.matcher_class = matcher_class
 
-              example_group.run
+              example_group.run(options)
             ensure 
               ExampleGroupMethods.matcher_class = ExampleMatcher
             end

@@ -18,6 +18,7 @@ require 'spec/matchers/raise_error'
 require 'spec/matchers/respond_to'
 require 'spec/matchers/satisfy'
 require 'spec/matchers/throw_symbol'
+require 'spec/matchers/wrap_expectation'
 
 module Spec
 

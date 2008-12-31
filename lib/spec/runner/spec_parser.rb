@@ -4,14 +4,15 @@ module Spec
     class SpecParser
       attr_reader :best_match
 
-      def initialize
+      def initialize(run_options)
         @best_match = {}
+        @run_options = run_options
       end
 
       def spec_name_for(file, line_number)
         best_match.clear
         file = File.expand_path(file)
-        Spec::Runner.options.example_groups.each do |example_group|
+        @run_options.example_groups.each do |example_group|
           consider_example_group_for_best_match example_group, file, line_number
 
           example_group.examples.each do |example|

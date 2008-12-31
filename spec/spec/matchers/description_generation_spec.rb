@@ -135,7 +135,7 @@ describe "Matchers should be able to generate their own descriptions" do
   
   it "should respond_to" do
     [].should respond_to(:insert)
-    Spec::Matchers.generated_description.should == "should respond to [:insert]"
+    Spec::Matchers.generated_description.should == "should respond to #insert"
   end
   
   it "should throw symbol" do

@@ -5,7 +5,7 @@ module Spec
     #   should equal(expected)
     #   should_not equal(expected)
     #
-    # Passes if given and expected are the same object (object identity).
+    # Passes if actual and expected are the same object (object identity).
     #
     # See http://www.ruby-doc.org/core/classes/Object.html#M001057 for more information about equality in Ruby.
     #

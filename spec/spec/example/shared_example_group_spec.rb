@@ -151,7 +151,7 @@ module Spec
 
           example_group.it_should_behave_like("shared example_group")
           example_group.it("example") {example_ran = true}
-          example_group.run
+          example_group.run(options)
           example_ran.should be_true
           shared_example_ran.should be_true
         end
@@ -169,7 +169,7 @@ module Spec
 
           example_group.it_should_behave_like("shared example_group")
           example_group.it("example") {example_ran = true}
-          example_group.run
+          example_group.run(options)
           example_ran.should be_true
           shared_setup_ran.should be_true
           shared_teardown_ran.should be_true
@@ -188,7 +188,7 @@ module Spec
 
           example_group.it_should_behave_like("shared example_group")
           example_group.it("example") {example_ran = true}
-          example_group.run
+          example_group.run(options)
           example_ran.should be_true
           shared_before_all_run_count.should == 1
           shared_after_all_run_count.should == 1
@@ -224,7 +224,7 @@ module Spec
             mod1_method
             mod2_method
           end
-          example_group.run
+          example_group.run(options)
           mod1_method_called.should be_true
           mod2_method_called.should be_true
         end
@@ -241,7 +241,7 @@ module Spec
             a_shared_helper_method
             success = true
           end
-          example_group.run
+          example_group.run(options)
           success.should be_true
         end
 

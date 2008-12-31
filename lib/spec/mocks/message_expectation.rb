@@ -32,6 +32,7 @@ module Spec
         child.expected_from = expected_from
         child.method_block = method_block
         child.expected_received_count = expected_received_count
+        child.clear_actual_received_count!
         new_gen = error_generator.clone
         new_gen.opts = opts
         child.error_generator = new_gen
@@ -87,7 +88,7 @@ module Spec
         @args_to_yield << args
         self
       end
-  
+      
       def matches(sym, args)
         @sym == sym and @args_expectation.args_match?(args)
       end
@@ -191,7 +192,7 @@ module Spec
         @sym == sym and not @args_expectation.args_match?(args)
       end
        
-      def verify_messages_received   
+      def verify_messages_received
         return if expected_messages_received? || failed_fast?
     
         generate_error
@@ -308,6 +309,10 @@ module Spec
             when :twice
               2
           end
+        end
+        
+        def clear_actual_received_count!
+          @actual_received_count = 0
         end
       
     end

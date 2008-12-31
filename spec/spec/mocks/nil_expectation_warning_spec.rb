@@ -43,7 +43,7 @@ module Spec
                         nil.foo
                       end
                               
-        example_group.run.should be_true
+        example_group.run(Spec::Runner.options).should be_true
                   
       end
 

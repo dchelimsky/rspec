@@ -10,9 +10,9 @@ share_as :HaveSpecHelper do
     owner
   end
   before(:each) do
-    unless defined?(ActiveSupport::Inflector)
+    unless defined?(::ActiveSupport::Inflector)
       @active_support_was_not_defined
-      module ActiveSupport
+      module ::ActiveSupport
         class Inflector
           def self.pluralize(string)
             string.to_s + 's'

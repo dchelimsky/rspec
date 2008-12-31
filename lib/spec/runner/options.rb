@@ -111,7 +111,7 @@ module Spec
             true
           else
             set_spec_from_line_number if line_number
-            success = runner.run
+            success = runner.run(self)
             @examples_run = true
             heckle if heckle_runner
             success
@@ -129,7 +129,17 @@ module Spec
 
       def examples_should_not_be_run
         @examples_should_be_run = false
-      end      
+      end
+      
+      def predicate_matchers
+        # TODO - don't like this dependency - perhaps store these in here instead?
+        Spec::Runner.configuration.predicate_matchers
+      end
+      
+      def mock_framework
+        # TODO - don't like this dependency - perhaps store this in here instead?
+        Spec::Runner.configuration.mock_framework
+      end
 
       def colour=(colour)
         @colour = colour
@@ -228,6 +238,10 @@ module Spec
         result
       end
       
+      def dry_run?
+        @dry_run == true
+      end
+      
       protected
       def examples_should_be_run?
         return @examples_should_be_run unless @examples_should_be_run.nil?
@@ -295,7 +309,7 @@ module Spec
               error_stream.puts "You must specify one file, not a directory when using the --line option"
               exit(1) if stderr?
             else
-              example = SpecParser.new.spec_name_for(files[0], line_number)
+              example = SpecParser.new(self).spec_name_for(files[0], line_number)
               @examples = [example]
             end
           else
