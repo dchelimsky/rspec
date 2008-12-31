@@ -53,6 +53,7 @@ module Spec
           raise ArgumentError if args.empty?
           raise ArgumentError unless block
           Spec::Example::add_spec_path_to(args)
+          block = include_scope(args.last[:scope], &block)
           superclass = determine_superclass(args.last)
           superclass.describe(*args, &block)
         end
@@ -62,6 +63,18 @@ module Spec
           SharedExampleGroup.register(*args, &block)
         end
         
+        def include_scope(context, &block)
+          if (Spec::Ruby.version.to_f == 1.9) && Module === context
+            lambda {include context;instance_eval(&block)}
+          else
+            block
+          end
+        end
+        
+        def assign_scope(scope, args)
+          args.last[:scope] = scope
+        end
+
       protected
 
         def determine_superclass(opts)

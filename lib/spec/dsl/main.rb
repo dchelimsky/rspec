@@ -20,20 +20,12 @@ module Spec
       # register special implementations.
       #
       def describe(*args, &block)
-        if (Spec::Ruby.version.to_f == 1.9) && Module === self
-          original_block = block
-          context = self
-          unless Class === context
-            block = lambda {include context;instance_eval(&original_block)}
-          else
-            block = original_block
-          end
-        end
         Spec::Example::add_spec_path_to(args)
+        Spec::Example::ExampleGroupFactory.assign_scope(self, args)
         Spec::Example::ExampleGroupFactory.create_example_group(*args, &block)
       end
       alias :context :describe
-    
+      
       # Creates an example group that can be shared by other example groups
       #
       # == Examples
