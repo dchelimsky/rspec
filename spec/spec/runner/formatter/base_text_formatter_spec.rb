@@ -1,5 +1,6 @@
 require File.dirname(__FILE__) + '/../../../spec_helper'
 require 'spec/runner/formatter/base_text_formatter'
+require 'fileutils'
 
 module Spec
   module Runner

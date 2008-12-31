@@ -192,7 +192,7 @@ OUT
                     formatter.example_failed(
                       example_group.it("spec"),
                       98,
-                      Reporter::Failure.new("c s", RuntimeError.new)
+                      ::Spec::Runner::Reporter::Failure.new("c s", RuntimeError.new)
                     )
                     io.string.should == <<-OUT
 ExampleGroup
@@ -206,7 +206,7 @@ OUT
                     formatter.example_failed(
                       example_group.it("spec"),
                       98,
-                      Reporter::Failure.new("c s", Spec::Expectations::ExpectationNotMetError.new)
+                      ::Spec::Runner::Reporter::Failure.new("c s", Spec::Expectations::ExpectationNotMetError.new)
                     )
                     io.string.should == <<-OUT
 ExampleGroup
@@ -230,7 +230,7 @@ OUT
                     formatter.example_failed(
                       grand_child_example_group.it("spec"),
                       98,
-                      Reporter::Failure.new("c s", RuntimeError.new)
+                      ::Spec::Runner::Reporter::Failure.new("c s", RuntimeError.new)
                     )
                     io.string.should == <<-OUT
 ExampleGroup
@@ -246,7 +246,7 @@ OUT
                     formatter.example_failed(
                       grand_child_example_group.it("spec"),
                       98,
-                      Reporter::Failure.new("c s", Spec::Expectations::ExpectationNotMetError.new)
+                      ::Spec::Runner::Reporter::Failure.new("c s", Spec::Expectations::ExpectationNotMetError.new)
                     )
                     io.string.should == <<-OUT
 ExampleGroup

@@ -1,8 +1,6 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 require File.dirname(__FILE__) + '/resources/custom_example_group_runner'
 
-require 'fileutils'
-
 describe "OptionParser" do
   before(:each) do
     @out = StringIO.new
