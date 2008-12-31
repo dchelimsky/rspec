@@ -23,7 +23,11 @@ module Spec
         if (Spec::Ruby.version.to_f == 1.9) && Module === self
           original_block = block
           context = self
-          block = lambda {include context;instance_eval(&original_block)}
+          unless Class === context
+            block = lambda {include context;instance_eval(&original_block)}
+          else
+            block = original_block
+          end
         end
         Spec::Example::add_spec_path_to(args)
         Spec::Example::ExampleGroupFactory.create_example_group(*args, &block)
