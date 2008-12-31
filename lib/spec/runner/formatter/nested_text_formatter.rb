@@ -16,7 +16,7 @@ module Spec
           current_nested_example_groups = described_example_group_chain
           current_nested_example_groups.each_with_index do |nested_example_group, i|
             unless nested_example_group == previous_nested_example_groups[i]
-              output.puts "#{'  ' * i}#{nested_example_group.description_args}"
+              output.puts "#{'  ' * i}#{nested_example_group.description_args.join}"
             end
           end
 
