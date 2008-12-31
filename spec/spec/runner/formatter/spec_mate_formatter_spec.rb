@@ -1,8 +1,8 @@
 require File.dirname(__FILE__) + '/../../../spec_helper'
 begin
-  require 'hpricot' # Needed to compare generated with wanted HTML
+  require 'nokogiri' # Needed to compare generated with wanted HTML
 rescue LoadError
-  warn "hpricot not loaded -- skipping TextMateFormatter specs"
+  warn "nokogiri not loaded -- skipping TextMateFormatter specs"
   return
 end
 require 'spec/runner/formatter/text_mate_formatter'
@@ -78,17 +78,17 @@ module Spec
                html.gsub! seconds, 'x seconds'
                expected_html.gsub! seconds, 'x seconds'
 
-               doc = Hpricot(html)
-               backtraces = doc.search("div.backtrace/a")
+               doc = Nokogiri::HTML(html)
+               backtraces = doc.search("div.backtrace a")
                doc.search("div.backtrace").remove
 
-               expected_doc = Hpricot(expected_html)
+               expected_doc = Nokogiri::HTML(expected_html)
                expected_doc.search("div.backtrace").remove
 
                doc.inner_html.should == expected_doc.inner_html
 
                backtraces.each do |backtrace_link|
-                 backtrace_link[:href].should include("txmt://open?url=")
+                 backtrace_link['href'].should include("txmt://open?url=")
                end
              end
            end
