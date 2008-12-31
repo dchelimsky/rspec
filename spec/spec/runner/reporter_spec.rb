@@ -104,7 +104,7 @@ module Spec
         reporter.dump
       end
 
-      describe Reporter, "reporting one passing example" do
+      describe "reporting one passing example" do
         it "should tell formatter example passed" do
           formatter.should_receive(:example_passed)
           reporter.example_finished("example")
@@ -127,7 +127,7 @@ module Spec
         end
       end
 
-      describe Reporter, "reporting one failing example" do
+      describe "reporting one failing example" do
         it "should tell formatter that example failed" do
           example = example_group.it("should do something") {}
           formatter.should_receive(:example_failed)
@@ -154,7 +154,7 @@ module Spec
 
       end
 
-      describe Reporter, "reporting one pending example (ExamplePendingError)" do
+      describe "reporting one pending example (ExamplePendingError)" do
         before :each do
           @pending_error = Spec::Example::ExamplePendingError.new("reason")
           @pending_caller = @pending_error.pending_caller
@@ -223,7 +223,7 @@ module Spec
         end
       end
 
-      describe Reporter, "reporting one pending example (PendingExampleFixedError)" do
+      describe "reporting one pending example (PendingExampleFixedError)" do
         it "should tell formatter pending example is fixed" do
           formatter.should_receive(:example_failed) do |name, counter, failure|
             failure.header.should == "'example_group should do something' FIXED"
