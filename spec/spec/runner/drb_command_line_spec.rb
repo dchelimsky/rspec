@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 module Spec
   module Runner
     describe DrbCommandLine, "without running local server" do
-      unless Config::CONFIG['ruby_install_name'] == 'jruby'
+      unless jruby?
         it "should print error when there is no running local server" do
           err = StringIO.new
           out = StringIO.new
@@ -17,7 +17,7 @@ module Spec
 
     describe "with local server" do
 
-      class CommandLineForSpec
+      class ::CommandLineForSpec
         def self.run(argv, stderr, stdout)
           orig_options = Spec::Runner.options
           tmp_options = OptionParser.parse(argv, stderr, stdout)
@@ -28,9 +28,9 @@ module Spec
         end
       end
       
-      unless Config::CONFIG['ruby_install_name'] == 'jruby'
+      unless jruby?
         before(:all) do
-          DRb.start_service("druby://127.0.0.1:8989", CommandLineForSpec)
+          DRb.start_service("druby://127.0.0.1:8989", ::CommandLineForSpec)
           @@drb_example_file_counter = 0
         end
 

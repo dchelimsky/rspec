@@ -12,6 +12,10 @@ spec_classes_path = File.expand_path("#{dir}/../spec/spec/spec_classes")
 require spec_classes_path unless $LOAD_PATH.include?(spec_classes_path)
 require File.dirname(__FILE__) + '/../lib/spec/expectations/differs/default'
 
+def jruby?
+  ::RUBY_PLATFORM == 'java'
+end
+
 module Spec  
   module Example
     class NonStandardError < Exception; end

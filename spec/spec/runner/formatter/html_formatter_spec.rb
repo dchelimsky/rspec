@@ -12,14 +12,10 @@ module Spec
     module Formatter
       describe HtmlFormatter do
         ['--diff', '--dry-run'].each do |opt|
-          def jruby?
-            PLATFORM == 'java'
-          end
-    
           it "should produce HTML identical to the one we designed manually with #{opt}" do
             root = File.expand_path(File.dirname(__FILE__) + '/../../../..')
             suffix = jruby? ? '-jruby' : ''
-            expected_file = File.dirname(__FILE__) + "/html_formatted-#{::VERSION}#{suffix}.html"
+            expected_file = File.dirname(__FILE__) + "/html_formatted-#{::RUBY_VERSION}#{suffix}.html"
             raise "There is no HTML file with expected content for this platform: #{expected_file}" unless File.file?(expected_file)
             expected_html = File.read(expected_file)
 
@@ -27,7 +23,7 @@ module Spec
               args = ['examples/failing/mocking_example.rb', 'examples/failing/diffing_spec.rb', 'examples/passing/stubbing_example.rb',  'examples/passing/pending_example.rb', '--format', 'html', opt]
               err = StringIO.new
               out = StringIO.new
-              run_with OptionParser.parse(args, err, out)
+              run_with ::Spec::Runner::OptionParser.parse(args, err, out)
 
               seconds = /\d+\.\d+ seconds/
               html = out.string.gsub seconds, 'x seconds'

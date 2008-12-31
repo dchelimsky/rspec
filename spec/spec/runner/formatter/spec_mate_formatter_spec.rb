@@ -15,11 +15,7 @@ module Spec
         before do
           @root = File.expand_path(File.dirname(__FILE__) + '/../../../..')
           @suffix = jruby? ? '-jruby' : ''
-          @expected_file = File.dirname(__FILE__) + "/text_mate_formatted-#{::VERSION}#{suffix}.html"
-        end
-
-        def jruby?
-          PLATFORM == 'java'
+          @expected_file = File.dirname(__FILE__) + "/text_mate_formatted-#{::RUBY_VERSION}#{suffix}.html"
         end
 
         def produces_html_identical_to_manually_designed_document(opt)
@@ -46,7 +42,7 @@ module Spec
 
         # # Uncomment this spec temporarily in order to overwrite the expected with actual.
         # # Use with care!!!
-        # describe TextMateFormatter, "functional spec file generator" do
+        # describe "functional spec file generator" do
         #   it "generates a new comparison file" do
         #     Dir.chdir(root) do
         #       args = ['examples/failing/mocking_example.rb', 'examples/failing/diffing_spec.rb', 'examples/passing/stubbing_example.rb',  'examples/passing/pending_example.rb', '--format', 'textmate', '--diff']
