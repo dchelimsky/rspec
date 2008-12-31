@@ -42,8 +42,7 @@ module Spec
     private
       
       def matches_arity?(actual, name)
-        @expected_arity.nil?? true :
-          @expected_arity == actual.method(name).arity 
+        @expected_arity.nil?? true : @expected_arity == actual.method(name).arity 
       end
       
       def with_arity
