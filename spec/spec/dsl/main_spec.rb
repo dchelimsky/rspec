@@ -4,7 +4,7 @@ module Spec
   module DSL
     describe Main do
       before(:each) do
-        @main = Class.new do; include Main; end
+        @main = Class.new do; include Spec::DSL::Main; end
       end
 
       [:describe, :context].each do |method|
