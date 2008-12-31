@@ -49,38 +49,6 @@ module Spec
             ExampleGroup.instance_variable_set("@after_all_parts", [])
           end
 
-          it "should pass before and after callbacks to all ExampleGroup subclasses" do
-            ExampleGroup.before(:suite) do
-              ExampleGroup.count.should == 1
-            end
-
-            ExampleGroup.before(:all) do
-              ExampleGroup.count.should == 2
-            end
-
-            ExampleGroup.before(:each) do
-              ExampleGroup.count.should == 3
-            end
-
-            ExampleGroup.after(:each) do
-              ExampleGroup.count.should == 4
-            end
-
-            ExampleGroup.after(:all) do
-              ExampleGroup.count.should == 5
-            end
-
-            ExampleGroup.after(:suite) do
-              ExampleGroup.count.should == 6
-            end
-
-            Class.new(ExampleGroup) do
-              it "should use ExampleMethods callbacks" do end
-            end
-            @options.run_examples
-            ExampleGroup.count.should == 7
-          end
-
           describe "eval_block" do
             before(:each) do
               @example_group = Class.new(ExampleGroup)
