@@ -4,9 +4,14 @@ unless [/mswin/, /java/].detect{|p| p =~ RUBY_PLATFORM}
 
   describe "Heckler" do
     it "should run examples on tests_pass?" do
-      options = Spec::Runner::Options.new(StringIO.new, StringIO.new)
-      options.should_receive(:run_examples).with().and_return(&options.method(:run_examples))
-      heckler = Spec::Runner::Heckler.new('Array', 'push', options)
+      sub = Class.new(Spec::Runner::Heckler) do
+        def initialize(klass_name, method_name, rspec_options)
+          @rspec_options = rspec_options
+        end
+      end
+      opts = mock('options')
+      opts.should_receive(:run_examples).and_return(true)
+      heckler = sub.new('klass','method',opts)
       heckler.tests_pass?
     end
   end
