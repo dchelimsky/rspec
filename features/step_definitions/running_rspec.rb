@@ -5,6 +5,13 @@ Given /^the file (.*)$/ do |relative_path|
   end
 end
 
+Given /^the following spec:$/ do |spec|
+  @path = "/tmp/example_spec.rb"
+  File.open(@path, "w") do |f|
+    f.write spec
+  end
+end
+
 When /^I run it with the (.*)$/ do |interpreter|
   stderr_file = Tempfile.new('rspec')
   stderr_file.close
@@ -39,7 +46,6 @@ Then /^the (.*) should not match (.*)$/ do |stream, string_or_regex|
   end
   written.should_not smart_match(string_or_regex)
 end
-
 
 Then /^the exit code should be (\d+)$/ do |exit_code|
   if @exit_code != exit_code.to_i
