@@ -50,8 +50,6 @@ module Spec
         :user_input_for_runner,
         :error_stream,
         :output_stream,
-        :before_suite_parts,
-        :after_suite_parts,
         # TODO: BT - Figure out a better name
         :argv
       )
@@ -75,7 +73,6 @@ module Spec
         @examples_run = false
         @examples_should_be_run = nil
         @user_input_for_runner = nil
-        @before_suite_parts = []
         @after_suite_parts = []
       end
 
@@ -121,6 +118,14 @@ module Spec
             part.call(success)
           end
         end
+      end
+      
+      def before_suite_parts
+        Spec::Example::BeforeAndAfterHooks.before_suite_parts
+      end
+      
+      def after_suite_parts
+        Spec::Example::BeforeAndAfterHooks.after_suite_parts
       end
 
       def examples_run?

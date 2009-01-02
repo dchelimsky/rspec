@@ -576,6 +576,57 @@ module Spec
             example_group.example_group_backtrace.join("\n").should include("#{__FILE__}:#{__LINE__-3}")
           end
         end
+        
+        describe "#before" do
+          it "stores before(:each) blocks" do
+            example_group = Class.new(ExampleGroup) {}
+            block = lambda {}
+            example_group.before(:each, &block)
+            example_group.before_each_parts.should include(block)
+          end
+
+          it "stores before(:all) blocks" do
+            example_group = Class.new(ExampleGroup) {}
+            block = lambda {}
+            example_group.before(:all, &block)
+            example_group.before_all_parts.should include(block)
+          end
+
+          it "stores before(:suite) blocks" do
+            example_group = Class.new(ExampleGroup) {}
+            parts = []
+            ExampleGroupMethods.stub!(:before_suite_parts).and_return(parts)
+            block = lambda {}
+            example_group.before(:suite, &block)
+            example_group.before_suite_parts.should include(block)
+          end
+        end
+
+        
+        describe "#after" do
+          it "stores after(:each) blocks" do
+            example_group = Class.new(ExampleGroup) {}
+            block = lambda {}
+            example_group.after(:each, &block)
+            example_group.after_each_parts.should include(block)
+          end
+
+          it "stores after(:all) blocks" do
+            example_group = Class.new(ExampleGroup) {}
+            block = lambda {}
+            example_group.after(:all, &block)
+            example_group.after_all_parts.should include(block)
+          end
+
+          it "stores after(:suite) blocks" do
+            example_group = Class.new(ExampleGroup) {}
+            parts = []
+            ExampleGroupMethods.stub!(:after_suite_parts).and_return(parts)
+            block = lambda {}
+            example_group.after(:suite, &block)
+            example_group.after_suite_parts.should include(block)
+          end
+        end
 
       end
     end

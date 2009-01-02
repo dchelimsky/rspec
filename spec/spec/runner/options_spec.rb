@@ -8,12 +8,17 @@ module Spec
         @err = StringIO.new('')
         @out = StringIO.new('')
         @options = Options.new(@err, @out)
+
+        before_suite_parts = []
+        after_suite_parts = []
+        @options.stub!(:before_suite_parts).and_return(before_suite_parts)
+        @options.stub!(:after_suite_parts).and_return(after_suite_parts)
       end
 
       after(:each) do
         Spec::Expectations.differ = nil
       end
-
+      
       describe "#examples" do
         it "should default to empty array" do
           @options.examples.should == []
@@ -376,7 +381,7 @@ module Spec
           end
 
           describe "and the suite fails" do
-            before do
+            before(:each) do
               @example_group.should_receive(:run).and_return(false)
             end
 

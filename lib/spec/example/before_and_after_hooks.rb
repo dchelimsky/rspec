@@ -1,6 +1,16 @@
 module Spec
   module Example
     module BeforeAndAfterHooks
+      class << self
+        def before_suite_parts
+          @before_suite_parts ||= []
+        end
+        
+        def after_suite_parts
+          @after_suite_parts ||= []
+        end
+      end
+      
       # Registers a block to be executed before each example.
       # This method prepends +block+ to existing before blocks.
       def prepend_before(*args, &block)
@@ -58,13 +68,21 @@ module Spec
         @after_each_parts ||= []
       end
       
+      def before_suite_parts
+        BeforeAndAfterHooks.before_suite_parts
+      end
+      
+      def after_suite_parts
+        BeforeAndAfterHooks.after_suite_parts
+      end
+      
     private  
       
       def before_parts(*args)
         case Spec::Example.scope_from(*args)
         when :each; before_each_parts
         when :all; before_all_parts
-        when :suite; Spec::Runner.options.before_suite_parts
+        when :suite; before_suite_parts
         end
       end
 
@@ -72,7 +90,7 @@ module Spec
         case Spec::Example.scope_from(*args)
         when :each; after_each_parts
         when :all; after_all_parts
-        when :suite; Spec::Runner.options.after_suite_parts
+        when :suite; after_suite_parts
         end
       end
 
