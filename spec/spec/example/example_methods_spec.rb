@@ -97,7 +97,7 @@ module Spec
                   @example.eval_block
                 end
               
-                error.pending_caller.should == "#{file}:#{line_number}"
+                error.pending_caller.should =~ /#{file}:#{line_number}/
               end
             end
           end
