@@ -137,6 +137,12 @@ module Spec
         @stub.foo("bar")
         @stub.foo("baz")
       end
+
+      it "calculates return value by executing block passed to #and_return" do
+        @mock.stub!(:something).with("a","b","c").and_return { |a,b,c| c+b+a }
+        @mock.something("a","b","c").should == "cba"
+        @mock.rspec_verify
+      end
     end
     
     describe "A method stub with args" do

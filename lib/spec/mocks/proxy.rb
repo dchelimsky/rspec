@@ -91,7 +91,7 @@ module Spec
           if expectation = find_almost_matching_expectation(sym, *args)
             expectation.advise(args, block) unless expectation.expected_messages_received?
           end
-          stub.invoke([], block)
+          stub.invoke(args, block)
         elsif expectation
           expectation.invoke(args, block)
         elsif expectation = find_almost_matching_expectation(sym, *args)
