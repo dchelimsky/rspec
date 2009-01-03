@@ -72,7 +72,7 @@ WARNING
           if options[:shared]
             create_shared_example_group(*args, &example_group_block)
           else
-            create_subclass(*args, &example_group_block)
+            create_example_group_subclass(*args, &example_group_block)
           end
         else
           set_description(*args)
@@ -84,26 +84,19 @@ WARNING
         SharedExampleGroup.register(*args, &example_group_block)
       end
       
-      def create_subclass(*args, &example_group_block) # :nodoc:
-        subclass("Subclass") do
-          set_description(*args)
-          module_eval(&example_group_block)
-        end
-      end
-      
       # Creates a new subclass of self, with a name "under" our own name.
       # Example:
       #
       #   x = Foo::Bar.subclass('Zap'){}
       #   x.name # => Foo::Bar::Zap_1
       #   x.superclass.name # => Foo::Bar
-      def subclass(base_name, &body) # :nodoc:
+      def create_example_group_subclass(*args, &example_group_block) # :nodoc:
         @class_count ||= 0
         @class_count += 1
-        klass = Class.new(self)
-        class_name = "#{base_name}_#{@class_count}"
-        const_set(class_name, klass)
-        klass.instance_eval(&body)
+        klass = const_set("Subclass_#{@class_count}", Class.new(self))
+        klass.set_description(*args)
+        example_group_block = ExampleGroupFactory.include_constants_in(args.last[:scope], &example_group_block)
+        klass.module_eval(&example_group_block)
         klass
       end
       
