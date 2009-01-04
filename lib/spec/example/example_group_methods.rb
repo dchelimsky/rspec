@@ -312,20 +312,21 @@ WARNING
       end
 
       def each_ancestor_example_group_class(superclass_last=false)
-        classes = []
-        current_class = self
-        while is_example_group_class?(current_class)
-          superclass_last ? classes << current_class : classes.unshift(current_class)
-          current_class = current_class.superclass
-        end
-        
-        classes.each do |example_group|
+        (superclass_last ? ancestor_example_group_classes.reverse : ancestor_example_group_classes).each do |example_group|
           yield example_group
         end
       end
-
-      def is_example_group_class?(klass)
-        klass.kind_of?(ExampleGroupMethods) && klass.included_modules.include?(ExampleMethods)
+      
+      def ancestor_example_group_classes
+        unless @ancestor_example_group_classes
+          @ancestor_example_group_classes = []
+          current_class = self
+          while current_class.kind_of?(ExampleGroupMethods)
+            @ancestor_example_group_classes.unshift(current_class)
+            current_class = current_class.superclass
+          end
+        end
+        @ancestor_example_group_classes
       end
 
       def plugin_mock_framework(run_options)
