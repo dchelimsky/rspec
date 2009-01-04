@@ -54,10 +54,6 @@ module Spec
       def included(mod) # :nodoc:
         mod.module_eval(&@example_group_block)
       end
-
-      def each_ancestor_example_group_class(superclass_last=false)
-        yield self
-      end
     end
   end
 end
