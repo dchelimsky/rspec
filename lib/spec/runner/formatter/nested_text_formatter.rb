@@ -52,7 +52,7 @@ module Spec
 
         def described_example_group_chain
           example_group_chain = []
-          example_group.__send__(:each_ancestor_example_group_class) do |example_group_class|
+          example_group.__send__(:example_group_hierarchy).each do |example_group_class|
             unless example_group_class.description_args.empty?
               example_group_chain << example_group_class
             end
