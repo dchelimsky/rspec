@@ -10,6 +10,7 @@ module Spec
         # responsibility of the ExampleGroupRunner. Some implementations (like)
         # the one using DRb may choose *not* to load files, but instead tell
         # someone else to do it over the wire.
+        $KCODE = 'u' if RUBY_VERSION < '1.9'
         files.each do |file|
           load file
         end
