@@ -280,7 +280,7 @@ module Spec
       def custom_runner
         return nil unless custom_runner?
         klass_name, arg = ClassAndArgumentsParser.parse(user_input_for_runner)
-        runner_type = load_class(klass_name, 'behaviour runner', '--runner')
+        runner_type = load_class(klass_name, 'example group runner', '--runner')
         return runner_type.new(self, arg)
       end
 
