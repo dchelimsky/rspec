@@ -1,5 +1,17 @@
 === Maintenance
 
+WARNING: there was a stub/mock bug in 1.1.11 that allowed a structure that was
+not intended:
+
+  obj.stub!(:msg)
+  obj.msg
+  obj.should_receive(:msg)
+  
+That would pass in 1.1.11, but should not have been allowed to, since the
+message is received before the expectation is set. This was reported (#637)
+and fixed for release 1.1.12, but may cause unexpected failures if you had
+examples set up as above.
+
 * 2 deprecations
 
   * deprecated ExampleMethods#implementation_backtrace - use ExampleMethods#backtrace instead
