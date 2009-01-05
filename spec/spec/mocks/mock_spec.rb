@@ -11,6 +11,21 @@ module Spec
         @mock.rspec_reset
       end
       
+      describe "deprecated #stub_everything method" do
+        before(:each) do
+          Kernel.stub!(:warn)
+        end
+        
+        it "creates a mock that behaves as a null object" do
+          stub_everything.should be_null_object
+        end
+        
+        it "provides deprecation warning" do
+          Kernel.should_receive(:warn).with(/DEPRECATION: stub_everything.* is deprecated./)
+          stub_everything
+        end
+      end
+      
       it "should report line number of expectation of unreceived message" do
         expected_error_line = __LINE__; @mock.should_receive(:wont_happen).with("x", 3)
         begin
@@ -548,6 +563,16 @@ module Spec
         mock = mock("Dog")
         valid_html_str = "#{mock}"
         valid_html_str.should_not include('<')
+      end
+    end
+    
+    describe "==" do
+      it "sends '== self' to the comparison object" do
+        first = mock('first')
+        second = mock('second')
+        
+        first.should_receive(:==).with(second)
+        second == first
       end
     end
   end
