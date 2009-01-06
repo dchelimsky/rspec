@@ -354,7 +354,7 @@ WARNING
       end
 
       def add_method_examples(examples)
-        instance_methods.sort.each do |method_name|
+        instance_methods.each do |method_name|
           if example_method?(method_name)
             examples << new(method_name) do
               __send__(method_name)
