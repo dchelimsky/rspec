@@ -108,7 +108,7 @@ module Spec
             true
           else
             set_spec_from_line_number if line_number
-            success = runner.run(self)
+            success = runner.run
             @examples_run = true
             heckle if heckle_runner
             success
