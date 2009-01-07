@@ -2,11 +2,11 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 module Spec
   module Mocks
-    module ArgumentConstraints
-      describe HashNotIncludingConstraint do
+    module ArgumentMatchers
+      describe HashNotIncludingMatcher do
         
         it "should describe itself properly" do
-          HashNotIncludingConstraint.new(:a => 5).description.should == "hash_not_including(:a=>5)"
+          HashNotIncludingMatcher.new(:a => 5).description.should == "hash_not_including(:a=>5)"
         end      
 
         describe "passing" do

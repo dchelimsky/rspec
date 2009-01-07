@@ -17,7 +17,7 @@ module Spec
         @return_block = nil
         @actual_received_count = 0
         @expected_received_count = expected_received_count
-        @args_expectation = ArgumentExpectation.new([ArgumentConstraints::AnyArgsConstraint.new])
+        @args_expectation = ArgumentExpectation.new([ArgumentMatchers::AnyArgsMatcher.new])
         @consecutive = false
         @exception_to_raise = nil
         @symbol_to_throw = nil

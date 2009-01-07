@@ -1,7 +1,7 @@
 module Spec
   module Mocks
     module ExampleMethods
-      include Spec::Mocks::ArgumentConstraints
+      include Spec::Mocks::ArgumentMatchers
 
       # Shortcut for creating an instance of Spec::Mocks::Mock.
       #

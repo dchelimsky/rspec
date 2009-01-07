@@ -2,11 +2,11 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 module Spec
   module Mocks
-    module ArgumentConstraints
-      describe HashIncludingConstraint do
+    module ArgumentMatchers
+      describe HashIncludingMatcher do
         
         it "should describe itself properly" do
-          HashIncludingConstraint.new(:a => 1).description.should == "hash_including(:a=>1)"
+          HashIncludingMatcher.new(:a => 1).description.should == "hash_including(:a=>1)"
         end      
 
         describe "passing" do
@@ -18,7 +18,7 @@ module Spec
             hash_including(:a => 1).should == {:a => 1, :b => 2}
           end
           
-          describe "when matching against other constraints" do
+          describe "when matching against other matchers" do
             it "should match an int against anything()" do
               hash_including(:a => anything, :b => 2).should == {:a => 1, :b => 2}
             end

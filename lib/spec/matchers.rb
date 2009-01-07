@@ -31,7 +31,7 @@ module Spec
   #   description #optional
   #
   # See Spec::Expectations to learn how to use these as Expectation Matchers.
-  # See Spec::Mocks to learn how to use them as Mock Argument Constraints.
+  # See Spec::Mocks to learn how to use them as Mock Argument Matchers.
   #
   # == Predicates
   #

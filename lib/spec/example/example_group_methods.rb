@@ -118,7 +118,7 @@ WARNING
       #   exist (for state expectations)
       #     File.should exist("path/to/file")
       #
-      #   an_instance_of (for mock argument constraints)
+      #   an_instance_of (for mock argument matchers)
       #     mock.should_receive(:message).with(an_instance_of(String))
       #
       # == Examples
