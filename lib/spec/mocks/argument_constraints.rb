@@ -121,6 +121,26 @@ module Spec
           @given == expected
         end
       end
+      
+      class InstanceOf
+        def initialize(klass)
+          @klass = klass
+        end
+        
+        def ==(actual)
+          actual.instance_of?(@klass)
+        end
+      end
+      
+      class KindOf
+        def initialize(klass)
+          @klass = klass
+        end
+        
+        def ==(actual)
+          actual.kind_of?(@klass)
+        end
+      end
 
       # :call-seq:
       #   object.should_receive(:message).with(any_args())
@@ -190,6 +210,20 @@ module Spec
       def hash_not_including(*args)
         HashNotIncludingConstraint.new(anythingize_lonely_keys(*args))
       end
+      
+      # Passes if arg.instance_of?(klass)
+      def instance_of(klass)
+        InstanceOf.new(klass)
+      end
+      
+      alias_method :an_instance_of, :instance_of
+      
+      # Passes if arg.kind_of?(klass)
+      def kind_of(klass)
+        KindOf.new(klass)
+      end
+      
+      alias_method :a_kind_of, :kind_of
       
       private
       

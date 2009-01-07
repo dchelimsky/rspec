@@ -136,7 +136,7 @@ WARNING
       #     end
       #   end
       def predicate_matchers
-        @predicate_matchers ||= {:an_instance_of => :is_a?}
+        @predicate_matchers ||= {}
       end
 
       # Creates an instance of the current example group class and adds it to
@@ -354,7 +354,7 @@ WARNING
       end
 
       def add_method_examples(examples)
-        instance_methods.sort.each do |method_name|
+        instance_methods.each do |method_name|
           if example_method?(method_name)
             examples << new(method_name) do
               __send__(method_name)
