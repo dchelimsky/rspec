@@ -4,7 +4,7 @@ module Spec
     
     class ExpectationMatcherHandler        
       def self.handle_matcher(actual, matcher, &block)
-        ::Spec::Matchers.last_should = "should"
+        ::Spec::Matchers.last_should = :should
         ::Spec::Matchers.last_matcher = matcher
 
         return ::Spec::Matchers::PositiveOperatorMatcher.new(actual) if matcher.nil?
@@ -17,7 +17,7 @@ module Spec
 
     class NegativeExpectationMatcherHandler
       def self.handle_matcher(actual, matcher, &block)
-        ::Spec::Matchers.last_should = "should not"
+        ::Spec::Matchers.last_should = :should_not
         ::Spec::Matchers.last_matcher = matcher
 
         return ::Spec::Matchers::NegativeOperatorMatcher.new(actual) if matcher.nil?

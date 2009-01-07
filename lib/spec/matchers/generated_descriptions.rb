@@ -23,7 +23,7 @@ module Spec
 
     def self.generated_description
       return nil if last_should.nil?
-      "#{last_should} #{last_description}"
+      "#{last_should.to_s.gsub('_',' ')} #{last_description}"
     end
     
     private
