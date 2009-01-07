@@ -22,5 +22,12 @@ module Spec
         end
       end
     end
+    
+    describe BehaviourRunner do
+      it "is DEPRECATED (use ExampleGroupRunner)" do
+        Kernel.should_receive(:warn).with(/DEPRECATED/)
+        BehaviourRunner.new(nil)
+      end
+    end
   end
 end

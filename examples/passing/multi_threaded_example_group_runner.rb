@@ -24,5 +24,3 @@ class MultiThreadedExampleGroupRunner < Spec::Runner::ExampleGroupRunner
     success
   end
 end
-
-MultiThreadedBehaviourRunner = MultiThreadedExampleGroupRunner

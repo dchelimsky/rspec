@@ -54,7 +54,17 @@ module Spec
         @options.number_of_examples
       end
     end
-    # TODO: BT - Deprecate BehaviourRunner?
-    BehaviourRunner = ExampleGroupRunner
+    
+    class BehaviourRunner < ExampleGroupRunner
+      def initialize(options)
+        Kernel.warn <<-WARNING
+DEPRECATED: The BeheviourRunner class is deprecated and will
+be removed from rspec-1.2.
+
+Use ExampleGroupRunner instead.
+WARNING
+        super
+      end
+    end
   end
 end
