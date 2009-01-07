@@ -136,7 +136,7 @@ WARNING
       #     end
       #   end
       def predicate_matchers
-        @predicate_matchers ||= {:an_instance_of => :is_a?}
+        @predicate_matchers ||= {}
       end
 
       # Creates an instance of the current example group class and adds it to

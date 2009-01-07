@@ -291,3 +291,13 @@ describe "be_a, be_an" do
     [1,2,3].should_not be_an(Integer)
   end
 end
+
+describe "be_an_instance_of" do
+  it "passes when direct class matches" do
+    5.should be_an_instance_of(Fixnum)
+  end
+  
+  it "fails when class is higher up hierarchy" do
+    5.should_not be_an_instance_of(Numeric)
+  end
+end

@@ -192,20 +192,17 @@ it reads really poorly.
     #   target.should_not be_nil
     #
     #   collection.should be_empty #passes if target.empty?
-    #   "this string".should be_an_intance_of(String)
-    #
     #   target.should_not be_empty #passes unless target.empty?
     #   target.should_not be_old_enough(16) #passes unless target.old_enough?(16)
     def be(*args)
       Matchers::Be.new(*args)
     end
 
-    def be_a(*args)
-      be_kind_of(*args)
+    # passes if target.kind_of?(klass)
+    def be_a(klass)
+      be_a_kind_of(klass)
     end
-
-    def be_an(*args)
-      be_kind_of(*args)
-    end
+    
+    alias_method :be_an, :be_a
   end
 end

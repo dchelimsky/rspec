@@ -12,6 +12,8 @@ message is received before the expectation is set. This was reported (#637)
 and fixed for release 1.1.12, but may cause unexpected failures if you had
 examples set up as above.
 
+WARNING: mock.should_receive(:msg).with(an_instance_of(klass)) now correctly uses instance_of? instead of kind_of?. This may break some existing code examples, but the fix is to just use kind_of instead of an_instance_of
+
 * 2 deprecations
 
   * deprecated ExampleMethods#implementation_backtrace - use ExampleMethods#backtrace instead
@@ -26,7 +28,7 @@ examples set up as above.
   * hash_including mock argument matcher can now accept just keys, key/value pairs, or both (David Krmpotic)
   * added hash_not_including mock argument matcher (David Krmpotic). Closes #634.
 
-* 7 minor enhancements
+* 9 minor enhancements
 
   * should throw_symbol accepts an optional argument: should throw_symbol(:sym, arg)
   * fixed --line for jruby (Zach Moazeni)
@@ -35,6 +37,8 @@ examples set up as above.
   * SpecParser can't handle backtrace paths with colons (John-Mason P. Shackelford). Closes #505.
   * html formatter (and subsequently the textmate formatter) header fills in completely when running a single example
   * config.include now accepts an array of types (config.include(Helpers, :type => [:view, :controller]))
+  * added be_a and be_an expectation matchers
+  * added instance_of and kind_of mock argument matchers
   
 * 9 bug fixes
 
