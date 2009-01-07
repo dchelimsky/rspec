@@ -22,6 +22,10 @@ module Spec
         message
       end
       
+      def negative_failure_message
+        "Matcher does not support should_not"
+      end
+      
       def description
         "contain exactly #{_pretty_print(@expected)}"
       end
