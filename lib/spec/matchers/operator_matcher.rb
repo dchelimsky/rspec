@@ -2,16 +2,18 @@ module Spec
   module Matchers
 
     class OperatorMatcher
-      @operator_registry = {}
+      class << self
+        def registry
+          @registry ||= Hash.new {|h,k| h[k] = {}}
+        end
 
-      def self.register(klass, operator, matcher)
-        @operator_registry[klass] ||= {}
-        @operator_registry[klass][operator] = matcher
-      end
+        def register(klass, operator, matcher)
+          registry[klass][operator] = matcher
+        end
 
-      def self.get(klass, operator)
-        return @operator_registry[klass][operator] if @operator_registry[klass]
-        nil
+        def get(klass, operator)
+          registry[klass][operator]
+        end
       end
 
       def initialize(actual)
@@ -21,7 +23,7 @@ module Spec
       def self.use_custom_matcher_or_delegate(operator)
         define_method(operator) do |expected|
           if matcher = OperatorMatcher.get(@actual.class, operator)
-            return @actual.send(::Spec::Matchers.last_should, matcher.new(expected))
+            @actual.send(::Spec::Matchers.last_should, matcher.new(expected))
           else
             ::Spec::Matchers.last_matcher = self
             @operator, @expected = operator, expected
