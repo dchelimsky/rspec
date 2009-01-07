@@ -16,11 +16,11 @@ module Spec
         end
       end
 
-      def run(run_options)
+      def run
         prepare
         success = true
         example_groups.each do |example_group|
-          success = success & example_group.run(run_options)
+          success = success & example_group.run(@options)
         end
         return success
       ensure
@@ -54,7 +54,17 @@ module Spec
         @options.number_of_examples
       end
     end
-    # TODO: BT - Deprecate BehaviourRunner?
-    BehaviourRunner = ExampleGroupRunner
+    
+    class BehaviourRunner < ExampleGroupRunner
+      def initialize(options)
+        Kernel.warn <<-WARNING
+DEPRECATED: The BeheviourRunner class is deprecated and will
+be removed from rspec-1.2.
+
+Use ExampleGroupRunner instead.
+WARNING
+        super
+      end
+    end
   end
 end

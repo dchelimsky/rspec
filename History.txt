@@ -14,10 +14,11 @@ examples set up as above.
 
 WARNING: mock.should_receive(:msg).with(an_instance_of(klass)) now correctly uses instance_of? instead of kind_of?. This may break some existing code examples, but the fix is to just use kind_of instead of an_instance_of
 
-* 2 deprecations
+* 3 deprecations
 
   * deprecated ExampleMethods#implementation_backtrace - use ExampleMethods#backtrace instead
   * deprecated ExampleGroupMethods#example_group_backtrace - use ExampleGroupMethods#backtrace instead
+  * deprecated Spec::Example::BehaviourRunner class (likely that nobody is using this)
 
 * 6 major enhancements
 
