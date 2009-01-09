@@ -37,7 +37,7 @@ examples/passing/io_processor.rb
 examples/passing/io_processor_spec.rb
 examples/passing/legacy_spec.rb
 examples/passing/mocking_example.rb
-examples/passing/multi_threaded_behaviour_runner.rb
+examples/passing/multi_threaded_example_group_runner.rb
 examples/passing/nested_classes_example.rb
 examples/passing/partial_mock_example.rb
 examples/passing/pending_example.rb
@@ -297,6 +297,7 @@ spec/spec/runner/command_line_spec.rb
 spec/spec/runner/configuration_spec.rb
 spec/spec/runner/drb_command_line_spec.rb
 spec/spec/runner/empty_file.txt
+spec/spec/runner/example_group_runner_spec.rb
 spec/spec/runner/examples.txt
 spec/spec/runner/failed.txt
 spec/spec/runner/formatter/base_formatter_spec.rb
@@ -338,6 +339,7 @@ spec/spec/runner/resources/a_bar.rb
 spec/spec/runner/resources/a_foo.rb
 spec/spec/runner/resources/a_spec.rb
 spec/spec/runner/resources/custom_example_group_runner.rb
+spec/spec/runner/resources/utf8_encoded.rb
 spec/spec/runner/spec.opts
 spec/spec/runner/spec_drb.opts
 spec/spec/runner/spec_parser/spec_parser_fixture.rb
