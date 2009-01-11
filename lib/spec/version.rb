@@ -3,8 +3,8 @@ module Spec
     unless defined? MAJOR
       MAJOR  = 1
       MINOR  = 1
-      TINY   = 11
-      MINESCULE = 7
+      TINY   = 12
+      MINESCULE = nil
       
 
       STRING = [MAJOR, MINOR, TINY, MINESCULE].compact.join('.')

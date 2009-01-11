@@ -1,4 +1,4 @@
-=== Maintenance
+=== Version 1.1.12 / 2009-01-11
 
 WARNING: there was a stub/mock bug in 1.1.11 that allowed a structure that was
 not intended:
