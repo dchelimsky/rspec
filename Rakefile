@@ -96,6 +96,6 @@ namespace :update do
   
   desc "update the gemspec"
   task :gemspec do
-    system %q[rake debug_gem | grep -v "(in " | grep -v "s.add_dependency(%q<hoe" > `basename \\`pwd\\``.gemspec]
+    system %q[rake debug_gem | grep -v "(in " | grep -v "else" | grep -v "s.add_dependency(%q<hoe" | grep -v "s.add_dependency(%q<cuc" > `basename \\`pwd\\``.gemspec]
   end
 end
