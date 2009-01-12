@@ -31,9 +31,9 @@ module Spec
         # implicitly use an instance of FarmExampleGroup for any file loaded
         # from the <tt>./spec/farm</tt> directory.
         def register(key, example_group_class)
-          @example_group_types[key] = example_group_class
+          @example_group_types[key.to_sym] = example_group_class
         end
-        
+
         # Sets the default ExampleGroup class
         def default(example_group_class)
           old = @example_group_types
@@ -48,7 +48,7 @@ module Spec
             @example_group_types[key]
           end
         end
-        
+
         def create_example_group(*args, &block)
           raise ArgumentError if args.empty?
           raise ArgumentError unless block
@@ -56,19 +56,19 @@ module Spec
           superclass = determine_superclass(args.last)
           superclass.describe(*args, &block)
         end
-        
+
         def create_shared_example_group(*args, &block)
           Spec::Example::add_spec_path_to(args)
           SharedExampleGroup.register(*args, &block)
         end
-        
+
         def include_constants_in(context, &block)
           if (Spec::Ruby.version.to_f >= 1.9 && Module === context && !(Class === context))
             return lambda {include context;instance_eval(&block)}
           end
           block
         end
-        
+
         def assign_scope(scope, args)
           args.last[:scope] = scope
         end
@@ -83,9 +83,9 @@ module Spec
           end
           get(key)
         end
-        
+
       private
-        
+
         def registered_types
           @example_group_types.values
         end

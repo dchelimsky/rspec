@@ -62,7 +62,7 @@ module Spec
             Spec::Example::ExampleGroupFactory.create_example_group do; end
           }.should raise_error(ArgumentError)
         end
-        
+
         it "should raise when no block is given" do
           lambda { Spec::Example::ExampleGroupFactory.create_example_group "foo" }.should raise_error(ArgumentError)
         end
@@ -112,7 +112,15 @@ module Spec
           ) {}
           custom_example_group.superclass.should == parent_example_group
         end
-        
+
+        it "should create a scoped type indicated by spec_path" do
+          Spec::Example::ExampleGroupFactory.register('path/to/custom', parent_example_group)
+          custom_example_group = Spec::Example::ExampleGroupFactory.create_example_group(
+            "example_group", :spec_path => "./spec/path/to/custom/some_spec.rb"
+          ) {}
+          custom_example_group.superclass.should == parent_example_group
+        end
+
         it "sets the spec_path from the caller" do
           options = {}
           shared_example_group = Spec::Example::ExampleGroupFactory.create_example_group("foo", options) {}
@@ -152,19 +160,19 @@ module Spec
           end
           Spec::Runner.options.example_groups.should_not include(example_group)
         end
-        
+
         after(:each) do
           Spec::Example::ExampleGroupFactory.reset
         end
       end
-      
+
       describe "#create_shared_example_group" do
         it "registers a new shared example group" do
           shared_example_group = Spec::Example::ExampleGroupFactory.create_shared_example_group("something shared") {}
           shared_example_group.should be_an_instance_of(Spec::Example::SharedExampleGroup)
           SharedExampleGroup.should include(shared_example_group)
         end
-        
+
         it "sets the spec_path from the caller" do
           options = {}
           shared_example_group = Spec::Example::ExampleGroupFactory.create_shared_example_group("foo", options) {}
@@ -179,11 +187,11 @@ module Spec
           @unregistered_grandchild = Class.new(@registered_child)
           Spec::Example::ExampleGroupFactory.register :registered_child, @registered_child
         end
-        
+
         it "should return true for empty list" do
           Spec::Example::ExampleGroupFactory.registered_or_ancestor_of_registered?([]).should be_true
         end
-        
+
         it "should return true for a registered example group class" do
           Spec::Example::ExampleGroupFactory.registered_or_ancestor_of_registered?([@registered_child]).should be_true
         end
