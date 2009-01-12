@@ -113,12 +113,23 @@ module Spec
           custom_example_group.superclass.should == parent_example_group
         end
 
-        it "should create a scoped type indicated by spec_path" do
+        it "should create a type indicated by spec_path for a path-like key" do
           Spec::Example::ExampleGroupFactory.register('path/to/custom', parent_example_group)
           custom_example_group = Spec::Example::ExampleGroupFactory.create_example_group(
             "example_group", :spec_path => "./spec/path/to/custom/some_spec.rb"
           ) {}
           custom_example_group.superclass.should == parent_example_group
+        end
+
+        it "should use the longest key that matches when creating a type indicated by spec_path" do
+          longer = Class.new parent_example_group
+          Spec::Example::ExampleGroupFactory.register(:longer, longer)
+          long = Class.new parent_example_group
+          Spec::Example::ExampleGroupFactory.register(:long, long)
+          custom_example_group = Spec::Example::ExampleGroupFactory.create_example_group(
+            "example_group", :spec_path => "./spec/longer/some_spec.rb"
+          ) {}
+          custom_example_group.superclass.should == longer
         end
 
         it "sets the spec_path from the caller" do

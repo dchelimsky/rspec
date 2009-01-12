@@ -78,7 +78,7 @@ module Spec
         def determine_superclass(opts)
           key = if opts[:type]
             opts[:type]
-          elsif opts[:spec_path] =~ /spec(\\|\/)(#{@example_group_types.keys.join('|')})/
+          elsif opts[:spec_path] =~ /spec(\\|\/)(#{@example_group_types.keys.sort_by{|k| k.to_s.length}.reverse.join('|')})/
             $2 == '' ? nil : $2.to_sym
           end
           get(key)
