@@ -23,16 +23,6 @@ module Spec
               'textmate' => ['spec/runner/formatter/text_mate_formatter',              'Formatter::TextMateFormatter']
       }
 
-      STORY_FORMATTERS = {
-        'plain' => ['spec/runner/formatter/story/plain_text_formatter',   'Formatter::Story::PlainTextFormatter'],
-            'p' => ['spec/runner/formatter/story/plain_text_formatter',   'Formatter::Story::PlainTextFormatter'],
-         'html' => ['spec/runner/formatter/story/html_formatter',         'Formatter::Story::HtmlFormatter'],
-            'h' => ['spec/runner/formatter/story/html_formatter',         'Formatter::Story::HtmlFormatter'],
-     'progress' => ['spec/runner/formatter/story/progress_bar_formatter', 'Formatter::Story::ProgressBarFormatter'],
-            'r' => ['spec/runner/formatter/story/progress_bar_formatter', 'Formatter::Story::ProgressBarFormatter']
-            
-      }
-
       attr_accessor(
         :filename_pattern,
         :backtrace_tweaker,
@@ -98,7 +88,7 @@ module Spec
           # TODO - this has to happen after the files get loaded,
           # otherwise the before_suite_parts are not populated
           # from the configuration. There is no spec for this
-          # directly, but stories/configuration/before_blocks.story
+          # directly, but features/before_and_after_blocks/before_and_after_blocks.story
           # will fail if this happens before the files are loaded.
           before_suite_parts.each do |part|
             part.call
@@ -199,11 +189,6 @@ module Spec
         @formatters ||= load_formatters(@format_options, EXAMPLE_FORMATTERS)
       end
 
-      def story_formatters
-        @format_options ||= [['plain', @output_stream]]
-        @formatters ||= load_formatters(@format_options, STORY_FORMATTERS)
-      end
-      
       def load_formatters(format_options, formatters)
         format_options.map do |format, where|
           formatter_type = if formatters[format]
