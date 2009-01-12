@@ -114,7 +114,7 @@ module Spec
         end
 
         it "should create a type indicated by spec_path for a path-like key" do
-          Spec::Example::ExampleGroupFactory.register('path/to/custom', parent_example_group)
+          Spec::Example::ExampleGroupFactory.register('path/to/custom/', parent_example_group)
           custom_example_group = Spec::Example::ExampleGroupFactory.create_example_group(
             "example_group", :spec_path => "./spec/path/to/custom/some_spec.rb"
           ) {}
