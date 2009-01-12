@@ -14,10 +14,9 @@ module Spec
       end
       
       # This allows for comparing the mock to other objects that proxy such as
-      # ActiveRecords belongs_to proxy objects By making the other object run
-      # the comparison, we're sure the call gets delegated to the proxy target
-      # This is an unfortunate side effect from ActiveRecord, but this should
-      # be safe unless the RHS redefines == in a nonsensical manner
+      # ActiveRecords belongs_to proxy objects. By making the other object run
+      # the comparison, we're sure the call gets delegated to the proxy
+      # target.
       def ==(other)
         other == __mock_proxy
       end

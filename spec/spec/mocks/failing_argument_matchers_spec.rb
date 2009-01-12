@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 module Spec
   module Mocks
-    describe "failing MockArgumentConstraints" do
+    describe "failing MockArgumentMatchers" do
       before(:each) do
         @mock = mock("test mock")
         @reporter = Mock.new("reporter", :null_object => true)
@@ -83,7 +83,7 @@ module Spec
          end.should raise_error(MockExpectationError, "Mock 'test mock' expected :msg with (hash_including(:a=>1)) but received it with ({})")
       end
 
-      it "should fail with block constraints" do
+      it "should fail with block matchers" do
         lambda do
           @mock.should_receive(:msg).with {|arg| arg.should == :received }
           @mock.msg :no_msg_for_you

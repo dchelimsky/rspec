@@ -1,21 +1,21 @@
 module Spec
   module Mocks
 
-    # ArgumentConstraints are messages that you can include in message
+    # ArgumentMatchers are messages that you can include in message
     # expectations to match arguments against a broader check than simple
     # equality.
     #
-    # With the exception of any_args() and no_args(), the constraints
+    # With the exception of any_args() and no_args(), the matchers
     # are all positional - they match against the arg in the given position.
-    module ArgumentConstraints
+    module ArgumentMatchers
 
-      class AnyArgsConstraint
+      class AnyArgsMatcher
         def description
           "any args"
         end
       end
 
-      class AnyArgConstraint
+      class AnyArgMatcher
         def initialize(ignore)
         end
 
@@ -24,7 +24,7 @@ module Spec
         end
       end
 
-      class NoArgsConstraint
+      class NoArgsMatcher
         def description
           "no args"
         end
@@ -34,7 +34,7 @@ module Spec
         end
       end
 
-      class RegexpConstraint
+      class RegexpMatcher
         def initialize(regexp)
           @regexp = regexp
         end
@@ -45,7 +45,7 @@ module Spec
         end
       end
 
-      class BooleanConstraint
+      class BooleanMatcher
         def initialize(ignore)
         end
 
@@ -54,7 +54,7 @@ module Spec
         end
       end
 
-      class HashIncludingConstraint
+      class HashIncludingMatcher
         def initialize(expected)
           @expected = expected
         end
@@ -73,7 +73,7 @@ module Spec
         end
       end
       
-      class HashNotIncludingConstraint
+      class HashNotIncludingMatcher
         def initialize(expected)
           @expected = expected
         end
@@ -92,7 +92,7 @@ module Spec
         end
       end
       
-      class DuckTypeConstraint
+      class DuckTypeMatcher
         def initialize(*methods_to_respond_to)
           @methods_to_respond_to = methods_to_respond_to
         end
@@ -102,7 +102,7 @@ module Spec
         end
       end
 
-      class MatcherConstraint
+      class MatcherMatcher
         def initialize(matcher)
           @matcher = matcher
         end
@@ -148,7 +148,7 @@ module Spec
       # Passes if object receives :message with any args at all. This is
       # really a more explicit variation of object.should_receive(:message)
       def any_args
-        AnyArgsConstraint.new
+        AnyArgsMatcher.new
       end
       
       # :call-seq:
@@ -156,7 +156,7 @@ module Spec
       #
       # Passes as long as there is an argument.
       def anything
-        AnyArgConstraint.new(nil)
+        AnyArgMatcher.new(nil)
       end
       
       # :call-seq:
@@ -164,7 +164,7 @@ module Spec
       #
       # Passes if no arguments are passed along with the message
       def no_args
-        NoArgsConstraint.new
+        NoArgsMatcher.new
       end
       
       # :call-seq:
@@ -180,7 +180,7 @@ module Spec
       #   display.should_receive(:present_names).with(duck_type(:length, :each))
       #   => passes
       def duck_type(*args)
-        DuckTypeConstraint.new(*args)
+        DuckTypeMatcher.new(*args)
       end
 
       # :call-seq:
@@ -188,7 +188,7 @@ module Spec
       #
       # Passes if the argument is boolean.
       def boolean
-        BooleanConstraint.new(nil)
+        BooleanMatcher.new(nil)
       end
       
       # :call-seq:
@@ -198,7 +198,7 @@ module Spec
       # Passes if the argument is a hash that includes the specified key(s) or key/value
       # pairs. If the hash includes other keys, it will still pass.
       def hash_including(*args)
-        HashIncludingConstraint.new(anythingize_lonely_keys(*args))
+        HashIncludingMatcher.new(anythingize_lonely_keys(*args))
       end
       
       # :call-seq:
@@ -208,7 +208,7 @@ module Spec
       #
       # Passes if the argument is a hash that doesn't include the specified key(s) or key/value
       def hash_not_including(*args)
-        HashNotIncludingConstraint.new(anythingize_lonely_keys(*args))
+        HashNotIncludingMatcher.new(anythingize_lonely_keys(*args))
       end
       
       # Passes if arg.instance_of?(klass)

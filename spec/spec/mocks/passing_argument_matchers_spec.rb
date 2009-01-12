@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 module Spec
   module Mocks
-    describe "mock argument constraints", :shared => true do
+    describe "mock argument matchers", :shared => true do
       before(:each) do
         @mock = Mock.new("test mock")
         Kernel.stub!(:warn)
@@ -13,8 +13,8 @@ module Spec
       end
     end
     
-    describe Methods, "handling argument constraints" do
-      it_should_behave_like "mock argument constraints"
+    describe Methods, "handling argument matchers" do
+      it_should_behave_like "mock argument matchers"
 
       it "should accept true as boolean()" do
         @mock.should_receive(:random_call).with(boolean())
@@ -88,8 +88,8 @@ module Spec
         
     end
 
-    describe Methods, "handling block constraints" do
-      it_should_behave_like "mock argument constraints"
+    describe Methods, "handling block matchers" do
+      it_should_behave_like "mock argument matchers"
       
       it "should match arguments against RSpec expectations" do
         @mock.should_receive(:random_call).with {|arg1, arg2, arr, *rest|
@@ -103,7 +103,7 @@ module Spec
       end
     end
     
-    describe Methods, "handling non-constraint arguments" do
+    describe Methods, "handling non-matcher arguments" do
       
       before(:each) do
         @mock = Mock.new("test mock")

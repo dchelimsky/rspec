@@ -17,7 +17,7 @@ module Spec
       end
 
       def failure
-        Mocks::ArgumentConstraints::DuckTypeConstraint.new(:header, :exception)
+        Mocks::ArgumentMatchers::DuckTypeMatcher.new(:header, :exception)
       end
 
       def create_example_group(description_text)
