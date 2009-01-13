@@ -162,14 +162,14 @@ module Spec
             example.subject.should == []
           end
       
-          it "should not barf on a module (as opposed to a class)" do
-            example_group = Class.new(ExampleGroup).describe(ObjectSpace) do
+          it "should return nil for a module (as opposed to a class)" do
+            example_group = Class.new(ExampleGroup).describe(Enumerable) do
               example {}
             end
             example_group.examples.first.subject.should be_nil
           end
       
-          it "should not barf on a string" do
+          it "should return nil for a string" do
             example_group = Class.new(ExampleGroup).describe('foo') do
               example {}
             end
@@ -178,35 +178,42 @@ module Spec
         end
       end
 
+      class Thing
+        attr_reader :arg
+        def initialize(arg=nil)
+          @arg = arg || :default
+        end
+        def ==(other)
+          @arg == other.arg
+        end
+        def eql?(other)
+          @arg == other.arg
+        end
+      end
+
       describe "#should" do
         with_sandboxed_options do
-          class Thing
-            def ==(other)
-              true
+          
+          context "in an ExampleGroup with an implicit subject" do
+            it "delegates matcher to the implied subject" do
+              example_group = Class.new(ExampleGroup) do
+                describe(Thing)
+                example { should == Thing.new(:default) }
+                example { should eql(Thing.new(:default)) }
+              end
+              example_group.run(options).should be_true
             end
           end
           
-          describe "in an ExampleGroup with the subject defined using #subject" do
-            it "should create an example using the description from the matcher" do
-              example_group = describe(Thing, "2") do
-                subject {'this is the subject'}
-                it { should eql('this is the subject') }
+          context "in an ExampleGroup using an explicit subject" do
+            it "delegates matcher to the declared subject" do
+              example_group = Class.new(ExampleGroup) do
+                describe(Thing)
+                subject { Thing.new(:other) }
+                example { should == Thing.new(:other) }
+                example { should eql(Thing.new(:other)) }
               end
-              example = example_group.examples.first
-              example_group.run(options)
-              example.description.should =~ /should eql "this is the subject"/
-            end
-          end
-          
-          describe "in an ExampleGroup using an implicit ivar" do
-            it "should create an example using the description from the matcher" do
-              example_group = describe(Thing, "3") do
-                it { should == Thing.new }
-              end
-              example = example_group.examples.first
-              success = example_group.run(options)
-              example.description.should =~ /should == #<Spec::Example::Thing/
-              success.should be_true
+              example_group.run(options).should be_true
             end
           end
           
@@ -220,25 +227,27 @@ module Spec
       describe "#should_not" do
         with_sandboxed_options do
 
-          attr_reader :example_group, :example, :success
-
-          before do
-            @example_group = Class.new(ExampleGroup) do
-              def subject; @actual; end
-              before(:each) { @actual = 'expected' }
-              it { should_not eql('unexpected') }
+          context "in an ExampleGroup with an implicit subject" do
+            it "delegates matcher to the implied subject" do
+              example_group = Class.new(ExampleGroup) do
+                describe(Thing)
+                example { should_not == Thing.new(:other) }
+                example { should_not eql(Thing.new(:other)) }
+              end
+              example_group.run(options).should be_true
             end
-            @example = @example_group.examples.first
-
-            @success = example_group.run(options)
           end
-
-          it "should create an example using the description from the matcher" do
-            example.description.should == 'should not eql "unexpected"'
-          end
-
-          it "should test the matcher returned from the block" do
-            success.should be_true
+          
+          context "in an ExampleGroup using an explicit subject" do
+            it "delegates matcher to the declared subject" do
+              example_group = Class.new(ExampleGroup) do
+                describe(Thing)
+                subject { Thing.new(:other) }
+                example { should_not == Thing.new(:default) }
+                example { should_not eql(Thing.new(:default)) }
+              end
+              example_group.run(options).should be_true
+            end
           end
 
           after do

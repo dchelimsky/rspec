@@ -78,8 +78,12 @@ module Spec
         #   describe Person do
         #     it { should_not be_eligible_to_vote }
         #   end
-        def should_not(matcher)
-          subject.should_not(matcher)
+        def should_not(matcher=nil)
+          if matcher
+            subject.should_not(matcher)
+          else
+            subject.should_not
+          end
         end
       end
     end
