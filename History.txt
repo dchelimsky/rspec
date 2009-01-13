@@ -1,7 +1,7 @@
 == Maintenance
 
 * enhancements
-  * allow registering example groups with a path-like key
+  * allow registering example groups with a path-like key (Pat Maddox)
 
 === Version 1.1.12 / 2009-01-11
 
