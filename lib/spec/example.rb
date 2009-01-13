@@ -173,6 +173,7 @@ module Spec
 end
 
 require 'timeout'
+require 'spec/example/subject'
 require 'spec/example/before_and_after_hooks'
 require 'spec/example/pending'
 require 'spec/example/module_reopening_fix'

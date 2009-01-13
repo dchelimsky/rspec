@@ -154,7 +154,7 @@ module Spec
       
       describe "#subject" do
         with_sandboxed_options do
-          it "should return an instance variable named after the described type" do
+          it "should return an instance of the described class" do
             example_group = Class.new(ExampleGroup).describe(Array) do
               example {}
             end
@@ -175,15 +175,6 @@ module Spec
             end
             example_group.examples.first.subject.should be_nil
           end
-      
-          it "should interact with the same scope as the before block" do
-            example_group = Class.new(ExampleGroup) do
-              subject { @foo = 'foo'}
-              example { should == @foo}
-              it { should == 'foo'}
-            end
-            example_group.run(options).should be_true
-          end
         end
       end
 
@@ -195,27 +186,6 @@ module Spec
             end
           end
           
-          describe "in an ExampleGroup with the ivar defined in before" do
-            attr_reader :example, :success
-
-            before(:each) do
-              example_group = describe(Thing, "1") do
-                before(:each) { @spec_example_thing = 'expected' }
-                it { should eql('expected') }
-              end
-              @example = example_group.examples.first
-              @success = example_group.run(options)
-            end
-
-            it "should create an example using the description from the matcher" do
-              example.description.should == 'should eql "expected"'
-            end
-
-            it "should test the matcher returned from the block" do
-              success.should be_true
-            end
-          end
-
           describe "in an ExampleGroup with the subject defined using #subject" do
             it "should create an example using the description from the matcher" do
               example_group = describe(Thing, "2") do

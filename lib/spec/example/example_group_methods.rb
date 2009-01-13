@@ -18,6 +18,7 @@ module Spec
       end
 
       include Spec::Example::BeforeAndAfterHooks
+      include Spec::Example::Subject::ExampleGroupMethods
 
       attr_reader :description_options, :spec_path
       alias :options :description_options
@@ -181,24 +182,8 @@ WARNING
         description_parts.reverse.find {|part| part.is_a?(Module)}
       end
       
-      # Defines an explicit subject for an example group which can then be the
-      # implicit receiver (through delegation) of calls to +should+.
-      #
-      # == Examples
-      #
-      #   describe CheckingAccount, "with $50" do
-      #     subject { CheckingAccount.new(:amount => 50, :currency => :USD) }
-      #     it { should have_a_balance_of(50, :USD)}
-      #     it { should_not be_overdrawn}
-      #   end
-      #
-      # See +ExampleMethods#should+ for more information about this approach.
-      def subject(&block)
-        @_subject_block = block
-      end
-      
-      def subject_block
-        @_subject_block || lambda {nil}
+      def described_class
+        Class === described_type ? described_type : nil
       end
       
       def description_parts #:nodoc:
