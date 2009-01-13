@@ -179,7 +179,7 @@ WARNING
       end
       
       def described_type
-        description_parts.reverse.find {|part| part.is_a?(Module)}
+        @described_type ||= description_parts.reverse.find {|part| part.is_a?(Module)}
       end
       
       def described_class

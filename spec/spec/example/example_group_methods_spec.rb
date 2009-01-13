@@ -404,6 +404,16 @@ module Spec
             end
             child_example_group.described_type.should == Object
           end
+          
+          it "is cached per example group" do
+            klass = Class.new
+            group = Class.new(ExampleGroup) do
+              describe(klass)
+            end
+            group.should_receive(:description_parts).once.and_return([klass])
+            group.described_type
+            group.described_type
+          end
         end
 
         describe "#remove_after" do
