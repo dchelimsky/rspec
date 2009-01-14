@@ -6,7 +6,7 @@ module Spec
       extend Spec::Example::ExampleGroupMethods
       include Spec::Example::ExampleMethods
 
-      def initialize(defined_description, options={}, &implementation)
+      def initialize(defined_description=nil, options={}, &implementation)
         @_options = options
         @_defined_description = defined_description
         @_implementation = implementation || pending_implementation

@@ -105,76 +105,58 @@ module Spec
       end
 
       describe "#backtrace" do        
-        with_sandboxed_options do
-          it "returns the backtrace from where the example was defined" do
-            example_group = Class.new(ExampleGroup) do
-              example "of something" do; end
-            end
-            
-            example = example_group.examples.first
-            example.backtrace.join("\n").should include("#{__FILE__}:#{__LINE__-4}")
-          end
+        it "returns the backtrace from where the example was defined" do
+          example = ExampleGroup.new "name"
+          example.backtrace.join("\n").should include("#{__FILE__}:#{__LINE__-1}")
         end
       end
       
       describe "#implementation_backtrace (deprecated)" do
-        with_sandboxed_options do
-          before(:each) do
-            Kernel.stub!(:warn)
-          end
+        before(:each) do
+          Kernel.stub!(:warn)
+        end
 
-          it "sends a deprecation warning" do
-            example_group = Class.new(ExampleGroup) {}
-            example = example_group.example("") {}
-            Kernel.should_receive(:warn).with(/#implementation_backtrace.*deprecated.*#backtrace instead/m)
-            example.implementation_backtrace
-          end
-          
-          it "returns the backtrace from where the example was defined" do
-            example_group = Class.new(ExampleGroup) do
-              example "of something" do; end
-            end
-            
-            example = example_group.examples.first
-            example.backtrace.join("\n").should include("#{__FILE__}:#{__LINE__-4}")
-          end
+        it "sends a deprecation warning" do
+          Kernel.should_receive(:warn).with(/#implementation_backtrace.*deprecated.*#backtrace instead/m)
+          example = ExampleGroup.new "name"
+          example.implementation_backtrace
+        end
+        
+        it "returns the backtrace from where the example was defined" do
+          example = ExampleGroup.new "name"
+          example.implementation_backtrace.join("\n").should include("#{__FILE__}:#{__LINE__-1}")
         end
       end
 
       describe "#full_description" do
         it "should return the full description of the ExampleGroup and Example" do
-          example_group = Class.new(ExampleGroup).describe("An ExampleGroup") do
-            it "should do something" do
-            end
-          end
-          example = example_group.examples.first
+          example_group = Class.new(ExampleGroup).describe("An ExampleGroup")
+          example = example_group.new "should do something"
           example.full_description.should == "An ExampleGroup should do something"
         end
       end
       
       describe "#subject" do
-        with_sandboxed_options do
-          it "should return an instance of the described class" do
-            example_group = Class.new(ExampleGroup).describe(Array) do
-              example {}
-            end
-            example = example_group.examples.first
-            example.subject.should == []
-          end
-      
-          it "should return nil for a module (as opposed to a class)" do
-            example_group = Class.new(ExampleGroup).describe(Enumerable) do
-              example {}
-            end
-            example_group.examples.first.subject.should be_nil
-          end
-      
-          it "should return nil for a string" do
-            example_group = Class.new(ExampleGroup).describe('foo') do
-              example {}
-            end
-            example_group.examples.first.subject.should be_nil
-          end
+        before(:each) do
+          @example_group = ExampleGroup.dup
+        end
+
+        it "should return an instance of the described class" do
+          @example_group.describe(Array)
+          example = @example_group.new
+          example.subject.should == []
+        end
+    
+        it "should return nil for a module (as opposed to a class)" do
+          @example_group.describe(Enumerable)
+          example = @example_group.new
+          example.subject.should be_nil
+        end
+    
+        it "should return nil for a string" do
+          @example_group.describe('foo')
+          example = @example_group.new
+          example.subject.should be_nil
         end
       end
 
@@ -192,76 +174,59 @@ module Spec
       end
 
       describe "#should" do
-        with_sandboxed_options do
-          
-          context "in an ExampleGroup with an implicit subject" do
-            it "delegates matcher to the implied subject" do
-              example_group = Class.new(ExampleGroup) do
-                describe(Thing)
-                example { should == Thing.new(:default) }
-                example { should eql(Thing.new(:default)) }
-              end
-              example_group.run(options).should be_true
-            end
+        before(:each) do
+          @example_group = ExampleGroup.dup
+        end
+        
+        context "in an ExampleGroup with an implicit subject" do
+          it "delegates matcher to the implied subject" do
+            @example_group.describe(Thing)
+            @example_group.example { should == Thing.new(:default) }
+            @example_group.example { should eql(Thing.new(:default)) }
+            @example_group.run(::Spec::Runner::Options.new(StringIO.new, StringIO.new)).should be_true
           end
-          
-          context "in an ExampleGroup using an explicit subject" do
-            it "delegates matcher to the declared subject" do
-              example_group = Class.new(ExampleGroup) do
-                describe(Thing)
-                subject { Thing.new(:other) }
-                example { should == Thing.new(:other) }
-                example { should eql(Thing.new(:other)) }
-              end
-              example_group.run(options).should be_true
-            end
+        end
+        
+        context "in an ExampleGroup using an explicit subject" do
+          it "delegates matcher to the declared subject" do
+            @example_group.describe(Thing)
+            @example_group.subject { Thing.new(:other) }
+            @example_group.example { should == Thing.new(:other) }
+            @example_group.example { should eql(Thing.new(:other)) }
+            @example_group.run(::Spec::Runner::Options.new(StringIO.new, StringIO.new)).should be_true
           end
-          
-          after(:each) do
-            ExampleGroup.reset
-          end
-          
         end
       end
 
       describe "#should_not" do
-        with_sandboxed_options do
+        before(:each) do
+          @example_group = ExampleGroup.dup
+        end
 
-          context "in an ExampleGroup with an implicit subject" do
-            it "delegates matcher to the implied subject" do
-              example_group = Class.new(ExampleGroup) do
-                describe(Thing)
-                example { should_not == Thing.new(:other) }
-                example { should_not eql(Thing.new(:other)) }
-              end
-              example_group.run(options).should be_true
-            end
+        context "in an ExampleGroup with an implicit subject" do
+          it "delegates matcher to the implied subject" do
+            @example_group.describe(Thing)
+            @example_group.example { should_not == Thing.new(:other) }
+            @example_group.example { should_not eql(Thing.new(:other)) }
+            @example_group.run(::Spec::Runner::Options.new(StringIO.new, StringIO.new)).should be_true
           end
-          
-          context "in an ExampleGroup using an explicit subject" do
-            it "delegates matcher to the declared subject" do
-              example_group = Class.new(ExampleGroup) do
-                describe(Thing)
-                subject { Thing.new(:other) }
-                example { should_not == Thing.new(:default) }
-                example { should_not eql(Thing.new(:default)) }
-              end
-              example_group.run(options).should be_true
-            end
+        end
+        
+        context "in an ExampleGroup using an explicit subject" do
+          it "delegates matcher to the declared subject" do
+            @example_group.describe(Thing)
+            @example_group.subject { Thing.new(:other) }
+            @example_group.example { should_not == Thing.new(:default) }
+            @example_group.example { should_not eql(Thing.new(:default)) }
+            @example_group.run(::Spec::Runner::Options.new(StringIO.new, StringIO.new)).should be_true
           end
-
-          after do
-            ExampleGroup.reset
-          end
-
         end
       end
     end
 
     describe "#options" do
       it "should expose the options hash" do
-        example_group = Class.new(ExampleGroup)
-        example = example_group.example "name", :this => 'that' do; end
+        example = ExampleGroup.new "name", :this => 'that' do; end
         example.options[:this].should == 'that'
       end
     end
