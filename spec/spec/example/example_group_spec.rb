@@ -7,9 +7,7 @@ module Spec
 
       module Foo
         module Bar
-          def self.loaded?
-            true
-          end
+          def self.loaded?; true; end
         end
       end
       include Foo
@@ -647,28 +645,16 @@ module Spec
       end
     end
 
-    class ExampleSubclass < ExampleGroup
-    end
-
     describe ExampleGroup, "subclasses" do
-      after do
-        ExampleGroupFactory.reset
-      end
-
       it "should have access to the described_type" do
-        example_group = Class.new(ExampleSubclass) do
-          describe(Array)
-        end
+        example_group = Class.new(ExampleGroupDouble).describe(Array)
         example_group.__send__(:described_type).should == Array
       end
 
       it "should concat descriptions when nested" do
-        example_group = Class.new(ExampleSubclass) do
-          describe(Array)
-          $nested_group = describe("when empty") do
-          end
-        end
-        $nested_group.description.to_s.should == "Array when empty"
+        example_group = Class.new(ExampleGroupDouble).describe(Array)
+        nested_group = example_group.describe("when empty") do; end
+        nested_group.description.to_s.should == "Array when empty"
       end
     end
   end

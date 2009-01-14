@@ -96,5 +96,13 @@ module Spec
     class ExampleGroup
       extend Resettable
     end
+    Spec::Runner::ExampleGroupCreationListener.ignore do
+      class ExampleGroupDouble < ExampleGroup
+        def register_example_group(klass)
+          #ignore
+        end
+      end
+    end
   end
 end
+
