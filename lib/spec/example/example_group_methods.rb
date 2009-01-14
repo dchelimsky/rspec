@@ -12,7 +12,7 @@ module Spec
           end
           text == "" ? nil : text
         end
-
+        
         def example_group_creation_listeners
           @example_group_creation_listeners ||= []
         end
@@ -187,7 +187,7 @@ WARNING
       end
       
       def description_parts #:nodoc:
-        example_group_hierarchy.inject([]) do |parts, example_group_class|
+        @description_parts ||= example_group_hierarchy.inject([]) do |parts, example_group_class|
           [parts << example_group_class.description_args].flatten
         end
       end

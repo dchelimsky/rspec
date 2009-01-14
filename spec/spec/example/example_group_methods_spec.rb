@@ -390,6 +390,10 @@ module Spec
               Spec::Example::ExampleGroup
             ]
           end
+          
+          it "caches the description parts" do
+            example_group.description_parts.should equal(example_group.description_parts)
+          end
         end
 
         describe "#described_type" do
