@@ -3,6 +3,10 @@
 * enhancements
 
   * allow registering example groups with a path-like key (Pat Maddox)
+  
+* bug fixes
+
+  * support delegating operator matchers to subject with should_not
 
 === Version 1.1.12 / 2009-01-11
 
