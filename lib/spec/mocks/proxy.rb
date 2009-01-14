@@ -82,6 +82,10 @@ module Spec
       def has_negative_expectation?(sym)
         @expectations.detect {|expectation| expectation.negative_expectation_for?(sym)}
       end
+      
+      def record_message_received(sym, args, block)
+        @messages_received << [sym, args, block]
+      end
 
       def message_received(sym, *args, &block)
         expectation = find_matching_expectation(sym, *args)

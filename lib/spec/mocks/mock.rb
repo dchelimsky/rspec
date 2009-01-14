@@ -22,7 +22,7 @@ module Spec
       end
 
       def method_missing(sym, *args, &block)
-        __mock_proxy.instance_eval {@messages_received << [sym, args, block]}
+        __mock_proxy.record_message_received(sym, args, block)
         begin
           return self if __mock_proxy.null_object?
           super(sym, *args, &block)
