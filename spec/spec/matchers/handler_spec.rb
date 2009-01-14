@@ -68,7 +68,14 @@ module Spec
 
     describe NegativeExpectationMatcherHandler do
       describe "#handle_matcher" do
-        it "should ask the matcher if it matches" do
+        it "should ask the matcher if it doesn't match when the matcher responds to #does_not_match?" do
+          matcher = mock("matcher", :does_not_match? => true, :negative_failure_message => nil)
+          actual = Object.new
+          matcher.should_receive(:does_not_match?).with(actual).and_return(true)
+          Spec::Expectations::NegativeExpectationMatcherHandler.handle_matcher(actual, matcher)
+        end
+
+        it "should ask the matcher if it matches when the matcher doesn't respond to #does_not_match?" do
           matcher = mock("matcher")
           actual = Object.new
           matcher.stub!(:negative_failure_message)

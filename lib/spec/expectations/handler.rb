@@ -22,7 +22,12 @@ module Spec
 
         return ::Spec::Matchers::NegativeOperatorMatcher.new(actual) if matcher.nil?
         
-        match = matcher.matches?(actual, &block)
+        match = if matcher.respond_to?(:does_not_match?)
+                  !matcher.does_not_match?(actual, &block)
+                else
+                  matcher.matches?(actual, &block)
+                end
+        
         ::Spec::Expectations.fail_with(matcher.negative_failure_message) if match
         match
       end
