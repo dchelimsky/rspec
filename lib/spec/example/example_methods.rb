@@ -47,17 +47,17 @@ module Spec
         end
       end
 
-      def eval_each_fail_fast(examples) # :nodoc:
-        examples.each do |example|
-          instance_eval(&example)
+      def eval_each_fail_fast(blocks) # :nodoc:
+        blocks.each do |block|
+          instance_eval(&block)
         end
       end
 
-      def eval_each_fail_slow(examples) # :nodoc:
+      def eval_each_fail_slow(blocks) # :nodoc:
         first_exception = nil
-        examples.each do |example|
+        blocks.each do |block|
           begin
-            instance_eval(&example)
+            instance_eval(&block)
           rescue Exception => e
             first_exception ||= e
           end
