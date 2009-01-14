@@ -82,3 +82,19 @@ def with_sandboxed_config
   
   yield
 end
+
+module Spec
+  module Example
+    module Resettable
+      def reset # :nodoc:
+        @before_all_parts = nil
+        @after_all_parts = nil
+        @before_each_parts = nil
+        @after_each_parts = nil
+      end
+    end
+    class ExampleGroup
+      extend Resettable
+    end
+  end
+end

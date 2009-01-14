@@ -212,14 +212,6 @@ WARNING
         examples.length
       end
 
-      # Only used from RSpec's own examples
-      def reset # :nodoc:
-        @before_all_parts = nil
-        @after_all_parts = nil
-        @before_each_parts = nil
-        @after_each_parts = nil
-      end
-
       def run_before_each(example)
         example.eval_each_fail_fast(all_before_each_parts)
       end
