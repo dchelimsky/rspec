@@ -6,10 +6,11 @@ module Spec
         attr_accessor :matcher_class
 
         def description_text(*args)
-          args.inject("") do |description, arg|
+          text = args.inject("") do |description, arg|
             description << " " unless (description == "" || arg.to_s =~ /^(\s|\.|#)/)
             description << arg.to_s
           end
+          text == "" ? nil : text
         end
 
         def example_group_creation_listeners
@@ -22,6 +23,17 @@ module Spec
 
       attr_reader :description_options, :spec_path
       alias :options :description_options
+      
+      def inherited(klass)
+        super
+        register_example_group(klass)
+      end
+      
+      def register_example_group(klass)
+        ExampleGroupMethods.example_group_creation_listeners.each do |l|
+          l.register_example_group(klass)
+        end
+      end
       
       # Provides the backtrace up to where this example_group was declared.
       def backtrace
@@ -39,17 +51,6 @@ WARNING
       
       def description_args
         @description_args ||= []
-      end
-
-      def inherited(klass)
-        super
-        register_example_group(klass)
-      end
-      
-      def register_example_group(klass)
-        ExampleGroupMethods.example_group_creation_listeners.each do |l|
-          l.register_example_group(klass)
-        end
       end
       
       # Makes the describe/it syntax available from a class. For example:
@@ -174,8 +175,7 @@ WARNING
       end
 
       def description
-        result = ExampleGroupMethods.description_text(*description_parts)
-        (result.nil? || result == "") ? to_s : result
+        @description ||= ExampleGroupMethods.description_text(*description_parts) || to_s
       end
       
       def described_type

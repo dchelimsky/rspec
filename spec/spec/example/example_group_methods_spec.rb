@@ -357,6 +357,11 @@ module Spec
             example_group.set_description("")
             example_group.description.should =~ /Class:/
           end
+          
+          it "is cached" do
+            example_group.set_description("describe me")
+            example_group.description.should be(example_group.description)
+          end
         end
 
         describe "#description_parts" do
