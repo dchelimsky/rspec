@@ -504,7 +504,7 @@ module Spec
           end
         end
 
-        describe '#unregister' do
+        describe '#remove_example_group' do
           before(:each) do
             Spec::Runner.options.add_example_group example_group
           end
