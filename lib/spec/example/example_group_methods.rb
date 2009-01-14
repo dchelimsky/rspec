@@ -331,13 +331,19 @@ WARNING
       end
 
       def add_method_examples(examples)
-        instance_methods.each do |method_name|
-          if example_method?(method_name)
-            examples << new(method_name) do
-              __send__(method_name)
-            end
+        example_methods.each do |method_name|
+          examples << new(method_name) do
+            __send__(method_name)
           end
         end
+      end
+      
+      def method_added(name)
+        example_methods << name.to_s if example_method?(name.to_s)
+      end
+      
+      def example_methods
+        @example_methods ||= []
       end
 
       def example_method?(method_name)
