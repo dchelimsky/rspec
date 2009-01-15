@@ -30,8 +30,8 @@ module Spec
       end
       
       def register_example_group(klass)
-        ExampleGroupMethods.example_group_creation_listeners.each do |l|
-          l.register_example_group(klass)
+        ExampleGroupMethods.example_group_creation_listeners.each do |listener|
+          listener.register_example_group(klass)
         end
       end
       
