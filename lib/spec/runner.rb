@@ -13,23 +13,9 @@ module Spec
   module Runner
     
     class ExampleGroupCreationListener
-      class << self
-        def ignoring?
-          @ignore
-        end
-
-        def ignore(&block)
-          @ignore = true
-          yield
-          @ignore = false
-        end
-      end
-
       def register_example_group(klass)
-        unless self.class.ignoring?
-          Spec::Runner.options.add_example_group klass
-          Spec::Runner.register_at_exit_hook
-        end
+        Spec::Runner.options.add_example_group klass
+        Spec::Runner.register_at_exit_hook
       end
     end
     

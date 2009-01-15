@@ -106,24 +106,24 @@ module Spec
       
       describe "#subject" do
         before(:each) do
-          @example_group = ExampleGroup.dup
+          @example_group = ExampleGroupDouble
         end
 
         it "should return an instance of the described class" do
-          @example_group.describe(Array)
-          example = @example_group.new
+          group = Class.new(ExampleGroupDouble).describe(Array)
+          example = group.new
           example.subject.should == []
         end
     
         it "should return nil for a module (as opposed to a class)" do
-          @example_group.describe(Enumerable)
-          example = @example_group.new
+          group = Class.new(ExampleGroupDouble).describe(Enumerable)
+          example = group.new
           example.subject.should be_nil
         end
     
         it "should return nil for a string" do
-          @example_group.describe('foo')
-          example = @example_group.new
+          group = Class.new(ExampleGroupDouble).describe('foo')
+          example = group.new
           example.subject.should be_nil
         end
       end
@@ -143,7 +143,7 @@ module Spec
 
       describe "#should" do
         before(:each) do
-          @example_group = ExampleGroup.dup
+          @example_group = Class.new(ExampleGroupDouble)
           @options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
         end
         

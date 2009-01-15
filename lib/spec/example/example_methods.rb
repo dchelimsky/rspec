@@ -5,19 +5,40 @@ module Spec
       extend  Spec::Example::ModuleReopeningFix
       include Spec::Example::Subject::ExampleMethods
       
+      
       def violated(message="")
         raise Spec::Expectations::ExpectationNotMetError.new(message)
       end
 
+      # Declared description for this example:
+      #
+      #   describe Account do
+      #     it "should start with a balance of 0" do
+      #     ...
+      #
+      #   description
+      #   => "should start with a balance of 0"
       def description
         @_defined_description || ::Spec::Matchers.generated_description || "NO NAME"
       end
+
+      # Concats the class description with the example description.
+      #
+      #   describe Account do
+      #     it "should start with a balance of 0" do
+      #     ...
+      #
+      #   full_description
+      #   => "Account should start with a balance of 0"
+      def full_description
+        "#{self.class.description} #{self.description}"
+      end
       
-      def options
+      def options # :nodoc:
         @_options
       end
 
-      def execute(options, instance_variables)
+      def execute(options, instance_variables) # :nodoc:
         options.reporter.example_started(self)
         set_instance_variables_from_hash(instance_variables)
         
@@ -65,18 +86,6 @@ module Spec
         raise first_exception if first_exception
       end
 
-      # Concats the class description with the example description.
-      #
-      #   describe Account do
-      #     it "should start with a balance of 0" do
-      #     ...
-      #
-      #   full_description
-      #   => "Account should start with a balance of 0"
-      def full_description
-        "#{self.class.description} #{self.description}"
-      end
-      
       def set_instance_variables_from_hash(ivars) # :nodoc:
         ivars.each do |variable_name, value|
           # Ruby 1.9 requires variable.to_s on the next line
@@ -108,19 +117,19 @@ WARNING
       include Matchers
       include Pending
       
-      def before_each_example
+      def before_each_example # :nodoc:
         setup_mocks_for_rspec
         self.class.run_before_each(self)
       end
 
-      def after_each_example
+      def after_each_example # :nodoc:
         self.class.run_after_each(self)
         verify_mocks_for_rspec
       ensure
         teardown_mocks_for_rspec
       end
 
-      def described_class
+      def described_class # :nodoc:
         self.class.described_class
       end
     end
