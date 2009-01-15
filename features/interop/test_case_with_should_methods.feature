@@ -12,6 +12,6 @@ Story: Test::Unit::TestCase extended by rspec with should methods
 
   Scenario: Run with spec
     Given the file ../../resources/test/test_case_with_should_methods.rb
-    When I run it with the spec script
+    When I run it with the spec command
     Then the exit code should be 256
     And the stdout should match "5 examples, 3 failures"

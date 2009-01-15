@@ -1,3 +1,4 @@
+require 'rubygems'
 require 'rr'
 
 patterns = ::Spec::Runner::QuietBacktraceTweaker::IGNORE_PATTERNS

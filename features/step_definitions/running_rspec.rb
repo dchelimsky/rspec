@@ -19,8 +19,8 @@ When /^I run it with the (.*)$/ do |interpreter|
     when /^ruby interpreter/
       args = interpreter.gsub('ruby interpreter','')
       ruby("#{@path}#{args}", stderr_file.path)
-    when /^spec script/
-      args = interpreter.gsub('spec script','')
+    when /^spec command/
+      args = interpreter.gsub('spec command','')
       spec("#{@path}#{args}", stderr_file.path)
     when 'CommandLine object' then cmdline(@path, stderr_file.path)
     else raise "Unknown interpreter: #{interpreter}"

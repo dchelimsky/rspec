@@ -1,19 +1,19 @@
-Feature: mock with flexmock
+Feature: mock with mocha
 
-  As an RSpec user who prefers flexmock
-  I want to be able to use flexmock without rspec mocks interfering
+  As an RSpec user who prefers mocha
+  I want to be able to use mocha without rspec mocks interfering
 
-  Scenario: Mock with flexmock
+  Scenario: Mock with mocha
     Given the following spec:
       """
       Spec::Runner.configure do |config|
-        config.mock_with :flexmock
+        config.mock_with :mocha
       end
 
-      describe "plugging in flexmock" do
-        it "allows flexmock to be used" do
+      describe "plugging in mocha" do
+        it "allows mocha to be used" do
           target = Object.new
-          flexmock(target).should_receive(:foo).once
+          target.expects(:foo).once
           target.foo
         end
 

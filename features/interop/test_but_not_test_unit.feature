@@ -10,5 +10,5 @@ Story: Test is defined, but not Test::Unit
 
   Scenario: Run with spec
     Given the file ../../resources/test/spec_including_test_but_not_unit.rb
-    When I run it with the spec script
+    When I run it with the spec command
     Then the stderr should not match "Test::Unit"

@@ -1,19 +1,19 @@
-Feature: mock with flexmock
+Feature: mock with rr
 
-  As an RSpec user who prefers flexmock
-  I want to be able to use flexmock without rspec mocks interfering
+  As an RSpec user who prefers rr
+  I want to be able to use rr without rspec mocks interfering
 
-  Scenario: Mock with flexmock
+  Scenario: Mock with rr
     Given the following spec:
       """
       Spec::Runner.configure do |config|
-        config.mock_with :flexmock
+        config.mock_with :rr
       end
 
-      describe "plugging in flexmock" do
-        it "allows flexmock to be used" do
+      describe "plugging in rr" do
+        it "allows rr to be used" do
           target = Object.new
-          flexmock(target).should_receive(:foo).once
+          mock(target).foo
           target.foo
         end
 

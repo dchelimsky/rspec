@@ -57,7 +57,7 @@ Feature: before and after blocks
         end
       end
       """
-  	When I run it with the spec script
+  	When I run it with the spec command
     Then the stdout should match "3 examples, 0 failures"
   
   Scenario: define before(:all) block in example group
@@ -89,7 +89,7 @@ Feature: before and after blocks
         end
       end
       """
-  	When I run it with the spec script
+  	When I run it with the spec command
     Then the stdout should match "3 examples, 0 failures"
   
   Scenario: define before and after blocks in configuration
@@ -125,7 +125,7 @@ Feature: before and after blocks
         end
       end
       """
-    When I run it with the spec script
+    When I run it with the spec command
     Then the stdout should match "3 examples, 0 failures"
 
   Scenario: before/after blocks are run in order
@@ -163,6 +163,6 @@ Feature: before and after blocks
       end
       """
 
-    When I run it with the spec script
+    When I run it with the spec command
     Then the stdout should match /before suite\nbefore all\nbefore each\nafter each\n\.after all\n.*after suite/m
 

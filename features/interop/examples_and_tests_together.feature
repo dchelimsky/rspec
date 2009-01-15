@@ -20,7 +20,7 @@ Feature: Spec and test together
   Scenario: Run with spec
     Given the file ../../resources/test/spec_and_test_together.rb
 
-    When I run it with the spec script -fs
+    When I run it with the spec command -fs
 
     Then the exit code should be 256
     And the stdout should match "ATest"

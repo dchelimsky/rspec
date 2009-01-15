@@ -12,6 +12,6 @@ Feature: Nested example groups
 
   Scenario: Run with spec
     Given the file ../../examples/passing/stack_spec_with_nested_example_groups.rb
-    When I run it with the spec script -fs
+    When I run it with the spec command -fs
     Then the stdout should match /Stack \(empty\)/
     And the stdout should match /Stack \(full\)/
