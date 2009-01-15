@@ -72,7 +72,7 @@ module Spec
           options.backtrace_tweaker = mock("backtrace_tweaker", :null_object => true)
           @reporter = FakeReporter.new(options)
           options.reporter = reporter
-          @example_group = Class.new(ExampleGroup) do
+          @example_group = Class.new(ExampleGroupDouble) do
             describe("example")
             it "does nothing" do
             end
@@ -87,7 +87,7 @@ module Spec
         end
 
         it "should not run when there are no examples" do
-          example_group = Class.new(ExampleGroup) do
+          example_group = Class.new(ExampleGroupDouble) do
             describe("Foobar")
           end
           example_group.examples.should be_empty
@@ -162,7 +162,7 @@ module Spec
           describe "when specified_examples matches entire ExampleGroup" do
             before do
               examples_that_were_run = @examples_that_were_run
-              @example_group = Class.new(ExampleGroup) do
+              @example_group = Class.new(ExampleGroupDouble) do
                 describe("the ExampleGroup")
                 it("should be run") do
                   examples_that_were_run << 'should be run'
@@ -184,7 +184,7 @@ module Spec
           describe ExampleGroup, "#run when specified_examples matches only Example description" do
             before do
               examples_that_were_run = @examples_that_were_run
-              @example_group = Class.new(ExampleGroup) do
+              @example_group = Class.new(ExampleGroupDouble) do
                 describe("example")
                 it("should be run") do
                   examples_that_were_run << 'should be run'
@@ -202,7 +202,7 @@ module Spec
           describe ExampleGroup, "#run when specified_examples does not match an Example description" do
             before do
               examples_that_were_run = @examples_that_were_run
-              @example_group = Class.new(ExampleGroup) do
+              @example_group = Class.new(ExampleGroupDouble) do
                 describe("example")
                 it("should be something else") do
                   examples_that_were_run << 'should be something else'
@@ -220,7 +220,7 @@ module Spec
           describe ExampleGroup, "#run when specified_examples matches an Example description" do
             before do
               examples_that_were_run = @examples_that_were_run
-              @example_group = Class.new(ExampleGroup) do
+              @example_group = Class.new(ExampleGroupDouble) do
                 describe("example")
                 it("should be run") do
                   examples_that_were_run << 'should be run'
@@ -245,9 +245,9 @@ module Spec
 
         describe ExampleGroup, "#run with success" do
           before do
-            @special_example_group = Class.new(ExampleGroup)
+            @special_example_group = Class.new(ExampleGroupDouble)
             ExampleGroupFactory.register(:special, @special_example_group)
-            @not_special_example_group = Class.new(ExampleGroup)
+            @not_special_example_group = Class.new(ExampleGroupDouble)
             ExampleGroupFactory.register(:not_special, @not_special_example_group)
           end
 
@@ -315,7 +315,7 @@ module Spec
             @special_example_group.before(:all) { fiddle << "Example.before(:all, :type => :special)" }
             @special_example_group.prepend_before(:all) { fiddle << "Example.prepend_before(:all, :type => :special)" }
 
-            example_group = Class.new(ExampleGroup) do
+            example_group = Class.new(ExampleGroupDouble) do
               describe("I'm not special", :type => :not_special)
               it "does nothing"
             end
@@ -435,7 +435,7 @@ module Spec
           it "should include any predicate_matchers included using configuration" do
             $included_predicate_matcher_found = false
             Spec::Runner.configuration.predicate_matchers[:do_something] = :does_something?
-            example_group = Class.new(ExampleGroup) do
+            example_group = Class.new(ExampleGroupDouble) do
               describe('example')
               it "should respond to do_something" do
                 $included_predicate_matcher_found = respond_to?(:do_something)
@@ -461,7 +461,7 @@ module Spec
               $torn_down = true
               Spec::Runner.configuration.mock_with mod
 
-              example_group = Class.new(ExampleGroup) do
+              example_group = Class.new(ExampleGroupDouble) do
                 describe('example')
                 it "does nothing"
               end

@@ -6,7 +6,7 @@ module Spec
       describe "#get" do
         attr_reader :example_group
         before(:each) do
-          @example_group_class = Class.new(ExampleGroup)
+          @example_group_class = Class.new(ExampleGroupDouble)
           ExampleGroupFactory.register(:registered_type, @example_group_class)
         end
 
@@ -31,7 +31,7 @@ module Spec
         end
 
         it "should get the custom type after setting the default" do
-          @alternate_example_group_class = Class.new(ExampleGroup)
+          @alternate_example_group_class = Class.new(ExampleGroupDouble)
           ExampleGroupFactory.default(@alternate_example_group_class)
           ExampleGroupFactory.get(:registered_type).should == @example_group_class
         end
@@ -40,7 +40,7 @@ module Spec
       describe "#create_example_group" do
         attr_reader :parent_example_group
         before do
-          @parent_example_group = Class.new(ExampleGroup) do
+          @parent_example_group = Class.new(ExampleGroupDouble) do
             def initialize(*args, &block)
               ;
             end
@@ -193,7 +193,7 @@ module Spec
 
       describe "#registered_or_ancestor_of_registered?" do
         before(:each) do
-          @unregistered_parent = Class.new(ExampleGroup)
+          @unregistered_parent = Class.new(ExampleGroupDouble)
           @registered_child = Class.new(@unregistered_parent)
           @unregistered_grandchild = Class.new(@registered_child)
           Spec::Example::ExampleGroupFactory.register :registered_child, @registered_child

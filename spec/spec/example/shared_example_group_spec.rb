@@ -8,7 +8,7 @@ module Spec
         before(:each) do
           @formatter = Spec::Mocks::Mock.new("formatter", :null_object => true)
           options.formatters << formatter
-          @example_group = Class.new(ExampleGroup).describe("example_group")
+          @example_group = Class.new(ExampleGroupDouble).describe("example_group")
           class << example_group
             public :include
           end

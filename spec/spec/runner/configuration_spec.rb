@@ -40,7 +40,7 @@ module Spec
           describe "#include" do
           
             before(:each) do
-              @example_group_class = Class.new(ExampleGroup) {}
+              @example_group_class = Class.new(::Spec::Example::ExampleGroupDouble) {}
               Spec::Example::ExampleGroupFactory.register(:foobar, @example_group_class)
             end
 
@@ -58,7 +58,7 @@ module Spec
 
             it "should not include modules in a type they are not intended for" do
               mod = Module.new
-              @other_example_group_class = Class.new(ExampleGroup)
+              @other_example_group_class = Class.new(::Spec::Example::ExampleGroupDouble)
               Spec::Example::ExampleGroupFactory.register(:baz, @other_example_group_class)
 
               config.include mod, :type => :foobar
@@ -68,7 +68,7 @@ module Spec
             
             it "accepts an Array of types" do
               mod = Module.new
-              @other_example_group_class = Class.new(ExampleGroup)
+              @other_example_group_class = Class.new(::Spec::Example::ExampleGroupDouble)
               Spec::Example::ExampleGroupFactory.register(:baz, @other_example_group_class)
 
               config.include mod, :type => [:foobar, :baz]
@@ -82,7 +82,7 @@ module Spec
           describe "#extend" do
         
             before(:each) do
-              @example_group_class = Class.new(ExampleGroup) {}
+              @example_group_class = Class.new(::Spec::Example::ExampleGroupDouble) {}
               Spec::Example::ExampleGroupFactory.register(:foobar, @example_group_class)
             end
 
@@ -99,7 +99,7 @@ module Spec
             end
       
             it "should not extend non-specified groups" do
-              @other_example_group_class = Class.new(ExampleGroup)
+              @other_example_group_class = Class.new(::Spec::Example::ExampleGroupDouble)
               Spec::Example::ExampleGroupFactory.register(:baz, @other_example_group_class)
 
               mod = Module.new
@@ -114,9 +114,9 @@ module Spec
         describe "ordering methods: " do
         
           before(:each) do
-            @special_example_group = Class.new(ExampleGroup).describe("special_example_group")
+            @special_example_group = Class.new(::Spec::Example::ExampleGroupDouble).describe("special_example_group")
             @special_child_example_group = Class.new(@special_example_group).describe("special_child_example_group")
-            @nonspecial_example_group = Class.new(ExampleGroup).describe("nonspecial_example_group")
+            @nonspecial_example_group = Class.new(::Spec::Example::ExampleGroupDouble).describe("nonspecial_example_group")
             Spec::Example::ExampleGroupFactory.register(:special, @special_example_group)
             Spec::Example::ExampleGroupFactory.register(:special_child, @special_child_example_group)
             Spec::Example::ExampleGroupFactory.register(:non_special, @nonspecial_example_group)

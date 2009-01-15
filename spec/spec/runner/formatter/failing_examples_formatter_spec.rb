@@ -12,7 +12,7 @@ module Spec
         end
 
         it "should add example name for each failure" do
-          example_group_1 = Class.new(ExampleGroup).describe("A")
+          example_group_1 = Class.new(::Spec::Example::ExampleGroupDouble).describe("A")
           example_group_2 = Class.new(example_group_1).describe("B")
 
           @formatter.add_example_group(example_group_1)

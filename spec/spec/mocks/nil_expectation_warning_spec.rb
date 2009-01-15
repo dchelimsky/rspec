@@ -33,7 +33,7 @@ module Spec
     describe "#allow_message_expectations_on_nil" do
       
       it "should not effect subsequent examples" do
-        example_group = Class.new(ExampleGroup)
+        example_group = Class.new(::Spec::Example::ExampleGroupDouble)
         example_group.it("when called in one example that doesn't end up setting an expectation on nil") do
                         allow_message_expectations_on_nil
                       end
