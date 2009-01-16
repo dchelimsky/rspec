@@ -214,7 +214,7 @@ EOF
         def global_styles
           <<-EOF
 #rspec-header {
-  background: #65C400; color: #fff; height: 42px;
+  background: #65C400; color: #fff; height: 4em;
 }
 
 .rspec-report h1 {
@@ -222,7 +222,7 @@ EOF
   padding: 10px;
   font-family: "Lucida Grande", Helvetica, sans-serif;
   font-size: 1.8em;
-  float: left;
+  position: absolute;
 }
 
 #summary {
