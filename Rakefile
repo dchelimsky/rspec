@@ -28,23 +28,28 @@ end
   Rake.application.instance_variable_get('@tasks').delete(task)
 end
 
-task :verify_rcov => [:spec, :features]
-task :default => :verify_rcov
-
-# # Some of the tasks are in separate files since they are also part of the website documentation
+# Some of the tasks are in separate files since they are also part of the website documentation
 load File.dirname(__FILE__) + '/resources/rake/examples.rake'
 load File.dirname(__FILE__) + '/resources/rake/examples_with_rcov.rake'
 load File.dirname(__FILE__) + '/resources/rake/failing_examples_with_html.rake'
 load File.dirname(__FILE__) + '/resources/rake/verify_rcov.rake'
 
+task :default => [:verify_rcov, :features]
+
 desc "Run all specs"
 Spec::Rake::SpecTask.new do |t|
   t.spec_files = FileList['spec/**/*_spec.rb']
   t.spec_opts = ['--options', 'spec/spec.opts']
-  unless ENV['NO_RCOV']
+end
+
+namespace :spec do
+  desc "Run all specs with rcov"
+  Spec::Rake::SpecTask.new('rcov') do |t|
+    t.spec_files = FileList['spec/**/*_spec.rb']
+    t.spec_opts = ['--options', 'spec/spec.opts']
     t.rcov = true
     t.rcov_dir = 'coverage'
-    t.rcov_opts = ['--text-report', '--exclude', "lib/spec.rb,lib/spec/runner.rb,spec\/spec,bin\/spec,examples,\/gems,\/Library\/Ruby,\.autotest,#{ENV['GEM_HOME']}"]
+    t.rcov_opts = ['--exclude', "lib/spec.rb,lib/spec/runner.rb,spec\/spec,bin\/spec,examples,\/Library\/Ruby,\.autotest"]
   end
 end
 
