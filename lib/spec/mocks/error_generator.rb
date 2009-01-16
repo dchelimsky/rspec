@@ -57,9 +57,7 @@ module Spec
       end
       
       def format_args(*args)
-        return "(no args)" if args.empty? || args == [:no_args]
-        return "(any args)" if args == [:any_args]
-        "(" + arg_list(*args) + ")"
+        args.empty? ? "(no args)" : "(" + arg_list(*args) + ")"
       end
 
       def arg_list(*args)
