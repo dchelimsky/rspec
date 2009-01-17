@@ -38,7 +38,7 @@ or this:
 
 it { should matcher }
 
-the runner expects the matcher to have a #describe method. You should either
+the runner expects the matcher to have a #description method. You should either
 add a String to the example this matcher is being used in, or give it a
 description method. Then you won't have to suffer this lengthy warning again.
 MESSAGE
