@@ -13,9 +13,6 @@ module Spec
           text == "" ? nil : text
         end
         
-        def example_group_creation_listeners
-          @example_group_creation_listeners ||= []
-        end
       end
 
       include Spec::Example::BeforeAndAfterHooks
@@ -26,13 +23,7 @@ module Spec
       
       def inherited(klass)
         super
-        register_example_group(klass)
-      end
-      
-      def register_example_group(klass)
-        ExampleGroupMethods.example_group_creation_listeners.each do |listener|
-          listener.register_example_group(klass)
-        end
+        ExampleGroupFactory.register_example_group(klass)
       end
       
       # Provides the backtrace up to where this example_group was declared.
@@ -72,35 +63,15 @@ WARNING
           Spec::Example::add_spec_path_to(args)
           options = args.last
           if options[:shared]
-            create_shared_example_group(*args, &example_group_block)
+            ExampleGroupFactory.create_shared_example_group(*args, &example_group_block)
           else
-            create_example_group_subclass(*args, &example_group_block)
+            ExampleGroupFactory.create_example_group_subclass(self, *args, &example_group_block)
           end
         else
           set_description(*args)
         end
       end
       alias :context :describe
-      
-      def create_shared_example_group(*args, &example_group_block) # :nodoc:
-        SharedExampleGroup.register(*args, &example_group_block)
-      end
-      
-      # Creates a new subclass of self, with a name "under" our own name.
-      # Example:
-      #
-      #   x = Foo::Bar.subclass('Zap'){}
-      #   x.name # => Foo::Bar::Zap_1
-      #   x.superclass.name # => Foo::Bar
-      def create_example_group_subclass(*args, &example_group_block) # :nodoc:
-        @class_count ||= 0
-        @class_count += 1
-        klass = const_set("Subclass_#{@class_count}", Class.new(self))
-        klass.set_description(*args)
-        example_group_block = ExampleGroupFactory.include_constants_in(args.last[:scope], &example_group_block)
-        klass.module_eval(&example_group_block)
-        klass
-      end
       
       # Use this to pull in examples from shared example groups.
       def it_should_behave_like(*shared_example_groups)
