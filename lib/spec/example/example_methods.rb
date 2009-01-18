@@ -119,11 +119,11 @@ WARNING
       
       def before_each_example # :nodoc:
         setup_mocks_for_rspec
-        self.class.run_before_each(self)
+        example_group_hierarchy.run_before_each(self)
       end
 
       def after_each_example # :nodoc:
-        self.class.run_after_each(self)
+        example_group_hierarchy.run_after_each(self)
         verify_mocks_for_rspec
       ensure
         teardown_mocks_for_rspec
@@ -132,6 +132,12 @@ WARNING
       def described_class # :nodoc:
         self.class.described_class
       end
+      
+    private
+      def example_group_hierarchy
+        self.class.example_group_hierarchy
+      end
+    
     end
   end
 end

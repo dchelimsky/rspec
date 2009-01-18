@@ -183,24 +183,8 @@ WARNING
         examples.length
       end
 
-      def run_before_each(example)
-        example.eval_each_fail_fast(all_before_each_parts)
-      end
-      
-      def all_before_each_parts
-        unless @all_before_each_parts
-          @all_before_each_parts = []
-          example_group_hierarchy.each do |example_group_class|
-            @all_before_each_parts += example_group_class.before_each_parts
-          end
-        end
-        @all_before_each_parts
-      end
-
-      def run_after_each(example)
-        example_group_hierarchy.reverse.each do |example_group_class|
-          example.eval_each_fail_slow(example_group_class.after_each_parts)
-        end
+      def example_group_hierarchy
+        @example_group_hierarchy ||= ExampleGroupHierarchy.new(self)
       end
 
     private
@@ -274,12 +258,20 @@ WARNING
             current_class = current_class.superclass
           end
         end
+        
+        def run_before_each(example)
+          each do |example_group_class|
+            example.eval_each_fail_fast(example_group_class.before_each_parts)
+          end
+        end
+        
+        def run_after_each(example)
+          reverse.each do |example_group_class|
+            example.eval_each_fail_slow(example_group_class.after_each_parts)
+          end
+        end
       end
       
-      def example_group_hierarchy
-        @example_group_hierarchy ||= ExampleGroupHierarchy.new(self)
-      end
-
       def plugin_mock_framework(run_options)
         case mock_framework = run_options.mock_framework
         when Module
