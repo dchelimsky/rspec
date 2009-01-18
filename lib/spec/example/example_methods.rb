@@ -112,6 +112,16 @@ from a future version. Please use ExampleMethods#backtrace instead.
 WARNING
         backtrace
       end
+      
+      # Run all the before(:each) blocks for this example
+      def run_before_each
+        example_group_hierarchy.run_before_each(self)
+      end
+
+      # Run all the after(:each) blocks for this example
+      def run_after_each
+        example_group_hierarchy.run_after_each(self)
+      end
 
     private
       include Matchers
@@ -119,11 +129,11 @@ WARNING
       
       def before_each_example # :nodoc:
         setup_mocks_for_rspec
-        example_group_hierarchy.run_before_each(self)
+        run_before_each
       end
 
       def after_each_example # :nodoc:
-        example_group_hierarchy.run_after_each(self)
+        run_after_each
         verify_mocks_for_rspec
       ensure
         teardown_mocks_for_rspec
