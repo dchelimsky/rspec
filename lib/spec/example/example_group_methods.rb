@@ -198,9 +198,7 @@ WARNING
       def run_before_all(run_options)
         before_all = new("before(:all)")
         begin
-          example_group_hierarchy.each do |example_group_class|
-            before_all.eval_each_fail_fast(example_group_class.before_all_parts)
-          end
+          example_group_hierarchy.run_before_all(before_all)
           return [true, before_all.instance_variable_hash]
         rescue Exception => e
           run_options.reporter.failure(before_all, e)
@@ -222,9 +220,7 @@ WARNING
       def run_after_all(success, instance_variables, run_options)
         after_all = new("after(:all)")
         after_all.set_instance_variables_from_hash(instance_variables)
-        example_group_hierarchy.reverse.each do |example_group_class|
-          after_all.eval_each_fail_slow(example_group_class.after_all_parts)
-        end
+        example_group_hierarchy.run_after_all(after_all)
         return success
       rescue Exception => e
         run_options.reporter.failure(after_all, e)
@@ -259,15 +255,31 @@ WARNING
           end
         end
         
+        def run_before_all(example)
+          each {|klass| example.eval_each_fail_fast(klass.before_all_parts)}
+        end
+        
         def run_before_each(example)
-          each do |example_group_class|
-            example.eval_each_fail_fast(example_group_class.before_each_parts)
-          end
+          each {|klass| example.eval_each_fail_fast(klass.before_each_parts)}
         end
         
         def run_after_each(example)
-          reverse.each do |example_group_class|
-            example.eval_each_fail_slow(example_group_class.after_each_parts)
+          example.eval_each_fail_slow(after_each_parts)
+        end
+        
+        def run_after_all(example)
+          example.eval_each_fail_slow(after_all_parts)
+        end
+        
+        def after_each_parts
+          reverse.inject([]) do |parts, klass|
+            parts += klass.after_each_parts
+          end
+        end
+        
+        def after_all_parts
+          reverse.inject([]) do |parts, klass|
+            parts += klass.after_all_parts
           end
         end
       end

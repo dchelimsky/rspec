@@ -61,13 +61,6 @@ module Spec
         success = execution_error.nil? || ExamplePendingError === execution_error
       end
 
-      def instance_variable_hash # :nodoc:
-        instance_variables.inject({}) do |variable_hash, variable_name|
-          variable_hash[variable_name] = instance_variable_get(variable_name)
-          variable_hash
-        end
-      end
-
       def eval_each_fail_fast(blocks) # :nodoc:
         blocks.each do |block|
           instance_eval(&block)
@@ -84,6 +77,13 @@ module Spec
           end
         end
         raise first_exception if first_exception
+      end
+
+      def instance_variable_hash # :nodoc:
+        instance_variables.inject({}) do |variable_hash, variable_name|
+          variable_hash[variable_name] = instance_variable_get(variable_name)
+          variable_hash
+        end
       end
 
       def set_instance_variables_from_hash(ivars) # :nodoc:
@@ -113,7 +113,7 @@ WARNING
         backtrace
       end
 
-      private
+    private
       include Matchers
       include Pending
       
