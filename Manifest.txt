@@ -295,12 +295,12 @@ spec/spec/runner/formatter/nested_text_formatter_spec.rb
 spec/spec/runner/formatter/profile_formatter_spec.rb
 spec/spec/runner/formatter/progress_bar_formatter_spec.rb
 spec/spec/runner/formatter/snippet_extractor_spec.rb
-spec/spec/runner/formatter/spec_mate_formatter_spec.rb
 spec/spec/runner/formatter/specdoc_formatter_spec.rb
 spec/spec/runner/formatter/text_mate_formatted-1.8.4.html
 spec/spec/runner/formatter/text_mate_formatted-1.8.6.html
 spec/spec/runner/formatter/text_mate_formatted-1.8.7.html
 spec/spec/runner/formatter/text_mate_formatted-1.9.1.html
+spec/spec/runner/formatter/text_mate_formatter_spec.rb
 spec/spec/runner/heckle_runner_spec.rb
 spec/spec/runner/heckler_spec.rb
 spec/spec/runner/noisy_backtrace_tweaker_spec.rb
