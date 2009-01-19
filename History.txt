@@ -1,5 +1,10 @@
 == Maintenance
 
+* deprecations
+
+  * BaseTextFormatter#colourize - use colorize_failure instead.
+  * BaseTextFormatter#magenta - use red instead.
+
 * enhancements
 
   * allow registering example groups with a path-like key (Pat Maddox)

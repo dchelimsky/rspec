@@ -5,7 +5,7 @@ module Spec
     module Formatter
       class ProgressBarFormatter < BaseTextFormatter
         def example_failed(example, counter, failure)
-          @output.print colourise('F', failure)
+          @output.print colorize_failure('F', failure)
           @output.flush
         end
 

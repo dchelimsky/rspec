@@ -18,7 +18,7 @@ module Spec
             "- #{example.description} (ERROR - #{counter})"
           end
           
-          output.puts(failure.expectation_not_met? ? red(message) : magenta(message))
+          output.puts(red(message))
           output.flush
         end
         
