@@ -20,8 +20,8 @@ module Spec
         Mocks::ArgumentMatchers::DuckTypeMatcher.new(:header, :exception)
       end
 
-      def create_example_group(description_text)
-        example_group = Spec::Example::ExampleGroup.describe(description_text) do
+      def create_example_group(text)
+        example_group = Spec::Example::ExampleGroup.describe(text) do
           it "should do something" do
           end
         end
