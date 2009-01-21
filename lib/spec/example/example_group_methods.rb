@@ -170,7 +170,15 @@ WARNING
           end
         )
       end
-
+      
+      def nested_description
+        description_args.join
+      end
+      
+      def nested_descriptions
+        example_group_hierarchy.nested_descriptions
+      end
+      
       def set_description(*args)
         args, options = Spec::Example.args_and_options(*args)
         @description_args = args
@@ -289,6 +297,12 @@ WARNING
           reverse.inject([]) do |parts, klass|
             parts += klass.after_all_parts
           end
+        end
+        
+        def nested_descriptions
+          collect do |eg|
+            eg.nested_description unless eg.nested_description == ""
+          end.compact
         end
       end
       
