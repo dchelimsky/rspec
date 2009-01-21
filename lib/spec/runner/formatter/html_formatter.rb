@@ -38,7 +38,6 @@ module Spec
         def add_example_group(example_group)
           super
           @example_group_red = false
-          @example_group_red = false
           @example_group_number += 1
           unless example_group_number == 1
             @output.puts "  </dl>"
