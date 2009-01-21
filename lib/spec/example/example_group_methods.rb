@@ -40,10 +40,6 @@ WARNING
         backtrace
       end
       
-      def description_args
-        @description_args ||= []
-      end
-      
       # Makes the describe/it syntax available from a class. For example:
       #
       #   class StackSpec < Spec::ExampleGroup
@@ -145,6 +141,16 @@ WARNING
         success                                = run_after_all(success, after_all_instance_variables, run_options)
       end
 
+      def set_description(*args)
+        args, options = Spec::Example.args_and_options(*args)
+        @description_args = args
+        @description_options = options
+        @description_text = ExampleGroupMethods.description_text(*args)
+        @backtrace = caller(1)
+        @spec_path = File.expand_path(options[:spec_path]) if options[:spec_path]
+        self
+      end
+      
       def description
         @description ||= ExampleGroupMethods.description_text(*description_parts) || to_s
       end
@@ -155,6 +161,10 @@ WARNING
       
       def described_class
         Class === described_type ? described_type : nil
+      end
+      
+      def description_args
+        @description_args ||= []
       end
       
       def description_parts #:nodoc:
@@ -177,16 +187,6 @@ WARNING
       
       def nested_descriptions
         example_group_hierarchy.nested_descriptions
-      end
-      
-      def set_description(*args)
-        args, options = Spec::Example.args_and_options(*args)
-        @description_args = args
-        @description_options = options
-        @description_text = ExampleGroupMethods.description_text(*args)
-        @backtrace = caller(1)
-        @spec_path = File.expand_path(options[:spec_path]) if options[:spec_path]
-        self
       end
       
       def examples(run_options=nil) #:nodoc:
