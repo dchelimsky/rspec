@@ -162,6 +162,14 @@ WARNING
           [parts << example_group_class.description_args].flatten
         end
       end
+      
+      def filtered_description(filter)
+        ExampleGroupMethods.description_text(
+          *description_parts.collect do |description|
+            description =~ filter ? $1 : description
+          end
+        )
+      end
 
       def set_description(*args)
         args, options = Spec::Example.args_and_options(*args)

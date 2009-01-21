@@ -6,8 +6,7 @@ module Spec
       class FailingExampleGroupsFormatter < BaseTextFormatter
         def example_failed(example, counter, failure)
           if @example_group
-            @output.puts ::Spec::Example::ExampleGroupMethods.
-              description_text(*clean_druby_refs(@example_group.description_parts))
+            @output.puts @example_group.filtered_description(/(.*) \(druby.*\)$/)
 
             @output.flush
             @example_group = nil
@@ -20,13 +19,6 @@ module Spec
         def dump_summary(duration, example_count, failure_count, pending_count)
         end
         
-      private
-      
-        def clean_druby_refs(description_parts)
-          description_parts.collect do |description|
-            description =~ /(.*) \(druby.*\)$/ ? $1 : description
-          end
-        end
       end
     end
   end
