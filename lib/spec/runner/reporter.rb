@@ -32,7 +32,7 @@ module Spec
         end
       end
 
-      def failure(example, error)
+      def example_failed(example, error)
         backtrace_tweaker.tweak_backtrace(error)
         failure = Failure.new(example, error)
         @failures << failure
@@ -40,7 +40,6 @@ module Spec
           f.example_failed(example, @failures.length, failure)
         end
       end
-      alias_method :example_failed, :failure
 
       def start(number_of_examples)
         clear

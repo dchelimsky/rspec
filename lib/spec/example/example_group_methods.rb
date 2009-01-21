@@ -217,7 +217,7 @@ WARNING
           example_group_hierarchy.run_before_all(before_all)
           return [true, before_all.instance_variable_hash]
         rescue Exception => e
-          run_options.reporter.failure(before_all, e)
+          run_options.reporter.example_failed(before_all, e)
           return [false, before_all.instance_variable_hash]
         end
       end
@@ -239,7 +239,7 @@ WARNING
         example_group_hierarchy.run_after_all(after_all)
         return success
       rescue Exception => e
-        run_options.reporter.failure(after_all, e)
+        run_options.reporter.example_failed(after_all, e)
         return false
       end
 
