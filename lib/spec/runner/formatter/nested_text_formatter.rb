@@ -24,13 +24,7 @@ module Spec
         end
 
         def example_failed(example, counter, failure)
-          message = if failure.expectation_not_met?
-            "#{current_indentation}#{example.description} (FAILED - #{counter})"
-          else
-            "#{current_indentation}#{example.description} (ERROR - #{counter})"
-          end
-
-          output.puts(red(message))
+          output.puts(red("#{current_indentation}#{example.description} (FAILED - #{counter})"))
           output.flush
         end
 

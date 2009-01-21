@@ -196,7 +196,7 @@ OUT
                     )
                     io.string.should == <<-OUT
 ExampleGroup
-  spec (ERROR - 98)
+  spec (FAILED - 98)
 OUT
                   end
                 end
@@ -236,7 +236,7 @@ OUT
 ExampleGroup
   Child ExampleGroup
     GrandChild ExampleGroup
-      spec (ERROR - 98)
+      spec (FAILED - 98)
 OUT
                   end
                 end
