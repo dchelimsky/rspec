@@ -1,4 +1,5 @@
 require 'spec/runner/formatter/base_formatter'
+require 'fileutils'
 
 module Spec
   module Runner
@@ -29,21 +30,25 @@ module Spec
         def dump_failure(counter, failure)
           @output.puts
           @output.puts "#{counter.to_s})"
-          @output.puts colourise("#{failure.header}\n#{failure.exception.message}", failure)
+          @output.puts colorize_failure("#{failure.header}\n#{failure.exception.message}", failure)
           @output.puts format_backtrace(failure.exception.backtrace)
           @output.flush
         end
         
-        def colourise(s, failure)
-          if(failure.expectation_not_met?)
-            red(s)
-          elsif(failure.pending_fixed?)
-            blue(s)
-          else
-            magenta(s)
-          end
+        def colorize_failure(message, failure)
+          failure.pending_fixed? ? blue(message) : red(message)
         end
-      
+        
+        def colourise(message, failure)
+          Kernel.warn <<-NOTICE
+DEPRECATED: BaseTextFormatter#colourise is deprecated and will be
+removed from a future version of RSpec.
+
+Please use colorize_failure instead.
+NOTICE
+          colorize_failure(message, failure)
+        end
+        
         def dump_summary(duration, example_count, failure_count, pending_count)
           return if dry_run?
           @output.puts
@@ -117,10 +122,18 @@ module Spec
         
         def green(text); colour(text, "\e[32m"); end
         def red(text); colour(text, "\e[31m"); end
-        def magenta(text); colour(text, "\e[35m"); end
         def yellow(text); colour(text, "\e[33m"); end
         def blue(text); colour(text, "\e[34m"); end
-        
+
+        def magenta(text)
+          Kernel.warn <<-NOTICE
+DEPRECATED: BaseTextFormatter#magenta is deprecated and will be
+removed from a future version of RSpec.
+
+Please use red instead (it is red/green/refactor after all).
+NOTICE
+          red(text)
+        end
       end
     end
   end

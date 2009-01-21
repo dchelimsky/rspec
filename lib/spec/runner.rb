@@ -19,7 +19,7 @@ module Spec
       end
     end
     
-    Spec::Example::ExampleGroupMethods.example_group_creation_listeners << ExampleGroupCreationListener.new
+    Spec::Example::ExampleGroupFactory.example_group_creation_listeners << ExampleGroupCreationListener.new
     
     class << self
       def configuration # :nodoc:

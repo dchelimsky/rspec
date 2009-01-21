@@ -15,6 +15,37 @@ module Spec
           end
           return true
         end
+        
+        def example_group_creation_listeners
+          @example_group_creation_listeners ||= []
+        end
+
+        def register_example_group(klass)
+          example_group_creation_listeners.each do |listener|
+            listener.register_example_group(klass)
+          end
+        end
+
+        def create_shared_example_group(*args, &example_group_block) # :nodoc:
+          ::Spec::Example::add_spec_path_to(args)
+          ::Spec::Example::SharedExampleGroup.register(*args, &example_group_block)
+        end
+
+        # Creates a new subclass of self, with a name "under" our own name.
+        # Example:
+        #
+        #   x = Foo::Bar.subclass('Zap'){}
+        #   x.name # => Foo::Bar::Zap_1
+        #   x.superclass.name # => Foo::Bar
+        def create_example_group_subclass(base, *args, &example_group_block) # :nodoc:
+          @class_count ||= 0
+          @class_count += 1
+          klass = base.const_set("Subclass_#{@class_count}", Class.new(base))
+          klass.set_description(*args)
+          example_group_block = include_constants_in(args.last[:scope], &example_group_block)
+          klass.module_eval(&example_group_block)
+          klass
+        end
 
         # Registers an example group class +klass+ with the symbol +type+. For
         # example:
@@ -55,11 +86,6 @@ module Spec
           Spec::Example::add_spec_path_to(args)
           superclass = determine_superclass(args.last)
           superclass.describe(*args, &block)
-        end
-
-        def create_shared_example_group(*args, &block)
-          Spec::Example::add_spec_path_to(args)
-          SharedExampleGroup.register(*args, &block)
         end
 
         def include_constants_in(context, &block)

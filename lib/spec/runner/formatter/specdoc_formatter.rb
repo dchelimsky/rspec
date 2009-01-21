@@ -12,13 +12,7 @@ module Spec
         end
       
         def example_failed(example, counter, failure)
-          message = if failure.expectation_not_met?
-            "- #{example.description} (FAILED - #{counter})"
-          else
-            "- #{example.description} (ERROR - #{counter})"
-          end
-          
-          output.puts(failure.expectation_not_met? ? red(message) : magenta(message))
+          output.puts(red("- #{example.description} (FAILED - #{counter})"))
           output.flush
         end
         

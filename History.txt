@@ -1,8 +1,15 @@
 == Maintenance
 
+* deprecations
+
+  * BaseTextFormatter#colourize - use colorize_failure instead.
+  * BaseTextFormatter#magenta - use red instead.
+
 * enhancements
 
   * allow registering example groups with a path-like key (Pat Maddox)
+  * start DRb service at "druby://localhost:0" (Hongli Lai) - See http://redmine.ruby-lang.org/issues/show/496 
+  * consistent reporting of errors as failures
   
 * bug fixes
 

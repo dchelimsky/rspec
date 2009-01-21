@@ -13,9 +13,6 @@ module Spec
           text == "" ? nil : text
         end
         
-        def example_group_creation_listeners
-          @example_group_creation_listeners ||= []
-        end
       end
 
       include Spec::Example::BeforeAndAfterHooks
@@ -26,13 +23,7 @@ module Spec
       
       def inherited(klass)
         super
-        register_example_group(klass)
-      end
-      
-      def register_example_group(klass)
-        ExampleGroupMethods.example_group_creation_listeners.each do |listener|
-          listener.register_example_group(klass)
-        end
+        ExampleGroupFactory.register_example_group(klass)
       end
       
       # Provides the backtrace up to where this example_group was declared.
@@ -72,35 +63,15 @@ WARNING
           Spec::Example::add_spec_path_to(args)
           options = args.last
           if options[:shared]
-            create_shared_example_group(*args, &example_group_block)
+            ExampleGroupFactory.create_shared_example_group(*args, &example_group_block)
           else
-            create_example_group_subclass(*args, &example_group_block)
+            ExampleGroupFactory.create_example_group_subclass(self, *args, &example_group_block)
           end
         else
           set_description(*args)
         end
       end
       alias :context :describe
-      
-      def create_shared_example_group(*args, &example_group_block) # :nodoc:
-        SharedExampleGroup.register(*args, &example_group_block)
-      end
-      
-      # Creates a new subclass of self, with a name "under" our own name.
-      # Example:
-      #
-      #   x = Foo::Bar.subclass('Zap'){}
-      #   x.name # => Foo::Bar::Zap_1
-      #   x.superclass.name # => Foo::Bar
-      def create_example_group_subclass(*args, &example_group_block) # :nodoc:
-        @class_count ||= 0
-        @class_count += 1
-        klass = const_set("Subclass_#{@class_count}", Class.new(self))
-        klass.set_description(*args)
-        example_group_block = ExampleGroupFactory.include_constants_in(args.last[:scope], &example_group_block)
-        klass.module_eval(&example_group_block)
-        klass
-      end
       
       # Use this to pull in examples from shared example groups.
       def it_should_behave_like(*shared_example_groups)
@@ -212,24 +183,8 @@ WARNING
         examples.length
       end
 
-      def run_before_each(example)
-        example.eval_each_fail_fast(all_before_each_parts)
-      end
-      
-      def all_before_each_parts
-        unless @all_before_each_parts
-          @all_before_each_parts = []
-          example_group_hierarchy.each do |example_group_class|
-            @all_before_each_parts += example_group_class.before_each_parts
-          end
-        end
-        @all_before_each_parts
-      end
-
-      def run_after_each(example)
-        example_group_hierarchy.reverse.each do |example_group_class|
-          example.eval_each_fail_slow(example_group_class.after_each_parts)
-        end
+      def example_group_hierarchy
+        @example_group_hierarchy ||= ExampleGroupHierarchy.new(self)
       end
 
     private
@@ -243,9 +198,7 @@ WARNING
       def run_before_all(run_options)
         before_all = new("before(:all)")
         begin
-          example_group_hierarchy.each do |example_group_class|
-            before_all.eval_each_fail_fast(example_group_class.before_all_parts)
-          end
+          example_group_hierarchy.run_before_all(before_all)
           return [true, before_all.instance_variable_hash]
         rescue Exception => e
           run_options.reporter.failure(before_all, e)
@@ -267,9 +220,7 @@ WARNING
       def run_after_all(success, instance_variables, run_options)
         after_all = new("after(:all)")
         after_all.set_instance_variables_from_hash(instance_variables)
-        example_group_hierarchy.reverse.each do |example_group_class|
-          after_all.eval_each_fail_slow(example_group_class.after_all_parts)
-        end
+        example_group_hierarchy.run_after_all(after_all)
         return success
       rescue Exception => e
         run_options.reporter.failure(after_all, e)
@@ -303,12 +254,36 @@ WARNING
             current_class = current_class.superclass
           end
         end
+        
+        def run_before_all(example)
+          each {|klass| example.eval_each_fail_fast(klass.before_all_parts)}
+        end
+        
+        def run_before_each(example)
+          each {|klass| example.eval_each_fail_fast(klass.before_each_parts)}
+        end
+        
+        def run_after_each(example)
+          example.eval_each_fail_slow(after_each_parts)
+        end
+        
+        def run_after_all(example)
+          example.eval_each_fail_slow(after_all_parts)
+        end
+        
+        def after_each_parts
+          reverse.inject([]) do |parts, klass|
+            parts += klass.after_each_parts
+          end
+        end
+        
+        def after_all_parts
+          reverse.inject([]) do |parts, klass|
+            parts += klass.after_all_parts
+          end
+        end
       end
       
-      def example_group_hierarchy
-        @example_group_hierarchy ||= ExampleGroupHierarchy.new(self)
-      end
-
       def plugin_mock_framework(run_options)
         case mock_framework = run_options.mock_framework
         when Module

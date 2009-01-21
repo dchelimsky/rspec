@@ -61,13 +61,6 @@ module Spec
         success = execution_error.nil? || ExamplePendingError === execution_error
       end
 
-      def instance_variable_hash # :nodoc:
-        instance_variables.inject({}) do |variable_hash, variable_name|
-          variable_hash[variable_name] = instance_variable_get(variable_name)
-          variable_hash
-        end
-      end
-
       def eval_each_fail_fast(blocks) # :nodoc:
         blocks.each do |block|
           instance_eval(&block)
@@ -84,6 +77,13 @@ module Spec
           end
         end
         raise first_exception if first_exception
+      end
+
+      def instance_variable_hash # :nodoc:
+        instance_variables.inject({}) do |variable_hash, variable_name|
+          variable_hash[variable_name] = instance_variable_get(variable_name)
+          variable_hash
+        end
       end
 
       def set_instance_variables_from_hash(ivars) # :nodoc:
@@ -112,18 +112,28 @@ from a future version. Please use ExampleMethods#backtrace instead.
 WARNING
         backtrace
       end
+      
+      # Run all the before(:each) blocks for this example
+      def run_before_each
+        example_group_hierarchy.run_before_each(self)
+      end
 
-      private
+      # Run all the after(:each) blocks for this example
+      def run_after_each
+        example_group_hierarchy.run_after_each(self)
+      end
+
+    private
       include Matchers
       include Pending
       
       def before_each_example # :nodoc:
         setup_mocks_for_rspec
-        self.class.run_before_each(self)
+        run_before_each
       end
 
       def after_each_example # :nodoc:
-        self.class.run_after_each(self)
+        run_after_each
         verify_mocks_for_rspec
       ensure
         teardown_mocks_for_rspec
@@ -132,6 +142,12 @@ WARNING
       def described_class # :nodoc:
         self.class.described_class
       end
+      
+    private
+      def example_group_hierarchy
+        self.class.example_group_hierarchy
+      end
+    
     end
   end
 end

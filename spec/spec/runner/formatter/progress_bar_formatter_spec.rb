@@ -53,11 +53,11 @@ Finished in 3 seconds
           @io.string.should eql("\e[31mF\e[0m")
         end
 
-        it "should push magenta F for error spec" do
+        it "should push red F for error spec" do
           @io.should_receive(:tty?).and_return(true)
           @options.should_receive(:colour).and_return(true)
           @formatter.example_failed("spec", 98, Spec::Runner::Reporter::Failure.new("c s", RuntimeError.new))
-          @io.string.should eql("\e[35mF\e[0m")
+          @io.string.should eql("\e[31mF\e[0m")
         end
 
         it "should push blue F for fixed pending spec" do

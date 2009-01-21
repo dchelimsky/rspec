@@ -54,7 +54,7 @@ module Spec
                       98,
                       Spec::Runner::Reporter::Failure.new("c s", RuntimeError.new)
                     )
-                    io.string.should have_example_group_output("- spec (ERROR - 98)\n")
+                    io.string.should have_example_group_output("- spec (FAILED - 98)\n")
                   end
                 end
 
@@ -86,7 +86,7 @@ module Spec
                     98,
                     Spec::Runner::Reporter::Failure.new("c s", RuntimeError.new)
                     )
-                    io.string.should have_nested_example_group_output("- spec (ERROR - 98)\n")
+                    io.string.should have_nested_example_group_output("- spec (FAILED - 98)\n")
                   end
                 end
 
