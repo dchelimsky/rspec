@@ -23,4 +23,3 @@ module Spec
   end
 end
 
-Spec::ExampleGroup = Spec::Example::ExampleGroup

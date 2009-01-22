@@ -1,5 +1,6 @@
 module Spec
   module Example
+    
     class ExampleGroupFactory
       module ClassMethods
         def reset
@@ -67,6 +68,8 @@ module Spec
 
         # Sets the default ExampleGroup class
         def default(example_group_class)
+          Spec.__send__ :remove_const, :ExampleGroup if Spec.const_defined?(:ExampleGroup)
+          Spec.const_set(:ExampleGroup, example_group_class)
           old = @example_group_types
           @example_group_types = Hash.new(example_group_class)
           @example_group_types.merge!(old) if old

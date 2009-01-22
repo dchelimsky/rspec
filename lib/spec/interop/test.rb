@@ -1,3 +1,4 @@
+require 'spec'
 require 'test/unit'
 require 'test/unit/testresult'
 
