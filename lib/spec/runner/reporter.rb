@@ -34,7 +34,7 @@ module Spec
 
       def example_failed(example, error)
         backtrace_tweaker.tweak_backtrace(error)
-        failure = Failure.new(example, error, example_groups.empty? ? "" : example_groups.last.description)
+        failure = Failure.new(example_groups.empty? ? "" : example_groups.last.description, example, error)
         @failures << failure
         formatters.each do |f|
           f.example_failed(example, @failures.length, failure)
@@ -133,12 +133,10 @@ module Spec
       class Failure
         attr_reader :example, :exception
         
-        def initialize(example, exception, group)
-          @example = example
-          @exception = exception
-          @group = group
+        def initialize(group, example, exception)
+          @group, @example, @exception = group, example, exception
         end
-
+        
         def header
           if expectation_not_met?
             "'#{example_name}' FAILED"
