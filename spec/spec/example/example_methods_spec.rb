@@ -96,14 +96,6 @@ module Spec
         end
       end
 
-      describe "#full_description" do
-        it "should return the full description of the ExampleGroup and Example" do
-          example_group = Class.new(ExampleGroupDouble).describe("An ExampleGroup")
-          example = example_group.new "should do something"
-          example.full_description.should == "An ExampleGroup should do something"
-        end
-      end
-      
       describe "#subject" do
         before(:each) do
           @example_group = ExampleGroupDouble

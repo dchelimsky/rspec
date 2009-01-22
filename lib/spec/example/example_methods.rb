@@ -22,18 +22,6 @@ module Spec
         @_defined_description || ::Spec::Matchers.generated_description || "NO NAME"
       end
 
-      # Concats the class description with the example description.
-      #
-      #   describe Account do
-      #     it "should start with a balance of 0" do
-      #     ...
-      #
-      #   full_description
-      #   => "Account should start with a balance of 0"
-      def full_description
-        "#{self.class.description} #{self.description}"
-      end
-      
       def options # :nodoc:
         @_options
       end

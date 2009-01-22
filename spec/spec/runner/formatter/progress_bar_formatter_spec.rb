@@ -29,6 +29,7 @@ module Spec
             end
           end
           example = example_group.examples.first
+          @formatter.add_example_group(example_group)
           @formatter.example_pending(example, "message", "#{__FILE__}:#{__LINE__}")
           @io.rewind
           @formatter.dump_summary(3, 2, 1, 1)
@@ -49,21 +50,21 @@ Finished in 3 seconds
         it "should push red F for failure spec" do
           @io.should_receive(:tty?).and_return(true)
           @options.should_receive(:colour).and_return(true)
-          @formatter.example_failed("spec", 98, Spec::Runner::Reporter::Failure.new("c s", Spec::Expectations::ExpectationNotMetError.new))
+          @formatter.example_failed("spec", 98, Spec::Runner::Reporter::Failure.new("c s", Spec::Expectations::ExpectationNotMetError.new, "g"))
           @io.string.should eql("\e[31mF\e[0m")
         end
 
         it "should push red F for error spec" do
           @io.should_receive(:tty?).and_return(true)
           @options.should_receive(:colour).and_return(true)
-          @formatter.example_failed("spec", 98, Spec::Runner::Reporter::Failure.new("c s", RuntimeError.new))
+          @formatter.example_failed("spec", 98, Spec::Runner::Reporter::Failure.new("c s", RuntimeError.new, "g"))
           @io.string.should eql("\e[31mF\e[0m")
         end
 
         it "should push blue F for fixed pending spec" do
           @io.should_receive(:tty?).and_return(true)
           @options.should_receive(:colour).and_return(true)
-          @formatter.example_failed("spec", 98, Spec::Runner::Reporter::Failure.new("c s", Spec::Example::PendingExampleFixedError.new))
+          @formatter.example_failed("spec", 98, Spec::Runner::Reporter::Failure.new("c s", Spec::Example::PendingExampleFixedError.new, "g"))
           @io.string.should eql("\e[34mF\e[0m")
         end
 
@@ -95,7 +96,8 @@ EOE
           end
           example = example_group.examples.first
           file = __FILE__
-          line = __LINE__ + 1
+          line = __LINE__ + 2
+          @formatter.add_example_group(example_group)
           @formatter.example_pending(example, "message", "#{__FILE__}:#{__LINE__}")
           @formatter.dump_pending
           @io.string.should ==(<<-HERE)
