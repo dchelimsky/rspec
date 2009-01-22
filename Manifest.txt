@@ -168,6 +168,7 @@ lib/spec/runner/option_parser.rb
 lib/spec/runner/options.rb
 lib/spec/runner/reporter.rb
 lib/spec/runner/spec_parser.rb
+lib/spec/test/unit.rb
 lib/spec/version.rb
 resources/rake/examples.rake
 resources/rake/examples_with_rcov.rake

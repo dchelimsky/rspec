@@ -10,6 +10,7 @@
   * allow registering example groups with a path-like key (Pat Maddox)
   * start DRb service at "druby://localhost:0" (Hongli Lai) - See http://redmine.ruby-lang.org/issues/show/496 
   * consistent reporting of errors as failures
+  * added spec/test/unit as more intuitive path to loading test/unit interop lib
   
 * bug fixes
 
