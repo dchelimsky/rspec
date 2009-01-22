@@ -300,9 +300,7 @@ WARNING
         end
         
         def nested_descriptions
-          collect do |eg|
-            eg.nested_description unless eg.nested_description == ""
-          end.compact
+          collect {|eg| eg.nested_description == "" ? nil : eg.nested_description }.compact
         end
       end
       
