@@ -161,7 +161,7 @@ module Spec
 
       describe "#should_not" do
         before(:each) do
-          @example_group = ExampleGroup.dup
+          @example_group = Class.new(ExampleGroupDouble)
         end
 
         context "in an ExampleGroup with an implicit subject" do

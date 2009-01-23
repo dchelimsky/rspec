@@ -189,8 +189,8 @@ WARNING
     private
       def dry_run(examples, run_options)
         examples.each do |example|
-          run_options.reporter.example_started(example)
-          run_options.reporter.example_finished(example)
+          run_options.reporter.example_started(ExampleDescription.new(example))
+          run_options.reporter.example_finished(ExampleDescription.new(example))
         end
       end
 
@@ -200,7 +200,7 @@ WARNING
           example_group_hierarchy.run_before_all(before_all)
           return [true, before_all.instance_variable_hash]
         rescue Exception => e
-          run_options.reporter.example_failed(before_all, e)
+          run_options.reporter.example_failed(ExampleDescription.new(before_all), e)
           return [false, before_all.instance_variable_hash]
         end
       end
@@ -222,7 +222,7 @@ WARNING
         example_group_hierarchy.run_after_all(after_all)
         return success
       rescue Exception => e
-        run_options.reporter.example_failed(after_all, e)
+        run_options.reporter.example_failed(ExampleDescription.new(after_all), e)
         return false
       end
 

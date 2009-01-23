@@ -21,13 +21,13 @@ module Spec
       def description
         @_defined_description || ::Spec::Matchers.generated_description || "NO NAME"
       end
-
+      
       def options # :nodoc:
         @_options
       end
 
       def execute(options, instance_variables) # :nodoc:
-        options.reporter.example_started(self)
+        options.reporter.example_started(ExampleDescription.new(self))
         set_instance_variables_from_hash(instance_variables)
         
         execution_error = nil
@@ -45,7 +45,7 @@ module Spec
           end
         end
 
-        options.reporter.example_finished(self, execution_error)
+        options.reporter.example_finished(ExampleDescription.new(self), execution_error)
         success = execution_error.nil? || ExamplePendingError === execution_error
       end
 
