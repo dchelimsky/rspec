@@ -14,9 +14,6 @@ module Spec
       def initialize(example_group_hierarchy)
         example_group = example_group_hierarchy.last
         @description = ExampleGroupDescription.build_description_from(*example_group.description_parts) || example_group.to_s
-        @description_parts = example_group_hierarchy.inject([]) do |parts, example_group_class|
-          [parts << example_group_class.description_args].flatten
-        end
         @nested_descriptions = example_group_hierarchy.nested_descriptions
       end
       
