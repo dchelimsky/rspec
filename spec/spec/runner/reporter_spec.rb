@@ -13,7 +13,7 @@ module Spec
         options.formatters << formatter
         @reporter = Reporter.new(options)
         @example_group = create_example_group("example_group")
-        reporter.add_example_group example_group
+        example_group.report_to(reporter)
       end
 
       def failure
@@ -33,8 +33,8 @@ module Spec
       end
 
       it "should tell formatter when example_group is added" do
-        formatter.should_receive(:add_example_group).with(example_group)
-        reporter.add_example_group(example_group)
+        formatter.should_receive(:add_example_group).with(example_group.report)
+        example_group.report_to(reporter)
       end
 
       it "should handle multiple example_groups with same name" do
@@ -45,13 +45,13 @@ module Spec
         formatter.should_receive(:dump_pending)
         formatter.should_receive(:close).with(no_args)
         formatter.should_receive(:dump_summary).with(anything(), 3, 0, 0)
-        reporter.add_example_group(create_example_group("example_group"))
+        create_example_group("example_group").report_to(reporter)
         reporter.example_started("spec 1")
         reporter.example_finished("spec 1")
-        reporter.add_example_group(create_example_group("example_group"))
+        create_example_group("example_group").report_to(reporter)
         reporter.example_started("spec 2")
         reporter.example_finished("spec 2")
-        reporter.add_example_group(create_example_group("example_group"))
+        create_example_group("example_group").report_to(reporter)
         reporter.example_started("spec 3")
         reporter.example_finished("spec 3")
         reporter.dump
@@ -73,11 +73,11 @@ module Spec
         formatter.should_receive(:dump_summary).with(anything(), 4, 2, 0)
         backtrace_tweaker.should_receive(:tweak_backtrace).twice
 
-        reporter.add_example_group(create_example_group("example_group"))
+        create_example_group("example_group").report_to(reporter)
         reporter.example_finished(passing)
         reporter.example_finished(failing, error)
 
-        reporter.add_example_group(create_example_group("example_group"))
+        create_example_group("example_group").report_to(reporter)
         reporter.example_finished(passing)
         reporter.example_finished(failing, error)
         reporter.dump
@@ -163,8 +163,8 @@ module Spec
         it "should tell formatter example is pending" do
           example = ExampleGroup.new("example")
           formatter.should_receive(:example_pending).with(example, "reason", @pending_caller)
-          formatter.should_receive(:add_example_group).with(example_group)
-          reporter.add_example_group(example_group)
+          formatter.should_receive(:add_example_group).with(example_group.report)
+          example_group.report_to(reporter)
           reporter.example_finished(example, @pending_error)
         end
 
@@ -175,8 +175,8 @@ module Spec
           formatter.should_receive(:dump_pending)
           formatter.should_receive(:dump_summary).with(anything(), 1, 0, 1)
           formatter.should_receive(:close).with(no_args)
-          formatter.should_receive(:add_example_group).with(example_group)
-          reporter.add_example_group(example_group)
+          formatter.should_receive(:add_example_group).with(example_group.report)
+          example_group.report_to(reporter)
           reporter.example_finished(example, @pending_error)
           reporter.dump
         end
@@ -199,7 +199,7 @@ module Spec
           
           it "should pass the correct example to the formatter" do
             example = ExampleGroup.new("example")
-            reporter.add_example_group(example_group)
+            example_group.report_to(reporter)
             reporter.example_finished(example, @pending_error)
             
             (@deprecated_formatter.example_passed_to_method == example).should be_true
@@ -207,7 +207,7 @@ module Spec
           
           it "should pass the correct pending error message to the formatter" do
             example = ExampleGroup.new("example")
-            reporter.add_example_group(example_group)
+            example_group.report_to(reporter)
             reporter.example_finished(example, @pending_error)
             
             @deprecated_formatter.message_passed_to_method.should ==  @pending_error.message
@@ -217,7 +217,7 @@ module Spec
             Kernel.should_receive(:warn).with(Spec::Runner::Reporter::EXAMPLE_PENDING_DEPRECATION_WARNING)
             
             example = ExampleGroup.new("example")
-            reporter.add_example_group(example_group)
+            example_group.report_to(reporter)
             reporter.example_finished(example, @pending_error)
           end
         end
@@ -228,8 +228,8 @@ module Spec
           formatter.should_receive(:example_failed) do |name, counter, failure|
             failure.header.should == "'example_group should do something' FIXED"
           end
-          formatter.should_receive(:add_example_group).with(example_group)
-          reporter.add_example_group(example_group)
+          formatter.should_receive(:add_example_group).with(example_group.report)
+          example_group.report_to(reporter)
           reporter.example_finished(example_group.examples.first, Spec::Example::PendingExampleFixedError.new("reason"))
         end
       end

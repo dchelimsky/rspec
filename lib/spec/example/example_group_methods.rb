@@ -4,15 +4,6 @@ module Spec
     module ExampleGroupMethods
       class << self
         attr_accessor :matcher_class
-
-        def description_text(*args)
-          text = args.inject("") do |description, arg|
-            description << " " unless (description == "" || arg.to_s =~ /^(\s|\.|#)/)
-            description << arg.to_s
-          end
-          text == "" ? nil : text
-        end
-        
       end
 
       include Spec::Example::BeforeAndAfterHooks
@@ -127,10 +118,6 @@ WARNING
       alias_method :xit, :xexample
       alias_method :xspecify, :xexample
       
-      def report
-        @report ||= ExampleGroupDescription.new(example_group_hierarchy)
-      end
-
       def run(run_options)
         examples = examples_to_run(run_options)
         run_options.reporter.add_example_group(report) unless examples.empty?
@@ -149,12 +136,19 @@ WARNING
         args, options = Spec::Example.args_and_options(*args)
         @description_args = args
         @description_options = options
-        @description_text = ExampleGroupMethods.description_text(*args)
         @backtrace = caller(1)
         @spec_path = File.expand_path(options[:spec_path]) if options[:spec_path]
         self
       end
+      
+      def report_to(reporter)
+        reporter.add_example_group(report)
+      end
 
+      def report
+        @report ||= ExampleGroupDescription.new(example_group_hierarchy)
+      end
+      
       # TODO - get rid of this?
       def description
         report.description
