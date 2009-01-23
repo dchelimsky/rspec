@@ -18,7 +18,7 @@ module Spec
 
           describe "where ExampleGroup has no superclass with a description" do
             def add_example_group
-              formatter.add_example_group(example_group)
+              formatter.add_example_group(example_group.report)
             end
 
             before do
@@ -50,12 +50,9 @@ OUT
             end
 
             describe "#add_example_group" do
-              describe "when ExampleGroup has a nested_description" do
+              describe "when ExampleGroup has a nested description" do
+                
                 describe "when ExampleGroup has no parents with nested description" do
-                  before do
-                    example_group.superclass.nested_description.should == ""
-                  end
-
                   it "should push ExampleGroup name" do
                     io.string.should eql("ExampleGroup\n")
                   end
@@ -64,13 +61,12 @@ OUT
                 describe "when ExampleGroup has one parent with nested description" do
                   attr_reader :child_example_group
                   def add_example_group
-                    example_group.nested_description.should_not == ""
                     @child_example_group = Class.new(example_group).describe("Child ExampleGroup")
                   end
 
                   describe "and parent ExampleGroups have not been printed" do
                     before do
-                      formatter.add_example_group(child_example_group)
+                      formatter.add_example_group(child_example_group.report)
                     end
 
                     it "should push ExampleGroup name with two spaces of indentation" do
@@ -83,9 +79,9 @@ OUT
 
                   describe "and parent ExampleGroups have been printed" do
                     before do
-                      formatter.add_example_group(example_group)
+                      formatter.add_example_group(example_group.report)
                       io.string = ""
-                      formatter.add_example_group(child_example_group)
+                      formatter.add_example_group(child_example_group.report)
                     end
 
                     it "should print only the indented ExampleGroup" do
@@ -99,14 +95,13 @@ OUT
                 describe "when ExampleGroup has two parents with nested description" do
                   attr_reader :child_example_group, :grand_child_example_group
                   def add_example_group
-                    example_group.nested_description.should_not == ""
                     @child_example_group = Class.new(example_group).describe("Child ExampleGroup")
                     @grand_child_example_group = Class.new(child_example_group).describe("GrandChild ExampleGroup")
                   end
 
                   describe "and parent ExampleGroups have not been printed" do
                     before do
-                      formatter.add_example_group(grand_child_example_group)
+                      formatter.add_example_group(grand_child_example_group.report)
                     end
 
                     it "should print the entire nested ExampleGroup heirarchy" do
@@ -120,9 +115,9 @@ OUT
 
                   describe "and parent ExampleGroups have been printed" do
                     before do
-                      formatter.add_example_group(child_example_group)
+                      formatter.add_example_group(child_example_group.report)
                       io.string = ""
-                      formatter.add_example_group(grand_child_example_group)
+                      formatter.add_example_group(grand_child_example_group.report)
                     end
 
                     it "should print only the indented ExampleGroup" do
@@ -140,8 +135,7 @@ OUT
                 describe "and parent ExampleGroups have not been printed" do
                   def add_example_group
                     @child_example_group = Class.new(example_group)
-                    child_example_group.nested_description.should == ""
-                    formatter.add_example_group(child_example_group)
+                    formatter.add_example_group(child_example_group.report)
                   end
 
                   it "should render only the parent ExampleGroup" do
@@ -154,10 +148,9 @@ OUT
                 describe "and parent ExampleGroups have been printed" do
                   def add_example_group
                     @child_example_group = Class.new(example_group)
-                    child_example_group.nested_description.should == ""
-                    formatter.add_example_group(example_group)
+                    formatter.add_example_group(example_group.report)
                     io.string = ""
-                    formatter.add_example_group(child_example_group)
+                    formatter.add_example_group(child_example_group.report)
                   end
 
                   it "should not render anything" do
@@ -169,7 +162,6 @@ OUT
               describe "when ExampleGroup nested description is blank" do
                 def add_example_group
                   example_group.set_description
-                  example_group.nested_description.should == ""
                   super
                 end
 
@@ -216,7 +208,7 @@ OUT
                 def add_example_group
                   @child_example_group = Class.new(example_group).describe("Child ExampleGroup")
                   @grand_child_example_group = Class.new(child_example_group).describe("GrandChild ExampleGroup")
-                  formatter.add_example_group(grand_child_example_group)
+                  formatter.add_example_group(grand_child_example_group.report)
                 end
 
                 describe "when having an error" do

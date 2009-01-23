@@ -255,9 +255,9 @@ module Spec
             ExampleGroupFactory.reset
           end
 
-          it "should send reporter add_example_group" do
+          it "should send reporter add_example_group.report" do
             example_group.run(options)
-            reporter.example_groups.should == [example_group]
+            reporter.example_groups.should == [example_group.report]
           end
 
           it "should run example on run" do

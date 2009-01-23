@@ -126,10 +126,14 @@ WARNING
       
       alias_method :xit, :xexample
       alias_method :xspecify, :xexample
+      
+      def report
+        @report ||= ExampleGroupDescription.new(example_group_hierarchy)
+      end
 
       def run(run_options)
         examples = examples_to_run(run_options)
-        run_options.reporter.add_example_group(self) unless examples.empty?
+        run_options.reporter.add_example_group(report) unless examples.empty?
         return true if examples.empty?
         return dry_run(examples, run_options) if run_options.dry_run?
 
@@ -150,9 +154,10 @@ WARNING
         @spec_path = File.expand_path(options[:spec_path]) if options[:spec_path]
         self
       end
-      
+
+      # TODO - get rid of this?
       def description
-        @description ||= ExampleGroupMethods.description_text(*description_parts) || to_s
+        report.description
       end
       
       def described_type
@@ -172,23 +177,7 @@ WARNING
           [parts << example_group_class.description_args].flatten
         end
       end
-      
-      def filtered_description(filter)
-        ExampleGroupMethods.description_text(
-          *description_parts.collect do |description|
-            description =~ filter ? $1 : description
-          end
-        )
-      end
-      
-      def nested_description
-        description_args.join
-      end
-      
-      def nested_descriptions
-        example_group_hierarchy.nested_descriptions
-      end
-      
+            
       def examples(run_options=nil) #:nodoc:
         examples = example_objects.dup
         add_method_examples(examples)
@@ -299,8 +288,12 @@ WARNING
           end
         end
         
+        def nested_description_from(example_group)
+          example_group.description_args.join
+        end
+        
         def nested_descriptions
-          collect {|eg| eg.nested_description == "" ? nil : eg.nested_description }.compact
+          collect {|eg| nested_description_from(eg) == "" ? nil : nested_description_from(eg) }.compact
         end
       end
       

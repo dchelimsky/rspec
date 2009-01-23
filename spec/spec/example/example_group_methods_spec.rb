@@ -334,14 +334,14 @@ module Spec
             example_group.description.should eql(example_group.description)
           end
 
-          it "should not add a space when description_text begins with #" do
+          it "should not add a space when description begins with #" do
             child_example_group = Class.new(example_group) do
               describe("#foobar", "Does something")
             end
             child_example_group.description.should == "ExampleGroup#foobar Does something"
           end
 
-          it "should not add a space when description_text begins with ." do
+          it "should not add a space when description begins with ." do
             child_example_group = Class.new(example_group) do
               describe(".foobar", "Does something")
             end
