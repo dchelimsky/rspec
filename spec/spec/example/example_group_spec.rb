@@ -232,14 +232,10 @@ module Spec
               options.parse_example "should be run"
             end
 
-            it "should run only the example, when there is only one" do
+            it "should run only the example" do
               example_group.run(options)
               examples_that_were_run.should == ["should be run"]
             end
-
-            it "should run only the one example" do
-              example_group.run(options)
-              examples_that_were_run.should == ["should be run"]          end
           end
         end
 
@@ -255,9 +251,9 @@ module Spec
             ExampleGroupFactory.reset
           end
 
-          it "should send reporter add_example_group.report" do
+          it "should send reporter add_example_group.description_object" do
             example_group.run(options)
-            reporter.example_groups.should == [example_group.report]
+            reporter.example_groups.should == [example_group.description_object]
           end
 
           it "should run example on run" do

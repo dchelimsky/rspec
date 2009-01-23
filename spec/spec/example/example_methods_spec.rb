@@ -19,59 +19,6 @@ module Spec
         end
       end
 
-      describe "eval_block" do
-        before(:each) do
-          @example_group = ExampleGroup.dup
-        end
-    
-        describe "with a given description" do
-          it "should provide the given description" do
-            @example = @example_group.it("given description") { 2.should == 2 }
-            @example.eval_block
-            @example.description.should == "given description"
-          end
-        end
-
-        describe "with no given description" do
-          it "should provide the generated description" do
-            @example = @example_group.it { 2.should == 2 }
-            @example.eval_block
-            @example.description.should == "should == 2"
-          end
-        end
-    
-        describe "with no implementation" do
-          it "should raise an NotYetImplementedError" do
-            lambda {
-              @example = @example_group.it
-              @example.eval_block
-            }.should raise_error(Spec::Example::NotYetImplementedError, "Not Yet Implemented")
-          end
-      
-          def extract_error(&blk)
-            begin
-              blk.call
-            rescue Exception => e
-              return e
-            end
-        
-            nil
-          end
-      
-          it "should use the proper file and line number for the NotYetImplementedError" do
-            file = __FILE__
-            line_number = __LINE__ + 3
-        
-            error = extract_error do
-              @example = @example_group.example
-              @example.eval_block
-            end
-        
-            error.pending_caller.should =~ /#{file}:#{line_number}/
-          end
-        end
-      end
-
       describe "#backtrace" do        
         it "returns the backtrace from where the example was defined" do
           example = ExampleGroup.dup.new "name"

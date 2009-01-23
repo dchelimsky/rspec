@@ -123,6 +123,7 @@ module Spec
                 # forces the run
               end
             end
+            
             example_group.examples.length.should == 1
             example_group.run(options).should be_true
           end
@@ -149,7 +150,7 @@ module Spec
               end
             end
             example_group.should have(4).examples
-            descriptions = example_group.examples.collect {|example| example.description.to_s}
+            descriptions = example_group.examples.collect {|e| e.description}
             descriptions.should include(
               "shouldCamelCase",
               "should_any_args",

@@ -99,12 +99,21 @@ WARNING
         @predicate_matchers ||= {}
       end
 
+      def example_descriptions
+        @example_descriptions ||= []
+      end
+      
+      def example_implementations
+        @example_implementations ||= {}
+      end
+
       # Creates an instance of the current example group class and adds it to
       # a collection of examples of the current example group.
-      def example(description=nil, options={}, &implementation)
-        e = new(description, options, &implementation)
-        example_objects << e
-        e
+      def example(description=nil, options={}, backtrace=nil, &implementation)
+        example_description = ExampleDescription.new(description, backtrace || caller(0)[1])
+        example_descriptions << example_description
+        example_implementations[example_description] = implementation
+        example_description
       end
 
       alias_method :it, :example
@@ -120,7 +129,7 @@ WARNING
       
       def run(run_options)
         examples = examples_to_run(run_options)
-        run_options.reporter.add_example_group(report) unless examples.empty?
+        notify(run_options.reporter) unless examples.empty?
         return true if examples.empty?
         return dry_run(examples, run_options) if run_options.dry_run?
 
@@ -141,17 +150,17 @@ WARNING
         self
       end
       
-      def report_to(reporter)
-        reporter.add_example_group(report)
+      def notify(listener) # :nodoc:
+        listener.add_example_group(description_object)
       end
 
-      def report
-        @report ||= ExampleGroupDescription.new(example_group_hierarchy)
+      # FIXME - why do we need description object and description methods?
+      def description_object
+        @description_object ||= ExampleGroupDescription.new(example_group_hierarchy)
       end
       
-      # TODO - get rid of this?
       def description
-        report.description
+        description_object.description
       end
       
       def described_type
@@ -173,24 +182,22 @@ WARNING
       end
             
       def examples(run_options=nil) #:nodoc:
-        examples = example_objects.dup
-        add_method_examples(examples)
-        (run_options && run_options.reverse) ? examples.reverse : examples
+        (run_options && run_options.reverse) ? example_descriptions.reverse : example_descriptions
       end
 
       def number_of_examples #:nodoc:
-        examples.length
+        example_descriptions.length
       end
 
       def example_group_hierarchy
         @example_group_hierarchy ||= ExampleGroupHierarchy.new(self)
       end
-
+      
     private
       def dry_run(examples, run_options)
         examples.each do |example|
-          run_options.reporter.example_started(ExampleDescription.new(example))
-          run_options.reporter.example_finished(ExampleDescription.new(example))
+          run_options.reporter.example_started(example)
+          run_options.reporter.example_finished(example)
         end
       end
 
@@ -200,7 +207,7 @@ WARNING
           example_group_hierarchy.run_before_all(before_all)
           return [true, before_all.instance_variable_hash]
         rescue Exception => e
-          run_options.reporter.example_failed(ExampleDescription.new(before_all), e)
+          run_options.reporter.example_failed(ExampleDescription.new("before(:all)"), e)
           return [false, before_all.instance_variable_hash]
         end
       end
@@ -209,27 +216,29 @@ WARNING
         return [success, instance_variables] unless success
 
         after_all_instance_variables = instance_variables
-        examples.each do |example_group_instance|
+        
+        examples.each do |example|
+          example_group_instance = new(example.description,{},&example_implementations[example])
           success &= example_group_instance.execute(run_options, instance_variables)
           after_all_instance_variables = example_group_instance.instance_variable_hash
         end
+        
         return [success, after_all_instance_variables]
       end
-
+      
       def run_after_all(success, instance_variables, run_options)
         after_all = new("after(:all)")
         after_all.set_instance_variables_from_hash(instance_variables)
         example_group_hierarchy.run_after_all(after_all)
         return success
       rescue Exception => e
-        run_options.reporter.example_failed(ExampleDescription.new(after_all), e)
+        run_options.reporter.example_failed(ExampleDescription.new("after(:all)"), e)
         return false
       end
-
+      
       def examples_to_run(run_options)
-        all_examples = examples(run_options)
-        return all_examples unless specified_examples?(run_options)
-        all_examples.reject do |example|
+        return example_descriptions unless specified_examples?(run_options)
+        example_descriptions.reject do |example|
           matcher = ExampleGroupMethods.matcher_class.
             new(description.to_s, example.description)
           !matcher.matches?(run_options.examples)
@@ -240,8 +249,53 @@ WARNING
         run_options.examples && !run_options.examples.empty?
       end
 
-      def example_objects
-        @example_objects ||= []
+      def plugin_mock_framework(run_options)
+        case mock_framework = run_options.mock_framework
+        when Module
+          include mock_framework
+        else
+          require mock_framework
+          include Spec::Adapters::MockFramework
+        end
+      end
+
+      def define_methods_from_predicate_matchers(run_options) # :nodoc:
+        all_predicate_matchers = predicate_matchers.merge(
+          run_options.predicate_matchers
+        )
+        all_predicate_matchers.each_pair do |matcher_method, method_on_object|
+          define_method matcher_method do |*args|
+            eval("be_#{method_on_object.to_s.gsub('?','')}(*args)")
+          end
+        end
+      end
+
+      def method_added(name)
+        example(name.to_s, {}, caller(0)[1]) {__send__ name.to_s} if example_method?(name.to_s)
+      end
+      
+      def example_method?(method_name)
+        should_method?(method_name)
+      end
+
+      def should_method?(method_name)
+        !(method_name =~ /^should(_not)?$/) &&
+        method_name =~ /^should/ && (
+          [-1,0].include?(instance_method(method_name).arity)
+        )
+      end
+
+      def include_shared_example_group(shared_example_group)
+        case shared_example_group
+        when SharedExampleGroup
+          include shared_example_group
+        else
+          example_group = SharedExampleGroup.find(shared_example_group)
+          unless example_group
+            raise RuntimeError.new("Shared Example Group '#{shared_example_group}' can not be found")
+          end
+          include(example_group)
+        end
       end
 
       class ExampleGroupHierarchy < Array
@@ -291,67 +345,6 @@ WARNING
         end
       end
       
-      def plugin_mock_framework(run_options)
-        case mock_framework = run_options.mock_framework
-        when Module
-          include mock_framework
-        else
-          require mock_framework
-          include Spec::Adapters::MockFramework
-        end
-      end
-
-      def define_methods_from_predicate_matchers(run_options) # :nodoc:
-        all_predicate_matchers = predicate_matchers.merge(
-          run_options.predicate_matchers
-        )
-        all_predicate_matchers.each_pair do |matcher_method, method_on_object|
-          define_method matcher_method do |*args|
-            eval("be_#{method_on_object.to_s.gsub('?','')}(*args)")
-          end
-        end
-      end
-
-      def add_method_examples(examples)
-        example_methods.each do |method_name|
-          examples << new(method_name) do
-            __send__(method_name)
-          end
-        end
-      end
-      
-      def method_added(name)
-        example_methods << name.to_s if example_method?(name.to_s)
-      end
-      
-      def example_methods
-        @example_methods ||= []
-      end
-
-      def example_method?(method_name)
-        should_method?(method_name)
-      end
-
-      def should_method?(method_name)
-        !(method_name =~ /^should(_not)?$/) &&
-        method_name =~ /^should/ && (
-          [-1,0].include?(instance_method(method_name).arity)
-        )
-      end
-
-      def include_shared_example_group(shared_example_group)
-        case shared_example_group
-        when SharedExampleGroup
-          include shared_example_group
-        else
-          example_group = SharedExampleGroup.find(shared_example_group)
-          unless example_group
-            raise RuntimeError.new("Shared Example Group '#{shared_example_group}' can not be found")
-          end
-          include(example_group)
-        end
-      end
-
     end
 
   end

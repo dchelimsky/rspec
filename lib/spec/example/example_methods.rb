@@ -27,14 +27,17 @@ module Spec
       end
 
       def execute(options, instance_variables) # :nodoc:
-        options.reporter.example_started(ExampleDescription.new(self))
+        # FIXME - there is no reason to have example_started pass a name
+        # - in fact, it would introduce bugs in cases where no docstring
+        # is passed to it()
+        options.reporter.example_started("")
         set_instance_variables_from_hash(instance_variables)
         
         execution_error = nil
         Timeout.timeout(options.timeout) do
           begin
             before_each_example
-            eval_block
+            instance_eval(&@_implementation)
           rescue Exception => e
             execution_error ||= e
           end
@@ -45,7 +48,7 @@ module Spec
           end
         end
 
-        options.reporter.example_finished(ExampleDescription.new(self), execution_error)
+        options.reporter.example_finished(updated_desc = ExampleDescription.new(description), execution_error)
         success = execution_error.nil? || ExamplePendingError === execution_error
       end
 
@@ -81,10 +84,6 @@ module Spec
             instance_variable_set variable_name, value
           end
         end
-      end
-
-      def eval_block # :nodoc:
-        instance_eval(&@_implementation)
       end
 
       # Provides the backtrace up to where this example was declared.

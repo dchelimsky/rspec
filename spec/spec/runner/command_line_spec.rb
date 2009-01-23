@@ -106,7 +106,7 @@ module Spec
           options.add_example_group(example_group)
 
           ::Spec::Runner::Options.should_receive(:new).with(@err, @out).and_return(options)
-          options.reporter.should_receive(:add_example_group).with(example_group.report)
+          options.reporter.should_receive(:add_example_group).with(example_group.description_object)
         
           Spec::Runner::CommandLine.run(OptionParser.parse([], @err, @out))
         end
@@ -127,7 +127,7 @@ module Spec
             end
           end
 
-          options.reporter.should_receive(:add_example_group).with(example_group.report)
+          options.reporter.should_receive(:add_example_group).with(example_group.description_object)
 
           options.add_example_group example_group
           run_with(options)
