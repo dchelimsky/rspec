@@ -104,3 +104,11 @@ namespace :update do
     system %q[rake debug_gem | grep -v "(in " | grep -v "else" | grep -v "s.add_dependency(%q<hoe" | grep -v "s.add_dependency(%q<cuc" > `basename \\`pwd\\``.gemspec]
   end
 end
+
+task :clobber => :clobber_tmp
+
+task :clobber_tmp do
+  cmd = %q[rm -r tmp]
+  puts cmd
+  system cmd if test ?d, 'tmp'
+end
