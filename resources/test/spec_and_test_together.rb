@@ -1,4 +1,5 @@
 $:.push File.join(File.dirname(__FILE__), *%w[.. .. lib])
+require 'spec/autorun'
 require 'spec/test/unit'
 
 describe "An Example" do

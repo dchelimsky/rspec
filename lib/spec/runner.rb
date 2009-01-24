@@ -15,7 +15,6 @@ module Spec
     class ExampleGroupCreationListener
       def register_example_group(klass)
         Spec::Runner.options.add_example_group klass
-        Spec::Runner.register_at_exit_hook
       end
     end
     
@@ -40,16 +39,13 @@ module Spec
       def configure
         yield configuration
       end
-    
-      def register_at_exit_hook # :nodoc:
-        unless @already_registered_at_exit_hook
-          at_exit do
-            unless $! || run? || Spec::Example::ExampleGroupFactory.registered_or_ancestor_of_registered?(options.example_groups)
-              success = run
-              exit success if exit?
-            end
+      
+      def autorun # :nodoc:
+        at_exit do
+          unless $! || run?
+            success = run
+            exit success if exit?
           end
-          @already_registered_at_exit_hook = true
         end
       end
 
@@ -65,10 +61,6 @@ module Spec
         @options = options
       end
 
-      def test_unit_defined?
-        Object.const_defined?(:Test) && Test.const_defined?(:Unit) && Test::Unit.respond_to?(:run?)
-      end
-
       def run?
         Runner.options.examples_run?
       end
@@ -80,6 +72,10 @@ module Spec
 
       def exit?
         !test_unit_defined? || Test::Unit.run?
+      end
+
+      def test_unit_defined?
+        Object.const_defined?(:Test) && Test.const_defined?(:Unit) && Test::Unit.respond_to?(:run?)
       end
     end
   end

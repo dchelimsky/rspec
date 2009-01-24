@@ -1,5 +1,9 @@
 == Maintenance
 
+WARNING: If you use the ruby command to run specs instead of the spec command,
+you'll need to require 'spec/autorun' or they won't run. This won't affect you
+if you use the spec command or the Spec::Rake::SpecTask that ships with RSpec.
+
 * deprecations
 
   * BaseTextFormatter#colourize - use colorize_failure instead.
@@ -11,6 +15,7 @@
   * start DRb service at "druby://localhost:0" (Hongli Lai) - See http://redmine.ruby-lang.org/issues/show/496 
   * consistent reporting of errors as failures
   * added spec/test/unit as more intuitive path to loading test/unit interop lib
+  * added explicit autorun feature for running specs with ruby command
   
 * bug fixes
 
