@@ -82,7 +82,9 @@ lib/spec/dsl/main.rb
 lib/spec/example.rb
 lib/spec/example/before_and_after_hooks.rb
 lib/spec/example/errors.rb
+lib/spec/example/example_description.rb
 lib/spec/example/example_group.rb
+lib/spec/example/example_group_description.rb
 lib/spec/example/example_group_factory.rb
 lib/spec/example/example_group_methods.rb
 lib/spec/example/example_matcher.rb
