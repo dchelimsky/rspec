@@ -4,15 +4,16 @@ module Spec
     class OperatorMatcher
       class << self
         def registry
-          @registry ||= Hash.new {|h,k| h[k] = {}}
+          @registry ||= {}
         end
 
         def register(klass, operator, matcher)
+          registry[klass] ||= {}
           registry[klass][operator] = matcher
         end
 
         def get(klass, operator)
-          registry[klass][operator]
+          registry[klass] && registry[klass][operator]
         end
       end
 
@@ -25,9 +26,7 @@ module Spec
           if matcher = OperatorMatcher.get(@actual.class, operator)
             @actual.send(::Spec::Matchers.last_should, matcher.new(expected))
           else
-            ::Spec::Matchers.last_matcher = self
-            @operator, @expected = operator, expected
-            __delegate_operator(@actual, operator, expected)
+            eval_match(@actual, operator, expected)
           end
         end
       end
@@ -42,6 +41,14 @@ module Spec
 
       def description
         "#{@operator} #{@expected.inspect}"
+      end
+      
+    private
+      
+      def eval_match(actual, operator, expected)
+        ::Spec::Matchers.last_matcher = self
+        @operator, @expected = operator, expected
+        __delegate_operator(actual, operator, expected)
       end
 
     end
