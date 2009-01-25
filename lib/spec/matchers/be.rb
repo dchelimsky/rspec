@@ -60,12 +60,7 @@ it reads really poorly.
 
       private
         def match_or_compare(actual)
-          case @expected
-          when TrueClass
-            @actual
-          else
-            @actual.__send__(comparison_method, @expected)
-          end
+          TrueClass === @expected ? @actual : @actual.__send__(comparison_method, @expected)
         end
       
         def comparison_method
