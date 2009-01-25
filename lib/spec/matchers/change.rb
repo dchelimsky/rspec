@@ -5,9 +5,7 @@ module Spec
     class Change #:nodoc:
       def initialize(receiver=nil, message=nil, &block)
         @message = message || "result"
-        @value_proc = block || lambda {
-          receiver.__send__(message)
-        }
+        @value_proc = block || lambda {receiver.__send__(message)}
       end
       
       def matches?(event_proc)
