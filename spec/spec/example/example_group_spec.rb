@@ -428,34 +428,6 @@ module Spec
             example_group.included_modules.should_not include(mod3)
           end
 
-          it "should use a mock framework set up in config" do
-            mod = Module.new do
-              def self.included(mod)
-                $included_module = mod
-              end
-
-              def teardown_mocks_for_rspec
-                $torn_down = true
-              end
-            end
-
-            begin
-              $included_module = nil
-              $torn_down = true
-              Spec::Runner.configuration.mock_with mod
-
-              example_group = Class.new(ExampleGroupDouble) do
-                describe('example')
-                it "does nothing"
-              end
-              example_group.run(options)
-
-              $included_module.should_not be_nil
-              $torn_down.should == true
-            ensure
-              Spec::Runner.configuration.mock_with :rspec
-            end
-          end
         end
 
         describe ExampleGroup, "#run with pending example that has a failing assertion" do

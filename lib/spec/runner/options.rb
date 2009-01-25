@@ -86,6 +86,7 @@ module Spec
           end
           
           define_predicate_matchers
+          plugin_mock_framework
 
           # TODO - this has to happen after the files get loaded,
           # otherwise the before_suite_parts are not populated
@@ -238,6 +239,17 @@ module Spec
           end
         end
       end
+      
+      def plugin_mock_framework
+        case mock_framework
+        when Module
+          Spec::Example::ExampleMethods.__send__ :include, mock_framework
+        else
+          require mock_framework
+          Spec::Example::ExampleMethods.__send__ :include, Spec::Adapters::MockFramework
+        end
+      end
+      
 
       def examples_should_be_run?
         return @examples_should_be_run unless @examples_should_be_run.nil?

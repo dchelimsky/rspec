@@ -133,7 +133,6 @@ WARNING
         return true if examples.empty?
         return dry_run(examples, run_options) if run_options.dry_run?
 
-        plugin_mock_framework(run_options)
         define_methods_from_predicate_matchers(run_options)
 
         success, before_all_instance_variables = run_before_all(run_options)
@@ -247,16 +246,6 @@ WARNING
 
       def specified_examples?(run_options)
         run_options.examples && !run_options.examples.empty?
-      end
-
-      def plugin_mock_framework(run_options)
-        case mock_framework = run_options.mock_framework
-        when Module
-          include mock_framework
-        else
-          require mock_framework
-          include Spec::Adapters::MockFramework
-        end
       end
 
       def define_methods_from_predicate_matchers(run_options) # :nodoc:
