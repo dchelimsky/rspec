@@ -41,12 +41,7 @@ module Spec
       end
       
       def autorun # :nodoc:
-        at_exit do
-          unless $! || run?
-            success = run
-            exit success if exit?
-          end
-        end
+        at_exit {exit run unless $!}
       end
 
       def options # :nodoc:
@@ -61,24 +56,17 @@ module Spec
         @options = options
       end
 
-      def run?
-        Runner.options.examples_run?
-      end
-
       def run
-        return true if run?
+        return true if options.examples_run?
         options.run_examples
       end
-
-      def exit?
-        !test_unit_defined? || Test::Unit.run?
-      end
-
+      
       def test_unit_defined?
         Object.const_defined?(:Test) && Test.const_defined?(:Unit) && Test::Unit.respond_to?(:run?)
       end
+
     end
   end
 end
 
-require 'spec/interop/test' if Spec::Runner::test_unit_defined?
+require 'spec/interop/test' if Spec::Runner.test_unit_defined?
