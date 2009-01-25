@@ -5,7 +5,6 @@ module Spec
       extend  Spec::Example::ModuleReopeningFix
       include Spec::Example::Subject::ExampleMethods
       
-      
       def violated(message="")
         raise Spec::Expectations::ExpectationNotMetError.new(message)
       end
@@ -53,9 +52,7 @@ module Spec
       end
 
       def eval_each_fail_fast(blocks) # :nodoc:
-        blocks.each do |block|
-          instance_eval(&block)
-        end
+        blocks.each {|block| instance_eval(&block)}
       end
 
       def eval_each_fail_slow(blocks) # :nodoc:
