@@ -2,7 +2,6 @@
 
 Refactoring for 1.2.0
 
-* eliminate dependency from Spec::Example to Spec::Runner
 ** global predictate matchers should be stored in run_options
 * eliminate dependency on global options and configuration
 ** the only place they should exist is in the Runner, which should manage them
