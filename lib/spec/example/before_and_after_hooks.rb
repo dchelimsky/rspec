@@ -37,11 +37,6 @@ module Spec
         after_parts(*args) << block
       end
 
-      # TODO - deprecate this unless there is a reason why it exists
-      def remove_after(scope, &block) # :nodoc:
-        after_each_parts.delete(block)
-      end
-
       # Deprecated. Use before(:each)
       def setup(&block)
         before(:each, &block)

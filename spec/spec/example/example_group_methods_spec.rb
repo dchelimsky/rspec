@@ -426,26 +426,6 @@ module Spec
           end
         end
 
-        describe "#remove_after" do
-          it "should unregister a given after(:each) block" do
-            after_all_ran = false
-            proc = Proc.new { after_all_ran = true }
-
-            example_group = Class.new(ExampleGroupDouble) do
-              specify("example") {}
-              after(:each, &proc)
-            end
-
-            example_group.run(options)
-            after_all_ran.should be_true
-
-            after_all_ran = false
-            example_group.remove_after(:each, &proc)
-            example_group.run(options)
-            after_all_ran.should be_false
-          end
-        end
-
         describe "#include" do
           it "should have accessible class methods from included module" do
             mod_method_called = false

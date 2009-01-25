@@ -12,7 +12,7 @@ module Spec
       attr_reader :description_options, :spec_path
       alias :options :description_options
       
-      def inherited(klass)
+      def inherited(klass) # :nodoc:
         super
         ExampleGroupFactory.register_example_group(klass)
       end
@@ -300,20 +300,19 @@ WARNING
 
       class ExampleGroupHierarchy < Array
         def initialize(example_group_class)
-          current_class = example_group_class
-          while current_class.kind_of?(ExampleGroupMethods)
-            unshift(current_class)
-            break unless current_class.respond_to? :superclass
-            current_class = current_class.superclass
+          push example_group_class
+          if example_group_class.respond_to?(:superclass) && example_group_class.superclass.respond_to?(:example_group_hierarchy)
+            unshift example_group_class.superclass.example_group_hierarchy
+            flatten!
           end
         end
         
         def run_before_all(example)
-          each {|klass| example.eval_each_fail_fast(klass.before_all_parts)}
+          example.eval_each_fail_fast(before_all_parts)
         end
         
         def run_before_each(example)
-          each {|klass| example.eval_each_fail_fast(klass.before_each_parts)}
+          example.eval_each_fail_fast(before_each_parts)
         end
         
         def run_after_each(example)
@@ -324,24 +323,28 @@ WARNING
           example.eval_each_fail_slow(after_all_parts)
         end
         
+        def before_all_parts
+          @before_all_parts ||= collect {|klass| klass.before_all_parts}.flatten
+        end
+        
+        def before_each_parts
+          @before_each_parts ||= collect {|klass| klass.before_each_parts}.flatten
+        end
+        
         def after_each_parts
-          reverse.inject([]) do |parts, klass|
-            parts += klass.after_each_parts
-          end
+          @after_each_parts ||= reverse.collect {|klass| klass.after_each_parts}.flatten
         end
         
         def after_all_parts
-          reverse.inject([]) do |parts, klass|
-            parts += klass.after_all_parts
-          end
+          @after_all_parts ||= reverse.collect {|klass| klass.after_all_parts}.flatten
+        end
+        
+        def nested_descriptions
+          @nested_descriptions ||= collect {|eg| nested_description_from(eg) == "" ? nil : nested_description_from(eg) }.compact
         end
         
         def nested_description_from(example_group)
           example_group.description_args.join
-        end
-        
-        def nested_descriptions
-          collect {|eg| nested_description_from(eg) == "" ? nil : nested_description_from(eg) }.compact
         end
       end
       
