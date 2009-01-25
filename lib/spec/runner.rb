@@ -60,13 +60,7 @@ module Spec
         return true if options.examples_run?
         options.run_examples
       end
-      
-      def test_unit_defined?
-        Object.const_defined?(:Test) && Test.const_defined?(:Unit) && Test::Unit.respond_to?(:run?)
-      end
 
     end
   end
 end
-
-require 'spec/interop/test' if Spec::Runner.test_unit_defined?
