@@ -47,14 +47,6 @@ module Spec
         after(:each, &block)
       end
 
-      def before_all_parts # :nodoc:
-        @before_all_parts ||= []
-      end
-
-      def after_all_parts # :nodoc:
-        @after_all_parts ||= []
-      end
-
       def before_each_parts # :nodoc:
         @before_each_parts ||= []
       end
@@ -63,6 +55,14 @@ module Spec
         @after_each_parts ||= []
       end
       
+      def before_all_parts # :nodoc:
+        @before_all_parts ||= []
+      end
+
+      def after_all_parts # :nodoc:
+        @after_all_parts ||= []
+      end
+
       def before_suite_parts
         BeforeAndAfterHooks.before_suite_parts
       end
