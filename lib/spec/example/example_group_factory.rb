@@ -32,6 +32,7 @@ module Spec
         def create_example_group_subclass(base, *args, &example_group_block) # :nodoc:
           @class_count ||= 0
           @class_count += 1
+          # FIXME - Subclass_1 should be Zap_1 (based on args)
           klass = base.const_set("Subclass_#{@class_count}", Class.new(base))
           klass.set_description(*args)
           example_group_block = include_constants_in(args.last[:scope], &example_group_block)
