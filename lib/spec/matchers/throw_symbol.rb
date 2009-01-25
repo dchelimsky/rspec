@@ -35,8 +35,6 @@ module Spec
             if @expected_arg.nil?
               return @caught_symbol == @expected_symbol
             else
-              # puts [@caught_symbol, @expected_symbol].inspect
-              # puts [@caught_arg, @expected_arg].inspect
               return @caught_symbol == @expected_symbol && @caught_arg == @expected_arg
             end
           end
