@@ -191,34 +191,6 @@ module Spec
         end
       end
 
-      describe "#registered_or_ancestor_of_registered?" do
-        before(:each) do
-          @unregistered_parent = Class.new(ExampleGroupDouble)
-          @registered_child = Class.new(@unregistered_parent)
-          @unregistered_grandchild = Class.new(@registered_child)
-          Spec::Example::ExampleGroupFactory.register :registered_child, @registered_child
-        end
-
-        it "should return true for empty list" do
-          Spec::Example::ExampleGroupFactory.registered_or_ancestor_of_registered?([]).should be_true
-        end
-
-        it "should return true for a registered example group class" do
-          Spec::Example::ExampleGroupFactory.registered_or_ancestor_of_registered?([@registered_child]).should be_true
-        end
-
-        it "should return true for an ancestor of a registered example_group_classes" do
-          Spec::Example::ExampleGroupFactory.registered_or_ancestor_of_registered?([@unregistered_parent]).should be_true
-        end
-
-        it "should return false for a subclass of a registered example_group_class" do
-          Spec::Example::ExampleGroupFactory.registered_or_ancestor_of_registered?([@unregistered_grandchild]).should be_false
-        end
-
-        after(:each) do
-          Spec::Example::ExampleGroupFactory.reset
-        end
-      end
     end
   end
 end

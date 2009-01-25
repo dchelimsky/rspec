@@ -8,15 +8,6 @@ module Spec
           default(ExampleGroup)
         end
 
-        def registered_or_ancestor_of_registered?(example_group_classes) # :nodoc:
-          example_group_classes.each do |example_group_class|
-            return false unless registered_types.any? do |registered_type|
-              registered_type.ancestors.include? example_group_class
-            end
-          end
-          return true
-        end
-        
         def example_group_creation_listeners
           @example_group_creation_listeners ||= []
         end
@@ -111,12 +102,6 @@ module Spec
             $2 == '' ? nil : $2.to_sym
           end
           get(key)
-        end
-
-      private
-
-        def registered_types
-          @example_group_types.values
         end
 
       end
