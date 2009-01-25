@@ -1,8 +1,13 @@
 == Maintenance
 
-WARNING: If you use the ruby command to run specs instead of the spec command,
-you'll need to require 'spec/autorun' or they won't run. This won't affect you
-if you use the spec command or the Spec::Rake::SpecTask that ships with RSpec.
+* IMPORTANT:
+
+  * If you use the ruby command to run specs instead of the spec command, you'll
+    need to require 'spec/autorun' or they won't run. This won't affect you if
+    you use the spec command or the Spec::Rake::SpecTask that ships with RSpec.
+
+  * You have to require 'spec/test/unit' to invoke test/unit interop if you're
+    using RSpec's core (this is handled implicitly with spec-rails)
 
 * deprecations
 
