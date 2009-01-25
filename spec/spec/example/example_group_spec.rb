@@ -428,19 +428,6 @@ module Spec
             example_group.included_modules.should_not include(mod3)
           end
 
-          it "should include any predicate_matchers included using configuration" do
-            $included_predicate_matcher_found = false
-            Spec::Runner.configuration.predicate_matchers[:do_something] = :does_something?
-            example_group = Class.new(ExampleGroupDouble) do
-              describe('example')
-              it "should respond to do_something" do
-                $included_predicate_matcher_found = respond_to?(:do_something)
-              end
-            end
-            example_group.run(options)
-            $included_predicate_matcher_found.should be(true)
-          end
-
           it "should use a mock framework set up in config" do
             mod = Module.new do
               def self.included(mod)

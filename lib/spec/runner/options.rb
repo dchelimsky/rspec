@@ -84,6 +84,8 @@ module Spec
             runner.load_files(files_to_load)
             @files_loaded = true
           end
+          
+          define_predicate_matchers
 
           # TODO - this has to happen after the files get loaded,
           # otherwise the before_suite_parts are not populated
@@ -124,11 +126,6 @@ module Spec
 
       def examples_should_not_be_run
         @examples_should_be_run = false
-      end
-      
-      def predicate_matchers
-        # TODO - don't like this dependency - perhaps store these in here instead?
-        Spec::Runner.configuration.predicate_matchers
       end
       
       def mock_framework
@@ -232,7 +229,16 @@ module Spec
         @dry_run == true
       end
       
-      protected
+    protected
+
+      def define_predicate_matchers
+        Spec::Runner.configuration.predicate_matchers.each_pair do |matcher_method, method_on_object|
+          Spec::Example::ExampleMethods::__send__ :define_method, matcher_method do |*args|
+            eval("be_#{method_on_object.to_s.gsub('?','')}(*args)")
+          end
+        end
+      end
+
       def examples_should_be_run?
         return @examples_should_be_run unless @examples_should_be_run.nil?
         @examples_should_be_run = true

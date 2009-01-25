@@ -260,10 +260,7 @@ WARNING
       end
 
       def define_methods_from_predicate_matchers(run_options) # :nodoc:
-        all_predicate_matchers = predicate_matchers.merge(
-          run_options.predicate_matchers
-        )
-        all_predicate_matchers.each_pair do |matcher_method, method_on_object|
+        predicate_matchers.each_pair do |matcher_method, method_on_object|
           define_method matcher_method do |*args|
             eval("be_#{method_on_object.to_s.gsub('?','')}(*args)")
           end

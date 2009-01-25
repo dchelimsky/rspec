@@ -312,6 +312,17 @@ module Spec
       end
 
       describe "#run_examples" do
+        describe "with global predicate matchers" do
+          it "defines methods on ExampleMethods" do
+            Spec::Runner.configuration.stub!(:predicate_matchers).and_return({:this => :that?})
+            Spec::Example::ExampleMethods.should_receive(:define_method).
+              with(:this)
+            @options.user_input_for_runner = nil
+
+            @options.run_examples
+          end
+        end
+        
         describe "when not given a custom runner" do
           it "should use the standard" do
             runner = ::Spec::Runner::ExampleGroupRunner.new(@options)
