@@ -17,10 +17,6 @@ module Spec
         @nested_descriptions = example_group_hierarchy.nested_descriptions
       end
       
-      def nested_description
-        @nested_descriptions.last
-      end
-      
       def filtered_description(filter)
         ExampleGroupDescription.build_description_from(
           *nested_descriptions.collect do |description|

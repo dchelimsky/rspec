@@ -20,7 +20,6 @@ module Spec
       end
     end
 
-
     # :call-seq:
     #   should exist
     #   should_not exist

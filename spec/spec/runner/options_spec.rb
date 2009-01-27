@@ -313,12 +313,35 @@ module Spec
 
       describe "#run_examples" do
         describe "with global predicate matchers" do
-          it "defines methods on ExampleMethods" do
+          it "defines global predicate matcher methods on ExampleMethods" do
             Spec::Runner.configuration.stub!(:predicate_matchers).and_return({:this => :that?})
-            Spec::Example::ExampleMethods.should_receive(:define_method).
-              with(:this)
-            @options.user_input_for_runner = nil
+            group = Class.new(::Spec::Example::ExampleGroupDouble).describe("Some Examples")
+            example = group.new
+            
+            @options.run_examples
+            example.this
+          end
+          
+          after(:each) do
+            Spec::Example::ExampleMethods.class_eval "undef :this"
+          end
+        end
+        
+        describe "with a mock framework defined as a Symbol" do
+          it "includes Spec::Adapters::MockFramework" do
+            Spec::Runner.configuration.stub!(:mock_framework).and_return('adapters/mock_frameworks/rspec')
 
+            Spec::Example::ExampleMethods.should_receive(:include).with(Spec::Adapters::MockFramework)
+
+            @options.run_examples
+          end
+        end
+        
+        describe "with a mock framework defined as a Module" do
+          it "includes the module in ExampleMethods" do
+            mod = Module.new
+            Spec::Runner.configuration.stub!(:mock_framework).and_return(mod)
+            Spec::Example::ExampleMethods.should_receive(:include).with(mod)
             @options.run_examples
           end
         end

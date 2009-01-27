@@ -249,7 +249,6 @@ module Spec
           Spec::Example::ExampleMethods.__send__ :include, Spec::Adapters::MockFramework
         end
       end
-      
 
       def examples_should_be_run?
         return @examples_should_be_run unless @examples_should_be_run.nil?
