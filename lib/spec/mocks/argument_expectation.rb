@@ -24,7 +24,7 @@ module Spec
       end
       
       def is_matcher?(obj)
-        return obj.respond_to?(:matches?) && obj.respond_to?(:description)
+        return obj.respond_to?(:matches?) & obj.respond_to?(:description)
       end
       
       def args_match?(given_args)

@@ -83,9 +83,7 @@ NOTICE
         end
         
         def close
-          if IO === @output && @output != $stdout
-            @output.close 
-          end
+          @output.close  if (IO === @output) & (@output != $stdout)
         end
         
         def format_backtrace(backtrace)
@@ -108,7 +106,7 @@ NOTICE
         end
 
         def colour(text, colour_code)
-          return text unless colour? && output_to_tty?
+          return text unless (colour? & output_to_tty?)
           "#{colour_code}#{text}\e[0m"
         end
 

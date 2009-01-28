@@ -84,7 +84,7 @@ module Spec
         end
 
         def include_constants_in(context, &block)
-          if (Spec::Ruby.version.to_f >= 1.9 && Module === context && !(Class === context))
+          if (Spec::Ruby.version.to_f >= 1.9) & (Module === context) & !(Class === context)
             return lambda {include context;instance_eval(&block)}
           end
           block

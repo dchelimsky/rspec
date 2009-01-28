@@ -8,7 +8,7 @@ module Spec
       end
       
       def ==(other)
-        other.description == description && other.backtrace == backtrace
+        (other.description == description) & (other.backtrace == backtrace)
       end
     end
   end

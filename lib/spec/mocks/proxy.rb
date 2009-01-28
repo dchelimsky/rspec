@@ -122,7 +122,7 @@ module Spec
       end
       
       def warn_if_nil_class(sym)
-        if proxy_for_nil_class? && @@warn_about_expectations_on_nil          
+        if proxy_for_nil_class? & @@warn_about_expectations_on_nil          
           Kernel.warn("An expectation of :#{sym} was set on nil. Called from #{caller[2]}. Use allow_message_expectations_on_nil to disable warnings.")
         end
       end

@@ -31,7 +31,7 @@ module Spec
           eval_block if @raised_expected_error && @with_expected_message && @block
         end
       ensure
-        return (@raised_expected_error && @with_expected_message) ? (@eval_block ? @eval_block_passed : true) : false
+        return (@raised_expected_error & @with_expected_message) ? (@eval_block ? @eval_block_passed : true) : false
       end
       
       def eval_block

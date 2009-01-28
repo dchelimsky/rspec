@@ -27,7 +27,8 @@ module Spec
         finish
       end
 
-      protected
+    protected
+
       def prepare
         reporter.start(number_of_examples)
         example_groups.reverse! if reverse

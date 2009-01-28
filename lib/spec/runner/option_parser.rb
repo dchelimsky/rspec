@@ -117,7 +117,7 @@ module Spec
       
       def order!(argv, &blk)
         @argv = argv.dup
-        @argv = (@argv.empty? && self.class.spec_command?) ? ['--help'] : @argv 
+        @argv = (@argv.empty? & self.class.spec_command?) ? ['--help'] : @argv 
         @options.argv = @argv.dup
         return if parse_generate_options
         return if parse_drb

@@ -253,7 +253,7 @@ WARNING
       end
 
       def specified_examples?(run_options)
-        run_options.examples && !run_options.examples.empty?
+        !run_options.examples.empty?
       end
 
       def define_methods_from_predicate_matchers(run_options) # :nodoc:
@@ -274,9 +274,8 @@ WARNING
 
       def should_method?(method_name)
         !(method_name =~ /^should(_not)?$/) &&
-        method_name =~ /^should/ && (
-          [-1,0].include?(instance_method(method_name).arity)
-        )
+        method_name =~ /^should/ &&
+        instance_method(method_name).arity < 1
       end
 
       def include_shared_example_group(shared_example_group)

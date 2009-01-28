@@ -11,7 +11,7 @@ module Spec
         @actual = actual        
         @extra_items = difference_between_arrays(@actual, @expected)
         @missing_items = difference_between_arrays(@expected, @actual)
-        @extra_items.empty? && @missing_items.empty?
+        @extra_items.empty? & @missing_items.empty?
       end
 
       def failure_message
