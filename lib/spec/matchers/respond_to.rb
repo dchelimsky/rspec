@@ -25,7 +25,6 @@ module Spec
       end
       
       def description
-        # Ruby 1.9 returns the same thing for array.to_s as array.inspect, so just use array.inspect here
         "respond to #{pp_names}#{with_arity}"
       end
       
@@ -51,6 +50,7 @@ module Spec
       end
       
       def pp_names
+        # Ruby 1.9 returns the same thing for array.to_s as array.inspect, so just use array.inspect here
         @names.length == 1 ? "##{@names.first}" : @names.inspect
       end
     end
