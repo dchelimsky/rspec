@@ -15,25 +15,25 @@ module Spec
         end
 
         it "should return the default ExampleGroup type for nil" do
-          ExampleGroupFactory.get(nil).should == ExampleGroup
+          ExampleGroupFactory[nil].should == ExampleGroup
         end
 
         it "should return the default ExampleGroup for an unregistered non-nil value" do
-          ExampleGroupFactory.get(:does_not_exist).should == ExampleGroup
+          ExampleGroupFactory[:does_not_exist].should == ExampleGroup
         end
 
         it "should return custom type if registered" do
-          ExampleGroupFactory.get(:registered_type).should == @example_group_class
+          ExampleGroupFactory[:registered_type].should == @example_group_class
         end
 
         it "should return the actual type when that is what is submitted" do
-          ExampleGroupFactory.get(@example_group_class).should == @example_group_class
+          ExampleGroupFactory[@example_group_class].should == @example_group_class
         end
 
         it "should get the custom type after setting the default" do
           @alternate_example_group_class = Class.new(ExampleGroupDouble)
           ExampleGroupFactory.default(@alternate_example_group_class)
-          ExampleGroupFactory.get(:registered_type).should == @example_group_class
+          ExampleGroupFactory[:registered_type].should == @example_group_class
         end
       end
 

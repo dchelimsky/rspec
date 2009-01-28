@@ -67,7 +67,7 @@ module Spec
           @example_group_types.merge!(old) if old
         end
 
-        def get(key=nil)
+        def [](key)
           if @example_group_types.values.include?(key)
             key
           else
@@ -102,7 +102,7 @@ module Spec
           elsif opts[:spec_path] =~ /spec(\\|\/)(#{@example_group_types.keys.sort_by{|k| k.to_s.length}.reverse.join('|')})/
             $2 == '' ? nil : $2.to_sym
           end
-          get(key)
+          self[key]
         end
 
       end
