@@ -329,7 +329,7 @@ module Spec
         
         describe "with a mock framework defined as a Symbol" do
           it "includes Spec::Adapters::MockFramework" do
-            Spec::Runner.configuration.stub!(:mock_framework).and_return('adapters/mock_frameworks/rspec')
+            Spec::Runner.configuration.stub!(:mock_framework).and_return('spec/adapters/mock_frameworks/rspec')
 
             Spec::Example::ExampleMethods.should_receive(:include).with(Spec::Adapters::MockFramework)
 

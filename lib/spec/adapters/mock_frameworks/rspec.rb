@@ -1,4 +1,3 @@
-require File.expand_path(File.join(File.dirname(__FILE__), "..", "..", "spec", "mocks"))
 require 'spec/mocks/framework'
 require 'spec/mocks/extensions'
 
