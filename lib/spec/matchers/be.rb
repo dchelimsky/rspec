@@ -82,7 +82,7 @@ it reads really poorly.
         def parse_expected(expected)
           ["be_an_","be_a_","be_"].each do |prefix|
             handling_predicate!
-            if expected.starts_with?(prefix)
+            if expected.to_s =~ /^#{prefix}/
               set_prefix(prefix)
               expected = expected.to_s.sub(prefix,"")
               [true, false, nil].each do |val|
