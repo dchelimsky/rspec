@@ -150,16 +150,11 @@ WARNING
       end
       
       def notify(listener) # :nodoc:
-        listener.add_example_group(description_object)
+        listener.add_example_group(self)
       end
 
-      # FIXME - why do we need description object and description methods?
-      def description_object
-        @description_object ||= ExampleGroupDescription.new(example_group_hierarchy)
-      end
-      
       def description
-        description_object.description
+        @description ||= build_description_from(*description_parts) || to_s
       end
       
       def described_type
@@ -192,7 +187,20 @@ WARNING
         @example_group_hierarchy ||= ExampleGroupHierarchy.new(self)
       end
       
+      def filtered_description(filter)
+        build_description_from(
+          *nested_descriptions.collect do |description|
+            description =~ filter ? $1 : description
+          end
+        )
+      end
+      
+      def nested_descriptions
+        example_group_hierarchy.nested_descriptions
+      end
+      
     private
+
       def dry_run(examples, run_options)
         examples.each do |example|
           run_options.reporter.example_started(example)
@@ -282,6 +290,14 @@ WARNING
           end
           include(example_group)
         end
+      end
+
+      def build_description_from(*args)
+        text = args.inject("") do |description, arg|
+          description << " " unless (description == "" || arg.to_s =~ /^(\s|\.|#)/)
+          description << arg.to_s
+        end
+        text == "" ? nil : text
       end
 
       class ExampleGroupHierarchy < Array

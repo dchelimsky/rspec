@@ -18,7 +18,7 @@ module Spec
 
           describe "where ExampleGroup has no superclass with a description" do
             def add_example_group
-              formatter.add_example_group(example_group.description_object)
+              formatter.add_example_group(example_group)
             end
 
             before do
@@ -66,7 +66,7 @@ OUT
 
                   describe "and parent ExampleGroups have not been printed" do
                     before do
-                      formatter.add_example_group(child_example_group.description_object)
+                      formatter.add_example_group(child_example_group)
                     end
 
                     it "should push ExampleGroup name with two spaces of indentation" do
@@ -79,9 +79,9 @@ OUT
 
                   describe "and parent ExampleGroups have been printed" do
                     before do
-                      formatter.add_example_group(example_group.description_object)
+                      formatter.add_example_group(example_group)
                       io.string = ""
-                      formatter.add_example_group(child_example_group.description_object)
+                      formatter.add_example_group(child_example_group)
                     end
 
                     it "should print only the indented ExampleGroup" do
@@ -101,7 +101,7 @@ OUT
 
                   describe "and parent ExampleGroups have not been printed" do
                     before do
-                      formatter.add_example_group(grand_child_example_group.description_object)
+                      formatter.add_example_group(grand_child_example_group)
                     end
 
                     it "should print the entire nested ExampleGroup heirarchy" do
@@ -115,9 +115,9 @@ OUT
 
                   describe "and parent ExampleGroups have been printed" do
                     before do
-                      formatter.add_example_group(child_example_group.description_object)
+                      formatter.add_example_group(child_example_group)
                       io.string = ""
-                      formatter.add_example_group(grand_child_example_group.description_object)
+                      formatter.add_example_group(grand_child_example_group)
                     end
 
                     it "should print only the indented ExampleGroup" do
@@ -135,7 +135,7 @@ OUT
                 describe "and parent ExampleGroups have not been printed" do
                   def add_example_group
                     @child_example_group = Class.new(example_group)
-                    formatter.add_example_group(child_example_group.description_object)
+                    formatter.add_example_group(child_example_group)
                   end
 
                   it "should render only the parent ExampleGroup" do
@@ -148,9 +148,9 @@ OUT
                 describe "and parent ExampleGroups have been printed" do
                   def add_example_group
                     @child_example_group = Class.new(example_group)
-                    formatter.add_example_group(example_group.description_object)
+                    formatter.add_example_group(example_group)
                     io.string = ""
-                    formatter.add_example_group(child_example_group.description_object)
+                    formatter.add_example_group(child_example_group)
                   end
 
                   it "should not render anything" do
@@ -208,7 +208,7 @@ OUT
                 def add_example_group
                   @child_example_group = Class.new(example_group).describe("Child ExampleGroup")
                   @grand_child_example_group = Class.new(child_example_group).describe("GrandChild ExampleGroup")
-                  formatter.add_example_group(grand_child_example_group.description_object)
+                  formatter.add_example_group(grand_child_example_group)
                 end
 
                 describe "when having an error" do

@@ -251,9 +251,9 @@ module Spec
             ExampleGroupFactory.reset
           end
 
-          it "should send reporter add_example_group.description_object" do
+          it "should send reporter add_example_group" do
             example_group.run(options)
-            reporter.example_groups.should == [example_group.description_object]
+            reporter.example_groups.should == [example_group]
           end
 
           it "should run example on run" do

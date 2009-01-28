@@ -174,7 +174,6 @@ end
 
 require 'timeout'
 require 'spec/example/example_description'
-require 'spec/example/example_group_description'
 require 'spec/example/subject'
 require 'spec/example/before_and_after_hooks'
 require 'spec/example/pending'

@@ -33,7 +33,7 @@ module Spec
       end
       
       it "should tell formatter when example_group is added" do
-        formatter.should_receive(:add_example_group).with(example_group.description_object)
+        formatter.should_receive(:add_example_group).with(example_group)
         example_group.notify(reporter)
       end
       
@@ -167,7 +167,7 @@ module Spec
         it "should tell formatter example is pending" do
           example = ExampleGroup.new("example")
           formatter.should_receive(:example_pending).with(description_of(example), "reason", @pending_caller)
-          formatter.should_receive(:add_example_group).with(example_group.description_object)
+          formatter.should_receive(:add_example_group).with(example_group)
           example_group.notify(reporter)
           reporter.example_finished(description_of(example), @pending_error)
         end
@@ -179,7 +179,7 @@ module Spec
           formatter.should_receive(:dump_pending)
           formatter.should_receive(:dump_summary).with(anything(), 1, 0, 1)
           formatter.should_receive(:close).with(no_args)
-          formatter.should_receive(:add_example_group).with(example_group.description_object)
+          formatter.should_receive(:add_example_group).with(example_group)
           example_group.notify(reporter)
           reporter.example_finished(description_of(example), @pending_error)
           reporter.dump
@@ -232,7 +232,7 @@ module Spec
           formatter.should_receive(:example_failed) do |name, counter, failure|
             failure.header.should == "'example_group should do something' FIXED"
           end
-          formatter.should_receive(:add_example_group).with(example_group.description_object)
+          formatter.should_receive(:add_example_group).with(example_group)
           example_group.notify(reporter)
           reporter.example_finished(description_of(example_group.examples.first), Spec::Example::PendingExampleFixedError.new("reason"))
         end
