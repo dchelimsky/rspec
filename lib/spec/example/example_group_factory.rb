@@ -68,11 +68,7 @@ module Spec
         end
 
         def [](key)
-          if @example_group_types.values.include?(key)
-            key
-          else
-            @example_group_types[key]
-          end
+          @example_group_types[key]
         end
 
         def create_example_group(*args, &block)
@@ -86,8 +82,9 @@ module Spec
         def include_constants_in(context, &block)
           if (Spec::Ruby.version.to_f >= 1.9) & (Module === context) & !(Class === context)
             return lambda {include context;instance_eval(&block)}
+          else
+            block
           end
-          block
         end
 
         def assign_scope(scope, args)
@@ -97,12 +94,13 @@ module Spec
       protected
 
         def determine_superclass(opts)
-          key = if opts[:type]
-            opts[:type]
+          if type = opts[:type]
+            self[type]
           elsif opts[:spec_path] =~ /spec(\\|\/)(#{@example_group_types.keys.sort_by{|k| k.to_s.length}.reverse.join('|')})/
-            $2 == '' ? nil : $2.to_sym
+            self[$2 == '' ? nil : $2.to_sym]
+          else
+            self[nil]
           end
-          self[key]
         end
 
       end

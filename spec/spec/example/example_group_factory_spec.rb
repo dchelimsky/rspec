@@ -26,10 +26,6 @@ module Spec
           ExampleGroupFactory[:registered_type].should == @example_group_class
         end
 
-        it "should return the actual type when that is what is submitted" do
-          ExampleGroupFactory[@example_group_class].should == @example_group_class
-        end
-
         it "should get the custom type after setting the default" do
           @alternate_example_group_class = Class.new(ExampleGroupDouble)
           ExampleGroupFactory.default(@alternate_example_group_class)
