@@ -12,10 +12,10 @@ examples.
 
 == FEATURES:
 
-* Spec::Example provides a framework for expressing executable code examples
+* Spec::Example provides a framework for organizing executable code examples
 * Spec::Expectations adds #should and #should_not to every object
 * Spec::Matchers provides Expression Matchers for use with #should and #should_not
-* Spec::Mocks is a full featured mocking/stubbing library
+* Spec::Mocks is a full featured mock object/stubbing library
 
 == SYNOPSIS:
 
