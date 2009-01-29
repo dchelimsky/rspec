@@ -106,7 +106,7 @@ NOTICE
         end
 
         def colour(text, colour_code)
-          return text unless (colour? & output_to_tty?)
+          return text unless ENV['RSPEC_COLOR'] || (colour? & output_to_tty?)
           "#{colour_code}#{text}\e[0m"
         end
 

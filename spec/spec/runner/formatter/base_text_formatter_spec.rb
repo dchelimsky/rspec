@@ -60,6 +60,34 @@ module Spec
           
         end
         
+        describe "#colour (protected)" do
+          before(:each) do
+            @original_RSPEC_COLOR = ENV['RSPEC_COLOR']
+          end
+          
+          it "colorizes when colour? and output_to_tty? return true" do
+            out = StringIO.new
+            options = stub('options', :colour => true)
+            formatter = BaseTextFormatter.new(options,out)
+            formatter.stub!(:output_to_tty?).and_return(true)
+            formatter.__send__(:colour, 'foo', "\e[32m").should == "\e[32mfoo\e[0m"
+          end
+          
+          it "colorizes when ENV['RSPEC_COLOR'] is set even if colour? and output_to_tty? return false" do
+            out = StringIO.new
+            options = stub('options', :colour => false)
+            formatter = BaseTextFormatter.new(options,out)
+            formatter.stub!(:output_to_tty?).and_return(false)
+            
+            ENV['RSPEC_COLOR'] = 'true'
+            
+            formatter.__send__(:colour, 'foo', "\e[32m").should == "\e[32mfoo\e[0m"
+          end
+          
+          after(:each) do
+            ENV['RSPEC_COLOR'] = @original_RSPEC_COLOR
+          end
+        end
       end
     end
   end
