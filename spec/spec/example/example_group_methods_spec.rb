@@ -19,7 +19,7 @@ module Spec
         end
         
         after(:each) do
-          ExampleGroup.reset
+          ExampleGroupDouble.reset
         end
 
         ["describe","context"].each do |method|
@@ -66,17 +66,36 @@ module Spec
           end
         end
         
-        [:specify, :it].each do |method|
+        [:example, :specify, :it].each do |method|
           describe "##{method.to_s}" do
-            it "should should create an example" do
+            it "should add an example" do
               lambda {
                 @example_group.__send__(method, "")
               }.should change { @example_group.examples.length }.by(1)
             end
+            
+            describe "creates an ExampleDescription" do
+              before(:all) do
+                @example_group = Class.new(ExampleGroupDouble).describe("bar")
+                @example_description = @example_group.__send__(method, "foo", {:this => :that}, "the backtrace") {}
+              end
+              
+              specify "with a description" do
+                @example_description.description.should == "foo"
+              end
+
+              specify "with options" do
+                @example_description.options.should == {:this => :that}
+              end
+              
+              specify "with a backtrace" do
+                @example_description.backtrace.should == "the backtrace"
+              end
+            end
           end
         end
         
-        [:xit, :xspecify].each do |method|
+        [:xexample, :xit, :xspecify].each do |method|
           describe "##{method.to_s}" do
             before(:each) do
               Kernel.stub!(:warn)
@@ -95,7 +114,6 @@ module Spec
           end
         end
         
-
         describe "#examples" do
           it "should have Examples" do
             example_group = Class.new(ExampleGroupDouble) do

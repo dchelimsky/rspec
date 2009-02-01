@@ -1,10 +1,10 @@
 module Spec
   module Example
     class ExampleDescription
-      attr_reader :description, :backtrace
+      attr_reader :description, :options, :backtrace
       
-      def initialize(description, backtrace=nil)
-        @description, @backtrace = description, backtrace
+      def initialize(description, options={}, backtrace=nil)
+        @description, @options, @backtrace = description, options, backtrace
       end
       
       def ==(other)

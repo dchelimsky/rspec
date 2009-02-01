@@ -110,7 +110,7 @@ WARNING
       # Creates an instance of the current example group class and adds it to
       # a collection of examples of the current example group.
       def example(description=nil, options={}, backtrace=nil, &implementation)
-        example_description = ExampleDescription.new(description, backtrace || caller(0)[1])
+        example_description = ExampleDescription.new(description, options, backtrace || caller(0)[1])
         example_descriptions << example_description
         example_implementations[example_description] = implementation
         example_description
