@@ -316,9 +316,15 @@ describe "OptionParser" do
   end
 
   it "should run parse drb after parsing options" do
-    @parser.stub!(:parse_drb)
-    @parser.should_receive(:parse_drb).with(["--drb"]).and_return(true)
+    @parser.should_receive(:parse_drb).with(no_args).and_return(true)
     options = parse(["--options", File.dirname(__FILE__) + "/spec_drb.opts"])    
+  end
+
+  it "should send all the arguments others than --drb back to the parser after parsing options" do
+    Spec::Runner::DrbCommandLine.should_receive(:run).and_return do |options|
+      options.argv.should == ["example_file.rb", "--colour"]
+    end
+    options = parse(["example_file.rb", "--options", File.dirname(__FILE__) + "/spec_drb.opts"])    
   end
 
   it "should read spaced and multi-line options from file when --options is specified" do
