@@ -225,7 +225,7 @@ WARNING
         after_all_instance_variables = instance_variables
         
         examples.each do |example|
-          example_group_instance = new(example.description,{},&example_implementations[example])
+          example_group_instance = new(example.description,example.options,&example_implementations[example])
           success &= example_group_instance.execute(run_options, instance_variables)
           after_all_instance_variables = example_group_instance.instance_variable_hash
         end

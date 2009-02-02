@@ -134,7 +134,15 @@ module Spec
 
     describe "#options" do
       it "should expose the options hash" do
-        example = ExampleGroup.dup.new "name", :this => 'that' do; end
+        example = ExampleGroupDouble.new "name", :this => 'that' do; end
+        example.options[:this].should == 'that'
+      end
+    end
+    
+    describe "#set_instance_variables_from_hash" do
+      it "preserves the options" do
+        example = ExampleGroupDouble.new "name", :this => 'that' do; end
+        example.set_instance_variables_from_hash({:@_options => {}})
         example.options[:this].should == 'that'
       end
     end

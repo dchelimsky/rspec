@@ -25,15 +25,15 @@ module Spec
         @_options
       end
 
-      def execute(options, instance_variables) # :nodoc:
+      def execute(run_options, instance_variables) # :nodoc:
         # FIXME - there is no reason to have example_started pass a name
         # - in fact, it would introduce bugs in cases where no docstring
         # is passed to it()
-        options.reporter.example_started("")
+        run_options.reporter.example_started("")
         set_instance_variables_from_hash(instance_variables)
         
         execution_error = nil
-        Timeout.timeout(options.timeout) do
+        Timeout.timeout(run_options.timeout) do
           begin
             before_each_example
             instance_eval(&@_implementation)
@@ -47,7 +47,7 @@ module Spec
           end
         end
 
-        options.reporter.example_finished(updated_desc = ExampleDescription.new(description), execution_error)
+        run_options.reporter.example_finished(updated_desc = ExampleDescription.new(description, options), execution_error)
         success = execution_error.nil? || ExamplePendingError === execution_error
       end
 
@@ -77,7 +77,7 @@ module Spec
       def set_instance_variables_from_hash(ivars) # :nodoc:
         ivars.each do |variable_name, value|
           # Ruby 1.9 requires variable.to_s on the next line
-          unless ['@_implementation', '@_defined_description', '@_matcher_description', '@method_name'].include?(variable_name.to_s)
+          unless ['@_defined_description', '@_options', '@_implementation', '@method_name'].include?(variable_name.to_s)
             instance_variable_set variable_name, value
           end
         end
