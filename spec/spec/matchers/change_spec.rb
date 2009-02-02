@@ -20,6 +20,10 @@ describe "should change(actual, message)" do
       lambda {}.should change(@instance, :some_value)
     end.should fail_with("some_value should have changed, but is still 5")
   end
+  
+  it "provides a #description" do
+    change(@instance, :some_value).description.should == "change #some_value"
+  end
 end
 
 describe "should_not change(actual, message)" do
@@ -59,6 +63,10 @@ describe "should change { block }" do
     lambda do
       lambda {}.should change do; end
     end.should raise_error(Spec::Matchers::MatcherError, /block passed to should or should_not/)
+  end
+  
+  it "provides a #description" do
+    change { @instance.some_value }.description.should == "change #result"
   end
 end
 

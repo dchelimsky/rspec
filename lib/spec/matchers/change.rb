@@ -82,6 +82,10 @@ MESSAGE
         @from = from
         self
       end
+      
+      def description
+        "change ##{@message}"
+      end
     end
     
     # :call-seq:
