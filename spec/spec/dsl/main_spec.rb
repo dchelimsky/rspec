@@ -10,7 +10,7 @@ module Spec
       [:describe, :context].each do |method|
         describe "##{method}" do
           it "should delegate to Spec::Example::ExampleGroupFactory.create_example_group" do
-            block = lambda {}
+            block = lambda {|a,b|}
             Spec::Example::ExampleGroupFactory.should_receive(:create_example_group).with(
               "The ExampleGroup", hash_including(:spec_path), &block
             )
@@ -22,7 +22,7 @@ module Spec
       [:share_examples_for, :shared_examples_for].each do |method|
         describe "##{method}" do
           it "should create a shared ExampleGroup" do
-            block = lambda {}
+            block = lambda {|a,b|}
             Spec::Example::ExampleGroupFactory.should_receive(:create_shared_example_group).with(
               "shared group", hash_including(:spec_path), &block
             )
@@ -63,7 +63,7 @@ module Spec
         end
         
         it "registers a shared ExampleGroup" do
-          block = lambda {}
+          block = lambda {|a,b|}
           Spec::Example::ExampleGroupFactory.should_receive(:create_shared_example_group).with(
             group_name, hash_including(:spec_path), &block
           )
