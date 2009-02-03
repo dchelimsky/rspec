@@ -1,10 +1,8 @@
 require File.dirname(__FILE__) + '/../../../spec_helper'
-begin
-  require 'nokogiri' # Needed to compare generated with wanted HTML
-rescue LoadError
-  warn "nokogiri not loaded -- skipping HtmlFormatter specs"
-  return
-end
+
+begin # See rescue all the way at the bottom
+
+require 'nokogiri' # Needed to compare generated with wanted HTML
 require 'spec/runner/formatter/html_formatter'
 
 module Spec
@@ -109,4 +107,8 @@ module Spec
       end
     end
   end
+end
+
+rescue LoadError
+  warn "nokogiri not loaded -- skipping HtmlFormatter specs"
 end
