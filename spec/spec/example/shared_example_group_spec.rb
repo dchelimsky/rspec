@@ -22,7 +22,7 @@ module Spec
         
         describe "#register" do
           it "creates a new shared example group with the submitted args" do
-            block = lambda {}
+            block = lambda {|a|}
             group = SharedExampleGroup.new("shared group") do end
             Spec::Example::SharedExampleGroup.should_receive(:new).with("share me", &block).and_return(group)
             Spec::Example::SharedExampleGroup.register("share me", &block)

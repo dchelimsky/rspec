@@ -52,7 +52,7 @@ module Spec
         begin
           pending("TODO")
         rescue => error
-          error.pending_caller.should == "#{file}:#{line_number}"
+          error.pending_caller.should =~ /^#{file}:#{line_number}/
         end
       end
     end
