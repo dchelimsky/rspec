@@ -187,6 +187,7 @@ WARNING
       end
 
       def run_before_all(run_options)
+        return [true,{}] if example_group_hierarchy.before_all_parts.empty?
         before_all = new("before(:all)")
         begin
           example_group_hierarchy.run_before_all(before_all)
@@ -212,6 +213,7 @@ WARNING
       end
       
       def run_after_all(success, instance_variables, run_options)
+        return success if example_group_hierarchy.after_all_parts.empty?
         after_all = new("after(:all)")
         after_all.set_instance_variables_from_hash(instance_variables)
         example_group_hierarchy.run_after_all(after_all)

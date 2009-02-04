@@ -646,6 +646,22 @@ module Spec
           end
         end
 
+        describe "#run_before_all" do
+          it "does not create an instance if before_all_parts are empty" do
+            example_group = Class.new(ExampleGroupDouble) { example("one example") {} }
+            example_group.should_not_receive(:new)
+            example_group.__send__ :run_before_all, nil
+          end
+        end
+        
+        describe "#run_after_all" do
+          it "does not create an instance if after_all_parts are empty" do
+            example_group = Class.new(ExampleGroupDouble) { example("one example") {} }
+            example_group.should_not_receive(:new)
+            example_group.__send__ :run_after_all, true, {}, nil
+          end
+        end
+
       end
     end
   end
