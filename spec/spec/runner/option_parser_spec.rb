@@ -289,7 +289,13 @@ describe "OptionParser" do
     it "should barf when --heckle is specified (and platform is windows)" do
       lambda do
         options = parse(["--heckle", "Spec"])
-      end.should raise_error(StandardError, "Heckle not supported on Windows")
+      end.should raise_error(StandardError, /Heckle is not supported/)
+    end
+  elsif Spec::Ruby.version.to_f == 1.9
+    it "should barf when --heckle is specified (and platform is Ruby 1.9)" do
+      lambda do
+        options = parse(["--heckle", "Spec"])
+      end.should raise_error(StandardError, /Heckle is not supported/)
     end
   else
     it "should heckle when --heckle is specified (and platform is not windows)" do

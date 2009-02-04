@@ -200,9 +200,9 @@ module Spec
       end
 
       def load_heckle_runner(heckle)
-        suffix = [/mswin/, /java/].detect{|p| p =~ RUBY_PLATFORM} ? '_unsupported' : ''
+        suffix = ([/mswin/, /java/].detect{|p| p =~ RUBY_PLATFORM} || Spec::Ruby.version.to_f == 1.9) ? '_unsupported' : ''
         require "spec/runner/heckle_runner#{suffix}"
-        @heckle_runner = HeckleRunner.new(heckle)
+        @heckle_runner = ::Spec::Runner::HeckleRunner.new(heckle)
       end
 
       def number_of_examples
@@ -306,7 +306,7 @@ module Spec
 
       def default_differ
         require 'spec/expectations/differs/default'
-        self.differ_class = Spec::Expectations::Differs::Default
+        self.differ_class = ::Spec::Expectations::Differs::Default
       end
 
       def set_spec_from_line_number

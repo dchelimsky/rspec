@@ -15,3 +15,7 @@ Refactoring for 1.2.0
 * separate the underlying framework from the DSL
   * be able to do everything with classes and methods
 * tweak raise_error rdoc to show only one arg
+
+== Ruby 1.9.1
+
+* no heckle (for now)
