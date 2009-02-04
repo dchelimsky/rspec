@@ -162,7 +162,7 @@ WARNING
       end
       
       def described_class
-        Class === described_type ? described_type : nil
+        @described_class ||= Class === described_type ? described_type : nil
       end
       
       def description_args
