@@ -37,16 +37,6 @@ module Spec
         after_parts(*args) << block
       end
 
-      # Deprecated. Use before(:each)
-      def setup(&block)
-        before(:each, &block)
-      end
-
-      # Deprecated. Use after(:each)
-      def teardown(&block)
-        after(:each, &block)
-      end
-
       def before_each_parts # :nodoc:
         @before_each_parts ||= []
       end
