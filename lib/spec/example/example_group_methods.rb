@@ -133,7 +133,7 @@ WARNING
         return true if examples.empty?
         return dry_run(examples, run_options) if run_options.dry_run?
 
-        define_methods_from_predicate_matchers(run_options)
+        define_methods_from_predicate_matchers
 
         success, before_all_instance_variables = run_before_all(run_options)
         success, after_all_instance_variables  = execute_examples(success, before_all_instance_variables, examples, run_options)
@@ -268,7 +268,7 @@ WARNING
         !run_options.examples.empty?
       end
 
-      def define_methods_from_predicate_matchers(run_options) # :nodoc:
+      def define_methods_from_predicate_matchers # :nodoc:
         predicate_matchers.each_pair do |matcher_method, method_on_object|
           define_method matcher_method do |*args|
             eval("be_#{method_on_object.to_s.gsub('?','')}(*args)")
