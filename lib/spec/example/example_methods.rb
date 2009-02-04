@@ -108,6 +108,7 @@ WARNING
       end
 
     private
+    
       include Matchers
       include Pending
       
@@ -126,8 +127,7 @@ WARNING
       def described_class # :nodoc:
         self.class.described_class
       end
-      
-    private
+
       def example_group_hierarchy
         self.class.example_group_hierarchy
       end

@@ -9,8 +9,8 @@ module Spec
         #
         #   describe CheckingAccount, "with $50" do
         #     subject { CheckingAccount.new(:amount => 50, :currency => :USD) }
-        #     it { should have_a_balance_of(50, :USD)}
-        #     it { should_not be_overdrawn}
+        #     it { should have_a_balance_of(50, :USD) }
+        #     it { should_not be_overdrawn }
         #   end
         #
         # See +ExampleMethods#should+ for more information about this approach.
