@@ -341,8 +341,8 @@ module Spec
               example_group.spec_path.should == File.expand_path("blah")
             end
 
-            it ".description_options should return all the options passed in" do
-              example_group.description_options.should == {:a => "b", :spec_path => "blah"}
+            it ".options should return all the options passed in" do
+              example_group.options.should == {:a => "b", :spec_path => "blah"}
             end
 
           end

@@ -9,8 +9,7 @@ module Spec
       include Spec::Example::BeforeAndAfterHooks
       include Spec::Example::Subject::ExampleGroupMethods
 
-      attr_reader :description_options, :spec_path
-      alias :options :description_options
+      attr_reader :options, :spec_path
       
       def inherited(klass) # :nodoc:
         super
@@ -99,14 +98,6 @@ WARNING
         @predicate_matchers ||= {}
       end
 
-      def example_descriptions
-        @example_descriptions ||= []
-      end
-      
-      def example_implementations
-        @example_implementations ||= {}
-      end
-
       # Creates an instance of the current example group class and adds it to
       # a collection of examples of the current example group.
       def example(description=nil, options={}, backtrace=nil, &implementation)
@@ -141,9 +132,7 @@ WARNING
       end
 
       def set_description(*args)
-        args, options = Spec::Example.args_and_options(*args)
-        @description_args = args
-        @description_options = options
+        @description_args, @options = Spec::Example.args_and_options(*args)
         @backtrace = caller(1)
         @spec_path = File.expand_path(options[:spec_path]) if options[:spec_path]
         self
@@ -173,6 +162,14 @@ WARNING
         @description_parts ||= example_group_hierarchy.inject([]) do |parts, example_group_class|
           [parts << example_group_class.description_args].flatten
         end
+      end
+      
+      def example_descriptions # :nodoc:
+        @example_descriptions ||= []
+      end
+      
+      def example_implementations # :nodoc:
+        @example_implementations ||= {}
       end
             
       def examples(run_options=nil) #:nodoc:
@@ -205,7 +202,7 @@ WARNING
       
     private
 
-      def subclass(*args, &example_group_block) # :nodoc:
+      def subclass(*args, &example_group_block)
         klass = Class.new(self)
         klass.set_description(*args)
         klass.include_constants_in(args.last[:scope])
@@ -276,7 +273,7 @@ WARNING
         end
       end
 
-      def method_added(name)
+      def method_added(name) # :nodoc:
         example(name.to_s, {}, caller(0)[1]) {__send__ name.to_s} if example_method?(name.to_s)
       end
       

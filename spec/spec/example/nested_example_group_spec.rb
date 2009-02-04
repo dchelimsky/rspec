@@ -59,11 +59,11 @@ module Spec
     describe "Nested Example Groups" do
       describe "description options", :other_options => "other options" do
         it "should have a spec_path" do
-          self.class.description_options[:spec_path].should match(/#{__FILE__}/)
+          self.class.options[:spec_path].should match(/#{__FILE__}/)
         end
 
         it "should pass other options" do
-          self.class.description_options[:other_options].should == "other options"
+          self.class.options[:other_options].should == "other options"
         end
       end
     end
