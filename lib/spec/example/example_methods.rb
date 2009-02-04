@@ -47,7 +47,7 @@ module Spec
           end
         end
 
-        run_options.reporter.example_finished(updated_desc = ExampleDescription.new(description, options), execution_error)
+        run_options.reporter.example_finished(ExampleDescription.new(description, options), execution_error)
         success = execution_error.nil? || ExamplePendingError === execution_error
       end
 
@@ -110,7 +110,7 @@ WARNING
       def initialize(description, options={}, &implementation)
         @_options = options
         @_defined_description = description
-        @_implementation = ensure_implementation(implementation)
+        @_implementation = implementation || pending_implementation
         @_backtrace = caller
       end
 
@@ -144,10 +144,6 @@ WARNING
         lambda { raise(error) }
       end
 
-      def ensure_implementation(implementation)
-        implementation || pending_implementation
-      end
-    
     end
   end
 end
