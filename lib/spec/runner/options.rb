@@ -108,7 +108,7 @@ module Spec
           end
         ensure
           after_suite_parts.each do |part|
-            part.call(success)
+            part.arity < 1 ? part.call : part.call(success)
           end
         end
       end
