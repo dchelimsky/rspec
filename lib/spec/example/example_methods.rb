@@ -107,6 +107,13 @@ WARNING
         example_group_hierarchy.run_after_each(self)
       end
 
+      def initialize(description, options={}, &implementation)
+        @_options = options
+        @_defined_description = description
+        @_implementation = ensure_implementation(implementation)
+        @_backtrace = caller
+      end
+
     private
     
       include Matchers
@@ -130,6 +137,15 @@ WARNING
 
       def example_group_hierarchy
         self.class.example_group_hierarchy
+      end
+      
+      def pending_implementation
+        error = Spec::Example::NotYetImplementedError.new(caller)
+        lambda { raise(error) }
+      end
+
+      def ensure_implementation(implementation)
+        implementation || pending_implementation
       end
     
     end

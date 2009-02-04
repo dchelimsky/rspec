@@ -50,19 +50,19 @@ module Spec
 
         it "should return an instance of the described class" do
           group = Class.new(ExampleGroupDouble).describe(Array)
-          example = group.new
+          example = group.new("")
           example.subject.should == []
         end
     
         it "should return nil for a module (as opposed to a class)" do
           group = Class.new(ExampleGroupDouble).describe(Enumerable)
-          example = group.new
+          example = group.new("")
           example.subject.should be_nil
         end
     
         it "should return nil for a string" do
           group = Class.new(ExampleGroupDouble).describe('foo')
-          example = group.new
+          example = group.new("")
           example.subject.should be_nil
         end
       end
