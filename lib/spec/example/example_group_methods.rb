@@ -52,7 +52,7 @@ WARNING
           if options[:shared]
             ExampleGroupFactory.create_shared_example_group(*args, &example_group_block)
           else
-            ExampleGroupFactory.create_example_group_subclass(self, *args, &example_group_block)
+            subclass(*args, &example_group_block)
           end
         else
           set_description(*args)
@@ -199,11 +199,22 @@ WARNING
         example_group_hierarchy.nested_descriptions
       end
       
-      def include_constants_in(context)
-        include context if (Spec::Ruby.version.to_f >= 1.9) & (Module === context) & !(Class === context)
+      def include_constants_in(mod)
+        include mod if (Spec::Ruby.version.to_f >= 1.9) & (Module === mod) & !(Class === mod)
       end
       
     private
+
+      def subclass(*args, &example_group_block) # :nodoc:
+        @class_count ||= 0
+        @class_count += 1
+        # FIXME - Subclass_1 should be Zap_1 (based on args)
+        klass = const_set("Subclass_#{@class_count}", Class.new(self))
+        klass.set_description(*args)
+        klass.include_constants_in(args.last[:scope])
+        klass.module_eval(&example_group_block)
+        klass
+      end
 
       def dry_run(examples, run_options)
         examples.each do |example|

@@ -31,23 +31,6 @@ module Spec
           superclass.describe(*args, &block)
         end
 
-        # Creates a new subclass of self, with a name "under" our own name.
-        # Example:
-        #
-        #   x = Foo::Bar.subclass('Zap'){}
-        #   x.name # => Foo::Bar::Zap_1
-        #   x.superclass.name # => Foo::Bar
-        def create_example_group_subclass(base, *args, &example_group_block) # :nodoc:
-          @class_count ||= 0
-          @class_count += 1
-          # FIXME - Subclass_1 should be Zap_1 (based on args)
-          klass = base.const_set("Subclass_#{@class_count}", Class.new(base))
-          klass.set_description(*args)
-          klass.include_constants_in(args.last[:scope])
-          klass.module_eval(&example_group_block)
-          klass
-        end
-
         # Registers an example group class +klass+ with the symbol +type+. For
         # example:
         #
