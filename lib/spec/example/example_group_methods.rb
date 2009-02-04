@@ -199,6 +199,10 @@ WARNING
         example_group_hierarchy.nested_descriptions
       end
       
+      def include_constants_in(context)
+        include context if (Spec::Ruby.version.to_f >= 1.9) & (Module === context) & !(Class === context)
+      end
+      
     private
 
       def dry_run(examples, run_options)
