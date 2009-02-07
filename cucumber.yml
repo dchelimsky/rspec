@@ -1,1 +1,2 @@
 default: --require features features
+pending: --require features features-pending
