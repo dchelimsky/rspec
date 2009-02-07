@@ -24,6 +24,7 @@
   * consistent reporting of errors as failures
   * added spec/test/unit as more intuitive path to loading test/unit interop lib
   * added explicit autorun feature for running specs with ruby command
+  * added handling for does_not_match? for matchers that want to know the context in which they were called
   
 * bug fixes
 
