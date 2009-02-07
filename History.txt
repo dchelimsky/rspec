@@ -1,6 +1,6 @@
-== Maintenance
+=== Maintenance
 
-* IMPORTANT:
+WARNINGS:
 
   * If you use the ruby command to run specs instead of the spec command, you'll
     need to require 'spec/autorun' or they won't run. This won't affect you if
@@ -9,13 +9,15 @@
   * require 'spec/test/unit' to invoke test/unit interop if you're using
     RSpec's core (this is handled implicitly with spec-rails)
 
+  * setup/teardown is gone - use before/after instead
+
+    * you can still use setup/teardown if you're using Test::Unit::TestCase as
+      the base ExampleGroup class (which is implicit in rspec-rails)
+
 * deprecations
 
   * BaseTextFormatter#colourize - use colorize_failure instead.
   * BaseTextFormatter#magenta - use red instead.
-  * setup/teardown is gone - use before/after instead
-    * you can still use setup/teardown if you're using Test::Unit::TestCase as
-      the base ExampleGroup class
 
 * enhancements
 
