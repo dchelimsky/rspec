@@ -43,6 +43,11 @@ module Spec
           end
         end
 
+        it "should create a uniquely named class" do
+          example_group = Spec::Example::ExampleGroupFactory.create_example_group("example_group") {}
+          example_group.name.should =~ /Spec::Example::ExampleGroup::Subclass_\d+/
+        end
+
         it "should create a Spec::Example::Example subclass by default" do
           example_group = Spec::Example::ExampleGroupFactory.create_example_group("example_group") {}
           example_group.superclass.should == Spec::Example::ExampleGroup

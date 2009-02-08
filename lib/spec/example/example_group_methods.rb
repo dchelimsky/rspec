@@ -172,7 +172,9 @@ WARNING
     private
 
       def subclass(*args, &example_group_block)
-        klass = Class.new(self)
+        @class_count ||= 0
+        @class_count += 1
+        klass = const_set("Subclass_#{@class_count}", Class.new(self))
         klass.set_description(*args)
         klass.include_constants_in(args.last[:scope])
         klass.module_eval(&example_group_block)
