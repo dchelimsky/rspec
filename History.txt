@@ -31,6 +31,7 @@ WARNINGS:
 * bug fixes
 
   * support delegating operator matchers to subject with should_not
+  * all arguments are included if --drb is specified in spec.opts (Neil Buckley). Closes #671.
 
 === Version 1.1.12 / 2009-01-11
 
