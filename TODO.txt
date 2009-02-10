@@ -9,9 +9,6 @@ Refactoring for 1.2.0
 == Future
 
 * do SOMETHING with the website
-* extract spec/story to rspec-stories (new gem)
-* rename top level namespace to Rspec and commands to 'rspec' and 'autorspec'
-  * continue to support Spec 'spec' and 'autospec' as aliases for a reasonable time
 * separate the underlying framework from the DSL
   * be able to do everything with classes and methods
 * tweak raise_error rdoc to show only one arg
@@ -19,3 +16,8 @@ Refactoring for 1.2.0
 == Ruby 1.9.1
 
 * no heckle (for now)
+
+== rspec-2.0
+
+* rename top level namespace to Rspec and commands to 'rspec' and 'autorspec'
+  * continue to support Spec 'spec' and 'autospec' as aliases for a reasonable time
