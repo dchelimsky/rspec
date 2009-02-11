@@ -70,7 +70,6 @@ features/mock_framework_integration/use_rr.feature
 features/step_definitions/running_rspec.rb
 features/support/env.rb
 features/support/matchers/smart_match.rb
-includes.rb
 init.rb
 lib/autotest/discover.rb
 lib/autotest/rspec.rb
