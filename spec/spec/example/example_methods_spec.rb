@@ -1,5 +1,18 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
+class Thing
+  attr_reader :arg
+  def initialize(arg=nil)
+    @arg = arg || :default
+  end
+  def ==(other)
+    @arg == other.arg
+  end
+  def eql?(other)
+    @arg == other.arg
+  end
+end
+
 module Spec
   module Example
     describe ExampleMethods do
@@ -67,19 +80,6 @@ module Spec
         end
       end
 
-      class Thing
-        attr_reader :arg
-        def initialize(arg=nil)
-          @arg = arg || :default
-        end
-        def ==(other)
-          @arg == other.arg
-        end
-        def eql?(other)
-          @arg == other.arg
-        end
-      end
-
       describe "#should" do
         before(:each) do
           @example_group = Class.new(ExampleGroupDouble)
@@ -88,19 +88,19 @@ module Spec
         
         context "in an ExampleGroup with an implicit subject" do
           it "delegates matcher to the implied subject" do
-            @example_group.describe(Thing)
-            @example_group.example { should == Thing.new(:default) }
-            @example_group.example { should eql(Thing.new(:default)) }
+            @example_group.describe(::Thing)
+            @example_group.example { should == ::Thing.new(:default) }
+            @example_group.example { should eql(::Thing.new(:default)) }
             @example_group.run(@options).should be_true
           end
         end
         
         context "in an ExampleGroup using an explicit subject" do
           it "delegates matcher to the declared subject" do
-            @example_group.describe(Thing)
-            @example_group.subject { Thing.new(:other) }
-            @example_group.example { should == Thing.new(:other) }
-            @example_group.example { should eql(Thing.new(:other)) }
+            @example_group.describe(::Thing)
+            @example_group.subject { ::Thing.new(:other) }
+            @example_group.example { should == ::Thing.new(:other) }
+            @example_group.example { should eql(::Thing.new(:other)) }
             @example_group.run(@options).should be_true
           end
         end
@@ -113,19 +113,19 @@ module Spec
 
         context "in an ExampleGroup with an implicit subject" do
           it "delegates matcher to the implied subject" do
-            @example_group.describe(Thing)
-            @example_group.example { should_not == Thing.new(:other) }
-            @example_group.example { should_not eql(Thing.new(:other)) }
+            @example_group.describe(::Thing)
+            @example_group.example { should_not == ::Thing.new(:other) }
+            @example_group.example { should_not eql(::Thing.new(:other)) }
             @example_group.run(::Spec::Runner::Options.new(StringIO.new, StringIO.new)).should be_true
           end
         end
         
         context "in an ExampleGroup using an explicit subject" do
           it "delegates matcher to the declared subject" do
-            @example_group.describe(Thing)
-            @example_group.subject { Thing.new(:other) }
-            @example_group.example { should_not == Thing.new(:default) }
-            @example_group.example { should_not eql(Thing.new(:default)) }
+            @example_group.describe(::Thing)
+            @example_group.subject { ::Thing.new(:other) }
+            @example_group.example { should_not == ::Thing.new(:default) }
+            @example_group.example { should_not eql(::Thing.new(:default)) }
             @example_group.run(::Spec::Runner::Options.new(StringIO.new, StringIO.new)).should be_true
           end
         end

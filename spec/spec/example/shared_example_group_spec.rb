@@ -130,12 +130,12 @@ module Spec
         end
 
         it "adds examples to current example_group using it_should_behave_like with a module" do
-          AllThings = describe "all things", :shared => true do
+          ::AllThings = describe "all things", :shared => true do
             it "should do stuff" do end
           end
         
           example_group = describe "one thing" do
-            it_should_behave_like AllThings
+            it_should_behave_like ::AllThings
           end
         
           example_group.number_of_examples.should == 1
