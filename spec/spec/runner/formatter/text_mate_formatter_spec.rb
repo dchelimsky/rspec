@@ -62,7 +62,7 @@ module Spec
            it "should produce HTML identical to the one we designed manually with --diff" do
              produces_html_identical_to_manually_designed_document("--diff") do |html|
                suffix = jruby? ? '-jruby' : ''
-               expected_file = File.dirname(__FILE__) + "/text_mate_formatted-#{::VERSION}#{suffix}.html"
+               expected_file = File.dirname(__FILE__) + "/text_mate_formatted-#{::RUBY_VERSION}#{suffix}.html"
                unless File.file?(expected_file)
                  raise "There is no HTML file with expected content for this platform: #{expected_file}"
                end
