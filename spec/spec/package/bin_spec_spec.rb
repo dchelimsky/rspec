@@ -5,7 +5,7 @@ describe "The bin/spec script" do
   include RubyForker
   
   it "should have no warnings" do
-    pending "Hangs on JRuby" if PLATFORM =~ /java/
+    pending "Hangs on JRuby" if RUBY_PLATFORM =~ /java/
     spec_path = "#{File.dirname(__FILE__)}/../../../bin/spec"
 
     output = ruby "-w #{spec_path} --help 2>&1"
@@ -13,7 +13,7 @@ describe "The bin/spec script" do
   end
   
   it "should show the help w/ no args" do
-    pending "Hangs on JRuby" if PLATFORM =~ /java/
+    pending "Hangs on JRuby" if RUBY_PLATFORM =~ /java/
     spec_path = "#{File.dirname(__FILE__)}/../../../bin/spec"
 
     output = ruby "-w #{spec_path} 2>&1"
