@@ -3,15 +3,11 @@
 Currently, RSpec (core) is mostly compatible with Ruby 1.9.1. There are still
 outstanding issues, some of which we plan to address and some we don't.
 
-## Known issues (that *will* be supported with ruby-1.9)
+## Test::Unit
 
-### Test::Unit
+RSpec/Test::Unit interop will run with the test-unit-1.2.3 gem, but you must install it.
 
-We will be supporting Test::Unit interop, but don't yet.
-
-## Items that will *not* be supported with ruby-1.9
-
-### Class Variables
+## Class Variables
 
 Due to changes in scoping rules, class variables within example groups are not
 supported in Ruby 1.9.
