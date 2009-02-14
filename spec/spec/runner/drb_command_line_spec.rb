@@ -20,7 +20,7 @@ module Spec
       class ::CommandLineForSpec
         def self.run(argv, stderr, stdout)
           orig_options = Spec::Runner.options
-          tmp_options = OptionParser.parse(argv, stderr, stdout)
+          tmp_options = Spec::Runner::OptionParser.parse(argv, stderr, stdout)
           Spec::Runner.use tmp_options
           Spec::Runner::CommandLine.run(tmp_options)
         ensure
