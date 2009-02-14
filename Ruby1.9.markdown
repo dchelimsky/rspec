@@ -3,7 +3,7 @@
 Currently, RSpec (core) is mostly compatible with Ruby 1.9.1. There are still
 outstanding issues, some of which we plan to address and some we don't.
 
-## Items that *will* be supported with ruby-1.9
+## Known issues (that *will* be supported with ruby-1.9)
 
 ### Test::Unit
 
