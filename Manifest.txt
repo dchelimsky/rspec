@@ -4,6 +4,7 @@ License.txt
 Manifest.txt
 README.txt
 Rakefile
+Ruby1.9.markdown
 TODO.txt
 bin/autospec
 bin/spec
