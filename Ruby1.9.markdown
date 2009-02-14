@@ -1,0 +1,36 @@
+# RSpec and Ruby 1.9
+
+Currently, RSpec (core) is mostly compatible with Ruby 1.9.1. There are still
+outstanding issues, some of which we plan to address and some we don't.
+
+## Items that *will* be supported with ruby-1.9
+
+### Test::Unit
+
+We will be supporting Test::Unit interop, but don't yet.
+
+## Items that will *not* be supported with ruby-1.9
+
+### Class Variables
+
+Due to changes in scoping rules, class variables within example groups are not
+supported in Ruby 1.9.
+
+    describe "a class variable" do
+      @@class_variable = "a class variable"
+  
+      it "can access class variables in examples in Ruby 1.8" do
+        with_ruby 1.8 do
+          @@class_variable.should == "a class variable"
+        end
+      end
+  
+      it "can NOT access class variables in examples in Ruby 1.9" do
+        with_ruby 1.9 do
+          lambda do
+            @@class_variable.should == "a class variable"
+          end.should raise_error(NameError)
+        end
+      end
+    end
+

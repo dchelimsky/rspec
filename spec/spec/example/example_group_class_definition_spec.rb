@@ -26,8 +26,10 @@ module Spec
         @instance_variable.should == :instance_variable
       end
 
-      it "can access class variables" do
-        @@class_variable.should == :class_variable
+      it "can access class variables (Ruby 1.8 only)" do
+        with_ruby 1.8 do
+          @@class_variable.should == :class_variable
+        end
       end
 
       it "can access constants" do

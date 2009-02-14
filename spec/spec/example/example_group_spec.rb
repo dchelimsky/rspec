@@ -16,11 +16,23 @@ module Spec
         Bar.should be_loaded
       end
 
-      @@foo = 1
+      @@class_variable = "a class variable"
 
-      it "should allow class variables to be defined" do
-        @@foo.should == 1
+      it "can access class variables in examples in Ruby 1.8" do
+        with_ruby 1.8 do
+          @@class_variable.should == "a class variable"
+        end
       end
+      
+      it "can NOT access class variables in examples in Ruby 1.9" do
+        with_ruby 1.9 do
+          lambda do
+            @@class_variable.should == "a class variable"
+          end.should raise_error(NameError)
+        end
+      end
+      
+      
     end
 
     class ExampleClassVariablePollutionSpec < ExampleGroup
@@ -28,7 +40,7 @@ module Spec
 
       it "should not retain class variables from other Example classes" do
         proc do
-          @@foo
+          @@class_variable
         end.should raise_error
       end
     end
