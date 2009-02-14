@@ -15,7 +15,8 @@ Refactoring for 1.2.0
 
 == Ruby 1.9.1
 
-* no heckle (for now)
+* one example remains failing
+* cucumber isn't working yet
 
 == rspec-2.0
 
