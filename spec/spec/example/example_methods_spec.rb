@@ -18,14 +18,14 @@ module Spec
     describe ExampleMethods do
       module ModuleThatIsReopened; end
 
-      module ExampleMethods
+      module Spec::Example::ExampleMethods
         include ModuleThatIsReopened
       end
 
       module ModuleThatIsReopened
         def module_that_is_reopened_method; end
       end
-
+      
       describe "with an included module that is reopened" do
         it "should have repoened methods" do
           method(:module_that_is_reopened_method).should_not be_nil
