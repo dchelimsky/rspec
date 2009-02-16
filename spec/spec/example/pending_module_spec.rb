@@ -42,7 +42,7 @@ module Spec
             raise
           end
         rescue => error
-          error.pending_caller.should == "#{file}:#{line_number}"
+          error.pending_caller.should =~ /#{file}:#{line_number}/
         end
       end
       
