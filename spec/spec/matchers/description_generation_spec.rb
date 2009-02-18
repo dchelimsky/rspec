@@ -50,18 +50,6 @@ describe "Matchers should be able to generate their own descriptions" do
     Spec::Matchers.generated_description.should == "should be between 0 and 10"
   end
 
-  it "should be_few_words predicate should be transformed to 'be few words'" do
-    5.should be_kind_of(Fixnum)
-    Spec::Matchers.generated_description.should == "should be kind of Fixnum"
-  end
-
-  it "should preserve a proper prefix for be predicate" do
-    5.should be_a_kind_of(Fixnum)
-    Spec::Matchers.generated_description.should == "should be a kind of Fixnum"
-    5.should be_an_instance_of(Fixnum)
-    Spec::Matchers.generated_description.should == "should be an instance of Fixnum"
-  end
-  
   it "should equal" do
     expected = "expected"
     expected.should equal(expected)

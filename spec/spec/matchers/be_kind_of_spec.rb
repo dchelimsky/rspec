@@ -21,7 +21,7 @@ module Spec
         end
 
         it "provides a description" do
-          Spec::Matchers::BeKindOf.new(Class).description.should == "be kind of Class"
+          Spec::Matchers::BeKindOf.new(Class).description.should == "be a kind of Class"
         end
       end
     end

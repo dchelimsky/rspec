@@ -11,7 +11,7 @@ module Spec
       end
       
       def description
-        "be kind of #{@expected}"
+        "be a kind of #{@expected}"
       end
       
       def failure_message

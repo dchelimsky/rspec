@@ -21,7 +21,7 @@ module Spec
         end
 
         it "provides a description" do
-          Spec::Matchers::BeInstanceOf.new(Class).description.should == "be instance of Class"
+          Spec::Matchers::BeInstanceOf.new(Class).description.should == "be an instance of Class"
         end
       end
     end

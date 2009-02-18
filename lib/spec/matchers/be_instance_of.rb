@@ -11,7 +11,7 @@ module Spec
       end
       
       def description
-        "be instance of #{@expected}"
+        "be an instance of #{@expected}"
       end
       
       def failure_message
