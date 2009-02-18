@@ -34,6 +34,7 @@ WARNINGS:
 
   * support delegating operator matchers to subject with should_not
   * all arguments are included if --drb is specified in spec.opts (Neil Buckley). Closes #671.
+  * added --autospec option hack (used internally) to get --color to work when using --drb and autospec.
 
 === Version 1.1.12 / 2009-01-11
 

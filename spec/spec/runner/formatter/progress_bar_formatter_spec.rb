@@ -10,6 +10,7 @@ module Spec
           @options = mock('options')
           @options.stub!(:dry_run).and_return(false)
           @options.stub!(:colour).and_return(false)
+          @options.stub!(:autospec).and_return(false)
           @formatter = ProgressBarFormatter.new(@options, @io)
         end
 

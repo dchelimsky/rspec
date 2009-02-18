@@ -112,6 +112,7 @@ module Spec
         on(*OPTIONS[:runner])           {|runner|  @options.user_input_for_runner = runner}
         on(*OPTIONS[:drb])              {}
         on(*OPTIONS[:version])          {parse_version}
+        on("--autospec")                {@options.autospec = true}
         on_tail(*OPTIONS[:help])        {parse_help}
       end
       

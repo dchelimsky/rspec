@@ -24,6 +24,7 @@ module Spec
       }
 
       attr_accessor(
+        :autospec, # hack to tell 
         :filename_pattern,
         :backtrace_tweaker,
         :context_lines,

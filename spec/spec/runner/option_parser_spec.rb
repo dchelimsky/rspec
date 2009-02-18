@@ -405,4 +405,9 @@ describe "OptionParser" do
     options = parse(["--runner", "Custom::ExampleGroupRunner:something"])
     options.run_examples
   end
+  
+  it "sets options.autospec to true with --autospec" do
+    options = parse(["--autospec"])
+    options.autospec.should be(true)
+  end
 end

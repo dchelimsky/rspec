@@ -10,6 +10,7 @@ module Spec
           @io = StringIO.new
           options = mock('options')
           options.stub!(:colour).and_return(true)
+          options.stub!(:autospec).and_return(true)
           @formatter = ProfileFormatter.new(options, io)
         end
         
