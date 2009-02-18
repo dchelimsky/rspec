@@ -30,6 +30,7 @@ module Spec
     #   should_not be_a_kind_of(expected)
     #
     # Passes if actual.kind_of?(expected)
+    #
     # == Examples
     #
     #   5.should be_kind_of(Fixnum)

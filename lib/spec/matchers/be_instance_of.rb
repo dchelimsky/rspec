@@ -30,10 +30,11 @@ module Spec
     #   should_not be_an_instance_of(expected)
     #
     # Passes if actual.instance_of?(expected)
+    #
     # == Examples
     #
     #   5.should be_instance_of(Fixnum)
-    #   5.should be_instance_of(Numeric)
+    #   5.should_not be_instance_of(Numeric)
     #   5.should_not be_instance_of(Float)
     def be_instance_of(expected)
       BeInstanceOf.new(expected)
