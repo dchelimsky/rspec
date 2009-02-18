@@ -1,6 +1,7 @@
 require 'spec/matchers/operator_matcher'
 require 'spec/matchers/be'
 require 'spec/matchers/be_close'
+require 'spec/matchers/be_instance_of'
 require 'spec/matchers/be_kind_of'
 require 'spec/matchers/change'
 require 'spec/matchers/eql'
