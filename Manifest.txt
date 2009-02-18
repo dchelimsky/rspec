@@ -113,6 +113,8 @@ lib/spec/interop/test/unit/ui/console/testrunner.rb
 lib/spec/matchers.rb
 lib/spec/matchers/be.rb
 lib/spec/matchers/be_close.rb
+lib/spec/matchers/be_instance_of.rb
+lib/spec/matchers/be_kind_of.rb
 lib/spec/matchers/change.rb
 lib/spec/matchers/eql.rb
 lib/spec/matchers/equal.rb
@@ -226,6 +228,8 @@ spec/spec/interop/test/unit/test_unit_spec_helper.rb
 spec/spec/interop/test/unit/testcase_spec.rb
 spec/spec/interop/test/unit/testsuite_adapter_spec.rb
 spec/spec/matchers/be_close_spec.rb
+spec/spec/matchers/be_instance_of_spec.rb
+spec/spec/matchers/be_kind_of_spec.rb
 spec/spec/matchers/be_spec.rb
 spec/spec/matchers/change_spec.rb
 spec/spec/matchers/description_generation_spec.rb
