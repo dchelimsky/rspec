@@ -2,19 +2,23 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 require File.dirname(__FILE__) + '/../../../lib/spec/matchers/be_kind_of'
 
 describe Spec::Matchers::BeKindOf do
-  it "should have description" do
-    Spec::Matchers::BeKindOf.new(Class).should respond_to(:description)
+  it "passes if object is instance of given class" do
+    5.should be_kind_of(Fixnum)
   end
 
-  it "should pass if object is kind of given class" do
-    "foo".should be_kind_of(String)
+  it "passes if object is instance of subclass of expected class" do
+    5.should be_kind_of(Numeric)
   end
 
-  it "should fail with failure message unless object is kind of given class" do
-    lambda { "foo".should be_kind_of(Array) }.should fail_with("expected to be kind of Array, but actually was kind of String")
+  it "fails with failure message unless object is kind of given class" do
+    lambda { "foo".should be_kind_of(Array) }.should fail_with(%Q{expected kind of Array, got "foo"})
   end
 
-  it "should fail with negative failure message if object is not kind of given class" do
-    lambda { "foo".should_not be_kind_of(String) }.should fail_with("expected not to be kind of String, but was")
+  it "fails with negative failure message if object is kind of given class" do
+    lambda { "foo".should_not be_kind_of(String) }.should fail_with(%Q{expected "foo" not to be a kind of String})
+  end
+
+  it "provides a description" do
+    Spec::Matchers::BeKindOf.new(Class).description.should == "be kind of Class"
   end
 end

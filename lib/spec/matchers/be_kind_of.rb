@@ -6,23 +6,35 @@ module Spec
       end
       
       def matches?(actual)
-        @actual = actual.class
-        @actual == @expected
+        @actual = actual
+        @actual.kind_of?(@expected)
       end
       
       def description
-        "be kind of"
+        "be kind of #{@expected}"
       end
       
       def failure_message
-        "expected to be kind of #@expected, but actually was kind of #{@actual}"
+        "expected kind of #{@expected}, got #{@actual.inspect}"
       end
       
       def negative_failure_message
-        "expected not to be kind of #@actual, but was"
+        "expected #{@actual.inspect} not to be a kind of #{@expected}"
       end
     end
 
+    # :call-seq:
+    #   should be_kind_of(expected)
+    #   should be_a_kind_of(expected)
+    #   should_not be_kind_of(expected)
+    #   should_not be_a_kind_of(expected)
+    #
+    # Passes if actual.kind_of?(expected)
+    # == Examples
+    #
+    #   5.should be_kind_of(Fixnum)
+    #   5.should be_kind_of(Numeric)
+    #   5.should_not be_kind_of(Float)
     def be_kind_of(expected)
       BeKindOf.new(expected)
     end
