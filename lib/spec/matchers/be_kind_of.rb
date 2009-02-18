@@ -38,5 +38,7 @@ module Spec
     def be_kind_of(expected)
       BeKindOf.new(expected)
     end
+    
+    alias_method :be_a_kind_of, :be_kind_of
   end
 end
