@@ -1,4 +1,4 @@
-unless Spec::Ruby.version.to_f == 1.9
+if Spec::Ruby.version.to_f < 1.9
   begin
     require 'rubygems'
     require 'heckle'
@@ -56,16 +56,14 @@ unless Spec::Ruby.version.to_f == 1.9
         end
       end
     
-      #Supports Heckle 1.2 and prior (earlier versions used Heckle::Base)
-      class Heckler < (Heckle.const_defined?(:Base) ? Heckle::Base : Heckle)
+      class Heckler < Heckle
         def initialize(klass_name, method_name, rspec_options)
           super(klass_name, method_name)
           @rspec_options = rspec_options
         end
 
         def tests_pass?
-          success = @rspec_options.run_examples
-          success
+          @rspec_options.run_examples
         end
 
       end
