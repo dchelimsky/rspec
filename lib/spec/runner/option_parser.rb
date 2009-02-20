@@ -47,7 +47,7 @@ module Spec
                                                     "if you want several outputs",
                                                     " ",
                                                     "Builtin formats:",
-                                                    "progress|p               : Text-based progress bar",
+                                                    "silent|l                 : No output",                                                    "progress|p               : Text-based progress bar",
                                                     "profile|o                : Text-based progress bar with profiling of 10 slowest examples",
                                                     "specdoc|s                : Code example doc strings",
                                                     "nested|n                 : Code example doc strings with nested groups intented",

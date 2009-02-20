@@ -6,6 +6,8 @@ module Spec
       }
 
       EXAMPLE_FORMATTERS = { # Load these lazily for better speed
+                'silent' => ['spec/runner/formatter/base_formatter',                   'Formatter::BaseFormatter'],
+                     'l' => ['spec/runner/formatter/base_formatter',                   'Formatter::BaseFormatter'],
                'specdoc' => ['spec/runner/formatter/specdoc_formatter',                'Formatter::SpecdocFormatter'],
                      's' => ['spec/runner/formatter/specdoc_formatter',                'Formatter::SpecdocFormatter'],
                 'nested' => ['spec/runner/formatter/nested_text_formatter',            'Formatter::NestedTextFormatter'],
