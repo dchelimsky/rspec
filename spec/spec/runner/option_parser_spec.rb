@@ -149,6 +149,16 @@ describe "OptionParser" do
     options.formatters[0].class.should equal(Spec::Runner::Formatter::HtmlFormatter)
   end
   
+  it "should use base formatter when format is s" do
+    options = parse(["--format", "l"])
+    options.formatters[0].class.should equal(Spec::Runner::Formatter::BaseFormatter)
+  end
+  
+  it "should use base formatter when format is silent" do
+    options = parse(["--format", "silent"])
+    options.formatters[0].class.should equal(Spec::Runner::Formatter::BaseFormatter)
+  end
+  
   it "should use html formatter with explicit output when format is html:test.html" do
     FileUtils.rm 'test.html' if File.exist?('test.html')
     options = parse(["--format", "html:test.html"])

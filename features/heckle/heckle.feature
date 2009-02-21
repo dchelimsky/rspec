@@ -25,6 +25,7 @@ Feature: heckle a class
       """
     When I run it with the spec command --heckle Thing
     Then the stdout should match "The following mutations didn't cause test failures:"
+    But the stdout should not match "FAILED"
     
   Scenario: Heckle does not find a problem
     Given the following spec:
@@ -51,3 +52,5 @@ Feature: heckle a class
       """
     When I run it with the spec command --heckle Thing
     Then the stdout should match "No mutants survived"
+    But the stdout should not match "FAILED"
+    
