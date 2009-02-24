@@ -48,7 +48,6 @@ module Spec
     # This task can also be used to run existing Test::Unit tests and get RSpec
     # output, for example like this:
     #
-    #   require 'rubygems'
     #   require 'spec/rake/spectask'
     #   Spec::Rake::SpecTask.new do |t|
     #     t.ruby_opts = ['-rtest/unit']

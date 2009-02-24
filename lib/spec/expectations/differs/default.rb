@@ -1,5 +1,4 @@
 begin
-  require 'rubygems'
   require 'diff/lcs' #necessary due to loading bug on some machines - not sure why - DaC
   require 'diff/lcs/hunk'
 rescue LoadError ; raise "You must gem install diff-lcs to use diffing" ; end

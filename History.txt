@@ -13,6 +13,11 @@ WARNINGS:
 
     * you can still use setup/teardown if you're using Test::Unit::TestCase as
       the base ExampleGroup class (which is implicit in rspec-rails)
+      
+  * All references to rubygems have been removed from within rspec's code.
+  
+    * See Ryan Tomayko's http://gist.github.com/54177 for rationale and
+      suggestions on alternative approaches to loading rubygems
 
 * deprecations
 

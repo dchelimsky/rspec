@@ -1,4 +1,3 @@
-require 'rubygems'
 require 'mocha/standalone'
 require 'mocha/object'
 

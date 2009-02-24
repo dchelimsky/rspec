@@ -1,6 +1,5 @@
 if Spec::Ruby.version.to_f < 1.9
   begin
-    require 'rubygems'
     require 'heckle'
   rescue LoadError ; raise "You must gem install heckle to use --heckle" ; end
 
