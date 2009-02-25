@@ -50,7 +50,7 @@ module Spec
                                                     "silent|l                 : No output",                                                    "progress|p               : Text-based progress bar",
                                                     "profile|o                : Text-based progress bar with profiling of 10 slowest examples",
                                                     "specdoc|s                : Code example doc strings",
-                                                    "nested|n                 : Code example doc strings with nested groups intented",
+                                                    "nested|n                 : Code example doc strings with nested groups indented",
                                                     "html|h                   : A nice HTML report",
                                                     "failing_examples|e       : Write all failing examples - input for --example",
                                                     "failing_example_groups|g : Write all failing example groups - input for --example",
