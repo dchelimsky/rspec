@@ -14,7 +14,7 @@ module Spec
     describe Matcher do
 
       it "passes" do
-        expected, actual = 3, 3
+        actual, expected = 3, 3
         matcher = Spec::Matchers::Matcher.new(:be_something_like, expected) do
           match do
             expected == actual
@@ -24,7 +24,7 @@ module Spec
       end
 
       it "fails" do
-        expected, actual = 3, 2
+        actual, expected = 3, 2
         matcher = Spec::Matchers::Matcher.new(:be_something_like, expected) do
           match do
             expected == actual
@@ -33,19 +33,29 @@ module Spec
         matcher.matches?(actual).should be(false)
       end
       
+      it "accepts multiple args" do
+        actual, expected, delta = 3.0, 2.9, 0.2
+        matcher = Spec::Matchers::Matcher.new(:be_close_to, expected, delta) do
+          match do
+            (actual - expected).abs < delta
+          end
+        end
+        matcher.matches?(actual).should be(true)
+      end
+      
       it "provides a default failure message" do
-        expected, actual = 3, 2
+        actual, expected = 3, 2
         matcher = Spec::Matchers::Matcher.new(:be_something_like, expected) do
           match do
             expected == actual
           end
         end
         matcher.matches?(actual)
-        matcher.failure_message.should == "expected 2 to be something like 3"
+        matcher.failure_message.should == "expected 3 to be something like 2"
       end
       
       it "overrides the failure message" do
-        expected, actual = 3, 2
+        actual, expected = 3, 2
         matcher = Spec::Matchers::Matcher.new(:be_something_like, expected) do
           match {expected == actual}
           failure_message_for(:should) {"message for should"}
@@ -55,7 +65,7 @@ module Spec
       end
       
       it "provides a default negative failure message" do
-        expected, actual = 3, 3
+        actual, expected = 3, 3
         matcher = Spec::Matchers::Matcher.new(:be_something_like, expected) do
           match do
             expected == actual
@@ -66,7 +76,7 @@ module Spec
       end
 
       it "overrides the failure message for should_not" do
-        expected, actual = 3, 2
+        actual, expected = 3, 2
         matcher = Spec::Matchers::Matcher.new(:be_something_like, expected) do
           match {expected == actual}
           failure_message_for(:should_not) {"message for should not"}
@@ -76,16 +86,16 @@ module Spec
       end
       
       it "provides a default description" do
-        expected, actual = 3, 2
+        actual, expected = 3, 2
         matcher = Spec::Matchers::Matcher.new(:be_something_like, expected) do
           match {expected == actual}
         end
         matcher.matches?(actual)
-        matcher.description.should == "be something like 3"
+        matcher.description.should == "be something like 2"
       end
       
       it "overrides the description" do
-        expected, actual = 3, 2
+        actual, expected = 3, 2
         matcher = Spec::Matchers::Matcher.new(:be_something_like, expected) do
           match {expected == actual}
           description {"be something a lot like 3"}

@@ -27,7 +27,7 @@ module Spec
     
     class Matcher
       include InstanceExec
-      def initialize(name, expected, &block)
+      def initialize(name, *expected, &block)
         @name = name
         @expected = expected
         @block = block
@@ -39,7 +39,7 @@ module Spec
       
       def matches?(actual)
         @actual = actual
-        instance_exec @expected, actual, &@block
+        instance_exec actual, *@expected, &@block
         @match_block.call
       end
       
@@ -52,11 +52,11 @@ module Spec
       end
       
       def failure_message
-        instance_exec @expected, @actual, &@messages[:should]
+        instance_exec @actual, *@expected,&@messages[:should]
       end
       
       def negative_failure_message
-        instance_exec @expected, @actual, &@messages[:should_not]
+        instance_exec @actual, *@expected,&@messages[:should_not]
       end
       
       def description(&block)
@@ -64,7 +64,7 @@ module Spec
           @description = block
         else
           @description ?
-            instance_exec(@expected, @actual, &@description) :
+            instance_exec(@actual, *@expected,&@description) :
             "#{to_sentence(@name)} #{@expected}"
         end
       end
