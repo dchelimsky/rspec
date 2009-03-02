@@ -67,16 +67,22 @@ module Spec
           example.subject.should == []
         end
     
-        it "should return nil for a module (as opposed to a class)" do
+        it "should return a Module" do
           group = Class.new(ExampleGroupDouble).describe(Enumerable)
           example = group.new("")
-          example.subject.should be_nil
+          example.subject.should == Enumerable
         end
-    
-        it "should return nil for a string" do
+
+        it "should return a string" do
           group = Class.new(ExampleGroupDouble).describe('foo')
           example = group.new("")
-          example.subject.should be_nil
+          example.subject.should == 'foo'
+        end
+
+        it "should return a number" do
+          group = Class.new(ExampleGroupDouble).describe(15)
+          example = group.new("")
+          example.subject.should == 15
         end
       end
 

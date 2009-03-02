@@ -134,6 +134,10 @@ WARNING
       def described_class # :nodoc:
         self.class.described_class
       end
+      
+      def description_args
+        self.class.description_args
+      end
 
       def example_group_hierarchy
         self.class.example_group_hierarchy
