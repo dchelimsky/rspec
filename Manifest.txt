@@ -66,6 +66,7 @@ features/heckle/heckle.feature
 features/interop/examples_and_tests_together.feature
 features/interop/test_but_not_test_unit.feature
 features/interop/test_case_with_should_methods.feature
+features/matchers/create_matcher.feature
 features/mock_framework_integration/use_flexmock.feature
 features/mock_framework_integration/use_mocha.feature
 features/mock_framework_integration/use_rr.feature
@@ -126,6 +127,7 @@ lib/spec/matchers/have.rb
 lib/spec/matchers/include.rb
 lib/spec/matchers/match.rb
 lib/spec/matchers/match_array.rb
+lib/spec/matchers/matcher.rb
 lib/spec/matchers/method_missing.rb
 lib/spec/matchers/operator_matcher.rb
 lib/spec/matchers/raise_error.rb
@@ -242,6 +244,7 @@ spec/spec/matchers/include_spec.rb
 spec/spec/matchers/match_array_spec.rb
 spec/spec/matchers/match_spec.rb
 spec/spec/matchers/matcher_methods_spec.rb
+spec/spec/matchers/matcher_spec.rb
 spec/spec/matchers/operator_matcher_spec.rb
 spec/spec/matchers/raise_error_spec.rb
 spec/spec/matchers/respond_to_spec.rb
