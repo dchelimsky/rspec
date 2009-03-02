@@ -35,15 +35,16 @@ module Spec
           :should => lambda {"expected #{@actual} to #{to_sentence(@name)} #{@expected}"},
           :should_not => lambda {"expected #{@actual} to not #{to_sentence(@name)} #{@expected}"},
         }
+        @description = lambda {"#{to_sentence(@name)} #{@expected}"}
       end
       
       def matches?(actual)
         @actual = actual
-        instance_exec actual, *@expected, &@block
+        instance_exec @actual, *@expected, &@block
         @match_block.call
       end
       
-      def match &block
+      def match(&block)
         @match_block = block
       end
       
@@ -52,21 +53,15 @@ module Spec
       end
       
       def failure_message
-        instance_exec @actual, *@expected,&@messages[:should]
+        instance_exec @actual, *@expected, &@messages[:should]
       end
       
       def negative_failure_message
-        instance_exec @actual, *@expected,&@messages[:should_not]
+        instance_exec @actual, *@expected, &@messages[:should_not]
       end
       
       def description(&block)
-        if block
-          @description = block
-        else
-          @description ?
-            instance_exec(@actual, *@expected,&@description) :
-            "#{to_sentence(@name)} #{@expected}"
-        end
+        block ? @description = block : instance_exec(@actual, *@expected, &@description)
       end
       
     private
@@ -74,6 +69,7 @@ module Spec
       def to_sentence(text)
         text.to_s.gsub(/_/,' ')
       end
+
     end
   end
 end

@@ -13,7 +13,7 @@ module Spec
     
     describe Matcher do
 
-      it "passes" do
+      it "matches when match block returns true" do
         actual, expected = 3, 3
         matcher = Spec::Matchers::Matcher.new(:be_something_like, expected) do
           match do
@@ -23,7 +23,7 @@ module Spec
         matcher.matches?(actual).should be(true)
       end
 
-      it "fails" do
+      it "does not match when match returns false" do
         actual, expected = 3, 2
         matcher = Spec::Matchers::Matcher.new(:be_something_like, expected) do
           match do
@@ -33,7 +33,7 @@ module Spec
         matcher.matches?(actual).should be(false)
       end
       
-      it "accepts multiple args" do
+      it "accepts multiple args for expected" do
         actual, expected, delta = 3.0, 2.9, 0.2
         matcher = Spec::Matchers::Matcher.new(:be_close_to, expected, delta) do
           match do
@@ -43,7 +43,7 @@ module Spec
         matcher.matches?(actual).should be(true)
       end
       
-      it "provides a default failure message" do
+      it "provides a default failure message for #should" do
         actual, expected = 3, 2
         matcher = Spec::Matchers::Matcher.new(:be_something_like, expected) do
           match do
@@ -54,7 +54,7 @@ module Spec
         matcher.failure_message.should == "expected 3 to be something like 2"
       end
       
-      it "overrides the failure message" do
+      it "overrides the failure message for #should" do
         actual, expected = 3, 2
         matcher = Spec::Matchers::Matcher.new(:be_something_like, expected) do
           match {expected == actual}
@@ -64,7 +64,7 @@ module Spec
         matcher.failure_message.should == "message for should"
       end
       
-      it "provides a default negative failure message" do
+      it "provides a default failure message for #should_not" do
         actual, expected = 3, 3
         matcher = Spec::Matchers::Matcher.new(:be_something_like, expected) do
           match do
@@ -75,7 +75,7 @@ module Spec
         matcher.negative_failure_message.should == "expected 3 to not be something like 3"
       end
 
-      it "overrides the failure message for should_not" do
+      it "overrides the failure message for #should_not" do
         actual, expected = 3, 2
         matcher = Spec::Matchers::Matcher.new(:be_something_like, expected) do
           match {expected == actual}
