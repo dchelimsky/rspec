@@ -100,15 +100,19 @@ Feature: custom matcher shortcut
         end
       end
 
-      # fail intentionally to generate expected output
       describe 9 do
         it {should be_a_multiple_of(3)}
+      end
+
+      describe 9 do
+        it {should_not be_a_multiple_of(4)}
       end
       """
     When I run it with the spec command --format specdoc
     Then the exit code should be 0
-    And the stdout should match "1 example, 0 failures"
+    And the stdout should match "2 examples, 0 failures"
     And the stdout should match "should be multiple of 3"
+    And the stdout should match "should not be multiple of 4"
 
 
   
