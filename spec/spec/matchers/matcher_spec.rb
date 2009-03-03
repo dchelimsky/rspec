@@ -18,27 +18,51 @@ module Spec
   module Matchers
     class Matcher
       include InstanceExec
+      
       def initialize(name, expected=nil, &block_passed_to_init)
         @expected = expected
         @block = block_passed_to_init
-        @description = lambda { |actual|
+        # FIXME - the next line has a hard coded description (ish)
+        @description = lambda { "be a multiple of #{expected}" }
+        @failure_message_for_should = lambda do |actual|
           "expected #{actual} to be a multiple of #{expected}"
-        }
+        end
       end
+      
       def matches?(actual)
         @actual = actual
         instance_exec @expected, &@block
       end
+      
+      def description(&block)
+        block ? set_description(block) : eval_description
+      end
+      
+      def failure_message
+        @failure_message_for_should.call(@actual)
+      end
+      
       def match(&block_passed_to_match)
         instance_exec @actual, &block_passed_to_match
       end
-      def description(&block)
-        if block
-          @description = block
-        else
-          @description.call(@actual)
+      
+      def failure_message_for(should_or_should_not, &block)
+        case should_or_should_not
+        when :should
+          @failure_message_for_should = block
         end
       end
+      
+    private
+
+      def set_description(block)
+        @description = block
+      end
+    
+      def eval_description
+        @description.call
+      end
+    
     end
   end
 end
@@ -63,28 +87,54 @@ module Spec
     end
     
     describe Spec::Matchers::Matcher do
-      it "provides a default description" do
-        matcher = Spec::Matchers::Matcher.new(:be_a_multiple_of, 3) do |multiple|
-          match do |actual|
-            actual % multiple == 0
+      context "defaults" do
+        before(:each) do
+          @matcher = Spec::Matchers::Matcher.new(:be_a_multiple_of, 3) do |multiple|
+            match do |actual|
+              actual % multiple == 0
+            end
           end
         end
-        matcher.matches?(9)
-        matcher.description.should == "expected 9 to be a multiple of 3"
+        
+        it "provides a default description" do
+          @matcher.matches?(0)
+          @matcher.description.should == "be a multiple of 3"
+        end
+
+        it "provides a default failure message for #should" do
+          @matcher.matches?(8)
+          @matcher.failure_message.should == "expected 8 to be a multiple of 3"
+        end
       end
       
-      it "overrides the description" do
-        matcher = Spec::Matchers::Matcher.new(:be_a_multiple_of, 3) do |multiple|
-          match do |actual|
-            actual % multiple == 0
+      context "overrides" do
+        it "overrides the description" do
+          matcher = Spec::Matchers::Matcher.new(:be_a_multiple_of, 3) do |multiple|
+            match do |actual|
+              actual % multiple == 0
+            end
+            description do
+              "be a multiple of #{multiple}, dude"
+            end
           end
-          description do |actual|
-            "expected that #{actual} would be a multiple of #{multiple}"
-          end
+          matcher.matches?(0)
+          matcher.description.should == "be a multiple of 3, dude"
         end
-        matcher.matches?(9)
-        matcher.description.should == "expected that 9 would be a multiple of 3"
+
+        it "overrides the failure message for #should" do
+          matcher = Spec::Matchers::Matcher.new(:be_a_multiple_of, 3) do |multiple|
+            match do |actual|
+              actual % multiple == 0
+            end
+            failure_message_for(:should) do |actual|
+              "expected #{actual} to be a multiple of #{multiple}, dude"
+            end
+          end
+          matcher.matches?(8)
+          matcher.failure_message.should == "expected 8 to be a multiple of 3, dude"
+        end
       end
+      
       
       context "#new" do
         it "passes matches? arg to match block" do
