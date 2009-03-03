@@ -4,15 +4,16 @@ module Spec
       include InstanceExec
       
       def initialize(name, expected=nil, &block_passed_to_init)
+        @name = name
         @expected = expected
         @block = block_passed_to_init
         # FIXME - the next line has a hard coded description (ish)
-        @description = lambda { "be a multiple of #{expected}" }
+        @description = lambda { "#{name_to_sentence} #{expected}" }
         @failure_message_for_should = lambda do |actual|
-          "expected #{actual} to be a multiple of #{expected}"
+          "expected #{actual} to #{name_to_sentence} #{expected}"
         end
         @failure_message_for_should_not = lambda do |actual|
-          "expected #{actual} not to be a multiple of #{expected}"
+          "expected #{actual} not to #{name_to_sentence} #{expected}"
         end
       end
       
@@ -55,6 +56,10 @@ module Spec
     
       def eval_description
         @description.call
+      end
+
+      def name_to_sentence
+        @name_to_sentence ||= @name.to_s.gsub(/_/,' ')
       end
     
     end
