@@ -1,7 +1,6 @@
 # -*- ruby -*-
 
 $:.unshift(File.join(File.dirname(__FILE__), 'lib'))
-require 'rubygems'
 require 'hoe'
 require 'spec/version'
 require 'spec/rake/spectask'
@@ -22,6 +21,7 @@ Hoe.new('rspec', Spec::VERSION::STRING) do |p|
   p.developer('RSpec Development Team', 'rspec-devel@rubyforge.org')
   p.extra_dev_deps = [["cucumber",">= 0.1.13"]]
   p.remote_rdoc_dir = "rspec/#{Spec::VERSION::STRING}"
+  p.rspec_options = ['--options', 'spec/spec.opts']
 end
 
 ['audit','test','test_deps','default','post_blog'].each do |task|
@@ -35,12 +35,6 @@ load File.dirname(__FILE__) + '/resources/rake/failing_examples_with_html.rake'
 load File.dirname(__FILE__) + '/resources/rake/verify_rcov.rake'
 
 task :default => [:verify_rcov, :features]
-
-desc "Run all specs"
-Spec::Rake::SpecTask.new do |t|
-  t.spec_files = FileList['spec/**/*_spec.rb']
-  t.spec_opts = ['--options', 'spec/spec.opts']
-end
 
 namespace :spec do
   desc "Run all specs with rcov"
