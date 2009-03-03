@@ -84,6 +84,7 @@ lib/spec/adapters/mock_frameworks/rspec.rb
 lib/spec/autorun.rb
 lib/spec/dsl.rb
 lib/spec/dsl/main.rb
+lib/spec/dsl/matchers.rb
 lib/spec/example.rb
 lib/spec/example/before_and_after_hooks.rb
 lib/spec/example/errors.rb
@@ -121,6 +122,7 @@ lib/spec/matchers/eql.rb
 lib/spec/matchers/equal.rb
 lib/spec/matchers/errors.rb
 lib/spec/matchers/exist.rb
+lib/spec/matchers/extensions/instance_exec.rb
 lib/spec/matchers/generated_descriptions.rb
 lib/spec/matchers/has.rb
 lib/spec/matchers/have.rb
@@ -200,6 +202,7 @@ spec/rspec_suite.rb
 spec/ruby_forker.rb
 spec/spec.opts
 spec/spec/dsl/main_spec.rb
+spec/spec/dsl/matchers_spec.rb
 spec/spec/example/example_group_class_definition_spec.rb
 spec/spec/example/example_group_factory_spec.rb
 spec/spec/example/example_group_methods_spec.rb
