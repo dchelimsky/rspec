@@ -27,6 +27,9 @@ module Spec
         @failure_message_for_should = lambda do |actual|
           "expected #{actual} to be a multiple of #{expected}"
         end
+        @failure_message_for_should_not = lambda do |actual|
+          "expected #{actual} not to be a multiple of #{expected}"
+        end
       end
       
       def matches?(actual)
@@ -42,6 +45,10 @@ module Spec
         @failure_message_for_should.call(@actual)
       end
       
+      def negative_failure_message
+        @failure_message_for_should_not.call(@actual)
+      end
+      
       def match(&block_passed_to_match)
         instance_exec @actual, &block_passed_to_match
       end
@@ -50,6 +57,8 @@ module Spec
         case should_or_should_not
         when :should
           @failure_message_for_should = block
+        when :should_not
+          @failure_message_for_should_not = block
         end
       end
       
@@ -105,6 +114,11 @@ module Spec
           @matcher.matches?(8)
           @matcher.failure_message.should == "expected 8 to be a multiple of 3"
         end
+
+        it "provides a default failure message for #should_not" do
+          @matcher.matches?(9)
+          @matcher.negative_failure_message.should == "expected 9 not to be a multiple of 3"
+        end
       end
       
       context "overrides" do
@@ -132,6 +146,19 @@ module Spec
           end
           matcher.matches?(8)
           matcher.failure_message.should == "expected 8 to be a multiple of 3, dude"
+        end
+        
+        it "overrides the failure message for #should_not" do
+          matcher = Spec::Matchers::Matcher.new(:be_a_multiple_of, 3) do |multiple|
+            match do |actual|
+              actual % multiple == 0
+            end
+            failure_message_for(:should_not) do |actual|
+              "expected #{actual} not to be a multiple of #{multiple}, dude"
+            end
+          end
+          matcher.matches?(9)
+          matcher.negative_failure_message.should == "expected 9 not to be a multiple of 3, dude"
         end
       end
       
