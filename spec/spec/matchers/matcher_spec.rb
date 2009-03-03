@@ -1,7 +1,5 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
-# Spec::Matchers.extend Spec::DSL::Matchers
-
 module Spec
   module DSL
     module Matchers
@@ -20,9 +18,12 @@ module Spec
   module Matchers
     class Matcher
       include InstanceExec
-      def initialize(expected=nil, &block_passed_to_init)
+      def initialize(name, expected=nil, &block_passed_to_init)
         @expected = expected
         @block = block_passed_to_init
+        @description = lambda { |actual|
+          "expected #{actual} to be a multiple of #{expected}"
+        }
       end
       def matches?(actual)
         @actual = actual
@@ -30,6 +31,13 @@ module Spec
       end
       def match(&block_passed_to_match)
         instance_exec @actual, &block_passed_to_match
+      end
+      def description(&block)
+        if block
+          @description = block
+        else
+          @description.call(@actual)
+        end
       end
     end
   end
@@ -55,26 +63,32 @@ module Spec
     end
     
     describe Spec::Matchers::Matcher do
+      it "provides a default description" do
+        matcher = Spec::Matchers::Matcher.new(:be_a_multiple_of, 3) do |multiple|
+          match do |actual|
+            actual % multiple == 0
+          end
+        end
+        matcher.matches?(9)
+        matcher.description.should == "expected 9 to be a multiple of 3"
+      end
+      
+      it "overrides the description" do
+        matcher = Spec::Matchers::Matcher.new(:be_a_multiple_of, 3) do |multiple|
+          match do |actual|
+            actual % multiple == 0
+          end
+          description do |actual|
+            "expected that #{actual} would be a multiple of #{multiple}"
+          end
+        end
+        matcher.matches?(9)
+        matcher.description.should == "expected that 9 would be a multiple of 3"
+      end
+      
       context "#new" do
-        it "returns true when I say return true" do
-          matcher = Spec::Matchers::Matcher.new do 
-            match do
-              true
-            end
-          end
-          matcher.matches?(5).should be_true
-        end
-        it "returns false when I say return false" do
-          matcher = Spec::Matchers::Matcher.new do 
-            match do
-              false
-            end
-          end
-          matcher.matches?(5).should be_false
-        end
-        
-        it "returns true when actual == expected" do
-          matcher = Spec::Matchers::Matcher.new do 
+        it "passes matches? arg to match block" do
+          matcher = Spec::Matchers::Matcher.new(:ignore) do 
             match do |actual|
               actual == 5
             end
@@ -82,17 +96,14 @@ module Spec
           matcher.matches?(5).should be_true
         end
 
-        it "returns true when actual == expected" do
-          matcher = Spec::Matchers::Matcher.new(4) do |expected|
+        it "exposes arg submitted through #new to matcher block" do
+          matcher = Spec::Matchers::Matcher.new(:ignore, 4) do |expected|
             match do |actual|
               actual > expected
             end
           end
           matcher.matches?(5).should be_true
         end
-        
-        
-        
       end
     end
   end
