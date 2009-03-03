@@ -19,6 +19,7 @@ module Spec
       def matches?(actual)
         @actual = actual
         instance_exec @expected, &@block
+        instance_exec actual, &@match_block
       end
       
       def description(&block)
@@ -34,7 +35,7 @@ module Spec
       end
       
       def match(&block_passed_to_match)
-        instance_exec @actual, &block_passed_to_match
+        @match_block = block_passed_to_match
       end
       
       def failure_message_for(should_or_should_not, &block)

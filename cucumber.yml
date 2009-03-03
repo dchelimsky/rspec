@@ -1,2 +1,2 @@
-default: --require features features
+default: --require features features/matchers
 pending: --require features features-pending

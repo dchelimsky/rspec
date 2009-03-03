@@ -7,8 +7,8 @@ Feature: custom matcher shortcut
   Scenario: create a matcher with default messages
     Given the following spec:
       """
-      Spec::Matchers.create :be_a_multiple_of do |actual, expected|
-        match do
+      Spec::Matchers.create :be_a_multiple_of do |expected|
+        match do |actual|
           actual % expected == 0
         end
       end
@@ -42,16 +42,16 @@ Feature: custom matcher shortcut
 
     And the stdout should match "4 examples, 2 failures"
     And the stdout should match "expected 9 to be a multiple of 4"
-    And the stdout should match "expected 9 to not be a multiple of 3"
+    And the stdout should match "expected 9 not to be a multiple of 3"
     
   Scenario: override the failure_message_for(:should)
     Given the following spec:
       """
-      Spec::Matchers.create :be_a_multiple_of do |actual, expected|
-        match do
+      Spec::Matchers.create :be_a_multiple_of do |expected|
+        match do |actual|
           actual % expected == 0
         end
-        failure_message_for(:should) do
+        failure_message_for(:should) do |actual|
           "expected that #{actual} would be a multiple of #{expected}"
         end
       end
@@ -69,11 +69,11 @@ Feature: custom matcher shortcut
   Scenario: override the failure_message_for(:should_not)
     Given the following spec:
       """
-      Spec::Matchers.create :be_a_multiple_of do |actual, expected|
-        match do
+      Spec::Matchers.create :be_a_multiple_of do |expected|
+        match do |actual|
           actual % expected == 0
         end
-        failure_message_for(:should_not) do
+        failure_message_for(:should_not) do |actual|
           "expected that #{actual} would not be a multiple of #{expected}"
         end
       end
@@ -91,8 +91,8 @@ Feature: custom matcher shortcut
   Scenario: override the description
     Given the following spec:
       """
-      Spec::Matchers.create :be_a_multiple_of do |actual, expected|
-        match do
+      Spec::Matchers.create :be_a_multiple_of do |expected|
+        match do |actual|
           actual % expected == 0
         end
         description do

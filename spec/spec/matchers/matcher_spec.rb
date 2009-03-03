@@ -1,29 +1,9 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
-
-
-
 module Spec
   module Matchers
-    describe "#create" do
-      context "telling #create what I want it to do" do
-        it "returns true if I say so" do
-          # FIXME - this expects new to be called, but we need something
-          # more robust - that expects new to be called with a specific
-          # block (lambda, proc, whatever)
-          mod = Module.new
-          mod.extend Spec::DSL::Matchers
-          mod.create(:foo)
-          
-          Spec::Matchers::Matcher.should_receive(:new).with(:foo, 3)
-          
-          mod.foo(3)
-        end
-      end
-    end
-    
     describe Spec::Matchers::Matcher do
-      context "defaults" do
+      context "without overrides" do
         before(:each) do
           @matcher = Spec::Matchers::Matcher.new(:be_a_multiple_of, 3) do |multiple|
             match do |actual|
@@ -48,47 +28,47 @@ module Spec
         end
       end
       
-      context "overrides" do
-        it "overrides the description" do
-          matcher = Spec::Matchers::Matcher.new(:be_a_multiple_of, 3) do |multiple|
+      context "with overrides" do
+        before(:each) do
+          @matcher = Spec::Matchers::Matcher.new(:be_boolean, true) do |boolean|
             match do |actual|
-              actual % multiple == 0
+              actual
             end
             description do
-              "be a multiple of #{multiple}, dude"
+              "be the boolean #{boolean}"
+            end
+            failure_message_for(:should) do |actual|
+              "expected #{actual} to be the boolean #{boolean}"
+            end
+            failure_message_for(:should_not) do |actual|
+              "expected #{actual} not to be the boolean #{boolean}"
             end
           end
-          matcher.matches?(0)
-          matcher.description.should == "be a multiple of 3, dude"
+        end
+
+        it "does not hide result of match block when true" do
+          @matcher.matches?(true).should be_true
+        end
+
+        it "does not hide result of match block when false" do
+          @matcher.matches?(false).should be_false
+        end
+
+        it "overrides the description" do
+          @matcher.matches?(true)
+          @matcher.description.should == "be the boolean true"
         end
 
         it "overrides the failure message for #should" do
-          matcher = Spec::Matchers::Matcher.new(:be_a_multiple_of, 3) do |multiple|
-            match do |actual|
-              actual % multiple == 0
-            end
-            failure_message_for(:should) do |actual|
-              "expected #{actual} to be a multiple of #{multiple}, dude"
-            end
-          end
-          matcher.matches?(8)
-          matcher.failure_message.should == "expected 8 to be a multiple of 3, dude"
+          @matcher.matches?(false)
+          @matcher.failure_message.should == "expected false to be the boolean true"
         end
         
         it "overrides the failure message for #should_not" do
-          matcher = Spec::Matchers::Matcher.new(:be_a_multiple_of, 3) do |multiple|
-            match do |actual|
-              actual % multiple == 0
-            end
-            failure_message_for(:should_not) do |actual|
-              "expected #{actual} not to be a multiple of #{multiple}, dude"
-            end
-          end
-          matcher.matches?(9)
-          matcher.negative_failure_message.should == "expected 9 not to be a multiple of 3, dude"
+          @matcher.matches?(true)
+          @matcher.negative_failure_message.should == "expected true not to be the boolean true"
         end
       end
-      
       
       context "#new" do
         it "passes matches? arg to match block" do
@@ -108,6 +88,9 @@ module Spec
           end
           matcher.matches?(5).should be_true
         end
+      end
+
+      context "matching with overrides" do
       end
     end
   end
