@@ -45,7 +45,6 @@ examples/passing/nested_classes_example.rb
 examples/passing/partial_mock_example.rb
 examples/passing/pending_example.rb
 examples/passing/predicate_example.rb
-examples/passing/priority.txt
 examples/passing/shared_example_group_example.rb
 examples/passing/shared_stack_examples.rb
 examples/passing/simple_matcher_example.rb
