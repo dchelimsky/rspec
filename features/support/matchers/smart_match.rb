@@ -22,11 +22,11 @@ module Spec
       end
 
       def failure_message
-        "expected #{@actual.inspect} to smart_match #{@expected.inspect}, but it didn't"
+        "expected #{@actual} to smart_match #{@expected}"
       end
 
       def negative_failure_message
-        "expected #{@actual.inspect} not to smart_match #{@expected.inspect}, but it did"
+        "expected #{@actual} not to smart_match #{@expected}"
       end
     end
 
