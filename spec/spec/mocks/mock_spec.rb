@@ -115,7 +115,7 @@ module Spec
         lambda {
           @mock.something("a","d","c")
           @mock.rspec_verify
-        }.should raise_error(MockExpectationError, "Mock 'test mock' expected :something with (\"a\", \"b\", \"c\") but received it with (\"a\", \"d\", \"c\")")
+        }.should raise_error(MockExpectationError, "Mock 'test mock' expected :something with (\"a\", \"b\", \"c\") but received it with ([\"a\", \"d\", \"c\"])")
       end
            
       it "should raise exception if args don't match when method called even when using null_object" do
@@ -124,7 +124,7 @@ module Spec
         lambda {
           @mock.something("a","d","c")
           @mock.rspec_verify
-        }.should raise_error(MockExpectationError, "Mock 'test mock' expected :something with (\"a\", \"b\", \"c\") but received it with (\"a\", \"d\", \"c\")")
+        }.should raise_error(MockExpectationError, "Mock 'test mock' expected :something with (\"a\", \"b\", \"c\") but received it with ([\"a\", \"d\", \"c\"])")
       end
            
       it "should fail if unexpected method called" do

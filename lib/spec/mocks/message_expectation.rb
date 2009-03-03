@@ -226,7 +226,7 @@ module Spec
         if similar_messages.empty?
           @error_generator.raise_expectation_error(@sym, @expected_received_count, @actual_received_count, *@args_expectation.args)
         else
-          @error_generator.raise_unexpected_message_args_error(self, *@similar_messages.first)
+          @error_generator.raise_unexpected_message_args_error(self, *@similar_messages)
         end
       end
 
