@@ -36,6 +36,7 @@ WARNINGS:
   * lots of ruby 1.9.1 compatibility fixes from Chad Humprhies
   * improved feedback from be_kind_of/be_a_kind_of/be_instance_of/be_an_instance_of (Jakub Šťastný)
   * added --silent (-l) formatter option, which is now the default when running --heckle (Bob Aman)
+  * sexy new custom matcher creation (Corey Haines & David Chelimsky)
   
 * bug fixes
 
