@@ -69,6 +69,7 @@ features/matchers/create_matcher.feature
 features/mock_framework_integration/use_flexmock.feature
 features/mock_framework_integration/use_mocha.feature
 features/mock_framework_integration/use_rr.feature
+features/mocks/mix_stubs_and_mocks.feature
 features/step_definitions/running_rspec.rb
 features/support/env.rb
 features/support/matchers/smart_match.rb
@@ -217,6 +218,7 @@ spec/spec/example/subclassing_example_group_spec.rb
 spec/spec/expectations/differs/default_spec.rb
 spec/spec/expectations/extensions/object_spec.rb
 spec/spec/expectations/fail_with_spec.rb
+spec/spec/expectations/handler_spec.rb
 spec/spec/expectations/wrap_expectation_spec.rb
 spec/spec/interop/test/unit/resources/spec_that_fails.rb
 spec/spec/interop/test/unit/resources/spec_that_passes.rb
@@ -239,7 +241,6 @@ spec/spec/matchers/description_generation_spec.rb
 spec/spec/matchers/eql_spec.rb
 spec/spec/matchers/equal_spec.rb
 spec/spec/matchers/exist_spec.rb
-spec/spec/matchers/handler_spec.rb
 spec/spec/matchers/has_spec.rb
 spec/spec/matchers/have_spec.rb
 spec/spec/matchers/include_spec.rb
