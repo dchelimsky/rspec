@@ -11,11 +11,11 @@ module Spec
         actual.__send__(predicate(@expected), *@args)
       end
       
-      def failure_message
+      def failure_message_for_should
         "expected ##{predicate(@expected)}(#{@args[0].inspect}) to return true, got false"
       end
       
-      def negative_failure_message
+      def failure_message_for_should_not
         "expected ##{predicate(@expected)}(#{@args[0].inspect}) to return false, got true"
       end
       

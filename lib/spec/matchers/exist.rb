@@ -7,11 +7,11 @@ module Spec
         actual.exist?
       end
 
-      def failure_message
+      def failure_message_for_should
         "expected #{@actual.inspect} to exist, but it doesn't."
       end
 
-      def negative_failure_message
+      def failure_message_for_should_not
         "expected #{@actual.inspect} to not exist, but it does."
       end
 

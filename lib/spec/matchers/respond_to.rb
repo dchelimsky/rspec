@@ -16,11 +16,11 @@ module Spec
         return @names_not_responded_to.empty?
       end
       
-      def failure_message
+      def failure_message_for_should
         "expected #{@actual.inspect} to respond to #{@names_not_responded_to.collect {|name| name.inspect }.join(', ')}#{with_arity}"
       end
       
-      def negative_failure_message
+      def failure_message_for_should_not
         "expected #{@actual.inspect} not to respond to #{@names.collect {|name| name.inspect }.join(', ')}"
       end
       

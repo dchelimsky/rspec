@@ -29,7 +29,7 @@ module Spec
         #when
           matcher.matches?(5.51)
         #then
-          matcher.failure_message.should == "expected 5.0 +/- (< 0.5), got 5.51"
+          matcher.failure_message_for_should.should == "expected 5.0 +/- (< 0.5), got 5.51"
       end
       it "should describe itself" do
         matcher = be_close(5.0, 0.5)

@@ -26,13 +26,13 @@ module Spec
         end
       end
       
-      def failure_message
+      def failure_message_for_should
         handling_predicate? ?
           "expected #{predicate}#{args_to_s} to return true, got #{@result.inspect}" :
           "expected #{@comparison_method} #{expected}, got #{@actual.inspect}".gsub('  ',' ')
       end
       
-      def negative_failure_message
+      def failure_message_for_should_not
         if handling_predicate?
           "expected #{predicate}#{args_to_s} to return false, got #{@result.inspect}"
         else

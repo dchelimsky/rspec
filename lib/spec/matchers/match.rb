@@ -10,11 +10,11 @@ module Spec
         actual =~ @expected
       end
 
-      def failure_message
+      def failure_message_for_should
         return "expected #{@actual.inspect} to match #{@expected.inspect}", @expected, @actual
       end
 
-      def negative_failure_message
+      def failure_message_for_should_not
         return "expected #{@actual.inspect} not to match #{@expected.inspect}", @expected, @actual
       end
 

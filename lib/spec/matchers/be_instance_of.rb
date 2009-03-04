@@ -14,11 +14,11 @@ module Spec
         "be an instance of #{@expected}"
       end
       
-      def failure_message
+      def failure_message_for_should
         "expected instance of #{@expected}, got #{@actual.inspect}"
       end
       
-      def negative_failure_message
+      def failure_message_for_should_not
         "expected #{@actual.inspect} not to be an instance of #{@expected}"
       end
     end

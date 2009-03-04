@@ -55,11 +55,11 @@ module Spec
         end
       end
       
-      def failure_message
+      def failure_message_for_should
         @eval_block ? @given_error.message : "expected #{expected_error}#{given_error}"
       end
 
-      def negative_failure_message
+      def failure_message_for_should_not
         "expected no #{expected_error}#{given_error}"
       end
       

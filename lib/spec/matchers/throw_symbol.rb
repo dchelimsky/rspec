@@ -41,7 +41,7 @@ module Spec
         end
       end
 
-      def failure_message
+      def failure_message_for_should
         if @caught_symbol
           "expected #{expected}, got #{@caught_symbol.inspect}"
         else
@@ -49,7 +49,7 @@ module Spec
         end
       end
       
-      def negative_failure_message
+      def failure_message_for_should_not
         if @expected_symbol
           "expected #{expected} not to be thrown"
         else

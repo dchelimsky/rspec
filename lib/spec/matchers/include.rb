@@ -25,11 +25,11 @@ module Spec
         true
       end
       
-      def failure_message
+      def failure_message_for_should
         _message
       end
       
-      def negative_failure_message
+      def failure_message_for_should_not
         _message("not ")
       end
       

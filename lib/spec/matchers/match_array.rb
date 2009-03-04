@@ -14,7 +14,7 @@ module Spec
         @extra_items.empty? & @missing_items.empty?
       end
 
-      def failure_message
+      def failure_message_for_should
         message =  "expected collection contained:  #{@expected.sort.inspect}\n"
         message += "actual collection contained:    #{@actual.sort.inspect}\n"
         message += "the missing elements were:      #{@missing_items.sort.inspect}\n" unless @missing_items.empty?
@@ -22,7 +22,7 @@ module Spec
         message
       end
       
-      def negative_failure_message
+      def failure_message_for_should_not
         "Matcher does not support should_not"
       end
       

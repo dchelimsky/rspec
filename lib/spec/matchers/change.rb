@@ -34,7 +34,7 @@ MESSAGE
         @value_proc.call
       end
       
-      def failure_message
+      def failure_message_for_should
         if @to
           "#{@message} should have been changed to #{@to.inspect}, but is now #{@after.inspect}"
         elsif @from
@@ -54,7 +54,7 @@ MESSAGE
         @after - @before
       end
       
-      def negative_failure_message
+      def failure_message_for_should_not
         "#{@message} should not have changed, but did change from #{@before.inspect} to #{@after.inspect}"
       end
       

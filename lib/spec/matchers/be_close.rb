@@ -11,7 +11,7 @@ module Spec
         (@actual - @expected).abs < @delta
       end
       
-      def failure_message
+      def failure_message_for_should
         "expected #{@expected} +/- (< #{@delta}), got #{@actual}"
       end
       

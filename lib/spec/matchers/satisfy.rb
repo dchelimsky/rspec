@@ -12,11 +12,11 @@ module Spec
         @block.call(actual)
       end
       
-      def failure_message
+      def failure_message_for_should
         "expected #{@actual} to satisfy block"
       end
 
-      def negative_failure_message
+      def failure_message_for_should_not
         "expected #{@actual} not to satisfy block"
       end
     end
