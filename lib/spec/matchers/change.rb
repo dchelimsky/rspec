@@ -15,7 +15,7 @@ module Spec
         event_proc.call
         @after = evaluate_value_proc
         
-        return false if @from unless @from == @before
+        return (@to = false) if @from unless @from == @before
         return false if @to unless @to == @after
         return (@before + @amount == @after) if @amount
         return ((@after - @before) >= @minimum) if @minimum
