@@ -45,7 +45,7 @@ WARNINGS:
   * all arguments are included if --drb is specified in spec.opts (Neil Buckley). Closes #671.
   * added --autospec option hack (used internally) to get --color to work when using --drb and autospec.
   * Fixed mock framework failure message bug in which similar calls were excluded from the output
-  * ryptic error message on change.rb when the from value is wrong (Michael Murray). Closes #706.
+  * cryptic error message on change.rb when the from value is wrong (Michael Murray). Closes #706.
 
 === Version 1.1.12 / 2009-01-11
 
