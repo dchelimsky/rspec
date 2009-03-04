@@ -2,9 +2,9 @@ Feature: custom matcher shortcut
 
   In order to express my domain clearly in my code examples
   As an RSpec user
-  I want to a shortcut for create custom matchers
+  I want a shortcut for create custom matchers
 
-  Scenario: create a matcher with default messages
+  Scenario: creating a matcher with default messages
     Given the following spec:
       """
       Spec::Matchers.create :be_a_multiple_of do |expected|
@@ -44,7 +44,7 @@ Feature: custom matcher shortcut
     And the stdout should match "expected 9 to be a multiple of 4"
     And the stdout should match "expected 9 not to be a multiple of 3"
     
-  Scenario: override the failure_message_for_should
+  Scenario: overriding the failure_message_for_should
     Given the following spec:
       """
       Spec::Matchers.create :be_a_multiple_of do |expected|
@@ -66,7 +66,7 @@ Feature: custom matcher shortcut
     And the stdout should match "1 example, 1 failure"
     And the stdout should match "expected that 9 would be a multiple of 4"
   
-  Scenario: override the failure_message_for_should_not
+  Scenario: overriding the failure_message_for_should_not
     Given the following spec:
       """
       Spec::Matchers.create :be_a_multiple_of do |expected|
@@ -88,7 +88,7 @@ Feature: custom matcher shortcut
     And the stdout should match "1 example, 1 failure"
     And the stdout should match "expected that 9 would not be a multiple of 3"
   
-  Scenario: override the description
+  Scenario: overriding the description
     Given the following spec:
       """
       Spec::Matchers.create :be_a_multiple_of do |expected|
@@ -99,11 +99,11 @@ Feature: custom matcher shortcut
           "be multiple of #{expected}"
         end
       end
-
+  
       describe 9 do
         it {should be_a_multiple_of(3)}
       end
-
+  
       describe 9 do
         it {should_not be_a_multiple_of(4)}
       end
@@ -113,6 +113,3 @@ Feature: custom matcher shortcut
     And the stdout should match "2 examples, 0 failures"
     And the stdout should match "should be multiple of 3"
     And the stdout should match "should not be multiple of 4"
-
-
-  

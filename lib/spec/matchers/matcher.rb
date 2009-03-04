@@ -7,56 +7,42 @@ module Spec
         @name = name
         @expected = expected
         @block = block_passed_to_init
-        # FIXME - the next line has a hard coded description (ish)
-        @description = lambda { "#{name_to_sentence} #{expected}" }
-        @failure_message_for_should = lambda do |actual|
-          "expected #{actual} to #{name_to_sentence} #{expected}"
-        end
-        @failure_message_for_should_not = lambda do |actual|
-          "expected #{actual} not to #{name_to_sentence} #{expected}"
-        end
+        @messages = {
+          :description => lambda {"#{name_to_sentence} #{expected}"},
+          :failure_message_for_should => lambda {|actual| "expected #{actual} to #{name_to_sentence} #{expected}"},
+          :failure_message_for_should_not => lambda {|actual| "expected #{actual} not to #{name_to_sentence} #{expected}"}
+        }
       end
       
       def matches?(actual)
         @actual = actual
         instance_exec @expected, &@block
-        instance_exec actual, &@match_block
+        instance_exec @actual, &@match_block
       end
       
       def description(&block)
-        block ? set_description(block) : eval_description
+        cache_or_call_cached(:description, &block)
       end
       
-      def failure_message
-        @failure_message_for_should.call(@actual)
+      def failure_message_for_should(&block)
+        cache_or_call_cached(:failure_message_for_should, @actual, &block)
       end
       
-      def negative_failure_message
-        @failure_message_for_should_not.call(@actual)
+      def failure_message_for_should_not(&block)
+        cache_or_call_cached(:failure_message_for_should_not, @actual, &block)
       end
       
       def match(&block)
         @match_block = block
       end
       
-      def failure_message_for_should(&block)
-        @failure_message_for_should = block
-      end
-      
-      def failure_message_for_should_not(&block)
-        @failure_message_for_should_not = block
-      end
-      
     private
 
-      def set_description(block)
-        @description = block
+      def cache_or_call_cached(key, actual=nil, &block)
+        block ? @messages[key] = block :
+                @messages[key].call(actual)
       end
     
-      def eval_description
-        @description.call
-      end
-
       def name_to_sentence
         @name_to_sentence ||= @name.to_s.gsub(/_/,' ')
       end

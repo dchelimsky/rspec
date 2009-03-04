@@ -19,12 +19,12 @@ module Spec
 
         it "provides a default failure message for #should" do
           @matcher.matches?(8)
-          @matcher.failure_message.should == "expected 8 to be a multiple of 3"
+          @matcher.failure_message_for_should.should == "expected 8 to be a multiple of 3"
         end
 
         it "provides a default failure message for #should_not" do
           @matcher.matches?(9)
-          @matcher.negative_failure_message.should == "expected 9 not to be a multiple of 3"
+          @matcher.failure_message_for_should_not.should == "expected 9 not to be a multiple of 3"
         end
       end
       
@@ -61,12 +61,12 @@ module Spec
 
         it "overrides the failure message for #should" do
           @matcher.matches?(false)
-          @matcher.failure_message.should == "expected false to be the boolean true"
+          @matcher.failure_message_for_should.should == "expected false to be the boolean true"
         end
         
         it "overrides the failure message for #should_not" do
           @matcher.matches?(true)
-          @matcher.negative_failure_message.should == "expected true not to be the boolean true"
+          @matcher.failure_message_for_should_not.should == "expected true not to be the boolean true"
         end
       end
       
