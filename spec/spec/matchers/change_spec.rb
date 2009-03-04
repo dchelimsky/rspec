@@ -308,13 +308,13 @@ describe "should change(actual, message).from(old).to(new)" do
     lambda { @instance.some_value = "cat" }.should change(@instance, :some_value).from("string").to("cat")
   end
   
-  it "should show the correct messaging when #after is different than #to" do
+  it "should show the correct messaging when #after and #to are different" do
     lambda do
       lambda { @instance.some_value = "cat" }.should change(@instance, :some_value).from("string").to("dog")
     end.should fail_with("some_value should have been changed to \"dog\", but is now \"cat\"")
   end
   
-  it "should show the correct messaging when #before is different than #from" do
+  it "should show the correct messaging when #before and #from are different" do
     lambda do
       lambda { @instance.some_value = "cat" }.should change(@instance, :some_value).from("not_string").to("cat")
     end.should fail_with("some_value should have initially been \"not_string\", but was \"string\"")
