@@ -37,10 +37,10 @@ module Spec
             description do
               "be the boolean #{boolean}"
             end
-            failure_message_for(:should) do |actual|
+            failure_message_for_should do |actual|
               "expected #{actual} to be the boolean #{boolean}"
             end
-            failure_message_for(:should_not) do |actual|
+            failure_message_for_should_not do |actual|
               "expected #{actual} not to be the boolean #{boolean}"
             end
           end

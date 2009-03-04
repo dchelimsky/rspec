@@ -35,17 +35,16 @@ module Spec
         @failure_message_for_should_not.call(@actual)
       end
       
-      def match(&block_passed_to_match)
-        @match_block = block_passed_to_match
+      def match(&block)
+        @match_block = block
       end
       
-      def failure_message_for(should_or_should_not, &block)
-        case should_or_should_not
-        when :should
-          @failure_message_for_should = block
-        when :should_not
-          @failure_message_for_should_not = block
-        end
+      def failure_message_for_should(&block)
+        @failure_message_for_should = block
+      end
+      
+      def failure_message_for_should_not(&block)
+        @failure_message_for_should_not = block
       end
       
     private
