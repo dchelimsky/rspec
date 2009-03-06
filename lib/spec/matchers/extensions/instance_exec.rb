@@ -1,3 +1,5 @@
+require 'spec/ruby'
+
 module InstanceExec
   if ::Spec::Ruby.version < "1.8.7"
     module InstanceExecHelper; end
