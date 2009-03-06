@@ -6,6 +6,7 @@ README.txt
 Rakefile
 Ruby1.9.markdown
 TODO.txt
+Upgrade.markdown
 bin/autospec
 bin/spec
 cucumber.yml
