@@ -40,7 +40,8 @@ module Spec
 
       def cache_or_call_cached(key, actual=nil, &block)
         block ? @messages[key] = block :
-                @messages[key].call(actual)
+                actual.nil? ? @messages[key].call :
+                              @messages[key].call(actual)
       end
     
       def name_to_sentence
