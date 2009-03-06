@@ -30,12 +30,21 @@ module Spec
   # is any object that responds to the following methods:
   #
   #   matches?(actual)
-  #   failure_message
-  #   negative_failure_message #optional
+  #   failure_message_for_should
+  #
+  # These methods are also part of the matcher protocol, but are optional:
+  #
+  #   does_not_match?(actual)
+  #   failure_message_for_should_not
   #   description #optional
   #
+  # These methods are from older versions of the protocol. They are still supported,
+  # but are not recommended:
+  #
+  #   failure_message          (use failure_message_for_should instead)
+  #   negative_failure_message (use failure_message_for_should_not instead)
+  #
   # See Spec::Expectations to learn how to use these as Expectation Matchers.
-  # See Spec::Mocks to learn how to use them as Mock Argument Matchers.
   #
   # == Predicates
   #
