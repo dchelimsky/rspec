@@ -51,7 +51,4 @@ examples.
 
  or
 
-  git clone git://github.com/dchelimsky/rspec.git
-  cd rspec
-  rake gem
-  rake install_gem
+ clone, build, install - See http://wiki.github.com/dchelimsky/rspec

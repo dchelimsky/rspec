@@ -9,16 +9,24 @@
 * require 'spec/test/unit' to invoke test/unit interop if you're using
   RSpec's core (this is handled implicitly with spec-rails)
 
-* setup/teardown is gone - use before/after instead
+* setup and teardown are gone - use before and after instead
 
-  * you can still use setup/teardown if you're using Test::Unit::TestCase as
-    the base ExampleGroup class (which is implicit in rspec-rails)
-    
+  * you can still use setup and teardown if you're using
+    Test::Unit::TestCase as the base ExampleGroup class (which is implicit
+    in rspec-rails)
+
+* The matcher protocol has been improved. The old protocol is still
+  supported, so as long as you're not monkey patching rspec's built-in
+  matchers, or using extension libraries that do, this should not affect
+  you. If you run into trouble, you'll just need to change:
+  
+  * ``failure_message          => failure_message_for_should``
+  * ``negative_failure_message => failure_message_for_should_not``
+
 * All references to rubygems have been removed from within rspec's code.
 
   * See Ryan Tomayko's http://gist.github.com/54177 for rationale and
     suggestions on alternative approaches to loading rubygems
-
 
 ## New Matcher DSL
 
@@ -28,11 +36,11 @@ that, but we recommend that you start developing your new matchers with this
 new syntax.
 
     Spec::Matchers.create do :be_a_multiple_of |smaller|
-			match do |bigger|
-				bigger % smaller == 0
-			end
-		end
-		
-		9.should be_a_multiple_of(3)
+      match do |bigger|
+        bigger % smaller == 0
+      end
+    end
+
+    9.should be_a_multiple_of(3)
 
 See features/matchers/create\_matcher\_.feature for more examples
