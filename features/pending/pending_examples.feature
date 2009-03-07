@@ -16,6 +16,20 @@ Feature: pending examples
     And the stdout should match "Not Yet Implemented"
     And the stdout should match "current_example.rb:2"
     
+  Scenario: pending implementation with spec/test/unit
+    Given the following spec:
+      """
+      require 'spec/test/unit'
+      describe "an example" do
+        it "has not yet been implemented"
+      end
+      """
+    When I run it with the spec command
+    Then the exit code should be 0
+    And the stdout should match "1 example, 0 failures, 1 pending"
+    And the stdout should match "Not Yet Implemented"
+    And the stdout should match "current_example.rb:3"
+
   Scenario: pending any arbitary reason, with no block
     Given the following spec:
       """
