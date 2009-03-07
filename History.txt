@@ -44,7 +44,7 @@ WARNINGS:
   * added handling for does_not_match? for matchers that want to know the context in which they were called
   * lots of ruby 1.9.1 compatibility fixes from Chad Humprhies
   * improved feedback from be_kind_of/be_a_kind_of/be_instance_of/be_an_instance_of (Jakub Šťastný)
-  * added --silent (-l) formatter option, which is now the default when running --heckle (Bob Aman)
+  * added --format silent (l) option, which is now the default when running --heckle (Bob Aman)
   * sexy new custom matcher creation (Corey Haines & David Chelimsky - initial concept by Yehuda Katz)
   * improved matcher protocol - old one is still supported, but new one is cleaner and prefered
   

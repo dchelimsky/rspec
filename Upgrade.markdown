@@ -1,6 +1,8 @@
-# Upgrade to rspec-1.1.99.x
+# Upgrade to rspec-1.1.99.x (pre rspec-1.2)
 
-## WARNINGS
+## What's Changed
+
+### WARNINGS
 
 * If you use the ruby command to run specs instead of the spec command, you'll
   need to require 'spec/autorun' or they won't run. This won't affect you if
@@ -28,7 +30,21 @@
   * See Ryan Tomayko's http://gist.github.com/54177 for rationale and
     suggestions on alternative approaches to loading rubygems
 
-## New Matcher DSL
+## What's new
+
+### Ruby 1.9
+
+RSpec (core only - not rails yet) now works with Ruby 1.9.1
+
+### Improved heckle integration
+
+RSpec works with heckle again! Gotta use heckle >= 1.4.2 for this to work
+though.
+
+    [sudo] gem install heckle --version ">=1.4.2"
+    spec spec/game/mastermind.rb --heckle Game::Mastermind
+
+### New Matcher DSL
 
 We've added a new DSL for generating custom matchers very simply and cleanly.
 We'll still support the simple_matcher method, so never fear if you're using
@@ -43,4 +59,4 @@ new syntax.
 
     9.should be_a_multiple_of(3)
 
-See features/matchers/create\_matcher\_.feature for more examples
+See ``features/matchers/create_matcher_.feature`` for more examples
