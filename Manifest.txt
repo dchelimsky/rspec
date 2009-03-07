@@ -20,6 +20,7 @@ examples/failing/mocking_with_flexmock.rb
 examples/failing/mocking_with_mocha.rb
 examples/failing/mocking_with_rr.rb
 examples/failing/partial_mock_example.rb
+examples/failing/pending_example.rb
 examples/failing/predicate_example.rb
 examples/failing/raising_example.rb
 examples/failing/spec_helper.rb
@@ -71,6 +72,7 @@ features/mock_framework_integration/use_flexmock.feature
 features/mock_framework_integration/use_mocha.feature
 features/mock_framework_integration/use_rr.feature
 features/mocks/mix_stubs_and_mocks.feature
+features/pending/pending_examples.feature
 features/step_definitions/running_rspec.rb
 features/support/env.rb
 features/support/matchers/smart_match.rb

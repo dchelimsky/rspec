@@ -72,8 +72,13 @@ WARNING
       def example(description=nil, options={}, backtrace=nil, &implementation)
         example_description = ExampleDescription.new(description, options, backtrace || caller(0)[1])
         example_descriptions << example_description
-        example_implementations[example_description] = implementation
+        example_implementations[example_description] = implementation || pending_implementation
         example_description
+      end
+      
+      def pending_implementation
+        error = Spec::Example::NotYetImplementedError.new(caller)
+        lambda { raise(error) }
       end
 
       alias_method :it, :example

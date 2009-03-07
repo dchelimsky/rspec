@@ -110,7 +110,7 @@ WARNING
       def initialize(description, options={}, &implementation)
         @_options = options
         @_defined_description = description
-        @_implementation = implementation || pending_implementation
+        @_implementation = implementation
         @_backtrace = caller
       end
 
@@ -143,11 +143,6 @@ WARNING
         self.class.example_group_hierarchy
       end
       
-      def pending_implementation
-        error = Spec::Example::NotYetImplementedError.new(caller)
-        lambda { raise(error) }
-      end
-
     end
   end
 end
