@@ -197,7 +197,7 @@ module Spec
           target_metaclass.instance_eval do
             if method_defined?(munged_sym.to_s)
               alias_method sym, munged_sym
-              undef_method munged_sym
+              remove_method munged_sym
             else
               remove_method sym
             end
