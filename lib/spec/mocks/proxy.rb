@@ -133,7 +133,7 @@ module Spec
           if target_responds_to?(sym)
             munged_sym = munge(sym)
             target_metaclass.instance_eval do
-              alias_method munged_sym, sym if method_defined?(sym.to_s)
+              alias_method munged_sym, sym if method_defined?(sym)
             end
             @proxied_methods << sym
           end
@@ -166,7 +166,7 @@ module Spec
       end
 
       def munge(sym)
-        "proxied_by_rspec__#{sym.to_s}".to_sym
+        "proxied_by_rspec__#{sym}"
       end
 
       def clear_expectations
@@ -195,7 +195,7 @@ module Spec
         @proxied_methods.each do |sym|
           munged_sym = munge(sym)
           target_metaclass.instance_eval do
-            if method_defined?(munged_sym.to_s)
+            if method_defined?(munged_sym)
               alias_method sym, munged_sym
               remove_method munged_sym
             else
