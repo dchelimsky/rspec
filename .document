@@ -1,4 +1,3 @@
-bin/*
 features/**/*.feature
 lib/**/*.rb
 History.txt
