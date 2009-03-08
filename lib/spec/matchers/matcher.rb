@@ -1,8 +1,6 @@
 module Spec
   module Matchers
     class Matcher
-      include InstanceExec
-      
       def initialize(name, expected=nil, &block_passed_to_init)
         @name = name
         @expected = expected

@@ -1,18 +1,25 @@
 require 'spec/ruby'
 
-module InstanceExec
-  if ::Spec::Ruby.version < "1.8.7"
+if ::Spec::Ruby.version < "1.8.7"
+  # based on Bounded Spec InstanceExec (Mauricio Fernandez)
+  # http://eigenclass.org/hiki/bounded+space+instance_exec
+  class Object
     module InstanceExecHelper; end
     include InstanceExecHelper
-    def instance_exec(*args, &block) # !> method redefined; discarding old instance_exec
-      mname = "__instance_exec_#{Thread.current.object_id.abs}_#{object_id.abs}"
-      InstanceExecHelper.module_eval{ define_method(mname, &block) }
+    def instance_exec(*args, &block)
       begin
-        ret = send(mname, *args)
+        orig_critical, Thread.critical = Thread.critical, true
+        n = 0
+        n += 1 while respond_to?(method_name="__instance_exec#{n}")
+        InstanceExecHelper.module_eval{ define_method(method_name, &block) }
       ensure
-        InstanceExecHelper.module_eval{ undef_method(mname) } rescue nil
+        Thread.critical = orig_critical
       end
-      ret
+      begin
+        return send(method_name, *args)
+      ensure
+        InstanceExecHelper.module_eval{ remove_method(method_name) } rescue nil
+      end
     end
   end
 end
