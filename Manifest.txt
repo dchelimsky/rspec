@@ -1,4 +1,5 @@
 .autotest
+.document
 History.txt
 License.txt
 Manifest.txt
@@ -195,6 +196,7 @@ resources/spec/simple_spec.rb
 resources/test/spec_and_test_together.rb
 resources/test/spec_including_test_but_not_unit.rb
 resources/test/test_case_with_should_methods.rb
+rspec.gemspec
 spec/README.jruby
 spec/autotest/autotest_helper.rb
 spec/autotest/autotest_matchers.rb
