@@ -34,7 +34,11 @@ load File.dirname(__FILE__) + '/resources/rake/examples_with_rcov.rake'
 load File.dirname(__FILE__) + '/resources/rake/failing_examples_with_html.rake'
 load File.dirname(__FILE__) + '/resources/rake/verify_rcov.rake'
 
-task :default => [:verify_rcov, :features]
+if RUBY_VERSION =~ /^1.8/
+  task :default => [:verify_rcov, :features]
+else
+  task :default => [:spec, :features]
+end
 
 namespace :spec do
   desc "Run all specs with rcov"
@@ -43,12 +47,14 @@ namespace :spec do
     t.spec_opts = ['--options', 'spec/spec.opts']
     t.rcov = true
     t.rcov_dir = 'coverage'
-    t.rcov_opts = ['--exclude', "lib/spec.rb,lib/spec/runner.rb,spec\/spec,bin\/spec,examples,\/gems,\/Library\/Ruby,\.autotest,#{ENV['GEM_HOME']}"]
+    t.rcov_opts = ['--exclude', "instance_exec\.rb,lib/spec.rb,lib/spec/runner.rb,spec/spec,bin/spec,examples,/gems,/Library/Ruby,\.autotest,#{ENV['GEM_HOME']}"]
   end
 end
 
 desc "Run Cucumber features"
-Cucumber::Rake::Task.new do; end
+task :features do
+  sh(RUBY_VERSION =~ /^1.8/ ? "cucumber" : "cucumber --profile no_heckle")
+end
 
 desc "Run failing examples (see failure output)"
 Spec::Rake::SpecTask.new('failing_examples') do |t|
