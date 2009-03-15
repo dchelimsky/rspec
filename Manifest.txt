@@ -120,6 +120,7 @@ lib/spec/matchers/be_close.rb
 lib/spec/matchers/be_instance_of.rb
 lib/spec/matchers/be_kind_of.rb
 lib/spec/matchers/change.rb
+lib/spec/matchers/compatibility.rb
 lib/spec/matchers/eql.rb
 lib/spec/matchers/equal.rb
 lib/spec/matchers/errors.rb
@@ -239,6 +240,7 @@ spec/spec/matchers/be_instance_of_spec.rb
 spec/spec/matchers/be_kind_of_spec.rb
 spec/spec/matchers/be_spec.rb
 spec/spec/matchers/change_spec.rb
+spec/spec/matchers/compatibility_spec.rb
 spec/spec/matchers/description_generation_spec.rb
 spec/spec/matchers/eql_spec.rb
 spec/spec/matchers/equal_spec.rb

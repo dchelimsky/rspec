@@ -23,6 +23,7 @@ require 'spec/matchers/satisfy'
 require 'spec/matchers/simple_matcher'
 require 'spec/matchers/throw_symbol'
 require 'spec/matchers/wrap_expectation'
+require 'spec/matchers/compatibility'
 
 module Spec
 
