@@ -1,4 +1,4 @@
-# Upgrade to rspec-1.1.99.x (pre rspec-1.2)
+# Upgrade to rspec-1.2.0
 
 ## What's Changed
 
@@ -17,29 +17,30 @@
     Test::Unit::TestCase as the base ExampleGroup class (which is implicit
     in rspec-rails)
 
-* The matcher protocol has been improved. The old protocol is still
-  supported, so as long as you're not monkey patching rspec's built-in
-  matchers, or using extension libraries that do, this should not affect
-  you. If you run into trouble, you'll just need to change:
+* The matcher protocol has been improved. The old protocol is still supported,
+  but we added support for two new methods that speak a bit more clearly:
   
   * ``failure_message          => failure_message_for_should``
   * ``negative_failure_message => failure_message_for_should_not``
 
 * All references to rubygems have been removed from within rspec's code.
 
-  * See Ryan Tomayko's http://gist.github.com/54177 for rationale and
-    suggestions on alternative approaches to loading rubygems
+  * See http://gist.github.com/54177 for rationale and suggestions on
+    alternative approaches to loading rubygems
 
 ## What's new
 
 ### Ruby 1.9
 
-RSpec (core only - not rails yet) now works with Ruby 1.9.1
+RSpec now works with Ruby 1.9.1. See
+[http://wiki.github.com/dchelimsky/rspec/ruby-191](http://wiki.github.com/dchelimsky/rspec/ruby-191)
+for useful information.
 
 ### Improved heckle integration
 
-RSpec works with heckle again! Gotta use heckle >= 1.4.2 for this to work
-though.
+RSpec works with heckle again [1]! Gotta use heckle >= 1.4.2 for this to work
+though, and it only works with ruby-1.8.6 and 1.8.7 (heckle doesn't support
+1.9.1 yet).
 
     [sudo] gem install heckle --version ">=1.4.2"
     spec spec/game/mastermind.rb --heckle Game::Mastermind

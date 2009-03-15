@@ -56,7 +56,6 @@ examples/passing/stack_spec_with_nested_example_groups.rb
 examples/passing/stubbing_example.rb
 examples/passing/yielding_example.rb
 examples/ruby1.9.compatibility/access_to_constants_spec.rb
-features-pending/cli/conditional_exclusion.feature
 features/before_and_after_blocks/before_and_after_blocks.feature
 features/example_groups/example_group_with_should_methods.feature
 features/example_groups/implicit_docstrings.feature

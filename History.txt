@@ -1,4 +1,4 @@
-=== Version 1.1.99.x (in git)
+=== Version 1.2.0
 
 WARNINGS:
 
@@ -25,8 +25,8 @@ WARNINGS:
       
   * All references to rubygems have been removed from within rspec's code.
   
-    * See Ryan Tomayko's http://gist.github.com/54177 for rationale and
-      suggestions on alternative approaches to loading rubygems
+    * See http://gist.github.com/54177 for rationale and suggestions on
+      alternative approaches to loading rubygems
 
 * deprecations
 
