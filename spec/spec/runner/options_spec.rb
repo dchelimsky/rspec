@@ -106,6 +106,12 @@ module Spec
           @options.dry_run.should == false
         end
       end
+      
+      describe "#debug" do
+        it "should default to false" do
+          @options.debug.should == false
+        end
+      end
 
       describe "#context_lines" do
         it "should default to 3" do
@@ -215,6 +221,22 @@ module Spec
         end
       end
 
+      describe "debug option specified" do
+        it "should cause ruby_debug to be required and do nothing" do
+          @options.debug = true
+          @options.should_receive(:require_ruby_debug)
+          @options.run_examples.should be_true
+        end
+      end
+      
+      describe "debug option not specified" do
+        it "should not cause ruby_debug to be required" do
+          @options.debug = false
+          @options.should_not_receive(:require_ruby_debug)
+          @options.run_examples.should be_true
+        end
+      end
+      
       describe "#load_class" do
         it "should raise error when not class name" do
           lambda do

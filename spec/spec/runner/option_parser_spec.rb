@@ -24,6 +24,26 @@ describe "OptionParser" do
     options.filename_pattern.should == "foo"
   end
   
+  it "should accept debugger option" do
+    options = parse(["--debugger"])
+    options.debug.should be_true
+  end
+  
+  it "should accept -u form of debugger option" do
+    options = parse(["-u"])
+    options.debug.should be_true
+  end
+  
+  it "should turn off the debugger option if drb is specified later" do
+    options = parse(["-u", "--drb"])
+    options.debug.should_not be_true
+  end
+  
+  it "should turn off the debugger option if drb is specified first" do
+    options = parse(["--drb", "-u"])
+    options.debug.should_not be_true
+  end
+  
   it "should accept dry run option" do
     options = parse(["--dry-run"])
     options.dry_run.should be_true

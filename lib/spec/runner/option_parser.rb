@@ -78,6 +78,7 @@ module Spec
         :options_file => ["-O", "--options PATH", "Read options from a file"],
         :generate_options => ["-G", "--generate-options PATH", "Generate an options file for --options"],
         :runner => ["-U", "--runner RUNNER", "Use a custom Runner."],
+        :debug => ["-u", "--debugger", "Enable ruby-debugging."],
         :drb => ["-X", "--drb", "Run examples via DRb. (For example against script/spec_server)"],
         :version => ["-v", "--version", "Show version"],
         :help => ["-h", "--help", "You're looking at it"]
@@ -110,6 +111,7 @@ module Spec
         on(*OPTIONS[:options_file])     {|options_file|}
         on(*OPTIONS[:generate_options]) {|options_file|}
         on(*OPTIONS[:runner])           {|runner|  @options.user_input_for_runner = runner}
+        on(*OPTIONS[:debug])            {@options.debug = true}
         on(*OPTIONS[:drb])              {}
         on(*OPTIONS[:version])          {parse_version}
         on("--autospec")                {@options.autospec = true}
@@ -135,7 +137,8 @@ module Spec
         @options
       end
       
-      protected
+    protected
+
       def invoke_requires(requires)
         requires.split(",").each do |file|
           require file

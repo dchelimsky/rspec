@@ -34,6 +34,7 @@ module Spec
         :dry_run,
         :profile,
         :heckle_runner,
+        :debug,
         :line_number,
         :loadby,
         :reporter,
@@ -57,6 +58,7 @@ module Spec
         @colour = false
         @profile = false
         @dry_run = false
+        @debug = false
         @reporter = Reporter.new(self)
         @context_lines = 3
         @diff_format  = :unified
@@ -77,7 +79,12 @@ module Spec
         @example_groups.delete(example_group)
       end
 
+      def require_ruby_debug
+        require 'ruby-debug'
+      end
+
       def run_examples
+        require_ruby_debug if debug
         return true unless examples_should_be_run?
         success = true
         begin

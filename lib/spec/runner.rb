@@ -8,6 +8,7 @@ require 'spec/runner/backtrace_tweaker'
 require 'spec/runner/reporter'
 require 'spec/runner/spec_parser'
 require 'spec/runner/class_and_arguments_parser'
+require 'spec/runner/extensions/kernel'
 
 module Spec
   module Runner
