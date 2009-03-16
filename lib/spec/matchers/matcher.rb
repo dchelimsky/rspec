@@ -2,6 +2,7 @@ module Spec
   module Matchers
     class Matcher
       include Spec::Matchers::Pretty
+      
       def initialize(name, *expected, &declarations)
         @name = name
         @expected = expected
@@ -44,7 +45,7 @@ module Spec
       end
     
       def name_to_sentence
-        @name_to_sentence ||= @name.to_s.gsub(/_/,' ')
+        split_words(@name)
       end
       
       def expected_to_sentence
