@@ -1,3 +1,9 @@
+=== dev
+
+* enhancments
+
+  * added support for 0 to n args in matcher DSL
+
 === Version 1.2.0
 
 WARNINGS:

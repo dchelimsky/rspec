@@ -113,3 +113,43 @@ Feature: custom matcher shortcut
     And the stdout should match "2 examples, 0 failures"
     And the stdout should match "should be multiple of 3"
     And the stdout should match "should not be multiple of 4"
+
+  Scenario: with no args
+    Given the following spec:
+      """
+      Spec::Matchers.create :have_7_fingers do
+        match do |thing|
+          thing.fingers.length == 7
+        end
+      end
+      
+      class Thing
+        def fingers; (1..7).collect {"finger"}; end
+      end
+
+      describe Thing do
+        it {should have_7_fingers}
+      end
+      """
+    When I run it with the spec command --format specdoc
+    Then the exit code should be 0
+    And the stdout should match "1 example, 0 failures"
+    And the stdout should match "should have 7 fingers"
+  
+  Scenario: with multiple args
+    Given the following spec:
+      """
+      Spec::Matchers.create :be_the_sum_of do |a,b,c,d|
+        match do |sum|
+          a + b + c + d == sum
+        end
+      end
+
+      describe 10 do
+        it {should be_the_sum_of(1,2,3,4)}
+      end
+      """
+    When I run it with the spec command --format specdoc
+    Then the exit code should be 0
+    And the stdout should match "1 example, 0 failures"
+    And the stdout should match "should be the sum of 1, 2, 3, and 4"

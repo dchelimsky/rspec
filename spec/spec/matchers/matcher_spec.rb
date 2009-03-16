@@ -90,8 +90,60 @@ module Spec
         end
       end
 
-      context "matching with overrides" do
+      context "with no args" do
+        before(:each) do
+          @matcher = Spec::Matchers::Matcher.new(:matcher_name) do 
+            match do |actual|
+              actual == 5
+            end
+          end 
+        end
+        
+        it "matches" do
+          @matcher.matches?(5).should be_true
+        end
+        
+        it "describes" do
+          @matcher.description.should == "matcher name"
+        end
       end
+      
+      context "with 1 arg" do
+        before(:each) do
+          @matcher = Spec::Matchers::Matcher.new(:matcher_name, 1) do |expected|
+            match do |actual|
+              actual == 5 && expected == 1
+            end
+          end
+        end
+        
+        it "matches" do
+          @matcher.matches?(5).should be_true
+        end
+        
+        it "describes" do
+          @matcher.description.should == "matcher name 1"
+        end
+      end
+      
+      context "with multiple args" do
+        before(:each) do
+          @matcher = Spec::Matchers::Matcher.new(:matcher_name, 1, 2, 3, 4) do |a,b,c,d|
+            match do |sum|
+              a + b + c + d == sum
+            end
+          end
+        end
+        
+        it "matches" do
+          @matcher.matches?(10).should be_true
+        end
+        
+        it "describes" do
+          @matcher.description.should == "matcher name 1, 2, 3, and 4"
+        end
+      end
+
     end
   end
 end

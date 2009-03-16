@@ -1,21 +1,21 @@
 module Spec
   module Matchers
     class Matcher
-      def initialize(name, expected=nil, &block_passed_to_init)
+      def initialize(name, *expected, &declarations)
         @name = name
         @expected = expected
-        @block = block_passed_to_init
+        @declarations = declarations
         @messages = {
-          :description => lambda {"#{name_to_sentence} #{expected}"},
-          :failure_message_for_should => lambda {|actual| "expected #{actual} to #{name_to_sentence} #{expected}"},
-          :failure_message_for_should_not => lambda {|actual| "expected #{actual} not to #{name_to_sentence} #{expected}"}
+          :description => lambda {"#{name_to_sentence}#{expected_to_sentence}"},
+          :failure_message_for_should => lambda {|actual| "expected #{actual} to #{name_to_sentence}#{expected_to_sentence}"},
+          :failure_message_for_should_not => lambda {|actual| "expected #{actual} not to #{name_to_sentence}#{expected_to_sentence}"}
         }
       end
       
       def matches?(actual)
         @actual = actual
-        instance_exec @expected, &@block
-        instance_exec @actual, &@match_block
+        instance_exec(*@expected, &@declarations)
+        instance_exec(@actual,    &@match_block)
       end
       
       def description(&block)
@@ -44,6 +44,17 @@ module Spec
     
       def name_to_sentence
         @name_to_sentence ||= @name.to_s.gsub(/_/,' ')
+      end
+      
+      def expected_to_sentence
+        case @expected.length
+          when 0
+            ""
+          when 1
+            " #{@expected[0]}"
+          else
+            " #{@expected[0...-1].join(', ')}, and #{@expected[-1]}"
+        end
       end
     
     end
