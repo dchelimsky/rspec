@@ -1,4 +1,5 @@
 require 'spec/matchers/extensions/instance_exec'
+require 'spec/matchers/pretty'
 require 'spec/matchers/matcher'
 require 'spec/matchers/operator_matcher'
 require 'spec/matchers/be'

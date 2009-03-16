@@ -2,6 +2,8 @@ module Spec
   module Matchers
     
     class Be #:nodoc:
+      include Spec::Matchers::Pretty
+      
       def initialize(*args)
         @expected = args.empty? ? true : set_expected(args.shift)
         @args = args
@@ -142,19 +144,8 @@ it reads really poorly.
           split_words(prefix)
         end
 
-        def split_words(sym)
-          sym.to_s.gsub(/_/,' ')
-        end
-
         def args_to_sentence
-          case @args.length
-            when 0
-              ""
-            when 1
-              " #{@args[0]}"
-            else
-              " #{@args[0...-1].join(', ')} and #{@args[-1]}"
-          end
+          to_sentence(@args)
         end
         
     end

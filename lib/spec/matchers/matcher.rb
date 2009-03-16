@@ -1,6 +1,7 @@
 module Spec
   module Matchers
     class Matcher
+      include Spec::Matchers::Pretty
       def initialize(name, *expected, &declarations)
         @name = name
         @expected = expected
@@ -47,14 +48,7 @@ module Spec
       end
       
       def expected_to_sentence
-        case @expected.length
-          when 0
-            ""
-          when 1
-            " #{@expected[0]}"
-          else
-            " #{@expected[0...-1].join(', ')}, and #{@expected[-1]}"
-        end
+        to_sentence(@expected)
       end
     
     end
