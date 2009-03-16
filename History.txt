@@ -4,7 +4,7 @@
 
   * added support for 0 to n args in matcher DSL
 
-=== Version 1.2.0
+=== Version 1.2.0 / 2009-03-15
 
 WARNINGS:
 
