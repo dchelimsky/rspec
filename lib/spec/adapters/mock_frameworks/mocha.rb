@@ -1,3 +1,4 @@
+require 'rubygems' unless ENV['DONT_MAKE_ME_USE_RUBYGEMS']
 require 'mocha/standalone'
 require 'mocha/object'
 

@@ -1,15 +1,7 @@
 begin
   require 'autotest'
 rescue LoadError
-  if ENV['DONT_MAKE_ME_USE_RUBYGEMS']
-    raise <<-MESSAGE
-
-We need to load autotest, but you've set the
-DONT_MAKE_ME_USE_RUBYGEMS environment variable 
-and failed to supply a means of loading autotest.
-MESSAGE
-  end
-  require 'rubygems'
+  require 'rubygems' unless ENV['DONT_MAKE_ME_USE_RUBYGEMS']
   require 'autotest'
 end
 dir = File.dirname(__FILE__)

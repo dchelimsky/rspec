@@ -3,6 +3,7 @@
 #  Created by Jim Weirich on 2007-04-10.
 #  Copyright (c) 2007. All rights reserved.
 
+require 'rubygems' unless ENV['DONT_MAKE_ME_USE_RUBYGEMS']
 require 'flexmock/rspec'
 
 module Spec
