@@ -6,13 +6,6 @@ require 'spec/version'
 require 'spec/rake/spectask'
 require 'cucumber/rake/task'
 
-class Hoe
-  def extra_deps
-    @extra_deps.reject! { |x| Array(x).first == 'hoe' }
-    @extra_deps
-  end
-end
-
 Hoe.new('rspec', Spec::VERSION::STRING) do |p|
   p.summary = Spec::VERSION::SUMMARY
   p.url = 'http://rspec.info/'
