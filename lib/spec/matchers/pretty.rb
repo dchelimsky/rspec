@@ -17,6 +17,20 @@ module Spec
             " #{words[0...-1].join(', ')}, and #{words[-1]}"
         end
       end
+
+      def _pretty_print(array)
+        result = ""
+        array.each_with_index do |item, index|
+          if index < (array.length - 2)
+            result << "#{item.inspect}, "
+          elsif index < (array.length - 1)
+            result << "#{item.inspect} and "
+          else
+            result << "#{item.inspect}"
+          end
+        end
+        result
+      end
     end
   end
 end
