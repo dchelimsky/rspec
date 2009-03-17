@@ -6,7 +6,7 @@
   * added support for 0 to n args in matcher DSL
   * restored loading rubygems when necessary
     * if you really don't want to use rubygems, you
-      can set an DONT_MAKE_ME_USE_RUBYGEMS environment
+      can set an NO_RUBYGEMS environment
       variable, and RSpec won't force it on you.
   * added -u/--debugger option (Rick DeNatale) #262.
     * just add "debugger" anywhere in your code and run spec path/to/code --debugger

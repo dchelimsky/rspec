@@ -1,7 +1,7 @@
 begin
   require 'autotest'
 rescue LoadError
-  require 'rubygems' unless ENV['DONT_MAKE_ME_USE_RUBYGEMS']
+  require 'rubygems' unless ENV['NO_RUBYGEMS']
   require 'autotest'
 end
 dir = File.dirname(__FILE__)
