@@ -2,6 +2,7 @@
 
 * enhancments
 
+  * matchers, including the new DSL, easily added to your test/unit tests
   * added support for 0 to n args in matcher DSL
   * restored loading rubygems when necessary
     * if you really don't want to use rubygems, you

@@ -1,3 +1,30 @@
+# Upgrade to rspec-1.2.1 (in dev)
+
+## What's Changed
+
+* After minor public outcry and confusion, we restored necessary references to
+  rubygems in rspec. They only appear if you are running the --diff option (in
+  order to load diff-lcs) or if you're running rspec's own specs. If you find
+  yourself in either situation, and don't use rubygems, you can keep it from
+  being loaded by setting the ``I_DONT_USE_RUBY_GEMS`` environment variable.
+  I'm serious.
+  
+## What's new
+
+### The new matcher DSL works with test/unit (without the rest of rspec)
+
+We'll be separating this out to its own gem for rspec 2.0, but for now, just install
+rspec >= 1.2.1 and add the following to your ``test_helper`` file:
+  
+    require 'spec/expectations'
+    class Test::Unit::TestCase
+      include Spec::Matchers
+    end
+    
+This will add ``should()`` and ``should_not()`` to your objects, make all of
+rspec's built-in matchers available to your tests, INCLUDING rspec's DSL for
+creating matchers (see below, under Upgrade to rspec-1.2.0)
+
 # Upgrade to rspec-1.2.0
 
 ## What's Changed
@@ -28,7 +55,7 @@
   * See http://gist.github.com/54177 for rationale and suggestions on
     alternative approaches to loading rubygems
 
-## What's new
+## What's New
 
 ### Ruby 1.9
 
@@ -60,4 +87,4 @@ new syntax.
 
     9.should be_a_multiple_of(3)
 
-See ``features/matchers/create_matcher_.feature`` for more examples
+See ``features/matchers/create_matcher.feature`` for more examples
