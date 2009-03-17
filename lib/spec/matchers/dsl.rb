@@ -1,6 +1,6 @@
 module Spec
-  module DSL
-    module Matchers
+  module Matchers
+    module DSL
       def create(name, &block_passed_to_create)
         define_method name do |*expected|
           Spec::Matchers::Matcher.new name, *expected, &block_passed_to_create
@@ -10,4 +10,6 @@ module Spec
   end
 end
 
-Spec::Matchers.extend Spec::DSL::Matchers
+Spec::Matchers.extend Spec::Matchers::DSL
+
+      

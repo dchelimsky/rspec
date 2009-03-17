@@ -14,7 +14,7 @@ Feature: pending examples
     Then the exit code should be 0
     And the stdout should match "1 example, 0 failures, 1 pending"
     And the stdout should match "Not Yet Implemented"
-    And the stdout should match "current_example.rb:2"
+    And the stdout should match "current_example.rb:3"
     
   Scenario: pending implementation with spec/test/unit
     Given the following spec:
@@ -28,7 +28,7 @@ Feature: pending examples
     Then the exit code should be 0
     And the stdout should match "1 example, 0 failures, 1 pending"
     And the stdout should match "Not Yet Implemented"
-    And the stdout should match "current_example.rb:3"
+    And the stdout should match "current_example.rb:4"
 
   Scenario: pending any arbitary reason, with no block
     Given the following spec:
@@ -43,7 +43,7 @@ Feature: pending examples
     Then the exit code should be 0
     And the stdout should match "1 example, 0 failures, 1 pending"
     And the stdout should match "(something else getting finished)"
-    And the stdout should match "current_example.rb:3"
+    And the stdout should match "current_example.rb:4"
 
   Scenario: pending any arbitary reason, with a block
     Given the following spec:
@@ -60,7 +60,7 @@ Feature: pending examples
     Then the exit code should be 0
     And the stdout should match "1 example, 0 failures, 1 pending"
     And the stdout should match "(something else getting finished)"
-    And the stdout should match "current_example.rb:3"
+    And the stdout should match "current_example.rb:4"
 
   Scenario: pending any arbitary reason, with a block that passes
     Given the following spec:
@@ -78,4 +78,4 @@ Feature: pending examples
     And the stdout should match "1 example, 1 failure"
     And the stdout should match "FIXED"
     And the stdout should match "Expected pending 'something else getting finished' to fail. No Error was raised."
-    And the stdout should match "current_example.rb:3"
+    And the stdout should match "current_example.rb:4"
