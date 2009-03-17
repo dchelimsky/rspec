@@ -3,6 +3,10 @@
 * enhancments
 
   * added support for 0 to n args in matcher DSL
+  * restored loading rubygems when necessary
+    * if you really don't want to use rubygems, you
+      can set an DONT_MAKE_ME_USE_RUBYGEMS environment
+      variable, and RSpec won't force it on you.
 
 === Version 1.2.0 / 2009-03-15
 
