@@ -149,6 +149,7 @@ module Spec
         if @colour && RUBY_PLATFORM =~ /mswin|mingw/ ;\
           begin ;\
             replace_output = @output_stream.equal?($stdout) ;\
+            require 'rubygems' unless ENV['NO_RUBYGEMS'] ;\
             require 'Win32/Console/ANSI' ;\
             @output_stream = $stdout if replace_output ;\
           rescue LoadError ;\
