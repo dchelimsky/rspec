@@ -1,7 +1,10 @@
 # -*- ruby -*-
 
-$:.unshift(File.join(File.dirname(__FILE__), 'lib'))
+gem 'hoe', '>=1.9.0'
 require 'hoe'
+
+$:.unshift(File.join(File.dirname(__FILE__), 'lib'))
+
 require 'spec/version'
 require 'spec/rake/spectask'
 require 'cucumber/rake/task'

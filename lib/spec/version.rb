@@ -1,13 +1,11 @@
 module Spec # :nodoc:
   module VERSION # :nodoc:
     unless defined? MAJOR
-      RELEASE = false
       MAJOR  = 1
       MINOR  = 2
-      TINY   = 0
-      BUILD = lambda {RELEASE ? nil : Time.new.to_i}
+      TINY   = 1
       
-      STRING = [MAJOR, MINOR, TINY, BUILD.call].compact.join('.')
+      STRING = [MAJOR, MINOR, TINY].compact.join('.')
 
       SUMMARY = "rspec #{STRING}"
     end
