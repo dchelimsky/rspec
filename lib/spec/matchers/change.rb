@@ -6,6 +6,7 @@ module Spec
       def initialize(receiver=nil, message=nil, &block)
         @message = message || "result"
         @value_proc = block || lambda {receiver.__send__(message)}
+        @to = @from = @minimum = @maximum = @amount = nil
       end
       
       def matches?(event_proc)

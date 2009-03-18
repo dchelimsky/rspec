@@ -31,7 +31,7 @@ module Spec
   # matchers is quite simple. See Spec::Matchers for details.
   module Expectations
     def self.differ
-      @differ
+      defined?(@differ) ? @differ : nil
     end
     
     def self.differ=(differ)

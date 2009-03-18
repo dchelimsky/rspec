@@ -7,6 +7,8 @@ module Spec
       def initialize(args, &block)
         @args = args
         @matchers_block = block
+        @match_any_args = false
+        @matchers = nil
         
         if ArgumentMatchers::AnyArgsMatcher === args.first
           @match_any_args = true

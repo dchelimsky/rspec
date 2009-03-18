@@ -16,7 +16,8 @@ module Spec
         # See +ExampleMethods#should+ for more information about this approach.
         def subject(&block)
           if block.nil?
-            @_subject_block || (described_class ? lambda {described_class.new} : lambda {description_args.first})
+            defined?(@_subject_block) ? @_subject_block :
+              (described_class ? lambda {described_class.new} : lambda {description_args.first})
           else
             @_subject_block = block
           end

@@ -25,6 +25,8 @@ module Spec
         @at_least = nil
         @at_most = nil
         @args_to_yield = []
+        @failed_fast = nil
+        @args_to_yield_were_cloned = false
       end
       
       def build_child(expected_from, method_block, expected_received_count, opts={})

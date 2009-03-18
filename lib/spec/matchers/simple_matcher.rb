@@ -6,6 +6,7 @@ module Spec
       def initialize(description, &match_block)
         @description = description
         @match_block = match_block
+        @failure_message = @negative_failure_message = nil
       end
 
       def matches?(given)

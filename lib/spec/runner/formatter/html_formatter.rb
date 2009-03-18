@@ -11,6 +11,7 @@ module Spec
           super
           @example_group_number = 0
           @example_number = 0
+          @header_red = nil
         end
         
         def method_missing(sym, *args)

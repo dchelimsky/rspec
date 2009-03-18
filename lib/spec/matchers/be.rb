@@ -7,6 +7,7 @@ module Spec
       def initialize(*args)
         @expected = args.empty? ? true : set_expected(args.shift)
         @args = args
+        @comparison_method = nil
       end
       
       def matches?(actual)
@@ -100,6 +101,9 @@ it reads really poorly.
         end
         
         def prefix
+          # FIXME - this is a bit goofy - but we get failures
+          # if just defining @prefix = nil in initialize
+          @prefix = nil unless defined?(@prefix)
           @prefix
         end
 
@@ -109,7 +113,9 @@ it reads really poorly.
         
         def handling_predicate?
           return false if [true, false, nil].include?(expected)
-          return @handling_predicate
+          # FIXME - this is a bit goofy - but we get failures
+          # if just defining @handling_predicate = nil or false in initialize
+          return defined?(@handling_predicate) ? @handling_predicate : nil
         end
 
         def predicate

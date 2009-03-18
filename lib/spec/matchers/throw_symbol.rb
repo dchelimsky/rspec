@@ -5,7 +5,7 @@ module Spec
       def initialize(expected_symbol = nil, expected_arg=nil)
         @expected_symbol = expected_symbol
         @expected_arg = expected_arg
-        @caught_symbol = nil
+        @caught_symbol = @caught_arg = nil
       end
       
       def matches?(given_proc)

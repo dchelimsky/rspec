@@ -19,7 +19,7 @@ module Spec
       
       # Provides the backtrace up to where this example_group was declared.
       def backtrace
-        @backtrace
+        defined?(@backtrace) ? @backtrace : nil
       end
 
       # Deprecated - use +backtrace()+

@@ -25,6 +25,7 @@ module Spec
         @stubs = []
         @proxied_methods = []
         @options = options ? DEFAULT_OPTIONS.dup.merge(options) : DEFAULT_OPTIONS
+        @already_proxied_respond_to = false
       end
 
       def null_object?
@@ -128,8 +129,8 @@ module Spec
       end
       
       def define_expected_method(sym)
-        visibility_string = "#{visibility(sym)} :#{sym}"
         unless @proxied_methods.include?(sym)
+          visibility_string = "#{visibility(sym)} :#{sym}"
           if target_responds_to?(sym)
             munged_sym = munge(sym)
             target_metaclass.instance_eval do
@@ -137,14 +138,13 @@ module Spec
             end
             @proxied_methods << sym
           end
+          target_metaclass.class_eval(<<-EOF, __FILE__, __LINE__)
+            def #{sym}(*args, &block)
+              __mock_proxy.message_received :#{sym}, *args, &block
+            end
+            #{visibility_string}
+          EOF
         end
-
-        target_metaclass.class_eval(<<-EOF, __FILE__, __LINE__)
-          def #{sym}(*args, &block)
-            __mock_proxy.message_received :#{sym}, *args, &block
-          end
-          #{visibility_string}
-        EOF
       end
 
       def target_responds_to?(sym)
@@ -195,11 +195,10 @@ module Spec
         @proxied_methods.each do |sym|
           munged_sym = munge(sym)
           target_metaclass.instance_eval do
+            remove_method sym
             if method_defined?(munged_sym)
               alias_method sym, munged_sym
               remove_method munged_sym
-            else
-              remove_method sym
             end
           end
         end
