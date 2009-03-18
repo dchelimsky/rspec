@@ -66,6 +66,7 @@ features/interop/examples_and_tests_together.feature
 features/interop/test_but_not_test_unit.feature
 features/interop/test_case_with_should_methods.feature
 features/matchers/create_matcher.feature
+features/matchers/create_matcher_outside_rspec.feature
 features/mock_framework_integration/use_flexmock.feature
 features/mock_framework_integration/use_mocha.feature
 features/mock_framework_integration/use_rr.feature
@@ -85,7 +86,6 @@ lib/spec/adapters/mock_frameworks/rspec.rb
 lib/spec/autorun.rb
 lib/spec/dsl.rb
 lib/spec/dsl/main.rb
-lib/spec/dsl/matchers.rb
 lib/spec/example.rb
 lib/spec/example/before_and_after_hooks.rb
 lib/spec/example/errors.rb
@@ -103,6 +103,7 @@ lib/spec/example/shared_example_group.rb
 lib/spec/example/subject.rb
 lib/spec/expectations.rb
 lib/spec/expectations/differs/default.rb
+lib/spec/expectations/differs/load-diff-lcs.rb
 lib/spec/expectations/errors.rb
 lib/spec/expectations/extensions.rb
 lib/spec/expectations/extensions/object.rb
@@ -120,6 +121,7 @@ lib/spec/matchers/be_instance_of.rb
 lib/spec/matchers/be_kind_of.rb
 lib/spec/matchers/change.rb
 lib/spec/matchers/compatibility.rb
+lib/spec/matchers/dsl.rb
 lib/spec/matchers/eql.rb
 lib/spec/matchers/equal.rb
 lib/spec/matchers/errors.rb
@@ -134,6 +136,7 @@ lib/spec/matchers/match_array.rb
 lib/spec/matchers/matcher.rb
 lib/spec/matchers/method_missing.rb
 lib/spec/matchers/operator_matcher.rb
+lib/spec/matchers/pretty.rb
 lib/spec/matchers/raise_error.rb
 lib/spec/matchers/respond_to.rb
 lib/spec/matchers/satisfy.rb
@@ -165,6 +168,7 @@ lib/spec/runner/command_line.rb
 lib/spec/runner/configuration.rb
 lib/spec/runner/drb_command_line.rb
 lib/spec/runner/example_group_runner.rb
+lib/spec/runner/extensions/kernel.rb
 lib/spec/runner/formatter/base_formatter.rb
 lib/spec/runner/formatter/base_text_formatter.rb
 lib/spec/runner/formatter/failing_example_groups_formatter.rb
@@ -204,7 +208,6 @@ spec/rspec_suite.rb
 spec/ruby_forker.rb
 spec/spec.opts
 spec/spec/dsl/main_spec.rb
-spec/spec/dsl/matchers_spec.rb
 spec/spec/example/example_group_class_definition_spec.rb
 spec/spec/example/example_group_factory_spec.rb
 spec/spec/example/example_group_methods_spec.rb
@@ -241,6 +244,7 @@ spec/spec/matchers/be_spec.rb
 spec/spec/matchers/change_spec.rb
 spec/spec/matchers/compatibility_spec.rb
 spec/spec/matchers/description_generation_spec.rb
+spec/spec/matchers/dsl_spec.rb
 spec/spec/matchers/eql_spec.rb
 spec/spec/matchers/equal_spec.rb
 spec/spec/matchers/exist_spec.rb
@@ -251,6 +255,7 @@ spec/spec/matchers/match_array_spec.rb
 spec/spec/matchers/match_spec.rb
 spec/spec/matchers/matcher_methods_spec.rb
 spec/spec/matchers/matcher_spec.rb
+spec/spec/matchers/matchers_spec.rb
 spec/spec/matchers/operator_matcher_spec.rb
 spec/spec/matchers/raise_error_spec.rb
 spec/spec/matchers/respond_to_spec.rb
