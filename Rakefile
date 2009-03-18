@@ -18,6 +18,16 @@ Hoe.new('rspec', Spec::VERSION::STRING) do |p|
   p.extra_dev_deps = [["cucumber",">= 0.1.13"]]
   p.remote_rdoc_dir = "rspec/#{Spec::VERSION::STRING}"
   p.rspec_options = ['--options', 'spec/spec.opts']
+  p.post_install_message = <<-POST_INSTALL_MESSAGE
+#{'*'*50}
+
+  Thank you for installing rspec-#{Spec::VERSION::STRING}
+
+  Please be sure to read History.txt and Upgrade.markdown
+  for useful information about this release.
+
+#{'*'*50}
+POST_INSTALL_MESSAGE
 end
 
 ['audit','test','test_deps','default','post_blog'].each do |task|
