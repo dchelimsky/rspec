@@ -18,6 +18,16 @@ module Spec
           # no-op
         end
 
+        private :method_missing
+
+        def respond_to?(message, include_private = false)
+          if include_private
+            true
+          else
+            !private_methods.include?(message.to_s)
+          end
+        end
+
         # The number of the currently running example_group
         def example_group_number
           @example_group_number
