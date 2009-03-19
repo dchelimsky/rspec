@@ -9,6 +9,7 @@ module Spec
       #   null object allowing any message to be sent to it.
       def initialize(name, stubs_and_options={})
         @name = name
+        @stubs_and_options = stubs_and_options
         @options = parse_options(stubs_and_options)
         assign_stubs(stubs_and_options)
       end
@@ -19,6 +20,10 @@ module Spec
       # target.
       def ==(other)
         other == __mock_proxy
+      end
+
+      def dup
+        self.class.new(@name, @stubs_and_options)
       end
 
       def method_missing(sym, *args, &block)
