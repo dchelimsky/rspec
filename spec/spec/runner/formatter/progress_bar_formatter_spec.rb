@@ -143,6 +143,27 @@ HERE
           @io.string.should eql("")
         end
       end
+
+      describe ProgressBarFormatter, "method_missing" do
+        it "should have method_missing as private" do
+          ProgressBarFormatter.private_instance_methods.should include("method_missing")
+        end
+
+        it "should respond_to? all messages" do
+          formatter = ProgressBarFormatter.new({ }, StringIO.new)
+          formatter.should respond_to(:just_about_anything)
+        end
+
+        it "should respond_to? anything, when given the private flag" do
+          formatter = ProgressBarFormatter.new({ }, StringIO.new)
+          formatter.respond_to?(:method_missing, true).should be_true
+        end
+
+        it "should not respond_to? method_missing (because it's private)" do
+          formatter = ProgressBarFormatter.new({ }, StringIO.new)
+          formatter.respond_to?(:method_missing).should be_false
+        end
+      end
     end
   end
 end
