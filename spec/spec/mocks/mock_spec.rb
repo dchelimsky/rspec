@@ -575,5 +575,11 @@ module Spec
         second == first
       end
     end
+
+    describe "method_missing" do
+      it "should be private" do
+        Mock.private_instance_methods.should include("method_missing")
+      end
+    end
   end
 end
