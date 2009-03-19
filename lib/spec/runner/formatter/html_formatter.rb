@@ -173,7 +173,7 @@ EOF
 
 <div id="rspec-header">
   <div id="label">
-    <h1>RSpec Results</h1>
+    <h1>RSpec Code Examples</h1>
   </div>
 
   <div id="summary">
