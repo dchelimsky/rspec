@@ -63,8 +63,8 @@ module Spec
 
       it "should handle multiple examples with the same name" do
         error=RuntimeError.new
-        passing = ::Spec::Example::ExampleGroupDouble.new(Spec::Example::ExampleProxy.new(nil))
-        failing = ::Spec::Example::ExampleGroupDouble.new(Spec::Example::ExampleProxy.new(nil))
+        passing = ::Spec::Example::ExampleGroupDouble.new(Spec::Example::ExampleProxy.new)
+        failing = ::Spec::Example::ExampleGroupDouble.new(Spec::Example::ExampleProxy.new)
 
         formatter.should_receive(:add_example_group).exactly(2).times
         formatter.should_receive(:example_passed).with(description_of(passing)).exactly(2).times
@@ -141,11 +141,11 @@ module Spec
         it "should delegate to backtrace tweaker" do
           formatter.should_receive(:example_failed)
           backtrace_tweaker.should_receive(:tweak_backtrace)
-          reporter.example_finished(Spec::Example::ExampleProxy.new(nil), RuntimeError.new)
+          reporter.example_finished(Spec::Example::ExampleProxy.new, RuntimeError.new)
         end
       
         it "should account for failing example in stats" do
-          example = ::Spec::Example::ExampleGroupDouble.new(Spec::Example::ExampleProxy.new(nil))
+          example = ::Spec::Example::ExampleGroupDouble.new(Spec::Example::ExampleProxy.new)
           formatter.should_receive(:example_failed).with(description_of(example), 1, failure)
           formatter.should_receive(:start_dump)
           formatter.should_receive(:dump_pending)
@@ -165,7 +165,7 @@ module Spec
         end
         
         it "should tell formatter example is pending" do
-          example = ExampleGroup.new(Spec::Example::ExampleProxy.new(nil))
+          example = ExampleGroup.new(Spec::Example::ExampleProxy.new)
           formatter.should_receive(:example_pending).with(description_of(example), "reason", @pending_caller)
           formatter.should_receive(:add_example_group).with(example_group)
           example_group.notify(reporter)
@@ -173,7 +173,7 @@ module Spec
         end
       
         it "should account for pending example in stats" do
-          example = ExampleGroup.new(Spec::Example::ExampleProxy.new(nil))
+          example = ExampleGroup.new(Spec::Example::ExampleProxy.new)
           formatter.should_receive(:example_pending).with(description_of(example), "reason", @pending_caller)
           formatter.should_receive(:start_dump)
           formatter.should_receive(:dump_pending)
@@ -211,7 +211,7 @@ module Spec
           end
           
           it "should pass the correct pending error message to the formatter" do
-            example = ExampleGroup.new(Spec::Example::ExampleProxy.new(nil))
+            example = ExampleGroup.new(Spec::Example::ExampleProxy.new)
             example_group.notify(reporter)
             reporter.example_finished(description_of(example), @pending_error)
             
@@ -221,7 +221,7 @@ module Spec
           it "should raise a deprecation warning" do
             Kernel.should_receive(:warn).with(Spec::Runner::Reporter::EXAMPLE_PENDING_DEPRECATION_WARNING)
             
-            example = ExampleGroup.new(Spec::Example::ExampleProxy.new(nil))
+            example = ExampleGroup.new(Spec::Example::ExampleProxy.new)
             example_group.notify(reporter)
             reporter.example_finished(description_of(example), @pending_error)
           end
