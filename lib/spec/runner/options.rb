@@ -82,6 +82,7 @@ module Spec
       end
 
       def require_ruby_debug
+        require 'rubygems' unless ENV['NO_RUBYGEMS']
         require 'ruby-debug'
       end
 
