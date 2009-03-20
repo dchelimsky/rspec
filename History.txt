@@ -18,7 +18,6 @@
 * bug fixes
 
   * subject (implicit or explicit) is now properly inherited by nested groups. Closes #744.
-  * A dup'ed mock retains it's stubs (Scott Taylor). Closes #741.
 
 === Version 1.2.0 / 2009-03-15
 

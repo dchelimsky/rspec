@@ -575,53 +575,5 @@ module Spec
         second == first
       end
     end
-
-    describe "dup" do
-      before do
-        @mock = mock 'a mock'
-      end
-
-      it "should return a new object" do
-        @mock.dup.should_not equal(@mock)
-      end
-
-      it "should have a dup respond_to? the message" do
-        @mock.stub!(:foo)
-        dup = @mock.dup
-        dup.respond_to?(:foo)
-      end
-
-      it "should not respond_to? the message if it it wasn't stubbed" do
-        dup = @mock.dup
-        dup.should_not respond_to(:asdfa)
-      end
-
-      it "should have the stub given on the original" do
-        a_mock = mock 'foo', :bar => :baz
-        a_dup = a_mock.dup
-        a_dup.bar.should equal(:baz)
-      end
-
-      it "should pass on any arguments to the mock" do
-        Mock.should_receive(:new).with('a mock', { })
-        @mock.dup
-      end
-
-      it "should use the correct name" do
-        mock = mock('the name', :foo => :bar)
-
-        Mock.should_receive(:new).with('the name', :foo => :bar)
-        
-        mock.dup
-      end
-
-      it "should use the correct arguments" do
-        mock = mock('foo', { :think => :different })
-        
-        Mock.should_receive(:new).with('foo', { :think => :different })
-        
-        mock.dup
-      end
-    end
   end
 end
