@@ -174,6 +174,7 @@ end
 
 require 'timeout'
 require 'spec/example/predicate_matchers'
+require 'spec/example/example_group_proxy'
 require 'spec/example/example_proxy'
 require 'spec/example/subject'
 require 'spec/example/before_and_after_hooks'

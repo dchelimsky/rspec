@@ -113,7 +113,7 @@ WARNING
       end
       
       def notify(listener) # :nodoc:
-        listener.add_example_group(self)
+        listener.add_example_group(ExampleGroupProxy.new(self))
       end
 
       def description
