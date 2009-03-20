@@ -56,36 +56,6 @@ module Spec
         end
       end
 
-      describe "#subject" do
-        before(:each) do
-          @example_group = ExampleGroupDouble
-        end
-
-        it "should return an instance of the described class" do
-          group = Class.new(ExampleGroupDouble).describe(Array)
-          example = group.new(ExampleProxy.new)
-          example.subject.should == []
-        end
-    
-        it "should return a Module" do
-          group = Class.new(ExampleGroupDouble).describe(Enumerable)
-          example = group.new(ExampleProxy.new)
-          example.subject.should == Enumerable
-        end
-
-        it "should return a string" do
-          group = Class.new(ExampleGroupDouble).describe('foo')
-          example = group.new(ExampleProxy.new)
-          example.subject.should == 'foo'
-        end
-
-        it "should return a number" do
-          group = Class.new(ExampleGroupDouble).describe(15)
-          example = group.new(ExampleProxy.new)
-          example.subject.should == 15
-        end
-      end
-
       describe "#should" do
         before(:each) do
           @example_group = Class.new(ExampleGroupDouble)
