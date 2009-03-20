@@ -16,8 +16,7 @@ module Spec
         # See +ExampleMethods#should+ for more information about this approach.
         def subject(&block)
           block.nil? ?
-            explicit_subject || implicit_subject :
-            @_explicit_subject_block = block
+            explicit_subject || implicit_subject : @_explicit_subject_block = block
         end
         
         def explicit_subject
