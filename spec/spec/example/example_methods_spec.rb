@@ -34,7 +34,7 @@ module Spec
 
       describe "#backtrace" do        
         it "returns the backtrace from where the example was defined" do
-          example = ExampleGroup.dup.new "name"
+          example = ExampleGroup.dup.new ExampleDescription.new(nil)
           example.backtrace.join("\n").should include("#{__FILE__}:#{__LINE__-1}")
         end
       end
@@ -46,12 +46,12 @@ module Spec
 
         it "sends a deprecation warning" do
           Kernel.should_receive(:warn).with(/#implementation_backtrace.*deprecated.*#backtrace instead/m)
-          example = ExampleGroup.dup.new "name"
+          example = ExampleGroup.dup.new ExampleDescription.new(nil)
           example.implementation_backtrace
         end
         
         it "returns the backtrace from where the example was defined" do
-          example = ExampleGroup.dup.new "name"
+          example = ExampleGroup.dup.new ExampleDescription.new(nil)
           example.implementation_backtrace.join("\n").should include("#{__FILE__}:#{__LINE__-1}")
         end
       end
@@ -63,25 +63,25 @@ module Spec
 
         it "should return an instance of the described class" do
           group = Class.new(ExampleGroupDouble).describe(Array)
-          example = group.new("")
+          example = group.new(ExampleDescription.new(nil))
           example.subject.should == []
         end
     
         it "should return a Module" do
           group = Class.new(ExampleGroupDouble).describe(Enumerable)
-          example = group.new("")
+          example = group.new(ExampleDescription.new(nil))
           example.subject.should == Enumerable
         end
 
         it "should return a string" do
           group = Class.new(ExampleGroupDouble).describe('foo')
-          example = group.new("")
+          example = group.new(ExampleDescription.new(nil))
           example.subject.should == 'foo'
         end
 
         it "should return a number" do
           group = Class.new(ExampleGroupDouble).describe(15)
-          example = group.new("")
+          example = group.new(ExampleDescription.new(nil))
           example.subject.should == 15
         end
       end
@@ -140,14 +140,14 @@ module Spec
 
     describe "#options" do
       it "should expose the options hash" do
-        example = ExampleGroupDouble.new "name", :this => 'that' do; end
+        example = ExampleGroupDouble.new ExampleDescription.new("name", :this => 'that') do; end
         example.options[:this].should == 'that'
       end
     end
     
     describe "#set_instance_variables_from_hash" do
       it "preserves the options" do
-        example = ExampleGroupDouble.new "name", :this => 'that' do; end
+        example = ExampleGroupDouble.new ExampleDescription.new("name", :this => 'that') do; end
         example.set_instance_variables_from_hash({:@_options => {}})
         example.options[:this].should == 'that'
       end

@@ -7,6 +7,11 @@ module Spec
         @description, @options, @backtrace, @example_id = description, options, backtrace, example_id
       end
       
+      def update(description, backtrace)
+        @description, @backtrace = description, backtrace
+        self
+      end
+      
       def ==(other)
         (other.description == description) & (other.backtrace == backtrace)
       end

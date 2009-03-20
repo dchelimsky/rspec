@@ -18,18 +18,15 @@ module Spec
       #   description
       #   => "should start with a balance of 0"
       def description
-        @_defined_description || ::Spec::Matchers.generated_description || "NO NAME"
+        @_description_object.description || ::Spec::Matchers.generated_description || "NO NAME"
       end
       
       def options # :nodoc:
-        @_options
+        @_description_object.options
       end
 
       def execute(run_options, instance_variables, backtrace, example_id) # :nodoc:
-        # FIXME - there is no reason to have example_started pass a name
-        # - in fact, it would introduce bugs in cases where no docstring
-        # is passed to it()
-        run_options.reporter.example_started(ExampleDescription.new(description, options, backtrace, example_id))
+        run_options.reporter.example_started(@_description_object)
         set_instance_variables_from_hash(instance_variables)
         
         execution_error = nil
@@ -47,7 +44,9 @@ module Spec
           end
         end
 
-        run_options.reporter.example_finished(ExampleDescription.new(description, options, backtrace, example_id), execution_error)
+        
+        run_options.reporter.example_finished(@_description_object.update(description, backtrace), execution_error)
+        # run_options.reporter.example_finished(ExampleDescription.new(description, options, backtrace, example_id), execution_error)
         success = execution_error.nil? || ExamplePendingError === execution_error
       end
 
@@ -77,7 +76,7 @@ module Spec
       def set_instance_variables_from_hash(ivars) # :nodoc:
         ivars.each do |variable_name, value|
           # Ruby 1.9 requires variable.to_s on the next line
-          unless ['@_defined_description', '@_options', '@_implementation', '@method_name'].include?(variable_name.to_s)
+          unless ['@_description_object', '@_implementation', '@method_name'].include?(variable_name.to_s)
             instance_variable_set variable_name, value
           end
         end
@@ -107,9 +106,8 @@ WARNING
         example_group_hierarchy.run_after_each(self)
       end
 
-      def initialize(description, options={}, &implementation)
-        @_options = options
-        @_defined_description = description
+      def initialize(description, &implementation)
+        @_description_object = description
         @_implementation = implementation
         @_backtrace = caller
       end

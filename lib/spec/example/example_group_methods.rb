@@ -195,12 +195,13 @@ WARNING
 
       def run_before_all(run_options)
         return [true,{}] if example_group_hierarchy.before_all_parts.empty?
-        before_all = new("before(:all)")
+        example_description = ExampleDescription.new("before(:all)")
+        before_all = new(example_description)
         begin
           example_group_hierarchy.run_before_all(before_all)
           return [true, before_all.instance_variable_hash]
         rescue Exception => e
-          run_options.reporter.example_failed(ExampleDescription.new("before(:all)"), e)
+          run_options.reporter.example_failed(example_description, e)
           return [false, before_all.instance_variable_hash]
         end
       end
@@ -211,7 +212,7 @@ WARNING
         after_all_instance_variables = instance_variables
         
         examples.each do |example|
-          example_group_instance = new(example.description,example.options,&example_implementations[example])
+          example_group_instance = new(example, &example_implementations[example])
           success &= example_group_instance.execute(run_options, instance_variables, example.backtrace, example.example_id)
           after_all_instance_variables = example_group_instance.instance_variable_hash
         end
@@ -221,12 +222,13 @@ WARNING
       
       def run_after_all(success, instance_variables, run_options)
         return success if example_group_hierarchy.after_all_parts.empty?
-        after_all = new("after(:all)")
+        example_description = ExampleDescription.new("after(:all)")
+        after_all = new(example_description)
         after_all.set_instance_variables_from_hash(instance_variables)
         example_group_hierarchy.run_after_all(after_all)
         return success
       rescue Exception => e
-        run_options.reporter.example_failed(ExampleDescription.new("after(:all)"), e)
+        run_options.reporter.example_failed(example_description, e)
         return false
       end
       

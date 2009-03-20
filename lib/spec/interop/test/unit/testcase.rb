@@ -40,10 +40,10 @@ module Test
       before(:each) {setup}
       after(:each) {teardown}
 
-      def initialize(description, options={}, &implementation)
+      def initialize(description, &implementation)
         super
         # Some Test::Unit extensions depend on @method_name being present.
-        @method_name = description
+        @method_name = description.description
         @_result = ::Test::Unit::TestResult.new
       end
 
