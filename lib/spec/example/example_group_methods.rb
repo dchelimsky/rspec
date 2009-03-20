@@ -158,14 +158,6 @@ WARNING
         @example_group_hierarchy ||= ExampleGroupHierarchy.new(self)
       end
       
-      def filtered_description(filter)
-        build_description_from(
-          *nested_descriptions.collect do |description|
-            description =~ filter ? $1 : description
-          end
-        )
-      end
-      
       def nested_descriptions
         example_group_hierarchy.nested_descriptions
       end

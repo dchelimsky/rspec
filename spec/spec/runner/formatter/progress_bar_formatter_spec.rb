@@ -30,7 +30,7 @@ module Spec
             end
           end
           example = example_group.examples.first
-          @formatter.add_example_group(example_group)
+          @formatter.add_example_group(Spec::Example::ExampleGroupProxy.new(example_group))
           @formatter.example_pending(example, "message", "#{__FILE__}:#{__LINE__}")
           @io.rewind
           @formatter.dump_summary(3, 2, 1, 1)
@@ -98,7 +98,7 @@ EOE
           example = example_group.examples.first
           file = __FILE__
           line = __LINE__ + 2
-          @formatter.add_example_group(example_group)
+          @formatter.add_example_group(Spec::Example::ExampleGroupProxy.new(example_group))
           @formatter.example_pending(example, "message", "#{__FILE__}:#{__LINE__}")
           @formatter.dump_pending
           @io.string.should ==(<<-HERE)

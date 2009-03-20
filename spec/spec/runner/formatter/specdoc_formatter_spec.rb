@@ -24,7 +24,7 @@ module Spec
             end
 
             def add_example_group
-              formatter.add_example_group(example_group)
+              formatter.add_example_group(Spec::Example::ExampleGroupProxy.new(example_group))
             end
 
             describe "#dump_summary" do
@@ -76,7 +76,7 @@ module Spec
                 def add_example_group
                   @child_example_group = Class.new(example_group).describe("Child ExampleGroup")
                   @grand_child_example_group = Class.new(child_example_group).describe("GrandChild ExampleGroup")
-                  formatter.add_example_group(grand_child_example_group)
+                  formatter.add_example_group(Spec::Example::ExampleGroupProxy.new(grand_child_example_group))
                 end
 
                 describe "when having an error" do
