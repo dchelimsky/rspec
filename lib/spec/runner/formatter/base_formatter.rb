@@ -27,18 +27,23 @@ module Spec
         end
 
         # This method is invoked when an +example+ starts.
-        def example_started(example)
+        # +example_proxy+ is an instance of Spec::Example::ExampleProxy
+        def example_started(example_proxy)
         end
 
         # This method is invoked when an +example+ passes.
-        def example_passed(example)
+        # +example_proxy+ is the same instance of Spec::Example::ExampleProxy
+        # that was passed to example_started
+        def example_passed(example_proxy)
         end
 
         # This method is invoked when an +example+ fails, i.e. an exception occurred
         # inside it (such as a failed should or other exception). +counter+ is the 
         # sequence number of the failure (starting at 1) and +failure+ is the associated 
         # Failure object.
-        def example_failed(example, counter, failure)
+        # +example_proxy+ is the same instance of Spec::Example::ExampleProxy
+        # that was passed to example_started
+        def example_failed(example_proxy, counter, failure)
         end
         
         # This method is invoked when an example is not yet implemented (i.e. has not
@@ -47,7 +52,9 @@ module Spec
         # default value of "Not Yet Implemented"
         # +pending_caller+ is the file and line number of the spec which
         # has called the pending method
-        def example_pending(example, message, pending_caller)
+        # +example_proxy+ is the same instance of Spec::Example::ExampleProxy
+        # that was passed to example_started
+        def example_pending(example_proxy, message, pending_caller)
         end
 
         # This method is invoked after all of the examples have executed. The next method
