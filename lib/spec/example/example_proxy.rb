@@ -1,6 +1,6 @@
 module Spec
   module Example
-    class ExampleDescription
+    class ExampleProxy
       attr_reader :description, :options, :backtrace
       
       def initialize(description, options={}, backtrace=nil)

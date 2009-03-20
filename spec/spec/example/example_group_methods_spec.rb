@@ -74,26 +74,26 @@ module Spec
               }.should change { @example_group.examples.length }.by(1)
             end
             
-            describe "creates an ExampleDescription" do
+            describe "creates an ExampleProxy" do
               before(:all) do
                 @example_group = Class.new(ExampleGroupDouble).describe("bar")
-                @example_description = @example_group.__send__(method, "foo", {:this => :that}, "the backtrace") {}
+                @example_proxy = @example_group.__send__(method, "foo", {:this => :that}, "the backtrace") {}
               end
               
               specify "with a description" do
-                @example_description.description.should == "foo"
+                @example_proxy.description.should == "foo"
               end
 
               specify "with options" do
-                @example_description.options.should == {:this => :that}
+                @example_proxy.options.should == {:this => :that}
               end
               
               specify "with a backtrace" do
-                @example_description.backtrace.should == "the backtrace"
+                @example_proxy.backtrace.should == "the backtrace"
               end
 
               specify "with an example_id" do
-                @example_description.example_id.should == @example_description.__id__
+                @example_proxy.example_id.should == @example_proxy.object_id
               end
             end
           end

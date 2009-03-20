@@ -338,7 +338,7 @@ module Spec
           it "defines global predicate matcher methods on ExampleMethods" do
             Spec::Runner.configuration.stub!(:predicate_matchers).and_return({:this => :that?})
             group = Class.new(::Spec::Example::ExampleGroupDouble).describe("Some Examples")
-            example = group.new(::Spec::Example::ExampleDescription.new(nil))
+            example = group.new(::Spec::Example::ExampleProxy.new(nil))
             
             @options.run_examples
             example.this

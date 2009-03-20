@@ -18,15 +18,15 @@ module Spec
       #   description
       #   => "should start with a balance of 0"
       def description
-        @_description_object.description || ::Spec::Matchers.generated_description || "NO NAME"
+        @_proxy.description || ::Spec::Matchers.generated_description || "NO NAME"
       end
       
       def options # :nodoc:
-        @_description_object.options
+        @_proxy.options
       end
 
       def execute(run_options, instance_variables, backtrace, example_id) # :nodoc:
-        run_options.reporter.example_started(@_description_object)
+        run_options.reporter.example_started(@_proxy)
         set_instance_variables_from_hash(instance_variables)
         
         execution_error = nil
@@ -45,8 +45,7 @@ module Spec
         end
 
         
-        run_options.reporter.example_finished(@_description_object.update(description, backtrace), execution_error)
-        # run_options.reporter.example_finished(ExampleDescription.new(description, options, backtrace, example_id), execution_error)
+        run_options.reporter.example_finished(@_proxy.update(description, backtrace), execution_error)
         success = execution_error.nil? || ExamplePendingError === execution_error
       end
 
@@ -76,7 +75,7 @@ module Spec
       def set_instance_variables_from_hash(ivars) # :nodoc:
         ivars.each do |variable_name, value|
           # Ruby 1.9 requires variable.to_s on the next line
-          unless ['@_description_object', '@_implementation', '@method_name'].include?(variable_name.to_s)
+          unless ['@_proxy', '@_implementation', '@method_name'].include?(variable_name.to_s)
             instance_variable_set variable_name, value
           end
         end
@@ -106,8 +105,8 @@ WARNING
         example_group_hierarchy.run_after_each(self)
       end
 
-      def initialize(description, &implementation)
-        @_description_object = description
+      def initialize(example_proxy, &implementation)
+        @_proxy = example_proxy
         @_implementation = implementation
         @_backtrace = caller
       end

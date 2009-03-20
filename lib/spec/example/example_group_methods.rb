@@ -70,10 +70,10 @@ WARNING
       # Creates an instance of the current example group class and adds it to
       # a collection of examples of the current example group.
       def example(description=nil, options={}, backtrace=nil, &implementation)
-        example_description = ExampleDescription.new(description, options, backtrace || caller(0)[1])
-        example_descriptions << example_description
-        example_implementations[example_description] = implementation || pending_implementation
-        example_description
+        example_proxy = ExampleProxy.new(description, options, backtrace || caller(0)[1])
+        example_proxies << example_proxy
+        example_implementations[example_proxy] = implementation || pending_implementation
+        example_proxy
       end
       
       def pending_implementation
@@ -138,8 +138,8 @@ WARNING
         end
       end
       
-      def example_descriptions # :nodoc:
-        @example_descriptions ||= []
+      def example_proxies # :nodoc:
+        @example_proxies ||= []
       end
       
       def example_implementations # :nodoc:
@@ -147,11 +147,11 @@ WARNING
       end
             
       def examples(run_options=nil) #:nodoc:
-        (run_options && run_options.reverse) ? example_descriptions.reverse : example_descriptions
+        (run_options && run_options.reverse) ? example_proxies.reverse : example_proxies
       end
 
       def number_of_examples #:nodoc:
-        example_descriptions.length
+        example_proxies.length
       end
 
       def example_group_hierarchy
@@ -195,13 +195,13 @@ WARNING
 
       def run_before_all(run_options)
         return [true,{}] if example_group_hierarchy.before_all_parts.empty?
-        example_description = ExampleDescription.new("before(:all)")
-        before_all = new(example_description)
+        example_proxy = ExampleProxy.new("before(:all)")
+        before_all = new(example_proxy)
         begin
           example_group_hierarchy.run_before_all(before_all)
           return [true, before_all.instance_variable_hash]
         rescue Exception => e
-          run_options.reporter.example_failed(example_description, e)
+          run_options.reporter.example_failed(example_proxy, e)
           return [false, before_all.instance_variable_hash]
         end
       end
@@ -222,19 +222,19 @@ WARNING
       
       def run_after_all(success, instance_variables, run_options)
         return success if example_group_hierarchy.after_all_parts.empty?
-        example_description = ExampleDescription.new("after(:all)")
-        after_all = new(example_description)
+        example_proxy = ExampleProxy.new("after(:all)")
+        after_all = new(example_proxy)
         after_all.set_instance_variables_from_hash(instance_variables)
         example_group_hierarchy.run_after_all(after_all)
         return success
       rescue Exception => e
-        run_options.reporter.example_failed(example_description, e)
+        run_options.reporter.example_failed(example_proxy, e)
         return false
       end
       
       def examples_to_run(run_options)
-        return example_descriptions unless specified_examples?(run_options)
-        example_descriptions.reject do |example|
+        return example_proxies unless specified_examples?(run_options)
+        example_proxies.reject do |example|
           matcher = ExampleGroupMethods.matcher_class.
             new(description.to_s, example.description)
           !matcher.matches?(run_options.examples)
