@@ -10,9 +10,10 @@
       variable, and RSpec won't force it on you.
   * added -u/--debugger option (Rick DeNatale) #262.
     * just add "debugger" anywhere in your code and run spec path/to/code --debugger
-  * Added example_id to ExampleDescription and pass ExampleDescription to
-    example_started() instead of an empty string (Tobias Grimm). Closes 738
-  * ExampleDescription renamed to ExampleProxy
+  * rename ExampleDescription to ExampleProxy
+  * pass ExampleProxy to example_started(). Closes #738, #743
+    * thanks to Tobias Grimm (Eclipse) fort the patch and Roman Chernyatchik
+      (JetBrains, RubyMine) for the assist
   
 * bug fixes
 

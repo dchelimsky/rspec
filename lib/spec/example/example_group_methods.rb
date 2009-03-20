@@ -213,7 +213,7 @@ WARNING
         
         examples.each do |example|
           example_group_instance = new(example, &example_implementations[example])
-          success &= example_group_instance.execute(run_options, instance_variables, example.backtrace, example.example_id)
+          success &= example_group_instance.execute(run_options, instance_variables)
           after_all_instance_variables = example_group_instance.instance_variable_hash
         end
         

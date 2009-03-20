@@ -25,7 +25,8 @@ module Spec
         @_proxy.options
       end
 
-      def execute(run_options, instance_variables, backtrace, example_id) # :nodoc:
+      def execute(run_options, instance_variables) # :nodoc:
+        puts caller unless caller(0)[1] =~ /example_group_methods/
         run_options.reporter.example_started(@_proxy)
         set_instance_variables_from_hash(instance_variables)
         
@@ -45,7 +46,7 @@ module Spec
         end
 
         
-        run_options.reporter.example_finished(@_proxy.update(description, backtrace), execution_error)
+        run_options.reporter.example_finished(@_proxy.update(description), execution_error)
         success = execution_error.nil? || ExamplePendingError === execution_error
       end
 

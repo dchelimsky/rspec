@@ -7,13 +7,9 @@ module Spec
         @description, @options, @backtrace = description, options, backtrace
       end
       
-      def update(description, backtrace)
-        @description, @backtrace = description, backtrace
+      def update(description)
+        @description = description
         self
-      end
-      
-      def example_id
-        __id__
       end
       
       def ==(other)

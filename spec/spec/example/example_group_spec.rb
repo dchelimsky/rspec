@@ -111,16 +111,14 @@ module Spec
 
         it "should report the start of an example run" do
           reporter.should_receive(:example_started) do |example|
-            example.example_id.should == example_group.examples[0].example_id
-            example.backtrace.should == example_group.examples[0].backtrace
+            example.should equal(example_group.examples[0])
           end
           example_group.run(options)
         end
 
         it "should report the end of an example run" do
           reporter.should_receive(:example_finished) do |example, execution_error|
-            example.example_id.should == example_group.examples[0].example_id
-            example.backtrace.should == example_group.examples[0].backtrace
+            example.should equal(example_group.examples[0])
             execution_error.should be_nil
           end
           example_group.run(options)

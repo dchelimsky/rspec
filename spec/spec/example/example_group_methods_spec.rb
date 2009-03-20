@@ -91,10 +91,6 @@ module Spec
               specify "with a backtrace" do
                 @example_proxy.backtrace.should == "the backtrace"
               end
-
-              specify "with an example_id" do
-                @example_proxy.example_id.should == @example_proxy.object_id
-              end
             end
           end
         end
