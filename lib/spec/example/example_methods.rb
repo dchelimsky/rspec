@@ -25,11 +25,11 @@ module Spec
         @_options
       end
 
-      def execute(run_options, instance_variables) # :nodoc:
+      def execute(run_options, instance_variables, backtrace, example_id) # :nodoc:
         # FIXME - there is no reason to have example_started pass a name
         # - in fact, it would introduce bugs in cases where no docstring
         # is passed to it()
-        run_options.reporter.example_started("")
+        run_options.reporter.example_started(ExampleDescription.new(description, options, backtrace, example_id))
         set_instance_variables_from_hash(instance_variables)
         
         execution_error = nil
@@ -47,7 +47,7 @@ module Spec
           end
         end
 
-        run_options.reporter.example_finished(ExampleDescription.new(description, options), execution_error)
+        run_options.reporter.example_finished(ExampleDescription.new(description, options, backtrace, example_id), execution_error)
         success = execution_error.nil? || ExamplePendingError === execution_error
       end
 

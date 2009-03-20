@@ -91,6 +91,10 @@ module Spec
               specify "with a backtrace" do
                 @example_description.backtrace.should == "the backtrace"
               end
+
+              specify "with an example_id" do
+                @example_description.example_id.should == @example_description.__id__
+              end
             end
           end
         end

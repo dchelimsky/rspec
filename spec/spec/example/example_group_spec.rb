@@ -108,6 +108,23 @@ module Spec
           reporter.should_not_receive(:add_example_group)
           example_group.run(options)
         end
+
+        it "should report the start of an example run" do
+          reporter.should_receive(:example_started) do |example|
+            example.example_id.should == example_group.examples[0].example_id
+            example.backtrace.should == example_group.examples[0].backtrace
+          end
+          example_group.run(options)
+        end
+
+        it "should report the end of an example run" do
+          reporter.should_receive(:example_finished) do |example, execution_error|
+            example.example_id.should == example_group.examples[0].example_id
+            example.backtrace.should == example_group.examples[0].backtrace
+            execution_error.should be_nil
+          end
+          example_group.run(options)
+        end
       
         describe "when before_each fails" do
           before(:each) do
