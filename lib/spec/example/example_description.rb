@@ -1,15 +1,19 @@
 module Spec
   module Example
     class ExampleDescription
-      attr_reader :description, :options, :backtrace, :example_id
+      attr_reader :description, :options, :backtrace
       
-      def initialize(description, options={}, backtrace=nil, example_id=__id__)
-        @description, @options, @backtrace, @example_id = description, options, backtrace, example_id
+      def initialize(description, options={}, backtrace=nil)
+        @description, @options, @backtrace = description, options, backtrace
       end
       
       def update(description, backtrace)
         @description, @backtrace = description, backtrace
         self
+      end
+      
+      def example_id
+        __id__
       end
       
       def ==(other)
