@@ -10,6 +10,13 @@
       variable, and RSpec won't force it on you.
   * added -u/--debugger option (Rick DeNatale) #262.
     * just add "debugger" anywhere in your code and run spec path/to/code --debugger
+  * Added example_id to ExampleDescription and pass ExampleDescription to
+    example_started() instead of an empty string (Tobias Grimm). Closes 738
+  * ExampleDescription renamed to ExampleProxy
+  
+* bug fixes
+
+  * subject (implicit or explicit) is now properly inherited by nested groups. Closes #744.
 
 === Version 1.2.0 / 2009-03-15
 
