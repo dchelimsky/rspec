@@ -39,7 +39,7 @@ module Spec
       
       describe "#examples" do
         it "provides a collection of example group proxies" do
-          group.stub!(:examples => ["array","of","proxies"])
+          group.stub!(:example_proxies => ["array","of","proxies"])
           proxy.examples.should == ["array","of","proxies"]
         end
       end

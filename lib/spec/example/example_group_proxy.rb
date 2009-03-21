@@ -6,7 +6,7 @@ module Spec
       def initialize(example_group)
         @description         = example_group.description
         @nested_descriptions = example_group.nested_descriptions
-        @examples            = example_group.examples
+        @examples            = example_group.example_proxies
       end
       
       def filtered_description(filter)
