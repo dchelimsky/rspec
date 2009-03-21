@@ -4,7 +4,7 @@ module Spec
   module Example
     describe ExampleGroupProxy do
       before(:each) do
-        @group = stub("example @group").as_null_object
+        @group = stub("example group").as_null_object
       end
       
       attr_reader :group
@@ -41,6 +41,20 @@ module Spec
         it "provides a collection of example group proxies" do
           group.stub!(:example_proxies => ["array","of","proxies"])
           proxy.examples.should == ["array","of","proxies"]
+        end
+      end
+      
+      describe "#backtrace (deprecated - use location)" do
+        it "provides the location of the declaration of this group" do
+          group.stub!(:backtrace => "path/to/location:37")
+          proxy.backtrace.should == "path/to/location:37"
+        end
+      end
+      
+      describe "#location" do
+        it "provides the location of the declaration of this group" do
+          group.stub!(:backtrace => "path/to/location:37")
+          proxy.location.should  == "path/to/location:37"
         end
       end
       

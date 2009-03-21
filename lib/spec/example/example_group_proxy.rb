@@ -1,12 +1,14 @@
 module Spec
   module Example
     class ExampleGroupProxy
-      attr_reader :description, :nested_descriptions, :examples
+      attr_reader :description, :nested_descriptions, :examples, :backtrace, :location
   
       def initialize(example_group)
         @description         = example_group.description
         @nested_descriptions = example_group.nested_descriptions
         @examples            = example_group.example_proxies
+        @backtrace           = example_group.backtrace
+        @location            = example_group.backtrace
       end
       
       def filtered_description(filter)
