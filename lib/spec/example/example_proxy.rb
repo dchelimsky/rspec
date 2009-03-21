@@ -1,7 +1,9 @@
 module Spec
   module Example
     class ExampleProxy
-      attr_reader :description, :options, :backtrace
+      attr_accessor :description
+      attr_reader   :options, :backtrace
+      alias_method  :location, :backtrace
       
       def initialize(description=nil, options={}, backtrace=nil)
         @description, @options, @backtrace = description, options, backtrace

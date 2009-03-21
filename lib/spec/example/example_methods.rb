@@ -45,7 +45,6 @@ module Spec
           end
         end
 
-        
         run_options.reporter.example_finished(@_proxy.update(description), execution_error)
         success = execution_error.nil? || ExamplePendingError === execution_error
       end
