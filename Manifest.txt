@@ -355,4 +355,3 @@ spec/spec/runner/spec_spaced.opts
 spec/spec/runner_spec.rb
 spec/spec/spec_classes.rb
 spec/spec_helper.rb
-tmtags
