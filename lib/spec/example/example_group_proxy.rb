@@ -1,11 +1,12 @@
 module Spec
   module Example
     class ExampleGroupProxy
-      attr_reader :description, :nested_descriptions
+      attr_reader :description, :nested_descriptions, :examples
   
       def initialize(example_group)
-        @description =          example_group.description
-        @nested_descriptions =  example_group.nested_descriptions
+        @description         = example_group.description
+        @nested_descriptions = example_group.nested_descriptions
+        @examples            = example_group.examples
       end
       
       def filtered_description(filter)
@@ -15,7 +16,7 @@ module Spec
           end
         )
       end
-  
+      
       def ==(other)
         other.description == description
       end
