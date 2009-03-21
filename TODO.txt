@@ -1,7 +1,5 @@
 == Refactoring
 
-Refactoring for 1.2.0
-
 ** global predictate matchers should be stored in run_options
 * eliminate dependency on global options and configuration
 ** the only place they should exist is in the Runner, which should manage them
@@ -12,11 +10,6 @@ Refactoring for 1.2.0
 * separate the underlying framework from the DSL
   * be able to do everything with classes and methods
 * tweak raise_error rdoc to show only one arg
-
-== Ruby 1.9.1
-
-* one example remains failing
-* cucumber isn't working yet
 
 == rspec-2.0
 
