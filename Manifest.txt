@@ -1,6 +1,6 @@
 .autotest
 .document
-History.txt
+History.rdoc
 License.txt
 Manifest.txt
 README.txt

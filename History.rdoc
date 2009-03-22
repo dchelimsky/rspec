@@ -1,4 +1,4 @@
-=== dev
+=== Version 1.2.1 / (dev)
 
 * enhancments
 
@@ -14,8 +14,6 @@
   * pass ExampleProxy to example_started(). Closes #738, #743
     * thanks to Tobias Grimm (Eclipse) fort the patch and Roman Chernyatchik
       (JetBrains, RubyMine) for the assist
-  * ExampleGroupMethods.spec_path is now location
-    * spec_path is still supported but will be deprecated
   
 * bug fixes
 
@@ -23,7 +21,7 @@
 
 === Version 1.2.0 / 2009-03-15
 
-WARNINGS:
+* warnings:
 
   * If you use the ruby command to run specs instead of the spec command, you'll
     need to require 'spec/autorun' or they won't run. This won't affect you if
@@ -43,10 +41,12 @@ WARNINGS:
     matchers, or using extension libraries that do, this should not affect
     you. If you run into trouble, you'll just need to change:
     
-    * failure_message          => failure_message_for_should
-    * negative_failure_message => failure_message_for_should_not
+      failure_message          => failure_message_for_should
+      negative_failure_message => failure_message_for_should_not
       
   * All references to rubygems have been removed from within rspec's code.
+  
+    * NOTE that they have been restored in 1.2.1, above
   
     * See http://gist.github.com/54177 for rationale and suggestions on
       alternative approaches to loading rubygems

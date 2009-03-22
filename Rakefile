@@ -1,5 +1,4 @@
 # -*- ruby -*-
-
 gem 'hoe', '>=1.9.0'
 require 'hoe'
 
@@ -18,12 +17,13 @@ Hoe.new('rspec', Spec::VERSION::STRING) do |p|
   p.extra_dev_deps = [["cucumber",">= 0.1.13"]]
   p.remote_rdoc_dir = "rspec/#{Spec::VERSION::STRING}"
   p.rspec_options = ['--options', 'spec/spec.opts']
+  p.history_file = 'History.rdoc'
   p.post_install_message = <<-POST_INSTALL_MESSAGE
 #{'*'*50}
 
   Thank you for installing rspec-#{Spec::VERSION::STRING}
 
-  Please be sure to read History.txt and Upgrade.markdown
+  Please be sure to read History.rdoc and Upgrade.rdoc
   for useful information about this release.
 
 #{'*'*50}
