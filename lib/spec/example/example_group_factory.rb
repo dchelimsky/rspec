@@ -19,7 +19,6 @@ module Spec
         end
 
         def create_shared_example_group(*args, &example_group_block) # :nodoc:
-          ::Spec::Example::set_location(args)
           ::Spec::Example::SharedExampleGroup.register(*args, &example_group_block)
         end
         
