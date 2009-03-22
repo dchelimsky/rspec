@@ -19,14 +19,14 @@ module Spec
         end
 
         def create_shared_example_group(*args, &example_group_block) # :nodoc:
-          ::Spec::Example::add_spec_path_to(args)
+          ::Spec::Example::set_location(args)
           ::Spec::Example::SharedExampleGroup.register(*args, &example_group_block)
         end
         
         def create_example_group(*args, &block)
           raise ArgumentError if args.empty?
           raise ArgumentError unless block
-          Spec::Example::add_spec_path_to(args)
+          Spec::Example::set_location(args)
           superclass = determine_superclass(args.last)
           superclass.describe(*args, &block)
         end

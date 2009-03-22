@@ -158,7 +158,7 @@ module Spec
         return scope_from(*args), options
       end
 
-      def add_spec_path_to(args) # :nodoc:
+      def set_location(args) # :nodoc:
         args << {} unless Hash === args.last
         args.last[:spec_path] ||= caller(0)[2]
       end

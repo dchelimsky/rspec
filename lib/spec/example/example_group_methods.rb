@@ -47,7 +47,7 @@ WARNING
       #
       def describe(*args, &example_group_block)
         if example_group_block
-          Spec::Example::add_spec_path_to(args)
+          Spec::Example::set_location(args)
           options = args.last
           if options[:shared]
             ExampleGroupFactory.create_shared_example_group(*args, &example_group_block)
