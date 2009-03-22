@@ -3,7 +3,7 @@
 History.rdoc
 License.txt
 Manifest.txt
-README.txt
+README.rdoc
 Rakefile
 Ruby1.9.rdoc
 TODO.txt

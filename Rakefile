@@ -18,6 +18,7 @@ Hoe.new('rspec', Spec::VERSION::STRING) do |p|
   p.remote_rdoc_dir = "rspec/#{Spec::VERSION::STRING}"
   p.rspec_options = ['--options', 'spec/spec.opts']
   p.history_file = 'History.rdoc'
+  p.readme_file  = 'README.rdoc'
   p.post_install_message = <<-POST_INSTALL_MESSAGE
 #{'*'*50}
 
