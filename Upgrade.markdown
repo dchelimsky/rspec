@@ -2,13 +2,27 @@
 
 ## What's Changed
 
-* After minor public outcry and confusion, we restored necessary references to
-  rubygems in rspec. They only appear if you are running the --diff option (in
-  order to load diff-lcs) or if you're running rspec's own specs. If you find
-  yourself in either situation, and don't use rubygems, you can keep it from
-  being loaded by setting the ``I_DONT_USE_RUBY_GEMS`` environment variable.
-  I'm serious.
-  
+### ``require 'rubygems' unless ENV['NO_RUBYGEMS']``
+
+After minor public outcry and confusion, we restored necessary references to
+rubygems in rspec. If you use a different mechanism for managing gems, just
+set a ``NO_RUBYGEMS`` environment variable (to any non-nil value).
+
+### Proxies and locations
+
+This is probably only interesting to you if you use custom formatters.
+
+Formatters now receive ``ExampleGroupProxy`` and ``ExampleGroup`` objects with
+formal and cohesive APIs for reporting. See the RDoc and specs for those
+classes for more information:
+
+``Spec::Example::ExampleGroupProxy``<br/>
+``Spec::Example::ExampleProxy``
+``Spec::Runner::Formatter::BaseFormatter``<br/>
+
+``./spec/spec/example/example_group_proxy_spec.rb``<br/>
+``./spec/spec/example/example_proxy_spec.rb``
+
 ## What's new
 
 ### The new matcher DSL works with test/unit (without the rest of rspec)
@@ -25,6 +39,19 @@ This will add ``should()`` and ``should_not()`` to your objects, make all of
 rspec's built-in matchers available to your tests, INCLUDING rspec's DSL for
 creating matchers (see below, under Upgrade to rspec-1.2.0)
 
+### debugger
+
+If you have ruby-debug installed, you can set a breakpoint by adding ``debugger``
+in your code:
+
+    # some code .....
+    debugger
+    # some more code ....
+    
+... and using the ``--debugger`` or ``-u`` command line option.
+
+    spec path/to/file.rb --debugger
+    
 # Upgrade to rspec-1.2.0
 
 ## What's Changed
