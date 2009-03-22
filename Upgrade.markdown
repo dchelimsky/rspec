@@ -13,15 +13,8 @@ set a ``NO_RUBYGEMS`` environment variable (to any non-nil value).
 This is probably only interesting to you if you use custom formatters.
 
 Formatters now receive ``ExampleGroupProxy`` and ``ExampleGroup`` objects with
-formal and cohesive APIs for reporting. See the RDoc and specs for those
-classes for more information:
-
-``Spec::Example::ExampleGroupProxy``<br/>
-``Spec::Example::ExampleProxy``
-``Spec::Runner::Formatter::BaseFormatter``<br/>
-
-``./spec/spec/example/example_group_proxy_spec.rb``<br/>
-``./spec/spec/example/example_proxy_spec.rb``
+cohesive APIs for reporting. See the RDoc for those classes and
+``Spec::Runner::Formatter::BaseFormatter`` for more information.
 
 ## What's new
 
