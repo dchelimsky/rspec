@@ -5,9 +5,9 @@ License.txt
 Manifest.txt
 README.txt
 Rakefile
-Ruby1.9.markdown
+Ruby1.9.rdoc
 TODO.txt
-Upgrade.markdown
+Upgrade.rdoc
 bin/autospec
 bin/spec
 cucumber.yml
