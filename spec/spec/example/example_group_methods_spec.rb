@@ -74,24 +74,49 @@ module Spec
               }.should change { @example_group.examples.length }.by(1)
             end
             
-            describe "creates an ExampleProxy" do
-              before(:all) do
-                @example_group = Class.new(ExampleGroupDouble).describe("bar")
-                @example_proxy = @example_group.__send__(method, "foo", {:this => :that}, "the backtrace") {}
-              end
-              
-              specify "with a description" do
-                @example_proxy.description.should == "foo"
-              end
+            describe "with no location supplied" do
+              describe "creates an ExampleProxy" do
+                before(:all) do
+                  @example_group = Class.new(ExampleGroupDouble).describe("bar")
+                  @example_proxy = @example_group.__send__(method, "foo", {:this => :that}) {}
+                end
 
-              specify "with options" do
-                @example_proxy.options.should == {:this => :that}
-              end
-              
-              specify "with a backtrace" do
-                @example_proxy.backtrace.should == "the backtrace"
+                specify "with a description" do
+                  @example_proxy.description.should == "foo"
+                end
+
+                specify "with options" do
+                  @example_proxy.options.should == {:this => :that}
+                end
+
+                specify "with a default backtrace" do
+                  @example_proxy.backtrace.should =~ /#{__FILE__}:#{__LINE__ - 12}/
+                end
+
+                specify "with a default location" do
+                  @example_proxy.location.should =~ /#{__FILE__}:#{__LINE__ - 16}/
+                end
               end
             end
+            
+            describe "with a location supplied" do
+              describe "creates an ExampleProxy" do
+                before(:all) do
+                  @example_group = Class.new(ExampleGroupDouble).describe("bar")
+                  @example_proxy = @example_group.__send__(method, "foo", {:this => :that}, "the location") {}
+                end
+
+                specify "with the supplied location as #backtrace" do
+                  @example_proxy.backtrace.should == "the location"
+                end
+
+                specify "with the supplied location as #location" do
+                  @example_proxy.location.should == "the location"
+                end
+              end
+            end
+          
+            
           end
         end
         
