@@ -66,12 +66,12 @@ module Spec
           SharedExampleGroup.register(
             "shared example_group",
             :shared => true,
-            :spec_path => "/my/spec/a/../shared.rb"
+            :location => "/my/spec/a/../shared.rb"
           )
           SharedExampleGroup.register(
             "shared example_group",
             :shared => true,
-            :spec_path => "/my/spec/b/../shared.rb"
+            :location => "/my/spec/b/../shared.rb"
           )
         end
 
@@ -79,13 +79,13 @@ module Spec
           SharedExampleGroup.register(
             "shared example_group",
             :shared => true,
-            :spec_path => "/my/spec/a/shared.rb"
+            :location => "/my/spec/a/shared.rb"
           )
           lambda do
             SharedExampleGroup.register(
               "shared example_group",
               :shared => true,
-              :spec_path => "/my/spec/b/shared.rb"
+              :location => "/my/spec/b/shared.rb"
             )
           end.should raise_error(ArgumentError, /already exists/)
         end

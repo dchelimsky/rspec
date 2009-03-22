@@ -53,7 +53,7 @@ module Spec
       
       describe "#location" do
         it "provides the location of the declaration of this group" do
-          group.stub!(:spec_path => "path/to/location:37")
+          group.stub!(:location => "path/to/location:37")
           proxy.location.should  == "path/to/location:37"
         end
       end

@@ -10,7 +10,7 @@ module Spec
       include Spec::Example::Subject::ExampleGroupMethods
       include Spec::Example::PredicateMatchers
 
-      attr_reader :options, :spec_path
+      attr_reader :options, :location
       
       def inherited(klass) # :nodoc:
         super
@@ -47,7 +47,7 @@ WARNING
       #
       def describe(*args, &example_group_block)
         if example_group_block
-          Spec::Example::set_location(args)
+          Spec::Example::set_location(args, caller(0)[1])
           options = args.last
           if options[:shared]
             ExampleGroupFactory.create_shared_example_group(*args, &example_group_block)
@@ -108,7 +108,7 @@ WARNING
       def set_description(*args)
         @description_args, @options = Spec::Example.args_and_options(*args)
         @backtrace = caller(1)
-        @spec_path = File.expand_path(options[:spec_path]) if options[:spec_path]
+        @location = File.expand_path(options[:location]) if options[:location]
         self
       end
       

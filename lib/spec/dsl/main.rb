@@ -20,7 +20,7 @@ module Spec
       # register special implementations.
       #
       def describe(*args, &block)
-        Spec::Example::set_location(args)
+        Spec::Example::set_location(args, caller(0)[1])
         Spec::Example::ExampleGroupFactory.assign_scope(self, args)
         Spec::Example::ExampleGroupFactory.create_example_group(*args, &block)
       end
@@ -42,7 +42,7 @@ module Spec
       #    end
       #  end
       def share_examples_for(*args, &block)
-        Spec::Example::set_location(args)
+        Spec::Example::set_location(args, caller(0)[1])
         Spec::Example::ExampleGroupFactory.create_shared_example_group(*args, &block)
       end
       alias :shared_examples_for :share_examples_for
@@ -74,7 +74,7 @@ module Spec
       def share_as(name, &block)
         begin
           args = [name]
-          Spec::Example::set_location(args)
+          Spec::Example::set_location(args, caller(0)[1])
           Object.const_set(name, Spec::Example::ExampleGroupFactory.create_shared_example_group(*args, &block))
         rescue NameError => e
           raise NameError.new(e.message + "\nThe first argument to share_as must be a legal name for a constant\n")

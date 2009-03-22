@@ -44,7 +44,7 @@ module Spec
               end
               
               it "records the spec path" do
-                @child_example_group.spec_path.should =~ /#{__FILE__}:#{__LINE__ - 15}/
+                @child_example_group.location.should =~ /#{__FILE__}:#{__LINE__ - 15}/
               end
             end
 
@@ -359,15 +359,15 @@ module Spec
 
           describe "#set_description(Hash representing options)" do
             before(:each) do
-              example_group.set_description(:a => "b", :spec_path => "blah")
+              example_group.set_description(:a => "b", :location => "blah")
             end
 
-            it ".spec_path should expand the passed in :spec_path option passed into the constructor" do
-              example_group.spec_path.should == File.expand_path("blah")
+            it ".location should expand the passed in :location option passed into the constructor" do
+              example_group.location.should == File.expand_path("blah")
             end
 
             it ".options should return all the options passed in" do
-              example_group.options.should == {:a => "b", :spec_path => "blah"}
+              example_group.options.should == {:a => "b", :location => "blah"}
             end
 
           end

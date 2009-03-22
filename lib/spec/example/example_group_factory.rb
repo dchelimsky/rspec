@@ -25,7 +25,6 @@ module Spec
         def create_example_group(*args, &block)
           raise ArgumentError if args.empty?
           raise ArgumentError unless block
-          Spec::Example::set_location(args)
           superclass = determine_superclass(args.last)
           superclass.describe(*args, &block)
         end
@@ -70,7 +69,7 @@ module Spec
         def determine_superclass(opts)
           if type = opts[:type]
             self[type]
-          elsif opts[:spec_path] =~ /spec(\\|\/)(#{@example_group_types.keys.sort_by{|k| k.to_s.length}.reverse.join('|')})/
+          elsif opts[:location] =~ /spec(\\|\/)(#{@example_group_types.keys.sort_by{|k| k.to_s.length}.reverse.join('|')})/
             self[$2 == '' ? nil : $2.to_sym]
           else
             self[nil]

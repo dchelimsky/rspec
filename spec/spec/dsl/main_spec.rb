@@ -12,7 +12,7 @@ module Spec
           it "should delegate to Spec::Example::ExampleGroupFactory.create_example_group" do
             block = lambda {|a,b|}
             Spec::Example::ExampleGroupFactory.should_receive(:create_example_group).with(
-              "The ExampleGroup", hash_including(:spec_path), &block
+              "The ExampleGroup", hash_including(:location), &block
             )
             @main.__send__ method, "The ExampleGroup", &block
           end
@@ -24,7 +24,7 @@ module Spec
           it "should create a shared ExampleGroup" do
             block = lambda {|a,b|}
             Spec::Example::ExampleGroupFactory.should_receive(:create_shared_example_group).with(
-              "shared group", hash_including(:spec_path), &block
+              "shared group", hash_including(:location), &block
             )
             @main.__send__ method, "shared group", &block
           end
@@ -65,7 +65,7 @@ module Spec
         it "registers a shared ExampleGroup" do
           block = lambda {|a,b|}
           Spec::Example::ExampleGroupFactory.should_receive(:create_shared_example_group).with(
-            group_name, hash_including(:spec_path), &block
+            group_name, hash_including(:location), &block
           )
           @main.share_as group_name, &block
         end

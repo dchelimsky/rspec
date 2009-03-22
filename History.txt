@@ -14,6 +14,8 @@
   * pass ExampleProxy to example_started(). Closes #738, #743
     * thanks to Tobias Grimm (Eclipse) fort the patch and Roman Chernyatchik
       (JetBrains, RubyMine) for the assist
+  * ExampleGroupMethods.spec_path is now location
+    * spec_path is still supported but will be deprecated
   
 * bug fixes
 

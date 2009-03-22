@@ -8,7 +8,7 @@ module Spec
         @nested_descriptions = example_group.nested_descriptions
         @examples            = example_group.example_proxies
         @backtrace           = example_group.backtrace
-        @location            = example_group.spec_path
+        @location            = example_group.location
       end
       
       def filtered_description(filter)

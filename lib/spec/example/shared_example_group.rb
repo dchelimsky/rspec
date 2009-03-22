@@ -39,7 +39,7 @@ module Spec
         end
 
         def expanded_path(example_group)
-          File.expand_path(example_group.spec_path)
+          File.expand_path(example_group.location)
         end
       end
 
