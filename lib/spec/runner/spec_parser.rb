@@ -33,25 +33,21 @@ module Spec
     protected
 
       def consider_example_group_for_best_match(example_group, file, line_number)
-        parsed_backtrace = parse_backtrace(example_group.backtrace)
-        parsed_backtrace.each do |example_file, example_line|
-          if is_best_match?(file, line_number, example_file, example_line)
-            best_match.clear
-            best_match[:example_group] = example_group
-            best_match[:line] = example_line
-          end
+        example_group_file, example_group_line = parse_location(example_group.location)
+        if is_best_match?(file, line_number, example_group_file, example_group_line)
+          best_match.clear
+          best_match[:example_group] = example_group
+          best_match[:line] = example_group_line
         end
       end
 
       def consider_example_for_best_match(example, example_group, file, line_number)
-        parsed_backtrace = parse_backtrace(example.backtrace)
-        parsed_backtrace.each do |example_file, example_line|
-          if is_best_match?(file, line_number, example_file, example_line)
-            best_match.clear
-            best_match[:example_group] = example_group
-            best_match[:example] = example
-            best_match[:line] = example_line
-          end
+        example_file, example_line = parse_location(example.location)
+        if is_best_match?(file, line_number, example_file, example_line)
+          best_match.clear
+          best_match[:example_group] = example_group
+          best_match[:example] = example
+          best_match[:line] = example_line
         end
       end
 
@@ -60,13 +56,10 @@ module Spec
         example_line <= line_number &&
         example_line > best_match[:line].to_i
       end
-
-      def parse_backtrace(backtrace)
-        Array(backtrace).collect do |trace_line|
-          trace_line =~ /(.*)\:(\d*)(\:|$)/
-          file, number = $1, $2
-          [file, Integer(number)]
-        end
+      
+      def parse_location(location)
+        location =~ /(.*)\:(\d*)(\:|$)/
+        return $1, Integer($2)
       end
     end
   end

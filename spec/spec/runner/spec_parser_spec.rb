@@ -83,7 +83,7 @@ describe "SpecParser" do
          { "c:/somepath/somefile.rb:999:in 'method'" => "c:/somepath/somefile.rb",
            "./somepath/somefile:999"                 => "./somepath/somefile" }
       fixture.each_pair do |input, expected|
-        parser.send(:parse_backtrace, input ).should == [[expected, 999]]
+        parser.send(:parse_location, input ).should == [expected, 999]
       end
     end
 
