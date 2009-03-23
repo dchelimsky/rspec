@@ -1,5 +1,10 @@
 === Version 1.2.1 / 2009-03-22
 
+This is a bug-fix release, recommended for anybody who has already upgraded to
+rspec-1.2.0.
+
+See Upgrade.rdoc for information about upgrading to rspec-1.2.1
+
 * enhancments
 
   * matchers, including the new DSL, easily added to your test/unit tests

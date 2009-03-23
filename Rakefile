@@ -10,7 +10,6 @@ require 'cucumber/rake/task'
 
 Hoe.new('rspec', Spec::VERSION::STRING) do |p|
   p.summary = Spec::VERSION::SUMMARY
-  p.url = 'http://rspec.info/'
   p.description = "Behaviour Driven Development for Ruby."
   p.rubyforge_name = 'rspec'
   p.developer('RSpec Development Team', 'rspec-devel@rubyforge.org')
