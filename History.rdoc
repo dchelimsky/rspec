@@ -1,4 +1,4 @@
-=== Version 1.2.1 / (dev)
+=== Version 1.2.1 / 2009-03-22
 
 * enhancments
 
