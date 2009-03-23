@@ -86,6 +86,14 @@ describe "SpecParser" do
         parser.send(:parse_location, input ).should == [expected, 999]
       end
     end
+    
+    it "ignores example group base classes which have no location" do
+      options = stub('options', :example_groups => [
+        stub('example_group', :location => nil)
+      ])
+      parser = Spec::Runner::SpecParser.new(options)
+      parser.spec_name_for('foo',37).should == nil
+    end
 
   end
 end

@@ -13,10 +13,11 @@ module Spec
         best_match.clear
         file = File.expand_path(file)
         @run_options.example_groups.each do |example_group|
-          consider_example_group_for_best_match example_group, file, line_number
+          next unless example_group.location
+          consider_example_group_for_best_match(example_group, file, line_number)
 
           example_group.examples.each do |example|
-            consider_example_for_best_match example, example_group, file, line_number
+            consider_example_for_best_match(example, example_group, file, line_number)
           end
         end
         if best_match[:example_group]
@@ -53,8 +54,8 @@ module Spec
 
       def is_best_match?(file, line_number, example_file, example_line)
         file == File.expand_path(example_file) &&
-        example_line <= line_number &&
-        example_line > best_match[:line].to_i
+                example_line <= line_number &&
+                example_line > best_match[:line].to_i
       end
       
       def parse_location(location)
