@@ -84,14 +84,17 @@ module Spec
   # You can use this feature to invoke any predicate that begins with "has_", whether it is
   # part of the Ruby libraries (like +Hash#has_key?+) or a method you wrote on your own class.
   #
-  # == Custom Expectation Matchers
+  # == Custom Matchers
   #
   # When you find that none of the stock Expectation Matchers provide a natural
-  # feeling expectation, you can very easily write your own.
+  # feeling expectation, you can very easily write your own using RSpec's matcher
+  # DSL or writing one from scratch.
   #
-  # For example, imagine that you are writing a game in which players can
-  # be in various zones on a virtual board. To specify that bob should
-  # be in zone 4, you could say:
+  # === Matcher DSL
+  #
+  # Imagine that you are writing a game in which players can be in various
+  # zones on a virtual board. To specify that bob should be in zone 4, you
+  # could say:
   #
   #   bob.current_zone.should eql(Zone.new("4"))
   #
@@ -103,7 +106,42 @@ module Spec
   #
   #   bob.should_not be_in_zone("3")
   #
-  # To do this, you would need to write a class like this:
+  # You can create such a matcher like so:
+  #
+  #   Spec::Matchers.create :be_in_zone do |zone|
+  #     match do |player|
+  #       player.in_zone?(zone)
+  #     end
+  #   end
+  #
+  # This will generate a <tt>be_in_zone</tt> method that returns a matcher
+  # with logical default messages for failures. You can override the failure
+  # messages and the generated description as follows:
+  #
+  #   Spec::Matchers.create :be_in_zone do |zone|
+  #     match do |player|
+  #       player.in_zone?(zone)
+  #     end
+  #     failure_message_for_should do |player|
+  #       # generate and return the appropriate string.
+  #     end
+  #     failure_message_for_should_not do |player|
+  #       # generate and return the appropriate string.
+  #     end
+  #     description do
+  #       # generate and return the appropriate string.
+  #     end
+  #   end
+  #
+  # Each of the message-generation methods has access to the block arguments
+  # passed to the <tt>create</tt> method (in this case, <tt>zone</tt>). The
+  # failure message methods (<tt>failure_message_for_should</tt> and
+  # <tt>failure_message_for_should_not</tt>) are passed the actual value (the
+  # receiver of <tt>should</tt> or <tt>should_not</tt>).
+  #
+  # === Custom Matcher from scratch
+  #
+  # You could also write a custom matcher from scratch, as follows:
   #
   #   class BeInZone
   #     def initialize(expected)
@@ -113,10 +151,10 @@ module Spec
   #       @target = target
   #       @target.current_zone.eql?(Zone.new(@expected))
   #     end
-  #     def failure_message
+  #     def failure_message_for_should
   #       "expected #{@target.inspect} to be in Zone #{@expected}"
   #     end
-  #     def negative_failure_message
+  #     def failure_message_for_should_not
   #       "expected #{@target.inspect} not to be in Zone #{@expected}"
   #     end
   #   end

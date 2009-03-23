@@ -160,9 +160,9 @@ it reads really poorly.
     #   should be_true
     #   should be_false
     #   should be_nil
-    #   should be_arbitrary_predicate(*args)
+    #   should be_[arbitrary_predicate](*args)
     #   should_not be_nil
-    #   should_not be_arbitrary_predicate(*args)
+    #   should_not be_[arbitrary_predicate](*args)
     #
     # Given true, false, or nil, will pass if actual value is
     # true, false or nil (respectively). Given no args means
