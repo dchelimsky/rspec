@@ -1,4 +1,11 @@
-=== Version 1.2.2 (dev)
+=== Version 1.2.2 / 2009-03-22
+
+Bug-fix release (fixes regression introduced in 1.2.1)
+
+* bug fixes 
+
+  * fixed bug in which spec_parser raised an error for custom example group     
+    base classes
 
 === Version 1.2.1 / 2009-03-22
 
