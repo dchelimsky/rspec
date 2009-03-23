@@ -35,6 +35,10 @@ end
   Rake.application.instance_variable_get('@tasks').delete(task)
 end
 
+task :post_blog do
+  # no-op
+end
+
 # Some of the tasks are in separate files since they are also part of the website documentation
 load File.dirname(__FILE__) + '/resources/rake/examples.rake'
 load File.dirname(__FILE__) + '/resources/rake/examples_with_rcov.rake'
