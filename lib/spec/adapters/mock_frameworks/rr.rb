@@ -1,5 +1,4 @@
-require 'rubygems' unless ENV['NO_RUBYGEMS']
-require 'rr'
+Spec::Ruby.require_with_rubygems_fallbackrequire 'rr'
 
 patterns = ::Spec::Runner::QuietBacktraceTweaker::IGNORE_PATTERNS
 patterns.push(RR::Errors::BACKTRACE_IDENTIFIER)

@@ -1,6 +1,5 @@
-require 'rubygems' unless ENV['NO_RUBYGEMS']
-require 'mocha/standalone'
-require 'mocha/object'
+Spec::Ruby.require_with_rubygems_fallback 'mocha/standalone'
+Spec::Ruby.require_with_rubygems_fallback 'mocha/object'
 
 module Spec
   module Adapters

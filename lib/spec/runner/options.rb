@@ -82,8 +82,7 @@ module Spec
       end
 
       def require_ruby_debug
-        require 'rubygems' unless ENV['NO_RUBYGEMS']
-        require 'ruby-debug'
+        Spec::Ruby.require_with_rubygems_fallback require 'ruby-debug'
       end
 
       def run_examples
@@ -152,8 +151,7 @@ module Spec
         if @colour && RUBY_PLATFORM =~ /mswin|mingw/ ;\
           begin ;\
             replace_output = @output_stream.equal?($stdout) ;\
-            require 'rubygems' unless ENV['NO_RUBYGEMS'] ;\
-            require 'Win32/Console/ANSI' ;\
+            Spec::Ruby.require_with_rubygems_fallback 'Win32/Console/ANSI' ;\
             @output_stream = $stdout if replace_output ;\
           rescue LoadError ;\
             warn "You must 'gem install win32console' to use colour on Windows" ;\

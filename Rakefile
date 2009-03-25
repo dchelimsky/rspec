@@ -1,4 +1,7 @@
 # -*- ruby -*-
+
+require 'rubygems'
+
 gem 'hoe', '>=1.9.0'
 require 'hoe'
 

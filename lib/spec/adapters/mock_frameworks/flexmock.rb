@@ -3,8 +3,7 @@
 #  Created by Jim Weirich on 2007-04-10.
 #  Copyright (c) 2007. All rights reserved.
 
-require 'rubygems' unless ENV['NO_RUBYGEMS']
-require 'flexmock/rspec'
+Spec::Ruby.require_with_rubygems_fallback 'flexmock/rspec'
 
 module Spec
   module Adapters
