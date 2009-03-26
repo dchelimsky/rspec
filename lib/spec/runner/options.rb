@@ -82,7 +82,7 @@ module Spec
       end
 
       def require_ruby_debug
-        Spec::Ruby.require_with_rubygems_fallback require 'ruby-debug'
+        Spec::Ruby.require_with_rubygems_fallback 'ruby-debug'
       end
 
       def run_examples

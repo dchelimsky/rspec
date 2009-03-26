@@ -1,4 +1,4 @@
-Spec::Ruby.require_with_rubygems_fallbackrequire 'rr'
+Spec::Ruby.require_with_rubygems_fallback 'rr'
 
 patterns = ::Spec::Runner::QuietBacktraceTweaker::IGNORE_PATTERNS
 patterns.push(RR::Errors::BACKTRACE_IDENTIFIER)
