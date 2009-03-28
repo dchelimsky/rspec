@@ -46,6 +46,7 @@ WARNING
       #   end
       #
       def describe(*args, &example_group_block)
+        raise Spec::Example::NoDescriptionError.new("example group", caller(0)[1]) if args.empty?
         if example_group_block
           Spec::Example::set_location(args, caller(0)[1])
           options = args.last

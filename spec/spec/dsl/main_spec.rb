@@ -16,6 +16,13 @@ module Spec
             )
             @main.__send__ method, "The ExampleGroup", &block
           end
+          
+          it "raises with no description" do
+            block = lambda {|a,b|}
+            lambda do
+              @main.__send__ method, &block
+            end.should raise_error(ArgumentError, /No description supplied for example group declared on #{__FILE__}:#{__LINE__ - 1}/)
+          end
         end
       end
       

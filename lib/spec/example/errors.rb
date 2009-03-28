@@ -26,5 +26,11 @@ module Spec
     end
 
     class PendingExampleFixedError < StandardError; end
+    
+    class NoDescriptionError < ArgumentError
+      def initialize(kind, location)
+        super("No description supplied for #{kind} declared on #{location}")
+      end
+    end
   end
 end

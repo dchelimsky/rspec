@@ -47,6 +47,14 @@ module Spec
                 @child_example_group.location.should =~ /#{__FILE__}:#{__LINE__ - 15}/
               end
             end
+            
+            describe "when creating an example group with no description" do
+              it "raises an ArgumentError" do
+                lambda do
+                  Class.new(ExampleGroupDouble).describe
+                end.should raise_error(Spec::Example::NoDescriptionError, /No description supplied for example group declared on #{__FILE__}:#{__LINE__ - 1}/)
+              end
+            end
 
             describe "when creating a SharedExampleGroup" do
               before(:each) do
