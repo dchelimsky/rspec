@@ -81,7 +81,7 @@ describe "OptionParser" do
     Spec::Runner::OptionParser.stub!(:spec_command?).and_return(true)
     options = parse([])
     @out.rewind
-    @out.read.should match(/Usage: spec \(FILE\|DIRECTORY\|GLOB\)\+ \[options\]/m)
+    @out.read.should match(/Usage: spec \(FILE\(:LINE\)\?\|DIRECTORY\|GLOB\)\+ \[options\]/m)
   end
     
   it "should not print help to stdout if no args and NOT spec_command?" do
@@ -94,7 +94,7 @@ describe "OptionParser" do
   it "should print help to stdout" do
     options = parse(["--help"])
     @out.rewind
-    @out.read.should match(/Usage: spec \(FILE\|DIRECTORY\|GLOB\)\+ \[options\]/m)
+    @out.read.should match(/Usage: spec \(FILE\(:LINE\)\?\|DIRECTORY\|GLOB\)\+ \[options\]/m)
   end
   
   it "should print instructions about how to require missing formatter" do
@@ -279,40 +279,87 @@ describe "OptionParser" do
       options.filename_pattern = "*_fixture.rb"
       options
     end
-  
-    it "should support --line to identify spec" do
-      options = parse([file, "--line", "13"])
-      options.line_number.should == 13
-      options.examples.should be_empty
-      options.run_examples
-      options.examples.should eql(["d"])
-    end
-  
-    it "should fail with error message if file is dir along with --line" do
-      options = parse([dir, "--line", "169"])
-      options.line_number.should == 169
-      options.run_examples
-      @err.string.should match(/You must specify one file, not a directory when using the --line option/n)
-    end
-  
-    it "should fail with error message if file does not exist along with --line" do
-      options = parse(["some file", "--line", "169"])
-      proc do
+
+    describe 'with the --line flag' do
+      it "should correctly identify the spec" do
+        options = parse([file, "--line", "13"])
+        options.line_number.should == 13
+        options.examples.should be_empty
         options.run_examples
-      end.should raise_error
+        options.examples.should eql(["d"])
+      end
+
+      it "should fail with error message if specified file is a dir" do
+        options = parse([dir, "--line", "169"])
+        options.line_number.should == 169
+        options.run_examples
+        @err.string.should match(/You must specify one file, not a directory when providing a line number/n)
+      end
+   
+    
+      it "should fail with error message if file does not exist" do
+        options = parse(["some file", "--line", "169"])
+        proc do
+          options.run_examples
+        end.should raise_error
+      end
+    
+      it "should fail with error message if more than one files are specified" do
+        options = parse([file, file, "--line", "169"])
+        options.run_examples
+        @err.string.should match(/Only one file can be specified when providing a line number/n)
+      end
+    
+      it "should fail with error message if using simultaneously with --example" do
+        options = parse([file, "--example", "some example", "--line", "169"])
+        options.run_examples
+        @err.string.should match(/You cannot use --example and specify a line number/n)
+      end
     end
-  
-    it "should fail with error message if more than one files are specified along with --line" do
-      options = parse([file, file, "--line", "169"])
-      options.run_examples
-      @err.string.should match(/Only one file can be specified when using the --line option/n)
+
+    describe 'with the colon syntanx (filename:LINE_NUMBER)' do
+
+      it "should strip the line number from the file name" do
+        options = parse(["#{file}:13"])
+        options.files.should include(file)
+      end
+
+      it "should correctly identify the spec" do
+        options = parse(["#{file}:13"])
+        options.line_number.should == 13
+        options.examples.should be_empty
+        options.run_examples
+        options.examples.should eql(["d"])
+      end
+
+      it "should fail with error message if specified file is a dir" do
+        options = parse(["#{dir}:169"])
+        options.line_number.should == 169
+        options.run_examples
+        @err.string.should match(/You must specify one file, not a directory when providing a line number/n)
+      end
+   
+    
+      it "should fail with error message if file does not exist" do
+        options = parse(["some file:169"])
+        proc do
+          options.run_examples
+        end.should raise_error
+      end
+    
+      it "should fail with error message if more than one files are specified" do
+        options = parse([file, "#{file}:169"])
+        options.run_examples
+        @err.string.should match(/Only one file can be specified when providing a line number/n)
+      end
+    
+      it "should fail with error message if using simultaneously with --example" do
+        options = parse(["#{file}:169", "--example", "some example"])
+        options.run_examples
+        @err.string.should match(/You cannot use --example and specify a line number/n)
+      end
     end
-  
-    it "should fail with error message if --example and --line are used simultaneously" do
-      options = parse([file, "--example", "some example", "--line", "169"])
-      options.run_examples
-      @err.string.should match(/You cannot use both --line and --example/n)
-    end
+
   end
   
   if [/mswin/, /java/].detect{|p| p =~ RUBY_PLATFORM}
