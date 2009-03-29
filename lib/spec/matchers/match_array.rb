@@ -2,7 +2,8 @@ module Spec
   module Matchers
 
     class MatchArray #:nodoc:
-
+      include Spec::Matchers::Pretty
+      
       def initialize(expected)
         @expected = expected
       end
@@ -11,10 +12,10 @@ module Spec
         @actual = actual        
         @extra_items = difference_between_arrays(@actual, @expected)
         @missing_items = difference_between_arrays(@expected, @actual)
-        @extra_items.empty? && @missing_items.empty?
+        @extra_items.empty? & @missing_items.empty?
       end
 
-      def failure_message
+      def failure_message_for_should
         message =  "expected collection contained:  #{@expected.sort.inspect}\n"
         message += "actual collection contained:    #{@actual.sort.inspect}\n"
         message += "the missing elements were:      #{@missing_items.sort.inspect}\n" unless @missing_items.empty?
@@ -22,7 +23,7 @@ module Spec
         message
       end
       
-      def negative_failure_message
+      def failure_message_for_should_not
         "Matcher does not support should_not"
       end
       
@@ -42,19 +43,6 @@ module Spec
           difference
         end
 
-        def _pretty_print(array)
-          result = ""
-          array.each_with_index do |item, index|
-            if index < (array.length - 2)
-              result << "#{item.inspect}, "
-            elsif index < (array.length - 1)
-              result << "#{item.inspect} and "
-            else
-              result << "#{item.inspect}"
-            end
-          end
-          result
-        end
 
     end
 

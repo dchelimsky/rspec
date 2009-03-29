@@ -3,9 +3,9 @@ module Spec
     class ExamplePendingError < StandardError
       attr_reader :pending_caller
 
-      def initialize(message=nil)
-        super
-        @pending_caller = caller[2]
+      def initialize(message=nil, pending_caller=nil)
+        super(message)
+        @pending_caller = pending_caller || caller[2]
       end
     end
     
@@ -26,5 +26,11 @@ module Spec
     end
 
     class PendingExampleFixedError < StandardError; end
+    
+    class NoDescriptionError < ArgumentError
+      def initialize(kind, location)
+        super("No description supplied for #{kind} declared on #{location}")
+      end
+    end
   end
 end

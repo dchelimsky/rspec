@@ -143,14 +143,14 @@ module Spec
         [get_type_from_options(options)].flatten.each do |required_example_group|
           required_example_group = required_example_group.to_sym if required_example_group
           modules.each do |mod|
-            Spec::Example::ExampleGroupFactory.get(required_example_group).__send__(action, mod)
+            Spec::Example::ExampleGroupFactory[required_example_group].__send__(action, mod)
           end
         end
       end
 
       def add_callback(sym, *args, &proc)
         scope, options = Spec::Example.scope_and_options(*args)
-        example_group = Spec::Example::ExampleGroupFactory.get(get_type_from_options(options))
+        example_group = Spec::Example::ExampleGroupFactory[get_type_from_options(options)]
         example_group.__send__(sym, scope, &proc)
       end
 
@@ -159,7 +159,7 @@ module Spec
       end
     
       def mock_framework_path(framework_name)
-        File.expand_path(File.join(File.dirname(__FILE__), "..", "..", "adapters", "mock_frameworks", framework_name))
+        File.expand_path(File.join(File.dirname(__FILE__), "/../adapters/mock_frameworks/#{framework_name}"))
       end
     end
   end

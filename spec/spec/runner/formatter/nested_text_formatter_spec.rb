@@ -12,19 +12,17 @@ module Spec
             options.stub!(:dry_run).and_return(false)
             options.stub!(:colour).and_return(false)
             @formatter = NestedTextFormatter.new(options, io)
-            @example_group = ::Spec::Example::ExampleGroup.describe("ExampleGroup") do
-              specify "example" do
-              end
-            end
+            @example_group = Class.new(::Spec::Example::ExampleGroupDouble).describe("ExampleGroup")
+            @example_group.example("example") {}
           end
 
-          describe "where ExampleGroup has no superclasss with a description" do
-            before do
-              add_example_group
+          describe "where ExampleGroup has no superclass with a description" do
+            def add_example_group
+              formatter.add_example_group(Spec::Example::ExampleGroupProxy.new(example_group))
             end
 
-            def add_example_group
-              formatter.add_example_group(example_group)
+            before do
+              add_example_group
             end
 
             describe "#dump_summary" do
@@ -52,31 +50,23 @@ OUT
             end
 
             describe "#add_example_group" do
-              describe "when ExampleGroup has description_args" do
-                before do
-                  example_group.description_args.should_not be_nil
-                end
-
-                describe "when ExampleGroup has no parents with description args" do
-                  before do
-                    example_group.superclass.description_args.should be_empty
-                  end
-
+              describe "when ExampleGroup has a nested description" do
+                
+                describe "when ExampleGroup has no parents with nested description" do
                   it "should push ExampleGroup name" do
                     io.string.should eql("ExampleGroup\n")
                   end
                 end
 
-                describe "when ExampleGroup has one parent with description args" do
+                describe "when ExampleGroup has one parent with nested description" do
                   attr_reader :child_example_group
                   def add_example_group
-                    example_group.description_args.should_not be_nil
                     @child_example_group = Class.new(example_group).describe("Child ExampleGroup")
                   end
 
                   describe "and parent ExampleGroups have not been printed" do
                     before do
-                      formatter.add_example_group(child_example_group)
+                      formatter.add_example_group(Spec::Example::ExampleGroupProxy.new(child_example_group))
                     end
 
                     it "should push ExampleGroup name with two spaces of indentation" do
@@ -89,9 +79,9 @@ OUT
 
                   describe "and parent ExampleGroups have been printed" do
                     before do
-                      formatter.add_example_group(example_group)
+                      formatter.add_example_group(Spec::Example::ExampleGroupProxy.new(example_group))
                       io.string = ""
-                      formatter.add_example_group(child_example_group)
+                      formatter.add_example_group(Spec::Example::ExampleGroupProxy.new(child_example_group))
                     end
 
                     it "should print only the indented ExampleGroup" do
@@ -102,17 +92,17 @@ OUT
                   end
                 end
 
-                describe "when ExampleGroup has two parents with description args" do
+                describe "when ExampleGroup has two parents with nested description" do
                   attr_reader :child_example_group, :grand_child_example_group
                   def add_example_group
-                    example_group.description_args.should_not be_nil
                     @child_example_group = Class.new(example_group).describe("Child ExampleGroup")
                     @grand_child_example_group = Class.new(child_example_group).describe("GrandChild ExampleGroup")
                   end
 
                   describe "and parent ExampleGroups have not been printed" do
                     before do
-                      formatter.add_example_group(grand_child_example_group)
+                      formatter.add_example_group(Spec::Example::ExampleGroupProxy.new(grand_child_example_group))
+                      
                     end
 
                     it "should print the entire nested ExampleGroup heirarchy" do
@@ -126,9 +116,9 @@ OUT
 
                   describe "and parent ExampleGroups have been printed" do
                     before do
-                      formatter.add_example_group(child_example_group)
+                      formatter.add_example_group(Spec::Example::ExampleGroupProxy.new(child_example_group))
                       io.string = ""
-                      formatter.add_example_group(grand_child_example_group)
+                      formatter.add_example_group(Spec::Example::ExampleGroupProxy.new(grand_child_example_group))
                     end
 
                     it "should print only the indented ExampleGroup" do
@@ -140,14 +130,13 @@ OUT
                 end
               end
 
-              describe "when ExampleGroup description_args is nil" do
+              describe "when ExampleGroup nested description is blank" do
                 attr_reader :child_example_group
 
                 describe "and parent ExampleGroups have not been printed" do
                   def add_example_group
                     @child_example_group = Class.new(example_group)
-                    child_example_group.description_args.should be_empty
-                    formatter.add_example_group(child_example_group)
+                    formatter.add_example_group(Spec::Example::ExampleGroupProxy.new(child_example_group))
                   end
 
                   it "should render only the parent ExampleGroup" do
@@ -160,10 +149,9 @@ OUT
                 describe "and parent ExampleGroups have been printed" do
                   def add_example_group
                     @child_example_group = Class.new(example_group)
-                    child_example_group.description_args.should be_empty
-                    formatter.add_example_group(example_group)
+                    formatter.add_example_group(Spec::Example::ExampleGroupProxy.new(example_group))
                     io.string = ""
-                    formatter.add_example_group(child_example_group)
+                    formatter.add_example_group(Spec::Example::ExampleGroupProxy.new(child_example_group))
                   end
 
                   it "should not render anything" do
@@ -172,10 +160,9 @@ OUT
                 end
               end
 
-              describe "when ExampleGroup description_args is empty" do
+              describe "when ExampleGroup nested description is blank" do
                 def add_example_group
                   example_group.set_description
-                  example_group.description_args.should be_empty
                   super
                 end
 
@@ -192,7 +179,7 @@ OUT
                     formatter.example_failed(
                       example_group.it("spec"),
                       98,
-                      ::Spec::Runner::Reporter::Failure.new("c s", RuntimeError.new)
+                      ::Spec::Runner::Reporter::Failure.new("g", "c s", RuntimeError.new)
                     )
                     io.string.should == <<-OUT
 ExampleGroup
@@ -206,7 +193,7 @@ OUT
                     formatter.example_failed(
                       example_group.it("spec"),
                       98,
-                      ::Spec::Runner::Reporter::Failure.new("c s", Spec::Expectations::ExpectationNotMetError.new)
+                      ::Spec::Runner::Reporter::Failure.new("g", "c s", Spec::Expectations::ExpectationNotMetError.new)
                     )
                     io.string.should == <<-OUT
 ExampleGroup
@@ -222,7 +209,7 @@ OUT
                 def add_example_group
                   @child_example_group = Class.new(example_group).describe("Child ExampleGroup")
                   @grand_child_example_group = Class.new(child_example_group).describe("GrandChild ExampleGroup")
-                  formatter.add_example_group(grand_child_example_group)
+                  formatter.add_example_group(Spec::Example::ExampleGroupProxy.new(grand_child_example_group))
                 end
 
                 describe "when having an error" do
@@ -230,7 +217,7 @@ OUT
                     formatter.example_failed(
                       grand_child_example_group.it("spec"),
                       98,
-                      ::Spec::Runner::Reporter::Failure.new("c s", RuntimeError.new)
+                      ::Spec::Runner::Reporter::Failure.new("g", "c s", RuntimeError.new)
                     )
                     io.string.should == <<-OUT
 ExampleGroup
@@ -246,7 +233,7 @@ OUT
                     formatter.example_failed(
                       grand_child_example_group.it("spec"),
                       98,
-                      ::Spec::Runner::Reporter::Failure.new("c s", Spec::Expectations::ExpectationNotMetError.new)
+                      ::Spec::Runner::Reporter::Failure.new("g", "c s", Spec::Expectations::ExpectationNotMetError.new)
                     )
                     io.string.should == <<-OUT
 ExampleGroup

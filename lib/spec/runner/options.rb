@@ -6,6 +6,8 @@ module Spec
       }
 
       EXAMPLE_FORMATTERS = { # Load these lazily for better speed
+                'silent' => ['spec/runner/formatter/base_formatter',                   'Formatter::BaseFormatter'],
+                     'l' => ['spec/runner/formatter/base_formatter',                   'Formatter::BaseFormatter'],
                'specdoc' => ['spec/runner/formatter/specdoc_formatter',                'Formatter::SpecdocFormatter'],
                      's' => ['spec/runner/formatter/specdoc_formatter',                'Formatter::SpecdocFormatter'],
                 'nested' => ['spec/runner/formatter/nested_text_formatter',            'Formatter::NestedTextFormatter'],
@@ -24,6 +26,7 @@ module Spec
       }
 
       attr_accessor(
+        :autospec, # hack to tell 
         :filename_pattern,
         :backtrace_tweaker,
         :context_lines,
@@ -31,6 +34,7 @@ module Spec
         :dry_run,
         :profile,
         :heckle_runner,
+        :debug,
         :line_number,
         :loadby,
         :reporter,
@@ -54,6 +58,7 @@ module Spec
         @colour = false
         @profile = false
         @dry_run = false
+        @debug = false
         @reporter = Reporter.new(self)
         @context_lines = 3
         @diff_format  = :unified
@@ -64,6 +69,8 @@ module Spec
         @examples_should_be_run = nil
         @user_input_for_runner = nil
         @after_suite_parts = []
+        @files_loaded = false
+        @out_used = nil
       end
 
       def add_example_group(example_group)
@@ -74,7 +81,13 @@ module Spec
         @example_groups.delete(example_group)
       end
 
+      def require_ruby_debug
+        require 'rubygems' unless ENV['NO_RUBYGEMS']
+        require 'ruby-debug'
+      end
+
       def run_examples
+        require_ruby_debug if debug
         return true unless examples_should_be_run?
         success = true
         begin
@@ -84,6 +97,9 @@ module Spec
             runner.load_files(files_to_load)
             @files_loaded = true
           end
+          
+          define_predicate_matchers
+          plugin_mock_framework
 
           # TODO - this has to happen after the files get loaded,
           # otherwise the before_suite_parts are not populated
@@ -105,7 +121,7 @@ module Spec
           end
         ensure
           after_suite_parts.each do |part|
-            part.call(success)
+            part.arity < 1 ? part.call : part.call(success)
           end
         end
       end
@@ -126,11 +142,6 @@ module Spec
         @examples_should_be_run = false
       end
       
-      def predicate_matchers
-        # TODO - don't like this dependency - perhaps store these in here instead?
-        Spec::Runner.configuration.predicate_matchers
-      end
-      
       def mock_framework
         # TODO - don't like this dependency - perhaps store this in here instead?
         Spec::Runner.configuration.mock_framework
@@ -141,7 +152,7 @@ module Spec
         if @colour && RUBY_PLATFORM =~ /mswin|mingw/ ;\
           begin ;\
             replace_output = @output_stream.equal?($stdout) ;\
-            require 'rubygems' ;\
+            require 'rubygems' unless ENV['NO_RUBYGEMS'] ;\
             require 'Win32/Console/ANSI' ;\
             @output_stream = $stdout if replace_output ;\
           rescue LoadError ;\
@@ -202,9 +213,10 @@ module Spec
       end
 
       def load_heckle_runner(heckle)
-        suffix = [/mswin/, /java/].detect{|p| p =~ RUBY_PLATFORM} ? '_unsupported' : ''
+        @format_options ||= [['silent', @output_stream]]
+        suffix = ([/mswin/, /java/].detect{|p| p =~ RUBY_PLATFORM} || Spec::Ruby.version.to_f == 1.9) ? '_unsupported' : ''
         require "spec/runner/heckle_runner#{suffix}"
-        @heckle_runner = HeckleRunner.new(heckle)
+        @heckle_runner = ::Spec::Runner::HeckleRunner.new(heckle)
       end
 
       def number_of_examples
@@ -232,7 +244,26 @@ module Spec
         @dry_run == true
       end
       
-      protected
+    protected
+
+      def define_predicate_matchers
+        Spec::Runner.configuration.predicate_matchers.each_pair do |matcher_method, method_on_object|
+          Spec::Example::ExampleMethods::__send__ :define_method, matcher_method do |*args|
+            eval("be_#{method_on_object.to_s.gsub('?','')}(*args)")
+          end
+        end
+      end
+      
+      def plugin_mock_framework
+        case mock_framework
+        when Module
+          Spec::Example::ExampleMethods.__send__ :include, mock_framework
+        else
+          require mock_framework
+          Spec::Example::ExampleMethods.__send__ :include, Spec::Adapters::MockFramework
+        end
+      end
+
       def examples_should_be_run?
         return @examples_should_be_run unless @examples_should_be_run.nil?
         @examples_should_be_run = true
@@ -289,7 +320,7 @@ module Spec
 
       def default_differ
         require 'spec/expectations/differs/default'
-        self.differ_class = Spec::Expectations::Differs::Default
+        self.differ_class = ::Spec::Expectations::Differs::Default
       end
 
       def set_spec_from_line_number

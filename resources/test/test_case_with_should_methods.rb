@@ -1,7 +1,6 @@
 $:.push File.join(File.dirname(__FILE__), *%w[.. .. lib])
-require 'test/unit'
-require 'spec'
-require 'spec/interop/test'
+require 'spec/autorun'
+require 'spec/test/unit'
 
 class MyTest < Test::Unit::TestCase
   def should_pass_with_should

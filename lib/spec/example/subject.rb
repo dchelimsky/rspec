@@ -9,17 +9,28 @@ module Spec
         #
         #   describe CheckingAccount, "with $50" do
         #     subject { CheckingAccount.new(:amount => 50, :currency => :USD) }
-        #     it { should have_a_balance_of(50, :USD)}
-        #     it { should_not be_overdrawn}
+        #     it { should have_a_balance_of(50, :USD) }
+        #     it { should_not be_overdrawn }
         #   end
         #
         # See +ExampleMethods#should+ for more information about this approach.
         def subject(&block)
-          if block.nil?
-            @_subject_block || (described_class ? lambda {described_class.new} : lambda {})
+          block.nil? ?
+            explicit_subject || implicit_subject : @_explicit_subject_block = block
+        end
+        
+        def explicit_subject
+          if defined?(@_explicit_subject_block)
+            @_explicit_subject_block
+          elsif super_subject = superclass.instance_variable_get('@_explicit_subject_block')
+            super_subject
           else
-            @_subject_block = block
+            nil
           end
+        end
+        
+        def implicit_subject
+          (described_class ? lambda {described_class.new} : lambda {description_args.first})
         end
       end
       

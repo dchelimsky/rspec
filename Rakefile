@@ -1,31 +1,41 @@
 # -*- ruby -*-
+gem 'hoe', '>=1.9.0'
+require 'hoe'
 
 $:.unshift(File.join(File.dirname(__FILE__), 'lib'))
-require 'rubygems'
-require 'hoe'
+
 require 'spec/version'
 require 'spec/rake/spectask'
 require 'cucumber/rake/task'
 
-class Hoe
-  def extra_deps
-    @extra_deps.reject! { |x| Array(x).first == 'hoe' }
-    @extra_deps
-  end
-end
-
 Hoe.new('rspec', Spec::VERSION::STRING) do |p|
   p.summary = Spec::VERSION::SUMMARY
-  p.url = 'http://rspec.info/'
   p.description = "Behaviour Driven Development for Ruby."
   p.rubyforge_name = 'rspec'
   p.developer('RSpec Development Team', 'rspec-devel@rubyforge.org')
   p.extra_dev_deps = [["cucumber",">= 0.1.13"]]
   p.remote_rdoc_dir = "rspec/#{Spec::VERSION::STRING}"
+  p.rspec_options = ['--options', 'spec/spec.opts']
+  p.history_file = 'History.rdoc'
+  p.readme_file  = 'README.rdoc'
+  p.post_install_message = <<-POST_INSTALL_MESSAGE
+#{'*'*50}
+
+  Thank you for installing rspec-#{Spec::VERSION::STRING}
+
+  Please be sure to read History.rdoc and Upgrade.rdoc
+  for useful information about this release.
+
+#{'*'*50}
+POST_INSTALL_MESSAGE
 end
 
 ['audit','test','test_deps','default','post_blog'].each do |task|
   Rake.application.instance_variable_get('@tasks').delete(task)
+end
+
+task :post_blog do
+  # no-op
 end
 
 # Some of the tasks are in separate files since they are also part of the website documentation
@@ -34,12 +44,10 @@ load File.dirname(__FILE__) + '/resources/rake/examples_with_rcov.rake'
 load File.dirname(__FILE__) + '/resources/rake/failing_examples_with_html.rake'
 load File.dirname(__FILE__) + '/resources/rake/verify_rcov.rake'
 
-task :default => [:verify_rcov, :features]
-
-desc "Run all specs"
-Spec::Rake::SpecTask.new do |t|
-  t.spec_files = FileList['spec/**/*_spec.rb']
-  t.spec_opts = ['--options', 'spec/spec.opts']
+if RUBY_VERSION =~ /^1.8/
+  task :default => [:verify_rcov, :features]
+else
+  task :default => [:spec, :features]
 end
 
 namespace :spec do
@@ -49,12 +57,14 @@ namespace :spec do
     t.spec_opts = ['--options', 'spec/spec.opts']
     t.rcov = true
     t.rcov_dir = 'coverage'
-    t.rcov_opts = ['--exclude', "lib/spec.rb,lib/spec/runner.rb,spec\/spec,bin\/spec,examples,\/Library\/Ruby,\.autotest"]
+    t.rcov_opts = ['--exclude', "kernel,load-diff-lcs\.rb,instance_exec\.rb,lib/spec.rb,lib/spec/runner.rb,spec/spec,bin/spec,examples,/gems,/Library/Ruby,\.autotest,#{ENV['GEM_HOME']}"]
   end
 end
 
 desc "Run Cucumber features"
-Cucumber::Rake::Task.new do; end
+task :features do
+  sh(RUBY_VERSION =~ /^1.8/ ? "cucumber" : "cucumber --profile no_heckle")
+end
 
 desc "Run failing examples (see failure output)"
 Spec::Rake::SpecTask.new('failing_examples') do |t|
@@ -98,9 +108,12 @@ namespace :update do
   task :manifest do
     system %q[touch Manifest.txt; rake check_manifest | grep -v "(in " | patch]
   end
-  
-  desc "update the gemspec"
-  task :gemspec do
-    system %q[rake debug_gem | grep -v "(in " | grep -v "else" | grep -v "s.add_dependency(%q<hoe" | grep -v "s.add_dependency(%q<cuc" > `basename \\`pwd\\``.gemspec]
-  end
+end
+
+task :clobber => :clobber_tmp
+
+task :clobber_tmp do
+  cmd = %q[rm -r tmp]
+  puts cmd
+  system cmd if test ?d, 'tmp'
 end

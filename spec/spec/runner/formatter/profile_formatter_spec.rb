@@ -10,6 +10,7 @@ module Spec
           @io = StringIO.new
           options = mock('options')
           options.stub!(:colour).and_return(true)
+          options.stub!(:autospec).and_return(true)
           @formatter = ProfileFormatter.new(options, io)
         end
         
@@ -31,7 +32,7 @@ module Spec
           parent_example_group = Class.new(::Spec::Example::ExampleGroupDouble).describe('Parent')
           child_example_group = Class.new(parent_example_group).describe('Child')
 
-          formatter.add_example_group(child_example_group)
+          formatter.add_example_group(Spec::Example::ExampleGroupProxy.new(child_example_group))
           
           formatter.example_started('when foo')
           Time.stub!(:now).and_return(now+1)
@@ -49,7 +50,7 @@ module Spec
         
         it "should print the top 10 results" do
           example_group = Class.new(::Spec::Example::ExampleGroup).describe("ExampleGroup")
-          formatter.add_example_group(example_group)
+          formatter.add_example_group(Spec::Example::ExampleGroupProxy.new(example_group))
           formatter.instance_variable_set("@time", Time.now)
           
           15.times do 

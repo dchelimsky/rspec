@@ -212,7 +212,7 @@ describe "should have_at_least(n).items" do
     size_matcher.matches?(owner)
     
     #then
-    length_matcher.negative_failure_message.should == <<-EOF
+    length_matcher.failure_message_for_should_not.should == <<-EOF
 Isn't life confusing enough?
 Instead of having to figure out the meaning of this:
   should_not have_at_least(3).items_in_collection_with_length_method
@@ -220,7 +220,7 @@ We recommend that you use this instead:
   should have_at_most(2).items_in_collection_with_length_method
 EOF
 
-    size_matcher.negative_failure_message.should == <<-EOF
+    size_matcher.failure_message_for_should_not.should == <<-EOF
 Isn't life confusing enough?
 Instead of having to figure out the meaning of this:
   should_not have_at_least(3).items_in_collection_with_size_method
@@ -266,7 +266,7 @@ describe "should have_at_most(n).items" do
     size_matcher.matches?(owner)
     
     #then
-    length_matcher.negative_failure_message.should == <<-EOF
+    length_matcher.failure_message_for_should_not.should == <<-EOF
 Isn't life confusing enough?
 Instead of having to figure out the meaning of this:
   should_not have_at_most(3).items_in_collection_with_length_method
@@ -274,7 +274,7 @@ We recommend that you use this instead:
   should have_at_least(4).items_in_collection_with_length_method
 EOF
     
-    size_matcher.negative_failure_message.should == <<-EOF
+    size_matcher.failure_message_for_should_not.should == <<-EOF
 Isn't life confusing enough?
 Instead of having to figure out the meaning of this:
   should_not have_at_most(3).items_in_collection_with_size_method

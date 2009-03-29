@@ -24,7 +24,7 @@ module Spec
         end
         
         def example_pending(example, message, pending_caller)
-          @pending_examples << [example.full_description, message, pending_caller]
+          @pending_examples << ["#{@example_group.description} #{example.description}", message, pending_caller]
         end
         
         def dump_failure(counter, failure)
@@ -83,9 +83,7 @@ NOTICE
         end
         
         def close
-          if IO === @output && @output != $stdout
-            @output.close 
-          end
+          @output.close  if (IO === @output) & (@output != $stdout)
         end
         
         def format_backtrace(backtrace)
@@ -96,11 +94,15 @@ NOTICE
       protected
 
         def colour?
-          @options.colour ? true : false
+          !!@options.colour
         end
 
         def dry_run?
-          @options.dry_run ? true : false
+          !!@options.dry_run
+        end
+        
+        def autospec?
+          !!@options.autospec
         end
         
         def backtrace_line(line)
@@ -108,7 +110,7 @@ NOTICE
         end
 
         def colour(text, colour_code)
-          return text unless colour? && output_to_tty?
+          return text unless ENV['RSPEC_COLOR'] || (colour? & (autospec? || output_to_tty?))
           "#{colour_code}#{text}\e[0m"
         end
 

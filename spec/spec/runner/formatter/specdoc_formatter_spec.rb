@@ -24,7 +24,7 @@ module Spec
             end
 
             def add_example_group
-              formatter.add_example_group(example_group)
+              formatter.add_example_group(Spec::Example::ExampleGroupProxy.new(example_group))
             end
 
             describe "#dump_summary" do
@@ -52,7 +52,7 @@ module Spec
                     formatter.example_failed(
                       example_group.it("spec"),
                       98,
-                      Spec::Runner::Reporter::Failure.new("c s", RuntimeError.new)
+                      Spec::Runner::Reporter::Failure.new("g", "c s", RuntimeError.new)
                     )
                     io.string.should have_example_group_output("- spec (FAILED - 98)\n")
                   end
@@ -63,7 +63,7 @@ module Spec
                     formatter.example_failed(
                       example_group.it("spec"),
                       98,
-                      Spec::Runner::Reporter::Failure.new("c s", Spec::Expectations::ExpectationNotMetError.new)
+                      Spec::Runner::Reporter::Failure.new("g", "c s", Spec::Expectations::ExpectationNotMetError.new)
                     )
                     io.string.should have_example_group_output("- spec (FAILED - 98)\n")
                   end
@@ -76,7 +76,7 @@ module Spec
                 def add_example_group
                   @child_example_group = Class.new(example_group).describe("Child ExampleGroup")
                   @grand_child_example_group = Class.new(child_example_group).describe("GrandChild ExampleGroup")
-                  formatter.add_example_group(grand_child_example_group)
+                  formatter.add_example_group(Spec::Example::ExampleGroupProxy.new(grand_child_example_group))
                 end
 
                 describe "when having an error" do
@@ -84,7 +84,7 @@ module Spec
                     formatter.example_failed(
                     example_group.it("spec"),
                     98,
-                    Spec::Runner::Reporter::Failure.new("c s", RuntimeError.new)
+                    Spec::Runner::Reporter::Failure.new("g", "c s", RuntimeError.new)
                     )
                     io.string.should have_nested_example_group_output("- spec (FAILED - 98)\n")
                   end
@@ -95,7 +95,7 @@ module Spec
                     formatter.example_failed(
                       example_group.it("spec"),
                       98,
-                      Spec::Runner::Reporter::Failure.new("c s", Spec::Expectations::ExpectationNotMetError.new)
+                      Spec::Runner::Reporter::Failure.new("g", "c s", Spec::Expectations::ExpectationNotMetError.new)
                     )
                     io.string.should have_nested_example_group_output("- spec (FAILED - 98)\n")
                   end

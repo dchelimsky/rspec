@@ -47,10 +47,10 @@ module Spec
                                                     "if you want several outputs",
                                                     " ",
                                                     "Builtin formats:",
-                                                    "progress|p               : Text-based progress bar",
+                                                    "silent|l                 : No output",                                                    "progress|p               : Text-based progress bar",
                                                     "profile|o                : Text-based progress bar with profiling of 10 slowest examples",
                                                     "specdoc|s                : Code example doc strings",
-                                                    "nested|n                 : Code example doc strings with nested groups intented",
+                                                    "nested|n                 : Code example doc strings with nested groups indented",
                                                     "html|h                   : A nice HTML report",
                                                     "failing_examples|e       : Write all failing examples - input for --example",
                                                     "failing_example_groups|g : Write all failing example groups - input for --example",
@@ -78,6 +78,7 @@ module Spec
         :options_file => ["-O", "--options PATH", "Read options from a file"],
         :generate_options => ["-G", "--generate-options PATH", "Generate an options file for --options"],
         :runner => ["-U", "--runner RUNNER", "Use a custom Runner."],
+        :debug => ["-u", "--debugger", "Enable ruby-debugging."],
         :drb => ["-X", "--drb", "Run examples via DRb. (For example against script/spec_server)"],
         :version => ["-v", "--version", "Show version"],
         :help => ["-h", "--help", "You're looking at it"]
@@ -107,19 +108,25 @@ module Spec
         on(*OPTIONS[:timeout])          {|timeout| @options.timeout = timeout.to_f}
         on(*OPTIONS[:heckle])           {|heckle| @options.load_heckle_runner(heckle)}
         on(*OPTIONS[:dry_run])          {@options.dry_run = true}
-        on(*OPTIONS[:options_file])     {|options_file| parse_options_file(options_file)}
+        on(*OPTIONS[:options_file])     {|options_file|}
         on(*OPTIONS[:generate_options]) {|options_file|}
         on(*OPTIONS[:runner])           {|runner|  @options.user_input_for_runner = runner}
+        on(*OPTIONS[:debug])            {@options.debug = true}
         on(*OPTIONS[:drb])              {}
         on(*OPTIONS[:version])          {parse_version}
+        on("--autospec")                {@options.autospec = true}
         on_tail(*OPTIONS[:help])        {parse_help}
       end
       
       def order!(argv, &blk)
         @argv = argv.dup
-        @argv = (@argv.empty? && self.class.spec_command?) ? ['--help'] : @argv 
+        @argv = (@argv.empty? & self.class.spec_command?) ? ['--help'] : @argv 
+        
+        # Parse options file first
+        parse_file_options(:options_file, :parse_options_file)
+        
         @options.argv = @argv.dup
-        return if parse_generate_options
+        return if parse_file_options(:generate_options, :write_generated_options)
         return if parse_drb
         
         super(@argv) do |file|
@@ -130,7 +137,8 @@ module Spec
         @options
       end
       
-      protected
+    protected
+
       def invoke_requires(requires)
         requires.split(",").each do |file|
           require file
@@ -140,16 +148,14 @@ module Spec
       def parse_options_file(options_file)
         option_file_args = IO.readlines(options_file).map {|l| l.chomp.split " "}.flatten
         @argv.push(*option_file_args)
-        # TODO - this is a brute force solution to http://rspec.lighthouseapp.com/projects/5645/tickets/293.
-        # Let's look for a cleaner way. Might not be one. But let's look. If not, perhaps
-        # this can be moved to a different method to indicate the special handling for drb?
-        parse_drb(@argv)
       end
 
-      def parse_generate_options
-        # Remove the --generate-options option and the argument before writing to file
+      def parse_file_options(option_name, action)
+        # Remove the file option and the argument before handling the file
         options_file = nil
-        ['-G', '--generate-options'].each do |option|
+        options_list = OPTIONS[option_name][0..1]
+        options_list[1].gsub!(" PATH", "")
+        options_list.each do |option|
           if index = @argv.index(option)
             @argv.delete_at(index)
             options_file = @argv.delete_at(index)
@@ -157,7 +163,7 @@ module Spec
         end
         
         if options_file
-          write_generated_options(options_file)
+          send(action, options_file)
           return true
         else
           return false
@@ -173,8 +179,8 @@ module Spec
         @options.examples_should_not_be_run
       end
 
-      def parse_drb(argv = nil)
-        argv ||= @options.argv # TODO - see note about about http://rspec.lighthouseapp.com/projects/5645/tickets/293
+      def parse_drb
+        argv = @options.argv
         is_drb = false
         is_drb ||= argv.delete(OPTIONS[:drb][0])
         is_drb ||= argv.delete(OPTIONS[:drb][1])

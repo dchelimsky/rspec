@@ -44,7 +44,7 @@ module Spec
     end
 
     def with_ruby(version)
-      yield if RUBY_PLATFORM =~ Regexp.compile("^#{version}")
+      yield if RUBY_VERSION =~ Regexp.compile("^#{version.to_s}")
     end
   end
 end

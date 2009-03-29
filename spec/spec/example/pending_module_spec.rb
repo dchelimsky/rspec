@@ -2,57 +2,82 @@ module Spec
   module Example
     describe Pending do
       
-      it 'should raise an ExamplePendingError if no block is supplied' do
-        lambda {
-          pending "TODO"
-        }.should raise_error(ExamplePendingError, /TODO/)
-      end
-      
-      it 'should raise an ExamplePendingError if a supplied block fails as expected' do
-        lambda {
-          pending "TODO" do
-            raise "oops"
+      context "when no block is supplied" do
+        it "raises an ExamplePendingError if no block is supplied" do
+          lambda {
+            pending "TODO"
+          }.should raise_error(ExamplePendingError, /TODO/)
+        end
+
+        it "reports the file and line number" do
+          file = __FILE__
+          line_number = __LINE__ + 2
+          begin
+            pending("TODO")
+          rescue => error
+          ensure
+            error.pending_caller.should =~ /^#{file}:#{line_number}/
           end
-        }.should raise_error(ExamplePendingError, /TODO/)
-      end
-      
-      it 'should raise an ExamplePendingError if a supplied block fails as expected with a mock' do
-        lambda {
-          pending "TODO" do
-            m = mock('thing')
-            m.should_receive(:foo)
-            m.rspec_verify
-          end
-        }.should raise_error(ExamplePendingError, /TODO/)
-      end
-      
-      it 'should raise a PendingExampleFixedError if a supplied block starts working' do
-        lambda {
-          pending "TODO" do
-            # success!
-          end
-        }.should raise_error(PendingExampleFixedError, /TODO/)
-      end
-      
-      it "should have the correct file and line number for pending given with a block which fails" do
-        file = __FILE__
-        line_number = __LINE__ + 2
-        begin
-          pending do
-            raise
-          end
-        rescue => error
-          error.pending_caller.should == "#{file}:#{line_number}"
         end
       end
       
-      it "should have the correct file and line number for pending given with no block" do
-        file = __FILE__
-        line_number = __LINE__ + 2
-        begin
-          pending("TODO")
-        rescue => error
-          error.pending_caller.should == "#{file}:#{line_number}"
+      context "when the supplied block fails" do
+        it "raises an ExamplePendingError if a supplied block fails as expected" do
+          lambda {
+            pending "TODO" do
+              raise "oops"
+            end
+          }.should raise_error(ExamplePendingError, /TODO/)
+        end
+
+        it "reports the file and line number" do
+          file = __FILE__
+          line_number = __LINE__ + 2
+          begin
+            pending do
+              raise
+            end
+          rescue => error
+          ensure
+            error.pending_caller.should =~ /#{file}:#{line_number}/
+          end
+        end
+      end
+      
+      context "when the supplied block fails with a mock" do
+        it "raises an ExamplePendingError if a supplied block fails as expected with a mock" do
+          lambda {
+            pending "TODO" do
+              m = mock("thing")
+              m.should_receive(:foo)
+              m.rspec_verify
+            end
+          }.should raise_error(ExamplePendingError, /TODO/)
+        end
+
+        it "reports the file and line number" do
+          file = __FILE__
+          line_number = __LINE__ + 2
+          begin
+            pending do
+              m = mock("thing")
+              m.should_receive(:foo)
+              m.rspec_verify
+            end
+          rescue => error
+          ensure
+            error.pending_caller.should =~ /#{file}:#{line_number}/
+          end
+        end
+      end
+      
+      context "when the supplied block passes" do
+        it "raises a PendingExampleFixedError" do
+          lambda {
+            pending "TODO" do
+              # success!
+            end
+          }.should raise_error(PendingExampleFixedError, /TODO/)
         end
       end
     end

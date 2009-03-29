@@ -1,3 +1,8 @@
+if Spec::Ruby.version.to_f >= 1.9
+  gem 'test-unit','1.2.3'
+end
+
+require 'spec'
 require 'test/unit'
 require 'test/unit/testresult'
 

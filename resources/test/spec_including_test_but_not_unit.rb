@@ -1,5 +1,5 @@
 $:.push File.join(File.dirname(__FILE__), *%w[.. .. lib])
-require 'spec'
+require 'spec/autorun'
 
 module Test
 end

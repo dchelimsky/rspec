@@ -38,7 +38,7 @@ class Autotest::Rspec < Autotest
   def make_test_cmd(files_to_test)
     return '' if files_to_test.empty?
     spec_program = File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'bin', 'spec'))
-    return "#{ruby} #{spec_program} #{files_to_test.keys.flatten.join(' ')} #{add_options_if_present}"
+    return "#{ruby} #{spec_program} --autospec #{files_to_test.keys.flatten.join(' ')} #{add_options_if_present}"
   end
   
   def add_options_if_present # :nodoc:

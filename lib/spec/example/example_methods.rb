@@ -5,7 +5,6 @@ module Spec
       extend  Spec::Example::ModuleReopeningFix
       include Spec::Example::Subject::ExampleMethods
       
-      
       def violated(message="")
         raise Spec::Expectations::ExpectationNotMetError.new(message)
       end
@@ -19,34 +18,27 @@ module Spec
       #   description
       #   => "should start with a balance of 0"
       def description
-        @_defined_description || ::Spec::Matchers.generated_description || "NO NAME"
-      end
-
-      # Concats the class description with the example description.
-      #
-      #   describe Account do
-      #     it "should start with a balance of 0" do
-      #     ...
-      #
-      #   full_description
-      #   => "Account should start with a balance of 0"
-      def full_description
-        "#{self.class.description} #{self.description}"
+        if description = @_proxy.description || ::Spec::Matchers.generated_description
+          description
+        else
+          raise Spec::Example::NoDescriptionError.new("example", @_proxy.location)
+        end
       end
       
       def options # :nodoc:
-        @_options
+        @_proxy.options
       end
 
-      def execute(options, instance_variables) # :nodoc:
-        options.reporter.example_started(self)
+      def execute(run_options, instance_variables) # :nodoc:
+        puts caller unless caller(0)[1] =~ /example_group_methods/
+        run_options.reporter.example_started(@_proxy)
         set_instance_variables_from_hash(instance_variables)
         
         execution_error = nil
-        Timeout.timeout(options.timeout) do
+        Timeout.timeout(run_options.timeout) do
           begin
             before_each_example
-            eval_block
+            instance_eval(&@_implementation)
           rescue Exception => e
             execution_error ||= e
           end
@@ -57,14 +49,12 @@ module Spec
           end
         end
 
-        options.reporter.example_finished(self, execution_error)
+        run_options.reporter.example_finished(@_proxy.update(description), execution_error)
         success = execution_error.nil? || ExamplePendingError === execution_error
       end
 
       def eval_each_fail_fast(blocks) # :nodoc:
-        blocks.each do |block|
-          instance_eval(&block)
-        end
+        blocks.each {|block| instance_eval(&block)}
       end
 
       def eval_each_fail_slow(blocks) # :nodoc:
@@ -89,14 +79,10 @@ module Spec
       def set_instance_variables_from_hash(ivars) # :nodoc:
         ivars.each do |variable_name, value|
           # Ruby 1.9 requires variable.to_s on the next line
-          unless ['@_implementation', '@_defined_description', '@_matcher_description', '@method_name'].include?(variable_name.to_s)
+          unless ['@_proxy', '@_implementation', '@method_name'].include?(variable_name.to_s)
             instance_variable_set variable_name, value
           end
         end
-      end
-
-      def eval_block # :nodoc:
-        instance_eval(&@_implementation)
       end
 
       # Provides the backtrace up to where this example was declared.
@@ -123,7 +109,14 @@ WARNING
         example_group_hierarchy.run_after_each(self)
       end
 
+      def initialize(example_proxy, &implementation)
+        @_proxy = example_proxy
+        @_implementation = implementation
+        @_backtrace = caller
+      end
+
     private
+    
       include Matchers
       include Pending
       
@@ -143,11 +136,14 @@ WARNING
         self.class.described_class
       end
       
-    private
+      def description_args
+        self.class.description_args
+      end
+
       def example_group_hierarchy
         self.class.example_group_hierarchy
       end
-    
+      
     end
   end
 end

@@ -16,16 +16,15 @@ module Spec
         return @names_not_responded_to.empty?
       end
       
-      def failure_message
+      def failure_message_for_should
         "expected #{@actual.inspect} to respond to #{@names_not_responded_to.collect {|name| name.inspect }.join(', ')}#{with_arity}"
       end
       
-      def negative_failure_message
+      def failure_message_for_should_not
         "expected #{@actual.inspect} not to respond to #{@names.collect {|name| name.inspect }.join(', ')}"
       end
       
       def description
-        # Ruby 1.9 returns the same thing for array.to_s as array.inspect, so just use array.inspect here
         "respond to #{pp_names}#{with_arity}"
       end
       
@@ -51,6 +50,7 @@ module Spec
       end
       
       def pp_names
+        # Ruby 1.9 returns the same thing for array.to_s as array.inspect, so just use array.inspect here
         @names.length == 1 ? "##{@names.first}" : @names.inspect
       end
     end

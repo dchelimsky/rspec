@@ -31,7 +31,7 @@ module Spec
   # matchers is quite simple. See Spec::Matchers for details.
   module Expectations
     def self.differ
-      @differ
+      defined?(@differ) ? @differ : nil
     end
     
     def self.differ=(differ)
@@ -44,7 +44,7 @@ module Spec
     # <code>expected</code> and <code>target</code>, passes them
     # to the differ to append a diff message to the failure message.
     def self.fail_with(message, expected=nil, target=nil) # :nodoc:
-      if Array === message && message.length == 3
+      if (Array === message) & (message.length == 3)
         message, expected, target = message[0], message[1], message[2]
       end
       unless (differ.nil? || expected.nil? || target.nil?)

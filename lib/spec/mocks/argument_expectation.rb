@@ -7,6 +7,8 @@ module Spec
       def initialize(args, &block)
         @args = args
         @matchers_block = block
+        @match_any_args = false
+        @matchers = nil
         
         if ArgumentMatchers::AnyArgsMatcher === args.first
           @match_any_args = true
@@ -24,7 +26,7 @@ module Spec
       end
       
       def is_matcher?(obj)
-        return obj.respond_to?(:matches?) && obj.respond_to?(:description)
+        return obj.respond_to?(:matches?) & obj.respond_to?(:description)
       end
       
       def args_match?(given_args)

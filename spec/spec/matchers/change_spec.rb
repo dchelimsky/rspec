@@ -20,6 +20,10 @@ describe "should change(actual, message)" do
       lambda {}.should change(@instance, :some_value)
     end.should fail_with("some_value should have changed, but is still 5")
   end
+  
+  it "provides a #description" do
+    change(@instance, :some_value).description.should == "change #some_value"
+  end
 end
 
 describe "should_not change(actual, message)" do
@@ -59,6 +63,10 @@ describe "should change { block }" do
     lambda do
       lambda {}.should change do; end
     end.should raise_error(Spec::Matchers::MatcherError, /block passed to should or should_not/)
+  end
+  
+  it "provides a #description" do
+    change { @instance.some_value }.description.should == "change #result"
   end
 end
 
@@ -298,6 +306,18 @@ describe "should change(actual, message).from(old).to(new)" do
 
   it "should pass when #from comes before #to" do
     lambda { @instance.some_value = "cat" }.should change(@instance, :some_value).from("string").to("cat")
+  end
+  
+  it "should show the correct messaging when #after and #to are different" do
+    lambda do
+      lambda { @instance.some_value = "cat" }.should change(@instance, :some_value).from("string").to("dog")
+    end.should fail_with("some_value should have been changed to \"dog\", but is now \"cat\"")
+  end
+  
+  it "should show the correct messaging when #before and #from are different" do
+    lambda do
+      lambda { @instance.some_value = "cat" }.should change(@instance, :some_value).from("not_string").to("cat")
+    end.should fail_with("some_value should have initially been \"not_string\", but was \"string\"")
   end
 end
 

@@ -58,7 +58,7 @@ This module should provide the following methods, each of which returns a Matche
       end
 
       it "should convert have_xyz to Has(:have_xyz)" do
-        self.should_receive(:has).with(:have_whatever)
+        Has.should_receive(:new).with(:have_whatever)
         have_whatever
       end
     end

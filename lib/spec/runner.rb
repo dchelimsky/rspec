@@ -8,6 +8,7 @@ require 'spec/runner/backtrace_tweaker'
 require 'spec/runner/reporter'
 require 'spec/runner/spec_parser'
 require 'spec/runner/class_and_arguments_parser'
+require 'spec/runner/extensions/kernel'
 
 module Spec
   module Runner
@@ -15,7 +16,6 @@ module Spec
     class ExampleGroupCreationListener
       def register_example_group(klass)
         Spec::Runner.options.add_example_group klass
-        Spec::Runner.register_at_exit_hook
       end
     end
     
@@ -40,17 +40,9 @@ module Spec
       def configure
         yield configuration
       end
-    
-      def register_at_exit_hook # :nodoc:
-        unless @already_registered_at_exit_hook
-          at_exit do
-            unless $! || run? || Spec::Example::ExampleGroupFactory.registered_or_ancestor_of_registered?(options.example_groups)
-              success = run
-              exit success if exit?
-            end
-          end
-          @already_registered_at_exit_hook = true
-        end
+      
+      def autorun # :nodoc:
+        at_exit {exit run unless $!}
       end
 
       def options # :nodoc:
@@ -65,24 +57,11 @@ module Spec
         @options = options
       end
 
-      def test_unit_defined?
-        Object.const_defined?(:Test) && Test.const_defined?(:Unit) && Test::Unit.respond_to?(:run?)
-      end
-
-      def run?
-        Runner.options.examples_run?
-      end
-
       def run
-        return true if run?
+        return true if options.examples_run?
         options.run_examples
       end
 
-      def exit?
-        !test_unit_defined? || Test::Unit.run?
-      end
     end
   end
 end
-
-require 'spec/interop/test' if Spec::Runner::test_unit_defined?

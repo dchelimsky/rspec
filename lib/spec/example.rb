@@ -158,9 +158,9 @@ module Spec
         return scope_from(*args), options
       end
 
-      def add_spec_path_to(args) # :nodoc:
+      def set_location(args, location) # :nodoc:
         args << {} unless Hash === args.last
-        args.last[:spec_path] ||= caller(0)[2]
+        args.last[:location] ||= location
       end
 
     private
@@ -173,10 +173,14 @@ module Spec
 end
 
 require 'timeout'
+require 'spec/example/predicate_matchers'
+require 'spec/example/example_group_proxy'
+require 'spec/example/example_proxy'
 require 'spec/example/subject'
 require 'spec/example/before_and_after_hooks'
 require 'spec/example/pending'
 require 'spec/example/module_reopening_fix'
+require 'spec/example/example_group_hierarchy'
 require 'spec/example/example_group_methods'
 require 'spec/example/example_methods'
 require 'spec/example/example_group'

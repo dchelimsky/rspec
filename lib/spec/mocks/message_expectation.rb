@@ -25,6 +25,8 @@ module Spec
         @at_least = nil
         @at_most = nil
         @args_to_yield = []
+        @failed_fast = nil
+        @args_to_yield_were_cloned = false
       end
       
       def build_child(expected_from, method_block, expected_received_count, opts={})
@@ -56,8 +58,6 @@ module Spec
                                                     @expected_received_count < values.size
         end
         @return_block = block_given? ? return_block : lambda { value }
-        # Ruby 1.9 - see where this is used below
-        @ignore_args = !block_given?
       end
       
       # :call-seq:
@@ -157,9 +157,7 @@ module Spec
       end
       
       def invoke_consecutive_return_block(args, block)
-        args << block unless block.nil?
-        value = @return_block.call(*args)
-        
+        value = invoke_return_block(args, block)
         index = [@actual_received_count, value.size-1].min
         value[index]
       end
@@ -169,13 +167,9 @@ module Spec
         # Ruby 1.9 - when we set @return_block to return values
         # regardless of arguments, any arguments will result in
         # a "wrong number of arguments" error
-        if @ignore_args
-          @return_block.call()
-        else
-          @return_block.call(*args)
-        end
+        @return_block.arity > 0 ? @return_block.call(*args) : @return_block.call()
       end
-
+      
       def clone_args_to_yield(args)
         @args_to_yield = args.clone
         @args_to_yield_were_cloned = true
@@ -234,7 +228,7 @@ module Spec
         if similar_messages.empty?
           @error_generator.raise_expectation_error(@sym, @expected_received_count, @actual_received_count, *@args_expectation.args)
         else
-          @error_generator.raise_unexpected_message_args_error(self, *@similar_messages.first)
+          @error_generator.raise_unexpected_message_args_error(self, *@similar_messages)
         end
       end
 

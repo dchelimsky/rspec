@@ -6,20 +6,19 @@ module Spec
       class NestedTextFormatter < BaseTextFormatter
         def initialize(options, where)
           super
-          @last_nested_example_groups = []
+          @last_nested_descriptions = []
         end
 
         def add_example_group(example_group)
           super
 
-          current_nested_example_groups = described_example_group_chain
-          current_nested_example_groups.each_with_index do |nested_example_group, i|
-            unless nested_example_group == @last_nested_example_groups[i]
-              output.puts "#{'  ' * i}#{nested_example_group.description_args.join}"
+          example_group.nested_descriptions.each_with_index do |nested_description, i|
+            unless nested_description == @last_nested_descriptions[i]
+              output.puts "#{'  ' * i}#{nested_description}"
             end
           end
 
-          @last_nested_example_groups = described_example_group_chain
+          @last_nested_descriptions = example_group.nested_descriptions
         end
 
         def example_failed(example, counter, failure)
@@ -40,11 +39,7 @@ module Spec
         end
 
         def current_indentation
-          '  ' * @last_nested_example_groups.length
-        end
-
-        def described_example_group_chain
-          example_group.example_group_hierarchy.reject {|eg| eg.description_args.empty?}
+          '  ' * @last_nested_descriptions.length
         end
       end
     end

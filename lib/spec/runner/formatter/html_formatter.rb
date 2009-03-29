@@ -11,6 +11,7 @@ module Spec
           super
           @example_group_number = 0
           @example_number = 0
+          @header_red = nil
         end
         
         def method_missing(sym, *args)
@@ -172,7 +173,7 @@ EOF
 
 <div id="rspec-header">
   <div id="label">
-    <h1>RSpec Results</h1>
+    <h1>RSpec Code Examples</h1>
   </div>
 
   <div id="summary">

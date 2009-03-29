@@ -28,10 +28,6 @@ module Spec
         def description
           "no args"
         end
-
-        def ==(args)
-          args == []
-        end
       end
 
       class RegexpMatcher

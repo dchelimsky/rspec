@@ -37,29 +37,6 @@ module Spec
         after_parts(*args) << block
       end
 
-      # TODO - deprecate this unless there is a reason why it exists
-      def remove_after(scope, &block) # :nodoc:
-        after_each_parts.delete(block)
-      end
-
-      # Deprecated. Use before(:each)
-      def setup(&block)
-        before(:each, &block)
-      end
-
-      # Deprecated. Use after(:each)
-      def teardown(&block)
-        after(:each, &block)
-      end
-
-      def before_all_parts # :nodoc:
-        @before_all_parts ||= []
-      end
-
-      def after_all_parts # :nodoc:
-        @after_all_parts ||= []
-      end
-
       def before_each_parts # :nodoc:
         @before_each_parts ||= []
       end
@@ -68,6 +45,14 @@ module Spec
         @after_each_parts ||= []
       end
       
+      def before_all_parts # :nodoc:
+        @before_all_parts ||= []
+      end
+
+      def after_all_parts # :nodoc:
+        @after_all_parts ||= []
+      end
+
       def before_suite_parts
         BeforeAndAfterHooks.before_suite_parts
       end

@@ -22,7 +22,7 @@ module Spec
         
         describe "#register" do
           it "creates a new shared example group with the submitted args" do
-            block = lambda {}
+            block = lambda {|a|}
             group = SharedExampleGroup.new("shared group") do end
             Spec::Example::SharedExampleGroup.should_receive(:new).with("share me", &block).and_return(group)
             Spec::Example::SharedExampleGroup.register("share me", &block)
@@ -66,12 +66,12 @@ module Spec
           SharedExampleGroup.register(
             "shared example_group",
             :shared => true,
-            :spec_path => "/my/spec/a/../shared.rb"
+            :location => "/my/spec/a/../shared.rb"
           )
           SharedExampleGroup.register(
             "shared example_group",
             :shared => true,
-            :spec_path => "/my/spec/b/../shared.rb"
+            :location => "/my/spec/b/../shared.rb"
           )
         end
 
@@ -79,13 +79,13 @@ module Spec
           SharedExampleGroup.register(
             "shared example_group",
             :shared => true,
-            :spec_path => "/my/spec/a/shared.rb"
+            :location => "/my/spec/a/shared.rb"
           )
           lambda do
             SharedExampleGroup.register(
               "shared example_group",
               :shared => true,
-              :spec_path => "/my/spec/b/shared.rb"
+              :location => "/my/spec/b/shared.rb"
             )
           end.should raise_error(ArgumentError, /already exists/)
         end
@@ -130,12 +130,12 @@ module Spec
         end
 
         it "adds examples to current example_group using it_should_behave_like with a module" do
-          AllThings = describe "all things", :shared => true do
+          ::AllThings = describe "all things", :shared => true do
             it "should do stuff" do end
           end
         
           example_group = describe "one thing" do
-            it_should_behave_like AllThings
+            it_should_behave_like ::AllThings
           end
         
           example_group.number_of_examples.should == 1

@@ -6,9 +6,24 @@ Given /^the file (.*)$/ do |relative_path|
 end
 
 Given /^the following spec:$/ do |spec|
-  @path = "/tmp/example_spec.rb"
+  dir = File.join(File.dirname(__FILE__), "/../../tmp")
+  FileUtils.mkdir(dir) unless test ?d, dir
+  @path = "#{dir}/current_example.rb"
   File.open(@path, "w") do |f|
+    f.write %Q[$:.unshift File.join(File.dirname(__FILE__), "/../lib")]
+    f.write "\n"
     f.write spec
+  end
+end
+
+Given /^a file named (.*) with:$/ do |filename, code|
+  dir = File.join(File.dirname(__FILE__), "/../../tmp")
+  FileUtils.mkdir(dir) unless test ?d, dir
+  @path = "#{dir}/#{filename}"
+  File.open(@path, "w") do |f|
+    f.write %Q[$:.unshift File.join(File.dirname(__FILE__), "/../lib")]
+    f.write "\n"
+    f.write code
   end
 end
 
