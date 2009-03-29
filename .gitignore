@@ -8,3 +8,4 @@ story_server/prototype/rspec_stories.html
 *~
 email.txt
 tmp
+*.sw?
