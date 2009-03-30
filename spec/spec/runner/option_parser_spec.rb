@@ -169,14 +169,14 @@ describe "OptionParser" do
     options.formatters[0].class.should equal(Spec::Runner::Formatter::HtmlFormatter)
   end
   
-  it "should use base formatter when format is s" do
+  it "should use silent formatter when format is s" do
     options = parse(["--format", "l"])
-    options.formatters[0].class.should equal(Spec::Runner::Formatter::BaseFormatter)
+    options.formatters[0].class.should equal(Spec::Runner::Formatter::SilentFormatter)
   end
   
-  it "should use base formatter when format is silent" do
+  it "should use silent formatter when format is silent" do
     options = parse(["--format", "silent"])
-    options.formatters[0].class.should equal(Spec::Runner::Formatter::BaseFormatter)
+    options.formatters[0].class.should equal(Spec::Runner::Formatter::SilentFormatter)
   end
   
   it "should use html formatter with explicit output when format is html:test.html" do
@@ -317,7 +317,7 @@ describe "OptionParser" do
       end
     end
 
-    describe 'with the colon syntanx (filename:LINE_NUMBER)' do
+    describe 'with the colon syntax (filename:LINE_NUMBER)' do
 
       it "should strip the line number from the file name" do
         options = parse(["#{file}:13"])
