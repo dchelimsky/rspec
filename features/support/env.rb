@@ -15,12 +15,31 @@ class RspecWorld
     @working_dir ||= File.expand_path(File.join(File.dirname(__FILE__), "/../../tmp/cucumber-generated-files"))
   end
 
+  def self.spec_command
+    @spec_command ||= File.expand_path(File.join(File.dirname(__FILE__), "/../../bin/spec"))
+  end
+
+  def self.cmdline_file
+    @cmdline_file ||= File.expand_path(File.join(File.dirname(__FILE__), "/../../resources/helpers/cmdline.rb"))
+  end
+  def self.rspec_lib
+    @rspec_lib ||= File.expand_path(File.join(File.dirname(__FILE__), "/../../lib"))
+  end
+
   def working_dir
     self.class.working_dir
   end
 
+  def spec_command
+    self.class.spec_command
+  end
+
+  def cmdline_file
+    self.class.cmdline_file
+  end
+
   def rspec_lib
-    @rspec_lib ||= File.expand_path(File.join(File.dirname(__FILE__), "/../../lib"))
+    self.class.rspec_lib
   end
 
   def spec(args)
@@ -59,13 +78,6 @@ class RspecWorld
     @exit_code = $?.to_i
   end
 
-  def spec_command
-    @spec_command ||= File.expand_path(File.join(File.dirname(__FILE__), "/../../bin/spec"))
-  end
-
-  def cmdline_file
-    @cmdline_file ||= File.expand_path(File.join(File.dirname(__FILE__), "/../../resources/helpers/cmdline.rb"))
-  end
 
 end
 
