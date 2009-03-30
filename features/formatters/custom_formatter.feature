@@ -9,8 +9,11 @@ Feature: custom formatters
       """
       require 'spec/runner/formatter/base_formatter'
       class CustomFormatter < Spec::Runner::Formatter::BaseFormatter
+        def initialize(options, output)
+          @output = output
+        end
         def example_started(proxy)
-          where << "example: " << proxy.description
+          @output << "example: " << proxy.description
         end
       end
       
