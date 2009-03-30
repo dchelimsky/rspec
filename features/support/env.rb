@@ -12,21 +12,25 @@ class RspecWorld
   include RubyForker
 
   def self.working_dir
-    @working_dir ||= File.expand_path(File.join(File.dirname(__FILE__), "/../../tmp"))
+    @working_dir ||= File.expand_path(File.join(File.dirname(__FILE__), "/../../tmp/cucumber-generated-files"))
   end
 
   def working_dir
     self.class.working_dir
   end
 
+  def rspec_lib
+    @rspec_lib ||= File.expand_path(File.join(File.dirname(__FILE__), "/../../lib"))
+  end
+
   def spec(args)
-    ruby("#{spec_file} #{args}")
+    ruby("#{spec_command} #{args}")
   end
 
   def cmdline(args)
     ruby("#{cmdline_file} #{args}")
   end
-
+  
   def create_file(file_name, contents)
     @path = File.join(working_dir, file_name)
     File.open(@path, "w") { |f| f << contents }
@@ -49,27 +53,24 @@ class RspecWorld
     stderr_file = Tempfile.new('rspec')
     stderr_file.close
     Dir.chdir(working_dir) do
-      @stdout = super(args, stderr_file.path)
+      @stdout = super("-I #{rspec_lib} #{args}", stderr_file.path)
     end
     @stderr = IO.read(stderr_file.path)
     @exit_code = $?.to_i
   end
 
-  def spec_file
-    @spec_command ||= File.expand_path(File.join(working_dir, "/../bin/spec"))
+  def spec_command
+    @spec_command ||= File.expand_path(File.join(File.dirname(__FILE__), "/../../bin/spec"))
   end
 
   def cmdline_file
-    @cmdline_file ||= File.expand_path(File.join(working_dir, "/../resources/helpers/cmdline.rb"))
+    @cmdline_file ||= File.expand_path(File.join(File.dirname(__FILE__), "/../../resources/helpers/cmdline.rb"))
   end
 
 end
 
-# Global Setup
-FileUtils.mkdir(RspecWorld.working_dir) unless test ?d, RspecWorld.working_dir
-
-After do
-  FileUtils.rm_rf RspecWorld.working_dir
+Before do
+  FileUtils.rm_rf RspecWorld.working_dir if test ?d, RspecWorld.working_dir
   FileUtils.mkdir RspecWorld.working_dir
 end
 
