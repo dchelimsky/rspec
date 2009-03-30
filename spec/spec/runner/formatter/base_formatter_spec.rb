@@ -4,8 +4,6 @@ module Spec
   module Runner
     module Formatter
       describe BaseFormatter do
-        subject {BaseFormatter.new(nil, nil)}
-        
         it {should respond_to(:start            ).with(1).argument }
         it {should respond_to(:add_example_group).with(1).argument }
         it {should respond_to(:example_passed   ).with(1).argument }

@@ -1,16 +1,8 @@
 module Spec
   module Runner
     module Formatter
-      # Formatter base-class, which implements all required methods.
-      # Almost all of the implementations are no-ops, with the exception
-      # of +add_example_group+ (see below).
+      # Formatter base-class, which implements all required methods as no-ops, with the exception
       class BaseFormatter
-        attr_accessor :example_group, :options, :where
-        def initialize(options, where)
-          @options = options
-          @where = where
-        end
-        
         # This method is invoked before any examples are run, right after
         # they have all been collected. This can be useful for special
         # formatters that need to provide progress on feedback (graphical ones)
@@ -21,12 +13,10 @@ module Spec
         end
 
         # This method is invoked at the beginning of the execution of each example_group.
-        # +example_group_proxy+ is an instance of Spec::Example::ExampleGroupProxy, and
-        # is assigned as the value returned by subsequent calls to +example_group()+
+        # +example_group_proxy+ is an instance of Spec::Example::ExampleGroupProxy.
         #
         # The next method to be invoked after this is #example_started
         def add_example_group(example_group_proxy)
-          @example_group = example_group_proxy
         end
 
         # This method is invoked when an +example+ starts.
@@ -64,7 +54,7 @@ module Spec
         end
 
         # This method is invoked after all of the examples have executed. The next method
-        # to be invoked after this one is #dump_failure (once for each failed example),
+        # to be invoked after this one is #dump_failure (once for each failed example)
         def start_dump
         end
 

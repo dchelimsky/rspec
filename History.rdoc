@@ -1,3 +1,10 @@
+=== Master in git
+
+* enhancements
+
+  * support for specifying single examples with colon syntax. Closes #712. (Ben Mabey)
+    * you can now say "spec some_spec.rb:12" in addition to "spec some_spec.rb --line 12"
+
 === Version 1.2.2 / 2009-03-22
 
 Bug-fix release (fixes regression introduced in 1.2.1)
@@ -14,7 +21,7 @@ rspec-1.2.0.
 
 See Upgrade.rdoc for information about upgrading to rspec-1.2.1
 
-* enhancments
+* enhancements
 
   * matchers, including the new DSL, easily added to your test/unit tests
   * added support for 0 to n args in matcher DSL
