@@ -1,3 +1,4 @@
+# TODO - change all the scenarios that use this to use Given a file named ... (below)
 Given /^the file (.*)$/ do |relative_path|
   @path = File.expand_path(File.join(File.dirname(__FILE__), "..", "support", relative_path))
   unless File.exist?(@path)
@@ -5,18 +6,16 @@ Given /^the file (.*)$/ do |relative_path|
   end
 end
 
+# TODO - change all the scenarios that use this to use Given a file named ... (below)
 Given /^the following spec:$/ do |code|
   create_file("current_example.rb", code)
 end
 
-Given %r{^the following spec named "([^"]+)"$} do |file_name, code|
+Given %r{^a file named "([^"]+)" with:$} do |file_name, code|
   create_file(file_name, code)
 end
 
-Given /^a file named (.*) with:$/ do |file_name, content|
-  create_file(file_name, content)
-end
-
+# TODO - change all of these that don't use the CommandLine object to use When I run ... (below)
 When /^I run it with the (.*)$/ do |interpreter|
   case(interpreter)
     when /^ruby interpreter/
@@ -32,6 +31,10 @@ end
 
 When %r{^I run "spec ([^"]+)"$} do |file_and_args|
   spec(file_and_args)
+end
+
+When %r{^I run "ruby ([^"]+)"$} do |file_and_args|
+  ruby(file_and_args)
 end
 
 Then /^the (.*) should match (.*)$/ do |stream, string_or_regex|

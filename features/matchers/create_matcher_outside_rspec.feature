@@ -5,9 +5,9 @@ Feature: custom matcher shortcut
   I want a shortcut for create custom matchers
 
   Scenario: creating a matcher with default messages
-    Given a file named test_multiples.rb with:
+    Given a file named "test_multiples.rb" with:
       """
-      $:.unshift File.join(File.dirname(__FILE__), "/../lib")
+      $:.unshift File.join(File.dirname(__FILE__), "/../../lib")
       require 'test/unit'
       require 'spec/expectations'
       
@@ -33,7 +33,7 @@ Feature: custom matcher shortcut
         
       end
       """
-    When I run it with the ruby interpreter
+    When I run "ruby test_multiples.rb"
     Then the exit code should be 256
     And the stdout should match "expected 9 to be a multiple of 4"
     And the stdout should match "2 tests, 0 assertions, 1 failures, 0 errors"
