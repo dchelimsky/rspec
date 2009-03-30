@@ -327,18 +327,18 @@ module Spec
         if examples.empty?
           if files.length == 1
             if File.directory?(files[0])
-              error_stream.puts "You must specify one file, not a directory when using the --line option"
+              error_stream.puts "You must specify one file, not a directory when providing a line number"
               exit(1) if stderr?
             else
               example = SpecParser.new(self).spec_name_for(files[0], line_number)
               @examples = [example]
             end
           else
-            error_stream.puts "Only one file can be specified when using the --line option: #{files.inspect}"
+            error_stream.puts "Only one file can be specified when providing a line number: #{files.inspect}"
             exit(3) if stderr?
           end
         else
-          error_stream.puts "You cannot use both --line and --example"
+          error_stream.puts "You cannot use --example and specify a line number"
           exit(4) if stderr?
         end
       end
