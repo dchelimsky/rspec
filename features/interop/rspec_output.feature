@@ -1,8 +1,7 @@
-Feature: Getting correct output
+Feature: spec output
 
-  As an RSpec user
-  I want to see output only once
-  So that I don't get confused
+  When running in interop mode with test/unit, RSpec will output
+  the RSpec summary, but not the test/unit summary.
 
   Scenario: Run with ruby
     Given the file ../../resources/spec/simple_spec.rb

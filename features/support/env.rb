@@ -6,21 +6,74 @@ require File.dirname(__FILE__) + '/../../spec/ruby_forker'
 require File.dirname(__FILE__) + '/matchers/smart_match'
 
 
-module RspecWorld
+class RspecWorld
   include Spec::Expectations
   include Spec::Matchers
   include RubyForker
 
-  def spec(args, stderr)
-    ruby("#{File.dirname(__FILE__) + '/../../bin/spec'} #{args}", stderr)
+  def self.working_dir
+    @working_dir ||= File.expand_path(File.join(File.dirname(__FILE__), "/../../tmp/cucumber-generated-files"))
   end
 
-  def cmdline(args, stderr)
-    ruby("#{File.dirname(__FILE__) + '/../../resources/helpers/cmdline.rb'} #{args}", stderr)
+  def working_dir
+    self.class.working_dir
   end
+
+  def rspec_lib
+    @rspec_lib ||= File.expand_path(File.join(File.dirname(__FILE__), "/../../lib"))
+  end
+
+  def spec(args)
+    ruby("#{spec_command} #{args}")
+  end
+
+  def cmdline(args)
+    ruby("#{cmdline_file} #{args}")
+  end
+  
+  def create_file(file_name, contents)
+    @path = File.join(working_dir, file_name)
+    File.open(@path, "w") { |f| f << contents }
+  end
+
+  def last_stdout
+    @stdout
+  end
+
+  def last_stderr
+    @stderr
+  end
+
+  def last_exit_code
+    @exit_code
+  end
+
+  # it seems like this, and the last_* methods, could be moved into RubyForker-- is that being used anywhere but the features?
+  def ruby(args)
+    stderr_file = Tempfile.new('rspec')
+    stderr_file.close
+    Dir.chdir(working_dir) do
+      @stdout = super("-I #{rspec_lib} #{args}", stderr_file.path)
+    end
+    @stderr = IO.read(stderr_file.path)
+    @exit_code = $?.to_i
+  end
+
+  def spec_command
+    @spec_command ||= File.expand_path(File.join(File.dirname(__FILE__), "/../../bin/spec"))
+  end
+
+  def cmdline_file
+    @cmdline_file ||= File.expand_path(File.join(File.dirname(__FILE__), "/../../resources/helpers/cmdline.rb"))
+  end
+
 end
 
-World do |world|
-  world.extend(RspecWorld)
-  world
+Before do
+  FileUtils.rm_rf RspecWorld.working_dir if test ?d, RspecWorld.working_dir
+  FileUtils.mkdir RspecWorld.working_dir
+end
+
+World do
+  RspecWorld.new
 end

@@ -4,7 +4,7 @@ Feature: run specific examples by line number
   RSpec allows you to specify the line number of the example(s) to run
 
   Scenario: --line syntax on single example
-    Given the following spec:
+    Given a file named "example_spec.rb" with:
       """
       describe "an example" do
         it "has not yet been implemented"
@@ -13,12 +13,12 @@ Feature: run specific examples by line number
         end
       end
       """
-    When I run it with the spec command --line 2
+    When I run "spec example_spec.rb --line 2"
     Then the stdout should match "1 example, 0 failures, 1 pending"
-    And the stdout should match "current_example.rb:2"
+    And the stdout should match "example_spec.rb:2"
 
   Scenario: colon line syntax on single example
-    Given the following spec:
+    Given a file named "example_spec.rb" with:
       """
       describe "an example" do
         it "has not yet been implemented"
@@ -27,6 +27,6 @@ Feature: run specific examples by line number
         end
       end
       """
-    When I run it with the spec command:2
+    When I run "spec example_spec.rb:2"
     Then the stdout should match "1 example, 0 failures, 1 pending"
-    And the stdout should match "current_example.rb:2"
+    And the stdout should match "example_spec.rb:2"
