@@ -317,7 +317,7 @@ describe "OptionParser" do
       end
     end
 
-    describe 'with the colon syntanx (filename:LINE_NUMBER)' do
+    describe 'with the colon syntax (filename:LINE_NUMBER)' do
 
       it "should strip the line number from the file name" do
         options = parse(["#{file}:13"])
