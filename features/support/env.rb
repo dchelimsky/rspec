@@ -28,7 +28,7 @@ class RspecWorld
   end
 
   def self.rspec_lib
-    @rspec_lib ||= File.expand_path(File.join(File.dirname(__FILE__), "/../../lib"))
+    @rspec_lib ||= File.join(working_dir, "/../../lib")
   end
 
   def spec(args)
