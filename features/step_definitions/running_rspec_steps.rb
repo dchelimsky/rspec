@@ -6,11 +6,6 @@ Given /^the file (.*)$/ do |relative_path|
   end
 end
 
-# TODO - change all the scenarios that use this to use Given a file named ... (below)
-Given /^the following spec:$/ do |code|
-  create_file("current_example.rb", code)
-end
-
 Given %r{^a file named "([^"]+)" with:$} do |file_name, code|
   create_file(file_name, code)
 end

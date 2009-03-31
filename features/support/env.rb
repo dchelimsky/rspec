@@ -40,6 +40,7 @@ class RspecWorld
   end
 
   def create_file(file_name, contents)
+    # TODO - remove this @path var once the old "Given the file.." step is removed
     @path = File.join(working_dir, file_name)
     File.open(@path, "w") { |f| f << contents }
   end
