@@ -3,10 +3,10 @@ Feature: before and after blocks
   As a developer using RSpec
   I want to execute arbitrary code before and after each example
   So that I can control the environment in which it is run
-  
+
     This is supported by the before and after methods which each take a symbol
     indicating the scope, and a block of code to execute.
-  
+
     before(:each) blocks are run before each example
     before(:all) blocks are run once before all of the examples in a group
     before(:suite) blocks are run once before the entire suite
@@ -22,14 +22,14 @@ Feature: before and after blocks
       after each
       after all
       after suite
-    
+
     Before and after blocks can be defined in the example groups to which they
     apply or in a configuration. When defined in a configuration, they can be
     applied to all groups or subsets of all groups defined by example group
     types.
-  
+
   Scenario: define before(:each) block in example group
-    Given the following spec:
+    Given a file named "before_each_in_example_group_spec.rb" with:
       """
       class Thing
         def widgets
@@ -41,27 +41,27 @@ Feature: before and after blocks
         before(:each) do
           @thing = Thing.new
         end
-        
+
         context "initialized in before(:each)" do
           it "has 0 widgets" do
             @thing.should have(0).widgets
           end
-        
+
           it "can get accept new widgets" do
             @thing.widgets << Object.new
           end
-        
+
           it "does not share state across examples" do
             @thing.should have(0).widgets
           end
         end
       end
       """
-  	When I run it with the spec command
+    When I run "spec before_each_in_example_group_spec.rb"
     Then the stdout should match "3 examples, 0 failures"
-  
+
   Scenario: define before(:all) block in example group
-    Given the following spec:
+    Given a file named "before_all_in_example_group_spec.rb" with:
       """
       class Thing
         def widgets
@@ -73,27 +73,27 @@ Feature: before and after blocks
         before(:all) do
           @thing = Thing.new
         end
-        
+
         context "initialized in before(:all)" do
           it "has 0 widgets" do
             @thing.should have(0).widgets
           end
-        
+
           it "can get accept new widgets" do
             @thing.widgets << Object.new
           end
-        
+
           it "shares state across examples" do
             @thing.should have(1).widgets
           end
         end
       end
       """
-  	When I run it with the spec command
+    When I run "spec before_all_in_example_group_spec.rb"
     Then the stdout should match "3 examples, 0 failures"
-  
+
   Scenario: define before and after blocks in configuration
-    Given the following spec:
+    Given a file named "befores_in_configuration_spec.rb" with:
       """
       Spec::Runner.configure do |config|
         config.before(:suite) do
@@ -125,11 +125,11 @@ Feature: before and after blocks
         end
       end
       """
-    When I run it with the spec command
+    When I run "spec befores_in_configuration_spec.rb"
     Then the stdout should match "3 examples, 0 failures"
 
   Scenario: before/after blocks are run in order
-    Given the following spec:
+    Given a file named "ensure_block_order_spec.rb" with:
       """
       Spec::Runner.configure do |config|
         config.before(:suite) do
@@ -162,7 +162,6 @@ Feature: before and after blocks
         end
       end
       """
-
-    When I run it with the spec command
+    When I run "spec ensure_block_order_spec.rb"
     Then the stdout should match /before suite\nbefore all\nbefore each\nafter each\n\.after all\n.*after suite/m
 
