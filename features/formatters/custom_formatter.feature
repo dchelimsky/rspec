@@ -5,7 +5,7 @@ Feature: custom formatters
   I want to create my own custom output formatters
 
   Scenario: specdoc format
-    Given the following spec:
+    Given a file named "custom_formatter.rb" with:
       """
       require 'spec/runner/formatter/base_formatter'
       class CustomFormatter < Spec::Runner::Formatter::BaseFormatter
@@ -16,16 +16,15 @@ Feature: custom formatters
           @output << "example: " << proxy.description
         end
       end
-      
+      """
+    And a file named "simple_example_spec.rb" with:
+    """
       describe "my group" do
         specify "my example" do
         end
       end
-      """
-    When I run it with the spec command --format CustomFormatter
+    """
+
+    When I run "spec simple_example_spec.rb --require custom_formatter.rb --format CustomFormatter"
     Then the exit code should be 0
     And the stdout should match "example: my example"
-  
-  
-  
-  
