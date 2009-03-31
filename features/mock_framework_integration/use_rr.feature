@@ -4,7 +4,7 @@ Feature: mock with rr
   I want to be able to use rr without rspec mocks interfering
 
   Scenario: Mock with rr
-    Given the following spec:
+    Given a file named "rr_example_spec.rb" with:
       """
       Spec::Runner.configure do |config|
         config.mock_with :rr
@@ -22,6 +22,6 @@ Feature: mock with rr
         end
       end
       """
-    When I run it with the spec command
+    When I run "spec rr_example_spec.rb"
     Then the exit code should be 0
     And the stdout should match "2 examples, 0 failures"
