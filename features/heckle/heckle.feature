@@ -5,7 +5,7 @@ Feature: heckle a class
   I want to heckle a class
 
   Scenario: Heckle finds problems
-    Given the following spec:
+    Given a file named "heckle_fail_spec.rb" with:
       """
       class Thing
         def a_or_b
@@ -16,19 +16,19 @@ Feature: heckle a class
           end
         end
       end
-      
+
       describe Thing do
         it "returns a for true" do
           Thing.new.a_or_b.should == "a"
         end
       end
       """
-    When I run it with the spec command --heckle Thing
+    When I run "spec heckle_fail_spec.rb --heckle Thing"
     Then the stdout should match "The following mutations didn't cause test failures:"
     But the stdout should not match "FAILED"
-    
+
   Scenario: Heckle does not find a problem
-    Given the following spec:
+    Given a file named "heckle_success_spec.rb" with:
       """
       class Thing
         def a_or_b(key)
@@ -50,7 +50,7 @@ Feature: heckle a class
         end
       end
       """
-    When I run it with the spec command --heckle Thing
+    When I run "spec heckle_success_spec.rb --heckle Thing"
     Then the stdout should match "No mutants survived"
     But the stdout should not match "FAILED"
-    
+
