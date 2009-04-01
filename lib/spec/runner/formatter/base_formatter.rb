@@ -8,7 +8,7 @@ module Spec
         # formatters that need to provide progress on feedback (graphical ones)
         #
         # This method will only be invoked once, and the next one to be invoked
-        # is #add_example_group
+        # is #example_group_started
         def start(example_count)
         end
 
@@ -16,8 +16,9 @@ module Spec
         # +example_group_proxy+ is an instance of Spec::Example::ExampleGroupProxy.
         #
         # The next method to be invoked after this is #example_started
-        def add_example_group(example_group_proxy)
+        def example_group_started(example_group_proxy)
         end
+        alias_method :add_example_group, :example_group_started
 
         # This method is invoked when an +example+ starts.
         # +example_proxy+ is an instance of Spec::Example::ExampleProxy

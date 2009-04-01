@@ -1,4 +1,16 @@
-= Upgrade to rspec-1.2.1
+= Upgrade to master in git
+
+= What's Changed
+
+== Custom Formatters
+
+If you have an custom formatter, the <tt>add_example_group</tt> method has
+been changed to <tt>example_group_started</tt>, and kept as an alias so your
+formatters will still work. Though not yet, <tt>add_example_group</tt> will be
+deprecated in a future minor release, and removed in a future major release,
+so we recommend you make this change now.
+
+= Upgrade to rspec-1.2.2
 
 == What's Changed
 

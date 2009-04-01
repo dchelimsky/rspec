@@ -36,7 +36,7 @@ module Spec
           @output.flush
         end
 
-        def add_example_group(example_group)
+        def example_group_started(example_group)
           super
           @example_group_red = false
           @example_group_number += 1
@@ -49,6 +49,7 @@ module Spec
           @output.puts "  <dt id=\"example_group_#{example_group_number}\">#{h(example_group.description)}</dt>"
           @output.flush
         end
+        alias_method :add_example_group, :example_group_started
 
         def start_dump
           @output.puts "  </dl>"

@@ -2,8 +2,14 @@
 
 * enhancements
 
-  * support for specifying single examples with colon syntax. Closes #712. (Ben Mabey)
-    * you can now say "spec some_spec.rb:12" in addition to "spec some_spec.rb --line 12"
+  * support for specifying single examples with colon syntax. Closes #712.
+    (Ben Mabey)
+    * you can now say "spec some_spec.rb:12" in addition to "spec some_spec.rb
+      --line 12"
+  * changed add_example_group to example_group_started in formatters
+    * example_group_started is an alias for now, so nothing should break
+    * will deprecate eventually, so if you have custom formatters, we
+      recommend making the change now.
 
 === Version 1.2.2 / 2009-03-22
 

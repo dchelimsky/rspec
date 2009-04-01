@@ -4,8 +4,7 @@ module Spec
   module Runner
     module Formatter
       class SilentFormatter < BaseFormatter
-        def initialize(options, output)
-        end
+        def initialize(options, output); end
       end
     end
   end
