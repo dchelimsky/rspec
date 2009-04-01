@@ -70,7 +70,7 @@ module Spec
         def dump_summary(duration, example_count, failure_count, pending_count)
         end
         
-        # This gets invoked after the summary if option is set to do so.
+        # This gets invoked after the summary
         def dump_pending
         end
 
