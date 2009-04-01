@@ -47,11 +47,11 @@ module Spec
         # been provided a block), or when an ExamplePendingError is raised.
         # +message+ is the message from the ExamplePendingError, if it exists, or the
         # default value of "Not Yet Implemented"
-        # +pending_caller+ is the file and line number of the spec which
+        # +pending_location+ is the file and line number of the spec which
         # has called the pending method
         # +example_proxy+ is the same instance of Spec::Example::ExampleProxy
         # that was passed to example_started
-        def example_pending(example_proxy, message, pending_caller)
+        def example_pending(example_proxy, message, pending_location)
         end
 
         # This method is invoked after all of the examples have executed. The next method
