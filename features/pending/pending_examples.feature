@@ -43,7 +43,7 @@ Feature: pending examples
     Then the exit code should be 0
     And the stdout should match "1 example, 0 failures, 1 pending"
     And the stdout should match "(something else getting finished)"
-    And the stdout should match "pending_without_block_spec.rb:3"
+    And the stdout should match "pending_without_block_spec.rb:2"
 
   Scenario: pending any arbitary reason, with a block that fails
     Given a file named "pending_with_failing_block_spec.rb" with:
@@ -60,7 +60,7 @@ Feature: pending examples
     Then the exit code should be 0
     And the stdout should match "1 example, 0 failures, 1 pending"
     And the stdout should match "(something else getting finished)"
-    And the stdout should match "pending_with_failing_block_spec.rb:3"
+    And the stdout should match "pending_with_failing_block_spec.rb:2"
 
   Scenario: pending any arbitary reason, with a block that passes
     Given a file named "pending_with_passing_block_spec.rb" with:

@@ -33,7 +33,7 @@ module Spec
           output.flush
         end
 
-        def example_pending(example, message, pending_location)
+        def example_pending(example, message, deprecated_pending_location=nil)
           super
           output.puts yellow("#{current_indentation}#{example.description} (PENDING: #{message})")
           output.flush

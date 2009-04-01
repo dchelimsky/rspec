@@ -78,8 +78,7 @@ WARNING
       end
       
       def pending_implementation
-        error = Spec::Example::NotYetImplementedError.new(caller)
-        lambda { raise(error) }
+        lambda { raise(Spec::Example::NotYetImplementedError) }
       end
 
       alias_method :it, :example

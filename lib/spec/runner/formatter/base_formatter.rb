@@ -46,12 +46,9 @@ module Spec
         # This method is invoked when an example is not yet implemented (i.e. has not
         # been provided a block), or when an ExamplePendingError is raised.
         # +message+ is the message from the ExamplePendingError, if it exists, or the
-        # default value of "Not Yet Implemented"
-        # +pending_location+ is the file and line number of the spec which
-        # has called the pending method
-        # +example_proxy+ is the same instance of Spec::Example::ExampleProxy
-        # that was passed to example_started
-        def example_pending(example_proxy, message, pending_location)
+        # default value of "Not Yet Implemented". +deprecated_pending_location+ is
+        # deprecated - use example_proxy.location instead
+        def example_pending(example_proxy, message, deprecated_pending_location=nil)
         end
 
         # This method is invoked after all of the examples have executed. The next method

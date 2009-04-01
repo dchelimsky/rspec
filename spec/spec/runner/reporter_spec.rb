@@ -163,12 +163,11 @@ module Spec
       describe "reporting one pending example (ExamplePendingError)" do
         before :each do
           @pending_error = Spec::Example::ExamplePendingError.new("reason")
-          @pending_caller = @pending_error.pending_caller
         end
         
         it "should tell formatter example is pending" do
           example = ExampleGroup.new(example_proxy)
-          formatter.should_receive(:example_pending).with(description_of(example), "reason", @pending_caller)
+          formatter.should_receive(:example_pending).with(description_of(example), "reason")
           formatter.should_receive(:add_example_group).with(example_group_proxy)
           example_group.notify(reporter)
           reporter.example_finished(description_of(example), @pending_error)
@@ -176,7 +175,7 @@ module Spec
       
         it "should account for pending example in stats" do
           example = ExampleGroup.new(example_proxy)
-          formatter.should_receive(:example_pending).with(description_of(example), "reason", @pending_caller)
+          formatter.should_receive(:example_pending).with(description_of(example), "reason")
           formatter.should_receive(:start_dump)
           formatter.should_receive(:dump_pending)
           formatter.should_receive(:dump_summary).with(anything(), 1, 0, 1)
@@ -187,14 +186,14 @@ module Spec
           reporter.dump
         end
         
-        describe "to formatters which have example_pending's arity of 2 (which is now deprecated)" do
+        describe "to formatters which have example_pending's arity of 3 (which is now deprecated)" do
           before :each do
             Kernel.stub!(:warn).with(Spec::Runner::Reporter::EXAMPLE_PENDING_DEPRECATION_WARNING)
           
             @deprecated_formatter = Class.new(@formatter.class) do
               attr_reader :example_passed_to_method, :message_passed_to_method
       
-              def example_pending(example_passed_to_method, message_passed_to_method)
+              def example_pending(example_passed_to_method, message_passed_to_method, deprecated_third_arg=nil)
                 @example_passed_to_method = example_passed_to_method
                 @message_passed_to_method = message_passed_to_method
               end
@@ -204,12 +203,12 @@ module Spec
           end
           
           it "should pass the correct example description to the formatter" do
-            description = Spec::Example::ExampleProxy.new("name")
-            example = ExampleGroup.new(description)
+            proxy = Spec::Example::ExampleProxy.new("name")
+            example = ExampleGroup.new(proxy)
             example_group.notify(reporter)
             reporter.example_finished(description_of(example), @pending_error)
             
-            @deprecated_formatter.example_passed_to_method.should == description
+            @deprecated_formatter.example_passed_to_method.should == proxy
           end
           
           it "should pass the correct pending error message to the formatter" do

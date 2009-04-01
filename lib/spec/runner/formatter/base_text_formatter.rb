@@ -29,8 +29,8 @@ module Spec
         end
         alias_method :add_example_group, :example_group_started
         
-        def example_pending(example, message, pending_location)
-          @pending_examples << ["#{@example_group.description} #{example.description}", message, pending_location]
+        def example_pending(example, message, ignore)
+          @pending_examples << ["#{@example_group.description} #{example.description}", message, example.location]
         end
         
         def dump_failure(counter, failure)
