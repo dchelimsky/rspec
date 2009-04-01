@@ -219,7 +219,7 @@ describe "should_not with operators" do
   it "should coach user to stop using operators with should_not" do
     lambda {
       5.should_not be < 6
-    }.should raise_error(/not only FAILED,\nit reads really poorly./m)
+    }.should raise_error(/not only FAILED,\nit is a bit confusing./m)
   end
 end
 
