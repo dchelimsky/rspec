@@ -72,8 +72,8 @@ class RspecWorld
 end
 
 Before do
-  FileUtils.rm_rf RspecWorld.working_dir if test ?d, RspecWorld.working_dir
-  FileUtils.mkdir RspecWorld.working_dir
+  FileUtils.rm_rf   RspecWorld.working_dir if test ?d, RspecWorld.working_dir
+  FileUtils.mkdir_p RspecWorld.working_dir
 end
 
 World do
