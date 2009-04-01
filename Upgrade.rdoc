@@ -111,7 +111,7 @@ We'll still support the simple_matcher method, so never fear if you're using
 that, but we recommend that you start developing your new matchers with this
 new syntax.
 
-    Spec::Matchers.create do :be_a_multiple_of |smaller|
+    Spec::Matchers.create :be_a_multiple_of do |smaller|
       match do |bigger|
         bigger % smaller == 0
       end
