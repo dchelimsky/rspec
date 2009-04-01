@@ -60,9 +60,11 @@ features/before_and_after_blocks/before_and_after_blocks.feature
 features/example_groups/example_group_with_should_methods.feature
 features/example_groups/implicit_docstrings.feature
 features/example_groups/nested_groups.feature
-features/example_groups/output.feature
+features/extensions/custom_example_group.feature
+features/formatters/custom_formatter.feature
 features/heckle/heckle.feature
 features/interop/examples_and_tests_together.feature
+features/interop/rspec_output.feature
 features/interop/test_but_not_test_unit.feature
 features/interop/test_case_with_should_methods.feature
 features/matchers/create_matcher.feature
@@ -72,7 +74,8 @@ features/mock_framework_integration/use_mocha.feature
 features/mock_framework_integration/use_rr.feature
 features/mocks/mix_stubs_and_mocks.feature
 features/pending/pending_examples.feature
-features/step_definitions/running_rspec.rb
+features/runner/specify_line_number.feature
+features/step_definitions/running_rspec_steps.rb
 features/subject/explicit_subject.feature
 features/subject/implicit_subject.feature
 features/support/env.rb
@@ -109,7 +112,7 @@ lib/spec/expectations/differs/default.rb
 lib/spec/expectations/differs/load-diff-lcs.rb
 lib/spec/expectations/errors.rb
 lib/spec/expectations/extensions.rb
-lib/spec/expectations/extensions/object.rb
+lib/spec/expectations/extensions/kernel.rb
 lib/spec/expectations/handler.rb
 lib/spec/interop/test.rb
 lib/spec/interop/test/unit/autorunner.rb
@@ -180,6 +183,7 @@ lib/spec/runner/formatter/html_formatter.rb
 lib/spec/runner/formatter/nested_text_formatter.rb
 lib/spec/runner/formatter/profile_formatter.rb
 lib/spec/runner/formatter/progress_bar_formatter.rb
+lib/spec/runner/formatter/silent_formatter.rb
 lib/spec/runner/formatter/snippet_extractor.rb
 lib/spec/runner/formatter/specdoc_formatter.rb
 lib/spec/runner/formatter/text_mate_formatter.rb
@@ -197,10 +201,6 @@ resources/rake/examples_with_rcov.rake
 resources/rake/failing_examples_with_html.rake
 resources/rake/verify_rcov.rake
 resources/spec/example_group_with_should_methods.rb
-resources/spec/simple_spec.rb
-resources/test/spec_and_test_together.rb
-resources/test/spec_including_test_but_not_unit.rb
-resources/test/test_case_with_should_methods.rb
 spec/README.jruby
 spec/autotest/autotest_helper.rb
 spec/autotest/autotest_matchers.rb

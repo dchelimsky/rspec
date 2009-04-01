@@ -68,7 +68,6 @@ class RspecWorld
     @exit_code = $?.to_i
   end
 
-
 end
 
 Before do
