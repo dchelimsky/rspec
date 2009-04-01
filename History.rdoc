@@ -11,6 +11,10 @@
     * will deprecate eventually, so if you have custom formatters, we
       recommend making the change now.
 
+* bug fixes
+
+  * support expectations on DelegateClass (Clifford T. Matthews). Closes #48.
+
 === Version 1.2.2 / 2009-03-22
 
 Bug-fix release (fixes regression introduced in 1.2.1)
