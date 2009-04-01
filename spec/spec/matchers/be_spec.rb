@@ -259,10 +259,6 @@ end
 
 describe "arbitrary predicate with DelegateClass" do
   it "should access methods defined in the delegating class (LH[#48])" do
-    pending(%{
-      Looks like DelegateClass is delegating #should to the
-      delegate. Not sure how to fix this one. Or if we even should."
-    })
     require 'delegate'
     class ArrayDelegate < DelegateClass(Array)
       def initialize(array)
