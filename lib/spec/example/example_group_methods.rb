@@ -226,9 +226,9 @@ WARNING
       
       def examples_to_run(run_options)
         return example_proxies unless specified_examples?(run_options)
-        example_proxies.reject do |example|
+        example_proxies.reject do |proxy|
           matcher = ExampleGroupMethods.matcher_class.
-            new(description.to_s, example.description)
+            new(description.to_s, proxy.description)
           !matcher.matches?(run_options.examples)
         end
       end
