@@ -31,6 +31,7 @@ module Spec
       
       # Deprecated - use location() instead
       def backtrace
+        Spec::deprecate("ExampleGroupProxy#backtrace","ExampleGroupProxy#location")
         @backtrace
       end
   
