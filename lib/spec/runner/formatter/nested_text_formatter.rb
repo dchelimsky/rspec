@@ -20,7 +20,6 @@ module Spec
 
           @last_nested_descriptions = example_group.nested_descriptions
         end
-        alias_method :add_example_group, :example_group_started
 
         def example_failed(example, counter, failure)
           output.puts(red("#{current_indentation}#{example.description} (FAILED - #{counter})"))

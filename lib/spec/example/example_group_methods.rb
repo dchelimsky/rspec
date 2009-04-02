@@ -109,8 +109,8 @@ module Spec
         self
       end
       
-      def notify(listener) # :nodoc:
-        listener.add_example_group(ExampleGroupProxy.new(self))
+      def notify(reporter) # :nodoc:
+        reporter.example_group_started(ExampleGroupProxy.new(self))
       end
 
       def description

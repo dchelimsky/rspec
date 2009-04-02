@@ -27,7 +27,6 @@ module Spec
         def example_group_started(example_group_proxy)
           @example_group = example_group_proxy
         end
-        alias_method :add_example_group, :example_group_started
         
         def example_pending(example, message, ignore)
           @pending_examples << ["#{@example_group.description} #{example.description}", message, example.location]

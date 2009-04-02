@@ -9,9 +9,9 @@ module Spec
         clear
       end
       
-      def add_example_group(example_group)
+      def example_group_started(example_group)
         formatters.each do |f|
-          f.add_example_group(example_group)
+          f.example_group_started(example_group)
         end
         example_groups << example_group
       end

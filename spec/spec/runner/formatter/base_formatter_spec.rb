@@ -18,6 +18,11 @@ module Spec
         it {should respond_to(:dump_summary         ).with(4).arguments}
         it {should respond_to(:dump_pending         ).with(0).arguments}
         it {should respond_to(:close                ).with(0).arguments}
+        
+        it "deprecates add_example_group" do
+          Spec.should_receive(:deprecate)
+          subject.add_example_group(stub('example group'))
+        end
       end
     end
   end

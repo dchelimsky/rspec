@@ -10,7 +10,6 @@ module Spec
           output.puts example_group.description
           output.flush
         end
-        alias_method :add_example_group, :example_group_started
       
         def example_failed(example, counter, failure)
           output.puts(red("- #{example.description} (FAILED - #{counter})"))

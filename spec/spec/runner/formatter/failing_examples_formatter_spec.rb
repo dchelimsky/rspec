@@ -15,9 +15,9 @@ module Spec
           example_group_1 = Class.new(::Spec::Example::ExampleGroupDouble).describe("A")
           example_group_2 = Class.new(example_group_1).describe("B")
 
-          @formatter.add_example_group(Spec::Example::ExampleGroupProxy.new(example_group_1))
+          @formatter.example_group_started(Spec::Example::ExampleGroupProxy.new(example_group_1))
           @formatter.example_failed(example_group_1.it("a1"){}, nil, ::Spec::Runner::Reporter::Failure.new("g", nil, RuntimeError.new))
-          @formatter.add_example_group(Spec::Example::ExampleGroupProxy.new(example_group_2))
+          @formatter.example_group_started(Spec::Example::ExampleGroupProxy.new(example_group_2))
           @formatter.example_failed(example_group_2.it("b2"){}, nil, ::Spec::Runner::Reporter::Failure.new("g", nil, RuntimeError.new))
           @formatter.example_failed(example_group_2.it("b3"){}, nil, ::Spec::Runner::Reporter::Failure.new("g", nil, RuntimeError.new))
           @io.string.should eql(<<-EOF

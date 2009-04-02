@@ -18,7 +18,12 @@ module Spec
         # The next method to be invoked after this is #example_started
         def example_group_started(example_group_proxy)
         end
-        alias_method :add_example_group, :example_group_started
+        
+        # Deprecated - use example_group_started instead
+        def add_example_group(example_group_proxy)
+          Spec.deprecate("BaseFormatter#add_example_group", "BaseFormatter#example_group_started")
+          example_group_started(example_group_proxy)
+        end
 
         # This method is invoked when an +example+ starts.
         # +example_proxy+ is an instance of Spec::Example::ExampleProxy

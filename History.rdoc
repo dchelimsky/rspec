@@ -1,17 +1,18 @@
 === Version 1.2.3 (in git)
 
+* deprecations
+
+  * BaseFormatter#add_example_group (use #example_group_started instead)
+  * ExampleGroupProxy#backtrace (use #location instead)
+  * BaseFormatter#example_pending now expects two arguments. The third
+    argument is deprecated.
+
 * enhancements
 
   * support for specifying single examples with colon syntax. Closes #712.
     (Ben Mabey)
     * you can now say "spec some_spec.rb:12" in addition to "spec some_spec.rb
       --line 12"
-  * changed add_example_group to example_group_started in formatters
-    * example_group_started is an alias for now, so nothing should break
-    * will deprecate eventually, so if you have custom formatters, we
-      recommend making the change now.
-  * deprecated the third argument to example_pending. See
-    Spec::Runner::Formatter::BaseFormatter for more information.
 
 * bug fixes
 

@@ -35,12 +35,12 @@ module Spec
       end
       
       it "should tell formatter when example_group is added" do
-        formatter.should_receive(:add_example_group).with(example_group_proxy)
+        formatter.should_receive(:example_group_started).with(example_group_proxy)
         example_group.notify(reporter)
       end
       
       it "should handle multiple example_groups with same name" do
-        formatter.should_receive(:add_example_group).exactly(3).times
+        formatter.should_receive(:example_group_started).exactly(3).times
         formatter.should_receive(:example_started).exactly(3).times
         formatter.should_receive(:example_passed).exactly(3).times
         formatter.should_receive(:start_dump)
@@ -68,7 +68,7 @@ module Spec
         passing = ::Spec::Example::ExampleGroupDouble.new(example_proxy)
         failing = ::Spec::Example::ExampleGroupDouble.new(example_proxy)
 
-        formatter.should_receive(:add_example_group).exactly(2).times
+        formatter.should_receive(:example_group_started).exactly(2).times
         formatter.should_receive(:example_passed).with(description_of(passing)).exactly(2).times
         formatter.should_receive(:example_failed).with(description_of(failing), 1, failure)
         formatter.should_receive(:example_failed).with(description_of(failing), 2, failure)
@@ -168,7 +168,7 @@ module Spec
         it "should tell formatter example is pending" do
           example = ExampleGroup.new(example_proxy)
           formatter.should_receive(:example_pending).with(description_of(example), "reason")
-          formatter.should_receive(:add_example_group).with(example_group_proxy)
+          formatter.should_receive(:example_group_started).with(example_group_proxy)
           example_group.notify(reporter)
           reporter.example_finished(description_of(example), @pending_error)
         end
@@ -180,7 +180,7 @@ module Spec
           formatter.should_receive(:dump_pending)
           formatter.should_receive(:dump_summary).with(anything(), 1, 0, 1)
           formatter.should_receive(:close).with(no_args)
-          formatter.should_receive(:add_example_group).with(example_group_proxy)
+          formatter.should_receive(:example_group_started).with(example_group_proxy)
           example_group.notify(reporter)
           reporter.example_finished(description_of(example), @pending_error)
           reporter.dump
@@ -234,7 +234,7 @@ module Spec
           formatter.should_receive(:example_failed) do |name, counter, failure|
             failure.header.should == "'example_group should do something' FIXED"
           end
-          formatter.should_receive(:add_example_group).with(example_group_proxy)
+          formatter.should_receive(:example_group_started).with(example_group_proxy)
           example_group.notify(reporter)
           reporter.example_finished(description_of(example_group.examples.first), Spec::Example::PendingExampleFixedError.new("reason"))
         end
