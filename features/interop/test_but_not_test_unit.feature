@@ -17,7 +17,6 @@ Story: Test is defined, but not Test::Unit
       end
     end
     """
-    When I run it with the ruby interpreter
     When I run "<Command> spec_including_test_but_not_unit.rb"
     Then the stderr should not match "Test::Unit"
 
