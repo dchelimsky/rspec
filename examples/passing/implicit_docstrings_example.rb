@@ -5,11 +5,11 @@ require File.dirname(__FILE__) + '/spec_helper'
 describe "Examples with no docstrings generate their own:" do
 
   specify { 3.should be < 5 }
-  
+
   specify { ["a"].should include("a") }
-  
+
   specify { [1,2,3].should respond_to(:size) }
-  
+
 end
 
 describe 1 do
