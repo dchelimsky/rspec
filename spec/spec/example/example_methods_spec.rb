@@ -122,6 +122,25 @@ module Spec
         example.options[:this].should == 'that'
       end
     end
+    
+    describe "#description" do
+      it "returns the supplied description" do
+        example = ExampleGroupDouble.new ExampleProxy.new("name") do; end
+        example.description.should == "name"
+      end
+      it "returns the generated description if there is no description supplied" do
+        example = ExampleGroupDouble.new ExampleProxy.new do; end
+        Spec::Matchers.stub!(:generated_description).and_return('this message')
+        example.description.should == "this message"
+      end
+      it "raises if there is no supplied or generated description" do
+        example = ExampleGroupDouble.new ExampleProxy.new(nil, {}, "this backtrace") do; end
+        Spec::Matchers.stub!(:generated_description).and_return(nil)
+        lambda do
+          example.description
+        end.should raise_error(/No description supplied for example declared on this backtrace/)
+      end
+    end
 
   end
 end

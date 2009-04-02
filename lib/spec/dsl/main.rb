@@ -20,6 +20,7 @@ module Spec
       # register special implementations.
       #
       def describe(*args, &block)
+        raise Spec::Example::NoDescriptionError.new("example group", caller(0)[1]) if args.empty?
         Spec::Example::set_location(args, caller(0)[1])
         Spec::Example::ExampleGroupFactory.assign_scope(self, args)
         Spec::Example::ExampleGroupFactory.create_example_group(*args, &block)

@@ -18,7 +18,11 @@ module Spec
       #   description
       #   => "should start with a balance of 0"
       def description
-        @_proxy.description || ::Spec::Matchers.generated_description || "NO NAME"
+        if description = @_proxy.description || ::Spec::Matchers.generated_description
+          description
+        else
+          raise Spec::Example::NoDescriptionError.new("example", @_proxy.location)
+        end
       end
       
       def options # :nodoc:

@@ -1,33 +1,24 @@
 module Spec
   module Runner
     module Formatter
-      # Formatter base-class, which implements all required methods.
-      # Almost all of the implementations are no-ops, with the exception
-      # of +add_example_group+ (see below).
+      # Formatter base-class, which implements all required methods as no-ops, with the exception
       class BaseFormatter
-        attr_accessor :example_group, :options, :where
-        def initialize(options, where)
-          @options = options
-          @where = where
-        end
-        
         # This method is invoked before any examples are run, right after
         # they have all been collected. This can be useful for special
         # formatters that need to provide progress on feedback (graphical ones)
         #
         # This method will only be invoked once, and the next one to be invoked
-        # is #add_example_group
+        # is #example_group_started
         def start(example_count)
         end
 
         # This method is invoked at the beginning of the execution of each example_group.
-        # +example_group_proxy+ is an instance of Spec::Example::ExampleGroupProxy, and
-        # is assigned as the value returned by subsequent calls to +example_group()+
+        # +example_group_proxy+ is an instance of Spec::Example::ExampleGroupProxy.
         #
         # The next method to be invoked after this is #example_started
-        def add_example_group(example_group_proxy)
-          @example_group = example_group_proxy
+        def example_group_started(example_group_proxy)
         end
+        alias_method :add_example_group, :example_group_started
 
         # This method is invoked when an +example+ starts.
         # +example_proxy+ is an instance of Spec::Example::ExampleProxy
@@ -55,16 +46,13 @@ module Spec
         # This method is invoked when an example is not yet implemented (i.e. has not
         # been provided a block), or when an ExamplePendingError is raised.
         # +message+ is the message from the ExamplePendingError, if it exists, or the
-        # default value of "Not Yet Implemented"
-        # +pending_caller+ is the file and line number of the spec which
-        # has called the pending method
-        # +example_proxy+ is the same instance of Spec::Example::ExampleProxy
-        # that was passed to example_started
-        def example_pending(example_proxy, message, pending_caller)
+        # default value of "Not Yet Implemented". +deprecated_pending_location+ is
+        # deprecated - use example_proxy.location instead
+        def example_pending(example_proxy, message, deprecated_pending_location=nil)
         end
 
         # This method is invoked after all of the examples have executed. The next method
-        # to be invoked after this one is #dump_failure (once for each failed example),
+        # to be invoked after this one is #dump_failure (once for each failed example)
         def start_dump
         end
 
@@ -79,7 +67,7 @@ module Spec
         def dump_summary(duration, example_count, failure_count, pending_count)
         end
         
-        # This gets invoked after the summary if option is set to do so.
+        # This gets invoked after the summary
         def dump_pending
         end
 

@@ -23,11 +23,11 @@ module Spec
         @description || explanation
       end
 
-      def failure_message
+      def failure_message_for_should
         @failure_message || (@description.nil? ? explanation : %[expected #{@description.inspect} but got #{@given.inspect}])
       end
 
-      def negative_failure_message
+      def failure_message_for_should_not
         @negative_failure_message || (@description.nil? ? explanation : %[expected not to get #{@description.inspect}, but got #{@given.inspect}])
       end
 

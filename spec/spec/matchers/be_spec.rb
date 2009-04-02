@@ -219,7 +219,7 @@ describe "should_not with operators" do
   it "should coach user to stop using operators with should_not" do
     lambda {
       5.should_not be < 6
-    }.should raise_error(/not only FAILED,\nit reads really poorly./m)
+    }.should raise_error(/not only FAILED,\nit is a bit confusing./m)
   end
 end
 
@@ -259,10 +259,6 @@ end
 
 describe "arbitrary predicate with DelegateClass" do
   it "should access methods defined in the delegating class (LH[#48])" do
-    pending(%{
-      Looks like DelegateClass is delegating #should to the
-      delegate. Not sure how to fix this one. Or if we even should."
-    })
     require 'delegate'
     class ArrayDelegate < DelegateClass(Array)
       def initialize(array)

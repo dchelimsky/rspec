@@ -5,7 +5,7 @@ Feature: custom matcher shortcut
   I want a shortcut for create custom matchers
 
   Scenario: creating a matcher with default messages
-    Given the following spec:
+    Given a file named "matcher_with_default_message_spec.rb" with:
       """
       Spec::Matchers.create :be_a_multiple_of do |expected|
         match do |actual|
@@ -32,7 +32,7 @@ Feature: custom matcher shortcut
       end
 
       """
-    When I run it with the spec command --format specdoc
+    When I run "spec matcher_with_default_message_spec.rb --format specdoc"
     Then the exit code should be 256
 
     And the stdout should match "should be a multiple of 3"
@@ -43,9 +43,9 @@ Feature: custom matcher shortcut
     And the stdout should match "4 examples, 2 failures"
     And the stdout should match "expected 9 to be a multiple of 4"
     And the stdout should match "expected 9 not to be a multiple of 3"
-    
+
   Scenario: overriding the failure_message_for_should
-    Given the following spec:
+    Given a file named "matcher_with_failure_message_spec.rb" with:
       """
       Spec::Matchers.create :be_a_multiple_of do |expected|
         match do |actual|
@@ -55,19 +55,19 @@ Feature: custom matcher shortcut
           "expected that #{actual} would be a multiple of #{expected}"
         end
       end
-  
+
       # fail intentionally to generate expected output
       describe 9 do
         it {should be_a_multiple_of(4)}
       end
       """
-    When I run it with the spec command
+    When I run "spec matcher_with_failure_message_spec.rb"
     Then the exit code should be 256
     And the stdout should match "1 example, 1 failure"
     And the stdout should match "expected that 9 would be a multiple of 4"
-  
+
   Scenario: overriding the failure_message_for_should_not
-    Given the following spec:
+    Given a file named "matcher_with_failure_for_message_spec.rb" with:
       """
       Spec::Matchers.create :be_a_multiple_of do |expected|
         match do |actual|
@@ -77,19 +77,19 @@ Feature: custom matcher shortcut
           "expected that #{actual} would not be a multiple of #{expected}"
         end
       end
-  
+
       # fail intentionally to generate expected output
       describe 9 do
         it {should_not be_a_multiple_of(3)}
       end
       """
-    When I run it with the spec command
+    When I run "spec matcher_with_failure_for_message_spec.rb"
     Then the exit code should be 256
     And the stdout should match "1 example, 1 failure"
     And the stdout should match "expected that 9 would not be a multiple of 3"
-  
+
   Scenario: overriding the description
-    Given the following spec:
+    Given a file named "matcher_overriding_description_spec.rb" with:
       """
       Spec::Matchers.create :be_a_multiple_of do |expected|
         match do |actual|
@@ -99,30 +99,30 @@ Feature: custom matcher shortcut
           "be multiple of #{expected}"
         end
       end
-  
+
       describe 9 do
         it {should be_a_multiple_of(3)}
       end
-  
+
       describe 9 do
         it {should_not be_a_multiple_of(4)}
       end
       """
-    When I run it with the spec command --format specdoc
+    When I run "spec matcher_overriding_description_spec.rb --format specdoc"
     Then the exit code should be 0
     And the stdout should match "2 examples, 0 failures"
     And the stdout should match "should be multiple of 3"
     And the stdout should match "should not be multiple of 4"
 
   Scenario: with no args
-    Given the following spec:
+    Given a file named "matcher_with_no_args_spec.rb" with:
       """
       Spec::Matchers.create :have_7_fingers do
         match do |thing|
           thing.fingers.length == 7
         end
       end
-      
+
       class Thing
         def fingers; (1..7).collect {"finger"}; end
       end
@@ -131,13 +131,13 @@ Feature: custom matcher shortcut
         it {should have_7_fingers}
       end
       """
-    When I run it with the spec command --format specdoc
+    When I run "spec matcher_with_no_args_spec.rb --format specdoc"
     Then the exit code should be 0
     And the stdout should match "1 example, 0 failures"
     And the stdout should match "should have 7 fingers"
-  
+
   Scenario: with multiple args
-    Given the following spec:
+    Given a file named "matcher_with_multiple_args_spec.rb" with:
       """
       Spec::Matchers.create :be_the_sum_of do |a,b,c,d|
         match do |sum|
@@ -149,7 +149,7 @@ Feature: custom matcher shortcut
         it {should be_the_sum_of(1,2,3,4)}
       end
       """
-    When I run it with the spec command --format specdoc
+    When I run "spec matcher_with_multiple_args_spec.rb --format specdoc"
     Then the exit code should be 0
     And the stdout should match "1 example, 0 failures"
     And the stdout should match "should be the sum of 1, 2, 3, and 4"

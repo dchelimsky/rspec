@@ -46,6 +46,7 @@ WARNING
       #   end
       #
       def describe(*args, &example_group_block)
+        raise Spec::Example::NoDescriptionError.new("example group", caller(0)[1]) if args.empty?
         if example_group_block
           Spec::Example::set_location(args, caller(0)[1])
           options = args.last
@@ -77,8 +78,7 @@ WARNING
       end
       
       def pending_implementation
-        error = Spec::Example::NotYetImplementedError.new(caller)
-        lambda { raise(error) }
+        lambda { raise(Spec::Example::NotYetImplementedError) }
       end
 
       alias_method :it, :example
@@ -226,9 +226,9 @@ WARNING
       
       def examples_to_run(run_options)
         return example_proxies unless specified_examples?(run_options)
-        example_proxies.reject do |example|
+        example_proxies.reject do |proxy|
           matcher = ExampleGroupMethods.matcher_class.
-            new(description.to_s, example.description)
+            new(description.to_s, proxy.description)
           !matcher.matches?(run_options.examples)
         end
       end

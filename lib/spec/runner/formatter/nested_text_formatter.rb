@@ -9,7 +9,7 @@ module Spec
           @last_nested_descriptions = []
         end
 
-        def add_example_group(example_group)
+        def example_group_started(example_group)
           super
 
           example_group.nested_descriptions.each_with_index do |nested_description, i|
@@ -20,6 +20,7 @@ module Spec
 
           @last_nested_descriptions = example_group.nested_descriptions
         end
+        alias_method :add_example_group, :example_group_started
 
         def example_failed(example, counter, failure)
           output.puts(red("#{current_indentation}#{example.description} (FAILED - #{counter})"))
@@ -32,7 +33,7 @@ module Spec
           output.flush
         end
 
-        def example_pending(example, message, pending_caller)
+        def example_pending(example, message, deprecated_pending_location=nil)
           super
           output.puts yellow("#{current_indentation}#{example.description} (PENDING: #{message})")
           output.flush

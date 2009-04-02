@@ -19,6 +19,8 @@ module Spec
             explicit_subject || implicit_subject : @_explicit_subject_block = block
         end
         
+      private
+      
         def explicit_subject
           if defined?(@_explicit_subject_block)
             @_explicit_subject_block
