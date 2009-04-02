@@ -612,11 +612,11 @@ module Spec
 
         describe "#example_group_backtrace (deprecated)" do        
           before(:each) do
-            Kernel.stub!(:warn)
+            Spec.stub!(:deprecate)
           end
           it "sends a deprecation warning" do
             example_group = Class.new(ExampleGroupDouble) {}
-            Kernel.should_receive(:warn).with(/#example_group_backtrace.*deprecated.*#backtrace instead/m)
+            Spec.should_receive(:deprecate)
             example_group.example_group_backtrace
           end
 

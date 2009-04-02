@@ -104,7 +104,7 @@ module Spec
       end
 
       EXAMPLE_PENDING_DEPRECATION_WARNING = <<-WARNING
-        DEPRECATION NOTICE: RSpec's formatters have changed example_pending
+        DEPRECATION WARNING: RSpec's formatters have changed example_pending
         to accept two arguments instead of three. Please see the rdoc
         for Spec::Runner::Formatter::BaseFormatter#example_pending
         for more information.
@@ -118,7 +118,7 @@ module Spec
         @pending_count += 1
         formatters.each do |formatter|
           if formatter_uses_deprecated_example_pending_method?(formatter)
-            Kernel.warn EXAMPLE_PENDING_DEPRECATION_WARNING
+            Spec.warn EXAMPLE_PENDING_DEPRECATION_WARNING
             formatter.example_pending(example, message, example.location)
           else
             formatter.example_pending(example, message)

@@ -24,11 +24,8 @@ module Spec
 
       # Deprecated - use +backtrace()+
       def example_group_backtrace
-        Kernel.warn <<-WARNING
-ExampleGroupMethods#example_group_backtrace is deprecated and will be removed
-from a future version. Please use ExampleGroupMethods#backtrace instead.
-WARNING
-        backtrace
+        Spec.deprecate("ExampleGroupMethods#example_group_backtrace", "ExampleGroupMethods#backtrace")
+        defined?(@backtrace) ? @backtrace : nil
       end
       
       # Makes the describe/it syntax available from a class. For example:

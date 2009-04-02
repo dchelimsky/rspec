@@ -32,7 +32,7 @@ module Spec
       # to any message it receives that it hasn't been explicitly instructed
       # to respond to.
       def stub_everything(name = 'stub')
-        Kernel.warn(<<-WARNING)
+        Spec.warn(<<-WARNING)
 
 DEPRECATION: stub_everything('#{name}') is deprecated and will be removed
 from a future version of rspec. Please use mock('#{name}').as_null_object

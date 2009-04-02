@@ -188,7 +188,7 @@ module Spec
         
         describe "to formatters which have example_pending's arity of 3 (which is now deprecated)" do
           before :each do
-            Kernel.stub!(:warn).with(Spec::Runner::Reporter::EXAMPLE_PENDING_DEPRECATION_WARNING)
+            Spec.stub!(:warn)
           
             @deprecated_formatter = Class.new(@formatter.class) do
               attr_reader :example_passed_to_method, :message_passed_to_method
@@ -220,7 +220,7 @@ module Spec
           end
           
           it "should raise a deprecation warning" do
-            Kernel.should_receive(:warn).with(Spec::Runner::Reporter::EXAMPLE_PENDING_DEPRECATION_WARNING)
+            Spec.should_receive(:warn)
             
             example = ExampleGroup.new(example_proxy)
             example_group.notify(reporter)

@@ -37,7 +37,7 @@ module Spec
           
           context "#colourise" do
             it "warns when subclasses call colourise" do
-              Kernel.should_receive(:warn).with(/DEPRECATED/)
+              Spec.should_receive(:deprecate)
               @formatter.method_that_class_colourise('this message', @failure)
             end
             
@@ -49,7 +49,7 @@ module Spec
           
           context "#magenta" do
             it "warns when subclasses call magenta" do
-              Kernel.should_receive(:warn).with(/DEPRECATED/)
+              Spec.should_receive(:deprecate).with(/#magenta/)
               @formatter.method_that_class_magenta('this message')
             end
 

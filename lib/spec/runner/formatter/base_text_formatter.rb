@@ -46,12 +46,7 @@ module Spec
         end
         
         def colourise(message, failure)
-          Kernel.warn <<-NOTICE
-DEPRECATED: BaseTextFormatter#colourise is deprecated and will be
-removed from a future version of RSpec.
-
-Please use colorize_failure instead.
-NOTICE
+          Spec::deprecate("BaseTextFormatter#colourise", "colorize_failure")
           colorize_failure(message, failure)
         end
         
@@ -132,12 +127,9 @@ NOTICE
         def red(text); colour(text, "\e[31m"); end
         def yellow(text); colour(text, "\e[33m"); end
         def blue(text); colour(text, "\e[34m"); end
-
+        
         def magenta(text)
-          Kernel.warn <<-NOTICE
-DEPRECATED: BaseTextFormatter#magenta is deprecated and will be
-removed from a future version of RSpec.
-NOTICE
+          Spec::deprecate("BaseTextFormatter#magenta")
           red(text)
         end
       end
