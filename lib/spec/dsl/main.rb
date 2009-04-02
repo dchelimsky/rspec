@@ -13,7 +13,7 @@ module Spec
       #
       #   describe "name", :type => :something_special do ...
       #
-      # The reason for using different behaviour classes is to have different
+      # The reason for using different example group classes is to have different
       # matcher methods available from within the <tt>describe</tt> block.
       #
       # See Spec::Example::ExampleGroupFactory#register for details about how to
