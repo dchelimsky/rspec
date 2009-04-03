@@ -89,6 +89,7 @@ lib/spec/adapters/mock_frameworks/mocha.rb
 lib/spec/adapters/mock_frameworks/rr.rb
 lib/spec/adapters/mock_frameworks/rspec.rb
 lib/spec/autorun.rb
+lib/spec/deprecation.rb
 lib/spec/dsl.rb
 lib/spec/dsl/main.rb
 lib/spec/example.rb
@@ -200,7 +201,6 @@ resources/rake/examples.rake
 resources/rake/examples_with_rcov.rake
 resources/rake/failing_examples_with_html.rake
 resources/rake/verify_rcov.rake
-resources/spec/example_group_with_should_methods.rb
 spec/README.jruby
 spec/autotest/autotest_helper.rb
 spec/autotest/autotest_matchers.rb
