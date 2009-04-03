@@ -27,7 +27,17 @@ module Spec
         end
       end
 
-      describe "#backtrace (deprecated - use #location)" do
+      describe "#backtrace (DEPRECATED - use #location)" do
+        before(:each) do
+          Spec.stub!(:deprecate)
+        end
+        
+        it "is deprecated" do
+          Spec.should_receive(:deprecate)
+          proxy = ExampleProxy.new(:ignore, {}, "path/to/location:37")
+          proxy.backtrace
+        end
+        
         it "provides the location of the declaration of this group" do
           proxy = ExampleProxy.new(:ignore, {}, "path/to/location:37")
           proxy.backtrace.should             == "path/to/location:37"

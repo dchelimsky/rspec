@@ -87,6 +87,7 @@ module Spec
                 before(:all) do
                   @example_group = Class.new(ExampleGroupDouble).describe("bar")
                   @example_proxy = @example_group.__send__(method, "foo", {:this => :that}) {}
+                  @location = "#{__FILE__}:#{__LINE__ - 1}"
                 end
 
                 specify "with a description" do
@@ -97,12 +98,13 @@ module Spec
                   @example_proxy.options.should == {:this => :that}
                 end
 
-                specify "with a default backtrace" do
-                  @example_proxy.backtrace.should =~ /#{__FILE__}:#{__LINE__ - 12}/
+                specify "with a default backtrace (DEPRECATED)" do
+                  Spec.stub!(:deprecate)
+                  @example_proxy.backtrace.should =~ /#{@location}/
                 end
 
                 specify "with a default location" do
-                  @example_proxy.location.should =~ /#{__FILE__}:#{__LINE__ - 16}/
+                  @example_proxy.location.should =~ /#{@location}/
                 end
               end
             end
@@ -114,7 +116,8 @@ module Spec
                   @example_proxy = @example_group.__send__(method, "foo", {:this => :that}, "the location") {}
                 end
 
-                specify "with the supplied location as #backtrace" do
+                specify "with the supplied location as #backtrace (DEPRECATED)" do
+                  Spec.stub!(:deprecate)
                   @example_proxy.backtrace.should == "the location"
                 end
 

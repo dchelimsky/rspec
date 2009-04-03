@@ -23,6 +23,7 @@ module Spec
       
       # Deprecated - use location()
       def backtrace
+        Spec.deprecate("ExampleProxy#backtrace","ExampleProxy#location")
         location
       end
       
@@ -34,7 +35,7 @@ module Spec
       end
       
       def ==(other) # :nodoc:
-        (other.description == description) & (other.backtrace == backtrace)
+        (other.description == description) & (other.location == location)
       end
     end
   end

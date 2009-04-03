@@ -4,6 +4,7 @@
 
   * BaseFormatter#add_example_group (use #example_group_started instead)
   * ExampleGroupProxy#backtrace (use #location instead)
+  * ExampleProxy#backtrace (use #location instead)
   * BaseFormatter#example_pending now expects two arguments. The third
     argument is deprecated.
   * ExampleGroupProxy#filtered_description. This was only used in one place
