@@ -37,7 +37,7 @@ module Spec
   
       # Deprecated - just use gsub on the description instead.
       def filtered_description(regexp)
-        Spec::deprecate("ExampleGroupProxy#filtered_description","gsub on ExampleGroupProxy#description")
+        Spec::deprecate("ExampleGroupProxy#filtered_description","gsub (or similar) to modify ExampleGroupProxy#description")
         build_description_from(
           *nested_descriptions.collect do |description|
             description =~ regexp ? description.gsub($1, "") : description
