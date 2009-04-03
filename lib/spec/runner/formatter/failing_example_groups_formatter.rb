@@ -6,7 +6,7 @@ module Spec
       class FailingExampleGroupsFormatter < BaseTextFormatter
         def example_failed(example, counter, failure)
           if @example_group
-            @output.puts @example_group.filtered_description(/(.*) \(druby.*\)$/)
+            @output.puts @example_group.description.gsub(/ \(druby.*\)/,"")
 
             @output.flush
             @example_group = nil

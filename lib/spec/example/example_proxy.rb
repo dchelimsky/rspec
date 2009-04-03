@@ -1,8 +1,7 @@
 module Spec
   module Example
-    # Lightweight representation of an example. This is the object
-    # that is passed to example-related methods in
-    # Spec::Runner::Formatter::BaseFormatter
+    # Lightweight proxy for an example. This is the object that is passed to
+    # example-related methods in Spec::Runner::Formatter::BaseFormatter
     class ExampleProxy
 
       def initialize(description=nil, options={}, location=nil) # :nodoc:

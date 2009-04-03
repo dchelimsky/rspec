@@ -6,6 +6,10 @@
   * ExampleGroupProxy#backtrace (use #location instead)
   * BaseFormatter#example_pending now expects two arguments. The third
     argument is deprecated.
+  * ExampleGroupProxy#filtered_description. This was only used in one place
+    internally, and was a confusing solution to the problem. If you've got a
+    custom formatter that uses it, you can just use
+    ExampleGroupProxy#description and modify it directly.
 
 * enhancements
 

@@ -26,14 +26,24 @@ module Spec
         end
       end
 
-      describe "#filtered_description" do
+      describe "#filtered_description (DEPRECATED)" do
+        before(:each) do
+          Spec.stub!(:deprecate)
+        end
+        
+        it "is deprecated" do
+          Spec.should_receive(:deprecate)
+          proxy.filtered_description(/(ignore)/)
+        end
+        
         it "builds the description from the group's nested_descriptions" do
           group.stub!(:nested_descriptions => ["ignore","the","description"])
-          proxy.filtered_description(/ignore/).should == "the description"
+          proxy.filtered_description(/(ignore)/).should == "the description"
         end
+        
         it "filters out description parts that match the supplied regexp" do
-          group.stub!(:nested_descriptions => ["ignore this one","the","description"])
-          proxy.filtered_description(/ignore/).should == "the description"
+          group.stub!(:nested_descriptions => ["ignore the","description"])
+          proxy.filtered_description(/(ignore )/).should == "the description"
         end
       end
       
