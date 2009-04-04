@@ -179,7 +179,7 @@ module Spec
               config.append_before(:all, :type => :special_child) do
                 order << :special_child_append_before_all
               end
-              config.append_before(:each) do
+              config.append_before do # default is :each
                 order << :append_before_each
               end
               config.append_before(:each, :type => :special) do

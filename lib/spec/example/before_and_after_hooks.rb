@@ -12,17 +12,17 @@ module Spec
       end
       
       # Registers a block to be executed before each example.
-      # This method prepends +block+ to existing before blocks.
-      def prepend_before(*args, &block)
-        before_parts(*args).unshift(block)
-      end
-
-      # Registers a block to be executed before each example.
       # This method appends +block+ to existing before blocks.
       def append_before(*args, &block)
         before_parts(*args) << block
       end
       alias_method :before, :append_before
+
+      # Registers a block to be executed before each example.
+      # This method prepends +block+ to existing before blocks.
+      def prepend_before(*args, &block)
+        before_parts(*args).unshift(block)
+      end
 
       # Registers a block to be executed after each example.
       # This method prepends +block+ to existing after blocks.
