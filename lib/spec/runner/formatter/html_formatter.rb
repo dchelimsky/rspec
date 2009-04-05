@@ -1,11 +1,13 @@
 require 'erb'
 require 'spec/runner/formatter/base_text_formatter'
+require 'spec/runner/formatter/no_op_method_missing'
 
 module Spec
   module Runner
     module Formatter
       class HtmlFormatter < BaseTextFormatter
         include ERB::Util # for the #h method
+        include NOOPMethodMissing
         
         def initialize(options, output)
           super
@@ -14,10 +16,6 @@ module Spec
           @header_red = nil
         end
         
-        def method_missing(sym, *args)
-          # no-op
-        end
-
         # The number of the currently running example_group
         def example_group_number
           @example_group_number

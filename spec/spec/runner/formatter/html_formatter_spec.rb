@@ -10,6 +10,7 @@ module Spec
     module Formatter
       describe HtmlFormatter do
         attr_reader :root, :expected_file, :expected_html
+          
         before do
           @root = File.expand_path("#{File.dirname(__FILE__)}/../../../..")
           suffix = jruby? ? '-jruby' : ''
@@ -103,6 +104,25 @@ module Spec
 
             html.should =~ /This was a dry-run/m
           end
+        end
+
+        it "should have method_missing as private" do
+          HtmlFormatter.private_instance_methods.should include("method_missing")
+        end
+
+        it "should respond_to? all messages" do
+          formatter = HtmlFormatter.new({ }, StringIO.new)
+          formatter.should respond_to(:just_about_anything)
+        end
+
+        it "should respond_to? anything, when given the private flag" do
+          formatter = HtmlFormatter.new({ }, StringIO.new)
+          formatter.respond_to?(:method_missing, true).should be_true
+        end
+
+        it "should not respond_to? method_missing (because it's private)" do
+          formatter = HtmlFormatter.new({ }, StringIO.new)
+          formatter.respond_to?(:method_missing).should be_false
         end
       end
     end

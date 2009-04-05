@@ -21,16 +21,6 @@ module Spec
         other == __mock_proxy
       end
 
-      def method_missing(sym, *args, &block)
-        __mock_proxy.record_message_received(sym, args, block)
-        begin
-          return self if __mock_proxy.null_object?
-          super(sym, *args, &block)
-        rescue NameError
-          __mock_proxy.raise_unexpected_message_error sym, *args
-        end
-      end
-      
       def inspect
         "#<#{self.class}:#{sprintf '0x%x', self.object_id} @name=#{@name.inspect}>"
       end
@@ -40,6 +30,16 @@ module Spec
       end
       
       private
+
+        def method_missing(sym, *args, &block)
+          __mock_proxy.record_message_received(sym, args, block)
+          begin
+            return self if __mock_proxy.null_object?
+            super(sym, *args, &block)
+          rescue NameError
+            __mock_proxy.raise_unexpected_message_error sym, *args
+          end
+        end
       
         def parse_options(options)
           options.has_key?(:null_object) ? {:null_object => options.delete(:null_object)} : {}
