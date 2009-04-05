@@ -38,7 +38,7 @@ module Spec
 
       def example_failed(example, error)
         backtrace_tweaker.tweak_backtrace(error)
-        failure = Failure.new(@example_group, example, error)
+        failure = Failure.new(@example_group.description, example.description, error)
         @failures << failure
         formatters.each do |f|
           f.example_failed(example, @failures.length, failure)
@@ -67,8 +67,9 @@ module Spec
       end
 
       class Failure
-        def initialize(group, example, exception)  # :nodoc:
-          @group, @example, @exception = group, example, exception
+        def initialize(group_description, example_description, exception)  # :nodoc:
+          @example_name = "#{group_description} #{example_description}"
+          @exception = exception
         end
         
         # The Exception object raised
@@ -87,11 +88,11 @@ module Spec
         #   RuntimeError in 'A new account should have a zero balance'
         def header
           if expectation_not_met?
-            "'#{example_name}' FAILED"
+            "'#{@example_name}' FAILED"
           elsif pending_fixed?
-            "'#{example_name}' FIXED"
+            "'#{@example_name}' FIXED"
           else
-            "#{@exception.class.name} in '#{example_name}'"
+            "#{@exception.class.name} in '#{@example_name}'"
           end
         end
         
@@ -101,12 +102,6 @@ module Spec
 
         def expectation_not_met?  # :nodoc:
           @exception.is_a?(Spec::Expectations::ExpectationNotMetError)
-        end
-
-      private
-      
-        def example_name
-          "#{@group.description} #{@example.description}"
         end
       end
 
