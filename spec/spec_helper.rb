@@ -101,6 +101,9 @@ module Spec
       def register_example_group(klass)
         #ignore
       end
+      def initialize(proxy=nil, &block)
+        super(proxy || ExampleProxy.new, &block)
+      end
     end
   end
 end
