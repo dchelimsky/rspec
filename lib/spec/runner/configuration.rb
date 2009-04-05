@@ -90,41 +90,40 @@ module Spec
       end
       
       # Appends a global <tt>before</tt> block to all example groups.
-      #
-      # If you want to restrict the block to a subset of all the example
-      # groups then specify this in a Hash as the last argument:
-      #
-      #   config.append_before(:all, :type => :farm)
-      #
-      # or
-      #
-      #   config.append_before(:type => :farm)
-      #
+      # <tt>scope</tt> can be any of <tt>:each</tt> (default), <tt>:all</tt>, or
+      # <tt>:suite</tt>. When <tt>:each</tt>, the block is executed before each
+      # example. When <tt>:all</tt>, the block is executed once per example
+      # group, before any of its examples are run. When <tt>:suite</tt> the
+      # block is run once before the entire suite is run.
       def append_before(scope = :each, options={}, &proc)
         add_callback(:append_before, scope, options, &proc)
       end
       alias_method :before, :append_before
 
       # Prepends a global <tt>before</tt> block to all example groups.
-      # See #append_before for filtering semantics.
+      # 
+      # See <tt>append_before</tt> for scoping semantics.
       def prepend_before(scope = :each, options={}, &proc)
         add_callback(:prepend_before, scope, options, &proc)
       end
       
       # Prepends a global <tt>after</tt> block to all example groups.
-      # See #append_before for filtering semantics.
+      # 
+      # See <tt>append_before</tt> for scoping semantics.
       def prepend_after(scope = :each, options={}, &proc)
         add_callback(:prepend_after, scope, options, &proc)
       end
       alias_method :after, :prepend_after
       
       # Appends a global <tt>after</tt> block to all example groups.
-      # See #append_before for filtering semantics.
+      # 
+      # See <tt>append_before</tt> for scoping semantics.
       def append_after(scope = :each, options={}, &proc)
         add_callback(:append_after, scope, options, &proc)
       end
 
-      # DEPRECATED - use the Matcher DSL instead
+      # DEPRECATED - use Spec::Matchers::DSL instead
+      #
       # Defines global predicate matchers. Example:
       #
       #   config.predicate_matchers[:swim] = :can_swim?
