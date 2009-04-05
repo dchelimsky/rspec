@@ -11,6 +11,7 @@
     internally, and was a confusing solution to the problem. If you've got a
     custom formatter that uses it, you can just use
     ExampleGroupProxy#description and modify it directly.
+  * predicate_matchers (use the new Matcher DSL instead)
 
 * enhancements
 
