@@ -30,14 +30,7 @@ module Spec
       #     end
       #   end
       def predicate_matchers
-        @predicate_matchers ||= HashWithDeprecationNotice.new
-      end
-      
-      class HashWithDeprecationNotice < Hash
-        def []=(k,v)
-          Spec.deprecate("predicate_matchers", "the new Matcher DSL")
-          super
-        end
+        @predicate_matchers ||= Spec::HashWithDeprecationNotice.new("predicate_matchers", "the new Matcher DSL")
       end
 
       def define_methods_from_predicate_matchers # :nodoc:

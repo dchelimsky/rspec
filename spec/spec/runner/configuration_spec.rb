@@ -5,6 +5,7 @@ module Spec
     describe Configuration do
       with_sandboxed_options do
         with_sandboxed_config do
+          
           describe "#mock_with" do
             it "should default mock framework to rspec" do
               config.mock_framework.should =~ /\/spec\/adapters\/mock_frameworks\/rspec$/
@@ -293,7 +294,16 @@ module Spec
                 :append__after_all
               ]
             end
+
           end
+          
+          describe "#predicate_matchers (DEPRECATED)" do
+            it "is deprecated" do
+              Spec.should_receive(:deprecate)
+              config.predicate_matchers[:foo] = :bar?
+            end
+          end
+
         end
       end
     end

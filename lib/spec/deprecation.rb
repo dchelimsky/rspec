@@ -24,6 +24,17 @@ ADDITIONAL
     def warn(message)
       Kernel.warn(message)
     end
+    
+  end
+
+  class HashWithDeprecationNotice < Hash
+    def initialize(method, alternate_method=nil, &block)
+      @method, @alternate_method = method, alternate_method
+    end
+    def []=(k,v)
+      Spec.deprecate(@method, @alternate_method)
+      super
+    end
   end
 end
 

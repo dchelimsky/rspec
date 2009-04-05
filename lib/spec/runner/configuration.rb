@@ -124,6 +124,7 @@ module Spec
         add_callback(:append_after, scope, options, &proc)
       end
 
+      # DEPRECATED - use the Matcher DSL instead
       # Defines global predicate matchers. Example:
       #
       #   config.predicate_matchers[:swim] = :can_swim?
@@ -133,7 +134,7 @@ module Spec
       #   person.should swim # passes if person.can_swim? returns true
       #
       def predicate_matchers
-        @predicate_matchers ||= {}
+        @predicate_matchers ||= Spec::HashWithDeprecationNotice.new("predicate_matchers", "the new Matcher DSL")
       end
       
     private
