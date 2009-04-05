@@ -3,6 +3,17 @@ module Spec
     module Formatter
       # Formatter base-class, which implements all required methods as no-ops, with the exception
       class BaseFormatter
+        # All formatters are initialized with access to global run options and
+        # the output destination defined on the command line. For example, if
+        # you invoke the <tt>spec</tt> command with:
+        #
+        #   --format progress:progress_report.txt
+        #
+        # ... the value of <tt>output</tt> will be progress_report.txt. If you
+        # don't identify an output destination, the default is STDOUT.
+        def initialize(options, output)
+        end
+        
         # This method is invoked before any examples are run, right after
         # they have all been collected. This can be useful for special
         # formatters that need to provide progress on feedback (graphical ones)
