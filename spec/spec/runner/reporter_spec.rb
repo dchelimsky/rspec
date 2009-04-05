@@ -72,7 +72,7 @@ module Spec
         formatter.should_receive(:example_passed).with(description_of(passing)).exactly(2).times
         formatter.should_receive(:example_failed).with(description_of(failing), 1, failure)
         formatter.should_receive(:example_failed).with(description_of(failing), 2, failure)
-        formatter.should_receive(:dump_failure).exactly(2).times
+        formatter.should_receive(:dump_failure).exactly(2).times 
         formatter.should_receive(:start_dump)
         formatter.should_receive(:dump_pending)
         formatter.should_receive(:close).with(no_args)
