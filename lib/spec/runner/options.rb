@@ -1,3 +1,5 @@
+require 'ostruct'
+
 module Spec
   module Runner
     class Options
@@ -208,8 +210,16 @@ module Spec
           else
             load_class(format, 'formatter', '--format')
           end
-          formatter_type.new(self, where)
+          formatter_type.new(formatter_options, where)
         end
+      end
+      
+      def formatter_options
+        @formatter_options ||= OpenStruct.new(
+          :colour   => colour,
+          :autospec => autospec,
+          :dry_run  => dry_run
+        )
       end
 
       def load_heckle_runner(heckle)
