@@ -6,12 +6,18 @@ module Spec
       describe DrbCommandLine do
 
         context "without server running" do
-          it "should print error when there is no running local server" do
+          it "prints error" do
             err = out = StringIO.new
             DrbCommandLine.run(OptionParser.parse(['--version'], err, out))
 
             err.rewind
             err.read.should =~ /No server is running/
+          end
+          
+          it "returns nil" do
+            err = out = StringIO.new
+            result = DrbCommandLine.run(OptionParser.parse(['--version'], err, out))
+            result.should be_nil
           end
         end    
 
@@ -43,6 +49,12 @@ module Spec
 
           after(:all) do
             DRb.stop_service
+          end
+
+          it "returns true" do
+            err = out = StringIO.new
+            result = DrbCommandLine.run(OptionParser.parse(['--version'], err, out))
+            result.should be_true
           end
 
           it "should run against local server" do

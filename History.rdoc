@@ -19,6 +19,8 @@
     (Ben Mabey)
     * you can now say "spec some_spec.rb:12" in addition to "spec some_spec.rb
       --line 12"
+  * run specs locally with --drb if no drb server is running. Closes #780.
+    * still prints "No server running" to stderr
 
 * bug fixes
 

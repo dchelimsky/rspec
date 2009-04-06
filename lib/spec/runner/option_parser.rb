@@ -190,11 +190,13 @@ module Spec
         is_drb ||= argv.delete(OPTIONS[:drb][0])
         is_drb ||= argv.delete(OPTIONS[:drb][1])
         return false unless is_drb
-        @options.examples_should_not_be_run
-        DrbCommandLine.run(
-          self.class.parse(argv, @error_stream, @out_stream)
-        )
-        true
+        if DrbCommandLine.run(self.class.parse(argv, @error_stream, @out_stream))
+          @options.examples_should_not_be_run
+          true
+        else
+          @error_stream.puts "Running specs locally:"
+          false
+        end
       end
 
       def parse_version

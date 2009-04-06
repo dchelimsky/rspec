@@ -35,13 +35,15 @@ describe "OptionParser" do
   end
   
   it "should turn off the debugger option if drb is specified later" do
+    @parser.stub!(:parse_drb).with(no_args).and_return(true)
     options = parse(["-u", "--drb"])
-    options.debug.should_not be_true
+    options.debug.should be_false
   end
   
   it "should turn off the debugger option if drb is specified first" do
+    @parser.stub!(:parse_drb).with(no_args).and_return(true)
     options = parse(["--drb", "-u"])
-    options.debug.should_not be_true
+    options.debug.should be_false
   end
   
   it "should accept dry run option" do
@@ -397,11 +399,30 @@ describe "OptionParser" do
     options = parse(["--options", File.dirname(__FILE__) + "/spec_drb.opts"])    
   end
 
-  it "should send all the arguments others than --drb back to the parser after parsing options" do
+  it "should send all the arguments other than --drb back to the parser after parsing options" do
     Spec::Runner::DrbCommandLine.should_receive(:run).and_return do |options|
       options.argv.should == ["example_file.rb", "--colour"]
     end
     options = parse(["example_file.rb", "--options", File.dirname(__FILE__) + "/spec_drb.opts"])    
+  end
+  
+  it "runs specs locally if no drb is running when --drb is specified" do
+    Spec::Runner::DrbCommandLine.should_receive(:run).and_return(false)
+    options = parse(["example_file.rb", "--options", File.dirname(__FILE__) + "/spec_drb.opts"])    
+    options.__send__(:examples_should_be_run?).should be_true
+  end
+
+  it "says its running specs locally if no drb is running when --drb is specified" do
+    Spec::Runner::DrbCommandLine.should_receive(:run).and_return(false)
+    options = parse(["example_file.rb", "--options", File.dirname(__FILE__) + "/spec_drb.opts"])    
+    options.error_stream.rewind
+    options.error_stream.string.should =~ /Running specs locally/
+  end
+
+  it "does not run specs locally if drb is running when --drb is specified" do
+    Spec::Runner::DrbCommandLine.should_receive(:run).and_return(true)
+    options = parse(["example_file.rb", "--options", File.dirname(__FILE__) + "/spec_drb.opts"])    
+    options.__send__(:examples_should_be_run?).should be_false
   end
 
   it "should read spaced and multi-line options from file when --options is specified" do
