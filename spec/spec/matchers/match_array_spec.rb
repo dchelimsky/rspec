@@ -1,5 +1,19 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
+class UnsortableObject
+  def initialize(id)
+    @id = id
+  end
+
+  def inspect
+    @id.to_s
+  end
+
+  def ==(other)
+    false
+  end
+end
+
 describe "array.should =~ other_array" do
   it "should pass if target contains all items" do
     [1,2,3].should =~ [1,2,3]
@@ -41,7 +55,7 @@ the extra elements were:        [4]
 MESSAGE
   end
 
-  it "should sort items in the error message" do
+  it "should sort items in the error message if they all respond to <=>" do
     lambda {
       [6,2,1,5].should =~ [4,1,2,3]
     }.should fail_with(<<-MESSAGE)
@@ -51,6 +65,17 @@ the missing elements were:      [3, 4]
 the extra elements were:        [5, 6]
 MESSAGE
   end
+
+    it "should not sort items in the error message if they don't all respond to <=>" do
+      lambda {
+        [UnsortableObject.new(2), UnsortableObject.new(1)].should =~ [UnsortableObject.new(4), UnsortableObject.new(3)]
+      }.should fail_with(<<-MESSAGE)
+expected collection contained:  [4, 3]
+actual collection contained:    [2, 1]
+the missing elements were:      [4, 3]
+the extra elements were:        [2, 1]
+MESSAGE
+    end
 
   it "should accurately report extra elements when there are duplicates" do
     lambda {

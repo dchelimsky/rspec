@@ -16,10 +16,10 @@ module Spec
       end
 
       def failure_message_for_should
-        message =  "expected collection contained:  #{@expected.sort.inspect}\n"
-        message += "actual collection contained:    #{@actual.sort.inspect}\n"
-        message += "the missing elements were:      #{@missing_items.sort.inspect}\n" unless @missing_items.empty?
-        message += "the extra elements were:        #{@extra_items.sort.inspect}\n" unless @extra_items.empty?
+        message =  "expected collection contained:  #{safely_sort(@expected).inspect}\n"
+        message += "actual collection contained:    #{safely_sort(@actual).inspect}\n"
+        message += "the missing elements were:      #{safely_sort(@missing_items).inspect}\n" unless @missing_items.empty?
+        message += "the extra elements were:        #{safely_sort(@extra_items).inspect}\n" unless @extra_items.empty?
         message
       end
       
@@ -32,6 +32,10 @@ module Spec
       end
 
       private
+
+        def safely_sort(array)
+          array.all?{|item| item.respond_to?(:<=>)} ? array.sort : array
+        end
 
         def difference_between_arrays(array_1, array_2)
           difference = array_1.dup
