@@ -23,6 +23,7 @@
 * bug fixes
 
   * support expectations on DelegateClass (Clifford T. Matthews). Closes #48.
+  * Fixed match_array blows up if elements can't be sorted (Jeff Dean). Closes #779.
 
 === Version 1.2.2 / 2009-03-22
 
