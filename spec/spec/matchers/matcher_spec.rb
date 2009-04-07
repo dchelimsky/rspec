@@ -143,6 +143,22 @@ module Spec
           @matcher.description.should == "matcher name 1, 2, 3, and 4"
         end
       end
+      
+      context "with helper methods" do
+        it "does something" do
+          matcher = Spec::Matchers::Matcher.new(:be_similar_to, [1,2,3]) do |sample|
+            match do |actual|
+              similar?(sample, actual)
+            end
+
+            def similar?(a, b)
+              a.sort == b.sort
+            end
+          end
+          
+          matcher.matches?([2,3,1]).should be_true
+        end
+      end
 
     end
   end

@@ -153,3 +153,26 @@ Feature: custom matcher shortcut
     Then the exit code should be 0
     And the stdout should match "1 example, 0 failures"
     And the stdout should match "should be the sum of 1, 2, 3, and 4"
+    
+  Scenario: with helper methods
+    Given a file named "matcher_with_internal_helper_spec.rb" with:
+      """
+      Spec::Matchers.create :be_similar_to do |sample|
+        match do |actual|
+          similar?(sample, actual)
+        end
+        
+        def similar?(a, b)
+          a.sort == b.sort
+        end
+      end
+      
+      describe "these two arrays" do
+        specify "should be similar" do
+          [1,2,3].should be_similar_to([2,3,1])
+        end
+      end
+      """
+    When I run "spec matcher_with_internal_helper_spec.rb"
+    Then the exit code should be 0
+    And the stdout should match "1 example, 0 failures"
