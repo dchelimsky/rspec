@@ -142,12 +142,6 @@ module Spec
   #    end
   #  end
   module Example
-    class << self
-      def set_location(args, location) # :nodoc:
-        args << {} unless Hash === args.last
-        args.last[:location] ||= location
-      end
-    end
   end
 end
 

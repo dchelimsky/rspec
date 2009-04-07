@@ -1,6 +1,8 @@
 module Spec
   module DSL
     module Main
+      include Spec::Example::ArgsAndOptions
+      
       # Creates and returns a class that includes the ExampleGroupMethods
       # module. Which ExampleGroup type is created depends on the directory of the file
       # calling this method. For example, Spec::Rails will use different
@@ -21,8 +23,8 @@ module Spec
       #
       def describe(*args, &block)
         raise Spec::Example::NoDescriptionError.new("example group", caller(0)[1]) if args.empty?
-        Spec::Example::set_location(args, caller(0)[1])
-        Spec::Example::ExampleGroupFactory.assign_scope(self, args)
+        add_options(args, :scope => self)
+        set_location(args.options, caller(0)[1])
         Spec::Example::ExampleGroupFactory.create_example_group(*args, &block)
       end
       alias :context :describe
@@ -43,7 +45,8 @@ module Spec
       #    end
       #  end
       def share_examples_for(*args, &block)
-        Spec::Example::set_location(args, caller(0)[1])
+        add_options(args)
+        set_location(args.options, caller(0)[1])
         Spec::Example::ExampleGroupFactory.create_shared_example_group(*args, &block)
       end
       alias :shared_examples_for :share_examples_for
@@ -75,7 +78,8 @@ module Spec
       def share_as(name, &block)
         begin
           args = [name]
-          Spec::Example::set_location(args, caller(0)[1])
+          add_options(args)
+          set_location(args.options, caller(0)[1])
           Object.const_set(name, Spec::Example::ExampleGroupFactory.create_shared_example_group(*args, &block))
         rescue NameError => e
           raise NameError.new(e.message + "\nThe first argument to share_as must be a legal name for a constant\n")

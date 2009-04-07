@@ -60,10 +60,6 @@ module Spec
           @example_group_types[key]
         end
 
-        def assign_scope(scope, args)
-          args.last[:scope] = scope
-        end
-
       protected
 
         def determine_superclass(opts)
