@@ -56,7 +56,6 @@ examples/passing/stack_spec_with_nested_example_groups.rb
 examples/passing/stubbing_example.rb
 examples/passing/yielding_example.rb
 examples/ruby1.9.compatibility/access_to_constants_spec.rb
-features-pending/cli/conditional_exclusion.feature
 features/before_and_after_blocks/before_and_after_blocks.feature
 features/example_groups/example_group_with_should_methods.feature
 features/example_groups/implicit_docstrings.feature
@@ -110,8 +109,6 @@ lib/spec/example/predicate_matchers.rb
 lib/spec/example/shared_example_group.rb
 lib/spec/example/subject.rb
 lib/spec/expectations.rb
-lib/spec/expectations/differs/default.rb
-lib/spec/expectations/differs/load-diff-lcs.rb
 lib/spec/expectations/errors.rb
 lib/spec/expectations/extensions.rb
 lib/spec/expectations/extensions/kernel.rb
@@ -174,6 +171,8 @@ lib/spec/runner/backtrace_tweaker.rb
 lib/spec/runner/class_and_arguments_parser.rb
 lib/spec/runner/command_line.rb
 lib/spec/runner/configuration.rb
+lib/spec/runner/differs/default.rb
+lib/spec/runner/differs/load-diff-lcs.rb
 lib/spec/runner/drb_command_line.rb
 lib/spec/runner/example_group_runner.rb
 lib/spec/runner/extensions/kernel.rb

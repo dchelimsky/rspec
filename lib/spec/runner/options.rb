@@ -329,7 +329,7 @@ module Spec
       end
 
       def default_differ
-        require 'spec/expectations/differs/default'
+        require 'spec/runner/differs/default'
         self.differ_class = ::Spec::Expectations::Differs::Default
       end
 
