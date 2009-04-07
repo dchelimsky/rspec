@@ -9,7 +9,7 @@ module Spec
         @nested_descriptions = example_group.nested_descriptions
         @examples            = example_group.example_proxies
         @location            = example_group.location
-        @backtrace           = example_group.backtrace # deprecated - see the backtrace method below
+        @backtrace           = example_group.location # deprecated - see the backtrace method below
       end
       
       # This is the description passed to the <tt>describe()</tt> method or any
@@ -38,7 +38,7 @@ module Spec
       # Deprecated - just use gsub on the description instead.
       def filtered_description(regexp)
         Spec::deprecate("ExampleGroupProxy#filtered_description","gsub (or similar) to modify ExampleGroupProxy#description")
-        build_description_from(
+        ExampleGroupMethods.build_description_from(
           *nested_descriptions.collect do |description|
             description =~ regexp ? description.gsub($1, "") : description
           end
@@ -47,17 +47,6 @@ module Spec
       
       def ==(other) # :nodoc:
         other.description == description
-      end
-      
-    private
-    
-      # FIXME - this is duplicated from ExampleGroupMethods
-      def build_description_from(*args)
-        text = args.inject("") do |description, arg|
-          description << " " unless (description == "" || arg.to_s =~ /^(\s|\.|#)/)
-          description << arg.to_s
-        end
-        text == "" ? nil : text
       end
     end
   end

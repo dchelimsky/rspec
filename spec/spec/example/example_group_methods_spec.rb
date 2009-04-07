@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../../spec_helper'
+  require File.dirname(__FILE__) + '/../../spec_helper'
 
 module Spec
   module Example
@@ -604,12 +604,21 @@ module Spec
           end
         end
 
-        describe "#backtrace" do        
+        describe "#backtrace" do  
+          before(:each) do
+            Spec.stub!(:deprecate)
+          end
+                
           it "returns the backtrace from where the example group was defined" do
             example_group = Class.new(ExampleGroupDouble).describe("foo") do
               example "bar" do; end
             end
             example_group.backtrace.join("\n").should include("#{__FILE__}:#{__LINE__-3}")
+          end
+          
+          it "is deprecated" do
+            Spec.should_receive(:deprecate)
+            Class.new(ExampleGroupDouble).backtrace
           end
         end
 

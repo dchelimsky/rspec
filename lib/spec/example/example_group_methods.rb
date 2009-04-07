@@ -2,8 +2,32 @@ module Spec
   module Example
 
     module ExampleGroupMethods
+      module DeprecatedMethods
+        # Deprecated - use +location+
+        def backtrace
+          Spec.deprecate("ExampleGroupMethods#backtrace", "ExampleGroupMethods#location")
+          defined?(@backtrace) ? @backtrace : nil
+        end
+
+        # Deprecated - use +location+
+        def example_group_backtrace
+          Spec.deprecate("ExampleGroupMethods#example_group_backtrace", "ExampleGroupMethods#location")
+          defined?(@backtrace) ? @backtrace : nil
+        end
+      end
+      
+      include DeprecatedMethods
+      
       class << self
         attr_accessor :matcher_class
+
+        def build_description_from(*args)
+          text = args.inject("") do |description, arg|
+            description << " " unless (description == "" || arg.to_s =~ /^(\s|\.|#)/)
+            description << arg.to_s
+          end
+          text == "" ? nil : text
+        end
       end
 
       include Spec::Example::BeforeAndAfterHooks
@@ -15,17 +39,6 @@ module Spec
       def inherited(klass) # :nodoc:
         super
         ExampleGroupFactory.register_example_group(klass)
-      end
-      
-      # Provides the backtrace up to where this example_group was declared.
-      def backtrace
-        defined?(@backtrace) ? @backtrace : nil
-      end
-
-      # Deprecated - use +backtrace()+
-      def example_group_backtrace
-        Spec.deprecate("ExampleGroupMethods#example_group_backtrace", "ExampleGroupMethods#backtrace")
-        defined?(@backtrace) ? @backtrace : nil
       end
       
       # Makes the describe/it syntax available from a class. For example:
@@ -98,7 +111,7 @@ module Spec
         define_methods_from_predicate_matchers
 
         success, before_all_instance_variables = run_before_all(run_options)
-        success, after_all_instance_variables  = execute_examples(success, before_all_instance_variables, examples, run_options)
+        success, after_all_instance_variables  = run_examples(success, before_all_instance_variables, examples, run_options)
         success                                = run_after_all(success, after_all_instance_variables, run_options)
       end
 
@@ -114,7 +127,7 @@ module Spec
       end
 
       def description
-        @description ||= build_description_from(*description_parts) || to_s
+        @description ||= ExampleGroupMethods.build_description_from(*description_parts) || to_s
       end
       
       def described_type
@@ -195,7 +208,7 @@ module Spec
         end
       end
 
-      def execute_examples(success, instance_variables, examples, run_options)
+      def run_examples(success, instance_variables, examples, run_options)
         return [success, instance_variables] unless success
 
         after_all_instance_variables = instance_variables
@@ -215,14 +228,14 @@ module Spec
         after_all = new(example_proxy)
         after_all.set_instance_variables_from_hash(instance_variables)
         example_group_hierarchy.run_after_all(after_all)
-        return success
+        success
       rescue Exception => e
         run_options.reporter.example_failed(example_proxy, e)
-        return false
+        false
       end
       
       def examples_to_run(run_options)
-        return example_proxies unless specified_examples?(run_options)
+        return example_proxies unless examples_were_specified?(run_options)
         example_proxies.reject do |proxy|
           matcher = ExampleGroupMethods.matcher_class.
             new(description.to_s, proxy.description)
@@ -230,7 +243,7 @@ module Spec
         end
       end
 
-      def specified_examples?(run_options)
+      def examples_were_specified?(run_options)
         !run_options.examples.empty?
       end
 
@@ -253,20 +266,11 @@ module Spec
         when SharedExampleGroup
           include shared_example_group
         else
-          example_group = SharedExampleGroup.find(shared_example_group)
-          unless example_group
+          unless example_group = SharedExampleGroup.find(shared_example_group)
             raise RuntimeError.new("Shared Example Group '#{shared_example_group}' can not be found")
           end
           include(example_group)
         end
-      end
-
-      def build_description_from(*args)
-        text = args.inject("") do |description, arg|
-          description << " " unless (description == "" || arg.to_s =~ /^(\s|\.|#)/)
-          description << arg.to_s
-        end
-        text == "" ? nil : text
       end
     end
 

@@ -85,17 +85,6 @@ module Spec
         end
       end
 
-      # Provides the backtrace up to where this example was declared.
-      def backtrace
-        @_backtrace
-      end
-      
-      # Deprecated - use +backtrace()+
-      def implementation_backtrace
-        Spec.deprecate("ExampleMethods#implementation_backtrace","ExampleMethods#backtrace")
-        backtrace
-      end
-      
       # Run all the before(:each) blocks for this example
       def run_before_each
         example_group_hierarchy.run_before_each(self)
@@ -117,19 +106,19 @@ module Spec
       include Matchers
       include Pending
       
-      def before_each_example # :nodoc:
+      def before_each_example
         setup_mocks_for_rspec
         run_before_each
       end
 
-      def after_each_example # :nodoc:
+      def after_each_example
         run_after_each
         verify_mocks_for_rspec
       ensure
         teardown_mocks_for_rspec
       end
 
-      def described_class # :nodoc:
+      def described_class
         self.class.described_class
       end
       

@@ -32,30 +32,6 @@ module Spec
         end
       end
 
-      describe "#backtrace" do        
-        it "returns the backtrace from where the example was defined" do
-          example = ExampleGroup.dup.new ExampleProxy.new
-          example.backtrace.join("\n").should include("#{__FILE__}:#{__LINE__-1}")
-        end
-      end
-      
-      describe "#implementation_backtrace (deprecated)" do
-        before(:each) do
-          Kernel.stub!(:warn)
-        end
-
-        it "sends a deprecation warning" do
-          Kernel.should_receive(:warn).with(/#implementation_backtrace.*deprecated.*#backtrace instead/m)
-          example = ExampleGroup.dup.new ExampleProxy.new
-          example.implementation_backtrace
-        end
-        
-        it "returns the backtrace from where the example was defined" do
-          example = ExampleGroup.dup.new ExampleProxy.new
-          example.implementation_backtrace.join("\n").should include("#{__FILE__}:#{__LINE__-1}")
-        end
-      end
-
       describe "#should" do
         before(:each) do
           @example_group = Class.new(ExampleGroupDouble)
