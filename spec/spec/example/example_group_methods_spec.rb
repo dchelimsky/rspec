@@ -604,42 +604,6 @@ module Spec
           end
         end
 
-        describe "#backtrace" do  
-          before(:each) do
-            Spec.stub!(:deprecate)
-          end
-                
-          it "returns the backtrace from where the example group was defined" do
-            example_group = Class.new(ExampleGroupDouble).describe("foo") do
-              example "bar" do; end
-            end
-            example_group.backtrace.join("\n").should include("#{__FILE__}:#{__LINE__-3}")
-          end
-          
-          it "is deprecated" do
-            Spec.should_receive(:deprecate)
-            Class.new(ExampleGroupDouble).backtrace
-          end
-        end
-
-        describe "#example_group_backtrace (deprecated)" do        
-          before(:each) do
-            Spec.stub!(:deprecate)
-          end
-          it "sends a deprecation warning" do
-            example_group = Class.new(ExampleGroupDouble) {}
-            Spec.should_receive(:deprecate)
-            example_group.example_group_backtrace
-          end
-
-          it "returns the backtrace from where the example group was defined" do
-            example_group = Class.new(ExampleGroupDouble).describe("foo") do
-              example "bar" do; end
-            end
-            example_group.example_group_backtrace.join("\n").should include("#{__FILE__}:#{__LINE__-3}")
-          end
-        end
-        
         describe "#before" do
           it "stores before(:each) blocks" do
             example_group = Class.new(ExampleGroupDouble) {}

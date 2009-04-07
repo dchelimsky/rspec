@@ -1,23 +1,7 @@
 module Spec
   module Example
 
-    module ExampleGroupMethods
-      module DeprecatedMethods
-        # Deprecated - use +location+
-        def backtrace
-          Spec.deprecate("ExampleGroupMethods#backtrace", "ExampleGroupMethods#location")
-          defined?(@backtrace) ? @backtrace : nil
-        end
-
-        # Deprecated - use +location+
-        def example_group_backtrace
-          Spec.deprecate("ExampleGroupMethods#example_group_backtrace", "ExampleGroupMethods#location")
-          defined?(@backtrace) ? @backtrace : nil
-        end
-      end
-      
-      include DeprecatedMethods
-      
+    module ExampleGroupMethods      
       class << self
         attr_accessor :matcher_class
 
