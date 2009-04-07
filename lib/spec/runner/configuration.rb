@@ -1,6 +1,8 @@
 module Spec
   module Runner
     class Configuration
+      include Spec::Example::ArgsAndOptions
+      
       # Chooses what mock framework to use. Example:
       #
       #   Spec::Runner.configure do |config|
@@ -139,7 +141,7 @@ module Spec
     private
     
       def include_or_extend(action, *args)
-        modules, options = Spec::Example.args_and_options(*args)
+        modules, options = args_and_options(*args)
         [get_type_from_options(options)].flatten.each do |required_example_group|
           required_example_group = required_example_group.to_sym if required_example_group
           modules.each do |mod|
@@ -149,7 +151,7 @@ module Spec
       end
 
       def add_callback(sym, *args, &proc)
-        scope, options = Spec::Example.scope_and_options(*args)
+        scope, options = scope_and_options(*args)
         example_group = Spec::Example::ExampleGroupFactory[get_type_from_options(options)]
         example_group.__send__(sym, scope, &proc)
       end
@@ -160,6 +162,15 @@ module Spec
     
       def mock_framework_path(framework_name)
         File.expand_path(File.join(File.dirname(__FILE__), "/../adapters/mock_frameworks/#{framework_name}"))
+      end
+
+      def scope_and_options(*args) # :nodoc:
+        args, options = args_and_options(*args)
+        return scope_from(*args), options
+      end
+
+      def scope_from(*args) # :nodoc:
+        args[0] || :each
       end
     end
   end

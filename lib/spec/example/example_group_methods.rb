@@ -33,6 +33,7 @@ module Spec
       include Spec::Example::BeforeAndAfterHooks
       include Spec::Example::Subject::ExampleGroupMethods
       include Spec::Example::PredicateMatchers
+      include Spec::Example::ArgsAndOptions
 
       attr_reader :options, :location
       
@@ -116,7 +117,7 @@ module Spec
       end
 
       def set_description(*args)
-        @description_args, @options = Spec::Example.args_and_options(*args)
+        @description_args, @options = args_and_options(*args)
         @backtrace = caller(1)
         @location = File.expand_path(options[:location]) if options[:location]
         self
