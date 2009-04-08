@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
-Spec::Matchers.create :have_public_instance_method do |method|
+Spec::Matchers.define :have_public_instance_method do |method|
   match do |klass|
     klass.public_instance_methods.include?(method)
   end

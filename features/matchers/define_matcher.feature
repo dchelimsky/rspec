@@ -1,13 +1,13 @@
-Feature: custom matcher shortcut
+Feature: define matcher
 
   In order to express my domain clearly in my code examples
   As an RSpec user
-  I want a shortcut for create custom matchers
+  I want a shortcut to define custom matchers
 
-  Scenario: creating a matcher with default messages
+  Scenario: define a matcher with default messages
     Given a file named "matcher_with_default_message_spec.rb" with:
       """
-      Spec::Matchers.create :be_a_multiple_of do |expected|
+      Spec::Matchers.define :be_a_multiple_of do |expected|
         match do |actual|
           actual % expected == 0
         end
@@ -47,7 +47,7 @@ Feature: custom matcher shortcut
   Scenario: overriding the failure_message_for_should
     Given a file named "matcher_with_failure_message_spec.rb" with:
       """
-      Spec::Matchers.create :be_a_multiple_of do |expected|
+      Spec::Matchers.define :be_a_multiple_of do |expected|
         match do |actual|
           actual % expected == 0
         end
@@ -69,7 +69,7 @@ Feature: custom matcher shortcut
   Scenario: overriding the failure_message_for_should_not
     Given a file named "matcher_with_failure_for_message_spec.rb" with:
       """
-      Spec::Matchers.create :be_a_multiple_of do |expected|
+      Spec::Matchers.define :be_a_multiple_of do |expected|
         match do |actual|
           actual % expected == 0
         end
@@ -91,7 +91,7 @@ Feature: custom matcher shortcut
   Scenario: overriding the description
     Given a file named "matcher_overriding_description_spec.rb" with:
       """
-      Spec::Matchers.create :be_a_multiple_of do |expected|
+      Spec::Matchers.define :be_a_multiple_of do |expected|
         match do |actual|
           actual % expected == 0
         end
@@ -117,7 +117,7 @@ Feature: custom matcher shortcut
   Scenario: with no args
     Given a file named "matcher_with_no_args_spec.rb" with:
       """
-      Spec::Matchers.create :have_7_fingers do
+      Spec::Matchers.define :have_7_fingers do
         match do |thing|
           thing.fingers.length == 7
         end
@@ -139,7 +139,7 @@ Feature: custom matcher shortcut
   Scenario: with multiple args
     Given a file named "matcher_with_multiple_args_spec.rb" with:
       """
-      Spec::Matchers.create :be_the_sum_of do |a,b,c,d|
+      Spec::Matchers.define :be_the_sum_of do |a,b,c,d|
         match do |sum|
           a + b + c + d == sum
         end
@@ -157,7 +157,7 @@ Feature: custom matcher shortcut
   Scenario: with helper methods
     Given a file named "matcher_with_internal_helper_spec.rb" with:
       """
-      Spec::Matchers.create :be_similar_to do |sample|
+      Spec::Matchers.define :be_similar_to do |sample|
         match do |actual|
           similar?(sample, actual)
         end
@@ -176,3 +176,4 @@ Feature: custom matcher shortcut
     When I run "spec matcher_with_internal_helper_spec.rb"
     Then the exit code should be 0
     And the stdout should match "1 example, 0 failures"
+

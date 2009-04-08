@@ -12,6 +12,7 @@
     custom formatter that uses it, you can just use
     ExampleGroupProxy#description and modify it directly.
   * predicate_matchers (use the new Matcher DSL instead)
+  * Spec::Matchers.create (use Spec::Matchers.define instead)
 
 * enhancements
 

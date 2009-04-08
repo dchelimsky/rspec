@@ -67,8 +67,8 @@ features/interop/examples_and_tests_together.feature
 features/interop/rspec_output.feature
 features/interop/test_but_not_test_unit.feature
 features/interop/test_case_with_should_methods.feature
-features/matchers/create_matcher.feature
-features/matchers/create_matcher_outside_rspec.feature
+features/matchers/define_matcher.feature
+features/matchers/define_matcher_outside_rspec.feature
 features/mock_framework_integration/use_flexmock.feature
 features/mock_framework_integration/use_mocha.feature
 features/mock_framework_integration/use_rr.feature
@@ -93,6 +93,7 @@ lib/spec/deprecation.rb
 lib/spec/dsl.rb
 lib/spec/dsl/main.rb
 lib/spec/example.rb
+lib/spec/example/args_and_options.rb
 lib/spec/example/before_and_after_hooks.rb
 lib/spec/example/errors.rb
 lib/spec/example/example_group.rb

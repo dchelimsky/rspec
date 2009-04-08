@@ -1,17 +1,17 @@
-Feature: custom matcher shortcut
+Feature: define matcher outside rspec
 
   In order to express my domain clearly in my code examples
   As a non-rspec user
-  I want a shortcut for create custom matchers
+  I want a shortcut to define custom matchers
 
-  Scenario: creating a matcher with default messages
+  Scenario: define a matcher with default messages
     Given a file named "test_multiples.rb" with:
       """
       $:.unshift File.join(File.dirname(__FILE__), "/../../lib")
       require 'test/unit'
       require 'spec/expectations'
       
-      Spec::Matchers.create :be_a_multiple_of do |expected|
+      Spec::Matchers.define :be_a_multiple_of do |expected|
         match do |actual|
           actual % expected == 0
         end

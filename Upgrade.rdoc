@@ -1,6 +1,11 @@
 = Upgrade to master in git
 
-= What's Changed
+== What's Changed
+
+=== Matcher DSL
+
+Use Spec::Matchers.define instead of Spec::Matchers.create (which is now
+deprecated).
 
 == Custom Formatters
 
@@ -119,4 +124,4 @@ new syntax.
 
     9.should be_a_multiple_of(3)
 
-See <tt>features/matchers/create_matcher.feature</tt> for more examples
+See <tt>features/matchers/define_matcher.feature</tt> for more examples
