@@ -157,7 +157,7 @@ Feature: define matcher
   Scenario: with helper methods
     Given a file named "matcher_with_internal_helper_spec.rb" with:
       """
-      Spec::Matchers.define :be_similar_to do |sample|
+      Spec::Matchers.define :have_same_elements_as do |sample|
         match do |actual|
           similar?(sample, actual)
         end
@@ -169,7 +169,7 @@ Feature: define matcher
       
       describe "these two arrays" do
         specify "should be similar" do
-          [1,2,3].should be_similar_to([2,3,1])
+          [1,2,3].should have_same_elements_as([2,3,1])
         end
       end
       """
