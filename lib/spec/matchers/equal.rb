@@ -1,29 +1,6 @@
 module Spec
   module Matchers
-    
-    class Equal
-      def initialize(expected)
-        @expected = expected
-      end
-      
-      def matches?(actual)
-        @actual = actual
-        @actual.equal?(@expected)
-      end
-      
-      def failure_message_for_should
-        return "expected #{@expected.inspect}, got #{@actual.inspect} (using .equal?)", @expected, @actual
-      end
-      
-      def failure_message_for_should_not
-        return "expected #{@actual.inspect} not to equal #{@expected.inspect} (using .equal?)", @expected, @actual
-      end
-      
-      def description
-        "equal #{@expected.inspect}"
-      end
-    end
-  
+
     # :call-seq:
     #   should equal(expected)
     #   should_not equal(expected)
@@ -37,7 +14,30 @@ module Spec
     #   5.should equal(5) #Fixnums are equal
     #   "5".should_not equal("5") #Strings that look the same are not the same object
     def equal(expected)
-      Equal.new(expected)
+      Matcher.new :equal, expected do |expected|
+        match do |actual|
+          actual.equal?(expected)
+        end
+        
+        failure_message_for_should do |actual|
+          <<-MESSAGE
+
+expected #{expected.inspect}
+     got #{actual.inspect}
+     
+(compared using equal?)
+MESSAGE
+        end
+
+        failure_message_for_should_not do |actual|
+          <<-MESSAGE
+
+expected #{actual.inspect} not to equal #{expected.inspect}
+
+(compared using equal?)
+MESSAGE
+        end
+      end
     end
   end
 end

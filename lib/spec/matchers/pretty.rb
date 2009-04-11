@@ -10,7 +10,7 @@ module Spec
           when 0
             ""
           when 1
-            " #{words[0]}"
+            " #{words[0].inspect}"
           when 2
             " #{words[0]} and #{words[1]}"
           else
