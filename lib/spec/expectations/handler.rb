@@ -12,7 +12,7 @@ module Spec
         return match if match
         
         if matcher.respond_to?(:diffable?) && matcher.diffable?
-          ::Spec::Expectations.fail matcher.failure_message_for_should, matcher.expected.first, matcher.actual
+          ::Spec::Expectations.fail_with matcher.failure_message_for_should, matcher.expected.first, matcher.actual
         else
           ::Spec::Expectations.fail_with matcher.respond_to?(:failure_message_for_should) ?
                                          matcher.failure_message_for_should :
@@ -33,7 +33,7 @@ module Spec
         return match unless match
 
         if matcher.respond_to?(:diffable?) && matcher.diffable?
-          ::Spec::Expectations.fail matcher.failure_message_for_should_not, matcher.expected.first, matcher.actual
+          ::Spec::Expectations.fail_with matcher.failure_message_for_should_not, matcher.expected.first, matcher.actual
         else
           ::Spec::Expectations.fail_with matcher.respond_to?(:failure_message_for_should_not) ?
                                          matcher.failure_message_for_should_not :

@@ -81,7 +81,7 @@ module Spec
           )
           actual = Object.new
           
-          ::Spec::Expectations.should_receive(:fail).with("message", 1, 2)
+          ::Spec::Expectations.should_receive(:fail_with).with("message", 1, 2)
           
           Spec::Expectations::PositiveExpectationHandler.handle_matcher(actual, matcher)
         end
@@ -155,7 +155,7 @@ module Spec
           )
           actual = Object.new
           
-          ::Spec::Expectations.should_receive(:fail).with("message", 1, 2)
+          ::Spec::Expectations.should_receive(:fail_with).with("message", 1, 2)
           
           Spec::Expectations::NegativeExpectationHandler.handle_matcher(actual, matcher)
         end
