@@ -28,6 +28,23 @@ module Spec
         end
       end
       
+      it "is not diffable by default" do
+        matcher = Spec::Matchers::Matcher.new(:name) do
+          match {|actual|}
+        end
+        matcher.matches?(0)
+        matcher.should_not be_diffable
+      end
+      
+      it "is diffable when told to be" do
+        matcher = Spec::Matchers::Matcher.new(:name) do
+          match {|actual|}
+          diffable
+        end
+        matcher.matches?(0)
+        matcher.should be_diffable
+      end
+      
       context "with overrides" do
         before(:each) do
           @matcher = Spec::Matchers::Matcher.new(:be_boolean, true) do |boolean|
