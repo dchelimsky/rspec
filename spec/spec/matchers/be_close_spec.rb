@@ -31,6 +31,15 @@ module Spec
         #then
           matcher.failure_message_for_should.should == "expected 5.0 +/- (< 0.5), got 5.51"
       end
+
+      it "provides a failure message for should tno" do
+        #given
+          matcher = be_close(5.0, 0.5)
+        #when
+          matcher.matches?(5.49)
+        #then
+          matcher.failure_message_for_should_not.should == "expected 5.0 +/- (< 0.5), got 5.49"
+      end
       it "provides a description" do
         matcher = be_close(5.0, 0.5)
         matcher.matches?(5.1)
