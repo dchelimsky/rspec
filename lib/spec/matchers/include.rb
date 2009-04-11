@@ -60,7 +60,28 @@ module Spec
     #   "spread".should include("read")
     #   "spread".should_not include("red")
     def include(*expected)
-      Matchers::Include.new(*expected)
+      Matcher.new :include, *expected do |*expecteds|
+        match do |actual|
+          helper(actual, *expecteds)
+        end
+        
+        def helper(actual, *expecteds)
+          expecteds.each do |expected|
+            if actual.is_a?(Hash)
+              if expected.is_a?(Hash)
+                expected.each_pair do |k,v|
+                  return false unless actual[k] == v
+                end
+              else
+                return false unless actual.has_key?(expected)
+              end
+            else
+              return false unless actual.include?(expected)
+            end
+          end
+          true
+        end
+      end
     end
   end
 end

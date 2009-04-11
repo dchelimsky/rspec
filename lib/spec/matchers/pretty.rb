@@ -6,11 +6,12 @@ module Spec
       end
 
       def to_sentence(words)
+        words = words.map{|w| w.inspect}
         case words.length
           when 0
             ""
           when 1
-            " #{words[0].inspect}"
+            " #{words[0]}"
           when 2
             " #{words[0]} and #{words[1]}"
           else
