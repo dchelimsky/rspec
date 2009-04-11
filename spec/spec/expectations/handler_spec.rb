@@ -7,9 +7,7 @@ module ExampleExpectations
       if args.last.is_a? Hash
         @expected = args.last[:expected]
       end
-      if block_given?
-        @expected = block.call
-      end
+      @expected = block.call if block
       @block = block
     end
     
@@ -71,7 +69,21 @@ module Spec
           ::Spec::Expectations.should_receive(:fail_with).with("message")
           
           Spec::Expectations::PositiveExpectationHandler.handle_matcher(actual, matcher)
+        end
+        
+        it "calls fail if matcher.diffable?" do
+          matcher = mock("matcher",
+            :diffable? => true,
+            :failure_message_for_should => "message",
+            :matches? => false,
+            :expected => [1],
+            :actual   => 2
+          )
+          actual = Object.new
           
+          ::Spec::Expectations.should_receive(:fail).with("message", 1, 2)
+          
+          Spec::Expectations::PositiveExpectationHandler.handle_matcher(actual, matcher)
         end
         
         it "calls failure_message if the matcher does not implement failure_message_for_should" do
@@ -131,6 +143,23 @@ module Spec
           Spec::Expectations::NegativeExpectationHandler.handle_matcher(actual, matcher)
           
         end
+
+        
+        it "calls fail if matcher.diffable?" do
+          matcher = mock("matcher",
+            :diffable? => true,
+            :failure_message_for_should_not => "message",
+            :matches? => true,
+            :expected => [1],
+            :actual   => 2
+          )
+          actual = Object.new
+          
+          ::Spec::Expectations.should_receive(:fail).with("message", 1, 2)
+          
+          Spec::Expectations::NegativeExpectationHandler.handle_matcher(actual, matcher)
+        end
+
       end
     end
     

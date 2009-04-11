@@ -10,10 +10,14 @@ module Spec
 
         match = matcher.matches?(actual, &block)
         return match if match
-
-        ::Spec::Expectations.fail_with matcher.respond_to?(:failure_message_for_should) ?
-                                       matcher.failure_message_for_should :
-                                       matcher.failure_message
+        
+        if matcher.respond_to?(:diffable?) && matcher.diffable?
+          ::Spec::Expectations.fail matcher.failure_message_for_should, matcher.expected.first, matcher.actual
+        else
+          ::Spec::Expectations.fail_with matcher.respond_to?(:failure_message_for_should) ?
+                                         matcher.failure_message_for_should :
+                                         matcher.failure_message
+        end
       end
     end
 
@@ -28,9 +32,13 @@ module Spec
                 matcher.matches?(actual, &block)
         return match unless match
 
-        ::Spec::Expectations.fail_with matcher.respond_to?(:failure_message_for_should_not) ?
-                                       matcher.failure_message_for_should_not :
-                                       matcher.negative_failure_message
+        if matcher.respond_to?(:diffable?) && matcher.diffable?
+          ::Spec::Expectations.fail matcher.failure_message_for_should_not, matcher.expected.first, matcher.actual
+        else
+          ::Spec::Expectations.fail_with matcher.respond_to?(:failure_message_for_should_not) ?
+                                         matcher.failure_message_for_should_not :
+                                         matcher.negative_failure_message
+        end
       end
     end
   end
