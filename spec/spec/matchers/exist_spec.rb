@@ -41,7 +41,7 @@ describe "should exist" do
     end
     
     it "describes itself" do
-      exist.description.should == "exists"
+      exist.description.should == "exist"
     end
     
     it "passes should_not exist if target doesn't exist" do
