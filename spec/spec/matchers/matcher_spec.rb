@@ -45,6 +45,26 @@ module Spec
         matcher.should be_diffable
       end
       
+      it "provides expected" do
+        matcher = Spec::Matchers::Matcher.new(:name, 'expected string') do
+          match {|actual|}
+        end
+        
+        matcher.matches?('actual string')
+        
+        matcher.expected.should == ['expected string']
+      end
+      
+      it "provides actual" do
+        matcher = Spec::Matchers::Matcher.new(:name, 'expected string') do
+          match {|actual|}
+        end
+        
+        matcher.matches?('actual string')
+        
+        matcher.actual.should == 'actual string'
+      end
+      
       context "with overrides" do
         before(:each) do
           @matcher = Spec::Matchers::Matcher.new(:be_boolean, true) do |boolean|

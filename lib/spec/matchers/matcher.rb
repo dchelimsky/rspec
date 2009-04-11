@@ -3,6 +3,8 @@ module Spec
     class Matcher
       include Spec::Matchers::Pretty
       
+      attr_reader :expected, :actual
+      
       def initialize(name, *expected, &declarations)
         @name = name
         @expected = expected
