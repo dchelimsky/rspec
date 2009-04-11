@@ -2,7 +2,7 @@ module Spec
   module Expectations
     class InvalidMatcherError < ArgumentError; end        
     
-    class ExpectationMatcherHandler        
+    class PositiveExpectationHandler        
       def self.handle_matcher(actual, matcher, &block)
         ::Spec::Matchers.last_should = :should
         ::Spec::Matchers.last_matcher = matcher
@@ -17,11 +17,10 @@ module Spec
       end
     end
 
-    class NegativeExpectationMatcherHandler
+    class NegativeExpectationHandler
       def self.handle_matcher(actual, matcher, &block)
         ::Spec::Matchers.last_should = :should_not
         ::Spec::Matchers.last_matcher = matcher
-
         return ::Spec::Matchers::NegativeOperatorMatcher.new(actual) if matcher.nil?
         
         match = matcher.respond_to?(:does_not_match?) ?

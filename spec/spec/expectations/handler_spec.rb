@@ -48,20 +48,20 @@ end
 
 module Spec
   module Expectations
-    describe ExpectationMatcherHandler do
+    describe PositiveExpectationHandler do
       describe "#handle_matcher" do
         it "asks the matcher if it matches" do
           matcher = mock("matcher")
           actual = Object.new
           matcher.should_receive(:matches?).with(actual).and_return(true)
-          Spec::Expectations::ExpectationMatcherHandler.handle_matcher(actual, matcher)
+          Spec::Expectations::PositiveExpectationHandler.handle_matcher(actual, matcher)
         end
       
         it "returns the match value" do
           matcher = mock("matcher")
           actual = Object.new
           matcher.should_receive(:matches?).with(actual).and_return(:this_value)
-          Spec::Expectations::ExpectationMatcherHandler.handle_matcher(actual, matcher).should == :this_value
+          Spec::Expectations::PositiveExpectationHandler.handle_matcher(actual, matcher).should == :this_value
         end
         
         it "calls failure_message_for_should if the matcher implements it" do
@@ -70,7 +70,7 @@ module Spec
           
           ::Spec::Expectations.should_receive(:fail_with).with("message")
           
-          Spec::Expectations::ExpectationMatcherHandler.handle_matcher(actual, matcher)
+          Spec::Expectations::PositiveExpectationHandler.handle_matcher(actual, matcher)
           
         end
         
@@ -80,19 +80,19 @@ module Spec
           
           ::Spec::Expectations.should_receive(:fail_with).with("message")
           
-          Spec::Expectations::ExpectationMatcherHandler.handle_matcher(actual, matcher)
+          Spec::Expectations::PositiveExpectationHandler.handle_matcher(actual, matcher)
           
         end
       end
     end
 
-    describe NegativeExpectationMatcherHandler do
+    describe NegativeExpectationHandler do
       describe "#handle_matcher" do
         it "asks the matcher if it doesn't match when the matcher responds to #does_not_match?" do
           matcher = mock("matcher", :does_not_match? => true, :negative_failure_message => nil)
           actual = Object.new
           matcher.should_receive(:does_not_match?).with(actual).and_return(true)
-          Spec::Expectations::NegativeExpectationMatcherHandler.handle_matcher(actual, matcher)
+          Spec::Expectations::NegativeExpectationHandler.handle_matcher(actual, matcher)
         end
 
         it "asks the matcher if it matches when the matcher doesn't respond to #does_not_match?" do
@@ -100,7 +100,7 @@ module Spec
           actual = Object.new
           matcher.stub!(:negative_failure_message)
           matcher.should_receive(:matches?).with(actual).and_return(false)
-          Spec::Expectations::NegativeExpectationMatcherHandler.handle_matcher(actual, matcher)
+          Spec::Expectations::NegativeExpectationHandler.handle_matcher(actual, matcher)
         end
       
         it "returns the match value" do
@@ -108,7 +108,7 @@ module Spec
           actual = Object.new
           matcher.should_receive(:matches?).with(actual).and_return(false)
           matcher.stub!(:negative_failure_message).and_return("ignore")
-          Spec::Expectations::NegativeExpectationMatcherHandler.handle_matcher(actual, matcher).should be_false
+          Spec::Expectations::NegativeExpectationHandler.handle_matcher(actual, matcher).should be_false
         end
 
         
@@ -118,7 +118,7 @@ module Spec
           
           ::Spec::Expectations.should_receive(:fail_with).with("message")
           
-          Spec::Expectations::NegativeExpectationMatcherHandler.handle_matcher(actual, matcher)
+          Spec::Expectations::NegativeExpectationHandler.handle_matcher(actual, matcher)
           
         end
         
@@ -128,13 +128,13 @@ module Spec
           
           ::Spec::Expectations.should_receive(:fail_with).with("message")
           
-          Spec::Expectations::NegativeExpectationMatcherHandler.handle_matcher(actual, matcher)
+          Spec::Expectations::NegativeExpectationHandler.handle_matcher(actual, matcher)
           
         end
       end
     end
     
-    describe ExpectationMatcherHandler do
+    describe PositiveExpectationHandler do
       include ExampleExpectations
       
       it "should handle submitted args" do

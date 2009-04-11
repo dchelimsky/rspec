@@ -24,7 +24,7 @@ module Kernel
   # NOTE that this does NOT support receiver.should != expected.
   # Instead, use receiver.should_not == expected
   def should(matcher=nil, &block)
-    Spec::Expectations::ExpectationMatcherHandler.handle_matcher(self, matcher, &block)
+    Spec::Expectations::PositiveExpectationHandler.handle_matcher(self, matcher, &block)
   end
 
   # :call-seq:
@@ -47,6 +47,6 @@ module Kernel
   #
   # See Spec::Matchers for more information about matchers
   def should_not(matcher=nil, &block)
-    Spec::Expectations::NegativeExpectationMatcherHandler.handle_matcher(self, matcher, &block)
+    Spec::Expectations::NegativeExpectationHandler.handle_matcher(self, matcher, &block)
   end
 end
