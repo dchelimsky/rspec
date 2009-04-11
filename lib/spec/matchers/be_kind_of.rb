@@ -1,28 +1,5 @@
 module Spec
   module Matchers
-    class BeKindOf
-      def initialize(expected)
-        @expected = expected
-      end
-      
-      def matches?(actual)
-        @actual = actual
-        @actual.kind_of?(@expected)
-      end
-      
-      def description
-        "be a kind of #{@expected}"
-      end
-      
-      def failure_message_for_should
-        "expected kind of #{@expected}, got #{@actual.inspect}"
-      end
-      
-      def failure_message_for_should_not
-        "expected #{@actual.inspect} not to be a kind of #{@expected}"
-      end
-    end
-
     # :call-seq:
     #   should be_kind_of(expected)
     #   should be_a_kind_of(expected)
@@ -36,10 +13,14 @@ module Spec
     #   5.should be_kind_of(Fixnum)
     #   5.should be_kind_of(Numeric)
     #   5.should_not be_kind_of(Float)
-    def be_kind_of(expected)
-      BeKindOf.new(expected)
+    def be_a_kind_of(expected)
+      Matcher.new :be_a_kind_of, expected do |expected|
+        match do |actual|
+          actual.kind_of?(expected)
+        end
+      end
     end
     
-    alias_method :be_a_kind_of, :be_kind_of
+    alias_method :be_kind_of, :be_a_kind_of
   end
 end

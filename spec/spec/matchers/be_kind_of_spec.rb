@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 module Spec
   module Matchers
-    [:be_kind_of, :be_a_kind_of].each do |method|
+    [:be_a_kind_of, :be_kind_of].each do |method|
       describe "actual.should #{method}(expected)" do
         it "passes if actual is instance of expected class" do
           5.should send(method, Fixnum)
@@ -13,11 +13,13 @@ module Spec
         end
 
         it "fails with failure message for should unless actual is kind of expected class" do
-          lambda { "foo".should send(method, Array) }.should fail_with(%Q{expected kind of Array, got "foo"})
+          lambda { "foo".should send(method, Array) }.should fail_with(%Q{expected "foo" to be a kind of Array})
         end
 
         it "provides a description" do
-          Spec::Matchers::BeKindOf.new(Class).description.should == "be a kind of Class"
+          matcher = be_a_kind_of(String)
+          matcher.matches?("this")
+          matcher.description.should == "be a kind of String"
         end
       end
       
