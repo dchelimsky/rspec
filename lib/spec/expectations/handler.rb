@@ -11,12 +11,14 @@ module Spec
         match = matcher.matches?(actual, &block)
         return match if match
         
+        message = matcher.respond_to?(:failure_message_for_should) ?
+                  matcher.failure_message_for_should :
+                  matcher.failure_message
+        
         if matcher.respond_to?(:diffable?) && matcher.diffable?
-          ::Spec::Expectations.fail_with matcher.failure_message_for_should, matcher.expected.first, matcher.actual
+          ::Spec::Expectations.fail_with message, matcher.expected.first, matcher.actual
         else
-          ::Spec::Expectations.fail_with matcher.respond_to?(:failure_message_for_should) ?
-                                         matcher.failure_message_for_should :
-                                         matcher.failure_message
+          ::Spec::Expectations.fail_with message
         end
       end
     end
@@ -31,13 +33,15 @@ module Spec
                 !matcher.does_not_match?(actual, &block) :
                 matcher.matches?(actual, &block)
         return match unless match
+        
+        message = matcher.respond_to?(:failure_message_for_should_not) ?
+                  matcher.failure_message_for_should_not :
+                  matcher.negative_failure_message
 
         if matcher.respond_to?(:diffable?) && matcher.diffable?
-          ::Spec::Expectations.fail_with matcher.failure_message_for_should_not, matcher.expected.first, matcher.actual
+          ::Spec::Expectations.fail_with message, matcher.expected.first, matcher.actual
         else
-          ::Spec::Expectations.fail_with matcher.respond_to?(:failure_message_for_should_not) ?
-                                         matcher.failure_message_for_should_not :
-                                         matcher.negative_failure_message
+          ::Spec::Expectations.fail_with message
         end
       end
     end

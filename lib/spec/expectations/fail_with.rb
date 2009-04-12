@@ -10,6 +10,19 @@ module Spec
       # to the differ to append a diff message to the failure message.
       def fail_with(message, expected=nil, target=nil) # :nodoc:
         if (Array === message) & (message.length == 3)
+          ::Spec.warn(<<-NOTICE
+
+*****************************************************************
+DEPRECATION WARNING: you are using deprecated behaviour that will
+be removed from a future version of RSpec.
+
+* Support for matchers that return arrays from failure message
+methods is deprecated.
+* Instead, the matcher should return a string, and expose methods
+for the expected() and actual() values.
+*****************************************************************
+NOTICE
+          )
           message, expected, target = message[0], message[1], message[2]
         end
         unless (differ.nil? || expected.nil? || target.nil?)
