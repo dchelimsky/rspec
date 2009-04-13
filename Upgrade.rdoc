@@ -1,4 +1,4 @@
-= Upgrade to master in git
+= Upgrade to rspec-1.2.3
 
 == What's Changed
 
@@ -6,6 +6,29 @@
 
 Use Spec::Matchers.define instead of Spec::Matchers.create (which is now
 deprecated).
+
+=== Explicit Predicate Matchers are deprecated
+
+With the addition of the new Matcher DSL the old, confusing, and
+almost-nobody-uses-it explicit predicate matcher functionality's days are now
+numbered.
+
+If you're not familiar with this feature, don't worry about it. If you have anything
+that looks like this:
+
+    predicate_matchers[:swim] = :can_swim?
+  
+Or this
+
+    config.predicate_matchers[:swim] = :can_swim?
+  
+Change it to this:
+
+    Spec::Matchers.define :swim do
+      match do |potential_swimmer|
+        potential_swimmer.can_swim?
+      end
+    end
 
 == Custom Formatters
 
