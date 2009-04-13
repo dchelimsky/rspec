@@ -1,3 +1,9 @@
+=== Version 1.2.4
+
+* bug fix
+
+  * just one - update the manifest
+
 === Version 1.2.3
 
 * deprecations
