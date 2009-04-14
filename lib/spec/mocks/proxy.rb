@@ -213,6 +213,7 @@ module Spec
       end
 
       def find_matching_expectation(sym, *args)
+        @expectations.find {|expectation| expectation.matches(sym, args) && !expectation.called_max_times?} || 
         @expectations.find {|expectation| expectation.matches(sym, args)}
       end
 
