@@ -20,8 +20,8 @@ module Spec
       #   stub_person = stub("thing", :name => "Joe", :email => "joe@domain.com")
       #   stub_person.name => "Joe"
       #   stub_person.email => "joe@domain.com"
-      def mock(name='mock', stubs_and_options={})
-        Spec::Mocks::Mock.new(name, stubs_and_options)
+      def mock(*args)
+        Spec::Mocks::Mock.new(*args)
       end
 
       alias :stub :mock
