@@ -1,3 +1,10 @@
+=== Version 1.2.5
+
+* enhancements
+
+  * name argument to mock/stub is now optional (closes #782)
+    * you can do mock(:foo => "woo", :bar => "car")
+
 === Version 1.2.4
 
 * bug fix
@@ -38,9 +45,9 @@
 
 Bug-fix release (fixes regression introduced in 1.2.1)
 
-* bug fixes 
+* bug fixes
 
-  * fixed bug in which spec_parser raised an error for custom example group     
+  * fixed bug in which spec_parser raised an error for custom example group
     base classes
 
 === Version 1.2.1 / 2009-03-22
@@ -64,7 +71,7 @@ See Upgrade.rdoc for information about upgrading to rspec-1.2.1
   * pass ExampleProxy to example_started(). Closes #738, #743
     * thanks to Tobias Grimm (Eclipse) fort the patch and Roman Chernyatchik
       (JetBrains, RubyMine) for the assist
-  
+
 * bug fixes
 
   * subject (implicit or explicit) is now properly inherited by nested groups. Closes #744.
@@ -85,19 +92,19 @@ See Upgrade.rdoc for information about upgrading to rspec-1.2.1
     * you can still use setup and teardown if you're using
       Test::Unit::TestCase as the base ExampleGroup class (which is implicit
       in rspec-rails)
-      
+
   * The matcher protocol has been improved. The old protocol is still
     supported, so as long as you're not monkey patching rspec's built-in
     matchers, or using extension libraries that do, this should not affect
     you. If you run into trouble, you'll just need to change:
-    
+
       failure_message          => failure_message_for_should
       negative_failure_message => failure_message_for_should_not
-      
+
   * All references to rubygems have been removed from within rspec's code.
-  
+
     * NOTE that they have been restored in 1.2.1, above
-  
+
     * See http://gist.github.com/54177 for rationale and suggestions on
       alternative approaches to loading rubygems
 
@@ -110,7 +117,7 @@ See Upgrade.rdoc for information about upgrading to rspec-1.2.1
 
   * cleaner integration with with heckle-1.4.2
   * allow registering example groups with a path-like key (Pat Maddox)
-  * start DRb service at "druby://localhost:0" (Hongli Lai) - See http://redmine.ruby-lang.org/issues/show/496 
+  * start DRb service at "druby://localhost:0" (Hongli Lai) - See http://redmine.ruby-lang.org/issues/show/496
   * consistent reporting of errors as failures
   * added spec/test/unit as more intuitive path to loading test/unit interop lib
   * added explicit autorun feature for running specs with ruby command
@@ -120,7 +127,7 @@ See Upgrade.rdoc for information about upgrading to rspec-1.2.1
   * added --format silent (l) option, which is now the default when running --heckle (Bob Aman)
   * sexy new custom matcher creation (Corey Haines & David Chelimsky - initial concept by Yehuda Katz)
   * improved matcher protocol - old one is still supported, but new one is cleaner and prefered
-  
+
 * bug fixes
 
   * support delegating operator matchers to subject with should_not
@@ -137,7 +144,7 @@ not intended:
   obj.stub!(:msg)
   obj.msg
   obj.should_receive(:msg)
-  
+
 That would pass in 1.1.11, but should not have been allowed to, since the
 message is received before the expectation is set. This was reported (#637)
 and fixed for release 1.1.12, but may cause unexpected failures if you had
@@ -171,7 +178,7 @@ WARNING: mock.should_receive(:msg).with(an_instance_of(klass)) now correctly use
   * config.include now accepts an array of types (config.include(Helpers, :type => [:view, :controller]))
   * added be_a and be_an expectation matchers
   * added instance_of and kind_of mock argument matchers
-  
+
 * 9 bug fixes
 
   * fixed bug where {:a => 1, :b => 2}.should include(:a, :b) failed (Yossef Mendelssohn)
@@ -183,7 +190,7 @@ WARNING: mock.should_receive(:msg).with(an_instance_of(klass)) now correctly use
   * Fix spec_path for shared groups (Zach Dennis). Closes #615.
   * stubbed message expectation not verified if it has been called *before* the expectation (Matthias Hennemeyer). Closes #637.
   * stubs calculate return value by executing block passed to #and_return (hint from Aisha Fenton). Closes #642.
-  
+
 === Version 1.1.11 / 2008-10-24
 
 * 1 major enhancement
@@ -314,7 +321,7 @@ metaclass call with (class << self; self; end) and all will be well.
 * Deprecation warnings for specs that assume auto-inclusion of modules. Closes #326 (patch from Scott Taylor)
 * mock.should_not_receive(:anything) fails fast (once again)
 * Patch from Antti Tarvainen to stop files from being loaded repeatedly when running heckle. Closes #333.
-* Fixed bug in which session object in example was not the same instance used in the controller. Closes #331. 
+* Fixed bug in which session object in example was not the same instance used in the controller. Closes #331.
 * Applied patch from Antti Tarvainen to fix bug where heckle runs rspec runs heckle runs rspec etc. Closes #280.
 * Applied patch from Zach Dennis to merge :steps functionality to :steps_for. Closes #324.
 * Applied patch from Ryan Davis to add eval of block passed to raise_error matcher. Closes #321.
@@ -518,8 +525,8 @@ follow the upgrade instructions and run 'script/generate rspec' you'll be fine, 
 step you need to manually go into spec_helper.rb and remove the call to that method (if present - it
 might not be if you haven't upgraded in a while).
 
-Warning: Implementors of custom formatters. Formatters will now be sent an Example object instead of just a 
-String for #example_started, #example_passed and #example_failed. In certain scenarios 
+Warning: Implementors of custom formatters. Formatters will now be sent an Example object instead of just a
+String for #example_started, #example_passed and #example_failed. In certain scenarios
 (Spec::Ui with Spec::Distributed), the formatter must ask the Example for its sequence number instead of
 keeping track of a sequence number internal to the formatter. Most of you shouldn't need to upgrade
 your formatters though - the Example#to_s method returns the example name/description, so you should be
@@ -559,7 +566,7 @@ able to use the passed Example instance as if it were a String.
 * Fixed [#11903] config.include with behaviour_type 'hash' does not work
 * Examples without blocks and pending is now reported with a P instead of a *
 * Pending blocks that now pass are rendered blue
-* New behaviour for after: If an after block raises an error, the other ones will still run instead of bailing at the first. 
+* New behaviour for after: If an after block raises an error, the other ones will still run instead of bailing at the first.
 * Made it possible to run spec from RSpec.tmbundle with --drb against a Rails spec_server.
 * Applied [#11868] Add ability for pending to optionally hold a failing block and to fail when it passes (Patch from Bob Cotton)
 * Fixed [#11843] watir_behaviour missing from spec_ui gem
@@ -683,7 +690,7 @@ This is a bugfix release.
 * Applied [#10567] Call setup and teardown using before and after callbacks
 
 === Version 0.9.2
-This is a quick maintenance release. 
+This is a quick maintenance release.
 
 * Added some website love
 * Fixed [#10542] reverse predicate matcher syntax
@@ -704,13 +711,13 @@ backwards compatibility). This allows you to express specs like this:
 
 The command line features four new options that give you more control over what specs
 are being run and in what order. This can be used to verify that your specs are
-independent (by running in opposite order with --reverse). It can also be used to cut 
+independent (by running in opposite order with --reverse). It can also be used to cut
 down feedback time by running the most recently modified specs first (--loadby mtime --reverse).
 
 Further, --example replaces the old --spec option, and it can now take a file name of
-spec names as an alternative to just a spec name. The --format failing_examples:file.txt 
-option allows you to output an --example compatible file, which makes it possible to only 
-rerun the specs that failed in the last run. Spec::Rails uses all of these four options 
+spec names as an alternative to just a spec name. The --format failing_examples:file.txt
+option allows you to output an --example compatible file, which makes it possible to only
+rerun the specs that failed in the last run. Spec::Rails uses all of these four options
 by default to optimise your RSpec experience.
 
 There is now a simple configuration model. For Spec::Rails, you do something like this:
@@ -727,7 +734,7 @@ RSpec's own mock framework. Just put this:
   Spec::Runner.configure do |config|
     config.mock_with :mocha
   end
-  
+
 or this:
 
   Spec::Runner.configure do |config|
@@ -796,7 +803,7 @@ See Spec::DSL::Behaviour for more on predicate_matchers
 * Moved all of the Spec::Rails specs down to the plugins directory - now you can run the specs after you install.
 * Updated RSpec.tmbundle to the 0.9 syntax and replaced context/specify with describe/it.
 * Applied [#9232] ActionController::Base#render is sometimes protected (patch from Dan Manges)
-* Added --reverse option, allowing contexts/specs to be run in reverse order. 
+* Added --reverse option, allowing contexts/specs to be run in reverse order.
 * Added --loadby option, allowing better control over load order for spec files. mtime and file.txt supported.
 * Implemented [#8696] --order option (see --reverse and --loadby)
 * Added describe/it as aliases for context/specify - suggestion from Dan North.
@@ -824,7 +831,7 @@ This release introduces a new approach to handling expectations using Expression
 See Upgrade[http://rspec.rubyforge.org/upgrade.html], Spec::Expectations, Spec::Matchers and RELEASE-PLAN for more info.
 
 This release also improves the spec command line by adding DRb support and making it possible to
-store command line options in a file. This means a more flexible RSpec experience with Rails, 
+store command line options in a file. This means a more flexible RSpec experience with Rails,
 Rake and editor plugins like TextMate.
 
 It also sports myriad new features, bug fixes, patches and general goodness:
@@ -976,7 +983,7 @@ Bug fixes and a couple o' new features.
 * Added [#6560] controller.session should be available before the action
 * Added support for should_have_rjs :visual_effect
 * Different printing and colours for unmet expectations (red) and other exceptions (magenta)
-* Simplified method_missing on mock_methods to make it less invasive on partial mocks. 
+* Simplified method_missing on mock_methods to make it less invasive on partial mocks.
 
 === Version 0.7.0
 
@@ -1090,7 +1097,7 @@ RSpec on Rails.
 * Applied [#5065] to support using define_method rather than method_missing to capture expected messages on mocks. Thanks to Eero Saynatkari for the tip that made it work.
 * Restructured directories and Modules in order to separate rspec into three distinct Modules: Spec::Expectations, Spec::Runner and Spec::Mocks. This will allow us to more easily integrate other mock frameworks and/or allow test/unit users to take advantage of the expectation API.
 * Applied [#5620] support any boolean method and arbitrary comparisons (5.should_be < 6) (Patch from Mike Williams)
- 
+
 === Version 0.6.3
 
 This release fixes some minor bugs related to RSpec on Rails
@@ -1129,7 +1136,7 @@ This release makes an official commitment to underscore_syntax (with no more sup
 * Fixed bug (5292) that caused mock argument matching to fail
 * Converted ALL tests to use underscore syntax
 * Fixed all remaining problems with underscores revealed by converting all the tests to underscores
-* Enhanced sugar to support combinations of methods (i.e. once.and_return) 
+* Enhanced sugar to support combinations of methods (i.e. once.and_return)
 * Simplified helper structure taking advantage of dot/underscore combos (i.e. should.be.an_instance_of, which can be expressed as should be_an_instance_of)
 * Added support for at_most in mocks
 * Added support for should_not_receive(:msg) (will be removing should_receive(:msg).never some time soon)
@@ -1183,7 +1190,7 @@ minor enhancements.
 * Output of various formatters is now flushed - to get more continuous output.
 
 === Version 0.5.11
-This release makes test2spec usable with Rails (with some manual steps). 
+This release makes test2spec usable with Rails (with some manual steps).
 See http://rspec.rubyforge.org/tools/rails.html for more details
 
 * test2spec now correctly translates bodies of helper methods (non- test_*, setup and teardown ones).
@@ -1378,7 +1385,7 @@ This release adds some shoulds and improves error reporting
 
 === Version 0.1.0
 
-This is the first preview release of RSpec, a Behaviour-Driven Development library for Ruby 
+This is the first preview release of RSpec, a Behaviour-Driven Development library for Ruby
 
 * Added Rake script with tasks for gems, rdoc etc.
 * Added an XForge task to make release go easier.
