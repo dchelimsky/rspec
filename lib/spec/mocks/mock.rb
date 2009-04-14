@@ -7,7 +7,7 @@ module Spec
       # only) == Options:
       # * <tt>:null_object</tt> - if true, the mock object acts as a forgiving
       #   null object allowing any message to be sent to it.
-      def initialize(name, stubs_and_options={})
+      def initialize(name='mock', stubs_and_options={})
         if name.is_a?(Hash) && stubs_and_options.empty?
           stubs_and_options = name
           build_name_from_options stubs_and_options

@@ -566,16 +566,20 @@ module Spec
       end
     end
 
-    describe "mock created with stubbed methods and no name" do
-      it "should respond to the methods" do
+    describe "mock created with no name" do
+      it "should name itself 'mock'" do
+        mock.to_s.should include('mock')
+      end
+
+      it "should name itself after initially stubbed methods" do
+        string = mock(:foo => "woo", :bar => "car").to_s
+        string.should include('foo: \"woo\"', 'bar: \"car\"')
+      end
+
+      it "should respond to initially stubbed methods" do
         mock = mock(:foo => "woo", :bar => "car")
         mock.foo.should == "woo"
         mock.bar.should == "car"
-      end
-
-      it "should show its originally stubbed methods in #to_s" do
-        string = mock(:foo => "woo", :bar => "car").to_s
-        string.should include('foo: \"woo\"', 'bar: \"car\"')
       end
     end
 

@@ -20,10 +20,10 @@ module Spec
       #   stub_person = stub("thing", :name => "Joe", :email => "joe@domain.com")
       #   stub_person.name => "Joe"
       #   stub_person.email => "joe@domain.com"
-      def mock(name, stubs_and_options={})
+      def mock(name='mock', stubs_and_options={})
         Spec::Mocks::Mock.new(name, stubs_and_options)
       end
-      
+
       alias :stub :mock
 
       # DEPRECATED - use mock('name').as_null_object instead
@@ -41,10 +41,10 @@ or stub('#{name}').as_null_object instead.
 WARNING
         mock(name, :null_object => true)
       end
-      
+
       # Disables warning messages about expectations being set on nil.
       #
-      # By default warning messages are issued when expectations are set on nil.  This is to 
+      # By default warning messages are issued when expectations are set on nil.  This is to
       # prevent false-positives and to catch potential bugs early on.
       def allow_message_expectations_on_nil
         Proxy.allow_message_expectations_on_nil
