@@ -1,9 +1,14 @@
-=== Version 1.2.5
+=== master (in git)
 
 * enhancements
 
   * name argument to mock/stub is now optional (closes #782)
     * you can do mock(:foo => "woo", :bar => "car")
+    
+* bug fixes
+
+  * ensure correct handling of ordered message expectations with duplicate
+    expectations (NigelThorne). Closes #793.
 
 === Version 1.2.4
 
