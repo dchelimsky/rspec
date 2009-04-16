@@ -5,6 +5,9 @@ module Spec
   module Runner
     module Formatter
       describe ProgressBarFormatter do
+        
+        treats_method_missing_as_private
+
         before(:each) do
           @io = StringIO.new
           @options = mock('options')
@@ -135,32 +138,6 @@ EOE
         it "should not produce summary on dry run" do
           @formatter.dump_summary(3, 2, 1, 0)
           @io.string.should eql("")
-        end
-      end
-
-      describe ProgressBarFormatter, "method_missing" do
-        it "should have method_missing as private" do
-          with_ruby 1.8 do
-            ProgressBarFormatter.private_instance_methods.should include("method_missing")
-          end
-          with_ruby 1.9 do
-            ProgressBarFormatter.private_instance_methods.should include(:method_missing)
-          end
-        end
-
-        it "should respond_to? all messages" do
-          formatter = ProgressBarFormatter.new({ }, StringIO.new)
-          formatter.should respond_to(:just_about_anything)
-        end
-
-        it "should respond_to? anything, when given the private flag" do
-          formatter = ProgressBarFormatter.new({ }, StringIO.new)
-          formatter.respond_to?(:method_missing, true).should be_true
-        end
-
-        it "should not respond_to? method_missing (because it's private)" do
-          formatter = ProgressBarFormatter.new({ }, StringIO.new)
-          formatter.should_not respond_to(:method_missing)
         end
       end
     end
