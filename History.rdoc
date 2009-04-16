@@ -10,6 +10,9 @@
   * ensure correct handling of ordered message expectations with duplicate
     expectations (NigelThorne). Closes #793.
   * get matcher backwards compat working w/ ruby 19
+  * don't define instance_exec unless it is not defined
+    * was doing a version check, but turns out that didn't cover alternative
+      implementations like JRuby
 
 === Version 1.2.4
 
