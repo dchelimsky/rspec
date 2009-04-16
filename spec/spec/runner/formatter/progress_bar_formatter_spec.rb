@@ -161,7 +161,7 @@ HERE
 
         it "should not respond_to? method_missing (because it's private)" do
           formatter = ProgressBarFormatter.new({ }, StringIO.new)
-          formatter.respond_to?(:method_missing).should be_false
+          formatter.should_not respond_to(:method_missing)
         end
       end
     end
