@@ -101,13 +101,7 @@ EOE
           @formatter.example_group_started(Spec::Example::ExampleGroupProxy.new(example_group))
           @formatter.example_pending(example, "message", "#{__FILE__}:#{__LINE__}")
           @formatter.dump_pending
-          @io.string.should ==(<<-HERE)
-*
-Pending:
-
-example_group example (message)
-#{file}:#{line}
-HERE
+          @io.string.should =~ /Pending:\n\nexample_group example \(message\)\n#{file}:#{line}/m
         end
       end
       
@@ -146,7 +140,12 @@ HERE
 
       describe ProgressBarFormatter, "method_missing" do
         it "should have method_missing as private" do
-          ProgressBarFormatter.private_instance_methods.should include("method_missing")
+          with_ruby 1.8 do
+            ProgressBarFormatter.private_instance_methods.should include("method_missing")
+          end
+          with_ruby 1.9 do
+            ProgressBarFormatter.private_instance_methods.should include(:method_missing)
+          end
         end
 
         it "should respond_to? all messages" do
