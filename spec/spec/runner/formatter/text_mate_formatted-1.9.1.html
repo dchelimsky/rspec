@@ -289,22 +289,19 @@ Diff:
     <dd class="spec failed">
       <span class="failed_spec_name">should print diff of different objects' pretty representation</span>
       <div class="failure" id="failure_6">
-        <div class="message"><pre>expected &lt;Animal
+        <div class="message"><pre>
+expected &lt;Animal
 name=bob,
 species=tortoise
 &gt;
-, got &lt;Animal
+
+     got &lt;Animal
 name=bob,
 species=giraffe
 &gt;
- (using .eql?)
-Diff:
-@@ -1,5 +1,5 @@
- &lt;Animal
- name=bob,
--species=tortoise
-+species=giraffe
- &gt;
+
+
+(compared using eql?)
 </pre></div>
         <div class="backtrace"><pre><a href="txmt://open?url=file:///Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/examples/failing/diffing_spec.rb&line=34">/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/examples/failing/diffing_spec.rb:34</a> :in `block (2 levels) in <top (required)>'
 <a href="txmt://open?url=file:///Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/text_mate_formatter_spec.rb&line=49">/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/text_mate_formatter_spec.rb:49</a> :in `block (4 levels) in <module:Formatter>'
