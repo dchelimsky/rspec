@@ -14,9 +14,9 @@ module Spec
     #   5.should_not be_instance_of(Numeric)
     #   5.should_not be_instance_of(Float)
     def be_an_instance_of(expected)
-      Matcher.new :be_an_instance_of, expected do |expected|
+      Matcher.new :be_an_instance_of, expected do |_expected_|
         match do |actual|
-          actual.instance_of?(expected)
+          actual.instance_of?(_expected_)
         end
       end
     end

@@ -13,15 +13,15 @@ module Spec
     #   5.should eql(5)
     #   5.should_not eql(3)
     def eql(expected)
-      Matcher.new :eql, expected do |expected|
+      Matcher.new :eql, expected do |_expected_|
         match do |actual|
-          actual.eql?(expected)
+          actual.eql?(_expected_)
         end
 
         failure_message_for_should do |actual|
           <<-MESSAGE
 
-expected #{expected.inspect}
+expected #{_expected_.inspect}
      got #{actual.inspect}
 
 (compared using eql?)
@@ -31,7 +31,7 @@ MESSAGE
         failure_message_for_should_not do |actual|
           <<-MESSAGE
 
-expected #{actual.inspect} not to equal #{expected.inspect}
+expected #{actual.inspect} not to equal #{_expected_.inspect}
 
 (compared using eql?)
 MESSAGE

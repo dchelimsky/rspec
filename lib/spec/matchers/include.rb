@@ -17,13 +17,13 @@ module Spec
     #   "spread".should include("read")
     #   "spread".should_not include("red")
     def include(*expected)
-      Matcher.new :include, *expected do |*expecteds|
+      Matcher.new :include, *expected do |*_expected_|
         match do |actual|
-          helper(actual, *expecteds)
+          helper(actual, *_expected_)
         end
         
-        def helper(actual, *expecteds)
-          expecteds.each do |expected|
+        def helper(actual, *_expected_)
+          _expected_.each do |expected|
             if actual.is_a?(Hash)
               if expected.is_a?(Hash)
                 expected.each_pair do |k,v|

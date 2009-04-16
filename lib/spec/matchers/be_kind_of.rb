@@ -14,9 +14,9 @@ module Spec
     #   5.should be_kind_of(Numeric)
     #   5.should_not be_kind_of(Float)
     def be_a_kind_of(expected)
-      Matcher.new :be_a_kind_of, expected do |expected|
+      Matcher.new :be_a_kind_of, expected do |_expected_|
         match do |actual|
-          actual.kind_of?(expected)
+          actual.kind_of?(_expected_)
         end
       end
     end

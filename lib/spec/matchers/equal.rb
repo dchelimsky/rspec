@@ -14,15 +14,15 @@ module Spec
     #   5.should equal(5) #Fixnums are equal
     #   "5".should_not equal("5") #Strings that look the same are not the same object
     def equal(expected)
-      Matcher.new :equal, expected do |expected|
+      Matcher.new :equal, expected do |_expected_|
         match do |actual|
-          actual.equal?(expected)
+          actual.equal?(_expected_)
         end
         
         failure_message_for_should do |actual|
           <<-MESSAGE
 
-expected #{expected.inspect}
+expected #{_expected_.inspect}
      got #{actual.inspect}
      
 (compared using equal?)
@@ -32,7 +32,7 @@ MESSAGE
         failure_message_for_should_not do |actual|
           <<-MESSAGE
 
-expected #{actual.inspect} not to equal #{expected.inspect}
+expected #{actual.inspect} not to equal #{_expected_.inspect}
 
 (compared using equal?)
 MESSAGE

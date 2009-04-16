@@ -10,9 +10,9 @@ module Spec
     #
     #   email.should match(/^([^\s]+)((?:[-a-z0-9]+\.)+[a-z]{2,})$/i)
     def match(expected)
-      Matcher.new :match, expected do |expected|
+      Matcher.new :match, expected do |_expected_|
         match do |actual|
-          actual =~ expected
+          actual =~ _expected_
         end
       end
     end
