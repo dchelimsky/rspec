@@ -3,6 +3,8 @@ module Spec
     
     class ExampleGroupFactory
       module ClassMethods
+        include Spec::Example::ArgsAndOptions
+        
         def reset
           @example_group_types = nil
           default(ExampleGroup)
@@ -23,8 +25,8 @@ module Spec
         end
         
         def create_example_group(*args, &block)
-          raise ArgumentError if args.empty?
-          raise ArgumentError unless block
+          raise ArgumentError if args.empty? || block.nil?
+          add_options(args)
           superclass = determine_superclass(args.last)
           superclass.describe(*args, &block)
         end
