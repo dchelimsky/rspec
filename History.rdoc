@@ -9,6 +9,7 @@
 
   * ensure correct handling of ordered message expectations with duplicate
     expectations (NigelThorne). Closes #793.
+  * get matcher backwards compat working w/ ruby 19
 
 === Version 1.2.4
 
