@@ -1,6 +1,4 @@
-require 'spec/ruby'
-
-if ::Spec::Ruby.version < "1.8.7"
+unless respond_to?(:instance_exec)
   # based on Bounded Spec InstanceExec (Mauricio Fernandez)
   # http://eigenclass.org/hiki/bounded+space+instance_exec
   class Object
