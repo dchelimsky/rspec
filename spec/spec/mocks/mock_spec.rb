@@ -3,6 +3,8 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 module Spec
   module Mocks
     describe Mock do
+      treats_method_missing_as_private :subject => Mock.new, :noop => false
+      
       before(:each) do
         @mock = mock("test mock")
       end
@@ -590,12 +592,6 @@ module Spec
 
         first.should_receive(:==).with(second)
         second == first
-      end
-    end
-
-    describe "method_missing" do
-      it "should be private" do
-        Mock.private_instance_methods.should include("method_missing")
       end
     end
   end

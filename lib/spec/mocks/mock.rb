@@ -34,32 +34,32 @@ module Spec
         inspect.gsub('<','[').gsub('>',']')
       end
 
-      private
+    private
 
-        def method_missing(sym, *args, &block)
-          __mock_proxy.record_message_received(sym, args, block)
-          begin
-            return self if __mock_proxy.null_object?
-            super(sym, *args, &block)
-          rescue NameError
-            __mock_proxy.raise_unexpected_message_error sym, *args
-          end
+      def method_missing(sym, *args, &block)
+        __mock_proxy.record_message_received(sym, args, block)
+        begin
+          return self if __mock_proxy.null_object?
+          super(sym, *args, &block)
+        rescue NameError
+          __mock_proxy.raise_unexpected_message_error sym, *args
         end
+      end
 
-        def parse_options(options)
-          options.has_key?(:null_object) ? {:null_object => options.delete(:null_object)} : {}
-        end
+      def parse_options(options)
+        options.has_key?(:null_object) ? {:null_object => options.delete(:null_object)} : {}
+      end
 
-        def assign_stubs(stubs)
-          stubs.each_pair do |message, response|
-            stub!(message).and_return(response)
-          end
+      def assign_stubs(stubs)
+        stubs.each_pair do |message, response|
+          stub!(message).and_return(response)
         end
+      end
 
-        def build_name_from_options(options)
-          vals = options.inject([]) {|coll, pair| coll << "#{pair.first}: #{pair.last.inspect}"}
-          @name = '{' + vals.join(', ') + '}'
-        end
+      def build_name_from_options(options)
+        vals = options.inject([]) {|coll, pair| coll << "#{pair.first}: #{pair.last.inspect}"}
+        @name = '{' + vals.join(', ') + '}'
+      end
     end
   end
 end
