@@ -104,7 +104,7 @@ task :verify_committed do
 end
 
 namespace :update do
-  desc "update the manfest"
+  desc "update the manifest"
   task :manifest do
     system %q[touch Manifest.txt; rake check_manifest | grep -v "(in " | patch]
   end
