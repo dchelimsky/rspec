@@ -4,7 +4,7 @@
 
   * name argument to mock/stub is now optional (closes #782)
     * you can do mock(:foo => "woo", :bar => "car")
-  * expect { this_block }.to change(this).from(this).to(that)
+  * expect { this_block }.to change{this.expression}.from(old_value).to(new_value)
   * expect { this_block }.to raise_error
     
 * bug fixes
