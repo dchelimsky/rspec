@@ -52,6 +52,15 @@ module Spec
         run_options.reporter.example_finished(@_proxy.update(description), execution_error)
         success = execution_error.nil? || ExamplePendingError === execution_error
       end
+      
+      module Aliases
+        alias_method :to,     :should
+        alias_method :to_not, :should_not
+      end
+      
+      def expect(&block)
+        block.extend Aliases
+      end
 
       def eval_each_fail_fast(blocks) # :nodoc:
         blocks.each {|block| instance_eval(&block)}

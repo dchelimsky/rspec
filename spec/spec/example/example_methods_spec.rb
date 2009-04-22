@@ -117,6 +117,18 @@ module Spec
         end.should raise_error(/No description supplied for example declared on this backtrace/)
       end
     end
+    
+    describe "#expect" do
+      it "aliases #should with #to on the proc" do
+        a = 3
+        expect { a += 1 }.to change{a}.from(3).to(4)
+      end
+
+      it "aliases #should_not with #to_not on the proc" do
+        a = 3
+        expect { nil }.to_not change{a}
+      end
+    end
 
   end
 end
