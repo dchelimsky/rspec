@@ -15,6 +15,8 @@
   * don't define instance_exec unless it is not defined
     * was doing a version check, but turns out that didn't cover alternative
       implementations like JRuby
+  * fix bug where in some circumstances, loading lib/spec/interop/test.rb
+    raised an error (tsechingho). Closes #803.
 
 === Version 1.2.4
 
