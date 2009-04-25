@@ -193,7 +193,7 @@ module Spec
             @deprecated_formatter = Class.new(@formatter.class) do
               attr_reader :example_passed_to_method, :message_passed_to_method
       
-              def example_pending(example_passed_to_method, message_passed_to_method, deprecated_third_arg=nil)
+              def example_pending(example_passed_to_method, message_passed_to_method, deprecated_pending_location)
                 @example_passed_to_method = example_passed_to_method
                 @message_passed_to_method = message_passed_to_method
               end

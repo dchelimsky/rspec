@@ -18,6 +18,7 @@
   * fix bug where in some circumstances, loading lib/spec/interop/test.rb
     raised an error (tsechingho). Closes #803.
   * make sure specs only run against spec server when using drb (patch from Chuck Grindel). Closes #797.
+  * remove deprecation warning in example_pending when using FailingExamplesFormatter. Closes #794.
 
 === Version 1.2.4
 
