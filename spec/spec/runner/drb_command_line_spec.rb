@@ -17,7 +17,7 @@ module Spec
           it "returns nil" do
             err = out = StringIO.new
             result = DrbCommandLine.run(OptionParser.parse(['--version'], err, out))
-            result.should be_nil
+            result.should be_false
           end
         end    
 

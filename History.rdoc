@@ -17,6 +17,7 @@
       implementations like JRuby
   * fix bug where in some circumstances, loading lib/spec/interop/test.rb
     raised an error (tsechingho). Closes #803.
+  * make sure specs only run against spec server when using drb (patch from Chuck Grindel). Closes #797.
 
 === Version 1.2.4
 
