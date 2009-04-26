@@ -16,6 +16,34 @@ module Spec
           __mock_proxy.add_stub(caller(1)[0], sym_or_hash.to_sym, opts)
         end
       end
+
+      def stub_chain!(*array)
+        if Hash === array[0]
+          method    = array[0].keys.first
+          arguments = array[0][method]
+        else
+          method    = array[0]
+          arguments = nil
+        end
+
+        mock = Mock.new(method)
+
+        if arguments
+          stub!(method).with(*arguments).and_return(mock)
+        else
+          stub!(method).and_return(mock)
+        end
+
+        if array.size > 1
+          mock.stub_chain!(*array[1..array.size-1])
+         else
+          if arguments
+            stub!(method).with(*arguments)
+          else
+            stub!(method)
+          end
+        end
+      end
       
       def received_message?(sym, *args, &block) #:nodoc:
         __mock_proxy.received_message?(sym.to_sym, *args, &block)
