@@ -17,32 +17,11 @@ module Spec
         end
       end
 
-      def stub_chain!(*array)
-        if Hash === array[0]
-          method    = array[0].keys.first
-          arguments = array[0][method]
-        else
-          method    = array[0]
-          arguments = nil
+      def stub_chain!(*methods)
+        while methods.length > 1
+          stub!(methods.shift).and_return(self)
         end
-
-        mock = Mock.new(method)
-
-        if arguments
-          stub!(method).with(*arguments).and_return(mock)
-        else
-          stub!(method).and_return(mock)
-        end
-
-        if array.size > 1
-          mock.stub_chain!(*array[1..array.size-1])
-         else
-          if arguments
-            stub!(method).with(*arguments)
-          else
-            stub!(method)
-          end
-        end
+        stub!(methods.shift)
       end
       
       def received_message?(sym, *args, &block) #:nodoc:
