@@ -18,23 +18,27 @@ module Spec
         match do |actual|
           actual.equal?(_expected_)
         end
-        
+        inspect = lambda {|o|
+          "#<Class:#<#{o.class}:#{o.object_id}>>  => #{o.inspect})"}      
         failure_message_for_should do |actual|
           <<-MESSAGE
 
-expected #{_expected_.inspect}
-     got #{actual.inspect}
+  expected #{inspect[_expected_]}
+  returned #{inspect[actual]}
      
-(compared using equal?)
+(equal?: expected and returned are not the same object, did you mean '==')
+
 MESSAGE
         end
 
         failure_message_for_should_not do |actual|
           <<-MESSAGE
 
-expected #{actual.inspect} not to equal #{_expected_.inspect}
+  expected #{inspect[_expected_]}
+  returned #{inspect[actual]}
 
-(compared using equal?)
+(equal?: expected and returned are the same object, did you mean '!=')
+
 MESSAGE
         end
       end
