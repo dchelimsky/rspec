@@ -17,7 +17,7 @@ module Spec
         end
       end
 
-      def stub_chain!(*methods)
+      def stub_chain(*methods)
         while methods.length > 1
           stub!(methods.shift).and_return(self)
         end
