@@ -18,15 +18,21 @@ module Spec
         match do |actual|
           actual.equal?(_expected_)
         end
-        inspect = lambda {|o|
-          "#<Class:#<#{o.class}:#{o.object_id}>>  => #{o.inspect})"}      
+        
+        def inspect_object(o)
+          "#<#{o.class}:#{o.object_id}> => #{o.inspect}"
+        end
+        
         failure_message_for_should do |actual|
           <<-MESSAGE
 
-  expected #{inspect[_expected_]}
-  returned #{inspect[actual]}
-     
-(equal?: expected and returned are not the same object, did you mean '==')
+expected #{inspect_object(_expected_)}
+     got #{inspect_object(actual)}
+
+Compared using equal?, which compares object identity,
+but expected and actual are not the same object. Use
+'actual.should == expected' if you don't care about
+object identity in this example.
 
 MESSAGE
         end
@@ -34,10 +40,10 @@ MESSAGE
         failure_message_for_should_not do |actual|
           <<-MESSAGE
 
-  expected #{inspect[_expected_]}
-  returned #{inspect[actual]}
+expected not #{inspect_object(actual)}
+         got #{inspect_object(_expected_)}
 
-(equal?: expected and returned are the same object, did you mean '!=')
+Compared using equal?, which compares object identity.
 
 MESSAGE
         end

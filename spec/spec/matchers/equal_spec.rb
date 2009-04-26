@@ -2,10 +2,11 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 module Spec
   module Matchers
     describe "equal" do
-
-      inspect = lambda {|o|
-          "#<Class:#<#{o.class}:#{o.object_id}>>  => #{o.inspect})"}
-
+      
+      def inspect_object(o)
+        "#<#{o.class}:#{o.object_id}> => #{o.inspect}"
+      end
+      
       it "should match when actual.equal?(expected)" do
         1.should equal(1)
       end
@@ -20,34 +21,34 @@ module Spec
         matcher.description.should == "equal 1"
       end
       
-      it "should provide message, expected and actual on #failure_message" do
-        actual = "2"
-        target = 1
-        matcher = equal(target)
+      it "should provide message on #failure_message" do
+        expected, actual = "1", "1"
+        matcher = equal(expected)
         matcher.matches?(actual)
+        
+        matcher.failure_message_for_should.should == <<-MESSAGE
 
-        matcher.failure_message_for_should.should == 
-        <<-MESSAGE
+expected #{inspect_object(expected)}
+     got #{inspect_object(actual)}
 
-  expected #{inspect[target]}
-  returned #{inspect[actual]}
-     
-(equal?: expected and returned are not the same object, did you mean '==')
+Compared using equal?, which compares object identity,
+but expected and actual are not the same object. Use
+'actual.should == expected' if you don't care about
+object identity in this example.
 
 MESSAGE
       end
       
-      it "should provide message, expected and actual on #negative_failure_message" do
-        actual = "2"
-        target = actual
-        matcher = equal(actual)
+      it "should provide message on #negative_failure_message" do
+        expected = actual = "1"
+        matcher = equal(expected)
         matcher.matches?(actual)
         matcher.failure_message_for_should_not.should == <<-MESSAGE
 
-  expected #{inspect[target]}
-  returned #{inspect[actual]}
+expected not #{inspect_object(expected)}
+         got #{inspect_object(actual)}
 
-(equal?: expected and returned are the same object, did you mean '!=')
+Compared using equal?, which compares object identity.
 
 MESSAGE
       end
