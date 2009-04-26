@@ -7,6 +7,8 @@
   * expect { this_block }.to change{this.expression}.from(old_value).to(new_value)
   * expect { this_block }.to raise_error
   * better failiure messages for equal matcher (James Byrne). Closes #804.
+  * add stub_chain method
+    * also alias_method :stub, :stub!, so you can stub with less bang
     
 * bug fixes
 

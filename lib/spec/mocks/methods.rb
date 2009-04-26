@@ -16,6 +16,8 @@ module Spec
           __mock_proxy.add_stub(caller(1)[0], sym_or_hash.to_sym, opts)
         end
       end
+      
+      alias_method :stub, :stub!
 
       def stub_chain(*methods)
         while methods.length > 1
