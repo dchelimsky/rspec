@@ -9,6 +9,7 @@
   * better failiure messages for equal matcher (James Byrne). Closes #804.
   * add stub_chain method
     * also alias_method :stub, :stub!, so you can stub with less bang
+  * added options to example_group_proxy
     
 * bug fixes
 
