@@ -19,7 +19,11 @@ module Spec
       include Spec::Example::PredicateMatchers
       include Spec::Example::ArgsAndOptions
 
-      attr_reader :options, :location
+      attr_reader :location
+      
+      def options # :nodoc:
+        @options ||= {}
+      end
       
       def inherited(klass) # :nodoc:
         super

@@ -78,6 +78,30 @@ module Spec
         end
       end
       
+      describe "#options" do
+        it "provides the options passed to the example group declaration" do
+          group.stub!(:options => {:a => 'b'})
+          proxy.options.should == {:a => 'b'}
+        end
+        
+        it "excludes :location" do
+          group.stub!(:options => {:location => 'b'})
+          proxy.options.should == {}
+        end
+        
+        it "excludes :scope" do
+          group.stub!(:options => {:scope => 'b'})
+          proxy.options.should == {}
+        end
+        
+        it "preserves the original hash" do
+          hash = {:a => 'b', :location => 'here', :scope => 'tiny'}
+          group.stub!(:options => hash)
+          proxy.options.should == {:a => 'b'}
+          hash.should == {:a => 'b', :location => 'here', :scope => 'tiny'}
+        end
+      end
+      
     end
   end
 end

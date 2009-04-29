@@ -8,14 +8,13 @@ module Spec
         @description, @options, @location = description, options, location
       end
       
+      # Optional hash passed to the example declaration
+      attr_reader :options
+
       # This is the docstring passed to the <tt>it()</tt> method or any
       # of its aliases
       attr_reader :description
       
-      # Internal use only - used to store options to pass to example
-      # when it is initialized
-      attr_reader :options # :nodoc:
-
       # The file and line number at which the represented example
       # was declared. This is extracted from <tt>caller</tt>, and is therefore
       # formatted as an individual line in a backtrace.

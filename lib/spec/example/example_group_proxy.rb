@@ -10,7 +10,15 @@ module Spec
         @examples            = example_group.example_proxies
         @location            = example_group.location
         @backtrace           = example_group.location # deprecated - see the backtrace method below
+        @options             = example_group.options.dup
+        @options.delete(:location)
+        @options.delete(:scope)
       end
+      
+      # Optional hash passed to the example group declaration. Note that RSpec uses
+      # this hash internally and reserves the keys :location and :scope for its own
+      # use (and removes them from this hash)
+      attr_reader :options
       
       # This is the description passed to the <tt>describe()</tt> method or any
       # of its aliases
