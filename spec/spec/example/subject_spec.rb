@@ -48,8 +48,8 @@ module Spec
       end
 
       describe "defined in a top level group" do
-        it "is available in a nested group (subclass)" do
-          klass = Class.new do
+        before(:each) do
+          @group = Class.new do
             extend  Spec::Example::Subject::ExampleGroupMethods
             include Spec::Example::Subject::ExampleMethods
             class << self
@@ -65,11 +65,21 @@ module Spec
               [1,2,3]
             }
           end
+        end
+
+        it "is available in a nested group (subclass)" do
+          nested_group = Class.new(@group)
           
-          subclass = Class.new(klass)
-          
-          object = subclass.new
-          object.subject.should == [1,2,3]
+          example = nested_group.new
+          example.subject.should == [1,2,3]
+        end
+
+        it "is available in a doubly nested group (subclass)" do
+          nested_group = Class.new(@group)
+          doubly_nested_group = Class.new(nested_group)
+
+          example = doubly_nested_group.new
+          example.subject.should == [1,2,3]
         end
       end
     end

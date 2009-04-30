@@ -16,18 +16,18 @@ module Spec
         # See +ExampleMethods#should+ for more information about this approach.
         def subject(&block)
           block.nil? ?
-            explicit_subject || implicit_subject : @_explicit_subject_block = block
+            explicit_subject || implicit_subject : @explicit_subject_block = block
         end
+        
+        attr_reader :explicit_subject_block # :nodoc:
         
       private
       
         def explicit_subject
-          if defined?(@_explicit_subject_block)
-            @_explicit_subject_block
-          elsif super_subject = superclass.instance_variable_get('@_explicit_subject_block')
-            super_subject
-          else
-            nil
+          group = self
+          while group.respond_to?(:explicit_subject_block)
+            return group.explicit_subject_block if group.explicit_subject_block
+            group = group.superclass
           end
         end
         

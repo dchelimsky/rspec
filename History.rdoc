@@ -23,6 +23,7 @@
     raised an error (tsechingho). Closes #803.
   * make sure specs only run against spec server when using drb (patch from Chuck Grindel). Closes #797.
   * remove deprecation warning in example_pending when using FailingExamplesFormatter. Closes #794.
+  * Access explicit subject from nested groups of arbitrary depth. Closes #756.
 
 === Version 1.2.4
 
