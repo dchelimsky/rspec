@@ -1,4 +1,4 @@
-=== master (in git)
+=== Version 1.2.5 / 2009-04-29
 
 * enhancements
 
@@ -25,13 +25,13 @@
   * remove deprecation warning in example_pending when using FailingExamplesFormatter. Closes #794.
   * Access explicit subject from nested groups of arbitrary depth. Closes #756.
 
-=== Version 1.2.4
+=== Version 1.2.4 / 2009-04-13
 
 * bug fix
 
   * just one - update the manifest
 
-=== Version 1.2.3
+=== Version 1.2.3 / 2009-04-13
 
 * deprecations
 
