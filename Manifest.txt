@@ -43,6 +43,8 @@ examples/passing/io_processor_spec.rb
 examples/passing/mocking_example.rb
 examples/passing/multi_threaded_example_group_runner.rb
 examples/passing/nested_classes_example.rb
+examples/passing/options_example.rb
+examples/passing/options_formatter.rb
 examples/passing/partial_mock_example.rb
 examples/passing/pending_example.rb
 examples/passing/predicate_example.rb
@@ -60,6 +62,8 @@ features/before_and_after_blocks/before_and_after_blocks.feature
 features/example_groups/example_group_with_should_methods.feature
 features/example_groups/implicit_docstrings.feature
 features/example_groups/nested_groups.feature
+features/expectations/expect_change.feature
+features/expectations/expect_error.feature
 features/extensions/custom_example_group.feature
 features/formatters/custom_formatter.feature
 features/heckle/heckle.feature
@@ -302,6 +306,7 @@ spec/spec/mocks/partial_mock_using_mocks_directly_spec.rb
 spec/spec/mocks/passing_argument_matchers_spec.rb
 spec/spec/mocks/precise_counts_spec.rb
 spec/spec/mocks/record_messages_spec.rb
+spec/spec/mocks/stub_chain_spec.rb
 spec/spec/mocks/stub_spec.rb
 spec/spec/mocks/stubbed_message_expectations_spec.rb
 spec/spec/mocks/twice_counts_spec.rb
@@ -359,3 +364,4 @@ spec/spec/runner/spec_spaced.opts
 spec/spec/runner_spec.rb
 spec/spec/spec_classes.rb
 spec/spec_helper.rb
+spec/support/macros.rb
