@@ -1,4 +1,4 @@
-= Upgrade to rspec-1.2.3
+= Upgrade to rspec-1.2.3-1.2.6
 
 == What's Changed
 
