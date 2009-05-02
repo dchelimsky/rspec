@@ -1,3 +1,5 @@
+=== Version 1.2.7 (in git)
+
 === Version 1.2.6 / 2009-04-30
 
 * bug fixes
