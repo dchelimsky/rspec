@@ -1,5 +1,8 @@
 === Version 1.2.7 (in git)
 
+* enhancments
+  * added support for obj.stub(:method) { # implementation }
+
 === Version 1.2.6 / 2009-04-30
 
 * bug fixes

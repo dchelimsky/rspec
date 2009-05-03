@@ -8,7 +8,7 @@ module Spec
       attr_accessor :error_generator
       protected :error_generator, :error_generator=
       
-      def initialize(error_generator, expectation_ordering, expected_from, sym, method_block, expected_received_count=1, opts={})
+      def initialize(error_generator, expectation_ordering, expected_from, sym, method_block, expected_received_count=1, opts={}, &implementation)
         @error_generator = error_generator
         @error_generator.opts = opts
         @expected_from = expected_from
@@ -27,6 +27,7 @@ module Spec
         @args_to_yield = []
         @failed_fast = nil
         @args_to_yield_were_cloned = false
+        @return_block = implementation
       end
       
       def build_child(expected_from, method_block, expected_received_count, opts={})
