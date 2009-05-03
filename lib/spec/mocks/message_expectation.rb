@@ -168,7 +168,7 @@ module Spec
         # Ruby 1.9 - when we set @return_block to return values
         # regardless of arguments, any arguments will result in
         # a "wrong number of arguments" error
-        @return_block.arity > 0 ? @return_block.call(*args) : @return_block.call()
+        @return_block.arity == 0 ? @return_block.call : @return_block.call(*args)
       end
       
       def clone_args_to_yield(args)
