@@ -68,7 +68,7 @@ module Spec
 
     class NegativeOperatorMatcher < OperatorMatcher #:nodoc:
       def __delegate_operator(actual, operator, expected)
-        return true unless actual.__send__(operator, expected)
+        return false unless actual.__send__(operator, expected)
         return fail_with_message("expected not: #{operator} #{expected.inspect},\n         got: #{operator.gsub(/./, ' ')} #{actual.inspect}")
       end
 
