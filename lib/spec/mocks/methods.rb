@@ -20,10 +20,13 @@ module Spec
       alias_method :stub, :stub!
 
       def stub_chain(*methods)
-        while methods.length > 1
-          stub!(methods.shift).and_return(self)
+        if methods.length > 1
+          next_in_chain = Object.new
+          stub!(methods.shift) {next_in_chain}
+          next_in_chain.stub_chain(*methods)
+        else
+          stub!(methods.shift)
         end
-        stub!(methods.shift)
       end
       
       def received_message?(sym, *args, &block) #:nodoc:
