@@ -76,11 +76,7 @@ module Spec
         #     it { should be_eligible_to_vote }
         #   end
         def should(matcher=nil)
-          if matcher
-            subject.should(matcher)
-          else
-            subject.should
-          end
+          subject.should(matcher)
         end
 
         # Just like +should+, +should_not+ delegates to the subject (implicit or
@@ -92,11 +88,7 @@ module Spec
         #     it { should_not be_eligible_to_vote }
         #   end
         def should_not(matcher=nil)
-          if matcher
-            subject.should_not(matcher)
-          else
-            subject.should_not
-          end
+          subject.should_not(matcher)
         end
       end
     end
