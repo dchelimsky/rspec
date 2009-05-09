@@ -27,8 +27,6 @@ module Kernel
     Spec::Expectations::PositiveExpectationHandler.handle_matcher(self, matcher, &block)
   end
   
-  alias :__should_for_example_group__ :should
-
   # :call-seq:
   #   should_not(matcher)
   #   should_not == expected
@@ -51,6 +49,4 @@ module Kernel
   def should_not(matcher=nil, &block)
     Spec::Expectations::NegativeExpectationHandler.handle_matcher(self, matcher, &block)
   end
-  
-  alias :__should_not_for_example_group__ :should_not
 end

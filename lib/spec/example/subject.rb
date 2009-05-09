@@ -37,6 +37,10 @@ module Spec
       end
       
       module ExampleMethods
+
+        alias_method :__should_for_example_group__,     :should
+        alias_method :__should_not_for_example_group__, :should_not
+
         # Returns the subject defined in ExampleGroupMethods#subject. The
         # subject block is only executed once per example, the result of which
         # is cached and returned by any subsequent calls to +subject+.
@@ -64,7 +68,7 @@ module Spec
         def subject
           @subject ||= instance_eval(&self.class.subject)
         end
-
+        
         # When +should+ is called with no explicit receiver, the call is
         # delegated to the object returned by +subject+. Combined with
         # an implicit subject (see +subject+), this supports very concise
