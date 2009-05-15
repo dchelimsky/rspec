@@ -9,6 +9,10 @@ module Spec
       # <code>expected</code> and <code>target</code>, passes them
       # to the differ to append a diff message to the failure message.
       def fail_with(message, expected=nil, target=nil) # :nodoc:
+        if message.nil?
+          raise ArgumentError, "Failure message is nil. Does your matcher define the " +
+                               "appropriate failure_message_for_* method to return a string?"
+        end
         if (Array === message) & (message.length == 3)
           ::Spec.warn(<<-NOTICE
 

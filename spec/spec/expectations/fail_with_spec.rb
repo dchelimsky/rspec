@@ -64,7 +64,24 @@ describe Spec::Expectations, "#fail_with with diff" do
       Spec::Expectations.fail_with "the message", lambda {}, lambda {}
     }.should fail_with("the message")
   end
-  
+
+  after(:each) do
+    Spec::Expectations.differ = @old_differ
+  end
+end
+
+describe Spec::Expectations, "#fail_with with a nil message" do
+  before(:each) do
+    @old_differ = Spec::Expectations.differ
+    Spec::Expectations.differ = nil
+  end
+
+  it "should handle just a message" do
+    lambda {
+      Spec::Expectations.fail_with nil
+    }.should raise_error(ArgumentError, /Failure message is nil\. Does your matcher define the appropriate failure_message_for_\* method to return a string\?/)
+  end
+
   after(:each) do
     Spec::Expectations.differ = @old_differ
   end
