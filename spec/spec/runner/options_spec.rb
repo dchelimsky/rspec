@@ -19,26 +19,34 @@ module Spec
         Spec::Expectations.differ = nil
       end
       
+      describe "#require_ruby_debug" do
+        it "should require ruby-debug" do
+          @options.stub!(:require)
+          @options.should_receive(:require).with("ruby-debug")
+          @options.require_ruby_debug
+        end
+      end
+
       describe "#examples" do
         it "should default to empty array" do
           @options.examples.should == []
         end
       end
-      
+
       describe "#include_pattern" do
         it "should default to '**/*_spec.rb'" do
           @options.filename_pattern.should == "**/*_spec.rb"
         end
       end
-      
+
       describe "#files_to_load" do
-        
+
         it "should load files not following pattern if named explicitly" do
           file = File.expand_path(File.dirname(__FILE__) + "/resources/a_bar.rb")
           @options.files << file
           @options.files_to_load.should include(file)
         end
-        
+
         describe "with default --pattern" do
           it "should load files named _spec.rb" do
             dir = File.expand_path(File.dirname(__FILE__) + "/resources/")
@@ -46,33 +54,33 @@ module Spec
             @options.files_to_load.should == ["#{dir}/a_spec.rb"]
           end
         end
-        
+
         describe "with explicit pattern (single)" do
           before(:each) do
             @options.filename_pattern = "**/*_foo.rb"
           end
-        
+
           it "should load files following pattern" do
             file = File.expand_path(File.dirname(__FILE__) + "/resources/a_foo.rb")
             @options.files << file
             @options.files_to_load.should include(file)
           end
-        
+
           it "should load files in directories following pattern" do
             dir = File.expand_path(File.dirname(__FILE__) + "/resources")
             @options.files << dir
             @options.files_to_load.should include("#{dir}/a_foo.rb")
           end
-        
+
           it "should not load files in directories not following pattern" do
             dir = File.expand_path(File.dirname(__FILE__) + "/resources")
             @options.files << dir
             @options.files_to_load.should_not include("#{dir}/a_bar.rb")
           end
         end
-        
+
         describe "with explicit pattern (comma,separated,values)" do
-          
+
           before(:each) do
             @options.filename_pattern = "**/*_foo.rb,**/*_bar.rb"
           end
@@ -83,16 +91,16 @@ module Spec
             @options.files_to_load.should include("#{dir}/a_foo.rb")
             @options.files_to_load.should include("#{dir}/a_bar.rb")
           end
-        
+
           it "should support comma separated values with spaces" do
             dir = File.expand_path(File.dirname(__FILE__) + "/resources")
             @options.files << dir
             @options.files_to_load.should include("#{dir}/a_foo.rb")
             @options.files_to_load.should include("#{dir}/a_bar.rb")
           end
-        
+
         end
-      
+
       end
 
       describe "#backtrace_tweaker" do
@@ -106,7 +114,7 @@ module Spec
           @options.dry_run.should == false
         end
       end
-      
+
       describe "#debug" do
         it "should default to false" do
           @options.debug.should == false
@@ -228,7 +236,7 @@ module Spec
           @options.run_examples.should be_true
         end
       end
-      
+
       describe "debug option not specified" do
         it "should not cause ruby_debug to be required" do
           @options.debug = false
@@ -236,7 +244,7 @@ module Spec
           @options.run_examples.should be_true
         end
       end
-      
+
       describe "#load_class" do
         it "should raise error when not class name" do
           lambda do
@@ -251,7 +259,7 @@ module Spec
           @options.reporter.options.should === @options
         end
       end
-      
+
       describe "#number_of_examples" do
         context "when --example is parsed" do
           it "provides the number of examples parsed instead of the total number of examples collected" do
@@ -339,16 +347,16 @@ module Spec
             Spec::Runner.configuration.stub!(:predicate_matchers).and_return({:this => :that?})
             group = Class.new(::Spec::Example::ExampleGroupDouble).describe("Some Examples")
             example = group.new(::Spec::Example::ExampleProxy.new)
-            
+
             @options.run_examples
             example.this
           end
-          
+
           after(:each) do
             Spec::Example::ExampleMethods.class_eval "undef :this"
           end
         end
-        
+
         describe "with a mock framework defined as a Symbol" do
           it "includes Spec::Adapters::MockFramework" do
             Spec::Runner.configuration.stub!(:mock_framework).and_return('spec/adapters/mock_frameworks/rspec')
@@ -358,7 +366,7 @@ module Spec
             @options.run_examples
           end
         end
-        
+
         describe "with a mock framework defined as a Module" do
           it "includes the module in ExampleMethods" do
             mod = Module.new
@@ -367,7 +375,7 @@ module Spec
             @options.run_examples
           end
         end
-        
+
         describe "when not given a custom runner" do
           it "should use the standard" do
             runner = ::Spec::Runner::ExampleGroupRunner.new(@options)
@@ -430,7 +438,7 @@ module Spec
               @options.after_suite_parts << lambda do |success|
                 success_result = success
               end
-              
+
               @options.run_examples
               success_result.should be_true
             end
@@ -457,12 +465,12 @@ module Spec
               @heckle_runner_mock = mock("HeckleRunner")
               @options.heckle_runner = @heckle_runner_mock
             end
-            
+
             it "should heckle" do
               @heckle_runner_mock.should_receive(:heckle_with)
               @options.run_examples
             end
-            
+
             it "shouldn't heckle recursively" do
               heckled = false
               @heckle_runner_mock.should_receive(:heckle_with) {
