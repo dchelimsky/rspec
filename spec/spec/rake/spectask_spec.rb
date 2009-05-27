@@ -7,23 +7,10 @@ module Spec
     describe SpecTask do
 
       class MockTask
-
-        def self.last_instance
-          @last_instance
+        class << self
+          attr_accessor :last_instance, :last_cmd
         end
 
-        def self.last_instance=(block)
-          @last_instance = block
-        end
-
-        def self.last_cmd
-          @last_cmd
-        end
-
-        def self.last_cmd=(string)
-          @last_cmd = string
-        end
-        
         def self.tasks
           @tasks ||= {}
         end
