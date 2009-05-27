@@ -1,19 +1,7 @@
 module Spec
   module Matchers
-    def self.last_matcher
-      @last_matcher
-    end
-
-    def self.last_matcher=(last_matcher)
-      @last_matcher = last_matcher
-    end
-
-    def self.last_should
-      @last_should
-    end
-
-    def self.last_should=(last_should)
-      @last_should = last_should
+    class << self
+      attr_accessor :last_matcher, :last_should # :nodoc:
     end
 
     def self.clear_generated_description
@@ -26,7 +14,7 @@ module Spec
       "#{last_should.to_s.gsub('_',' ')} #{last_description}"
     end
     
-    private
+  private
     
     def self.last_description
       last_matcher.respond_to?(:description) ? last_matcher.description : <<-MESSAGE
@@ -38,7 +26,7 @@ or this:
 
 it { should matcher }
 
-the runner expects the matcher to have a #description method. You should either
+RSpec expects the matcher to have a #description method. You should either
 add a String to the example this matcher is being used in, or give it a
 description method. Then you won't have to suffer this lengthy warning again.
 MESSAGE
