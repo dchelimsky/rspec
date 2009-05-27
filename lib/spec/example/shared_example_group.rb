@@ -7,7 +7,7 @@ module Spec
           shared_example_groups << new_example_group unless already_registered?(new_example_group)
           new_example_group
         end
-        
+
         def find(example_group_description)
           shared_example_groups.find {|b| b.description == example_group_description}
         end
@@ -15,21 +15,21 @@ module Spec
         def clear
           shared_example_groups.clear
         end
-        
+
         def include?(group)
           shared_example_groups.include?(group)
         end
-        
+
         def count
           shared_example_groups.length
         end
 
       private
-      
+
         def shared_example_groups
           @shared_example_groups ||= []
         end
-      
+
         def already_registered?(new_example_group)
           existing_example_group = find(new_example_group.description)
           return false unless existing_example_group

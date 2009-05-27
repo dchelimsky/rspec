@@ -12,7 +12,7 @@ module Spec
         args.options.merge!(options)
         args.options
       end
-      
+
       def set_location(options, location) # :nodoc:
         options[:location] ||= location
       end

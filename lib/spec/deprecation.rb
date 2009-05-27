@@ -16,15 +16,15 @@ NOTICE
 * please use #{alternate_method} instead.
 ADDITIONAL
       end
-      
+
       message << "*****************************************************************"
       warn(message)
     end
-    
+
     def warn(message)
       Kernel.warn(message)
     end
-    
+
   end
 
   class HashWithDeprecationNotice < Hash

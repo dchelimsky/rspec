@@ -1,5 +1,5 @@
 module Spec
-  module Example      
+  module Example
     module Pending
       def pending(message = "TODO")
         if block_given?

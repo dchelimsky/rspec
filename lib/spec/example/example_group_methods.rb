@@ -1,7 +1,7 @@
 module Spec
   module Example
 
-    module ExampleGroupMethods      
+    module ExampleGroupMethods
       class << self
         attr_accessor :matcher_class
 
@@ -20,16 +20,16 @@ module Spec
       include Spec::Example::ArgsAndOptions
 
       attr_reader :location
-      
+
       def options # :nodoc:
         @options ||= {}
       end
-      
+
       def inherited(klass) # :nodoc:
         super
         ExampleGroupFactory.register_example_group(klass)
       end
-      
+
       # Makes the describe/it syntax available from a class. For example:
       #
       #   class StackSpec < Spec::ExampleGroup
@@ -59,14 +59,14 @@ module Spec
         end
       end
       alias :context :describe
-      
+
       # Use this to pull in examples from shared example groups.
       def it_should_behave_like(*shared_example_groups)
         shared_example_groups.each do |group|
           include_shared_example_group(group)
         end
       end
-      
+
       # Creates an instance of the current example group class and adds it to
       # a collection of examples of the current example group.
       def example(description=nil, options={}, backtrace=nil, &implementation)
@@ -75,7 +75,7 @@ module Spec
         example_implementations[example_proxy] = implementation || pending_implementation
         example_proxy
       end
-      
+
       def pending_implementation
         lambda { raise(Spec::Example::NotYetImplementedError) }
       end
@@ -87,10 +87,10 @@ module Spec
       def xexample(description=nil, opts={}, &block)
         Kernel.warn("Example disabled: #{description}")
       end
-      
+
       alias_method :xit, :xexample
       alias_method :xspecify, :xexample
-      
+
       def run(run_options)
         examples = examples_to_run(run_options)
         notify(run_options.reporter) unless examples.empty?
@@ -110,7 +110,7 @@ module Spec
         @location = File.expand_path(options[:location]) if options[:location]
         self
       end
-      
+
       def notify(reporter) # :nodoc:
         reporter.example_group_started(ExampleGroupProxy.new(self))
       end
@@ -118,33 +118,33 @@ module Spec
       def description
         @description ||= ExampleGroupMethods.build_description_from(*description_parts) || to_s
       end
-      
+
       def described_type
         @described_type ||= description_parts.reverse.find {|part| part.is_a?(Module)}
       end
-      
+
       def described_class
         @described_class ||= Class === described_type ? described_type : nil
       end
-      
+
       def description_args
         @description_args ||= []
       end
-      
+
       def description_parts #:nodoc:
         @description_parts ||= example_group_hierarchy.inject([]) do |parts, example_group_class|
           [parts << example_group_class.description_args].flatten
         end
       end
-      
+
       def example_proxies # :nodoc:
         @example_proxies ||= []
       end
-      
+
       def example_implementations # :nodoc:
         @example_implementations ||= {}
       end
-            
+
       def examples(run_options=nil) #:nodoc:
         (run_options && run_options.reverse) ? example_proxies.reverse : example_proxies
       end
@@ -156,15 +156,15 @@ module Spec
       def example_group_hierarchy
         @example_group_hierarchy ||= ExampleGroupHierarchy.new(self)
       end
-      
+
       def nested_descriptions
         example_group_hierarchy.nested_descriptions
       end
-      
+
       def include_constants_in(mod)
         include mod if (Spec::Ruby.version.to_f >= 1.9) & (Module === mod) & !(Class === mod)
       end
-      
+
     private
 
       def subclass(*args, &example_group_block)
@@ -201,16 +201,16 @@ module Spec
         return [success, instance_variables] unless success
 
         after_all_instance_variables = instance_variables
-        
+
         examples.each do |example|
           example_group_instance = new(example, &example_implementations[example])
           success &= example_group_instance.execute(run_options, instance_variables)
           after_all_instance_variables = example_group_instance.instance_variable_hash
         end
-        
+
         return [success, after_all_instance_variables]
       end
-      
+
       def run_after_all(success, instance_variables, run_options)
         return success if example_group_hierarchy.after_all_parts.empty?
         example_proxy = ExampleProxy.new("after(:all)")
@@ -222,7 +222,7 @@ module Spec
         run_options.reporter.example_failed(example_proxy, e)
         false
       end
-      
+
       def examples_to_run(run_options)
         return example_proxies unless examples_were_specified?(run_options)
         example_proxies.reject do |proxy|
@@ -239,7 +239,7 @@ module Spec
       def method_added(name) # :nodoc:
         example(name.to_s, {}, caller(0)[1]) {__send__ name.to_s} if example_method?(name.to_s)
       end
-      
+
       def example_method?(method_name)
         should_method?(method_name)
       end

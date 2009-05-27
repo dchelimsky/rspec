@@ -1,10 +1,10 @@
 module Spec
   module Example
-    
+
     class ExampleGroupFactory
       module ClassMethods
         include Spec::Example::ArgsAndOptions
-        
+
         def reset
           @example_group_types = nil
           default(ExampleGroup)
@@ -23,7 +23,7 @@ module Spec
         def create_shared_example_group(*args, &example_group_block) # :nodoc:
           ::Spec::Example::SharedExampleGroup.register(*args, &example_group_block)
         end
-        
+
         def create_example_group(*args, &block)
           raise ArgumentError if args.empty? || block.nil?
           add_options(args)

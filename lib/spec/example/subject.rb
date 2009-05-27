@@ -18,11 +18,11 @@ module Spec
           block.nil? ?
             explicit_subject || implicit_subject : @explicit_subject_block = block
         end
-        
+
         attr_reader :explicit_subject_block # :nodoc:
-        
+
       private
-      
+
         def explicit_subject
           group = self
           while group.respond_to?(:explicit_subject_block)
@@ -30,12 +30,12 @@ module Spec
             group = group.superclass
           end
         end
-        
+
         def implicit_subject
           (described_class ? lambda {described_class.new} : lambda {description_args.first})
         end
       end
-      
+
       module ExampleMethods
 
         alias_method :__should_for_example_group__,     :should
@@ -68,7 +68,7 @@ module Spec
         def subject
           @subject ||= instance_eval(&self.class.subject)
         end
-        
+
         # When +should+ is called with no explicit receiver, the call is
         # delegated to the object returned by +subject+. Combined with
         # an implicit subject (see +subject+), this supports very concise

@@ -5,13 +5,13 @@ module Spec
         @example_group_description = example_group_description
         @example_name = example_name
       end
-      
+
       def matches?(specified_examples)
         specified_examples.any? do |specified_example|
           matches_literal_example?(specified_example) || matches_example_not_considering_modules?(specified_example)
         end
       end
-      
+
       protected
       def matches_literal_example?(specified_example)
         specified_example =~ /(^#{example_group_regex} #{example_regexp}$|^#{example_group_regex}$|^#{example_group_with_before_all_regexp}$|^#{example_regexp}$)/

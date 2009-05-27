@@ -1,10 +1,10 @@
 module Spec
   module Example
     module ExampleMethods
-      
+
       extend  Spec::Example::ModuleReopeningFix
       include Spec::Example::Subject::ExampleMethods
-      
+
       def violated(message="")
         raise Spec::Expectations::ExpectationNotMetError.new(message)
       end
@@ -24,7 +24,7 @@ module Spec
           raise Spec::Example::NoDescriptionError.new("example", @_proxy.location)
         end
       end
-      
+
       def options # :nodoc:
         @_proxy.options
       end
@@ -32,7 +32,7 @@ module Spec
       def execute(run_options, instance_variables) # :nodoc:
         run_options.reporter.example_started(@_proxy)
         set_instance_variables_from_hash(instance_variables)
-        
+
         execution_error = nil
         Timeout.timeout(run_options.timeout) do
           begin
@@ -51,12 +51,12 @@ module Spec
         run_options.reporter.example_finished(@_proxy.update(description), execution_error)
         success = execution_error.nil? || ExamplePendingError === execution_error
       end
-      
+
       module BlockAliases
         alias_method :to,     :should
         alias_method :to_not, :should_not
       end
-      
+
       # Extends the submitted block with aliases to and to_not
       # for should and should_not. Allows expectations like this:
       #
@@ -115,10 +115,10 @@ module Spec
       end
 
     private
-    
+
       include Matchers
       include Pending
-      
+
       def before_each_example
         setup_mocks_for_rspec
         run_before_each
@@ -134,7 +134,7 @@ module Spec
       def described_class
         self.class.described_class
       end
-      
+
       def description_args
         self.class.description_args
       end
@@ -142,7 +142,7 @@ module Spec
       def example_group_hierarchy
         self.class.example_group_hierarchy
       end
-      
+
     end
   end
 end
