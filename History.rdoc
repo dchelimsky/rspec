@@ -5,6 +5,7 @@
   * allow subject { self } (Jarmo Pertman). Closes #816.
   * friendly error message when a matcher returns nil on a failure message
   * add ruby_cmd option to SpecTask (Rick DeNatale). Closes #823.
+    * also added missing specs for SpecTask - thanks Rick!
 
 * bug fixes
   * NegativeOperatorMatcher now returns false (Wesley Beary). Closes #812.
