@@ -1,5 +1,5 @@
 # -*- ruby -*-
-gem 'hoe', '>=1.9.0'
+gem 'hoe', '>=2.0.0'
 require 'hoe'
 
 $:.unshift(File.join(File.dirname(__FILE__), 'lib'))
@@ -8,17 +8,18 @@ require 'spec/version'
 require 'spec/rake/spectask'
 require 'cucumber/rake/task'
 
-Hoe.new('rspec', Spec::VERSION::STRING) do |p|
-  p.summary = Spec::VERSION::SUMMARY
-  p.description = "Behaviour Driven Development for Ruby."
-  p.rubyforge_name = 'rspec'
-  p.developer('RSpec Development Team', 'rspec-devel@rubyforge.org')
-  p.extra_dev_deps = [["cucumber",">= 0.2.2"]]
-  p.remote_rdoc_dir = "rspec/#{Spec::VERSION::STRING}"
-  p.rspec_options = ['--options', 'spec/spec.opts']
-  p.history_file = 'History.rdoc'
-  p.readme_file  = 'README.rdoc'
-  p.post_install_message = <<-POST_INSTALL_MESSAGE
+Hoe.spec('rspec') do |hoe|
+  hoe.version = Spec::VERSION::STRING
+  hoe.summary = Spec::VERSION::SUMMARY
+  hoe.description = "Behaviour Driven Development for Ruby."
+  hoe.rubyforge_name = 'rspec'
+  hoe.developer('RSpec Development Team', 'rspec-devel@rubyforge.org')
+  hoe.extra_dev_deps = [["cucumber",">= 0.2.2"]]
+  hoe.remote_rdoc_dir = "rspec/#{Spec::VERSION::STRING}"
+  hoe.rspec_options = ['--options', 'spec/spec.opts']
+  hoe.history_file = 'History.rdoc'
+  hoe.readme_file  = 'README.rdoc'
+  hoe.post_install_message = <<-POST_INSTALL_MESSAGE
 #{'*'*50}
 
   Thank you for installing rspec-#{Spec::VERSION::STRING}
