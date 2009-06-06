@@ -10,6 +10,8 @@
 
 * bug fixes
   * NegativeOperatorMatcher now returns false (Wesley Beary). Closes #812.
+  * fix bug where multi-line failure messages weren't getting picked up by
+    autotest (Jarmo Pertman). Closes #832.
 
 === Version 1.2.6 / 2009-04-30
 
