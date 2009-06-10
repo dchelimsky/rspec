@@ -1,7 +1,7 @@
 === Version 1.2.7 (in git)
 
 * enhancments
-  * added support for obj.stub(:method) { # implementation }
+  * added support for fakes using obj.stub(:method) { # implementation }
   * allow subject { self } (Jarmo Pertman). Closes #816.
   * friendly error message when a matcher returns nil on a failure message
   * add ruby_cmd option to SpecTask (Rick DeNatale). Closes #823.
