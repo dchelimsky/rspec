@@ -267,7 +267,7 @@ describe "OptionParser" do
     attr_reader :file, :dir
     before(:each) do
       @original_rspec_options = Spec::Runner.options
-      @file = "#{File.dirname(__FILE__)}/spec_parser/spec_parser_fixture.rb"
+      @file = "#{File.dirname(__FILE__)}/line_number_query/line_number_query_fixture.rb"
       @dir = File.dirname(file)
     end
   

@@ -20,24 +20,24 @@ describe "d" do
 
 end
 
-class SpecParserSubject
+class LineNumberQuerySubject
 end
 
-describe SpecParserSubject do
+describe LineNumberQuerySubject do
 
   it "5" do
   end
 
 end
 
-describe SpecParserSubject, "described" do
+describe LineNumberQuerySubject, "described" do
 
   it "6" do
   end
 
 end
 
-describe SpecParserSubject, "described", :something => :something_else do
+describe LineNumberQuerySubject, "described", :something => :something_else do
 
    it "7" do
    end

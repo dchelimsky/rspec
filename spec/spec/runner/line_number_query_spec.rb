@@ -1,12 +1,12 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
-describe "SpecParser" do
+describe "LineNumberQuery" do
   with_sandboxed_options do    
     attr_reader :parser, :file
     
     before do
-      @parser = Spec::Runner::SpecParser.new(options)
-      @file = "#{File.dirname(__FILE__)}/spec_parser/spec_parser_fixture.rb"
+      @parser = Spec::Runner::LineNumberQuery.new(options)
+      @file = "#{File.dirname(__FILE__)}/line_number_query/line_number_query_fixture.rb"
       load file
     end
 
@@ -43,27 +43,27 @@ describe "SpecParser" do
     end
 
     it "should find context name for type" do
-      parser.spec_name_for(file, 26).should == "SpecParserSubject"
+      parser.spec_name_for(file, 26).should == "LineNumberQuerySubject"
     end
 
     it "should find context and spec name for type" do
-      parser.spec_name_for(file, 28).should == "SpecParserSubject 5"
+      parser.spec_name_for(file, 28).should == "LineNumberQuerySubject 5"
     end
 
     it "should find context and description for type" do
-      parser.spec_name_for(file, 33).should == "SpecParserSubject described"
+      parser.spec_name_for(file, 33).should == "LineNumberQuerySubject described"
     end
 
     it "should find context and description and example for type" do
-      parser.spec_name_for(file, 36).should == "SpecParserSubject described 6"
+      parser.spec_name_for(file, 36).should == "LineNumberQuerySubject described 6"
     end
 
     it "should find context and description for type with modifications" do
-      parser.spec_name_for(file, 40).should == "SpecParserSubject described"
+      parser.spec_name_for(file, 40).should == "LineNumberQuerySubject described"
     end
 
     it "should find context and described and example for type with modifications" do
-      parser.spec_name_for(file, 43).should == "SpecParserSubject described 7"
+      parser.spec_name_for(file, 43).should == "LineNumberQuerySubject described 7"
     end
 
     it "should find example group" do
@@ -91,7 +91,7 @@ describe "SpecParser" do
       options = stub('options', :example_groups => [
         stub('example_group', :location => nil)
       ])
-      parser = Spec::Runner::SpecParser.new(options)
+      parser = Spec::Runner::LineNumberQuery.new(options)
       parser.spec_name_for('foo',37).should == nil
     end
 

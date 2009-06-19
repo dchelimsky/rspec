@@ -1,7 +1,7 @@
 module Spec
   module Runner
     # Parses a spec file and finds the nearest example for a given line number.
-    class SpecParser
+    class LineNumberQuery
       attr_reader :best_match
 
       def initialize(run_options)
@@ -12,14 +12,7 @@ module Spec
       def spec_name_for(file, line_number)
         best_match.clear
         file = File.expand_path(file)
-        @run_options.example_groups.each do |example_group|
-          next unless example_group.location
-          consider_example_group_for_best_match(example_group, file, line_number)
-
-          example_group.examples.each do |example|
-            consider_example_for_best_match(example, example_group, file, line_number)
-          end
-        end
+        determine_best_match(file, line_number)
         if best_match[:example_group]
           if best_match[:example]
             "#{best_match[:example_group].description} #{best_match[:example].description}"
@@ -32,6 +25,13 @@ module Spec
       end
 
       def example_line_for(file, line_number)
+        determine_best_match(file, line_number)
+        best_match[:line]
+      end
+    
+    protected
+    
+      def determine_best_match(file, line_number)
         best_match.clear
         file = File.expand_path(file)
         @run_options.example_groups.each do |example_group|
@@ -42,10 +42,7 @@ module Spec
             consider_example_for_best_match(example, example_group, file, line_number)
           end
         end
-        best_match[:line]
       end
-    
-    protected
 
       def consider_example_group_for_best_match(example_group, file, line_number)
         example_group_file, example_group_line = parse_location(example_group.location)
