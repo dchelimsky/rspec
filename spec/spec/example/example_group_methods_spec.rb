@@ -670,6 +670,20 @@ module Spec
             example_group.__send__ :run_after_all, true, {}, nil
           end
         end
+        
+        describe "#examples_to_run" do
+          it "runs only the example identified by a line number" do
+            example_group = Class.new(ExampleGroupDouble) do
+              it { 3.should == 3 }
+              it "has another example which raises" do
+                raise "this shouldn't have run"
+              end
+            end
+            example_group.stub(:examples_were_specified?) {true}
+            options.line_number = __LINE__ - 6
+            example_group.run(options).should be_true
+          end
+        end
 
       end
     end

@@ -225,10 +225,16 @@ module Spec
 
       def examples_to_run(run_options)
         return example_proxies unless examples_were_specified?(run_options)
-        example_proxies.reject do |proxy|
-          matcher = ExampleGroupMethods.matcher_class.
-            new(description.to_s, proxy.description)
-          !matcher.matches?(run_options.examples)
+        if run_options.line_number
+          example_proxies.select do |proxy|
+            proxy.location =~ /:#{run_options.line_number}$/
+          end
+        else
+          example_proxies.reject do |proxy|
+            matcher = ExampleGroupMethods.matcher_class.
+              new(description.to_s, proxy.description)
+            !matcher.matches?(run_options.examples)
+          end
         end
       end
 
