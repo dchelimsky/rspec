@@ -673,7 +673,7 @@ module Spec
         
         describe "#examples_to_run" do
           it "runs only the example identified by a line number" do
-            example_group = Class.new(ExampleGroupDouble) do
+            example_group = Class.new(ExampleGroupDouble).describe("this") do
               it { 3.should == 3 }
               it "has another example which raises" do
                 raise "this shouldn't have run"
@@ -695,6 +695,23 @@ module Spec
             options.line_number = __LINE__ - 3
             options.files << __FILE__
             example_group.run(options).should be_false
+          end
+
+          it "runs all the examples in the group " do
+            first_example_ran  = false
+            second_example_ran = false
+            example_group = Class.new(ExampleGroupDouble).describe("this") do
+
+              it { first_example_ran  = true }
+              it { second_example_ran = true }
+
+            end
+            example_group.stub(:examples_were_specified?) {true}
+            options.line_number = __LINE__ - 6
+            options.files << __FILE__
+            example_group.run(options)
+            first_example_ran.should be_true
+            second_example_ran.should be_true
           end
         end
 

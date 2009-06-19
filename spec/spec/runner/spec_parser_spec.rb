@@ -107,6 +107,14 @@ describe "SpecParser" do
       it "should find example declared from empty line below the example" do
         parser.example_line_for(file, 7).should == 5
       end
+
+      it "should find the group declared on the same line" do
+        parser.example_line_for(file, 3).should == 3
+      end
+
+      it "should find the group declared above the first example" do
+        parser.example_line_for(file, 4).should == 3
+      end
     end
   end
 end

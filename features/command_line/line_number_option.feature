@@ -42,3 +42,15 @@ Feature: Spec and test together
     Then the stdout should match "1 example, 0 failures"
     And the stdout should match "has a second example"
     But the stdout should not match "has a first example"
+
+  Scenario: two examples - both examples from the group declaration
+    When I run "spec example.rb:1 --format nested"
+    Then the stdout should match "2 examples, 0 failures"
+    And the stdout should match "has a second example"
+    And the stdout should match "has a first example"
+
+  Scenario: two examples - both examples from above the first example declaration
+    When I run "spec example.rb:2 --format nested"
+    Then the stdout should match "2 examples, 0 failures"
+    And the stdout should match "has a second example"
+    And the stdout should match "has a first example"
