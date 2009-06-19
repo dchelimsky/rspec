@@ -34,7 +34,7 @@ module Spec
       end
 
       def example_regexp
-        Regexp.escape(@example_name)
+        Regexp.escape(@example_name) if @example_name
       end
     end
 

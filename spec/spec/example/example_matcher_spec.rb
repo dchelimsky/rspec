@@ -75,5 +75,12 @@ module Spec
         matcher.matches?(["no match1", "no match2"]).should == false
       end
     end
+    
+    describe ExampleMatcher, "called with nil example" do
+      it "does not puke" do
+        matcher = ExampleMatcher.new("Foo::Bar", nil)
+        matcher.matches?(["anything"]).should == false
+      end
+    end
   end
 end
