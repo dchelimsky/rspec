@@ -58,6 +58,8 @@ examples/passing/stubbing_example.rb
 examples/passing/yielding_example.rb
 examples/ruby1.9.compatibility/access_to_constants_spec.rb
 features/before_and_after_blocks/before_and_after_blocks.feature
+features/command_line/line_number_option.feature
+features/command_line/line_number_option_with_example_with_no_name.feature
 features/example_groups/example_group_with_should_methods.feature
 features/example_groups/implicit_docstrings.feature
 features/example_groups/nested_groups.feature
@@ -198,10 +200,10 @@ lib/spec/runner/formatter/specdoc_formatter.rb
 lib/spec/runner/formatter/text_mate_formatter.rb
 lib/spec/runner/heckle_runner.rb
 lib/spec/runner/heckle_runner_unsupported.rb
+lib/spec/runner/line_number_query.rb
 lib/spec/runner/option_parser.rb
 lib/spec/runner/options.rb
 lib/spec/runner/reporter.rb
-lib/spec/runner/spec_parser.rb
 lib/spec/test/unit.rb
 lib/spec/version.rb
 resources/helpers/cmdline.rb
@@ -290,6 +292,7 @@ spec/spec/mocks/bug_report_7611_spec.rb
 spec/spec/mocks/bug_report_7805_spec.rb
 spec/spec/mocks/bug_report_8165_spec.rb
 spec/spec/mocks/bug_report_8302_spec.rb
+spec/spec/mocks/bug_report_830_spec.rb
 spec/spec/mocks/failing_argument_matchers_spec.rb
 spec/spec/mocks/hash_including_matcher_spec.rb
 spec/spec/mocks/hash_not_including_matcher_spec.rb
@@ -312,6 +315,7 @@ spec/spec/mocks/stub_spec.rb
 spec/spec/mocks/stubbed_message_expectations_spec.rb
 spec/spec/mocks/twice_counts_spec.rb
 spec/spec/package/bin_spec_spec.rb
+spec/spec/rake/spectask_spec.rb
 spec/spec/runner/class_and_argument_parser_spec.rb
 spec/spec/runner/command_line_spec.rb
 spec/spec/runner/configuration_spec.rb
@@ -344,6 +348,8 @@ spec/spec/runner/formatter/text_mate_formatted-1.9.1.html
 spec/spec/runner/formatter/text_mate_formatter_spec.rb
 spec/spec/runner/heckle_runner_spec.rb
 spec/spec/runner/heckler_spec.rb
+spec/spec/runner/line_number_query/line_number_query_fixture.rb
+spec/spec/runner/line_number_query_spec.rb
 spec/spec/runner/noisy_backtrace_tweaker_spec.rb
 spec/spec/runner/option_parser_spec.rb
 spec/spec/runner/options_spec.rb
@@ -359,8 +365,6 @@ spec/spec/runner/resources/custom_example_group_runner.rb
 spec/spec/runner/resources/utf8_encoded.rb
 spec/spec/runner/spec.opts
 spec/spec/runner/spec_drb.opts
-spec/spec/runner/spec_parser/spec_parser_fixture.rb
-spec/spec/runner/spec_parser_spec.rb
 spec/spec/runner/spec_spaced.opts
 spec/spec/runner_spec.rb
 spec/spec/spec_classes.rb
