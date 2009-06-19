@@ -225,10 +225,12 @@ module Spec
 
       def examples_to_run(run_options)
         return example_proxies unless examples_were_specified?(run_options)
-        if run_options.line_number
-          line = Spec::Runner::LineNumberQuery.new(run_options).example_line_for(run_options.files.first, run_options.line_number)
-          result = example_proxies.select {|proxy| proxy.location =~ /:#{line}$/}
-          result.empty? ? example_proxies : result
+        if run_options.line_number_requested?
+          if location =~ /:#{run_options.example_line}$/
+            example_proxies
+          else
+            example_proxies.select {|proxy| proxy.location =~ /:#{run_options.example_line}$/}
+          end
         else
           example_proxies.reject do |proxy|
             matcher = ExampleGroupMethods.matcher_class.

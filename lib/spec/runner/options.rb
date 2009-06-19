@@ -74,9 +74,17 @@ module Spec
         @files_loaded = false
         @out_used = nil
       end
-
+      
       def add_example_group(example_group)
         @example_groups << example_group
+      end
+      
+      def line_number_requested?
+        !!line_number
+      end
+      
+      def example_line
+        Spec::Runner::LineNumberQuery.new(self).example_line_for(files.first, line_number)
       end
 
       def remove_example_group(example_group)
