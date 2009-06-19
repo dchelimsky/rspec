@@ -681,7 +681,20 @@ module Spec
             end
             example_group.stub(:examples_were_specified?) {true}
             options.line_number = __LINE__ - 6
+            options.files << __FILE__
             example_group.run(options).should be_true
+          end
+
+          it "runs the example identified by a line number even if it's not the example line number" do
+            example_group = Class.new(ExampleGroupDouble).describe("this") do
+
+              it { raise "foo" }
+
+            end
+            example_group.stub(:examples_were_specified?) {true}
+            options.line_number = __LINE__ - 3
+            options.files << __FILE__
+            example_group.run(options).should be_false
           end
         end
 

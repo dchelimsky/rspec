@@ -95,5 +95,18 @@ describe "SpecParser" do
       parser.spec_name_for('foo',37).should == nil
     end
 
+    describe "#example_line_for" do
+      it "should find example declared on same line" do
+        parser.example_line_for(file, 5).should == 5
+      end
+
+      it "should find example declared on the line above, while still inside the example" do
+        parser.example_line_for(file, 6).should == 5
+      end
+
+      it "should find example declared from empty line below the example" do
+        parser.example_line_for(file, 7).should == 5
+      end
+    end
   end
 end

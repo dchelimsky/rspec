@@ -31,6 +31,20 @@ module Spec
         end
       end
 
+      def example_line_for(file, line_number)
+        best_match.clear
+        file = File.expand_path(file)
+        @run_options.example_groups.each do |example_group|
+          next unless example_group.location
+          consider_example_group_for_best_match(example_group, file, line_number)
+
+          example_group.examples.each do |example|
+            consider_example_for_best_match(example, example_group, file, line_number)
+          end
+        end
+        best_match[:line]
+      end
+    
     protected
 
       def consider_example_group_for_best_match(example_group, file, line_number)
