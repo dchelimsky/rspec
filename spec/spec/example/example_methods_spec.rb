@@ -138,12 +138,11 @@ module Spec
         Spec::Matchers.stub!(:generated_description).and_return('this message')
         example.description.should == "this message"
       end
-      it "raises if there is no supplied or generated description" do
+      it "warns if there is no supplied or generated description" do
         example = ExampleGroupDouble.new ExampleProxy.new(nil, {}, "this backtrace") do; end
         Spec::Matchers.stub!(:generated_description).and_return(nil)
-        lambda do
-          example.description
-        end.should raise_error(/No description supplied for example declared on this backtrace/)
+        Spec.should_receive(:warn).with("No description supplied for example declared on this backtrace")
+        example.description
       end
     end
     

@@ -21,7 +21,7 @@ module Spec
         if description = @_proxy.description || ::Spec::Matchers.generated_description
           description
         else
-          raise Spec::Example::NoDescriptionError.new("example", @_proxy.location)
+          Spec.warn Spec::Example::NoDescriptionError.message("example", @_proxy.location)
         end
       end
 
