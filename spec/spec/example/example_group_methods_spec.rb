@@ -679,7 +679,7 @@ module Spec
                 raise "this shouldn't have run"
               end
             end
-            example_group.stub(:examples_were_specified?) {true}
+            options.examples << :ignore
             options.line_number = __LINE__ - 6
             options.files << __FILE__
             example_group.run(options).should be_true
@@ -691,7 +691,7 @@ module Spec
               it { raise "foo" }
 
             end
-            example_group.stub(:examples_were_specified?) {true}
+            options.examples << :ignore
             options.line_number = __LINE__ - 3
             options.files << __FILE__
             example_group.run(options).should be_false
@@ -706,9 +706,9 @@ module Spec
               it { second_example_ran = true }
 
             end
-            example_group.stub(:examples_were_specified?) {true}
             options.line_number = __LINE__ - 6
             options.files << __FILE__
+            options.examples << :ignore
             example_group.run(options)
             first_example_ran.should be_true
             second_example_ran.should be_true
@@ -717,15 +717,16 @@ module Spec
           it "doesn't run any examples in another group" do
             example_ran  = false
             example_group_1 = Class.new(ExampleGroupDouble).describe("this") do
-              it { example_ran  = true }
+              it "ignore" do
+                example_ran = true
+              end
             end
             example_group_2 = Class.new(ExampleGroupDouble).describe("that") do
             end
-            example_group_1.stub(:examples_were_specified?) {true}
-            example_group_2.stub(:examples_were_specified?) {true}
-            options.line_number = __LINE__ - 4
-            options.files << __FILE__
             options.examples << :ignore
+            options.line_number = __LINE__ - 3
+            options.files << __FILE__
+            example_group_1.run(options)
             example_group_2.run(options)
             example_ran.should be_false
           end
