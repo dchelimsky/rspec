@@ -180,6 +180,21 @@ module Spec
         
         matcher.matches?([2,3,1]).should be_true
       end
+      
+      it "supports fluent interface" do
+        matcher = Spec::Matchers::Matcher.new(:first_word) do
+          def second_word
+            self
+          end
+        end
+        
+        matcher.second_word.should == matcher
+      end
+      
+      it "treats method missing normally for undeclared methods" do
+        matcher = Spec::Matchers::Matcher.new(:ignore) { }
+        expect { matcher.non_existent_method }.to raise_error(NoMethodError)
+      end
 
     end
   end
