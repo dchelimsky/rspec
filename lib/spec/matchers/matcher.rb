@@ -15,11 +15,11 @@ module Spec
           :failure_message_for_should => lambda {|actual| "expected #{actual.inspect} to #{name_to_sentence}#{expected_to_sentence}"},
           :failure_message_for_should_not => lambda {|actual| "expected #{actual.inspect} not to #{name_to_sentence}#{expected_to_sentence}"}
         }
+        instance_exec(*@expected, &@declarations)
       end
       
       def matches?(actual)
         @actual = actual
-        instance_exec(*@expected, &@declarations)
         instance_exec(@actual,    &@match_block)
       end
       

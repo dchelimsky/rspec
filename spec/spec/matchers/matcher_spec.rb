@@ -13,7 +13,6 @@ module Spec
         end
         
         it "provides a default description" do
-          @matcher.matches?(0)
           @matcher.description.should == "be a multiple of 3"
         end
 
@@ -29,29 +28,17 @@ module Spec
       end
       
       it "is not diffable by default" do
-        matcher = Spec::Matchers::Matcher.new(:name) do
-          match {|actual|}
-        end
-        matcher.matches?(0)
+        matcher = Spec::Matchers::Matcher.new(:name) {}
         matcher.should_not be_diffable
       end
       
       it "is diffable when told to be" do
-        matcher = Spec::Matchers::Matcher.new(:name) do
-          match {|actual|}
-          diffable
-        end
-        matcher.matches?(0)
+        matcher = Spec::Matchers::Matcher.new(:name) { diffable }
         matcher.should be_diffable
       end
       
       it "provides expected" do
-        matcher = Spec::Matchers::Matcher.new(:name, 'expected string') do
-          match {|actual|}
-        end
-        
-        matcher.matches?('actual string')
-        
+        matcher = Spec::Matchers::Matcher.new(:name, 'expected string') {}
         matcher.expected.should == ['expected string']
       end
       
@@ -92,7 +79,6 @@ module Spec
         end
 
         it "overrides the description" do
-          @matcher.matches?(true)
           @matcher.description.should == "be the boolean true"
         end
 
@@ -181,20 +167,18 @@ module Spec
         end
       end
       
-      context "with helper methods" do
-        it "does something" do
-          matcher = Spec::Matchers::Matcher.new(:be_similar_to, [1,2,3]) do |sample|
-            match do |actual|
-              similar?(sample, actual)
-            end
-
-            def similar?(a, b)
-              a.sort == b.sort
-            end
+      it "supports helper methods" do
+        matcher = Spec::Matchers::Matcher.new(:be_similar_to, [1,2,3]) do |sample|
+          match do |actual|
+            similar?(sample, actual)
           end
-          
-          matcher.matches?([2,3,1]).should be_true
+
+          def similar?(a, b)
+            a.sort == b.sort
+          end
         end
+        
+        matcher.matches?([2,3,1]).should be_true
       end
 
     end
