@@ -8,6 +8,8 @@
     * also added missing specs for SpecTask - thanks Rick!
   * derive MockExpectationError from Exception rather than StandardError
     (Kerry Buckley). Closes #830.
+  * add support for generating matchers with fluent interfaces with the
+    Matcher DSL
 
 * bug fixes
   * NegativeOperatorMatcher now returns false (Wesley Beary). Closes #812.
