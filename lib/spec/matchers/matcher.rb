@@ -8,7 +8,6 @@ module Spec
       def initialize(name, *expected, &declarations)
         @name = name
         @expected = expected
-        @declarations = declarations
         @diffable = false
         @messages = {
           :description => lambda {"#{name_to_sentence}#{expected_to_sentence}"},
