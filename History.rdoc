@@ -1,4 +1,4 @@
-=== Version 1.2.7 (in git)
+=== Version 1.2.7.rc1 / 2009-06-22
 
 * enhancments
   * added support for fakes using obj.stub(:method) { # implementation }
@@ -6,13 +6,13 @@
   * friendly error message when a matcher returns nil on a failure message
   * add ruby_cmd option to SpecTask (Rick DeNatale). Closes #823.
     * also added missing specs for SpecTask - thanks Rick!
-  * derive MockExpectationError from Exception rather than StandardError
-    (Kerry Buckley). Closes #830.
   * add support for generating matchers with fluent interfaces with the
     Matcher DSL
 
 * bug fixes
   * NegativeOperatorMatcher now returns false (Wesley Beary). Closes #812.
+  * derive MockExpectationError from Exception rather than StandardError
+    (Kerry Buckley). Closes #830.
   * fix bug where multi-line failure messages weren't getting picked up by
     autotest (Jarmo Pertman). Closes #832.
   * --line_number now works for it { should xxx } format (assist from Fred
