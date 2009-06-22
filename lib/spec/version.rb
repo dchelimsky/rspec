@@ -4,8 +4,9 @@ module Spec # :nodoc:
       MAJOR  = 1
       MINOR  = 2
       TINY   = 7
+      PRE    = "rc1"
       
-      STRING = [MAJOR, MINOR, TINY].compact.join('.')
+      STRING = [MAJOR, MINOR, TINY, PRE].compact.join('.')
 
       SUMMARY = "rspec #{STRING}"
     end
