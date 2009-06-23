@@ -1,4 +1,4 @@
-=== Version 1.2.7.rc1 / 2009-06-22
+=== Version 1.2.7 / 2009-06-22
 
 * enhancments
   * added support for fakes using obj.stub(:method) { # implementation }
