@@ -6,8 +6,9 @@ module Spec
       attr_reader :expected, :actual
       
       def initialize(name, *expected, &declarations)
-        @name = name
+        @name     = name
         @expected = expected
+        @actual   = nil
         @diffable = false
         @messages = {
           :description => lambda {"#{name_to_sentence}#{expected_to_sentence}"},
