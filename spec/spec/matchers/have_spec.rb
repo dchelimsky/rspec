@@ -3,15 +3,17 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 share_as :HaveSpecHelper do
   def create_collection_owner_with(n)
     owner = Spec::Expectations::Helper::CollectionOwner.new
-    (1..n).each do |n|
-      owner.add_to_collection_with_length_method(n)
-      owner.add_to_collection_with_size_method(n)
+    (1..n).each do |number|
+      owner.add_to_collection_with_length_method(number)
+      owner.add_to_collection_with_size_method(number)
     end
     owner
   end
   before(:each) do
-    unless defined?(::ActiveSupport::Inflector)
-      @active_support_was_not_defined
+    if defined?(::ActiveSupport::Inflector)
+      @active_support_was_defined = true
+    else
+      @active_support_was_defined = false
       module ::ActiveSupport
         class Inflector
           def self.pluralize(string)
@@ -69,7 +71,7 @@ describe 'should have(1).item when ActiveSupport::Inflector is defined' do
   end
   
   after(:each) do
-    if @active_support_was_not_defined
+    unless @active_support_was_defined
       Object.__send__ :remove_const, :ActiveSupport
     end
   end
@@ -79,9 +81,11 @@ describe 'should have(1).item when Inflector is defined' do
   include HaveSpecHelper
   
   before(:each) do
-    unless defined?(Inflector)
-      @inflector_was_not_defined
-      class Inflector
+    if defined?(Inflector)
+      @inflector_was_defined = true
+    else
+      @inflector_was_defined = false
+      class ::Inflector
         def self.pluralize(string)
           string.to_s + 's'
         end
@@ -95,7 +99,7 @@ describe 'should have(1).item when Inflector is defined' do
   end
 
   after(:each) do
-    if @inflector_was_not_defined
+    unless @inflector_was_defined
       Object.__send__ :remove_const, :Inflector
     end
   end
