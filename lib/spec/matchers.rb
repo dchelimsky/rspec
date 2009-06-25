@@ -108,7 +108,7 @@ module Spec
   #
   # You can create such a matcher like so:
   #
-  #   Spec::Matchers.create :be_in_zone do |zone|
+  #   Spec::Matchers.define :be_in_zone do |zone|
   #     match do |player|
   #       player.in_zone?(zone)
   #     end
@@ -118,7 +118,7 @@ module Spec
   # with logical default messages for failures. You can override the failure
   # messages and the generated description as follows:
   #
-  #   Spec::Matchers.create :be_in_zone do |zone|
+  #   Spec::Matchers.define :be_in_zone do |zone|
   #     match do |player|
   #       player.in_zone?(zone)
   #     end
