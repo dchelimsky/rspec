@@ -115,6 +115,10 @@ module Spec
         @error_generator.raise_unexpected_message_error sym, *args
       end
       
+      def find_matching_method_stub(sym, *args)
+        @stubs.find {|stub| stub.matches(sym, args)}
+      end
+      
     private
 
       def __add(sym)
@@ -219,10 +223,6 @@ module Spec
 
       def find_almost_matching_expectation(sym, *args)
         @expectations.find {|expectation| expectation.matches_name_but_not_args(sym, args)}
-      end
-
-      def find_matching_method_stub(sym, *args)
-        @stubs.find {|stub| stub.matches(sym, args)}
       end
 
     end

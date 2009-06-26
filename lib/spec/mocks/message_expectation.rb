@@ -2,7 +2,7 @@ module Spec
   module Mocks
 
     class BaseExpectation
-      attr_reader :sym
+      attr_reader :sym, :return_block
       attr_writer :expected_received_count, :method_block, :expected_from
       protected :expected_received_count=, :method_block=, :expected_from=
       attr_accessor :error_generator

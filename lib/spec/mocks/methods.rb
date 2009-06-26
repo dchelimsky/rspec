@@ -21,9 +21,15 @@ module Spec
 
       def stub_chain(*methods)
         if methods.length > 1
-          next_in_chain = Object.new
-          stub!(methods.shift) {next_in_chain}
-          next_in_chain.stub_chain(*methods)
+          stub = __mock_proxy.find_matching_method_stub(methods[0])
+          if stub.nil?
+            next_in_chain = Object.new
+            stub!(methods.shift) {next_in_chain}
+            next_in_chain.stub_chain(*methods)
+          else
+            methods.shift
+            stub.return_block.call.stub_chain(*methods)
+          end
         else
           stub!(methods.shift)
         end

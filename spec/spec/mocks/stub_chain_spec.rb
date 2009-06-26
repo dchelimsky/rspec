@@ -29,6 +29,14 @@ module Spec
         @subject.msg1.msg2.msg3.msg4.should equal(:first)
         @subject.msg5.msg2.msg3.msg4.should equal(:second)
       end
+
+      it "return expected value from chaining four method calls twice with the first three shared" do
+        @subject.stub_chain(:msg1, :msg2, :msg3, :msg4).and_return(:first)
+        @subject.stub_chain(:msg1, :msg2, :msg3, :msg5).and_return(:second)
+
+        @subject.msg1.msg2.msg3.msg4.should equal(:first)
+        @subject.msg1.msg2.msg3.msg5.should equal(:second)
+      end
     end
   end
 end
