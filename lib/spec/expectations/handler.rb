@@ -3,7 +3,7 @@ module Spec
     class InvalidMatcherError < ArgumentError; end        
     
     class PositiveExpectationHandler        
-      def self.handle_matcher(actual, matcher, &block)
+      def self.handle_matcher(actual, matcher, options={}, &block)
         ::Spec::Matchers.last_should = :should
         ::Spec::Matchers.last_matcher = matcher
         return ::Spec::Matchers::PositiveOperatorMatcher.new(actual) if matcher.nil?
@@ -18,13 +18,13 @@ module Spec
         if matcher.respond_to?(:diffable?) && matcher.diffable?
           ::Spec::Expectations.fail_with message, matcher.expected.first, matcher.actual
         else
-          ::Spec::Expectations.fail_with message
+          ::Spec::Expectations.fail_with message << (options[:or] ? "\n#{options[:or]}" : "")
         end
       end
     end
 
     class NegativeExpectationHandler
-      def self.handle_matcher(actual, matcher, &block)
+      def self.handle_matcher(actual, matcher, options={}, &block)
         ::Spec::Matchers.last_should = :should_not
         ::Spec::Matchers.last_matcher = matcher
         return ::Spec::Matchers::NegativeOperatorMatcher.new(actual) if matcher.nil?
@@ -41,7 +41,7 @@ module Spec
         if matcher.respond_to?(:diffable?) && matcher.diffable?
           ::Spec::Expectations.fail_with message, matcher.expected.first, matcher.actual
         else
-          ::Spec::Expectations.fail_with message
+          ::Spec::Expectations.fail_with message << (options[:or] ? "\n#{options[:or]}" : "")
         end
       end
     end

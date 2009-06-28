@@ -23,8 +23,8 @@ module Kernel
   #
   # NOTE that this does NOT support receiver.should != expected.
   # Instead, use receiver.should_not == expected
-  def should(matcher=nil, &block)
-    Spec::Expectations::PositiveExpectationHandler.handle_matcher(self, matcher, &block)
+  def should(matcher=nil, options={}, &block)
+    Spec::Expectations::PositiveExpectationHandler.handle_matcher(self, matcher, options, &block)
   end
   
   # :call-seq:
@@ -46,7 +46,7 @@ module Kernel
   #     => Passes unless (receiver =~ regexp)
   #
   # See Spec::Matchers for more information about matchers
-  def should_not(matcher=nil, &block)
-    Spec::Expectations::NegativeExpectationHandler.handle_matcher(self, matcher, &block)
+  def should_not(matcher=nil, options={}, &block)
+    Spec::Expectations::NegativeExpectationHandler.handle_matcher(self, matcher, options, &block)
   end
 end
