@@ -1,5 +1,8 @@
 === Version 1.2.8 (in git)
 
+* enhancements
+  * better messages for should[_not] be_nil (Chad Humphries and Rob Sanheim)
+
 * bug fixes
   * fixed --line option for ruby 1.9.1
 

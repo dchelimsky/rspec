@@ -30,14 +30,24 @@ module Spec
       end
       
       def failure_message_for_should
-        handling_predicate? ?
-          "expected #{predicate}#{args_to_s} to return true, got #{@result.inspect}" :
+        if handling_predicate?
+          if predicate == :nil?
+            "expected nil, got #{@actual.inspect}"
+          else
+            "expected #{predicate}#{args_to_s} to return true, got #{@result.inspect}"
+          end
+        else
           "expected #{@comparison_method} #{expected}, got #{@actual.inspect}".gsub('  ',' ')
+        end
       end
       
       def failure_message_for_should_not
         if handling_predicate?
+          if predicate == :nil?
+            "expected not nil, got nil"
+          else
           "expected #{predicate}#{args_to_s} to return false, got #{@result.inspect}"
+          end
         else
           message = <<-MESSAGE
 'should_not be #{@comparison_method} #{expected}' not only FAILED,

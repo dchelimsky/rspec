@@ -137,7 +137,7 @@ describe "should be_nil" do
   it "should fail when actual is not nil" do
     lambda {
       :not_nil.should be_nil
-    }.should fail_with("expected nil? to return true, got false")
+    }.should fail_with("expected nil, got :not_nil")
   end
 end
 
@@ -149,7 +149,7 @@ describe "should_not be_nil" do
   it "should fail when actual is nil" do
     lambda {
       nil.should_not be_nil
-    }.should fail_with("expected nil? to return false, got true")
+    }.should fail_with("expected not nil, got nil")
   end
 end
 
