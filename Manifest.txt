@@ -63,6 +63,7 @@ features/command_line/line_number_option_with_example_with_no_name.feature
 features/example_groups/example_group_with_should_methods.feature
 features/example_groups/implicit_docstrings.feature
 features/example_groups/nested_groups.feature
+features/expectations/customized_message.feature
 features/expectations/expect_change.feature
 features/expectations/expect_error.feature
 features/extensions/custom_example_group.feature
@@ -75,6 +76,7 @@ features/interop/test_case_with_should_methods.feature
 features/matchers/define_diffable_matcher.feature
 features/matchers/define_matcher.feature
 features/matchers/define_matcher_outside_rspec.feature
+features/matchers/define_matcher_with_fluent_interface.feature
 features/mock_framework_integration/use_flexmock.feature
 features/mock_framework_integration/use_mocha.feature
 features/mock_framework_integration/use_rr.feature
@@ -237,7 +239,7 @@ spec/spec/example/shared_example_group_spec.rb
 spec/spec/example/subclassing_example_group_spec.rb
 spec/spec/example/subject_spec.rb
 spec/spec/expectations/differs/default_spec.rb
-spec/spec/expectations/extensions/object_spec.rb
+spec/spec/expectations/extensions/kernel_spec.rb
 spec/spec/expectations/fail_with_spec.rb
 spec/spec/expectations/handler_spec.rb
 spec/spec/expectations/wrap_expectation_spec.rb
