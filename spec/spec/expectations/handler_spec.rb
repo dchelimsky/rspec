@@ -100,9 +100,9 @@ module Spec
           matcher = mock("matcher", :failure_message_for_should => "message", :matches? => false)
           actual = Object.new
           
-          ::Spec::Expectations.should_receive(:fail_with).with("message\nextension")
+          ::Spec::Expectations.should_receive(:fail_with).with("custom")
           
-          Spec::Expectations::PositiveExpectationHandler.handle_matcher(actual, matcher, :or => "extension")
+          Spec::Expectations::PositiveExpectationHandler.handle_matcher(actual, matcher, "custom")
         end
       end
     end
@@ -173,9 +173,9 @@ module Spec
           matcher = mock("matcher", :failure_message_for_should_not => "message", :matches? => true)
           actual = Object.new
           
-          ::Spec::Expectations.should_receive(:fail_with).with("message\nextension")
+          ::Spec::Expectations.should_receive(:fail_with).with("custom")
           
-          Spec::Expectations::NegativeExpectationHandler.handle_matcher(actual, matcher, :or => "extension")
+          Spec::Expectations::NegativeExpectationHandler.handle_matcher(actual, matcher, "custom")
         end
 
       end
