@@ -74,7 +74,7 @@ EOD
     diff.should == expected_diff
   end
   
-  it "should output diff message of two hashes" do
+  it "should output a friendly message if comparing simple messages" do
     expected = { "foo" => "bar" }
     actual   = { "foo" => "baz" }
     
@@ -82,6 +82,22 @@ EOD
 
  Expected the key "foo" to be "baz", but was "bar" 
 
+EOD
+
+
+    diff = @differ.diff_as_hash(expected,actual)
+    diff.should == expected_diff
+  end
+  
+  it "should output diff message if the hash is complex (containing Array or Hash)" do
+    expected = { "foo" => "bar", :fizz => [1, 2, 3] }
+    actual   = { "foo" => "baz", :fizz => [1, 2] }
+
+    expected_diff = <<'EOD'
+
+@@ -1,2 +1,2 @@
+-{:fizz=>[1, 2], "foo"=>"baz"}
++{:fizz=>[1, 2, 3], "foo"=>"bar"}
 EOD
 
 

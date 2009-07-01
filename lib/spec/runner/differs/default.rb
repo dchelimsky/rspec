@@ -47,15 +47,24 @@ module Spec
           end
           
           def diff_as_hash(target, expected)
+            contains_hash = false
+            contains_array = false
             # Remove the keys that are the same and share identical values, we care not.
             target.delete_if do |key, value|
-              expected[key] == value
+              contains_hash = true if value.is_a?(Hash)
+              contains_array = true if value.is_a?(Array)
+              expected[key]  == value
             end
-            o = "\n"
-            target.keys.sort.each do |key|
-              o << " Expected the key #{key.inspect} to be #{expected[key].inspect}, but was #{target[key].inspect} \n"
+
+            if contains_hash || contains_array
+              diff_as_object(target, expected)
+            else
+              o = "\n"
+              target.keys.sort { |a,b| a.to_s <=> b.to_s }.each do |key|
+                o << " Expected the key #{key.inspect} to be #{expected[key].inspect}, but was #{target[key].inspect} \n"
+              end
+              o << "\n"
             end
-            o << "\n"
           end
 
           protected
