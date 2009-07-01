@@ -56,14 +56,16 @@ module Spec
               expected[key]  == value
             end
 
+            o = "\n"
+            target.keys.sort { |a,b| a.to_s <=> b.to_s }.each do |key|
+              o << " Expected the key #{key.inspect} to be #{expected[key].inspect}, but was #{target[key].inspect} \n"
+            end
+            o << "\n"
+
             if contains_hash || contains_array
-              diff_as_object(target, expected)
+              o << diff_as_object(target, expected)
             else
-              o = "\n"
-              target.keys.sort { |a,b| a.to_s <=> b.to_s }.each do |key|
-                o << " Expected the key #{key.inspect} to be #{expected[key].inspect}, but was #{target[key].inspect} \n"
-              end
-              o << "\n"
+              o
             end
           end
 
