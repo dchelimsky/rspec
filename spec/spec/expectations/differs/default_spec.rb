@@ -79,8 +79,10 @@ EOD
     actual   = { "foo" => "baz" }
     
     expected_diff = <<'EOD'
-    one
-    EOD
+
+ Expected the key "foo" to be "baz", but was "bar" 
+
+EOD
 
 
     diff = @differ.diff_as_hash(expected,actual)
