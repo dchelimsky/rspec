@@ -90,18 +90,18 @@ EOD
   end
   
   it "should output diff message if the hash is complex (containing Array or Hash)" do
-    expected = { "foo" => "bar", :fizz => [1, 2, 3] }
-    actual   = { "foo" => "baz", :fizz => [1, 2] }
+    expected = { "foo" => "bar", "fizz" => [1, 2, 3] }
+    actual   = { "foo" => "baz", "fizz" => [1, 2] }
 
     expected_diff = <<'EOD'
 
- Expected the key :fizz to be [1, 2], but was [1, 2, 3] 
+ Expected the key "fizz" to be [1, 2], but was [1, 2, 3] 
  Expected the key "foo" to be "baz", but was "bar" 
 
 
 @@ -1,2 +1,2 @@
--{:fizz=>[1, 2], "foo"=>"baz"}
-+{:fizz=>[1, 2, 3], "foo"=>"bar"}
+-{"foo"=>"baz", "fizz"=>[1, 2]}
++{"foo"=>"bar", "fizz"=>[1, 2, 3]}
 EOD
 
 

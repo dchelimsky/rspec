@@ -30,13 +30,12 @@ NOTICE
           message, expected, target = message[0], message[1], message[2]
         end
         unless (differ.nil? || expected.nil? || target.nil?)
-          message << "\n\n Diff:"
           if expected.is_a?(String)
-            message << self.differ.diff_as_string(target.to_s, expected)
+            message << "\n\n Diff:" << self.differ.diff_as_string(target.to_s, expected)
           elsif expected.is_a?(Hash) && target.is_a?(Hash)
-            message << self.differ.diff_as_hash(target, expected)
+            message << "\n\n Diff:" << self.differ.diff_as_hash(target, expected)
           elsif !target.is_a?(Proc)
-            message << self.differ.diff_as_object(target, expected)
+            message << "\n\n Diff:" << self.differ.diff_as_object(target, expected)
           end
         end
         Kernel::raise(Spec::Expectations::ExpectationNotMetError.new(message))
