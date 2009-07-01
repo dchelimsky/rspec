@@ -45,6 +45,18 @@ module Spec
           def diff_as_object(target,expected)
             diff_as_string(PP.pp(target,""), PP.pp(expected,""))
           end
+          
+          def diff_as_hash(target, expected)
+            # Remove the keys that are the same and share identical values, we care not.
+            target.delete_if do |key, value|
+              expected[key] == value
+            end
+            o = "\n"
+            target.keys.sort.each do |key|
+              o << " Expected the key #{key.inspect} to be #{expected[key].inspect}, but was #{target[key].inspect} \n"
+            end
+            o << "\n"
+          end
 
           protected
           def format

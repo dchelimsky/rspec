@@ -73,6 +73,19 @@ EOD
     diff = @differ.diff_as_object(expected,actual)
     diff.should == expected_diff
   end
+  
+  it "should output diff message of two hashes" do
+    expected = { "foo" => "bar" }
+    actual   = { "foo" => "baz" }
+    
+    expected_diff = <<'EOD'
+    one
+    EOD
+
+
+    diff = @differ.diff_as_hash(expected,actual)
+    diff.should == expected_diff
+  end
 
   it "should output unified diff message of two objects" do
     expected = Spec::Fixtures::Animal.new "bob", "giraffe"
