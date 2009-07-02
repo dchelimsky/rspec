@@ -46,20 +46,28 @@ module Spec
             diff_as_string(PP.pp(target,""), PP.pp(expected,""))
           end
           
-          def diff_as_hash(target, expected)
+          def diff_as_hash(expected, target)
             contains_hash = false
             contains_array = false
-            # Remove the keys that are the same and share identical values, we care not.
-            target.delete_if do |key, value|
+            
+            extra_expected_keys = expected.keys - target.keys
+            extra_target_keys = target.keys - expected.keys
+            
+            o = "\n"
+            
+            o << "Expected hash contains keys that target hash does not: " << extra_expected_keys.inspect << "\n" if !extra_expected_keys.empty?
+            o << "Target hash contains keys that expected hash does not: " << extra_target_keys.inspect << "\n" if !extra_target_keys.empty?
+            
+            expected.delete_if do |key, value|
               contains_hash = true if value.is_a?(Hash)
               contains_array = true if value.is_a?(Array)
-              expected[key]  == value
+              target[key]  == value
             end
-
-            o = "\n"
-            target.keys.sort { |a,b| a.to_s <=> b.to_s }.each do |key|
-              o << " Expected the key #{key.inspect} to be #{expected[key].inspect}, but was #{target[key].inspect} \n"
+            
+            expected.keys.sort { |a,b| a.to_s <=> b.to_s }.each do |key|
+              o << "Expected the key #{key.inspect} to be #{expected[key].inspect}, but was #{target[key].inspect}\n"
             end
+            
             o << "\n"
 
             if contains_hash || contains_array

@@ -74,13 +74,31 @@ EOD
     diff.should == expected_diff
   end
   
-  it "should output a friendly message if comparing simple messages" do
+  it "should output a friendly message if comparing simple hashes" do
     expected = { "foo" => "bar" }
     actual   = { "foo" => "baz" }
     
     expected_diff = <<'EOD'
 
- Expected the key "foo" to be "baz", but was "bar" 
+Expected the key "foo" to be "bar", but was "baz"
+
+EOD
+
+
+    diff = @differ.diff_as_hash(expected,actual)
+    diff.should == expected_diff
+  end
+  
+  
+  it "should output a friendly message if comparing simple hashes that contain different keys" do
+    expected = { "bar" => "foo" }
+    actual   = { "foo" => "baz" }
+
+    expected_diff = <<'EOD'
+
+Expected hash contains keys that target hash does not: ["bar"]
+Target hash contains keys that expected hash does not: ["foo"]
+Expected the key "bar" to be "foo", but was nil
 
 EOD
 
@@ -95,19 +113,20 @@ EOD
 
     expected_diff = <<'EOD'
 
- Expected the key "fizz" to be [1, 2], but was [1, 2, 3] 
- Expected the key "foo" to be "baz", but was "bar" 
+Expected the key "fizz" to be [1, 2, 3], but was [1, 2]
+Expected the key "foo" to be "bar", but was "baz"
 
 
 @@ -1,2 +1,2 @@
--{"foo"=>"baz", "fizz"=>[1, 2]}
-+{"foo"=>"bar", "fizz"=>[1, 2, 3]}
+-{"foo"=>"bar", "fizz"=>[1, 2, 3]}
++{"foo"=>"baz", "fizz"=>[1, 2]}
 EOD
 
 
     diff = @differ.diff_as_hash(expected,actual)
     diff.should == expected_diff
   end
+  
 
   it "should output unified diff message of two objects" do
     expected = Spec::Fixtures::Animal.new "bob", "giraffe"
