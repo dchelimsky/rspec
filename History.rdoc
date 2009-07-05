@@ -2,9 +2,9 @@
 
 * enhancements
   * better messages for should[_not] be_nil (Chad Humphries and Rob Sanheim)
-  * should and should_not accept optional hash, allowing customized messages
+  * should and should_not accept optional custom message
     (suggestion from Rob Sanheim)
-    * result.should be_nil, :or => "we really expected result to be nil"
+    * result.should be_nil, "expected result to be nil"
 
 * bug fixes
   * fixed --line option for ruby 1.9.1
