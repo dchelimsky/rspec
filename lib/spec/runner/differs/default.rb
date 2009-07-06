@@ -46,7 +46,7 @@ module Spec
             diff_as_string(PP.pp(target,""), PP.pp(expected,""))
           end
           
-          def diff_as_hash(expected, target)
+          def diff_as_hash(target, expected)
             contains_hash = false
             contains_array = false
             

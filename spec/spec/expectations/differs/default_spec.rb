@@ -85,7 +85,7 @@ Expected the key "foo" to be "bar", but was "baz"
 EOD
 
 
-    diff = @differ.diff_as_hash(expected,actual)
+    diff = @differ.diff_as_hash(actual, expected)
     diff.should == expected_diff
   end
   
@@ -103,7 +103,7 @@ Expected the key "bar" to be "foo", but was nil
 EOD
 
 
-    diff = @differ.diff_as_hash(expected,actual)
+    diff = @differ.diff_as_hash(actual, expected)
     diff.should == expected_diff
   end
   
@@ -123,7 +123,7 @@ Expected the key "foo" to be "bar", but was "baz"
 EOD
 
 
-    diff = @differ.diff_as_hash(expected,actual)
+    diff = @differ.diff_as_hash(actual, expected)
     diff.should == expected_diff
   end
   
