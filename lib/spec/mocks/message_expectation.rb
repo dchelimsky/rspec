@@ -14,7 +14,6 @@ module Spec
         @expected_from = expected_from
         @sym = sym
         @method_block = method_block
-        @return_block = nil
         @actual_received_count = 0
         @expected_received_count = expected_received_count
         @args_expectation = ArgumentExpectation.new([ArgumentMatchers::AnyArgsMatcher.new])
