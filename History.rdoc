@@ -8,6 +8,8 @@
 
 * bug fixes
   * fixed --line option for ruby 1.9.1
+  * fix stub_chain conflict between two chains starting with the same message
+    (Mike Rohland). Closes #846.
 
 === Version 1.2.7 / 2009-06-22
 
