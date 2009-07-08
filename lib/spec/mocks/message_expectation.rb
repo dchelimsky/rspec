@@ -2,7 +2,7 @@ module Spec
   module Mocks
 
     class BaseExpectation
-      attr_reader :sym, :return_block
+      attr_reader :sym
       attr_writer :expected_received_count, :method_block, :expected_from
       protected :expected_received_count=, :method_block=, :expected_from=
       attr_accessor :error_generator
@@ -94,7 +94,7 @@ module Spec
         @sym == sym and @args_expectation.args_match?(args)
       end
       
-      def invoke(args, block)
+      def invoke(*args, &block)
         if @expected_received_count == 0
           @failed_fast = true
           @actual_received_count += 1
@@ -109,17 +109,17 @@ module Spec
           
           
           if !@method_block.nil?
-            default_return_val = invoke_method_block(args)
+            default_return_val = invoke_method_block(*args)
           elsif @args_to_yield.size > 0
-            default_return_val = invoke_with_yield(block)
+            default_return_val = invoke_with_yield(&block)
           else
             default_return_val = nil
           end
           
           if @consecutive
-            return invoke_consecutive_return_block(args, block)
+            return invoke_consecutive_return_block(*args, &block)
           elsif @return_block
-            return invoke_return_block(args, block)
+            return invoke_return_block(*args, &block)
           else
             return default_return_val
           end
@@ -133,9 +133,17 @@ module Spec
           @actual_received_count >= @expected_received_count
       end
       
+      def invoke_return_block(*args, &block)
+        args << block unless block.nil?
+        # Ruby 1.9 - when we set @return_block to return values
+        # regardless of arguments, any arguments will result in
+        # a "wrong number of arguments" error
+        @return_block.arity == 0 ? @return_block.call : @return_block.call(*args)
+      end
+      
       protected
 
-      def invoke_method_block(args)
+      def invoke_method_block(*args)
         begin
           @method_block.call(*args)
         rescue => detail
@@ -143,7 +151,7 @@ module Spec
         end
       end
       
-      def invoke_with_yield(block)
+      def invoke_with_yield(&block)
         if block.nil?
           @error_generator.raise_missing_block_error @args_to_yield
         end
@@ -157,18 +165,10 @@ module Spec
         value
       end
       
-      def invoke_consecutive_return_block(args, block)
-        value = invoke_return_block(args, block)
+      def invoke_consecutive_return_block(*args, &block)
+        value = invoke_return_block(*args, &block)
         index = [@actual_received_count, value.size-1].min
         value[index]
-      end
-      
-      def invoke_return_block(args, block)
-        args << block unless block.nil?
-        # Ruby 1.9 - when we set @return_block to return values
-        # regardless of arguments, any arguments will result in
-        # a "wrong number of arguments" error
-        @return_block.arity == 0 ? @return_block.call : @return_block.call(*args)
       end
       
       def clone_args_to_yield(args)
