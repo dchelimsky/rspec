@@ -5,6 +5,8 @@
   * should and should_not accept optional custom message
     (suggestion from Rob Sanheim)
     * result.should be_nil, "expected result to be nil"
+  * added 'spec/stubs/cucumber' to plug RSpec's stubbing framework into
+    Cucumber scenarios.
 
 * bug fixes
   * fixed --line option for ruby 1.9.1
