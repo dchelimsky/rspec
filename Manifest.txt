@@ -206,6 +206,7 @@ lib/spec/runner/line_number_query.rb
 lib/spec/runner/option_parser.rb
 lib/spec/runner/options.rb
 lib/spec/runner/reporter.rb
+lib/spec/stubs/cucumber.rb
 lib/spec/test/unit.rb
 lib/spec/version.rb
 resources/helpers/cmdline.rb
