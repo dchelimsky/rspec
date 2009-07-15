@@ -45,6 +45,37 @@ module Spec
           def diff_as_object(target,expected)
             diff_as_string(PP.pp(target,""), PP.pp(expected,""))
           end
+          
+          def diff_as_hash(target, expected)
+            contains_hash = false
+            contains_array = false
+            
+            extra_expected_keys = expected.keys - target.keys
+            extra_target_keys = target.keys - expected.keys
+            
+            o = "\n"
+            
+            o << "Expected hash contains keys that target hash does not: " << extra_expected_keys.inspect << "\n" if !extra_expected_keys.empty?
+            o << "Target hash contains keys that expected hash does not: " << extra_target_keys.inspect << "\n" if !extra_target_keys.empty?
+            
+            expected.delete_if do |key, value|
+              contains_hash = true if value.is_a?(Hash)
+              contains_array = true if value.is_a?(Array)
+              target[key]  == value
+            end
+            
+            expected.keys.sort { |a,b| a.to_s <=> b.to_s }.each do |key|
+              o << "Expected the key #{key.inspect} to be #{expected[key].inspect}, but was #{target[key].inspect}\n"
+            end
+            
+            o << "\n"
+
+            if contains_hash || contains_array
+              o << diff_as_object(target, expected)
+            else
+              o
+            end
+          end
 
           protected
           def format
