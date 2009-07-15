@@ -7,6 +7,8 @@
     * result.should be_nil, "expected result to be nil"
   * added 'spec/stubs/cucumber' to plug RSpec's stubbing framework into
     Cucumber scenarios.
+  * added unstub method to remove a stub mid-example (Scott Taylor). Closes
+    #853.
 
 * bug fixes
   * fixed --line option for ruby 1.9.1

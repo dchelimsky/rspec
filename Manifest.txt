@@ -317,6 +317,7 @@ spec/spec/mocks/stub_implementation_spec.rb
 spec/spec/mocks/stub_spec.rb
 spec/spec/mocks/stubbed_message_expectations_spec.rb
 spec/spec/mocks/twice_counts_spec.rb
+spec/spec/mocks/unstub_spec.rb
 spec/spec/package/bin_spec_spec.rb
 spec/spec/rake/spectask_spec.rb
 spec/spec/runner/class_and_argument_parser_spec.rb
