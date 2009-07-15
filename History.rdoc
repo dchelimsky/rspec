@@ -9,6 +9,8 @@
     Cucumber scenarios.
   * added unstub method to remove a stub mid-example (Scott Taylor). Closes
     #853.
+  * add more readable diff when expected and actual are hashes (Ryan Bigg).
+    Closes #848.
 
 * bug fixes
   * fixed --line option for ruby 1.9.1
