@@ -19,6 +19,12 @@ module Spec
       
       alias_method :stub, :stub!
 
+      def unstub!(message)
+        __mock_proxy.remove_stub(message)
+      end
+
+      alias_method :unstub, :unstub!
+
       def stub_chain(*methods)
         if methods.length > 1
           if matching_stub = __mock_proxy.find_matching_method_stub(methods[0])

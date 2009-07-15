@@ -61,6 +61,17 @@ module Spec
         @stubs.unshift MessageExpectation.new(@error_generator, @expectation_ordering, expected_from, sym, nil, :any, opts, &implementation)
         @stubs.first
       end
+
+      def remove_stub(message)
+        message = message.to_sym
+        
+        if stub_to_remove = @stubs.detect { |s| s.matches_name?(message) }
+          reset_proxied_method(message)
+          @stubs.delete(stub_to_remove)
+        else
+          raise MockExpectationError, "The method `#{message}` was not stubbed or was already unstubbed"
+        end
+      end
       
       def verify #:nodoc:
         verify_expectations
@@ -197,13 +208,17 @@ module Spec
 
       def reset_proxied_methods
         @proxied_methods.each do |sym|
-          munged_sym = munge(sym)
-          target_metaclass.instance_eval do
-            remove_method sym
-            if method_defined?(munged_sym)
-              alias_method sym, munged_sym
-              remove_method munged_sym
-            end
+          reset_proxied_method(sym)
+        end
+      end
+
+      def reset_proxied_method(sym)
+        munged_sym = munge(sym)
+        target_metaclass.instance_eval do
+          remove_method sym
+          if method_defined?(munged_sym)
+            alias_method sym, munged_sym
+            remove_method munged_sym
           end
         end
       end

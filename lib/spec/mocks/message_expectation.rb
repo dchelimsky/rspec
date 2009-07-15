@@ -181,9 +181,13 @@ module Spec
     end
     
     class MessageExpectation < BaseExpectation
+
+      def matches_name?(sym)
+        @sym == sym
+      end
       
       def matches_name_but_not_args(sym, args)
-        @sym == sym and not @args_expectation.args_match?(args)
+        matches_name?(sym) and not @args_expectation.args_match?(args)
       end
        
       def verify_messages_received
