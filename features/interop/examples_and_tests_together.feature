@@ -61,6 +61,10 @@ Feature: Spec and test together
       def test_should_fail_with_before_block_variable
         @from_before.should == 50
       end
+      
+      define_method :"test: should run with strange name" do
+        assert true
+      end
     end
     """
 
@@ -70,7 +74,7 @@ Feature: Spec and test together
     And the stdout should include "ATest"
     And the stdout should include "Test::Unit::AssertionFailedError in 'An Example should fail with assert'"
     And the stdout should include "'An Example should fail with should' FAILED"
-    And the stdout should include "10 examples, 6 failures"
+    And the stdout should include "11 examples, 6 failures"
     And the stdout should include /expected: 40,\s*got: 4/m
     And the stdout should include /expected: 50,\s*got: 5/m
 
