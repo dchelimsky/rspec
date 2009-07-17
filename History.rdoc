@@ -1,4 +1,4 @@
-=== Version 1.2.8 (in git)
+=== Version 1.2.8 / 2008-07-16
 
 * enhancements
   * better messages for should[_not] be_nil (Chad Humphries and Rob Sanheim)
