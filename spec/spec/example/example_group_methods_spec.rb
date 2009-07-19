@@ -732,6 +732,26 @@ module Spec
           end
         end
 
+        describe "#define" do
+          define(:counter) do
+            Class.new do
+              def initialize
+                @count = 0
+              end
+              def count
+                @count += 1
+              end
+            end.new
+          end
+          it "generates an instance method" do
+            counter.count.should == 1
+          end
+          
+          it "caches the value" do
+            counter.count.should == 1
+            counter.count.should == 1
+          end
+        end
       end
     end
   end
