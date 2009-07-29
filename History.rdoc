@@ -1,3 +1,10 @@
+=== Development
+
+* not really a bug fix or enhancement
+  * temporarily moved heckle feature to features-pending (waiting to see what
+    happens with
+    http://rubyforge.org/tracker/index.php?func=detail&aid=26786&group_id=1513&atid=5921)
+
 === Version 1.2.8 / 2008-07-16
 
 * enhancements
