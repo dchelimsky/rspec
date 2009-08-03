@@ -60,6 +60,7 @@ examples/ruby1.9.compatibility/access_to_constants_spec.rb
 features/before_and_after_blocks/before_and_after_blocks.feature
 features/command_line/line_number_option.feature
 features/command_line/line_number_option_with_example_with_no_name.feature
+features/example_groups/define_example_attribute_readers.feature
 features/example_groups/example_group_with_should_methods.feature
 features/example_groups/implicit_docstrings.feature
 features/example_groups/nested_groups.feature
@@ -68,7 +69,6 @@ features/expectations/expect_change.feature
 features/expectations/expect_error.feature
 features/extensions/custom_example_group.feature
 features/formatters/custom_formatter.feature
-features/heckle/heckle.feature
 features/interop/examples_and_tests_together.feature
 features/interop/rspec_output.feature
 features/interop/test_but_not_test_unit.feature
@@ -164,6 +164,7 @@ lib/spec/mocks/argument_expectation.rb
 lib/spec/mocks/argument_matchers.rb
 lib/spec/mocks/error_generator.rb
 lib/spec/mocks/errors.rb
+lib/spec/mocks/example_methods.rb
 lib/spec/mocks/extensions.rb
 lib/spec/mocks/extensions/object.rb
 lib/spec/mocks/framework.rb
@@ -173,7 +174,6 @@ lib/spec/mocks/mock.rb
 lib/spec/mocks/order_group.rb
 lib/spec/mocks/proxy.rb
 lib/spec/mocks/space.rb
-lib/spec/mocks/spec_methods.rb
 lib/spec/rake/spectask.rb
 lib/spec/rake/verify_rcov.rb
 lib/spec/ruby.rb
