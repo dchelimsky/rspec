@@ -17,7 +17,7 @@ module Spec
         m.foo('third')
         lambda do
           m.rspec_verify
-        end.should raise_error(%q|Mock 'mock' expected :foo with ("first") but received it with (["second"], ["third"])|)
+        end.should raise_error(%Q|Mock 'mock' received :foo with unexpected arguments\n  expected: ("first")\n       got: (["second"], ["third"])|)
         m.rspec_reset
       end
     end

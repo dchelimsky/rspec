@@ -19,4 +19,4 @@ Feature: Spec and test together
       end
       """
     When I run "spec stub_and_mocks_spec.rb --format nested"
-    Then the stdout should match "expected :foo with (\"first\") but received it with ([\"second\"], [\"third\"])"
+    Then the stdout should match "received :foo with unexpected arguments\n  expected: (\"first\")\n       got: ([\"second\"], [\"third\"])"
