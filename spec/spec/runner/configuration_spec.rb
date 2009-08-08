@@ -296,6 +296,15 @@ module Spec
             end
 
           end
+
+          describe "#ignore_backtrace_patterns" do
+            it "adds patterns to ignore in backtrace" do
+              config.ignore_backtrace_patterns /custom_pattern/, /shoulda/, /spork/
+              config.ignored_backtrace_patterns.should include(/custom_pattern/)
+              config.ignored_backtrace_patterns.should include(/shoulda/)
+              config.ignored_backtrace_patterns.should include(/spork/)
+            end
+          end
           
           describe "#predicate_matchers (DEPRECATED)" do
             it "is deprecated" do

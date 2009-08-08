@@ -107,6 +107,12 @@ module Spec
         it "should default to QuietBacktraceTweaker" do
           @options.backtrace_tweaker.class.should == QuietBacktraceTweaker
         end
+
+        it "adds custom ignored backtrace patterns" do
+          Spec::Runner.configuration.stub!(:ignored_backtrace_patterns).and_return([/custom_pattern/])
+          @options.run_examples
+          @options.backtrace_tweaker.ignored_patterns.should include(/custom_pattern/)
+        end
       end
 
       describe "#dry_run" do

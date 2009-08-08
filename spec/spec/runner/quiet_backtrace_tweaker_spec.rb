@@ -45,6 +45,26 @@ module Spec
         @tweaker.tweak_backtrace(@error)
         @error.backtrace.should be_empty
       end
+
+      it "should remove custom patterns" do
+        element = "/vendor/lib/custom_pattern/"
+        @tweaker.ignore_patterns /custom_pattern/
+        @error.set_backtrace([element])
+        @tweaker.tweak_backtrace(@error)
+        unless (@error.backtrace.empty?)
+          raise("Should have tweaked away '#{element}'")
+        end
+      end
+
+      it "should remove custom patterns added as a string" do
+        element = "/vendor/lib/custom_pattern/"
+        @tweaker.ignore_patterns "custom_pattern"
+        @error.set_backtrace([element])
+        @tweaker.tweak_backtrace(@error)
+        unless (@error.backtrace.empty?)
+          raise("Should have tweaked away '#{element}'")
+        end
+      end
       
       it "should clean up double slashes" do
         @error.set_backtrace(["/a//b/c//d.rb"])

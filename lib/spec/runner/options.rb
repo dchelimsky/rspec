@@ -110,6 +110,7 @@ module Spec
           
           define_predicate_matchers
           plugin_mock_framework
+          ignore_backtrace_patterns
 
           # TODO - this has to happen after the files get loaded,
           # otherwise the before_suite_parts are not populated
@@ -271,7 +272,7 @@ module Spec
           end
         end
       end
-      
+
       def plugin_mock_framework
         case mock_framework
         when Module
@@ -280,6 +281,10 @@ module Spec
           require mock_framework
           Spec::Example::ExampleMethods.__send__ :include, Spec::Adapters::MockFramework
         end
+      end
+
+      def ignore_backtrace_patterns
+        @backtrace_tweaker.ignore_patterns Spec::Runner.configuration.ignored_backtrace_patterns
       end
 
       def examples_should_be_run?

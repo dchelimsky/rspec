@@ -1,20 +1,38 @@
 module Spec
   module Runner
     class BacktraceTweaker
+      def initialize(*patterns)
+        @ignore_patterns = []
+      end
+
       def clean_up_double_slashes(line)
         line.gsub!('//','/')
+      end
+
+      def ignore_patterns(*patterns)
+        # do nothing. Only QuietBacktraceTweaker ignores patterns.
+      end
+
+      def ignored_patterns
+        []
+      end
+
+      def tweak_backtrace(error)
+        return if error.backtrace.nil?
+        tweaked = error.backtrace.collect do |message|
+          clean_up_double_slashes(message)
+          kept_lines = message.split("\n").select do |line|
+            ignored_patterns.each do |ignore|
+              break if line =~ ignore
+            end
+          end
+          kept_lines.empty?? nil : kept_lines.join("\n")
+        end
+        error.set_backtrace(tweaked.select {|line| line})
       end
     end
 
     class NoisyBacktraceTweaker < BacktraceTweaker
-      def tweak_backtrace(error)
-        return if error.backtrace.nil?
-        tweaked = error.backtrace.collect do |line|
-          clean_up_double_slashes(line)
-          line
-        end
-        error.set_backtrace(tweaked)
-      end
     end
 
     # Tweaks raised Exceptions to mask noisy (unneeded) parts of the backtrace
@@ -26,6 +44,7 @@ module Spec
           /#{subpath}/
         end
         IGNORE_PATTERNS = spec_files + [
+          /\/rspec-[0-9.]*\/lib\/spec\//,
           /\/lib\/ruby\//,
           /bin\/spec:/,
           /bin\/rcov:/,
@@ -39,19 +58,18 @@ module Spec
           /spec_server/
         ]
       end
-      
-      def tweak_backtrace(error)
-        return if error.backtrace.nil?
-        tweaked = error.backtrace.collect do |message|
-          clean_up_double_slashes(message)
-          kept_lines = message.split("\n").select do |line|
-            IGNORE_PATTERNS.each do |ignore|
-              break if line =~ ignore
-            end
-          end
-          kept_lines.empty?? nil : kept_lines.join("\n")
-        end
-        error.set_backtrace(tweaked.select {|line| line})
+
+      def initialize(*patterns)
+        super
+        ignore_patterns(*patterns)
+      end
+
+      def ignore_patterns(*patterns)
+        @ignore_patterns += patterns.flatten.map { |pattern| Regexp.new(pattern) }
+      end
+
+      def ignored_patterns
+        IGNORE_PATTERNS + @ignore_patterns
       end
     end
   end

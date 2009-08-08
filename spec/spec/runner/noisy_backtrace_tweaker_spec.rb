@@ -28,6 +28,13 @@ module Spec
         @error.backtrace.should_not be_empty
       end
 
+      it "should leave custom ignored backtrace patterns" do
+        @tweaker.ignore_patterns(/custom_pattern/)
+        @error.set_backtrace(["custom_pattern"])
+        @tweaker.tweak_backtrace(@error)
+        @error.backtrace.should_not be_empty
+      end
+
       it "should not barf on nil backtrace" do
         lambda do
           @tweaker.tweak_backtrace(@error)
