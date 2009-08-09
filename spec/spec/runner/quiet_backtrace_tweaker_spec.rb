@@ -69,6 +69,29 @@ module Spec
         @tweaker.tweak_backtrace(@error)
         @error.backtrace.should be_empty, "Should have removed line with '#{element}'"
       end
+
+      it "removes lines in mock_frameworks/rspec" do
+        element = "mock_frameworks/rspec"
+        @error.set_backtrace([element])
+        @tweaker.tweak_backtrace(@error)
+        @error.backtrace.should be_empty, "Should have removed line with '#{element}'"
+      end
+
+      it "removes lines in rspec gem" do
+        ["/rspec-1.2.3/lib/spec.rb","/rspec-1.2.3/lib/spec/anything.rb","bin/spec:123"].each do |element|
+          @error.set_backtrace([element])
+          @tweaker.tweak_backtrace(@error)
+          @error.backtrace.should be_empty, "Should have removed line with '#{element}'"
+        end
+      end
+
+      it "removes lines in spork gem" do
+        ["/spork-1.2.3/lib/spec.rb","/spork-1.2.3/lib/spec/anything.rb","bin/spork:123"].each do |element|
+          @error.set_backtrace([element])
+          @tweaker.tweak_backtrace(@error)
+          @error.backtrace.should be_empty, "Should have removed line with '#{element}'"
+        end
+      end
     end
   end
 end
