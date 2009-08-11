@@ -15,6 +15,12 @@ module Spec
         end
       end
 
+      class NoArgsMatcher
+        def description
+          "no args"
+        end
+      end
+
       class AnyArgMatcher
         def initialize(ignore)
         end
@@ -22,11 +28,9 @@ module Spec
         def ==(other)
           true
         end
-      end
-
-      class NoArgsMatcher
+        
         def description
-          "no args"
+          "anything"
         end
       end
 
