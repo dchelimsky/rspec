@@ -3,6 +3,8 @@
 * enhancements
   * manage backtrace-ignore patterns with Spec::Runner.configure (Martin
     Emde). Closes #870.
+  * friendly mock argument expectation failure message (Tim Harper). Closes
+    #868.
 
 * not really a bug fix or enhancement
   * temporarily moved heckle feature to features-pending (waiting to see what
