@@ -80,6 +80,7 @@ module Spec
         :runner => ["-U", "--runner RUNNER", "Use a custom Runner."],
         :debug => ["-u", "--debugger", "Enable ruby-debugging."],
         :drb => ["-X", "--drb", "Run examples via DRb. (For example against script/spec_server)"],
+        :drb_port => ["--port PORT", "Port for DRb server. (Ignored without --drb)"],
         :version => ["-v", "--version", "Show version"],
         :help => ["-h", "--help", "You're looking at it"]
       }
@@ -113,6 +114,7 @@ module Spec
         on(*OPTIONS[:runner])           {|runner|  @options.user_input_for_runner = runner}
         on(*OPTIONS[:debug])            {@options.debug = true}
         on(*OPTIONS[:drb])              {}
+        on(*OPTIONS[:drb_port])         {|port| @options.drb_port = port}
         on(*OPTIONS[:version])          {parse_version}
         on("--autospec")                {@options.autospec = true}
         on_tail(*OPTIONS[:help])        {parse_help}

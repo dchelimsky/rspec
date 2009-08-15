@@ -102,18 +102,43 @@ module Spec
         end
 
         context "port" do
-          it "should default to 8989" do
-            Spec::Runner::DrbCommandLine.port.should == 8989
+          before do
+            @options = stub("options", :drb_port => nil)
           end
+
+
+          it "should default to 8989" do
+            Spec::Runner::DrbCommandLine.port(@options).should == 8989
+          end
+
           it "should pull default value from RSPEC_DRB environment" do
             original = ENV['RSPEC_DRB']
             begin
               ENV['RSPEC_DRB'] = '9000'
-              Spec::Runner::DrbCommandLine.port.should == 9000
+              Spec::Runner::DrbCommandLine.port(@options).should == 9000
             ensure
               ENV['RSPEC_DRB'] = original
             end
           end
+
+          it "should pull configured value" do
+            @options.stub(:drb_port => '5000')
+
+            Spec::Runner::DrbCommandLine.port(@options).should == 5000
+          end
+
+          it 'should prefer configured value to environment' do
+            @options.stub(:drb_port => '5000')
+            original = ENV['RSPEC_DRB']
+            begin
+              ENV['RSPEC_DRB'] = '9000'
+              Spec::Runner::DrbCommandLine.port(@options).should == 5000
+            ensure
+              ENV['RSPEC_DRB'] = original
+            end
+          end
+
+
         end
 
 

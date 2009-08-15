@@ -5,8 +5,8 @@ module Spec
     # Facade to run specs by connecting to a DRB server
     class DrbCommandLine
       # port to run against
-      def self.port
-        (ENV["RSPEC_DRB"] || 8989).to_i
+      def self.port(options)
+        (options.drb_port || ENV["RSPEC_DRB"] || 8989).to_i
       end
 
 
@@ -19,7 +19,7 @@ module Spec
           rescue SocketError; \
             DRb.start_service("druby://:0"); \
           end
-          spec_server = DRbObject.new_with_uri("druby://127.0.0.1:#{port}")
+          spec_server = DRbObject.new_with_uri("druby://127.0.0.1:#{port(options)}")
           spec_server.run(options.argv, options.error_stream, options.output_stream)
           true
         rescue DRb::DRbConnError
