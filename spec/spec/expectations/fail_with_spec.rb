@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../../spec_helper.rb'
+require 'spec/spec_helper'
 
 describe Spec::Expectations, "#fail_with with no diff" do
   before(:each) do

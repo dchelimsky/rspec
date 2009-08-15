@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../../spec_helper'
+require 'spec/spec_helper'
 
 # This was added to prove that http://rspec.lighthouseapp.com/projects/5645/tickets/211
 # was fixed in ruby 1.9.1

@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../../spec_helper'
+require 'spec/spec_helper'
 require File.dirname(__FILE__) + '/resources/custom_example_group_runner'
 
 module Spec

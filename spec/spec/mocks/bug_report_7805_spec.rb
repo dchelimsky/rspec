@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../../spec_helper.rb'
+require 'spec/spec_helper'
 
 module Bug7805
   #This is really a duplicate of 8302

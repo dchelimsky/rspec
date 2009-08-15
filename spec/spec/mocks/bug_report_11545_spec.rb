@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../../spec_helper.rb'
+require 'spec/spec_helper'
 
 class LiarLiarPantsOnFire
   def respond_to?(sym, incl_private=false)

@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../../spec_helper.rb'
+require 'spec/spec_helper'
 
 describe "should be_predicate" do  
   it "should pass when actual returns true for :predicate?" do

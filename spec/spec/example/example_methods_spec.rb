@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../../spec_helper'
+require 'spec/spec_helper'
 
 class Thing
   attr_reader :arg

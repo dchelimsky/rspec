@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../../spec_helper.rb'
+require 'spec/spec_helper'
 module Spec
   module Matchers
     describe "[actual.should] be_close(expected, delta)" do

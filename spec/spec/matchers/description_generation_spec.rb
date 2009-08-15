@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../../spec_helper.rb'
+require 'spec/spec_helper'
 
 describe "Matchers should be able to generate their own descriptions" do
   after(:each) do

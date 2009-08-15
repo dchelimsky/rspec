@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../../../spec_helper.rb'
+require 'spec/spec_helper'
 require 'spec/runner/formatter/nested_text_formatter'
 
 module Spec

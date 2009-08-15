@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../../spec_helper.rb'
+require 'spec/spec_helper'
 
 describe "An object where respond_to? is true and does not have method" do
   # When should_receive(:sym) is sent to any object, the Proxy sends
