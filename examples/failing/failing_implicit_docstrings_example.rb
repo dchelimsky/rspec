@@ -1,5 +1,3 @@
-require File.dirname(__FILE__) + '/spec_helper'
-
 # Run spec w/ -fs to see the output of this file
 
 describe "Failing examples with no descriptions" do

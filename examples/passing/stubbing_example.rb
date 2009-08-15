@@ -1,5 +1,3 @@
-require File.dirname(__FILE__) + '/spec_helper'
-
 describe "A consumer of a stub" do
   it "should be able to stub methods on any Object" do
     obj = Object.new

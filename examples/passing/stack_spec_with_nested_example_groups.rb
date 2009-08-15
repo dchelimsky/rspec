@@ -1,4 +1,3 @@
-require File.dirname(__FILE__) + '/spec_helper'
 require File.dirname(__FILE__) + '/stack'
 require File.dirname(__FILE__) + '/shared_stack_examples'
 

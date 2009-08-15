@@ -1,5 +1,3 @@
-require File.dirname(__FILE__) + '/spec_helper'
-
 class MockableClass
   def self.find id
     return :original_return

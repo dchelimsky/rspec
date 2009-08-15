@@ -1,5 +1,3 @@
-require File.dirname(__FILE__) + '/spec_helper'
-
 describe "A consumer of a mock" do
   it "should be able to send messages to the mock" do
     mock = mock("poke me")

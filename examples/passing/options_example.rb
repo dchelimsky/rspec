@@ -4,8 +4,6 @@
 #   bin/spec --require examples/passing/options_formatter.rb examples/passing/options_example.rb \
 #     --format OptionsFormatter
 
-require File.dirname(__FILE__) + '/spec_helper'
-
 describe "this group will be reported", :report => true do
   it "this example will be reported", :report => true do
     # no-op

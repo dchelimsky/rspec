@@ -1,4 +1,3 @@
-require File.dirname(__FILE__) + '/spec_helper'
 class FileAccessor
   def open_and_handle_with(pathname, processor)
     pathname.open do |io|
