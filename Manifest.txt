@@ -23,7 +23,6 @@ examples/failing/partial_mock_example.rb
 examples/failing/pending_example.rb
 examples/failing/predicate_example.rb
 examples/failing/raising_example.rb
-examples/failing/spec_helper.rb
 examples/failing/syntax_error_example.rb
 examples/failing/team_spec.rb
 examples/failing/timeout_behaviour.rb
@@ -50,7 +49,6 @@ examples/passing/predicate_example.rb
 examples/passing/shared_example_group_example.rb
 examples/passing/shared_stack_examples.rb
 examples/passing/simple_matcher_example.rb
-examples/passing/spec_helper.rb
 examples/passing/stack.rb
 examples/passing/stack_spec.rb
 examples/passing/stack_spec_with_nested_example_groups.rb
@@ -283,6 +281,7 @@ spec/spec/matchers/simple_matcher_spec.rb
 spec/spec/matchers/throw_symbol_spec.rb
 spec/spec/mocks/any_number_of_times_spec.rb
 spec/spec/mocks/argument_expectation_spec.rb
+spec/spec/mocks/argument_matchers_spec.rb
 spec/spec/mocks/at_least_spec.rb
 spec/spec/mocks/at_most_spec.rb
 spec/spec/mocks/bug_report_10260_spec.rb
