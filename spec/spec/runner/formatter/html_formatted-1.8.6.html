@@ -191,16 +191,16 @@ a {
       <span class="failed_spec_name">should fail when expected message not received</span>
       <div class="failure" id="failure_1">
         <div class="message"><pre>Mock 'poke me' expected :poke with (any args) once, but received it 0 times</pre></div>
-        <div class="backtrace"><pre>./examples/failing/mocking_example.rb:13:
-./spec/spec/runner/formatter/../../../spec_helper.rb:43:in `run_with'
-./spec/spec/runner/formatter/html_formatter_spec.rb:38:
-./spec/spec/runner/formatter/html_formatter_spec.rb:26:in `chdir'
-./spec/spec/runner/formatter/html_formatter_spec.rb:26:</pre></div>
-    <pre class="ruby"><code><span class="linenum">11</span>  <span class="ident">it</span> <span class="punct">&quot;</span><span class="string">should fail when expected message not received</span><span class="punct">&quot;</span> <span class="keyword">do</span>
-<span class="linenum">12</span>    <span class="ident">mock</span> <span class="punct">=</span> <span class="ident">mock</span><span class="punct">(&quot;</span><span class="string">poke me</span><span class="punct">&quot;)</span>
-<span class="offending"><span class="linenum">13</span>    <span class="ident">mock</span><span class="punct">.</span><span class="ident">should_receive</span><span class="punct">(</span><span class="symbol">:poke</span><span class="punct">)</span></span>
-<span class="linenum">14</span>  <span class="keyword">end</span>
-<span class="linenum">15</span>  </code></pre>
+        <div class="backtrace"><pre>./examples/failing/mocking_example.rb:11:
+./spec/spec_helper.rb:44:in `run_with'
+/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:41:
+/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:29:in `chdir'
+/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:29:</pre></div>
+    <pre class="ruby"><code><span class="linenum">9</span>  <span class="ident">it</span> <span class="punct">&quot;</span><span class="string">should fail when expected message not received</span><span class="punct">&quot;</span> <span class="keyword">do</span>
+<span class="linenum">10</span>    <span class="ident">mock</span> <span class="punct">=</span> <span class="ident">mock</span><span class="punct">(&quot;</span><span class="string">poke me</span><span class="punct">&quot;)</span>
+<span class="offending"><span class="linenum">11</span>    <span class="ident">mock</span><span class="punct">.</span><span class="ident">should_receive</span><span class="punct">(</span><span class="symbol">:poke</span><span class="punct">)</span></span>
+<span class="linenum">12</span>  <span class="keyword">end</span>
+<span class="linenum">13</span>  </code></pre>
       </div>
     </dd>
     <script type="text/javascript">moveProgressBar('17.6');</script>
@@ -208,16 +208,16 @@ a {
       <span class="failed_spec_name">should fail when messages are received out of order</span>
       <div class="failure" id="failure_2">
         <div class="message"><pre>Mock 'one two three' received :three out of order</pre></div>
-        <div class="backtrace"><pre>./examples/failing/mocking_example.rb:22:
-./spec/spec/runner/formatter/../../../spec_helper.rb:43:in `run_with'
-./spec/spec/runner/formatter/html_formatter_spec.rb:38:
-./spec/spec/runner/formatter/html_formatter_spec.rb:26:in `chdir'
-./spec/spec/runner/formatter/html_formatter_spec.rb:26:</pre></div>
-    <pre class="ruby"><code><span class="linenum">20</span>    <span class="ident">mock</span><span class="punct">.</span><span class="ident">should_receive</span><span class="punct">(</span><span class="symbol">:three</span><span class="punct">).</span><span class="ident">ordered</span>
-<span class="linenum">21</span>    <span class="ident">mock</span><span class="punct">.</span><span class="ident">one</span>
-<span class="offending"><span class="linenum">22</span>    <span class="ident">mock</span><span class="punct">.</span><span class="ident">three</span></span>
-<span class="linenum">23</span>    <span class="ident">mock</span><span class="punct">.</span><span class="ident">two</span>
-<span class="linenum">24</span>  <span class="keyword">end</span></code></pre>
+        <div class="backtrace"><pre>./examples/failing/mocking_example.rb:20:
+./spec/spec_helper.rb:44:in `run_with'
+/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:41:
+/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:29:in `chdir'
+/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:29:</pre></div>
+    <pre class="ruby"><code><span class="linenum">18</span>    <span class="ident">mock</span><span class="punct">.</span><span class="ident">should_receive</span><span class="punct">(</span><span class="symbol">:three</span><span class="punct">).</span><span class="ident">ordered</span>
+<span class="linenum">19</span>    <span class="ident">mock</span><span class="punct">.</span><span class="ident">one</span>
+<span class="offending"><span class="linenum">20</span>    <span class="ident">mock</span><span class="punct">.</span><span class="ident">three</span></span>
+<span class="linenum">21</span>    <span class="ident">mock</span><span class="punct">.</span><span class="ident">two</span>
+<span class="linenum">22</span>  <span class="keyword">end</span></code></pre>
       </div>
     </dd>
     <script type="text/javascript">moveProgressBar('23.5');</script>
@@ -225,15 +225,15 @@ a {
       <span class="failed_spec_name">should get yelled at when sending unexpected messages</span>
       <div class="failure" id="failure_3">
         <div class="message"><pre>Mock 'don't talk to me' expected :any_message_at_all with (no args) 0 times, but received it once</pre></div>
-        <div class="backtrace"><pre>./examples/failing/mocking_example.rb:29:
-./spec/spec/runner/formatter/../../../spec_helper.rb:43:in `run_with'
-./spec/spec/runner/formatter/html_formatter_spec.rb:38:
-./spec/spec/runner/formatter/html_formatter_spec.rb:26:in `chdir'
-./spec/spec/runner/formatter/html_formatter_spec.rb:26:</pre></div>
-    <pre class="ruby"><code><span class="linenum">27</span>    <span class="ident">mock</span> <span class="punct">=</span> <span class="ident">mock</span><span class="punct">(&quot;</span><span class="string">don't talk to me</span><span class="punct">&quot;)</span>
-<span class="linenum">28</span>    <span class="ident">mock</span><span class="punct">.</span><span class="ident">should_not_receive</span><span class="punct">(</span><span class="symbol">:any_message_at_all</span><span class="punct">)</span>
-<span class="offending"><span class="linenum">29</span>    <span class="ident">mock</span><span class="punct">.</span><span class="ident">any_message_at_all</span></span>
-<span class="linenum">30</span>  <span class="keyword">end</span></code></pre>
+        <div class="backtrace"><pre>./examples/failing/mocking_example.rb:27:
+./spec/spec_helper.rb:44:in `run_with'
+/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:41:
+/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:29:in `chdir'
+/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:29:</pre></div>
+    <pre class="ruby"><code><span class="linenum">25</span>    <span class="ident">mock</span> <span class="punct">=</span> <span class="ident">mock</span><span class="punct">(&quot;</span><span class="string">don't talk to me</span><span class="punct">&quot;)</span>
+<span class="linenum">26</span>    <span class="ident">mock</span><span class="punct">.</span><span class="ident">should_not_receive</span><span class="punct">(</span><span class="symbol">:any_message_at_all</span><span class="punct">)</span>
+<span class="offending"><span class="linenum">27</span>    <span class="ident">mock</span><span class="punct">.</span><span class="ident">any_message_at_all</span></span>
+<span class="linenum">28</span>  <span class="keyword">end</span></code></pre>
       </div>
     </dd>
     <script type="text/javascript">moveProgressBar('29.4');</script>
@@ -241,16 +241,16 @@ a {
       <span class="failed_spec_name">has a bug we need to fix</span>
       <div class="failure" id="failure_4">
         <div class="message"><pre>Expected pending 'here is the bug' to fail. No Error was raised.</pre></div>
-        <div class="backtrace"><pre>./examples/failing/mocking_example.rb:33:
-./spec/spec/runner/formatter/../../../spec_helper.rb:43:in `run_with'
-./spec/spec/runner/formatter/html_formatter_spec.rb:38:
-./spec/spec/runner/formatter/html_formatter_spec.rb:26:in `chdir'
-./spec/spec/runner/formatter/html_formatter_spec.rb:26:</pre></div>
-    <pre class="ruby"><code><span class="linenum">31</span>
-<span class="linenum">32</span>  <span class="ident">it</span> <span class="punct">&quot;</span><span class="string">has a bug we need to fix</span><span class="punct">&quot;</span> <span class="keyword">do</span>
-<span class="offending"><span class="linenum">33</span>    <span class="ident">pending</span> <span class="punct">&quot;</span><span class="string">here is the bug</span><span class="punct">&quot;</span> <span class="keyword">do</span></span>
-<span class="linenum">34</span>      <span class="comment"># Actually, no. It's fixed. This will fail because it passes :-)</span>
-<span class="linenum">35</span>      <span class="ident">mock</span> <span class="punct">=</span> <span class="ident">mock</span><span class="punct">(&quot;</span><span class="string">Bug</span><span class="punct">&quot;)</span></code></pre>
+        <div class="backtrace"><pre>./examples/failing/mocking_example.rb:31:
+./spec/spec_helper.rb:44:in `run_with'
+/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:41:
+/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:29:in `chdir'
+/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:29:</pre></div>
+    <pre class="ruby"><code><span class="linenum">29</span>
+<span class="linenum">30</span>  <span class="ident">it</span> <span class="punct">&quot;</span><span class="string">has a bug we need to fix</span><span class="punct">&quot;</span> <span class="keyword">do</span>
+<span class="offending"><span class="linenum">31</span>    <span class="ident">pending</span> <span class="punct">&quot;</span><span class="string">here is the bug</span><span class="punct">&quot;</span> <span class="keyword">do</span></span>
+<span class="linenum">32</span>      <span class="comment"># Actually, no. It's fixed. This will fail because it passes :-)</span>
+<span class="linenum">33</span>      <span class="ident">mock</span> <span class="punct">=</span> <span class="ident">mock</span><span class="punct">(&quot;</span><span class="string">Bug</span><span class="punct">&quot;)</span></code></pre>
       </div>
     </dd>
   </dl>
@@ -274,10 +274,10 @@ a {
  framework for Ruby
 </pre></div>
         <div class="backtrace"><pre>./examples/failing/diffing_spec.rb:13:
-./spec/spec/runner/formatter/../../../spec_helper.rb:43:in `run_with'
-./spec/spec/runner/formatter/html_formatter_spec.rb:38:
-./spec/spec/runner/formatter/html_formatter_spec.rb:26:in `chdir'
-./spec/spec/runner/formatter/html_formatter_spec.rb:26:</pre></div>
+./spec/spec_helper.rb:44:in `run_with'
+/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:41:
+/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:29:in `chdir'
+/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:29:</pre></div>
     <pre class="ruby"><code><span class="linenum">11</span><span class="ident">framework</span> <span class="keyword">for</span> <span class="constant">Ruby</span>
 <span class="linenum">12</span><span class="constant">EOF</span>
 <span class="offending"><span class="linenum">13</span>    <span class="ident">usa</span><span class="punct">.</span><span class="ident">should</span> <span class="punct">==</span> <span class="ident">uk</span></span>
@@ -303,10 +303,10 @@ species=giraffe
 (compared using eql?)
 </pre></div>
         <div class="backtrace"><pre>./examples/failing/diffing_spec.rb:34:
-./spec/spec/runner/formatter/../../../spec_helper.rb:43:in `run_with'
-./spec/spec/runner/formatter/html_formatter_spec.rb:38:
-./spec/spec/runner/formatter/html_formatter_spec.rb:26:in `chdir'
-./spec/spec/runner/formatter/html_formatter_spec.rb:26:</pre></div>
+./spec/spec_helper.rb:44:in `run_with'
+/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:41:
+/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:29:in `chdir'
+/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:29:</pre></div>
     <pre class="ruby"><code><span class="linenum">32</span>    <span class="ident">expected</span> <span class="punct">=</span> <span class="constant">Animal</span><span class="punct">.</span><span class="ident">new</span> <span class="punct">&quot;</span><span class="string">bob</span><span class="punct">&quot;,</span> <span class="punct">&quot;</span><span class="string">giraffe</span><span class="punct">&quot;</span>
 <span class="linenum">33</span>    <span class="ident">actual</span>   <span class="punct">=</span> <span class="constant">Animal</span><span class="punct">.</span><span class="ident">new</span> <span class="punct">&quot;</span><span class="string">bob</span><span class="punct">&quot;,</span> <span class="punct">&quot;</span><span class="string">tortoise</span><span class="punct">&quot;</span>
 <span class="offending"><span class="linenum">34</span>    <span class="ident">expected</span><span class="punct">.</span><span class="ident">should</span> <span class="ident">eql</span><span class="punct">(</span><span class="ident">actual</span><span class="punct">)</span></span>

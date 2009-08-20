@@ -191,16 +191,16 @@ a {
       <span class="failed_spec_name">should fail when expected message not received</span>
       <div class="failure" id="failure_1">
         <div class="message"><pre>Mock 'poke me' expected :poke with (any args) once, but received it 0 times</pre></div>
-        <div class="backtrace"><pre><a href="txmt://open?url=file:///Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/examples/failing/mocking_example.rb&line=13">/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/examples/failing/mocking_example.rb:13</a> :in `block (2 levels) in <top (required)>'
+        <div class="backtrace"><pre><a href="txmt://open?url=file:///Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/examples/failing/mocking_example.rb&line=11">/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/examples/failing/mocking_example.rb:11</a> :in `block (2 levels) in <top (required)>'
 <a href="txmt://open?url=file:///Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/text_mate_formatter_spec.rb&line=49">/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/text_mate_formatter_spec.rb:49</a> :in `block (4 levels) in <module:Formatter>'
 <a href="txmt://open?url=file:///Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/text_mate_formatter_spec.rb&line=45">/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/text_mate_formatter_spec.rb:45</a> :in `chdir'
 <a href="txmt://open?url=file:///Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/text_mate_formatter_spec.rb&line=45">/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/text_mate_formatter_spec.rb:45</a> :in `block (3 levels) in <module:Formatter>'</pre></div>
-    <pre class="ruby"><code><span class="linenum">11</span>  it "should fail when expected message not received" do
-<span class="linenum">12</span>    mock = mock("poke me")
-<span class="offending"><span class="linenum">13</span>    mock.should_receive(:poke)</span>
-<span class="linenum">14</span>  end
-<span class="linenum">15</span>  
-<span class="linenum">16</span><span class="comment"># gem install syntax to get syntax highlighting</span></code></pre>
+    <pre class="ruby"><code><span class="linenum">9</span>  it "should fail when expected message not received" do
+<span class="linenum">10</span>    mock = mock("poke me")
+<span class="offending"><span class="linenum">11</span>    mock.should_receive(:poke)</span>
+<span class="linenum">12</span>  end
+<span class="linenum">13</span>  
+<span class="linenum">14</span><span class="comment"># gem install syntax to get syntax highlighting</span></code></pre>
       </div>
     </dd>
     <script type="text/javascript">moveProgressBar('17.6');</script>
@@ -208,16 +208,16 @@ a {
       <span class="failed_spec_name">should fail when messages are received out of order</span>
       <div class="failure" id="failure_2">
         <div class="message"><pre>Mock 'one two three' received :three out of order</pre></div>
-        <div class="backtrace"><pre><a href="txmt://open?url=file:///Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/examples/failing/mocking_example.rb&line=22">/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/examples/failing/mocking_example.rb:22</a> :in `block (2 levels) in <top (required)>'
+        <div class="backtrace"><pre><a href="txmt://open?url=file:///Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/examples/failing/mocking_example.rb&line=20">/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/examples/failing/mocking_example.rb:20</a> :in `block (2 levels) in <top (required)>'
 <a href="txmt://open?url=file:///Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/text_mate_formatter_spec.rb&line=49">/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/text_mate_formatter_spec.rb:49</a> :in `block (4 levels) in <module:Formatter>'
 <a href="txmt://open?url=file:///Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/text_mate_formatter_spec.rb&line=45">/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/text_mate_formatter_spec.rb:45</a> :in `chdir'
 <a href="txmt://open?url=file:///Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/text_mate_formatter_spec.rb&line=45">/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/text_mate_formatter_spec.rb:45</a> :in `block (3 levels) in <module:Formatter>'</pre></div>
-    <pre class="ruby"><code><span class="linenum">20</span>    mock.should_receive(:three).ordered
-<span class="linenum">21</span>    mock.one
-<span class="offending"><span class="linenum">22</span>    mock.three</span>
-<span class="linenum">23</span>    mock.two
-<span class="linenum">24</span>  end
-<span class="linenum">25</span><span class="comment"># gem install syntax to get syntax highlighting</span></code></pre>
+    <pre class="ruby"><code><span class="linenum">18</span>    mock.should_receive(:three).ordered
+<span class="linenum">19</span>    mock.one
+<span class="offending"><span class="linenum">20</span>    mock.three</span>
+<span class="linenum">21</span>    mock.two
+<span class="linenum">22</span>  end
+<span class="linenum">23</span><span class="comment"># gem install syntax to get syntax highlighting</span></code></pre>
       </div>
     </dd>
     <script type="text/javascript">moveProgressBar('23.5');</script>
@@ -225,16 +225,16 @@ a {
       <span class="failed_spec_name">should get yelled at when sending unexpected messages</span>
       <div class="failure" id="failure_3">
         <div class="message"><pre>Mock 'don't talk to me' expected :any_message_at_all with (no args) 0 times, but received it once</pre></div>
-        <div class="backtrace"><pre><a href="txmt://open?url=file:///Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/examples/failing/mocking_example.rb&line=29">/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/examples/failing/mocking_example.rb:29</a> :in `block (2 levels) in <top (required)>'
+        <div class="backtrace"><pre><a href="txmt://open?url=file:///Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/examples/failing/mocking_example.rb&line=27">/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/examples/failing/mocking_example.rb:27</a> :in `block (2 levels) in <top (required)>'
 <a href="txmt://open?url=file:///Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/text_mate_formatter_spec.rb&line=49">/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/text_mate_formatter_spec.rb:49</a> :in `block (4 levels) in <module:Formatter>'
 <a href="txmt://open?url=file:///Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/text_mate_formatter_spec.rb&line=45">/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/text_mate_formatter_spec.rb:45</a> :in `chdir'
 <a href="txmt://open?url=file:///Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/text_mate_formatter_spec.rb&line=45">/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/text_mate_formatter_spec.rb:45</a> :in `block (3 levels) in <module:Formatter>'</pre></div>
-    <pre class="ruby"><code><span class="linenum">27</span>    mock = mock("don't talk to me")
-<span class="linenum">28</span>    mock.should_not_receive(:any_message_at_all)
-<span class="offending"><span class="linenum">29</span>    mock.any_message_at_all</span>
-<span class="linenum">30</span>  end
-<span class="linenum">31</span>
-<span class="linenum">32</span><span class="comment"># gem install syntax to get syntax highlighting</span></code></pre>
+    <pre class="ruby"><code><span class="linenum">25</span>    mock = mock("don't talk to me")
+<span class="linenum">26</span>    mock.should_not_receive(:any_message_at_all)
+<span class="offending"><span class="linenum">27</span>    mock.any_message_at_all</span>
+<span class="linenum">28</span>  end
+<span class="linenum">29</span>
+<span class="linenum">30</span><span class="comment"># gem install syntax to get syntax highlighting</span></code></pre>
       </div>
     </dd>
     <script type="text/javascript">moveProgressBar('29.4');</script>
@@ -242,16 +242,16 @@ a {
       <span class="failed_spec_name">has a bug we need to fix</span>
       <div class="failure" id="failure_4">
         <div class="message"><pre>Expected pending 'here is the bug' to fail. No Error was raised.</pre></div>
-        <div class="backtrace"><pre><a href="txmt://open?url=file:///Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/examples/failing/mocking_example.rb&line=33">/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/examples/failing/mocking_example.rb:33</a> :in `block (2 levels) in <top (required)>'
+        <div class="backtrace"><pre><a href="txmt://open?url=file:///Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/examples/failing/mocking_example.rb&line=31">/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/examples/failing/mocking_example.rb:31</a> :in `block (2 levels) in <top (required)>'
 <a href="txmt://open?url=file:///Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/text_mate_formatter_spec.rb&line=49">/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/text_mate_formatter_spec.rb:49</a> :in `block (4 levels) in <module:Formatter>'
 <a href="txmt://open?url=file:///Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/text_mate_formatter_spec.rb&line=45">/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/text_mate_formatter_spec.rb:45</a> :in `chdir'
 <a href="txmt://open?url=file:///Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/text_mate_formatter_spec.rb&line=45">/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/text_mate_formatter_spec.rb:45</a> :in `block (3 levels) in <module:Formatter>'</pre></div>
-    <pre class="ruby"><code><span class="linenum">31</span>
-<span class="linenum">32</span>  it "has a bug we need to fix" do
-<span class="offending"><span class="linenum">33</span>    pending "here is the bug" do</span>
-<span class="linenum">34</span>      # Actually, no. It's fixed. This will fail because it passes :-)
-<span class="linenum">35</span>      mock = mock("Bug")
-<span class="linenum">36</span><span class="comment"># gem install syntax to get syntax highlighting</span></code></pre>
+    <pre class="ruby"><code><span class="linenum">29</span>
+<span class="linenum">30</span>  it "has a bug we need to fix" do
+<span class="offending"><span class="linenum">31</span>    pending "here is the bug" do</span>
+<span class="linenum">32</span>      # Actually, no. It's fixed. This will fail because it passes :-)
+<span class="linenum">33</span>      mock = mock("Bug")
+<span class="linenum">34</span><span class="comment"># gem install syntax to get syntax highlighting</span></code></pre>
       </div>
     </dd>
   </dl>
