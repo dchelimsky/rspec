@@ -5,6 +5,7 @@
     Emde). Closes #870.
   * friendly mock argument expectation failure message (Tim Harper). Closes
     #868.
+  * added double() as alias for stub() and mock()
 
 * not really a bug fix or enhancement
   * temporarily moved heckle feature to features-pending (waiting to see what

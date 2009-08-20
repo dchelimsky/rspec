@@ -24,7 +24,8 @@ module Spec
         Spec::Mocks::Mock.new(*args)
       end
 
-      alias :stub :mock
+      alias :stub   :mock
+      alias :double :mock
 
       # DEPRECATED - use mock('name').as_null_object instead
       #
