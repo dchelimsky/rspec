@@ -6,7 +6,7 @@ module Spec
       # Shortcut for creating an instance of Spec::Mocks::Mock.
       #
       # +name+ is used for failure reporting, so you should use the
-      # role that the mock is playing in the example.
+      # role that the double is playing in the example.
       #
       # +stubs_and_options+ lets you assign options and stub values
       # at the same time. The only option available is :null_object.
@@ -14,20 +14,33 @@ module Spec
       #
       # == Examples
       #
-      #   stub_thing = mock("thing", :a => "A")
-      #   stub_thing.a == "A" => true
+      #   thing = double("thing", :a => "A")
+      #   thing.a == "A" => true
       #
-      #   stub_person = stub("thing", :name => "Joe", :email => "joe@domain.com")
-      #   stub_person.name => "Joe"
-      #   stub_person.email => "joe@domain.com"
+      #   person = double("thing", :name => "Joe", :email => "joe@domain.com")
+      #   person.name => "Joe"
+      #   person.email => "joe@domain.com"
+      def double(*args)
+        __declare_double('Double', *args)
+      end
+
+      # Alias for double
       def mock(*args)
+        __declare_double('Mock', *args)
+      end
+
+      # Alias for double
+      def stub(*args)
+        __declare_double('Stub', *args)
+      end
+
+      def __declare_double(declared_as, *args) # :nodoc:
+        args << {} unless Hash === args.last
+        args.last[:__declared_as] = declared_as
         Spec::Mocks::Mock.new(*args)
       end
 
-      alias :stub   :mock
-      alias :double :mock
-
-      # DEPRECATED - use mock('name').as_null_object instead
+      # DEPRECATED - use double('name').as_null_object instead
       #
       # Shortcut for creating a mock object that will return itself in response
       # to any message it receives that it hasn't been explicitly instructed
@@ -36,8 +49,8 @@ module Spec
         Spec.warn(<<-WARNING)
 
 DEPRECATION: stub_everything('#{name}') is deprecated and will be removed
-from a future version of rspec. Please use mock('#{name}').as_null_object
-or stub('#{name}').as_null_object instead.
+from a future version of rspec. Please use double('#{name}').as_null_object
+(or stub('#{name}').as_null_object or mock('#{name}').as_null_object instead.
 
 WARNING
         mock(name, :null_object => true)

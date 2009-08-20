@@ -18,7 +18,7 @@ module Spec
       def initialize(target, name=nil, options={})
         @target = target
         @name = name
-        @error_generator = ErrorGenerator.new target, name
+        @error_generator = ErrorGenerator.new target, name, options
         @expectation_ordering = OrderGroup.new @error_generator
         @expectations = []
         @messages_received = []

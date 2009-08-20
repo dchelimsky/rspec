@@ -569,10 +569,6 @@ module Spec
     end
 
     describe "mock created with no name" do
-      it "should name itself 'mock'" do
-        mock.to_s.should include('mock')
-      end
-
       it "should name itself after initially stubbed methods" do
         string = mock(:foo => "woo", :bar => "car").to_s
         string.should include('foo: \"woo\"', 'bar: \"car\"')

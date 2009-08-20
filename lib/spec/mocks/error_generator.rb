@@ -3,7 +3,8 @@ module Spec
     class ErrorGenerator
       attr_writer :opts
       
-      def initialize(target, name)
+      def initialize(target, name, options={})
+        @declared_as = options[:__declared_as] || 'Mock'
         @target = target
         @name = name
       end
@@ -45,7 +46,7 @@ module Spec
     private
 
       def intro
-        @name ? "Mock '#{@name}'" : @target.class == Class ? "<#{@target.inspect} (class)>" : (@target.nil? ? "nil" : @target)
+        @name ? "#{@declared_as} '#{@name}'" : @target.class == Class ? "<#{@target.inspect} (class)>" : (@target.nil? ? "nil" : @target)
       end
       
       def __raise(message)

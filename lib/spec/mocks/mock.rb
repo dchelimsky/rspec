@@ -46,8 +46,19 @@ module Spec
         end
       end
 
-      def parse_options(options)
-        options.has_key?(:null_object) ? {:null_object => options.delete(:null_object)} : {}
+      def parse_options(stubs_and_options)
+        options = {}
+        extract_option(stubs_and_options, options, :null_object)
+        extract_option(stubs_and_options, options, :__declared_as, 'Mock')
+        options
+      end
+      
+      def extract_option(source, target, key, default=nil)
+        if source[key]
+          target[key] = source.delete(key)
+        elsif default
+          target[key] = default
+        end
       end
 
       def assign_stubs(stubs)
