@@ -125,7 +125,7 @@ module Spec
       # Defines a new task, using the name +name+.
       def initialize(name=:spec)
         @name = name
-        @libs = [File.expand_path(File.dirname(__FILE__) + '/../../../lib')]
+        @libs = ['lib']
         @pattern = nil
         @spec_files = nil
         @spec_opts = []

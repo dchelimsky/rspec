@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), "/load-diff-lcs")
+require 'spec/runner/differs/load-diff-lcs'
 require 'pp'
 
 module Spec

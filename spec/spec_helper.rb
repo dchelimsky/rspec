@@ -1,16 +1,14 @@
 require 'stringio'
 
-dir = File.dirname(__FILE__)
-lib_path = File.expand_path("#{dir}/../lib")
+lib_path = File.dirname(__FILE__) + '/../lib'
 $LOAD_PATH.unshift lib_path unless $LOAD_PATH.include?(lib_path)
 $_spec_spec = true # Prevents Kernel.exit in various places
 
 require 'spec'
 require 'spec/mocks'
-spec_classes_path = File.expand_path("#{dir}/../spec/spec/spec_classes")
-require spec_classes_path unless $LOAD_PATH.include?(spec_classes_path)
-require File.dirname(__FILE__) + '/../lib/spec/runner/differs/default'
-require File.dirname(__FILE__) + '/support/macros'
+require 'spec/spec/spec_classes'
+require 'spec/runner/differs/default'
+require 'spec/support/macros'
 
 def jruby?
   ::RUBY_PLATFORM == 'java'

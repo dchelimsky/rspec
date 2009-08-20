@@ -1,4 +1,3 @@
-$:.unshift File.join(File.dirname(__FILE__), "/../../lib")
 require 'spec/runner/formatter/nested_text_formatter'
 
 class FilteredFormatter < Spec::Runner::Formatter::NestedTextFormatter

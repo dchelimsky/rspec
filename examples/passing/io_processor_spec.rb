@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/io_processor'
+require 'examples/passing/io_processor'
 require 'stringio'
 
 describe "An IoProcessor" do

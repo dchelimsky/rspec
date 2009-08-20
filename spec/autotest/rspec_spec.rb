@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + "/autotest_helper"
+require 'spec/autotest/autotest_helper'
 
 describe Autotest::Rspec do
   describe "adding spec.opts --options" do 

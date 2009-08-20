@@ -8,27 +8,27 @@ module Spec
           
           describe "#mock_with" do
             it "should default mock framework to rspec" do
-              config.mock_framework.should =~ /\/spec\/adapters\/mock_frameworks\/rspec$/
+              config.mock_framework.should =~ /^spec\/adapters\/mock_frameworks\/rspec$/
             end
 
             it "should set rspec mocking explicitly" do
               config.mock_with(:rspec)
-              config.mock_framework.should =~ /\/spec\/adapters\/mock_frameworks\/rspec$/
+              config.mock_framework.should =~ /^spec\/adapters\/mock_frameworks\/rspec$/
             end
 
             it "should set mocha" do
               config.mock_with(:mocha)
-              config.mock_framework.should =~ /\/spec\/adapters\/mock_frameworks\/mocha$/
+              config.mock_framework.should =~ /^spec\/adapters\/mock_frameworks\/mocha$/
             end
 
             it "should set flexmock" do
               config.mock_with(:flexmock)
-              config.mock_framework.should =~ /\/spec\/adapters\/mock_frameworks\/flexmock$/
+              config.mock_framework.should =~ /^spec\/adapters\/mock_frameworks\/flexmock$/
             end
 
             it "should set rr" do
               config.mock_with(:rr)
-              config.mock_framework.should =~ /\/spec\/adapters\/mock_frameworks\/rr$/
+              config.mock_framework.should =~ /^spec\/adapters\/mock_frameworks\/rr$/
             end
 
             it "should set an arbitrary adapter module" do

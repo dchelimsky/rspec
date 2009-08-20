@@ -3,8 +3,8 @@ $:.unshift File.join(File.dirname(__FILE__), "/../../lib")
 require 'spec/expectations'
 require 'forwardable'
 require 'tempfile'
-require File.dirname(__FILE__) + '/../../spec/ruby_forker'
-require File.dirname(__FILE__) + '/matchers/smart_match'
+require 'spec/ruby_forker'
+require 'features/support/matchers/smart_match'
 
 
 class RspecWorld

@@ -1,5 +1,5 @@
-require File.dirname(__FILE__) + '/stack'
-require File.dirname(__FILE__) + '/shared_stack_examples'
+require 'examples/passing/stack'
+require 'examples/passing/shared_stack_examples'
 
 describe Stack do
   

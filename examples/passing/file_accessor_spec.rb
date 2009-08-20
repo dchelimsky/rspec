@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/file_accessor'
+require 'examples/passing/file_accessor'
 require 'stringio'
 
 describe "A FileAccessor" do

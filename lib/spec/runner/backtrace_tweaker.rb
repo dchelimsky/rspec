@@ -38,9 +38,8 @@ module Spec
     # Tweaks raised Exceptions to mask noisy (unneeded) parts of the backtrace
     class QuietBacktraceTweaker < BacktraceTweaker
       unless defined?(IGNORE_PATTERNS)
-        root_dir = File.expand_path(File.join(__FILE__, '..', '..', '..', '..'))
-        spec_files = Dir["#{root_dir}/lib/*"].map do |path| 
-          subpath = path[root_dir.length..-1]
+        spec_files = Dir["lib/*"].map do |path| 
+          subpath = path[1..-1]
           /#{subpath}/
         end
         IGNORE_PATTERNS = spec_files + [

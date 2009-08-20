@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + "/autotest_helper"
+require 'spec/autotest/autotest_helper'
 
 describe "failed_results_re" do
   it "should match a failure" do

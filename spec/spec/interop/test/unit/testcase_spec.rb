@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/test_unit_spec_helper'
+require 'spec/spec/interop/test/unit/test_unit_spec_helper'
 
 describe "Test::Unit::TestCase" do
   include TestUnitSpecHelper

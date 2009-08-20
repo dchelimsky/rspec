@@ -7,7 +7,7 @@ class FileAccessor
 end
 
 if __FILE__ == $0
-  require File.dirname(__FILE__) + '/io_processor'
+  require 'examples/passing/io_processor'
   require 'pathname'
   
   accessor = FileAccessor.new

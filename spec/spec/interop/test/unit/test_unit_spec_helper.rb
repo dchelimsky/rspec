@@ -1,5 +1,5 @@
 require 'spec/spec_helper'
-require File.dirname(__FILE__) + '/../../../../ruby_forker'
+require 'spec/ruby_forker'
 
 module TestUnitSpecHelper
   include RubyForker

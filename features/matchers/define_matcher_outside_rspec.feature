@@ -7,7 +7,6 @@ Feature: define matcher outside rspec
   Scenario: define a matcher with default messages
     Given a file named "test_multiples.rb" with:
       """
-      $:.unshift File.join(File.dirname(__FILE__), "/../../lib")
       require 'test/unit'
       require 'spec/expectations'
       

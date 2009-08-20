@@ -2,7 +2,7 @@
 gem 'hoe', '>=2.0.0'
 require 'hoe'
 
-$:.unshift(File.join(File.dirname(__FILE__), 'lib'))
+$:.unshift 'lib'
 
 require 'spec/version'
 require 'spec/rake/spectask'
@@ -40,10 +40,10 @@ task :post_blog do
 end
 
 # Some of the tasks are in separate files since they are also part of the website documentation
-load File.dirname(__FILE__) + '/resources/rake/examples.rake'
-load File.dirname(__FILE__) + '/resources/rake/examples_with_rcov.rake'
-load File.dirname(__FILE__) + '/resources/rake/failing_examples_with_html.rake'
-load File.dirname(__FILE__) + '/resources/rake/verify_rcov.rake'
+load 'resources/rake/examples.rake'
+load 'resources/rake/examples_with_rcov.rake'
+load 'resources/rake/failing_examples_with_html.rake'
+load 'resources/rake/verify_rcov.rake'
 
 if RUBY_VERSION =~ /^1.8/
   task :default => [:verify_rcov, :features]

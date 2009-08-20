@@ -1,5 +1,5 @@
 require 'spec/spec_helper'
-require File.dirname(__FILE__) + '/../../../lib/spec/rake/spectask.rb'
+require 'spec/rake/spectask'
 
 module Spec
   module Rake

@@ -178,7 +178,7 @@ module Spec
       end
     
       def mock_framework_path(framework_name)
-        File.expand_path(File.join(File.dirname(__FILE__), "/../adapters/mock_frameworks/#{framework_name}"))
+        "spec/adapters/mock_frameworks/#{framework_name}"
       end
 
       def scope_and_options(*args) # :nodoc:

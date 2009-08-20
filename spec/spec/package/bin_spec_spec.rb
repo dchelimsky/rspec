@@ -1,5 +1,5 @@
 require 'spec/spec_helper'
-require File.dirname(__FILE__) + '/../../ruby_forker'
+require 'spec/ruby_forker'
 
 describe "The bin/spec script" do
   include RubyForker
