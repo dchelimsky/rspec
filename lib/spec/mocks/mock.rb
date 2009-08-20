@@ -7,10 +7,10 @@ module Spec
       # only) == Options:
       # * <tt>:null_object</tt> - if true, the mock object acts as a forgiving
       #   null object allowing any message to be sent to it.
-      def initialize(name='mock', stubs_and_options={})
+      def initialize(name=nil, stubs_and_options={})
         if name.is_a?(Hash) && stubs_and_options.empty?
           stubs_and_options = name
-          build_name_from_options stubs_and_options
+          @name = nil
         else
           @name = name
         end
@@ -65,11 +65,6 @@ module Spec
         stubs.each_pair do |message, response|
           stub!(message).and_return(response)
         end
-      end
-
-      def build_name_from_options(options)
-        vals = options.inject([]) {|coll, pair| coll << "#{pair.first}: #{pair.last.inspect}"}
-        @name = '{' + vals.join(', ') + '}'
       end
     end
   end

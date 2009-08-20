@@ -9,7 +9,7 @@ module Spec
         m.should_receive(:bar).with("message")
         lambda {
           m.bar("different message")
-        }.should raise_error(Spec::Mocks::MockExpectationError, %Q{Mock 'foo' received :bar with unexpected arguments\n  expected: ("message")\n       got: ("different message")})
+        }.should raise_error(Spec::Mocks::MockExpectationError, %Q{Mock "foo" received :bar with unexpected arguments\n  expected: ("message")\n       got: ("different message")})
         m.bar("message") # allows the spec to pass
       end
 
@@ -22,7 +22,7 @@ module Spec
         m.should_receive(:bar).with("message")
         lambda {
           m.bar("different message")
-        }.should raise_error(Spec::Mocks::MockExpectationError, %Q{Mock 'foo' received :bar with unexpected arguments\n  expected: ("message")\n       got: ("different message")})
+        }.should raise_error(Spec::Mocks::MockExpectationError, %Q{Mock "foo" received :bar with unexpected arguments\n  expected: ("message")\n       got: ("different message")})
         m.bar("message") # allows the spec to pass
       end
     end

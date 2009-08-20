@@ -190,7 +190,7 @@ a {
     <dd class="spec failed">
       <span class="failed_spec_name">should fail when expected message not received</span>
       <div class="failure" id="failure_1">
-        <div class="message"><pre>Mock 'poke me' expected :poke with (any args) once, but received it 0 times</pre></div>
+        <div class="message"><pre>Mock &quot;poke me&quot; expected :poke with (any args) once, but received it 0 times</pre></div>
         <div class="backtrace"><pre>./examples/failing/mocking_example.rb:11:
 ./spec/spec_helper.rb:44:in `run_with'
 /Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:41:
@@ -207,7 +207,7 @@ a {
     <dd class="spec failed">
       <span class="failed_spec_name">should fail when messages are received out of order</span>
       <div class="failure" id="failure_2">
-        <div class="message"><pre>Mock 'one two three' received :three out of order</pre></div>
+        <div class="message"><pre>Mock &quot;one two three&quot; received :three out of order</pre></div>
         <div class="backtrace"><pre>./examples/failing/mocking_example.rb:20:
 ./spec/spec_helper.rb:44:in `run_with'
 /Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:41:
@@ -224,7 +224,7 @@ a {
     <dd class="spec failed">
       <span class="failed_spec_name">should get yelled at when sending unexpected messages</span>
       <div class="failure" id="failure_3">
-        <div class="message"><pre>Mock 'don't talk to me' expected :any_message_at_all with (no args) 0 times, but received it once</pre></div>
+        <div class="message"><pre>Mock &quot;don't talk to me&quot; expected :any_message_at_all with (no args) 0 times, but received it once</pre></div>
         <div class="backtrace"><pre>./examples/failing/mocking_example.rb:27:
 ./spec/spec_helper.rb:44:in `run_with'
 /Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:41:

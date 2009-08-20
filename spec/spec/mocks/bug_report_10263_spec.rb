@@ -20,7 +20,7 @@ describe "Mock" do
     begin
       @mock.foobar
     rescue Exception => e
-      e.message.should == "Mock 'test mock' received unexpected message :foobar with (no args)"
+      e.message.should == "Mock \"test mock\" received unexpected message :foobar with (no args)"
     end
   end 
 end

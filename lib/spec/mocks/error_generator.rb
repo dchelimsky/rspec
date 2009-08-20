@@ -46,7 +46,17 @@ module Spec
     private
 
       def intro
-        @name ? "#{@declared_as} '#{@name}'" : @target.class == Class ? "<#{@target.inspect} (class)>" : (@target.nil? ? "nil" : @target)
+        if @name
+          "#{@declared_as} #{@name.inspect}"
+        elsif Mock === @target
+          @declared_as
+        elsif Class === @target
+          "<#{@target.inspect} (class)>"
+        elsif @target
+          @target
+        else
+          "nil"
+        end
       end
       
       def __raise(message)

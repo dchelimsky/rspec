@@ -195,7 +195,7 @@ module Spec
 
       it "should use 'Stub' in the failure message" do
         stub = stub('name')
-        expect {stub.foo}.to raise_error(/Stub 'name' received/)
+        expect {stub.foo}.to raise_error(/Stub "name" received/)
       end
     end
 

@@ -7,6 +7,6 @@ describe "double" do
   
   it "uses 'Double' in failure messages" do
     double = double('name')
-    expect {double.foo}.to raise_error(/Double 'name' received/)
+    expect {double.foo}.to raise_error(/Double "name" received/)
   end
 end
