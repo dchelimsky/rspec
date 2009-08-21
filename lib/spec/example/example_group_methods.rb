@@ -168,9 +168,9 @@ module Spec
       def define(name, &block)
         define_method name do
           unless methods.include?(name)
-            instance_variable_set("@#{name}", instance_eval(&block))
+            instance_variable_set("@__#{name}", instance_eval(&block))
           end
-          instance_variable_get("@#{name}")
+          instance_variable_get("@__#{name}")
         end
       end
 
