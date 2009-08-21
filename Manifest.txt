@@ -218,7 +218,6 @@ spec/autotest/autotest_matchers.rb
 spec/autotest/discover_spec.rb
 spec/autotest/failed_results_re_spec.rb
 spec/autotest/rspec_spec.rb
-spec/rspec_suite.rb
 spec/ruby_forker.rb
 spec/spec.opts
 spec/spec/dsl/main_spec.rb
@@ -295,6 +294,7 @@ spec/spec/mocks/bug_report_7805_spec.rb
 spec/spec/mocks/bug_report_8165_spec.rb
 spec/spec/mocks/bug_report_8302_spec.rb
 spec/spec/mocks/bug_report_830_spec.rb
+spec/spec/mocks/double_spec.rb
 spec/spec/mocks/failing_argument_matchers_spec.rb
 spec/spec/mocks/hash_including_matcher_spec.rb
 spec/spec/mocks/hash_not_including_matcher_spec.rb
