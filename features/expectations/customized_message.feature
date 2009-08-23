@@ -46,9 +46,9 @@ Feature: customized message
       
       """
     When I run "spec node_spec.rb.rb --format specdoc"
-    Then the stdout should match "3 examples, 3 failures"
+    Then the stdout should include "3 examples, 3 failures"
     And  the stdout should not match "to return true, got false"
     And  the stdout should not match "to return false, got true"
-    And  the stdout should match "node.state: started (first example)"
-    And  the stdout should match "node.state: started (second example)"
-    And  the stdout should match "expected a change"
+    And  the stdout should include "node.state: started (first example)"
+    And  the stdout should include "node.state: started (second example)"
+    And  the stdout should include "expected a change"

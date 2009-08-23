@@ -17,6 +17,6 @@ Feature: Spec and test together
 
   Scenario: two examples - first example on declaration line
     When I run "spec example.rb:3 --format nested"
-    Then the stdout should match "1 example, 0 failures"
-    Then the stdout should match "should be > 8"
+    Then the stdout should include "1 example, 0 failures"
+    Then the stdout should include "should be > 8"
     But the stdout should not match "should be < 10"

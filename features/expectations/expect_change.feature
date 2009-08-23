@@ -30,8 +30,8 @@ Feature: expect change
       end
       """
     When I run "spec expect_change.rb"
-    Then the stdout should match "2 examples, 1 failure"
-    Then the stdout should match "should have been changed by 2, but was changed by 1"
+    Then the stdout should include "2 examples, 1 failure"
+    Then the stdout should include "should have been changed by 2, but was changed by 1"
 
   Scenario: expecting no change
     Given a file named "expect_no_change.rb" with:
@@ -61,5 +61,5 @@ Feature: expect change
       end
       """
     When I run "spec expect_no_change.rb"
-    Then the stdout should match "2 examples, 1 failure"
-    Then the stdout should match "should not have changed, but did change from 1 to 2"
+    Then the stdout should include "2 examples, 1 failure"
+    Then the stdout should include "should not have changed, but did change from 1 to 2"

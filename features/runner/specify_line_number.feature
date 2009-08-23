@@ -14,8 +14,8 @@ Feature: run specific examples by line number
       end
       """
     When I run "spec example_spec.rb --line 2"
-    Then the stdout should match "1 example, 0 failures, 1 pending"
-    And the stdout should match "example_spec.rb:2"
+    Then the stdout should include "1 example, 0 failures, 1 pending"
+    And the stdout should include "example_spec.rb:2"
 
   Scenario: colon line syntax on single example
     Given a file named "example_spec.rb" with:
@@ -28,5 +28,5 @@ Feature: run specific examples by line number
       end
       """
     When I run "spec example_spec.rb:2"
-    Then the stdout should match "1 example, 0 failures, 1 pending"
-    And the stdout should match "example_spec.rb:2"
+    Then the stdout should include "1 example, 0 failures, 1 pending"
+    And the stdout should include "example_spec.rb:2"

@@ -21,9 +21,9 @@ Feature: implicit docstrings
 
     When I run "<Command> implicit_docstrings_example.rb -fs"
 
-    Then the stdout should match /should be < 5/
-    And the stdout should match /should include "a"/
-    And the stdout should match /should respond to #size/
+    Then the stdout should include /should be < 5/
+    And the stdout should include /should include "a"/
+    And the stdout should include /should respond to #size/
 
   Scenarios: Run with ruby and spec
     | Command |
@@ -53,7 +53,7 @@ Feature: implicit docstrings
 
     When I run "<Command> failing_implicit_docstrings_example.rb -fs"
 
-    Then the stdout should match /should equal 2/
-    And the stdout should match /should be > 5/
-    And the stdout should match /should include "b"/
-    And the stdout should match /should not respond to #size/
+    Then the stdout should include /should equal 2/
+    And the stdout should include /should be > 5/
+    And the stdout should include /should include "b"/
+    And the stdout should include /should not respond to #size/

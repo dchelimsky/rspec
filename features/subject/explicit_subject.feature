@@ -13,7 +13,7 @@ Feature: explicit subject
       end
       """
     When I run "spec top_level_subject_spec.rb"
-    Then the stdout should match "1 example, 0 failures"
+    Then the stdout should include "1 example, 0 failures"
 
   Scenario: subject in a nested group
     Given a file named "nested_subject_spec.rb" with:
@@ -28,4 +28,4 @@ Feature: explicit subject
       end
       """
     When I run "spec nested_subject_spec.rb"
-    Then the stdout should match "1 example, 0 failures"
+    Then the stdout should include "1 example, 0 failures"

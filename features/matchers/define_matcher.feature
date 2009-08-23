@@ -35,14 +35,14 @@ Feature: define matcher
     When I run "spec matcher_with_default_message_spec.rb --format specdoc"
     Then the exit code should be 256
 
-    And the stdout should match "should be a multiple of 3"
-    And the stdout should match "should not be a multiple of 4"
-    And the stdout should match "should be a multiple of 4 (FAILED - 1)"
-    And the stdout should match "should not be a multiple of 3 (FAILED - 2)"
+    And the stdout should include "should be a multiple of 3"
+    And the stdout should include "should not be a multiple of 4"
+    And the stdout should include "should be a multiple of 4 (FAILED - 1)"
+    And the stdout should include "should not be a multiple of 3 (FAILED - 2)"
 
-    And the stdout should match "4 examples, 2 failures"
-    And the stdout should match "expected 9 to be a multiple of 4"
-    And the stdout should match "expected 9 not to be a multiple of 3"
+    And the stdout should include "4 examples, 2 failures"
+    And the stdout should include "expected 9 to be a multiple of 4"
+    And the stdout should include "expected 9 not to be a multiple of 3"
 
   Scenario: overriding the failure_message_for_should
     Given a file named "matcher_with_failure_message_spec.rb" with:
@@ -63,8 +63,8 @@ Feature: define matcher
       """
     When I run "spec matcher_with_failure_message_spec.rb"
     Then the exit code should be 256
-    And the stdout should match "1 example, 1 failure"
-    And the stdout should match "expected that 9 would be a multiple of 4"
+    And the stdout should include "1 example, 1 failure"
+    And the stdout should include "expected that 9 would be a multiple of 4"
 
   Scenario: overriding the failure_message_for_should_not
     Given a file named "matcher_with_failure_for_message_spec.rb" with:
@@ -85,8 +85,8 @@ Feature: define matcher
       """
     When I run "spec matcher_with_failure_for_message_spec.rb"
     Then the exit code should be 256
-    And the stdout should match "1 example, 1 failure"
-    And the stdout should match "expected that 9 would not be a multiple of 3"
+    And the stdout should include "1 example, 1 failure"
+    And the stdout should include "expected that 9 would not be a multiple of 3"
 
   Scenario: overriding the description
     Given a file named "matcher_overriding_description_spec.rb" with:
@@ -110,9 +110,9 @@ Feature: define matcher
       """
     When I run "spec matcher_overriding_description_spec.rb --format specdoc"
     Then the exit code should be 0
-    And the stdout should match "2 examples, 0 failures"
-    And the stdout should match "should be multiple of 3"
-    And the stdout should match "should not be multiple of 4"
+    And the stdout should include "2 examples, 0 failures"
+    And the stdout should include "should be multiple of 3"
+    And the stdout should include "should not be multiple of 4"
 
   Scenario: with no args
     Given a file named "matcher_with_no_args_spec.rb" with:
@@ -133,8 +133,8 @@ Feature: define matcher
       """
     When I run "spec matcher_with_no_args_spec.rb --format specdoc"
     Then the exit code should be 0
-    And the stdout should match "1 example, 0 failures"
-    And the stdout should match "should have 7 fingers"
+    And the stdout should include "1 example, 0 failures"
+    And the stdout should include "should have 7 fingers"
 
   Scenario: with multiple args
     Given a file named "matcher_with_multiple_args_spec.rb" with:
@@ -151,8 +151,8 @@ Feature: define matcher
       """
     When I run "spec matcher_with_multiple_args_spec.rb --format specdoc"
     Then the exit code should be 0
-    And the stdout should match "1 example, 0 failures"
-    And the stdout should match "should be the sum of 1, 2, 3, and 4"
+    And the stdout should include "1 example, 0 failures"
+    And the stdout should include "should be the sum of 1, 2, 3, and 4"
     
   Scenario: with helper methods
     Given a file named "matcher_with_internal_helper_spec.rb" with:
@@ -175,5 +175,5 @@ Feature: define matcher
       """
     When I run "spec matcher_with_internal_helper_spec.rb"
     Then the exit code should be 0
-    And the stdout should match "1 example, 0 failures"
+    And the stdout should include "1 example, 0 failures"
 

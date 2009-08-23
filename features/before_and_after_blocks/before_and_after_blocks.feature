@@ -58,7 +58,7 @@ Feature: before and after blocks
       end
       """
     When I run "spec before_each_in_example_group_spec.rb"
-    Then the stdout should match "3 examples, 0 failures"
+    Then the stdout should include "3 examples, 0 failures"
 
   Scenario: define before(:all) block in example group
     Given a file named "before_all_in_example_group_spec.rb" with:
@@ -90,7 +90,7 @@ Feature: before and after blocks
       end
       """
     When I run "spec before_all_in_example_group_spec.rb"
-    Then the stdout should match "3 examples, 0 failures"
+    Then the stdout should include "3 examples, 0 failures"
 
   Scenario: define before and after blocks in configuration
     Given a file named "befores_in_configuration_spec.rb" with:
@@ -126,7 +126,7 @@ Feature: before and after blocks
       end
       """
     When I run "spec befores_in_configuration_spec.rb"
-    Then the stdout should match "3 examples, 0 failures"
+    Then the stdout should include "3 examples, 0 failures"
 
   Scenario: before/after blocks are run in order
     Given a file named "ensure_block_order_spec.rb" with:
@@ -163,5 +163,5 @@ Feature: before and after blocks
       end
       """
     When I run "spec ensure_block_order_spec.rb"
-    Then the stdout should match /before suite\nbefore all\nbefore each\nafter each\n\.after all\n.*after suite/m
+    Then the stdout should include /before suite\nbefore all\nbefore each\nafter each\n\.after all\n.*after suite/m
 

@@ -21,7 +21,7 @@ Feature: Spec::ExampleGroup with should methods
     """
     When I run "<Command> example_group_with_should_methods.rb"
     Then the exit code should be 256
-    And the stdout should match "2 examples, 1 failure"
+    And the stdout should include "2 examples, 1 failure"
 
   Scenarios: Run with ruby and spec
     | Command |

@@ -19,8 +19,8 @@ Feature: expect error
       end
       """
     When I run "spec expect_error.rb"
-    Then the stdout should match "2 examples, 1 failure"
-    Then the stdout should match "expected NameError but nothing was raised"
+    Then the stdout should include "2 examples, 1 failure"
+    Then the stdout should include "expected NameError but nothing was raised"
 
   Scenario: expect no error
     Given a file named "expect_no_error.rb" with:
@@ -39,6 +39,6 @@ Feature: expect error
       end
       """
     When I run "spec expect_no_error.rb"
-    Then the stdout should match "2 examples, 1 failure"
-    Then the stdout should match "undefined method `non_existent_message'"
+    Then the stdout should include "2 examples, 1 failure"
+    Then the stdout should include "undefined method `non_existent_message'"
 

@@ -38,7 +38,7 @@ Story: Test::Unit::TestCase extended by rspec with should methods
     """
     When I run "<Command> test_case_with_should_methods.rb"
     Then the exit code should be 256
-    And the stdout should match "5 examples, 3 failures"
+    And the stdout should include "5 examples, 3 failures"
 
   Scenarios: Run with ruby and spec
     | Command |

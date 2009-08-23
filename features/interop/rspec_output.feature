@@ -17,7 +17,7 @@ Feature: spec output
     When I run "<Command> simple_spec.rb"
     Then the exit code should be 0
     And the stdout should not match /\d+ tests, \d+ assertions, \d+ failures, \d+ errors/m
-    And the stdout should match "1 example, 0 failures"
+    And the stdout should include "1 example, 0 failures"
 
   Scenarios: Run with ruby and CommandLine object
     | Command     |

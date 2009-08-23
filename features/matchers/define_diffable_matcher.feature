@@ -22,5 +22,5 @@ Feature: define diffable matcher
     When I run "spec diffable_matcher_spec.rb --diff"
     Then the exit code should be 256
 
-    And the stdout should match "should be just like \"that\""
-    And the stdout should match "Diff:\n@@ -1,2 +1,2 @@\n-that\n+this"
+    And the stdout should include "should be just like \"that\""
+    And the stdout should include "Diff:\n@@ -1,2 +1,2 @@\n-that\n+this"

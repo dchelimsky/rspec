@@ -24,4 +24,4 @@ Feature: mock with flexmock
       """
     When I run "spec flexmock_example_spec.rb"
     Then the exit code should be 0
-    And the stdout should match "2 examples, 0 failures"
+    And the stdout should include "2 examples, 0 failures"

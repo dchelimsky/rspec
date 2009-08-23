@@ -23,4 +23,4 @@ Feature: stub implementation
       end
       """
     When I run "spec stub_implementation.rb"
-    Then the stdout should match "1 example, 0 failures"
+    Then the stdout should include "1 example, 0 failures"

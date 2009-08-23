@@ -67,12 +67,12 @@ Feature: Spec and test together
     When I run "<Command> spec_and_test_together.rb -fs"
 
     Then the exit code should be 256
-    And the stdout should match "ATest"
-    And the stdout should match "Test::Unit::AssertionFailedError in 'An Example should fail with assert'"
-    And the stdout should match "'An Example should fail with should' FAILED"
-    And the stdout should match "10 examples, 6 failures"
-    And the stdout should match /expected: 40,\s*got: 4/m
-    And the stdout should match /expected: 50,\s*got: 5/m
+    And the stdout should include "ATest"
+    And the stdout should include "Test::Unit::AssertionFailedError in 'An Example should fail with assert'"
+    And the stdout should include "'An Example should fail with should' FAILED"
+    And the stdout should include "10 examples, 6 failures"
+    And the stdout should include /expected: 40,\s*got: 4/m
+    And the stdout should include /expected: 50,\s*got: 5/m
 
   Scenarios: run with ruby and spec
     | Command |

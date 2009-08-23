@@ -38,4 +38,4 @@ Feature: Define example attribute readers
     end
     """
     When I run "spec counter_spec.rb"
-    Then the stdout should match "2 examples, 0 failures"
+    Then the stdout should include "2 examples, 0 failures"

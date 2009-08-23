@@ -23,8 +23,8 @@ Feature: Nested example groups
     end
     """
     When I run "<Command> nested_example_groups.rb -fs"
-    Then the stdout should match /Some Object with some more context/
-    And the stdout should match /Some Object with some other context/
+    Then the stdout should include /Some Object with some more context/
+    And the stdout should include /Some Object with some other context/
 
   Scenarios: Run with ruby and spec
     | Command |

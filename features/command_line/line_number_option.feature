@@ -21,36 +21,36 @@ Feature: Spec and test together
 
   Scenario: two examples - first example on declaration line
     When I run "spec example.rb:3 --format nested"
-    Then the stdout should match "1 example, 0 failures"
-    And the stdout should match "has a first example"
+    Then the stdout should include "1 example, 0 failures"
+    And the stdout should include "has a first example"
     But the stdout should not match "has a second example"
 
   Scenario: two examples - first example from line inside declaration
     When I run "spec example.rb:4 --format nested"
-    Then the stdout should match "1 example, 0 failures"
-    And the stdout should match "has a first example"
+    Then the stdout should include "1 example, 0 failures"
+    And the stdout should include "has a first example"
     But the stdout should not match "has a second example"
 
   Scenario: two examples - first example from line below declaration
     When I run "spec example.rb:6 --format nested"
-    Then the stdout should match "1 example, 0 failures"
-    And the stdout should match "has a first example"
+    Then the stdout should include "1 example, 0 failures"
+    And the stdout should include "has a first example"
     But the stdout should not match "has a second example"
 
   Scenario: two examples - second example from line below declaration
     When I run "spec example.rb:7 --format nested"
-    Then the stdout should match "1 example, 0 failures"
-    And the stdout should match "has a second example"
+    Then the stdout should include "1 example, 0 failures"
+    And the stdout should include "has a second example"
     But the stdout should not match "has a first example"
 
   Scenario: two examples - both examples from the group declaration
     When I run "spec example.rb:1 --format nested"
-    Then the stdout should match "2 examples, 0 failures"
-    And the stdout should match "has a second example"
-    And the stdout should match "has a first example"
+    Then the stdout should include "2 examples, 0 failures"
+    And the stdout should include "has a second example"
+    And the stdout should include "has a first example"
 
   Scenario: two examples - both examples from above the first example declaration
     When I run "spec example.rb:2 --format nested"
-    Then the stdout should match "2 examples, 0 failures"
-    And the stdout should match "has a second example"
-    And the stdout should match "has a first example"
+    Then the stdout should include "2 examples, 0 failures"
+    And the stdout should include "has a second example"
+    And the stdout should include "has a first example"

@@ -15,5 +15,5 @@ Feature: custom example group
     end
     """
     When I run "spec custom_example_group_spec.rb"
-    Then the stdout should match "1 example, 0 failures"
+    Then the stdout should include "1 example, 0 failures"
 

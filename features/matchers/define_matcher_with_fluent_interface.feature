@@ -23,5 +23,5 @@ Feature: define matcher
       end
       """
     When I run "spec between_spec.rb --format specdoc"
-    Then the stdout should match "1 example, 0 failures"
-    And  the stdout should match "should be bigger than 4"
+    Then the stdout should include "1 example, 0 failures"
+    And  the stdout should include "should be bigger than 4"
