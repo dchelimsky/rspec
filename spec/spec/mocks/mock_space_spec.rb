@@ -48,6 +48,12 @@ module Spec
         m1.should_receive(:rspec_verify)
         @space.verify_all
       end
+      it "should clear mocked classes" do
+        class ::FunkyClass; end
+        @space.add_mocked_class(::FunkyClass, double())
+        @space.reset_all
+        @space.instance_eval { mocked_classes.empty? }.should be_true
+      end
     end
   end
 end

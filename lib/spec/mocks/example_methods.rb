@@ -63,7 +63,14 @@ WARNING
       def allow_message_expectations_on_nil
         Proxy.allow_message_expectations_on_nil
       end
-
+      
+      def mock_class(const)
+        $rspec_mocks.add_mocked_class(const, double(const.to_s))
+      end
+      
+      def restore_class(double)
+        $rspec_mocks.restore_mocked_class(double)
+      end
     end
   end
 end
