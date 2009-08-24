@@ -113,7 +113,7 @@ module Spec
         @_implementation = implementation
         @_backtrace = caller
       end
-
+      
     private
 
       include Matchers

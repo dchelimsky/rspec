@@ -164,13 +164,11 @@ module Spec
       def include_constants_in(mod)
         include mod if (Spec::Ruby.version.to_f >= 1.9) & (Module === mod) & !(Class === mod)
       end
-      
-      def define(name, &block)
+
+      def let(name, &block)
         define_method name do
-          unless methods.include?(name)
-            instance_variable_set("@__#{name}", instance_eval(&block))
-          end
-          instance_variable_get("@__#{name}")
+          @assignments ||= {}
+          @assignments[name] ||= instance_eval(&block)
         end
       end
 

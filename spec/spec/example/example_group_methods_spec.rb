@@ -733,7 +733,7 @@ module Spec
         end
 
         describe "#define" do
-          define(:counter) do
+          let(:counter) do
             Class.new do
               def initialize
                 @count = 0
@@ -749,7 +749,7 @@ module Spec
           
           it "caches the value" do
             counter.count.should == 1
-            counter.count.should == 1
+            counter.count.should == 2
           end
         end
       end

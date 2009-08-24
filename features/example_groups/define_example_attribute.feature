@@ -1,4 +1,4 @@
-Feature: Define example attribute readers
+Feature: Define example attribute
 
   In order to streamline process
   As an RSpec user
@@ -27,13 +27,13 @@ Feature: Define example attribute readers
     end
 
     describe Counter do
-      define(:counter) { Counter.new }
+      let(:counter) { Counter.new }
       it "returns 1 the first time" do
         counter.count.should == 1
       end
-      it "returns 1 the second time because the counter itself is cached by the 'assign' method" do
+      it "returns 2 the second time because the counter itself is cached by the 'assign' method" do
         counter.count
-        counter.count.should == 1
+        counter.count.should == 2
       end
     end
     """
