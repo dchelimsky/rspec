@@ -1,3 +1,38 @@
+= Upgrade to rspec-1.2.9
+
+== What's new
+
+=== let()
+
+Writing specs tends to follow a regular pattern of using local variables, discovering duplication, and then having to convert to local variables to instance variables by adding an "@" symbol. The let() method assigns the result of a lazy eval'd block as the return value of an instance method using
+the same name. This way you can go from this:
+
+    describe Subscription do
+      it "does something" do
+        subscription = Subscription.create :limit => 1
+        subscription...
+      end
+      
+      it "does something else" do
+        subscription = Subscription.create :limit => 1
+        subscription...
+      end
+    end
+
+to this:
+
+    describe Subscription do
+      let(:subscription) { Subscription.create :limit => 1 }
+      
+      it "does something" do
+        subscription...
+      end
+      
+      it "does something else" do
+        subscription...
+      end
+    end
+
 = Upgrade to rspec-1.2.3-1.2.7
 
 == What's Changed
@@ -17,11 +52,11 @@ If you're not familiar with this feature, don't worry about it. If you have anyt
 that looks like this:
 
     predicate_matchers[:swim] = :can_swim?
-  
+
 Or this
 
     config.predicate_matchers[:swim] = :can_swim?
-  
+
 Change it to this:
 
     Spec::Matchers.define :swim do
@@ -63,12 +98,12 @@ information.
 
 We'll be separating this out to its own gem for rspec 2.0, but for now, just install
 rspec >= 1.2.1 and add the following to your <tt>test_helper</tt> file:
-  
+
     require 'spec/expectations'
     class Test::Unit::TestCase
       include Spec::Matchers
     end
-    
+
 This will add <tt>should()</tt> and <tt>should_not()</tt> to your objects, make all of
 rspec's built-in matchers available to your tests, INCLUDING rspec's DSL for
 creating matchers (see below, under Upgrade to rspec-1.2.0)
@@ -81,11 +116,11 @@ in your code:
     # some code .....
     debugger
     # some more code ....
-    
+
 ... and using the <tt>--debugger</tt> or <tt>-u</tt> command line option.
 
     spec path/to/file.rb --debugger
-    
+
 = Upgrade to rspec-1.2.0
 
 == What's Changed
@@ -107,7 +142,7 @@ in your code:
 
 * The matcher protocol has been improved. The old protocol is still supported,
   but we added support for two new methods that speak a bit more clearly:
-  
+
     failure_message          => failure_message_for_should
     negative_failure_message => failure_message_for_should_not
 
