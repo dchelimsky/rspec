@@ -14,7 +14,7 @@ module Spec
         else
           @name = name
         end
-        @options = parse_options(stubs_and_options)
+        @options = extract_options(stubs_and_options)
         assign_stubs(stubs_and_options)
       end
 
@@ -46,7 +46,7 @@ module Spec
         end
       end
 
-      def parse_options(stubs_and_options)
+      def extract_options(stubs_and_options)
         options = {}
         extract_option(stubs_and_options, options, :null_object)
         extract_option(stubs_and_options, options, :__declared_as, 'Mock')
