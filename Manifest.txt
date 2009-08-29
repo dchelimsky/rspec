@@ -58,7 +58,7 @@ examples/ruby1.9.compatibility/access_to_constants_spec.rb
 features/before_and_after_blocks/before_and_after_blocks.feature
 features/command_line/line_number_option.feature
 features/command_line/line_number_option_with_example_with_no_name.feature
-features/example_groups/define_example_attribute_readers.feature
+features/example_groups/define_example_attribute.feature
 features/example_groups/example_group_with_should_methods.feature
 features/example_groups/implicit_docstrings.feature
 features/example_groups/nested_groups.feature
