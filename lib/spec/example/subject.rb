@@ -11,12 +11,20 @@ module Spec
         #     subject { CheckingAccount.new(:amount => 50, :currency => :USD) }
         #     it { should have_a_balance_of(50, :USD) }
         #     it { should_not be_overdrawn }
+        #     its(:currency) { should == :USD }
         #   end
         #
         # See +ExampleMethods#should+ for more information about this approach.
         def subject(&block)
           block.nil? ?
             explicit_subject || implicit_subject : @explicit_subject_block = block
+        end
+        
+        def its(attribute, &block)
+          describe(attribute) do
+            define_method(:subject) { super.send(attribute) }
+            it(&block)
+          end
         end
 
         attr_reader :explicit_subject_block # :nodoc:
