@@ -36,8 +36,10 @@ Feature: implicit subject
       describe Array do
         describe "when first created" do
           its(:length) { should == 0 }
+          its(:size)   { should == 1 }
         end
       end
       """
-    When I run "spec subject_with_getter_spec.rb"
-    Then the stdout should include "1 example, 0 failures"
+    When I run "spec subject_with_getter_spec.rb -fn"
+    Then the stdout should include "2 examples, 1 failure"
+    And  the stdout should include "Array\n  when first created\n    length\n      should == 0\n    size\n      should == 1 (FAILED - 1)"
