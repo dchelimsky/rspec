@@ -9,6 +9,10 @@
   * failure messages for doubles, mocks and stubs use the right name
   * add let() method to assign memoized attributes (suggestion from Stuart
     Halloway). Closes #857.
+  * add its method so you can say:
+      describe Array do
+        its(:length) { should == 0 }
+    (Stephen Touset). Closes #833
 
 * not really a bug fix or enhancement
   * temporarily moved heckle feature to features-pending (waiting to see what
