@@ -1,4 +1,4 @@
-=== Development
+=== Version 1.2.9 (git)
 
 * enhancements
   * manage backtrace-ignore patterns with Spec::Runner.configure (Martin
