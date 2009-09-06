@@ -83,5 +83,21 @@ module Spec
         end
       end
     end
+
+    describe ".its (to access subject's attributes)" do
+      with_sandboxed_options do
+        it "passes when expectation should pass" do
+          group = Class.new(ExampleGroupDouble).describe(Array)
+          child = group.its(:length) { should == 0 }
+          child.run(options).should == true
+        end
+        
+        it "fails when expectation should fail" do
+          group = Class.new(ExampleGroupDouble).describe(Array)
+          child = group.its(:length) { should == 1 }
+          child.run(options).should == false
+        end
+      end
+    end
   end
 end
