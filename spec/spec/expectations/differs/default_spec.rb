@@ -111,7 +111,20 @@ EOD
     expected = { "foo" => "bar", "fizz" => [1, 2, 3] }
     actual   = { "foo" => "baz", "fizz" => [1, 2] }
 
-    expected_diff = <<'EOD'
+    # UGH - 1.8.7 seems to order hash keys differently than the others
+    if RUBY_VERSION =~ /^1.8.7/
+      expected_diff = <<'EOD'
+
+Expected the key "fizz" to be [1, 2, 3], but was [1, 2]
+Expected the key "foo" to be "bar", but was "baz"
+
+
+@@ -1,2 +1,2 @@
+-{"fizz"=>[1, 2, 3], "foo"=>"bar"}
++{"fizz"=>[1, 2], "foo"=>"baz"}
+EOD
+    else
+      expected_diff = <<'EOD'
 
 Expected the key "fizz" to be [1, 2, 3], but was [1, 2]
 Expected the key "foo" to be "bar", but was "baz"
@@ -121,7 +134,7 @@ Expected the key "foo" to be "bar", but was "baz"
 -{"foo"=>"bar", "fizz"=>[1, 2, 3]}
 +{"foo"=>"baz", "fizz"=>[1, 2]}
 EOD
-
+    end
 
     diff = @differ.diff_as_hash(actual, expected)
     diff.should == expected_diff
