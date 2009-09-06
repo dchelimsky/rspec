@@ -8,18 +8,18 @@ require 'spec/version'
 require 'spec/rake/spectask'
 require 'cucumber/rake/task'
 
-Hoe.spec('rspec') do |hoe|
-  hoe.version = Spec::VERSION::STRING
-  hoe.summary = Spec::VERSION::SUMMARY
-  hoe.description = "Behaviour Driven Development for Ruby."
-  hoe.rubyforge_name = 'rspec'
-  hoe.developer('RSpec Development Team', 'rspec-devel@rubyforge.org')
-  hoe.extra_dev_deps = [["cucumber",">= 0.2.2"]]
-  hoe.remote_rdoc_dir = "rspec/#{Spec::VERSION::STRING}"
-  hoe.rspec_options = ['--options', 'spec/spec.opts']
-  hoe.history_file = 'History.rdoc'
-  hoe.readme_file  = 'README.rdoc'
-  hoe.post_install_message = <<-POST_INSTALL_MESSAGE
+Hoe.spec 'rspec' do
+  self.version = Spec::VERSION::STRING
+  self.summary = Spec::VERSION::SUMMARY
+  self.description = "Behaviour Driven Development for Ruby."
+  self.rubyforge_name = 'rspec'
+  self.developer('RSpec Development Team', 'rspec-devel@rubyforge.org')
+  self.extra_dev_deps = [["cucumber",">= 0.2.2"]]
+  self.remote_rdoc_dir = "rspec/#{Spec::VERSION::STRING}"
+  self.rspec_options = ['--options', 'spec/spec.opts']
+  self.history_file = 'History.rdoc'
+  self.readme_file  = 'README.rdoc'
+  self.post_install_message = <<-POST_INSTALL_MESSAGE
 #{'*'*50}
 
   Thank you for installing rspec-#{Spec::VERSION::STRING}
