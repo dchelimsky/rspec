@@ -29,15 +29,3 @@ Feature: implicit subject
       """
     When I run "spec nested_subject_spec.rb"
     Then the stdout should include "1 example, 0 failures"
-
-  Scenario: subject with getters
-    Given a file named "subject_with_getter_spec.rb" with:
-      """
-      describe Array do
-        describe "when first created" do
-          its(:length) { should == 0 }
-        end
-      end
-      """
-    When I run "spec subject_with_getter_spec.rb"
-    Then the stdout should include "1 example, 0 failures"
