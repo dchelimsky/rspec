@@ -1,6 +1,6 @@
 pkg
 doc
-coverage
+coverage*
 tmtags
 story_server/prototype/rspec_stories.html
 .DS_Store

@@ -45,26 +45,41 @@ load 'resources/rake/examples_with_rcov.rake'
 load 'resources/rake/failing_examples_with_html.rake'
 load 'resources/rake/verify_rcov.rake'
 
+task :cleanup_rcov_files do
+  rm_rf 'coverage.data'
+end
+
+
 if RUBY_VERSION =~ /^1.8/
-  task :default => [:verify_rcov, :features]
+  task :default => [:cleanup_rcov_files, :features, :verify_rcov]
 else
   task :default => [:spec, :features]
 end
 
 namespace :spec do
+
   desc "Run all specs with rcov"
-  Spec::Rake::SpecTask.new('rcov') do |t|
+  Spec::Rake::SpecTask.new(:rcov) do |t|
     t.spec_files = FileList['spec/**/*_spec.rb']
     t.spec_opts = ['--options', 'spec/spec.opts']
     t.rcov = true
     t.rcov_dir = 'coverage'
-    t.rcov_opts = ['--exclude', "kernel,load-diff-lcs\.rb,instance_exec\.rb,lib/spec.rb,lib/spec/runner.rb,^spec/*,bin/spec,examples,/gems,/Library/Ruby,\.autotest,#{ENV['GEM_HOME']}"]
+    t.rcov_opts = ['--exclude', "features,kernel,load-diff-lcs\.rb,instance_exec\.rb,lib/spec.rb,lib/spec/runner.rb,^spec/*,bin/spec,examples,/gems,/Library/Ruby,\.autotest,#{ENV['GEM_HOME']}"]
+    t.rcov_opts << '--sort coverage --text-report --aggregate coverage.data'
   end
 end
 
 desc "Run Cucumber features"
-task :features do
-  sh(RUBY_VERSION =~ /^1.8/ ? "cucumber" : "cucumber --profile no_heckle")
+if RUBY_VERSION =~ /^1.8/
+  Cucumber::Rake::Task.new :features do |t|
+    t.rcov = true
+    t.rcov_opts = ['--exclude', "features,kernel,load-diff-lcs\.rb,instance_exec\.rb,lib/spec.rb,lib/spec/runner.rb,^spec/*,bin/spec,examples,/gems,/Library/Ruby,\.autotest,#{ENV['GEM_HOME']}"]
+    t.rcov_opts << '--sort coverage --no-html --text-report --aggregate coverage.data'
+  end
+else
+  task :features do
+    sh 'cucumber --profile no_heckle'
+  end
 end
 
 desc "Run failing examples (see failure output)"
