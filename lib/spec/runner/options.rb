@@ -117,9 +117,7 @@ module Spec
           # from the configuration. There is no spec for this
           # directly, but features/before_and_after_blocks/before_and_after_blocks.story
           # will fail if this happens before the files are loaded.
-          before_suite_parts.each do |part|
-            part.call
-          end
+          before_suite_parts.each { |part| part.call }
 
           if example_groups.empty?
             true
