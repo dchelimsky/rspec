@@ -2,6 +2,11 @@
 
 == What's new
 
+=== spec/spec.opts
+
+If you have a spec/spec.opts file, the spec command will now use that
+automatically as long as you don't include any options on the command line.
+
 === let()
 
 Writing specs tends to follow a regular pattern of using local variables, discovering duplication, and then having to convert to local variables to instance variables by adding an "@" symbol. The let() method assigns the result of a lazy eval'd block as the return value of an instance method using
@@ -12,7 +17,7 @@ the same name. This way you can go from this:
         subscription = Subscription.create :limit => 1
         subscription...
       end
-      
+
       it "does something else" do
         subscription = Subscription.create :limit => 1
         subscription...
@@ -23,14 +28,23 @@ to this:
 
     describe Subscription do
       let(:subscription) { Subscription.create :limit => 1 }
-      
+
       it "does something" do
         subscription...
       end
-      
+
       it "does something else" do
         subscription...
       end
+    end
+
+=== its()
+
+If you're in the habit of writing one-liners using implicit subject, this new
+its() feature is for you. Here's the basic idea:
+
+    describe Array do
+      its(:length) { should == 0 }
     end
 
 = Upgrade to rspec-1.2.3-1.2.7

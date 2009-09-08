@@ -5,10 +5,10 @@ module Spec
     #   should_not exist
     #
     # Passes if actual.exist?
-    def exist
+    def exist(arg=nil)
       Matcher.new :exist do
         match do |actual|
-          actual.exist?
+          arg ? actual.exist?(arg) : actual.exist?
         end
       end
     end

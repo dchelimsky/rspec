@@ -117,18 +117,18 @@ module Spec
         on("--autospec")                {@options.autospec = true}
         on_tail(*OPTIONS[:help])        {parse_help}
       end
-      
+
       def order!(argv, &blk)
         @argv = argv.dup
-        @argv = (@argv.empty? & self.class.spec_command?) ? ['--help'] : @argv 
-        
+        @argv = (@argv.empty? & self.class.spec_command?) ? ['--help'] : @argv
+
         # Parse options file first
         parse_file_options(:options_file, :parse_options_file)
-        
+
         @options.argv = @argv.dup
-        return if parse_file_options(:generate_options, :write_generated_options)
+        return if parse_file_options(:generate_options, :write_options_file)
         return if parse_drb
-        
+
         super(@argv) do |file|
           if file =~ /^(.+):(\d+)$/
             file = $1
@@ -141,18 +141,13 @@ module Spec
 
         @options
       end
-      
+
     protected
 
       def invoke_requires(requires)
         requires.split(",").each do |file|
           require file
         end
-      end
-      
-      def parse_options_file(options_file)
-        option_file_args = IO.readlines(options_file).map {|l| l.chomp.split " "}.flatten
-        @argv.push(*option_file_args)
       end
 
       def parse_file_options(option_name, action)
@@ -167,6 +162,12 @@ module Spec
           end
         end
         
+        if options_file.nil? &&
+           File.exist?('spec/spec.opts') &&
+           !@argv.any?{|a| a =~ /^\-/ }
+             options_file = 'spec/spec.opts'
+        end
+
         if options_file
           send(action, options_file)
           return true
@@ -174,8 +175,13 @@ module Spec
           return false
         end
       end
-      
-      def write_generated_options(options_file)
+
+      def parse_options_file(options_file)
+        option_file_args = File.readlines(options_file).map {|l| l.chomp.split " "}.flatten
+        @argv.push(*option_file_args)
+      end
+
+      def write_options_file(options_file)
         File.open(options_file, 'w') do |io|
           io.puts @argv.join("\n")
         end
@@ -207,7 +213,7 @@ module Spec
       def parse_help
         @out_stream.puts self
         exit if stdout?
-      end      
+      end
 
       def stdout?
         @out_stream == $stdout
