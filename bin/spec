@@ -1,10 +1,4 @@
 #!/usr/bin/env ruby
 $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + "/../lib"))
-if ARGV.empty?
-  ARGV << '--help'
-else
-  (ARGV << '-O' << 'spec/spec.opts') if test ?f, 'spec/spec.opts' unless
-    ARGV.any? {|a| a =~ /^-/}
-end
 require 'spec/autorun'
 exit ::Spec::Runner::CommandLine.run

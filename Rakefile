@@ -14,7 +14,7 @@ Hoe.spec 'rspec' do
   self.description = "Behaviour Driven Development for Ruby."
   self.rubyforge_name = 'rspec'
   self.developer('RSpec Development Team', 'rspec-devel@rubyforge.org')
-  self.extra_dev_deps = [["cucumber",">= 0.2.2"]]
+  self.extra_dev_deps = [["cucumber",">= 0.3"],["bmabey-fakefs",">=0.1.1"]]
   self.remote_rdoc_dir = "rspec/#{Spec::VERSION::STRING}"
   self.rspec_options = ['--options', 'spec/spec.opts']
   self.history_file = 'History.rdoc'
