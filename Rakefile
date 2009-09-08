@@ -65,7 +65,7 @@ namespace :spec do
     t.rcov = true
     t.rcov_dir = 'coverage'
     t.rcov_opts = ['--exclude', "features,kernel,load-diff-lcs\.rb,instance_exec\.rb,lib/spec.rb,lib/spec/runner.rb,^spec/*,bin/spec,examples,/gems,/Library/Ruby,\.autotest,#{ENV['GEM_HOME']}"]
-    t.rcov_opts << '--sort coverage --only-uncovered --text-summary --aggregate coverage.data'
+    t.rcov_opts << '--sort coverage --text-summary --aggregate coverage.data'
   end
 end
 
