@@ -191,11 +191,11 @@ a {
       <span class="failed_spec_name">should fail when expected message not received</span>
       <div class="failure" id="failure_1">
         <div class="message"><pre>Mock &quot;poke me&quot; expected :poke with (any args) once, but received it 0 times</pre></div>
-        <div class="backtrace"><pre>/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/examples/failing/mocking_example.rb:11:in `block (2 levels) in <top (required)>'
-/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec_helper.rb:44:in `run_with'
-/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:41:in `block (4 levels) in <module:Formatter>'
-/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:29:in `chdir'
-/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:29:in `block (3 levels) in <module:Formatter>'</pre></div>
+        <div class="backtrace"><pre>./examples/failing/mocking_example.rb:11:in `block (2 levels) in <top (required)>'
+./spec/spec_helper.rb:44:in `run_with'
+./spec/spec/runner/formatter/html_formatter_spec.rb:41:in `block (4 levels) in <module:Formatter>'
+./spec/spec/runner/formatter/html_formatter_spec.rb:29:in `chdir'
+./spec/spec/runner/formatter/html_formatter_spec.rb:29:in `block (3 levels) in <module:Formatter>'</pre></div>
     <pre class="ruby"><code><span class="linenum">9</span>  it "should fail when expected message not received" do
 <span class="linenum">10</span>    mock = mock("poke me")
 <span class="offending"><span class="linenum">11</span>    mock.should_receive(:poke)</span>
@@ -209,11 +209,11 @@ a {
       <span class="failed_spec_name">should fail when messages are received out of order</span>
       <div class="failure" id="failure_2">
         <div class="message"><pre>Mock &quot;one two three&quot; received :three out of order</pre></div>
-        <div class="backtrace"><pre>/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/examples/failing/mocking_example.rb:20:in `block (2 levels) in <top (required)>'
-/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec_helper.rb:44:in `run_with'
-/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:41:in `block (4 levels) in <module:Formatter>'
-/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:29:in `chdir'
-/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:29:in `block (3 levels) in <module:Formatter>'</pre></div>
+        <div class="backtrace"><pre>./examples/failing/mocking_example.rb:20:in `block (2 levels) in <top (required)>'
+./spec/spec_helper.rb:44:in `run_with'
+./spec/spec/runner/formatter/html_formatter_spec.rb:41:in `block (4 levels) in <module:Formatter>'
+./spec/spec/runner/formatter/html_formatter_spec.rb:29:in `chdir'
+./spec/spec/runner/formatter/html_formatter_spec.rb:29:in `block (3 levels) in <module:Formatter>'</pre></div>
     <pre class="ruby"><code><span class="linenum">18</span>    mock.should_receive(:three).ordered
 <span class="linenum">19</span>    mock.one
 <span class="offending"><span class="linenum">20</span>    mock.three</span>
@@ -227,11 +227,11 @@ a {
       <span class="failed_spec_name">should get yelled at when sending unexpected messages</span>
       <div class="failure" id="failure_3">
         <div class="message"><pre>Mock &quot;don't talk to me&quot; expected :any_message_at_all with (no args) 0 times, but received it once</pre></div>
-        <div class="backtrace"><pre>/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/examples/failing/mocking_example.rb:27:in `block (2 levels) in <top (required)>'
-/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec_helper.rb:44:in `run_with'
-/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:41:in `block (4 levels) in <module:Formatter>'
-/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:29:in `chdir'
-/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:29:in `block (3 levels) in <module:Formatter>'</pre></div>
+        <div class="backtrace"><pre>./examples/failing/mocking_example.rb:27:in `block (2 levels) in <top (required)>'
+./spec/spec_helper.rb:44:in `run_with'
+./spec/spec/runner/formatter/html_formatter_spec.rb:41:in `block (4 levels) in <module:Formatter>'
+./spec/spec/runner/formatter/html_formatter_spec.rb:29:in `chdir'
+./spec/spec/runner/formatter/html_formatter_spec.rb:29:in `block (3 levels) in <module:Formatter>'</pre></div>
     <pre class="ruby"><code><span class="linenum">25</span>    mock = mock("don't talk to me")
 <span class="linenum">26</span>    mock.should_not_receive(:any_message_at_all)
 <span class="offending"><span class="linenum">27</span>    mock.any_message_at_all</span>
@@ -245,11 +245,11 @@ a {
       <span class="failed_spec_name">has a bug we need to fix</span>
       <div class="failure" id="failure_4">
         <div class="message"><pre>Expected pending 'here is the bug' to fail. No Error was raised.</pre></div>
-        <div class="backtrace"><pre>/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/examples/failing/mocking_example.rb:31:in `block (2 levels) in <top (required)>'
-/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec_helper.rb:44:in `run_with'
-/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:41:in `block (4 levels) in <module:Formatter>'
-/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:29:in `chdir'
-/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:29:in `block (3 levels) in <module:Formatter>'</pre></div>
+        <div class="backtrace"><pre>./examples/failing/mocking_example.rb:31:in `block (2 levels) in <top (required)>'
+./spec/spec_helper.rb:44:in `run_with'
+./spec/spec/runner/formatter/html_formatter_spec.rb:41:in `block (4 levels) in <module:Formatter>'
+./spec/spec/runner/formatter/html_formatter_spec.rb:29:in `chdir'
+./spec/spec/runner/formatter/html_formatter_spec.rb:29:in `block (3 levels) in <module:Formatter>'</pre></div>
     <pre class="ruby"><code><span class="linenum">29</span>
 <span class="linenum">30</span>  it "has a bug we need to fix" do
 <span class="offending"><span class="linenum">31</span>    pending "here is the bug" do</span>
@@ -278,11 +278,11 @@ a {
 +behavior driven development
  framework for Ruby
 </pre></div>
-        <div class="backtrace"><pre>/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/examples/failing/diffing_spec.rb:13:in `block (2 levels) in <top (required)>'
-/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec_helper.rb:44:in `run_with'
-/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:41:in `block (4 levels) in <module:Formatter>'
-/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:29:in `chdir'
-/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:29:in `block (3 levels) in <module:Formatter>'</pre></div>
+        <div class="backtrace"><pre>./examples/failing/diffing_spec.rb:13:in `block (2 levels) in <top (required)>'
+./spec/spec_helper.rb:44:in `run_with'
+./spec/spec/runner/formatter/html_formatter_spec.rb:41:in `block (4 levels) in <module:Formatter>'
+./spec/spec/runner/formatter/html_formatter_spec.rb:29:in `chdir'
+./spec/spec/runner/formatter/html_formatter_spec.rb:29:in `block (3 levels) in <module:Formatter>'</pre></div>
     <pre class="ruby"><code><span class="linenum">11</span>framework for Ruby
 <span class="linenum">12</span>EOF
 <span class="offending"><span class="linenum">13</span>    usa.should == uk</span>
@@ -309,11 +309,11 @@ species=giraffe
 
 (compared using eql?)
 </pre></div>
-        <div class="backtrace"><pre>/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/examples/failing/diffing_spec.rb:34:in `block (2 levels) in <top (required)>'
-/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec_helper.rb:44:in `run_with'
-/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:41:in `block (4 levels) in <module:Formatter>'
-/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:29:in `chdir'
-/Users/david/projects/ruby/rspec-dev/example_rails_app/vendor/plugins/rspec/spec/spec/runner/formatter/html_formatter_spec.rb:29:in `block (3 levels) in <module:Formatter>'</pre></div>
+        <div class="backtrace"><pre>./examples/failing/diffing_spec.rb:34:in `block (2 levels) in <top (required)>'
+./spec/spec_helper.rb:44:in `run_with'
+./spec/spec/runner/formatter/html_formatter_spec.rb:41:in `block (4 levels) in <module:Formatter>'
+./spec/spec/runner/formatter/html_formatter_spec.rb:29:in `chdir'
+./spec/spec/runner/formatter/html_formatter_spec.rb:29:in `block (3 levels) in <module:Formatter>'</pre></div>
     <pre class="ruby"><code><span class="linenum">32</span>    expected = Animal.new "bob", "giraffe"
 <span class="linenum">33</span>    actual   = Animal.new "bob", "tortoise"
 <span class="offending"><span class="linenum">34</span>    expected.should eql(actual)</span>
