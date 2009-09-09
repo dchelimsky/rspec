@@ -110,10 +110,15 @@ module Spec
         end
 
         def colour(text, colour_code)
-          return text unless ENV['RSPEC_COLOR'] || (colour? & (autospec? || output_to_tty?))
+          return text if output_to_file?
+          return text unless ENV['RSPEC_COLOR'] || (colour? & (autospec? || output_to_tty?)) 
           "#{colour_code}#{text}\e[0m"
         end
 
+        def output_to_file?
+          @output.class.name == "File"
+        end
+        
         def output_to_tty?
           begin
             @output.tty? || ENV.has_key?("AUTOTEST")
