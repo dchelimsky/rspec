@@ -331,9 +331,6 @@ spec/spec/runner/formatter/base_formatter_spec.rb
 spec/spec/runner/formatter/base_text_formatter_spec.rb
 spec/spec/runner/formatter/failing_example_groups_formatter_spec.rb
 spec/spec/runner/formatter/failing_examples_formatter_spec.rb
-spec/spec/runner/formatter/html_formatted-1.8.4.html
-spec/spec/runner/formatter/html_formatted-1.8.5-jruby.html
-spec/spec/runner/formatter/html_formatted-1.8.5.html
 spec/spec/runner/formatter/html_formatted-1.8.6-jruby.html
 spec/spec/runner/formatter/html_formatted-1.8.6.html
 spec/spec/runner/formatter/html_formatted-1.8.7.html
@@ -344,7 +341,7 @@ spec/spec/runner/formatter/profile_formatter_spec.rb
 spec/spec/runner/formatter/progress_bar_formatter_spec.rb
 spec/spec/runner/formatter/snippet_extractor_spec.rb
 spec/spec/runner/formatter/specdoc_formatter_spec.rb
-spec/spec/runner/formatter/text_mate_formatted-1.8.4.html
+spec/spec/runner/formatter/text_mate_formatted-1.8.6-jruby.html
 spec/spec/runner/formatter/text_mate_formatted-1.8.6.html
 spec/spec/runner/formatter/text_mate_formatted-1.8.7.html
 spec/spec/runner/formatter/text_mate_formatted-1.9.1.html
