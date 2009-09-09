@@ -18,12 +18,12 @@ Feature: custom formatters
       end
       """
     And a file named "simple_example_spec.rb" with:
-    """
+      """
       describe "my group" do
         specify "my example" do
         end
       end
-    """
+      """
 
     When I run "spec simple_example_spec.rb --require custom_formatter.rb --format CustomFormatter"
     Then the exit code should be 0

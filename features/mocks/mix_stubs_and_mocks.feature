@@ -1,4 +1,4 @@
-Feature: Spec and test together
+Feature: stub and mock together
 
   As an RSpec user
   I want to use stubs and mocks together
