@@ -102,7 +102,7 @@ module Spec
         end
         
         def autospec?
-          !!@options.autospec
+          !!@options.autospec || ENV.has_key?("AUTOTEST")
         end
         
         def backtrace_line(line)
@@ -116,12 +116,12 @@ module Spec
         end
 
         def output_to_file?
-          @output.class.name == "File"
+          File === @output
         end
         
         def output_to_tty?
           begin
-            @output.tty? || ENV.has_key?("AUTOTEST")
+            @output.tty?
           rescue NoMethodError
             false
           end

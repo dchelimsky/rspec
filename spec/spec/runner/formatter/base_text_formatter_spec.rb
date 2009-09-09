@@ -72,7 +72,7 @@ module Spec
             formatter = BaseTextFormatter.new(options,out)
             formatter.stub!(:output_to_tty?).and_return(true)
             formatter.stub!(:output_to_file?).and_return(true)
-            formatter.__send__(:colour, 'foo', "\e[32m").should_not == "\e[32mfoo\e[0m"
+            formatter.__send__(:colour, 'foo', "\e[32m").should == "foo"
           end
           
           it "colorizes when colour? and output_to_tty? return true" do
