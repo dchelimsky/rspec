@@ -1,6 +1,6 @@
 #Based on patch from Wilson Bilkovich
 
-require 'spec/spec_helper'
+require 'spec_helper'
 class SomethingExpected
   attr_accessor :some_value
 end

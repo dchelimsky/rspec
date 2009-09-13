@@ -15,6 +15,17 @@
     (Stephen Touset). Closes #833
   * spec command automatically uses spec/spec.opts if it is present
     (suggestion from Yehuda Katz)
+  * rspec now adds PROJECT_ROOT/lib and PROJECT_ROOT/spec to the load path
+    * determines PROJECT_ROOT by recursing up until it finds a directory
+      that has a ./spec directory (thanks to Scott Taylor)
+    * supports require 'spec_helper'
+    * supports running specs from the PROJECT_ROOT or any directory
+      below it
+    * closes #733
+  
+  to the load path so you don't have to
+  * rspec now adds PROJECT_ROOT/spec to the load path so you can just require
+    'spec_helper'
 
 * not really a bug fix or enhancement
   * temporarily moved heckle feature to features-pending (waiting to see what

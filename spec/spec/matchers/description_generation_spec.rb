@@ -1,4 +1,4 @@
-require 'spec/spec_helper'
+require 'spec_helper'
 
 describe "Matchers should be able to generate their own descriptions" do
   after(:each) do

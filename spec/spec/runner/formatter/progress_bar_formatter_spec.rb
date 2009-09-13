@@ -1,4 +1,4 @@
-require 'spec/spec_helper'
+require 'spec_helper'
 require 'spec/runner/formatter/progress_bar_formatter'
 
 module Spec

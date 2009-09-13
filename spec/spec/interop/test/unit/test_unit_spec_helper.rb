@@ -1,5 +1,5 @@
-require 'spec/spec_helper'
-require 'spec/ruby_forker'
+require 'spec_helper'
+require 'ruby_forker'
 
 module TestUnitSpecHelper
   include RubyForker

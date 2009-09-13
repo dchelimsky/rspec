@@ -1,4 +1,4 @@
-require 'spec/spec_helper'
+require 'spec_helper'
 
 describe "should be_predicate" do  
   it "should pass when actual returns true for :predicate?" do

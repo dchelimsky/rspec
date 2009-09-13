@@ -6,7 +6,6 @@ require 'tempfile'
 require 'spec/ruby_forker'
 require 'features/support/matchers/smart_match'
 
-
 class RspecWorld
   include Spec::Expectations
   include Spec::Matchers
@@ -42,6 +41,10 @@ class RspecWorld
   def create_file(file_name, contents)
     file_path = File.join(working_dir, file_name)
     File.open(file_path, "w") { |f| f << contents }
+  end
+
+  def create_directory(dirname)
+    FileUtils.mkdir_p File.join(working_dir, dirname)
   end
 
   def last_stdout

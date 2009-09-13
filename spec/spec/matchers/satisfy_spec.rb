@@ -1,4 +1,4 @@
-require 'spec/spec_helper'
+require 'spec_helper'
 
 describe "should satisfy { block }" do
   it "should pass if block returns true" do

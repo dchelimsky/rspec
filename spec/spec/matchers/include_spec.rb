@@ -1,4 +1,4 @@
-require 'spec/spec_helper'
+require 'spec_helper'
 
 describe "should include(expected)" do
   it "should pass if target includes expected" do

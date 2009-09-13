@@ -1,4 +1,4 @@
-require 'spec/spec_helper'
+require 'spec_helper'
 
 describe "An RSpec Mock" do
   it "should hide internals in its inspect representation" do

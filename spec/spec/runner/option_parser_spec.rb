@@ -1,4 +1,4 @@
-require 'spec/spec_helper'
+require 'spec_helper'
 require 'spec/spec/runner/resources/custom_example_group_runner'
 require 'fakefs/safe'
 require 'fakefs/spec_helpers'

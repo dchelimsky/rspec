@@ -1,4 +1,4 @@
-require 'spec/spec_helper'
+require 'spec_helper'
 require 'spec/runner/formatter/base_text_formatter'
 
 module Spec

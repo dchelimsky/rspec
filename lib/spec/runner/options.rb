@@ -95,7 +95,28 @@ module Spec
         require 'rubygems' unless ENV['NO_RUBYGEMS']
         require 'ruby-debug'
       end
-
+      
+      def project_root # :nodoc:
+        require 'pathname'
+        @project_root ||= determine_project_root
+      end
+      
+      def determine_project_root # :nodoc:
+        # This is borrowed (slightly modified) from Scott Taylors
+        # project_path project:
+        #   http://github.com/smtlaissezfaire/project_path
+        Pathname(File.expand_path('.')).ascend do |path|
+          if File.exists?(File.join(path, "spec")) 
+            return path
+          end
+        end
+      end
+      
+      def add_dir_from_project_root_to_load_path(dir)
+        full_dir = File.join(project_root, dir)
+        $LOAD_PATH.unshift full_dir unless $LOAD_PATH.include?(full_dir)
+      end
+      
       def run_examples
         require_ruby_debug if debug
         return true unless examples_should_be_run?
@@ -104,6 +125,9 @@ module Spec
           runner = custom_runner || ExampleGroupRunner.new(self)
 
           unless @files_loaded
+            ['spec','lib'].each do |dir|
+              add_dir_from_project_root_to_load_path(dir)
+            end
             runner.load_files(files_to_load)
             @files_loaded = true
           end

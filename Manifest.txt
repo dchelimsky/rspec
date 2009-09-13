@@ -8,6 +8,7 @@ Ruby1.9.rdoc
 TODO.txt
 Upgrade.rdoc
 bin/autospec
+bin/rspec
 bin/spec
 cucumber.yml
 examples/failing/README.txt
@@ -71,6 +72,8 @@ features/interop/examples_and_tests_together.feature
 features/interop/rspec_output.feature
 features/interop/test_but_not_test_unit.feature
 features/interop/test_case_with_should_methods.feature
+features/load_paths/add_lib_to_load_path.feature
+features/load_paths/add_spec_to_load_path.feature
 features/matchers/define_diffable_matcher.feature
 features/matchers/define_matcher.feature
 features/matchers/define_matcher_outside_rspec.feature
@@ -82,6 +85,7 @@ features/mocks/mix_stubs_and_mocks.feature
 features/mocks/stub_implementation.feature
 features/pending/pending_examples.feature
 features/runner/specify_line_number.feature
+features/spec_helper/spec_helper.feature
 features/step_definitions/running_rspec_steps.rb
 features/subject/explicit_subject.feature
 features/subject/implicit_subject.feature
@@ -367,6 +371,6 @@ spec/spec/runner/spec.opts
 spec/spec/runner/spec_drb.opts
 spec/spec/runner/spec_spaced.opts
 spec/spec/runner_spec.rb
-spec/spec/spec_classes.rb
 spec/spec_helper.rb
 spec/support/macros.rb
+spec/support/spec_classes.rb

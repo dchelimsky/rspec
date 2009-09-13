@@ -1,4 +1,4 @@
-require 'spec/spec_helper'
+require 'spec_helper'
 
 describe "should match(expected)" do
   it "should pass when target (String) matches expected (Regexp)" do

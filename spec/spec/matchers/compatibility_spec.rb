@@ -1,4 +1,4 @@
-require 'spec/spec_helper'
+require 'spec_helper'
 
 Spec::Matchers.define :have_public_instance_method do |method|
   match do |klass|

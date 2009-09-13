@@ -1,4 +1,4 @@
-require 'spec/spec_helper'
+require 'spec_helper'
 module Spec
   module Matchers
     describe "[actual.should] be_close(expected, delta)" do

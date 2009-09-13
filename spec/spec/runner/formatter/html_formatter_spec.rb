@@ -1,4 +1,4 @@
-# require 'spec/spec_helper'
+# require 'spec_helper'
 
 begin # See rescue all the way at the bottom
 

@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+rspec_lib = File.expand_path(File.join(File.dirname(__FILE__), "..", "lib"))
+rspec_bin = File.expand_path(File.join(File.dirname(__FILE__), "spec"))
+system "ruby -I#{rspec_lib} #{rspec_bin} #{ARGV.join(' ')}"

@@ -1,4 +1,4 @@
-require 'spec/spec_helper'
+require 'spec_helper'
 
 class LiarLiarPantsOnFire
   def respond_to?(sym, incl_private=false)

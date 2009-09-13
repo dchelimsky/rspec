@@ -1,4 +1,4 @@
-require 'spec/spec_helper'
+require 'spec_helper'
 
 describe Spec::Expectations, "#fail_with with no diff" do
   before(:each) do

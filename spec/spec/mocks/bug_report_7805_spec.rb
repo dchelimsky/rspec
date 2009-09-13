@@ -1,4 +1,4 @@
-require 'spec/spec_helper'
+require 'spec_helper'
 
 module Bug7805
   #This is really a duplicate of 8302
