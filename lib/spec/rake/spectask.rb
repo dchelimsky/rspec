@@ -118,7 +118,7 @@ module Spec
       # Use verbose output. If this is set to true, the task will print
       # the executed spec command to stdout. Defaults to false.
       attr_accessor :verbose
-      
+
       # Explicitly define the path to the ruby binary, or its proxy (e.g. multiruby)
       attr_accessor :ruby_cmd
 
@@ -142,7 +142,7 @@ module Spec
       end
 
       def define # :nodoc:
-        spec_script = File.expand_path(File.dirname(__FILE__) + '/../../../bin/spec')
+        spec_script = File.expand_path(File.join(File.dirname(__FILE__),"..","..","..","bin","spec"))
 
         lib_path = libs.join(File::PATH_SEPARATOR)
         actual_name = Hash === name ? name.keys.first : name
