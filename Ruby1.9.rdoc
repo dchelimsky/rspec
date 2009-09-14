@@ -1,7 +1,6 @@
 = RSpec and Ruby 1.9
 
-Currently, RSpec (core) is mostly compatible with Ruby 1.9.1. There are still
-outstanding issues, some of which we plan to address and some we don't.
+RSpec runs on Ruby 1.9.1 with the following caveats.
 
 == Test::Unit
 
