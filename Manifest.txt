@@ -8,7 +8,7 @@ Ruby1.9.rdoc
 TODO.txt
 Upgrade.rdoc
 bin/autospec
-bin/rspec
+bin/dev
 bin/spec
 cucumber.yml
 examples/failing/README.txt
