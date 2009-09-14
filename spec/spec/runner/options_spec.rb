@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'spec/spec/runner/resources/custom_example_group_runner'
+require 'spec/runner/resources/custom_example_group_runner'
 
 module Spec
   module Runner

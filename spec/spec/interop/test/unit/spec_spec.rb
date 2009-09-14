@@ -1,4 +1,4 @@
-require 'spec/spec/interop/test/unit/test_unit_spec_helper'
+require 'spec/interop/test/unit/test_unit_spec_helper'
 
 describe "ExampleGroup with test/unit/interop" do
   include TestUnitSpecHelper
