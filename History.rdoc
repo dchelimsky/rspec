@@ -22,10 +22,6 @@
     * supports running specs from the PROJECT_ROOT or any directory
       below it
     * closes #733
-  
-  to the load path so you don't have to
-  * rspec now adds PROJECT_ROOT/spec to the load path so you can just require
-    'spec_helper'
 
 * not really a bug fix or enhancement
   * temporarily moved heckle feature to features-pending (waiting to see what
