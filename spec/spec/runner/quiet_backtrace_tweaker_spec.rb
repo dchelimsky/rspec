@@ -85,6 +85,14 @@ module Spec
         end
       end
 
+      it "removes lines in pre-release rspec gems" do
+        ["/rspec-1.2.3.a1.gem/lib/spec.rb","/rspec-1.2.3.b1.gem/lib/spec.rb","/rspec-1.2.3.rc1.gem/lib/spec.rb"].each do |element|
+          @error.set_backtrace([element])
+          @tweaker.tweak_backtrace(@error)
+          @error.backtrace.should be_empty, "Should have removed line with '#{element}'"
+        end
+      end
+
       it "removes lines in spork gem" do
         ["/spork-1.2.3/lib/spec.rb","/spork-1.2.3/lib/spec/anything.rb","bin/spork:123"].each do |element|
           @error.set_backtrace([element])

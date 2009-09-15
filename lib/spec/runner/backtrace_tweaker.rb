@@ -43,8 +43,8 @@ module Spec
           /#{subpath}/
         end
         IGNORE_PATTERNS = spec_files + [
-          /\/rspec-[0-9.]*\/lib\/spec\//,
-          /\/spork-[0-9.]*\/lib\/spork\//,
+          /\/rspec-[^\/]*\/lib\/spec\//,
+          /\/spork-[^\/]*\/lib\/spork\//,
           /\/lib\/ruby\//,
           /bin\/spec:/,
           /bin\/spork:/,
