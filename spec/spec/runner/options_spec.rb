@@ -534,6 +534,14 @@ module Spec
           end
         end
       end
+
+      describe "#add_dir_from_project_root_to_load_path" do
+        it "handles nil gracefully" do
+          load_path = double().as_null_object
+          @options.stub(:project_root).and_return(nil)
+          @options.add_dir_from_project_root_to_load_path(nil,load_path)
+        end
+      end
     end
   end
 end

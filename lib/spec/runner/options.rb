@@ -28,7 +28,7 @@ module Spec
       }
 
       attr_accessor(
-        :autospec, # hack to tell 
+        :autospec, # hack to tell
         :filename_pattern,
         :backtrace_tweaker,
         :context_lines,
@@ -50,7 +50,7 @@ module Spec
         :argv
       )
       attr_reader :colour, :differ_class, :files, :examples, :example_groups
-      
+
       def initialize(error_stream, output_stream)
         @error_stream = error_stream
         @output_stream = output_stream
@@ -74,15 +74,15 @@ module Spec
         @files_loaded = false
         @out_used = nil
       end
-      
+
       def add_example_group(example_group)
         @example_groups << example_group
       end
-      
+
       def line_number_requested?
         !!line_number
       end
-      
+
       def example_line
         Spec::Runner::LineNumberQuery.new(self).example_line_for(files.first, line_number)
       end
@@ -95,28 +95,29 @@ module Spec
         require 'rubygems' unless ENV['NO_RUBYGEMS']
         require 'ruby-debug'
       end
-      
+
       def project_root # :nodoc:
         require 'pathname'
         @project_root ||= determine_project_root
       end
-      
+
       def determine_project_root # :nodoc:
         # This is borrowed (slightly modified) from Scott Taylors
         # project_path project:
         #   http://github.com/smtlaissezfaire/project_path
         Pathname(File.expand_path('.')).ascend do |path|
-          if File.exists?(File.join(path, "spec")) 
+          if File.exists?(File.join(path, "spec"))
             return path
           end
         end
       end
-      
-      def add_dir_from_project_root_to_load_path(dir)
+
+      def add_dir_from_project_root_to_load_path(dir, load_path=$LOAD_PATH) # :nodoc:
+        return if project_root.nil?
         full_dir = File.join(project_root, dir)
-        $LOAD_PATH.unshift full_dir unless $LOAD_PATH.include?(full_dir)
+        load_path.unshift full_dir unless load_path.include?(full_dir)
       end
-      
+
       def run_examples
         require_ruby_debug if debug
         return true unless examples_should_be_run?
@@ -131,7 +132,7 @@ module Spec
             runner.load_files(files_to_load)
             @files_loaded = true
           end
-          
+
           define_predicate_matchers
           plugin_mock_framework
           ignore_backtrace_patterns
@@ -158,11 +159,11 @@ module Spec
           end
         end
       end
-      
+
       def before_suite_parts
         Spec::Example::BeforeAndAfterHooks.before_suite_parts
       end
-      
+
       def after_suite_parts
         Spec::Example::BeforeAndAfterHooks.after_suite_parts
       end
@@ -174,7 +175,7 @@ module Spec
       def examples_should_not_be_run
         @examples_should_be_run = false
       end
-      
+
       def mock_framework
         # TODO - don't like this dependency - perhaps store this in here instead?
         Spec::Runner.configuration.mock_framework
@@ -227,7 +228,7 @@ module Spec
         @format_options ||= []
         @format_options << [format, where]
       end
-      
+
       def formatters
         @format_options ||= [['progress', @output_stream]]
         @formatters ||= load_formatters(@format_options, EXAMPLE_FORMATTERS)
@@ -244,7 +245,7 @@ module Spec
           formatter_type.new(formatter_options, where)
         end
       end
-      
+
       def formatter_options
         @formatter_options ||= OpenStruct.new(
           :colour   => colour,
@@ -252,11 +253,11 @@ module Spec
           :dry_run  => dry_run
         )
       end
-      
+
       def which_heckle_runner
         ([/mswin/, /java/].detect{|p| p =~ RUBY_PLATFORM} || Spec::Ruby.version.to_f == 1.9) ? "spec/runner/heckle_runner_unsupported" : "spec/runner/heckle_runner"
       end
-      
+
       def load_heckle_runner(heckle)
         @format_options ||= [['silent', @output_stream]]
         require which_heckle_runner
@@ -283,11 +284,11 @@ module Spec
         end
         result
       end
-      
+
       def dry_run?
         @dry_run == true
       end
-      
+
     protected
 
       def define_predicate_matchers
@@ -316,7 +317,7 @@ module Spec
         return @examples_should_be_run unless @examples_should_be_run.nil?
         @examples_should_be_run = true
       end
-      
+
       def differ_class=(klass)
         return unless klass
         @differ_class = klass
@@ -340,7 +341,7 @@ module Spec
           if $_spec_spec ; raise e ; else exit(1) ; end
         end
       end
-      
+
       def custom_runner
         return nil unless custom_runner?
         klass_name, arg = ClassAndArgumentsParser.parse(user_input_for_runner)
@@ -351,13 +352,13 @@ module Spec
       def custom_runner?
         return user_input_for_runner ? true : false
       end
-      
+
       def heckle
         heckle_runner = self.heckle_runner
         self.heckle_runner = nil
         heckle_runner.heckle_with
       end
-      
+
       def sorted_files
         return sorter ? files.sort(&sorter) : files
       end
