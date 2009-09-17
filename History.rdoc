@@ -22,6 +22,9 @@
     * supports running specs from the PROJECT_ROOT or any directory
       below it
     * closes #733
+  * better handling of determining test names in test/unit/interop mode
+    * Joe Ferris
+    * closes #854
 
 * not really a bug fix or enhancement
   * temporarily moved heckle feature to features-pending (waiting to see what
