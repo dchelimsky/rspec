@@ -11,6 +11,16 @@ describe "should have_sym(*args)" do
     }.should fail_with("expected #has_key?(:a) to return true, got false")
   end
 
+  it "should fail if #has_sym?(*args) returns nil" do
+    klass = Class.new do
+      def has_foo?
+      end
+    end
+    lambda {
+      klass.new.should have_foo
+    }.should fail_with("expected #has_foo?(nil) to return true, got false")
+  end
+
   it "should fail if target does not respond to #has_sym?" do
     lambda {
       Object.new.should have_key(:a)
@@ -29,6 +39,14 @@ end
 describe "should_not have_sym(*args)" do
   it "should pass if #has_sym?(*args) returns false" do
     {:a => "A"}.should_not have_key(:b)
+  end
+
+  it "should pass if #has_sym?(*args) returns nil" do
+    klass = Class.new do
+      def has_foo?
+      end
+    end
+    klass.new.should_not have_foo
   end
 
   it "should fail if #has_sym?(*args) returns true" do

@@ -18,6 +18,13 @@ describe "should be_predicate" do
     }.should fail_with("expected happy? to return true, got false")
   end
   
+  it "should fail when actual returns false for :predicate?" do
+    actual = stub("actual", :happy? => nil)
+    lambda {
+      actual.should be_happy
+    }.should fail_with("expected happy? to return true, got nil")
+  end
+  
   it "should fail when actual does not respond to :predicate?" do
     lambda {
       Object.new.should be_happy
@@ -44,6 +51,11 @@ end
 describe "should_not be_predicate" do
   it "should pass when actual returns false for :sym?" do
     actual = stub("actual", :happy? => false)
+    actual.should_not be_happy
+  end
+  
+  it "should pass when actual returns nil for :sym?" do
+    actual = stub("actual", :happy? => nil)
     actual.should_not be_happy
   end
   
