@@ -8,3 +8,4 @@ tmtags
 email.txt
 tmp
 *.sw?
+spec/spec_files.txt
