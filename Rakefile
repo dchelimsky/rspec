@@ -71,8 +71,10 @@ namespace :spec do
   end
   
   desc "Run files listed in spec/spec_files.txt"
-  Spec::Rake::SpecTask.new(:focused) do |t|
-    t.spec_files = File.readlines('spec/spec_files.txt').collect{|f| f.chomp}
+  Spec::Rake::SpecTask.new(:focus) do |t|
+    if File.exists?('spec/spec_files.txt')
+      t.spec_files = File.readlines('spec/spec_files.txt').collect{|f| f.chomp}
+    end
   end
 end
 
