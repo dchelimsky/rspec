@@ -25,6 +25,12 @@
   * better handling of determining test names in test/unit/interop mode
     * Joe Ferris
     * closes #854
+    
+* bug fixes
+
+  * Fixed problem with colorized output when writing to a file
+    * Corey Ehmke
+    * closes #777
 
 * not really a bug fix or enhancement
   * temporarily moved heckle feature to features-pending (waiting to see what
