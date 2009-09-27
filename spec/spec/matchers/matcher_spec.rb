@@ -195,6 +195,16 @@ module Spec
         matcher = Spec::Matchers::Matcher.new(:ignore) { }
         expect { matcher.non_existent_method }.to raise_error(NoMethodError)
       end
+      
+      it "has access to other matchers" do
+        matcher = Spec::Matchers::Matcher.new(:ignore, 3) do |expected|
+          match do |actual|
+            actual.should eql(5 + expected)
+          end
+        end
+        
+        matcher.matches?(8).should be_true
+      end
 
     end
   end

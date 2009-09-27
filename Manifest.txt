@@ -77,6 +77,7 @@ features/matchers/define_diffable_matcher.feature
 features/matchers/define_matcher.feature
 features/matchers/define_matcher_outside_rspec.feature
 features/matchers/define_matcher_with_fluent_interface.feature
+features/matchers/define_wrapped_matcher.feature
 features/mock_framework_integration/use_flexmock.feature
 features/mock_framework_integration/use_mocha.feature
 features/mock_framework_integration/use_rr.feature
@@ -251,6 +252,7 @@ spec/spec/interop/test/unit/resources/spec_with_options_hash.rb
 spec/spec/interop/test/unit/resources/test_case_that_fails.rb
 spec/spec/interop/test/unit/resources/test_case_that_passes.rb
 spec/spec/interop/test/unit/resources/test_case_with_errors.rb
+spec/spec/interop/test/unit/resources/test_case_with_various_names.rb
 spec/spec/interop/test/unit/resources/testsuite_adapter_spec_with_test_unit.rb
 spec/spec/interop/test/unit/spec_spec.rb
 spec/spec/interop/test/unit/test_unit_spec_helper.rb

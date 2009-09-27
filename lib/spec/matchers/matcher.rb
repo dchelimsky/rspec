@@ -2,6 +2,7 @@ module Spec
   module Matchers
     class Matcher
       include Spec::Matchers::Pretty
+      include Spec::Matchers
       
       attr_reader :expected, :actual
       
