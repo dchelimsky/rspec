@@ -31,11 +31,11 @@ module Spec
       end
       
       def failure_message_for_should(&block)
-        cache_or_call_cached(:failure_message_for_should, @actual, &block)
+        cache_or_call_cached(:failure_message_for_should, actual, &block)
       end
       
       def failure_message_for_should_not(&block)
-        cache_or_call_cached(:failure_message_for_should_not, @actual, &block)
+        cache_or_call_cached(:failure_message_for_should_not, actual, &block)
       end
       
       def match(&block)

@@ -205,6 +205,22 @@ module Spec
         
         matcher.matches?(8).should be_true
       end
+      
+      it "lets you override the actual() in messages" do
+        matcher = Spec::Matchers::Matcher.new(:be_foo) do
+          match do |actual|
+            @submitted = actual
+            false
+          end
+          
+          def actual
+            "replaced"
+          end
+        end
+        
+        matcher.matches?("foo")
+        matcher.failure_message_for_should.should =~ /replaced/
+      end
 
     end
   end
