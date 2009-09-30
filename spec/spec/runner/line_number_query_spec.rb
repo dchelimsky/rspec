@@ -87,6 +87,15 @@ describe "LineNumberQuery" do
       end
     end
     
+    it "should handle paths which contain colons and backslashes" do
+      fixture =
+         { "c:\\somepath\\somefile.rb:999:in 'method'" => "c:\\somepath\\somefile.rb",
+           ".\\somepath\\somefile:999"                 => ".\\somepath\\somefile" }
+      fixture.each_pair do |input, expected|
+        parser.send(:parse_location, input ).should == [expected, 999]
+      end
+    end
+    
     it "ignores example group base classes which have no location" do
       options = stub('options', :example_groups => [
         stub('example_group', :location => nil)
