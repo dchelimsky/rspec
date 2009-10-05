@@ -1,4 +1,4 @@
-=== Version 1.2.9 (git)
+=== Version 1.2.9 / 2009-10-05
 
 * enhancements
   * manage backtrace-ignore patterns with Spec::Runner.configure (Martin
@@ -37,7 +37,7 @@
     happens with
     http://rubyforge.org/tracker/index.php?func=detail&aid=26786&group_id=1513&atid=5921)
 
-=== Version 1.2.8 / 2008-07-16
+=== Version 1.2.8 / 2009-07-16
 
 * enhancements
   * better messages for should[_not] be_nil (Chad Humphries and Rob Sanheim)
