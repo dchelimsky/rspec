@@ -37,8 +37,16 @@ class Autotest::Rspec < Autotest
 
   def make_test_cmd(files_to_test)
     return '' if files_to_test.empty?
+    files_to_test = normalize_files_to_test(files_to_test)
     spec_program = File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'bin', 'spec'))
     return "#{ruby} #{spec_program} --autospec #{files_to_test.keys.flatten.join(' ')} #{add_options_if_present}"
+  end
+
+  def normalize_files_to_test(files_to_test)
+    files_to_test.keys.inject({}) do |result, filename|
+      result[File.expand_path(filename)] = []
+      result
+    end
   end
 
   def add_options_if_present # :nodoc:

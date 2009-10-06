@@ -27,12 +27,12 @@ describe Autotest::Rspec do
       @spec_cmd = File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'bin', 'spec'))
       @options = @rspec_autotest.add_options_if_present
       @files_to_test = {
-        :spec => ["file_one", "file_two"]
+        "file_one" => [],
+        "file_two" => []
       }
       # this is not the inner representation of Autotest!
-      @rspec_autotest.stub!(:files_to_test).and_return @files_to_test
-      @files_to_test.stub!(:keys).and_return @files_to_test[:spec]
-      @to_test = @files_to_test.keys.flatten.join ' '
+      @rspec_autotest.files_to_test = @files_to_test
+      @to_test = @files_to_test.keys.flatten.map { |f| File.expand_path(f) }.join ' '
     end
   
     it "should make the appropriate test command" do
@@ -106,6 +106,17 @@ describe Autotest::Rspec do
         ]
       ]
       @rspec_autotest.consolidate_failures(failures).keys.should_not include(subject_file)
+    end
+  end
+  
+  describe "normalizing file names" do
+    it "should ensure that a single file appears in files_to_test only once" do
+      @rspec_autotest = Autotest::Rspec.new
+      @files_to_test = {}
+      ['filename.rb', './filename.rb', File.expand_path('filename.rb')].each do |file|
+        @files_to_test[file] = []
+      end
+      @rspec_autotest.normalize_files_to_test(@files_to_test).count.should == 1
     end
   end
 end
