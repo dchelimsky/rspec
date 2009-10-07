@@ -116,7 +116,7 @@ describe Autotest::Rspec do
       ['filename.rb', './filename.rb', File.expand_path('filename.rb')].each do |file|
         @files_to_test[file] = []
       end
-      @rspec_autotest.normalize_files_to_test(@files_to_test).count.should == 1
+      @rspec_autotest.normalize(@files_to_test).count.should == 1
     end
   end
 end
