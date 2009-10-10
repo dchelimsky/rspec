@@ -223,6 +223,34 @@ module Spec
         matcher.failure_message_for_should.should =~ /replaced/
       end
 
+      describe "#wrapped_assertion" do
+        context "with a passing assertion" do
+          let(:mod) do
+            Module.new do
+              def assert_equal(a,b)
+                a == b ? nil : (raise "#{a} does not equal #{b}")
+              end
+            end
+          end
+          let(:matcher) do
+            m = mod
+            Spec::Matchers::Matcher.new :equal, 4 do |expected|
+              extend m
+              match do |actual|
+                wrapped_assertion do
+                  assert_equal expected, actual
+                end
+              end
+            end
+          end
+          it "passes as you would expect" do
+            matcher.matches?(4).should be_true
+          end
+          it "fails as you would expect" do
+            matcher.matches?(5).should be_false
+          end
+        end
+      end
     end
   end
 end

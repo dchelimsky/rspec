@@ -49,6 +49,15 @@ module Spec
       def diffable
         @diffable = true
       end
+      
+      def wrapped_assertion
+        begin
+          yield
+          true
+        rescue
+          false
+        end
+      end
 
     private
 
