@@ -4,7 +4,7 @@ require 'pp'
 module Spec
   module Expectations
     module Differs
-      unless defined?(Default)
+      unless defined?(Spec::Expectations::Differs::Default)
         class Default
           def initialize(options)
             @options = options
