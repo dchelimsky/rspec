@@ -5,6 +5,7 @@ module Spec
         @expected = (expected == :no ? 0 : expected)
         @relativity = relativity
         @actual = nil
+        @plural_collection_name = nil
       end
     
       def relativities
