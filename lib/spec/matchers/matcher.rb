@@ -50,11 +50,12 @@ module Spec
         @diffable = true
       end
       
-      def wrapped_assertion
+      class UnlikelyThrownError; end
+      def wrapped_assertion(error_to_rescue=UnlikelyThrownError)
         begin
           yield
           true
-        rescue
+        rescue error_to_rescue
           false
         end
       end

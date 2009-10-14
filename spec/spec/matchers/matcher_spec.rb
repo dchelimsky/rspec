@@ -225,10 +225,11 @@ module Spec
 
       describe "#wrapped_assertion" do
         context "with a passing assertion" do
+          class UnexpectedError < StandardError; end
           let(:mod) do
             Module.new do
               def assert_equal(a,b)
-                a == b ? nil : (raise "#{a} does not equal #{b}")
+                a == b ? nil : (raise UnexpectedError.new("#{a} does not equal #{b}"))
               end
             end
           end
@@ -237,7 +238,7 @@ module Spec
             Spec::Matchers::Matcher.new :equal, 4 do |expected|
               extend m
               match do |actual|
-                wrapped_assertion do
+                wrapped_assertion UnexpectedError do
                   assert_equal expected, actual
                 end
               end
@@ -250,6 +251,24 @@ module Spec
             matcher.matches?(5).should be_false
           end
         end
+
+        context "with a raised error" do
+          let(:matcher) do
+            Spec::Matchers::Matcher.new :foo, :bar do |expected|
+              match do |actual|
+                wrapped_assertion do
+                  raise UnexpectedError.new("unexpected exception")
+                end
+              end
+            end
+          end
+          it "raises the error" do
+            expect do
+              matcher.matches?(:bar)
+            end.to raise_error("unexpected exception")
+          end
+        end
+
       end
     end
   end
