@@ -223,7 +223,7 @@ module Spec
         matcher.failure_message_for_should.should =~ /replaced/
       end
 
-      describe "#wrapped_assertion" do
+      describe "#match_unless_raises" do
         context "with a passing assertion" do
           class UnexpectedError < StandardError; end
           let(:mod) do
@@ -237,10 +237,8 @@ module Spec
             m = mod
             Spec::Matchers::Matcher.new :equal, 4 do |expected|
               extend m
-              match do |actual|
-                wrapped_assertion UnexpectedError do
-                  assert_equal expected, actual
-                end
+              match_unless_raises UnexpectedError do
+                assert_equal expected, actual
               end
             end
           end
@@ -252,16 +250,15 @@ module Spec
           end
         end
 
-        context "with a raised error" do
+        context "with an unexpected error" do
           let(:matcher) do
             Spec::Matchers::Matcher.new :foo, :bar do |expected|
-              match do |actual|
-                wrapped_assertion do
-                  raise UnexpectedError.new("unexpected exception")
-                end
+              match_unless_raises SyntaxError do |actual|
+                raise "unexpected exception"
               end
             end
           end
+
           it "raises the error" do
             expect do
               matcher.matches?(:bar)

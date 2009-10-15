@@ -12,6 +12,7 @@ module Spec
         @expected = expected
         @actual   = nil
         @diffable = false
+        @error_to_watch_for = nil
         @messages = {
           :description => lambda {"#{name_to_sentence}#{expected_to_sentence}"},
           :failure_message_for_should => lambda {|actual| "expected #{actual.inspect} to #{name_to_sentence}#{expected_to_sentence}"},
@@ -23,9 +24,18 @@ module Spec
       end
 
       def matches?(actual)
-        instance_exec(@actual = actual, &@match_block)
+        if @error_to_watch_for
+          begin
+            instance_exec(@actual = actual, &@match_block)
+            true
+          rescue @error_to_watch_for
+            false
+          end
+        else
+          instance_exec(@actual = actual, &@match_block)
+        end
       end
-
+      
       def description(&block)
         cache_or_call_cached(:description, &block)
       end
@@ -42,6 +52,11 @@ module Spec
         @match_block = block
       end
 
+      def match_unless_raises(error=StandardError, &block)
+        @error_to_watch_for = error
+        match(&block)
+      end
+
       def diffable?
         @diffable
       end
@@ -50,16 +65,6 @@ module Spec
         @diffable = true
       end
       
-      class UnlikelyThrownError; end
-      def wrapped_assertion(error_to_rescue=UnlikelyThrownError)
-        begin
-          yield
-          true
-        rescue error_to_rescue
-          false
-        end
-      end
-
     private
 
       def making_declared_methods_public # :nodoc:
