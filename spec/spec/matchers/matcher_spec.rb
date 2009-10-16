@@ -1,5 +1,7 @@
 require 'spec_helper'
 
+class UnexpectedError < StandardError; end
+
 module Spec
   module Matchers
     describe Matcher do
@@ -225,7 +227,6 @@ module Spec
 
       describe "#match_unless_raises" do
         context "with a passing assertion" do
-          class UnexpectedError < StandardError; end
           let(:mod) do
             Module.new do
               def assert_equal(a,b)
