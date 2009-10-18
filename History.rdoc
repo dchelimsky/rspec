@@ -1,3 +1,14 @@
+=== development (in git)
+
+* enhancements
+  * added match_unless_raises to matcher DSL
+    * supports easy wrapping of t/u assertions in matchers
+    * thanks to Chad Fowler and Glenn Vanderburg for the name
+
+* bug fixes
+  * don't define top-level context() method when running in IRB (#899)
+  * remove Ruby warning for uninitialized ivar (Bryan Helmkamp - #892)
+
 === Version 1.2.9 / 2009-10-05
 
 * enhancements
