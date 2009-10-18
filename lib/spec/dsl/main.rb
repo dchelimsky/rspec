@@ -27,7 +27,7 @@ module Spec
         set_location(args.options, caller(0)[1])
         Spec::Example::ExampleGroupFactory.create_example_group(*args, &block)
       end
-      alias :context :describe
+      alias :context :describe unless defined?(IRB::Context)
 
       # Creates an example group that can be shared by other example groups
       #
