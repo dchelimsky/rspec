@@ -359,7 +359,7 @@ module Spec
           @mock.yield_back
         }.should raise_error(MockExpectationError, "Mock \"test mock\" asked to yield |[\"wha\", \"zup\"]| but no block was passed")
       end
-
+      
       it "should be able to mock send" do
         @mock.should_receive(:send).with(any_args)
         @mock.send 'hi'

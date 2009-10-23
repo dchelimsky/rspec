@@ -79,13 +79,18 @@ module Spec
         @symbol_to_throw = symbol
       end
       
-      def and_yield(*args)
+      def and_yield(*args, &block)
         if @args_to_yield_were_cloned
           @args_to_yield.clear
           @args_to_yield_were_cloned = false
         end
         
-        @args_to_yield << args
+        if block
+          @implicit_receiver = Object.new
+          yield @implicit_receiver
+        else
+          @args_to_yield << args
+        end
         self
       end
       
@@ -109,7 +114,7 @@ module Spec
           
           if !@method_block.nil?
             default_return_val = invoke_method_block(*args)
-          elsif @args_to_yield.size > 0
+          elsif @args_to_yield.size > 0 || @implicit_receiver
             default_return_val = invoke_with_yield(&block)
           else
             default_return_val = nil
@@ -155,11 +160,15 @@ module Spec
           @error_generator.raise_missing_block_error @args_to_yield
         end
         value = nil
-        @args_to_yield.each do |args_to_yield_this_time|
-          if block.arity > -1 && args_to_yield_this_time.length != block.arity
-            @error_generator.raise_wrong_arity_error args_to_yield_this_time, block.arity
+        if @implicit_receiver
+          @implicit_receiver.instance_eval(&block)
+        else
+          @args_to_yield.each do |args_to_yield_this_time|
+            if block.arity > -1 && args_to_yield_this_time.length != block.arity
+              @error_generator.raise_wrong_arity_error args_to_yield_this_time, block.arity
+            end
+            value = block.call(*args_to_yield_this_time)
           end
-          value = block.call(*args_to_yield_this_time)
         end
         value
       end
