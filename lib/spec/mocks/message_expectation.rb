@@ -86,8 +86,8 @@ module Spec
         end
         
         if block
-          @implicit_receiver = Object.new
-          yield @implicit_receiver
+          @eval_context = Object.new
+          yield @eval_context
         else
           @args_to_yield << args
         end
@@ -114,7 +114,7 @@ module Spec
           
           if !@method_block.nil?
             default_return_val = invoke_method_block(*args)
-          elsif @args_to_yield.size > 0 || @implicit_receiver
+          elsif @args_to_yield.size > 0 || @eval_context
             default_return_val = invoke_with_yield(&block)
           else
             default_return_val = nil
@@ -160,8 +160,8 @@ module Spec
           @error_generator.raise_missing_block_error @args_to_yield
         end
         value = nil
-        if @implicit_receiver
-          @implicit_receiver.instance_eval(&block)
+        if @eval_context
+          @eval_context.instance_eval(&block)
         else
           @args_to_yield.each do |args_to_yield_this_time|
             if block.arity > -1 && args_to_yield_this_time.length != block.arity
