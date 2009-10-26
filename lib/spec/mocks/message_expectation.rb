@@ -86,7 +86,7 @@ module Spec
         end
 
         if block
-          require 'spec/matchers/extensions/instance_exec'
+          require 'spec/extensions/instance_exec'
           @eval_context = Object.new
           @eval_context.extend Spec::Matchers::InstanceExec
           yield @eval_context
