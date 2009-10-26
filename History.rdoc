@@ -4,6 +4,8 @@
   * added match_unless_raises to matcher DSL
     * supports easy wrapping of t/u assertions in matchers
     * thanks to Chad Fowler and Glenn Vanderburg for the name
+  * and_yield provides configurable eval_context
+    * Eric Meyer & David Chelimsky
 
 * bug fixes
   * don't define top-level context() method when running in IRB (#899)
@@ -37,7 +39,7 @@
   * better handling of determining test names in test/unit/interop mode
     * Joe Ferris
     * closes #854
-    
+
 * bug fixes
 
   * Fixed problem with colorized output when writing to a file
