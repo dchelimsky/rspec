@@ -9,3 +9,4 @@ email.txt
 tmp
 *.sw?
 spec/spec_files.txt
+tags
