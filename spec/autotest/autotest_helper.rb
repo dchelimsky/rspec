@@ -5,4 +5,4 @@ rescue LoadError
   raise "You must install ZenTest to use autotest"
 end
 require 'autotest/rspec'
-require 'spec/autotest/autotest_matchers'
+require 'autotest/autotest_matchers'

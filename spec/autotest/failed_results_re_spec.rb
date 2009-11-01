@@ -1,4 +1,4 @@
-require 'spec/autotest/autotest_helper'
+require 'autotest/autotest_helper'
 
 describe "failed_results_re" do
   it "should match a failure" do

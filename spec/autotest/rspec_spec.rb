@@ -1,4 +1,4 @@
-require 'spec/autotest/autotest_helper'
+require 'autotest/autotest_helper'
 
 describe Autotest::Rspec do
   describe "adding spec.opts --options" do 
