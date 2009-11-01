@@ -9,12 +9,12 @@ module Spec
       end
 
       it "gracefully handles nil backtrace" do
-        lambda do
+        expect do
           @tweaker.tweak_backtrace(@error)
-        end.should_not raise_error
+        end.to_not raise_error
       end
 
-      it "gracefully handle backtraces with newlines" do
+      it "gracefully handles backtraces with newlines" do
         @error.set_backtrace(["we like\nbin/spec:\nnewlines"])
         @tweaker.tweak_backtrace(@error)
         @error.backtrace.should include("we like\nnewlines")
@@ -47,6 +47,24 @@ module Spec
         @error.backtrace.should be_empty
       end
 
+      it "preserves lines in spec" do
+        @error.set_backtrace(["spec/foo/bar_spec.rb"])
+        @tweaker.tweak_backtrace(@error)
+        @error.backtrace.should == ["spec/foo/bar_spec.rb"]
+      end
+
+      it "preserves lines in ./spec" do
+        @error.set_backtrace(["./spec/foo/bar_spec.rb"])
+        @tweaker.tweak_backtrace(@error)
+        @error.backtrace.should == ["./spec/foo/bar_spec.rb"]
+      end
+
+      it "preserves lines in /path/to/project/spec" do
+        @error.set_backtrace(["/path/to/project/spec/foo/bar_spec.rb"])
+        @tweaker.tweak_backtrace(@error)
+        @error.backtrace.should == ["/path/to/project/spec/foo/bar_spec.rb"]
+      end
+
       it "removes lines in mock_frameworks/rspec" do
         element = "mock_frameworks/rspec"
         @error.set_backtrace([element])
@@ -54,7 +72,7 @@ module Spec
         @error.backtrace.should be_empty, "Should have removed line with '#{element}'"
       end
 
-      it "removes custom patterns" do
+      it "removes custom patterns in regexp form" do
         element = "/vendor/lib/custom_pattern/"
         @tweaker.ignore_patterns /custom_pattern/
         @error.set_backtrace([element])
@@ -62,7 +80,7 @@ module Spec
         @error.backtrace.should be_empty, "Should have removed line with '#{element}'"
       end
 
-      it "removes custom patterns added as a string" do
+      it "removes custom patterns in string form" do
         element = "/vendor/lib/custom_pattern/"
         @tweaker.ignore_patterns "custom_pattern"
         @error.set_backtrace([element])
