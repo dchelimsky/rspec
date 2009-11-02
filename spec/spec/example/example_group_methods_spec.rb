@@ -732,7 +732,7 @@ module Spec
           end
         end
 
-        describe "#define" do
+        describe "#let" do
           let(:counter) do
             Class.new do
               def initialize
@@ -743,6 +743,7 @@ module Spec
               end
             end.new
           end
+
           it "generates an instance method" do
             counter.count.should == 1
           end
