@@ -10,6 +10,7 @@ Upgrade.rdoc
 bin/autospec
 bin/spec
 cucumber.yml
+email.txt
 examples/failing/README.txt
 examples/failing/diffing_spec.rb
 examples/failing/failing_implicit_docstrings_example.rb
@@ -78,9 +79,12 @@ features/matchers/define_matcher.feature
 features/matchers/define_matcher_outside_rspec.feature
 features/matchers/define_matcher_with_fluent_interface.feature
 features/matchers/define_wrapped_matcher.feature
+features/matchers/match_unless_raises.feature
+features/matchers/match_unless_raises_unexpected_error.feature
 features/mock_framework_integration/use_flexmock.feature
 features/mock_framework_integration/use_mocha.feature
 features/mock_framework_integration/use_rr.feature
+features/mocks/block_local_expectations.feature
 features/mocks/mix_stubs_and_mocks.feature
 features/mocks/stub_implementation.feature
 features/pending/pending_examples.feature
@@ -91,6 +95,7 @@ features/subject/explicit_subject.feature
 features/subject/implicit_subject.feature
 features/support/env.rb
 features/support/matchers/smart_match.rb
+geminstaller.yml
 init.rb
 lib/autotest/discover.rb
 lib/autotest/rspec.rb
@@ -126,6 +131,7 @@ lib/spec/expectations/extensions.rb
 lib/spec/expectations/extensions/kernel.rb
 lib/spec/expectations/fail_with.rb
 lib/spec/expectations/handler.rb
+lib/spec/extensions/instance_exec.rb
 lib/spec/interop/test.rb
 lib/spec/interop/test/unit/autorunner.rb
 lib/spec/interop/test/unit/testcase.rb
@@ -144,7 +150,6 @@ lib/spec/matchers/eql.rb
 lib/spec/matchers/equal.rb
 lib/spec/matchers/errors.rb
 lib/spec/matchers/exist.rb
-lib/spec/matchers/extensions/instance_exec.rb
 lib/spec/matchers/generated_descriptions.rb
 lib/spec/matchers/has.rb
 lib/spec/matchers/have.rb
@@ -283,6 +288,7 @@ spec/spec/matchers/respond_to_spec.rb
 spec/spec/matchers/satisfy_spec.rb
 spec/spec/matchers/simple_matcher_spec.rb
 spec/spec/matchers/throw_symbol_spec.rb
+spec/spec/mocks/and_yield_spec.rb
 spec/spec/mocks/any_number_of_times_spec.rb
 spec/spec/mocks/argument_expectation_spec.rb
 spec/spec/mocks/argument_matchers_spec.rb
