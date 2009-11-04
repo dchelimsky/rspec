@@ -4,9 +4,10 @@ module Spec
     class Be #:nodoc:
       include Spec::Matchers::Pretty
       
-      def initialize(*args)
+      def initialize(*args, &block)
         @expected = args.empty? ? true : set_expected(args.shift)
         @args = args
+        @block = block
         @comparison_method = nil
       end
       
@@ -17,13 +18,13 @@ module Spec
       
       def run_predicate_on(actual)
         begin
-          return @result = actual.__send__(predicate, *@args)
+          return @result = actual.__send__(predicate, *@args, &@block)
         rescue NameError => predicate_missing_error
           "this needs to be here or rcov will not count this branch even though it's executed in a code example"
         end
 
         begin
-          return @result = actual.__send__(present_tense_predicate, *@args)
+          return @result = actual.__send__(present_tense_predicate, *@args, &@block)
         rescue NameError
           raise predicate_missing_error
         end
@@ -196,8 +197,8 @@ it is a bit confusing.
     #   collection.should be_empty #passes if target.empty?
     #   target.should_not be_empty #passes unless target.empty?
     #   target.should_not be_old_enough(16) #passes unless target.old_enough?(16)
-    def be(*args)
-      Matchers::Be.new(*args)
+    def be(*args, &block)
+      Matchers::Be.new(*args, &block)
     end
 
     # passes if target.kind_of?(klass)
