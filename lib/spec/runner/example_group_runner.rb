@@ -22,9 +22,8 @@ module Spec
         example_groups.each do |example_group|
           success = success & example_group.run(@options)
         end
-        return success
-      ensure
         finish
+        success
       end
 
     protected

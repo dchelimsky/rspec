@@ -9,7 +9,7 @@ module Spec
           @err = options.error_stream
           @out = options.output_stream
         end
-      
+
         it "should run directory" do
           file = File.dirname(__FILE__) + '/../../../examples/passing'
           run_with(OptionParser.parse([file,"-p","**/*_spec.rb,**/*_example.rb"], @err, @out))
@@ -41,7 +41,7 @@ module Spec
           ).should be_true
         end
 
-        it "should dump even if Interrupt exception is occurred" do
+        it "should exit if Interrupt exception occurrs during the spec" do
           example_group = Class.new(::Spec::Example::ExampleGroup) do
             describe("example_group")
             it "no error" do
@@ -54,10 +54,31 @@ module Spec
 
           options = ::Spec::Runner::Options.new(@err, @out)
           ::Spec::Runner::Options.should_receive(:new).with(@err, @out).and_return(options)
-          options.reporter.should_receive(:dump)
           options.add_example_group(example_group)
 
-          Spec::Runner::CommandLine.run(OptionParser.parse([], @err, @out))
+          expect {
+            Spec::Runner::CommandLine.run(OptionParser.parse([], @err, @out))
+          }.to raise_error(SystemExit)
+        end
+
+        it "should exit if Interrupt exception occurrs during an after(:each)" do
+          example_group = Class.new(::Spec::Example::ExampleGroup) do
+            describe("example_group")
+            it "no error" do
+            end
+
+            after do
+              raise Interrupt, "I'm interrupting"
+            end
+          end
+
+          options = ::Spec::Runner::Options.new(@err, @out)
+          ::Spec::Runner::Options.should_receive(:new).with(@err, @out).and_return(options)
+          options.add_example_group(example_group)
+
+          expect {
+            Spec::Runner::CommandLine.run(OptionParser.parse([], @err, @out))
+          }.to raise_error(SystemExit)
         end
 
         it "should heckle when options have heckle_runner" do
@@ -107,7 +128,7 @@ module Spec
 
           ::Spec::Runner::Options.should_receive(:new).with(@err, @out).and_return(options)
           options.reporter.should_receive(:add_example_group).with(Spec::Example::ExampleGroupProxy.new(example_group))
-        
+
           Spec::Runner::CommandLine.run(OptionParser.parse([], @err, @out))
         end
 
