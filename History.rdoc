@@ -6,6 +6,8 @@
     * thanks to Chad Fowler and Glenn Vanderburg for the name
   * and_yield provides configurable eval_context
     * Eric Meyer & David Chelimsky
+  * CTRL-C actually stops execution! (Bryan Helmkamp - #911)
+  * make drb port configurable (Chris Flipse - #875)
 
 * bug fixes
   * don't define top-level context() method when running in IRB (#899)
