@@ -15,7 +15,7 @@ Hoe.spec 'rspec' do
   self.description = "Behaviour Driven Development for Ruby."
   self.rubyforge_name = 'rspec'
   self.developer('RSpec Development Team', 'rspec-devel@rubyforge.org')
-  self.extra_dev_deps << ["cucumber",">=0.3"] << ["bmabey-fakefs",">=0.1.1"] << ["syntax",">=1.0"] << ["diff-lcs",">=1.1.2"]
+  self.extra_dev_deps << ["cucumber",">=0.3"] << ["fakefs",">=0.2.1"] << ["syntax",">=1.0"] << ["diff-lcs",">=1.1.2"]
   self.extra_dev_deps << ["heckle",">=1.4.3"] unless Spec::Ruby.version >= "1.9"
   self.remote_rdoc_dir = "rspec/#{Spec::VERSION::STRING}"
   self.rspec_options = ['--options', 'spec/spec.opts']
