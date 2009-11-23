@@ -4,11 +4,10 @@ module Spec
   module Runner
     # Facade to run specs by connecting to a DRB server
     class DrbCommandLine
-      # port to run against
+
       def self.port(options)
         (options.drb_port || ENV["RSPEC_DRB"] || 8989).to_i
       end
-
 
       # Runs specs on a DRB server. Note that this API is similar to that of
       # CommandLine - making it possible for clients to use both interchangeably.

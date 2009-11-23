@@ -101,47 +101,45 @@ module Spec
           end
         end
 
-        context "port" do
+        context "#port" do
           before do
             @options = stub("options", :drb_port => nil)
           end
-
-
-          it "should default to 8989" do
-            Spec::Runner::DrbCommandLine.port(@options).should == 8989
-          end
-
-          it "should pull default value from RSPEC_DRB environment" do
-            original = ENV['RSPEC_DRB']
-            begin
-              ENV['RSPEC_DRB'] = '9000'
-              Spec::Runner::DrbCommandLine.port(@options).should == 9000
-            ensure
-              ENV['RSPEC_DRB'] = original
+          
+          context "with no additional configuration" do
+            it "defaults to 8989" do
+              Spec::Runner::DrbCommandLine.port(@options).should == 8989
             end
           end
-
-          it "should pull configured value" do
-            @options.stub(:drb_port => '5000')
-
-            Spec::Runner::DrbCommandLine.port(@options).should == 5000
-          end
-
-          it 'should prefer configured value to environment' do
-            @options.stub(:drb_port => '5000')
-            original = ENV['RSPEC_DRB']
-            begin
-              ENV['RSPEC_DRB'] = '9000'
-              Spec::Runner::DrbCommandLine.port(@options).should == 5000
-            ensure
-              ENV['RSPEC_DRB'] = original
+          
+          context "with RSPEC_DRB environment variable set" do
+            def with_RSPEC_DRB_set_to(val)
+              original = ENV['RSPEC_DRB']
+              begin
+                ENV['RSPEC_DRB'] = val
+                yield
+              ensure
+                ENV['RSPEC_DRB'] = original
+              end
             end
+            
+            it "uses RSPEC_DRB value" do
+              with_RSPEC_DRB_set_to('9000') do
+                Spec::Runner::DrbCommandLine.port(@options).should == 9000
+              end
+            end
+
+            context "and config variable set" do
+              it "uses configured value" do
+                @options.stub(:drb_port => '5000')
+                with_RSPEC_DRB_set_to('9000') do
+                  Spec::Runner::DrbCommandLine.port(@options).should == 5000
+                end
+              end
+            end
+
           end
-
-
         end
-
-
       end
     end
   end
