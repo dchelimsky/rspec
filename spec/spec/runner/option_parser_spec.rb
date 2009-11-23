@@ -63,6 +63,15 @@ describe "OptionParser" do
     options = parse(["--drb", "-u"])
     options.debug.should be_false
   end
+
+  it "should accept port option" do
+    options = parse(["--port", "9000"])
+    options.drb_port.should == 9000
+  end
+
+  it 'should require argument to port option' do
+    lambda { parse(["--port"]) }.should raise_error(OptionParser::MissingArgument)
+  end
   
   it "should accept dry run option" do
     options = parse(["--dry-run"])

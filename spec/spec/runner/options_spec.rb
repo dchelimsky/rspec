@@ -266,6 +266,13 @@ module Spec
         end
       end
 
+      describe "#drb_port" do
+        it "returns a number" do
+          @options.drb_port = "400"
+          @options.drb_port.should == 400
+        end
+      end
+
       describe "#number_of_examples" do
         context "when --example is parsed" do
           it "provides the number of examples parsed instead of the total number of examples collected" do
