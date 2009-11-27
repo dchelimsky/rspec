@@ -13,6 +13,8 @@
   * don't define top-level context() method when running in IRB (#899)
   * remove Ruby warning for uninitialized ivar (Bryan Helmkamp - #892)
   * fully qualify reference to Default (Alex Sharp - #895)
+  * use runtime version of Test::Unit::VERSION in incompatibility message
+    (Ryan Bigg - #916)
 
 === Version 1.2.9 / 2009-10-05
 
