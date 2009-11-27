@@ -15,7 +15,7 @@ module Spec
         begin
           begin; \
             DRb.start_service("druby://localhost:0"); \
-          rescue SocketError; \
+          rescue SocketError, Errno::EADDRNOTAVAIL; \
             DRb.start_service("druby://:0"); \
           end
           spec_server = DRbObject.new_with_uri("druby://127.0.0.1:#{port(options)}")
