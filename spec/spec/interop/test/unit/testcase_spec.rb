@@ -9,42 +9,42 @@ describe "Test::Unit::TestCase" do
   
   describe "with passing test case" do
     it "should output 0 failures" do
-      output = ruby("#{@dir}/test_case_that_passes.rb")
+      output = ruby("'#{@dir}/test_case_that_passes.rb'")
       output.should include("1 example, 0 failures")
     end
 
     it "should return an exit code of 0" do
-      ruby("#{@dir}/test_case_that_passes.rb")
+      ruby("'#{@dir}/test_case_that_passes.rb'")
       $?.should == 0
     end
   end
 
   describe "with failing test case" do
     it "should output 1 failure" do
-      output = ruby("#{@dir}/test_case_that_fails.rb")
+      output = ruby("'#{@dir}/test_case_that_fails.rb'")
       output.should include("1 example, 1 failure")
     end
 
     it "should return an exit code of 256" do
-      ruby("#{@dir}/test_case_that_fails.rb")
+      ruby("'#{@dir}/test_case_that_fails.rb'")
       $?.should == 256
     end
   end
 
   describe "with test case that raises an error" do
     it "should output 1 failure" do
-      output = ruby("#{@dir}/test_case_with_errors.rb")
+      output = ruby("'#{@dir}/test_case_with_errors.rb'")
       output.should include("1 example, 1 failure")
     end
 
     it "should return an exit code of 256" do
-      ruby("#{@dir}/test_case_with_errors.rb")
+      ruby("'#{@dir}/test_case_with_errors.rb'")
       $?.should == 256
     end
   end
 
   it "should find all Test::Unit test methods" do
-    output = ruby("#{@dir}/test_case_with_various_names.rb")
+    output = ruby("'#{@dir}/test_case_with_various_names.rb'")
     output.should include("4 examples, 0 failures")
   end
 end
