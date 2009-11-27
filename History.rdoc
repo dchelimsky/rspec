@@ -17,6 +17,7 @@
     (Ryan Bigg - #916)
   * quote paths in RSpec's own specs so people running in paths with
     spaces in them can achieve green too (Ryan Bigg - #917)
+  * ensure drb specs run when EADDRNOTAVAIL (Michael Klett - #881)
 
 === Version 1.2.9 / 2009-10-05
 
