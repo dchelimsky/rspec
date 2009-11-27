@@ -23,7 +23,7 @@ Unfortunately, test-unit-#{Test::Unit::VERSION} was loaded anyway. While we are
 aware of this bug we have not been able to track down its source.
 Until we do, you have two alternatives:
 
-* uninstall test-unit-2.0.3
+* uninstall test-unit-#{Test::Unit::VERSION}
 * use 'script/spec' instead of 'rake spec'
 #{'*' * 50}
 MESSAGE
