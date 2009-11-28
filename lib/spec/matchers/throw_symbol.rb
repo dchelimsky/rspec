@@ -1,13 +1,13 @@
 module Spec
   module Matchers
-    
+
     class ThrowSymbol #:nodoc:
       def initialize(expected_symbol = nil, expected_arg=nil)
         @expected_symbol = expected_symbol
         @expected_arg = expected_arg
         @caught_symbol = @caught_arg = nil
       end
-      
+
       def matches?(given_proc)
         begin
           if @expected_symbol.nil?
@@ -27,17 +27,13 @@ module Spec
         rescue NameError, ArgumentError => e
           raise e unless e.message =~ /uncaught throw (`|\:)([a-zA-Z0-9_]*)(')?/
           @caught_symbol = $2.to_sym
-
-        ensure
-          if @expected_symbol.nil?
-            return !@caught_symbol.nil?
-          else
-            if @expected_arg.nil?
-              return @caught_symbol == @expected_symbol
-            else
-              return (@caught_symbol == @expected_symbol) & (@caught_arg == @expected_arg)
-            end
-          end
+        end
+        if @expected_symbol.nil?
+          !@caught_symbol.nil?
+        elsif @expected_arg.nil?
+          @caught_symbol == @expected_symbol
+        else
+          (@caught_symbol == @expected_symbol) & (@caught_arg == @expected_arg)
         end
       end
 
@@ -48,7 +44,7 @@ module Spec
           "expected #{expected} but nothing was thrown"
         end
       end
-      
+
       def failure_message_for_should_not
         if @expected_symbol
           "expected #{expected} not to be thrown"
@@ -56,23 +52,23 @@ module Spec
           "expected no Symbol, got :#{@caught_symbol}"
         end
       end
-      
+
       def description
         "throw #{expected}"
       end
-      
+
       private
-      
+
         def expected
           @expected_symbol.nil? ? "a Symbol" : "#{@expected_symbol.inspect}#{args}"
         end
-        
+
         def args
           @expected_arg.nil? ? "" : " with #{@expected_arg.inspect}"
         end
-      
+
     end
- 
+
     # :call-seq:
     #   should throw_symbol()
     #   should throw_symbol(:sym)
