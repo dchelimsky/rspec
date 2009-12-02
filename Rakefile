@@ -7,7 +7,6 @@ $:.unshift 'lib'
 require 'spec/version'
 require 'spec/rake/spectask'
 require 'spec/ruby'
-require 'cucumber/rake/task'
 
 Hoe.spec 'rspec' do
   self.version = Spec::VERSION::STRING
@@ -78,18 +77,23 @@ namespace :spec do
   end
 end
 
-desc "Run Cucumber features"
-if RUBY_VERSION =~ /^1.8/
-  Cucumber::Rake::Task.new :features do |t|
-    t.rcov = true
-    t.rcov_opts = ['--exclude', "features,kernel,load-diff-lcs\.rb,instance_exec\.rb,lib/spec.rb,lib/spec/runner.rb,^spec/*,bin/spec,examples,/gems,/Library/Ruby,\.autotest,#{ENV['GEM_HOME']}"]
-    t.rcov_opts << '--no-html --aggregate coverage.data'
-    t.cucumber_opts = %w{--format progress}
+begin
+  require 'cucumber/rake/task'
+  desc "Run Cucumber features"
+  if RUBY_VERSION =~ /^1.8/
+    Cucumber::Rake::Task.new :features do |t|
+      t.rcov = true
+      t.rcov_opts = ['--exclude', "features,kernel,load-diff-lcs\.rb,instance_exec\.rb,lib/spec.rb,lib/spec/runner.rb,^spec/*,bin/spec,examples,/gems,/Library/Ruby,\.autotest,#{ENV['GEM_HOME']}"]
+      t.rcov_opts << '--no-html --aggregate coverage.data'
+      t.cucumber_opts = %w{--format progress}
+    end
+  else
+    task :features do
+      sh 'cucumber --profile no_heckle'
+    end
   end
-else
-  task :features do
-    sh 'cucumber --profile no_heckle'
-  end
+rescue LoadError
+  puts "You need cucumber installed to run cucumber tasks"
 end
 
 desc "Run failing examples (see failure output)"

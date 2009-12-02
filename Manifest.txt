@@ -10,7 +10,6 @@ Upgrade.rdoc
 bin/autospec
 bin/spec
 cucumber.yml
-email.txt
 examples/failing/README.txt
 examples/failing/diffing_spec.rb
 examples/failing/failing_implicit_docstrings_example.rb
