@@ -21,6 +21,7 @@
   * ensure drb specs run when EADDRNOTAVAIL (Michael Klett - #881)
   * throw_symbol matcher correctly bubbles errors up (#918)
   * make Rakefile work without Cucumber installed (#919 - devrandom)
+  * escape . in regexp (#925)
 
 === Version 1.2.9 / 2009-10-05
 
