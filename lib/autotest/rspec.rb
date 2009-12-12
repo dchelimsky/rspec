@@ -3,7 +3,7 @@ require 'autotest'
 Autotest.add_hook :initialize do |at|
   at.clear_mappings
   # watch out for Ruby bug (1.8.6): %r(/) != /\//
-  at.add_mapping(%r%^spec/.*_spec.rb$%) { |filename, _|
+  at.add_mapping(%r%^spec/.*_spec\.rb$%) { |filename, _|
     filename
   }
   at.add_mapping(%r%^lib/(.*)\.rb$%) { |_, m|
