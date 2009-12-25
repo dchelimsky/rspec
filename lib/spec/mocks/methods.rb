@@ -55,6 +55,19 @@ module Spec
         end
       end
       
+      # Record and otherwise ignore all messages that aren't specified,
+      # with +stub+, +stub!+, or +should_receive+.
+      # 
+      # == Returns
+      #   self
+      def as_null_object
+        __mock_proxy.as_null_object
+      end
+      
+      def null_object?
+        __mock_proxy.null_object?
+      end
+      
       def received_message?(sym, *args, &block) #:nodoc:
         __mock_proxy.received_message?(sym.to_sym, *args, &block)
       end
@@ -65,14 +78,6 @@ module Spec
 
       def rspec_reset #:nodoc:
         __mock_proxy.reset
-      end
-      
-      def as_null_object
-        __mock_proxy.as_null_object
-      end
-      
-      def null_object?
-        __mock_proxy.null_object?
       end
 
     private
