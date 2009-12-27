@@ -280,7 +280,6 @@ spec/spec/matchers/have_spec.rb
 spec/spec/matchers/include_spec.rb
 spec/spec/matchers/match_array_spec.rb
 spec/spec/matchers/match_spec.rb
-spec/spec/matchers/matcher_methods_spec.rb
 spec/spec/matchers/matcher_spec.rb
 spec/spec/matchers/matchers_spec.rb
 spec/spec/matchers/operator_matcher_spec.rb
