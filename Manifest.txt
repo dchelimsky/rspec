@@ -152,6 +152,7 @@ lib/spec/matchers/exist.rb
 lib/spec/matchers/generated_descriptions.rb
 lib/spec/matchers/has.rb
 lib/spec/matchers/have.rb
+lib/spec/matchers/have_received.rb
 lib/spec/matchers/include.rb
 lib/spec/matchers/match.rb
 lib/spec/matchers/match_array.rb
@@ -274,6 +275,7 @@ spec/spec/matchers/eql_spec.rb
 spec/spec/matchers/equal_spec.rb
 spec/spec/matchers/exist_spec.rb
 spec/spec/matchers/has_spec.rb
+spec/spec/matchers/have_received_spec.rb
 spec/spec/matchers/have_spec.rb
 spec/spec/matchers/include_spec.rb
 spec/spec/matchers/match_array_spec.rb
