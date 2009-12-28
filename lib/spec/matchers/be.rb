@@ -1,3 +1,17 @@
+require 'spec/matchers/dsl'
+
+Spec::Matchers.define :be_true do
+  match do |actual|
+    !!actual
+  end
+end
+
+Spec::Matchers.define :be_false do
+  match do |actual|
+    !actual
+  end
+end
+
 module Spec
   module Matchers
     
@@ -99,9 +113,6 @@ it is a bit confusing.
             if expected.to_s =~ /^#{prefix}/
               set_prefix(prefix)
               expected = expected.to_s.sub(prefix,"")
-              [true, false, nil].each do |val|
-                return val if val.to_s == expected
-              end
               return expected.to_sym
             end
           end
@@ -165,6 +176,9 @@ it is a bit confusing.
           to_sentence(@args)
         end
         
+    end
+
+    class BePredicate < Be
     end
  
     # :call-seq:

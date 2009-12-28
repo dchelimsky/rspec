@@ -226,26 +226,34 @@ describe "should_not be_predicate(*args, &block)" do
 end
 
 describe "should be_true" do
-  it "should pass when actual equal(true)" do
+  it "should pass when actual equal?(true)" do
     true.should be_true
   end
 
-  it "should fail when actual equal(false)" do
+  it "should pass when actual is 1" do
+    1.should be_true
+  end
+
+  it "should fail when actual equal?(false)" do
     lambda {
       false.should be_true
-    }.should fail_with("expected true, got false")
+    }.should fail_with("expected false to be true")
   end
 end
 
 describe "should be_false" do
-  it "should pass when actual equal(false)" do
+  it "should pass when actual equal?(false)" do
     false.should be_false
   end
 
-  it "should fail when actual equal(true)" do
+  it "should pass when actual equal?(nil)" do
+    nil.should be_false
+  end
+
+  it "should fail when actual equal?(true)" do
     lambda {
       true.should be_false
-    }.should fail_with("expected false, got true")
+    }.should fail_with("expected true to be false")
   end
 end
 

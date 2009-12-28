@@ -150,7 +150,7 @@ module Spec
         @mock.should_receive(:something) {| bool | bool.should be_true}
         lambda {
           @mock.something false
-        }.should raise_error(MockExpectationError, /Mock "test mock" received :something but passed block failed with: expected true, got false/)
+        }.should raise_error(MockExpectationError, /Mock "test mock" received :something but passed block failed with: expected false to be true/)
       end
 
       it "should fail right away when method defined as never is received" do
