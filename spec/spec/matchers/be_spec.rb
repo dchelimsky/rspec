@@ -352,17 +352,28 @@ describe "should_not with operators" do
 end
 
 describe "should be" do
-  it "should pass if actual is true or a set value" do
+  it "should pass if actual is truthy" do
     true.should be
     1.should be
   end
 
   it "should fail if actual is false" do
-    lambda {false.should be}.should fail_with("expected true, got false")
+    lambda {false.should be}.should fail_with("expected false to evaluate to true")
   end
 
   it "should fail if actual is nil" do
-    lambda {nil.should be}.should fail_with("expected true, got nil")
+    lambda {nil.should be}.should fail_with("expected nil to evaluate to true")
+  end
+end
+
+describe "should_not be" do
+  it "should pass if actual is falsy" do
+    false.should_not be
+    nil.should_not be
+  end
+
+  it "should fail on true" do
+    lambda {true.should_not be}.should fail_with("expected true to evaluate to false")
   end
 end
 
@@ -372,6 +383,15 @@ describe "should be(value)" do
   end
   it "should fail if !actual.equal?(value)" do
     lambda { 5.should be(6) }.should fail_with("expected 6, got 5")
+  end
+end
+
+describe "should_not be(value)" do
+  it "should pass if !actual.equal?(value)" do
+    5.should_not be(6)
+  end
+  it "should fail if !actual.equal?(value)" do
+    lambda { 5.should_not be(5) }.should fail_with("expected not 5, got 5")
   end
 end
 
