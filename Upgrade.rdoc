@@ -1,5 +1,13 @@
 = Upgrade to next version (in git)
 
+== What's new
+
+=== raise_exception
+
+We changed the raise_error matcher to raise_exception, and aliased it with
+raise_error. This maintains backward compatibility, and also gives you the
+option of being more precise in specs about what is expected.
+
 == What's changed
 
 === be_true and be_false
@@ -10,12 +18,12 @@ These methods now align with Ruby's conditional semantics:
 * be_true passes for everything else
 
 This is a change from the previous behaviour (which wasn't working correctly
-anyway!), which was supposed to treat be_true as equal(true), and be_false
-as equal(false). 
+anyway!), which was supposed to treat be_true as equal(true), and be_false as
+equal(false). 
 
-If the actual values +true+ and +false+ are meaningful to your examples,
-you'll want to change the to use equal(true) and equal(false) (or ==(true)
-and ==(false)).
+If the actual values +true+ and +false+ are meaningful to your examples, you'll
+want to change the to use equal(true) and equal(false) (or ==(true) and
+==(false)).
 
 = Upgrade to rspec-1.2.9
 
@@ -28,8 +36,11 @@ automatically as long as you don't include any options on the command line.
 
 === let()
 
-Writing specs tends to follow a regular pattern of using local variables, discovering duplication, and then having to convert to local variables to instance variables by adding an "@" symbol. The let() method assigns the result of a lazy eval'd block as the return value of an instance method using
-the same name. This way you can go from this:
+Writing specs tends to follow a regular pattern of using local variables,
+discovering duplication, and then having to convert to local variables to
+instance variables by adding an "@" symbol. The let() method assigns the result
+of a lazy eval'd block as the return value of an instance method using the same
+name. This way you can go from this:
 
     describe Subscription do
       it "does something" do

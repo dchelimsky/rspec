@@ -9,6 +9,9 @@
   * CTRL-C actually stops execution! (Bryan Helmkamp - #911)
   * make drb port configurable (Chris Flipse - #875)
   * added test spies (should_have_received) (Joshua Nichols - #906)
+  * changed raise_error to raise_exception (#933)
+    * kept raise_error aliased, so this is completely
+      backwards compatible
 
 * bug fixes
   * don't define top-level context() method when running in IRB (#899)
