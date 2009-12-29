@@ -1,3 +1,22 @@
+= Upgrade to next version (in git)
+
+== What's changed
+
+=== be_true and be_false
+
+These methods now align with Ruby's conditional semantics:
+
+* be_false passes for false and nil
+* be_true passes for everything else
+
+This is a change from the previous behaviour (which wasn't working correctly
+anyway!), which was supposed to treat be_true as equal(true), and be_false
+as equal(false). 
+
+If the actual values +true+ and +false+ are meaningful to your examples,
+you'll want to change the to use equal(true) and equal(false) (or ==(true)
+and ==(false)).
+
 = Upgrade to rspec-1.2.9
 
 == What's new
