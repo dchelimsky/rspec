@@ -11,7 +11,7 @@ end
 Spec::Matchers.define :be_nil do
   match {|actual| actual.nil?}
 
-  failure_message_for_should {
+  failure_message_for_should {|actual|
     "expected nil, got #{actual.inspect}"
   }
 
