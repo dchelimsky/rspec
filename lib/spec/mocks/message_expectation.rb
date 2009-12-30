@@ -27,6 +27,7 @@ module Spec
         @failed_fast = nil
         @args_to_yield_were_cloned = false
         @return_block = implementation
+        @eval_context = nil
       end
 
       def build_child(expected_from, method_block, expected_received_count, opts={})

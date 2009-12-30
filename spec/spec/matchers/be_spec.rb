@@ -289,6 +289,10 @@ describe "should be <" do
   it "should fail when < operator returns false" do
     lambda { 3.should be < 3 }.should fail_with("expected < 3, got 3")
   end
+
+  it "should describe itself" do
+    be.<(4).description.should == "be < 4"
+  end
 end
 
 describe "should be <=" do
@@ -364,6 +368,10 @@ describe "should be" do
   it "should fail if actual is nil" do
     lambda {nil.should be}.should fail_with("expected nil to evaluate to true")
   end
+
+  it "should describe itself" do
+    be.description.should == "be"
+  end
 end
 
 describe "should_not be" do
@@ -381,8 +389,13 @@ describe "should be(value)" do
   it "should pass if actual.equal?(value)" do
     5.should be(5)
   end
+
   it "should fail if !actual.equal?(value)" do
     lambda { 5.should be(6) }.should fail_with("expected 6, got 5")
+  end
+
+  it "should describe itself" do
+    be(5).description.should == "be 5"
   end
 end
 

@@ -50,7 +50,7 @@ module Spec
       end
       
       def description
-        "#{prefix_to_sentence}#{comparison} #{expected_to_sentence}#{args_to_sentence}".gsub(/\s+/,' ')
+        "be"
       end
 
       [:==, :<, :<=, :>=, :>, :===].each do |operator|
@@ -73,18 +73,10 @@ module Spec
         @args.collect{|a| a.inspect}
       end
       
-      def comparison
-        @operator.nil? ? " " : "be #{@operator.to_s} "
-      end
-      
       def expected_to_sentence
         split_words(@expected)
       end
       
-      def prefix_to_sentence
-        split_words(@prefix)
-      end
-
       def args_to_sentence
         to_sentence(@args)
       end
@@ -100,7 +92,7 @@ module Spec
 
       def matches?(actual)
         @actual = actual
-        @actual.__send__(operator, @expected)
+        @actual.__send__(@operator, @expected)
       end
 
       def failure_message_for_should
@@ -118,12 +110,10 @@ it is a bit confusing.
           "It might be more clearly expressed in the positive?")
       end
 
-    private
-      
-      def operator
-        @operator ||= :equal?
+      def description
+        "be #{@operator} #{expected_to_sentence}#{args_to_sentence}"
       end
-    
+
     end
 
     class BePredicate < Be
@@ -157,14 +147,18 @@ it is a bit confusing.
         "expected #{predicate}#{args_to_s} to return false, got #{@result.inspect}"
       end
 
+      def description
+        "#{prefix_to_sentence}#{expected_to_sentence}#{args_to_sentence}"
+      end
+
     private
 
       def predicate
-        "#{@expected.to_s}?".to_sym
+        "#{@expected}?".to_sym
       end
       
       def present_tense_predicate
-        "#{@expected.to_s}s?".to_sym
+        "#{@expected}s?".to_sym
       end
       
       def parse_expected(expected)
@@ -175,6 +169,10 @@ it is a bit confusing.
       def prefix_and_expected(symbol)
         symbol.to_s =~ /^(be_(an?_)?)(.*)/
         return $1, $3
+      end
+
+      def prefix_to_sentence
+        split_words(@prefix)
       end
 
     end
@@ -197,6 +195,10 @@ it is a bit confusing.
       
       def failure_message_for_should_not
         "expected not #{@expected}, got #{@actual.inspect}"
+      end
+
+      def description
+        "be #{expected_to_sentence}#{args_to_sentence}"
       end
 
     end
