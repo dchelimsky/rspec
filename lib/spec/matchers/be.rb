@@ -33,7 +33,6 @@ module Spec
       include Spec::Matchers::Pretty
       
       def initialize(*args, &block)
-        @expected = :__truthy
         @args = args
       end
       
