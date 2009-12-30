@@ -291,7 +291,7 @@ module Spec
       end
 
       def drb_port
-        @drb_port.to_i if @drb_port
+        @drb_port.to_i if defined?(@drb_port)
       end
       
     protected
