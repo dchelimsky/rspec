@@ -1,23 +1,29 @@
 require 'spec/matchers/dsl'
 
 Spec::Matchers.define :be_true do
-  match {|actual| !!actual}
+  match do |actual|
+    !!actual
+  end
 end
 
 Spec::Matchers.define :be_false do
-  match {|actual| !actual}
+  match do |actual|
+    !actual
+  end
 end
 
 Spec::Matchers.define :be_nil do
-  match {|actual| actual.nil?}
+  match do |actual|
+    actual.nil?
+  end
 
-  failure_message_for_should {|actual|
+  failure_message_for_should do |actual|
     "expected nil, got #{actual.inspect}"
-  }
+  end
 
-  failure_message_for_should_not {
+  failure_message_for_should_not do
     "expected not nil, got nil"
-  }
+  end
 end
 
 module Spec
