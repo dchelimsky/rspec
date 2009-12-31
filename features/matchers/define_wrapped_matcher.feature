@@ -3,8 +3,11 @@ Feature: define wrapped matcher
   In order to reuse existing matchers
   As an RSpec user
   I want to define matchers that wrap other matchers
+
+  When the wrapped matcher passes, the wrapping matcher returns true.
+  When the wrapped matcher fails, the wrapping matcher returns false.
   
-  Scenario: one additional method
+  Scenario: wrap a matcher using should
     Given a file named "new_model_spec.rb" with:
       """
       Spec::Matchers.define :have_tag do |tag|

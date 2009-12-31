@@ -54,6 +54,26 @@ module Spec
         matcher.actual.should == 'actual string'
       end
 
+      context "wrapping another expectation (should == ...)" do
+        it "returns true if the wrapped expectation passes" do
+          matcher = Spec::Matchers::Matcher.new(:name, 'value') do |expected|
+            match do |actual|
+              actual.should == expected
+            end
+          end
+          matcher.matches?('value').should be_true
+        end
+
+        it "returns false if the wrapped expectation fails" do
+          matcher = Spec::Matchers::Matcher.new(:name, 'value') do |expected|
+            match do |actual|
+              actual.should == expected
+            end
+          end
+          matcher.matches?('other value').should be_false
+        end
+      end
+
       context "with overrides" do
         before(:each) do
           @matcher = Spec::Matchers::Matcher.new(:be_boolean, true) do |boolean|
@@ -267,16 +287,6 @@ module Spec
           end
         end
 
-      end
-
-      it "wraps failed expectations" do
-        matcher = Spec::Matchers::Matcher.new(:name, 'value') do |expected|
-          match do |actual|
-            actual.should_not == expected
-            true
-          end
-        end
-        matcher.matches?('value').should be_false
       end
     end
   end
