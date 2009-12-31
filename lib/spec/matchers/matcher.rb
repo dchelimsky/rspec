@@ -109,6 +109,26 @@ module Spec
         to_sentence(@expected)
       end
 
+      # Defines a method that calls the given block and the returns the matcher
+      # for chaining. Useful for defining matchers with fluent interfaces:
+      #
+      #   Spec::Matchers.define :be_bigger_than do |first|
+      #     chain :but_smaller_than do |limit|
+      #       @limit = limit
+      #     end
+      #     match do |actual|
+      #       (actual > first) && (actual < @limit)
+      #     end
+      #   end
+      def chain(method, &block)
+        self.class.class_eval do
+          define_method method do |*args|
+            block.call(*args)
+            self
+          end
+        end
+      end
+
     end
   end
 end

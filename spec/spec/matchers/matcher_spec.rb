@@ -272,6 +272,18 @@ module Spec
         end
 
       end
+
+      it "can define chainable methods" do
+        matcher = Spec::Matchers::Matcher.new(:name) do
+          chain(:expecting) do |expected_value|
+            @expected_value = expected_value
+          end
+          match { |actual| actual == @expected_value }
+        end
+
+        matcher.expecting('value').matches?('value').should be_true
+        matcher.expecting('value').matches?('other value').should be_false
+      end
     end
   end
 end

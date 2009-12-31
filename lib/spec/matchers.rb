@@ -140,6 +140,24 @@ module Spec
   # <tt>failure_message_for_should_not</tt>) are passed the actual value (the
   # receiver of <tt>should</tt> or <tt>should_not</tt>).
   #
+  # You can also create matchers that obey a fluent interface using the
+  # <tt>chain</tt> method:
+  #
+  #   Spec::Matchers.define :be_bigger_than do |first|
+  #     chain :but_smaller_than do |limit|
+  #       @limit = limit
+  #     end
+  #     match do |actual|
+  #       (actual > first) && (actual < @limit)
+  #     end
+  #   end
+  #
+  # This matcher can be used as follows:
+  #
+  #   describe 5 do
+  #     it { should be_bigger_than(4).but_smaller_than(6) }
+  #   end
+  #
   # === Custom Matcher from scratch
   #
   # You could also write a custom matcher from scratch, as follows:
