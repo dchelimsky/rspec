@@ -34,8 +34,10 @@ module Spec
         else
           instance_exec(@actual = actual, &@match_block)
         end
+      rescue Spec::Expectations::ExpectationNotMetError
+        false
       end
-      
+
       def description(&block)
         cache_or_call_cached(:description, &block)
       end

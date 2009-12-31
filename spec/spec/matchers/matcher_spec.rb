@@ -268,6 +268,16 @@ module Spec
         end
 
       end
+
+      it "wraps failed expectations" do
+        matcher = Spec::Matchers::Matcher.new(:name, 'value') do |expected|
+          match do |actual|
+            actual.should_not == expected
+            true
+          end
+        end
+        matcher.matches?('value').should be_false
+      end
     end
   end
 end
