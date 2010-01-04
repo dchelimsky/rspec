@@ -26,6 +26,7 @@
   * make Rakefile work without Cucumber installed (#919 - devrandom)
   * escape . in regexp (#925)
   * align be_true and be_false with Ruby's conditional semantics (#931)
+  * print duplicate nested descriptions (when appropriate) (#936)
 
 === Version 1.2.9 / 2009-10-05
 
