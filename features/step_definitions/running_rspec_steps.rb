@@ -27,6 +27,15 @@ Then /^the (.*) should include (.*)$/ do |stream, string_or_regex|
   written.should smart_match(string_or_regex)
 end
 
+Then /^the (.*) should include$/ do |stream, string_or_regex|
+  written = case(stream)
+    when 'stdout' then last_stdout
+    when 'stderr' then last_stderr
+    else raise "Unknown stream: #{stream}"
+  end
+  written.should smart_match(string_or_regex)
+end
+
 Then /^the (.*) should not match (.*)$/ do |stream, string_or_regex|
   written = case(stream)
     when 'stdout' then last_stdout
