@@ -4,6 +4,9 @@ module Spec
   module Runner
     module Formatter
       class NestedTextFormatter < BaseTextFormatter
+
+        INDENT = '  '
+
         def initialize(options, where)
           super
           @last_nested_descriptions = []
@@ -13,8 +16,8 @@ module Spec
           super
 
           example_group.nested_descriptions.each_with_index do |nested_description, i|
-            unless nested_description == @last_nested_descriptions[i]
-              output.puts "#{'  ' * i}#{nested_description}"
+            unless example_group.nested_descriptions[0..i] == @last_nested_descriptions[0..i]
+              output.puts "#{INDENT*i}#{nested_description}"
             end
           end
 
@@ -39,7 +42,7 @@ module Spec
         end
 
         def current_indentation
-          '  ' * @last_nested_descriptions.length
+          INDENT*@last_nested_descriptions.length
         end
       end
     end

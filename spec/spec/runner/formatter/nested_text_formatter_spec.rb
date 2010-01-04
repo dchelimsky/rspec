@@ -9,8 +9,6 @@ module Spec
           attr_reader :io, :options, :formatter, :example_group
           before(:each) do
             @io = StringIO.new
-            options.stub!(:dry_run).and_return(false)
-            options.stub!(:colour).and_return(false)
             @formatter = NestedTextFormatter.new(options, io)
             @example_group = Class.new(::Spec::Example::ExampleGroupDouble).describe("ExampleGroup")
             @example_group.example("example") {}
@@ -21,12 +19,12 @@ module Spec
               formatter.example_group_started(Spec::Example::ExampleGroupProxy.new(example_group))
             end
 
-            before do
+            before(:each) do
               example_group_started
             end
 
             describe "#dump_summary" do
-              it "should produce standard summary without pending when pending has a 0 count" do
+              it "produces standard summary without pending when pending has a 0 count" do
                 formatter.dump_summary(3, 2, 1, 0)
                 io.string.should == <<-OUT
 ExampleGroup
@@ -37,7 +35,7 @@ Finished in 3 seconds
 OUT
               end
 
-              it "should produce standard summary" do
+              it "produces standard summary" do
                 formatter.dump_summary(3, 2, 1, 4)
                 io.string.should == <<-OUT
 ExampleGroup
@@ -50,10 +48,11 @@ OUT
             end
 
             describe "#example_group_started" do
+
               describe "when ExampleGroup has a nested description" do
-                
+
                 describe "when ExampleGroup has no parents with nested description" do
-                  it "should push ExampleGroup name" do
+                  it "pushes ExampleGroup name" do
                     io.string.should eql("ExampleGroup\n")
                   end
                 end
@@ -69,7 +68,7 @@ OUT
                       formatter.example_group_started(Spec::Example::ExampleGroupProxy.new(child_example_group))
                     end
 
-                    it "should push ExampleGroup name with two spaces of indentation" do
+                    it "pushes ExampleGroup name with two spaces of indentation" do
                       io.string.should == <<-OUT
 ExampleGroup
   Child ExampleGroup
@@ -102,10 +101,9 @@ OUT
                   describe "and parent ExampleGroups have not been printed" do
                     before do
                       formatter.example_group_started(Spec::Example::ExampleGroupProxy.new(grand_child_example_group))
-                      
                     end
 
-                    it "should print the entire nested ExampleGroup heirarchy" do
+                    it "prints the entire nested ExampleGroup heirarchy" do
                       io.string.should == <<-OUT
 ExampleGroup
   Child ExampleGroup
@@ -168,6 +166,32 @@ OUT
 
                 it "should not render anything" do
                   io.string.should == ""
+                end
+              end
+
+              describe "with parallel groups" do
+                def make_group(name, parent=::Spec::Example::ExampleGroupDouble)
+                  Class.new(parent).describe(name)
+                end
+
+                it "excludes duplicated group" do
+                  parent_1 = make_group("ExampleGroup") 
+                  child_1 = make_group("Child ExampleGroup", parent_1) 
+                  grandchild_1 = make_group("GrandChild ExampleGroup", child_1) 
+
+                  parent_2 = make_group("ExampleGroup") 
+                  child_2 = make_group("Child ExampleGroup 2", parent_2) 
+                  grandchild_2 = make_group("GrandChild ExampleGroup", child_2) 
+
+                  formatter.example_group_started(Spec::Example::ExampleGroupProxy.new(grandchild_1))
+                  formatter.example_group_started(Spec::Example::ExampleGroupProxy.new(grandchild_2))
+                  io.string.should == <<-OUTPUT
+ExampleGroup
+  Child ExampleGroup
+    GrandChild ExampleGroup
+  Child ExampleGroup 2
+    GrandChild ExampleGroup
+OUTPUT
                 end
               end
             end
