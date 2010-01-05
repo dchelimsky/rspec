@@ -67,6 +67,7 @@ features/expectations/expect_change.feature
 features/expectations/expect_error.feature
 features/extensions/custom_example_group.feature
 features/formatters/custom_formatter.feature
+features/formatters/nested_formatter.feature
 features/interop/examples_and_tests_together.feature
 features/interop/rspec_output.feature
 features/interop/test_but_not_test_unit.feature
@@ -160,7 +161,7 @@ lib/spec/matchers/matcher.rb
 lib/spec/matchers/method_missing.rb
 lib/spec/matchers/operator_matcher.rb
 lib/spec/matchers/pretty.rb
-lib/spec/matchers/raise_error.rb
+lib/spec/matchers/raise_exception.rb
 lib/spec/matchers/respond_to.rb
 lib/spec/matchers/satisfy.rb
 lib/spec/matchers/simple_matcher.rb
@@ -283,7 +284,7 @@ spec/spec/matchers/match_spec.rb
 spec/spec/matchers/matcher_spec.rb
 spec/spec/matchers/matchers_spec.rb
 spec/spec/matchers/operator_matcher_spec.rb
-spec/spec/matchers/raise_error_spec.rb
+spec/spec/matchers/raise_exception_spec.rb
 spec/spec/matchers/respond_to_spec.rb
 spec/spec/matchers/satisfy_spec.rb
 spec/spec/matchers/simple_matcher_spec.rb
