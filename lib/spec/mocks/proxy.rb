@@ -40,13 +40,16 @@ module Spec
       def add_message_expectation(expected_from, sym, opts={}, &block)        
         __add sym
         warn_if_nil_class sym
-        if existing_stub = @stubs.detect {|s| s.sym == sym }
-          expectation = existing_stub.build_child(expected_from, block_given?? block : nil, 1, opts)
-        else
-          expectation = MessageExpectation.new(@error_generator, @expectation_ordering, expected_from, sym, block_given? ? block : nil, 1, opts)
-        end
-        @expectations << expectation
+        @expectations << build_expectation(expected_from, sym, opts, &block)
         @expectations.last
+      end
+
+      def build_expectation(expected_from, sym, opts, &block)
+        if stub = find_matching_method_stub(sym) 
+          stub.build_child(expected_from, block_given?? block : nil, 1, opts)
+        else
+          MessageExpectation.new(@error_generator, @expectation_ordering, expected_from, sym, block_given? ? block : nil, 1, opts)
+        end
       end
 
       def add_negative_message_expectation(expected_from, sym, &block)
@@ -64,7 +67,6 @@ module Spec
 
       def remove_stub(message)
         message = message.to_sym
-        
         if stub_to_remove = @stubs.detect { |s| s.matches_name?(message) }
           reset_proxied_method(message)
           @stubs.delete(stub_to_remove)
@@ -92,7 +94,7 @@ module Spec
       end
 
       def has_negative_expectation?(sym)
-        @expectations.detect {|expectation| expectation.negative_expectation_for?(sym)}
+        @expectations.any? {|expectation| expectation.negative_expectation_for?(sym)}
       end
       
       def record_message_received(sym, args, block)
@@ -103,19 +105,37 @@ module Spec
         expectation = find_matching_expectation(sym, *args)
         stub = find_matching_method_stub(sym, *args)
 
-        if (stub && expectation && expectation.called_max_times?) || (stub && !expectation)
-          if expectation = find_almost_matching_expectation(sym, *args)
-            expectation.advise(args, block) unless expectation.expected_messages_received?
-          end
-          stub.invoke(*args, &block)
+        if ok_to_invoke_stub?(stub, expectation)
+          record_stub(stub, sym, args, &block)
         elsif expectation
-          expectation.invoke(*args, &block)
+          invoke_expectation(expectation, *args, &block)
         elsif expectation = find_almost_matching_expectation(sym, *args)
-          expectation.advise(args, block) if null_object? unless expectation.expected_messages_received?
-          raise_unexpected_message_args_error(expectation, *args) unless (has_negative_expectation?(sym) or null_object?)
+          record_almost_matching_expectation(expectation, sym, *args, &block)
         else
           @target.__send__ :method_missing, sym, *args, &block
         end
+      end
+
+      def record_stub(stub, sym, args, &block)
+        almost_matching_expectation(sym, *args) do |e|
+          e.advise(args, block)
+        end
+        stub.invoke(*args, &block)
+      end
+
+      def invoke_expectation(expectation, *args, &block)
+        expectation.invoke(*args, &block)
+      end
+
+      def record_almost_matching_expectation(expectation, sym, *args, &block)
+        expectation.advise(args, block)
+        unless (null_object? or has_negative_expectation?(sym))
+          raise_unexpected_message_args_error(expectation, *args)
+        end
+      end
+
+      def ok_to_invoke_stub?(stub, expectation)
+        stub && (!expectation || expectation.called_max_times?)
       end
 
       def raise_unexpected_message_args_error(expectation, *args)
@@ -202,15 +222,11 @@ module Spec
       end
 
       def verify_expectations
-        @expectations.each do |expectation|
-          expectation.verify_messages_received
-        end
+        @expectations.map {|e| e.verify_messages_received}
       end
 
       def reset_proxied_methods
-        @proxied_methods.each do |sym|
-          reset_proxied_method(sym)
-        end
+        @proxied_methods.map {|sym| reset_proxied_method(sym)}
       end
 
       def reset_proxied_method(sym)
@@ -237,10 +253,15 @@ module Spec
         @expectations.find {|expectation| expectation.matches(sym, args)}
       end
 
+      def almost_matching_expectation(sym, *args, &block)
+        if e = find_almost_matching_expectation(sym, *args)
+          yield e
+        end
+      end
+
       def find_almost_matching_expectation(sym, *args)
         @expectations.find {|expectation| expectation.matches_name_but_not_args(sym, args)}
       end
-
     end
   end
 end
