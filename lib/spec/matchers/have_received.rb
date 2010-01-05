@@ -1,7 +1,7 @@
 module Spec
   module Matchers
-    def have_received(sym, *args, &block)
-      Matcher.new :have_received, sym, args, block do |sym, args, block|
+    def have_received(sym_, *args_, &block_)
+      Matcher.new :have_received, sym_, args_, block_ do |sym, args, block|
         match do |actual|
           actual.received_message?(sym, *args, &block)
         end
