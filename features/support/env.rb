@@ -5,6 +5,7 @@ require 'forwardable'
 require 'tempfile'
 require 'spec/ruby_forker'
 require 'features/support/matchers/smart_match'
+require 'spec/stubs/cucumber'
 
 class RspecWorld
   include Spec::Expectations
