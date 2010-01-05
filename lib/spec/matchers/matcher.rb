@@ -98,9 +98,7 @@ module Spec
       end
 
       def call_cached(key)
-        @messages[key].arity == 1 ?
-          @messages[key].call(@actual) :
-          @messages[key].call
+        @messages[key].arity == 1 ? @messages[key].call(@actual) : @messages[key].call
       end
 
       def name_to_sentence
