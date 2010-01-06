@@ -1,9 +1,13 @@
 === development (in git)
 
 * enhancements
+  * capture ExpectationNotMet error by default in matcher DSL
+    * supports wrapping other expectations
   * added match_unless_raises to matcher DSL
     * supports easy wrapping of t/u assertions in matchers
     * thanks to Chad Fowler and Glenn Vanderburg for the name
+  * add chain to matcher DSL (Joe Ferris - #935)
+    * see rdoc for Spec::Matchers
   * and_yield provides configurable eval_context
     * Eric Meyer & David Chelimsky
   * CTRL-C actually stops execution! (Bryan Helmkamp - #911)
