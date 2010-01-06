@@ -23,6 +23,7 @@ module Spec
         end
       end
 
+      #Used internally by objects returns by +should+ and +should_not+.
       def matches?(actual)
         @actual = actual
         if @expected_exception
@@ -41,35 +42,52 @@ module Spec
         end
       end
 
-      def description(&block)
-        cache_or_call_cached(:description, &block)
-      end
-
-      def failure_message_for_should(&block)
-        cache_or_call_cached(:failure_message_for_should, &block)
-      end
-
-      def failure_message_for_should_not(&block)
-        cache_or_call_cached(:failure_message_for_should_not, &block)
-      end
-
+      # See Spec::Matchers
       def match(&block)
         @match_block = block
       end
 
+      # See Spec::Matchers
       def match_unless_raises(exception=Exception, &block)
         @expected_exception = exception
         match(&block)
       end
 
+      # See Spec::Matchers
+      def failure_message_for_should(&block)
+        cache_or_call_cached(:failure_message_for_should, &block)
+      end
+
+      # See Spec::Matchers
+      def failure_message_for_should_not(&block)
+        cache_or_call_cached(:failure_message_for_should_not, &block)
+      end
+
+      # See Spec::Matchers
+      def description(&block)
+        cache_or_call_cached(:description, &block)
+      end
+
+      #Used internally by objects returns by +should+ and +should_not+.
       def diffable?
         @diffable
       end
 
+      # See Spec::Matchers
       def diffable
         @diffable = true
       end
       
+      # See Spec::Matchers
+      def chain(method, &block)
+        self.class.class_eval do
+          define_method method do |*args|
+            block.call(*args)
+            self
+          end
+        end
+      end
+
     private
 
       def making_declared_methods_public # :nodoc:
@@ -107,26 +125,6 @@ module Spec
 
       def expected_to_sentence
         to_sentence(@expected)
-      end
-
-      # Defines a method that calls the given block and the returns the matcher
-      # for chaining. Useful for defining matchers with fluent interfaces:
-      #
-      #   Spec::Matchers.define :be_bigger_than do |first|
-      #     chain :but_smaller_than do |limit|
-      #       @limit = limit
-      #     end
-      #     match do |actual|
-      #       (actual > first) && (actual < @limit)
-      #     end
-      #   end
-      def chain(method, &block)
-        self.class.class_eval do
-          define_method method do |*args|
-            block.call(*args)
-            self
-          end
-        end
       end
 
     end

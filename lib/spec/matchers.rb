@@ -143,19 +143,20 @@ module Spec
   # You can also create matchers that obey a fluent interface using the
   # <tt>chain</tt> method:
   #
-  #   Spec::Matchers.define :be_bigger_than do |first|
-  #     chain :but_smaller_than do |limit|
-  #       @limit = limit
+  #   Spec::Matchers.define :tip do |expected_tip|
+  #     chain :on do |bill|
+  #       @bill = bill
   #     end
-  #     match do |actual|
-  #       (actual > first) && (actual < @limit)
+  #
+  #     match do |person|
+  #       person.tip_for(bill) == expected_tip
   #     end
   #   end
   #
   # This matcher can be used as follows:
   #
-  #   describe 5 do
-  #     it { should be_bigger_than(4).but_smaller_than(6) }
+  #   describe Customer do
+  #     it { should tip(10).on(50 }
   #   end
   #
   # === Custom Matcher from scratch
