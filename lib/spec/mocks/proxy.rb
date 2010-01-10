@@ -175,7 +175,6 @@ module Spec
           end
           target_metaclass.class_eval(<<-EOF, __FILE__, __LINE__)
             def #{sym}(*args, &block)
-              __mock_proxy.record_message_received(:#{sym}, args, block)
               __mock_proxy.message_received :#{sym}, *args, &block
             end
             #{visibility_string}
