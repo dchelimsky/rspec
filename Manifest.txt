@@ -68,6 +68,7 @@ features/expectations/expect_error.feature
 features/extensions/custom_example_group.feature
 features/formatters/custom_formatter.feature
 features/formatters/nested_formatter.feature
+features/interop/cucumber_stubs_dont_leak.feature
 features/interop/examples_and_tests_together.feature
 features/interop/rspec_output.feature
 features/interop/test_but_not_test_unit.feature
@@ -91,6 +92,7 @@ features/pending/pending_examples.feature
 features/runner/specify_line_number.feature
 features/spec_helper/spec_helper.feature
 features/step_definitions/running_rspec_steps.rb
+features/step_definitions/stubbing_steps.rb
 features/subject/explicit_subject.feature
 features/subject/implicit_subject.feature
 features/support/env.rb
@@ -153,7 +155,6 @@ lib/spec/matchers/exist.rb
 lib/spec/matchers/generated_descriptions.rb
 lib/spec/matchers/has.rb
 lib/spec/matchers/have.rb
-lib/spec/matchers/have_received.rb
 lib/spec/matchers/include.rb
 lib/spec/matchers/match.rb
 lib/spec/matchers/match_array.rb
@@ -276,7 +277,6 @@ spec/spec/matchers/eql_spec.rb
 spec/spec/matchers/equal_spec.rb
 spec/spec/matchers/exist_spec.rb
 spec/spec/matchers/has_spec.rb
-spec/spec/matchers/have_received_spec.rb
 spec/spec/matchers/have_spec.rb
 spec/spec/matchers/include_spec.rb
 spec/spec/matchers/match_array_spec.rb

@@ -1,4 +1,4 @@
-=== development (in git)
+=== Version 1.3.0 / 2010-01-11
 
 * enhancements
   * capture ExpectationNotMet error by default in matcher DSL

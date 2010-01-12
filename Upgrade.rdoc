@@ -1,29 +1,60 @@
-= Upgrade to next version (in git)
-
-== What's new
-
-=== raise_exception
-
-We changed the raise_error matcher to raise_exception, and aliased it with
-raise_error. This maintains backward compatibility, and also gives you the
-option of being more precise in specs about what is expected.
+= Upgrade to 1.3.0
 
 == What's changed
 
-=== be_true and be_false
+=== +be_true+ and +be_false+
 
 These methods now align with Ruby's conditional semantics:
 
-* be_false passes for false and nil
-* be_true passes for everything else
+* +be_false+ passes for +false+ and +nil+
+* +be_true+ passes for everything else
 
 This is a change from the previous behaviour (which wasn't working correctly
-anyway!), which was supposed to treat be_true as equal(true), and be_false as
-equal(false). 
+anyway), which was supposed to treat +be_true+ as <tt>equal(true)</tt>, and +be_false+ as
+<tt>equal(false)</tt>. 
 
 If the actual values +true+ and +false+ are meaningful to your examples, you'll
-want to change the to use equal(true) and equal(false) (or ==(true) and
-==(false)).
+want to change the to use <tt>equal(true)</tt> and <tt>equal(false)</tt> (or
+<tt>==(true)</tt> and <tt>==(false)</tt>).
+
+=== +raise_exception+
+
+We changed the +raise_error+ matcher to +raise_exception+, and aliased it with
++raise_error+. This maintains backward compatibility, and also gives you the
+option of being more precise in specs about what is expected.
+
+=== Matcher DSL
+
+==== +match+ rescues from +ExpectationNotMetErrror+ by default
+
+This allows you to wrap other expectations in the +match+ method. Consider
+this matcher:
+
+    Spec::Matchers.define :teach do |subject|
+      match do |teacher|
+        teacher.subjects.should include(subject)
+      end
+    end
+
+The block passed to +match+ is called internally by Rspec, and is expected to
+return a boolean value. In this case, if <tt>should include(subject)</tt>
+fails, it raises an +ExpectationNotMetError+.
+
+Beginning with rspec-1.3.0, when the match block raises an
++ExpectationNotMetError+, it is captured and the block returns +false+.
+Otherwise it returns +true+, so it works like any other matcher.
+
+==== match_unless_raises
+
+The new +match_unless_raises+ method allows you to wrap <tt>Test::Unit</tt>
+assertions by capturing +AssertionFailedError+ and returning false, just as the
++match+ method now does with +ExpectationNotMetError+.
+
+    Spec::Matchers.define :teach do |subject|
+      match_unless_raises Test::Unit::AssertionFailedError do |teacher|
+        assert teacher.subjects.include?(subject)
+      end
+    end
 
 = Upgrade to rspec-1.2.9
 

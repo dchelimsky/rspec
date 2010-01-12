@@ -50,6 +50,5 @@ examples.
 
   [sudo] gem install rspec
 
- or
-
- clone, build, install - See http://wiki.github.com/dchelimsky/rspec
+See http://wiki.github.com/dchelimsky/rspec if you want
+to clone/build/install.
