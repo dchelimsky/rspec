@@ -111,6 +111,8 @@ module Spec
           invoke_expectation(expectation, *args, &block)
         elsif expectation = find_almost_matching_expectation(sym, *args)
           record_almost_matching_expectation(expectation, sym, *args, &block)
+        elsif @target.is_a?(Class)
+          @target.superclass.send(sym, *args, &block)
         else
           @target.__send__ :method_missing, sym, *args, &block
         end
