@@ -3,6 +3,8 @@
 * bug fix
   * QuitBacktraceTweaker no longer eats all paths with 'lib'
     (Tim Harper - #912)
+  * Fix delegation of stubbed values on superclass class-level methods.
+    (Scott Taylor - #496 - #957)
 
 === Version 1.3.0 / 2010-01-11
 
