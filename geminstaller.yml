@@ -18,8 +18,8 @@ gems:
   version: '>= 0.9.5'
 - name: rake
   version: '>= 0.8.4'
-- name: spicycode-rcov
-  version: '>= 0.8.2.1'
+- name: rcov
+  version: '>= 0.9.7.1'
 - name: syntax
   version: '>= 1.0.0'
 - name: rr
