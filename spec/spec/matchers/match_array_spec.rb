@@ -97,6 +97,11 @@ the missing elements were:      [1]
 MESSAGE
   end
 
+  it "should work with subclasses of Array" do
+    class SuperArray < Array; end
+    SuperArray.new([1,2,3]).should =~ SuperArray.new([3,2,1])
+  end
+
 end
 
 describe "should_not =~ [:with, :multiple, :args]" do

@@ -13,7 +13,12 @@ module Spec
         end
 
         def get(klass, operator)
-          registry[klass] && registry[klass][operator]
+          matcher = registry[klass] && registry[klass][operator]
+          unless matcher
+            parent_class = registry.keys.detect {|pc| klass <= pc }
+            matcher = registry[parent_class] && registry[parent_class][operator]
+          end
+          matcher
         end
       end
 

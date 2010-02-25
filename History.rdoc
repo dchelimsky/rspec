@@ -1,5 +1,8 @@
 === Version 1.3.1 / (Date TBD)
 
+* Enhancements
+  * Array =~ matcher works with subclasses of Array (Matthew Peychich & Pat Maddox)
+
 * bug fix
   * QuitBacktraceTweaker no longer eats all paths with 'lib'
     (Tim Harper - #912)
