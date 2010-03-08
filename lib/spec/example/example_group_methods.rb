@@ -77,7 +77,7 @@ module Spec
       end
 
       def pending_implementation
-        lambda { raise(Spec::Example::NotYetImplementedError) }
+        lambda {|*args| raise(Spec::Example::NotYetImplementedError) }
       end
 
       alias_method :it, :example
