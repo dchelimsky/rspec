@@ -26,3 +26,4 @@ gems:
   version: '>= 0.10.0'
 - name: ruby-debug
   version: '>= 0.10.3'
+- name: autotest-growl
