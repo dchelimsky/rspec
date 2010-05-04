@@ -5,7 +5,7 @@ module Spec
         sym.to_s.gsub(/_/,' ')
       end
 
-      def to_sentence(words)
+      def to_sentence(words=[])
         words = words.map{|w| w.inspect}
         case words.length
           when 0
