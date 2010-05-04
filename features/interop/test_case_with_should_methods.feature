@@ -1,4 +1,4 @@
-Story: Test::Unit::TestCase extended by rspec with should methods
+Feature: Test::Unit::TestCase extended by rspec with should methods
 
   As an RSpec adopter with existing Test::Unit tests
   I want to use should_* methods in a Test::Unit::TestCase

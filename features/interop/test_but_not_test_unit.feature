@@ -1,4 +1,4 @@
-Story: Test is defined, but not Test::Unit
+Feature: Test is defined, but not Test::Unit
 
   As an RSpec user who has my own library named Test (but not Test::Unit)
   I want to run examples without getting Test::Unit NameErrors
