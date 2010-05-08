@@ -93,7 +93,8 @@ module Spec
 
         @file_factory = File
 
-        self.banner = "Usage: spec (FILE(:LINE)?|DIRECTORY|GLOB)+ [options]"
+        self.banner = "RSpec (Behaviour Driven Development for Ruby)\n"
+        self.banner += "Usage: spec (FILE(:LINE)?|DIRECTORY|GLOB)+ [options]"
         self.separator ""
         on(*OPTIONS[:pattern])          {|pattern| @options.filename_pattern = pattern}
         on(*OPTIONS[:diff])             {|diff| @options.parse_diff(diff)}

@@ -8,7 +8,7 @@ module Spec # :nodoc:
 
       STRING = [MAJOR, MINOR, TINY, PRE].compact.join('.')
 
-      SUMMARY = "rspec #{STRING}"
+      SUMMARY = "rspec #{STRING} (Behavior Driven Development for ruby)"
     end
   end
 end

@@ -1,0 +1,40 @@
+From c98e5835ee87218d52c4ca2fd3da8de569f87139 Mon Sep 17 00:00:00 2001
+From: Grant T. Olson (Personal Email) <kgo@grant-olson.net>
+Date: Sat, 8 May 2010 11:57:01 -0400
+Subject: [PATCH] Explain what 'spec' actually is...
+
+---
+ lib/spec/runner/option_parser.rb |    3 ++-
+ lib/spec/version.rb              |    2 +-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/lib/spec/runner/option_parser.rb b/lib/spec/runner/option_parser.rb
+index 87c9522..c5b0d02 100644
+--- a/lib/spec/runner/option_parser.rb
++++ b/lib/spec/runner/option_parser.rb
+@@ -93,7 +93,8 @@ module Spec
+ 
+         @file_factory = File
+ 
+-        self.banner = "Usage: spec (FILE(:LINE)?|DIRECTORY|GLOB)+ [options]"
++        self.bannter = "RSpec (Behaviour Driven Development framework for Ruby)\n"
++        self.banner += "Usage: spec (FILE(:LINE)?|DIRECTORY|GLOB)+ [options]"
+         self.separator ""
+         on(*OPTIONS[:pattern])          {|pattern| @options.filename_pattern = pattern}
+         on(*OPTIONS[:diff])             {|diff| @options.parse_diff(diff)}
+diff --git a/lib/spec/version.rb b/lib/spec/version.rb
+index a1b6338..91ea199 100644
+--- a/lib/spec/version.rb
++++ b/lib/spec/version.rb
+@@ -8,7 +8,7 @@ module Spec # :nodoc:
+ 
+       STRING = [MAJOR, MINOR, TINY, PRE].compact.join('.')
+ 
+-      SUMMARY = "rspec #{STRING}"
++      SUMMARY = "rspec #{STRING} (Behavior Driven Development framework for ruby)"
+     end
+   end
+ end
+-- 
+1.7.0.2.msysgit.0
+
