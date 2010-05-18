@@ -22,8 +22,21 @@ module Spec
         
         def its(attribute, &block)
           describe(attribute) do
-            define_method(:subject) { super().send(attribute) }
-            it(&block)
+            # define_method(:subject) { super().send(attribute) }
+            # it(&block)
+            it {
+              old_subject = method(:subject)
+              begin
+                self.class.class_eval do
+                  define_method(:subject) { super().send(attribute) }
+                end
+                instance_eval(&block)
+              ensure
+                self.class.class_eval do
+                  define_method(:subject, &old_subject)
+                end
+              end
+            }
           end
         end
 

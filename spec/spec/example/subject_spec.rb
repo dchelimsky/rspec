@@ -86,6 +86,13 @@ module Spec
 
     describe ".its (to access subject's attributes)" do
       with_sandboxed_options do
+        it "allows before(:each) blocks on subjects in outer scope" do
+          group = Class.new(ExampleGroupDouble).describe(Array)
+          group.before(:each) { subject << 1 }
+          child = group.its(:length) { should == 1 }
+          child.run(options).should == true
+        end 
+        
         it "passes when expectation should pass" do
           group = Class.new(ExampleGroupDouble).describe(Array)
           child = group.its(:length) { should == 0 }
