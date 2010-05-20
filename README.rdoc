@@ -1,12 +1,12 @@
-== DESCRIPTION
+== RSpec
 
 Behaviour Driven Development for Ruby
 
-== INSTALL
+== Install
 
   gem install rspec
 
-== SYNOPSIS
+== Synopsis
 
   describe Account do
     context "transfering money" do
