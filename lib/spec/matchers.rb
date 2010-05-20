@@ -155,7 +155,7 @@ module Spec
   # This matcher can be used as follows:
   #
   #   describe Customer do
-  #     it { should tip(10).on(50 }
+  #     it { should tip(10).on(50) }
   #   end
   #
   # === Custom Matcher from scratch
