@@ -1,4 +1,5 @@
 require 'ostruct'
+require 'rbconfig'
 
 module Spec
   module Runner
@@ -184,7 +185,7 @@ module Spec
 
       def colour=(colour)
         @colour = colour
-        if @colour && RUBY_PLATFORM =~ /mswin|mingw/ ;\
+        if @colour && Config::CONFIG['host_os'] =~ /mswin|mingw/ ;\
           begin ;\
             replace_output = @output_stream.equal?($stdout) ;\
             require 'rubygems' unless ENV['NO_RUBYGEMS'] ;\
