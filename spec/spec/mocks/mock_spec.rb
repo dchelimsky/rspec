@@ -464,6 +464,13 @@ module Spec
         @mock.rspec_verify
       end
 
+      it "should return the stubbed value when stubbed with args and no new value specified" do
+        @mock.stub!(:msg).with(:arg).and_return(:stub_value)
+        @mock.should_receive(:msg).with(:arg)
+        @mock.msg(:arg).should equal(:stub_value)
+        @mock.rspec_verify
+      end
+
       it "should not mess with the stub's yielded values when also mocked" do
         @mock.stub!(:yield_back).and_yield(:stub_value)
         @mock.should_receive(:yield_back).and_yield(:mock_value)
