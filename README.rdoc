@@ -2,6 +2,10 @@
 
 Behaviour Driven Development for Ruby
 
+This is the repository for rspec-1.x. If you're looking
+for rspec-2 (and if you're not, what are you waiting for?),
+see http://github.com/rspec/rspec
+
 == Install
 
   gem install rspec
