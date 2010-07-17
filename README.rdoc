@@ -1,5 +1,7 @@
 == RSpec
 
+http://rspec.info
+
 Behaviour Driven Development for Ruby
 
 This is the repository for rspec-1.x. If you're looking
