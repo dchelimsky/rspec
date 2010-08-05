@@ -17,11 +17,16 @@ if Spec::Ruby.version.to_f < 1.9
         # Runs all the example groups held by +rspec_options+ once for each of the
         # methods in the matched classes.
         def heckle_with
-          if @filter =~ /(.*)[#\.](.*)/
-            heckle_method($1, $2)
+          case @filter
+          when /(.*)#(.*)/  then heckle_method($1, $2)
+          when /(.*)\.(.*)/ then heckle_class_method($1, $2)
           else
             heckle_class_or_module(@filter)
           end
+        end
+
+        def heckle_class_method(class_name, method_name)
+          heckle_method(class_name, "self.#{method_name}")
         end
       
         def heckle_method(class_name, method_name)

@@ -53,7 +53,7 @@ unless [/mswin/, /java/].detect{|p| p =~ RUBY_PLATFORM} || Spec::Ruby.version.to
     end
 
     it "should heckle specific method in a class (with .)" do
-      @heckle_class.should_receive(:new).with("Foo::Bar", "two", Spec::Runner.options).and_return(@heckle)
+      @heckle_class.should_receive(:new).with("Foo::Bar", "self.two", Spec::Runner.options).and_return(@heckle)
 
       heckle_runner = Spec::Runner::HeckleRunner.new("Foo::Bar.two", @heckle_class)
       heckle_runner.heckle_with
