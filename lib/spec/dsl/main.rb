@@ -76,6 +76,7 @@ module Spec
       #    end
       #  end
       def share_as(name, &block)
+        Spec.deprecate("share_as","shared_examples_for")
         begin
           args = [name]
           add_options(args)

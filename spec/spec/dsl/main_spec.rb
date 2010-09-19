@@ -57,7 +57,6 @@ module Spec
         end
       end
 
-    
       describe "#share_as" do
         def self.next_group_name
           @group_number ||= 0
@@ -67,6 +66,15 @@ module Spec
         
         def group_name
           @group_name ||= self.class.next_group_name
+        end
+
+        before(:each) do
+          Spec.stub(:deprecate)
+        end
+
+        it "is deprecated" do
+          Spec.should_receive(:deprecate)
+          share_as group_name do; end
         end
         
         it "registers a shared ExampleGroup" do
