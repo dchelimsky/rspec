@@ -172,6 +172,11 @@ module Spec
         end
       end
 
+      def let!(name, &block)
+        let(name, &block)
+        before { __send__(name) }
+      end
+
     private
 
       def subclass(*args, &example_group_block)
