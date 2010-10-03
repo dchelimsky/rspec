@@ -1,6 +1,6 @@
 describe "arrays" do
-  def contain_same_elements_as(expected)
-    simple_matcher "array with same elements in any order as #{expected.inspect}" do |actual|
+  Spec::Matchers.define :contain_same_elements_as do |expected|
+    match do |actual|
       if actual.size == expected.size
         a, e = actual.dup, expected.dup
         until e.empty? do

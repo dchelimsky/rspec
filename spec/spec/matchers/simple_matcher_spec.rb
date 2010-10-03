@@ -3,6 +3,13 @@ require 'spec_helper'
 module Spec
   module Matchers
     describe SimpleMatcher do
+      before { Spec.stub(:deprecate) }
+
+      it "is deprecated" do
+        Spec.should_receive(:deprecate)
+        simple_matcher("foo") {}
+      end
+
       it "should pass match arg to block" do
         actual = nil
         matcher = simple_matcher("message") do |given| actual = given end
@@ -35,59 +42,59 @@ module Spec
           matcher.matches?("anything").should be_true
         end.should fail_with(/expected: 3/)
       end
-    end
     
-    describe "with arity of 2" do
-      it "should provide the matcher so you can access its messages" do
-        provided_matcher = nil
-        matcher = simple_matcher("thing") do |given, matcher|
-          provided_matcher = matcher
+      describe "with arity of 2" do
+        it "should provide the matcher so you can access its messages" do
+          provided_matcher = nil
+          matcher = simple_matcher("thing") do |given, matcher|
+            provided_matcher = matcher
+          end
+          matcher.matches?("anything")
+          provided_matcher.should equal(matcher)
         end
-        matcher.matches?("anything")
-        provided_matcher.should equal(matcher)
+        
+        it "should support a custom failure message" do
+          matcher = simple_matcher("thing") do |given, matcher|
+            matcher.failure_message = "custom message"
+          end
+          matcher.matches?("other")
+          matcher.failure_message.should == "custom message"
+        end
+
+        it "should complain when asked for a failure message if you don't give it a description or a message" do
+          matcher = simple_matcher do |given, matcher| end
+          matcher.matches?("other")
+          matcher.failure_message.should =~ /No description provided/
+        end
+
+        it "should support a custom negative failure message" do
+          matcher = simple_matcher("thing") do |given, matcher|
+            matcher.negative_failure_message = "custom message"
+          end
+          matcher.matches?("other")
+          matcher.negative_failure_message.should == "custom message"
+        end
+        
+        it "should complain when asked for a negative failure message if you don't give it a description or a message" do
+          matcher = simple_matcher do |given, matcher| end
+          matcher.matches?("other")
+          matcher.negative_failure_message.should =~ /No description provided/
+        end
+
+        it "should support a custom description" do
+          matcher = simple_matcher("thing") do |given, matcher|
+            matcher.description = "custom message"
+          end
+          matcher.matches?("description")
+          matcher.description.should == "custom message"
+        end
+
+        it "should tell you no description was provided when it doesn't receive one" do
+          matcher = simple_matcher do end
+          matcher.description.should =~ /No description provided/
+        end
       end
       
-      it "should support a custom failure message" do
-        matcher = simple_matcher("thing") do |given, matcher|
-          matcher.failure_message = "custom message"
-        end
-        matcher.matches?("other")
-        matcher.failure_message.should == "custom message"
-      end
-
-      it "should complain when asked for a failure message if you don't give it a description or a message" do
-        matcher = simple_matcher do |given, matcher| end
-        matcher.matches?("other")
-        matcher.failure_message.should =~ /No description provided/
-      end
-
-      it "should support a custom negative failure message" do
-        matcher = simple_matcher("thing") do |given, matcher|
-          matcher.negative_failure_message = "custom message"
-        end
-        matcher.matches?("other")
-        matcher.negative_failure_message.should == "custom message"
-      end
-      
-      it "should complain when asked for a negative failure message if you don't give it a description or a message" do
-        matcher = simple_matcher do |given, matcher| end
-        matcher.matches?("other")
-        matcher.negative_failure_message.should =~ /No description provided/
-      end
-
-      it "should support a custom description" do
-        matcher = simple_matcher("thing") do |given, matcher|
-          matcher.description = "custom message"
-        end
-        matcher.matches?("description")
-        matcher.description.should == "custom message"
-      end
-
-      it "should tell you no description was provided when it doesn't receive one" do
-        matcher = simple_matcher do end
-        matcher.description.should =~ /No description provided/
-      end
     end
-    
   end
 end

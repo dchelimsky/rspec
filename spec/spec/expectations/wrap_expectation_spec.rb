@@ -3,6 +3,7 @@ require 'spec_helper'
 module Spec
   module Matchers
     describe "wrap_expectation" do
+      before { Spec.stub(:deprecate) }
       
       def stub_matcher
         @_stub_matcher ||= simple_matcher do

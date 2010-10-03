@@ -127,6 +127,7 @@ module Spec
     # failing), will fail when you want it to pass.
     #
     def simple_matcher(description=nil, &match_block)
+      Spec.deprecate("simple_matcher", "Matcher DSL (http://rspec.rubyforge.org/rspec/1.3.0/classes/Spec/Matchers.html)")
       SimpleMatcher.new(description, &match_block)
     end
   end

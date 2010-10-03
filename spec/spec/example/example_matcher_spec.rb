@@ -3,10 +3,9 @@ require 'spec_helper'
 module Spec
   module Example
     describe ExampleMatcher, "#matches?" do
-      def match_examples(examples)
-        simple_matcher do |actual, matcher|
-          matcher.failure_message = "expected matcher.matches?(#{description.inspect}) to return true, got false"
-          matcher.negative_failure_message = "expected matcher.matches?(#{description.inspect}) to return false, got true"
+
+      Spec::Matchers.define :match_examples do |examples|
+        match do |actual|
           actual.matches?(examples)
         end
       end
