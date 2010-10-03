@@ -1,7 +1,8 @@
 module Spec
   class << self
     def deprecate(method, alternate_method=nil)
-       message = <<-NOTICE
+      return if Spec::Runner.configuration.suppress_deprecation_warnings?
+      message = <<-NOTICE
 
 *****************************************************************
 DEPRECATION WARNING: you are using deprecated behaviour that will

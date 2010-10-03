@@ -154,6 +154,14 @@ module Spec
       def ignored_backtrace_patterns # :nodoc:
         @ignored_backtrace_patterns ||= []
       end
+
+      def suppress_deprecation_warnings!
+        @suppress_deprecation_warnings = true
+      end
+
+      def suppress_deprecation_warnings?
+        @suppress_deprecation_warnings ||= false
+      end
       
     private
     
