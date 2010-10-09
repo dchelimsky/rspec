@@ -19,19 +19,8 @@ module Spec
       @@class_variable = "a class variable"
 
       it "can access class variables in examples in Ruby 1.8" do
-        with_ruby 1.8 do
-          @@class_variable.should == "a class variable"
-        end
+        @@class_variable.should == "a class variable"
       end
-      
-      it "can NOT access class variables in examples in Ruby 1.9" do
-        with_ruby 1.9 do
-          lambda do
-            @@class_variable.should == "a class variable"
-          end.should raise_error(NameError)
-        end
-      end
-      
       
     end
 
