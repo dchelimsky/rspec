@@ -4,7 +4,7 @@ module Spec
   module Example
     describe ExampleGroupProxy do
       before(:each) do
-        @group = stub("example group").as_null_object
+        @group = stub("example group",:nested_descriptions => []).as_null_object
       end
       
       attr_reader :group
