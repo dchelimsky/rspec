@@ -1,3 +1,4 @@
+$: << '.' # for ruby 1.9
 require 'stringio'
 
 $_spec_spec = true # Prevents Kernel.exit in various places
