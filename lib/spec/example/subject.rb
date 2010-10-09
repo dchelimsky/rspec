@@ -46,7 +46,7 @@ module Spec
         end
 
         def implicit_subject
-          (described_class ? lambda {described_class.new} : lambda {description_args.first})
+          (described_class ? proc {described_class.new} : proc {description_args.first})
         end
       end
 
