@@ -66,7 +66,8 @@ the extra elements were:        [5, 6]
 MESSAGE
   end
 
-    it "should not sort items in the error message if they don't all respond to <=>" do
+  it "should not sort items in the error message if they don't all respond to <=>" do
+    with_ruby 1.8 do
       lambda {
         [UnsortableObject.new(2), UnsortableObject.new(1)].should =~ [UnsortableObject.new(4), UnsortableObject.new(3)]
       }.should fail_with(<<-MESSAGE)
@@ -76,6 +77,7 @@ the missing elements were:      [4, 3]
 the extra elements were:        [2, 1]
 MESSAGE
     end
+  end
 
   it "should accurately report extra elements when there are duplicates" do
     lambda {
