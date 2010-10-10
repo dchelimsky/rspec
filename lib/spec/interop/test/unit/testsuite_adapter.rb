@@ -1,3 +1,5 @@
+require 'test/unit/testsuite'
+
 module Test
   module Unit
     class TestSuiteAdapter < TestSuite
