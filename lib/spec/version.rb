@@ -4,7 +4,7 @@ module Spec # :nodoc:
       MAJOR  = 1
       MINOR  = 3
       TINY   = 1
-      PRE    = 'rc'
+      PRE    = nil
 
       STRING = [MAJOR, MINOR, TINY, PRE].compact.join('.')
 
