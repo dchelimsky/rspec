@@ -1,3 +1,9 @@
+=== Version 1.3.2 / in development
+
+* Bug fixes
+  * Fix regression introduced in 1.3.0 in which an expectation should return
+    the value from a previously defined stub of the same method (Tom Stuart)
+
 === Version 1.3.1 / 2010-10-09
 
 * enhancements
