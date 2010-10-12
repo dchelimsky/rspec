@@ -10,3 +10,6 @@ tmp
 *.sw?
 spec/spec_files.txt
 tags
+
+# rubinius byte code files
+*.rbc
