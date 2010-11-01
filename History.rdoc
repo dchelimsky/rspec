@@ -3,6 +3,7 @@
 * Enhancements
   * Raise a meaningful error when an argument-scoped stub is called with the
     wrong args (Alexey)
+  * Ignore .rbc files (Myron Marston)
 
 * Bug fixes
   * Fix regression in which an expectation should return the value from a
