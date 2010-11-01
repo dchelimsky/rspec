@@ -165,13 +165,13 @@ module Spec
       it "should complain if called with no arg" do
         lambda do
           @stub.foo
-        end.should raise_error
+        end.should raise_error(/received :foo with unexpected arguments/)
       end
 
       it "should complain if called with other arg" do
         lambda do
           @stub.foo("other")
-        end.should raise_error
+        end.should raise_error(/received :foo with unexpected arguments/)
       end
 
       it "should not complain if also mocked w/ different args" do

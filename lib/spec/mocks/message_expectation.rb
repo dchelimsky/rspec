@@ -239,7 +239,7 @@ module Spec
         @similar_messages ||= []
       end
 
-      def advise(args, block)
+      def advise(*args)
         similar_messages << args
       end
 

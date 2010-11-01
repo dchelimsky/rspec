@@ -105,14 +105,17 @@ module Spec
 
         if (stub && expectation && expectation.called_max_times?) || (stub && !expectation)
           if expectation = find_almost_matching_expectation(sym, *args)
-            expectation.advise(args, block) unless expectation.expected_messages_received?
+            expectation.advise(*args) unless expectation.expected_messages_received?
           end
           stub.invoke(*args, &block)
         elsif expectation
           expectation.invoke(*args, &block)
         elsif expectation = find_almost_matching_expectation(sym, *args)
-          expectation.advise(args, block) if null_object? unless expectation.expected_messages_received?
+          expectation.advise(*args) if null_object? unless expectation.expected_messages_received?
           raise_unexpected_message_args_error(expectation, *args) unless (has_negative_expectation?(sym) or null_object?)
+        elsif stub = find_almost_matching_stub(sym, *args)
+          stub.advise(*args)
+          raise_unexpected_message_args_error(stub, *args)
         elsif @target.is_a?(Class)
           @target.superclass.send(sym, *args, &block)
         else
@@ -131,7 +134,7 @@ module Spec
       def find_matching_method_stub(sym, *args)
         @stubs.find {|stub| stub.matches(sym, args)}
       end
-      
+
     private
 
       def __add(sym)
@@ -240,6 +243,10 @@ module Spec
 
       def find_almost_matching_expectation(sym, *args)
         @expectations.find {|expectation| expectation.matches_name_but_not_args(sym, args)}
+      end
+
+      def find_almost_matching_stub(sym, *args)
+        @stubs.find {|stub| stub.matches_name_but_not_args(sym, args)}
       end
 
     end
