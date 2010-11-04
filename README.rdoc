@@ -8,8 +8,8 @@ see http://rspec.info.
 If you're looking for rspec-2 (and if you're not, what are you waiting for?),
 see:
 
-  http://relishapp.com/rspec
-  http://github.com/rspec/rspec
+* http://relishapp.com/rspec
+* http://github.com/rspec/rspec
 
 == Install
 
