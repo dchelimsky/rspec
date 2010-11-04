@@ -1,12 +1,15 @@
 == RSpec
 
-http://rspec.info
-
 Behaviour Driven Development for Ruby
 
-This is the repository for rspec-1.x. If you're looking
-for rspec-2 (and if you're not, what are you waiting for?),
-see http://github.com/rspec/rspec
+This is the repository for rspec-1.x. For more information, please
+see http://rspec.info.
+
+If you're looking for rspec-2 (and if you're not, what are you waiting for?),
+see:
+
+  http://relishapp.com/rspec
+  http://github.com/rspec/rspec
 
 == Install
 
