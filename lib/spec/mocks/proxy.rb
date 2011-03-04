@@ -116,7 +116,7 @@ module Spec
         elsif stub = find_almost_matching_stub(sym, *args)
           stub.advise(*args)
           raise_unexpected_message_args_error(stub, *args)
-        elsif @target.is_a?(Class)
+        elsif @target.is_a?(Class) && @target.superclass.respond_to?(sym, true)
           @target.superclass.send(sym, *args, &block)
         else
           @target.__send__ :method_missing, sym, *args, &block
