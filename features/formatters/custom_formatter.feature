@@ -25,6 +25,6 @@ Feature: custom formatters
       end
       """
 
-    When I run "spec simple_example_spec.rb --require custom_formatter.rb --format CustomFormatter"
+    When I run "spec simple_example_spec.rb --require ./custom_formatter.rb --format CustomFormatter"
     Then the exit code should be 0
     And the stdout should include "example: my example"

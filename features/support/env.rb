@@ -1,10 +1,10 @@
-$:.unshift File.join(File.dirname(__FILE__), "/../../lib")
+$:.unshift File.expand_path("../../../lib", __FILE__)
 
 require 'spec/expectations'
 require 'forwardable'
 require 'tempfile'
-require 'spec/ruby_forker'
-require 'features/support/matchers/smart_match'
+require './spec/ruby_forker'
+require './features/support/matchers/smart_match'
 require 'spec/stubs/cucumber'
 
 class RspecWorld

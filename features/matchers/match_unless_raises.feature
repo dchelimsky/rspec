@@ -20,7 +20,7 @@ Feature: match unless raises
   Scenario: passing examples
     Given a file named "match_unless_raises_spec.rb" with:
       """
-      require 'example.rb'
+      require './example.rb'
 
       describe 4 do
         it "is 4" do
@@ -40,7 +40,7 @@ Feature: match unless raises
   Scenario: failing examples
     Given a file named "match_unless_raises_spec.rb" with:
       """
-      require 'example.rb'
+      require './example.rb'
 
       describe 4 do
         it "is 4" do
