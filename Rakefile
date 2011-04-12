@@ -1,44 +1,11 @@
-# -*- ruby -*-
-gem 'hoe', '>=2.0.0'
-require 'hoe'
+require 'bundler'
+Bundler::GemHelper.install_tasks
 
 $:.unshift 'lib'
 
 require 'spec/version'
 require 'spec/rake/spectask'
 require 'spec/ruby'
-
-Hoe.spec 'rspec' do
-  self.version = Spec::VERSION::STRING
-  self.summary = Spec::VERSION::SUMMARY
-  self.description = "Behaviour Driven Development for Ruby."
-  self.rubyforge_name = 'rspec'
-  self.developer('RSpec Development Team', 'rspec-devel@rubyforge.org')
-  self.extra_dev_deps << ["cucumber",">=0.3"] << ["fakefs",">=0.2.1"] << ["syntax",">=1.0"] << ["diff-lcs",">=1.1.2"]
-  self.extra_dev_deps << ["heckle",">=1.4.3"] unless Spec::Ruby.version >= "1.9"
-  self.remote_rdoc_dir = "rspec/#{Spec::VERSION::STRING}"
-  self.rspec_options = ['--options', 'spec/spec.opts']
-  self.history_file = 'History.rdoc'
-  self.readme_file  = 'README.rdoc'
-  self.post_install_message = <<-POST_INSTALL_MESSAGE
-#{'*'*50}
-
-  Thank you for installing rspec-#{Spec::VERSION::STRING}
-
-  Please be sure to read History.rdoc and Upgrade.rdoc
-  for useful information about this release.
-
-#{'*'*50}
-POST_INSTALL_MESSAGE
-end
-
-['audit','test','test_deps','default','post_blog'].each do |task|
-  Rake.application.instance_variable_get('@tasks').delete(task)
-end
-
-task :post_blog do
-  # no-op
-end
 
 # Some of the tasks are in separate files since they are also part of the website documentation
 load 'resources/rake/examples.rake'
@@ -50,15 +17,19 @@ task :cleanup_rcov_files do
   rm_rf 'coverage.data'
 end
 
-
 if RUBY_VERSION =~ /^1.8/
   task :default => [:cleanup_rcov_files, :features, :verify_rcov]
 else
   task :default => [:spec, :features]
 end
 
-namespace :spec do
+desc "Run all specs"
+Spec::Rake::SpecTask.new(:spec) do |t|
+  t.spec_files = FileList['spec/**/*_spec.rb']
+  t.spec_opts = ['--options', 'spec/spec.opts']
+end
 
+namespace :spec do
   desc "Run all specs with rcov"
   Spec::Rake::SpecTask.new(:rcov) do |t|
     t.spec_files = FileList['spec/**/*_spec.rb']
@@ -121,22 +92,12 @@ task :todo do
   egrep /(FIXME|TODO|TBD)/
 end
 
-desc "verify_committed, verify_rcov, post_news, release"
-task :complete_release => [:verify_committed, :verify_rcov, :post_news, :release]
-
 desc "Verifies that there is no uncommitted code"
 task :verify_committed do
   IO.popen('git status') do |io|
     io.each_line do |line|
       raise "\n!!! Do a git commit first !!!\n\n" if line =~ /^#\s*modified:/
     end
-  end
-end
-
-namespace :update do
-  desc "update the manifest"
-  task :manifest do
-    system %q[touch Manifest.txt; rake check_manifest | grep -v "(in " | patch]
   end
 end
 

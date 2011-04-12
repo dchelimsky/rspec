@@ -1,8 +1,7 @@
 source :rubygems
 
-gem "cucumber", '>= 0.3.101'
-gem "diff-lcs", '>= 1.1.2'
-gem "fakefs", '>= 0.2'
+gemspec
+
 gem "flexmock", '>= 0.8.6'
 gem "heckle", '>= 1.4.2'
 gem "hoe", '>= 2.0'
@@ -10,7 +9,6 @@ gem "nokogiri", '>= 1.2.3'
 gem "mocha", '>= 0.9.5'
 gem "rake", '>= 0.8.4'
 gem "rcov", '>= 0.9.7.1'
-gem "syntax", '>= 1.0.0'
 gem "rr", '>= 0.10.0'
 gem "ruby-debug", :platforms => :mri_18
 gem "ruby-debug19", "~> 0.11.6", :platforms => :mri_19
