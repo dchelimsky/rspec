@@ -14,7 +14,7 @@ describe "OptionParser" do
     @parser.options
   end
   
-  describe "with fakefs" do
+  describe "defaults" do
     include FakeFS::SpecHelpers
 
     it "should not use colour by default" do
@@ -526,6 +526,10 @@ describe "OptionParser" do
   describe "implicitly loading spec/spec.opts" do
     include FakeFS::SpecHelpers
 
+    before do
+      FileUtils.mkdir_p('spec')
+    end
+
     it "uses spec/spec.opts if present" do
       File.open('spec/spec.opts', 'w') { |f| f.write "--colour" }
       options = parse(['ignore.rb'])
@@ -533,7 +537,6 @@ describe "OptionParser" do
     end
   
     it "does not try to load spec/spec.opts if not present" do
-      FileUtils.rm 'spec/spec.opts'
       options = parse(['ignore.rb'])
       options.colour.should be(false)
     end
@@ -546,6 +549,4 @@ describe "OptionParser" do
       options.colour.should be(true)
     end
   end
-  
-  
 end
