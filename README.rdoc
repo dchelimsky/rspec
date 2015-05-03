@@ -1,44 +1,11 @@
-== RSpec
+== RSpec has moved!
 
-Behaviour Driven Development for Ruby
+This is the repository for rspec-1.x, which is no longer maintained.
 
-This is the repository for rspec-1.x. For more information, please
-see http://rspec.info.
+See:
 
-If you're looking for rspec-2 (and if you're not, what are you waiting for?),
-see:
-
-* http://relishapp.com/rspec
+* http://rspec.info/
 * http://github.com/rspec/rspec
-
-== Install
-
-  gem install rspec
-
-== Synopsis
-
-  describe Account do
-    context "transfering money" do
-      it "deposits transfer amount to the other account" do
-        source = Account.new(50, :USD)
-        target = mock('target account')
-        target.should_receive(:deposit).with(Money.new(5, :USD))
-        source.transfer(5, :USD).to(target)
-      end
-
-      it "reduces its balance by the transfer amount" do
-        source = Account.new(50, :USD)
-        target = stub('target account')
-        source.transfer(5, :USD).to(target)
-        source.balance.should == Money.new(45, :USD)
-      end
-    end
-  end
-  
-  $ spec ./spec/account_spec.rb --format nested
-  Account
-    transfering money
-      deposits transfer amount to the other account
-      reduces its balance by the transfer amount
-    
-  2 examples, 0 failures
+* http://github.com/rspec/rspec-core
+* http://github.com/rspec/rspec-mocks
+* http://github.com/rspec/rspec-expectations
