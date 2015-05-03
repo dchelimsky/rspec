@@ -2,7 +2,7 @@
 
 This is the repository for rspec-1.x, which is no longer maintained.
 
-See http://rspec.info for an overview and any of the following repos for code.
+See http://rspec.info for an overview and any of the following repos for code:
 
 * http://github.com/rspec/rspec
 * http://github.com/rspec/rspec-core
